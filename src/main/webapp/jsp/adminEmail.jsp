@@ -5,6 +5,7 @@
 <%@ page import="teammates.ui.controller.AdminEmailPageData"%>
 <%@ page import="teammates.ui.controller.AdminEmailComposePageData"%>
 <%@ page import="teammates.ui.controller.AdminEmailSentPageData"%>
+<%@ page import="teammates.ui.controller.AdminEmailDraftPageData"%>
 <%@ page import="teammates.ui.controller.AdminEmailTrashPageData"%>
 
 <%@ page import="teammates.common.util.Const"%>
@@ -53,8 +54,6 @@
 </head>
 <body>
 
-    
-   
     <div id="dhtmltooltip"></div>
     <jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
 
@@ -75,8 +74,12 @@
                     <li role="presentation" class="<%=data.getClass().toString().contains("AdminEmailSent") ? "active" : ""%>">
                         <a href="<%=Const.ActionURIs.ADMIN_EMAIL_SENT_PAGE%>">Sent</a>
                     </li>
+                    <li role="presentation" class="<%=data.getClass().toString().contains("AdminEmailDraft") ? "active" : ""%>">
+                        <a href="<%=Const.ActionURIs.ADMIN_EMAIL_DRAFT_PAGE%>">Draft</a>
+                    </li>
                     <li role="presentation" class="<%=data.getClass().toString().contains("AdminEmailTrash") ? "active" : ""%>">
-                        <a href="<%=Const.ActionURIs.ADMIN_EMAIL_TRASH_PAGE%>">Trash</a></li>
+                        <a href="<%=Const.ActionURIs.ADMIN_EMAIL_TRASH_PAGE%>">Trash</a>
+                    </li>
                 </ul>
                 
                 <br>
@@ -91,10 +94,21 @@
                       
                       AdminEmailComposePageData aecPageData = (AdminEmailComposePageData) data;
                 %>
+                
+                
+                
                       <div id="adminEmailCompose">
     
-                        <form action="<%=Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE%>" method="post">
-                        
+                        <form id="adminEmailMainForm" action="<%=Const.ActionURIs.ADMIN_EMAIL_COMPOSE_SEND%>" method="post">
+                            
+                            <% 
+                              //provide email id if we are editing an email draft
+                              if(aecPageData.emailToEdit !=null && aecPageData.emailToEdit.getSendDate() == null){
+                            %>
+                                <input type="hidden" value="<%=aecPageData.emailToEdit.getEmailId()%>" name="<%=Const.ParamsNames.ADMIN_EMAIL_ID%>">
+                            <% 
+                              }
+                            %>
                             To : <input type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_RECEVIER%>" 
                                  value="<%=aecPageData.emailToEdit !=null? aecPageData.emailToEdit.getAddressReceiver() : ""%>">   
                             <br>
@@ -107,9 +121,12 @@
                                     rows="10"><%=aecPageData.emailToEdit !=null? aecPageData.emailToEdit.getContentForDisplay() : ""%></textarea>
                             </p>
                             <p>
-                                <input type="submit" value="Submit" />
+                                <input type="submit" value="Send" id="composeSubmitButton" />
+                                <button type="button" id="composeSaveButton">save</button>
                             </p>
                         </form>
+                        
+                        
     
     
                         <div style="display: none;">
@@ -136,94 +153,196 @@
                       AdminEmailSentPageData sentPageData =  (AdminEmailSentPageData)data;
                 %>
                     <div id="adminEmailSent">
-                        <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>      
-                                    <th>Action</th>          
-                                    <th>Receiver</th>
-                                    <th>Subject</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <%
-                                   for (AdminEmailAttributes ae : sentPageData.adminSentEmailList){  
-                                %>
-                                    <tr id="<%=ae.getEmailId()%>">
-                                        <td>
-                                            <a target=blank href="<%=Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE + 
-                                                      "?" + Const.ParamsNames.ADMIN_EMAIL_ID + 
-                                                      "=" + ae.getEmailId()%>">
-                                                      <span class="glyphicon glyphicon-edit">
-                                                      </span>
-                                            </a>
-                                            <a href="<%=Const.ActionURIs.ADMIN_EMAIL_MOVE_TO_TRASH + 
-                                                      "?" + Const.ParamsNames.ADMIN_EMAIL_ID + 
-                                                      "=" + ae.getEmailId()%>">
-                                                      <span class="glyphicon glyphicon-trash">
-                                                      </span>
-                                            </a>
-                                        </td>
-                                        <td><%=ae.getAddressReceiver()%></td>
-                                        <td><%=ae.getSubject()%></td>
-                                        <td><%=ae.getSendDateForDisplay()%></td>
-                                    </tr>
-                                <%
-                                   }
-                                %>
-                            </tbody>
-                        </table>
-                        </div>
+                    
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                            <strong>
+                                    <span id="sentEmailsCount">
+                                        <%=sentPageData.adminSentEmailList.size() > 0 ? 
+                                           "Emails Sent: " + sentPageData.adminSentEmailList.size() :
+                                           "No Sent Email"
+                                        %>
+                                    </span>
+                            </strong>
+                            </div>
+                                    <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>      
+                                                <th>Action</th>          
+                                                <th>Receiver</th>
+                                                <th>Subject</th>
+                                                <th>Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%
+                                               for (AdminEmailAttributes ae : sentPageData.adminSentEmailList){  
+                                            %>
+                                                <tr id="<%=ae.getEmailId()%>">
+                                                    <td>
+                                                        <a target=blank href="<%=Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE + 
+                                                                  "?" + Const.ParamsNames.ADMIN_EMAIL_ID + 
+                                                                  "=" + ae.getEmailId()%>">
+                                                                  <span class="glyphicon glyphicon-edit">
+                                                                  </span>
+                                                        </a>
+                                                        <a href="<%=Const.ActionURIs.ADMIN_EMAIL_MOVE_TO_TRASH + 
+                                                                  "?" + Const.ParamsNames.ADMIN_EMAIL_ID + 
+                                                                  "=" + ae.getEmailId()+ "&" + 
+                                                                  Const.ParamsNames.ADMIN_EMAIL_TRASH_ACTION_REDIRECT + 
+                                                                  "=sentpage"%>">
+                                                                  <span class="glyphicon glyphicon-trash">
+                                                                  </span>
+                                                        </a>
+                                                    </td>
+                                                    <td><%=ae.getAddressReceiver()%></td>
+                                                    <td><%=ae.getSubject()%></td>
+                                                    <td><%=ae.getSendDateForDisplay()%></td>
+                                                </tr>
+                                            <%
+                                               }
+                                            %>
+                                        </tbody>
+                                    </table>
+                                    </div>
+                          </div>
                     </div>
                 <%
                   break;
+                         
+                
+                  case DRAFT:
+                      AdminEmailDraftPageData draftPageData =  (AdminEmailDraftPageData)data;
+                %>
+                    <div id="adminEmailDraft">
+                    
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                            <strong>
+                                    <span id="draftEmailsCount">
+                                        <%=draftPageData.draftEmailList.size() > 0 ? 
+                                           "Email Drafts: " + draftPageData.draftEmailList.size() :
+                                           "No Email Draft"
+                                        %>
+                                    </span>
+                            </strong>
+                            </div>
+                            <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>      
+                                        <th>Action</th>          
+                                        <th>Receiver</th>
+                                        <th>Subject</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%
+                                       for (AdminEmailAttributes ae : draftPageData.draftEmailList){  
+                                    %>
+                                        <tr id="<%=ae.getEmailId()%>">
+                                            <td>
+                                                <a target=blank href="<%=Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE + 
+                                                          "?" + Const.ParamsNames.ADMIN_EMAIL_ID + 
+                                                          "=" + ae.getEmailId()%>">
+                                                          <span class="glyphicon glyphicon-edit">
+                                                          </span>
+                                                </a>
+                                                <a href="<%=Const.ActionURIs.ADMIN_EMAIL_MOVE_TO_TRASH + 
+                                                          "?" + Const.ParamsNames.ADMIN_EMAIL_ID + 
+                                                          "=" + ae.getEmailId() + "&" + 
+                                                          Const.ParamsNames.ADMIN_EMAIL_TRASH_ACTION_REDIRECT + 
+                                                          "=draftpage"%>">
+                                                          <span class="glyphicon glyphicon-trash">
+                                                          </span>
+                                                </a>
+                                            </td>
+                                            <td><%=ae.getAddressReceiver()%></td>
+                                            <td><%=ae.getSubject()%></td>
+                                            <td><%=ae.getCreateDateForDisplay()%></td>
+                                        </tr>
+                                    <%
+                                       }
+                                    %>
+                                </tbody>
+                            </table>
+                            </div>
+                         </div>
+                            
+                    </div>
+                <%
+                  break;
+                
+                
                 
                   case TRASH:
                       AdminEmailTrashPageData trashPageData =  (AdminEmailTrashPageData)data;
                 %>
                     <div id="adminEmailSent">
-                        <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>      
-                                    <th>Action</th>          
-                                    <th>Receiver</th>
-                                    <th>Subject</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <%
-                                   for (AdminEmailAttributes ae : trashPageData.adminTrashEmailList){  
-                                %>
-                                    <tr id="<%=ae.getEmailId()%>">
-                                        <td>
-                                            <a target=blank href="<%=Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE + 
-                                                      "?" + Const.ParamsNames.ADMIN_EMAIL_ID + 
-                                                      "=" + ae.getEmailId()%>">
-                                                      <span class="glyphicon glyphicon-edit">
-                                                      </span>
-                                            </a>
-                                            <a href="<%=Const.ActionURIs.ADMIN_EMAIL_MOVE_TO_TRASH + 
-                                                      "?" + Const.ParamsNames.ADMIN_EMAIL_ID + 
-                                                      "=" + ae.getEmailId()%>">
-                                                      <span class="glyphicon glyphicon-step-backward">
-                                                      </span>
-                                            </a>
-                                        </td>
-                                        <td><%=ae.getAddressReceiver()%></td>
-                                        <td><%=ae.getSubject()%></td>
-                                        <td><%=ae.getSendDateForDisplay()%></td>
+                    <div class="panel panel-danger">
+                            <div class="panel-heading">
+                            <strong>
+                                    <span id="draftEmailsCount">
+                                        <%=trashPageData.adminTrashEmailList.size() > 0 ? 
+                                           "Trash Emails: " + trashPageData.adminTrashEmailList.size() :
+                                           "No Trash Email"
+                                        %>
+                                    </span>
+                            </strong>
+                            <span class="pull-right">
+                                <a class="btn btn-danger btn-xs" href="<%=trashPageData.getEmptyTrashBinActionUrl()%>">
+                                    <strong>
+                                        <span class="glyphicon glyphicon-floppy-remove">                                           
+                                        </span>&nbsp;Empty Trash
+                                    </strong>
+                                 </a>
+                            </span>
+                            </div>
+                            <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>      
+                                        <th>Action</th>          
+                                        <th>Receiver</th>
+                                        <th>Subject</th>
+                                        <th>Date</th>
                                     </tr>
-                                <%
-                                   }
-                                %>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <%
+                                       for (AdminEmailAttributes ae : trashPageData.adminTrashEmailList){  
+                                    %>
+                                        <tr id="<%=ae.getEmailId()%>">
+                                            <td>
+                                                <a target=blank href="<%=Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE + 
+                                                          "?" + Const.ParamsNames.ADMIN_EMAIL_ID + 
+                                                          "=" + ae.getEmailId()%>">
+                                                          <span class="glyphicon glyphicon-edit">
+                                                          </span>
+                                                </a>
+                                                <a href="<%=Const.ActionURIs.ADMIN_EMAIL_MOVE_OUT_TRASH + 
+                                                          "?" + Const.ParamsNames.ADMIN_EMAIL_ID + 
+                                                          "=" + ae.getEmailId()%>">
+                                                          <span class="glyphicon glyphicon-step-backward">
+                                                          </span>
+                                                </a>
+                                            </td>
+                                            <td><%=ae.getAddressReceiver()%></td>
+                                            <td><%=ae.getSubject()%></td>
+                                            <td><%=ae.getSendDateForDisplay()%></td>
+                                        </tr>
+                                    <%
+                                       }
+                                    %>
+                                </tbody>
+                            </table>
+                            </div>
                         </div>
                     </div>
                 <%
+                    break;
                   };
                 %>
                 

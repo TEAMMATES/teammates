@@ -1,9 +1,5 @@
-
-var DFDs = {};
-
-var deferredIndex = 0;
-var url;
 var callbackFunction;
+
 
 $(document).ready(function(){
 	
@@ -77,7 +73,10 @@ $(document).ready(function(){
 	 });
 	
 	
-	
+	$("#composeSaveButton").on("click", function(){
+		$("#adminEmailMainForm").attr("action", "/admin/adminEmailComposeSave");
+		$("#composeSubmitButton").click();
+	});
 });
 
 function createImageUploadUrl(){
@@ -136,16 +135,13 @@ function submitFormAjax() {
                 if (!data.isError) {
                    if(data.isFileUploaded){
                 	   url = data.fileSrcUrl;
-                	  // $("#adminEmailFileForm").attr("action", data.nextUploadUrl);
                 	   callbackFunction(url, {alt: 'My alt text'});
                 	   setStatusMessage(data.ajaxStatus);
                    } else {
-                	  // $("#adminEmailFileForm").attr("action", data.nextUploadUrl);
                    	   setErrorMessage(data.ajaxStatus);
                    }
                    
                 } else {
-                	//$("#adminEmailFileForm").attr("action", data.nextUploadUrl);
                 	setErrorMessage(data.ajaxStatus);
                 }
                                
@@ -159,6 +155,9 @@ function submitFormAjax() {
     });
     clearUploadFileInfo();
 };
+
+
+
 
 function setErrorMessage(error){
 	$("#statusMessage").html(error);
@@ -184,4 +183,6 @@ function clearUploadFileInfo(){
 		createImageUploadUrl();
 	 });
 }
+
+
 

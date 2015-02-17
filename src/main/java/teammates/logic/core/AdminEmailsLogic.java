@@ -54,7 +54,7 @@ public class AdminEmailsLogic {
     }
     
     /**
-     * Move a admin email to trash bin.<br>
+     * Move an admin email to trash bin.<br>
      * After this the attribute isInTrashBin will be set to true
      * @param adminEmailId
      * @throws InvalidParametersException
@@ -71,9 +71,27 @@ public class AdminEmailsLogic {
         }
     }
     
+    /**
+     * Move an admin email out of trash bin.<br>
+     * After this the attribute isInTrashBin will be set to false
+     * @param adminEmailId
+     * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException
+     */
+    public void moveAdminEmailOutOfTrashBin(String adminEmailId) throws InvalidParametersException, EntityDoesNotExistException{
+        Assumption.assertNotNull(adminEmailId);
+        
+        AdminEmailAttributes adminEmailToUpdate = getAdminEmailById(adminEmailId);
+        
+        if(adminEmailToUpdate != null){
+            adminEmailToUpdate.isInTrashBin = false;
+            adminEmailsDb.updateAdminEmail(adminEmailToUpdate);
+        }
+    }
+    
     
     /**
-     * Get all admin emails that has been sent and not in trash bin
+     * Get all admin emails that have been sent and not in trash bin
      * @return empty list if no email found
      */
     public List<AdminEmailAttributes> getSentAdminEmails(){      
@@ -81,7 +99,15 @@ public class AdminEmailsLogic {
     }
     
     /**
-     * Get all admin emails that has been moved into trash bin
+     * Get all admin email drafts that have NOT been sent and NOT in trash bin
+     * @return empty list if no email found
+     */
+    public List<AdminEmailAttributes> getAdminEmailDrafts(){
+        return adminEmailsDb.getAdminEmailDrafts();
+    }
+    
+    /**
+     * Get all admin emails that have been moved into trash bin
      * @return empty list if no email found
      */
     public List<AdminEmailAttributes> getAdminEmailsInTrashBin(){
@@ -90,5 +116,20 @@ public class AdminEmailsLogic {
     
     public void createAdminEmail(AdminEmailAttributes newAdminEmail) throws InvalidParametersException{
         adminEmailsDb.creatAdminEmail(newAdminEmail);
+    }
+    
+    
+    public void updateAdminEmailById(AdminEmailAttributes newAdminEmail, String emailId) throws InvalidParametersException, EntityDoesNotExistException{
+        Assumption.assertNotNull(emailId);    
+        Assumption.assertNotNull(newAdminEmail);
+        
+        adminEmailsDb.updateAdminEmailById(newAdminEmail, emailId);
+    }
+    
+    /**
+     * deletes all emails in trash bin
+     */
+    public void deleteAllEmailsInTrashBin(){
+        adminEmailsDb.deleteAllEmailsInTrashBin();
     }
 }

@@ -24,6 +24,7 @@ public class AdminEmailAttributes extends EntityAttributes {
     public List<String> groupReceiver;
     public String subject;
     public Date sendDate;
+    public Date createDate;
     public Text content;
     public boolean isInTrashBin;
     
@@ -34,6 +35,7 @@ public class AdminEmailAttributes extends EntityAttributes {
         this.groupReceiver = ae.getGroupReceiver();
         this.subject = ae.getSubject();
         this.sendDate = ae.getSendDate();
+        this.createDate = ae.getCreateDate();
         this.content = ae.getContent();
         this.isInTrashBin = ae.getIsInTrashBin();
     }
@@ -41,11 +43,13 @@ public class AdminEmailAttributes extends EntityAttributes {
     public AdminEmailAttributes(String subject, 
                                 List<String> addressReceiver,
                                 List<String> groupReceiver,
-                                Text content){
+                                Text content,
+                                Date sendDate){
         this.subject = subject;
         this.addressReceiver = addressReceiver;
         this.groupReceiver = groupReceiver;
         this.content = content;
+        this.sendDate = sendDate;
     }
      
     @Override
@@ -66,7 +70,7 @@ public class AdminEmailAttributes extends EntityAttributes {
 
     @Override
     public Object toEntity() {
-        return new AdminEmail(addressReceiver, groupReceiver, subject, content);
+        return new AdminEmail(addressReceiver, groupReceiver, subject, content, sendDate);
     }
 
     @Override
@@ -115,6 +119,10 @@ public class AdminEmailAttributes extends EntityAttributes {
         return this.sendDate;
     }
     
+    public Date getCreateDate(){
+        return this.createDate;
+    }
+    
     public Text getContent(){
         return this.content;
     }
@@ -124,8 +132,20 @@ public class AdminEmailAttributes extends EntityAttributes {
     }
     
     public String getSendDateForDisplay(){
+        if(this.sendDate == null){
+            return "Draft";
+        }
+        
         Calendar cal = Calendar.getInstance();
         cal.setTime(this.sendDate);
+        cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+        
+        return TimeHelper.formatTime(cal.getTime());
+    }
+    
+    public String getCreateDateForDisplay(){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(this.createDate);
         cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
         
         return TimeHelper.formatTime(cal.getTime());

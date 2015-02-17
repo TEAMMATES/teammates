@@ -348,6 +348,8 @@ public class Const {
         public static final String ADMIN_EMAIL_IMAGE_TO_UPLOAD = "emailimagetoupload";
         
         public static final String ADMIN_EMAIL_ID = "emailid";
+        public static final String ADMIN_EMAIL_EMPTY_TRASH_BIN = "emptytrashbin";
+        public static final String ADMIN_EMAIL_TRASH_ACTION_REDIRECT = "redirect";
     
         public static final String EVALUATION_NAME = "evaluationname";
     
@@ -693,9 +695,14 @@ public class Const {
         public static final String ADMIN_SESSIONS_PAGE = "/admin/adminSessionsPage";
         public static final String ADMIN_SEARCH_PAGE = "/admin/adminSearchPage";
         public static final String ADMIN_EMAIL_COMPOSE_PAGE = "/admin/adminEmailComposePage";
+        public static final String ADMIN_EMAIL_COMPOSE_SAVE = "/admin/adminEmailComposeSave";
+        public static final String ADMIN_EMAIL_COMPOSE_SEND = "/admin/adminEmailComposeSend";
         public static final String ADMIN_EMAIL_SENT_PAGE = "/admin/adminEmailSentPage"; 
         public static final String ADMIN_EMAIL_TRASH_PAGE = "/admin/adminEmailTrashPage";
+        public static final String ADMIN_EMAIL_TRASH_DELETE = "/admin/adminEmailTrashDelete";
+        public static final String ADMIN_EMAIL_DRAFT_PAGE = "/admin/adminEmailDraftPage";
         public static final String ADMIN_EMAIL_MOVE_TO_TRASH = "/admin/adminEmailMoveToTrash";
+        public static final String ADMIN_EMAIL_MOVE_OUT_TRASH = "/admin/adminEmailMoveOutTrash";
         public static final String ADMIN_EMAIL_IMAGE_UPLOAD = "/admin/adminEmailImageUpload";
         public static final String ADMIN_EMAIL_CREATE_IMAGE_UPLOAD_URL = "/admin/adminEmailCreateImageUploadUrl";
         
@@ -1218,6 +1225,6 @@ public class Const {
             NOT_SURE);
     
     
-    public enum AdminEmailPageState{COMPOSE, SENT, TRASH};
+    public enum AdminEmailPageState{COMPOSE, SENT, TRASH, DRAFT};
     
 }

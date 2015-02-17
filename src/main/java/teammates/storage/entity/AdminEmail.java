@@ -37,6 +37,9 @@ public class AdminEmail {
     private Date sendDate;
     
     @Persistent
+    private Date createDate;
+    
+    @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private Text content;
     
@@ -52,13 +55,14 @@ public class AdminEmail {
      * @param content
      *          html email content
      */
-    public AdminEmail(List<String> addressReceiver, List<String> groupReceiver, String subject, Text content){
+    public AdminEmail(List<String> addressReceiver, List<String> groupReceiver, String subject, Text content, Date sendDate){
         this.emailId = null;
         this.addressReceiver = addressReceiver;
         this.groupReceiver = groupReceiver;
         this.subject = subject;
         this.content = content;
-        this.sendDate = new Date();
+        this.sendDate = sendDate;
+        this.createDate = new Date();
         this.isInTrashBin = false;
     }
     
@@ -80,6 +84,10 @@ public class AdminEmail {
     
     public void setIsInTrashBin(boolean isInTrashBin){
         this.isInTrashBin = isInTrashBin;
+    }
+    
+    public void setSendDate(Date sendDate){
+        this.sendDate = sendDate;
     }
     
     public String getEmailId(){
@@ -108,6 +116,10 @@ public class AdminEmail {
     
     public boolean getIsInTrashBin(){
         return this.isInTrashBin;
+    }
+    
+    public Date getCreateDate(){
+        return this.createDate;
     }
 }
 
