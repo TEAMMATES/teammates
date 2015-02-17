@@ -33,7 +33,39 @@ $(document).ready(function () {
     updateConstSumMessages();
 
     prepareRubricQuestions();
+    
+    prepareMCQQuestions();
 });
+
+// Prepare mcq questions for answering by user
+function prepareMCQQuestions() {
+	// Get index of mcq question
+	var mcqQuestionNums = getQuestionTypeNumbers("MCQ");
+	
+	for(var i=0; i<mcqQuestionNums.length; i++) {
+		var qnNum = mcqQuestionNums[i];
+		
+		// Get number of options for certain mcq question
+		var optionNums = $("[name^='responsetext-" + qnNum + "']").length;
+		for(var k=0; k<optionNums; k++) {
+			// Get specific option for that question
+			var radioInput = $("[name^='responsetext-" + qnNum + "-" + k + "']");
+			radioInput.prop("checked", false);
+			
+			// Toggle radio button if it was checked
+			radioInput.click(function(event) {
+				if($(this).data("waschecked")) {
+					$(this).prop('checked', false);
+		            $(this).data('waschecked', false);
+				} else
+					$(this).data('waschecked', true);
+				
+				//set other radio buttons' 'waschecked' attribute to false
+				$(this).parent().parent().parent().siblings().find("[name^='responsetext-']").data("waschecked", false);
+			});
+		}
+	}
+}
 
 // Prepare contrib questions for answering by user
 function prepareContribQuestions() {
