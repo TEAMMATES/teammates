@@ -1807,6 +1807,11 @@ public class FeedbackSessionsLogic {
 
                 }
             }
+            if (questionNumber == -1) {
+              responseStatus = (section == null && isIncludeResponseStatus) 
+                              ? getFeedbackSessionResponseStatus(session, roster, allQuestions) 
+                              : null;
+            }
             FeedbackSessionResultsBundle results =
                     new FeedbackSessionResultsBundle(
                             session, responses, relevantQuestions,
@@ -1864,8 +1869,9 @@ public class FeedbackSessionsLogic {
             }
         }
         
-        responseStatus = (section == null && isIncludeResponseStatus) ? getFeedbackSessionResponseStatus(
-                session, roster, allQuestions) : null;
+        responseStatus = (section == null && isIncludeResponseStatus) 
+                        ? getFeedbackSessionResponseStatus(session, roster, allQuestions) 
+                        : null;
 
         StudentAttributes student = null;
         Set<String> studentsEmailInTeam = new HashSet<String>();
