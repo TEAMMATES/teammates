@@ -61,7 +61,7 @@ Important: When a version is specified, please install that version instead of t
     The dev server is now ready to serve requests at the URL given in the console output.
     e.g `http://localhost:8888`.<br> 
 6. To confirm the server is up, go to the server URL in your Browser.
-   To login to the system, you need to add yourself as an instructor first:
+   To log in to the system, you need to add yourself as an instructor first:
    * Go to `http://[appURL]/admin/adminHomePage` 
    (On your computer, it may be `http://localhost:8888/admin/adminHomePage`) 
    * Log in using your Google ID. If this is the dev server, enter any email 
