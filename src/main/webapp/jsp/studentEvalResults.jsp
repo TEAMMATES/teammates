@@ -82,7 +82,7 @@
         <br>
         <br>
 
-        <div class="panel panel-info">
+        <div class="panel panel-primary">
             <div class="panel-heading">Comparison of work distribution </div>
                 <table class="table table-striped">
                     <tbody>
@@ -106,7 +106,7 @@
                 </table>
         </div>
 
-        <div class="panel panel-info">
+        <div class="panel panel-primary">
             <div class="panel-heading">Anonymous feedback from others</div>
             <table class="table table-striped">
                 <tbody>
@@ -125,7 +125,7 @@
             </table>
         </div>
 
-        <div class="panel panel-info">
+        <div class="panel panel-primary">
             <div class="panel-heading">What others said about their own contribution</div>
             <table class="table table-striped table-bordered">
                 <tbody>
