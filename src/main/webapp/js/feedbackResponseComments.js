@@ -7,8 +7,8 @@ function isInCommentsPage(){
 var addCommentHandler = function(e) {
     var submitButton = $(this);
     var cancelButton = $(this).next("input[value='Cancel']");
-    var formObject = $(this).parent().parent();
-    var addFormRow = $(this).parent().parent().parent();
+    var formObject = $(this).closest('form[class*="responseCommentAddForm"]');
+    var addFormRow = $(this).closest('li[id^="showResponseCommentAddForm"]');
     var panelHeading = $(this).parent().parent().parent().parent()
     	.parent().parent().parent().parent().parent().parent().prev();
     var formData = formObject.serialize();
@@ -185,9 +185,9 @@ var deleteCommentHandler = function(e) {
 };
 
 function registerResponseCommentsEvent(){
-    $("form[class*='responseCommentAddForm'] > div > a").click(addCommentHandler);
-    $("form[class*='responseCommentEditForm'] > div > a").click(editCommentHandler);
-    $("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
+    $("form[class*='responseCommentAddForm'] a[id^='button_save_comment_for_add']").click(addCommentHandler);
+    $("form[class*='responseCommentEditForm'] a[id^='button_save_comment_for_edit']").click(editCommentHandler);
+    $("form[class*='responseCommentDeleteForm'] a[id^='commentdelete']").click(deleteCommentHandler);
     
     String.prototype.contains = function(substr) { return this.indexOf(substr) != -1; };
     
@@ -318,7 +318,7 @@ function setFormErrorMessage(submitButton, msg){
     }
 }
 
-function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx, giverEmail, recipientEmail) {
+function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
 	var id = "-"+recipientIndex+"-"+giverIndex+"-"+qnIndx;
     $("#responseCommentTable"+id).show();
     if($("#responseCommentTable"+ id + " > li").length <= 1){
@@ -329,13 +329,11 @@ function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx, giverEma
     
     $("#showResponseCommentAddFormShortName"+id).find('.student-profile-pic-view-link').each(function(index, anchor) {
     	handleProfilePicShowEvent(anchor, 
-    			function(shortName) { updateShortnames(giverEmail, recipientEmail, "showResponseCommentAddFormShortName"+id, shortName, index);});
+    			function(shortName) { updateShortnames("showResponseCommentAddFormShortName"+id, shortName, index);});
     });
 }
 
-function updateShortnames(giverEmail, recipientEmail, containerId, shortName, index) {
-//	var recipientId = emailsForShortNames.indexOf(recipientEmail);
-//  var giverId = emailsForShortNames.indexOf(giverEmail);
+function updateShortnames(containerId, shortName, index) {
 	if (index == 0) {
 		var fromNameContainer = $('#'+containerId).find('.from-shortname');
 		fromNameContainer.html("From: " + shortName);
@@ -343,45 +341,6 @@ function updateShortnames(giverEmail, recipientEmail, containerId, shortName, in
 		var toNameContainer = $('#'+containerId).find('.to-shortname');
 		toNameContainer.html("To: " + shortName);
 	}
-    
-    /*if (giverId != -1) {
-    	fromNameContainer.html("From: " + shortNames[giverId]);
-    } else if (giverEmail != recipientEmail) {
-    	$.getJSON(giverShortNameUrl, function(data) {
-    		if (data != null) {
-    			var shortName;
-    			if (data.shortName != "") {
-					shortName = data.shortName;
-				} else {
-					shortName = "<i>No short name</i>";
-				}
-				emailsForShortNames.push(giverEmail);
-				shortNames.push(data.shortName);
-
-    			
-    		}
-    	});
-    }
-    if (recipientId != -1) {
-    	toNameContainer.html("To: " + shortNames[recipientId]);
-    } else {
-    	$.getJSON(recipientShortNameUrl, function(data) {
-    		if (data != null) {
-    			var shortName;
-    			if (data.shortName != "") {
-					shortName = data.shortName;
-				} else {
-					shortName = "<i>No short name</i>";
-				}
-    			toNameContainer.html("To: " + shortName);
-    			if (giverEmail == recipientEmail) {
-    				fromNameContainer.html("From: " + shortName);
-    			}
-    			emailsForShortNames.push(recipientEmail);
-    			shortNames.push(shortName);
-    		}
-    	});
-    }*/
 }
 
 function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
@@ -407,6 +366,11 @@ function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commen
     $("#responseCommentEditForm"+id+" > div > textarea").val($("#plainCommentText"+id).text());
     $("#responseCommentEditForm"+id).show();
     $("#responseCommentEditForm"+id+" > div > textarea").focus();
+    
+    $("#responseCommentEditFormShortName"+id).find('.student-profile-pic-view-link').each(function(index, anchor) {
+    	handleProfilePicShowEvent(anchor, 
+    			function(shortName) { updateShortnames("responseCommentEditFormShortName"+id, shortName, index);});
+    });
 }
 
 function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentIndex) {
