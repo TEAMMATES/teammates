@@ -318,14 +318,70 @@ function setFormErrorMessage(submitButton, msg){
     }
 }
 
-function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
-    var id = "-"+recipientIndex+"-"+giverIndex+"-"+qnIndx;
+function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx, giverEmail, recipientEmail) {
+	var id = "-"+recipientIndex+"-"+giverIndex+"-"+qnIndx;
     $("#responseCommentTable"+id).show();
     if($("#responseCommentTable"+ id + " > li").length <= 1){
     	$("#responseCommentTable"+id).css('margin-top', '15px');
     }
     $("#showResponseCommentAddForm"+id).show();
     $("#responseCommentAddForm"+id).focus();
+    
+    $("#showResponseCommentAddFormShortName"+id).find('.student-profile-pic-view-link').each(function(index, anchor) {
+    	handleProfilePicShowEvent(anchor, 
+    			function(shortName) { updateShortnames(giverEmail, recipientEmail, "showResponseCommentAddFormShortName"+id, shortName, index);});
+    });
+}
+
+function updateShortnames(giverEmail, recipientEmail, containerId, shortName, index) {
+//	var recipientId = emailsForShortNames.indexOf(recipientEmail);
+//  var giverId = emailsForShortNames.indexOf(giverEmail);
+	if (index == 0) {
+		var fromNameContainer = $('#'+containerId).find('.from-shortname');
+		fromNameContainer.html("From: " + shortName);
+	} else if (index == 1) {
+		var toNameContainer = $('#'+containerId).find('.to-shortname');
+		toNameContainer.html("To: " + shortName);
+	}
+    
+    /*if (giverId != -1) {
+    	fromNameContainer.html("From: " + shortNames[giverId]);
+    } else if (giverEmail != recipientEmail) {
+    	$.getJSON(giverShortNameUrl, function(data) {
+    		if (data != null) {
+    			var shortName;
+    			if (data.shortName != "") {
+					shortName = data.shortName;
+				} else {
+					shortName = "<i>No short name</i>";
+				}
+				emailsForShortNames.push(giverEmail);
+				shortNames.push(data.shortName);
+
+    			
+    		}
+    	});
+    }
+    if (recipientId != -1) {
+    	toNameContainer.html("To: " + shortNames[recipientId]);
+    } else {
+    	$.getJSON(recipientShortNameUrl, function(data) {
+    		if (data != null) {
+    			var shortName;
+    			if (data.shortName != "") {
+					shortName = data.shortName;
+				} else {
+					shortName = "<i>No short name</i>";
+				}
+    			toNameContainer.html("To: " + shortName);
+    			if (giverEmail == recipientEmail) {
+    				fromNameContainer.html("From: " + shortName);
+    			}
+    			emailsForShortNames.push(recipientEmail);
+    			shortNames.push(shortName);
+    		}
+    	});
+    }*/
 }
 
 function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {

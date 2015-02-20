@@ -234,7 +234,7 @@
                                 <div class="panel-heading">
                                     From: 
                                     <%  if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) { %>
-                                            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-profile-link="<%=data.getProfileLinkForInstructor(email)%>" data-link="<%=data.getProfilePictureLink(email)%>">
+                                            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-student-email="<%=email %>" data-profile-link="<%=data.getProfileLinkForInstructor(email)%>" data-link="<%=data.getProfilePictureLink(email)%>">
                                                 <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                 <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
@@ -382,7 +382,7 @@
                     <%
                 	   if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, targetEmail).isEmpty()) {
                     %>  
-                            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-profile-link="<%=data.getProfileLinkForInstructor(targetEmail)%>" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
+                            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-student-email="<%=targetEmail %>" data-profile-link="<%=data.getProfileLinkForInstructor(targetEmail)%>" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
                                 <strong><%=responsesFromGiver.getKey()%></strong>
                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                 <a class="link-in-dark-bg" href="mailTo:<%=targetEmail%> " <%=mailtoStyleAttr%>>[<%=targetEmailDisplay%>]</a>
@@ -436,7 +436,7 @@
                                     <%
                                 	    if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, recipientEmail).isEmpty()) {
                                     %>
-                                            <div class="middlealign profile-pic-icon-hover inline-block" data-profile-link="<%=data.getProfileLinkForInstructor(recipientEmail)%>" data-link="<%=data.getProfilePictureLink(recipientEmail)%>">
+                                            <div class="middlealign profile-pic-icon-hover inline-block" data-student-email="<%=recipientEmail %>" data-profile-link="<%=data.getProfileLinkForInstructor(recipientEmail)%>" data-link="<%=data.getProfilePictureLink(recipientEmail)%>">
                                                 <strong><%=responsesFromGiverToRecipient.getKey()%></strong>
                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                             </div>
@@ -454,7 +454,7 @@
                                     <%
                                 	    if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, targetEmail).isEmpty()) {
                                     %>
-                                        <div class="middlealign profile-pic-icon-hover inline-block" data-profile-link="<%=data.getProfileLinkForInstructor(targetEmail)%>" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
+                                        <div class="middlealign profile-pic-icon-hover inline-block" data-student-email="<%=targetEmail %>" data-profile-link="<%=data.getProfileLinkForInstructor(targetEmail)%>" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
                                             <%=responsesFromGiver.getKey()%>
                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                         </div>
@@ -483,15 +483,14 @@
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space"><%=data.bundle.getResponseAnswerHtml(singleResponse, question)%></div>
                                                 <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" 
-                                                    onclick="showResponseCommentAddForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>)"
+                                                    onclick="showResponseCommentAddForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>,'<%=targetEmail %>','<%=recipientEmail %>')"
                                                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_ADD%>"
                                                     <% if (!data.instructor.isAllowedForPrivilege(singleResponse.giverSection,
                                                             singleResponse.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
                                                             || !data.instructor.isAllowedForPrivilege(singleResponse.recipientSection,
                                                                     singleResponse.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) { %>
                                                             disabled="disabled"
-                                                    <% } %>
-                                                    >
+                                                    <% } %>>
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -706,6 +705,20 @@
                                                     name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT %>"
                                                     id="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT%>-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>"><%=comment.commentText.getValue() %></textarea>
                                                 </div>
+                                                <div class="row" id="responseCommentEditFormShortName-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
+                                                    <div class="profile-pic-icon-click align-center col-xs-2 inline-block" data-student-email="<%=targetEmail %>" data-profile-link="<%=data.getProfileLinkForInstructor(targetEmail)%>" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
+                                                        <a class="student-profile-pic-view-link btn-link"></a>
+                                                        <img src="" alt="No Image Given" class="">
+                                                        <br>
+                                                        <span class="from-shortname"></span>
+                                                    </div>
+                                                    <div class="profile-pic-icon-click align-center col-xs-2 inline-block" data-student-email="<%=recipientEmail %>" data-profile-link="<%=data.getProfileLinkForInstructor(recipientEmail)%>" data-link="<%=data.getProfilePictureLink(recipientEmail)%>">
+                                                        <a class="student-profile-pic-view-link btn-link"></a>
+                                                        <img src="" alt="No Image Given" class="">
+                                                        <br>
+                                                        <span class="to-shortname"></span>
+                                                    </div>
+                                                </div>
                                                 <div class="col-sm-offset-5">
                                                     <a href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_EDIT%>" type="button" class="btn btn-primary" id="button_save_comment_for_edit-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
                                                         Save 
@@ -895,22 +908,36 @@
                                                     </div>
                                                     <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT%>" id="responseCommentAddForm-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>"></textarea>
                                                 </div>
-                                                <div class="col-sm-offset-5">
-                                                    <a href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD%>" type="button" class="btn btn-primary" id="button_save_comment_for_add-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>">Add</a>
-                                                    <input type="button" class="btn btn-default" value="Cancel" onclick="hideResponseCommentAddForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>)">
-                                                    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=singleResponse.courseId %>">
-                                                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=singleResponse.feedbackSessionName %>">
-                                                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID %>" value="<%=singleResponse.feedbackQuestionId %>">                                            
-                                                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID %>" value="<%=singleResponse.getId() %>">
-                                                    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
-                                                    <input
-                                                        type="hidden"
-                                                        name="<%=Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO%>"
-                                                        value="<%=data.getResponseCommentVisibilityString(question)%>">
-                                                    <input
-                                                        type="hidden"
-                                                        name="<%=Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO%>"
-                                                        value="<%=data.getResponseCommentGiverNameVisibilityString(question)%>">
+                                                <div class="row" id="showResponseCommentAddFormShortName-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>">
+                                                    <div class="profile-pic-icon-click align-center col-xs-2 inline-block" data-student-email="<%=targetEmail %>" data-profile-link="<%=data.getProfileLinkForInstructor(targetEmail)%>" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
+                                                        <a class="student-profile-pic-view-link btn-link"></a>
+                                                        <img src="" alt="No Image Given" class="">
+                                                        <br>
+                                                        <span class="from-shortname"></span>
+                                                    </div>
+                                                    <div class="profile-pic-icon-click align-center col-xs-2 inline-block" data-student-email="<%=recipientEmail %>" data-profile-link="<%=data.getProfileLinkForInstructor(recipientEmail)%>" data-link="<%=data.getProfilePictureLink(recipientEmail)%>">
+                                                        <a class="student-profile-pic-view-link btn-link"></a>
+                                                        <img src="" alt="No Image Given" class="">
+                                                        <br>
+                                                        <span class="to-shortname"></span>
+                                                    </div>
+                                                    <div class="col-sm-offset-5">
+                                                        <a href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_ADD%>" type="button" class="btn btn-primary" id="button_save_comment_for_add-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>">Add</a>
+                                                        <input type="button" class="btn btn-default" value="Cancel" onclick="hideResponseCommentAddForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>)">
+                                                        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="<%=singleResponse.courseId %>">
+                                                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%=singleResponse.feedbackSessionName %>">
+                                                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID %>" value="<%=singleResponse.feedbackQuestionId %>">                                            
+                                                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID %>" value="<%=singleResponse.getId() %>">
+                                                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
+                                                        <input
+                                                            type="hidden"
+                                                            name="<%=Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO%>"
+                                                            value="<%=data.getResponseCommentVisibilityString(question)%>">
+                                                        <input
+                                                            type="hidden"
+                                                            name="<%=Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO%>"
+                                                            value="<%=data.getResponseCommentGiverNameVisibilityString(question)%>">
+                                                    </div>
                                                 </div>
                                             </form>
                                         </li>

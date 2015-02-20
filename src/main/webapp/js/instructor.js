@@ -3,7 +3,8 @@
  * should be common to some/all instructor pages.
  */
 
-
+var emailsForShortNames = new Array(); 
+var shortNames = new Array();
 
 //Initial load-up
 //-----------------------------------------------------------------------------
@@ -162,51 +163,90 @@ function bindStudentPhotoLink(elements){
 			event.stopPropagation();
 		}
 		
-		var element = $(this);
-	    var actualLink = $(this).parent().attr('data-link');
-	    
-	    $.getJSON($(this).parent().attr('data-profile-link'), function(data) {
-	    	element.siblings('img').attr('src', actualLink)
+		handleProfilePicShowEvent($(this), true);
+	});
+}
+
+function handleProfilePicShowEvent(obj, callback) {
+	var element = $(obj);
+    var actualLink = element.parent().attr('data-link');
+    var profileLink = element.parent().attr('data-profile-link');
+    var studentEmail = element
+    .parent().attr('data-student-email');
+    var studentShortnameId = emailsForShortNames.indexOf(studentEmail);
+    if (profileLink != null) {
+    	var shortName = "<i>No short name</i>"; // default value
+    	if (studentShortnameId != -1) {
+    		element.siblings('img').attr('src', actualLink)
 	    	.load(function() {
-	    		var actualLink = $(this).parent().attr('data-link');
 	    		// resolved link can be default image
 	    		var resolvedLink = $(this).attr('src');
-	    		var shortName = "";
-	    		if (data.shortName != "") {
-					shortName = data.shortName;
-				} else {
-					shortName = "<i>No short name</i>";
-				}
+				shortName = shortNames[studentShortnameId];
 	    		
-	            $(this)
-	            	.removeClass('hidden')
-	                .parent().attr('data-link', '')
-	                .popover({
-	                	html: true,
-	                    trigger: 'manual',
-	                    placement: 'top',
-	                    content: function () {
-	                    	return '<div class="align-center color_neutral"><img class="profile-pic" src="' + resolvedLink + '" /><h4>' + shortName + '</h4></div>';
-	                    }
-	                })
-	                .mouseenter(function() {
-	            		$(this).popover('show');
-	                	$(this).siblings('.popover').on('mouseleave', function() {
-	                		$(this).siblings('.profile-pic-icon-click').popover("hide");
-	                	});
-	                	$(this).mouseleave(function() {
-	            	    	// this is so that the user can hover over the 
-	            	    	// pop-over photo without hiding the photo
-	            	    	setTimeout(function(obj) {
-	            	    		if (!$(obj).siblings(".popover").is(":hover")) {
-	            	                $(obj).popover("hide");
-	            	            }
-	            	    	}, 200, this);
-	            	    });
-            		});
+	            initialisePopover($(this), resolvedLink, shortName);
 	            updateHoverShowPictureEvents(actualLink, resolvedLink, shortName);
+	            if (callback) {
+	            	callback(shortName);
+	            }
 	    	});
 	    	element.remove();
+    	} else {
+    		$.getJSON(profileLink, function(data) {
+		    	element.siblings('img').attr('src', actualLink)
+		    	.load(function() {
+		    		// resolved link can be default image
+		    		var resolvedLink = $(this).attr('src');
+		    		if (data.shortName != "") {
+						shortName = data.shortName;
+					}
+		    		
+		    		emailsForShortNames.push(studentEmail); 
+					shortNames.push(shortName);
+		    		
+		            initialisePopover($(this), resolvedLink, shortName);
+		            updateHoverShowPictureEvents(actualLink, resolvedLink, shortName);
+		            if (callback) {
+		            	callback(shortName);
+		            }
+		    	});
+		    	element.remove();
+	    	});
+    	}
+    } else {
+    	element.siblings('img').attr('src', actualLink)
+    	.load(function() {
+    		// resolved link can be default image
+    		var resolvedLink = $(this).attr('src');	    		
+            initialisePopover($(this), resolvedLink, "");
+            if (studentShortnameId == -1) {
+            	updateHoverShowPictureEvents(actualLink, resolvedLink, "");
+            } else {
+            	updateHoverShowPictureEvents(actualLink, resolvedLink, shortNames[studentShortnameId]);
+            }
+    	});
+    	element.remove();	    	
+    }
+}
+
+function initialisePopover(subject, link, shortName) {
+	subject
+	.removeClass('hidden')
+    .parent().attr('data-link', '')
+    .popover({
+    	html: true,
+        trigger: 'manual',
+        placement: 'top',
+        content: function () {
+        	return '<div class="align-center color_neutral"><img class="profile-pic" src="' + link + '" /><h4>' + shortName + '</h4></div>';
+        }
+    })
+    .mouseenter(function() {
+		$(this).popover('show');
+    	$(this).siblings('.popover').on('mouseleave', function() {
+    		$(this).siblings('.profile-pic-icon-click').popover("hide");
+    	});
+    	$(this).mouseleave(function() {
+            $(this).popover("hide");
 	    });
 	});
 }
@@ -297,7 +337,17 @@ function loadProfilePictureForHoverEvent(obj) {
  * @param resolvedLink
  */
 function updateHoverShowPictureEvents(actualLink, resolvedLink, shortName) {
-	$(".profile-pic-icon-hover[data-link='" + actualLink + "']")
+	
+	$(".profile-pic-icon-click[data-student-email][data-link='" + actualLink + "']")
+	.children('.from-shortname')
+	.html("From: " + shortName);
+	$(".profile-pic-icon-click[data-student-email][data-link='" + actualLink + "']")
+	.children('.to-shortname')
+	.html("To: " + shortName);
+	$(".profile-pic-icon-click[data-student-email][data-link='" + actualLink + "']")
+	.children('.student-profile-pic-view-link').remove();
+	
+	$(".profile-pic-icon-hover[data-link='" + actualLink + "'], .profile-pic-icon-click[data-student-email][data-link='" + actualLink + "']")
 	.attr('data-link', "")
 	.off( "mouseenter mouseleave" )
 	.popover('destroy')
@@ -315,13 +365,7 @@ function updateHoverShowPictureEvents(actualLink, resolvedLink, shortName) {
     		$(this).siblings('.profile-pic-icon-hover').popover("hide");
     	});
     	$(this).mouseleave(function() {
-	    	// this is so that the user can hover over the 
-	    	// pop-over photo without hiding the photo
-	    	setTimeout(function(obj) {
-	    		if (!$(obj).siblings(".popover").is(":hover")) {
-	                $(obj).popover("hide");
-	            }
-	    	}, 200, this);
+    		$(this).popover("hide");
 	    });
 	})
 	.children('img[src=""]').attr('src', resolvedLink);
