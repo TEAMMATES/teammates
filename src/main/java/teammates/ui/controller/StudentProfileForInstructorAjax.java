@@ -33,10 +33,20 @@ public class StudentProfileForInstructorAjax extends Action {
         new GateKeeper().verifyAccessibleForCurrentUserAsInstructor(account, courseId, student.section);
         
         StudentProfileAttributes profile = logic.getStudentProfile(student.googleId);
+        fillInEmptyNameAndEmail(profile, student);
         
         PageData data = new StudentProfileForInstructorAjaxPageData(account, profile);
         
         return createAjaxResult("", data);
+    }
+
+    private void fillInEmptyNameAndEmail(StudentProfileAttributes profile, StudentAttributes student) {
+        if (profile.email.isEmpty()) {
+            profile.email = student.email;
+        }
+        if (profile.shortName.isEmpty()) {
+            profile.shortName = student.name;
+        }        
     }
 
     private StudentAttributes getStudentForGivenParameters(String courseId,
