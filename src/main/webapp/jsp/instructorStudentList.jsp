@@ -171,6 +171,20 @@
             </div>
     
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+            
+            <%
+                if(data.courses.size() > 0) {
+            %>
+            
+            <div>
+                Click on the panels below to expand
+            </div>
+            <br>
+            
+            <%
+                }
+            %>
+            
             <%
                 courseIdx = -1;
                 
