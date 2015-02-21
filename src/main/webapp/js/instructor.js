@@ -163,7 +163,7 @@ function bindStudentPhotoLink(elements){
 			event.stopPropagation();
 		}
 		
-		handleProfilePicShowEvent($(this), true);
+		handleProfilePicShowEvent($(this));
 	});
 }
 
@@ -171,25 +171,35 @@ function handleProfilePicShowEvent(obj, callback) {
 	var element = $(obj);
     var actualLink = element.parent().attr('data-link');
     var profileLink = element.parent().attr('data-profile-link');
-    var studentEmail = element
-    .parent().attr('data-student-email');
+    var studentEmail = element.parent().attr('data-student-email');
     var studentShortnameId = emailsForShortNames.indexOf(studentEmail);
+    
     if (profileLink != null) {
     	var shortName = "<i>No short name</i>"; // default value
     	if (studentShortnameId != -1) {
-    		element.siblings('img').attr('src', actualLink)
-	    	.load(function() {
-	    		// resolved link can be default image
-	    		var resolvedLink = $(this).attr('src');
-				shortName = shortNames[studentShortnameId];
-	    		
-	            initialisePopover($(this), resolvedLink, shortName);
-	            updateHoverShowPictureEvents(actualLink, resolvedLink, shortName);
-	            if (callback) {
-	            	callback(shortName);
-	            }
-	    	});
-	    	element.remove();
+    		shortName = shortNames[studentShortnameId];
+    		if (element.siblings('img').attr('src') == "") {
+	    		element.siblings('img').attr('src', actualLink)
+		    	.load(function() {
+		    		// resolved link can be default image
+		    		var resolvedLink = $(this).attr('src');
+		    		
+		            initialisePopover($(this), resolvedLink, shortName);
+		            updateHoverShowPictureEvents(actualLink, resolvedLink, shortName);
+		            if (callback) {
+		            	callback(shortName);
+		            }
+		    	});
+    		} else {
+    			element.siblings('img').each(function(index, img) {
+    				var resolvedLink = $(this).attr('src');
+        			initialisePopover($(this), resolvedLink, shortName);
+        			if (callback) {
+    	            	callback(shortName);
+    	            }
+    			});
+    		}
+    		element.remove();
     	} else {
     		$.getJSON(profileLink, function(data) {
 		    	element.siblings('img').attr('src', actualLink)
@@ -338,16 +348,16 @@ function loadProfilePictureForHoverEvent(obj) {
  */
 function updateHoverShowPictureEvents(actualLink, resolvedLink, shortName) {
 	
-	$(".profile-pic-icon-click[data-student-email][data-link='" + actualLink + "']")
+	$(".profile-pic-icon-click[data-comment][data-student-email][data-link='" + actualLink + "']")
 	.children('.from-shortname')
 	.html("From: " + shortName);
-	$(".profile-pic-icon-click[data-student-email][data-link='" + actualLink + "']")
+	$(".profile-pic-icon-click[data-comment][data-student-email][data-link='" + actualLink + "']")
 	.children('.to-shortname')
 	.html("To: " + shortName);
-	$(".profile-pic-icon-click[data-student-email][data-link='" + actualLink + "']")
+	$(".profile-pic-icon-click[data-comment][data-student-email][data-link='" + actualLink + "']")
 	.children('.student-profile-pic-view-link').remove();
-	
-	$(".profile-pic-icon-hover[data-link='" + actualLink + "'], .profile-pic-icon-click[data-student-email][data-link='" + actualLink + "']")
+
+	$(".profile-pic-icon-hover[data-link='" + actualLink + "'], .profile-pic-icon-click[data-comment][data-student-email][data-link='" + actualLink + "']")
 	.attr('data-link', "")
 	.off( "mouseenter mouseleave" )
 	.popover('destroy')
@@ -368,5 +378,9 @@ function updateHoverShowPictureEvents(actualLink, resolvedLink, shortName) {
     		$(this).popover("hide");
 	    });
 	})
+	.children('img[src=""]').attr('src', resolvedLink);
+	
+	$(".profile-pic-icon-click[data-student-email][data-link='" + actualLink + "']")
+	.attr("data-link", "")
 	.children('img[src=""]').attr('src', resolvedLink);
 }

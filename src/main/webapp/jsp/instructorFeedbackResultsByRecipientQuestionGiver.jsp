@@ -487,7 +487,7 @@
                                                 if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, responseEntry.giverEmail).isEmpty()) {
                                         %>
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-profile-link="<%=data.getProfileLinkForInstructor(giverName)%>" data-link="<%=data.getProfilePictureLink(responseEntry.giverEmail)%>">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="<%=responseEntry.giverEmail %>" data-profile-link="<%=data.getProfileLinkForInstructor(responseEntry.giverEmail)%>" data-link="<%=data.getProfilePictureLink(responseEntry.giverEmail)%>">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -521,7 +521,7 @@
                                                                                     %>
                                                         <tr class="pending_response_row">
                                                             <td class="middlealign">
-                                                                <div class="profile-pic-icon-click align-center" data-profile-link="<%=data.getProfileLinkForInstructor(possibleGiverWithNoResponse)%>" data-link="<%=data.getProfilePictureLink(possibleGiverWithNoResponse)%>">
+                                                                <div class="profile-pic-icon-click align-center" data-student-email="<%=possibleGiverWithNoResponse %>" data-profile-link="<%=data.getProfileLinkForInstructor(possibleGiverWithNoResponse)%>" data-link="<%=data.getProfilePictureLink(possibleGiverWithNoResponse)%>">
                                                                     <a class="student-profile-pic-view-link btn-link">
                                                                         View Photo
                                                                     </a>

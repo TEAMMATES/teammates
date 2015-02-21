@@ -527,7 +527,7 @@
                                                 if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, responseEntry.recipientEmail).isEmpty()) {
                                         %>
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-profile-link="<%=data.getProfileLinkForInstructor(responseEntry.recipientEmail)%>" data-link="<%=data.getProfilePictureLink(responseEntry.recipientEmail)%>">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="<%=responseEntry.recipientEmail %>" data-profile-link="<%=data.getProfileLinkForInstructor(responseEntry.recipientEmail)%>" data-link="<%=data.getProfilePictureLink(responseEntry.recipientEmail)%>">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -562,7 +562,7 @@
                                                	        if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, possibleRecipientWithNoResponse).isEmpty()) {
                                                %>
                                                             <td class="middlealign">
-                                                                <div class="profile-pic-icon-click align-center" data-profile-link="<%=data.getProfileLinkForInstructor(possibleRecipientWithNoResponse)%>" data-link="<%=data.getProfilePictureLink(possibleRecipientWithNoResponse)%>">
+                                                                <div class="profile-pic-icon-click align-center" data-student-email="<%=possibleRecipientWithNoResponse %>" data-profile-link="<%=data.getProfileLinkForInstructor(possibleRecipientWithNoResponse)%>" data-link="<%=data.getProfilePictureLink(possibleRecipientWithNoResponse)%>">
                                                                     <a class="student-profile-pic-view-link btn-link">
                                                                         View Photo
                                                                     </a>

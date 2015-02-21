@@ -56,11 +56,10 @@ $(document).ready(function(){
                 displayIcon.html('<span class="glyphicon glyphicon-chevron-down"></span>');
                 var childrenPanels = $(panelBody[0]).find("div.panel");
                 numPanels = bindCollapseEvents(childrenPanels, numPanels);
-                $(panelBody[0]).find("form[class*='responseCommentAddForm'] > div > a").click(addCommentHandler);
-    
-                $(panelBody[0]).find("form[class*='responseCommentEditForm'] > div > a").click(editCommentHandler);
-    
-                $(panelBody[0]).find("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
+                $(panelBody[0]).find("form[class*='responseCommentAddForm'] a[id^='button_save_comment_for_add']").click(addCommentHandler);
+                $(panelBody[0]).find("form[class*='responseCommentEditForm'] a[id^='button_save_comment_for_edit']").click(editCommentHandler);
+                $(panelBody[0]).find("form[class*='responseCommentDeleteForm'] a[id^='commentdelete']").click(deleteCommentHandler);
+                
                 $("a[id^='collapse-panels-button-section-'],a[id^='collapse-panels-button-team-']").off('click');
                 $("a[id^='collapse-panels-button-section-']").on('click', function(){
                     var isGroupByTeam = $('#frgroupbyteam').prop('checked');

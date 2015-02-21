@@ -706,13 +706,13 @@
                                                     id="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT%>-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>"><%=comment.commentText.getValue() %></textarea>
                                                 </div>
                                                 <div class="row" id="responseCommentEditFormShortName-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
-                                                    <div class="profile-pic-icon-click align-center col-xs-2 inline-block" data-student-email="<%=targetEmail %>" data-profile-link="<%=data.getProfileLinkForInstructor(targetEmail)%>" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
+                                                    <div class="profile-pic-icon-click align-center col-xs-2 inline-block" data-comment="true" data-student-email="<%=targetEmail %>" data-profile-link="<%=data.getProfileLinkForInstructor(targetEmail)%>" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
                                                         <a class="student-profile-pic-view-link btn-link"></a>
                                                         <img src="" alt="No Image Given" class="">
                                                         <br>
                                                         <span class="from-shortname"></span>
                                                     </div>
-                                                    <div class="profile-pic-icon-click align-center col-xs-2 inline-block" data-student-email="<%=recipientEmail %>" data-profile-link="<%=data.getProfileLinkForInstructor(recipientEmail)%>" data-link="<%=data.getProfilePictureLink(recipientEmail)%>">
+                                                    <div class="profile-pic-icon-click align-center col-xs-2 inline-block" data-comment="true" data-student-email="<%=recipientEmail %>" data-profile-link="<%=data.getProfileLinkForInstructor(recipientEmail)%>" data-link="<%=data.getProfilePictureLink(recipientEmail)%>">
                                                         <a class="student-profile-pic-view-link btn-link"></a>
                                                         <img src="" alt="No Image Given" class="">
                                                         <br>
@@ -909,13 +909,13 @@
                                                     <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT%>" id="responseCommentAddForm-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>"></textarea>
                                                 </div>
                                                 <div class="row" id="showResponseCommentAddFormShortName-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>">
-                                                    <div class="profile-pic-icon-click align-center col-xs-2 inline-block" data-student-email="<%=targetEmail %>" data-profile-link="<%=data.getProfileLinkForInstructor(targetEmail)%>" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
+                                                    <div class="profile-pic-icon-click align-center col-xs-2 inline-block" data-comment="true" data-student-email="<%=targetEmail %>" data-profile-link="<%=data.getProfileLinkForInstructor(targetEmail)%>" data-link="<%=data.getProfilePictureLink(targetEmail)%>">
                                                         <a class="student-profile-pic-view-link btn-link"></a>
                                                         <img src="" alt="No Image Given" class="">
                                                         <br>
                                                         <span class="from-shortname"></span>
                                                     </div>
-                                                    <div class="profile-pic-icon-click align-center col-xs-2 inline-block" data-student-email="<%=recipientEmail %>" data-profile-link="<%=data.getProfileLinkForInstructor(recipientEmail)%>" data-link="<%=data.getProfilePictureLink(recipientEmail)%>">
+                                                    <div class="profile-pic-icon-click align-center col-xs-2 inline-block" data-comment="true" data-student-email="<%=recipientEmail %>" data-profile-link="<%=data.getProfileLinkForInstructor(recipientEmail)%>" data-link="<%=data.getProfilePictureLink(recipientEmail)%>">
                                                         <a class="student-profile-pic-view-link btn-link"></a>
                                                         <img src="" alt="No Image Given" class="">
                                                         <br>

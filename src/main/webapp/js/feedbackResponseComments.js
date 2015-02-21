@@ -5,15 +5,20 @@ function isInCommentsPage(){
 }
 
 var addCommentHandler = function(e) {
+	e.preventDefault();
     var submitButton = $(this);
     var cancelButton = $(this).next("input[value='Cancel']");
+    var profileInfoContainer = $(this).closest('div[id^="showResponseCommentAddFormShortName"]');
     var formObject = $(this).closest('form[class*="responseCommentAddForm"]');
     var addFormRow = $(this).closest('li[id^="showResponseCommentAddForm"]');
     var panelHeading = $(this).parent().parent().parent().parent()
     	.parent().parent().parent().parent().parent().parent().prev();
     var formData = formObject.serialize();
+    var profileInfo = "";
     
-    e.preventDefault();
+    $(profileInfoContainer).find('.profile-pic-icon-click').each(function(index, div) {
+    	profileInfo += $(div).prop('outerHTML');
+    });
     
     $.ajax({
         type : 'POST',
@@ -39,10 +44,10 @@ var addCommentHandler = function(e) {
                     } else {
 	                    // Inject new comment row
 	                    addFormRow.parent().attr("class", "list-group");
-	                    addFormRow.before(generateNewCommentRow(data));
+	                    addFormRow.before(generateNewCommentRow(data, profileInfo));
 	                    var newCommentRow = addFormRow.prev();
-	                    newCommentRow.find("form[class*='responseCommentEditForm'] > div > a").click(editCommentHandler);
-	                    newCommentRow.find("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
+	                    newCommentRow.find("form[class*='responseCommentEditForm'] a[id^='button_save_comment_for_edit']").click(editCommentHandler);
+	                    newCommentRow.find("form[class*='responseCommentDeleteForm'] a[id^='commentdelete']").click(deleteCommentHandler);
 	                    addCount++;
 	                    newCommentRow.find("[data-toggle='tooltip']").tooltip({html: true});
 	                    
@@ -72,9 +77,9 @@ var addCommentHandler = function(e) {
 var editCommentHandler = function(e) {
     var submitButton = $(this);
     var cancelButton = $(this).next("input[value='Cancel']");
-    var formObject = $(this).parent().parent();
-    var displayedText = $(this).parent().parent().prev();
-    var commentBar = displayedText.parent().find("div[id^=commentBar]");
+    var formObject = $(this).closest('form[class*="responseCommentEditForm"]');
+    var displayedText = $(this).closest('form[id^="responseCommentEditForm"]').prev();
+    var commentBar = $(this).closest('li[id^="responseCommentRow"]').find("div[id^=commentBar]");
     var panelHeading = $(this).parent().parent().parent().parent()
 		.parent().parent().parent().parent().parent().parent().prev();
     var formData = formObject.serialize();
@@ -239,7 +244,7 @@ function enableTooltip(){
 
 $(document).ready(registerResponseCommentsEvent);
 
-function generateNewCommentRow(data) {
+function generateNewCommentRow(data, profileInfo) {
 	var commentDate = new Date(data.comment.createdAt);
 	var commentDateStr = commentDate.toString();
 	var thisYear = commentDate.getFullYear();
@@ -288,12 +293,15 @@ function generateNewCommentRow(data) {
     + 			" name=\"" + FEEDBACK_RESPONSE_COMMENT_TEXT + "\""
     + 			" id=\"" + FEEDBACK_RESPONSE_COMMENT_TEXT + "\"-" + addCount + "\">" + data.comment.commentText.value + "</textarea>"
     +	 "</div>"
-    + 	 "<div class=\"col-sm-offset-5\">"
-    + 		"<a href=\"/page/instructorFeedbackResponseCommentEdit\" type=\"button\" class=\"btn btn-primary\" id=\"button_save_comment_for_edit-" + addCount + "\">"
-    + 			"Save"
-    + 		"</a><span> </span>"
-    +    	"<input type=\"button\" class=\"btn btn-default\" value=\"Cancel\" onclick=\"return hideResponseCommentEditForm(" + addCount + ");\">"
-    + 	 "</div>"
+	+    '<div class="row" id="responseCommentEditFormShortName-' + addCount + '">'
+	+ 	 profileInfo
+	+ 	 "	 <div class=\"col-sm-offset-5\">"
+    + 	 "		<a href=\"/page/instructorFeedbackResponseCommentEdit\" type=\"button\" class=\"btn btn-primary\" id=\"button_save_comment_for_edit-" + addCount + "\">"
+    + 	 "			Save"
+    + 	 "		</a><span> </span>"
+    +    "		<input type=\"button\" class=\"btn btn-default\" value=\"Cancel\" onclick=\"return hideResponseCommentEditForm(" + addCount + ");\">"
+    + 	 "	</div>"
+	+	 '</div>'
     +   "<input type=\"hidden\" name=\"" + FEEDBACK_RESPONSE_ID + "\" value=\"" + data.comment.feedbackResponseId + "\">"
     + 	 "<input type=\"hidden\" name=\"" + FEEDBACK_RESPONSE_COMMENT_ID + "\" value=\"" + data.comment.feedbackResponseCommentId + "\">"
     + 	 "<input type=\"hidden\" name=\"" + COURSE_ID + "\" value=\"" + data.comment.courseId + "\">"
