@@ -59,7 +59,6 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
     
     @Test
     public void testAll() throws Exception {
-        
         testContent();
         testLinks();
         testSearch();
@@ -200,7 +199,8 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         ThreadHelper.waitFor(500);
         InstructorCourseStudentDetailsViewPage studentDetailsPage = viewPage.clickViewStudent(student1.course, student1.name);
         studentDetailsPage.verifyIsCorrectPage(student1.email);
-        viewPage = studentDetailsPage.goToPreviousPage(InstructorStudentListPage.class);
+        studentDetailsPage.closeCurrentWindowAndSwitchToParentWindow();
+        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
         
         ______TS("link: edit");
         
@@ -211,7 +211,7 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         InstructorCourseStudentDetailsEditPage studentEditPage = viewPage.clickEditStudent(student2.course, student2.name);
         studentEditPage.verifyIsCorrectPage(student2.email);
         studentEditPage.submitButtonClicked();
-        
+        studentEditPage.closeCurrentWindowAndSwitchToParentWindow();
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
         
         ______TS("link: view records");
@@ -221,7 +221,8 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         ThreadHelper.waitFor(500);
         InstructorStudentRecordsPage studentRecordsPage = viewPage.clickViewRecordsStudent(student2.course, student2.name);
         studentRecordsPage.verifyIsCorrectPage(student2.name);
-        viewPage = studentRecordsPage.goToPreviousPage(InstructorStudentListPage.class);
+        studentRecordsPage.closeCurrentWindowAndSwitchToParentWindow();
+        viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
     }
     
     private void testDeleteAction() {

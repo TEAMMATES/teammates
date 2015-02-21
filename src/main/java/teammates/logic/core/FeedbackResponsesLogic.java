@@ -12,7 +12,6 @@ import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.UserType;
@@ -31,7 +30,6 @@ public class FeedbackResponsesLogic {
 
     private static FeedbackResponsesLogic instance = null;
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic
             .inst();
@@ -361,14 +359,19 @@ public class FeedbackResponsesLogic {
         // Create a copy.
         FeedbackResponseAttributes newResponse = new FeedbackResponseAttributes(
                 responseToUpdate);
-        FeedbackResponseAttributes oldResponse = null;
+        FeedbackResponse oldResponseEntity = null;
         if (newResponse.getId() == null) {
-            oldResponse = frDb.getFeedbackResponse(newResponse.feedbackQuestionId, 
+            oldResponseEntity = frDb.getFeedbackResponseEntityWithCheck(newResponse.feedbackQuestionId, 
                     newResponse.giverEmail, newResponse.recipientEmail);
         } else {
-            oldResponse = frDb.getFeedbackResponse(newResponse.getId());
+            oldResponseEntity = frDb.getFeedbackResponseEntityWithCheck(newResponse.getId());
         }
 
+        FeedbackResponseAttributes oldResponse = null;
+        if (oldResponseEntity != null) {
+            oldResponse = new FeedbackResponseAttributes(oldResponseEntity);
+        }
+        
         if (oldResponse == null) {
             throw new EntityDoesNotExistException(
                     "Trying to update a feedback response that does not exist.");
@@ -409,7 +412,7 @@ public class FeedbackResponsesLogic {
                 throw new EntityAlreadyExistsException(Const.StatusMessages.FEEDBACK_RESPONSE_RECIPIENT_ALREADY_EXISTS);
             }
         } else {
-            frDb.updateFeedbackResponse(newResponse);
+            frDb.updateFeedbackResponseOptimized(newResponse, oldResponseEntity);
         }
     }
 

@@ -179,6 +179,16 @@ public class InstructorCourseEditPage extends AppPage {
         }
     }
     
+    public WebElement courseLevelPanel(int instrNum) {
+        String permissionDivId = "tunePermissionsDivForInstructor" + instrNum;
+        return browser.driver.findElement(By.id(permissionDivId)).findElement(By.cssSelector("div.form-group>div>div.panel"));
+    }
+    
+    public void clickCourseLevelPrivilegesLink(int instrNum, int linkNum) {
+        WebElement coursePanel = this.courseLevelPanel(instrNum);
+        coursePanel.findElements(By.cssSelector("input[type=checkbox]")).get(linkNum - 1).click();
+    }
+    
     public WebElement addSessionLevelPrivilegesLink(int instrNum) {
         String idStr = "addSectionLevelForInstructor" + instrNum;
         
