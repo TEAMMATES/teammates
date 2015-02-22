@@ -1,22 +1,9 @@
 function getAppendedResponseRateData(data){
-    var appendHtml = '';
-    
-    if(data.responseStatus.noResponse.length == 0){
-        appendHtml += '<div class="panel-body">';
-        appendHtml += 'All students have responsed to some questions in this session.';
-        appendHtml += '</div>';
-    } else {
-        appendHtml += '<div class="panel-body padding-0">';
-        appendHtml += '<table class="table table-striped table-bordered margin-0">';
-        appendHtml += '<tbody>';
-        for(var i = 0; i < data.responseStatus.noResponse.length; i++){
-            appendHtml += '<tr><td>' + data.responseStatus.noResponse[i] + '</td></tr>';
-        }
-        appendHtml += '</tbody></table>';
-        appendHtml += '</div>';
-    }
+    console.log(data);
+    var appendedResponseStatus = $(data).find('#responseStatus').html();
+    $(data).remove();
    
-    return appendHtml;
+    return appendedResponseStatus;
 }
 
 $(document).ready(function(){

@@ -825,6 +825,29 @@
                 "INSTRUCTORS"
             ]
         },
+        "qn24InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"IFSubmitUiT.CS2104",
+            "creatorEmail":"IFSubmitUiT.instr@gmail.tmt",
+            "questionMetaData":{
+                "value":"{\"questionType\":\"MSQ\",\"questionText\":\"Which teams would you like to be an instructor of again?\",\"numOfMsqChoices\":0,\"msqChoices\":[],\"otherEnabled\":false,\"generateOptionsFor\":\"TEAMS\"}"
+            },
+            "questionNumber":"24",
+            "questionType":"MSQ",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "RECEIVER",
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
         
         "qn1InSession2":{
             "feedbackSessionName":"Second Session",

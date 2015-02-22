@@ -16,7 +16,7 @@
           <div class="row">
           <div class="col-sm-4">
               <div class="form-group">
-                <label class="col-sm-2 control-label">Course:</label>
+                <label class="col-sm-2 control-label">Course ID:</label>
                 <div class="col-sm-10">
                   <p class="form-control-static">CFResultsUiT.CS2104</p>
                 </div>
@@ -51,76 +51,74 @@
               </div>
           </div>
           <div class="col-sm-2">
-                     <div class="form-group">
-                        <form action="/page/instructorFeedbackResultsDownload" method="post">
-                           <div id="feedbackDataButtons">
-                              <input class="btn btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download results"/>
-                                                         </div>
-                           <input name="user" type="hidden" value="CFResultsUiT.instr"/>
-                                                      <input name="fsname" type="hidden" value="First Session"/>
-                                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                      <input name="sectionname" type="hidden" value="All"/>
-                                                   </form>
-                     </div>
+              
+              <div class="form-group">
+                  <form method="post" action="/page/instructorFeedbackResultsDownload">
+                  <div id="feedbackDataButtons">
+                      <input id="button_download" class="btn btn-primary" name="fruploaddownloadbtn" value="Download results" type="submit">
                   </div>
-               </div>
-               <div class="row">
-                  <span class="help-block align-center">
-                     Non-English characters not displayed properly in the
-                    downloaded file?
-                     <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" onclick="submitFormAjax()">
-                        click here
-                     </span>
-                  </span>
-               </div>
-            </div>
-         </div>
+                  <input name="user" value="CFResultsUiT.instr" type="hidden">
+                  <input name="fsname" value="First Session" type="hidden">
+                  <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                  <input name="sectionname" value="All" type="hidden">
+                  
+                  </form>
+              </div>
+              
+          </div>
+        </div>
+
+            <div class="row">
+                <span class="help-block align-center">
+
+                    Non-English characters not displayed properly in the
+                    downloaded file?<span class="btn-link" data-toggle="modal" data-target="#fsResultsTableWindow" onclick="submitFormAjax()"> click here </span>
+            </span></div>
+
+        </div>
       </div>
-      <form id="csvToHtmlForm">
-         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                  <input name="fsname" type="hidden" value="First Session"/>
-                  <input name="user" type="hidden" value="CFResultsUiT.instr"/>
-                  <input name="frgroupbysection" type="hidden" value="All"/>
-                  <input name="csvtohtmltable" type="hidden" value="true"/>
-               </form>
-      <div class="modal fade align-center" id="fsResultsTableWindow">
-         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <span class="help-block" style="display:inline;">
-                     Tips: After
-                    Selecting the table,
-                     <kbd>
-                        Ctrl + C
-                     </kbd>
-                     to COPY and
-                     <kbd>
-                        Ctrl + V
-                     </kbd>
-                     to PASTE to your Excel Workbook.
-                  </span>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <button class="btn btn-default" data-dismiss="modal" type="button">
-                     Close
-                  </button>
-                  <button class="btn btn-primary" onclick="selectElementContents( document.getElementById('fsModalTable') );" type="button">
-                     Select Table
-                  </button>
-               </div>
-               <div class="modal-body">
-                  <div class="table-responsive">
-                     <div id="fsModalTable">
-                     </div>
-                     <br/>
-                                          <div id="ajaxStatus">
-                     </div>
-                  </div>
-               </div>
-               <div class="modal-footer">
-               </div>
+    
+</div>
+
+<form id="csvToHtmlForm">
+<input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+<input name="fsname" value="First Session" type="hidden">
+<input name="user" value="CFResultsUiT.instr" type="hidden">
+<input name="frgroupbysection" value="All" type="hidden">
+<input name="csvtohtmltable" value="true" type="hidden">
+</form>
+
+<div class="modal fade align-center" id="fsResultsTableWindow">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                 <span class="help-block" style="display:inline;"> Tips: After
+                    Selecting the table, <kbd>Ctrl + C</kbd> to COPY and
+                    <kbd>Ctrl + V</kbd> to PASTE to your Excel Workbook.
+                </span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="selectElementContents( document.getElementById('fsModalTable') );">
+                    Select Table</button>
             </div>
-         </div>
-      </div>
+            <div class="modal-body">
+            <div class="table-responsive">
+            <div id="fsModalTable">
+               
+            </div>
+            <br>
+             <div id="ajaxStatus"></div>      
+            </div>
+            </div>
+            <div class="modal-footer">
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <form class="form-horizontal" role="form" method="post" action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&amp;fsname=First+Session&amp;user=CFResultsUiT.instr">
     <div class="panel panel-info margin-0">
         <div class="panel-body">
@@ -2797,7 +2795,7 @@
                                     To:
                                     
                                             <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
-                                                <strong>Charlie Dávis (Team 2)</strong>
+                                                <strong>Benny Charles (Team 1)</strong>
                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                             </div>
                                      
@@ -2815,10 +2813,15 @@
                             <div class="col-md-10">
                     
                     <div class="panel panel-info">
-                                        <div class="panel-heading">Question 1: <span class="text-preserve-space">Rate 3 other students' products</span></div>
+                                        <div class="panel-heading">Question 8: <span class="text-preserve-space">What is your extra feature?&nbsp;<span style=" white-space: normal;">
+    <a href="javascript:;" id="questionAdditionalInfoButton-8-giver-2-recipient-2" class="color_gray" onclick="toggleAdditionalQuestionInfo('8-giver-2-recipient-2')" data-more="[more]" data-less="[less]">[more]</a>
+    <br>
+    <span id="questionAdditionalInfo-8-giver-2-recipient-2" style="display:none;">Multiple-choice (multiple answers) question options:
+<ul style="list-style-type: disc;margin-left: 20px;"><li>FlexiCommand</li><li>PowerSearch</li><li>GoodUI</li><li>Google Integration</li></ul></span>
+</span></span></div>
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
-                                                <div class="pull-left text-preserve-space">4 Response to Charlie.</div>
+                                                <div class="pull-left text-preserve-space"></div>
                                                 <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(2,2,1)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
@@ -2858,17 +2861,6 @@
                                                                     <td><input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="GIVER" checked="checked" type="checkbox">
                                                                     </td>
                                                                     <td><input class="visibilityCheckbox giverCheckbox" value="GIVER" checked="checked" type="checkbox">
-                                                                    </td>
-                                                                </tr>
-                                                                
-                                                                <tr id="response-recipient-2-2-1">
-                                                                    <td class="text-left">
-                                                                        <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what response recipient(s) can view">
-                                                                            Response Recipient(s)</div>
-                                                                    </td>
-                                                                    <td><input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="RECEIVER" checked="checked" type="checkbox">
-                                                                    </td>
-                                                                    <td><input class="visibilityCheckbox giverCheckbox" value="RECEIVER" checked="checked" type="checkbox">
                                                                     </td>
                                                                 </tr>
                                                                 
@@ -2922,8 +2914,8 @@
                                                     <input name="questionid" value="{*}" type="hidden">                                            
                                                     <input name="responseid" value="{*}" type="hidden">
                                                     <input name="user" value="CFResultsUiT.instr" type="hidden">
-                                                    <input name="showresponsecommentsto" value="GIVER,INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS" type="hidden">
-                                                    <input name="showresponsegiverto" value="GIVER,INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS" type="hidden">
+                                                    <input name="showresponsecommentsto" value="GIVER,RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS" type="hidden">
+                                                    <input name="showresponsegiverto" value="GIVER,RECEIVER, OWN_TEAM_MEMBERS, STUDENTS, INSTRUCTORS" type="hidden">
                                                 </div>
                                             </form>
                                         </li>
@@ -2937,7 +2929,7 @@
                                     To:
                                     
                                             <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
-                                                <strong>Danny Engrid (Team 2)</strong>
+                                                <strong>Charlie Dávis (Team 2)</strong>
                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                             </div>
                                      
@@ -2958,7 +2950,7 @@
                                         <div class="panel-heading">Question 1: <span class="text-preserve-space">Rate 3 other students' products</span></div>
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
-                                                <div class="pull-left text-preserve-space">1 Response to Danny.</div>
+                                                <div class="pull-left text-preserve-space">4 Response to Charlie.</div>
                                                 <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(3,2,1)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
@@ -3057,6 +3049,146 @@
                                                 <div class="col-sm-offset-5">
                                                     <a href="/page/instructorFeedbackResponseCommentAdd" type="button" class="btn btn-primary" id="button_save_comment_for_add-3-2-1">Add</a>
                                                     <input class="btn btn-default" value="Cancel" onclick="hideResponseCommentAddForm(3,2,1)" type="button">
+                                                    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                                                    <input name="fsname" value="First Session" type="hidden">
+                                                    <input name="questionid" value="{*}" type="hidden">                                            
+                                                    <input name="responseid" value="{*}" type="hidden">
+                                                    <input name="user" value="CFResultsUiT.instr" type="hidden">
+                                                    <input name="showresponsecommentsto" value="GIVER,INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS" type="hidden">
+                                                    <input name="showresponsegiverto" value="GIVER,INSTRUCTORS, RECEIVER, STUDENTS, OWN_TEAM_MEMBERS" type="hidden">
+                                                </div>
+                                            </form>
+                                        </li>
+                                    </ul></div></div>
+                    
+                </div></div>
+                
+                    <div class="row border-top-gray">
+                            <div class="col-md-2">
+                                <div class="col-md-12">
+                                    To:
+                                    
+                                            <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                <strong>Danny Engrid (Team 2)</strong>
+                                                <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                            </div>
+                                     
+                                </div>
+                                <div class="col-md-12 text-muted small"><br>
+                                    From:
+                                    
+                                        <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                            Benny Charles (Team 1)
+                                            <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                    
+                    <div class="panel panel-info">
+                                        <div class="panel-heading">Question 1: <span class="text-preserve-space">Rate 3 other students' products</span></div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <div class="pull-left text-preserve-space">1 Response to Danny.</div>
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(4,2,1)" data-toggle="tooltip" data-placement="top" title="">
+                                                    <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
+                                                </button>
+                                            </div>
+                                            
+                                            <ul class="list-group" id="responseCommentTable-4-2-1" style="display:none">
+                                            
+                                        <!-- frComment Add form -->    
+                                        <li class="list-group-item list-group-item-warning" id="showResponseCommentAddForm-4-2-1" style="display:none;">
+                                            <form class="responseCommentAddForm">
+                                                <div class="form-group">
+                                                    <div class="form-group form-inline">
+                                                        <div class="form-group text-muted">
+                                                            You may change comment's visibility using the visibility options on the right hand side.
+                                                        </div>
+                                                        <a id="frComment-visibility-options-trigger-4-2-1" class="btn btn-sm btn-info pull-right" onclick="toggleVisibilityEditForm(4,2,1)">
+                                                            <span class="glyphicon glyphicon-eye-close"></span>
+                                                            Show Visibility Options
+                                                        </a>
+                                                    </div>
+                                                    <div id="visibility-options-4-2-1" class="panel panel-default" style="display: none;">
+                                                        <div class="panel-heading">Visibility Options</div>
+                                                        <table class="table text-center" style="color:#000;">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th class="text-center">User/Group</th>
+                                                                    <th class="text-center">Can see
+                                                                        your comment</th>
+                                                                    <th class="text-center">Can see
+                                                                        your name</th>
+                                                                </tr>
+                                                                <tr id="response-giver-4-2-1">
+                                                                    <td class="text-left">
+                                                                        <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what response giver can view">
+                                                                            Response Giver</div>
+                                                                    </td>
+                                                                    <td><input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="GIVER" checked="checked" type="checkbox">
+                                                                    </td>
+                                                                    <td><input class="visibilityCheckbox giverCheckbox" value="GIVER" checked="checked" type="checkbox">
+                                                                    </td>
+                                                                </tr>
+                                                                
+                                                                <tr id="response-recipient-4-2-1">
+                                                                    <td class="text-left">
+                                                                        <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what response recipient(s) can view">
+                                                                            Response Recipient(s)</div>
+                                                                    </td>
+                                                                    <td><input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="RECEIVER" checked="checked" type="checkbox">
+                                                                    </td>
+                                                                    <td><input class="visibilityCheckbox giverCheckbox" value="RECEIVER" checked="checked" type="checkbox">
+                                                                    </td>
+                                                                </tr>
+                                                                
+                                                                
+                                                                <tr id="response-giver-team-4-2-1">
+                                                                    <td class="text-left">
+                                                                        <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of response giver can view">
+                                                                            Response Giver's Team Members</div>
+                                                                    </td>
+                                                                    <td><input class="visibilityCheckbox answerCheckbox" value="OWN_TEAM_MEMBERS" checked="checked" type="checkbox">
+                                                                    </td>
+                                                                    <td><input class="visibilityCheckbox giverCheckbox" value="OWN_TEAM_MEMBERS" checked="checked" type="checkbox">
+                                                                    </td>
+                                                                </tr>
+                                                                
+                                                                
+                                                                
+                                                                <tr id="response-students-4-2-1">
+                                                                    <td class="text-left">
+                                                                        <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students in this course can view">
+                                                                            Other students in this course</div>
+                                                                    </td>
+                                                                    <td><input class="visibilityCheckbox answerCheckbox" value="STUDENTS" checked="checked" type="checkbox">
+                                                                    </td>
+                                                                    <td><input class="visibilityCheckbox giverCheckbox" value="STUDENTS" checked="checked" type="checkbox">
+                                                                    </td>
+                                                                </tr>
+                                                                
+                                                                
+                                                                <tr id="response-instructors-4-2-1">
+                                                                    <td class="text-left">
+                                                                        <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what instructors can view">
+                                                                            Instructors</div>
+                                                                    </td>
+                                                                    <td><input class="visibilityCheckbox answerCheckbox" value="INSTRUCTORS" checked="checked" type="checkbox">
+                                                                    </td>
+                                                                    <td><input class="visibilityCheckbox giverCheckbox" value="INSTRUCTORS" checked="checked" type="checkbox">
+                                                                    </td>
+                                                                </tr>
+                                                                
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <textarea class="form-control" rows="3" placeholder="Your comment about this response" name="responsecommenttext" id="responseCommentAddForm-4-2-1"></textarea>
+                                                </div>
+                                                <div class="col-sm-offset-5">
+                                                    <a href="/page/instructorFeedbackResponseCommentAdd" type="button" class="btn btn-primary" id="button_save_comment_for_add-4-2-1">Add</a>
+                                                    <input class="btn btn-default" value="Cancel" onclick="hideResponseCommentAddForm(4,2,1)" type="button">
                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                     <input name="fsname" value="First Session" type="hidden">
                                                     <input name="questionid" value="{*}" type="hidden">                                            
@@ -4276,87 +4408,92 @@
                                 </div>                
         
 
-            
-            <div class="panel panel-warning">
-                <div style="cursor: pointer;" id="panelHeading-19" data-target="#panelBodyCollapse-19" class="panel-heading">
-                    <form style="display:none;" id="responseRate" class="responseRateForm" action="/page/instructorFeedbackResultsAjaxResponseRate">
-                        <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-                        <input name="fsname" value="First Session" type="hidden">
-                        <input name="user" value="CFResultsUiT.instr" type="hidden">
-                    </form>
-                    <div class="display-icon pull-right">
-                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
-                    </div>
-                    Participants who have not responded to any question</div>
-                <div id="panelBodyCollapse-19" class="panel-collapse collapse in">
-                      
-                    <div class="panel-body padding-0">
-                        <table class="table table-striped table-bordered margin-0">
-                           <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                              <tr>
-                                 <th class="button-sort-ascending" id="button_sortFromTeam" onclick="toggleSort(this,1)" style="width: 15%;">
-                                    Team
-                                    <span class="icon-sort unsorted">
-                                    </span>
-                                 </th>
-                                 <th class="button-sort-none" id="button_sortTo" onclick="toggleSort(this,2)" style="width: 15%;">
-                                    Name
-                                    <span class="icon-sort unsorted">
-                                    </span>
-                                 </th>
-                              </tr>
-                           </thead>
-                           <tbody>
-                              <tr>
-                                 <td>
-                                    <i>
-                                       Instructors
-                                    </i>
-                                 </td>
-                                 <td>
-                                    Teammates Helper1
-                                 </td>
-                              </tr>
-                              <tr>
-                                 <td>
-                                    <i>
-                                       Instructors
-                                    </i>
-                                 </td>
-                                 <td>
-                                    Teammates Helper2
-                                 </td>
-                              </tr>
-                              <tr>
-                                 <td>
-                                    Team 2
-                                 </td>
-                                 <td>
-                                    Danny Engrid
-                                 </td>
-                              </tr>
-                              <tr>
-                                 <td>
-                                    Team 2
-                                 </td>
-                                 <td>
-                                    Extra guy
-                                 </td>
-                              </tr>
-                              <tr>
-                                 <td>
-                                    Team 3
-                                 </td>
-                                 <td>
-                                    Emily
-                                 </td>
-                              </tr>
-                           </tbody>
-                        </table>
-                    </div>
-            
-                </div>
-                </div>
-            
+        
 
+
+
+
+
+
+
+
+
+  <div class="panel panel-warning">
+      <div style="cursor: pointer;" id="panelHeading-19" data-target="#panelBodyCollapse-19" class="panel-heading">
+          <form style="display:none;" id="responseRate" class="responseRateForm" action="/page/instructorFeedbackResultsPage">
+              <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+              <input name="fsname" value="First Session" type="hidden">
+              <input name="user" value="CFResultsUiT.instr" type="hidden">
+              <input name="questionnum" value="-1" type="hidden">
+          </form>
+          <div class="display-icon pull-right">
+          <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+          </div>
+          Participants who have not responded to any question</div>
+      <div class="panel-collapse collapse in" id="panelBodyCollapse-19">
+            
+          <div class="panel-body padding-0">
+              <table class="table table-striped table-bordered margin-0">
+                  <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                      <tr>
+                      <th id="button_sortFromTeam" class="button-sort-ascending" onclick="toggleSort(this,1)" style="width: 15%;">Team<span class="icon-sort unsorted"></span>
+                      </th>
+                      <th id="button_sortTo" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">Name<span class="icon-sort unsorted"></span>
+                      </th>                            
+                      </tr>
+                  </thead>
+                  <tbody>
+                  
+                      <tr>
+                          <td>
+                          
+                              <i>Instructors </i>
+                          
+                          </td>
+                          <td>Teammates Helper1</td>                              
+                      </tr>
+                  
+                      <tr>
+                          <td>
+                          
+                              <i>Instructors </i>
+                          
+                          </td>
+                          <td>Teammates Helper2</td>                              
+                      </tr>
+                  
+                      <tr>
+                          <td>
+                          
+                              Team 2
+                          
+                          </td>
+                          <td>Danny Engrid</td>                              
+                      </tr>
+                  
+                      <tr>
+                          <td>
+                          
+                              Team 2
+                          
+                          </td>
+                          <td>Extra guy</td>                              
+                      </tr>
+                  
+                      <tr>
+                          <td>
+                          
+                              Team 3
+                          
+                          </td>
+                          <td>Emily</td>                              
+                      </tr>
+                  
+                  </tbody>
+              </table>
+          </div>
+  
+      </div>
+      </div>
+  
         </div>

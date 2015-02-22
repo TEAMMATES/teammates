@@ -211,6 +211,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.chooseMcqOption(6, 1, "UI");
         submitPage.chooseMcqOption(6, 2, "UI");
         
+        submitPage.toggleMsqOption(7, 0, "");  // Click on "None of the above", 
+                                               // the option will be deselected when another option is clicked 
         submitPage.toggleMsqOption(7, 0, "UI");
         submitPage.toggleMsqOption(7, 0, "Algo");
         submitPage.toggleMsqOption(7, 0, "Design");
@@ -273,6 +275,10 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNull(BackDoor.getFeedbackResponse(fqConstSum2.getId(),
                 "IFSubmitUiT.instr@gmail.tmt",
                 "Team 3"));
+        
+        // checks that "" can be submitted and other choices reset when "" is clicked
+        submitPage.toggleMsqOption(21, 0, "Team 3"); 
+        submitPage.toggleMsqOption(21, 0, "");      
         
         submitPage.clickSubmitButton();
 
