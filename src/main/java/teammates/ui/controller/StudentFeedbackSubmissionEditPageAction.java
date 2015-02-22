@@ -111,7 +111,7 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
     
     @Override
     protected RedirectResult createSpecificRedirectResult() throws EntityDoesNotExistException {
-        if (regkey == null) {
+        if (isRegisteredStudent()) {
             return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
         } else {
             throw new EntityDoesNotExistException("unregistered student trying to access non-existent session");
@@ -124,5 +124,10 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
         }
         
         return student;
+    }
+    
+    protected boolean isRegisteredStudent(){
+        // a registered student must have an associated google Id
+        return (regkey == null) && (account.googleId != null) && (!account.googleId.isEmpty());
     }
 }
