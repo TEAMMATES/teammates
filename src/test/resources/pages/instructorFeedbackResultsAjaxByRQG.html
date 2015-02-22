@@ -50,83 +50,80 @@
                 </div>
               </div>
           </div>
-         <div class="col-sm-2">
-                     <div class="form-group">
-                        <form action="/page/instructorFeedbackResultsDownload" method="post">
-                           <div id="feedbackDataButtons">
-                              <input class="btn btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download results"/>
-                                                         </div>
-                           <input name="user" type="hidden" value="CFResultsUiT.instr"/>
-                                                      <input name="fsname" type="hidden" value="First Session"/>
-                                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                      <input name="sectionname" type="hidden" value="All"/>
-                                                   </form>
-                     </div>
+          <div class="col-sm-2">
+              
+              <div class="form-group">
+                  <form method="post" action="/page/instructorFeedbackResultsDownload">
+                  <div id="feedbackDataButtons">
+                      <input id="button_download" type="submit" class="btn btn-primary" name="fruploaddownloadbtn" value="Download results">
                   </div>
-               </div>
-               <div class="row">
-                  <span class="help-block align-center">
-                     Non-English characters not displayed properly in the
-                    downloaded file?
-                     <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" onclick="submitFormAjax()">
-                        click here
-                     </span>
-                  </span>
-               </div>
-            </div>
-         </div>
+                  <input type="hidden" name="user" value="CFResultsUiT.instr">
+                  <input type="hidden" name="fsname" value="First Session">
+                  <input type="hidden" name="courseid" value="CFResultsUiT.CS2104">
+                  <input type="hidden" name="sectionname" value="All">
+                  
+                  </form>
+              </div>
+              
+          </div>
+        </div>
+
+            <div class="row">
+                <span class="help-block align-center">
+
+                    Non-English characters not displayed properly in the
+                    downloaded file?<span class="btn-link" data-toggle="modal" data-target="#fsResultsTableWindow" onclick="submitFormAjax()"> click here </span>
+            </span></div>
+
+        </div>
       </div>
-      <form id="csvToHtmlForm">
-         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                  <input name="fsname" type="hidden" value="First Session"/>
-                  <input name="user" type="hidden" value="CFResultsUiT.instr"/>
-                  <input name="frgroupbysection" type="hidden" value="All"/>
-                  <input name="csvtohtmltable" type="hidden" value="true"/>
-               </form>
-      <div class="modal fade align-center" id="fsResultsTableWindow">
-         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <span class="help-block" style="display:inline;">
-                     Tips: After
-                    Selecting the table,
-                     <kbd>
-                        Ctrl + C
-                     </kbd>
-                     to COPY and
-                     <kbd>
-                        Ctrl + V
-                     </kbd>
-                     to PASTE to your Excel Workbook.
-                  </span>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <button class="btn btn-default" data-dismiss="modal" type="button">
-                     Close
-                  </button>
-                  <button class="btn btn-primary" onclick="selectElementContents( document.getElementById('fsModalTable') );" type="button">
-                     Select Table
-                  </button>
-               </div>
-               <div class="modal-body">
-                  <div class="table-responsive">
-                     <div id="fsModalTable">
-                     </div>
-                     <br/>
-                                          <div id="ajaxStatus">
-                     </div>
-                  </div>
-               </div>
-               <div class="modal-footer">
-               </div>
+    
+</div>
+
+<form id="csvToHtmlForm">
+<input type="hidden" name="courseid" value="CFResultsUiT.CS2104">
+<input type="hidden" name="fsname" value="First Session">
+<input type="hidden" name="user" value="CFResultsUiT.instr">
+<input type="hidden" name="frgroupbysection" value="All">
+<input type="hidden" name="csvtohtmltable" value="true">
+</form>
+
+<div class="modal fade align-center" id="fsResultsTableWindow">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                 <span class="help-block" style="display:inline;"> Tips: After
+                    Selecting the table, <kbd>Ctrl + C</kbd> to COPY and
+                    <kbd>Ctrl + V</kbd> to PASTE to your Excel Workbook.
+                </span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="selectElementContents( document.getElementById('fsModalTable') );">
+                    Select Table</button>
             </div>
-         </div>
-      </div>
+            <div class="modal-body">
+            <div class="table-responsive">
+            <div id="fsModalTable">
+               
+            </div>
+            <br>
+             <div id="ajaxStatus"></div>      
+            </div>
+            </div>
+            <div class="modal-footer">
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <form class="form-horizontal" role="form" method="post" action="/page/instructorFeedbackResultsPage?courseid=CFResultsUiT.CS2104&amp;fsname=First+Session&amp;user=CFResultsUiT.instr">
     <div class="panel panel-info margin-0">
         <div class="panel-body">
             <div class="row">
-                <div data-original-title="View results in different formats" class="col-sm-5" data-toggle="tooltip" title="">
+                <div class="col-sm-5" data-toggle="tooltip" title="" data-original-title="View results in different formats">
                     <div class="form-group">
                         <label for="viewSelect" class="col-sm-2 control-label">
                             View:
@@ -152,31 +149,31 @@
                         </div>
                     </div>
                 </div>
-                <div data-original-title="Filter the results in the current view" class="col-sm-5" data-toggle="tooltip" title="">
+                <div class="col-sm-5" data-toggle="tooltip" title="" data-original-title="Filter the results in the current view">
                     <div class="form-group">
                         <label for="viewSelect" class="col-sm-2 control-label">
                             Filter:
                         </label>
                         <div class="col-sm-10">
                             <div class="input-group">
-                                <input id="results-search-box" class="form-control" placeholder="Type student/team name/section name to filter" onchange="updateResultsFilter()" type="text">
+                                <input type="text" id="results-search-box" class="form-control" placeholder="Type student/team name/section name to filter" onchange="updateResultsFilter()">
                                 <a class="input-group-addon btn btn-default"><span class="glyphicon glyphicon-search"></span></a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-2 pull-right">
-                  <div data-original-title="Group results in the current view by team" class="col-sm-12" data-toggle="tooltip" title="">
+                  <div class="col-sm-12" data-toggle="tooltip" title="" data-original-title="Group results in the current view by team">
                       <div class="checkbox padding-top-0 min-height-0">
                           <label>
-                              <input name="frgroupbyteam" id="frgroupbyteam" onchange="this.form.submit()" type="checkbox"> Group by Teams
+                              <input type="checkbox" name="frgroupbyteam" id="frgroupbyteam" onchange="this.form.submit()"> Group by Teams
                           </label>
                       </div>
                   </div>
-                  <div data-original-title="Show statistics" class="col-sm-12" data-toggle="tooltip" title="">
+                  <div class="col-sm-12" data-toggle="tooltip" title="" data-original-title="Show statistics">
                       <div class="checkbox padding-top-0 min-height-0">
                           <label>
-                              <input id="show-stats-checkbox" name="frshowstats" type="checkbox"> Show Statistics
+                              <input type="checkbox" id="show-stats-checkbox" name="frshowstats"> Show Statistics
                           </label>
                       </div>
                   </div>
@@ -184,7 +181,7 @@
             </div>
             <div class="row">
                 
-                <div data-original-title="View results by sections" class="col-sm-5" data-toggle="tooltip" title="">
+                <div class="col-sm-5" data-toggle="tooltip" title="" data-original-title="View results by sections">
                     <div class="form-group">
                         <label for="sectionSelect" class="col-sm-2 control-label">
                             Section:
@@ -210,7 +207,7 @@
                 
                 <div class="col-sm-7 pull-right" style="padding-top:8px;">
                     
-                      <div data-original-title="This button is disabled. Since the data is too large, you have to click on each individual panel to load it." style="display:inline-block;" class="pull-right" data-toggle="tooltip" title="">
+                      <div style="display:inline-block;" class="pull-right" data-toggle="tooltip" title="" data-original-title="This button is disabled. Since the data is too large, you have to click on each individual panel to load it.">
                        <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" disabled="disabled">
                         Expand Sections
                     </a>
@@ -220,12 +217,13 @@
             </div>
         </div>
     </div>
-    <input name="fsname" value="First Session" type="hidden">
-    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-    <input name="user" value="CFResultsUiT.instr" type="hidden">
+    <input type="hidden" name="fsname" value="First Session">
+    <input type="hidden" name="courseid" value="CFResultsUiT.CS2104">
+    <input type="hidden" name="user" value="CFResultsUiT.instr">
 </form>
 
 <br>
+
 
 
 
@@ -239,14 +237,14 @@
 
             
                         <div class="panel panel-success">
-                                <div style="cursor: pointer;" id="panelHeading-1" data-target="#panelBodyCollapse-1" class="panel-heading">
+                                <div class="panel-heading" data-target="#panelBodyCollapse-1" id="panelHeading-1" style="cursor: pointer;">
                                     <div class="row">
                                         <div class="col-sm-9 panel-heading-text">
                                             <strong>Section A</strong>
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="pull-right">
-                                                <a data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." class="btn btn-success btn-xs" id="collapse-panels-button-section-0" data-toggle="tooltip" title="" style="">
+                                                <a class="btn btn-success btn-xs" id="collapse-panels-button-section-0" data-toggle="tooltip" title="" style="" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">
                                                     Expand
                                                      Students
                                                 </a>
@@ -257,17 +255,17 @@
                                     </div>
 
                                     <form style="display:none;" id="seeMore-0" class="seeMoreForm-0" action="/page/instructorFeedbackResultsPage">
-                                        <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-                                        <input name="fsname" value="First Session" type="hidden">
-                                        <input name="frgroupbysection" value="Section A" type="hidden">
-                                        <input name="user" value="CFResultsUiT.instr" type="hidden">
-                                        <input name="frgroupbyteam" value="null" type="hidden">
-                                        <input name="frsorttype" value="recipient-question-giver" type="hidden">
-                                        <input name="frshowstats" value="off" id="showStats-0" type="hidden">
-                                        <input name="frmainindex" value="-1" id="mainIndex-0" type="hidden">
+                                        <input type="hidden" name="courseid" value="CFResultsUiT.CS2104">
+                                        <input type="hidden" name="fsname" value="First Session">
+                                        <input type="hidden" name="frgroupbysection" value="Section A">
+                                        <input type="hidden" name="user" value="CFResultsUiT.instr">
+                                        <input type="hidden" name="frgroupbyteam" value="null">
+                                        <input type="hidden" name="frsorttype" value="recipient-question-giver">
+                                        <input type="hidden" name="frshowstats" value="off" id="showStats-0">
+                                        <input type="hidden" name="frmainindex" value="-1" id="mainIndex-0">
                                     </form>
                                 </div>
-                                <div style="height: auto;" id="panelBodyCollapse-1" class="panel-collapse collapse in">
+                                <div class="panel-collapse collapse in" id="panelBodyCollapse-1" style="height: auto;">
                                 <div class="panel-body">
         
 
@@ -275,10 +273,10 @@
 
 
                 <div class="panel panel-primary">
-                <div style="cursor: pointer;" id="panelHeading-5" data-target="#panelBodyCollapse-5" class="panel-heading">
+                <div class="panel-heading" data-target="#panelBodyCollapse-5" id="panelHeading-5" style="cursor: pointer;">
                     To: 
                     
-                        <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                        <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
                             <strong>Alice Betsy</strong>
                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                             <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.alice.b@gmail.tmt ">[CFResultsUiT.alice.b@gmail.tmt]</a>
@@ -286,14 +284,14 @@
                     
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                 </div>
-                <div id="panelBodyCollapse-5" class="panel-collapse collapse in">
+                <div class="panel-collapse collapse in" id="panelBodyCollapse-5">
                 <div class="panel-body">
                 
                         <div class="panel panel-info">
                             <div class="panel-heading">Question 1: <span class="text-preserve-space">Rate 3 other students' products</span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     
                                 </div>
                                 <table class="table table-striped table-bordered dataTable margin-0">
@@ -321,7 +319,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="drop.out@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -344,7 +342,7 @@
                             <div class="panel-heading">Question 2: <span class="text-preserve-space">What is the best selling point of your product?</span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     
                                 </div>
                                 <table class="table table-striped table-bordered dataTable margin-0">
@@ -372,7 +370,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.alice.b@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -400,7 +398,7 @@
 </span></span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     <div class="panel-body">
     <div class="row">
         <div class="col-sm-4 text-color-gray">
@@ -498,7 +496,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.alice.b@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -526,7 +524,7 @@
 </span></span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     <div class="panel-body">
     <div class="row">
         <div class="col-sm-4 text-color-gray">
@@ -624,7 +622,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.alice.b@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -652,7 +650,7 @@
 </span></span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     <div class="panel-body">
     <div class="row">
         <div class="col-sm-4 text-color-gray">
@@ -720,7 +718,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.alice.b@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -748,7 +746,7 @@
 </span></span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     <div class="panel-body">
     <div class="row">
         <div class="col-sm-4 text-color-gray">
@@ -816,7 +814,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.alice.b@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -844,7 +842,7 @@
 </span></span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     <div class="panel-body">
     <div class="row">
         <div class="col-sm-4 text-color-gray">
@@ -912,7 +910,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.alice.b@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -940,7 +938,7 @@
 </span></span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     <div class="panel-body">
     <div class="row">
         <div class="col-sm-4 text-color-gray">
@@ -1018,7 +1016,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.alice.b@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -1045,73 +1043,43 @@
 </span></span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     <div class="panel-body">
     <div class="row">
         <div class="col-sm-4 text-color-gray">
             <strong>
-                 Response Summary
+                Response Summary
             </strong>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
             <table class="table table-bordered table-responsive margin-0">
-              <thead>
+                <thead>
                 <tr>
-                   <td class="button-sort-ascending" id="button_sortreceiverteam" onclick="toggleSort(this,1);">
-                      Team
-                      <span class="icon-sort unsorted">
-                      </span>
-                   </td>
-                   <td class="button-sort-ascending" id="button_sortreceivername" onclick="toggleSort(this,2);">
-                      Recipient
-                      <span class="icon-sort unsorted">
-                      </span>
-                   </td>
-                   <td class="button-sort-none" data-container="body" data-placement="top" data-toggle="tooltip" id="button_sortavg" onclick="toggleSort(this,3,sortByPoint)" title="Average of the visible responses">
-                      <abbr title="Average of the visible responses">
-                         Average
-                      </abbr>
-                      <span class="icon-sort unsorted">
-                      </span>
-                   </td>
-                   <td class="button-sort-none" data-container="body" data-placement="top" data-toggle="tooltip" id="button_sortmax" onclick="toggleSort(this,4,sortByPoint)" title="Maximum of the visible responses">
-                      <abbr title="Maximum of the visible responses">
-                         Max
-                      </abbr>
-                      <span class="icon-sort unsorted">
-                      </span>
-                   </td>
-                   <td class="button-sort-none" data-container="body" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,5,sortByPoint)" title="Minimum of the visible responses">
-                      <abbr title="Minimum of the visible responses">
-                         Min
-                      </abbr>
-                      <span class="icon-sort unsorted">
-                      </span>
-                   </td>
+                    <td class="button-sort-ascending" id="button_sortreceiverteam" onclick="toggleSort(this,1);">Team 
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-ascending" id="button_sortreceivername" onclick="toggleSort(this,2);">Recipient 
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortavg" onclick="toggleSort(this,3,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="Average of the visible responses">
+                        <abbr title="Average of the visible responses">Average</abbr>
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortmax" onclick="toggleSort(this,4,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="Maximum of the visible responses">
+                        <abbr title="Maximum of the visible responses">Max</abbr>
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortmin" onclick="toggleSort(this,5,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="Minimum of the visible responses">
+                        <abbr title="Minimum of the visible responses">Min</abbr>
+                        <span class="icon-sort unsorted"></span></td>
                 </tr>
-             </thead>
-             <tbody>
-                <tr>
-                   <td>
-                      Team 1
-                   </td>
-                   <td>
-                      Alice Betsy
-                   </td>
-                   <td>
-                      3.5
-                   </td>
-                   <td>
-                      3.5
-                   </td>
-                   <td>
-                      3.5
-                   </td>
-                </tr>
-             </tbody>
-          </table>
+                </thead>
+                <tbody><tr>
+    <td>Team 1</td>
+    <td>Alice Betsy</td>
+    <td>3.5</td>
+    <td>3.5</td>
+    <td>3.5</td>
+</tr>
+            </tbody></table>
         </div>
     </div>
 </div>
@@ -1141,7 +1109,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.alice.b@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -1169,7 +1137,7 @@
 </span></span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     <div class="panel-body">
     <div class="row">
         <div class="col-sm-4 text-color-gray">
@@ -1244,7 +1212,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.alice.b@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -1271,7 +1239,7 @@
 </span></span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     <div class="panel-body">
     <div class="row">
         <div class="col-sm-4 text-color-gray">
@@ -1341,7 +1309,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.alice.b@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -1357,7 +1325,7 @@
                                         
                                                         <tr class="pending_response_row">
                                                             <td class="middlealign">
-                                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                                <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.benny.c@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                                     <a class="student-profile-pic-view-link btn-link">
                                                                         View Photo
                                                                     </a>
@@ -1365,7 +1333,7 @@
                                                                 </div>
                                                             </td>
                                                 
-                                                    <td class="middlealign color_neutral">Benny Charles</td>
+                                                        <td class="middlealign color_neutral">Benny Charles</td>
                                                         <td class="middlealign color_neutral">Team 1</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
                                                     </tr>
@@ -1383,7 +1351,7 @@
 </span></span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     
                                 </div>
                                 <table class="table table-striped table-bordered dataTable margin-0">
@@ -1411,7 +1379,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.alice.b@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -1421,13 +1389,13 @@
                                         
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
-                                                <td class="text-preserve-space"><span class="color-positive">Equal Share +11%</span><span>&nbsp;&nbsp;[Perceived Contribution:<span class="color_neutral">N/A</span>]</span></td>
+                                                <td class="text-preserve-space"><span class="color-positive">Equal Share +11%</span><span>&nbsp;&nbsp;[Perceived Contribution: <span class="color_neutral">N/A</span>]</span></td>
                                             </tr>
                                         
                                         
                                                         <tr class="pending_response_row">
                                                             <td class="middlealign">
-                                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                                <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.benny.c@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                                     <a class="student-profile-pic-view-link btn-link">
                                                                         View Photo
                                                                     </a>
@@ -1435,7 +1403,7 @@
                                                                 </div>
                                                             </td>
                                                 
-                                                    <td class="middlealign color_neutral">Benny Charles</td>
+                                                        <td class="middlealign color_neutral">Benny Charles</td>
                                                         <td class="middlealign color_neutral">Team 1</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
                                                     </tr>
@@ -1453,73 +1421,43 @@
 </span></span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     <div class="panel-body">
     <div class="row">
         <div class="col-sm-4 text-color-gray">
             <strong>
-                 Response Summary
+                Response Summary
             </strong>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
             <table class="table table-bordered table-responsive margin-0">
-              <thead>
+                <thead>
                 <tr>
-                   <td class="button-sort-ascending" id="button_sortreceiverteam" onclick="toggleSort(this,1);">
-                      Team
-                      <span class="icon-sort unsorted">
-                      </span>
-                   </td>
-                   <td class="button-sort-ascending" id="button_sortreceivername" onclick="toggleSort(this,2);">
-                      Recipient
-                      <span class="icon-sort unsorted">
-                      </span>
-                   </td>
-                   <td class="button-sort-none" data-container="body" data-placement="top" data-toggle="tooltip" id="button_sortavg" onclick="toggleSort(this,3,sortByPoint)" title="Average of the visible responses">
-                      <abbr title="Average of the visible responses">
-                         Average
-                      </abbr>
-                      <span class="icon-sort unsorted">
-                      </span>
-                   </td>
-                   <td class="button-sort-none" data-container="body" data-placement="top" data-toggle="tooltip" id="button_sortmax" onclick="toggleSort(this,4,sortByPoint)" title="Maximum of the visible responses">
-                      <abbr title="Maximum of the visible responses">
-                         Max
-                      </abbr>
-                      <span class="icon-sort unsorted">
-                      </span>
-                   </td>
-                   <td class="button-sort-none" data-container="body" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,5,sortByPoint)" title="Minimum of the visible responses">
-                      <abbr title="Minimum of the visible responses">
-                         Min
-                      </abbr>
-                      <span class="icon-sort unsorted">
-                      </span>
-                   </td>
+                    <td class="button-sort-ascending" id="button_sortreceiverteam" onclick="toggleSort(this,1);">Team 
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-ascending" id="button_sortreceivername" onclick="toggleSort(this,2);">Recipient 
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortavg" onclick="toggleSort(this,3,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="Average of the visible responses">
+                        <abbr title="Average of the visible responses">Average</abbr>
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortmax" onclick="toggleSort(this,4,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="Maximum of the visible responses">
+                        <abbr title="Maximum of the visible responses">Max</abbr>
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortmin" onclick="toggleSort(this,5,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="Minimum of the visible responses">
+                        <abbr title="Minimum of the visible responses">Min</abbr>
+                        <span class="icon-sort unsorted"></span></td>
                 </tr>
-             </thead>
-             <tbody>
-                <tr>
-                   <td>
-                      Team 1
-                   </td>
-                   <td>
-                      Alice Betsy
-                   </td>
-                   <td>
-                      3
-                   </td>
-                   <td>
-                      3
-                   </td>
-                   <td>
-                      3
-                   </td>
-                </tr>
-             </tbody>
-          </table>
+                </thead>
+                <tbody><tr>
+    <td>Team 1</td>
+    <td>Alice Betsy</td>
+    <td>3</td>
+    <td>3</td>
+    <td>3</td>
+</tr>
+            </tbody></table>
         </div>
     </div>
 </div>
@@ -1549,7 +1487,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.alice.b@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -1565,7 +1503,7 @@
                                         
                                                         <tr class="pending_response_row">
                                                             <td class="middlealign">
-                                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                                <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.benny.c@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                                     <a class="student-profile-pic-view-link btn-link">
                                                                         View Photo
                                                                     </a>
@@ -1573,7 +1511,7 @@
                                                                 </div>
                                                             </td>
                                                 
-                                                    <td class="middlealign color_neutral">Benny Charles</td>
+                                                        <td class="middlealign color_neutral">Benny Charles</td>
                                                         <td class="middlealign color_neutral">Team 1</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
                                                     </tr>
@@ -1598,10 +1536,10 @@
 
 
                 <div class="panel panel-primary">
-                <div style="cursor: pointer;" id="panelHeading-6" data-target="#panelBodyCollapse-6" class="panel-heading">
+                <div class="panel-heading" data-target="#panelBodyCollapse-6" id="panelHeading-6" style="cursor: pointer;">
                     To: 
                     
-                        <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                        <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
                             <strong>Benny Charles</strong>
                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                             <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.benny.c@gmail.tmt ">[CFResultsUiT.benny.c@gmail.tmt]</a>
@@ -1609,14 +1547,14 @@
                     
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                 </div>
-                <div id="panelBodyCollapse-6" class="panel-collapse collapse in">
+                <div class="panel-collapse collapse in" id="panelBodyCollapse-6">
                 <div class="panel-body">
                 
                         <div class="panel panel-info">
                             <div class="panel-heading">Question 1: <span class="text-preserve-space">Rate 3 other students' products</span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     
                                 </div>
                                 <table class="table table-striped table-bordered dataTable margin-0">
@@ -1644,7 +1582,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.alice.b@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -1661,7 +1599,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="drop.out@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -1688,7 +1626,7 @@
 </span></span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     <div class="panel-body">
     <div class="row">
         <div class="col-sm-4 text-color-gray">
@@ -1758,7 +1696,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.alice.b@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -1774,7 +1712,7 @@
                                         
                                                         <tr class="pending_response_row">
                                                             <td class="middlealign">
-                                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                                <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.benny.c@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                                     <a class="student-profile-pic-view-link btn-link">
                                                                         View Photo
                                                                     </a>
@@ -1782,7 +1720,7 @@
                                                                 </div>
                                                             </td>
                                                 
-                                                    <td class="middlealign color_neutral">Benny Charles</td>
+                                                        <td class="middlealign color_neutral">Benny Charles</td>
                                                         <td class="middlealign color_neutral">Team 1</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
                                                     </tr>
@@ -1800,7 +1738,7 @@
 </span></span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     
                                 </div>
                                 <table class="table table-striped table-bordered dataTable margin-0">
@@ -1828,7 +1766,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.alice.b@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -1844,7 +1782,7 @@
                                         
                                                         <tr class="pending_response_row">
                                                             <td class="middlealign">
-                                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                                <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.benny.c@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                                     <a class="student-profile-pic-view-link btn-link">
                                                                         View Photo
                                                                     </a>
@@ -1852,7 +1790,7 @@
                                                                 </div>
                                                             </td>
                                                 
-                                                    <td class="middlealign color_neutral">Benny Charles</td>
+                                                        <td class="middlealign color_neutral">Benny Charles</td>
                                                         <td class="middlealign color_neutral">Team 1</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i><span>&nbsp;&nbsp;[Perceived Contribution: <span class="color_neutral">Equal Share</span>]</span> </td>
                                                     </tr>
@@ -1870,83 +1808,47 @@
 </span></span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     <div class="panel-body">
     <div class="row">
         <div class="col-sm-4 text-color-gray">
             <strong>
-                Response Summary
+                 Response Summary
             </strong>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
             <table class="table table-bordered table-responsive margin-0">
-              <thead>
+                <thead>
                 <tr>
-                   <td class="button-sort-ascending" id="button_sortreceiverteam" onclick="toggleSort(this,1);">
-                      Team
-                      <span class="icon-sort unsorted">
-                      </span>
-                   </td>
-                   <td class="button-sort-ascending" id="button_sortreceivername" onclick="toggleSort(this,2);">
-                      Recipient
-                      <span class="icon-sort unsorted">
-                      </span>
-                   </td>
-                   <td class="button-sort-none" data-container="body" data-placement="top" data-toggle="tooltip" id="button_sortavg" onclick="toggleSort(this,3,sortByPoint)" title="Average of the visible responses">
-                      <abbr title="Average of the visible responses">
-                         Average
-                      </abbr>
-                      <span class="icon-sort unsorted">
-                      </span>
-                   </td>
-                   <td class="button-sort-none" data-container="body" data-placement="top" data-toggle="tooltip" id="button_sortmax" onclick="toggleSort(this,4,sortByPoint)" title="Maximum of the visible responses">
-                      <abbr title="Maximum of the visible responses">
-                         Max
-                      </abbr>
-                      <span class="icon-sort unsorted">
-                      </span>
-                   </td>
-                   <td class="button-sort-none" data-container="body" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,5,sortByPoint)" title="Minimum of the visible responses">
-                      <abbr title="Minimum of the visible responses">
-                         Min
-                      </abbr>
-                      <span class="icon-sort unsorted">
-                      </span>
-                   </td>
-                   <td class="button-sort-none" data-container="body" data-placement="top" data-toggle="tooltip" id="button_sortmin" onclick="toggleSort(this,6,sortByPoint)" title="Average of the visible responses excluding recipient's own response to himself/herself">
-                      <abbr title="Average of the visible responses excluding recipient's own response to himself/herself">
-                         Average excluding self response
-                      </abbr>
-                      <span class="icon-sort unsorted">
-                      </span>
-                   </td>
+                    <td class="button-sort-ascending" id="button_sortreceiverteam" onclick="toggleSort(this,1);">Team 
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-ascending" id="button_sortreceivername" onclick="toggleSort(this,2);">Recipient 
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortavg" onclick="toggleSort(this,3,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="Average of the visible responses">
+                        <abbr title="Average of the visible responses">Average</abbr>
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortmax" onclick="toggleSort(this,4,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="Maximum of the visible responses">
+                        <abbr title="Maximum of the visible responses">Max</abbr>
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortmin" onclick="toggleSort(this,5,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="Minimum of the visible responses">
+                        <abbr title="Minimum of the visible responses">Min</abbr>
+                        <span class="icon-sort unsorted"></span></td>
+                    <td class="button-sort-none" id="button_sortmin" onclick="toggleSort(this,6,sortByPoint)" data-toggle="tooltip" data-placement="top" data-container="body" title="Average of the visible responses excluding recipient's own response to himself/herself">
+                        <abbr title="Average of the visible responses excluding recipient's own response to himself/herself">Average excluding self response</abbr>
+                        <span class="icon-sort unsorted"></span></td>
                 </tr>
-             </thead>
-             <tbody>
-                <tr>
-                   <td>
-                      Team 1
-                   </td>
-                   <td>
-                      Benny Charles
-                   </td>
-                   <td>
-                      4
-                   </td>
-                   <td>
-                      4
-                   </td>
-                   <td>
-                      4
-                   </td>
-                   <td>
-                      4
-                   </td>
-                </tr>
-             </tbody>
-          </table>
+                </thead>
+                <tbody><tr>
+    <td>Team 1</td>
+    <td>Benny Charles</td>
+    <td>4</td>
+    <td>4</td>
+    <td>4</td>
+    <td>4</td>
+</tr>
+            </tbody></table>
         </div>
     </div>
 </div>
@@ -1976,7 +1878,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.alice.b@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -1992,7 +1894,7 @@
                                         
                                                         <tr class="pending_response_row">
                                                             <td class="middlealign">
-                                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                                <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.benny.c@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                                     <a class="student-profile-pic-view-link btn-link">
                                                                         View Photo
                                                                     </a>
@@ -2000,7 +1902,7 @@
                                                                 </div>
                                                             </td>
                                                 
-                                                    <td class="middlealign color_neutral">Benny Charles</td>
+                                                        <td class="middlealign color_neutral">Benny Charles</td>
                                                         <td class="middlealign color_neutral">Team 1</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
                                                     </tr>
@@ -2025,10 +1927,10 @@
 
 
                 <div class="panel panel-primary">
-                <div style="cursor: pointer;" id="panelHeading-7" data-target="#panelBodyCollapse-7" class="panel-heading">
+                <div class="panel-heading" data-target="#panelBodyCollapse-7" id="panelHeading-7" style="cursor: pointer;">
                     To: 
                     
-                        <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                        <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
                             <strong>Charlie Dávis</strong>
                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                             <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.charlie.d@gmail.tmt ">[CFResultsUiT.charlie.d@gmail.tmt]</a>
@@ -2036,14 +1938,14 @@
                     
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                 </div>
-                <div id="panelBodyCollapse-7" class="panel-collapse collapse in">
+                <div class="panel-collapse collapse in" id="panelBodyCollapse-7">
                 <div class="panel-body">
                 
                         <div class="panel panel-info">
                             <div class="panel-heading">Question 1: <span class="text-preserve-space">Rate 3 other students' products</span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     
                                 </div>
                                 <table class="table table-striped table-bordered dataTable margin-0">
@@ -2071,7 +1973,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.benny.c@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -2098,7 +2000,7 @@
 </span></span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     <div class="panel-body">
     <div class="row">
         <div class="col-sm-4 text-color-gray">
@@ -2168,7 +2070,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.alice.b@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -2184,7 +2086,7 @@
                                         
                                                         <tr class="pending_response_row">
                                                             <td class="middlealign">
-                                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                                <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.charlie.d@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                                     <a class="student-profile-pic-view-link btn-link">
                                                                         View Photo
                                                                     </a>
@@ -2192,14 +2094,14 @@
                                                                 </div>
                                                             </td>
                                                 
-                                                    <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                        <td class="middlealign color_neutral">Charlie Dávis</td>
                                                         <td class="middlealign color_neutral">Team 2</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
                                                     </tr>
                                         
                                                         <tr class="pending_response_row">
                                                             <td class="middlealign">
-                                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                                <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.danny.e@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                                     <a class="student-profile-pic-view-link btn-link">
                                                                         View Photo
                                                                     </a>
@@ -2207,14 +2109,14 @@
                                                                 </div>
                                                             </td>
                                                 
-                                                    <td class="middlealign color_neutral">Danny Engrid</td>
+                                                        <td class="middlealign color_neutral">Danny Engrid</td>
                                                         <td class="middlealign color_neutral">Team 2</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
                                                     </tr>
                                         
                                                         <tr class="pending_response_row">
                                                             <td class="middlealign">
-                                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                                <div class="profile-pic-icon-click align-center" data-student-email="drop.out@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                                     <a class="student-profile-pic-view-link btn-link">
                                                                         View Photo
                                                                     </a>
@@ -2222,14 +2124,14 @@
                                                                 </div>
                                                             </td>
                                                 
-                                                    <td class="middlealign color_neutral">Drop out</td>
+                                                        <td class="middlealign color_neutral">Drop out</td>
                                                         <td class="middlealign color_neutral">Team 2</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
                                                     </tr>
                                         
                                                         <tr class="pending_response_row">
                                                             <td class="middlealign">
-                                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                                <div class="profile-pic-icon-click align-center" data-student-email="extra.guy@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                                     <a class="student-profile-pic-view-link btn-link">
                                                                         View Photo
                                                                     </a>
@@ -2237,7 +2139,7 @@
                                                                 </div>
                                                             </td>
                                                 
-                                                    <td class="middlealign color_neutral">Extra guy</td>
+                                                        <td class="middlealign color_neutral">Extra guy</td>
                                                         <td class="middlealign color_neutral">Team 2</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
                                                     </tr>
@@ -2262,10 +2164,10 @@
 
 
                 <div class="panel panel-primary">
-                <div style="cursor: pointer;" id="panelHeading-8" data-target="#panelBodyCollapse-8" class="panel-heading">
+                <div class="panel-heading" data-target="#panelBodyCollapse-8" id="panelHeading-8" style="cursor: pointer;">
                     To: 
                     
-                        <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                        <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
                             <strong>Danny Engrid</strong>
                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                             <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.danny.e@gmail.tmt ">[CFResultsUiT.danny.e@gmail.tmt]</a>
@@ -2273,14 +2175,14 @@
                     
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                 </div>
-                <div id="panelBodyCollapse-8" class="panel-collapse collapse in">
+                <div class="panel-collapse collapse in" id="panelBodyCollapse-8">
                 <div class="panel-body">
                 
                         <div class="panel panel-info">
                             <div class="panel-heading">Question 1: <span class="text-preserve-space">Rate 3 other students' products</span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     
                                 </div>
                                 <table class="table table-striped table-bordered dataTable margin-0">
@@ -2308,7 +2210,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.benny.c@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -2325,7 +2227,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="drop.out@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -2352,7 +2254,7 @@
 </span></span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     <div class="panel-body">
     <div class="row">
         <div class="col-sm-4 text-color-gray">
@@ -2422,7 +2324,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.alice.b@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -2438,7 +2340,7 @@
                                         
                                                         <tr class="pending_response_row">
                                                             <td class="middlealign">
-                                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                                <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.charlie.d@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                                     <a class="student-profile-pic-view-link btn-link">
                                                                         View Photo
                                                                     </a>
@@ -2446,14 +2348,14 @@
                                                                 </div>
                                                             </td>
                                                 
-                                                    <td class="middlealign color_neutral">Charlie Dávis</td>
+                                                        <td class="middlealign color_neutral">Charlie Dávis</td>
                                                         <td class="middlealign color_neutral">Team 2</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
                                                     </tr>
                                         
                                                         <tr class="pending_response_row">
                                                             <td class="middlealign">
-                                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                                <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.danny.e@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                                     <a class="student-profile-pic-view-link btn-link">
                                                                         View Photo
                                                                     </a>
@@ -2461,14 +2363,14 @@
                                                                 </div>
                                                             </td>
                                                 
-                                                    <td class="middlealign color_neutral">Danny Engrid</td>
+                                                        <td class="middlealign color_neutral">Danny Engrid</td>
                                                         <td class="middlealign color_neutral">Team 2</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
                                                     </tr>
                                         
                                                         <tr class="pending_response_row">
                                                             <td class="middlealign">
-                                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                                <div class="profile-pic-icon-click align-center" data-student-email="drop.out@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                                     <a class="student-profile-pic-view-link btn-link">
                                                                         View Photo
                                                                     </a>
@@ -2476,14 +2378,14 @@
                                                                 </div>
                                                             </td>
                                                 
-                                                    <td class="middlealign color_neutral">Drop out</td>
+                                                        <td class="middlealign color_neutral">Drop out</td>
                                                         <td class="middlealign color_neutral">Team 2</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
                                                     </tr>
                                         
                                                         <tr class="pending_response_row">
                                                             <td class="middlealign">
-                                                                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                                <div class="profile-pic-icon-click align-center" data-student-email="extra.guy@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                                     <a class="student-profile-pic-view-link btn-link">
                                                                         View Photo
                                                                     </a>
@@ -2491,7 +2393,7 @@
                                                                 </div>
                                                             </td>
                                                 
-                                                    <td class="middlealign color_neutral">Extra guy</td>
+                                                        <td class="middlealign color_neutral">Extra guy</td>
                                                         <td class="middlealign color_neutral">Team 2</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
                                                     </tr>
@@ -2516,10 +2418,10 @@
 
 
                 <div class="panel panel-primary">
-                <div style="cursor: pointer;" id="panelHeading-9" data-target="#panelBodyCollapse-9" class="panel-heading">
+                <div class="panel-heading" data-target="#panelBodyCollapse-9" id="panelHeading-9" style="cursor: pointer;">
                     To: 
                     
-                        <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                        <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
                             <strong>Drop out</strong>
                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                             <a class="link-in-dark-bg" href="mailTo:drop.out@gmail.tmt ">[drop.out@gmail.tmt]</a>
@@ -2527,14 +2429,14 @@
                     
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                 </div>
-                <div id="panelBodyCollapse-9" class="panel-collapse collapse in">
+                <div class="panel-collapse collapse in" id="panelBodyCollapse-9">
                 <div class="panel-body">
                 
                         <div class="panel panel-info">
                             <div class="panel-heading">Question 1: <span class="text-preserve-space">Rate 3 other students' products</span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     
                                 </div>
                                 <table class="table table-striped table-bordered dataTable margin-0">
@@ -2562,7 +2464,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="CFResultsUiT.alice.b@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -2590,7 +2492,7 @@
 </span></span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     <div class="panel-body">
     <div class="row">
         <div class="col-sm-4 text-color-gray">
@@ -2688,7 +2590,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="drop.out@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -2716,7 +2618,7 @@
 </span></span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     <div class="panel-body">
     <div class="row">
         <div class="col-sm-4 text-color-gray">
@@ -2784,7 +2686,7 @@
                                                 <tr>
                                         
                                                     <td class="middlealign">
-                                                        <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                        <div class="profile-pic-icon-click align-center" data-student-email="drop.out@gmail.tmt" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                             <a class="student-profile-pic-view-link btn-link">
                                                                 View Photo
                                                             </a>
@@ -2818,7 +2720,7 @@
 
 
                 <div class="panel panel-primary">
-                <div style="cursor: pointer;" id="panelHeading-10" data-target="#panelBodyCollapse-10" class="panel-heading">
+                <div class="panel-heading" data-target="#panelBodyCollapse-10" id="panelHeading-10" style="cursor: pointer;">
                     To: 
                     
                     <div class="inline panel-heading-text">
@@ -2828,14 +2730,14 @@
                     
                     <span class="glyphicon glyphicon-chevron-up pull-right"></span>
                 </div>
-                <div id="panelBodyCollapse-10" class="panel-collapse collapse in">
+                <div class="panel-collapse collapse in" id="panelBodyCollapse-10">
                 <div class="panel-body">
                 
                         <div class="panel panel-info">
                             <div class="panel-heading">Question 4: <span class="text-preserve-space">Give feedback to 3 other teams.</span>
                             </div>
                             <div class="panel-body padding-0">
-                                <div style="display: none;" class="resultStatistics">
+                                <div class="resultStatistics" style="display: none;">
                                     
                                 </div>
                                 <table class="table table-striped table-bordered dataTable margin-0">
@@ -2886,10 +2788,10 @@
             </div>
         
                 <div class="panel panel-primary">
-                <div style="cursor: pointer;" id="panelHeading-11" data-target="#panelBodyCollapse-11" class="panel-heading">
+                <div class="panel-heading" data-target="#panelBodyCollapse-11" id="panelHeading-11" style="cursor: pointer;">
                     To: 
             
-                    <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                    <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-profile-link="/page/studentProfileForInstructor?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr" data-original-title="" title="">
                         <strong>Extra guy</strong>
                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                         <a class="link-in-dark-bg" href="mailTo:extra.guy@gmail.tmt">[extra.guy@gmail.tmt]</a>
@@ -2897,7 +2799,7 @@
             
                 <span class="glyphicon glyphicon-chevron-up pull-right"></span>
             </div>
-            <div id="panelBodyCollapse-11" class="panel-collapse collapse in">
+            <div class="panel-collapse collapse in" id="panelBodyCollapse-11">
                 <div class="panel-body"> There are no responses received by this user 
                 </div>
             </div>
@@ -2909,14 +2811,14 @@
                         </div>
             
                         <div class="panel panel-success">
-                                <div style="cursor: pointer;" id="panelHeading-2" data-target="#panelBodyCollapse-2" class="panel-heading ajax_submit">
+                                <div class="panel-heading ajax_submit" data-target="#panelBodyCollapse-2" id="panelHeading-2" style="cursor: pointer;">
                                     <div class="row">
                                         <div class="col-sm-9 panel-heading-text">
                                             <strong>Section B</strong>
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="pull-right">
-                                                <a data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." class="btn btn-success btn-xs" id="collapse-panels-button-section-1" data-toggle="tooltip" title="" style="display:none;">
+                                                <a class="btn btn-success btn-xs" id="collapse-panels-button-section-1" data-toggle="tooltip" title="" style="display:none;" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">
                                                     Expand
                                                      Students
                                                 </a>
@@ -2929,31 +2831,31 @@
                                     </div>
 
                                     <form style="display:none;" id="seeMore-1" class="seeMoreForm-1" action="/page/instructorFeedbackResultsPage">
-                                        <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-                                        <input name="fsname" value="First Session" type="hidden">
-                                        <input name="frgroupbysection" value="Section B" type="hidden">
-                                        <input name="user" value="CFResultsUiT.instr" type="hidden">
-                                        <input name="frgroupbyteam" value="null" type="hidden">
-                                        <input name="frsorttype" value="recipient-question-giver" type="hidden">
-                                        <input name="frshowstats" value="on" id="showStats-1" type="hidden">
-                                        <input name="frmainindex" value="on" id="mainIndex-1" type="hidden">
+                                        <input type="hidden" name="courseid" value="CFResultsUiT.CS2104">
+                                        <input type="hidden" name="fsname" value="First Session">
+                                        <input type="hidden" name="frgroupbysection" value="Section B">
+                                        <input type="hidden" name="user" value="CFResultsUiT.instr">
+                                        <input type="hidden" name="frgroupbyteam" value="null">
+                                        <input type="hidden" name="frsorttype" value="recipient-question-giver">
+                                        <input type="hidden" name="frshowstats" value="on" id="showStats-1">
+                                        <input type="hidden" name="frmainindex" value="on" id="mainIndex-1">
                                     </form>
                                 </div>
-                                <div id="panelBodyCollapse-2" class="panel-collapse collapse">
+                                <div class="panel-collapse collapse" id="panelBodyCollapse-2">
                                 <div class="panel-body">
                                 </div>
                                 </div>
                         </div>
             
                     <div class="panel panel-success">
-                            <div style="cursor: pointer;" id="panelHeading-3" data-target="#panelBodyCollapse-3" class="panel-heading ajax_submit">
+                            <div class="panel-heading ajax_submit" data-target="#panelBodyCollapse-3" id="panelHeading-3" style="cursor: pointer;">
                                 <div class="row">
                                         <div class="col-sm-9 panel-heading-text">
                                             <strong>Not in a section</strong>
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="pull-right">
-                                                <a data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." class="btn btn-success btn-xs" id="collapse-panels-button-section-2" data-toggle="tooltip" title="" style="display:none;">
+                                                <a class="btn btn-success btn-xs" id="collapse-panels-button-section-2" data-toggle="tooltip" title="" style="display:none;" data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">
                                                     Expand
                                                      Students
                                                 </a>
@@ -2965,17 +2867,17 @@
                                          </div>
                                     </div>
                                 <form style="display:none;" id="seeMore-2" class="seeMoreForm-2" action="/page/instructorFeedbackResultsPage">
-                                    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-                                    <input name="fsname" value="First Session" type="hidden">
-                                    <input name="frgroupbysection" value="None" type="hidden">
-                                    <input name="user" value="CFResultsUiT.instr" type="hidden">
-                                    <input name="frgroupbyteam" value="null" type="hidden">
-                                    <input name="frsorttype" value="recipient-question-giver" type="hidden">
-                                    <input name="frshowstats" value="on" type="hidden">
-                                    <input name="frmainindex" value="on" id="mainIndex-2" type="hidden">
+                                    <input type="hidden" name="courseid" value="CFResultsUiT.CS2104">
+                                    <input type="hidden" name="fsname" value="First Session">
+                                    <input type="hidden" name="frgroupbysection" value="None">
+                                    <input type="hidden" name="user" value="CFResultsUiT.instr">
+                                    <input type="hidden" name="frgroupbyteam" value="null">
+                                    <input type="hidden" name="frsorttype" value="recipient-question-giver">
+                                    <input type="hidden" name="frshowstats" value="on">
+                                    <input type="hidden" name="frmainindex" value="on" id="mainIndex-2">
                                 </form>
                             </div>
-                            <div id="panelBodyCollapse-3" class="panel-collapse collapse">
+                            <div class="panel-collapse collapse" id="panelBodyCollapse-3">
                             <div class="panel-body">
                             </div>
                             </div>
@@ -2984,17 +2886,17 @@
 
         
             <div class="panel panel-warning">
-                <div style="cursor: pointer;" id="panelHeading-4" data-target="#panelBodyCollapse-4" class="panel-heading ajax_response_rate_submit">
+                <div class="panel-heading ajax_response_rate_submit" data-target="#panelBodyCollapse-4" id="panelHeading-4" style="cursor: pointer;">
                     <form style="display:none;" id="responseRate" class="responseRateForm" action="/page/instructorFeedbackResultsAjaxResponseRate">
-                        <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-                        <input name="fsname" value="First Session" type="hidden">
-                        <input name="user" value="CFResultsUiT.instr" type="hidden">
+                        <input type="hidden" name="courseid" value="CFResultsUiT.CS2104">
+                        <input type="hidden" name="fsname" value="First Session">
+                        <input type="hidden" name="user" value="CFResultsUiT.instr">
                     </form>
                     <div class="display-icon pull-right">
                     <span class="glyphicon glyphicon-chevron-down pull-right"></span>
                     </div>
                     Participants who have not responded to any question</div>
-                <div id="panelBodyCollapse-4" class="panel-collapse collapse ">
+                <div class="panel-collapse collapse " id="panelBodyCollapse-4">
             
                 </div>
                 </div>

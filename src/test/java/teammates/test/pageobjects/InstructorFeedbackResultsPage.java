@@ -266,12 +266,14 @@ public class InstructorFeedbackResultsPage extends AppPage {
                 + ".getElementsByTagName('a')[0].click();");
         Actions actions = new Actions(browser.driver);
         
-        actions.moveToElement(photoCell).build().perform();
-        waitForElementToAppear(By.cssSelector(".popover-content > img"));
+        while(browser.driver.findElements(By.cssSelector("#" + idOfPanelBody + " .popover-content img.profile-pic")).size() == 0) {
+            actions.moveToElement(photoCell).build().perform();
+            waitForElementToAppear(By.cssSelector("#" + idOfPanelBody + " .popover-content img.profile-pic"));
+        }
         
         AssertHelper.assertContainsRegex(urlRegex, 
-                browser.driver.findElements(By.cssSelector(".popover-content > img"))
-                              .get(browser.driver.findElements(By.cssSelector(".popover-content > img")).size() - 1)
+                browser.driver.findElements(By.cssSelector("#" + idOfPanelBody + " .popover-content img.profile-pic"))
+                              .get(browser.driver.findElements(By.cssSelector("#" + idOfPanelBody + " .popover-content img.profile-pic")).size() - 1)
                               .getAttribute("src"));
         
         actions.moveByOffset(100, 100).click().build().perform();
@@ -289,10 +291,10 @@ public class InstructorFeedbackResultsPage extends AppPage {
         jsExecutor.executeScript("document.getElementsByClassName('popover-content')[0]"
                 + ".getElementsByTagName('a')[0].click();");
         
-        waitForElementToAppear(By.cssSelector(".popover-content > img"));
+        waitForElementToAppear(By.cssSelector(".popover-content img.profile-pic"));
         
         AssertHelper.assertContainsRegex(urlRegex, 
-                browser.driver.findElements(By.cssSelector(".popover-content > img"))
+                browser.driver.findElements(By.cssSelector(".popover-content img.profile-pic"))
                               .get(0)
                               .getAttribute("src"));
         
@@ -308,11 +310,11 @@ public class InstructorFeedbackResultsPage extends AppPage {
         Actions actions = new Actions(browser.driver);
         actions.moveToElement(photoLink).build().perform();
         
-        waitForElementToAppear(By.cssSelector(".popover-content > img"));
+        waitForElementToAppear(By.cssSelector(".popover-content img.profile-pic"));
         ThreadHelper.waitFor(500);
         
         AssertHelper.assertContainsRegex(urlRegex, 
-                browser.driver.findElements(By.cssSelector(".popover-content > img"))
+                browser.driver.findElements(By.cssSelector(".popover-content img.profile-pic"))
                               .get(0)
                               .getAttribute("src"));
         
