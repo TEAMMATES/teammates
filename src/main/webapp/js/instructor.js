@@ -160,13 +160,24 @@ function bindStudentPhotoLink(elements){
 		event.cancelBubble = true;
 		if (event.stopPropagation) {
 			event.stopPropagation();
-		} 
+		}
 		
+		var element = $(this);
 	    var actualLink = $(this).parent().attr('data-link');
-	    $(this).siblings('img').attr('src', actualLink)
+	    
+	    $.getJSON($(this).parent().attr('data-profile-link'), function(data) {
+	    	element.siblings('img').attr('src', actualLink)
 	    	.load(function() {
 	    		var actualLink = $(this).parent().attr('data-link');
+	    		// resolved link can be default image
 	    		var resolvedLink = $(this).attr('src');
+	    		var shortName = "";
+	    		if (data.shortName != "") {
+					shortName = data.shortName;
+				} else {
+					shortName = "<i>No short name</i>";
+				}
+	    		
 	            $(this)
 	            	.removeClass('hidden')
 	                .parent().attr('data-link', '')
@@ -175,7 +186,7 @@ function bindStudentPhotoLink(elements){
 	                    trigger: 'manual',
 	                    placement: 'top',
 	                    content: function () {
-	                    	return '<img class="profile-pic" src="' + resolvedLink + '" />';
+	                    	return '<div class="align-center color_neutral"><img class="profile-pic" src="' + resolvedLink + '" /><h4>' + shortName + '</h4></div>';
 	                    }
 	                })
 	                .mouseenter(function() {
@@ -193,9 +204,10 @@ function bindStudentPhotoLink(elements){
 	            	    	}, 200, this);
 	            	    });
             		});
-	            updateHoverShowPictureEvents(actualLink, resolvedLink);
+	            updateHoverShowPictureEvents(actualLink, resolvedLink, shortName);
 	    	});
-	    $(this).remove();
+	    	element.remove();
+	    });
 	});
 }
 
@@ -243,22 +255,35 @@ function bindStudentPhotoHoverLink(elements) {
  * @param resolvedLink
  */
 function loadProfilePictureForHoverEvent(obj) {
-	obj.children('img')[0].src = obj.attr('data-link');
-	// load the pictures in all similar links
-	obj.children('img').load(function() {
-		var actualLink = $(this).parent().attr('data-link');
-		var resolvedLink = $(this).attr('src');
-
-		updateHoverShowPictureEvents(actualLink, resolvedLink);
+	$.getJSON(obj.attr('data-profile-link'), function(data) {
+		var shortName = "";
+		if (data != null) {
+			if (data.shortName != "") {
+				shortName = data.shortName;
+			} else {
+				shortName = "<i>No short name</i>";
+			}
+		}
 		
-		// this is to show the picture immediately for the one 
-		// the user just clicked on
-		$(this).parent()
-			.popover('show')
-			// this is to handle the manual hide action of the popover
-			.siblings('.popover').on('mouseleave', function() {
-	    		$(this).siblings('.profile-pic-icon-hover').popover("hide");
-			});
+		obj.children('img')[0].src = obj.attr('data-link');
+		// load the pictures in all similar links
+		obj.children('img').load(function() {
+			
+			var actualLink = $(this).parent().attr('data-link');
+			var resolvedLink = $(this).attr('src');
+	
+			updateHoverShowPictureEvents(actualLink, resolvedLink, shortName);
+			
+			// this is to show the picture immediately for the one 
+			// the user just clicked on
+			$(this).parent()
+				.popover('show')
+				// this is to handle the manual hide action of the popover
+				.siblings('.popover').on('mouseleave', function() {
+		    		$(this).siblings('.profile-pic-icon-hover').popover("hide");
+				});
+			
+		});
 	});
 }
 
@@ -271,7 +296,7 @@ function loadProfilePictureForHoverEvent(obj) {
  * @param link
  * @param resolvedLink
  */
-function updateHoverShowPictureEvents(actualLink, resolvedLink) {
+function updateHoverShowPictureEvents(actualLink, resolvedLink, shortName) {
 	$(".profile-pic-icon-hover[data-link='" + actualLink + "']")
 	.attr('data-link', "")
 	.off( "mouseenter mouseleave" )
@@ -281,7 +306,7 @@ function updateHoverShowPictureEvents(actualLink, resolvedLink) {
 		trigger: 'manual',
 		placement: 'top',
 		content: function () {
-			return '<img class="profile-pic" src="' + resolvedLink + '" />';
+			return '<div class="align-center color_neutral"><img class="profile-pic" src="' + resolvedLink + '" /><h4>' + shortName + '</h4></div>';
 		}
 	})
 	.mouseenter(function() {

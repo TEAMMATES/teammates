@@ -127,6 +127,7 @@ public class ActionFactory {
         map(STUDENT_PROFILE_PICTURE_EDIT, StudentProfilePictureEditAction.class);
         map(STUDENT_PROFILE_CREATEUPLOADFORMURL, StudentProfileCreateFormUrlAction.class);
         map(STUDENT_PROFILE_EDIT_SAVE, StudentProfileEditSaveAction.class);
+        map(STUDENT_PROFILE_FOR_INSTRUCTOR, StudentProfileForInstructorAjax.class);
         map(STUDENT_HOME_PAGE, StudentHomePageAction.class);
     }
 
