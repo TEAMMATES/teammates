@@ -176,7 +176,8 @@
                 if(data.courses.size() > 0) {
             %>
             
-            <div>
+            <br>
+            <div class="text-muted">
                 Click on the panels below to expand
             </div>
             <br>
