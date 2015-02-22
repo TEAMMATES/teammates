@@ -128,6 +128,6 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
     
     protected boolean isRegisteredStudent(){
         // a registered student must have an associated google Id
-        return (regkey == null) && (account.googleId != null) && (!account.googleId.isEmpty());
+        return (account.googleId != null) && (!account.googleId.isEmpty());
     }
 }
