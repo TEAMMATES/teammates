@@ -103,7 +103,7 @@
                                 <div class="form-group<%= data.courses.size()==0?" has-error":"" %>">
                                     <h5 class="col-sm-4">
                                         <label for="<%=Const.ParamsNames.COURSE_ID%>"
-                                            class="control-label">Course</label>
+                                            class="control-label">Course ID</label>
                                     </h5>
                                     <div class="col-sm-8">
                                         <select class="form-control<%= data.courses.size()==0?" text-color-red":"" %>"

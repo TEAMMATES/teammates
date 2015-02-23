@@ -230,7 +230,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         instructorHomePage.loadInstructorHomeTab();
         feedbacksPage = instructorHomePage.clickFeedbackSessionPublishLink("AHPUiT.instr1.gma-demo", 
                                                                            "Second team feedback session");
-        feedbacksPage.verifyHtmlMainContent("/NJIfeedbackSessionPublished.html");       
+        feedbacksPage.verifyHtmlMainContent("/NJIfeedbackSessionPublished.html");
         
         feedbacksPage.logout();
         

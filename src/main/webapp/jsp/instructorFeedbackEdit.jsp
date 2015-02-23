@@ -100,7 +100,7 @@
                                             class="col-sm-4 control-label"
                                             title="<%=Const.Tooltips.FEEDBACK_SESSION_COURSE%>"
                                             data-toggle="tooltip"
-                                            data-placement="top">Course</label>
+                                            data-placement="top">Course ID</label>
                                         <div class="col-sm-8">
                                             <div class="form-control-static">
                                                 <%=InstructorFeedbackEditPageData.sanitizeForHtml(data.session.courseId)%>
