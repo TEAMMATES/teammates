@@ -406,13 +406,22 @@ function formatRecipientLists(){
     });
     
     // Auto-select first valid option.
-    $('select.participantSelect.newResponse').each(function(){
+    $('select.participantSelect.newResponse').each(function() {
         var firstUnhidden = "";
-        $(this).children().reverse().each(function(){
-            if (this.style.display != 'none' && $(this).val() != "") {
-                firstUnhidden = this;
-            }
-        });
+        if (this.style.display == 'none') {
+            $(this).children().reverse().each(function(){
+                if (this.style.display != 'none' && $(this).val() != "") {
+                    firstUnhidden = this;
+                }
+            });
+        } else {
+            $(this).children().reverse().each(function(){
+                if (this.style.display != 'none') {
+                    firstUnhidden = this;
+                }
+            });
+            
+        }
         $(this).val($(firstUnhidden).val()).change();
     });
 }
