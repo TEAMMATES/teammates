@@ -587,8 +587,10 @@
             <form style="display:none;" id="ajaxForSessions" class="ajaxForSessionsForm" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>">
                 <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
                 <input type="hidden" name="<%=Const.ParamsNames.IS_USING_AJAX%>" value="on">
-                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.feedbackSessionNameForNewSession%>">
-                <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.courseIdForNewSession%>">
+                <%if (data.feedbackSessionNameForNewSession != null && data.courseIdForNewSession != null) {%>
+                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.feedbackSessionNameForNewSession%>">
+                    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.courseIdForNewSession%>">
+                <%}%>
             </form>
         </div>
         <% } %>
