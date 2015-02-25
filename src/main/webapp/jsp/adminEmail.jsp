@@ -108,9 +108,24 @@
                                 <input type="hidden" value="<%=aecPageData.emailToEdit.getEmailId()%>" name="<%=Const.ParamsNames.ADMIN_EMAIL_ID%>">
                             <% 
                               }
-                            %>
-                            To : <input type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_RECEVIER%>" 
-                                 value="<%=aecPageData.emailToEdit !=null? aecPageData.emailToEdit.getAddressReceiver() : ""%>">   
+                            %>  
+                            To :
+                                <div class="row">
+                                    <div class="col-md-11">
+                                        <input id="receiverEmails" type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_RECEVIER%>" 
+                                         value="<%=aecPageData.emailToEdit !=null? aecPageData.emailToEdit.getAddressReceiver() : ""%>">
+                                        <input id="groupReceiverListFileKey" type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY%>" >
+                                        <input id="groupReceiverListFileSize" type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_SIZE%>" >
+                                     </div>
+                                     <div class="col-md-1 border-left-gray">
+                                        <button type="button" class="btn btn-info" id="adminEmailGroupReceiverListUploadButton">
+                                            <strong>
+                                            Upload
+                                            </strong>
+                                        </button>
+                                     </div>
+                                </div>
+                                
                             <br>
                             Subject : <input type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_SUBJECT%>" 
                                        value="<%=aecPageData.emailToEdit !=null? aecPageData.emailToEdit.getSubject() : ""%>">
@@ -126,8 +141,16 @@
                             </p>
                         </form>
                         
-                        
-    
+                        <div id="adminEmailGroupReceiverListUploadBox" style="display:none;">
+                                    <form id="adminEmailReceiverListForm" action="" method="POST" enctype="multipart/form-data">
+                                        <span id="adminEmailGroupReceiverListInput"> <input
+                                            type="file"
+                                            name="<%=Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_TO_UPLOAD%>"
+                                            id="adminEmailGroupReceiverList">
+                                        </span>
+                                    </form>
+                        </div>
+        
     
                         <div style="display: none;">
                             <form id="adminEmailFileForm" action=""

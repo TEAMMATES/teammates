@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -7,6 +8,9 @@ import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
+
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
 
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -51,6 +55,17 @@ public class AdminEmailsLogic {
     public AdminEmailAttributes getAdminEmailById(String emailId){
         Assumption.assertNotNull(emailId);
         return adminEmailsDb.getAdminEmailById(emailId);
+    }
+    
+    /**
+     * get an admin email by subject and createDate
+     * @return null if no matched email found
+     */
+    public AdminEmailAttributes getAdminEmail(String subject, Date createDate){
+        Assumption.assertNotNull(subject);
+        Assumption.assertNotNull(createDate);
+        
+        return adminEmailsDb.getAdminEmail(subject, createDate);
     }
     
     /**
@@ -114,8 +129,8 @@ public class AdminEmailsLogic {
         return adminEmailsDb.getAdminEmailsInTrashBin();
     }
     
-    public void createAdminEmail(AdminEmailAttributes newAdminEmail) throws InvalidParametersException{
-        adminEmailsDb.creatAdminEmail(newAdminEmail);
+    public Date createAdminEmail(AdminEmailAttributes newAdminEmail) throws InvalidParametersException{
+        return adminEmailsDb.creatAdminEmail(newAdminEmail);
     }
     
     
@@ -131,5 +146,9 @@ public class AdminEmailsLogic {
      */
     public void deleteAllEmailsInTrashBin(){
         adminEmailsDb.deleteAllEmailsInTrashBin();
+    }
+    
+    public void deletePicture(BlobKey key) throws BlobstoreFailureException {
+        adminEmailsDb.deletePicture(key);
     }
 }

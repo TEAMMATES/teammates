@@ -24,6 +24,9 @@ public class Const {
         /** This is the limit given to Blobstore API, beyond which an ugly error page is shown */
         public static final long MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI = 11000000;
         
+        /** This is the limit given to Blobstore API, beyond which an ugly error page is shown */
+        public static final long MAX_ADMIN_EMAIL_FILE_LIMIT_FOR_BLOBSTOREAPI = 11000000;
+        
         /** e.g. "2014-04-01 11:59 PM UTC" */
         public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
         /** Number to trim the Google ID when displaying to the user*/
@@ -37,6 +40,8 @@ public class Const {
         public static final double ADMIN_TIMZE_ZONE_DOUBLE = 8.0;
         
         public static final String EMAIL_TASK_QUEUE = "configure-and-prepare-email-queue";
+        public static final String ADMIN_EMAIL_TASK_QUEUE = "admin-send-email-queue";
+        public static final String ADMIN_PREPARE_EMAIL_TASK_QUEUE = "admin-prepare-email-task-queue";
         public static final String SUBMISSION_TASK_QUEUE = "submission-queue";
         public static final String EVAL_SUBMISSION_ADJUSTMENT_TASK_QUEUE =
                                 "eval-submission-adjust-queue";
@@ -345,7 +350,10 @@ public class Const {
         public static final String ADMIN_EMAIL_CONTENT = "emailcontent";
         public static final String ADMIN_EMAIL_SUBJECT = "emailsubject";
         public static final String ADMIN_EMAIL_RECEVIER = "emailreceiver";
+        public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY = "adminemailgroupreceiverlistfilekey";
+        public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_SIZE = "adminemailgroupreceiverlistfileSize";
         public static final String ADMIN_EMAIL_IMAGE_TO_UPLOAD = "emailimagetoupload";
+        public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_TO_UPLOAD = "emailgroupreceiverlisttoupload";
         
         public static final String ADMIN_EMAIL_ID = "emailid";
         public static final String ADMIN_EMAIL_EMPTY_TRASH_BIN = "emptytrashbin";
@@ -706,6 +714,9 @@ public class Const {
         public static final String ADMIN_EMAIL_IMAGE_UPLOAD = "/admin/adminEmailImageUpload";
         public static final String ADMIN_EMAIL_CREATE_IMAGE_UPLOAD_URL = "/admin/adminEmailCreateImageUploadUrl";
         
+        public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_UPLOAD = "/admin/adminEmailGroupReceiverListUpload";
+        public static final String ADMIN_EMAIL_CREATE_GROUP_RECEIVER_LIST_UPLOAD_URL = "/admin/adminEmailCreateGroupReceiverListUploadUrl";
+        
         public static final String PUBLIC_EMAIL_FILE_SERVE = "/public/publicEmailImageServe";
         public static final String ADMIN_STUDENT_GOOGLE_ID_RESET = "/admin/adminStudentGoogleIdReset";
 
@@ -721,6 +732,8 @@ public class Const {
         
         //Task Queue Worker Servlets URI
         public static final String EMAIL_WORKER = "/emailWorker";
+        public static final String ADMIN_EMAIL_WORKER = "/adminEmailWorker";
+        public static final String ADMIN_EMAIL_PREPARE_TASK_QUEUE_WORKER = "/adminEmailPrepareTaskQueueWorker";
         public static final String SUBMISSION_WORKER = "/submissionWorker";
         public static final String EVAL_SUBMISSION_ADJUSTMENT_WORKER = 
                                     "/evalSubmissionAdjustmentWorker";
@@ -843,6 +856,10 @@ public class Const {
         public static final String IMAGE_TOO_LARGE = "The uploaded image was too large. ";
         public static final String FILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. ";
         public static final String NO_IMAGE_GIVEN = "Please specify a image to be uploaded.";
+        
+        public static final String RECEIVER_LIST_FILE_TOO_LARGE = "The uploaded receiver list file was too large. ";
+        public static final String NOT_A_RECEIVER_LIST_FILE = "The file that you have uploaded is not a receiver list file. ";
+        public static final String NO_GROUP_RECEIVER_LIST_FILE_GIVEN = "Please specify a receiver list file to be uploaded.";
                 
         public static final String LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
         public static final String STUDENT_FIRST_TIME = "<div style=\"text-align:left;\">Welcome stranger :-) "

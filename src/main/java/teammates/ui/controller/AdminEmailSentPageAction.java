@@ -1,8 +1,6 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
 
 public class AdminEmailSentPageAction extends Action {

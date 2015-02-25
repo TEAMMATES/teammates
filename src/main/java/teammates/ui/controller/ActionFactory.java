@@ -33,7 +33,9 @@ public class ActionFactory {
         map(ADMIN_EMAIL_COMPOSE_SAVE, AdminEmailComposeSaveAction.class);
         map(ADMIN_EMAIL_COMPOSE_SEND, AdminEmailComposeSendAction.class);
         map(ADMIN_EMAIL_IMAGE_UPLOAD, AdminEmailImageUploadAction.class);
+        map(ADMIN_EMAIL_GROUP_RECEIVER_LIST_UPLOAD, AdminEmailGroupReceiverListUploadAction.class);
         map(ADMIN_EMAIL_CREATE_IMAGE_UPLOAD_URL, AdminEmailCreateImageUploadUrlAction.class);
+        map(ADMIN_EMAIL_CREATE_GROUP_RECEIVER_LIST_UPLOAD_URL, AdminEmailCreateGroupReceiverListUploadUrlAction.class);
         map(ADMIN_EMAIL_SENT_PAGE, AdminEmailSentPageAction.class);
         map(ADMIN_EMAIL_TRASH_PAGE, AdminEmailTrashPageAction.class);
         map(ADMIN_EMAIL_TRASH_DELETE, AdminEmailTrashDeleteAction.class);

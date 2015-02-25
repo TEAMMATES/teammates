@@ -26,16 +26,20 @@ public class AdminEmailsDb extends EntitiesDb {
     @SuppressWarnings("unused")
     private static final Logger log = Utils.getLogger();
     
-    public void creatAdminEmail(AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException{
+    public Date creatAdminEmail(AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException{
         try {
-            createEntity(adminEmailToAdd);
+            AdminEmail ae = (AdminEmail)createEntity(adminEmailToAdd);
+            return ae.getCreateDate();
         } catch (EntityAlreadyExistsException e) {
             try {
                 updateAdminEmail(adminEmailToAdd);
+                return adminEmailToAdd.getCreateDate();
             } catch (EntityDoesNotExistException e1) {
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
+                return null;
             }
         }
+       
     }
     
     public void updateAdminEmail(AdminEmailAttributes ae) throws InvalidParametersException, EntityDoesNotExistException{
@@ -122,6 +126,21 @@ public class AdminEmailsDb extends EntitiesDb {
     public AdminEmailAttributes getAdminEmailById(String emailId){
         
         AdminEmail matched = getAdminEmailEntity(emailId);
+        
+        if(matched == null){
+            return null;
+        }
+        
+        return new AdminEmailAttributes(matched);
+    }
+    
+    /**
+     * get an admin email by subject and createDate
+     * @return null if no matched email found
+     */
+    public AdminEmailAttributes getAdminEmail(String subject, Date createDate){
+        
+        AdminEmail matched = getAdminEmailEntity(subject, createDate);
         
         if(matched == null){
             return null;

@@ -274,7 +274,13 @@ public class Logic {
         
         accountsLogic.deletePicture(key);
     }
-
+    
+    public void deleteAdminEmailUploadedFile(BlobKey key) throws BlobstoreFailureException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
+        
+        adminEmailsLogic.deletePicture(key);
+    }
+    
     @SuppressWarnings("unused")
     private void ____INSTRUCTOR_level_methods____________________________________() {
     }
@@ -2884,9 +2890,9 @@ public class Logic {
         return adminEmailsLogic.getAdminEmailById(emailId);
     }
     
-    public void createAdminEmail(AdminEmailAttributes newAdminEmail) throws InvalidParametersException{
+    public Date createAdminEmail(AdminEmailAttributes newAdminEmail) throws InvalidParametersException{
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, newAdminEmail);
-        adminEmailsLogic.createAdminEmail(newAdminEmail);
+        return adminEmailsLogic.createAdminEmail(newAdminEmail);
     }
     
     /**
@@ -2949,6 +2955,17 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, newAdminEmail);
         
         adminEmailsLogic.updateAdminEmailById(newAdminEmail, emailId);
+    }
+    
+    /**
+     * get an admin email by subject and createDate
+     * @return null if no matched email found
+     */
+    public AdminEmailAttributes getAdminEmail(String subject, Date createDate){
+        Assumption.assertNotNull(subject);
+        Assumption.assertNotNull(createDate);
+        
+        return adminEmailsLogic.getAdminEmail(subject, createDate);
     }
     
     /**

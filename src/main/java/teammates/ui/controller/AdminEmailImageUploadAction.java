@@ -96,7 +96,7 @@ public class AdminEmailImageUploadAction extends Action {
         if (blobKey == new BlobKey("")) return;
         
         try {
-            logic.deletePicture(blobKey);
+            logic.deleteAdminEmailUploadedFile(blobKey);
         } catch (BlobstoreFailureException bfe) {
             statusToAdmin = Const.ACTION_RESULT_FAILURE 
                     + " : Unable to delete picture (possible unused picture with key: "

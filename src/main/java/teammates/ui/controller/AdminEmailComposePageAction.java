@@ -1,27 +1,14 @@
 package teammates.ui.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
-import com.google.appengine.api.datastore.Text;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
-import teammates.common.datatransfer.AdminEmailAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
-import teammates.logic.core.Emails;
+
 
 public class AdminEmailComposePageAction extends Action {
     
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {
+    protected ActionResult execute() {
         
         new GateKeeper().verifyAdminPrivileges(account);
         AdminEmailComposePageData data = new AdminEmailComposePageData(account);
