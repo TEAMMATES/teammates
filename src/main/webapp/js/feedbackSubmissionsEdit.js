@@ -11,6 +11,10 @@ $(document).ready(function () {
         if(!validateConstSumQuestions()){
             return false;
         }
+        if (!validateAllResponsesHaveRecipient()) {
+            return false;
+        }
+
         formatRubricQuestions();
         reenableFieldsForSubmission();
     });
@@ -440,4 +444,29 @@ function validateNumScaleAnswer(qnIdx, responseIdx) {
     } else if (answer > max) {
         answerBox.val(answerBox.attr("max"));
     }
+}
+
+// Checks that there are no responses written to a blank recipient
+function validateAllResponsesHaveRecipient() {
+    var blankRecipients = $("select[name^='responserecipient-']").filter(function( index ) {
+                        return $(this).val() === "";
+                    });
+    // for every response without a recipient, check that the response is empty
+    for (var i = 0; i < blankRecipients.length; i++) {
+        var recipient = blankRecipients[i];
+
+        var question = $(recipient).attr("name").split('-')[1];
+        var response = $(recipient).attr("name").split('-')[2];
+
+        var answer = $("[name^=responsetext-" + question + "-" + response);
+
+        if (answer.val().trim() !== "") {
+            var statusMessage = "You did not specify a recipient for your response in question " + question;
+            setStatusMessage(statusMessage, true);
+
+            return false;
+        }
+    }
+
+    return true;
 }
