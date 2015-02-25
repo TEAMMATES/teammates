@@ -358,6 +358,9 @@ public class Const {
         public static final String ADMIN_EMAIL_ID = "emailid";
         public static final String ADMIN_EMAIL_EMPTY_TRASH_BIN = "emptytrashbin";
         public static final String ADMIN_EMAIL_TRASH_ACTION_REDIRECT = "redirect";
+        
+        public static final String ADMIN_GROUP_RECEIVER_EMAIL_LIST_INDEX = "emaillistindex";
+        public static final String ADMIN_GROUP_RECEIVER_EMAIL_INDEX = "emailindex";
     
         public static final String EVALUATION_NAME = "evaluationname";
     

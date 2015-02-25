@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreInputStream;
+import com.google.apphosting.api.ApiProxy;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -28,33 +29,49 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     
     final int MAX_READING_LENGTH = 900000; 
     
+    //params needed to move heavy jobs into a queue task
+    private String groupReceiverListFileKey = null;
+    private String groupReceiverListFileSize = null;
+    private String emailId = null;
+    
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        String emailId =  HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ID);        
+        
+        emailId =  HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_ID);        
         Assumption.assertNotNull(emailId);
         
-        String listFileKey =  HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);        
-        Assumption.assertNotNull(listFileKey);
+        groupReceiverListFileKey =  HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);        
+        Assumption.assertNotNull(groupReceiverListFileKey);
         
-        String sizeAsString =  HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_SIZE);        
-        Assumption.assertNotNull(sizeAsString);
+        groupReceiverListFileSize =  HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_SIZE);        
+        Assumption.assertNotNull(groupReceiverListFileSize);
+        
+        String indexOfEmailListToResumeAsString = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_LIST_INDEX);
+        String indexOfEmailToResumeAsString = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_INDEX);
+        
+        int indexOfEmailListToResume = indexOfEmailListToResumeAsString == null ? 0 : Integer.parseInt(indexOfEmailListToResumeAsString);
+        int indexOfEmailToResume = indexOfEmailToResumeAsString == null ? 0 : Integer.parseInt(indexOfEmailToResumeAsString);
+        
+        
+        
         
         try {
-            processedReceiverEmails = getReceiverList(listFileKey, sizeAsString);
-            addAdminEmailToTaskQueue(emailId);
-            log.info("Group mail tasks for mail with id " + emailId + "have been added.");
+            processedReceiverEmails = getReceiverList(groupReceiverListFileKey, groupReceiverListFileSize);
+            addAdminEmailToTaskQueue(emailId, indexOfEmailListToResume, indexOfEmailToResume);
+
         } catch (IOException e) {
             log.severe("Unexpected error while adding admin email tasks" + e.getMessage());
         }
         
-        
-        
     }
     
-    private List<List<String>> getReceiverList(String listFileKey, String sizeAsString) throws IOException {
+    private List<List<String>> getReceiverList(String listFileKey, String sizeAsString) 
+            throws IOException {
+        
         Assumption.assertNotNull(listFileKey);
         Assumption.assertNotNull(sizeAsString);
+        
        
         BlobKey blobKey = new BlobKey(listFileKey);
         
@@ -103,29 +120,67 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
                 }              
             }
         }
-       
         
         return listOfList;
 
     }
     
+    private boolean isNearDeadline(){
+        
+        long timeLeftInMillis = ApiProxy.getCurrentEnvironment().getRemainingMillis();
+        if (timeLeftInMillis/1000 < 500){
+            return true;
+        }
+        
+        return false;
+    }
     
-    private void addAdminEmailToTaskQueue(String emailId){
+    private void pauseAndCreateAnNewTask(int indexOfEmailList, int indexOfEmail){
+        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();     
+        
+        HashMap<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
+        paramMap.put(ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY, groupReceiverListFileKey);
+        paramMap.put(ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_SIZE, groupReceiverListFileSize);
+        paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_LIST_INDEX, "" + indexOfEmailList);
+        paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_INDEX, "" + indexOfEmail);
+        
+        
+        taskQueueLogic.createAndAddTask(SystemParams.ADMIN_PREPARE_EMAIL_TASK_QUEUE,
+                                        Const.ActionURIs.ADMIN_EMAIL_PREPARE_TASK_QUEUE_WORKER, paramMap); 
+                
+    }
+    
+    private void addAdminEmailToTaskQueue(String emailId, int indexOfEmailListToResume, int indexOfEmailToResume){
         
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
         
-        for(List<String> list : processedReceiverEmails){
-            for(String receiverEmail : list){
+        log.info("Resume Adding group mail tasks for mail with id " + emailId + "from list index: "+
+                 indexOfEmailListToResume + " email index: " + indexOfEmailToResume);
+        
+        for(int i = indexOfEmailListToResume; i < processedReceiverEmails.size() ; i ++ ){
+            
+            List<String> currentEmailList = processedReceiverEmails.get(i);
+            
+            for(int j = indexOfEmailToResume; j < currentEmailList.size(); j++){
+                String receiverEmail = currentEmailList.get(j);
+                
                 HashMap<String, String> paramMap = new HashMap<String, String>();
                 paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
                 paramMap.put(ParamsNames.ADMIN_EMAIL_RECEVIER, receiverEmail);
                 
                 taskQueueLogic.createAndAddTask(SystemParams.ADMIN_EMAIL_TASK_QUEUE,
-                        Const.ActionURIs.ADMIN_EMAIL_WORKER, paramMap); 
+                        Const.ActionURIs.ADMIN_EMAIL_WORKER, paramMap);                
                 
+                if(isNearDeadline())
+                {
+                    pauseAndCreateAnNewTask(i, j);
+                    log.info("Adding group mail tasks for mail with id " + emailId + "have been paused with list index: " + i + " email index: " + j);
+                    return;
+                }
             }
         }
         
-        
+        log.info("Adding Group mail tasks for mail with id " + emailId + "was complete.");
     }
 }
