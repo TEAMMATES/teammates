@@ -134,6 +134,7 @@ public class AdminEmailComposeSendAction extends Action {
             }
         }
        
+        System.out.print(listOfList.size() + "****************************");
     }
     
     private void moveJobToTaskQueue(){

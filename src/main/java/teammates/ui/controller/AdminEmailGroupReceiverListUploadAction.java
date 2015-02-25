@@ -118,7 +118,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
                                   lastStringOfLastAddedList + 
                                   firstStringOfNewList);
                    
-                   listOfList.add(newList.subList(1, newList.size() - 1));
+                   listOfList.add(newList.subList(1, newList.size()));
                 } else {
                 
                    listOfList.add(newList);
