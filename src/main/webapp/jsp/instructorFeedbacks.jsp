@@ -630,7 +630,7 @@
                     for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {
                         sessionIdx++;
                         if (data.feedbackSessionNameForNewSession != null && fdb.feedbackSessionName.equals(data.feedbackSessionNameForNewSession) && data.courseIdForNewSession != null && fdb.courseId.equals(data.courseIdForNewSession)) {
-                            tableHighlight = " info";
+                            tableHighlight = " warning";
                         } else {
                             tableHighlight = "";
                         }
