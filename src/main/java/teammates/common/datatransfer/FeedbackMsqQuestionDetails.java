@@ -126,9 +126,22 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
                             "${checked}", existingMsqResponse.contains(choices.get(i)) ? "checked=\"checked\"" : "",
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(choices.get(i)));
+                            "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(choices.get(i)),
+                            "${msqChoiceText}",  Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment + Const.EOL);
         }
+        
+        // additional checkbox for user to submit a blank response ("None of the above")
+        String optionFragment = 
+                FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+                        "${qnIdx}", Integer.toString(qnIdx),
+                        "${responseIdx}", Integer.toString(responseIdx),
+                        "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
+                        "${checked}", existingMsqResponse.contains("") ? "checked=\"checked\"" : "",
+                        "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                        "${msqChoiceValue}",  "",
+                        "${msqChoiceText}",  "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
+        optionListHtml.append(optionFragment + Const.EOL);
         
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM,
@@ -152,9 +165,23 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
                             "${checked}", "",
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
-                            "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(choices.get(i)));
+                            "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(choices.get(i)),
+                            "${msqChoiceText}", Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment + Const.EOL);
         }
+        
+        // additional checkbox for user to submit a blank response ("None of the above")
+        String optionFragment = 
+                FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
+                        "${qnIdx}", Integer.toString(qnIdx),
+                        "${responseIdx}", Integer.toString(responseIdx),
+                        "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
+                        "${checked}", "",
+                        "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                        "${msqChoiceValue}",  "",
+                        "${msqChoiceText}",  "<i>" + Const.NONE_OF_THE_ABOVE + "</i>");
+        optionListHtml.append(optionFragment + Const.EOL);
+        
         
         String html = FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM,
@@ -164,7 +191,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     }
     
     private List<String> generateOptionList(String courseId) {
-        List<String> optionList = new ArrayList<String>();;
+        List<String> optionList = new ArrayList<String>();
 
         switch(generateOptionsFor){
         case NONE:
@@ -313,6 +340,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             return "";
         }
         
+        boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
         String html = "";
         String fragments = "";
         Map<String,Integer> answerFrequency = new LinkedHashMap<String,Integer>();
@@ -325,6 +353,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         for(FeedbackResponseAttributes response : responses){
             List<String> answerStrings = ((FeedbackMsqResponseDetails)response.getResponseDetails()).getAnswerStrings();
             for(String answerString : answerStrings){
+                if (answerString.equals("")) {
+                    continue;
+                }
+                isContainsNonEmptyResponse = true;
                 numChoicesSelected++;
                 if(!answerFrequency.containsKey(answerString)){
                     answerFrequency.put(answerString, 1);
@@ -332,6 +364,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                     answerFrequency.put(answerString, answerFrequency.get(answerString)+1);
                 }
             }
+        }
+        
+        if (!isContainsNonEmptyResponse) {
+            return "";
         }
         
         DecimalFormat df = new DecimalFormat("#.##");
@@ -362,6 +398,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         String csv = "";
         String fragments = "";
         Map<String,Integer> answerFrequency = new LinkedHashMap<String,Integer>();
+        boolean isContainsNonEmptyResponse = false; // we will only show stats if there is at least one nonempty response
         
         for(String option : msqChoices){
             answerFrequency.put(option, 0);
@@ -371,6 +408,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         for(FeedbackResponseAttributes response : responses){
             List<String> answerStrings = ((FeedbackMsqResponseDetails)response.getResponseDetails()).getAnswerStrings();
             for(String answerString : answerStrings){
+                if (answerString.equals("")) {
+                    continue;
+                }
+                isContainsNonEmptyResponse = true;
                 numChoicesSelected++;
                 if(!answerFrequency.containsKey(answerString)){
                     answerFrequency.put(answerString, 1);
@@ -378,6 +419,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                     answerFrequency.put(answerString, answerFrequency.get(answerString)+1);
                 }
             }
+        }
+        
+        if (!isContainsNonEmptyResponse) {
+            return "";
         }
         
         DecimalFormat df = new DecimalFormat("#.##");
@@ -432,12 +477,23 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         for(FeedbackResponseAttributes response : responses){
             FeedbackMsqResponseDetails frd = (FeedbackMsqResponseDetails) response.getResponseDetails();
             if(!otherEnabled){
-                if(!msqChoices.containsAll(frd.answers) && generateOptionsFor == FeedbackParticipantType.NONE){
+                List<String> validChoices = msqChoices;
+                validChoices.add("");
+                if(!validChoices.containsAll(frd.answers) && generateOptionsFor == FeedbackParticipantType.NONE){
                     errors.add(frd.getAnswerString() + ERROR_INVALID_OPTION);
                 }
             }
         }
         return errors;
+    }
+    
+    /**
+     * Checks if the question has been skipped. 
+     * MSQ allows a blank response, as that represents "None of the above" 
+     */
+    @Override
+    public boolean isQuestionSkipped(String[] answer) {
+        return answer == null;
     }
 
 
