@@ -25,10 +25,9 @@
             <div class="alert alert-warning col-md-6 col-md-offset-3">
                 <img src="/images/puzzled.png"
                     style="float: left; margin: 0 10px 10px 0; height: 90px;">
-                <p>
+                <p><br><br>
                     TEAMMATES could not locate what you were trying to access. <br><br>
-                    If you are a registered user you can go back to the <a href="/page/studentHomePage">home page</a>
-                    <br><br><br><br>
+                    <br><br>
                     Possible reasons include:
                         <ul>
                             <li>
@@ -46,6 +45,8 @@
                         <a>teammates@comp.nus.edu.sg</a> <br><br><b>Note: </b>If the problematic link was received via email,
                         remember to copy-paste that email content when contacting TEAMMATES
                         support.<br><br>
+                        
+                        If you are a registered user you can go back to the <a href="/page/studentHomePage">home page</a><br><br>
                 </p>
             </div>
         </div>
