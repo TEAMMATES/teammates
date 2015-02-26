@@ -8,14 +8,15 @@ $(document).ready(function () {
 
     // Bind submission event
     $('form[name="form_submit_response"],form[name="form_student_submit_response"]').submit(function() {
-        if(!validateConstSumQuestions()){
-            return false;
-        }
-        if (!validateAllResponsesHaveRecipient()) {
-            return false;
-        }
-
         formatRubricQuestions();
+        
+        var validationStatus = true;
+        validationStatus &= validateConstSumQuestions();
+        validationStatus &= validateAllResponsesHaveRecipient();
+        if(!validationStatus()){
+            return false;
+        }
+        
         reenableFieldsForSubmission();
     });
     
@@ -446,11 +447,23 @@ function validateNumScaleAnswer(qnIdx, responseIdx) {
     }
 }
 
+
+function isAnswerBlank(question, response) {
+    var answer = $("[name^=responsetext-" + question + "-" + response);
+    if (answer.attr("type") === "radio" || answer.attr("type") === "checkbox") {
+        // for question types that involve checking boxes such as MSQ, MCQ 
+        return !answer.is(":checked");
+    } else {
+        return answer.val().trim() === "";
+    }
+}
+
 // Checks that there are no responses written to a blank recipient
 function validateAllResponsesHaveRecipient() {
     var blankRecipients = $("select[name^='responserecipient-']").filter(function( index ) {
-                        return $(this).val() === "";
-                    });
+                              return $(this).val() === "";
+                          });
+
     // for every response without a recipient, check that the response is empty
     for (var i = 0; i < blankRecipients.length; i++) {
         var recipient = blankRecipients[i];
@@ -460,7 +473,7 @@ function validateAllResponsesHaveRecipient() {
 
         var answer = $("[name^=responsetext-" + question + "-" + response);
 
-        if (answer.val().trim() !== "") {
+        if (!isAnswerBlank(question, response)) {
             var statusMessage = "You did not specify a recipient for your response in question " + question;
             setStatusMessage(statusMessage, true);
 
