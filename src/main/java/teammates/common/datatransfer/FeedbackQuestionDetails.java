@@ -194,11 +194,29 @@ public abstract class FeedbackQuestionDetails {
      * @param recipientEmail
      * @param bundle
      * @param question
-     * @return
      */
     public String getNoResponseText(String giverEmail, String recipientEmail,
             FeedbackSessionResultsBundle bundle,
             FeedbackQuestionAttributes question) {
         return Const.INSTRUCTOR_FEEDBACK_RESULTS_MISSING_RESPONSE;
+    }
+    
+    /**
+     * Checks if the question has been skipped. 
+     */
+    public boolean isQuestionSkipped(String[] answer) {
+        if (answer == null) {
+            return true;
+        }
+        
+        boolean allAnswersEmpty = true;
+        for(int i=0 ; i<answer.length ; i++) {
+            if (answer[i] != null && !answer[i].trim().isEmpty()) {
+                allAnswersEmpty = false;
+                break;
+            }
+        }
+        
+        return allAnswersEmpty;
     }
 }
