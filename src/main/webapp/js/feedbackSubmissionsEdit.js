@@ -13,7 +13,7 @@ $(document).ready(function () {
         var validationStatus = true;
         validationStatus &= validateConstSumQuestions();
         validationStatus &= validateAllResponsesHaveRecipient();
-        if(!validationStatus()){
+        if(!validationStatus) {
             return false;
         }
         
@@ -449,7 +449,7 @@ function validateNumScaleAnswer(qnIdx, responseIdx) {
 
 
 function isAnswerBlank(question, response) {
-    var answer = $("[name^=responsetext-" + question + "-" + response);
+    var answer = $("[name^=responsetext-" + question + "-" + response + "]");
     if (answer.attr("type") === "radio" || answer.attr("type") === "checkbox") {
         // for question types that involve checking boxes such as MSQ, MCQ 
         return !answer.is(":checked");
@@ -471,7 +471,7 @@ function validateAllResponsesHaveRecipient() {
         var question = $(recipient).attr("name").split('-')[1];
         var response = $(recipient).attr("name").split('-')[2];
 
-        var answer = $("[name^=responsetext-" + question + "-" + response);
+        var answer = $("[name^=responsetext-" + question + "-" + response + "]");
 
         if (!isAnswerBlank(question, response)) {
             var statusMessage = "You did not specify a recipient for your response in question " + question;
