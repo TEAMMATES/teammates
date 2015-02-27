@@ -587,8 +587,8 @@
             <form style="display:none;" id="ajaxForSessions" class="ajaxForSessionsForm" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>">
                 <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
                 <input type="hidden" name="<%=Const.ParamsNames.IS_USING_AJAX%>" value="on">
-                <%if (data.feedbackSessionNameForNewSession != null && data.courseIdForNewSession != null) {%>
-                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.feedbackSessionNameForNewSession%>">
+                <%if (data.feedbackSessionNameForSessionList != null && data.courseIdForNewSession != null) {%>
+                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.feedbackSessionNameForSessionList%>">
                     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.courseIdForNewSession%>">
                 <%}%>
             </form>
@@ -629,7 +629,7 @@
                     Map<String, List<String>> courseIdSectionNamesMap = data.getCourseIdSectionNamesMap(data.existingFeedbackSessions);
                     for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {
                         sessionIdx++;
-                        if (data.feedbackSessionNameForNewSession != null && fdb.feedbackSessionName.equals(data.feedbackSessionNameForNewSession) && data.courseIdForNewSession != null && fdb.courseId.equals(data.courseIdForNewSession)) {
+                        if (data.feedbackSessionNameForSessionList != null && fdb.feedbackSessionName.equals(data.feedbackSessionNameForSessionList) && data.courseIdForNewSession != null && fdb.courseId.equals(data.courseIdForNewSession)) {
                             tableHighlight = " warning";
                         } else {
                             tableHighlight = "";
