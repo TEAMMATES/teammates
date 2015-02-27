@@ -87,11 +87,17 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             emailSet = StringHelper.recoverFromSanitizedText(emailSet);
             
             ArrayList<String> responsesRecipients = new ArrayList<String>();
+            List<String> errors = new ArrayList<String>();
             
             for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
                 FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, questionIndx, responseIndx, questionAttributes);
                 
-                responsesRecipients.add(response.recipientEmail);       
+                responsesRecipients.add(response.recipientEmail);
+                // if the answer is not empty but the recipient is empty
+                if (response.recipientEmail.isEmpty() && !response.responseMetaData.getValue().isEmpty()) {
+                    // show error msg to user
+                    errors.add("You wrote a response without specifying a recipient" + response.feedbackQuestionId);
+                }
                 
                 if(response.responseMetaData.getValue().isEmpty()){
                     //deletes the response since answer is empty
@@ -104,7 +110,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 qnId = response.feedbackQuestionId;
             }
             
-            List<String> errors = questionDetails.validateResponseAttributes(responsesForQuestion, data.bundle.recipientList.get(qnId).size());            
+            errors.addAll(questionDetails.validateResponseAttributes(responsesForQuestion, data.bundle.recipientList.get(qnId).size()));            
             if (!emailSet.containsAll(responsesRecipients)) {
                 errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_INVALID_RECIPIENT, questionIndx));                
             }
