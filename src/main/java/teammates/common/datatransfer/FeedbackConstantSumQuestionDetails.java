@@ -500,7 +500,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 }
                 pointCount[0] += frd.getAnswerList().get(0);
                 pointCount[1] += 1;
-                optionTotalCount.put(recipientName, pointCount);
+                optionTotalCount.put(recipientEmail, pointCount);
             }
         } else {
             options = constSumOptions;
@@ -523,13 +523,19 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         DecimalFormat df = new DecimalFormat("#.##");
         
         for(Entry<String, Integer[]> entry : optionTotalCount.entrySet() ){
-        	String teamName = bundle.getTeamNameForEmail(entry.getKey());
-            double average = entry.getValue()[0]/entry.getValue()[1];
-            fragments +=teamName+","+ entry.getKey() + ","
-                      + df.format(average) + Const.EOL;
+        	double average = entry.getValue()[0]/entry.getValue()[1];
+            if(distributeToRecipients){
+                String teamName = bundle.getTeamNameForEmail(entry.getKey());
+                String recipientName = bundle.getNameForEmail(entry.getKey());
+                fragments +=teamName+","+recipientName+","+df.format(average)+Const.EOL;
+            }
+            else{
+                fragments += entry.getKey() + ","
+                        + df.format(average) + Const.EOL;
+            }
         }
         
-        csv += (distributeToRecipients? "Recipient":"Option") + ", Average Points" + Const.EOL; 
+        csv += (distributeToRecipients? "Team, Recipient":"Option") + ", Average Points" + Const.EOL; 
         
         csv += fragments + Const.EOL;
         
