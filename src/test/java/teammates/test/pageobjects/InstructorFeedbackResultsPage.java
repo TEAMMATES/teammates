@@ -38,12 +38,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
     @FindBy(id = "show-stats-checkbox")
     public WebElement showStatsCheckbox;
     
-    @FindBy(id = "button_add_comment")
-    private WebElement showResponseCommentAddFormButton;
-    
-    @FindBy(id = "showResponseCommentAddForm-0-1-1")
-    private WebElement addResponseCommentForm;
-    
     
     public InstructorFeedbackResultsPage(Browser browser) {
         super(browser);
@@ -163,8 +157,11 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return qnAdditionalInfoButton.getText();
     }
     
-    public void addFeedbackResponseComment(String commentText) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, 30);
+    public void addFeedbackResponseComment(String addResponseCommentId, String commentText) {
+        WebDriverWait wait = new WebDriverWait(browser.driver, 5);
+        WebElement addResponseCommentForm = browser.driver.findElement(By.id(addResponseCommentId));
+        WebElement parentContainer = addResponseCommentForm.findElement(By.xpath("../.."));
+        WebElement showResponseCommentAddFormButton = parentContainer.findElement(By.id("button_add_comment"));
         showResponseCommentAddFormButton.click();
         wait.until(ExpectedConditions.elementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea"))));
         fillTextBox(addResponseCommentForm.findElement(By.tagName("textarea")), commentText);
