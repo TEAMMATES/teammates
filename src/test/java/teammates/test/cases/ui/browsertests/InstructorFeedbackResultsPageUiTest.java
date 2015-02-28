@@ -373,7 +373,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "test comment 2", "CFResultsUiT.instr@gmail.tmt");
         
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-1-1-1", "test comment 3");
-        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAddComments.html");
+        resultsPage.verifyCommentRowContent("-1-1-1-1",
+                "test comment 3", "CFResultsUiT.instr@gmail.tmt");
         
         ______TS("action: edit existing feedback response comment");
 
