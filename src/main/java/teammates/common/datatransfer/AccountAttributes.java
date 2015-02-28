@@ -131,4 +131,8 @@ public class AccountAttributes extends EntityAttributes {
         this.studentProfile.sanitizeForSaving();
     }
     
+    public boolean isUserRegistered() {
+        return (googleId != null && !googleId.isEmpty());
+    }
+    
 }
