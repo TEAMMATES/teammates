@@ -927,6 +927,7 @@ public class Const {
         public static final String FEEDBACK_QUESTION_TEXTINVALID = "Please enter a valid question. The question text cannot be empty.";
         
         public static final String FEEDBACK_RESPONSES_SAVED = "All responses submitted succesfully!";
+        public static final String FEEDBACK_RESPONSES_BLANK_RECIPIENT = "You did not specify a recipient for your response in question %s.";
         
         public static final String FEEDBACK_RESPONSE_COMMENT_EMPTY = "Comment cannot be empty";
         public static final String FEEDBACK_RESPONSE_COMMENT_ADDED = "Your comment has been saved successfully";
