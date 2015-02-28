@@ -41,28 +41,35 @@ $(document).ready(function () {
 function prepareMCQQuestions() {
 	// Get index of mcq question
 	var mcqQuestionNums = getQuestionTypeNumbers("MCQ");
-
+	
+	var radioButtons = {};
+	var radioStates = {};
 	for (var i = 0; i < mcqQuestionNums.length; i++) {
 		var qnNum = mcqQuestionNums[i];
-
-		// Get number of options for certain mcq question
-		var optionNums = $("[name^='responsetext-" + qnNum + "']").length;
-		for (var k = 0; k < optionNums; k++) {
-			// Get specific option for that question
-			var radioInput = $("[name^='responsetext-" + qnNum + "-" + k + "']");
-			radioInput.prop("checked", false);
-
-			// Toggle radio button if it was checked
-			radioInput.click(function(event) {
-				if ($(this).data("waschecked")) {
-					$(this).prop('checked', false);
-					$(this).data('waschecked', false);
-				} else
-					$(this).data('waschecked', true);
-
-				// set other radio buttons' 'waschecked' attribute to false
-				$(this).parent().parent().parent().siblings().find(
-						"[name^='responsetext-']").data("waschecked", false);
+		var numResponses = $("[name='questionresponsetotal-"+qnNum+"']").val();
+		
+		for(var j = 0; j < numResponses; j++) {
+			var id = "responsetext-" + qnNum + "-" + j;
+			radioButtons[id] = $("[name^=" + id + "]");
+			radioStates[id] = {};
+			
+			// initialize radio buttons' states
+			$.each(radioButtons[id], function(index, radio) {
+			    radioStates[id][radio.value] = $(radio).is(":checked");
+			});
+			
+			radioButtons[id].click(function() { 
+				var val = $(this).val();
+				var name = $(this).attr("name");
+			    // toggle the radio button checked state
+				$(this).attr("checked", (radioStates[name][val] = !radioStates[name][val]));    
+			    
+				// set other radio buttons' states to false
+			    $.each(radioButtons[name], function(index, radio) {
+			        if(radio.value != val) {
+			            radioStates[name][radio.value] = false;
+			        }
+			    });
 			});
 		}
 	}
