@@ -43,7 +43,7 @@ var addCommentHandler = function(e) {
 	                    var newCommentRow = addFormRow.prev();
 	                    newCommentRow.find("form[class*='responseCommentEditForm'] > div > a[id*='button_save_comment_for_edit']").click(editCommentHandler);
 	                    newCommentRow.find("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
-	                    registerCheckboxEventForVisibilityOptions();
+	                    registerResponseCommentCheckboxEvent();
 	                    newCommentRow.find("[data-toggle='tooltip']").tooltip({html: true});
 	                    
 	                    // Reset add comment form
@@ -185,31 +185,37 @@ var deleteCommentHandler = function(e) {
 };
 
 function registerResponseCommentsEvent(){
-    $("form[class*='responseCommentAddForm'] > div > a").click(addCommentHandler);
-    $("form[class*='responseCommentEditForm'] > div > a").click(editCommentHandler);
-    $("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
+    $("form[class*='responseCommentAddForm'] > div > a[id^='button_save_comment_for_add']").click(addCommentHandler);
+    $("form[class*='responseCommentEditForm'] > div > a[id^='button_save_comment_for_edit']").click(editCommentHandler);
+    $("form[class*='responseCommentDeleteForm'] > a[id^='commentdelete']").click(deleteCommentHandler);
     
     String.prototype.contains = function(substr) { return this.indexOf(substr) != -1; };
     
-    $("input[type=checkbox]").click(function(e){
-    	var table = $(this).parent().parent().parent().parent();
-    	var form = table.parent().parent().parent();
-    	var visibilityOptions = [];
-    	var _target = $(e.target);
-    	
-    	if (_target.prop("class").contains("answerCheckbox") && !_target.prop("checked")) {
-    		_target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
-    		_target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
-    	}
-    	if ((_target.prop("class").contains("giverCheckbox") || 
-    			_target.prop("class").contains("recipientCheckbox")) && _target.prop("checked")) {
-    		_target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
-    	}
-    	
-    	table.find('.answerCheckbox:checked').each(function () {
+    registerResponseCommentCheckboxEvent();
+    
+    $("div[id^=plainCommentText]").css("margin-left","15px");
+}
+
+function registerResponseCommentCheckboxEvent(){
+	$("input[type=checkbox]").click(function(e){
+		var table = $(this).parent().parent().parent().parent();
+		var form = table.parent().parent().parent();
+		var visibilityOptions = [];
+		var _target = $(e.target);
+		
+		if (_target.prop("class").contains("answerCheckbox") && !_target.prop("checked")) {
+			_target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
+			_target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
+		}
+		if ((_target.prop("class").contains("giverCheckbox") || 
+				_target.prop("class").contains("recipientCheckbox")) && _target.prop("checked")) {
+			_target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
+		}
+		
+		table.find('.answerCheckbox:checked').each(function () {
 			visibilityOptions.push($(this).val());
 	    });
-    	form.find("input[name='showresponsecommentsto']").val(visibilityOptions.toString());
+		form.find("input[name='showresponsecommentsto']").val(visibilityOptions.toString());
 	    
 	    visibilityOptions = [];
 	    table.find('.giverCheckbox:checked').each(function () {
@@ -217,8 +223,6 @@ function registerResponseCommentsEvent(){
 	    });
 	    form.find("input[name='showresponsegiverto']").val(visibilityOptions.toString());
     });
-    
-    $("div[id^=plainCommentText]").css("margin-left","15px");
 }
 
 function enableHoverToDisplayEditOptions(){
