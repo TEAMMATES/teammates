@@ -223,6 +223,21 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");        
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPagePartiallyFilled.html");
         
+        ______TS("test toggle radio button");
+        
+        submitPage.chooseMcqOption(7, 1, "UI");
+        submitPage.chooseMcqOption(7, 1, "Algo");
+        submitPage.chooseMcqOption(7, 1, "Algo"); // toggle 'Algo' radio option
+        
+        submitPage.clickSubmitButton();
+        
+        assertNull(BackDoor.getFeedbackResponse(fqMcq.getId(),
+                "SFSubmitUiT.alice.b@gmail.tmt",
+                "Team 3"));
+        
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");        
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPagePartiallyFilled.html");
+        
         ______TS("edit existing response");        
         
         // Test editing an existing response 
