@@ -350,14 +350,14 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("failure: add empty feedback response comment");
         
-        resultsPage.addFeedbackResponseComment("");
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-1", "");
         resultsPage.verifyCommentFormErrorMessage("-0-1-1", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
         
         ______TS("action: add new feedback response comments");
         
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.addFeedbackResponseComment("test comment 1");
-        resultsPage.addFeedbackResponseComment("test comment 2");
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-1", "test comment 1");
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-1", "test comment 2");
         resultsPage.verifyCommentRowContent("-0-1-1-1",
                 "test comment 1", "CFResultsUiT.instr@gmail.tmt");
         resultsPage.verifyContains("id=\"frComment-visibility-options-trigger-0-1-1-1\"");
@@ -371,6 +371,10 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "test comment 1", "CFResultsUiT.instr@gmail.tmt");
         resultsPage.verifyCommentRowContent("-0-1-1-2",
                 "test comment 2", "CFResultsUiT.instr@gmail.tmt");
+        
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-1-1-1", "test comment 3");
+        resultsPage.verifyCommentRowContent("-1-1-1-1",
+                "test comment 3", "CFResultsUiT.instr@gmail.tmt");
         
         ______TS("action: edit existing feedback response comment");
 
@@ -392,7 +396,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("action: add edit and delete successively");
         
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.addFeedbackResponseComment("successive action comment");
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-1", "successive action comment");
         resultsPage.verifyCommentRowContent("-0",
                 "successive action comment", "CFResultsUiT.instr@gmail.tmt");
         
@@ -409,7 +413,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyCommentRowContent("-0-1-1-1",
                 "test comment 2", "CFResultsUiT.instr@gmail.tmt");
         resultsPage.verifyRowMissing("-0-1-1-2");
-        
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsDeleteComment.html");
     }
     
     private void testDownloadAction() {
