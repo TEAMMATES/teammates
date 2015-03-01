@@ -21,6 +21,7 @@ public class InstructorFeedbacksPageAction extends Action {
         //This can be null. Non-null value indicates the page is being loaded 
         //   to add a feedback to the specified course
         String courseIdForNewSession = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String feedbackSessionNameForSessionList = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String isUsingAjax = getRequestParamValue(Const.ParamsNames.IS_USING_AJAX);
         
         new GateKeeper().verifyInstructorPrivileges(account);
@@ -34,6 +35,7 @@ public class InstructorFeedbacksPageAction extends Action {
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
         data.isUsingAjax = (isUsingAjax == null) ? false : true;
         data.courseIdForNewSession = courseIdForNewSession;
+        data.feedbackSessionNameForSessionList = feedbackSessionNameForSessionList;
         // This indicates that an empty form to be shown (except possibly the course value filled in)
         data.newFeedbackSession = null;
         boolean omitArchived = true; // TODO: implement as a request parameter
