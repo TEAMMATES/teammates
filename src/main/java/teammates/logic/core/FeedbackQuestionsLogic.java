@@ -381,9 +381,19 @@ public class FeedbackQuestionsLogic {
         
         return unansweredQuestions;
     }
+    
+    public Map<String,String> getRecipientsForQuestion(FeedbackQuestionAttributes question, String giver) 
+            throws EntityDoesNotExistException {
+        
+        InstructorAttributes instructorGiver = instructorsLogic.getInstructorForEmail(question.courseId, giver);
+        StudentAttributes studentGiver = studentsLogic.getStudentForEmail(question.courseId, giver);
+        
+        return getRecipientsForQuestion(question, giver, instructorGiver, studentGiver);
+    }
 
     public Map<String,String> getRecipientsForQuestion(
-            FeedbackQuestionAttributes question, String giver)
+            FeedbackQuestionAttributes question, String giver, 
+            InstructorAttributes instructorGiver, StudentAttributes studentGiver)
                     throws EntityDoesNotExistException {
 
         Map<String,String> recipients = new HashMap<String,String>();
@@ -391,11 +401,6 @@ public class FeedbackQuestionsLogic {
         FeedbackParticipantType recipientType = question.recipientType;
         
         String giverTeam = null;
-        
-        InstructorAttributes instructorGiver =
-                instructorsLogic.getInstructorForEmail(question.courseId, giver);
-        StudentAttributes studentGiver = 
-                studentsLogic.getStudentForEmail(question.courseId, giver);
         
         if (studentGiver != null) {
             giverTeam = studentGiver.team;

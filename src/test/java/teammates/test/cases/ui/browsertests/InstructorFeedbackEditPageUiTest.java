@@ -959,12 +959,23 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
     private void testDoneEditingLink() {
         InstructorFeedbacksPage feedbackPage = feedbackEditPage.clickDoneEditingLink();
+        
+        ______TS("Compare URLs");
+        
         String expectedRedirectUrl = TestProperties.inst().TEAMMATES_URL + 
                 Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + 
                 "?" + Const.ParamsNames.USER_ID +
                 "=" + instructorId + "&" + 
-                Const.ParamsNames.COURSE_ID + "=" + courseId;
+                Const.ParamsNames.COURSE_ID + 
+                "=" + courseId + "&" +
+                Const.ParamsNames.FEEDBACK_SESSION_NAME +
+                "=" + feedbackSessionName.replaceAll(" ", "%20");
         assertEquals(expectedRedirectUrl, feedbackPage.getPageUrl());
+        
+        ______TS("Check for highlight on last modified row");
+        
+        feedbackPage.verifyHtmlMainContent("/instructorFeedbackDoneEditing.html");
+        
         // restore feedbackeditpage
         feedbackEditPage = getFeedbackEditPage();
     }

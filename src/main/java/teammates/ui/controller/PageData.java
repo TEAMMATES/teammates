@@ -229,7 +229,7 @@ public class PageData {
         for (int i = 0; i < options.length; i++) {
             String utcFormatOption = StringHelper.toUtcFormat(options[i]);      
             result.add("<option value=\"" + formatAsString(options[i]) + "\"" +
-                       (existingTimeZone == options[i] ? "selected=\"selected\"" : "") + 
+                       (existingTimeZone == options[i] ? " selected=\"selected\"" : "") + 
                        ">" + "(" + utcFormatOption + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(options[i])) + "</option>");
         }
         return result;
@@ -699,11 +699,11 @@ public class PageData {
         default:
             Assumption.fail("Unknown evaluation status :"+ eval.getStatus());
             break;
-            
         }
         String disabledStr = "disabled=\"disabled\"";
         String disableEditSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disableDeleteSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
+        String disableRemindSessionStr = (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) && hasRemind) ? "" : disabledStr;
         String disableUnpublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disablePublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         result.append(
@@ -735,7 +735,8 @@ public class PageData {
             "<a class=\"btn btn-default btn-xs btn-tm-actions session-remind-for-test" + (hasRemind ? "\"" : DISABLED) + 
             "href=\"" + getInstructorEvaluationRemindLink(eval.courseId,eval.name) + "\" " +
             (hasRemind ? "onclick=\"return toggleRemindStudents('" + eval.name + "');\" " : "") +
-            "title=\"" + Const.Tooltips.EVALUATION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\">Remind</a> "
+            "title=\"" + Const.Tooltips.EVALUATION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
+            disableRemindSessionStr + ">Remind</a> "
         );
         
         if (hasUnpublish) {
@@ -846,7 +847,7 @@ public class PageData {
         String disableDeleteSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disableUnpublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disablePublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
-        String disableRemindSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
+        String disableRemindSessionStr = (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) && hasRemind) ? "" : disabledStr;
         boolean shouldEnableSubmitLink = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         
         for (String section : sectionsInCourse) {
@@ -889,10 +890,12 @@ public class PageData {
         }
         
         result.append(
-            "<div class=\"btn-group\"><a class=\"btn btn-default btn-xs btn-tm-actions session-remind-for-test" + (hasRemind ? "\"" : DISABLED) + 
+            "<div class=\"btn-group\"><a class=\"btn btn-default btn-xs btn-tm-actions session-remind-for-test" + 
+            ((instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) && hasRemind) ? "\"" : DISABLED) +  
             "href=\"" + getInstructorFeedbackSessionRemindLink(session.courseId,session.feedbackSessionName) + "\" " +
             "title=\"" + Const.Tooltips.FEEDBACK_SESSION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
-            (hasRemind ? "onclick=\"return toggleRemindStudents('" + session.feedbackSessionName + "');\" " : "") +
+            ((instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) && hasRemind) ? "onclick=\"return toggleRemindStudents('"
+            + session.feedbackSessionName + "');\" " : "") +
             disableRemindSessionStr + ">Remind</a>" +
             "<button type=\"button\" class=\"btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test\"" + 
             disableRemindSessionStr +

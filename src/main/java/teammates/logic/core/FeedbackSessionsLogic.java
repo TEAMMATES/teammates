@@ -66,6 +66,7 @@ public class FeedbackSessionsLogic {
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private static final int QUESTION_NUM_FOR_RESPONSE_RATE = -1;
     private static final int EMAIL_NAME_PAIR = 0;
     private static final int EMAIL_LASTNAME_PAIR = 1;
     private static final int EMAIL_TEAMNAME_PAIR = 2;
@@ -278,6 +279,9 @@ public class FeedbackSessionsLogic {
         List<FeedbackQuestionAttributes> questions =
                 fqLogic.getFeedbackQuestionsForInstructor(feedbackSessionName,
                         courseId, userEmail);
+        
+      InstructorAttributes instructorGiver = instructor;
+      StudentAttributes studentGiver = null;
 
         for (FeedbackQuestionAttributes question : questions) {
 
@@ -285,7 +289,7 @@ public class FeedbackSessionsLogic {
                     frLogic.getFeedbackResponsesFromGiverForQuestion(
                             question.getId(), userEmail);
             Map<String, String> recipients =
-                    fqLogic.getRecipientsForQuestion(question, userEmail);
+                    fqLogic.getRecipientsForQuestion(question, userEmail, instructorGiver, studentGiver);
             // instructor can only see students in allowed sections for him/her
             if (question.recipientType.equals(FeedbackParticipantType.STUDENTS)) {
                 Iterator<Map.Entry<String, String>> iter = recipients.entrySet().iterator();
@@ -349,13 +353,16 @@ public class FeedbackSessionsLogic {
                 fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName,
                         courseId);
 
+        InstructorAttributes instructorGiver = null;
+        StudentAttributes studentGiver = student;
+
         for (FeedbackQuestionAttributes question : questions) {
 
             List<FeedbackResponseAttributes> responses =
                     frLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(
                             question, student);
             Map<String, String> recipients =
-                    fqLogic.getRecipientsForQuestion(question, userEmail);
+                    fqLogic.getRecipientsForQuestion(question, userEmail, instructorGiver, studentGiver);
             normalizeMaximumResponseEntities(question, recipients);
 
             bundle.put(question, responses);
@@ -1801,6 +1808,12 @@ public class FeedbackSessionsLogic {
 
                 }
             }
+            boolean needResponseStatus = questionNumber == QUESTION_NUM_FOR_RESPONSE_RATE;
+            if (needResponseStatus) {
+              responseStatus = (section == null && isIncludeResponseStatus) 
+                              ? getFeedbackSessionResponseStatus(session, roster, allQuestions) 
+                              : null;
+            }
             FeedbackSessionResultsBundle results =
                     new FeedbackSessionResultsBundle(
                             session, responses, relevantQuestions,
@@ -1858,8 +1871,9 @@ public class FeedbackSessionsLogic {
             }
         }
         
-        responseStatus = (section == null && isIncludeResponseStatus) ? getFeedbackSessionResponseStatus(
-                session, roster, allQuestions) : null;
+        responseStatus = (section == null && isIncludeResponseStatus) 
+                        ? getFeedbackSessionResponseStatus(session, roster, allQuestions) 
+                        : null;
 
         StudentAttributes student = null;
         Set<String> studentsEmailInTeam = new HashSet<String>();

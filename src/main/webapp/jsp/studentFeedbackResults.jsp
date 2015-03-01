@@ -80,7 +80,7 @@
                     <div class="form-horizontal">
                         <div class="panel-heading">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Course:</label>
+                                <label class="col-sm-2 control-label">Course ID:</label>
                                 <div class="col-sm-10">
                                     <p class="form-control-static"><%=sanitizeForHtml(data.bundle.feedbackSession.courseId)%></p>
                                 </div>

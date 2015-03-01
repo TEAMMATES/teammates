@@ -175,7 +175,10 @@ function toggleCollapse(e, panels){
         var i = 0;
         for(var idx = 0; idx < panels.length; idx++){
             if($(panels[idx]).attr('class').indexOf('in') == -1){
-                setTimeout(showSingleCollapse, 100 * i, panels[idx]);
+
+                // The timeout value "50" is being used in InstructorFeedbackResultsPage.verifyAllResultsPanelBodyVisibility()
+                // Therefore, when changing this timeout value, please update the waiting time accordingly
+                setTimeout(showSingleCollapse, 50 * i, panels[idx]);
                 i++;
             }
         }
