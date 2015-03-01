@@ -229,7 +229,7 @@ public class PageData {
         for (int i = 0; i < options.length; i++) {
             String utcFormatOption = StringHelper.toUtcFormat(options[i]);      
             result.add("<option value=\"" + formatAsString(options[i]) + "\"" +
-                       (existingTimeZone == options[i] ? "selected=\"selected\"" : "") + 
+                       (existingTimeZone == options[i] ? " selected=\"selected\"" : "") + 
                        ">" + "(" + utcFormatOption + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(options[i])) + "</option>");
         }
         return result;

@@ -876,7 +876,7 @@
                         <a id="button_copy" class="btn btn-primary" value="Copy Question">&nbsp;&nbsp;&nbsp;Copy Question&nbsp;&nbsp;&nbsp;</a>
                     </div>
                     <div class="col-sm-2">
-                        <a class="btn btn-primary" href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + "?" + Const.ParamsNames.USER_ID + "=" + data.account.googleId + "&" + Const.ParamsNames.COURSE_ID + "=" + data.session.courseId%>" class="button">&nbsp;&nbsp;&nbsp;Done Editing&nbsp;&nbsp;&nbsp;</a>
+                        <a class="btn btn-primary" href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + "?" + Const.ParamsNames.USER_ID + "=" + data.account.googleId + "&" + Const.ParamsNames.COURSE_ID + "=" + data.session.courseId + "&" + Const.ParamsNames.FEEDBACK_SESSION_NAME + "=" + data.session.feedbackSessionName%>" class="button">&nbsp;&nbsp;&nbsp;Done Editing&nbsp;&nbsp;&nbsp;</a>
                     </div>
                 </div>
             </div>
