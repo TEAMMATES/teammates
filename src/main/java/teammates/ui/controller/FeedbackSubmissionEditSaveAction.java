@@ -95,7 +95,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 responsesRecipients.add(response.recipientEmail);
                 // if the answer is not empty but the recipient is empty
                 if (response.recipientEmail.isEmpty() && !response.responseMetaData.getValue().isEmpty()) {
-                    errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_BLANK_RECIPIENT, questionIndx));
+                    errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_MISSING_RECIPIENT, questionIndx));
                 }
                 
                 if(response.responseMetaData.getValue().isEmpty()){

@@ -2,6 +2,7 @@ jQuery.fn.reverse = [].reverse;
 
 var FEEDBACK_RESPONSE_RECIPIENT = "responserecipient";
 var FEEDBACK_RESPONSE_TEXT = "responsetext";
+var FEEDBACK_MISSING_RECIPIENT = "You did not specify a recipient for your response in question";
 
 // On body load event
 $(document).ready(function () {
@@ -12,7 +13,7 @@ $(document).ready(function () {
         
         var validationStatus = true;
         validationStatus &= validateConstSumQuestions();
-        validationStatus &= validateAllResponsesHaveRecipient();
+        validationStatus &= validateAllAnswersHaveRecipient();
         if(!validationStatus) {
             return false;
         }
@@ -455,20 +456,16 @@ function formatRecipientLists(){
     // Auto-select first valid option.
     $('select.participantSelect.newResponse').each(function() {
         var firstUnhidden = "";
+        // select the first valid recipient if the dropdown is hidden from the user,
+        // otherwise, leave it as ""
         if (this.style.display == 'none') {
             $(this).children().reverse().each(function(){
                 if (this.style.display != 'none' && $(this).val() != "") {
                     firstUnhidden = this;
                 }
             });
-        } else {
-            $(this).children().reverse().each(function(){
-                if (this.style.display != 'none') {
-                    firstUnhidden = this;
-                }
-            });
-            
-        }
+        } 
+
         $(this).val($(firstUnhidden).val()).change();
     });
 }
@@ -500,12 +497,15 @@ function isAnswerBlank(question, response) {
     }
 }
 
-// Checks that there are no responses written to a blank recipient
-function validateAllResponsesHaveRecipient() {
+// Checks that there are no responses written to an unspecified recipient
+function validateAllAnswersHaveRecipient() {
     var blankRecipients = $("select[name^='responserecipient-']").filter(function( index ) {
                               return $(this).val() === "";
                           });
 
+    var isAllAnswersToMissingRecipientEmpty = true;
+    var statusMessage = FEEDBACK_MISSING_RECIPIENT ;
+    var errorCount = 0;
     // for every response without a recipient, check that the response is empty
     for (var i = 0; i < blankRecipients.length; i++) {
         var recipient = blankRecipients[i];
@@ -516,12 +516,18 @@ function validateAllResponsesHaveRecipient() {
         var answer = $("[name^=responsetext-" + question + "-" + response + "]");
 
         if (!isAnswerBlank(question, response)) {
-            var statusMessage = "You did not specify a recipient for your response in question " + question;
-            setStatusMessage(statusMessage, true);
-
-            return false;
+            statusMessage += (errorCount == 0) ? "" : ",";
+            statusMessage += " ";
+            statusMessage += question;
+            errorCount++;
+            
+            isAllAnswersToMissingRecipientEmpty = false;
         }
     }
 
-    return true;
+    if (!isAllAnswersToMissingRecipientEmpty) {
+        setStatusMessage(statusMessage + ".", true);
+    }
+
+    return isAllAnswersToMissingRecipientEmpty;
 }
