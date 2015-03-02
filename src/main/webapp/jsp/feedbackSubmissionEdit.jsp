@@ -122,10 +122,10 @@
         %>
                 <br />
                 <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right;\""%>>
+                    <div class=<%=(numOfResponseBoxes == maxResponsesPossible) ? "\"col-sm-2 form-inline\"" : "\"col-sm-4 form-inline\"" %> <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right;\""%>>
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
-                            <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none;max-width:125px\"" : "style=\"max-width:125px\""%>
+                            <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none;max-width:125px\"" : "style=\"width:275px;max-width:275px\""%>
                             <%=data.isSessionOpenForSubmission ? "" : "disabled=\"disabled\""%>>
                         <%
                             for(String opt: data.getRecipientOptionsForQuestion(question.getId(), existingResponse.recipientEmail)){
@@ -134,7 +134,9 @@
                         %>
                         </select>
                     </div>
-                    <div <%=(question.isRecipientNameHidden()) ? "class=\"col-sm-12\"" : "class=\"col-sm-10\""%>>
+                    <div 
+                    <% if (question.isRecipientNameHidden()) out.println("class=\"col-sm-12\""); else if(numOfResponseBoxes == maxResponsesPossible) out.println("class=\"col-sm-10\"");
+                    else out.println("class=\"col-sm-8\"");%>>
                         <%=questionDetails.getQuestionWithExistingResponseSubmissionFormHtml(
                             data.isSessionOpenForSubmission, 
                             qnIndx, responseIndx, question.courseId, 
@@ -149,10 +151,10 @@
         %>
                 <br />
                 <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right\""%>>
+                    <div class=<%=(numOfResponseBoxes == maxResponsesPossible) ? "\"col-sm-2 form-inline\"" : "\"col-sm-4 form-inline\"" %> <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right\""%>>
                         <label for="input">To:</label>
                         <select class="participantSelect middlealign newResponse form-control" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
-                            <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none;max-width:125px\"" : "style=\"max-width:125px\""%>
+                            <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none;max-width:125px\"" : "style=\"width:275px;max-width:275px\""%>
                             <%=data.isSessionOpenForSubmission ? "" : "disabled=\"disabled\""%>>
                         <%
                             for(String opt: data.getRecipientOptionsForQuestion(question.getId(), null)) {
@@ -161,7 +163,9 @@
                         %>
                         </select>
                     </div>
-                    <div <%=(question.isRecipientNameHidden()) ? "class=\"col-sm-12\"" : "class=\"col-sm-10\""%>>
+                    <div 
+                    <% if (question.isRecipientNameHidden()) out.println("class=\"col-sm-12\""); else if(numOfResponseBoxes == maxResponsesPossible) out.println("class=\"col-sm-10\"");
+                    else out.println("class=\"col-sm-8\"");%>>
                     <%=questionDetails.getQuestionWithoutExistingResponseSubmissionFormHtml(
                             data.isSessionOpenForSubmission, 
                             qnIndx, responseIndx, question.courseId)%>
