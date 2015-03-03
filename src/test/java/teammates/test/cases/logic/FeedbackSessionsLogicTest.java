@@ -1448,9 +1448,9 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[20], "Question 2,\"Split points among the teams\"");
         assertEquals(exportLines[21], "");
         assertEquals(exportLines[22], "Summary Statistics,");
-        assertEquals(exportLines[23], "Recipient, Average Points");
-        assertEquals(exportLines[24], "Team 1.1,80");
-        assertEquals(exportLines[25], "Team 1.2,20");
+        assertEquals(exportLines[23], "Team, Recipient, Average Points");
+        assertEquals(exportLines[24], ",Team 1.1,80");
+        assertEquals(exportLines[25], ",Team 1.2,20");
         assertEquals(exportLines[26], "");
         assertEquals(exportLines[27], "");
         assertEquals(exportLines[28], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
