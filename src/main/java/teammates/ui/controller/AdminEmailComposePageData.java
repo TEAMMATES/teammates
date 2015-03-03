@@ -17,7 +17,6 @@ public class AdminEmailComposePageData extends AdminEmailPageData {
     public String ajaxStatus = null;
     
     public String groupReceiverListFileKey = null;
-    public String groupReceiverListFileSize = null;
     
     public AdminEmailAttributes emailToEdit = null;
 }

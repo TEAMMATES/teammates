@@ -14,6 +14,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import com.google.appengine.api.blobstore.BlobInfo;
+import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreInputStream;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
@@ -37,9 +38,14 @@ public class AdminEmailComposeSendAction extends Action {
     
     private final int MAX_READING_LENGTH = 900000; 
     
-    //params needed to move heavy jobs into a queue task
+    private boolean addressModeOn = false;
+    private boolean groupModeOn = false;
+    
+    //params needed to move heavy jobs into a address mode task
+    private String addressReceiverListString = null;
+    
+    //params needed to move heavy jobs into a group mode task
     private String groupReceiverListFileKey = null;
-    private String groupReceiverListFileSize = null;
     private String emailId = null;
     
     @Override
@@ -50,26 +56,32 @@ public class AdminEmailComposeSendAction extends Action {
         
         String emailContent = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_CONTENT);
         String subject = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_SUBJECT);
-        String receiver = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_RECEVIER);
+        
+        addressReceiverListString = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_ADDRESS_RECEVIERS);
+        addressModeOn = addressReceiverListString != null && !addressReceiverListString.isEmpty();
         
         emailId = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_ID);
         
         groupReceiverListFileKey = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);    
-        groupReceiverListFileSize = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_SIZE);
         
-        try {
-            checkReceiverList(groupReceiverListFileKey,groupReceiverListFileSize);
-            
-        } catch (IOException e) {
-            setStatusForException(e, "An error occurred when retrieving receiver list, please try again");
-            return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
+        groupModeOn = (groupReceiverListFileKey != null) && (groupReceiverListFileKey != null);
+        
+        if(groupModeOn){     
+            try {
+                checkReceiverList(groupReceiverListFileKey);
+                groupReceiver.add(groupReceiverListFileKey);
+            } catch (IOException e) {
+                setStatusForException(e, "An error occurred when retrieving receiver list, please try again");
+                return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
+            }     
         }
         
+        if(addressModeOn){
+            addressReceiver.add(addressReceiverListString);
+        }   
+
         
         boolean isEmailDraft = emailId != null && !emailId.isEmpty();
-        
-        addressReceiver.add(receiver);
-        groupReceiver.add(groupReceiverListFileKey);
         
 
         if(!isEmailDraft) {
@@ -82,15 +94,14 @@ public class AdminEmailComposeSendAction extends Action {
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
     }
     
-    private void checkReceiverList(String listFileKey, String sizeAsString) throws IOException {
+    private void checkReceiverList(String listFileKey) throws IOException {
         Assumption.assertNotNull(listFileKey);
-        Assumption.assertNotNull(sizeAsString);
-       
+
         BlobKey blobKey = new BlobKey(listFileKey);
         
        
         int offset = 0;
-        int size = Integer.parseInt(sizeAsString);
+        int size = (int) getFileSize(listFileKey);
         
         List<List<String>> listOfList = new LinkedList<List<String>>();
         
@@ -133,25 +144,54 @@ public class AdminEmailComposeSendAction extends Action {
                 }              
             }
         }
-       
-        System.out.print(listOfList.size() + "****************************");
+        
+        
     }
     
-    private void moveJobToTaskQueue(){
+    private long getFileSize(String blobkeyString){
+        BlobInfoFactory blobInfoFactory = new BlobInfoFactory();
+        BlobInfo blobInfo = blobInfoFactory.loadBlobInfo(new BlobKey(blobkeyString));
+        long blobSize = blobInfo.getSize();
+        return blobSize;
+    }
+    
+    private void moveJobToGroupModeTaskQueue(){
+        if(!groupModeOn){
+            return;
+        }
         
         TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();     
         
         HashMap<String, String> paramMap = new HashMap<String, String>();
         paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
         paramMap.put(ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY, groupReceiverListFileKey);
-        paramMap.put(ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_SIZE, groupReceiverListFileSize);
         paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_LIST_INDEX, "0");
         paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_INDEX, "0");
+        paramMap.put(ParamsNames.ADMIN_EMAIL_TASK_QUEUE_MODE, Const.ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE);
         
         taskQueueLogic.createAndAddTask(SystemParams.ADMIN_PREPARE_EMAIL_TASK_QUEUE,
                 Const.ActionURIs.ADMIN_EMAIL_PREPARE_TASK_QUEUE_WORKER, paramMap); 
                 
 
+        
+    }
+    
+    private void moveJobToAddressModeTaskQueue(){
+        
+        if(!addressModeOn){
+            return;
+        }
+        
+        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();     
+        
+        HashMap<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
+        paramMap.put(ParamsNames.ADMIN_EMAIL_TASK_QUEUE_MODE, Const.ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE);
+        paramMap.put(ParamsNames.ADMIN_EMAIL_ADDRESS_RECEVIERS, addressReceiverListString);
+        
+        taskQueueLogic.createAndAddTask(SystemParams.ADMIN_PREPARE_EMAIL_TASK_QUEUE,
+                Const.ActionURIs.ADMIN_EMAIL_PREPARE_TASK_QUEUE_WORKER, paramMap); 
+               
         
     }
     
@@ -169,9 +209,10 @@ public class AdminEmailComposeSendAction extends Action {
         try {
             Date createDate = logic.createAdminEmail(newDraft);
             emailId = logic.getAdminEmail(subject, createDate).getEmailId();
-            moveJobToTaskQueue();
+            moveJobToGroupModeTaskQueue();
+            moveJobToAddressModeTaskQueue();
             
-        } catch (InvalidParametersException e) {
+        } catch (Exception e) {
             isError = true;
             setStatusForException(e, e.getMessage());
         }
@@ -192,7 +233,8 @@ public class AdminEmailComposeSendAction extends Action {
         
         try {
             logic.updateAdminEmailById(fanalisedEmail, emailId);
-            moveJobToTaskQueue();
+            moveJobToGroupModeTaskQueue();
+            moveJobToAddressModeTaskQueue();
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
             setStatusForException(e);
         }

@@ -9,6 +9,10 @@ import java.util.logging.Logger;
 import javax.jdo.JDOHelper;
 import javax.jdo.Query;
 
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreFailureException;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -69,12 +73,37 @@ public class AdminEmailsDb extends EntitiesDb {
         
     }
     
+    
     /**
-     * deletes all emails in trash bin
+     * deletes files uploaded in admin email compose page
+     * @param key, the GCS blobkey used to fetch the file in Google Cloud Storage
+     * @throws BlobstoreFailureException
      */
-    public void deleteAllEmailsInTrashBin(){
+    public void deleteAdminEmailUploadedFile(BlobKey key) throws BlobstoreFailureException {
+        try {
+            BlobstoreServiceFactory.getBlobstoreService().delete(key);
+        } catch(Exception e) {
+            log.warning("tried to delete non-existent file");
+        }
+    }
+    
+    
+    /**
+     * deletes all emails in trash bin, related group receiver text file will be removed from 
+     * Google Cloud Storage
+     */
+    public void deleteAllEmailsInTrashBin() throws BlobstoreFailureException{
         
         List<AdminEmailAttributes> emailsInTrashBin = getAdminEmailsInTrashBin();
+        
+        for (AdminEmailAttributes a : emailsInTrashBin){
+            if(a.getGroupReceiver() != null){
+                for(String key : a.getGroupReceiver()){
+                    BlobKey blobKey = new BlobKey(key);
+                    deleteAdminEmailUploadedFile(blobKey);
+                }
+            }
+        }
         deleteEntities(emailsInTrashBin);
     }
     

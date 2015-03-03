@@ -274,13 +274,7 @@ public class Logic {
         
         accountsLogic.deletePicture(key);
     }
-    
-    public void deleteAdminEmailUploadedFile(BlobKey key) throws BlobstoreFailureException {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
-        
-        adminEmailsLogic.deletePicture(key);
-    }
-    
+
     @SuppressWarnings("unused")
     private void ____INSTRUCTOR_level_methods____________________________________() {
     }
@@ -2974,6 +2968,18 @@ public class Logic {
     public void deleteAllEmailsInTrashBin(){
         adminEmailsLogic.deleteAllEmailsInTrashBin();
     }
+    
+    /**
+     * deletes files uploaded in admin email compose page
+     * @param key, the GCS blobkey used to fetch the file in Google Cloud Storage
+     * @throws BlobstoreFailureException
+     */
+    public void deleteAdminEmailUploadedFile(BlobKey key) throws BlobstoreFailureException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
+        
+        adminEmailsLogic.deleteAdminEmailUploadedFile(key);
+    }
+    
     
     @SuppressWarnings("unused")
     private void ____MISC_methods__________________________________________() {

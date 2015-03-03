@@ -148,7 +148,12 @@ public class AdminEmailsLogic {
         adminEmailsDb.deleteAllEmailsInTrashBin();
     }
     
-    public void deletePicture(BlobKey key) throws BlobstoreFailureException {
-        adminEmailsDb.deletePicture(key);
+    /**
+     * deletes files uploaded in admin email compose page
+     * @param key, the GCS blobkey used to fetch the file in Google Cloud Storage
+     * @throws BlobstoreFailureException
+     */
+    public void deleteAdminEmailUploadedFile(BlobKey key) throws BlobstoreFailureException {
+        adminEmailsDb.deleteAdminEmailUploadedFile(key);
     }
 }

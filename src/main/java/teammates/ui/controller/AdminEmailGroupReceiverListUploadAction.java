@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import com.google.appengine.api.blobstore.BlobInfo;
+import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreInputStream;
@@ -60,14 +61,8 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         
         
         data.groupReceiverListFileKey = blobKey.getKeyString();
-        data.groupReceiverListFileSize = "" + (int) blobInfo.getSize();
+        
         data.isFileUploaded = true;
-//        data.fileSrcUrl = Config.APP_URL + 
-//                          Const.ActionURIs.PUBLIC_EMAIL_FILE_SERVE +
-//                          "?blob-key=" + 
-//                          blobKey.getKeyString();
-//        
-//        log.info("New Group Receiver List Uploaded : " + data.fileSrcUrl);
         statusToAdmin = "New Group Receiver List Uploaded";
         
         data.ajaxStatus = "Group Receiver List Successfully Uploaded to Google Cloud Storage";

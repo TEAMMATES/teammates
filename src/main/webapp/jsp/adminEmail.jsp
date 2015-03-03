@@ -93,9 +93,7 @@
                   case COMPOSE:
                       
                       AdminEmailComposePageData aecPageData = (AdminEmailComposePageData) data;
-                %>
-                
-                
+                %>          
                 
                       <div id="adminEmailCompose">
     
@@ -112,10 +110,18 @@
                             To :
                                 <div class="row">
                                     <div class="col-md-11">
-                                        <input id="receiverEmails" type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_RECEVIER%>" 
-                                         value="<%=aecPageData.emailToEdit !=null? aecPageData.emailToEdit.getAddressReceiver() : ""%>">
-                                        <input id="groupReceiverListFileKey" type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY%>" >
-                                        <input id="groupReceiverListFileSize" type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_SIZE%>" >
+                                        <input id="addressReceiverEmails" type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_ADDRESS_RECEVIERS%>" 
+                                               placeholder="example1@email.com,example@email.com..."
+                                               value="<%=aecPageData.emailToEdit != null && aecPageData.emailToEdit.getAddressReceiver() != null 
+                                            		     && aecPageData.emailToEdit.getAddressReceiver().size() > 0 ? aecPageData.emailToEdit.getAddressReceiver().get(0) : ""%>">
+                                                         
+                                        <%boolean hasGroupReceiver = aecPageData.emailToEdit != null 
+                                        		                     && aecPageData.emailToEdit.getGroupReceiver() != null 
+                                                                     && aecPageData.emailToEdit.getGroupReceiver().size() > 0;
+                                        %>
+                                               
+                                        <input style="<%=hasGroupReceiver ? "" : "display:none;"%>" id="groupReceiverListFileKey" type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY%>" 
+                                               value="<%=hasGroupReceiver ? aecPageData.emailToEdit.getGroupReceiver().get(0) : ""%>">
                                      </div>
                                      <div class="col-md-1 border-left-gray">
                                         <button type="button" class="btn btn-info" id="adminEmailGroupReceiverListUploadButton">
@@ -193,7 +199,8 @@
                                         <thead>
                                             <tr>      
                                                 <th>Action</th>          
-                                                <th>Receiver</th>
+                                                <th>Address Receiver</th>
+                                                <th>Group Receiver</th>
                                                 <th>Subject</th>
                                                 <th>Date</th>
                                             </tr>
@@ -219,8 +226,9 @@
                                                                   </span>
                                                         </a>
                                                     </td>
-                                                    <td><%=ae.getAddressReceiver()%></td>
-                                                    <td><%=ae.getSubject()%></td>
+                                                    <td><input value="<%=ae.getAddressReceiver().size() > 0 ? ae.getAddressReceiver().get(0) : "" %>" readonly="readonly" class="form-control"></td>
+                                                    <td><input value="<%=ae.getGroupReceiver().size() > 0 ? ae.getGroupReceiver().get(0) : "" %>" readonly="readonly" class="form-control"></td>
+                                                    <td><input value="<%=ae.getSubject()%>" readonly="readonly" class="form-control"></td>
                                                     <td><%=ae.getSendDateForDisplay()%></td>
                                                 </tr>
                                             <%
@@ -256,7 +264,8 @@
                                 <thead>
                                     <tr>      
                                         <th>Action</th>          
-                                        <th>Receiver</th>
+                                        <th>Address Receiver</th>
+                                        <th>Group Receiver</th>
                                         <th>Subject</th>
                                         <th>Date</th>
                                     </tr>
@@ -282,8 +291,9 @@
                                                           </span>
                                                 </a>
                                             </td>
-                                            <td><%=ae.getAddressReceiver()%></td>
-                                            <td><%=ae.getSubject()%></td>
+                                            <td><input value="<%=ae.getAddressReceiver().size() > 0 ? ae.getAddressReceiver().get(0) : "" %>" readonly="readonly" class="form-control"></td>
+                                            <td><input value="<%=ae.getGroupReceiver().size() > 0 ? ae.getGroupReceiver().get(0) : "" %>" readonly="readonly" class="form-control"></td>
+                                            <td><input value="<%=ae.getSubject()%>" readonly="readonly" class="form-control"></td>
                                             <td><%=ae.getCreateDateForDisplay()%></td>
                                         </tr>
                                     <%
@@ -328,7 +338,8 @@
                                 <thead>
                                     <tr>      
                                         <th>Action</th>          
-                                        <th>Receiver</th>
+                                        <th>Address Receiver</th>
+                                        <th>Group Receiver</th>
                                         <th>Subject</th>
                                         <th>Date</th>
                                     </tr>
@@ -352,8 +363,9 @@
                                                           </span>
                                                 </a>
                                             </td>
-                                            <td><%=ae.getAddressReceiver()%></td>
-                                            <td><%=ae.getSubject()%></td>
+                                            <td><input value="<%=ae.getAddressReceiver().size() > 0 ? ae.getAddressReceiver().get(0) : "" %>" readonly="readonly" class="form-control"></td>
+                                            <td><input value="<%=ae.getGroupReceiver().size() > 0 ? ae.getGroupReceiver().get(0) : "" %>" readonly="readonly" class="form-control"></td>
+                                            <td><input value="<%=ae.getSubject()%>" readonly="readonly" class="form-control"></td>
                                             <td><%=ae.getSendDateForDisplay()%></td>
                                         </tr>
                                     <%

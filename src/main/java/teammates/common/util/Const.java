@@ -350,8 +350,9 @@ public class Const {
         public static final String ADMIN_EMAIL_CONTENT = "emailcontent";
         public static final String ADMIN_EMAIL_SUBJECT = "emailsubject";
         public static final String ADMIN_EMAIL_RECEVIER = "emailreceiver";
+        public static final String ADMIN_EMAIL_ADDRESS_RECEVIERS = "adminemailaddressreceivers";
+        public static final String ADMIN_EMAIL_TASK_QUEUE_MODE = "adminemailtaskqueuemode";
         public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY = "adminemailgroupreceiverlistfilekey";
-        public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_SIZE = "adminemailgroupreceiverlistfileSize";
         public static final String ADMIN_EMAIL_IMAGE_TO_UPLOAD = "emailimagetoupload";
         public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_TO_UPLOAD = "emailgroupreceiverlisttoupload";
         
@@ -1245,6 +1246,8 @@ public class Const {
             NOT_SURE);
     
     
-    public enum AdminEmailPageState{COMPOSE, SENT, TRASH, DRAFT};
+    public static enum AdminEmailPageState{COMPOSE, SENT, TRASH, DRAFT};
+    public static final String ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE = "adminEmailAddressMode";
+    public static final String ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE = "adminEmailGroupMode";
     
 }

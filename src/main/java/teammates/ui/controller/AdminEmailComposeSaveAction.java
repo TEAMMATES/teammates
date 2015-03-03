@@ -25,12 +25,18 @@ public class AdminEmailComposeSaveAction extends Action {
         
         String emailContent = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_CONTENT);
         String subject = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_SUBJECT);
-        String receiver = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_RECEVIER);
+        String addressReceiverListString = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_ADDRESS_RECEVIERS);
         
+        String groupReceiverListFileKey = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);    
+        
+
         String emailId = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_ID);
         
-        addressReceiver.add(receiver);
-        groupReceiver.add(receiver);
+        addressReceiver.add(addressReceiverListString);
+        
+        if(groupReceiverListFileKey != null && !groupReceiverListFileKey.isEmpty()){
+            groupReceiver.add(groupReceiverListFileKey);
+        }
         
         boolean isNewDraft = emailId == null;
         

@@ -142,7 +142,8 @@ function submitGroupReceiverListUploadFormAjax() {
                 if (!data.isError) {
                    if(data.isFileUploaded){
                 	   setStatusMessage(data.ajaxStatus);
-                	   $("#groupReceiverListFileKey").val(data.groupReceiverListFileKey);   	   
+                	   $("#groupReceiverListFileKey").val(data.groupReceiverListFileKey);  
+                	   $("#groupReceiverListFileKey").show();
                 	   $("#groupReceiverListFileSize").val(data.groupReceiverListFileSize);
                    } else {
                    	   setErrorMessage(data.ajaxStatus);
