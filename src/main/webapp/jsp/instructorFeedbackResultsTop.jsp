@@ -209,9 +209,17 @@
                                 </option>
                                 <% } %>
                             </select>
+                            <%if(data.selectedSection.equals("All") && showAll==false){%>
+                            <label class="col-sm-2 control-label">Warning:</label>
+                            <div class="col-sm-10">
+                                <p class="form-control-static">
+                                   This session seem to have more responses than we can show in one page. Please view one section at at time.
+                                </p>
+                            </div>
+                            <%}%>
                         </div>
-                    </div>
-                </div>
+                    </div>               
+                </div> 
                 <% } %>
                 <div class="col-sm-7 pull-right" style="padding-top:8px;">
                     <% if(!showAll){ %>
