@@ -245,8 +245,8 @@
         value="<%=data.account.googleId%>">
 </form>
     <%if(data.selectedSection.equals("All") && showAll==false){%>
-        <div id="statusMessage" class="alert alert-danger" style="margin-top:20px;" >
-            This session seem to have more responses than we can show in one page. Please view one section at at time.
+        <div id="statusMessage" class="alert alert-warning" style="margin-top:20px;" >
+            This session seem to have a large number of responses. It is recommended to view the results one section at at time.
         </div>
     <%}%>
 <%
