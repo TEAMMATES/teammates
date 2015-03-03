@@ -209,14 +209,6 @@
                                 </option>
                                 <% } %>
                             </select>
-                            <%if(data.selectedSection.equals("All") && showAll==false){%>
-                            <label class="col-sm-2 control-label">Warning:</label>
-                            <div class="col-sm-10">
-                                <p class="form-control-static">
-                                   This session seem to have more responses than we can show in one page. Please view one section at at time.
-                                </p>
-                            </div>
-                            <%}%>
                         </div>
                     </div>               
                 </div> 
@@ -252,6 +244,11 @@
     <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" 
         value="<%=data.account.googleId%>">
 </form>
+    <%if(data.selectedSection.equals("All") && showAll==false){%>
+        <div id="statusMessage" class="alert alert-danger" style="margin-top:20px;" >
+            This session seem to have more responses than we can show in one page. Please view one section at at time.
+        </div>
+    <%}%>
 <%
     }
 %>
