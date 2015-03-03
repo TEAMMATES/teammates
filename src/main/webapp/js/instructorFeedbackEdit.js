@@ -1416,6 +1416,7 @@ function setupFsCopyModal() {
                     htmlToAppend += "<div class=\"checkbox\">";
                     htmlToAppend += "<label><input type=\"checkbox\" name=\"copiedcoursesid\"";
                     htmlToAppend += "value=\"" + coursesTable[i].id + "\"> [" + coursesTable[i].id + "] : " + coursesTable[i].name;
+					if (String(coursesTable[i].id) == courseid ) htmlToAppend += "<br><font size=\"1\" color=\"red\">{Session currently in this course}</font>";
                     htmlToAppend +=  "</label></div>";
                 }
                 htmlToAppend += "<input type=\"hidden\" name=\"courseid\" value=\"" + courseid + "\">";
