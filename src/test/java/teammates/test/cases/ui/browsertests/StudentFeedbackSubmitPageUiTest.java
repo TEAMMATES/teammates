@@ -500,7 +500,17 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                   "SFSubmitUiT.alice.b@gmail.tmt");  
         
         assertEquals("5",frNumscale.getResponseDetails().getAnswerString());
+        
      
+        ______TS("write response without specifying recipient");
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        
+        submitPage.selectRecipient(2, 2, "");
+        submitPage.fillResponseTextBox(2, 2, "Response to no recipient");
+        submitPage.clickSubmitButton();
+        assertEquals("You did not specify a recipient for your response in question(s) 2.", 
+                     submitPage.getStatus());
+        
     }
     
     
