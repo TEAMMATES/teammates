@@ -1421,7 +1421,7 @@ function setupFsCopyModal() {
                     else{
                     	htmlToAppend += "value=\"" + coursesTable[i].id + "\"> [" + coursesTable[i].id + "] : " + coursesTable[i].name;
                     }
-					if (String(coursesTable[i].id) == courseid){
+                    if (String(coursesTable[i].id) == courseid){
 						htmlToAppend += "<br><font size=\"1\" color=\"red\">{Session currently in this course}</font>";
 					}
                     htmlToAppend +=  "</label></div>";
