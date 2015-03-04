@@ -180,11 +180,11 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
     
     public void clickVisibilityOptionForResponseCommentAndSave(String idString, int numOfTheCheckbox) {
-        String idSuffix = idString.substring(17);
+        String idSuffix = idString.substring(18);
         WebElement commentRow = browser.driver.findElement(By.id(idString));
         commentRow.findElements(By.tagName("a")).get(1).click();
         WebElement commentEditForm = browser.driver.findElement(By.id("responseCommentEditForm" + idSuffix));
-        commentRow.findElements(By.id("frComment-visibility-options-trigger" + idSuffix));
+        commentRow.findElement(By.id("frComment-visibility-options-trigger" + idSuffix)).click();
         commentRow.findElements(By.cssSelector("input[type='checkbox']")).get(numOfTheCheckbox).click();
         commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
         ThreadHelper.waitFor(1000);
