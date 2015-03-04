@@ -2,7 +2,7 @@ jQuery.fn.reverse = [].reverse;
 
 var FEEDBACK_RESPONSE_RECIPIENT = "responserecipient";
 var FEEDBACK_RESPONSE_TEXT = "responsetext";
-var FEEDBACK_MISSING_RECIPIENT = "You did not specify a recipient for your response in question";
+var FEEDBACK_MISSING_RECIPIENT = "You did not specify a recipient for your response in question(s)";
 
 // On body load event
 $(document).ready(function () {
