@@ -135,8 +135,17 @@
                         </select>
                     </div>
                     <div 
-                    <% if (question.isRecipientNameHidden()) out.println("class=\"col-sm-12\""); else if(numOfResponseBoxes == maxResponsesPossible) out.println("class=\"col-sm-10\"");
-                    else out.println("class=\"col-sm-8\"");%>>
+                    <% if (question.isRecipientNameHidden()){
+                    	   out.println("class=\"col-sm-12\""); 
+                       }
+                       else if(numOfResponseBoxes == maxResponsesPossible){
+                           out.println("class=\"col-sm-10\"");
+                       }                        
+                       else{   
+                    	   out.println("class=\"col-sm-8\""); 
+                       } 
+                    %>>
+                       
                         <%=questionDetails.getQuestionWithExistingResponseSubmissionFormHtml(
                             data.isSessionOpenForSubmission, 
                             qnIndx, responseIndx, question.courseId, 
