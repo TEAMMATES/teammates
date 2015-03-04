@@ -244,17 +244,20 @@
     <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" 
         value="<%=data.account.googleId%>">
 </form>
-    <%if(data.selectedSection.equals("All") && showAll==false){%>
-        <div id="statusMessage" class="alert alert-warning" style="margin-top:20px;" >
-            This session seem to have a large number of responses. It is recommended to view the results one section at at time.
-        </div>
-    <%}%>
+    
 <%
     }
 %>
 <br>
 <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 <br>
-<% if (noResponses && showAll) { %>
-    <div class="bold color_red align-center">There are no responses for this feedback session yet or you do not have access to the responses collected so far.</div>
-<% } %>
+    <%if(data.selectedSection.equals("All") && showAll==false){%>
+        <div class="alert alert-warning">
+            <%=Const.Tooltips.FEEDBACK_SESSION_RESULTSSECTIONVIEWWARNING %>
+        </div>
+    <%}%>
+    
+    <% if (noResponses && showAll) { %>
+        <div class="bold color_red align-center">There are no responses for this feedback session yet or you do not have access to the responses collected so far.</div>
+    <% } %>
+
