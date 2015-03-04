@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
+
+  <threadsafe>true</threadsafe>
+    
+    <!-- Application ID of the app -->
+    <!-- For dev server testing, this could be anything -->
+    <!-- For staging server testing, this should match the ID of the app your created on GAE -->
+    <application>teammates-john</application>
+    
+    <!-- Version number of the app -->
+    <!-- Use dashes instead of dots because GAE does not allow dots in version number -->
+    <version>4-18</version>
+    
+    <!-- Specify which file contains logging configuration to be used by java.util.logging -->
+    <system-properties>
+        <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
+    </system-properties>
+
+    <!-- Enable session to maintain one-time status message -->
+    <sessions-enabled>true</sessions-enabled>
+    
+</appengine-web-app>
