@@ -135,13 +135,11 @@
                         </select>
                     </div>
                     <div 
-                    <% if (question.isRecipientNameHidden()){
+                    <% if (question.isRecipientNameHidden()) {
                     	   out.println("class=\"col-sm-12\""); 
-                       }
-                       else if(numOfResponseBoxes == maxResponsesPossible){
+                       } else if(numOfResponseBoxes == maxResponsesPossible) {
                            out.println("class=\"col-sm-10\"");
-                       }                        
-                       else{   
+                       } else {   
                     	   out.println("class=\"col-sm-8\""); 
                        } 
                     %>>
@@ -173,13 +171,11 @@
                         </select>
                     </div>
                     <div 
-                    <% if (question.isRecipientNameHidden()){
+                    <% if (question.isRecipientNameHidden()) {
                            out.println("class=\"col-sm-12\""); 
-                       }
-                       else if(numOfResponseBoxes == maxResponsesPossible){
+                       } else if(numOfResponseBoxes == maxResponsesPossible) {
                            out.println("class=\"col-sm-10\"");
-                       }                        
-                       else{   
+                       } else {   
                            out.println("class=\"col-sm-8\""); 
                        } 
                     %>>
