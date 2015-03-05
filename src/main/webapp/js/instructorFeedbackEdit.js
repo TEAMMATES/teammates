@@ -1415,14 +1415,11 @@ function setupFsCopyModal() {
                 for (var i = 0 ; i < coursesTable.length; i++) {
                     htmlToAppend += "<div class=\"checkbox\">";
                     htmlToAppend += "<label><input type=\"checkbox\" name=\"copiedcoursesid\"";
-                    if (String(coursesTable[i].id) == courseid){
-                    	htmlToAppend += "value=\"" + coursesTable[i].id + "\"> [" + "<font color=\"red\">" + coursesTable[i].id + "</font>" + "] : " + coursesTable[i].name;
-                    }
-                    else{
+                    if (String(coursesTable[i].id) == courseid) {
+                    	htmlToAppend += "value=\"" + coursesTable[i].id + "\"> [" + "<span class=\"text-color-red\">" + coursesTable[i].id + "</span>" + "] : " + coursesTable[i].name;
+                    	htmlToAppend += "<br><span style=\"font-size:11px\" class=\"text-color-red\">{Session currently in this course}</span>";
+                    } else {
                     	htmlToAppend += "value=\"" + coursesTable[i].id + "\"> [" + coursesTable[i].id + "] : " + coursesTable[i].name;
-                    }
-                    if (String(coursesTable[i].id) == courseid){
-                    	htmlToAppend += "<br><font size=\"1\" color=\"red\">{Session currently in this course}</font>";
                     }
                     htmlToAppend +=  "</label></div>";
                 }
