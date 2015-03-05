@@ -523,7 +523,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         DecimalFormat df = new DecimalFormat("#.##");
         
         for(Entry<String, Integer[]> entry : optionTotalCount.entrySet() ){
-        	double average = entry.getValue()[0]/entry.getValue()[1];
+            double average = entry.getValue()[0]/entry.getValue()[1];
             if(distributeToRecipients){
                 String teamName = bundle.getTeamNameForEmail(entry.getKey());
                 String recipientName = bundle.getNameForEmail(entry.getKey());
