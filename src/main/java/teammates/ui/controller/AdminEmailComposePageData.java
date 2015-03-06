@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.util.Const.AdminEmailPageState;
-import com.google.appengine.api.datastore.Text;
 
 public class AdminEmailComposePageData extends AdminEmailPageData {
 
