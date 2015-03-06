@@ -241,11 +241,11 @@
             class="code">Action</span> gathers the data required for the page
             into a <span class="code">PageData</span> object. e.g. <span
             class="code">InstructorHomePageData</span>, creates a <span
-            class="code">ShowPageResult</span> object by encolosing the <span
+            class="code">ShowPageResult</span> object by enclosing the <span
             class="code">PageData</span> object created previously, and returns
             it to the <span class="code">ControllerServlet</span>
         </li>
-        <li><span class="code">ControllerServlert</span> "sends" the
+        <li><span class="code">ControllerServlet</span> "sends" the
             result. In the case of a <span class="code">ShowPageResult</span>,
             this is equivalent to forwarding to the matching JSP page.</li>
         <li>The JSP page uses the data in the given <span class="code">PageData</span>
@@ -276,7 +276,7 @@
                 <li>As instructed, the Browser requests for the 'courses' page.
                 </li>
                 <li>Server processes the request separately (creates a <span
-                    class="code">ShowPageResult</span> object but and a <span
+                    class="code">ShowPageResult</span> object but no <span
                     class="code">PageData</span> object) and returns the 'courses' page.
                 </li>
             </ul>
