@@ -191,7 +191,6 @@ public class Const {
                 + "when the session becomes visible to users.";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLELATER = "Select this option if you intend to manually publish the session later on.";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLENEVER = "Select this option if you intend never to publish the responses.";
-        public static final String FEEDBACK_SESSION_RESULTSSECTIONVIEWWARNING = "This session seems to have a large number of responses. It is recommended to view the results one section at at time.";
         public static final String FEEDBACK_SESSION_SENDJOINEMAIL = "If the student has not joined the course yet, an email containing the link to join the course will automatically be sent on session opening time.";
         public static final String FEEDBACK_SESSION_SENDOPENEMAIL = "Select this option to automatically send an email to students to notify them when the session is open for submission.";
         public static final String FEEDBACK_SESSION_SENDCLOSINGEMAIL = "Select this option to automatically send an email to students to remind them to submit 24 hours before the end of the session.";
@@ -943,6 +942,7 @@ public class Const {
         public static final String FEEDBACK_RESULTS_NOTHINGNEW = "You have not received any new feedback but you may review your own submissions below.";
         
         public static final String ENROLL_LINE_EMPTY = "Please input at least one student detail.";
+        public static final String FEEDBACK_SESSION_RESULTSSECTIONVIEWWARNING = "This session seems to have a large number of responses. It is recommended to view the results one section at at time.";
         public static final String ENROLL_LINES_PROBLEM_DETAIL_PREFIX = "&bull;";
         public static final String ENROLL_LINES_PROBLEM = "<p><span class=\"bold\">Problem in line : <span class=\"invalidLine\">%s</span></span>" +
                                                         "<br><span class=\"problemDetail\">" + ENROLL_LINES_PROBLEM_DETAIL_PREFIX + " %s</span></p>";

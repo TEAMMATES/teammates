@@ -251,12 +251,7 @@
 <br>
 <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 <br>
-    <%if(data.selectedSection.equals("All") && showAll==false){%>
-        <div class="alert alert-warning">
-            <%=Const.Tooltips.FEEDBACK_SESSION_RESULTSSECTIONVIEWWARNING %>
-        </div>
-    <%}%>
-    
+
     <% if (noResponses && showAll) { %>
         <div class="bold color_red align-center">There are no responses for this feedback session yet or you do not have access to the responses collected so far.</div>
     <% } %>

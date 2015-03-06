@@ -60,7 +60,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
         data.feedbackSessionName = feedbackSessionName;
         
         if (data.selectedSection == null) {
-            data.selectedSection = ALL_SECTION_OPTION;
+            data.selectedSection = ALL_SECTION_OPTION;     
         }
         
         if(isHtmlTableNeeded){
@@ -69,12 +69,12 @@ public class InstructorFeedbackResultsPageAction extends Action {
                    data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(logic.getFeedbackSessionResultSummaryInSectionAsCsv(courseId, 
                                                                                                                                           feedbackSessionName, 
                                                                                                                                           instructor.email, 
-                                                                                                                                          data.selectedSection));
+                                                                                                                                          data.selectedSection));                
                 } else {
                     
                     data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(logic.getFeedbackSessionResultSummaryAsCsv(courseId, 
                                                                                                                                   feedbackSessionName, 
-                                                                                                                                  instructor.email));               
+                                                                                                                                  instructor.email));
                 }
             } catch (ExceedingRangeException e) {
                 data.sessionResultsHtmlTableAsString = "";
@@ -117,25 +117,30 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 int questionNum = Integer.parseInt(questionNumStr);
                 data.bundle = logic.getFeedbackSessionResultsForInstructorFromQuestion(
                                 feedbackSessionName, courseId, 
-                                data.instructor.email, questionNum);
+                                data.instructor.email, questionNum); 
             }
         } else if (data.sortType.equals("giver-question-recipient")
                 || data.sortType.equals("giver-recipient-question")) {
             data.bundle = logic
                     .getFeedbackSessionResultsForInstructorFromSectionWithinRange(
                             feedbackSessionName, courseId,
-                            data.instructor.email, data.selectedSection, DEFAULT_SECTION_QUERY_RANGE);
+                            data.instructor.email, data.selectedSection, DEFAULT_SECTION_QUERY_RANGE); 
         } else if (data.sortType.equals("recipient-question-giver")
                 || data.sortType.equals("recipient-giver-question")) {
             data.bundle = logic
                     .getFeedbackSessionResultsForInstructorToSectionWithinRange(
                             feedbackSessionName, courseId,
-                            data.instructor.email, data.selectedSection, DEFAULT_SECTION_QUERY_RANGE);
+                            data.instructor.email, data.selectedSection, DEFAULT_SECTION_QUERY_RANGE); 
         }
-
+        
         if (data.bundle == null) {
             throw new EntityDoesNotExistException(
                     "Feedback session " + feedbackSessionName + " does not exist in " + courseId + ".");
+        }
+        
+        if(data.selectedSection.equals(ALL_SECTION_OPTION) && data.bundle.isComplete==false)
+        {
+            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_RESULTSSECTIONVIEWWARNING);
         }
         
         switch (data.sortType) {
