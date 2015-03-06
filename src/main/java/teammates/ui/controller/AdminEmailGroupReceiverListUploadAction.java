@@ -6,19 +6,15 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import com.google.appengine.api.blobstore.BlobInfo;
-import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
 import com.google.appengine.api.blobstore.BlobstoreInputStream;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
-import com.google.appengine.api.datastore.Text;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
@@ -83,13 +79,13 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         
         
         while(size > 0){
-            int bytesToRead = size > this.MAX_READING_LENGTH ? this.MAX_READING_LENGTH : size;
+            int bytesToRead = size > MAX_READING_LENGTH ? MAX_READING_LENGTH : size;
             InputStream blobStream = new BlobstoreInputStream(blobKey, offset);
             byte[] array = new byte[bytesToRead];
             
             blobStream.read(array);
-            offset += this.MAX_READING_LENGTH;
-            size -= this.MAX_READING_LENGTH;
+            offset += MAX_READING_LENGTH;
+            size -= MAX_READING_LENGTH;
             
             String readString = new String(array);
             
@@ -153,14 +149,8 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
     }
 
     private BlobInfo validateGroupReceiverListFile (BlobInfo groupReceiverListFile) {
-//        if (groupReceiverListFile.getSize() > Const.SystemParams.MAX_ADMIN_EMAIL_FILE_LIMIT_FOR_BLOBSTOREAPI) {
-//            deleteGroupReceiverListFile(groupReceiverListFile.getBlobKey());
-//            isError = true;
-//            data.ajaxStatus = Const.StatusMessages.RECEIVER_LIST_FILE_TOO_LARGE;
-//            return null;
-//        } else 
-            
-            if(!groupReceiverListFile.getContentType().contains("text/")) {
+        
+        if(!groupReceiverListFile.getContentType().contains("text/")) {
             deleteGroupReceiverListFile(groupReceiverListFile.getBlobKey());
             isError = true;
             data.ajaxStatus = (Const.StatusMessages.NOT_A_RECEIVER_LIST_FILE);
