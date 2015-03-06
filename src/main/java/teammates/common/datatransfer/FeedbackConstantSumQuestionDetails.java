@@ -528,8 +528,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 String teamName = bundle.getTeamNameForEmail(entry.getKey());
                 String recipientName = bundle.getNameForEmail(entry.getKey());
                 fragments +=teamName+","+recipientName+","+df.format(average)+Const.EOL;
-            }
-            else{
+            } else{
                 fragments += entry.getKey() + ","
                         + df.format(average) + Const.EOL;
             }
