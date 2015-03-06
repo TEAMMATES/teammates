@@ -30,7 +30,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label data-original-title="Please select the course for which the feedback session is to be created." class="col-sm-4 control-label" title="" data-toggle="tooltip" data-placement="top">Course</label>
+                                        <label data-original-title="Please select the course for which the feedback session is to be created." class="col-sm-4 control-label" title="" data-toggle="tooltip" data-placement="top">Course ID</label>
                                         <div class="col-sm-8">
                                             <div class="form-control-static">
                                                 CFeedbackEditUiT.CS2104
@@ -490,7 +490,7 @@
                         <a id="button_copy" class="btn btn-primary" value="Copy Question">&nbsp;&nbsp;&nbsp;Copy Question&nbsp;&nbsp;&nbsp;</a>
                     </div>
                     <div class="col-sm-2">
-                        <a class="btn btn-primary" href="/page/instructorFeedbacksPage?user=CFeedbackEditUiT.instructor&amp;courseid=CFeedbackEditUiT.CS2104">&nbsp;&nbsp;&nbsp;Done Editing&nbsp;&nbsp;&nbsp;</a>
+                        <a class="btn btn-primary" href="/page/instructorFeedbacksPage?user=CFeedbackEditUiT.instructor&amp;courseid=CFeedbackEditUiT.CS2104&amp;fsname=First Session">&nbsp;&nbsp;&nbsp;Done Editing&nbsp;&nbsp;&nbsp;</a>
                     </div>
                 </div>
             </div>
@@ -782,11 +782,43 @@
 </td>
 
 </tr>
-
+<tr id="rubricRow--1-1">
+      <td>
+         <div class="col-sm-12 input-group">
+            <span class="input-group-addon btn btn-default rubricRemoveSubQuestionLink--1" id="rubricRemoveSubQuestionLink--1-1" onclick="removeRubricRow(1,-1)" onmouseout="highlightRubricRow(1, -1, false)" onmouseover="highlightRubricRow(1, -1, true)">
+               <span class="glyphicon glyphicon-remove">
+               </span>
+            </span>
+            <textarea class="form-control" id="rubricSubQn--1-1" name="rubricSubQn-1" rows="3">
+               This student completes assigned tasks on time.
+            </textarea>
+         </div>
+      </td>
+      <td class="align-center rubricCol--1-0">
+         <textarea class="form-control nonDestructive" id="rubricDesc--1-1-0" name="rubricDesc-1-0" rows="3">
+            Tasks are always completed before the deadline.
+         </textarea>
+      </td>
+      <td class="align-center rubricCol--1-1">
+         <textarea class="form-control nonDestructive" id="rubricDesc--1-1-1" name="rubricDesc-1-1" rows="3">
+            Occasionally misses deadlines.
+         </textarea>
+      </td>
+      <td class="align-center rubricCol--1-2">
+         <textarea class="form-control nonDestructive" id="rubricDesc--1-1-2" name="rubricDesc-1-2" rows="3">
+            Often misses deadlines.
+         </textarea>
+      </td>
+      <td class="align-center rubricCol--1-3">
+         <textarea class="form-control nonDestructive" id="rubricDesc--1-1-3" name="rubricDesc-1-3" rows="3">
+            Rarely or never completes tasks.
+         </textarea>
+      </td>
+   </tr>
             </tbody>
         </table>
     </div>
-    <input name="rubricNumRows" id="rubricNumRows--1" value="1" type="hidden">
+    <input name="rubricNumRows" id="rubricNumRows--1" value="2" type="hidden">
     <input name="rubricNumCols" id="rubricNumCols--1" value="4" type="hidden">
 </div>
 <div class="row">

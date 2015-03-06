@@ -108,17 +108,12 @@ var FEEDBACK_SESSION_COPY_INVALID = "There is no feedback session to be copied."
 var FEEDBACK_QUESTION_COPY_INVALID = "There is no feedback question to be copied."
 var DISPLAY_FEEDBACK_SESSION_NAME_DUPLICATE = "This feedback session name already existed in this course. Please use another name."
 var DISPLAY_FEEDBACK_SESSION_NAME_EMPTY =  "Feedback session name must not be empty."
-var DISPLAY_FEEDBACK_SESSION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in feedback session name.";
-var DISPLAY_FEEDBACK_SESSION_NAME_LENGTHINVALID = "Feedback session name should not exceed 38 characters.";
-var DISPLAY_FEEDBACK_SESSION_SCHEDULEINVALID = "The feedback sesion schedule (start/end) is not valid.<br />"
-        + "The start time should be in the future, and the end time should be after start time.";
 var DISPLAY_FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID = "Please enter the maximum number of recipients each respondants should give feedback to.";
 
 var DISPLAY_FEEDBACK_QUESTION_TEXTINVALID = "Please enter a valid question. The question text cannot be empty.";
 var DISPLAY_FEEDBACK_QUESTION_NUMSCALE_OPTIONSINVALID = "Please enter valid options. The min/max/step cannot be empty.";
 var DISPLAY_FEEDBACK_QUESTION_NUMSCALE_INTERVALINVALID = "Please enter valid options. The interval is not divisible by the specified increment.";
 
-var DISPLAY_FEEDBACK_SESSION_INSTRUCTIONS_LENGTHINVALID = "Instructions to students should not exceed 500 characters.";
 var DISPLAY_FEEDBACK_SESSION_VISIBLE_DATEINVALID = "Feedback session visible date must not be empty";
 var DISPLAY_FEEDBACK_SESSION_PUBLISH_DATEINVALID = "Feedback session publish date must not be empty";
 // Max length for input

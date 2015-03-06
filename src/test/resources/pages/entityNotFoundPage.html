@@ -1,60 +1,95 @@
    <html>
       <head>
-         <link href="/favicon.png"  rel="shortcut icon" />
-                  <meta content="text/html; charset=UTF-8"  http-equiv="Content-Type" />
-                  <meta content="width=device-width, initial-scale=1.0"  name="viewport" />
+         <link href="/favicon.png" rel="shortcut icon"/>
+                  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+                  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
                   <title>
             TEAMMATES
          </title>
-         <link href="/bootstrap/css/bootstrap.min.css"  rel="stylesheet"  type="text/css" />
-                  <link href="/bootstrap/css/bootstrap-theme.min.css"  rel="stylesheet"  type="text/css" />
-                  <link href="stylesheets/teammatesCommon.css"  rel="stylesheet"  type="text/css" />
+         <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+                  <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>
+                  <link href="stylesheets/teammatesCommon.css" rel="stylesheet" type="text/css"/>
                </head>
       <body>
-         <div class="navbar navbar-inverse navbar-fixed-top"  role="navigation" >
-            <div class="container" >
-               <div class="navbar-header" >
-                  <a class="navbar-brand"  href="/index.html" >
+         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+               <div class="navbar-header">
+                  <a class="navbar-brand" href="/index.html">
                      TEAMMATES
                   </a>
                </div>
             </div>
          </div>
-         <div class="container"  id="frameBodyWrapper" >
-            <div class="row" >
-               <div class="alert alert-warning col-md-4 col-md-offset-4" >
-                  <img src="/images/puzzled.png"  style="float: left; margin: 0 10px 10px 0; height: 90px;" />
+         <div class="container" id="frameBodyWrapper">
+            <div class="row">
+               <div class="alert alert-warning col-md-6 col-md-offset-3">
+                  <img src="/images/puzzled.png" style="float: left; margin: 0 10px 10px 0; height: 90px;"/>
                                     <p>
-                     We could not locate what you were trying to access.
                      <br/>
                                           <br/>
-                                          Make sure that the URL is correct, and you are a registered user of TEAMMATES. [
-                     <a href="/logout.jsp" >
-                        Logout
-                     </a>
-                     ]
+                                          TEAMMATES could not locate what you were trying to access.
+                     <br/>
+                                          <br/>
+                                          <br/>
+                                          <br/>
+                                          Possible reasons include:
+                  </p>
+                  <ul>
+                     <li>
+                        You clicked on a link received in email, but the link was mangled by the
+                                email software. Try copy-pasting the entire link into the Browser address
+                                bar.
+                     </li>
+                     <li>
+                        The entity (e.g. course, session) you were trying to access was deleted
+                                by an instructor after the link was sent to you by TEAMMATES.
+                        <br/>
+                                                <br/>
+                                             </li>
+                  </ul>
+                  If the problem persists, contact TEAMMATES support at
+                  <a>
+                     teammates@comp.nus.edu.sg
+                  </a>
+                  <br/>
+                                    <br/>
+                                    <b>
+                     Note:
+                  </b>
+                  If the problematic link was received via email,
+                        remember to copy-paste that email content when contacting TEAMMATES
+                        support.
+                  <br/>
+                                    <br/>
+                                    If you are a registered user you can go back to the
+                  <a href="/page/studentHomePage">
+                     home page
+                  </a>
+                  <br/>
+                                    <br/>
+                                    <p>
                   </p>
                </div>
             </div>
          </div>
-         <div class="container-fluid"  id="footerComponent" >
-            <div class="container" >
-               <div class="row" >
-                  <div class="col-md-4" >
+         <div class="container-fluid" id="footerComponent">
+            <div class="container">
+               <div class="row">
+                  <div class="col-md-2">
                      <span>
                         [
-                        <a href="/index.html" >
+                        <a href="/index.html">
                            TEAMMATES
                         </a>
                         V{$version}]
                      </span>
                   </div>
-                  <div class="col-md-4" >
+                  <div class="col-md-8">
                   </div>
-                  <div class="col-md-4" >
+                  <div class="col-md-2">
                      <span>
                         [Send
-                        <a class="link"  href="../contact.html"  target="_blank" >
+                        <a class="link" href="../contact.html" target="_blank">
                            Feedback
                         </a>
                         ]

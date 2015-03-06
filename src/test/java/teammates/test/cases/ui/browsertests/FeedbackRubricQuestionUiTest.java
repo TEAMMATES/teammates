@@ -204,17 +204,18 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         
         // Add new sub-question
         feedbackEditPage.clickAddRubricRowLink(1);
-        feedbackEditPage.fillRubricSubQuestionBox("New(1) sub-question text", 1, 1);
+        feedbackEditPage.fillRubricSubQuestionBox("New(1) sub-question text", 1, 2);
         
-        // Remove existing sub-question
+        // Remove existing sub-questions
         feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 0);
+        feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 1);
  
         // Add new sub-question
         feedbackEditPage.clickAddRubricRowLink(1);
-        feedbackEditPage.fillRubricSubQuestionBox("New(2) sub-question text", 1, 2);
+        feedbackEditPage.fillRubricSubQuestionBox("New(2) sub-question text", 1, 3);
         
         // Remove new sub-question
-        feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 1);
+        feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 2);
         
         // Should end up with 1 question
         

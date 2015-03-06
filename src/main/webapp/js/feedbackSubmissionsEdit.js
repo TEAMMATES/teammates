@@ -28,12 +28,54 @@ $(document).ready(function () {
     disallowNonNumericEntries($('input.pointsBox'), false, false);
 
     prepareContribQuestions();
-
+    prepareMSQQuestions();
     prepareConstSumQuestions();
     updateConstSumMessages();
 
     prepareRubricQuestions();
+    
+    prepareMCQQuestions();
 });
+
+// Prepare mcq questions for answering by user
+function prepareMCQQuestions() {
+	// Get index of mcq question
+	var mcqQuestionNums = getQuestionTypeNumbers("MCQ");
+
+	var radioButtons = {};
+	var radioStates = {};
+	for (var i = 0; i < mcqQuestionNums.length; i++) {
+		var qnNum = mcqQuestionNums[i];
+		var numResponses = $("[name='questionresponsetotal-" + qnNum + "']")
+				.val();
+
+		for (var j = 0; j < numResponses; j++) {
+			var id = "responsetext-" + qnNum + "-" + j;
+			radioButtons[id] = $("[name^=" + id + "]");
+			radioStates[id] = {};
+
+			// initialize radio buttons' states
+			$.each(radioButtons[id], function(index, radio) {
+				radioStates[id][radio.value] = $(radio).is(":checked");
+			});
+
+			radioButtons[id].click(function() {
+				var val = $(this).val();
+				var name = $(this).attr("name");
+				// toggle the radio button checked state
+				$(this).attr("checked",
+						(radioStates[name][val] = !radioStates[name][val]));
+
+				// set other radio buttons' states to false
+				$.each(radioButtons[name], function(index, radio) {
+					if (radio.value != val) {
+						radioStates[name][radio.value] = false;
+					}
+				});
+			});
+		}
+	}
+}
 
 // Prepare contrib questions for answering by user
 function prepareContribQuestions() {
@@ -57,6 +99,34 @@ function prepareContribQuestions() {
                 $(this).addClass(this.options[this.selectedIndex].className);
             });            
         }
+    }
+}
+
+// Prepare MSQ questions 
+function prepareMSQQuestions() {
+    // Get index of MSQ questions
+    var msqQuestionNums = getQuestionTypeNumbers("MSQ");
+    for(var i=0 ; i<msqQuestionNums.length ; i++) {
+        var qnNum = msqQuestionNums[i];
+        
+        var noneOfTheAboveOption = $("input[name^='responsetext-" + qnNum + "'][value='']");
+
+        // reset other options when "none of the above" is clicked
+        noneOfTheAboveOption.click(function() {
+            var options = $(this).closest("table").find("input[name^='responsetext-'][value!='']");
+            
+            options.each(function() {
+                $(this).prop('checked', false);
+            });
+        });
+
+        // reset "none of the above" if any option is clicked
+        var options = $("input[name^='responsetext-" + qnNum + "'][value!='']");
+        options.click(function() {
+            var noneOfTheAboveOption = $(this).closest("table").find("input[name^='responsetext-'][value='']");
+            noneOfTheAboveOption.prop('checked', false);
+        });
+
     }
 }
 

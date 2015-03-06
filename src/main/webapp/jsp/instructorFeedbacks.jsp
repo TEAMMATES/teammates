@@ -103,7 +103,7 @@
                                 <div class="form-group<%= data.courses.size()==0?" has-error":"" %>">
                                     <h5 class="col-sm-4">
                                         <label for="<%=Const.ParamsNames.COURSE_ID%>"
-                                            class="control-label">Course</label>
+                                            class="control-label">Course ID</label>
                                     </h5>
                                     <div class="col-sm-8">
                                         <select class="form-control<%= data.courses.size()==0?" text-color-red":"" %>"
@@ -587,6 +587,10 @@
             <form style="display:none;" id="ajaxForSessions" class="ajaxForSessionsForm" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>">
                 <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
                 <input type="hidden" name="<%=Const.ParamsNames.IS_USING_AJAX%>" value="on">
+                <%if (data.feedbackSessionNameForSessionList != null && data.courseIdForNewSession != null) {%>
+                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.feedbackSessionNameForSessionList%>">
+                    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.courseIdForNewSession%>">
+                <%}%>
             </form>
         </div>
         <% } %>
@@ -618,14 +622,20 @@
             </thead>
             <%
                 int sessionIdx = -1;
+                String tableHighlight = "";
                 if (data.existingFeedbackSessions.size() > 0
                         || data.existingEvalSessions.size() > 0) {
                     int displayFeedbackStatsCount = 0;
                     Map<String, List<String>> courseIdSectionNamesMap = data.getCourseIdSectionNamesMap(data.existingFeedbackSessions);
                     for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {
                         sessionIdx++;
+                        if (data.feedbackSessionNameForSessionList != null && fdb.feedbackSessionName.equals(data.feedbackSessionNameForSessionList) && data.courseIdForNewSession != null && fdb.courseId.equals(data.courseIdForNewSession)) {
+                            tableHighlight = " warning";
+                        } else {
+                            tableHighlight = "";
+                        }
             %>
-            <tr class="sessionsRow" id="session<%=sessionIdx%>">
+            <tr class="sessionsRow<%=tableHighlight%>" id="session<%=sessionIdx%>">
                 <td><%=fdb.courseId%></td>
                 <td><%=InstructorFeedbacksPageData
                             .sanitizeForHtml(fdb.feedbackSessionName)%></td>
