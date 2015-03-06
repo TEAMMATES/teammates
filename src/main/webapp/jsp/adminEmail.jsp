@@ -112,6 +112,7 @@
                                     <div class="col-md-11">
                                         <input id="addressReceiverEmails" type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_ADDRESS_RECEVIERS%>" 
                                                placeholder="example1@email.com,example@email.com..."
+                                               maxlength="500"
                                                value="<%=aecPageData.emailToEdit != null && aecPageData.emailToEdit.getAddressReceiver() != null 
                                             		     && aecPageData.emailToEdit.getAddressReceiver().size() > 0 ? aecPageData.emailToEdit.getAddressReceiver().get(0) : ""%>">
                                                          

@@ -57,11 +57,11 @@ public class AdminEmailComposeSendAction extends Action {
         
         groupReceiverListFileKey = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);    
         
-        groupModeOn = (groupReceiverListFileKey != null) && (groupReceiverListFileKey != null);
+        groupModeOn = (groupReceiverListFileKey != null) && !groupReceiverListFileKey.isEmpty();
         
         if(groupModeOn){     
             try {
-                checkReceiverList(groupReceiverListFileKey);
+                checkGroupReceiverListFile(groupReceiverListFileKey);
                 groupReceiver.add(groupReceiverListFileKey);
             } catch (IOException e) {
                 setStatusForException(e, "An error occurred when retrieving receiver list, please try again");
@@ -70,8 +70,16 @@ public class AdminEmailComposeSendAction extends Action {
         }
         
         if(addressModeOn){
+            checkAddressReceiverString(addressReceiverListString);
             addressReceiver.add(addressReceiverListString);
-        }   
+        } 
+        
+        if(!addressModeOn && !groupModeOn){
+            isError = true;
+            statusToAdmin = "Error : No reciver address or file given";
+            statusToUser.add("Error : No reciver address or file given");
+            return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
+        }
 
         
         boolean isEmailDraft = emailId != null && !emailId.isEmpty();
@@ -87,7 +95,11 @@ public class AdminEmailComposeSendAction extends Action {
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
     }
     
-    private void checkReceiverList(String listFileKey) throws IOException {
+    private void checkAddressReceiverString(String addressReceiverString){
+       
+    }
+    
+    private void checkGroupReceiverListFile(String listFileKey) throws IOException {
         Assumption.assertNotNull(listFileKey);
 
         BlobKey blobKey = new BlobKey(listFileKey);
@@ -201,14 +213,16 @@ public class AdminEmailComposeSendAction extends Action {
                                                                  new Date());
         try {
             Date createDate = logic.createAdminEmail(newDraft);
-            emailId = logic.getAdminEmail(subject, createDate).getEmailId();
-            moveJobToGroupModeTaskQueue();
-            moveJobToAddressModeTaskQueue();
-            
+            emailId = logic.getAdminEmail(subject, createDate).getEmailId();       
         } catch (Exception e) {
+            deleteGroupReceiverFiles(groupReceiver);
             isError = true;
             setStatusForException(e, e.getMessage());
+            return;
         }
+        
+        moveJobToGroupModeTaskQueue();
+        moveJobToAddressModeTaskQueue();
     }
     
     
@@ -226,12 +240,21 @@ public class AdminEmailComposeSendAction extends Action {
         
         try {
             logic.updateAdminEmailById(fanalisedEmail, emailId);
-            moveJobToGroupModeTaskQueue();
-            moveJobToAddressModeTaskQueue();
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
+            deleteGroupReceiverFiles(groupReceiver);
             setStatusForException(e);
-        }
+            return;
+        }     
+        moveJobToGroupModeTaskQueue();
+        moveJobToAddressModeTaskQueue();
         
+    }
+    
+    private void deleteGroupReceiverFiles(List<String> groupReceiver){
+        for(String key : groupReceiver){
+            BlobKey blobKey = new BlobKey(key);
+            logic.deleteAdminEmailUploadedFile(blobKey);
+        }
     }
 
 }

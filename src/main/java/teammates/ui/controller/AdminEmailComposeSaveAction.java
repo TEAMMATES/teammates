@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.AdminEmailAttributes;
@@ -74,6 +75,7 @@ public class AdminEmailComposeSaveAction extends Action {
         try {
             logic.updateAdminEmailById(newDraft, previousEmailId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
+            deleteGroupReceiverFiles(groupReceiver);
             setStatusForException(e);
         }
         
@@ -92,8 +94,16 @@ public class AdminEmailComposeSaveAction extends Action {
         try {
             logic.createAdminEmail(newDraft);
         } catch (InvalidParametersException e) {
+            deleteGroupReceiverFiles(groupReceiver);
             isError = true;
             setStatusForException(e, e.getMessage());
+        }
+    }
+    
+    private void deleteGroupReceiverFiles(List<String> groupReceiver){
+        for(String key : groupReceiver){
+            BlobKey blobKey = new BlobKey(key);
+            logic.deleteAdminEmailUploadedFile(blobKey);
         }
     }
 

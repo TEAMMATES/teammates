@@ -44,7 +44,7 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
             sendAdminEmail(emailContent, emailSubject, receiverEmail);
             log.info("email sent to " + receiverEmail);
         } catch (UnsupportedEncodingException | MessagingException e) {
-            //log.severe("Unexpected error while sending admin emails " + e.getMessage());
+            log.severe("Unexpected error while sending admin emails " + e.getMessage());
         }
 
     }
