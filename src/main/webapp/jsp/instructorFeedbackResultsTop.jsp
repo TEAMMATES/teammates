@@ -210,8 +210,8 @@
                                 <% } %>
                             </select>
                         </div>
-                    </div>               
-                </div> 
+                    </div>
+                </div>
                 <% } %>
                 <div class="col-sm-7 pull-right" style="padding-top:8px;">
                     <% if(!showAll){ %>
@@ -244,15 +244,12 @@
     <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" 
         value="<%=data.account.googleId%>">
 </form>
-    
 <%
     }
 %>
 <br>
 <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 <br>
-
-    <% if (noResponses && showAll) { %>
-        <div class="bold color_red align-center">There are no responses for this feedback session yet or you do not have access to the responses collected so far.</div>
-    <% } %>
-
+<% if (noResponses && showAll) { %>
+    <div class="bold color_red align-center">There are no responses for this feedback session yet or you do not have access to the responses collected so far.</div>
+<% } %>
