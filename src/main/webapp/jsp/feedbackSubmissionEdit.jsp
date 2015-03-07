@@ -76,6 +76,7 @@
     %>
 <%
 	int qnIndx = 1;
+    String divClassType;
     List<FeedbackQuestionAttributes> questions = data.bundle.getSortedQuestions();
     for (FeedbackQuestionAttributes question : questions) {
         int numOfResponseBoxes = question.numberOfEntitiesToGiveFeedbackTo;
@@ -90,6 +91,13 @@
             // Don't display question if no recipients.
             continue;
         }
+        if (question.isRecipientNameHidden()) {
+            divClassType = "class=\"col-sm-12\""; 
+        } else if(numOfResponseBoxes == maxResponsesPossible) {
+        	divClassType = "class=\"col-sm-10\"";
+        } else {   
+        	divClassType = "class=\"col-sm-8\""; 
+        } 
 %>
         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>-<%=Integer.toString(qnIndx)%>" value="<%=question.questionType%>"/>
         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>-<%=Integer.toString(qnIndx)%>" value="<%=question.getId()%>"/>
@@ -134,16 +142,7 @@
                         %>
                         </select>
                     </div>
-                    <div 
-                    <% if (question.isRecipientNameHidden()) {
-                    	   out.println("class=\"col-sm-12\""); 
-                       } else if(numOfResponseBoxes == maxResponsesPossible) {
-                           out.println("class=\"col-sm-10\"");
-                       } else {   
-                    	   out.println("class=\"col-sm-8\""); 
-                       } 
-                    %>>
-                       
+                    <div <%=divClassType%>>                       
                         <%=questionDetails.getQuestionWithExistingResponseSubmissionFormHtml(
                             data.isSessionOpenForSubmission, 
                             qnIndx, responseIndx, question.courseId, 
@@ -170,15 +169,7 @@
                         %>
                         </select>
                     </div>
-                    <div 
-                    <% if (question.isRecipientNameHidden()) {
-                           out.println("class=\"col-sm-12\""); 
-                       } else if(numOfResponseBoxes == maxResponsesPossible) {
-                           out.println("class=\"col-sm-10\"");
-                       } else {   
-                           out.println("class=\"col-sm-8\""); 
-                       } 
-                    %>>
+                    <div <%=divClassType%>>
                     <%=questionDetails.getQuestionWithoutExistingResponseSubmissionFormHtml(
                             data.isSessionOpenForSubmission, 
                             qnIndx, responseIndx, question.courseId)%>
