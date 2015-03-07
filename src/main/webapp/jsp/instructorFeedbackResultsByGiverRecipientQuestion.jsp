@@ -475,7 +475,7 @@
                             FeedbackQuestionAttributes question = questions.get(singleResponse.feedbackQuestionId);
                             FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
                             isQnCONTRIB = false;
-                            if(questionDetails.questionType.getFeedbackQuestionDetailsInstance().getQuestionTypeDisplayName() == "Team contribution question") {                             
+                            if(questionDetails.questionType.getFeedbackQuestionDetailsInstance().getQuestionTypeDisplayName() == Const.FeedbackQuestionTypeNames.CONTRIB) {                             
                                 isQnCONTRIB = true; /* set isQnCONTRIB to true if it's a contribution question */
                             }
                     %>
