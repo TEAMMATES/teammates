@@ -166,9 +166,19 @@
                                                     	 if (questionDetails.shouldShowNoResponseText(prevGiver, possibleReceiver, question)) {
                                 %>
                                                             <tr class="pending_response_row">
-                                                            	<td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(prevGiver)%></td>
+                                                            	<td class="middlealign color_neutral">
+                                                                    <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(prevGiver)%>">
+                                                                        <%=data.bundle.getFullNameFromRoster(prevGiver)%>
+                                                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                                    </div>                                                                   
+                                                            	</td>
                                                                 <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(prevGiver)%></td>
-                                                                <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(possibleReceiver)%></td>
+                                                                <td class="middlealign color_neutral">
+                                                                    <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(possibleReceiver)%>">
+                                                                        <%=data.bundle.getFullNameFromRoster(possibleReceiver)%>
+                                                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                                    </div>                                                                   
+                                                                </td>
                                                                 <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
                                                                 <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(prevGiver, possibleReceiver, data.bundle, question)%></td>
                                                         	</tr>
@@ -190,9 +200,19 @@
                                                 }
                                 %>
                                             <tr>
-                                                <td class="middlealign"><%=giverName%></td>
+                                                <td class="middlealign">
+                                                    <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(responseEntry.giverEmail)%>">
+                                                        <%=giverName%>
+                                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                    </div>                                                    
+                                                </td>
                                                 <td class="middlealign"><%=giverTeamName%></td>
-                                                <td class="middlealign"><%=recipientName%></td>
+                                                <td class="middlealign">
+                                                    <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(responseEntry.recipientEmail)%>">
+                                                        <%=recipientName%>
+                                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                    </div>                                                    
+                                                </td>
                                                 <td class="middlealign"><%=recipientTeamName%></td>
                                                 <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
                                             </tr>        
@@ -215,9 +235,19 @@
                                           		    if (questionDetails.shouldShowNoResponseText(prevGiver, possibleReceiver, question)) {
                                 %>
                                                         <tr class="pending_response_row">
-                                                            <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(prevGiver)%></td>
+                                                            <td class="middlealign color_neutral">
+                                                                <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(prevGiver)%>">
+                                                                    <%=data.bundle.getFullNameFromRoster(prevGiver)%>
+                                                                    <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                                </div>                                                                   
+                                                            </td>
                                                             <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(prevGiver)%></td>
-                                                            <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(possibleReceiver)%></td>
+                                                            <td class="middlealign color_neutral">
+                                                                <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(possibleReceiver)%>">
+                                                                    <%=data.bundle.getFullNameFromRoster(possibleReceiver)%>
+                                                                    <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                                </div>                                                                   
+                                                            </td>
                                                             <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
                                                             <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(prevGiver, possibleReceiver, data.bundle, question)%></td>
                                                         </tr>
@@ -247,9 +277,19 @@
                                                   		if (questionDetails.shouldShowNoResponseText(possibleGiver, possibleReceiver, question)) {
                                 %>
                                                           <tr class="pending_response_row">
-                                                              <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(possibleGiver)%></td>
+                                                              <td class="middlealign color_neutral">
+                                                                  <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(possibleGiver)%>">
+                                                                      <%=data.bundle.getFullNameFromRoster(possibleGiver)%>
+                                                                      <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                                  </div>                                                                   
+                                                              </td>
                                                               <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleGiver)%></td>
-                                                              <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(possibleReceiver)%></td>
+                                                              <td class="middlealign color_neutral">
+                                                                  <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(possibleReceiver)%>">
+                                                                      <%=data.bundle.getFullNameFromRoster(possibleReceiver)%>
+                                                                      <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                                  </div>                                                                   
+                                                              </td>
                                                               <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
                                                               <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(possibleGiver, possibleReceiver, data.bundle, question)%></td>
                                                           </tr>
