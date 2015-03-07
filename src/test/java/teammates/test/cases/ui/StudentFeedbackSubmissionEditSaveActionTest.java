@@ -164,11 +164,35 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         a = getAction(submissionParams);
         r = (RedirectResult) a.executeAndPostProcess();
         
+        assertTrue(r.isError);
+        assertEquals("You did not specify a recipient for your response in question 2.", r.getStatusMessage());
+        assertEquals("/page/studentFeedbackSubmissionEditPage?error=" 
+                     + r.isError + "&user=student1InCourse1" 
+                     + "&courseid=idOfTypicalCourse1" 
+                     + "&fsname=First+feedback+session",
+                     r.getDestinationWithParams());
+        
+        ______TS("edit response, empty answer");
+        submissionParams = new String[]{
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-2", "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-2-0", fr.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-2", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-2-0", fr.recipientEmail,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-2", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-2-0", ""                 
+        };
+        
+        a = getAction(submissionParams);
+        r = (RedirectResult) a.executeAndPostProcess();
+        
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
         assertEquals("/page/studentHomePage?error=" + r.isError +"&user=student1InCourse1",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+        
         
         ______TS("new response, did not specify recipient");
         submissionParams = new String[]{
@@ -184,10 +208,13 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         a = getAction(submissionParams);
         r = (RedirectResult) a.executeAndPostProcess();
         
-        assertFalse(r.isError);
-        assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/studentHomePage?error=" + r.isError +"&user=student1InCourse1",
-                        r.getDestinationWithParams());
+        assertTrue(r.isError);
+        assertEquals("You did not specify a recipient for your response in question 2.", r.getStatusMessage());
+        assertEquals("/page/studentFeedbackSubmissionEditPage?error=" 
+                      + r.isError + "&user=student1InCourse1" 
+                      + "&courseid=idOfTypicalCourse1" 
+                      + "&fsname=First+feedback+session",
+                      r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
     
         ______TS("mcq");
