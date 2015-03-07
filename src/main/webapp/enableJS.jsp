@@ -1,6 +1,5 @@
 <noscript>
 <style>
-
 </style>
 
     <div id="noscript-warning">
