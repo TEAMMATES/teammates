@@ -470,12 +470,12 @@
                             <div class="col-md-10">
                     <%
                     	int qnIndx = 1;
-                        Boolean isQnCONTRIB = false; /* is the Question a Contribution Question? */
+                        boolean isQnCONTRIB = false; /* is the Question a Contribution Question? */
                         for (FeedbackResponseAttributes singleResponse : responsesFromGiverToRecipient.getValue()) {
                             FeedbackQuestionAttributes question = questions.get(singleResponse.feedbackQuestionId);
                             FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
                             isQnCONTRIB = false;
-                            if(questionDetails.questionType.getFeedbackQuestionDetailsInstance().getQuestionTypeDisplayName() == Const.FeedbackQuestionTypeNames.CONTRIB) {                             
+                            if(questionDetails.questionType == teammates.common.datatransfer.FeedbackQuestionType.CONTRIB) {                             
                                 isQnCONTRIB = true; /* set isQnCONTRIB to true if it's a contribution question */
                             }
                     %>
