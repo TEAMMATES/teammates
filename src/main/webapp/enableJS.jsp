@@ -28,6 +28,7 @@
 -}
 -*/
 -</style>
+
     <div id="noscript-warning">
         <h1>
             TEAMMATES works best with JavaScript enabled. <br> You may
