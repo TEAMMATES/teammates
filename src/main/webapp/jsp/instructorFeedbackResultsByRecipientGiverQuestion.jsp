@@ -15,6 +15,7 @@
 <%@ page import="teammates.ui.controller.InstructorFeedbackResultsPageData"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionType"%>
 <%
 	InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData) request.getAttribute("data");
     FieldValidator validator = new FieldValidator();
@@ -429,12 +430,12 @@
                             <div class="col-md-10">
                             <%
                             	int qnIndx = 1;
-                            boolean isQnCONTRIB = false; /* is the Question a Contribution Question? */
+                                boolean isQnCONTRIB = false; /* is the Question a Contribution Question? */
                                                             for (FeedbackResponseAttributes singleResponse : responsesForRecipientFromGiver.getValue()) {
                                                                 FeedbackQuestionAttributes question = questions.get(singleResponse.feedbackQuestionId);
                                                                 FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
                                                                 isQnCONTRIB = false;
-                                                                if(questionDetails.questionType == teammates.common.datatransfer.FeedbackQuestionType.CONTRIB) {                             
+                                                                if(questionDetails.questionType == FeedbackQuestionType.CONTRIB) {                             
                                                                     isQnCONTRIB = true; /* set isQnCONTRIB to true if it's a contribution question */
                                                                 }
                             %>
