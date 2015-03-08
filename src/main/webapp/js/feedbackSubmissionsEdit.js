@@ -2,16 +2,22 @@ jQuery.fn.reverse = [].reverse;
 
 var FEEDBACK_RESPONSE_RECIPIENT = "responserecipient";
 var FEEDBACK_RESPONSE_TEXT = "responsetext";
+var FEEDBACK_MISSING_RECIPIENT = "You did not specify a recipient for your response in question(s)";
 
 // On body load event
 $(document).ready(function () {
 
     // Bind submission event
     $('form[name="form_submit_response"],form[name="form_student_submit_response"]').submit(function() {
-        if(!validateConstSumQuestions()){
+        formatRubricQuestions();
+        
+        var validationStatus = true;
+        validationStatus &= validateConstSumQuestions();
+        validationStatus &= validateAllAnswersHaveRecipient();
+        if(!validationStatus) {
             return false;
         }
-        formatRubricQuestions();
+        
         reenableFieldsForSubmission();
     });
     
@@ -448,13 +454,18 @@ function formatRecipientLists(){
     });
     
     // Auto-select first valid option.
-    $('select.participantSelect.newResponse').each(function(){
+    $('select.participantSelect.newResponse').each(function() {
         var firstUnhidden = "";
-        $(this).children().reverse().each(function(){
-            if (this.style.display != 'none' && $(this).val() != "") {
-                firstUnhidden = this;
-            }
-        });
+        // select the first valid recipient if the dropdown is hidden from the user,
+        // otherwise, leave it as ""
+        if (this.style.display == 'none') {
+            $(this).children().reverse().each(function(){
+                if (this.style.display != 'none' && $(this).val() != "") {
+                    firstUnhidden = this;
+                }
+            });
+        } 
+
         $(this).val($(firstUnhidden).val()).change();
     });
 }
@@ -473,4 +484,50 @@ function validateNumScaleAnswer(qnIdx, responseIdx) {
     } else if (answer > max) {
         answerBox.val(answerBox.attr("max"));
     }
+}
+
+
+function isAnswerBlank(question, response) {
+    var answer = $("[name^=responsetext-" + question + "-" + response + "]");
+    if (answer.attr("type") === "radio" || answer.attr("type") === "checkbox") {
+        // for question types that involve checking boxes such as MSQ, MCQ 
+        return !answer.is(":checked");
+    } else {
+        return answer.val().trim() === "";
+    }
+}
+
+// Checks that there are no responses written to an unspecified recipient
+function validateAllAnswersHaveRecipient() {
+    var blankRecipients = $("select[name^='responserecipient-']").filter(function( index ) {
+                              return $(this).val() === "";
+                          });
+
+    var isAllAnswersToMissingRecipientEmpty = true;
+    var statusMessage = FEEDBACK_MISSING_RECIPIENT ;
+    var errorCount = 0;
+    // for every response without a recipient, check that the response is empty
+    for (var i = 0; i < blankRecipients.length; i++) {
+        var recipient = blankRecipients[i];
+
+        var question = $(recipient).attr("name").split('-')[1];
+        var response = $(recipient).attr("name").split('-')[2];
+
+        var answer = $("[name^=responsetext-" + question + "-" + response + "]");
+
+        if (!isAnswerBlank(question, response)) {
+            statusMessage += (errorCount == 0) ? "" : ",";
+            statusMessage += " ";
+            statusMessage += question;
+            errorCount++;
+            
+            isAllAnswersToMissingRecipientEmpty = false;
+        }
+    }
+
+    if (!isAllAnswersToMissingRecipientEmpty) {
+        setStatusMessage(statusMessage + ".", true);
+    }
+
+    return isAllAnswersToMissingRecipientEmpty;
 }
