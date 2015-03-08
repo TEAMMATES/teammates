@@ -1,7 +1,4 @@
 <noscript>
-<style> 
-
-</style>
 
     <div id="noscript-warning">
         <h1>
