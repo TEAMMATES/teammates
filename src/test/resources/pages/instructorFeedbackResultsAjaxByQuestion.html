@@ -222,17 +222,20 @@
     <input name="user" value="CFResultsUiT.instr" type="hidden">
 </form>
 
-<br>
+  <br />
+            
 
 
 
 
+    <div class="alert alert-warning" id="statusMessage">
+        This session seems to have a large number of responses. It is recommended to view the results one section at at time.
+    </div>
+    <script type="text/javascript">
+        document.getElementById( 'statusMessage' ).scrollIntoView();
+    </script>
 
-    <div id="statusMessage" style="display: none;"></div>
-
-<br>
-
-
+ <br /> 
             <br>
             
             <div class="panel panel-info">
