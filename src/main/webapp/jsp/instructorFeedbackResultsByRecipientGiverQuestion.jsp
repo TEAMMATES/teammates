@@ -430,7 +430,7 @@
                             <div class="col-md-10">
                             <%
                             	int qnIndx = 1;
-                                boolean isQnCONTRIB = false; /* is the Question a Contribution Question? */
+                               boolean isQnCONTRIB = false; /* is the Question a Contribution Question? */
                                                             for (FeedbackResponseAttributes singleResponse : responsesForRecipientFromGiver.getValue()) {
                                                                 FeedbackQuestionAttributes question = questions.get(singleResponse.feedbackQuestionId);
                                                                 FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
