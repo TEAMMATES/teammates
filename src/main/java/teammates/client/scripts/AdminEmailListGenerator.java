@@ -1,6 +1,7 @@
 package teammates.client.scripts;
 
 import java.io.BufferedWriter;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -12,7 +13,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Scanner;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
@@ -30,7 +30,21 @@ import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
 
+import teammates.common.exception.InvalidParametersException;
+
 public class AdminEmailListGenerator extends RemoteApiClient {
+    
+    //admin email configuration
+    public boolean student = false;
+    public boolean instructor = true;
+    public StudentStatus studentStatus = StudentStatus.ALL;
+    public InstructorStatus instructorStatus = InstructorStatus.ALL;
+    public String studentCreatedDateRangeStart = "01/03/2015";
+    public String studentCreatedDateRangeEnd = "06/03/2015";
+    public String instructorCreatedDateRangeStart = null;
+    public String instructorCreatedDateRangeEnd = "02/03/2016";
+    
+    
     
     private static enum StudentStatus{REG, UNREG, ALL};
     private static enum InstructorStatus{REG, UNREG, ALL};
@@ -47,12 +61,17 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         adminEmailListGenerator.doOperationRemotely();
     }
 
-    @SuppressWarnings("unchecked")
     protected void doOperation() {
         
-        getInstructorEmailConfiguration();
-        getStudentEmailConfiguration();     
-        printToFile();  
+      
+        try {
+            getInstructorEmailConfiguration();
+            getStudentEmailConfiguration();
+            printToFile();  
+        } catch (InvalidParametersException e) {
+            System.out.print(e.getMessage() + "\n");
+        }     
+        
         
         System.out.print("\n\nstudent : " + emailListConfig.student + "\n");       
         if( emailListConfig.studentCreatedDateRangeStart !=null){
@@ -73,190 +92,41 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         }
     }
     
-    private void getInstructorEmailConfiguration(){
-        int needInstructor = getUserInputForCommand("send to instructor ? 1.Yes 2.No", 2);
-        
-        if(needInstructor == 1){
-            emailListConfig.instructor = true;
-            
-            int regStatus = getUserInputForCommand("1.Registered Only 2.Unregistered Only 3.All", 3);
-            switch (regStatus){
-                case 1:
-                    emailListConfig.instructorStatus = InstructorStatus.REG;
-                    break;
-                case 2:
-                    emailListConfig.instructorStatus = InstructorStatus.UNREG;
-                    break;
-                case 3:
-                    emailListConfig.instructorStatus = InstructorStatus.ALL;
-                    break;
-                default :
-                    break;  
-            };
-            
-            int dateRangeStatus = getUserInputForCommand("[Instructor]Created Date Range Option : \n" +
-                                                            "1. All time\n" +
-                                                            "2. After a specific date : [your input] ~ now \n" +
-                                                            "3. Before a specific date : ~ [your input] \n" + 
-                                                            "4. Within an interval : [your input start] ~ [your input end]", 4);
-           
-                
-            switch (dateRangeStatus){
-            case 1:
-                break;
-            case 2:
-                getInputDate(true, true);
-                break;
-            case 3:
-                getInputDate(false, true);
-                break;
-            case 4:
-            default: 
-                getInputDate(true, true);
-                getInputDate(false, true);
-                break;
-        }
-        }    
+    private void getInstructorEmailConfiguration() throws InvalidParametersException{
+        emailListConfig.instructor = this.instructor;
+        emailListConfig.instructorStatus = this.instructorStatus;
+        emailListConfig.instructorCreatedDateRangeStart = getInputDate(instructorCreatedDateRangeStart);
+        emailListConfig.instructorCreatedDateRangeEnd = getInputDate(instructorCreatedDateRangeEnd);       
     }
     
-    private void getStudentEmailConfiguration(){
-        int needStudent = getUserInputForCommand("send to student ? 1.Yes 2.No", 2);
-        
-        if(needStudent == 1){
-            emailListConfig.student = true;
-            
-            int regStatus = getUserInputForCommand("1.Registered Only 2.Unregistered Only 3.All", 3);
-            switch (regStatus){
-                case 1:
-                    emailListConfig.studentStatus = StudentStatus.REG;
-                    break;
-                case 2:
-                    emailListConfig.studentStatus = StudentStatus.UNREG;
-                    break;
-                case 3:
-                    emailListConfig.studentStatus = StudentStatus.ALL;
-                    break;
-                default :
-                    break;  
-            }; 
-            
-            
-            int dateRangeStatus = getUserInputForCommand("[Student]Created Date Range Option : \n" +
-                                                            "1. All time\n" +
-                                                            "2. After a specific date : [your input] ~ now \n" +
-                                                            "3. Before a specific date : ~ [your input] \n" + 
-                                                            "4. Within an interval : [your input start] ~ [your input end]", 4);
-
-            
-            switch (dateRangeStatus){
-                case 1:
-                    break;
-                case 2:
-                    getInputDate(true, false);
-                    break;
-                case 3:
-                    getInputDate(false, false);
-                    break;
-                case 4:
-                default: 
-                    getInputDate(true, false);
-                    getInputDate(false, false);
-                    break;
-            }
-            
-        }     
-       
+    private void getStudentEmailConfiguration() throws InvalidParametersException{
+        emailListConfig.student = this.student;
+        emailListConfig.studentStatus = this.studentStatus;
+        emailListConfig.studentCreatedDateRangeStart = getInputDate(studentCreatedDateRangeStart);
+        emailListConfig.studentCreatedDateRangeEnd = getInputDate(studentCreatedDateRangeEnd);            
     }
     
     
-    private void getInputDate(boolean isStart, boolean isInstructor){
+    private Date getInputDate(String dateString) throws InvalidParametersException{
         
-        String cmdStr = isStart ? "start" : "end";
-        int year;
-        int month;
-        int day;
-        
-        boolean isDateValid = false;
-        
-        do{
-
-            System.out.print("****** Set " + cmdStr + " date: ******* \n");
-            
-            
-            year = getUserInputForCommand("Year ?", Integer.MAX_VALUE);
-            
-            
-            
-            month = getUserInputForCommand("Month ? \n" +
-                                                  "1. Jan " + 
-                                                  "2. Feb " + 
-                                                  "3. Mar " + 
-                                                  "4. Apr " + 
-                                                  "5. May " + 
-                                                  "6. Jun " + 
-                                                  "7. Jul " + 
-                                                  "8. Aug " + 
-                                                  "9. Sep " + 
-                                                  "10. Oct " + 
-                                                  "11. Nov " + 
-                                                  "12. Dec ", 12);
-            
-            day = getUserInputForCommand("Day ?", 31);   
-            
-            isDateValid = isValidDate(day, month, year);
-            
-            
-        }while(!isDateValid);     
-      
-        Date date = getDate(day, month, year);
-        
-        System.out.print(date.toGMTString()+ "\n");
-        
-        if(isInstructor){
-            if(isStart){
-                
-               emailListConfig.instructorCreatedDateRangeStart = date;
-            } else {
-                emailListConfig.instructorCreatedDateRangeEnd = date;
-            }
-        } else {
-            
-            if(isStart){
-                emailListConfig.studentCreatedDateRangeStart = date;
-            } else {
-                emailListConfig.studentCreatedDateRangeEnd = date;
-            }
+        if(dateString == null){
+            return null;
         }
         
-    }
-    
-   
-    
-    private int getUserInputForCommand(String cmd, int upperLimit){
-        
-        int validatedUserInput = 0;
-        boolean isUserInputValid = false;  
-        do{
-            System.out.print("******************************\n" + 
-                             cmd + "\n" + 
-                             "******************************\n"); 
-            Scanner reader = new Scanner(System.in);
-            String input = reader.nextLine();
-            try{
-                int userInput = Integer.parseInt(input);
-                if(userInput > 0 && userInput <= upperLimit){
-                    isUserInputValid = true;
-                    validatedUserInput = userInput;
-                } else {
-                    isUserInputValid = false;
-                }
-                
-            } catch(NumberFormatException e) {
-                isUserInputValid = false;
+        try{
+            String[] split = dateString.split("/");
+            int day = Integer.parseInt(split[0]);
+            int month = Integer.parseInt(split[1]);
+            int year = Integer.parseInt(split[2]);
+            if(isValidDate(day, month, year)){
+                return getDate(day, month, year);
+            } else {
+                throw new InvalidParametersException("Date format error");
             }
-        } while (!isUserInputValid);
+        } catch(Exception e) {
+            throw new InvalidParametersException("Date format error");
+        }
         
-        return validatedUserInput;
     }
     
     private void printToFile() {     
@@ -271,8 +141,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         
         try {
 
-//            File statText = new File("C:\\Users\\Mo\\Desktop\\" + this.getCurrentDateForDisplay() + ".txt");
-            File statText = new File("C:\\Users\\Mo\\Desktop\\" + "aaa" + ".txt");
+            File statText = new File("C:\\Users\\Mo\\Desktop\\" + this.getCurrentDateForDisplay() + ".txt");
             FileOutputStream is = new FileOutputStream(statText);
             OutputStreamWriter osw = new OutputStreamWriter(is);    
             Writer w = new BufferedWriter(osw);
@@ -302,6 +171,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
                 int i = 0;
                 
                 for(Instructor instructor : allInstructors){
+                    i ++;
                     if((instructor.getGoogleId() != null  && emailListConfig.instructorStatus == InstructorStatus.REG) ||
                        (instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG) ||
                        (emailListConfig.instructorStatus == InstructorStatus.ALL)){
@@ -337,24 +207,14 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         }
     }
     
-    @SuppressWarnings("deprecation")
     private boolean isInstructorCreatedInRange(Instructor instructor){
         
-        Date instructorCreatedAtOriginal = getInstructorCreatedDate(instructor);
+        Date instructorCreatedAt = getInstructorCreatedDate(instructor);
         
        
-        if(instructorCreatedAtOriginal == null){
+        if(instructorCreatedAt == null){
             return false;
         }
-        
-        Calendar cal = Calendar.getInstance();
-        cal.clear();
-        cal.set(instructorCreatedAtOriginal.getYear() + 1900,
-                instructorCreatedAtOriginal.getMonth(),
-                instructorCreatedAtOriginal.getDate(), 
-                0, 0, 0);
-        
-        Date instructorCreatedAt = cal.getTime();
         
         if (emailListConfig.instructorCreatedDateRangeEnd == null &&
             emailListConfig.instructorCreatedDateRangeStart == null ){
@@ -416,25 +276,16 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         return null;
         
 }
+
     
-    @SuppressWarnings("deprecation")
     private boolean isStudentCreatedInRange(Student student){
         
-        Date studentCreatedAtOriginal = getStudentCreatedDate(student);
+        Date studentCreatedAt = getStudentCreatedDate(student);
 
         
-        if(studentCreatedAtOriginal == null){
+        if(studentCreatedAt == null){
             return false;
         }
-        
-        Calendar cal = Calendar.getInstance();
-        cal.clear();
-        cal.set(studentCreatedAtOriginal.getYear() + 1900,
-                studentCreatedAtOriginal.getMonth(),
-                studentCreatedAtOriginal.getDate(), 
-                0, 0, 0);
-        
-        Date studentCreatedAt = cal.getTime();
         
         if (emailListConfig.studentCreatedDateRangeEnd == null &&
             emailListConfig.studentCreatedDateRangeStart == null ){
@@ -597,8 +448,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
                 days = 30;
                 break;
             case 2:
-                if( ((year % 4) == 0 && (year % 100) != 0)
-                    || (year % 400) == 0 ){
+                if( ((year % 4) == 0 && (year % 100) != 0) || (year % 400) == 0){
                     days = 29;
                 } else {
                     days = 28;

@@ -44,24 +44,11 @@ $(document).ready(function(){
 	    toolbar2: "print preview | forecolor backcolor | fontsizeselect fontselect | emoticons | fullscreen",
 	    
 	    file_picker_callback: function(callback, value, meta) {
-	        // Provide file and text for the link dialog
-//	        if (meta.filetype == 'file') {
-//	        	
-//	            //callback('mypage.html', {text: 'My text'});
-//	            $("#adminEmailFile").click();
-//	            callbackFunction = callback;
-//	        }
 
 	        // Provide image and alt text for the image dialog
 	        if (meta.filetype == 'image') {
-        	
 	        	$("#adminEmailFile").click();
 	        	callbackFunction = callback;
-	        }
-
-	        // Provide alternative source and posted for the media dialog
-	        if (meta.filetype == 'media') {
-	            callback('movie.mp4', {source2: 'alt.ogg', poster: 'image.jpg'});
 	        }
 	    }
 	    
@@ -84,7 +71,16 @@ $(document).ready(function(){
 		$("#adminEmailMainForm").attr("action", "/admin/adminEmailComposeSave");
 		$("#composeSubmitButton").click();
 	});
+	
+	$("#addressReceiverEmails").on("change keyup", function (e) {
+		  if (e.which == 13) {
+			  $("#addressReceiverEmails").val($("#addressReceiverEmails").val() + ",");
+		  }
+		});
+	
 });
+
+
 
 function createGroupReceiverListUploadUrl(){
 	

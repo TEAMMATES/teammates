@@ -101,7 +101,8 @@
                             
                             <% 
                               //provide email id if we are editing an email draft
-                              if(aecPageData.emailToEdit !=null && aecPageData.emailToEdit.getSendDate() == null){
+                              if(aecPageData.emailToEdit !=null && aecPageData.emailToEdit.getSendDate() == null 
+                                 && aecPageData.emailToEdit.getEmailId() != null){
                             %>
                                 <input type="hidden" value="<%=aecPageData.emailToEdit.getEmailId()%>" name="<%=Const.ParamsNames.ADMIN_EMAIL_ID%>">
                             <% 
@@ -111,7 +112,7 @@
                                 <div class="row">
                                     <div class="col-md-11">
                                         <input id="addressReceiverEmails" type="text" class="form-control" name="<%=Const.ParamsNames.ADMIN_EMAIL_ADDRESS_RECEVIERS%>" 
-                                               placeholder="example1@email.com,example@email.com..."
+                                               placeholder="example1@email.com,example2@email.com..."
                                                maxlength="500"
                                                value="<%=aecPageData.emailToEdit != null && aecPageData.emailToEdit.getAddressReceiver() != null 
                                             		     && aecPageData.emailToEdit.getAddressReceiver().size() > 0 ? aecPageData.emailToEdit.getAddressReceiver().get(0) : ""%>">
@@ -143,7 +144,7 @@
                                     rows="10"><%=aecPageData.emailToEdit !=null? aecPageData.emailToEdit.getContentForDisplay() : ""%></textarea>
                             </p>
                             <p>
-                                <input type="submit" value="Send" id="composeSubmitButton" />
+                                <button type="button" id="composeSubmitButton" onclick="$('#adminEmailMainForm').submit();">Send</button>
                                 <button type="button" id="composeSaveButton">save</button>
                             </p>
                         </form>

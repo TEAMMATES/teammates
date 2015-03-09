@@ -24,16 +24,19 @@ public class AdminEmail {
     private String emailId;
     
     @Persistent
+    //this stores the address string eg."example1@test.com,example2@test.com...."
     private List<String> addressReceiver;
    
     
     @Persistent
+    //this stores the blobkey string of the email list file uploaded to Google Cloud Storage
     private List<String> groupReceiver;
     
     @Persistent
     private String subject;
     
     @Persistent
+    //For draft emails,this is null. For sent emails, this is not null;
     private Date sendDate;
     
     @Persistent

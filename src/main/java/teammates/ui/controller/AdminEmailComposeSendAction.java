@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+
 import com.google.appengine.api.blobstore.BlobInfo;
 import com.google.appengine.api.blobstore.BlobInfoFactory;
 import com.google.appengine.api.blobstore.BlobKey;
@@ -19,8 +20,10 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
+import teammates.common.util.FieldValidator.FieldType;
 import teammates.logic.api.GateKeeper;
 import teammates.logic.core.TaskQueuesLogic;
 
@@ -59,28 +62,42 @@ public class AdminEmailComposeSendAction extends Action {
         
         groupModeOn = (groupReceiverListFileKey != null) && !groupReceiverListFileKey.isEmpty();
         
+        
+        
         if(groupModeOn){     
             try {
-                checkGroupReceiverListFile(groupReceiverListFileKey);
                 groupReceiver.add(groupReceiverListFileKey);
-            } catch (IOException e) {
+                checkGroupReceiverListFile(groupReceiverListFileKey);
+            } catch (Exception e) {
+                isError = true;
                 setStatusForException(e, "An error occurred when retrieving receiver list, please try again");
-                return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
             }     
         }
         
         if(addressModeOn){
-            checkAddressReceiverString(addressReceiverListString);
-            addressReceiver.add(addressReceiverListString);
+            addressReceiver.add(addressReceiverListString);          
+            try {
+                checkAddressReceiverString(addressReceiverListString);
+            } catch (InvalidParametersException e) {
+                isError = true;
+                setStatusForException(e);
+            }  
         } 
         
         if(!addressModeOn && !groupModeOn){
             isError = true;
             statusToAdmin = "Error : No reciver address or file given";
-            statusToUser.add("Error : No reciver address or file given");
+            statusToUser.add("Error : No reciver address or file given");       
+        }
+        
+        if(isError){
+            data.emailToEdit = new AdminEmailAttributes(subject,
+                                                        addressReceiver,
+                                                        groupReceiver,
+                                                        new Text(emailContent),
+                                                        null);
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
         }
-
         
         boolean isEmailDraft = emailId != null && !emailId.isEmpty();
         
@@ -95,7 +112,18 @@ public class AdminEmailComposeSendAction extends Action {
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
     }
     
-    private void checkAddressReceiverString(String addressReceiverString){
+    private void checkAddressReceiverString(String addressReceiverString) throws InvalidParametersException{
+       FieldValidator validator = new FieldValidator();
+       
+       String[] emails = addressReceiverString.split(",");
+       for(String email : emails){
+           String error = validator.getInvalidityInfo(FieldType.EMAIL, email);
+           if(error != null && !error.isEmpty()){
+               isError = true;
+               statusToUser.add(error);
+               throw new InvalidParametersException("<strong>Email Format Error</strong>");
+           }
+       }
        
     }
     
