@@ -11,8 +11,6 @@ $(function() {
 
 /**
  * Function that shows confirmation dialog for removing a student from search result
- * @param studentName
- * @param courseId
  */
 function toggleDeleteStudentConfirmation(courseId, studentName) {
     return confirm("Are you sure you want to remove " + studentName + " from " +
