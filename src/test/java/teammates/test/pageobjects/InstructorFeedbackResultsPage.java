@@ -177,7 +177,17 @@ public class InstructorFeedbackResultsPage extends AppPage {
         fillTextBox(commentEditForm.findElement(By.name("responsecommenttext")), newCommentText);
         commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
         ThreadHelper.waitFor(1000);
-   
+    }
+    
+    public void clickVisibilityOptionForResponseCommentAndSave(String idString, int numOfTheCheckbox) {
+        String idSuffix = idString.substring(18);
+        WebElement commentRow = browser.driver.findElement(By.id(idString));
+        commentRow.findElements(By.tagName("a")).get(1).click();
+        WebElement commentEditForm = browser.driver.findElement(By.id("responseCommentEditForm" + idSuffix));
+        commentRow.findElement(By.id("frComment-visibility-options-trigger" + idSuffix)).click();
+        commentRow.findElements(By.cssSelector("input[type='checkbox']")).get(numOfTheCheckbox).click();
+        commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
+        ThreadHelper.waitFor(1000);
     }
     
     public boolean verifyAllResultsPanelBodyVisibility(boolean visible){
