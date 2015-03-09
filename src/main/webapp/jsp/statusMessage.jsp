@@ -9,7 +9,7 @@
 <%
     if(!statusMessage.isEmpty()) {
 %>
-    <div id="statusMessage"
+    <div id="statusMessage" style="white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word;"
         <%if(isError) out.print(" class=\"alert alert-danger\""); else out.print(" class=\"alert alert-warning\"");%>>
         <%=statusMessage%>
     </div>
