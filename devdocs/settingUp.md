@@ -67,7 +67,7 @@ Important: When a version is specified, please install that version instead of t
    * Log in using your Google ID. If this is the dev server, enter any email 
    address, but remember to check the `log in as administrator` check box. 
    * Enter credentials for an instructor. e.g.,<br>
-      Google id: `teammates.instructor` <br>
+      Short Name: `teammates.instructor` <br>
       Name: `John Dorian` <br>
       Email: `teammates.instructor@university.edu` <br>
       Institute: `National University of Singapore` 
