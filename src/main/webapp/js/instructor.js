@@ -72,7 +72,7 @@ function toggleDeleteFeedbackSessionConfirmation(courseID, name) {
  * @param name
  */
 function togglePublishEvaluation(name) {
-    return confirm("Are you sure you want to publish the evaluation " + name + "?");
+    return confirm("Are you sure you want to publish the session " + name + "?");
 }
 
 /**
