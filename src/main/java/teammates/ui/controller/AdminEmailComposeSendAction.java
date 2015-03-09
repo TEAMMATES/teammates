@@ -108,7 +108,13 @@ public class AdminEmailComposeSendAction extends Action {
             updateDraftEmailToSent(emailId, subject, addressReceiver, groupReceiver, emailContent);
         }
  
-
+        if(isError){
+            data.emailToEdit = new AdminEmailAttributes(subject,
+                                                        addressReceiver,
+                                                        groupReceiver,
+                                                        new Text(emailContent),
+                                                        null);
+        }
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
     }
     
@@ -269,6 +275,7 @@ public class AdminEmailComposeSendAction extends Action {
         try {
             logic.updateAdminEmailById(fanalisedEmail, emailId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
+            isError = true;
             deleteGroupReceiverFiles(groupReceiver);
             setStatusForException(e);
             return;
