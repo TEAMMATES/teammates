@@ -19,34 +19,6 @@
     type="text/css" />
 <link rel="stylesheet" type="text/css" href="./mashup.css">
 <style type="text/css">
-#apDiv1 {
-    position: absolute;
-    left: 829px;
-    top: 9px;
-    width: 202px;
-    height: 22px;
-    z-index: 1;
-    font-size: large;
-}
-
-#apDiv2 {
-    position: absolute;
-    left: 793px;
-    top: 39px;
-    width: 257px;
-    height: 20px;
-    z-index: 1;
-}
-
-#apDiv3 {
-    position: absolute;
-    left: 554px;
-    top: 25px;
-    width: 369px;
-    height: 14px;
-    z-index: 1;
-}
-
 #apDiv4 {
     position: absolute;
     left: 1041px;
