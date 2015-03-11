@@ -927,6 +927,7 @@ public class Const {
         public static final String FEEDBACK_QUESTION_TEXTINVALID = "Please enter a valid question. The question text cannot be empty.";
         
         public static final String FEEDBACK_RESPONSES_SAVED = "All responses submitted succesfully!";
+        public static final String FEEDBACK_RESPONSES_MISSING_RECIPIENT = "You did not specify a recipient for your response in question %s.";
         
         public static final String FEEDBACK_RESPONSE_COMMENT_EMPTY = "Comment cannot be empty";
         public static final String FEEDBACK_RESPONSE_COMMENT_ADDED = "Your comment has been saved successfully";
@@ -940,6 +941,7 @@ public class Const {
         
         public static final String FEEDBACK_RESULTS_SOMETHINGNEW = "You have received feedback from others. Please see below.";
         public static final String FEEDBACK_RESULTS_NOTHINGNEW = "You have not received any new feedback but you may review your own submissions below.";
+        public static final String FEEDBACK_RESULTS_SECTIONVIEWWARNING = "This session seems to have a large number of responses. It is recommended to view the results one section at at time.";
         
         public static final String ENROLL_LINE_EMPTY = "Please input at least one student detail.";
         public static final String ENROLL_LINES_PROBLEM_DETAIL_PREFIX = "&bull;";
