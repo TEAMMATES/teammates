@@ -41,6 +41,12 @@ $(document).ready(function(){
 	    });
 	    form.find("input[name='showrecipientto']").val(visibilityOptions.toString());
     });
+    
+    // 'You don't have any comments on this student.' formatting changing
+    if ($(".list-group li:first-child form").length == 0){
+        $(".list-group li:first-child").removeClass();
+        $(".list-group li:first-child").addClass("list-group-item list-group-item-info");
+    }
 });
 
 /**
