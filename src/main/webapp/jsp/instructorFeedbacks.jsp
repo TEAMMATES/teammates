@@ -696,6 +696,7 @@
                 }
             %>
         </table>
+        <p class="col-md-12 text-muted">Note: The table above doesn't contain sessions from archived courses. To view sessions from an archived course, unarchive the course first.</p>
         <br> <br> <br>
         <%
                 if (sessionIdx == -1) {
