@@ -134,7 +134,7 @@ h2 {
 }
 
 #navbar li {
-   color: #e46d0b;
+   color: white;
    float: left;
    list-style-type: none;
    padding-left: 20px;
@@ -166,7 +166,7 @@ h2 {
 }
 
 #navbar li a {
-   color: #e46d0b;
+   color: white;
    text-decoration: none;
 }
 
@@ -175,7 +175,7 @@ h2 {
 }
 
 #loginHolder input{
-    color: #cc9900;
+    color: #00FF00;
        font-weight: bold;
        border-style: none;
        background-color: black;
