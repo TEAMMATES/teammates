@@ -134,7 +134,7 @@ h2 {
 }
 
 #navbar li {
-   color: white;
+   color: #e46d0b;
    float: left;
    list-style-type: none;
    padding-left: 20px;
@@ -142,7 +142,7 @@ h2 {
 }
 
 #navbar li a {
-    color: white;
+    color: #e46d0b;
     font-weight: bold;
     text-decoration: none;
 }
@@ -166,7 +166,7 @@ h2 {
 }
 
 #navbar li a {
-   color: white;
+   color: #e46d0b;
    text-decoration: none;
 }
 
@@ -175,11 +175,16 @@ h2 {
 }
 
 #loginHolder input{
-    color: #00FF00;
+    color: #CC9900;
        font-weight: bold;
        border-style: none;
        background-color: black;
        cursor: pointer;
+}
+
+#loginHolder input:hover{
+    color: while;
+       text-decoration: underline;
 }
 
 #loginHolder form{
