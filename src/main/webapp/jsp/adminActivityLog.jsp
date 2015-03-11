@@ -503,7 +503,7 @@
                             <%
                                 if (appLogs.isEmpty()) {
                             %>
-                            <tr>
+                            <tr id="noResultFoundMessage">
                                 <td colspan='2'><i>No
                                         application logs found</i></td>
                             </tr>

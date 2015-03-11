@@ -103,6 +103,15 @@ function updateInfoForRecentActionButton(){
 	$(".ifShowTestData_for_person").val(isShowTestData);
 }
 
+function clickSearchMoreButtonIfNoResultFound(){
+	if($("#noResultFoundMessage").length){
+		if($("#button_older").length){
+			$("#button_older").click();
+		}
+	}
+}
+
 $(document).ready(function(){
 	updateInfoForRecentActionButton();
+	clickSearchMoreButtonIfNoResultFound();
 });

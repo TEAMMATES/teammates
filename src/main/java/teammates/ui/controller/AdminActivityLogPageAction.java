@@ -212,7 +212,7 @@ public class AdminActivityLogPageAction extends Action {
         String status="&nbsp;&nbsp;Total Logs gone through in last search: " + totalLogsSearched + "<br>";
         //link for Next button, will fetch older logs
         if (totalLogsSearched >= MAX_LOGSEARCH_LIMIT){
-            status += "<br><span class=\"red\">&nbsp;&nbsp;Maximum amount of logs per requst have been searched.</span><br>";
+            status += "<br><span class=\"red\">&nbsp;&nbsp;Maximum amount of logs per request have been searched.</span><br>";
             status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "','" + data.ifShowAll + "','" + data.ifShowTestData + "');\">Search More</button>";           
         }
         
