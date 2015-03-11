@@ -121,9 +121,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         
         for(List<String> list : listOfList){
             for(String str : list){
-                System.out.print(str + "      " + i + " \n");
                 log.info(str + "      " + i + " \n");
-
                 i ++;
             }
         }
