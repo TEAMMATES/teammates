@@ -77,7 +77,7 @@ function toggleSendRegistrationKeysConfirmation(courseID) {
  * @param studentName
  * @returns
  */
-function toggleDeleteStudentConfirmation(studentName) {
+function toggleDeleteStudentConfirmation(courseId, studentName) {
     return confirm("Are you sure you want to remove " + studentName + " from " +
             "the course " + courseId + "?");
 }
