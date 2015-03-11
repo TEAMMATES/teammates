@@ -9,13 +9,13 @@
 # For dev server, any URL would do. 
 # For staging server, use the url of the app on remote server.
 # e.g. app.url=http\://teammates-john.appspot.com
-app.url=http\://teammates-john.appspot.com
+app.url=http\://teammates-shubham.appspot.com
 
 # This is the Google Cloud Storage bucket name used by the app
 # For dev server, any name would do
 # For staging server, use the url of the app on remote server (without https\://)
 # e.g. app.gcs.bucketname = teammates-michelle.appspot.com
-app.gcs.bucketname=teammates-john.appspot.com
+app.gcs.bucketname=teammates-shubham.appspot.com
 
 # This is the key used by test driver to access backdoor. 
 # It can be any random string you choose, 
@@ -39,9 +39,9 @@ app.persistence.checkduration=4000
 # This is the email address to report runtime error not handled
 #   by the system, i.e. AssertionFailure and other unchecked exceptions.
 # This should be an email you check. e.g., email of the app admin.  
-app.crashreport.email = app_admin@gmail.com
+app.crashreport.email = shubhampkj@gmail.com
 
 # This is the url to display as a message of the day to a student.
 # Use test-student-motd.html to test this feature.
 # e.g. app.student.motd.url = test-student-motd.html
-app.student.motd.url = 
+app.student.motd.url = test-student-motd.html
