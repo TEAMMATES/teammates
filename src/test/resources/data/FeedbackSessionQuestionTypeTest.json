@@ -518,6 +518,31 @@
                 "INSTRUCTORS"
             ]
         },
+        "qn3InSession4InCourse1":{
+            "feedbackSessionName":"CONSTSUM Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.tmt",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"How much has each student worked?\",
+                          \"questionType\":\"CONSTSUM\", \"numOfConstSumOptions\" : 0,
+                          \"constSumOptions\" : [],\"distributeToRecipients\" : true,
+                          \"pointsPerOption\" : true, \"points\" : 100}"
+            },
+            "questionNumber":"3",
+            "questionType":"CONSTSUM",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"STUDENTS",
+            "numberOfEntitiesToGiveFeedbackTo":5,
+            "showResponsesTo":[
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+        },
         "qn1InSession5InCourse1":{
             "feedbackSessionName":"CONTRIB Session",
             "courseId":"FSQTT.idOfTypicalCourse1",
@@ -798,6 +823,61 @@
             "recipientEmail":"Team 1.2",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [20]}"
+            }
+        },
+        "response1ForQ3S4C1":{
+            "feedbackSessionName":"CONSTSUM Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"3",
+            "feedbackQuestionType":"CONSTSUM",
+            "giverEmail":"instructor1@course1.tmt",
+            "recipientEmail":"student1InCourse1@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [30]}"
+            }
+        },
+        "response2ForQ3S4C1":{
+            "feedbackSessionName":"CONSTSUM Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"3",
+            "feedbackQuestionType":"CONSTSUM",
+            "giverEmail":"instructor1@course1.tmt",
+            "recipientEmail":"student2InCourse1@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [20]}"
+            }
+        },
+        "response3ForQ3S4C1":{
+            "feedbackSessionName":"CONSTSUM Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"3",
+            "feedbackQuestionType":"CONSTSUM",
+            "giverEmail":"instructor1@course1.tmt",
+            "recipientEmail":"student3InCourse1@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [30]}"
+            }
+        },
+        "response4ForQ3S4C1":{
+            "feedbackSessionName":"CONSTSUM Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"3",
+            "feedbackQuestionType":"CONSTSUM",
+            "giverEmail":"instructor1@course1.tmt",
+            "recipientEmail":"student4InCourse1@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [10]}"
+            }
+        },
+        "response5ForQ3S4C1":{
+            "feedbackSessionName":"CONSTSUM Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"3",
+            "feedbackQuestionType":"CONSTSUM",
+            "giverEmail":"instructor1@course1.tmt",
+            "recipientEmail":"student5InCourse1@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [10]}"
             }
         },
         "response1ForQ1S5C1":{

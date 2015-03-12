@@ -1422,6 +1422,24 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
         "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","","Team 1.1","Team 1.1","instructor1@course1.tmt",80
         "Instructors","Instructor2 Course1","Instructor2 Course1","instructor2@course1.tmt","","Team 1.2","Team 1.2","instructor2@course1.tmt",20
+        
+        Question 3,"How much has each student worked?"
+
+        Summary Statistics,
+        Team, Recipient, Average Points
+        Team 1.1,student1 In Course1,30
+        Team 1.1,student2 In Course1,20
+        Team 1.1,student3 In Course1,30
+        Team 1.1,student4 In Course1,10
+        Team 1.2,student5 In Course1,10
+
+
+        Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+        "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt",30
+        "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","Team 1.1","student2 In Course1","Course1","student2InCourse1@gmail.tmt",20
+        "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","Team 1.1","student3 In Course1","Course1","student3InCourse1@gmail.tmt",30
+        "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","Team 1.1","student4 In Course1","Course1","student4InCourse1@gmail.tmt",10
+        "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","Team 1.2","student5 In Course1","Course1","student5InCourse1@gmail.tmt",10
         */
         
         exportLines = export.split(Const.EOL);
@@ -1456,6 +1474,25 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[28], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
         assertEquals(exportLines[29], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"\",\"Team 1.1\",\"Team 1.1\",\"-\",80");
         assertEquals(exportLines[30], "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"\",\"Team 1.2\",\"Team 1.2\",\"-\",20");
+        assertEquals(exportLines[31], "");
+        assertEquals(exportLines[32], "");
+        assertEquals(exportLines[33], "Question 3,\"How much has each student worked?\"");
+        assertEquals(exportLines[34], "");
+        assertEquals(exportLines[35], "Summary Statistics,");
+        assertEquals(exportLines[36], "Team, Recipient, Average Points");
+        assertEquals(exportLines[37], "Team 1.1,student1 In Course1,30");
+        assertEquals(exportLines[38], "Team 1.1,student2 In Course1,20");
+        assertEquals(exportLines[39], "Team 1.1,student3 In Course1,30");
+        assertEquals(exportLines[40], "Team 1.1,student4 In Course1,10");
+        assertEquals(exportLines[41], "Team 1.2,student5 In Course1,10");
+        assertEquals(exportLines[42], "");
+        assertEquals(exportLines[43], "");
+        assertEquals(exportLines[44], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
+        assertEquals(exportLines[45], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",30");
+        assertEquals(exportLines[46], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",20");
+        assertEquals(exportLines[47], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",30");
+        assertEquals(exportLines[48], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",10");
+        assertEquals(exportLines[49], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Team 1.2\",\"student5 In Course1\",\"Course1\",\"student5InCourse1@gmail.tmt\",10");
         
         ______TS("Instructor without privilege to view responses");
         
@@ -1465,7 +1502,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
                 session.feedbackSessionName, session.courseId, instructor.email);
         
         exportLines = export.split(Const.EOL);
-        assertEquals(17, exportLines.length);
+        assertEquals(36, exportLines.length);
         assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
         assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
         
