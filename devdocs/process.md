@@ -232,7 +232,7 @@ The meaning of issue prefixes: `s.` status, `a.` aspect, `f.` feature, `t.` type
 
 * Changes to _functionality_, categorized based on size
   * `t.Enhancement`: An enhancement to an existing functionality (not big enough 
-   consider as a stroy).
+   consider as a story).
   * `t.Story`: A user story.
   * `t.Epic`: A feature that is worth many user stories.
 * Other work
