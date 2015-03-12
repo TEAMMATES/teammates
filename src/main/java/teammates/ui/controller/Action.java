@@ -129,6 +129,7 @@ public abstract class Action {
             //TODO: remove this branch on October 15th 2014.
             return getRequestParamValue(Const.ParamsNames.REGKEY_LEGACY);
         } else {
+            log.severe("TEAMMATES accessed using old join link");
             return regkey;
         }
     }
