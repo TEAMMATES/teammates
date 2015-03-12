@@ -19,7 +19,7 @@ rem ### construct the classpath
 @echo off
 set tempcp=.
 set tempcp=%tempcp%;%1\lib\shared\appengine-local-runtime-shared.jar
-set tempcp=%tempcp%;%1\lib\shared\-api.jar
+set tempcp=%tempcp%;%1\lib\shared\el-api.jar
 set tempcp=%tempcp%;%1\lib\shared\jsp-api.jar
 set tempcp=%tempcp%;%1\lib\shared\servlet-api.jar
 set tempcp=%tempcp%;%1\lib\shared\jsp\repackaged-appengine-ant-1.7.1.jar
