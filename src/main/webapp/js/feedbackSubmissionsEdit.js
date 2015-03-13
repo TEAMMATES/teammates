@@ -57,7 +57,7 @@ function prepareMCQQuestions() {
 
 		for (var j = 0; j < numResponses; j++) {
 			var id = "responsetext-" + qnNum + "-" + j;
-			radioButtons[id] = $("[name^=" + id + "]");
+			radioButtons[id] = $("[name=" + id + "]");
 			radioStates[id] = {};
 
 			// initialize radio buttons' states
