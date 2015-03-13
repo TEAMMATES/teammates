@@ -23,7 +23,7 @@
         <div class="container theme-showcase">
             <div class="row">
                 <div id="dhtmltooltip">
-                <div  style="border: 2px solid;background:linear-gradient(#e4edfa,#a4c6fa);silver;padding-left: 6px;border-radius:7px;"><h4>Please remember to log in</h4></div>
+                <div  style="border: 2px solid;background:linear-gradient(#e4edfa,#a4c6fa);padding-left: 6px;border-radius:7px;"><h4>Please remember to log in</h4></div>
             </div>
                 <h1>Table Of Contents</h1>
                 <table class="table table-striped">
