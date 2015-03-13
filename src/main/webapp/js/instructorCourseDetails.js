@@ -79,7 +79,7 @@ function toggleSendRegistrationKeysConfirmation(courseID) {
  */
 function toggleDeleteStudentConfirmation(studentName) {
     return confirm("Are you sure you want to remove " + studentName + " from " +
-            "the course?");
+            "the course" +courseName+"?");
 }
 
 /**

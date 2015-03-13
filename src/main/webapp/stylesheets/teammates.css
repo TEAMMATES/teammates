@@ -96,7 +96,7 @@ h2 {
 /*-----------------------------------------------------------------------------------------*/
 
 #header {
-    background-color: black;
+    background-color: rgb(169,219,128);
     height: 60px;
 }
 
@@ -282,7 +282,7 @@ h2.subcaption {
 }
 
 #footer {
-   background-color: black;
+   background-color: rgb(169,219,128);
    clear: both;
    color: white;
    font-family: Arial, Helvetica, sans-serif;
