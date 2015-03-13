@@ -354,12 +354,12 @@
                                 }
                             %>
                             <a class="btn btn-default btn-xs" href="<%=data.getCourseStudentDeleteLink(student)%>"
-                                onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(student.name)%>')"
+                                onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(student.name)%>','<%=sanitizeForJs(student.course)%>')"
                                 data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_DELETE%>"
                                 <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) { %>
                                 disabled="disabled"
-                                <% } %>
-                                > Delete</a>
+                                <% } %> >
+                               Delete</a>
                             <a class="btn btn-default btn-xs" href="<%=data.getStudentRecordsLink(student)%>"
                                 data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_RECORDS%>"
                                 > All Records</a>
