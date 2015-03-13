@@ -78,7 +78,7 @@ function prepareMCQQuestions() {
 						radioStates[name][radio.value] = false;
 					}
 				});
-                event.stopImmediatePropagation();
+				event.stopImmediatePropagation();
 			});
 		}
 	}
