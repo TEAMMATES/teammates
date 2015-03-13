@@ -91,7 +91,7 @@ h2 {
 }
 
 .gray {
-    color: gray;
+    color: #555;
 }
 /*-----------------------------------------------------------------------------------------*/
 
@@ -246,6 +246,7 @@ h2.subcaption {
     color: #4379D1;
     font-size: 15px;
     font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
     margin: 10px auto;
     display: block;
 }
@@ -254,7 +255,7 @@ h2.subcaption {
     float: right;
     width: 600px;
     padding-left: 30px;
-    color: gray;
+    color: #555;
 }
 
 .feature-details {
@@ -262,7 +263,7 @@ h2.subcaption {
 }
 
 .feature-description {
-    color: gray;
+    color: #555;
     margin: 0.2em 0;
     padding-top:20px;
     width:500px
@@ -273,12 +274,12 @@ h2.subcaption {
 }
 
 .tiny-text {
-    color: gray;
+    color: #555;
     font-size: 8px;
 }
 
 .tiny-text a:link {
-    color: gray;
+    color: #555;
 }
 
 #footer {
@@ -287,7 +288,7 @@ h2.subcaption {
    color: white;
    font-family: Arial, Helvetica, sans-serif;
    font-size: 12px;
-   height: 17px;
+   height: 22px;
    position: fixed;
    bottom: 0;
    z-index: 10;
@@ -295,23 +296,21 @@ h2.subcaption {
 }
 
 #footerWrapper {
-   text-align: center;
    margin: 0 auto;
    position: relative;
+   text-align: center;   
    top: 0;
-   width: 1024px;
+   width: 100%;
 }
 
 #footerLeftCol {
-   width: 500px;
-   text-align: right;
    float: left;
+   text-align: right;
+   width: 500px;
 }
 
 #footerRightCol {
-   float: left;
-   margin-left: 570px;
-   width: 450px;
+    padding: 5px;
 }
 
 #footer a:link {
