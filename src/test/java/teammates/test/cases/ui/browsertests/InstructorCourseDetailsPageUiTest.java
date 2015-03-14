@@ -228,5 +228,6 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     public static void classTearDown() throws Exception {
         BackDoor.removeDataBundleFromDb(testData);
         BrowserPool.release(browser);
+        closeBrowser(browser);
     }
 }

@@ -182,5 +182,17 @@ public class BaseUiTestCase extends BaseTestCase {
     protected static AdminHomePage loginAdmin(Browser currentBrowser) {
         return loginAdminToPage(currentBrowser, createUrl(Const.ActionURIs.ADMIN_HOME_PAGE), AdminHomePage.class);
     }
+    
+    protected static void closeBrowser(Browser currentBrowser) {
+        if(currentBrowser.driver != null) {    
+            try{
+                currentBrowser.driver.quit();  
+            }catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                currentBrowser.driver = null;
+            }
+        }
+    }
 
 }

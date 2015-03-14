@@ -425,5 +425,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         testData.instructors.get("instructor1OfCourse1").googleId = TestProperties.inst().TEST_INSTRUCTOR_ACCOUNT;
         removeTestDataOnServer(testData);
         BrowserPool.release(browser);
+        closeBrowser(browser);
     }
 }
