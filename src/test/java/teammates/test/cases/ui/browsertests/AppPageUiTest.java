@@ -64,5 +64,6 @@ public class AppPageUiTest extends BaseUiTestCase {
     public static void classTearDown() throws Exception {
         printTestClassFooter();
         BrowserPool.release(browser);
+        closeBrowser(browser);
     }
 }

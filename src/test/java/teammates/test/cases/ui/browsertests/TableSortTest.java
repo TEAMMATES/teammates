@@ -220,5 +220,6 @@ public class TableSortTest extends BaseUiTestCase {
     public static void classTearDown() throws Exception {
         printTestClassFooter();
         BrowserPool.release(browser);
+        closeBrowser(browser);
     }
 }

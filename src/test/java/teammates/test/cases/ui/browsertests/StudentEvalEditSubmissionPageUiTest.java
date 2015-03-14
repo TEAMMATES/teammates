@@ -258,5 +258,6 @@ public class StudentEvalEditSubmissionPageUiTest extends BaseUiTestCase {
     @AfterClass
     public static void classTearDown() throws Exception {
         BrowserPool.release(browser);
+        closeBrowser(browser);
     }
 }

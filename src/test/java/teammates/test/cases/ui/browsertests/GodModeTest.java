@@ -142,6 +142,7 @@ public class GodModeTest extends BaseUiTestCase {
             System.out.println("Delete failed. " + file.getAbsolutePath());
             file.deleteOnExit();
         }
+        closeBrowser(browser);
     }
 
     private static String getPath() throws Exception{

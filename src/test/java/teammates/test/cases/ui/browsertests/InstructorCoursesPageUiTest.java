@@ -345,6 +345,7 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     public static void classTearDown() throws Exception {
         //Explanation: release the Browser back to be reused by other tests.
         BrowserPool.release(browser);
+        closeBrowser(browser);
         
         /* Explanation: We don't delete leftover data at the end of a test. 
          * Instead, we delete such data at the beginning or at the point that

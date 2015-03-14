@@ -125,5 +125,6 @@ public class SystemErrorEmailReportTest extends BaseUiTestCase {
         setLogLevelOfClass(Emails.class, Level.WARNING);
         setConsoleLoggingLevel(Level.WARNING);
         BrowserPool.release(browser);
+        closeBrowser(browser);
     }
 }

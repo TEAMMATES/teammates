@@ -54,5 +54,6 @@ public class AllJsTests extends BaseUiTestCase{
     @AfterClass
     public static void tearDown() {
         BrowserPool.release(browser);
+        closeBrowser(browser);
     }
 }
