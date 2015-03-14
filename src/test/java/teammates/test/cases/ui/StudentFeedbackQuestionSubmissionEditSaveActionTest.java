@@ -64,7 +64,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends
                 Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
                 session1InCourse1.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1",
                 feedbackQuestion.getId()
         };
         verifyAssumptionFailure(submissionParams);
