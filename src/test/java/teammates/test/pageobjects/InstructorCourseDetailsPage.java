@@ -81,7 +81,7 @@ public class InstructorCourseDetailsPage extends AppPage {
         return changePageType(InstructorCourseStudentDetailsViewPage.class);
     }
     
-    public void clickAddCommentToCourse(String comment) {
+    public void submitCommentToCourse(String comment) {
         clickAddCommentToCourseButton();
         WebElement commentTextForm = browser.driver.findElement(By.id("commentText"));
         commentTextForm.click();
