@@ -22,4 +22,8 @@ $(document).ready(function(){
             window.location.href = currentPath+"?user="+params["user"]+"&sortby="+$(this).attr("data");
         });
     });
+    
+    //Change Instructor Home UI
+    
+    
 });
