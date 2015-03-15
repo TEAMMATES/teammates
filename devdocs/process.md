@@ -26,14 +26,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    This can be done through Issue tracker. 
    Such a discussion reduces the chance of the fix being rejected later.
 
-0. Add remote names for committer repo (let's call it `upstream`) 
-   and your fork (let's call it `myfork`)
-   ```
-   git remote add   upstream      https://github.com/TEAMMATES/repo.git
-   git remote add   myfork        https://github.com/your_user_name/repo.git
-   ```
-
-4. Update your local repo (the one you created when setting up the project on your computer) 
+3. Update your local repo (the one you created when setting up the project on your computer) 
    with the latest version of the code from the committer repo.
    ```
    git pull upstream
