@@ -325,6 +325,7 @@ Apply to thead to make headers not bold.
 .instructor-header-bar {
     /* TODO: find a stable solution to vertical middle align the columns */
     margin-top: 20px;
+    /* Change the instructor home page */
 }
 
 /*////////////////////////////////////////////////////////////
