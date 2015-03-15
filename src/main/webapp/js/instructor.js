@@ -91,7 +91,7 @@ function toggleUnpublishEvaluation(name){
  * @param evaluationName
  */
 function toggleRemindStudents(evaluationName) {
-    return confirm("Send e-mails to remind students who have not submitted their evaluations for " + evaluationName + "?");
+    return confirm("Send e-mails to remind students who have not submitted their feedback for " + evaluationName + "?");
 }
 
 
