@@ -326,6 +326,8 @@ Apply to thead to make headers not bold.
     /* TODO: find a stable solution to vertical middle align the columns */
     margin-top: 20px;
     /* Change the instructor home page */
+    margin-right: -30px;
+    margin-left: 30px;
 }
 
 /*////////////////////////////////////////////////////////////
