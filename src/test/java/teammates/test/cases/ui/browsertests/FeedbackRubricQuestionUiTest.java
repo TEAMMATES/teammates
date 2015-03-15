@@ -11,11 +11,14 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.FeedbackQuestionSubmitPage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
@@ -54,6 +57,7 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         testStudentSubmitPage();
         testStudentResultsPage();
         testInstructorResultsPage();
+        testStudentQuestionSubmitPage();
     }
 
     private void testStudentResultsPage() {
@@ -136,6 +140,28 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         // Go back to submission page and verify html
         submitPage = loginToStudentFeedbackSubmitPage("alice.tmms@FRubricQnUiT.CS2104", "openSession2");
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageRubricSuccess.html");
+        
+    }
+    
+    private void testStudentQuestionSubmitPage() {
+        
+        ______TS("test rubric question input for FeedbackQuestionSubmissionEdit");
+        FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("FRubricQnUiT.CS2104", "Third Session", 1);
+        
+        FeedbackQuestionSubmitPage questionSubmitPage = loginToStudentFeedbackQuestionSubmitPage("alice.tmms@FRubricQnUiT.CS2104", "openSession3", fq.getId());
+
+        // Select table cell
+        questionSubmitPage.clickRubricCell(0, 0, 1);
+        questionSubmitPage.clickRubricCell(0, 1, 0);
+        questionSubmitPage.clickRubricCell(0, 0, 0);
+
+        // Submit
+        questionSubmitPage.clickSubmitButton();
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, questionSubmitPage.getStatus());
+        
+        assertNotNull(BackDoor.getFeedbackResponse(fq.getId(),
+                "alice.b.tmms@gmail.tmt",
+                "alice.b.tmms@gmail.tmt"));
         
     }
 
@@ -329,6 +355,20 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         
         return loginAdminToPage(browser, editUrl,
                 InstructorFeedbackResultsPage.class);
+    }
+    
+    
+    private FeedbackQuestionSubmitPage loginToStudentFeedbackQuestionSubmitPage(
+            String studentName, String fsName, String questionId) {
+        StudentAttributes s = testData.students.get(studentName);
+        Url editUrl = createUrl(
+                Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
+                .withUserId(s.googleId)
+                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
+                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName)
+                .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
+        
+        return loginAdminToPage(browser, editUrl,FeedbackQuestionSubmitPage.class);
     }
 
     @AfterClass
