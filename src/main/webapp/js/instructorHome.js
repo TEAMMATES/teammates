@@ -24,6 +24,5 @@ $(document).ready(function(){
     });
     
     //Change Instructor Home UI
-    
-    
+    $(".col-md-3").addClass("sort-by");
 });
