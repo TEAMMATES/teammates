@@ -39,7 +39,7 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1");
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_ID, feedbackQuestionId);
         
-        String totalResponsesForQuestion = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL+"-"+1);
+        String totalResponsesForQuestion = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1");
         Assumption.assertNotNull(totalResponsesForQuestion);
         
         verifyAccesibleForSpecificUser();

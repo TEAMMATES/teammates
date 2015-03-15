@@ -231,7 +231,7 @@
                         \"questionType\":\"RUBRIC\",
                         \"numOfRubricChoices\" : 2, \"numOfRubricSubQuestions\" : 2,
                         \"rubricChoices\" : [\"Yes\", \"No\"],
-                        \"rubricSubQuestions\" : [\"This student has done a good job.\",\"This student has tried his/her best.\"],
+                        \"rubricSubQuestions\" : [\"You have done a good job.\",\"You have tried your best.\"],
                         \"rubricDescriptions\" : [[\"\",\"\"],[\"Most of the time\",\"Less than half the time\"]]
                         }"
           },
