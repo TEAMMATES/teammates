@@ -144,10 +144,10 @@
     },
      "Student3Course2": {
       "googleId": "",
-      "email": "barney.c.tmms@gmail.tmt",
+      "email": "hugh.c.tmms@gmail.tmt",
       "course": "course2",
-      "name": "Barney Stinson",
-      "comments": "This student's name is Barney Stinson",
+      "name": "Hugh Ivanov",
+      "comments": "This student's name is Hugh Ivanov",
       "team": "Team 2",
       "section": "Section B"
     },
