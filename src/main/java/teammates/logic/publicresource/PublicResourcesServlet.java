@@ -21,6 +21,10 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
 
+/** 
+ * Serves the public resources stored in google cloud storage using the blobkey.<br>
+ * Correct blobkey is required for image serving.
+ */
 @SuppressWarnings("serial")
 public abstract class PublicResourcesServlet extends HttpServlet {
     

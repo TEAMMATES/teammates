@@ -58,7 +58,6 @@ public class AdminEmailCreateGroupReceiverListUploadUrlAction extends Action {
     private UploadOptions generateUploadOptions() {
         UploadOptions uploadOptions = UploadOptions.Builder
                                       .withGoogleStorageBucketName(Config.GCS_BUCKETNAME);
-                                      //.maxUploadSizeBytes(Const.SystemParams.MAX_ADMIN_EMAIL_FILE_LIMIT_FOR_BLOBSTOREAPI);
         return uploadOptions;
     }
 

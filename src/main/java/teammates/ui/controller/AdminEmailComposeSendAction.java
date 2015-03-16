@@ -54,15 +54,10 @@ public class AdminEmailComposeSendAction extends Action {
         String subject = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_SUBJECT);
         
         addressReceiverListString = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_ADDRESS_RECEVIERS);
-        addressModeOn = addressReceiverListString != null && !addressReceiverListString.isEmpty();
-        
+        addressModeOn = addressReceiverListString != null && !addressReceiverListString.isEmpty();        
         emailId = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_ID);
-        
         groupReceiverListFileKey = getRequestParamValue(Const.ParamsNames.ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY);    
-        
         groupModeOn = (groupReceiverListFileKey != null) && !groupReceiverListFileKey.isEmpty();
-        
-        
         
         if(groupModeOn){     
             try {
@@ -96,12 +91,13 @@ public class AdminEmailComposeSendAction extends Action {
                                                         groupReceiver,
                                                         new Text(emailContent),
                                                         null);
+            data.emailToEdit.emailId = emailId;
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
         }
         
+        
         boolean isEmailDraft = emailId != null && !emailId.isEmpty();
         
-
         if(!isEmailDraft) {
             recordNewSentEmail(subject, addressReceiver, groupReceiver, emailContent);
         } else {
@@ -114,7 +110,9 @@ public class AdminEmailComposeSendAction extends Action {
                                                         groupReceiver,
                                                         new Text(emailContent),
                                                         null);
+            data.emailToEdit.emailId = emailId;
         }
+        
         return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
     }
     
@@ -133,52 +131,95 @@ public class AdminEmailComposeSendAction extends Action {
        
     }
     
+    /**
+     * This method: <br>
+     * 1. makes sure the list file given the blobkey exists in the Google Cloud Storage<br>
+     * 2. goes through the list file by splitting the content of the txt file(email addresses separated by comma)
+     * into separated email addresses, which makes sure the file content is intact and of correct format
+     * <br><br>
+     * 
+     * @param listFileKey
+     * @throws IOException
+     */
     private void checkGroupReceiverListFile(String listFileKey) throws IOException {
         Assumption.assertNotNull(listFileKey);
 
         BlobKey blobKey = new BlobKey(listFileKey);
         
-       
+        //it turns out that error will occur if we read more than around 900000 bytes of data per time
+        //from the blobstream, which also brings problems when this large number of emails are all stored in one
+        //list. As a result, to prevent unexpected errors, we read the txt file several times and each time
+        //at most 900000 bytes are read, after which a new list is created to store all the emails addresses that
+        //happen to be in the newly read bytes. 
+        
+        //For email address which happens to be broken according to two consecutive reading, a check will be done
+        //before storing all emails separated from the second reading into a new list. Broken email will be fixed by
+        //deleting the first item of the email list from current reading  AND 
+        //appending it to the last item of the email list from last reading
+        
+        //the email list from each reading is inserted into a upper list(list of list).
+        //the structure is as below:
+        
+        //ListOfList: 
+        //      ListFromReading_1 : 
+        //                     [example@email.com]
+        //                            ...
+        //      ListFromReading_2 : 
+        //                     [example@email.com]
+        //                            ...
+        
+        //offset is needed for remembering where it stops from last reading
         int offset = 0;
-        int size = (int) getFileSize(listFileKey);
+        //file size is needed to track the number of unread bytes 
+        int size = (int) getFileSize(listFileKey);    
         
+        //this is the list of list
         List<List<String>> listOfList = new LinkedList<List<String>>();
-        
-        
+   
         while(size > 0){
+            //makes sure not to over-read
             int bytesToRead = size > MAX_READING_LENGTH ? MAX_READING_LENGTH : size;
             InputStream blobStream = new BlobstoreInputStream(blobKey, offset);
             byte[] array = new byte[bytesToRead];
             
             blobStream.read(array);
+            
+            //remember where it stops reading
             offset += MAX_READING_LENGTH;
+            //decrease unread bytes
             size -= MAX_READING_LENGTH;
             
+            //get the read bytes into string and split it by ","
             String readString = new String(array);
-            
             List<String> newList = Arrays.asList(readString.split(","));
             
             
             if(listOfList.isEmpty()){
+                //this is the first time reading
                 listOfList.add(newList);
-                
             } else {
-            
+                //check if the last reading stopped in the middle of a email address string
                 List<String> lastAddedList = listOfList.get(listOfList.size() -1);
+                //get the last item of the list from last reading
                 String lastStringOfLastAddedList = lastAddedList.get(lastAddedList.size() - 1);
+                //get the first item of the list from current reading
                 String firstStringOfNewList = newList.get(0);
                 
                 if(!lastStringOfLastAddedList.contains("@")||
                    !firstStringOfNewList.contains("@")){
-                    
+                   //either the left part or the right part of the broken email string 
+                   //does not contains a "@".
+                   //simply append the right part to the left part(last item of the list from last reading)
                    listOfList.get(listOfList.size() -1)
                              .set(lastAddedList.size() - 1,
                                   lastStringOfLastAddedList + 
                                   firstStringOfNewList);
                    
+                   //and also needs to delete the right part which is the first item of the list from current reading
                    listOfList.add(newList.subList(1, newList.size() - 1));
-                } else {
-                
+                } else {      
+                   //no broken email from last reading found, simply add the list
+                   //from current reading into the upper list.
                    listOfList.add(newList);
                 }              
             }
@@ -249,7 +290,6 @@ public class AdminEmailComposeSendAction extends Action {
             Date createDate = logic.createAdminEmail(newDraft);
             emailId = logic.getAdminEmail(subject, createDate).getEmailId();       
         } catch (Exception e) {
-            deleteGroupReceiverFiles(groupReceiver);
             isError = true;
             setStatusForException(e, e.getMessage());
             return;
@@ -276,20 +316,11 @@ public class AdminEmailComposeSendAction extends Action {
             logic.updateAdminEmailById(fanalisedEmail, emailId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
             isError = true;
-            deleteGroupReceiverFiles(groupReceiver);
             setStatusForException(e);
             return;
         }     
         moveJobToGroupModeTaskQueue();
-        moveJobToAddressModeTaskQueue();
-        
-    }
-    
-    private void deleteGroupReceiverFiles(List<String> groupReceiver){
-        for(String key : groupReceiver){
-            BlobKey blobKey = new BlobKey(key);
-            logic.deleteAdminEmailUploadedFile(blobKey);
-        }
+        moveJobToAddressModeTaskQueue();     
     }
 
 }

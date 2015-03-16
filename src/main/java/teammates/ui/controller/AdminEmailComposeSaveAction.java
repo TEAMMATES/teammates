@@ -38,26 +38,41 @@ public class AdminEmailComposeSaveAction extends Action {
             groupReceiver.add(groupReceiverListFileKey);
         }
         
-        boolean isNewDraft = emailId == null;
+        boolean isNewDraft = (emailId == null);
         
         if(isNewDraft){
-           
+            //this is a new email draft, so create a new admin email entity
             createAndSaveNewDraft(subject, addressReceiver, groupReceiver, emailContent);
-        } else {                     
+        } else {            
+            //currently editing a previous email draft, so we need to update the previous draft
+            //instead of creating a new admin email entity
+            
+            //retrieve the previous draft email
             AdminEmailAttributes previousDraft = logic.getAdminEmailById(emailId);
             
             if(previousDraft == null){
+                //the previous draft is not found (eg. deleted by accident when editing) 
                 createAndSaveNewDraft(subject, addressReceiver, groupReceiver, emailContent);
             } else {
+                //the previous draft exists so simply update it with the latest email info
                 updatePreviousEmailDraft(previousDraft.getEmailId(), subject, addressReceiver, groupReceiver, emailContent);
-            }     
-            
-            statusToAdmin = "Email draft has been saved: <br>" +
-                            "Subject: " + subject;
-            statusToUser.add("Email draft has been saved");     
+            }         
         }
         
-        return this.createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
+        if(isError){
+            data.emailToEdit = new AdminEmailAttributes(subject,
+                                                        addressReceiver,
+                                                        groupReceiver,
+                                                        new Text(emailContent),
+                                                        null);    
+            data.emailToEdit.emailId = emailId;
+        } else {
+            statusToAdmin = "Email draft has been saved: <br>" +
+                            "Subject: " + subject;
+            statusToUser.add("Email draft has been saved"); 
+        }
+        
+        return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL, data);
     }
     
     private void updatePreviousEmailDraft(String previousEmailId,
@@ -75,7 +90,7 @@ public class AdminEmailComposeSaveAction extends Action {
         try {
             logic.updateAdminEmailById(newDraft, previousEmailId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            deleteGroupReceiverFiles(groupReceiver);
+            isError = true;
             setStatusForException(e);
         }
         
@@ -94,16 +109,8 @@ public class AdminEmailComposeSaveAction extends Action {
         try {
             logic.createAdminEmail(newDraft);
         } catch (InvalidParametersException e) {
-            deleteGroupReceiverFiles(groupReceiver);
             isError = true;
             setStatusForException(e, e.getMessage());
-        }
-    }
-    
-    private void deleteGroupReceiverFiles(List<String> groupReceiver){
-        for(String key : groupReceiver){
-            BlobKey blobKey = new BlobKey(key);
-            logic.deleteAdminEmailUploadedFile(blobKey);
         }
     }
 

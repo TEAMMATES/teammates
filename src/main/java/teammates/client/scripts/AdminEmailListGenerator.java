@@ -1,7 +1,6 @@
 package teammates.client.scripts;
 
 import java.io.BufferedWriter;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,6 +20,7 @@ import javax.jdo.Query;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.repackaged.org.joda.time.DateTime;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.util.Const;
@@ -29,9 +29,12 @@ import teammates.storage.entity.Account;
 import teammates.storage.entity.Course;
 import teammates.storage.entity.Instructor;
 import teammates.storage.entity.Student;
-
 import teammates.common.exception.InvalidParametersException;
 
+/**
+ * Generates txt file which contains a list of receiver emails.<br>
+ * List file configuration is preset in admin email configuration section.  
+ */
 public class AdminEmailListGenerator extends RemoteApiClient {
     
     //admin email configuration
@@ -39,11 +42,11 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     public boolean instructor = true;
     public StudentStatus studentStatus = StudentStatus.ALL;
     public InstructorStatus instructorStatus = InstructorStatus.ALL;
-    public String studentCreatedDateRangeStart = "01/03/2015";
+    public String studentCreatedDateRangeStart = "02/03/2013";
     public String studentCreatedDateRangeEnd = "06/03/2015";
     public String instructorCreatedDateRangeStart = null;
-    public String instructorCreatedDateRangeEnd = "02/03/2016";
-    
+    public String instructorCreatedDateRangeEnd = "31/12/2015";
+    public String filePathForSaving = "C:\\Users\\Mo\\Desktop\\";
     
     
     private static enum StudentStatus{REG, UNREG, ALL};
@@ -94,6 +97,9 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     
     private void getInstructorEmailConfiguration() throws InvalidParametersException{
         emailListConfig.instructor = this.instructor;
+        if(!emailListConfig.instructor){
+            return;
+        }
         emailListConfig.instructorStatus = this.instructorStatus;
         emailListConfig.instructorCreatedDateRangeStart = getInputDate(instructorCreatedDateRangeStart);
         emailListConfig.instructorCreatedDateRangeEnd = getInputDate(instructorCreatedDateRangeEnd);       
@@ -101,6 +107,9 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     
     private void getStudentEmailConfiguration() throws InvalidParametersException{
         emailListConfig.student = this.student;
+        if(!emailListConfig.student){
+            return;
+        }
         emailListConfig.studentStatus = this.studentStatus;
         emailListConfig.studentCreatedDateRangeStart = getInputDate(studentCreatedDateRangeStart);
         emailListConfig.studentCreatedDateRangeEnd = getInputDate(studentCreatedDateRangeEnd);            
@@ -138,53 +147,67 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             System.out.print("No email list to be generated. Exiting now..\n\n");
             return;
         }
+        if(emailListConfig.student){
+            studentEmailSet = addStudentEmailIntoSet(studentEmailSet);
+        }
+             
+        if(emailListConfig.instructor){
+            instructorEmailSet = addInstructorEmailIntoSet(instructorEmailSet);
+        }
         
-        try {
+        writeEmailsIntoTextFile(studentEmailSet, instructorEmailSet);
+    }
+    
+    private HashSet<String> addInstructorEmailIntoSet(HashSet<String> instructorEmailSet){
+        String q = "SELECT FROM " + Instructor.class.getName();
+        List<Instructor> allInstructors = (List<Instructor>) pm.newQuery(q).execute();
+        
+        int i = 0;
+        
+        for(Instructor instructor : allInstructors){
+            i ++;
+            if((instructor.getGoogleId() != null  && emailListConfig.instructorStatus == InstructorStatus.REG) ||
+               (instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG) ||
+               (emailListConfig.instructorStatus == InstructorStatus.ALL)){
+                
+                if(isInstructorCreatedInRange(instructor)){
+                    instructorEmailSet.add(instructor.getEmail());
+                }
+            }
+          
+        }
+        
+        return instructorEmailSet;
+    }
+    
+    private  HashSet<String> addStudentEmailIntoSet(HashSet<String> studentEmailSet){
+        String q = "SELECT FROM " + Student.class.getName();
+        List<Student> allStudents = (List<Student>) pm.newQuery(q).execute();
 
-            File statText = new File("C:\\Users\\Mo\\Desktop\\" + this.getCurrentDateForDisplay() + ".txt");
-            FileOutputStream is = new FileOutputStream(statText);
-            OutputStreamWriter osw = new OutputStreamWriter(is);    
+        for(Student student : allStudents){
+            if((student.isRegistered() && emailListConfig.studentStatus == StudentStatus.REG) ||
+               (!student.isRegistered() && emailListConfig.studentStatus == StudentStatus.UNREG) ||
+               (emailListConfig.studentStatus == StudentStatus.ALL)){
+                
+                if(isStudentCreatedInRange(student)){
+                    studentEmailSet.add(student.getEmail());
+                }
+            }
+          
+        } 
+        return studentEmailSet;
+    }
+    
+    private void writeEmailsIntoTextFile(HashSet<String> studentEmailSet,
+                                         HashSet<String> instructorEmailSet){
+        
+        try{
+        
+            File newFile = new File(filePathForSaving + this.getCurrentDateForDisplay() + ".txt");
+            FileOutputStream fos = new FileOutputStream(newFile);
+            OutputStreamWriter osw = new OutputStreamWriter(fos);    
             Writer w = new BufferedWriter(osw);
             
-            if(emailListConfig.student){
-                String q = "SELECT FROM " + Student.class.getName();
-                List<Student> allStudents = (List<Student>) pm.newQuery(q).execute();
-
-                for(Student student : allStudents){
-                    if((student.isRegistered() && emailListConfig.studentStatus == StudentStatus.REG) ||
-                       (!student.isRegistered() && emailListConfig.studentStatus == StudentStatus.UNREG) ||
-                       (emailListConfig.studentStatus == StudentStatus.ALL)){
-                        
-                        if(isStudentCreatedInRange(student)){
-                            studentEmailSet.add(student.getEmail());
-                        }
-                    }
-                  
-                }
-            }
-            
-            
-            if(emailListConfig.instructor){
-                String q = "SELECT FROM " + Instructor.class.getName();
-                List<Instructor> allInstructors = (List<Instructor>) pm.newQuery(q).execute();
-                
-                int i = 0;
-                
-                for(Instructor instructor : allInstructors){
-                    i ++;
-                    if((instructor.getGoogleId() != null  && emailListConfig.instructorStatus == InstructorStatus.REG) ||
-                       (instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG) ||
-                       (emailListConfig.instructorStatus == InstructorStatus.ALL)){
-                        
-                        if(isInstructorCreatedInRange(instructor)){
-                            instructorEmailSet.add(instructor.getEmail());
-                        }
-                    }
-                  
-                }
-            }
-            
-           
             
             if(studentEmailSet.size() > 0){
                 for(String email : studentEmailSet){
@@ -199,9 +222,9 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             }
             
             System.out.print("Student email num: " + studentEmailSet.size() + "\n");
-            System.out.print("Instructor email num: " + instructorEmailSet.size() + "\n");
-            
+            System.out.print("Instructor email num: " + instructorEmailSet.size() + "\n");    
             w.close();
+        
         } catch (IOException e) {
             System.err.println("Problem writing to the file statsTest.txt");
         }
@@ -428,38 +451,11 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     
     private int getMaxNumOfDayForMonth(int month, int year){
         
-        int days = 0;
-        
-        switch (month){
-            
-            case 1:
-            case 3:
-            case 5:
-            case 7:
-            case 8:
-            case 10:
-            case 12:
-                days = 31;
-                break;
-            case 4:
-            case 6:
-            case 9: 
-            case 11: 
-                days = 30;
-                break;
-            case 2:
-                if( ((year % 4) == 0 && (year % 100) != 0) || (year % 400) == 0){
-                    days = 29;
-                } else {
-                    days = 28;
-                }
-                break;
-            default:
-                days = 0;
-        };
-        
-        return days;
+        DateTime dateTime = new DateTime(year, month, 1, 0, 0, 0, 000);
+        return dateTime.dayOfMonth().getMaximumValue(); 
     }
+    
+    
     
     private Date getDate(int day, int month, int year){
         Calendar cal = Calendar.getInstance();

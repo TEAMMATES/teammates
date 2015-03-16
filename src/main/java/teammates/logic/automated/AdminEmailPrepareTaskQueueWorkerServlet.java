@@ -24,6 +24,13 @@ import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
 import teammates.logic.core.TaskQueuesLogic;
 
+/**
+ * This class creates admin email tasks for receiver emails<br>
+ * It has two modes : <br>
+ * 
+ * 1. Address Mode: receiver emails are retrieved from receiver list string 
+ * 2. Group Mode: receiver emails are retrieved from a txt file uploaded into Google Cloud Storage.
+ */
 @SuppressWarnings("serial")
 public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     
@@ -79,10 +86,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
             
             int indexOfEmailListToResume = indexOfEmailListToResumeAsString == null ? 0 : Integer.parseInt(indexOfEmailListToResumeAsString);
             int indexOfEmailToResume = indexOfEmailToResumeAsString == null ? 0 : Integer.parseInt(indexOfEmailToResumeAsString);
-            
-            
-            
-            
+  
             try {
                 processedReceiverEmails = getReceiverList(groupReceiverListFileKey, groupReceiverListFileSize);
                 addAdminEmailToTaskQueue(emailId, indexOfEmailListToResume, indexOfEmailToResume);
@@ -101,54 +105,91 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
         return blobSize;
     }
     
+    /**
+     * This method: <br>
+     * 1. retrieve the receiver txt file from the Google Cloud Storage
+     * 2. goes through the list file by splitting the content of the txt file(email addresses separated by comma)
+     * into separated email addresses. This is needed for creating admin email task for each receiver.
+     * @param listFileKey
+     * @param size
+     * @throws IOException
+     */
     private List<List<String>> getReceiverList(String listFileKey, int size) 
             throws IOException {
         
-        Assumption.assertNotNull(listFileKey);
+        Assumption.assertNotNull(listFileKey);   
+        BlobKey blobKey = new BlobKey(listFileKey);   
         
-       
-        BlobKey blobKey = new BlobKey(listFileKey);
+        //it turns out that error will occur if we read more than around 900000 bytes of data per time
+        //from the blobstream, which also brings problems when this large number of emails are all stored in one
+        //list. As a result, to prevent unexpected errors, we read the txt file several times and each time
+        //at most 900000 bytes are read, after which a new list is created to store all the emails addresses that
+        //happen to be in the newly read bytes. 
         
-       
+        //For email address which happens to be broken according to two consecutive reading, a check will be done
+        //before storing all emails separated from the second reading into a new list. Broken email will be fixed by
+        //deleting the first item of the email list from current reading  AND 
+        //appending it to the last item of the email list from last reading
+        
+        //the email list from each reading is inserted into a upper list(list of list).
+        //the structure is as below:
+        
+        //ListOfList: 
+        //      ListFromReading_1 : 
+        //                     [example@email.com]
+        //                            ...
+        //      ListFromReading_2 : 
+        //                     [example@email.com]
+        //                            ...
+        
+        //offset is needed for remembering where it stops from last reading
         int offset = 0;
         
+        //this is the list of list
         List<List<String>> listOfList = new LinkedList<List<String>>();
         
-        
+        //file size is needed to track the number of unread bytes 
         while(size > 0){
+            //makes sure not to over-read
             int bytesToRead = size > MAX_READING_LENGTH ? MAX_READING_LENGTH : size;
             InputStream blobStream = new BlobstoreInputStream(blobKey, offset);
             byte[] array = new byte[bytesToRead];
             
             blobStream.read(array);
+            //remember where it stops reading
             offset += MAX_READING_LENGTH;
+            //decrease unread bytes   
             size -= MAX_READING_LENGTH;
             
+            //get the read bytes into string and split it by ","
             String readString = new String(array);
-            
-            List<String> newList = Arrays.asList(readString.split(","));
-            
+            List<String> newList = Arrays.asList(readString.split(","));         
             
             if(listOfList.isEmpty()){
-                listOfList.add(newList);
-                
+                //this is the first time reading
+                listOfList.add(newList);        
             } else {
-            
+                //check if the last reading stopped in the middle of a email address string
                 List<String> lastAddedList = listOfList.get(listOfList.size() -1);
+                //get the last item of the list from last reading
                 String lastStringOfLastAddedList = lastAddedList.get(lastAddedList.size() - 1);
+                //get the first item of the list from current reading
                 String firstStringOfNewList = newList.get(0);
                 
                 if(!lastStringOfLastAddedList.contains("@")||
                    !firstStringOfNewList.contains("@")){
-                    
+                   //either the left part or the right part of the broken email string 
+                   //does not contains a "@".
+                   //simply append the right part to the left part(last item of the list from last reading)
                    listOfList.get(listOfList.size() -1)
                              .set(lastAddedList.size() - 1,
                                   lastStringOfLastAddedList + 
                                   firstStringOfNewList);
-                   
+                   //and also needs to delete the right part which is the first item of the list from current reading
                    listOfList.add(newList.subList(1, newList.size() - 1));
                 } else {
-                
+                   //no broken email from last reading found, simply add the list
+                   //from current reading into the upper list.
                    listOfList.add(newList);
                 }              
             }
@@ -178,7 +219,6 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
         paramMap.put(ParamsNames.ADMIN_GROUP_RECEIVER_EMAIL_INDEX, "" + indexOfEmail);
         paramMap.put(ParamsNames.ADMIN_EMAIL_TASK_QUEUE_MODE, Const.ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE);
         
-        
         taskQueueLogic.createAndAddTask(SystemParams.ADMIN_PREPARE_EMAIL_TASK_QUEUE,
                                         Const.ActionURIs.ADMIN_EMAIL_PREPARE_TASK_QUEUE_WORKER, paramMap); 
                 
@@ -186,8 +226,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
     
     private void addAdminEmailToTaskQueue(String emailId){
         
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();     
-        
+        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();         
         List<String> addressList = new ArrayList<String>();
         
         if(!addressReceiverListString.contains(",")){
@@ -196,14 +235,13 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
             addressList.addAll(Arrays.asList(addressReceiverListString.split(",")));
         }    
         
-        for(String emailAddress : addressList){
-            
+        for(String emailAddress : addressList){     
             HashMap<String, String> paramMap = new HashMap<String, String>();
             paramMap.put(ParamsNames.ADMIN_EMAIL_ID, emailId);
             paramMap.put(ParamsNames.ADMIN_EMAIL_RECEVIER, emailAddress);
             
             taskQueueLogic.createAndAddTask(SystemParams.ADMIN_EMAIL_TASK_QUEUE,
-                    Const.ActionURIs.ADMIN_EMAIL_WORKER, paramMap);                
+                                            Const.ActionURIs.ADMIN_EMAIL_WORKER, paramMap);                
                
         }
 
@@ -231,7 +269,7 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
                 paramMap.put(ParamsNames.ADMIN_EMAIL_RECEVIER, receiverEmail);
                 
                 taskQueueLogic.createAndAddTask(SystemParams.ADMIN_EMAIL_TASK_QUEUE,
-                        Const.ActionURIs.ADMIN_EMAIL_WORKER, paramMap);                
+                                                Const.ActionURIs.ADMIN_EMAIL_WORKER, paramMap);                
                 
                 if(isNearDeadline())
                 {

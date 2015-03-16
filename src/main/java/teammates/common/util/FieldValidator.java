@@ -100,7 +100,6 @@ public class FieldValidator {
      * Field: Email Subject
      */
     private static final String EMAIL_SUBJECT_FIELD_NAME = "email subject";
-    // one more than longest official nationality name
     public static final int EMAIL_SUBJECT_MAX_LENGTH = 200;
     public static final String EMAIL_SUBJECT_ERROR_MESSAGE = 
             "\"%s\" is not acceptable to TEAMMATES as "+EMAIL_SUBJECT_FIELD_NAME+" because it %s. " +
@@ -112,7 +111,6 @@ public class FieldValidator {
      * Field: Email Content
      */
     private static final String EMAIL_CONTENT_FIELD_NAME = "email content";
-    // one more than longest official nationality name
     public static final String EMAIL_CONTENT_ERROR_MESSAGE = EMAIL_CONTENT_FIELD_NAME+" should not be empty.";
     
     

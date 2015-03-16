@@ -25,7 +25,7 @@ public class Const {
         public static final long MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI = 11000000;
         
         /** This is the limit given to Blobstore API, beyond which an ugly error page is shown */
-        public static final long MAX_ADMIN_EMAIL_FILE_LIMIT_FOR_BLOBSTOREAPI = 11000000;
+        public static final long MAX_ADMIN_EMAIL_FILE_LIMIT_FOR_BLOBSTORE_API = 11000000;
         
         /** e.g. "2014-04-01 11:59 PM UTC" */
         public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";

@@ -18,6 +18,9 @@ import com.google.appengine.api.datastore.Text;
 
 import teammates.logic.core.Emails;
 
+/**
+ * Retrieves admin email content and subject by email id and sends email to the receiver 
+ */
 @SuppressWarnings("serial")
 public class AdminEmailWorkerServlet extends WorkerServlet {
 
