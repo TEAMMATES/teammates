@@ -1,7 +1,9 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -137,25 +139,36 @@ public class StudentCommentsPageAction extends Action {
         }
     }
     
-    private Map<String, FeedbackSessionResultsBundle> getFeedbackResultBundles(CourseRoster roster)
+    /*
+     * Returns a sorted map(LinkedHashMap) of FeedbackSessionResultsBundle,
+     * where the sessions are sorted in descending order of their endTime
+     */
+    private Map<String, FeedbackSessionResultsBundle> getFeedbackResultBundles(
+            CourseRoster roster)
             throws EntityDoesNotExistException {
-        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = new HashMap<String, FeedbackSessionResultsBundle>();
-        List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsForCourse(courseId);
-        for(FeedbackSessionAttributes fs : fsList){
-            if(!fs.isPublished()) continue;
-            
-            FeedbackSessionResultsBundle bundle = 
-                    logic.getFeedbackSessionResultsForStudent(fs.feedbackSessionName, courseId, studentEmail, roster);
-            if(bundle != null){
+        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = new LinkedHashMap<String, FeedbackSessionResultsBundle>();
+        List<FeedbackSessionAttributes> fsList = logic
+                .getFeedbackSessionsForCourse(courseId);
+        Collections
+                .sort(fsList, FeedbackSessionAttributes.compareByEndTimeDesc);
+        for (FeedbackSessionAttributes fs : fsList) {
+            if (!fs.isPublished())
+                continue;
+
+            FeedbackSessionResultsBundle bundle =
+                    logic.getFeedbackSessionResultsForStudent(
+                            fs.feedbackSessionName, courseId, studentEmail,
+                            roster);
+            if (bundle != null) {
                 removeQuestionsAndResponsesWithoutFeedbackResponseComment(bundle);
-                if(bundle.questions.size() != 0){
+                if (bundle.questions.size() != 0) {
                     feedbackResultBundles.put(fs.feedbackSessionName, bundle);
                 }
             }
         }
         return feedbackResultBundles;
     }
-
+    
     private void removeQuestionsAndResponsesWithoutFeedbackResponseComment(FeedbackSessionResultsBundle bundle) {
         List<FeedbackResponseAttributes> responsesWithFeedbackResponseComment = new ArrayList<FeedbackResponseAttributes>();
         for(FeedbackResponseAttributes fr: bundle.responses){
