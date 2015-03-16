@@ -95,7 +95,7 @@ function prepareContribQuestions() {
         var optionNums = $("[name^='responsetext-" + qnNum + "']").length;
         for(var k=0; k<optionNums; k++){
 
-            var dropdown = $("[name^='responsetext-" + qnNum + "-" + k + "']");
+            var dropdown = $("[name~='responsetext-" + qnNum + "-" + k + "']");
 
             // Bind on change event
             dropdown.on("change", function() {
