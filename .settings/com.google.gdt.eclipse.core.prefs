@@ -1,4 +1,4 @@
 eclipse.preferences.version=1
-jarsExcludedFromWebInfLib=
+jarsExcludedFromWebInfLib=C\:/Users/ulrich/TeammatesRepository/repo/src/test/resources/lib/appengine/appengine-api-labs.jar
 warSrcDir=src/main/webapp
 warSrcDirIsOutput=true

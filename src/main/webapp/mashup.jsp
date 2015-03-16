@@ -21,8 +21,8 @@
     </head>
     <body>
          <h1 style="text-align:center"> This page contains a combination of all pages of the TEAMMATES app. 
-                                       It is used for manually inspecting the TEAMMATES UI for visual defects. 
-                                       To load this page, you need to run the test MashupPageUiTest.java. 
+                                        It is used for manually inspecting the TEAMMATES UI for visual defects. 
+                                        To load this page, you need to run the test MashupPageUiTest.java. 
         </h1> 
         <div class="container theme-showcase">
             <div class="row">
