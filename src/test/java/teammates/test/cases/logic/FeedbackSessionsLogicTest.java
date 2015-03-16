@@ -1399,8 +1399,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         Summary Statistics,
         Option, Average Points
-        Grades,50
-        Fun,50
+        Fun,50.5
+        Grades,49.5
         
         
         Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
@@ -1433,8 +1433,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[5], "");
         assertEquals(exportLines[6], "Summary Statistics,");
         assertEquals(exportLines[7], "Option, Average Points");
-        assertEquals(exportLines[8], "Grades,49.5");
-        assertEquals(exportLines[9], "Fun,50.5");
+        assertEquals(exportLines[8], "Fun,50.5");
+        assertEquals(exportLines[9], "Grades,49.5");
         assertEquals(exportLines[10], "");
         assertEquals(exportLines[11], "");
         assertEquals(exportLines[12], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"Grades\",\"Fun\"");
