@@ -367,20 +367,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         String fragments = "";
         List<String> options = new ArrayList<String>();
         Map<String, List<Integer>> optionPoints = new HashMap<String, List<Integer>>();
-        Map<String, Map<String, String>> nameEmailMapping = new HashMap<String, Map<String, String>>();
         
         if(distributeToRecipients){
             for(FeedbackResponseAttributes response : responses){
                 FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails)response.getResponseDetails(); 
                 String recipientEmail = response.recipientEmail;
-                Map<String, String> emailMapping = nameEmailMapping.get(bundle.getNameForEmail(recipientEmail));
-                if(emailMapping == null){
-                    emailMapping = new HashMap<String, String>();
-                    nameEmailMapping.put(bundle.getNameForEmail(recipientEmail), emailMapping);
-                }
-                if(emailMapping.get(recipientEmail) == null){
-                    emailMapping.put(recipientEmail, "true");
-                }
                 
                 List<Integer> points = optionPoints.get(recipientEmail);
                 if(points == null){
@@ -413,9 +404,6 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
                 String email = entry.getKey();
                 String name = bundle.getNameForEmail(email);
                 option = name;
-                if(nameEmailMapping.get(name).size() > 1){
-                    option += " <b>[" + email + "]</b>";
-                }
             } else {
                 option = options.get(Integer.parseInt(entry.getKey()));
             }
