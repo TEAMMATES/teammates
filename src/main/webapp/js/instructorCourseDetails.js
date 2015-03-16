@@ -75,6 +75,7 @@ function toggleSendRegistrationKeysConfirmation(courseID) {
 /**
  * Function that shows confirmation dialog for removing a student from a course
  * @param studentName
+ * @param courseId
  * @returns
  */
 function toggleDeleteStudentConfirmation(courseId, studentName) {
