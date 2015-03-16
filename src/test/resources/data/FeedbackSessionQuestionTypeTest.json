@@ -764,7 +764,7 @@
             "giverEmail":"student1InCourse1@gmail.tmt",
             "recipientEmail":"student1InCourse1@gmail.tmt",
             "responseMetaData":{
-                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [20, 80]}"
+                "value":"{\"questionType\" : \"CONSTSUM\", \"answers\" : [19, 81]}"
             }
         },
         "response2ForQ1S4C1":{
