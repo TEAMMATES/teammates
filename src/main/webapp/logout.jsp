@@ -4,6 +4,7 @@
 <%      String nextUrl = request.getParameter(Const.ParamsNames.NEXT_URL);
         String expectedId = request.getParameter(Const.ParamsNames.HINT);
         String actualId = request.getParameter(Const.ParamsNames.USER_ID);
+        
         if (nextUrl == null) {
             nextUrl = "/index.html";
         } 

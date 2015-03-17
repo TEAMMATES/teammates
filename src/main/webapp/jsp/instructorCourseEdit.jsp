@@ -49,7 +49,7 @@
             <div class="panel-heading">
                 <strong>Course:</strong>
                 <a href="<%=data.getInstructorCourseDeleteLink(data.course.id, false)%>"
-                    class="btn btn-primary btn-xs pull-right" id="courseDeleteLink"
+                     class="btn btn-primary btn-xs pull-right" id="courseDeleteLink"
                     data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_DELETE%>"
                     onclick="return toggleDeleteCourseConfirmation('<%=data.course.id%>');"
                     <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {%>
@@ -104,7 +104,7 @@
         <%
             for (int i = 0; i < data.instructorList.size(); i++) {
                 InstructorAttributes instructor = data.instructorList.get(i);
-                int index;
+                int index; 
                 if(data.index == -1){
                     index = i + 1;
                 } else {
