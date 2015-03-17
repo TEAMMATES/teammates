@@ -834,8 +834,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, q.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "0"
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", q.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "0"
         };
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);        
@@ -1402,9 +1402,9 @@ public class AllActionsAccessControlTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
                 session1InCourse1.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1",
                 feedbackQuestion.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "0"
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "0"
         };
 
         verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);
