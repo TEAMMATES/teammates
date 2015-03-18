@@ -393,7 +393,7 @@
                               	}
                                                                 if(commentIdx == -1){
                               %>
-                                    <li  class="list-group-item list-group-item-nocomments">You don't have any comments on this student.</li>
+                                    <li  class="list-group-item-nocomments">You don't have any comments on this student.</li>
                               <%
                               	}
                               %>
