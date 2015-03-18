@@ -576,3 +576,19 @@ Apply to thead to make headers not bold.
 .back-to-top-right:hover {
     background-color: rgba(135, 135, 135, 0.50);
 }
+
+.visibilityDiv {
+    color: #0080ff;
+}
+
+.visibilityDiv b {
+    color: black;
+}
+
+.feedbackDiv {
+    color: #0080ff;
+}
+
+.feedbackDiv b {
+    color: black;
+}
