@@ -17,7 +17,6 @@ import teammates.logic.api.GateKeeper;
 
 public class AdminEmailLogPageAction extends Action {
     
-    //We want to pull out the application logs
     private boolean includeAppLogs = true;
     private static final int LOGS_PER_PAGE = 2;
     private static final int MAX_LOGSEARCH_LIMIT = 15000;

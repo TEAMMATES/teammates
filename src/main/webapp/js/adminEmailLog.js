@@ -1,5 +1,9 @@
+var retryTimes = 0;
+var numOfEntriesPerPage = 50;
+
 $(document).ready(function(){
 	bindClickAction();
+	clickOlderButtonIfNeeded();
 });
 
 function bindClickAction(){
@@ -10,6 +14,21 @@ var handler = function(event){
 	$(this).next("#small").toggle();
     $(this).next("#small").next("#big").toggle();
 };
+
+function clickOlderButtonIfNeeded(){
+	if(retryTimes >= 20){
+		return;
+	}
+	
+	var curNumOfEntries = $("#emailLogsTable tbody tr").length;
+	
+	if(curNumOfEntries < numOfEntriesPerPage){
+		if($("#button_older").length){
+			$("#button_older").click();
+			retryTimes ++;
+		}
+	}
+}
 
 function submitFormAjax(offset) {
 	$('input[name=offset]').val(offset);
@@ -37,6 +56,7 @@ function submitFormAjax(offset) {
 	                	lastLogRow.after(value.logInfoAsHtml);
 	                	lastLogRow = $('#emailLogsTable tr:last');
 	                	bindClickAction();
+	                	clickOlderButtonIfNeeded();
                 	});
                 	
                 } else {

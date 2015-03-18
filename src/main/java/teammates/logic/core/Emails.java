@@ -916,6 +916,12 @@ public class Emails {
         Transport.send(message);        
     }
     
+    
+    /**
+     * This method sends the email as well as logs its receiver, subject and content 
+     * @param message
+     * @throws MessagingException
+     */
     public void sendAndLogEmail(MimeMessage message) throws MessagingException {
         log.info(getEmailInfo(message));
         Transport.send(message);

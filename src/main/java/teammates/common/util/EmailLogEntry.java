@@ -1,17 +1,13 @@
 package teammates.common.util;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.TimeZone;
-
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import com.google.appengine.api.log.AppLogLine;
 
+/** A log entry which contains info about subject, receiver, content and sent date of a sent email*/
 public class EmailLogEntry {
     
     private String receiver;
@@ -38,6 +34,9 @@ public class EmailLogEntry {
             this.content = tokens[3];
             logInfoAsHtml = getLogInfoForTableRowAsHtml();
         } catch (ArrayIndexOutOfBoundsException e){
+            this.receiver = "";
+            this.subject = "";
+            this.content = "";
             logInfoAsHtml = "";
         }
     }
@@ -46,7 +45,6 @@ public class EmailLogEntry {
 
         StringBuilder str = new StringBuilder();
         str.append("<tr class=\"log\">");
-        
         str.append("<td>" + this.receiver + "</td>");
         str.append("<td>" + this.subject + "</td>");
         str.append("<td>" + this.getTimeForDisplay() + "</td>");
@@ -61,7 +59,6 @@ public class EmailLogEntry {
         str.append("</ul>    ");
         str.append("</td>");
         str.append("</tr>");
-        
         str.append("<tr id=\"big\" style=\"display:none;\">");
         str.append("<td colspan=\"3\">");
         str.append("<div class=\"well\">");
