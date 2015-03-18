@@ -64,10 +64,10 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", fr.recipientEmail,
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fq.questionType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fq.questionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", "Qn Answer",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-1-0", fr.getId()
         };
@@ -87,10 +87,10 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", "",
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fq.questionType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fq.questionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", "Qn Answer",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-1-0", fr.getId()
         };
@@ -125,10 +125,10 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", fr.recipientEmail,
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fq.questionType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fq.questionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", "",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-1-0", fr.getId()
         };
@@ -162,10 +162,10 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", fr.recipientEmail,
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fq.questionType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fq.questionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", "Qn Answer",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-1-0", fr.getId()
         };
@@ -185,10 +185,10 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID +"-1", fq.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", fr.recipientEmail,
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fq.questionType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fq.questionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", "Qn Answer"
         };
         
@@ -207,10 +207,10 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", fr.recipientEmail,
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "INVALID",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", "INVALID",
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", "Qn Answer",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-1-0", fr.getId()
         };
@@ -249,10 +249,10 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", fr.recipientEmail,
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fq.questionType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fq.questionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", "",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-1-0", fr.getId()
         };
@@ -270,10 +270,10 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", fr.recipientEmail,
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fq.questionType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fq.questionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", ""
         };
         
@@ -290,10 +290,10 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", fr.recipientEmail,
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fq.questionType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fq.questionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", "response"
         };
         
@@ -310,10 +310,10 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", "invalid_recipient_email",
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fq.questionType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fq.questionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", "response"
         };
         
@@ -341,10 +341,10 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", fr.recipientEmail,
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fq.questionType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fq.questionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", "Qn Answer",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-1-0", fr.getId()
         };
@@ -374,10 +374,10 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", fr.recipientEmail,
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fq.questionType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fq.questionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", "Qn Answer",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-1-0", fr.getId()
         };
@@ -404,10 +404,10 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", fr.recipientEmail,
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fq.questionType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fq.questionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", "Qn Answer",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-1-0", fr.getId()
         };
@@ -424,10 +424,10 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         ______TS("Unsuccessful case: test null course id parameter");
         submissionParams = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", fr.recipientEmail,
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fq.questionType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fq.questionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", "Qn Answer",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-1-0", fr.getId()
         };
@@ -445,10 +445,10 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         ______TS("Unsuccessful case: test null feedback session name parameter");
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", fr.recipientEmail,
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, fq.questionType.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fq.questionType.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", "Qn Answer",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-1-0", fr.getId()
         };

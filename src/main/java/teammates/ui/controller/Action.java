@@ -127,6 +127,7 @@ public abstract class Action {
         String regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
         if (regkey == null) {
             //TODO: remove this branch on October 15th 2014.
+            log.severe("TEAMMATES accessed using old join link");
             return getRequestParamValue(Const.ParamsNames.REGKEY_LEGACY);
         } else {
             return regkey;

@@ -32,7 +32,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TEAMMATES - Submit Feedback</title>
+    <title>TEAMMATES - Feedback Results</title>
     <!-- Bootstrap core CSS -->
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap theme -->
@@ -80,7 +80,7 @@
                     <div class="form-horizontal">
                         <div class="panel-heading">
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Course:</label>
+                                <label class="col-sm-2 control-label">Course ID:</label>
                                 <div class="col-sm-10">
                                     <p class="form-control-static"><%=sanitizeForHtml(data.bundle.feedbackSession.courseId)%></p>
                                 </div>

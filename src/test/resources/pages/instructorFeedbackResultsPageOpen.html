@@ -303,7 +303,7 @@ ul #nav {
           <div class="row">
           <div class="col-sm-4">
               <div class="form-group">
-                <label class="col-sm-2 control-label">Course:</label>
+                <label class="col-sm-2 control-label">Course ID:</label>
                 <div class="col-sm-10">
                   <p class="form-control-static">CFResultsUiT.CS2104</p>
                 </div>
@@ -1316,13 +1316,15 @@ ul #nav {
                                                 <td class="text-preserve-space"><ul class="selectedOptionsList"><li>PowerSearch</li><li>GoodUI</li></ul></td>
                                             </tr>        
                                 
-                                                          <tr class="pending_response_row">
-                                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                                              <td class="middlealign color_neutral">Team 1</td>
-                                                              <td class="middlealign color_neutral">Benny Charles</td>
-                                                              <td class="middlealign color_neutral">Team 1</td>
-                                                              <td class="text-preserve-space color_neutral"><i>No Response</i></td>
-                                                          </tr>
+                                            
+                                
+                                            <tr>
+                                                <td class="middlealign">Benny Charles</td>
+                                                <td class="middlealign">Team 1</td>
+                                                <td class="middlealign">Benny Charles</td>
+                                                <td class="middlealign">Team 1</td>
+                                                <td class="text-preserve-space"></td>
+                                            </tr>        
                                 
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">Charlie Dávis</td>
@@ -3458,84 +3460,93 @@ ul #nav {
             </div>
             
             
+
+
+
+
+
+
+
+
+
+  <div class="panel panel-warning">
+      <div class="panel-heading" data-target="#panelBodyCollapse-19" id="panelHeading-19" style="cursor: pointer;">
+          <form action="/page/instructorFeedbackResultsPage" class="responseRateForm" id="responseRate" style="display:none;">
+              <input type="hidden" value="CFResultsUiT.CS2104" name="courseid" />
+              <input type="hidden" value="First Session" name="fsname" />
+              <input type="hidden" value="CFResultsUiT.instr" name="user" />
+              <input type="hidden" value="-1" name="questionnum" />
+          </form>
+          <div class="display-icon pull-right">
+          <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+          </div>
+          Participants who have not responded to any question</div>
+      <div id="panelBodyCollapse-19" class="panel-collapse collapse in">
             
-            <div class="panel panel-warning">
-                <div class="panel-heading" data-target="#panelBodyCollapse-19" id="panelHeading-19" style="cursor: pointer;">
-                    <form action="/page/instructorFeedbackResultsAjaxResponseRate" class="responseRateForm" id="responseRate" style="display:none;">
-                        <input type="hidden" value="CFResultsUiT.CS2104" name="courseid" />
-                        <input type="hidden" value="First Session" name="fsname" />
-                        <input type="hidden" value="CFResultsUiT.instr" name="user" />
-                    </form>
-                    <div class="display-icon pull-right">
-                    <span class="glyphicon glyphicon-chevron-up pull-right"></span>
-                    </div>
-                    Participants who have not responded to any question</div>
-                <div class="panel-collapse collapse in" id="panelBodyCollapse-19">
-                      
-                    <div class="panel-body padding-0">
-                        <table class="table table-striped table-bordered margin-0">
-                            <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                                <tr>
-                                <th style="width: 15%;" onclick="toggleSort(this,1)" class="button-sort-ascending" id="button_sortFromTeam">Team<span class="icon-sort unsorted"></span>
-                                </th>
-                                <th style="width: 15%;" onclick="toggleSort(this,2)" class="button-sort-none" id="button_sortTo">Name<span class="icon-sort unsorted"></span>
-                                </th>                            
-                                </tr>
-                            </thead>
-                            <tbody>
-                            
-                                <tr>
-                                    <td>
-                                    
-                                        <i>Instructors </i>
-                                    
-                                    </td>
-                                    <td>Teammates Helper1</td>                              
-                                </tr>
-                            
-                                <tr>
-                                    <td>
-                                    
-                                        <i>Instructors </i>
-                                    
-                                    </td>
-                                    <td>Teammates Helper2</td>                              
-                                </tr>
-                            
-                                <tr>
-                                    <td>
-                                    
-                                        Team 2
-                                    
-                                    </td>
-                                    <td>Danny Engrid</td>                              
-                                </tr>
-                            
-                                <tr>
-                                    <td>
-                                    
-                                        Team 2
-                                    
-                                    </td>
-                                    <td>Extra guy</td>                              
-                                </tr>
-                            
-                                <tr>
-                                    <td>
-                                    
-                                        Team 3
-                                    
-                                    </td>
-                                    <td>Emily</td>                              
-                                </tr>
-                            
-                            </tbody>
-                        </table>
-                    </div>
-            
-                </div>
-                </div>
-            
+          <div class="panel-body padding-0">
+              <table class="table table-striped table-bordered margin-0">
+                  <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                      <tr>
+                      <th style="width: 15%;" onclick="toggleSort(this,1)" class="button-sort-ascending" id="button_sortFromTeam">Team<span class="icon-sort unsorted"></span>
+                      </th>
+                      <th style="width: 15%;" onclick="toggleSort(this,2)" class="button-sort-none" id="button_sortTo">Name<span class="icon-sort unsorted"></span>
+                      </th>                            
+                      </tr>
+                  </thead>
+                  <tbody>
+                  
+                      <tr>
+                          <td>
+                          
+                              <i>Instructors </i>
+                          
+                          </td>
+                          <td>Teammates Helper1</td>                              
+                      </tr>
+                  
+                      <tr>
+                          <td>
+                          
+                              <i>Instructors </i>
+                          
+                          </td>
+                          <td>Teammates Helper2</td>                              
+                      </tr>
+                  
+                      <tr>
+                          <td>
+                          
+                              Team 2
+                          
+                          </td>
+                          <td>Danny Engrid</td>                              
+                      </tr>
+                  
+                      <tr>
+                          <td>
+                          
+                              Team 2
+                          
+                          </td>
+                          <td>Extra guy</td>                              
+                      </tr>
+                  
+                      <tr>
+                          <td>
+                          
+                              Team 3
+                          
+                          </td>
+                          <td>Emily</td>                              
+                      </tr>
+                  
+                  </tbody>
+              </table>
+          </div>
+  
+      </div>
+      </div>
+  
             </div>    
         </div>
     
@@ -3547,15 +3558,15 @@ ul #nav {
 <div class="container-fluid" id="footerComponent">
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <span>[<a href="/index.html">TEAMMATES</a> V{$version}]</span>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-8">
                 
                         [for <span class="highlight-white"><span class="color_white">TEAMMATES Test Institute 1</span></span>]
                 
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <span>[Send <a target="_blank" href="../contact.html" class="link">Feedback</a>]</span>
             </div>
         </div>

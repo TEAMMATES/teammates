@@ -751,6 +751,7 @@ public class Const {
         public static final String INSTRUCTOR_FEEDBACKS = "/jsp/instructorFeedbacks.jsp";
         public static final String INSTRUCTOR_FEEDBACK_EDIT = "/jsp/instructorFeedbackEdit.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_TOP = "/jsp/instructorFeedbackResultsTop.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_RESULTS_BOTTOM = "/jsp/instructorFeedbackResultsBottom.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION = "/jsp/instructorFeedbackResultsByGiverRecipientQuestion.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION = "/jsp/instructorFeedbackResultsByRecipientGiverQuestion.jsp"; 
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT = "/jsp/instructorFeedbackResultsByGiverQuestionRecipient.jsp";
@@ -825,7 +826,7 @@ public class Const {
         public static final String INVALID_EMAIL = "\"%s\" is not acceptable to TEAMMATES as an email because it is not in the correct format."
                 + " An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 45 characters. It cannot be empty and it cannot have spaces.";
 
-        public static final String COURSE_ADDED = "The course has been added.. Click <a href=\"${courseEnrollLink}\">here</a> to add students to the course "
+        public static final String COURSE_ADDED = "The course has been added. Click <a href=\"${courseEnrollLink}\">here</a> to add students to the course "
                 + "or click <a href=\"${courseEditLink}\">here</a> to add other instructors.<br>"
                 + "If you don't see the course in the list below, please refresh the page after a few moments.";
         public static final String COURSE_EXISTS = "A course by the same ID already exists in the system, possibly created by another user. Please choose a different course ID";
@@ -926,6 +927,7 @@ public class Const {
         public static final String FEEDBACK_QUESTION_TEXTINVALID = "Please enter a valid question. The question text cannot be empty.";
         
         public static final String FEEDBACK_RESPONSES_SAVED = "All responses submitted succesfully!";
+        public static final String FEEDBACK_RESPONSES_MISSING_RECIPIENT = "You did not specify a recipient for your response in question %s.";
         
         public static final String FEEDBACK_RESPONSE_COMMENT_EMPTY = "Comment cannot be empty";
         public static final String FEEDBACK_RESPONSE_COMMENT_ADDED = "Your comment has been saved successfully";
@@ -939,6 +941,7 @@ public class Const {
         
         public static final String FEEDBACK_RESULTS_SOMETHINGNEW = "You have received feedback from others. Please see below.";
         public static final String FEEDBACK_RESULTS_NOTHINGNEW = "You have not received any new feedback but you may review your own submissions below.";
+        public static final String FEEDBACK_RESULTS_SECTIONVIEWWARNING = "This session seems to have a large number of responses. It is recommended to view the results one section at at time.";
         
         public static final String ENROLL_LINE_EMPTY = "Please input at least one student detail.";
         public static final String ENROLL_LINES_PROBLEM_DETAIL_PREFIX = "&bull;";
@@ -1075,6 +1078,7 @@ public class Const {
     public static final String TEAM_OF_EMAIL_OWNER = "'s Team";
     
     public static final String FEEDBACK_SESSION_QUESTIONS_HIDDEN = "Some questions may be hidden due to visibility options";
+    public static final String NONE_OF_THE_ABOVE = "None of the above";
     
     public static final String INSTRUCTOR_EVALUATION_STATUS_AWAITING = "Awaiting";
     public static final String INSTRUCTOR_EVALUATION_STATUS_OPEN = "Open";

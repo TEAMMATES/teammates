@@ -15,17 +15,17 @@
 <div id="footerComponent" class="container-fluid">
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <span>[<a href="/index.html">TEAMMATES</a> V<%=version%>]</span>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-8">
                 <%
                     if(institute != null && institute != "") {
                 %>
                         [for <span class="highlight-white"><%=institute%></span>]
                 <% } %>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <span>[Send <a class="link" href="../contact.html" target="_blank">Feedback</a>]</span>
             </div>
         </div>

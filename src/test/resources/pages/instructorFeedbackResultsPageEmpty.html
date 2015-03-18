@@ -16,7 +16,7 @@
           <div class="row">
           <div class="col-sm-4">
               <div class="form-group">
-                <label class="col-sm-2 control-label">Course:</label>
+                <label class="col-sm-2 control-label">Course ID:</label>
                 <div class="col-sm-10">
                   <p class="form-control-static">CFResultsUiT.CS2104</p>
                 </div>
@@ -51,77 +51,79 @@
               </div>
           </div>
           <div class="col-sm-2">
-                     <div class="form-group">
-                        <form action="/page/instructorFeedbackResultsDownload" method="post">
-                           <div id="feedbackDataButtons">
-                              <input class="btn btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download results"/>
-                                                         </div>
-                           <input name="user" type="hidden" value="CFResultsUiT.instr"/>
-                                                      <input name="fsname" type="hidden" value="Third Session"/>
-                                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                      <input name="sectionname" type="hidden" value="All"/>
-                                                   </form>
-                     </div>
+              
+              <div class="form-group">
+                  <form method="post" action="/page/instructorFeedbackResultsDownload">
+                  <div id="feedbackDataButtons">
+                      <input id="button_download" class="btn btn-primary" name="fruploaddownloadbtn" value="Download results" type="submit">
                   </div>
-               </div>
-               <div class="row">
-                  <span class="help-block align-center">
-                     Non-English characters not displayed properly in the
-                    downloaded file?
-                     <span class="btn-link" data-target="#fsResultsTableWindow" data-toggle="modal" onclick="submitFormAjax()">
-                        click here
-                     </span>
-                  </span>
-               </div>
-            </div>
-         </div>
+                  <input name="user" value="CFResultsUiT.instr" type="hidden">
+                  <input name="fsname" value="Third Session" type="hidden">
+                  <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                  <input name="sectionname" value="All" type="hidden">
+                  
+                  </form>
+              </div>
+              
+          </div>
+        </div>
+
+            <div class="row">
+                <span class="help-block align-center">
+
+                    Non-English characters not displayed properly in the
+                    downloaded file?<span class="btn-link" data-toggle="modal" data-target="#fsResultsTableWindow" onclick="submitFormAjax()"> click here </span>
+            </span></div>
+
+        </div>
       </div>
-      <form id="csvToHtmlForm">
-         <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                  <input name="fsname" type="hidden" value="Third Session"/>
-                  <input name="user" type="hidden" value="CFResultsUiT.instr"/>
-                  <input name="frgroupbysection" type="hidden" value="All"/>
-                  <input name="csvtohtmltable" type="hidden" value="true"/>
-               </form>
-      <div class="modal fade align-center" id="fsResultsTableWindow">
-         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <span class="help-block" style="display:inline;">
-                     Tips: After
-                    Selecting the table,
-                     <kbd>
-                        Ctrl + C
-                     </kbd>
-                     to COPY and
-                     <kbd>
-                        Ctrl + V
-                     </kbd>
-                     to PASTE to your Excel Workbook.
-                  </span>
-                       
-                  <button class="btn btn-default" data-dismiss="modal" type="button">
-                     Close
-                  </button>
-                  <button class="btn btn-primary" onclick="selectElementContents( document.getElementById('fsModalTable') );" type="button">
-                     Select Table
-                  </button>
-               </div>
-               <div class="modal-body">
-                  <div class="table-responsive">
-                     <div id="fsModalTable">
-                     </div>
-                     <br/>
-                                          <div id="ajaxStatus">
-                     </div>
-                  </div>
-               </div>
-               <div class="modal-footer">
-               </div>
+    
+</div>
+
+<form id="csvToHtmlForm">
+<input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+<input name="fsname" value="Third Session" type="hidden">
+<input name="user" value="CFResultsUiT.instr" type="hidden">
+<input name="frgroupbysection" value="All" type="hidden">
+<input name="csvtohtmltable" value="true" type="hidden">
+</form>
+
+<div class="modal fade align-center" id="fsResultsTableWindow">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                 <span class="help-block" style="display:inline;"> Tips: After
+                    Selecting the table, <kbd>Ctrl + C</kbd> to COPY and
+                    <kbd>Ctrl + V</kbd> to PASTE to your Excel Workbook.
+                </span>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="selectElementContents( document.getElementById('fsModalTable') );">
+                    Select Table</button>
             </div>
-         </div>
-      </div>
-      <br/>
+            <div class="modal-body">
+            <div class="table-responsive">
+            <div id="fsModalTable">
+               
+            </div>
+            <br>
+             <div id="ajaxStatus"></div>      
+            </div>
+            </div>
+            <div class="modal-footer">
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<br>
+
+
+
+
+
     <div id="statusMessage" style="display: none;"></div>
 
 <br>
@@ -132,5 +134,34 @@
             <br>
             
             
-            
+
+
+
+
+
+
+
+
+
+  <div class="panel panel-warning">
+      <div style="cursor: pointer;" id="panelHeading-1" data-target="#panelBodyCollapse-1" class="panel-heading">
+          <form style="display:none;" id="responseRate" class="responseRateForm" action="/page/instructorFeedbackResultsPage">
+              <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+              <input name="fsname" value="Third Session" type="hidden">
+              <input name="user" value="CFResultsUiT.instr" type="hidden">
+              <input name="questionnum" value="-1" type="hidden">
+          </form>
+          <div class="display-icon pull-right">
+          <span class="glyphicon glyphicon-chevron-up pull-right"></span>
+          </div>
+          Participants who have not responded to any question</div>
+      <div class="panel-collapse collapse in" id="panelBodyCollapse-1">
+  
+          <div class="panel-body">
+              All students have responded to some questions in this session.
+          </div>
+  
+      </div>
+      </div>
+  
             </div>

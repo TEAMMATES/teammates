@@ -3,7 +3,10 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
+import teammates.common.util.Const;
+import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 
@@ -38,13 +41,18 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
     public String getAnswerHtml(FeedbackQuestionDetails questionDetails) {
         StringBuilder htmlBuilder = new StringBuilder();
         
-        htmlBuilder.append("<ul class=\"selectedOptionsList\">");
-        for (String answer : answers) {
-            htmlBuilder.append("<li>");
-            htmlBuilder.append(Sanitizer.sanitizeForHtml(answer));
-            htmlBuilder.append("</li>");
+        if (isAnswerBlank()) {
+            // display an empty string if "None of the above" was selected
+            htmlBuilder.append("");
+        } else {
+            htmlBuilder.append("<ul class=\"selectedOptionsList\">");
+            for (String answer : answers) {
+                htmlBuilder.append("<li>");
+                htmlBuilder.append(Sanitizer.sanitizeForHtml(answer));
+                htmlBuilder.append("</li>");
+            }
+            htmlBuilder.append("</ul>");
         }
-        htmlBuilder.append("</ul>");
         
         return htmlBuilder.toString();
     }
@@ -54,14 +62,23 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         FeedbackMsqQuestionDetails msqDetails = (FeedbackMsqQuestionDetails) questionDetails;
         StringBuilder csvBuilder = new StringBuilder();
         
-        for(String choice : msqDetails.msqChoices) {
-            csvBuilder.append(",");
-            if (this.contains(choice)) {
-                csvBuilder.append(Sanitizer.sanitizeForCsv(choice));
+        if (isAnswerBlank()) {
+            csvBuilder.append("");
+        } else {
+            for(String choice : msqDetails.msqChoices) {
+                csvBuilder.append(",");
+                if (this.contains(choice)) {
+                    csvBuilder.append(Sanitizer.sanitizeForCsv(choice));
+                }
             }
         }
 
         return csvBuilder.toString();
+    }
+    
+    protected boolean isAnswerBlank() {
+        return answers.size() == 1 && 
+               answers.get(0).equals("");
     }
 
 }

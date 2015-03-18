@@ -38,12 +38,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
     @FindBy(id = "show-stats-checkbox")
     public WebElement showStatsCheckbox;
     
-    @FindBy(id = "button_add_comment")
-    private WebElement showResponseCommentAddFormButton;
-    
-    @FindBy(id = "showResponseCommentAddForm-0-1-1")
-    private WebElement addResponseCommentForm;
-    
     
     public InstructorFeedbackResultsPage(Browser browser) {
         super(browser);
@@ -163,8 +157,11 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return qnAdditionalInfoButton.getText();
     }
     
-    public void addFeedbackResponseComment(String commentText) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, 30);
+    public void addFeedbackResponseComment(String addResponseCommentId, String commentText) {
+        WebDriverWait wait = new WebDriverWait(browser.driver, 5);
+        WebElement addResponseCommentForm = browser.driver.findElement(By.id(addResponseCommentId));
+        WebElement parentContainer = addResponseCommentForm.findElement(By.xpath("../.."));
+        WebElement showResponseCommentAddFormButton = parentContainer.findElement(By.id("button_add_comment"));
         showResponseCommentAddFormButton.click();
         wait.until(ExpectedConditions.elementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea"))));
         fillTextBox(addResponseCommentForm.findElement(By.tagName("textarea")), commentText);
@@ -180,11 +177,27 @@ public class InstructorFeedbackResultsPage extends AppPage {
         fillTextBox(commentEditForm.findElement(By.name("responsecommenttext")), newCommentText);
         commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
         ThreadHelper.waitFor(1000);
-   
+    }
+    
+    public void clickVisibilityOptionForResponseCommentAndSave(String idString, int numOfTheCheckbox) {
+        String idSuffix = idString.substring(18);
+        WebElement commentRow = browser.driver.findElement(By.id(idString));
+        commentRow.findElements(By.tagName("a")).get(1).click();
+        WebElement commentEditForm = browser.driver.findElement(By.id("responseCommentEditForm" + idSuffix));
+        commentRow.findElement(By.id("frComment-visibility-options-trigger" + idSuffix)).click();
+        commentRow.findElements(By.cssSelector("input[type='checkbox']")).get(numOfTheCheckbox).click();
+        commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
+        ThreadHelper.waitFor(1000);
     }
     
     public boolean verifyAllResultsPanelBodyVisibility(boolean visible){
-        for(WebElement e : browser.driver.findElements(By.cssSelector(".panel-heading+.panel-body"))){
+        int numOfQns = browser.driver.findElements(By.cssSelector(".panel-heading+.panel-collapse")).size();
+        assertTrue(numOfQns > 0);
+        
+        // Wait for the total duration according to the number of collapse/expand intervals between questions
+        ThreadHelper.waitFor((numOfQns * 50) + 1000);
+        
+        for(WebElement e : browser.driver.findElements(By.cssSelector(".panel-heading+.panel-collapse"))){
             if(e.isDisplayed() != visible){
                 return false;
             }

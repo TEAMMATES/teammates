@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import teammates.common.datatransfer.FeedbackQuestionDetails;
-import teammates.common.datatransfer.FeedbackResponseDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackResponseDetails;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.StudentAttributes;
@@ -21,7 +21,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StringHelper;
-import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.StudentsLogic;
 
 import com.google.appengine.api.datastore.Text;
@@ -88,11 +87,16 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             emailSet = StringHelper.recoverFromSanitizedText(emailSet);
             
             ArrayList<String> responsesRecipients = new ArrayList<String>();
+            List<String> errors = new ArrayList<String>();
             
             for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
-                FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, questionIndx, responseIndx, questionDetails);
+                FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, questionIndx, responseIndx, questionAttributes);
                 
-                responsesRecipients.add(response.recipientEmail);       
+                responsesRecipients.add(response.recipientEmail);
+                // if the answer is not empty but the recipient is empty
+                if (response.recipientEmail.isEmpty() && !response.responseMetaData.getValue().isEmpty()) {
+                    errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_MISSING_RECIPIENT, questionIndx));
+                }
                 
                 if(response.responseMetaData.getValue().isEmpty()){
                     //deletes the response since answer is empty
@@ -105,7 +109,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 qnId = response.feedbackQuestionId;
             }
             
-            List<String> errors = questionDetails.validateResponseAttributes(responsesForQuestion, data.bundle.recipientList.get(qnId).size());            
+            errors.addAll(questionDetails.validateResponseAttributes(responsesForQuestion, data.bundle.recipientList.get(qnId).size()));            
             if (!emailSet.containsAll(responsesRecipients)) {
                 errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_INVALID_RECIPIENT, questionIndx));                
             }
@@ -161,8 +165,9 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     }
     
     private FeedbackResponseAttributes extractFeedbackResponseData(
-            Map<String, String[]> requestParameters, int questionIndx, int responseIndx, 
-            FeedbackQuestionDetails questionDetails) {
+            Map<String, String[]> requestParameters, int questionIndx, int responseIndx,
+            FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        FeedbackQuestionDetails questionDetails = feedbackQuestionAttributes.getQuestionDetails();
         FeedbackResponseAttributes response = new FeedbackResponseAttributes();
         
         //This field can be null if the response is new
@@ -184,6 +189,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 requestParameters, 
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
         Assumption.assertNotNull("Null feedbackQuestionId", response.feedbackQuestionId);
+        Assumption.assertEquals("feedbackQuestionId Mismatch", feedbackQuestionAttributes.getId(), response.feedbackQuestionId);
+        
         
         response.recipientEmail = HttpRequestHelper.getValueFromParamMap(
                 requestParameters, 
@@ -196,8 +203,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         Assumption.assertNotNull("Null feedbackQuestionType", feedbackQuestionType);
         response.feedbackQuestionType = FeedbackQuestionType.valueOf(feedbackQuestionType);
         
-        FeedbackQuestionAttributes question = FeedbackQuestionsLogic.inst().getFeedbackQuestion(response.feedbackQuestionId);
-        FeedbackParticipantType recipientType = question.recipientType;
+        FeedbackParticipantType recipientType = feedbackQuestionAttributes.recipientType;
         if(recipientType == FeedbackParticipantType.INSTRUCTORS || recipientType == FeedbackParticipantType.NONE){
             response.recipientSection = Const.DEFAULT_SECTION;
         } else if(recipientType == FeedbackParticipantType.TEAMS){
@@ -209,21 +215,13 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             response.recipientSection = getUserSectionForCourse();
         }
         
+        
         //This field can be null if the question is skipped
         String[] answer = HttpRequestHelper.getValuesFromParamMap(
                 requestParameters, 
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + questionIndx + "-" + responseIndx);
         
-        boolean allAnswersEmpty = true;
-        if(answer!=null){
-            for(int i=0 ; i<answer.length ; i++){
-                if(!answer[i].trim().isEmpty()){
-                    allAnswersEmpty = false;
-                }
-            }
-        }
-        
-        if(answer != null && !allAnswersEmpty) {
+        if(!questionDetails.isQuestionSkipped(answer)) {
             FeedbackResponseDetails responseDetails = 
                     FeedbackResponseDetails.createResponseDetails(
                             answer,
