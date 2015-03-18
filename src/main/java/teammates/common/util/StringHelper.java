@@ -359,6 +359,56 @@ public class StringHelper {
                              result.toString());
     }
 
+    /**
+     * Convert a csv string to a beautified html table string for displaying
+     * @param str
+     * @return beautified html table string
+     */
+    public static String csvToBeautifiedHtmlTable(String str) {
+        
+        str = handleNewLine(str);
+        String[] lines = str.split(Const.EOL);
+
+        StringBuilder result = new StringBuilder();
+        int maxLength = 0;
+        
+        List<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
+        
+        for (int i = 0; i < lines.length; i++) {
+            
+            List<String> rowData = getTableData(lines[i]);
+
+            if(checkIfEmptyRow(rowData)){
+                continue;
+            }
+            
+            if (rowData.size() > maxLength) {
+                maxLength = rowData.size();
+            }
+            data.add((ArrayList<String>) rowData);
+            
+        }
+        
+        for (List<String> rowData: data) {
+            
+            int colspan = (int) Math.floor(maxLength / rowData.size());
+
+            result.append("<tr>");
+            for (String td : rowData) {
+                if (colspan == 1) {
+                    result.append(String.format("<td>%s</td>\n", td));                    
+                } else {
+                    result.append(String.format("<td colspan='%d'>%s</td>\n", colspan, td));                    
+                }
+            }
+            result.append("</tr>");
+
+        }
+
+        return String.format("<table class=\"table table-bordered table-striped table-condensed\">\n%s</table>",
+                             result.toString());
+    }
+
     private static String handleNewLine(String str) {
 
         StringBuilder buffer = new StringBuilder();

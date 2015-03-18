@@ -64,17 +64,22 @@ public class InstructorFeedbackResultsPageAction extends Action {
         }
         
         if(isHtmlTableNeeded){
-            try {                   
-                if(!data.selectedSection.contentEquals(ALL_SECTION_OPTION)){
-                   data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(logic.getFeedbackSessionResultSummaryInSectionAsCsv(courseId, 
-                                                                                                                                          feedbackSessionName, 
-                                                                                                                                          instructor.email, 
-                                                                                                                                          data.selectedSection));
+            try {
+                if (!data.selectedSection.contentEquals(ALL_SECTION_OPTION)) {
+                    data.sessionResultsHtmlTableAsString = StringHelper
+                            .csvToBeautifiedHtmlTable(logic
+                                    .getFeedbackSessionResultSummaryInSectionAsCsv(
+                                            courseId,
+                                            feedbackSessionName,
+                                            instructor.email,
+                                            data.selectedSection));
                 } else {
-                    
-                    data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(logic.getFeedbackSessionResultSummaryAsCsv(courseId, 
-                                                                                                                                  feedbackSessionName, 
-                                                                                                                                  instructor.email));               
+                    data.sessionResultsHtmlTableAsString = StringHelper
+                            .csvToBeautifiedHtmlTable(logic
+                                    .getFeedbackSessionResultSummaryAsCsv(
+                                            courseId,
+                                            feedbackSessionName,
+                                            instructor.email));
                 }
             } catch (ExceedingRangeException e) {
                 data.sessionResultsHtmlTableAsString = "";
