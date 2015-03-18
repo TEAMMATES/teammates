@@ -271,7 +271,8 @@
                                     </div>
                                 </div>
                                 <div class='panel-collapse collapse in'>
-                                    <div class="panel-body"> There are no responses given by this user 
+                                    <div class="panel-body"> 
+                                        <i>There are no responses given by this user</i> 
                                     </div>
                                 </div>
                                 </div>
@@ -987,7 +988,8 @@
                     </div>
                 </div>
                 <div class='panel-collapse collapse in'>
-                    <div class="panel-body"> There are no responses given by this user 
+                    <div class="panel-body"> 
+                        <i>There are no responses given by this user</i> 
                     </div>
                 </div>
                 </div>
@@ -1071,7 +1073,8 @@
                                                      </div>
                                                 </div>
                                                 <div class='panel-collapse collapse in'>
-                                                    <div class="panel-body"> There are no responses given by this user 
+                                                    <div class="panel-body"> 
+                                                        <i>There are no responses given by this user</i> 
                                                     </div>
                                                 </div>
                                              </div>
@@ -1174,7 +1177,8 @@
                                                                      </div>
                                                                 </div>
                                                                 <div class='panel-collapse collapse in'>
-                                                                    <div class="panel-body"> There are no responses given by this user 
+                                                                    <div class="panel-body"> 
+                                                                        <i>There are no responses given by this user</i> 
                                                                     </div>
                                                                 </div>
                                                              </div>
