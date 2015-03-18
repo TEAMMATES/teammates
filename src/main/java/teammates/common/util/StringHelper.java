@@ -359,70 +359,102 @@ public class StringHelper {
                              result.toString());
     }
 
-    private static List<String> combineRowDataEntries(List<String> rowData, String delimiter) {
+    private static List<String> combineRowDataEntries(List<String> rowData,
+            String delimiter) {
         String combinedEntries = rowData.get(0) + delimiter + rowData.get(1);
         rowData = new ArrayList<String>();
         rowData.add(combinedEntries);
         return rowData;
     }
-    
+
     /**
      * Convert a csv string to a beautified html table string for displaying
+     * 
      * @param str
      * @return beautified html table string
      */
     public static String csvToBeautifiedHtmlTable(String str) {
-        
+
         str = handleNewLine(str);
         String[] lines = str.split(Const.EOL);
 
         StringBuilder result = new StringBuilder();
-        int maxLength = 0;
-        
-        List<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
-        
+        int globalMaxLength = 0; // global max. no. of columns
+        int qnMaxLength = 0; // max. no. of columns in a question
+
+        List<ArrayList<String>> rowDataArray = new ArrayList<ArrayList<String>>();
+        List<Integer> qnMaxLengthArray = new ArrayList<Integer>();
+
         for (int i = 0; i < lines.length; i++) {
-            
+
             List<String> rowData = getTableData(lines[i]);
 
-            if(checkIfEmptyRow(rowData)){
+            if (checkIfEmptyRow(rowData)) {
                 continue;
             }
-            if (rowData.get(0).matches("^Question \\d*$") ||
-                    rowData.get(0).equals("Course") ||
+            if (rowData.get(0).equals("Course") ||
                     rowData.get(0).equals("Session Name")) {
+                rowData = combineRowDataEntries(rowData, ": ");
+            } else if (rowData.get(0).matches("^Question \\d*$")) {
+                // new question: add the max. no of columns of the previous
+                // question to the qnMaxLengthArray
+                qnMaxLengthArray.add(qnMaxLength);
+                // reset the counter
+                qnMaxLength = 0;
                 rowData = combineRowDataEntries(rowData, ": ");
             } else if (rowData.get(0).equals("Summary Statistics")) {
                 rowData = combineRowDataEntries(rowData, "");
             } else if (rowData.get(0).equals("In the points given below")) {
                 rowData = combineRowDataEntries(rowData, ", ");
             }
-            
-            if (rowData.size() > maxLength) {
-                maxLength = rowData.size();
+
+            if (rowData.size() > globalMaxLength) {
+                globalMaxLength = rowData.size();
             }
-            data.add((ArrayList<String>) rowData);
-            
+            if (rowData.size() > qnMaxLength) {
+                qnMaxLength = rowData.size();
+            }
+            rowDataArray.add((ArrayList<String>) rowData);
+
         }
-        
-        for (List<String> rowData: data) {
-            
-            int colspan = (int) Math.floor(maxLength / rowData.size());
+
+        // adds the counter for the last question
+        qnMaxLengthArray.add(qnMaxLength);
+        // removes the max. no. of columns for the "0th question"
+        qnMaxLengthArray.remove(0);
+
+        for (List<String> rowData : rowDataArray) {
+
+            int colspan;
+            if (rowData.get(0).matches("^Course: .*") ||
+                    rowData.get(0).matches("^Session Name: .*")) {
+                colspan = globalMaxLength;
+            } else if (rowData.get(0).matches("^Question \\d*: .*")) {
+                // the colspan will adapt to the max. no. of columns per
+                // question
+                qnMaxLength = qnMaxLengthArray.get(0);
+                qnMaxLengthArray.remove(0);
+                colspan = qnMaxLength;
+            } else {
+                colspan = (int) Math.floor(qnMaxLength / rowData.size());
+            }
 
             result.append("<tr>");
             for (String td : rowData) {
                 if (colspan == 1) {
-                    result.append(String.format("<td>%s</td>\n", td));                    
+                    result.append(String.format("<td>%s</td>\n", td));
                 } else {
-                    result.append(String.format("<td colspan='%d'>%s</td>\n", colspan, td));                    
+                    result.append(String.format("<td colspan='%d'>%s</td>\n",
+                            colspan, td));
                 }
             }
             result.append("</tr>");
 
         }
 
-        return String.format("<table class=\"table table-bordered table-striped table-condensed\">\n%s</table>",
-                             result.toString());
+        return String
+                .format("<table class=\"table table-bordered table-striped table-condensed\">\n%s</table>",
+                        result.toString());
     }
 
     private static String handleNewLine(String str) {
