@@ -202,7 +202,7 @@
                         <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
                         <input type="hidden" id="numStudents-<%=courseIdx%>" value="<%=data.numStudents.get(course.id)%>">
                     </form>
-                    <a class="btn btn-default btn-xs pull-right pull-down course-enroll-for-test"
+                    <a class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test"
                                 id="enroll-<%=courseIdx%>"
                                 href="<%=data.getInstructorCourseEnrollLink(course.id)%>"
                                 title="<%=Const.Tooltips.COURSE_ENROLL%>"
@@ -210,7 +210,7 @@
                                 <% if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) { %>
                                 disabled="disabled"
                                 <% } %>>
-                                    <span class="glyphicon glyphicon-list"></span> Enroll
+                                     Enroll
                     </a>
                     <div class='display-icon pull-right'>
                     </div>
