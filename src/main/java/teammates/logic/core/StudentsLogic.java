@@ -560,7 +560,7 @@ public class StudentsLogic {
         Emails emailMgr = new Emails();
         try {
             MimeMessage email = emailMgr.generateStudentCourseJoinEmail(course, studentData);
-            emailMgr.sendEmail(email);
+            emailMgr.sendAndLogEmail(email);
             return email;
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while sending email", e);
@@ -586,7 +586,7 @@ public class StudentsLogic {
         Emails emailMgr = new Emails();
         try {
             MimeMessage email = emailMgr.generateStudentCourseRejoinEmailAfterGoogleIdReset(course, studentData);
-            emailMgr.sendEmail(email);
+            emailMgr.sendAndLogEmail(email);
             return email;
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while sending email", e);
