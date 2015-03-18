@@ -359,6 +359,13 @@ public class StringHelper {
                              result.toString());
     }
 
+    private static List<String> combineRowDataEntries(List<String> rowData, String delimiter) {
+        String combinedEntries = rowData.get(0) + delimiter + rowData.get(1);
+        rowData = new ArrayList<String>();
+        rowData.add(combinedEntries);
+        return rowData;
+    }
+    
     /**
      * Convert a csv string to a beautified html table string for displaying
      * @param str
@@ -380,6 +387,15 @@ public class StringHelper {
 
             if(checkIfEmptyRow(rowData)){
                 continue;
+            }
+            if (rowData.get(0).matches("^Question \\d*$") ||
+                    rowData.get(0).equals("Course") ||
+                    rowData.get(0).equals("Session Name")) {
+                rowData = combineRowDataEntries(rowData, ": ");
+            } else if (rowData.get(0).equals("Summary Statistics")) {
+                rowData = combineRowDataEntries(rowData, "");
+            } else if (rowData.get(0).equals("In the points given below")) {
+                rowData = combineRowDataEntries(rowData, ", ");
             }
             
             if (rowData.size() > maxLength) {
