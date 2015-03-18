@@ -70,9 +70,9 @@
         numOfResponseBoxes = maxResponsesPossible;
     }
 %>
-    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>" value="<%=question.questionType%>"/>
-    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>" value="<%=question.getId()%>"/>
-    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL%>" value="<%=numOfResponseBoxes%>"/>
+    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>-1" value="<%=question.questionType%>"/>
+    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>-1" value="<%=question.getId()%>"/>
+    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL%>-1" value="<%=numOfResponseBoxes%>"/>
     <div class="form-horizontal">
         <div class="panel panel-primary">
             <div class="panel-heading">Question <%=question.questionNumber%>:<br/>
