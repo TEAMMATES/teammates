@@ -823,7 +823,7 @@ public class PageData {
     }
     
     /**
-     * Returns the links of actions available for a specific evaluation
+     * Returns the link of publish action for a session feedback
      * @param session
      *         The Evaluation details
      * @param position
@@ -839,14 +839,10 @@ public class PageData {
         
         // Allowing ALL instructors to view results regardless of publish state.
         boolean hasSubmit = session.isVisible() || session.isPrivateSession();
-        boolean hasPublish = !session.isWaitingToOpen() && !session.isPublished();
-        boolean hasUnpublish = !session.isWaitingToOpen() && session.isPublished();
         boolean hasRemind = session.isOpened();
         String disabledStr = "disabled=\"disabled\"";
         String disableEditSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disableDeleteSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
-        String disableUnpublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
-        String disablePublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disableRemindSessionStr = (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) && hasRemind) ? "" : disabledStr;
         boolean shouldEnableSubmitLink = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         
@@ -912,27 +908,51 @@ public class PageData {
             "data-courseid=\"" + session.courseId + "\" data-fsname=\"" + session.feedbackSessionName + "\" " +
             "data-toggle=\"modal\" data-target=\"#remindModal\">Remind particular students</a></li></ul></div> "
         );
-        
+        String unpublishLinkStyle = "class=\"btn btn-default btn-xs btn-tm-actions session-unpublish-for-test\"";
+        String publishLinkStyle = "class=\"btn btn-default btn-xs btn-tm-actions session-publish-for-test";
+        result.append(getInstructorFeedbackSessionPublishAndUnpublishAction(session, isHome, instructor, publishLinkStyle, unpublishLinkStyle));
+
+        return result.toString();
+    }
+    
+    /**
+     * Returns the link of publish and unpublish action for the session feedback
+     * @param session
+     *         The session details
+     * @param isHome
+     *         Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
+     * @param instructor
+     *         The instructor attributes of the session feedback
+     * @param publishLinkStyle
+     *         A string containing the CSS styles of the publish link
+     * @param unpublishLinkStyle
+     *         A string containing the CSS styles of the unpublish link
+     * @return
+     */
+    public String getInstructorFeedbackSessionPublishAndUnpublishAction(FeedbackSessionAttributes session, boolean isHome, InstructorAttributes instructor, String publishLinkStyle, String unpublishLinkStyle) {
+        boolean hasPublish = !session.isWaitingToOpen() && !session.isPublished();
+        boolean hasUnpublish = !session.isWaitingToOpen() && session.isPublished();
+        String disabledStr = "disabled=\"disabled\"";
+        String disableUnpublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
+        String disablePublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
+        String result = "";
         if (hasUnpublish) {
-            result.append(
-                "<a class=\"btn btn-default btn-xs btn-tm-actions session-unpublish-for-test\"" +
+            result =
+                "<a "+ unpublishLinkStyle +
                 "href=\"" + getInstructorFeedbackSessionUnpublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
                 "title=\"" + Const.Tooltips.FEEDBACK_SESSION_UNPUBLISH + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
                 "onclick=\"return toggleUnpublishEvaluation('" + session.feedbackSessionName + "');\" " + 
-                disableUnpublishSessionStr + ">Unpublish</a> "
-            );
+                disableUnpublishSessionStr + ">Unpublish</a> ";
         } else {
-            result.append(
-                "<a class=\"btn btn-default btn-xs btn-tm-actions session-publish-for-test" + (hasPublish ? "\"" : DISABLED) + 
+            result = 
+                "<a "+ publishLinkStyle + (hasPublish ? "\"" : DISABLED) + 
                 "href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
                 "title=\"" + (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH :  Const.Tooltips.FEEDBACK_SESSION_AWAITING) + "\"" +
                 "data-toggle=\"tooltip\" data-placement=\"top\"" +
                 (hasPublish ? "onclick=\"return togglePublishEvaluation('" + session.feedbackSessionName + "');\" " : " ") +
-                disablePublishSessionStr + ">Publish</a> "
-            );
+                disablePublishSessionStr + ">Publish</a> ";
         }
-        
-        return result.toString();
+        return result;
     }
     
     /**

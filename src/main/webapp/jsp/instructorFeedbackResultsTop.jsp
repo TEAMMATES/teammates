@@ -62,8 +62,13 @@
                   <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>">
                   <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>">
                   <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="<%=data.selectedSection%>">
+                  </form><br>
                   
-                  </form>
+                  <div>
+                  <%String publishLinkStyle="class=\"btn btn-primary btn-tm-actions session-publish-for-test";%>
+                  <%String unpublishLinkStyle="class=\"btn btn-primary btn-tm-actions session-unpublish-for-test\"";%>
+                  <%=data.getInstructorFeedbackSessionPublishAndUnpublishAction(data.bundle.feedbackSession, false, data.instructor, publishLinkStyle,unpublishLinkStyle)%>
+                  </div>
               </div>
               
           </div>
