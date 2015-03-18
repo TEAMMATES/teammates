@@ -633,7 +633,7 @@
                 </div>
                 <br>
                 <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
-                    <div class="col-sm-12 padding-0">
+                    <div class="col-sm-12 padding-0 feedbackDiv">
                         <b>Feedback Path</b> (Who is giving feedback to whom?)
                     </div>
                     <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>">  
@@ -682,7 +682,7 @@
                 </div>
                 <br>
                 <div class="col-sm-12 padding-15px background-color-light-green">
-                    <div class="col-sm-12 padding-0">
+                    <div class="col-sm-12 padding-0 visibilityDiv" >
                         <b>Visibility</b> (Who can see the responses?)
                     </div>
                     <div class="col-sm-6 btn-group" data-toggle="buttons">
@@ -913,7 +913,7 @@
                     </div>
                     <br>
                     <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
-                        <div class="col-sm-12 padding-0">
+                        <div class="col-sm-12 padding-0 feedbackDiv">
                             <b>Feedback Path</b> (Who is giving feedback about whom?)
                         </div>
                         <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>">
@@ -960,7 +960,7 @@
                     </div>
                     <br>
                     <div class="col-sm-12 padding-15px background-color-light-green">
-                        <div class="col-sm-12 padding-0">
+                        <div class="col-sm-12 padding-0 visibilityDiv">
                             <b>Visibility</b> (Who can see the responses?)
                         </div>
                         <div class="col-sm-6 btn-group" data-toggle="buttons">
