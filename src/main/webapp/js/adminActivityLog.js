@@ -123,5 +123,4 @@ function clickOlderButtonIfNeeded(){
 
 $(document).ready(function(){
 	clickOlderButtonIfNeeded();
-	clickSearchMoreButtonIfNoResultFound();
 });
