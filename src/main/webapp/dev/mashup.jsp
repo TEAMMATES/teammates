@@ -22,7 +22,9 @@
     <body>
         <div class="container theme-showcase">
             <div class="row">
-                <div id="dhtmltooltip"></div>
+                <div id="dhtmltooltip">
+                <div  class="alert alert-warning"><h4>Please remember to log in</h4></div>
+            </div>
                 <h1>Table Of Contents</h1>
                 <table class="table table-striped">
                 <tbody>
