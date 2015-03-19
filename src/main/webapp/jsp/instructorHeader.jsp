@@ -48,6 +48,7 @@
             </ul>
             <ul class="nav navbar-nav pull-right">
                 <li><a class='nav logout' href="<%=Const.ViewURIs.LOGOUT%>">Logout
+                        
                         (<span class="text-info" data-toggle="tooltip" data-placement="bottom" 
                                 title="<%=data.account.googleId%>">
                                 <%=PageData.truncate(data.account.googleId,Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH)%>
