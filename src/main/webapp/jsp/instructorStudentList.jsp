@@ -210,7 +210,7 @@
                                 <% if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) { %>
                                 disabled="disabled"
                                 <% } %>>
-                                     Enroll
+                                    <span class="glyphicon glyphicon-list"></span> Enroll
                     </a>
                     <div class='display-icon pull-right'>
                     </div>
