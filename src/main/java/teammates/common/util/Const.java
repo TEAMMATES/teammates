@@ -1096,6 +1096,8 @@ public class Const {
     public static final String INSTRUCTOR_FEEDBACK_RESULT_COURSE_HEADING = "Course";
     public static final String INSTRUCTOR_FEEDBACK_RESULT_SESSION_NAME_HEADING = "Session Name";
     public static final String INSTRUCTOR_FEEDBACK_RESULT_QUESTION_HEADING = "Question";
+    public static final String INSTRUCTOR_FEEDBACK_RESULT_QUESTION_REGEXP = String.format("^%s \\d*$",
+            INSTRUCTOR_FEEDBACK_RESULT_QUESTION_HEADING);
     public static final String INSTRUCTOR_FEEDBACK_RESULT_STATISTICS_HEADING = "Summary Statistics";
 
     public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM = "custom";

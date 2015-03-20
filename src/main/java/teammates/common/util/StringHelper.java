@@ -366,6 +366,11 @@ public class StringHelper {
         rowData.add(combinedEntries);
         return rowData;
     }
+    
+    private static String wrapAsRegExp(String str) {
+        String wrapper = "^%s: .*";
+        return String.format(wrapper, str);
+    }
 
     /**
      * Convert a csv string to a beautified html table string for displaying
@@ -395,7 +400,7 @@ public class StringHelper {
             if (rowData.get(0).equals(Const.INSTRUCTOR_FEEDBACK_RESULT_COURSE_HEADING) ||
                     rowData.get(0).equals(Const.INSTRUCTOR_FEEDBACK_RESULT_SESSION_NAME_HEADING)) {
                 rowData = combineRowDataEntries(rowData, ": ");
-            } else if (rowData.get(0).matches("^Question \\d*$")) {
+            } else if (rowData.get(0).matches(Const.INSTRUCTOR_FEEDBACK_RESULT_QUESTION_REGEXP)) {
                 // new question: add the max. no of columns of the previous
                 // question to the qnMaxLengthArray
                 qnMaxLengthArray.add(qnMaxLength);
@@ -426,10 +431,10 @@ public class StringHelper {
         for (List<String> rowData : rowDataArray) {
 
             int colspan;
-            if (rowData.get(0).matches("^Course: .*") ||
-                    rowData.get(0).matches("^Session Name: .*")) {
+            if (rowData.get(0).matches(wrapAsRegExp(Const.INSTRUCTOR_FEEDBACK_RESULT_COURSE_HEADING)) ||
+                    rowData.get(0).matches(wrapAsRegExp(Const.INSTRUCTOR_FEEDBACK_RESULT_SESSION_NAME_HEADING))) {
                 colspan = globalMaxLength;
-            } else if (rowData.get(0).matches("^Question \\d*: .*")) {
+            } else if (rowData.get(0).matches(wrapAsRegExp(Const.INSTRUCTOR_FEEDBACK_RESULT_QUESTION_REGEXP))) {
                 // the colspan will adapt to the max. no. of columns per
                 // question
                 qnMaxLength = qnMaxLengthArray.get(0);
