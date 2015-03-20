@@ -1,3 +1,5 @@
+var retryTimes = 0;
+var numOfEntriesPerPage = 50;
 
 function toggleReference() {
 	$("#filterReference").toggle("slow");
@@ -79,6 +81,7 @@ function submitFormAjax(offset) {
                 	});
                 	
                 	updateInfoForRecentActionButton();
+                	clickOlderButtonIfNeeded();
                 } else {
                     setFormErrorMessage(button, data.errorMessage);
                 }
@@ -103,6 +106,21 @@ function updateInfoForRecentActionButton(){
 	$(".ifShowTestData_for_person").val(isShowTestData);
 }
 
+function clickOlderButtonIfNeeded(){
+	if(retryTimes >= 20){
+		return;
+	}
+	
+	var curNumOfEntries = $("#logsTable tbody tr").length;
+	
+	if(curNumOfEntries < numOfEntriesPerPage){
+		if($("#button_older").length){
+			$("#button_older").click();
+			retryTimes ++;
+		}
+	}
+}
+
 $(document).ready(function(){
-	updateInfoForRecentActionButton();
+	clickOlderButtonIfNeeded();
 });
