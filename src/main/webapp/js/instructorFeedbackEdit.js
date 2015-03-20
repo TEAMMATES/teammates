@@ -957,7 +957,7 @@ function updateNumScalePossibleValues(questionNumber) {
         $("#maxScaleBox"+idSuffix).val(max);
     }
     
-    if (getFractionPart(step) < 0.001) {
+    if (getFractionPart(step) < 0.001 && getFractionPart(step) != 0) {
         step = Math.floor(step) + 0.001;
         $("#stepBox"+idSuffix).val(step);
     }
