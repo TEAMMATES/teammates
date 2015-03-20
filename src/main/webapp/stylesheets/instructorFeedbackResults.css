@@ -1,0 +1,23 @@
+/* borrowed from Bootstrap's .panel-info properties */
+
+.panel-no-response {
+  border-color: #bce8f1;
+}
+.panel-no-response > .panel-heading {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+.panel-no-response > .panel-heading + .panel-collapse .panel-body {
+  border-top-color: #bce8f1;
+}
+.panel-no-response > .panel-footer + .panel-collapse .panel-body {
+  border-bottom-color: #bce8f1;
+}
+
+.panel-no-response > .panel-heading {
+  	background-image: -webkit-linear-gradient(top, #d9edf7 0%, #c4e3f3 100%);
+  	background-image:         linear-gradient(to bottom, #d9edf7 0%, #c4e3f3 100%);
+  	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd9edf7', endColorstr='#ffc4e3f3', GradientType=0);
+	background-repeat: repeat-x;
+}
