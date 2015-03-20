@@ -78,7 +78,7 @@ public class EmailLogEntry {
      * Generates a log message that will be logged in the server
      */
     public String generateLogMessage(){
-        //TEAMMATESEMAILSLOG|||RECEIVER|||SUBJECT|||CONTENT|||DATE
+        //TEAMMATESEMAILSLOG|||RECEIVER|||SUBJECT|||CONTENT
         return "TEAMMATESEMAILLOG|||" + this.receiver + "|||" + 
                this.subject + "|||" + this.content;
         

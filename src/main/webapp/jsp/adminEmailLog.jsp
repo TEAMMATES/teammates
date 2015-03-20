@@ -166,21 +166,10 @@
                                 <% 
                                   }
                                 %>
-                            
-                                
                             </tbody>
-                            
-                        </table>
-                        
+                        </table>  
                     </div>
                 </div>
-                
-                
-
-
-
-               
-
             </div>
             
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE_WITHOUT_FOCUS%>" />
