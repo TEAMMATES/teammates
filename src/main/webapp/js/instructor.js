@@ -81,7 +81,7 @@ function togglePublishEvaluation(name) {
  * @param name
  */
 function toggleUnpublishEvaluation(name){
-    return confirm("Are you sure you want to unpublish the evaluation " + name + "?");
+    return confirm("Are you sure you want to unpublish the session " + name + "?");
 }
 
 /**

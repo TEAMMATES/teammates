@@ -485,8 +485,7 @@
                  
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <strong>Activity Log <span>
-                            Instructor </strong>
+                    <strong>Activity Log</strong>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-condensed dataTable" id="logsTable">

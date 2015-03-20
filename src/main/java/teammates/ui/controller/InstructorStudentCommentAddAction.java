@@ -36,11 +36,15 @@ public class InstructorStudentCommentAddAction extends Action {
         
         //used to redirect to studentDetailsPage or studentRecordsPage
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         
         boolean isFromCommentsPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_COMMENTS_PAGE);
         boolean isFromStudentDetailsPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_STUDENT_DETAILS_PAGE);
         boolean isFromCourseDetailsPage = getRequestParamAsBoolean(Const.ParamsNames.FROM_COURSE_DETAILS_PAGE);
+        boolean isFromStudentRecordsPage = !isFromCommentsPage && !isFromStudentDetailsPage && !isFromCourseDetailsPage;
+        
+        if(isFromStudentDetailsPage || isFromStudentRecordsPage) {
+            Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_EMAIL, studentEmail);
+        }
         
         String commentText = getRequestParamValue(Const.ParamsNames.COMMENT_TEXT); 
         Assumption.assertPostParamNotNull(Const.ParamsNames.COMMENT_TEXT, commentText);
