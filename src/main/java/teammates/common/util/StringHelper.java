@@ -392,8 +392,8 @@ public class StringHelper {
             if (checkIfEmptyRow(rowData)) {
                 continue;
             }
-            if (rowData.get(0).equals("Course") ||
-                    rowData.get(0).equals("Session Name")) {
+            if (rowData.get(0).equals(Const.INSTRUCTOR_FEEDBACK_RESULT_COURSE_HEADING) ||
+                    rowData.get(0).equals(Const.INSTRUCTOR_FEEDBACK_RESULT_SESSION_NAME_HEADING)) {
                 rowData = combineRowDataEntries(rowData, ": ");
             } else if (rowData.get(0).matches("^Question \\d*$")) {
                 // new question: add the max. no of columns of the previous
@@ -402,9 +402,9 @@ public class StringHelper {
                 // reset the counter
                 qnMaxLength = 0;
                 rowData = combineRowDataEntries(rowData, ": ");
-            } else if (rowData.get(0).equals("Summary Statistics")) {
+            } else if (rowData.get(0).equals(Const.INSTRUCTOR_FEEDBACK_RESULT_STATISTICS_HEADING)) {
                 rowData = combineRowDataEntries(rowData, "");
-            } else if (rowData.get(0).equals("In the points given below")) {
+            } else if (rowData.get(0).equals(Const.FEEDBACK_CONTRIBUTION_HEADER_BEFORE_COMMA)) {
                 rowData = combineRowDataEntries(rowData, ", ");
             }
 
