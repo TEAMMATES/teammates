@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -446,6 +445,12 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         return csv;
     }
 
+    /**
+     * From the feedback responses, generate a mapping of the option to a list of points received for that option.
+     * The key of the map returned is the option name / recipient's participant identifier.
+     * The values of the map are list of points received by the key.   
+     * @param responses  a list of responses 
+     */
     private Map<String, List<Integer>> generateOptionPointsMapping(
             List<FeedbackResponseAttributes> responses) {
         
@@ -465,6 +470,13 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         return optionPoints;
     }
 
+    /**
+     * Used to update the OptionPointsMapping for the option optionReceivingPoints
+     * 
+     * @param optionPoints
+     * @param optionReceivingPoints
+     * @param pointsReceived
+     */
     private void updateOptionPointsMapping(
             Map<String, List<Integer>> optionPoints,
             String optionReceivingPoints, int pointsReceived) {
@@ -477,7 +489,10 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         points.add(pointsReceived);
     }
 
-
+    /**
+     * Returns the list of points as as string to display
+     * @param points
+     */
     private String getListOfPointsAsString(List<Integer> points) {
         Collections.sort(points);
         String pointsReceived = "";
