@@ -35,6 +35,7 @@
     <!-- Bootstrap theme -->
     <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/stylesheets/instructorFeedbackResults.css" type="text/css" media="screen">
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
@@ -223,7 +224,7 @@
                         Collections.sort(teamMembersList);
                         for (String email : teamMembersList) {
         %>
-                            <div class="panel panel-primary">
+                            <div class="panel panel-no-response">
                             <div class="panel-heading">
                                 From: 
                                 <%
@@ -232,14 +233,14 @@
                                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(email)%>">
                                         <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                        <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                                        <a href="mailTo:<%=email%>"  >[<%=email%>]</a>
                                     </div>
                                 <%
                                     } else {
                                 %>
                                 <div class="inline panel-heading-text">
                                     <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
-                                    <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                                    <a href="mailTo:<%=email%>"  >[<%=email%>]</a>
                                 </div>
                                 <%
                                     }
@@ -253,7 +254,7 @@
                                 %>
                                         <form class="inline" method="post" action="<%=data.getInstructorEditStudentFeedbackLink() %>" target="_blank"> 
                                         
-                                            <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                            <input type="submit" class="btn btn-info btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                             <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                             <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
                                             <input type="hidden" name="moderatedstudent" value=<%= email%>>
@@ -611,7 +612,7 @@
             Collections.sort(teamMembersList);
             for (String email : teamMembersList) {
         %>
-                <div class="panel panel-primary">
+                <div class="panel panel-no-response">
                 <div class="panel-heading">
                     From: 
                     <%
@@ -620,14 +621,14 @@
                             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(email)%>">
                                 <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                                <a href="mailTo:<%=email%>"  >[<%=email%>]</a>
                             </div>
                     <%
                         } else {
                     %>
                         <div class="inline panel-heading-text">
                             <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
-                            <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                            <a href="mailTo:<%=email%>"  >[<%=email%>]</a>
                         </div>
                     <%
                         }
@@ -641,7 +642,7 @@
                     %>
                             <form class="inline" method="post" action="<%=data.getInstructorEditStudentFeedbackLink() %>" target="_blank"> 
                             
-                                <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                <input type="submit" class="btn btn-info btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                 <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                 <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
                                 <input type="hidden" name="moderatedstudent" value=<%= email%>>
@@ -695,7 +696,7 @@
                                 
                                     for (String teamMember : teamMembers) {
                                   %>
-                                      	     <div class="panel panel-primary">
+                                      	     <div class="panel panel-no-response">
                                                 <div class="panel-heading">
                                                     From: 
                                                     <%
@@ -704,14 +705,14 @@
                                                         <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(teamMember)%>">
                                                             <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
                                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                                            <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
+                                                            <a href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
                                                         </div>
                                                     <%
                                                     	} else {
                                                     %>
                                                     <div class="inline panel-heading-text">
                                                         <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
-                                                        <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
+                                                        <a href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
                                                     </div>
                                                     <%
                                                     	}
@@ -725,7 +726,7 @@
                                                     %>
                                                             <form class="inline" method="post" action="<%=data.getInstructorEditStudentFeedbackLink() %>" target="_blank"> 
                                                             
-                                                                <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                                                <input type="submit" class="btn btn-info btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                                                 <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                                 <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
                                                                 <input type="hidden" name="moderatedstudent" value=<%= teamMember%>>
@@ -803,7 +804,7 @@
                                             }
                                       	    for (String teamMember : teamMembers) {
                                       %>
-                                                 <div class="panel panel-primary">
+                                                 <div class="panel panel-no-response">
                                                     <div class="panel-heading">
                                                         From: 
                                                         <%
@@ -812,14 +813,14 @@
                                                             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(teamMember)%>">
                                                                 <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
                                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                                                <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
+                                                                <a href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
                                                             </div>
                                                         <%
                                                             } else {
                                                         %>
                                                         <div class="inline panel-heading-text">
                                                             <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
-                                                            <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
+                                                            <a href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
                                                         </div>
                                                         <%  } %>
                                                         <div class="pull-right">
@@ -830,7 +831,7 @@
                                                             String disabledAttribute = !isAllowedToModerate? "disabled=\"disabled\"" : "";
                                                         %>
                                                                 <form class="inline" method="post" action="<%=data.getInstructorEditStudentFeedbackLink() %>" target="_blank"> 
-                                                                    <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" <%=disabledAttribute %> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                                                    <input type="submit" class="btn btn-info btn-xs" value="Moderate Responses" <%=disabledAttribute %> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                                                     <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                                     <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
                                                                 <input type="hidden" name="moderatedstudent" value=<%= teamMember%>>
