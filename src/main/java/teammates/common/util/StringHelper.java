@@ -150,7 +150,7 @@ public class StringHelper {
     }
     
     public static String toDecimalFormatString(double doubleVal) {
-        DecimalFormat df = new DecimalFormat("0.#");
+        DecimalFormat df = new DecimalFormat("0.###");
         return df.format(doubleVal);
     }
 
