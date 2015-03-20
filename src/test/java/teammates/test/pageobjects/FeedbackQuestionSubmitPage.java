@@ -50,6 +50,20 @@ public class FeedbackQuestionSubmitPage extends AppPage {
         WebElement textArea = browser.driver.findElement(By.name(textAreaName));     
         return textArea;
     }   
+    
+    public void clickRubricRadio(int respIndex, int row, int col) {
+        int qnIndex = 1;
+        WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-"+qnIndex+"-"+respIndex+"-"+row+"-"+col));
+        radio.click();
+    }
+    
+    public void clickRubricCell(int respIndex, int row, int col) {
+        int qnIndex = 1;
+        WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-"+qnIndex+"-"+respIndex+"-"+row+"-"+col));
+        // Gets the parent element.
+        WebElement cell = radio.findElement(By.xpath(".."));
+        cell.click();
+    }
 }
 
 

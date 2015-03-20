@@ -19,8 +19,8 @@ Role: Dev
 
 This workflow is an adaptation of the [GitHub flow](https://guides.github.com/introduction/flow/index.html).
 
-1. Select an issue to handle. Get it assigned to you. 
-   Contributors can request for an issue to be assigned to you by posting a comment under the issue in concern.
+1. Select an issue to handle. ~~Get it assigned to you. 
+   Contributors can request for an issue to be assigned to you by posting a comment under the issue in concern.~~
 
 2. Optionally, you can discuss alternative solutions before choosing one to implement. 
    This can be done through Issue tracker. 
@@ -38,8 +38,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    ```
    git pull upstream
    ```
-4. Change the issue status to `s.Ongoing`. If you don't have permissions to change labels,
-   add comment to say you are starting the issue. e.g. `starting issue`
+4. If you have permissions to change labels, change the issue status to `s.Ongoing`. 
 
 5. Start a new branch named `Issue{IssueNumber}`. 
    If you are already working in a branch, remember to switch to the `master` 
@@ -232,7 +231,7 @@ The meaning of issue prefixes: `s.` status, `a.` aspect, `f.` feature, `t.` type
 
 * Changes to _functionality_, categorized based on size
   * `t.Enhancement`: An enhancement to an existing functionality (not big enough 
-   consider as a stroy).
+   consider as a story).
   * `t.Story`: A user story.
   * `t.Epic`: A feature that is worth many user stories.
 * Other work

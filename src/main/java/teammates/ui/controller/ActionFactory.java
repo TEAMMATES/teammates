@@ -42,6 +42,7 @@ public class ActionFactory {
         map(ADMIN_EMAIL_DRAFT_PAGE, AdminEmailDraftPageAction.class);
         map(ADMIN_EMAIL_MOVE_TO_TRASH, AdminEmailTrashAction.class);
         map(ADMIN_EMAIL_MOVE_OUT_TRASH, AdminEmailTrashAction.class);
+        map(ADMIN_EMAIL_LOG_PAGE, AdminEmailLogPageAction.class);
         
         map(INSTRUCTOR_COURSES_PAGE, InstructorCoursesPageAction.class);
         map(INSTRUCTOR_COURSE_ADD, InstructorCourseAddAction.class);
