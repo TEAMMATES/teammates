@@ -938,6 +938,10 @@ function changeMsqGenerateFor(questionNumber) {
  * ----------------------------------------------------------------------------
  */
 
+function getFractionPart(num) {
+    return num - Math.floor(num);
+}
+
 function updateNumScalePossibleValues(questionNumber) {
     idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
     if(questionNumber == -1){
@@ -953,8 +957,8 @@ function updateNumScalePossibleValues(questionNumber) {
         $("#maxScaleBox"+idSuffix).val(max);
     }
     
-    if (step < 0.001) {
-        step = 0.001;
+    if (getFractionPart(step) < 0.001) {
+        step = Math.floor(step) + 0.001;
         $("#stepBox"+idSuffix).val(step);
     }
     
