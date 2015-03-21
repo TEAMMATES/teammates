@@ -838,6 +838,7 @@ public class PageData {
         StringBuilder result = new StringBuilder();
         
         // Allowing ALL instructors to view results regardless of publish state.
+        
         boolean hasSubmit = session.isVisible() || session.isPrivateSession();
         boolean hasPublish = !session.isWaitingToOpen() && !session.isPublished();
         boolean hasUnpublish = !session.isWaitingToOpen() && session.isPublished();
