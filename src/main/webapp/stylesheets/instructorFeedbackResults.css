@@ -25,4 +25,69 @@
     background-repeat: repeat-x;
 }
 
+/* borrowed from Bootstrap's .btn-default properties */
+
+.panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs {
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+}
+
+.panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs:hover,
+.panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs:focus, 
+.panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs:active, 
+.panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs.active {
+    color: #333;
+    background-color: #ebebeb;
+    border-color: #adadad;
+}
+
+.panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs:active, 
+.panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs.active {
+    background-image: none;
+}
+
+.panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs.disabled,
+.panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs[disabled],
+fieldset[disabled] .panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs,
+.panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs.disabled:hover,
+.panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs[disabled]:hover,
+fieldset[disabled] .panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs:hover,
+.panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs.disabled:focus,
+.panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs[disabled]:focus,
+fieldset[disabled] .panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs:focus,
+.panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs.disabled:active,
+.panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs[disabled]:active,
+fieldset[disabled] .panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs:active,
+.panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs.disabled.active,
+.panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs[disabled].active,
+fieldset[disabled] .panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs.active {
+    background-color: #fff;
+    border-color: #ccc;
+}
+
+.panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs .badge {
+    color: #fff;
+    background-color: #333;
+}
+
+.panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs {
+    text-shadow: 0 1px 0 #fff;
+    background-image: -webkit-linear-gradient(top, #fff 0%, #e0e0e0 100%);
+    background-image:         linear-gradient(to bottom, #fff 0%, #e0e0e0 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe0e0e0', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+    background-repeat: repeat-x;
+    border-color: #dbdbdb;
+    border-color: #ccc;
+}
+.panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs:hover,
+.panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs:focus {
+    background-color: #e0e0e0;
+    background-position: 0 -15px;
+}
+.panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs:active,
+.panel-no-response > .panel-heading > div > form > .btn.btn-info.btn-xs.active {
+    background-color: #e0e0e0;
+    border-color: #dbdbdb;
 }
