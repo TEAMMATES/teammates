@@ -14,7 +14,7 @@ test('toggleSendRegistrationKeysConfirmation(courseID)', function(){
 });
 
 
-test('toggleDeleteStudentConfirmation(studentName)', function(){
+test('toggleDeleteStudentConfirmation(courseId, studentName)', function(){
     //gives a popup, can't be tested
     expect(0);
 });
