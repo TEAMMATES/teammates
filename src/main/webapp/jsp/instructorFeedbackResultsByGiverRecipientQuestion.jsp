@@ -1030,7 +1030,7 @@
                                         Collections.sort(teamMembers);
                                         for (String teamMember : teamMembers) {
                                       %>
-                                             <div class="panel panel-info">
+                                             <div class="panel panel-no-response">
                                                 <div class="panel-heading">
                                                     From: 
                                                     <%
