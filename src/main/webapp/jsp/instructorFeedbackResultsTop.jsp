@@ -51,10 +51,10 @@
           </div>
           <div class="col-sm-2">
               
-              <div class="form-group">
+              <div class="form-group"  style="padding-right:15px;">
                   <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
                   <div id="feedbackDataButtons">
-                      <input id="button_download" type="submit" class="btn btn-primary"
+                      <input id="button_download" type="submit" class="btn btn-primary btn-block"
                           name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
                           value="Download results">
                   </div>
@@ -65,9 +65,11 @@
                   </form><br>
                   
                   <div>
-                  <%String publishLinkStyle="class=\"btn btn-primary btn-tm-actions session-publish-for-test";%>
-                  <%String unpublishLinkStyle="class=\"btn btn-primary btn-tm-actions session-unpublish-for-test\"";%>
-                  <%=data.getInstructorFeedbackSessionPublishAndUnpublishAction(data.bundle.feedbackSession, false, data.instructor, publishLinkStyle,unpublishLinkStyle)%>
+                  <%String publishLinkStyle="class=\"btn btn-primary btn-block btn-tm-actions session-publish-for-test";%>
+                  <%String unpublishLinkStyle="class=\"btn btn-primary btn-block btn-tm-actions session-unpublish-for-test\"";%>
+                  <%String buttonString=data.getInstructorFeedbackSessionPublishAndUnpublishAction(data.bundle.feedbackSession, false, data.instructor, publishLinkStyle,unpublishLinkStyle);%>
+                  <%buttonString=buttonString.contains(">Unpublish<")?buttonString.replace(">Unpublish<", ">Unpublish results<"):buttonString.replace(">Publish<", ">Publish results<");%>
+                  <%=buttonString%>
                   </div>
               </div>
               
