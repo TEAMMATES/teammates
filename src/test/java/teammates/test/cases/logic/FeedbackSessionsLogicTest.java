@@ -1399,8 +1399,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         Summary Statistics,
         Option, Average Points
-        Grades,50
-        Fun,50
+        Fun,50.5
+        Grades,49.5
         
         
         Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
@@ -1433,12 +1433,12 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[5], "");
         assertEquals(exportLines[6], "Summary Statistics,");
         assertEquals(exportLines[7], "Option, Average Points");
-        assertEquals(exportLines[8], "Grades,50");
-        assertEquals(exportLines[9], "Fun,50");
+        assertEquals(exportLines[8], "Fun,50.5");
+        assertEquals(exportLines[9], "Grades,49.5");
         assertEquals(exportLines[10], "");
         assertEquals(exportLines[11], "");
         assertEquals(exportLines[12], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"Grades\",\"Fun\"");
-        assertEquals(exportLines[13], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",,20,80");
+        assertEquals(exportLines[13], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",,19,81");
         assertEquals(exportLines[14], "\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",\"Team 1.1\",\"student2 In Course1\",\"Course1\",\"student2InCourse1@gmail.tmt\",,80,20");
         assertEquals(exportLines[15], "\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"Team 1.1\",\"student3 In Course1\",\"Course1\",\"student3InCourse1@gmail.tmt\",\"No Response\"");
         assertEquals(exportLines[16], "\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"Team 1.1\",\"student4 In Course1\",\"Course1\",\"student4InCourse1@gmail.tmt\",\"No Response\"");
