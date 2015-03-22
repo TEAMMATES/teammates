@@ -81,7 +81,7 @@ function togglePublishEvaluation(name) {
  * @param name
  */
 function toggleUnpublishEvaluation(name){
-    return confirm("Are you sure you want to unpublish the evaluation " + name + "?");
+    return confirm("Are you sure you want to unpublish the session " + name + "?");
 }
 
 /**
@@ -91,7 +91,7 @@ function toggleUnpublishEvaluation(name){
  * @param evaluationName
  */
 function toggleRemindStudents(evaluationName) {
-    return confirm("Send e-mails to remind students who have not submitted their evaluations for " + evaluationName + "?");
+    return confirm("Send e-mails to remind students who have not submitted their feedback for " + evaluationName + "?");
 }
 
 
