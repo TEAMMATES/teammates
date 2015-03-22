@@ -35,7 +35,6 @@
     <!-- Bootstrap theme -->
     <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/instructorFeedbackResults.css" type="text/css" media="screen">
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
@@ -230,7 +229,7 @@
                                 Collections.sort(teamMembersWithNoResponses);
                                 for (String email : teamMembersWithNoResponses) {
             %>
-                                <div class="panel panel-no-response">
+                                <div class="panel panel-default">
                                 <div class="panel-heading">
                                     To: 
                                     <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) { %>
@@ -902,7 +901,7 @@
             Collections.sort(teamMembersWithNoResponses);
             for (String email : teamMembersWithNoResponses) {
         %>
-                <div class="panel panel-no-response">
+                <div class="panel panel-default">
                 <div class="panel-heading">
                     To: 
                     <%  if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) { %>
@@ -962,7 +961,7 @@
                                   
                                         for (String teamMember : teamMembers) {
                                     %>
-                                             <div class="panel panel-no-response">
+                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
                                                     To: 
                                                 <%
@@ -1044,7 +1043,7 @@
                                                 }
                                                 for (String teamMember : teamMembers) {
                                             %>
-                                                     <div class="panel panel-no-response">
+                                                     <div class="panel panel-default">
                                                         <div class="panel-heading">
                                                             To: 
                                                             <%
