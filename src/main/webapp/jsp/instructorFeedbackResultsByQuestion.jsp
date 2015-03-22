@@ -188,7 +188,11 @@
                                                                         <input type="submit" class="btn btn-primary btn-xs" value="Moderate Response" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                                                         <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                                         <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                                        <% if (responseEntry.giverEmail.matches(Const.REGEXP_TEAM)) { %>
+                                                                        <input type="hidden" name="moderatedstudent" value="<%= responseEntry.giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
+                                                                        <% } else { %>
                                                                         <input type="hidden" name="moderatedstudent" value="<%= responseEntry.giverEmail%>">
+                                                                        <% } %>
                                                                     </form>
                                                                     <% } %>
                                                                 </td>
@@ -228,7 +232,11 @@
                                                         <input type="submit" class="btn btn-primary btn-xs" value="Moderate Response" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                                         <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                         <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                        <% if (responseEntry.giverEmail.matches(Const.REGEXP_TEAM)) { %>
+                                                        <input type="hidden" name="moderatedstudent" value="<%= responseEntry.giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
+                                                        <% } else { %>
                                                         <input type="hidden" name="moderatedstudent" value="<%= responseEntry.giverEmail%>">
+                                                        <% } %>
                                                     </form>
                                                     <% } %>
                                                 </td>
@@ -268,7 +276,11 @@
                                         <input type="submit" class="btn btn-primary btn-xs" value="Moderate Response" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                         <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                         <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                        <% if (prevGiver.matches(Const.REGEXP_TEAM)) { %>
+                                        <input type="hidden" name="moderatedstudent" value="<%= prevGiver.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
+                                        <% } else { %>
                                         <input type="hidden" name="moderatedstudent" value="<%= prevGiver%>">
+                                        <% } %>
                                     </form>
                                                             </td>
                                                         </tr>
@@ -314,7 +326,11 @@
                                                                     <input type="submit" class="btn btn-primary btn-xs" value="Moderate Response" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                                                     <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                                     <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                                    <% if (possibleGiver.matches(Const.REGEXP_TEAM)) { %>
+                                                                    <input type="hidden" name="moderatedstudent" value="<%= possibleGiver.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
+                                                                    <% } else { %>
                                                                     <input type="hidden" name="moderatedstudent" value="<%= possibleGiver%>">
+                                                                    <% } %>
                                                                 </form>
                                                               </td>
                                                           </tr>

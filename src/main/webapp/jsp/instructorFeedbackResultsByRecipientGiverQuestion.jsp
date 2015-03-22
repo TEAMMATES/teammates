@@ -438,7 +438,11 @@
                                         <input type="submit" class="btn btn-primary btn-xs" value="Moderate Response" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                         <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                         <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                        <% if (giverEmail.matches(Const.REGEXP_TEAM)) { %>
+                                        <input type="hidden" name="moderatedstudent" value="<%= giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
+                                        <% } else { %>
                                         <input type="hidden" name="moderatedstudent" value="<%= giverEmail%>">
+                                        <% } %>
                                     </form>
                                     <% } %>
                                 </div>

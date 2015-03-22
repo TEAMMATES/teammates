@@ -526,7 +526,11 @@
                                                         <input type="submit" class="btn btn-primary btn-xs" value="Moderate Response" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                                         <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                         <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                        <% if (responseEntry.giverEmail.matches(Const.REGEXP_TEAM)) { %>
+                                                        <input type="hidden" name="moderatedstudent" value="<%= responseEntry.giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
+                                                        <% } else { %>
                                                         <input type="hidden" name="moderatedstudent" value="<%= responseEntry.giverEmail%>">
+                                                        <% } %>
                                                     </form>
                                                     <% } %>
                                                 </td>
@@ -575,7 +579,11 @@
                                                                 <input type="submit" class="btn btn-primary btn-xs" value="Moderate Response" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                                                 <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                                 <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                                <% if (possibleGiverWithNoResponse.matches(Const.REGEXP_TEAM)) { %>
+                                                                <input type="hidden" name="moderatedstudent" value="<%= possibleGiverWithNoResponse.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
+                                                                <% } else { %>
                                                                 <input type="hidden" name="moderatedstudent" value="<%= possibleGiverWithNoResponse%>">
+                                                                <% } %>
                                                             </form>
                                                         </td>
                                                     </tr>
