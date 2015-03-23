@@ -383,7 +383,22 @@ public class StringHelper {
             return result;
         }
     }
-
+    
+    /**
+     * If the content of the rowData is one of the following, they will be processed
+     * accordingly (for the sake of aesthetics):<br><ol>
+     * <li> Course, coursename -> Course: coursename</li>
+     * <li> Session Name, sessionname -> Session Name: sessionname</li>
+     * <li> Question #, qntitle -> Question #: qntitle</li>
+     * <li> Summary Statistics, (empty) -> Summary statistics</li>
+     * <li> In the points given below, (...) (comma here is the column separator) ->
+     * In the points given below, (...) (comma here is the punctuation comma)</li>
+     * </ol>
+     * 4 and 5 need to be done as they are unintended consequences of comma-separating algorithm.
+     * 
+     * @param rowData
+     * @return processed list of string
+     */
     private static List<String> processSpecialKeyword(List<String> rowData) {
         if (rowData.get(0).equals(Const.INSTRUCTOR_FEEDBACK_RESULT_COURSE_HEADING)
                 || rowData.get(0).equals(Const.INSTRUCTOR_FEEDBACK_RESULT_SESSION_NAME_HEADING)
@@ -399,8 +414,19 @@ public class StringHelper {
         return rowData;
     }
 
-    private static int adaptColspanSize(List<String> rowData,
-            int globalMaxLength, int qnMaxLength) {
+    /**
+     * If the content of the rowData is one of the following, they will be assigned certain
+     * colspan (for the sake of aesthetics):<br><ol>
+     * <li> Course: coursename, Session Name: sessionname -> globalMaxLength (max. possible)</li>
+     * <li> Question #: qntitle -> qnMaxLength (max. that is needed by that question's response 
+     * entries)</li>
+     * <li> Others -> qnMaxLength / # of columns (max. that is needed by that question's response 
+     * entries, spread evenly) </li></ol>
+     * 
+     * @param rowData
+     * @return processed list of string
+     */
+    private static int adaptColspanSize(List<String> rowData, int globalMaxLength, int qnMaxLength) {
         if (rowData.get(0).matches(wrapAsRegExp(Const.INSTRUCTOR_FEEDBACK_RESULT_COURSE_HEADING)) ||
                 rowData.get(0).matches(wrapAsRegExp(Const.INSTRUCTOR_FEEDBACK_RESULT_SESSION_NAME_HEADING))) {
             return globalMaxLength;
@@ -418,15 +444,13 @@ public class StringHelper {
 
     /**
      * Convert a csv string to a beautified html table string for displaying.
-     * There are three ways in which the table will be 'beautified':<br>
+     * There are two ways in which the table will be 'beautified':<br>
      * <ol>
      * <li>The colspan is adapted in appropriate ways so that white space
-     * wastage are minimised. For example,<br>
-     * | col1 | col2 | wasted white space<br>
-     * | col1 | col2 | col3 | col4 | col5 | col6 | col7 |<br>
-     * will be beautified into:<br>
-     * | col1 | col2 |<br>
-     * | col1 | col2 | col3 | col4 | col5 | col6 | col7 |</li>
+     * wastage are minimised.</li>
+     * <li>Certain row data entries (course name, session name) are rewritten
+     * for aesthetics purpose.</li>
+     * </ol>
      * 
      * @param str
      * @return beautified html table string
@@ -442,6 +466,8 @@ public class StringHelper {
         List<ArrayList<String>> rowDataArray = new ArrayList<ArrayList<String>>();
         List<Integer> qnMaxLengthArray = new ArrayList<Integer>();
 
+        // we first pre-process the table entries to calculate the colspan that will
+        // eventually be required for each entry
         for (int i = 0; i < lines.length; i++) {
 
             List<String> rowData = getTableData(lines[i]);
@@ -452,7 +478,10 @@ public class StringHelper {
 
             if (rowData.get(0).matches(
                     Const.INSTRUCTOR_FEEDBACK_RESULT_QUESTION_REGEXP)) {
+                // new question entry! add the max. no. of columns needed for the
+                // previous question to the qnMaxLengthArray
                 qnMaxLengthArray.add(qnMaxLength);
+                // and reset the counter
                 qnMaxLength = 0;
             }
             rowData = processSpecialKeyword(rowData);
@@ -467,14 +496,15 @@ public class StringHelper {
 
         }
 
-        // adds the counter for the last question
+        // adds the max. no. of columns needed for the last question
         qnMaxLengthArray.add(qnMaxLength);
-        // removes the max. no. of columns for the "0th question"
+        // removes the max. no. of columns needed for the "0th question"
         qnMaxLengthArray.remove(0);
 
         for (List<String> rowData : rowDataArray) {
 
             if (rowData.get(0).matches(wrapAsRegExp(Const.INSTRUCTOR_FEEDBACK_RESULT_QUESTION_REGEXP))) {
+                // new question entry! get the max. no. of columns needed from qnMaxLengthArray
                 qnMaxLength = qnMaxLengthArray.get(0);
                 qnMaxLengthArray.remove(0);
             } 
