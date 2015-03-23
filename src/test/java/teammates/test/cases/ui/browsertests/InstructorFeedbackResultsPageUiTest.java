@@ -218,8 +218,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("test view photo for view by questions");
         
         resultsPage.removeNavBar();
-        resultsPage.hoverClickAndViewGiverPhotoOnTableCell(0, 0, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
-        resultsPage.hoverClickAndViewRecipientPhotoOnTableCell(0, 0, "profile_picture_default.png");
+        resultsPage.hoverClickAndViewPhotoOnTableCell(0, 0, 0, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverClickAndViewPhotoOnTableCell(0, 0, 2, "profile_picture_default.png");
         
         ______TS("Ajax for view by question for helper");
         
