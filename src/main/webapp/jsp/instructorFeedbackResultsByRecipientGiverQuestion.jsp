@@ -435,7 +435,7 @@
                                         if (isGiverVisible) {
                                     %>
                                     <form class="inline" method="post" action="<%=data.getInstructorEditStudentFeedbackLink() %>" target="_blank"> 
-                                        <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                        <input type="submit" class="btn btn-default btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                         <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                         <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
                                         <% if (giverEmail.matches(Const.REGEXP_TEAM)) { %>
