@@ -220,7 +220,9 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
 * **Google App Engine Plugin for Eclipse** [version 4.4]
 * **Google App Engine SDK** [version 1.9.4]
 * **GitHub** : Used to host the repo and code reviewing.
-* **Pivotal Tracker** : Used for project management.
+* [**PowerPointLabs**](http://PowerPointLabs.info) [Sister project]: Used for creating demo videos.
+* Optional: [**HubTurbo**](https://github.com/HubTurbo/HubTurbo/wiki/Getting-Started) [Sister project]: 
+  Can be used as a client for accessing the GitHub issue tracker.
 * Optional: **SourceTree** or **GitHub for Windows/Mac** or 
   equivalent [version: latest stable] to use as a GUI client for Git.
 
