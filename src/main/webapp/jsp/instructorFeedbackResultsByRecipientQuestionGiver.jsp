@@ -513,7 +513,7 @@
                                                 <td class="middlealign"><%=giverName%></td>
                                                 <td class="middlealign"><%=giverTeamName%></td>
                                                 <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
-                                                <td class="middlealign">
+                                                <td>
                                                     <% 
                                                         boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(responseEntry.giverEmail), 
                                                                                                                         data.feedbackSessionName, 
