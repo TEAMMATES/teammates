@@ -383,14 +383,50 @@ public class StringHelper {
             return result;
         }
     }
-    
+
+    private static List<String> processSpecialKeyword(List<String> rowData) {
+        if (rowData.get(0).equals(Const.INSTRUCTOR_FEEDBACK_RESULT_COURSE_HEADING)
+                || rowData.get(0).equals(Const.INSTRUCTOR_FEEDBACK_RESULT_SESSION_NAME_HEADING)
+                || rowData.get(0).matches(Const.INSTRUCTOR_FEEDBACK_RESULT_QUESTION_REGEXP)) {
+            rowData = combineListEntries(rowData, ": ");
+        } else if (rowData.get(0).equals(
+                Const.INSTRUCTOR_FEEDBACK_RESULT_STATISTICS_HEADING)) {
+            rowData = combineListEntries(rowData, "");
+        } else if (rowData.get(0).equals(
+                Const.FEEDBACK_CONTRIBUTION_HEADER_BEFORE_COMMA)) {
+            rowData = combineListEntries(rowData, ", ");
+        }
+        return rowData;
+    }
+
+    private static int adaptColspanSize(List<String> rowData,
+            int globalMaxLength, int qnMaxLength) {
+        if (rowData.get(0).matches(wrapAsRegExp(Const.INSTRUCTOR_FEEDBACK_RESULT_COURSE_HEADING)) ||
+                rowData.get(0).matches(wrapAsRegExp(Const.INSTRUCTOR_FEEDBACK_RESULT_SESSION_NAME_HEADING))) {
+            return globalMaxLength;
+        } else if (rowData.get(0).matches(wrapAsRegExp(Const.INSTRUCTOR_FEEDBACK_RESULT_QUESTION_REGEXP))) {
+            return qnMaxLength;
+        } else {
+            return (int) Math.floor(qnMaxLength / rowData.size());
+        }
+    }
+
     private static String wrapAsRegExp(String str) {
         String wrapper = "^%s: .*";
         return String.format(wrapper, str);
     }
 
     /**
-     * Convert a csv string to a beautified html table string for displaying
+     * Convert a csv string to a beautified html table string for displaying.
+     * There are three ways in which the table will be 'beautified':<br>
+     * <ol>
+     * <li>The colspan is adapted in appropriate ways so that white space
+     * wastage are minimised. For example,<br>
+     * | col1 | col2 | wasted white space<br>
+     * | col1 | col2 | col3 | col4 | col5 | col6 | col7 |<br>
+     * will be beautified into:<br>
+     * | col1 | col2 |<br>
+     * | col1 | col2 | col3 | col4 | col5 | col6 | col7 |</li>
      * 
      * @param str
      * @return beautified html table string
@@ -401,9 +437,8 @@ public class StringHelper {
         String[] lines = str.split(Const.EOL);
 
         StringBuilder result = new StringBuilder();
-        int globalMaxLength = 0; // global max. no. of columns
-        int qnMaxLength = 0; // max. no. of columns in a question
-
+        int globalMaxLength = 0; // global max. no. of table columns needed
+        int qnMaxLength = 0; // max. no. of columns for one question
         List<ArrayList<String>> rowDataArray = new ArrayList<ArrayList<String>>();
         List<Integer> qnMaxLengthArray = new ArrayList<Integer>();
 
@@ -414,22 +449,14 @@ public class StringHelper {
             if (checkIfEmptyRow(rowData)) {
                 continue;
             }
-            if (rowData.get(0).equals(Const.INSTRUCTOR_FEEDBACK_RESULT_COURSE_HEADING) ||
-                    rowData.get(0).equals(Const.INSTRUCTOR_FEEDBACK_RESULT_SESSION_NAME_HEADING)) {
-                rowData = combineListEntries(rowData, ": ");
-            } else if (rowData.get(0).matches(Const.INSTRUCTOR_FEEDBACK_RESULT_QUESTION_REGEXP)) {
-                // new question: add the max. no of columns of the previous
-                // question to the qnMaxLengthArray
-                qnMaxLengthArray.add(qnMaxLength);
-                // reset the counter
-                qnMaxLength = 0;
-                rowData = combineListEntries(rowData, ": ");
-            } else if (rowData.get(0).equals(Const.INSTRUCTOR_FEEDBACK_RESULT_STATISTICS_HEADING)) {
-                rowData = combineListEntries(rowData, "");
-            } else if (rowData.get(0).equals(Const.FEEDBACK_CONTRIBUTION_HEADER_BEFORE_COMMA)) {
-                rowData = combineListEntries(rowData, ", ");
-            }
 
+            if (rowData.get(0).matches(
+                    Const.INSTRUCTOR_FEEDBACK_RESULT_QUESTION_REGEXP)) {
+                qnMaxLengthArray.add(qnMaxLength);
+                qnMaxLength = 0;
+            }
+            rowData = processSpecialKeyword(rowData);
+            
             if (rowData.size() > globalMaxLength) {
                 globalMaxLength = rowData.size();
             }
@@ -447,19 +474,11 @@ public class StringHelper {
 
         for (List<String> rowData : rowDataArray) {
 
-            int colspan;
-            if (rowData.get(0).matches(wrapAsRegExp(Const.INSTRUCTOR_FEEDBACK_RESULT_COURSE_HEADING)) ||
-                    rowData.get(0).matches(wrapAsRegExp(Const.INSTRUCTOR_FEEDBACK_RESULT_SESSION_NAME_HEADING))) {
-                colspan = globalMaxLength;
-            } else if (rowData.get(0).matches(wrapAsRegExp(Const.INSTRUCTOR_FEEDBACK_RESULT_QUESTION_REGEXP))) {
-                // the colspan will adapt to the max. no. of columns per
-                // question
+            if (rowData.get(0).matches(wrapAsRegExp(Const.INSTRUCTOR_FEEDBACK_RESULT_QUESTION_REGEXP))) {
                 qnMaxLength = qnMaxLengthArray.get(0);
                 qnMaxLengthArray.remove(0);
-                colspan = qnMaxLength;
-            } else {
-                colspan = (int) Math.floor(qnMaxLength / rowData.size());
-            }
+            } 
+            int colspan = adaptColspanSize(rowData, globalMaxLength, qnMaxLength);
 
             result.append("<tr>");
             for (String td : rowData) {
