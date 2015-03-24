@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -355,104 +354,38 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             FeedbackSessionResultsBundle bundle,
             String view) {
         
-        if(view.equals("student")){
-            return "";
-        }
-        
-        if(responses.size() == 0){
+        if(view.equals("student") || responses.size() == 0){
             return "";
         }
         
         String html = "";
         String fragments = "";
-        List<String> options = new ArrayList<String>();
-        Map<String, List<Integer>> optionPoints = new HashMap<String, List<Integer>>();
-        Map<String, Map<String, String>> nameEmailMapping = new HashMap<String, Map<String, String>>();
+        List<String> options = constSumOptions;
         
-        if(distributeToRecipients){
-            for(FeedbackResponseAttributes response : responses){
-                FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails)response.getResponseDetails(); 
-                String recipientEmail = response.recipientEmail;
-                Map<String, String> emailMapping = nameEmailMapping.get(bundle.getNameForEmail(recipientEmail));
-                if(emailMapping == null){
-                    emailMapping = new HashMap<String, String>();
-                    nameEmailMapping.put(bundle.getNameForEmail(recipientEmail), emailMapping);
-                }
-                if(emailMapping.get(recipientEmail) == null){
-                    emailMapping.put(recipientEmail, "true");
-                }
-                
-                List<Integer> points = optionPoints.get(recipientEmail);
-                if(points == null){
-                    points = new ArrayList<Integer>();
-                    optionPoints.put(recipientEmail, points);
-                }
-                points.add(frd.getAnswerList().get(0));
-            }
-        } else {
-            options = constSumOptions;
-            
-            for(FeedbackResponseAttributes response : responses){
-                FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails)response.getResponseDetails(); 
-                for(int i=0 ; i<frd.getAnswerList().size(); i++){
-                    List<Integer> points = optionPoints.get(String.valueOf(i));
-                    if(points == null){
-                        points = new ArrayList<Integer>();
-                        optionPoints.put(String.valueOf(i), points);
-                    }
-                    points.add(frd.getAnswerList().get(i));
-                }
-            }
-        }
-        
+        Map<String, List<Integer>> optionPoints = generateOptionPointsMapping(responses);
+
         DecimalFormat df = new DecimalFormat("#.##");
         
-        for(Entry<String, List<Integer>> entry : optionPoints.entrySet() ){
-            String option;
-            if(distributeToRecipients){
-                String email = entry.getKey();
-                String name = bundle.getNameForEmail(email);
-                option = name;
-                if(nameEmailMapping.get(name).size() > 1){
-                    option += " <b>[" + email + "]</b>";
-                }
-            } else {
-                option = options.get(Integer.parseInt(entry.getKey()));
-            }
+        for(Entry<String, List<Integer>> entry : optionPoints.entrySet()) {
+            
             List<Integer> points = entry.getValue();
-            Collections.sort(points);
-            double average = 0;
-            for(Integer point : points){
-                average += point;
-            }
-            average = average / points.size();
-            String pointsReceived = "";
-            if(points.size() > 10){
-                for(int i = 0; i < 5; i++){
-                    pointsReceived += points.get(i) + " , ";
-                }
-                pointsReceived += "...";
-                for(int i = points.size() - 5; i < points.size(); i++){
-                    pointsReceived += " , " + points.get(i);
-                }
-            } else {
-                for(int i = 0; i < points.size(); i++){
-                    pointsReceived += points.get(i);
-                    if(i != points.size() - 1){
-                        pointsReceived += " , ";
-                    }
-                }
-            }
+            double average = computeAverage(points);
+            String pointsReceived = getListOfPointsAsString(points);
             
             if (distributeToRecipients) {
-                String teamName = bundle.getTeamNameForEmail(entry.getKey());
+                String participantIdentifier = entry.getKey();
+                String name = bundle.getNameForEmail(participantIdentifier);
+                String teamName = bundle.getTeamNameForEmail(participantIdentifier);
+                
                 fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_RECIPIENTFRAGMENT,
-                        "${constSumOptionValue}",  Sanitizer.sanitizeForHtml(option),
+                        "${constSumOptionValue}",  Sanitizer.sanitizeForHtml(name),
                         "${team}", teamName,
                         "${pointsReceived}", pointsReceived,
                         "${averagePoints}", df.format(average));
             
             } else {
+                String option = options.get(Integer.parseInt(entry.getKey()));
+                
                 fragments += FeedbackQuestionFormTemplates.populateTemplate(FeedbackQuestionFormTemplates.CONSTSUM_RESULT_STATS_OPTIONFRAGMENT,
                                     "${constSumOptionValue}",  Sanitizer.sanitizeForHtml(option),
                                     "${pointsReceived}", pointsReceived,
@@ -474,6 +407,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         return html;
     }
     
+    
     @Override
     public String getQuestionResultStatisticsCsv(
             List<FeedbackResponseAttributes> responses,
@@ -485,56 +419,112 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         
         String csv = "";
         String fragments = "";
-        List<String> options;
-        List<Integer> optionPoints = new ArrayList<Integer>();
-        Map<String, Integer[]> optionTotalCount = new LinkedHashMap<String, Integer[]>();
-                
-        if(distributeToRecipients){
-            for(FeedbackResponseAttributes response : responses){
-                FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails)response.getResponseDetails(); 
-                String recipientEmail = response.recipientEmail;
-                String recipientName = bundle.getNameForEmail(recipientEmail);
-                Integer[] pointCount = optionTotalCount.get(recipientName);
-                if(pointCount == null){
-                    pointCount = new Integer[]{0,0};
-                }
-                pointCount[0] += frd.getAnswerList().get(0);
-                pointCount[1] += 1;
-                optionTotalCount.put(recipientName, pointCount);
-            }
-        } else {
-            options = constSumOptions;
-            for(int i=0 ; i<options.size() ; i++){
-                optionPoints.add(0);
-            }
-            
-            for(FeedbackResponseAttributes response : responses){
-                FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails)response.getResponseDetails(); 
-                for(int i=0 ; i<frd.getAnswerList().size(); i++){
-                    optionPoints.set(i, optionPoints.get(i)+frd.getAnswerList().get(i));
-                }
-            }
-            
-            for(int i=0 ; i<options.size() ; i++){
-                optionTotalCount.put(options.get(i), new Integer[]{optionPoints.get(i),responses.size()});
-            }
-        }
-        
+        List<String> options = constSumOptions;
+        Map<String, List<Integer>> optionPoints = generateOptionPointsMapping(responses);
+
         DecimalFormat df = new DecimalFormat("#.##");
         
-        for(Entry<String, Integer[]> entry : optionTotalCount.entrySet() ){
-            double average = entry.getValue()[0]/entry.getValue()[1];
-            fragments += entry.getKey() + ","
-                      + df.format(average) + Const.EOL;
+        for(Entry<String, List<Integer>> entry : optionPoints.entrySet() ){
+            String option;
+            if(distributeToRecipients){
+                option = bundle.getNameForEmail(entry.getKey());;
+            } else {
+                option = options.get(Integer.parseInt(entry.getKey()));
+            }
+            
+            List<Integer> points = entry.getValue();
+            double average = computeAverage(points);
+            fragments += option + "," + 
+                         df.format(average) + Const.EOL;
+            
         }
         
         csv += (distributeToRecipients? "Recipient":"Option") + ", Average Points" + Const.EOL; 
-        
         csv += fragments + Const.EOL;
         
         return csv;
     }
 
+    /**
+     * From the feedback responses, generate a mapping of the option to a list of points received for that option.
+     * The key of the map returned is the option name / recipient's participant identifier.
+     * The values of the map are list of points received by the key.   
+     * @param responses  a list of responses 
+     */
+    private Map<String, List<Integer>> generateOptionPointsMapping(
+            List<FeedbackResponseAttributes> responses) {
+        
+        Map<String, List<Integer>> optionPoints = new HashMap<String, List<Integer>>();
+        for(FeedbackResponseAttributes response : responses) {
+            FeedbackConstantSumResponseDetails frd = (FeedbackConstantSumResponseDetails)response.getResponseDetails();
+            
+            for (int i = 0 ; i < frd.getAnswerList().size(); i++) {
+                String optionReceivingPoints = distributeToRecipients ? 
+                                               response.recipientEmail : 
+                                               String.valueOf(i);
+                
+                int pointsReceived = frd.getAnswerList().get(i);
+                updateOptionPointsMapping(optionPoints, optionReceivingPoints, pointsReceived);
+            }
+        }
+        return optionPoints;
+    }
+
+    /**
+     * Used to update the OptionPointsMapping for the option optionReceivingPoints
+     * 
+     * @param optionPoints
+     * @param optionReceivingPoints
+     * @param pointsReceived
+     */
+    private void updateOptionPointsMapping(
+            Map<String, List<Integer>> optionPoints,
+            String optionReceivingPoints, int pointsReceived) {
+        List<Integer> points = optionPoints.get(optionReceivingPoints);
+        if(points == null){
+            points = new ArrayList<Integer>();
+            optionPoints.put(optionReceivingPoints, points);
+        }
+        
+        points.add(pointsReceived);
+    }
+
+    /**
+     * Returns the list of points as as string to display
+     * @param points
+     */
+    private String getListOfPointsAsString(List<Integer> points) {
+        Collections.sort(points);
+        String pointsReceived = "";
+        if(points.size() > 10){
+            for(int i = 0; i < 5; i++){
+                pointsReceived += points.get(i) + " , ";
+            }
+            pointsReceived += "...";
+            for(int i = points.size() - 5; i < points.size(); i++){
+                pointsReceived += " , " + points.get(i);
+            }
+        } else {
+            for(int i = 0; i < points.size(); i++){
+                pointsReceived += points.get(i);
+                if(i != points.size() - 1){
+                    pointsReceived += " , ";
+                }
+            }
+        }
+        return pointsReceived;
+    }
+
+    private double computeAverage(List<Integer> points) {
+        double average = 0;
+        for(Integer point : points){
+            average += point;
+        }
+        average = average / points.size();
+        return average;
+    }
+    
+    
     @Override
     public boolean isChangesRequiresResponseDeletion(
             FeedbackQuestionDetails newDetails) {

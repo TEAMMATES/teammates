@@ -85,7 +85,7 @@ public abstract class EntitiesDb {
                     elapsedTime += ThreadHelper.WAIT_DURATION;
                 }
             }
-            if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
+            if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
                 log.severe("Operation did not persist in time: create"
                         + entityToAdd.getEntityTypeAsString() + "->"
                         + entityToAdd.getIdentificationString());
@@ -164,7 +164,7 @@ public abstract class EntitiesDb {
                     elapsedTime += ThreadHelper.WAIT_DURATION;
                 }
             }
-            if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
+            if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
                 log.severe("Operation did not persist in time: create"
                         + entityToAdd.getEntityTypeAsString() + "->"
                         + entityToAdd.getIdentificationString());
@@ -205,7 +205,7 @@ public abstract class EntitiesDb {
                     elapsedTime += ThreadHelper.WAIT_DURATION;
                 }
             }
-            if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
+            if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
                 log.severe("Operation did not persist in time: delete"
                         + entityToDelete.getEntityTypeAsString() + "->"
                         + entityToDelete.getIdentificationString());
