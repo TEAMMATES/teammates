@@ -166,7 +166,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         wait.until(ExpectedConditions.elementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea"))));
         fillTextBox(addResponseCommentForm.findElement(By.tagName("textarea")), commentText);
         addResponseCommentForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
-        ThreadHelper.waitFor(1000);
+        ThreadHelper.waitFor(3000);
     }
     
     public void editFeedbackResponseComment(String commentIdSuffix, String newCommentText) {
