@@ -424,6 +424,8 @@ public class StringHelper {
      * entries, spread evenly) </li></ol>
      * 
      * @param rowData
+     * @param globalMaxLength overall max. no. of columns needed
+     * @param qnMaxLength max. no. of columns needed per question
      * @return processed list of string
      */
     private static int adaptColspanSize(List<String> rowData, int globalMaxLength, int qnMaxLength) {
