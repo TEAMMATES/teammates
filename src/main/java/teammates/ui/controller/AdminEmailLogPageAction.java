@@ -47,6 +47,9 @@ public class AdminEmailLogPageAction extends Action {
         LogQuery query = buildQuery(data.offset, includeAppLogs, data.versions);
         data.logs = getEmailLogs(query, data);
         
+        
+        statusToAdmin = "adminEmailLogPage Page Load";
+        
         if(data.offset == null){
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL_LOG, data);
         }
