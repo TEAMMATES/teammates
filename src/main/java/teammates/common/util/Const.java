@@ -1091,15 +1091,6 @@ public class Const {
     public static final String STUDENT_EVALUATION_STATUS_PUBLISHED = "Published";
     public static final String STUDENT_EVALUATION_STATUS_ERROR = "Error";
 
-    public static final String FEEDBACK_CONTRIBUTION_HEADER_BEFORE_COMMA = "In the points given below";
-    
-    public static final String INSTRUCTOR_FEEDBACK_RESULT_COURSE_HEADING = "Course";
-    public static final String INSTRUCTOR_FEEDBACK_RESULT_SESSION_NAME_HEADING = "Session Name";
-    public static final String INSTRUCTOR_FEEDBACK_RESULT_QUESTION_HEADING = "Question";
-    public static final String INSTRUCTOR_FEEDBACK_RESULT_QUESTION_REGEXP = String.format("%s \\d*",
-            INSTRUCTOR_FEEDBACK_RESULT_QUESTION_HEADING);
-    public static final String INSTRUCTOR_FEEDBACK_RESULT_STATISTICS_HEADING = "Summary Statistics";
-
     public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM = "custom";
     public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN = "atopen";
     public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER = "never";

@@ -640,12 +640,9 @@ public class FeedbackSessionsLogic {
         
         StringBuilder exportBuilder = new StringBuilder();
 
-        exportBuilder.append(Const.INSTRUCTOR_FEEDBACK_RESULT_COURSE_HEADING
-                + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.courseId)
-                + Const.EOL + Const.INSTRUCTOR_FEEDBACK_RESULT_SESSION_NAME_HEADING
-                + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.feedbackSessionName)
-                + Const.EOL);
-
+        exportBuilder.append("Course" + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.courseId) + Const.EOL
+                + "Session Name" + "," + Sanitizer.sanitizeForCsv(results.feedbackSession.feedbackSessionName) + Const.EOL);
+        
         if(section != null){
             exportBuilder.append("Section Name" + "," + Sanitizer.sanitizeForCsv(section) + Const.EOL);
         }
@@ -670,16 +667,14 @@ public class FeedbackSessionsLogic {
         
         StringBuilder exportBuilder = new StringBuilder();
         
-        exportBuilder.append(Const.INSTRUCTOR_FEEDBACK_RESULT_QUESTION_HEADING
-                + " " + Integer.toString(question.questionNumber) + ","
+        exportBuilder.append("Question " + Integer.toString(question.questionNumber) + "," 
                 + Sanitizer.sanitizeForCsv(questionDetails.questionText)
                 + Const.EOL + Const.EOL);
         
         String statistics = questionDetails.getQuestionResultStatisticsCsv(allResponses,
                                     question, fsrBundle);
-        if (statistics != "") {
-            exportBuilder.append(Const.INSTRUCTOR_FEEDBACK_RESULT_STATISTICS_HEADING
-                            + "," + Const.EOL);
+        if(statistics != ""){
+            exportBuilder.append("Summary Statistics," + Const.EOL);
             exportBuilder.append(statistics + Const.EOL);
         }
         

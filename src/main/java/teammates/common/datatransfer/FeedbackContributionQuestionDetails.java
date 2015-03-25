@@ -395,8 +395,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         String csv = "";
         
         //Header
-        csv += Const.FEEDBACK_CONTRIBUTION_HEADER_BEFORE_COMMA;
-        csv += ", an equal share is equal to 100 points. ";
+        csv += "In the points given below, an equal share is equal to 100 points. ";
         csv += "e.g. 80 means \"Equal share - 20%\" and 110 means \"Equal share + 10%\"." + Const.EOL;
         csv += "Claimed Contribution (CC) = the contribution claimed by the student." + Const.EOL;
         csv += "Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members." + Const.EOL;
