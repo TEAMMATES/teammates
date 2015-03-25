@@ -41,7 +41,7 @@ public class Student {
 
     /**
      * The student's Course ID. References the primary key of the course.
-     * This shows the course that is taking/taken by the student.
+     * This shows the course the student is taking
      */
     @Persistent
     @SerializedName("coursename")
