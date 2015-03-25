@@ -360,61 +360,6 @@ public class StringHelper {
     }
 
     /**
-     * Combines all the strings inside the passed list using the specified delimiter. The result will be
-     * another list with a single entry, which is the combined string, or an empty list if the passed
-     * argument is an empty list.
-     * @param list of string
-     * @param delimiter the connectors in between the strings
-     * @return list containing the combined string or an empty list
-     */
-    private static List<String> combineListEntries(List<String> list,
-            String delimiter) {
-        if (list.isEmpty()) {
-            return list;
-        } else {
-            String combinedEntries = list.get(0);
-            List<String> result = new ArrayList<String>();
-            if (list.size() > 1) {
-                for (int i = 1; i < list.size(); i++) {
-                    combinedEntries += delimiter + list.get(i);
-                }
-            }
-            result.add(combinedEntries);
-            return result;
-        }
-    }
-    
-    /**
-     * If the content of the rowData is one of the following, they will be processed
-     * accordingly (for the sake of aesthetics):<br><ol>
-     * <li> Course, coursename -> Course: coursename</li>
-     * <li> Session Name, sessionname -> Session Name: sessionname</li>
-     * <li> Question #, qntitle -> Question #: qntitle</li>
-     * <li> Summary Statistics, (empty) -> Summary statistics</li>
-     * <li> In the points given below, (...) (comma here is the column separator) ->
-     * In the points given below, (...) (comma here is the punctuation comma)</li>
-     * </ol>
-     * 4 and 5 need to be done as they are unintended consequences of comma-separating algorithm.
-     * 
-     * @param rowData
-     * @return processed list of string
-     */
-    private static List<String> processSpecialKeyword(List<String> rowData) {
-        if (rowData.get(0).equals(Const.INSTRUCTOR_FEEDBACK_RESULT_COURSE_HEADING)
-                || rowData.get(0).equals(Const.INSTRUCTOR_FEEDBACK_RESULT_SESSION_NAME_HEADING)
-                || rowData.get(0).matches(Const.INSTRUCTOR_FEEDBACK_RESULT_QUESTION_REGEXP)) {
-            rowData = combineListEntries(rowData, ": ");
-        } else if (rowData.get(0).equals(
-                Const.INSTRUCTOR_FEEDBACK_RESULT_STATISTICS_HEADING)) {
-            rowData = combineListEntries(rowData, "");
-        } else if (rowData.get(0).equals(
-                Const.FEEDBACK_CONTRIBUTION_HEADER_BEFORE_COMMA)) {
-            rowData = combineListEntries(rowData, ", ");
-        }
-        return rowData;
-    }
-
-    /**
      * Adapts the colspan size to minimize the white space wastage.
      * 
      * @param rowData
@@ -423,11 +368,6 @@ public class StringHelper {
      */
     private static int adaptColspanSize(List<String> rowData, int maxColSize) {
         return (int) Math.floor(maxColSize / rowData.size());
-    }
-
-    private static String wrapAsRegExp(String str) {
-        String wrapper = "^%s: .*";
-        return String.format(wrapper, str);
     }
 
     /**
