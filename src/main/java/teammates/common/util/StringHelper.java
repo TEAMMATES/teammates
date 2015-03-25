@@ -372,13 +372,8 @@ public class StringHelper {
 
     /**
      * Convert a csv string to a beautified html table string for displaying.
-     * There are two ways in which the table will be 'beautified':<br>
-     * <ol>
-     * <li>The colspan is adapted in appropriate ways so that white space
-     * wastage are minimised.</li>
-     * <li>Certain row data entries (course name, session name) are rewritten
-     * for aesthetics purpose.</li>
-     * </ol>
+     * It does so by adapting the column span in appropriate ways so that white space
+     * wastage is minimised.
      * 
      * @param str
      * @return beautified html table string
