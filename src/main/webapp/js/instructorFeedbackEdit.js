@@ -938,8 +938,8 @@ function changeMsqGenerateFor(questionNumber) {
  * ----------------------------------------------------------------------------
  */
 
-function getFractionPart(num) {
-    return num - Math.floor(num);
+function isMoreThanFourDp(num) {
+    return Math.floor(1000 * num) < 1000 * num;
 }
 
 function updateNumScalePossibleValues(questionNumber) {
@@ -957,11 +957,11 @@ function updateNumScalePossibleValues(questionNumber) {
         $("#maxScaleBox"+idSuffix).val(max);
     }
     
-    if (getFractionPart(step) < 0.001 && getFractionPart(step) != 0) {
-        step = Math.floor(step) + 0.001;
+    if (isMoreThanFourDp(step) || step == 0) {
+        step = Math.floor(1000 * step + 1) / 1000;
         $("#stepBox"+idSuffix).val(step);
     }
-    
+
     var cur = min + step;
     var largestValueInRange = min;
     var possibleValuesCount = 1;
