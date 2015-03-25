@@ -415,28 +415,14 @@ public class StringHelper {
     }
 
     /**
-     * If the content of the rowData is one of the following, they will be assigned certain
-     * colspan (for the sake of aesthetics):<br><ol>
-     * <li> Course: coursename, Session Name: sessionname -> globalMaxLength (max. possible)</li>
-     * <li> Question #: qntitle -> qnMaxLength (max. that is needed by that question's response 
-     * entries)</li>
-     * <li> Others -> qnMaxLength / # of columns (max. that is needed by that question's response 
-     * entries, spread evenly) </li></ol>
+     * Adapts the colspan size to minimize the white space wastage.
      * 
      * @param rowData
-     * @param globalMaxLength overall max. no. of columns needed
-     * @param qnMaxLength max. no. of columns needed per question
-     * @return processed list of string
+     * @param maxColSize overall max. no. of columns needed
+     * @return the suggested colspan size
      */
-    private static int adaptColspanSize(List<String> rowData, int globalMaxLength, int qnMaxLength) {
-        if (rowData.get(0).matches(wrapAsRegExp(Const.INSTRUCTOR_FEEDBACK_RESULT_COURSE_HEADING)) ||
-                rowData.get(0).matches(wrapAsRegExp(Const.INSTRUCTOR_FEEDBACK_RESULT_SESSION_NAME_HEADING))) {
-            return globalMaxLength;
-        } else if (rowData.get(0).matches(wrapAsRegExp(Const.INSTRUCTOR_FEEDBACK_RESULT_QUESTION_REGEXP))) {
-            return qnMaxLength;
-        } else {
-            return (int) Math.floor(qnMaxLength / rowData.size());
-        }
+    private static int adaptColspanSize(List<String> rowData, int maxColSize) {
+        return (int) Math.floor(maxColSize / rowData.size());
     }
 
     private static String wrapAsRegExp(String str) {
@@ -463,10 +449,8 @@ public class StringHelper {
         String[] lines = str.split(Const.EOL);
 
         StringBuilder result = new StringBuilder();
-        int globalMaxLength = 0; // global max. no. of table columns needed
-        int qnMaxLength = 0; // max. no. of columns for one question
+        int maxColSize = 0; // max. no. of table columns needed
         List<ArrayList<String>> rowDataArray = new ArrayList<ArrayList<String>>();
-        List<Integer> qnMaxLengthArray = new ArrayList<Integer>();
 
         // we first pre-process the table entries to calculate the colspan that will
         // eventually be required for each entry
@@ -478,39 +462,16 @@ public class StringHelper {
                 continue;
             }
 
-            if (rowData.get(0).matches(
-                    Const.INSTRUCTOR_FEEDBACK_RESULT_QUESTION_REGEXP)) {
-                // new question entry! add the max. no. of columns needed for the
-                // previous question to the qnMaxLengthArray
-                qnMaxLengthArray.add(qnMaxLength);
-                // and reset the counter
-                qnMaxLength = 0;
-            }
-            rowData = processSpecialKeyword(rowData);
-            
-            if (rowData.size() > globalMaxLength) {
-                globalMaxLength = rowData.size();
-            }
-            if (rowData.size() > qnMaxLength) {
-                qnMaxLength = rowData.size();
+            if (rowData.size() > maxColSize) {
+                maxColSize = rowData.size();
             }
             rowDataArray.add((ArrayList<String>) rowData);
 
         }
 
-        // adds the max. no. of columns needed for the last question
-        qnMaxLengthArray.add(qnMaxLength);
-        // removes the max. no. of columns needed for the "0th question"
-        qnMaxLengthArray.remove(0);
-
         for (List<String> rowData : rowDataArray) {
 
-            if (rowData.get(0).matches(wrapAsRegExp(Const.INSTRUCTOR_FEEDBACK_RESULT_QUESTION_REGEXP))) {
-                // new question entry! get the max. no. of columns needed from qnMaxLengthArray
-                qnMaxLength = qnMaxLengthArray.get(0);
-                qnMaxLengthArray.remove(0);
-            } 
-            int colspan = adaptColspanSize(rowData, globalMaxLength, qnMaxLength);
+            int colspan = adaptColspanSize(rowData, maxColSize);
 
             result.append("<tr>");
             for (String td : rowData) {
