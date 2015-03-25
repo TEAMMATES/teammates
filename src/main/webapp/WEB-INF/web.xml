@@ -116,6 +116,26 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <url-pattern>/emailWorker</url-pattern>
     </servlet-mapping>
     
+    
+    <servlet>
+        <servlet-name>AdminEmailWorkerServlet</servlet-name>
+        <servlet-class>teammates.logic.automated.AdminEmailWorkerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminEmailWorkerServlet</servlet-name>
+        <url-pattern>/adminEmailWorker</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>AdminEmailPrepareTaskQueueWorkerServlet</servlet-name>
+        <servlet-class>teammates.logic.automated.AdminEmailPrepareTaskQueueWorkerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminEmailPrepareTaskQueueWorkerServlet</servlet-name>
+        <url-pattern>/adminEmailPrepareTaskQueueWorker</url-pattern>
+    </servlet-mapping>
+    
+    
     <servlet>
         <servlet-name>SendEmailWorkerServlet</servlet-name>
         <servlet-class>teammates.logic.automated.SendEmailWorkerServlet</servlet-class>
@@ -272,6 +292,17 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     <servlet-mapping>
         <servlet-name>ControllerServlet</servlet-name>
         <url-pattern>/page/*</url-pattern>
+    </servlet-mapping>
+    
+    
+    <servlet>
+        <servlet-name>PublicImageServlet</servlet-name>
+        <servlet-class>teammates.logic.publicresource.PublicImageServlet</servlet-class>
+    </servlet>
+    
+     <servlet-mapping>
+        <servlet-name>PublicImageServlet</servlet-name>
+        <url-pattern>/public/publicEmailImageServe</url-pattern>
     </servlet-mapping>
     
     <security-constraint>
