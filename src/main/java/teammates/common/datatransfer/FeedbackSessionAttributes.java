@@ -484,27 +484,4 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     public String getSessionName() {
         return this.feedbackSessionName;
     }
-    
-    /*
-     * Comparator to sort by endTime in descending order
-     */
-    public static final Comparator<FeedbackSessionAttributes> compareByEndTimeDesc = new Comparator<FeedbackSessionAttributes>() {
-
-        @Override
-        public int compare(FeedbackSessionAttributes o1,
-                FeedbackSessionAttributes o2) {
-            Date date1 = o1.endTime;
-            Date date2 = o2.endTime;
-            if (date1 == null && date2 == null) {
-                return 0;
-            }
-            if (date1 == null) {
-                return 1;
-            }
-            if (date2 == null) {
-                return -1;
-            }
-            return date2.compareTo(date1);
-        }
-    };
 }
