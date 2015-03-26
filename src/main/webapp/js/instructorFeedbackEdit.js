@@ -938,8 +938,8 @@ function changeMsqGenerateFor(questionNumber) {
  * ----------------------------------------------------------------------------
  */
 
-function isMoreThanThreeDp(num) {
-    return Math.floor(1000 * num) < 1000 * num;
+function roundToThreeDp(num) {
+    return parseFloat(num.toFixed(3));
 }
 
 function updateNumScalePossibleValues(questionNumber) {
@@ -957,10 +957,11 @@ function updateNumScalePossibleValues(questionNumber) {
         $("#maxScaleBox"+idSuffix).val(max);
     }
     
-    if (isMoreThanThreeDp(step) || step == 0) {
-        step = Math.floor(1000 * step + 1) / 1000;
-        $("#stepBox"+idSuffix).val(step);
+    step = roundToThreeDp(step);
+    if (step == 0) {
+        step = 0.001;
     }
+    $("#stepBox" + idSuffix).val(step);        
 
     var cur = min + step;
     var largestValueInRange = min;
