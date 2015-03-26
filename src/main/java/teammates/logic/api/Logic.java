@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javax.mail.internet.MimeMessage;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CommentSearchResultBundle;
@@ -54,6 +55,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.logic.core.AccountsLogic;
+import teammates.logic.core.AdminEmailsLogic;
 import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
@@ -100,7 +102,8 @@ public class Logic {
     protected static FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
     protected static FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
     protected static FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = FeedbackResponseCommentsLogic.inst();
-
+    protected static AdminEmailsLogic adminEmailsLogic = AdminEmailsLogic.inst();
+    
     @SuppressWarnings("unused")
     private void ____USER_level_methods__________________________________() {
     }
@@ -2861,6 +2864,122 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return commentsLogic.getCommentsForSendingState(courseId, sendingState);
     }
+    
+    
+    /**
+     * This method is not scalable. Not to be used unless for admin features.
+     * @return the list of all adminEmails in the database.
+     * <br> Empty List if no admin email found 
+     */
+    public List<AdminEmailAttributes> getAllAdminEmails(){
+        return adminEmailsLogic.getAllAdminEmails();
+    }
+    
+    /**
+     * get an admin email by email id
+     * @return null if no matched email found
+     */
+    public AdminEmailAttributes getAdminEmailById(String emailId){
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, emailId);
+        return adminEmailsLogic.getAdminEmailById(emailId);
+    }
+    
+    public Date createAdminEmail(AdminEmailAttributes newAdminEmail) throws InvalidParametersException{
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, newAdminEmail);
+        return adminEmailsLogic.createAdminEmail(newAdminEmail);
+    }
+    
+    /**
+     * Move an admin email to trash bin.<br>
+     * After this the attribute isInTrashBin will be set to true
+     * @param adminEmailId
+     * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException
+     */
+    public void moveAdminEmailToTrashBin(String adminEmailId) throws InvalidParametersException, EntityDoesNotExistException{
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, adminEmailId);
+        adminEmailsLogic.moveAdminEmailToTrashBin(adminEmailId);
+    }
+    
+    /**
+     * Move an admin email out of trash bin.<br>
+     * After this the attribute isInTrashBin will be set to false
+     * @param adminEmailId
+     * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException
+     */
+    public void moveAdminEmailOutOfTrashBin(String adminEmailId) throws InvalidParametersException, EntityDoesNotExistException{
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, adminEmailId);
+        adminEmailsLogic.moveAdminEmailOutOfTrashBin(adminEmailId);
+    }
+    
+    /**
+     * Get all admin emails that have been sent and not in trash bin
+     * @return empty list if no email found
+     */
+    public List<AdminEmailAttributes> getSentAdminEmails(){      
+        return adminEmailsLogic.getSentAdminEmails();
+    }
+    
+    /**
+     * Get all admin email drafts that have NOT been sent and NOT in trash bin
+     * @return empty list if no email found
+     */
+    public List<AdminEmailAttributes> getAdminEmailDrafts(){
+        return adminEmailsLogic.getAdminEmailDrafts();
+    }
+    
+    /**
+     * Get all admin emails that have been moved into trash bin
+     * @return empty list if no email found
+     */
+    public List<AdminEmailAttributes> getAdminEmailsInTrashBin(){
+        return adminEmailsLogic.getAdminEmailsInTrashBin();
+    }
+    
+    /**
+     * Update an admin email by email id
+     * @param newAdminEmail
+     * @param emailId
+     * @throws InvalidParametersException
+     * @throws EntityDoesNotExistException
+     */
+    public void updateAdminEmailById(AdminEmailAttributes newAdminEmail, String emailId) throws InvalidParametersException, EntityDoesNotExistException{
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, emailId);   
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, newAdminEmail);
+        
+        adminEmailsLogic.updateAdminEmailById(newAdminEmail, emailId);
+    }
+    
+    /**
+     * get an admin email by subject and createDate
+     * @return null if no matched email found
+     */
+    public AdminEmailAttributes getAdminEmail(String subject, Date createDate){
+        Assumption.assertNotNull(subject);
+        Assumption.assertNotNull(createDate);
+        
+        return adminEmailsLogic.getAdminEmail(subject, createDate);
+    }
+    
+    /**
+     * deletes all emails in trash bin
+     */
+    public void deleteAllEmailsInTrashBin(){
+        adminEmailsLogic.deleteAllEmailsInTrashBin();
+    }
+    
+    /**
+     * deletes files uploaded in admin email compose page
+     * @param key, the GCS blobkey used to fetch the file in Google Cloud Storage
+     * @throws BlobstoreFailureException
+     */
+    public void deleteAdminEmailUploadedFile(BlobKey key) throws BlobstoreFailureException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, key);
+        
+        adminEmailsLogic.deleteAdminEmailUploadedFile(key);
+    }
+    
     
     @SuppressWarnings("unused")
     private void ____MISC_methods__________________________________________() {

@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.TimeZone;
 
+import com.google.appengine.api.datastore.Text;
+
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 
@@ -41,7 +43,11 @@ public class FieldValidator {
         RESULTS_VISIBLE_TIME,
         EVALUATION_TIME_FRAME,
         FEEDBACK_SESSION_TIME_FRAME,
-        FEEDBACK_QUESTION_TEXT
+        FEEDBACK_QUESTION_TEXT,
+        ADMIN_EMAIL_RECEIVER,
+        EMAIL_SUBJECT,
+        EMAIL_SEND_DATE,
+        EMAIL_CONTENT
     }
     
     // ////////////////////////////////////////////////////////////////////////
@@ -87,7 +93,27 @@ public class FieldValidator {
     // ////////////////////////////////////////////////////////////////////////
     // ////////////////// Specific types //////////////////////////////////////
     // ////////////////////////////////////////////////////////////////////////
-
+    
+    
+    /*
+     * ======================================================================= 
+     * Field: Email Subject
+     */
+    private static final String EMAIL_SUBJECT_FIELD_NAME = "email subject";
+    public static final int EMAIL_SUBJECT_MAX_LENGTH = 200;
+    public static final String EMAIL_SUBJECT_ERROR_MESSAGE = 
+            "\"%s\" is not acceptable to TEAMMATES as "+EMAIL_SUBJECT_FIELD_NAME+" because it %s. " +
+                    "The value of "+EMAIL_SUBJECT_FIELD_NAME+" should be no longer than "+
+                    EMAIL_SUBJECT_MAX_LENGTH+" characters. It should not be empty.";
+    
+    /*
+     * ======================================================================= 
+     * Field: Email Content
+     */
+    private static final String EMAIL_CONTENT_FIELD_NAME = "email content";
+    public static final String EMAIL_CONTENT_ERROR_MESSAGE = EMAIL_CONTENT_FIELD_NAME+" should not be empty.";
+    
+    
     /*
      * ======================================================================= 
      * Field: Nationality
@@ -503,6 +529,12 @@ public class FieldValidator {
         case INTRUCTOR_ROLE:
             returnValue = getValidityInfoForInstructorRole((String)value);
             break;
+        case EMAIL_SUBJECT:
+            returnValue = this.getValidityInfoForAllowedName(EMAIL_SUBJECT_FIELD_NAME, EMAIL_SUBJECT_MAX_LENGTH, (String)value);
+            break;
+        case EMAIL_CONTENT:
+            returnValue = this.getValidityInfoForEmailContent((Text)value);
+            break;
         default:
             throw new AssertionError("Unrecognized field type : " + fieldType);
         }
@@ -902,6 +934,16 @@ public class FieldValidator {
                 || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR)
                 || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM))) {
             return String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, value, INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING);
+        }
+        
+        return "";
+    }
+    
+    private String getValidityInfoForEmailContent(Text value){
+        Assumption.assertTrue("Non-null value expected", value != null);
+        
+        if(value.getValue().isEmpty()){
+            return EMAIL_CONTENT_ERROR_MESSAGE;
         }
         
         return "";
