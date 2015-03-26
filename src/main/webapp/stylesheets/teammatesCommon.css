@@ -256,6 +256,10 @@ Apply to thead to make headers not bold.
         display: none;
     }
 }
+.visibilityFeebackPath-button{
+    color: #2AABD2;
+}
+
 
 /*////////////////////////////////////////////////////////////
 ///////////////////////// NavBar ////////////////////////////

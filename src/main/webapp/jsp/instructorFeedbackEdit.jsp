@@ -634,7 +634,7 @@
                 <br>
                 <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
                     <div class="col-sm-12 padding-0">
-                        <b>Feedback Path</b> (Who is giving feedback to whom?)
+                        <b class="visibilityFeebackPath-button">Feedback Path</b> (Who is giving feedback to whom?)
                     </div>
                     <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>">  
                         <label class="col-sm-5 control-label">
@@ -683,7 +683,7 @@
                 <br>
                 <div class="col-sm-12 padding-15px background-color-light-green">
                     <div class="col-sm-12 padding-0">
-                        <b>Visibility</b> (Who can see the responses?)
+                        <b class="visibilityFeebackPath-button">Visibility</b> (Who can see the responses?)
                     </div>
                     <div class="col-sm-6 btn-group" data-toggle="buttons">
                         <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel-<%=question.questionNumber%>" onchange="toggleVisibilityOptions(this)">
@@ -914,7 +914,7 @@
                     <br>
                     <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
                         <div class="col-sm-12 padding-0">
-                            <b>Feedback Path</b> (Who is giving feedback about whom?)
+                            <b class="visibilityFeebackPath-button">Feedback Path</b> (Who is giving feedback about whom?)
                         </div>
                         <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>">
                             <label class="col-sm-5 control-label">
@@ -961,7 +961,7 @@
                     <br>
                     <div class="col-sm-12 padding-15px background-color-light-green">
                         <div class="col-sm-12 padding-0">
-                            <b>Visibility</b> (Who can see the responses?)
+                            <b class="visibilityFeebackPath-button">Visibility</b> (Who can see the responses?)
                         </div>
                         <div class="col-sm-6 btn-group" data-toggle="buttons">
                             <label class="btn btn-xs btn-info visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
