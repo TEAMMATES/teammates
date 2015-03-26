@@ -739,6 +739,17 @@ public class Emails {
         return message;
     }
     
+    public MimeMessage generateAdminEmail(String content, String subject, String sendTo) throws MessagingException, UnsupportedEncodingException 
+    {
+
+        MimeMessage message = getEmptyEmailAddressedToEmail(sendTo);
+        message.setSubject(subject);
+
+        message.setContent(content, "text/html");
+        return message;
+    }
+    
+
     public MimeMessage generateStudentCourseRejoinEmailAfterGoogleIdReset(
             CourseAttributes course, StudentAttributes student) 
                     throws AddressException, MessagingException, UnsupportedEncodingException {
@@ -755,7 +766,6 @@ public class Emails {
         message.setContent(emailBody, "text/html");
         return message;
     }
-    
     
     public MimeMessage generateNewInstructorAccountJoinEmail(InstructorAttributes instructor,String shortName, String institute) 
                              throws AddressException,MessagingException,UnsupportedEncodingException {
