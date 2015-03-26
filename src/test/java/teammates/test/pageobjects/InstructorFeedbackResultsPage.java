@@ -358,6 +358,14 @@ public class InstructorFeedbackResultsPage extends AppPage {
         
         jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild(document.getElementsByClassName('popover')[0])");
     }
+    
+    public void hoverClickAndViewGiverPhotoOnTableCell(int questionBodyIndex, int tableRow, String urlRegex) throws Exception {
+        hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 0, urlRegex);
+    }
+    
+    public void hoverClickAndViewRecipientPhotoOnTableCell(int questionBodyIndex, int tableRow, String urlRegex) throws Exception {
+        hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 2, urlRegex);
+    }
 
     public void removeNavBar() {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
