@@ -34,7 +34,7 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
 4. Update your local repo (the one you created when setting up the project on your computer) 
    with the latest version of the code from the committer repo.
    ```
-   git pull upstream
+   git pull upstream master
    ```
 4. If you have permissions to change labels, change the issue status to `s.Ongoing`. 
 
@@ -66,8 +66,9 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    to your branch
         
        ```
-       git pull upstream 
-       git merge master
+       git fetch upstream 
+       git checkout master
+       git merge upstream/master
        git commit -a -m "your commit message"
        ```
 
