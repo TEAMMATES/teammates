@@ -962,6 +962,9 @@ function updateNumScalePossibleValues(questionNumber) {
         step = 0.001;
     }
     $("#stepBox" + idSuffix).val(step);        
+    if (isNaN(step)) {
+        $("#stepBox" + idSuffix).val("");        
+    }
 
     var cur = min + step;
     var largestValueInRange = min;
