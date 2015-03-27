@@ -1044,4 +1044,12 @@ public abstract class AppPage {
         }
     }
 
+    public void waitForAjaxLoaderGifToDisappear() {
+        try {
+            waitForElementToDisappear(By.xpath("//img[@src='/images/ajax-loader.gif']"));
+        } catch (NoSuchElementException alreadydisappears) {
+            // ok to ignore
+        }
+    }
+
 }

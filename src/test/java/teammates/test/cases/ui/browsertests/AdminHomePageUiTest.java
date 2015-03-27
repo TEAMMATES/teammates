@@ -19,7 +19,6 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
-import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.logic.backdoor.BackDoorServlet;
 import teammates.test.driver.BackDoor;
@@ -146,7 +145,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         ______TS("new instructor can see sample course in homepage");
         InstructorHomePage instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
-        ThreadHelper.waitFor(2000);
+        instructorHomePage.waitForAjaxLoaderGifToDisappear();
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorHomePage.html");
         
         ______TS("new instructor can access sample coure enroll page");
@@ -166,7 +165,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         ______TS("new instructor can access sample coure feedback session adding page");
         instructorHomePage = editPage.goToPreviousPage(InstructorHomePage.class);
         InstructorFeedbacksPage feedbacksPage = instructorHomePage.clickCourseAddEvaluationLink(demoCourseId);
-        ThreadHelper.waitFor(2000);
+        feedbacksPage.waitForAjaxLoaderGifToDisappear();
         feedbacksPage.verifyHtmlMainContent("/newlyJoinedInstructorFeedbacksPage.html");
         
         ______TS("new instructor can archive sample course");
@@ -227,14 +226,14 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         instructorHomePage.loadInstructorHomeTab();
         feedbacksPage = instructorHomePage.clickFeedbackSessionUnpublishLink("AHPUiT.instr1.gma-demo", 
                                                                              "Second team feedback session");
-        ThreadHelper.waitFor(2000);
+        feedbacksPage.waitForAjaxLoaderGifToDisappear();
         feedbacksPage.verifyHtmlMainContent("/NJIfeedbackSessionUnpublished.html");
         
         ______TS("new instructor can publish feedbackSession of sample course");
         instructorHomePage.loadInstructorHomeTab();
         feedbacksPage = instructorHomePage.clickFeedbackSessionPublishLink("AHPUiT.instr1.gma-demo", 
                                                                            "Second team feedback session");
-        ThreadHelper.waitFor(2000);
+        feedbacksPage.waitForAjaxLoaderGifToDisappear();
         feedbacksPage.verifyHtmlMainContent("/NJIfeedbackSessionPublished.html");
         
         feedbacksPage.logout();
