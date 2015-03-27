@@ -712,8 +712,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.fillEditQuestionBox("edited numscale qn text", 2);
         feedbackEditPage.fillMinNumScaleBox(3, 2);
         feedbackEditPage.fillMaxNumScaleBox(4, 2);
-        feedbackEditPage.fillStepNumScaleBox(0.2, 2);
-        assertEquals("[Based on the above settings, acceptable responses are: 3, 3.2, 3.4, 3.6, 3.8, 4]",
+        feedbackEditPage.fillStepNumScaleBox(0.002, 2);
+        assertEquals("[Based on the above settings, acceptable responses are: 3, 3.002, 3.004, ..., 3.996, 3.998, 4]",
                 feedbackEditPage.getNumScalePossibleValuesString(2));
         feedbackEditPage.clickSaveExistingQuestionButton(2);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
