@@ -62,14 +62,16 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
          ~~`[Issue number] Issue title as given in the original issue`~~ 
    * Sync with the committer repo frequently: While you were fixing the issue, others 
    might have pushed new code to the committer repo. In that case, update your 
-   repo with any new changes from committer repo and merge those updates 
-   to your branch
+   repo's master branch with any new changes from committer repo and merge those 
+   updates to the branch you are working on.
         
        ```
-       git fetch upstream 
+       //switch to master and sync with committer repo
        git checkout master
-       git merge upstream/master
-       git commit -a -m "your commit message"
+       git pull upstream master       
+       //merge updates into working branch
+       git checkout Issue{issue number}
+       git merge master
        ```
 
 7. When the work is ready for review:
