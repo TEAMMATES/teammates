@@ -860,6 +860,7 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlMainContent(String filePath) {
+        waitForAjaxLoaderGifToDisappear();
         verifyHtmlPart(By.id("frameBodyWrapper"), filePath);
         
         return this;
