@@ -117,15 +117,6 @@ public class Sanitizer {
                 .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");
     }
     
-    /**
-     * Reverse the sanitization of some characters that do not cause data injection
-     */
-    public static String reverseSanitize(String str){
-        if (str == null) return null;
-        return str.replace("&lt;", "<")
-                .replace("&gt;", ">");
-    }
-    
     public static String sanitizeForRichText(String richText) {
         if (richText == null) {
             return null;
