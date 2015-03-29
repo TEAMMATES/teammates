@@ -1524,7 +1524,7 @@ public class FeedbackSessionsLogic {
                 break;
             }
             details.stats.expectedTotal = 1;
-            if(fsa.respondingInstructorList.contains(fsa.creatorEmail)) {
+            if(fqLogic.areAllQuestionsFullyAnsweredByUser(validQuestions, fsa.creatorEmail)) {
                 details.stats.submittedTotal = 1;
             }
             break;
