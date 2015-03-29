@@ -417,6 +417,13 @@ function validateConstSumQuestions(){
 }
 
 /**
+ * Replaces all occurence of regex by replace in str
+ */
+function replaceAll(regex, replace, str) {
+	return str.replace(new RegExp(regex, 'g'), replace);
+}
+
+/**
  * Removes already selected options for recipients
  * from other select dropdowns within the same question.
  * Binds further changes to show/hide options such that duplicates
@@ -447,7 +454,8 @@ function formatRecipientLists(){
             find("option[value='"+lastSelectedOption+"']").show();
         }
         if (curSelectedOption != "") {
-            $("select[name|="+FEEDBACK_RESPONSE_RECIPIENT+"-"+questionNumber+"]").not(this).
+        	curSelectedOption = replaceAll('\'','\\\'',curSelectedOption);
+        	$("select[name|="+FEEDBACK_RESPONSE_RECIPIENT+"-"+questionNumber+"]").not(this).
                 find("option[value='"+curSelectedOption+"']").hide();
         }
         // Save new data
