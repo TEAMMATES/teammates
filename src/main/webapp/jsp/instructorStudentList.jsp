@@ -57,7 +57,7 @@
                                 <div class="col-md-10">
                                     <div class="form-group">
                                         <input type="text" id="searchbox"
-                                            title="<%=Const.Tooltips.SEARCH_STUDENT%>"
+                                            title="<%=Const.Tooltips.SEARCH_STUDENT1%>"
                                             name="<%=Const.ParamsNames.SEARCH_KEY%>"
                                             class="form-control"
                                             data-toggle="tooltip"
