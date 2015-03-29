@@ -475,7 +475,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         expectedSessions.clear();
         expectedSessions.add(newDataBundle.feedbackSessions.get("private.session.noquestions").toString());
         expectedSessions.add(newDataBundle.feedbackSessions.get("private.session.done").toString());
-        expectedSessions.add(newDataBundle.feedbackSessions.get("private.session.norecipients").toString());
         
         detailsList = fsLogic.getFeedbackSessionDetailsForInstructor(
                 newDataBundle.instructors.get("instructor2OfCourse1").googleId);
@@ -508,6 +507,23 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         ______TS("private session with questions with no recipients");
         
+        expectedSessions.clear();
+        expectedSessions.add(newDataBundle.feedbackSessions.get("private.session.norecipients").toString());
+        
+        detailsList = fsLogic.getFeedbackSessionDetailsForInstructor(
+                newDataBundle.instructors.get("instructor1OfCourse3").googleId);
+        
+        detailsMap.clear();
+        actualSessions = "";
+        for (FeedbackSessionDetailsBundle details : detailsList) {
+            actualSessions += details.feedbackSession.toString();
+            detailsMap.put(
+                    details.feedbackSession.feedbackSessionName + "%" +
+                    details.feedbackSession.courseId,
+                    details);
+        }
+        
+        AssertHelper.assertContains(expectedSessions, actualSessions);  
         stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session.norecipients").feedbackSessionName + "%" 
                 + newDataBundle.feedbackSessions.get("private.session.norecipients").courseId).stats;
         

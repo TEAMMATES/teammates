@@ -68,6 +68,11 @@
             "id": "FSDTest.idOfTypicalCourse2",
             "name": "Typical Course 2",
             "isArchived": false
+        },
+        "course.with.no.student": {
+            "id": "FSDTest.idOfTypicalCourse3",
+            "name": "Typical Course 3",
+            "isArchived": false
         }
     },
     
@@ -95,6 +100,15 @@
             "courseId": "FSDTest.idOfTypicalCourse2",
             "name": "Instructor1 Course2",
             "email": "FSDTest.instr1@course2.tmt",
+            "role":"Co-owner",
+            "displayedName":"Co-owner",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        },
+        "instructor1OfCourse3": {
+            "googleId": "FSDTest.idOfInstructor1OfCourse3",
+            "courseId": "FSDTest.idOfTypicalCourse3",
+            "name": "Instructor1 Course3",
+            "email": "FSDTest.instr1@course3.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
@@ -259,8 +273,8 @@
     },
     "private.session.norecipients": {
       "feedbackSessionName" : "Private feedback session no recipients",
-      "courseId" : "FSDTest.idOfTypicalCourse1",
-      "creatorEmail": "FSDTest.instr2@course1.tmt",
+      "courseId" : "FSDTest.idOfTypicalCourse3",
+      "creatorEmail": "FSDTest.instr1@course3.tmt",
       "instructions": {"value" : "Please please fill in the following questions."},
       "createdTime" : "2012-03-20 11:59 PM UTC",
       "startTime" : "2012-04-01 11:59 PM UTC",
@@ -502,13 +516,13 @@
     },
     "qn1.private.session.norecipients": {
         "feedbackSessionName" : "Private feedback session no recipients",
-        "courseId" : "FSDTest.idOfTypicalCourse1",
-        "creatorEmail" : "FSDTest.instr2@course1.tmt",
+        "courseId" : "FSDTest.idOfTypicalCourse3",
+        "creatorEmail" : "FSDTest.instr1@course3.tmt",
         "questionMetaData" : {"value" : "no recipient question"},
         "questionNumber" : "1",
         "questionType" : "TEXT",
         "giverType" : "SELF",
-        "recipientType" : "NONE",
+        "recipientType" : "STUDENTS",
         "numberOfEntitiesToGiveFeedbackTo" : -100,
         "showResponsesTo" : [ ],
         "showGiverNameTo" : [ ],
