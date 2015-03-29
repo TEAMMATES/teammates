@@ -34,11 +34,19 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
         String receiverEmail =  HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_RECEVIER);       
         Assumption.assertNotNull(receiverEmail);
         
-        AdminEmailAttributes adminEmail = AdminEmailsLogic.inst().getAdminEmailById(emailId);      
-        Assumption.assertNotNull(receiverEmail);
+
         
-        Text emailContent = adminEmail.getContent();
-        String emailSubject = adminEmail.getSubject();
+        String emailContent = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_CONTENT);
+        String emailSubject = HttpRequestHelper.getValueFromRequestParameterMap(req, ParamsNames.ADMIN_EMAIL_SUBJECT);
+        
+        if(emailContent == null || emailSubject == null){
+          log.info("Sending large email. Going to retrieve email content and subject from datastore.");
+          AdminEmailAttributes adminEmail = AdminEmailsLogic.inst().getAdminEmailById(emailId);      
+          Assumption.assertNotNull(adminEmail);
+          
+          emailContent = adminEmail.getContent().getValue();
+          emailSubject = adminEmail.getSubject();
+        }
         
         Assumption.assertNotNull(emailContent);
         Assumption.assertNotNull(emailSubject); 
@@ -52,11 +60,11 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
 
     }
     
-    private void sendAdminEmail(Text emailContent, String subject, String receiverEmail) throws UnsupportedEncodingException, MessagingException{
+    private void sendAdminEmail(String emailContent, String subject, String receiverEmail) throws UnsupportedEncodingException, MessagingException{
         
         Emails emailsManager = new Emails();
         
-        MimeMessage email = emailsManager.generateAdminEmail(StringHelper.recoverFromSanitizedText(emailContent.getValue()), subject, receiverEmail);
+        MimeMessage email = emailsManager.generateAdminEmail(StringHelper.recoverFromSanitizedText(emailContent), subject, receiverEmail);
         emailsManager.sendEmail(email);
        
     }
