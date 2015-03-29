@@ -36,7 +36,7 @@
     <![endif]--> 
 </head>
 
-<body>
+<body onload="readyCoursesPage()">
     <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
     <div class="container theme-showcase" id="frameBodyWrapper">
@@ -622,6 +622,11 @@
         <div class="panel panel-primary" id="panelAddInstructor" style="display: none;">
             <div class="panel-heading">
                 <strong>Instructors <%=data.instructorList.size()+1%>:</strong>
+                <div class="pull-right">
+                <a id="cancelAddInstructor"
+                    class="btn btn-primary btn-xs" onclick="hideNewInstructorForm()">
+                    <span class="glyphicon glyphicon-remove"></span> Cancel</a>
+                </div>
             </div>
 
             <div class="panel-body fill-plain">
