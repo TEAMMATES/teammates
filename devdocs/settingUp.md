@@ -76,8 +76,8 @@ Important: When a version is specified, please install that version instead of t
    Remember to change the URL of the link if necessary, but keep the parameters.<br>
    e.g. Change <b>`http://teammates-john.appspot.com`</b>`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS` <br>
    to <b>`http://localhost:8888`</b>`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS`
-8. Now, to access the dev server as a student, first make sure you are logged in as an instructor. Add a course for yourself and then add the students for the course.<br>
-   After that, log in as admin and search for the student you added in as instructor. From the search results, use the join link adjacent to the student you added.<br>
+8. Now, to access the dev server as a student, first make sure you are logged in as an instructor. Add a course for yourself and then add the students by clicking on 'Enroll' button for the course.<br>
+   After that, log in as admin using this link http://localhost:8888/admin/adminHomePage (make sure to check the 'Sign in as Administrator' check box) and search for the student you added in as instructor by navigating via 'Search' tab in the main menu. From the search results, click anywhere (except student's name) on the row of the student you added. Copy the joining link shown below the row.<br>
    Then, log out and use that join link to log in as a student. You have the required access now.<br>
    (Make sure you use the `http://localhost:8888/` as the host instead of the one given in the join link)<br>   
    Alternative : Run the test cases, they create several student accounts in the datastore. Use one of them to log in.<br>
