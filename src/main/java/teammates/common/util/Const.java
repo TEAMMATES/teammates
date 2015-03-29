@@ -264,7 +264,7 @@ public class Const {
         public static final String COMMENT_ADD = "Add comment";
         public static final String COMMENT_EDIT = "Edit this comment";
         public static final String COMMENT_DELETE = "Delete this comment";
-        
+        public static final String SEARCH_STUDENT1 = "Type here to Search Student";
         public static final String SEARCH_STUDENT = "Search for student's name";
     }
     
