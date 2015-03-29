@@ -423,8 +423,8 @@ function escapeRegExp(string) {
 /**
  * Replaces all occurences of regex by replace in str
  */
-function replaceAll(find, replace, string) {
-	return string.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+function replaceAll(regex, replace, str) {
+	return str.replace(new RegExp(escapeRegExp(regex), 'g'), replace);
 }
 
 /**
