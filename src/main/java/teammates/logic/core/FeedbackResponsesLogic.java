@@ -20,7 +20,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.FeedbackResponse;
@@ -718,7 +718,7 @@ public class FeedbackResponsesLogic {
 
         if (question.recipientType == FeedbackParticipantType.TEAMS &&
                 question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
-            String reverseSanitizedTeamName = Sanitizer.reverseSanitize(student.team);
+            String reverseSanitizedTeamName = StringHelper.recoverFromSanitizedText(student.team);
             addNewResponses(
                     viewableResponses,
                     getFeedbackResponsesForReceiverForQuestion(
