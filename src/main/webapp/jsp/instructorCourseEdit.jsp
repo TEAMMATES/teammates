@@ -975,7 +975,7 @@
                     <form class="form" id="copyModalForm" role="form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_COPY%>">
 
                     <!-- Existing Instructors -->
-                    <label>Copy Instructors' information from</label>
+                    <label>Copy Instructors' information from:</label>
                     <table class="table-responsive table table-bordered table-hover margin-0" id="copyTableModal">
                         <thead class="fill-primary">
                             <th style="width:20px;">&nbsp;</th>
@@ -1005,7 +1005,15 @@
                                 <td><%=currIns.courseId%></td>
                                 <td><%=currIns.name%></td>
                                 <td><%=currIns.email%></td>
-                                <td>Unavailable</td>
+                                <td id="access_control">
+                                    <select name="new_access_level" class="form-control" id="access_control_select" disabled="disabled">
+                                        <option value="Co-owner">Co-owner</option>
+                                        <option value="Manager">Manager</option>
+                                        <option value="Observer">Observer</option>
+                                        <option value="Tutor">Tutor</option>
+                                        <option value="Custom">Custom</option>
+                                    </select>
+                                </td>
                             </tr>
                         <%}%>
                     </table>
