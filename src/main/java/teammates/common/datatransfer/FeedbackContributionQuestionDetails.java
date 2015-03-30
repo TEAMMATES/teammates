@@ -10,6 +10,7 @@ import java.util.TreeMap;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
+import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.logic.core.TeamEvalResult;
@@ -30,7 +31,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         this.isNotSureAllowed = true;
     }
     
-    private void setNotSureAllowed(boolean isNotSureAllowed) {
+    private void setContributionQuestionDetails(boolean isNotSureAllowed) {
         this.isNotSureAllowed = isNotSureAllowed;
     }
        
@@ -38,7 +39,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     public boolean extractQuestionDetails(
             Map<String, String[]> requestParameters,
             FeedbackQuestionType questionType) {
-        // Nothing to do here.
+        String isNotSureAllowedString = HttpRequestHelper.getValueFromParamMap(
+                requestParameters,
+                Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED);
+        Boolean isNotSureAllowed = (isNotSureAllowedString == null) ? false
+                : (isNotSureAllowedString.equals("on") ? true : false);
+        this.setContributionQuestionDetails(isNotSureAllowed);
         return true;
     }
 
@@ -98,7 +104,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_EDIT_FORM,
                 "${questionNumber}", Integer.toString(questionNumber),
-                "${Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED}", 
+                "${allowingNotSureOrNot}", (isNotSureAllowed) ? "checked=\"checked\"" : "",
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED}",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED);
     }
 
