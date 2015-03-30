@@ -49,14 +49,14 @@ function disableFormEditInstructor(number) {
 function showNewInstructorForm() {
     $("#panelAddInstructor").show();
     $("#btnShowNewInstructorForm").hide();
-    $("#btnShowBulkAddForm").hide();
+    $("#btnShowCopyInstructorsForm").hide();
     $('html, body').animate({scrollTop: $('#frameBodyWrapper')[0].scrollHeight}, 1000);
 }
 
 function hideNewInstructorForm() {
 	$("#panelAddInstructor").hide();
     $("#btnShowNewInstructorForm").show();
-    $("#btnShowBulkAddForm").show();
+    $("#btnShowCopyInstructorsForm").show();
 }
 
 /**
