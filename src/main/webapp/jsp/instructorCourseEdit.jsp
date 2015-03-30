@@ -968,7 +968,7 @@
                 </div>
                 <div class="modal-body" id="copyInstructorsBody">
                     
-                    <form class="form" id="copyModalForm" role="form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_COPY%>">
+                    <form class="form" id="copyModalForm" role="form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_COPY%>">
 
                     <!-- Existing Instructors -->
                     <label>Copy Instructors' information from</label>
@@ -983,7 +983,7 @@
                         <% for (InstructorAttributes ins : data.existingCoursesInstructorsList) {%>
                            
                             <tr style="cursor:pointer;">
-                                <td><input type="radio"></td>
+                                <td><input type="checkbox"></td>
                                 <td><%=ins.courseId%></td>
                                 <td><%=ins.name%></td>
                                 <td>Unavailable</td>
@@ -1001,7 +1001,7 @@
                 </div>
                 <div class="modal-footer margin-0">
                     <button type="button" class="btn btn-primary" id="button_copy_submit" disabled="disabled">Copy</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-default" id="button_clear_selection">Clear Selection</button>
                 </div>
             </div>
         </div>

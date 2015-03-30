@@ -593,6 +593,7 @@ public class Const {
         public static final String INSTRUCTOR_COURSE_DELETE = "/page/instructorCourseDelete";
         public static final String INSTRUCTOR_COURSE_ARCHIVE = "/page/instructorCourseArchive";
         public static final String INSTRUCTOR_COURSE_DETAILS_PAGE = "/page/instructorCourseDetailsPage";
+        public static final String INSTRUCTOR_COURSE_EDIT_COPY = "/page/instructorCourseEditCopy";
         public static final String INSTRUCTOR_COURSE_EDIT_PAGE = "/page/instructorCourseEditPage";
         public static final String INSTRUCTOR_COURSE_EDIT_SAVE = "/page/instructorCourseEditSave";
         public static final String INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE = "/page/instructorCourseStudentDetailsPage";
