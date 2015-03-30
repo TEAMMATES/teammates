@@ -776,7 +776,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private String getContributionOptionsHtml(int points){
         String result = "";
         if(points==Const.POINTS_NOT_SUBMITTED || points==Const.INT_UNINITIALIZED ){
-            points=Const.POINTS_NOT_SURE;
+            points=Const.POINTS_EQUAL_SHARE;
         }
         for(int i=200; i>=0; i-=10){
             result += "<option "+
@@ -786,11 +786,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                         ">" + convertToEqualShareFormat(i) +
                         "</option>\r\n";
         }
-        result+="<option " +
-                "class=\"" + getContributionOptionsColor(Const.POINTS_NOT_SURE) + "\" " +
-                "value=\"" + Const.POINTS_NOT_SURE + "\"" +
-                (points==Const.POINTS_NOT_SURE ? " selected=\"selected\"" : "") + ">" +
-                "Not Sure</option>";
+        if (isNotSureAllowed) {
+            result += "<option class=\""
+                    + getContributionOptionsColor(Const.POINTS_NOT_SURE)
+                    + "\" value=\"" + Const.POINTS_NOT_SURE + "\""
+                    + (points == Const.POINTS_NOT_SURE ? " selected=\"selected\"" : "") + ">"
+                    + "Not Sure</option>";
+        }
         return result;
     }
     
