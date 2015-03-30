@@ -30,9 +30,11 @@ public class CompileLogs {
         long queryRange = 1000 * 60 * 6;
         long startTime = endTime - queryRange;
 
-        LogQuery q = LogQuery.Builder.withDefaults().includeAppLogs(true)
-                     .startTimeMillis(startTime).endTimeMillis(endTime)
-                     .minLogLevel(LogLevel.ERROR);
+        LogQuery q = LogQuery.Builder.withDefaults()
+                                     .includeAppLogs(true)
+                                     .startTimeMillis(startTime)
+                                     .endTimeMillis(endTime)
+                                     .minLogLevel(LogLevel.ERROR);
         
         Iterator<RequestLogs> logIterator = logService.fetch(q).iterator();
         String message = "";
