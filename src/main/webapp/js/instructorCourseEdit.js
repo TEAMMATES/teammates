@@ -332,6 +332,7 @@ function bindClearSelectionButton() {
 		$('.row-selected').each(function() {
 			$(this).removeClass('row-selected');
 			$(this).children('td:first').html('<input type="checkbox">');
+			$(this).find('select').prop('disabled', true);
 		});
 	});
 }
@@ -340,16 +341,18 @@ var numRowsSelected = 0;
 
 function bindCopyEvents() {
 
-    $('#copyTableModal >tbody>tr').on('click', function(e){
+    $('#copyTableModal >tbody>tr>td').not("#access_control").on('click', function(e){
         e.preventDefault();
         
-        if($(this).hasClass('row-selected')){
-            $(this).removeClass('row-selected');
-            $(this).children('td:first').html('<input type="checkbox">');
+        if($(this).parent().hasClass('row-selected')){
+            $(this).parent().removeClass('row-selected');
+            $(this).parent().children('td:first').html('<input type="checkbox">');
+            $(this).siblings().children('#access_control_select').prop('disabled', true);
             numRowsSelected--;
         } else {
-            $(this).addClass('row-selected');
-            $(this).children('td:first').html('<input type="checkbox" checked="checked">');
+            $(this).parent().addClass('row-selected');
+            $(this).parent().children('td:first').html('<input type="checkbox" checked="checked">');
+            $(this).siblings().children('#access_control_select').prop('disabled', false);
             numRowsSelected++;
         }
 
