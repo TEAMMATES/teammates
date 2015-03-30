@@ -617,6 +617,11 @@
                 <%if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {%>
                       disabled="disabled"
                 <%}%>>
+            <a id="btnShowCopyInstructorsForm" class="btn btn-primary"
+                <%if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {%>
+                      disabled="disabled"
+                <%}%>
+            >Copy Instructors</a>
         </div>
         
         <div class="panel panel-primary" id="panelAddInstructor" style="display: none;">
@@ -953,6 +958,55 @@
         <br><br>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="copyInstructorsModal" tabindex="-1" role="dialog" aria-labelledby="copyInstructorsModalTitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="copyInstructorsModalTitle">Copy instructors over from existing courses</h4>
+                </div>
+                <div class="modal-body" id="copyInstructorsBody">
+                    
+                    <form class="form" id="copyModalForm" role="form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_COPY%>">
+
+                    <!-- Existing Instructors -->
+                    <label>Copy Instructors' information from</label>
+                    <table class="table-responsive table table-bordered table-hover margin-0" id="copyTableModal">
+                        <thead class="fill-primary">
+                            <th style="width:20px;">&nbsp;</th>
+                            <th> Course ID </th>
+                            <th> Instructor Name </th>
+                            <th> New Access Level </th>
+                        </thead>
+
+                        <% for (InstructorAttributes ins : data.existingCoursesInstructorsList) {%>
+                           
+                            <tr style="cursor:pointer;">
+                                <td><input type="radio"></td>
+                                <td><%=ins.courseId%></td>
+                                <td><%=ins.name%></td>
+                                <td>Unavailable</td>
+                            </tr>
+                        <%}%>
+                    </table>
+                            <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
+                                    value="" id="modalSessionName">
+                            <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>"
+                                    value="" id="modalCourseId">
+                            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>"
+                                    value="<%=data.account.googleId%>">
+                    </form>
+                    
+                </div>
+                <div class="modal-footer margin-0">
+                    <button type="button" class="btn btn-primary" id="button_copy_submit" disabled="disabled">Copy</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
 </html>

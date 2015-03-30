@@ -20,6 +20,7 @@ public class InstructorCourseEditPageData extends PageData {
     
     public CourseAttributes course;
     public List<InstructorAttributes> instructorList;
+    public List<InstructorAttributes> existingCoursesInstructorsList;
     public InstructorAttributes currentInstructor;
     public List<String> sectionNames;
     public List<String> evalNames;

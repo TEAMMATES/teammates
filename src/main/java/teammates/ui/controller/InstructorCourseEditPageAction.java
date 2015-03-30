@@ -27,7 +27,7 @@ public class InstructorCourseEditPageAction extends Action {
         Assumption.assertNotNull(courseId);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         String index = getRequestParamValue(Const.ParamsNames.COURSE_EDIT_MAIN_INDEX);
-
+        
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         CourseAttributes courseToEdit = logic.getCourse(courseId);
          
@@ -44,6 +44,18 @@ public class InstructorCourseEditPageAction extends Action {
             data.instructorList.add(logic.getInstructorForEmail(courseId, instructorEmail));
             data.index = Integer.parseInt(index);        
             data.isAccessControlDisplayed = true;
+        }
+        
+        /* Setup data for copy instructors modal*/
+        List<CourseAttributes> courseList = logic.getCoursesForInstructor(data.account.googleId);
+        data.existingCoursesInstructorsList = new ArrayList<InstructorAttributes>();
+        for (CourseAttributes course: courseList) {
+            List<InstructorAttributes> instructorListFromCourse = logic.getInstructorsForCourse(course.id);
+            for(InstructorAttributes instructorFromCourse: instructorListFromCourse) {
+                if(!data.existingCoursesInstructorsList.contains(instructorFromCourse)) {
+                    data.existingCoursesInstructorsList.add(instructorFromCourse);
+                }
+            }
         }
         
         data.currentInstructor = instructor;

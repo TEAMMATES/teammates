@@ -319,6 +319,13 @@ function bindChangingRole(index){
 	});
 }
 
+function bindCopyInstructorsButton() {
+	$('#btnShowCopyInstructorsForm').on('click', function(e){
+        e.preventDefault();
+        $('#copyInstructorsModal').modal('show');
+	});
+}
+
 $(function(){
 	var numOfInstr = $("form[id^='formEditInstructor']").length;
 	for (var i=0; i<numOfInstr;i++) {
@@ -327,4 +334,8 @@ $(function(){
 		INSTRUCTOR_COURSE_EDIT_INSTRUCTOR_ACCESS_LEVEL_WHEN_LOADING_PAGE.push(instrRole);
 		checkTheRoleThatApplies(i+1);
 	}
+});
+
+$(document).ready(function(){
+	bindCopyInstructorsButton();
 });
