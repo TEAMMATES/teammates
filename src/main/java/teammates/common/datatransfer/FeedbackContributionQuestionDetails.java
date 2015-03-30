@@ -18,12 +18,20 @@ import teammates.ui.controller.PageData;
 
 public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
     
+    public boolean isNotSureAllowed;
+    
     public FeedbackContributionQuestionDetails() {
         super(FeedbackQuestionType.CONTRIB);
+        this.isNotSureAllowed = true;
     }
 
     public FeedbackContributionQuestionDetails(String questionText) {
         super(FeedbackQuestionType.CONTRIB, questionText);
+        this.isNotSureAllowed = true;
+    }
+    
+    private void setNotSureAllowed(boolean isNotSureAllowed) {
+        this.isNotSureAllowed = isNotSureAllowed;
     }
        
     @Override
@@ -87,12 +95,20 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
-        return "";
+        return FeedbackQuestionFormTemplates.populateTemplate(
+                FeedbackQuestionFormTemplates.CONTRIB_EDIT_FORM,
+                "${questionNumber}", Integer.toString(questionNumber),
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED}", 
+                Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED);
     }
 
     @Override
     public String getNewQuestionSpecificEditFormHtml() {
-        return "";
+        this.isNotSureAllowed = true;
+        
+        return "<div id=\"contribForm\">" + 
+                    this.getQuestionSpecificEditFormHtml(-1) +
+               "</div>";
     }
 
     @Override
