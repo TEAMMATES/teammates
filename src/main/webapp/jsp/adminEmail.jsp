@@ -231,8 +231,9 @@
                                                                   <span class="glyphicon glyphicon-trash">
                                                                   </span>
                                                         </a>
+                                                        <input type="checkbox" id="c1" name="cc" />
                                                     </td>
-                                                    <td><input value="<%=ae.getAddressReceiver().size() > 0 ? ae.getAddressReceiver().get(0) : "" %>" readonly="readonly" class="form-control"></td>
+                                                    <td><input value="<%=ae.getAddressReceiver().size() > 0 ? ae.getAddressReceiver().get(0) : "" %>" title="<%=ae.getAddressReceiver().size() > 0 ? ae.getAddressReceiver().get(0) : "" %>" readonly="readonly" class="form-control" id="tooltipdemo"></td>
                                                     <td><input value="<%=ae.getGroupReceiver().size() > 0 ? ae.getGroupReceiver().get(0) : "" %>" readonly="readonly" class="form-control"></td>
                                                     <td><input value="<%=ae.getSubject()%>" readonly="readonly" class="form-control"></td>
                                                     <td><%=ae.getSendDateForDisplay()%></td>

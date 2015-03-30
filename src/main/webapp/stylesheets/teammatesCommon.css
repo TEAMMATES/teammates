@@ -576,3 +576,21 @@ Apply to thead to make headers not bold.
 .back-to-top-right:hover {
     background-color: rgba(135, 135, 135, 0.50);
 }
+
+
+input[type="checkbox"] {
+    display:true;
+    display:inline-block;
+    width:16px;
+    height:16px;
+    margin:-2px 2px 0 0;
+    vertical-align:middle;
+    background:url(check_radio_sheet.png) left top no-repeat;
+    cursor:pointer;
+}
+
+#tooltipdemo {
+    
+    display: inline;
+    position: relative;
+} 
