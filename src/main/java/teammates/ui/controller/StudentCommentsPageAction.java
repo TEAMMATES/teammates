@@ -1,7 +1,9 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +15,7 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.SessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -137,10 +140,15 @@ public class StudentCommentsPageAction extends Action {
         }
     }
     
+    /*
+     * Returns a sorted map(LinkedHashMap) of FeedbackSessionResultsBundle,
+     * where the sessions are sorted in descending order of their endTime
+     */
     private Map<String, FeedbackSessionResultsBundle> getFeedbackResultBundles(CourseRoster roster)
             throws EntityDoesNotExistException {
-        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = new HashMap<String, FeedbackSessionResultsBundle>();
+        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = new LinkedHashMap<String, FeedbackSessionResultsBundle>();
         List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsForCourse(courseId);
+        Collections.sort(fsList, SessionAttributes.DESCENDING_ORDER);
         for(FeedbackSessionAttributes fs : fsList){
             if(!fs.isPublished()) continue;
             
