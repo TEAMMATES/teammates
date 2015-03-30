@@ -139,10 +139,10 @@
                                                         alice@gmail.com AND
                                                         subject:
                                                         welcome,TEAMMATES
-                                                        AND from:
+                                                        AND after:
                                                         15/03/15</li>
-                                                    <li>E.g. from:
-                                                        13/3/15 AND to:
+                                                    <li>E.g. after:
+                                                        13/3/15 AND before:
                                                         17/3/15 AND
                                                         Receiver:
                                                         teammates@test.com
@@ -159,14 +159,13 @@
                                                 class="form-control-static">
 
                                                 <strong>
-                                                    Possible Labels:</strong>&nbsp;from,
-                                                to, person, role,
-                                                request, response,
-                                                version,time,info<br>
+                                                    Possible Labels:</strong>&nbsp;after,
+                                                    before, receiver, subject,
+                                                    info, version<br>
                                                 <ul>
 
-                                                    <li>E.g. from: 13/03/15</li>
-                                                    <li>E.g. to: 13/03/15</li>
+                                                    <li>E.g. after: 13/03/15</li>
+                                                    <li>E.g. before: 13/03/15</li>
                                                     <li>E.g. receiver: alice@gmail.com</li>
                                                     <li>E.g. subject: Welcome,teammates</li>
                                                     <li>E.g. info: you can click the link below </li>                                      
