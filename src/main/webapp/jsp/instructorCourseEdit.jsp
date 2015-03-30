@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
+<%@ page import="java.util.Map"%>
+<%@ page import="java.util.TreeMap"%>
+
 <%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.util.FieldValidator"%>
@@ -19,6 +22,7 @@
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css"/>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css"/>
     <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css"/>
+    <link rel="stylesheet" href="/stylesheets/instructorCourseEdit.css" type="text/css" />
    
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
@@ -960,7 +964,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="copyInstructorsModal" tabindex="-1" role="dialog" aria-labelledby="copyInstructorsModalTitle" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog" id="copyInstructorsModalDialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -975,17 +979,32 @@
                     <table class="table-responsive table table-bordered table-hover margin-0" id="copyTableModal">
                         <thead class="fill-primary">
                             <th style="width:20px;">&nbsp;</th>
-                            <th> Course ID </th>
+                            <th> Courses </th>
                             <th> Instructor Name </th>
+                            <th> Instructor Email </th>
                             <th> New Access Level </th>
                         </thead>
 
-                        <% for (InstructorAttributes ins : data.existingCoursesInstructorsList) {%>
+                        <%  TreeMap<String, InstructorAttributes> existingCoursesInstructors = new TreeMap<String, InstructorAttributes>();
+                            InstructorAttributes insertedInstructor;
+                            for (InstructorAttributes ins : data.existingCoursesInstructorsList) {
+                                if (!existingCoursesInstructors.containsKey(ins.email)) {
+                                    existingCoursesInstructors.put(ins.email, ins);
+                                } else {
+                                    insertedInstructor = existingCoursesInstructors.get(ins.email);
+                                    insertedInstructor.courseId += ", " + ins.courseId;
+                                }
+                            }
+                            InstructorAttributes currIns;
+                            for(Map.Entry<String, InstructorAttributes> emailToIns : existingCoursesInstructors.entrySet()) {
+                                 currIns = emailToIns.getValue(); 
+                        %>
                            
                             <tr style="cursor:pointer;">
                                 <td><input type="checkbox"></td>
-                                <td><%=ins.courseId%></td>
-                                <td><%=ins.name%></td>
+                                <td><%=currIns.courseId%></td>
+                                <td><%=currIns.name%></td>
+                                <td><%=currIns.email%></td>
                                 <td>Unavailable</td>
                             </tr>
                         <%}%>
