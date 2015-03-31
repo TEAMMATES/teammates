@@ -55,7 +55,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
     @Override
     public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
-        return false;
+        FeedbackContributionQuestionDetails newContribDetails = (FeedbackContributionQuestionDetails) newDetails;
+        return newContribDetails.isNotSureAllowed != this.isNotSureAllowed;
     }
     
     @Override
