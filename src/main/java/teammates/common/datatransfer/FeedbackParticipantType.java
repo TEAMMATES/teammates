@@ -47,7 +47,7 @@ public enum FeedbackParticipantType {
     }
     
     public boolean isTeam() {
-        return this==TEAMS || this==OWN_TEAM;
+        return this == TEAMS || this == OWN_TEAM;
     }
     
     /**
