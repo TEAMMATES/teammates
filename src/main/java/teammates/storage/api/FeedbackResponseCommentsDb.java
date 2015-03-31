@@ -46,7 +46,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         for(EntityAttributes entity : commentsToUpdate){
             FeedbackResponseCommentAttributes comment = (FeedbackResponseCommentAttributes) entity;
             try {
-                updateFeedbackResponseComment(comment);
+                updateFeedbackResponseComment(comment, true);
             } catch (EntityDoesNotExistException e) {
              // This situation is not tested as replicating such a situation is 
              // difficult during testing
@@ -291,7 +291,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
      * @throws InvalidParametersException 
      * @throws EntityDoesNotExistException 
      */
-    public FeedbackResponseCommentAttributes updateFeedbackResponseComment(FeedbackResponseCommentAttributes newAttributes) 
+    public FeedbackResponseCommentAttributes updateFeedbackResponseComment(FeedbackResponseCommentAttributes newAttributes, Boolean isNewComment) 
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
         
@@ -306,7 +306,12 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
         
-        frc.setGiverEmail(newAttributes.giverEmail);
+        if (isNewComment) {
+            frc.setGiverEmail(newAttributes.giverEmail);     
+        } else {
+            frc.setLastEditorEmail(newAttributes.giverEmail);
+            frc.setLastEditedAt(newAttributes.createdAt);
+        }
         frc.setCommentText(newAttributes.commentText);
         frc.setSendingState(newAttributes.sendingState);
         frc.setGiverSection(newAttributes.giverSection);

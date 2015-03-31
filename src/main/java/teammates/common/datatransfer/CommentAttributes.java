@@ -37,6 +37,8 @@ public class CommentAttributes extends EntityAttributes
     public List<CommentRecipientType> showRecipientNameTo;
     public Text commentText;
     public Date createdAt;
+    public String lastEditorEmail;
+    public Date lastEditedAt;
 
     public CommentAttributes() {
 
@@ -50,6 +52,8 @@ public class CommentAttributes extends EntityAttributes
         this.recipients = recipients;
         this.commentText = commentText;
         this.createdAt = createdAt;
+        this.lastEditorEmail = null;
+        this.lastEditedAt = null;
     }
 
     public CommentAttributes(Comment comment) {
@@ -65,6 +69,8 @@ public class CommentAttributes extends EntityAttributes
         this.recipients = comment.getRecipients();
         this.createdAt = comment.getCreatedAt();
         this.commentText = comment.getCommentText();
+        this.lastEditorEmail = comment.getLastEditorEmail();
+        this.lastEditedAt = comment.getLastEditedAt();
     }
 
     public Long getCommentId() {

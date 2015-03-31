@@ -291,6 +291,8 @@ public class CommentsDb extends EntitiesDb{
             comment.setRecipients(newAttributes.recipients);
         }
         comment.setSendingState(newAttributes.sendingState);
+        comment.setLastEditorEmail(newAttributes.giverEmail);
+        comment.setLastEditedAt(newAttributes.createdAt);
         
         getPM().close();
         

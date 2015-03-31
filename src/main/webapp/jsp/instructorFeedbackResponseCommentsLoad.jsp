@@ -127,6 +127,21 @@
                                 id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                 <span class="text-muted">From: <b><%=frCommentGiver%></b>
                                     [<%=frc.createdAt%>]
+                                <%
+                                    if (frc.lastEditorEmail != null) {
+                                %>
+                                    (last edited 
+                                <%
+                                    if (!frCommentGiver.equals("Anonymous")) {
+                                %>
+                                    by <%=frc.lastEditorEmail%>
+                                <%
+                                    }
+                                %>
+                                    at <%=frc.lastEditedAt%>)
+                                <%
+                                    }
+                                %>
                                 </span>
                                 <%
                                     if (isPublicResponseComment && bundle.feedbackSession.isPublished()) {

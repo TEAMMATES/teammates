@@ -79,6 +79,14 @@ public class Comment {
     /** The comment from giver for receiver */
     @Persistent
     private Text commentText;
+    
+    /** The e-mail of the account that last edited the comment */
+    @Persistent
+    private String lastEditorEmail;
+    
+    /** The time in which the comment is last edited */
+    @Persistent
+    private Date lastEditedAt;
 
     public Comment(String courseId, String giverEmail, CommentRecipientType recipientType, Set<String> recipients, CommentStatus status,
             CommentSendingState sendingState,
@@ -206,4 +214,21 @@ public class Comment {
     public void setCommentText(Text commentText) {
         this.commentText = commentText;
     }
+
+    public void setLastEditorEmail(String lastEditorEmail) {
+        this.lastEditorEmail = lastEditorEmail;
+    }
+    
+    public String getLastEditorEmail() {
+        return this.lastEditorEmail;
+    }
+    
+    public Date getLastEditedAt() {
+        return this.lastEditedAt;
+    }
+
+    public void setLastEditedAt(Date lastEditedAt) {
+        this.lastEditedAt = lastEditedAt;
+    }
+
 }

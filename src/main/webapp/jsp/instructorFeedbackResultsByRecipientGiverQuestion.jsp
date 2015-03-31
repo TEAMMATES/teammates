@@ -454,7 +454,8 @@
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
-                                            <% List<FeedbackResponseCommentAttributes> responseComments = data.bundle.responseComments.get(singleResponse.getId()); %>
+                                            <% List<FeedbackResponseCommentAttributes> responseComments = data.bundle.responseComments.get(singleResponse.getId());
+                                             %>
                                             <ul class="list-group" id="responseCommentTable-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>"
                                              style="<%=responseComments != null && responseComments.size() > 0? "margin-top:15px;": "display:none"%>">
                                             <%
@@ -464,7 +465,23 @@
                                             %>
                                         <li class="list-group-item list-group-item-warning" id="responseCommentRow-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
                                             <div id="commentBar-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
-                                            <span class="text-muted">From: <%=comment.giverEmail%> [<%=comment.createdAt%>]</span>
+                                            <span class="text-muted">From: <%=comment.giverEmail%> [<%=comment.createdAt%>]
+                                                <%
+                                                    if (comment.lastEditorEmail != null) {
+                                                %>
+                                                    (last edited 
+                                                <%
+                                                    if (!comment.giverEmail.equals("Anonymous")) {
+                                                %>
+                                                    by <%=comment.lastEditorEmail%>
+                                                <%
+                                                    }
+                                                %>
+                                                    at <%=comment.lastEditedAt%>)
+                                                <%
+                                                    }
+                                                %>
+                                            </span>
                                             <!-- frComment delete Form -->
                                             <form class="responseCommentDeleteForm pull-right">
                                                 <a href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE%>" type="button" id="commentdelete-<%=responseCommentIndex %>" class="btn btn-default btn-xs icon-button" 

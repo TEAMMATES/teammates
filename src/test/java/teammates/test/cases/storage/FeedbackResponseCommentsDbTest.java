@@ -151,7 +151,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         ______TS("null parameter");
         
         try {
-            frcDb.updateFeedbackResponseComment(null);
+            frcDb.updateFeedbackResponseComment(null, false);
             signalFailureToDetectException();
         } catch (AssertionError ae) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
@@ -164,7 +164,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
                 frcaExpected.giverEmail).getId());
         frcaExpected.commentText = new Text("This is new Text");
         
-        frcDb.updateFeedbackResponseComment(frcaExpected);
+        frcDb.updateFeedbackResponseComment(frcaExpected, false);
         
         FeedbackResponseCommentAttributes frcaActual = frcDb.getFeedbackResponseComment(
                 frcaExpected.courseId, frcaExpected.createdAt,
@@ -180,7 +180,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         frcaExpected.setId(-1L);
         
         try {
-            frcDb.updateFeedbackResponseComment(frcaExpected);
+            frcDb.updateFeedbackResponseComment(frcaExpected, false);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
             assertEquals(EntitiesDb.ERROR_UPDATE_NON_EXISTENT + frcaExpected.toString(), 
@@ -197,7 +197,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         frcaExpected.giverEmail = "test-no-at-funny.com";
         
         try {
-            frcDb.updateFeedbackResponseComment(frcaExpected);
+            frcDb.updateFeedbackResponseComment(frcaExpected, false);
             signalFailureToDetectException();
         } catch (InvalidParametersException ipe) {
             assertEquals(StringHelper.toString(frcaExpected.getInvalidityInfo()), ipe.getMessage());

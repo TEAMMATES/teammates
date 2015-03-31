@@ -36,6 +36,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public boolean isVisibilityFollowingFeedbackQuestion = false;
     public Date createdAt;
     public Text commentText;
+    public String lastEditorEmail;
+    public Date lastEditedAt;
 
     public FeedbackResponseCommentAttributes(){
         this.feedbackResponseCommentId = null;
@@ -50,6 +52,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.receiverSection = "None";
         this.showCommentTo = new ArrayList<FeedbackParticipantType>();
         this.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        this.lastEditorEmail = null;
+        this.lastEditedAt = null;
     }
     
     public FeedbackResponseCommentAttributes(String courseId,
@@ -75,6 +79,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.receiverSection = receiverSection;
         this.showCommentTo = new ArrayList<FeedbackParticipantType>();
         this.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        this.lastEditorEmail = null;
+        this.lastEditedAt = null;
     }
     
     public FeedbackResponseCommentAttributes(FeedbackResponseComment comment) {
@@ -89,6 +95,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.commentText = comment.getCommentText();
         this.giverSection = comment.getGiverSection() != null ? comment.getGiverSection() : "None";
         this.receiverSection = comment.getReceiverSection() != null ? comment.getReceiverSection() : "None";
+        this.lastEditorEmail = comment.getLastEditorEmail();
+        this.lastEditedAt = comment.getLastEditedAt();
         if(comment.getIsVisibilityFollowingFeedbackQuestion() != null
                 && !comment.getIsVisibilityFollowingFeedbackQuestion()){
             this.showCommentTo = comment.getShowCommentTo();

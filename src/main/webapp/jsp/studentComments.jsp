@@ -127,7 +127,25 @@
                                                                                    }
                                         %>
                                         <span class="text-muted">From <b><%=giverDisplay%></b> on
-                                            <%=TimeHelper.formatDate(comment.createdAt)%></span>
+                                            <%=TimeHelper.formatDate(comment.createdAt)%>
+                                            <%
+                                                if (comment.lastEditedAt != null) {
+                                                InstructorAttributes lastEditor = data.roster.getInstructorForEmail(comment.lastEditorEmail);
+                                                String lastEditorDisplay = lastEditor.displayedName + " " + lastEditor.name;
+                                            %>
+                                                (last edited 
+                                            <%
+                                                if (!giverDisplay.equals("Anonymous")) {
+                                            %>
+                                                by <%=lastEditorDisplay%>
+                                            <%
+                                                }
+                                            %>
+                                                at <%=TimeHelper.formatDate(comment.lastEditedAt)%>)
+                                            <%
+                                                }
+                                            %>
+                                        </span>
                                     </div>
                                     <div id="plainCommentText<%=commentIdx%>"><%=comment.commentText.getValue()%></div>
                                 </li>
@@ -225,6 +243,23 @@
                                                         <span class="text-muted">From:
                                                             <b><%=frCommentGiver%></b>
                                                             on <%=TimeHelper.formatDate(frc.createdAt)%>
+                                                            <%
+                                                                if (frc.lastEditorEmail != null) {
+                                                                InstructorAttributes lastEditor = data.roster.getInstructorForEmail(frc.lastEditorEmail);
+                                                                String lastEditorDisplay = lastEditor.displayedName + " " + lastEditor.name;
+                                                            %>
+                                                                (last edited 
+                                                            <%
+                                                                if (!frCommentGiver.equals("Anonymous")) {
+                                                            %>
+                                                                by <%=lastEditorDisplay%>
+                                                            <%
+                                                                }
+                                                            %>
+                                                                at <%=TimeHelper.formatDate(frc.lastEditedAt)%>)
+                                                            <%
+                                                                }
+                                                            %>
                                                         </span>
                                                     </div> <!-- frComment Content -->
                                                     <div

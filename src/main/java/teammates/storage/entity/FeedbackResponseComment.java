@@ -77,6 +77,14 @@ public class FeedbackResponseComment {
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     private Text commentText;
     
+    /** The e-mail of the account that last edited the comment */
+    @Persistent
+    private String lastEditorEmail;
+    
+    /** The time in which the comment is last edited */
+    @Persistent
+    private Date lastEditedAt;
+    
     public FeedbackResponseComment(String courseId, String feedbackSessionName,
             String feedbackQuestionId, String giverEmail, String feedbackResponseId, 
             CommentSendingState sendingState, Date createdAt, Text commentText, 
@@ -96,6 +104,8 @@ public class FeedbackResponseComment {
         this.showCommentTo = showCommentTo;
         this.showGiverNameTo = showGiverNameTo;
         this.isVisibilityFollowingFeedbackQuestion = Boolean.valueOf(false);
+        this.lastEditorEmail = null;
+        this.lastEditedAt = null;
     }
 
     /** Use only if the comment already persisted 
@@ -219,4 +229,21 @@ public class FeedbackResponseComment {
     public void setReceiverSection(String receiverSection) {
         this.receiverSection = receiverSection;
     }
+
+    public void setLastEditorEmail(String lastEditorEmail) {
+        this.lastEditorEmail = lastEditorEmail;
+    }
+    
+    public String getLastEditorEmail() {
+        return this.lastEditorEmail;
+    }
+    
+    public Date getLastEditedAt() {
+        return this.lastEditedAt;
+    }
+
+    public void setLastEditedAt(Date lastEditedAt) {
+        this.lastEditedAt = lastEditedAt;
+    }
+
 }
