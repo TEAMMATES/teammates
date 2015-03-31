@@ -823,7 +823,7 @@ public class PageData {
     }
     
     /**
-     * Returns the link of publish action for a session feedback
+     * Returns the links of actions available for a specific session
      * @param session
      *         The Evaluation details
      * @param position
