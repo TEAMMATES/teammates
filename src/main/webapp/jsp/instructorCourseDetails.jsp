@@ -354,7 +354,7 @@
                                 }
                             %>
                             <a class="btn btn-default btn-xs" href="<%=data.getCourseStudentDeleteLink(student)%>"
-                                onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(student.name)%>')"
+                                onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(student.course)%>','<%=sanitizeForJs(student.name)%>')"
                                 data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_DELETE%>"
                                 <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) { %>
                                 disabled="disabled"

@@ -165,15 +165,6 @@ h2 {
     font-weight: bold;
 }
 
-#navbar li a {
-   color: white;
-   text-decoration: none;
-}
-
-#navbar li a:hover {
-   text-decoration: underline;
-}
-
 #loginHolder input{
     color: #00FF00;
        font-weight: bold;

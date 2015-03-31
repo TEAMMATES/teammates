@@ -54,7 +54,7 @@ public class SendEmailWorkerServlet extends WorkerServlet {
             message.setReplyTo(new Address[] { new InternetAddress(emailReply) });
             
             Emails emailManager = new Emails();
-            emailManager.sendEmail(message);
+            emailManager.sendAndLogEmail(message);
         } catch (MessagingException e) {
             log.severe("Error while sending emails via servlet: " + e.getMessage());
             resp.setStatus(responseCodeForRetry);
