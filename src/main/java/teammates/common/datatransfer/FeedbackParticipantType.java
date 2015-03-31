@@ -46,6 +46,10 @@ public enum FeedbackParticipantType {
         return validViewer;
     }
     
+    public boolean isTeam() {
+        return this == TEAMS || this == OWN_TEAM;
+    }
+    
     /**
      * Formats the participant type as a giver for display to user.
      * @return A user-friendly {@code String} representing this participant as a feedback giver.
