@@ -326,42 +326,283 @@ function bindCopyInstructorsButton() {
 	});
 }
 
-function bindClearSelectionButton() {
-	$('#button_clear_selection').on('click', function(e) {
-		e.preventDefault();
-		$('.row-selected').each(function() {
-			$(this).removeClass('row-selected');
-			$(this).children('td:first').html('<input type="checkbox">');
-			$(this).find('select').prop('disabled', true);
-		});
+var numRowsSelected = 0;
+var copiedInstructorsEmails = [];
+var copiedInstructorsNames = [];
+var copiedInstructorsDisplayedNames = [];
+var copiedInstructorsRoles = [];
+var copiedInstructorsPrivileges = [[]];
+
+function updatePrivilegesOfRoleForCopyModal(instructorIndex, role) {
+	if (role === "Co-owner") {
+		updatePrivilegesForInstructorAsCoowner(instructorIndex);
+	} else if (role === "Manager") {
+		updatePrivilegesForInstructorAsManager(instructorIndex);
+	} else if (role === "Observer") {
+		updatePrivilegesForInstructorAsObserver(instructorIndex);
+	} else if (role === "Tutor") {
+		updatePrivilegesForInstructorAsTutor(instructorIndex);
+	} else if (role === "Custom") {
+		updatePrivilegesForInstructorAsCustom(instructorIndex);
+	} else {
+		console.log(role + " is not properly defined");
+	}
+}
+
+function markAllPrivilegesForInstructorAsBoolean(instructorIndex, bool) {
+	var i;
+	for(i = 0; i < 11; i++) {
+		copiedInstructorsPrivileges[instructorIndex][i] = bool;
+	}
+}
+
+function updatePrivilegesForInstructorAsCoowner(instructorIndex) {
+	markAllPrivilegesForInstructorAsBoolean(instructorIndex, true);
+}
+
+function updatePrivilegesForInstructorAsManager(instructorIndex) {
+	markAllPrivilegesForInstructorAsBoolean(instructorIndex, true);
+	
+	copiedInstructorsPrivileges[instructorIndex][0] = false;
+}
+
+function updatePrivilegesForInstructorAsObserver(instructorIndex) {
+	markAllPrivilegesForInstructorAsBoolean(instructorIndex, true);
+	
+	copiedInstructorsPrivileges[instructorIndex][4] = false;
+	copiedInstructorsPrivileges[instructorIndex][6] = false;
+	copiedInstructorsPrivileges[instructorIndex][9] = false;
+}
+
+function updatePrivilegesForInstructorAsTutor(instructorIndex) {
+	markAllPrivilegesForInstructorAsBoolean(instructorIndex, true);
+	
+	copiedInstructorsPrivileges[instructorIndex][4] = false;
+	copiedInstructorsPrivileges[instructorIndex][5] = false;
+	copiedInstructorsPrivileges[instructorIndex][8] = false;
+	copiedInstructorsPrivileges[instructorIndex][9] = false;
+}
+
+function updatePrivilegesForInstructorAsCustom(instructorIndex) {
+	markAllPrivilegesForInstructorAsBoolean(instructorIndex, false);
+}
+
+function updateCopyModalFormValues() {
+	var modalInstructorEmailsValue = "";
+	var modalInstructorNamesValue = "";
+	var modalInstructorDisplayedNamesValue = "";
+	var modalInstructorRolesValue ="";
+	
+	var areInstructorsAllowedToModifyCourse = "";
+    var areInstructorsAllowedToModifyInstructor = "";
+    var areInstructorsAllowedToModifySession = "";
+    var areInstructorsAllowedToModifyStudent = "";
+    
+    var areInstructorsAllowedToViewStudentInSections = "";
+    var areInstructorsAllowedToViewCommentInSections = "";
+    var areInstructorsAllowedToGiveCommentInSections = "";
+    var areInstructorsAllowedToModifyCommentInSections = "";
+    
+    var areInstructorsAllowedToViewSessionInSections = "";
+    var areInstructorsAllowedToSubmitSessionInSections = "";
+    var areInstructorsAllowedToModifySessionInSections = "";
+	
+	var i, j;
+	for(i = 0; i < copiedInstructorsEmails.length; i++) {
+		if(i === 0) {
+			modalInstructorEmailsValue += copiedInstructorsEmails[i];
+			modalInstructorNamesValue += copiedInstructorsNames[i];
+			modalInstructorDisplayedNamesValue += copiedInstructorsDisplayedNames[i];
+			modalInstructorRolesValue += copiedInstructorsRoles[i];
+			
+			areInstructorsAllowedToModifyCourse += copiedInstructorsPrivileges[i][0];
+		    areInstructorsAllowedToModifyInstructor += copiedInstructorsPrivileges[i][1];
+		    areInstructorsAllowedToModifySession += copiedInstructorsPrivileges[i][2];
+		    areInstructorsAllowedToModifyStudent += copiedInstructorsPrivileges[i][3];
+		    
+		    areInstructorsAllowedToViewStudentInSections += copiedInstructorsPrivileges[i][4];
+		    areInstructorsAllowedToViewCommentInSections += copiedInstructorsPrivileges[i][5];
+		    areInstructorsAllowedToGiveCommentInSections += copiedInstructorsPrivileges[i][6];
+		    areInstructorsAllowedToModifyCommentInSections += copiedInstructorsPrivileges[i][7];
+		    
+		    areInstructorsAllowedToViewSessionInSections += copiedInstructorsPrivileges[i][8];
+		    areInstructorsAllowedToSubmitSessionInSections += copiedInstructorsPrivileges[i][9];
+		    areInstructorsAllowedToModifySessionInSections += copiedInstructorsPrivileges[i][10];
+		
+		} else {
+			modalInstructorEmailsValue += " | " + copiedInstructorsEmails[i];
+			modalInstructorNamesValue += " | " + copiedInstructorsNames[i];
+			modalInstructorDisplayedNamesValue += " | " + copiedInstructorsDisplayedNames[i];
+			modalInstructorRolesValue += " | " + copiedInstructorsRoles[i];
+			
+			areInstructorsAllowedToModifyCourse += " | " + copiedInstructorsPrivileges[i][0];
+		    areInstructorsAllowedToModifyInstructor += " | " + copiedInstructorsPrivileges[i][1];
+		    areInstructorsAllowedToModifySession += " | " + copiedInstructorsPrivileges[i][2];
+		    areInstructorsAllowedToModifyStudent += " | " + copiedInstructorsPrivileges[i][3];
+		    
+		    areInstructorsAllowedToViewStudentInSections += " | " + copiedInstructorsPrivileges[i][4];
+		    areInstructorsAllowedToViewCommentInSections += " | " + copiedInstructorsPrivileges[i][5];
+		    areInstructorsAllowedToGiveCommentInSections += " | " + copiedInstructorsPrivileges[i][6];
+		    areInstructorsAllowedToModifyCommentInSections += " | " + copiedInstructorsPrivileges[i][7];
+		    
+		    areInstructorsAllowedToViewSessionInSections += " | " + copiedInstructorsPrivileges[i][8];
+		    areInstructorsAllowedToSubmitSessionInSections += " | " + copiedInstructorsPrivileges[i][9];
+		    areInstructorsAllowedToModifySessionInSections += " | " + copiedInstructorsPrivileges[i][10];
+		}
+	}
+	$('#modalInstructorEmails').val(modalInstructorEmailsValue);
+	$('#modalInstructorNames').val(modalInstructorNamesValue);
+	$('#modalInstructorDisplayedNames').val(modalInstructorDisplayedNamesValue);
+	$('#modalInstructorRoles').val(modalInstructorRolesValue);
+
+	$('input[name="caninstructorsmodifycourse"]').val(areInstructorsAllowedToModifyCourse);
+	$('input[name="caninstructorsmodifyinstructor"]').val(areInstructorsAllowedToModifyInstructor);
+	$('input[name="caninstructorsmodifysession"]').val(areInstructorsAllowedToModifySession);
+	$('input[name="caninstructorsmodifystudent"]').val(areInstructorsAllowedToModifyStudent);
+	$('input[name="caninstructorsviewstudentinsection"]').val(areInstructorsAllowedToViewStudentInSections);
+	$('input[name="caninstructorsgivecommentinsection"]').val(areInstructorsAllowedToViewCommentInSections);
+	$('input[name="caninstructorsviewcommentinsection"]').val(areInstructorsAllowedToGiveCommentInSections);
+	$('input[name="caninstructorsmodifycommentinsection"]').val(areInstructorsAllowedToModifyCommentInSections);
+	$('input[name="caninstructorssubmitsessioninsection"]').val(areInstructorsAllowedToViewSessionInSections);
+	$('input[name="caninstructorsviewsessioninsection"]').val(areInstructorsAllowedToSubmitSessionInSections);
+	$('input[name="caninstructorsmodifysessioncommentinsection"]').val(areInstructorsAllowedToModifySessionInSections);
+}
+
+function bindInstructorNameSelect() {
+	$('.instructorNameSelect').change(function(e) {
+		var changedInstructor = $(this).parent().siblings('.instructorEmail').text();
+		var instructorIndex = copiedInstructorsEmails.indexOf(changedInstructor);
+		var newInstructorName = $(this).find('option:selected').val();
+		copiedInstructorsNames.splice(instructorIndex,1,newInstructorName);
+		updateCopyModalFormValues();
 	});
 }
 
-var numRowsSelected = 0;
+function bindDisplaySelect() {
+	$('.displaySelect').change(function(e) {
+		var changedInstructor = $(this).parent().siblings('.instructorEmail').text();
+		var instructorIndex = copiedInstructorsEmails.indexOf(changedInstructor);
+		var newInstructorDisplayedName = $(this).find('option:selected').val();
+		copiedInstructorsDisplayedNames.splice(instructorIndex,1,newInstructorDisplayedName);
+		updateCopyModalFormValues();
+	});
+}
+
+function bindRolesSelect() {
+	$('.roleSelect').change(function(e) {
+		var changedInstructor = $(this).parent().siblings('.instructorEmail').text();
+		console.log(changedInstructor);
+		var instructorIndex = copiedInstructorsEmails.indexOf(changedInstructor);
+		var newRole = $(this).find('option:selected').val();
+		copiedInstructorsRoles.splice(instructorIndex,1,newRole);
+		updatePrivilegesOfRoleForCopyModal(instructorIndex, newRole);
+		updateCopyModalFormValues();
+	});
+}
+
+function bindClearSelectionButton() {
+	$('#button_clear_selection').on('click', function(e) {
+		e.preventDefault();
+		$("#copyTableModalBody").find('.row-selected').each(function() {
+			$(this).removeClass('row-selected');
+			$(this).children('td:first').html('<input type="checkbox">');
+			$(this).find('.instructorNameSelect').prop('disabled', true);
+			$(this).find('.displaySelect').prop('disabled', true);
+			$(this).find('.roleSelect').prop('disabled', true);
+		});
+		numRowsSelected = 0;
+		$('#copySelectAll').prop('checked', false);
+		$('#button_copy_submit').prop('disabled', true);
+		copiedInstructorsEmails = [];
+		copiedInstructorsNames = [];
+		copiedInstructorsDisplayedNames = [];
+		copiedInstructorsRoles = [];
+		copiedInstructorsPrivileges = [[]];
+		updateCopyModalFormValues();
+	});
+}
 
 function bindCopyEvents() {
+	$('#copySelectAll').change(function(e){
+		if(this.checked) {
+	        $('#copyTableModalBody').children().not('.row-selected').each(function(e) {
+	        	$(this).addClass('row-selected');
+	        	$(this).children('td:first').html('<input type="checkbox" checked="checked">');
+	        	$(this).find('.instructorNameSelect').prop('disabled', false);
+	        	$(this).find('.displaySelect').prop('disabled', false);
+	        	$(this).find('.roleSelect').prop('disabled', false);
+	        	var addedInstructor = $(this).children('td:nth-child(4)').text();
+	        	copiedInstructorsEmails.push(addedInstructor);
+	        	var instructorIndex = copiedInstructorsEmails.indexOf(addedInstructor);
+	        	copiedInstructorsNames.push($(this).children('.instructorNames').find('option:selected').val());
+	        	copiedInstructorsDisplayedNames.push($(this).children('.displayInformation').find('option:selected').val());
+	        	var instructorRole = $(this).children('.instructorRoles').find('option:selected').val();
+	            copiedInstructorsRoles.push(instructorRole);
+	            var instructorPrivileges = [];
+	            copiedInstructorsPrivileges.push(instructorPrivileges);
+	            updatePrivilegesOfRoleForCopyModal(instructorIndex, instructorRole);
+	        	numRowsSelected++;
+	        });
+		}
+		updateCopyModalFormValues();
+		if(numRowsSelected <= 0){
+            $('#button_copy_submit').prop('disabled', true);
+        } else {
+            $('#button_copy_submit').prop('disabled', false);
+        }
+	});
 
-    $('#copyTableModal >tbody>tr>td').not("#access_control").on('click', function(e){
+    $('#copyTableModalBody>tr>td').not(".instructorNames").not(".displayInformation").not(".instructorRoles").on('click', function(e){
         e.preventDefault();
         
         if($(this).parent().hasClass('row-selected')){
             $(this).parent().removeClass('row-selected');
             $(this).parent().children('td:first').html('<input type="checkbox">');
-            $(this).siblings().children('#access_control_select').prop('disabled', true);
+            $(this).siblings().children('.instructorNameSelect').prop('disabled', true);
+            $(this).siblings().children('.displaySelect').prop('disabled', true);
+            $(this).siblings().children('.roleSelect').prop('disabled', true);
+            var removedInstructor = $(this).parent().children('td:nth-child(4)').text();
+            var instructorIndex = copiedInstructorsEmails.indexOf(removedInstructor);
+            copiedInstructorsEmails.splice(instructorIndex, 1);
+            copiedInstructorsNames.splice(instructorIndex, 1);
+            copiedInstructorsDisplayedNames.splice(instructorIndex, 1);
+            copiedInstructorsRoles.splice(instructorIndex, 1);
+            copiedInstructorsPrivileges.splice(instructorIndex, 1);
             numRowsSelected--;
         } else {
             $(this).parent().addClass('row-selected');
             $(this).parent().children('td:first').html('<input type="checkbox" checked="checked">');
-            $(this).siblings().children('#access_control_select').prop('disabled', false);
+            $(this).siblings().children('.instructorNameSelect').prop('disabled', false);
+            $(this).siblings().children('.displaySelect').prop('disabled', false);
+            $(this).siblings().children('.roleSelect').prop('disabled', false);
+            var addedInstructor = $(this).parent().children('td:nth-child(4)').text();
+            copiedInstructorsEmails.push(addedInstructor);
+            var instructorIndex = copiedInstructorsEmails.indexOf(addedInstructor);
+            copiedInstructorsNames.push($(this).siblings('.instructorNames').find('option:selected').val()); 
+            copiedInstructorsDisplayedNames.push($(this).siblings('.displayInformation').find('option:selected').val());
+            var instructorRole = $(this).siblings('.instructorRoles').find('option:selected').val();
+            copiedInstructorsRoles.push(instructorRole);
+            var instructorPrivileges = [];
+            copiedInstructorsPrivileges.push(instructorPrivileges);
+            updatePrivilegesOfRoleForCopyModal(instructorIndex, instructorRole);
             numRowsSelected++;
+            console.log(copiedInstructorsPrivileges[instructorIndex]);
         }
+        updateCopyModalFormValues();
 
         if(numRowsSelected <= 0){
             $('#button_copy_submit').prop('disabled', true);
         } else {
             $('#button_copy_submit').prop('disabled', false);
         }
+        return false;
+    });
+}
 
+function bindCopyButton() {
+	$('#button_copy_submit').on('click', function(e){
+        e.preventDefault();
+        $('#copyModalForm').submit();
         return false;
     });
 }
@@ -378,6 +619,10 @@ $(function(){
 
 $(document).ready(function(){
 	bindCopyInstructorsButton();
+	bindCopyButton();
 	bindClearSelectionButton();
+	bindInstructorNameSelect();
+	bindDisplaySelect();
+	bindRolesSelect();
 	bindCopyEvents();
 });
