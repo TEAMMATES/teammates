@@ -43,6 +43,7 @@
 
 <script type="text/javascript" src="/js/googleAnalytics.js"></script>
 <script type="text/javascript" src="/js/jquery-minified.js"></script>
+<script type="text/javascript" src="/js/common.js"></script>
 <script type="text/javascript"
     src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
@@ -204,7 +205,10 @@
                                                 <th>Address Receiver</th>
                                                 <th>Group Receiver</th>
                                                 <th>Subject</th>
-                                                <th>Date</th>
+                                                <th onclick="toggleSort(this,5);"
+                                                    class="button-sort-ascending">Date <span
+                                                    class="icon-sort unsorted"
+                                                    id="button_sort_date"></span></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -269,7 +273,10 @@
                                         <th>Address Receiver</th>
                                         <th>Group Receiver</th>
                                         <th>Subject</th>
-                                        <th>Date</th>
+                                        <th onclick="toggleSort(this,5);"
+                                                    class="button-sort-ascending">Date <span
+                                                    class="icon-sort unsorted"
+                                                    id="button_sort_date"></span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -343,7 +350,10 @@
                                         <th>Address Receiver</th>
                                         <th>Group Receiver</th>
                                         <th>Subject</th>
-                                        <th>Date</th>
+                                        <th onclick="toggleSort(this,5);"
+                                                    class="button-sort-ascending">Date <span
+                                                    class="icon-sort unsorted"
+                                                    id="button_sort_date"></span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
