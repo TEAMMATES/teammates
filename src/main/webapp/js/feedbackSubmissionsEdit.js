@@ -57,7 +57,7 @@ function prepareMCQQuestions() {
 
 		for (var j = 0; j < numResponses; j++) {
 			var id = "responsetext-" + qnNum + "-" + j;
-			radioButtons[id] = $("[name^=" + id + "]");
+			radioButtons[id] = $("[name=" + id + "]");
 			radioStates[id] = {};
 
 			// initialize radio buttons' states
@@ -65,7 +65,7 @@ function prepareMCQQuestions() {
 				radioStates[id][radio.value] = $(radio).is(":checked");
 			});
 
-			radioButtons[id].click(function() {
+			radioButtons[id].click(function(event) {
 				var val = $(this).val();
 				var name = $(this).attr("name");
 				// toggle the radio button checked state
@@ -78,6 +78,7 @@ function prepareMCQQuestions() {
 						radioStates[name][radio.value] = false;
 					}
 				});
+				event.stopImmediatePropagation();
 			});
 		}
 	}

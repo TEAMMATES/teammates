@@ -52,7 +52,25 @@
                     .contains("AdminSessionsPage") ? "active" : ""%>">
                     <a href="<%=Const.ActionURIs.ADMIN_SESSIONS_PAGE%>">Sessions</a>
                 </li>
-                
+
+                <li
+                    class="<%=data.getClass().toString()
+                    .contains("AdminEmail") ? "active dropdown" : "dropdown"%>">
+
+                    <a href="#" class="dropdown-toggle"
+                    data-toggle="dropdown" role="button"
+                    aria-expanded="false">Email <span
+                        class="caret"></span></a> 
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                             <a href="<%=Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE%>">Email</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="<%=Const.ActionURIs.ADMIN_EMAIL_LOG_PAGE%>">Email Log</a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
 
             <ul class="nav navbar-nav pull-right">

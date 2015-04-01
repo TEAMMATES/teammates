@@ -40,7 +40,8 @@ public class Student {
     private String email;
 
     /**
-     * The student's Google ID. Used as the foreign key for the Course object.
+     * The student's Course ID. References the primary key of the course.
+     * This shows the course the student is taking
      */
     @Persistent
     @SerializedName("coursename")
