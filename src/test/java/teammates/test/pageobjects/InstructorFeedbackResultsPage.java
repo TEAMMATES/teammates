@@ -166,7 +166,13 @@ public class InstructorFeedbackResultsPage extends AppPage {
         wait.until(ExpectedConditions.elementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea"))));
         fillTextBox(addResponseCommentForm.findElement(By.tagName("textarea")), commentText);
         addResponseCommentForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
-        ThreadHelper.waitFor(1000);
+        if (commentText.equals("")) {
+            // empty comment: wait until the textarea is clickable again
+            wait.until(ExpectedConditions.elementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea"))));            
+        } else {
+            // non-empty comment: wait until the add comment form disappears
+            waitForElementToDisappear(By.id(addResponseCommentId));            
+        }
     }
     
     public void editFeedbackResponseComment(String commentIdSuffix, String newCommentText) {
