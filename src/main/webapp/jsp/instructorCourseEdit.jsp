@@ -994,8 +994,12 @@
                             String instructorCourseIds;
                             HashSet<String> instructorNames = new HashSet<String>();
                             HashSet<String> instructorDisplayedNames = new HashSet<String>();
+                            HashSet<String> instructorsAlreadyInCourse = new HashSet<String>();
+                            for(InstructorAttributes iac : data.instructorList) {
+                                instructorsAlreadyInCourse.add(iac.email);
+;                            }
                             for (InstructorAttributes ins : data.existingCoursesInstructorsList) {
-                                if(!ins.email.equals(data.account.email)) {
+                                if(!instructorsAlreadyInCourse.contains(ins.email)) {
                                     if (!instructorEmails.contains(ins.email)) {
                                         instructorEmails.add(ins.email);
                                         instructorEmailToCourseIdsMap.put(ins.email, ins.courseId);
