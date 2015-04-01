@@ -376,10 +376,6 @@ function updatePrivilegesForInstructorAsTutor(instructorIndex) {
 	copiedInstructorsPrivileges[instructorIndex][9] = false;
 }
 
-function updatePrivilegesForInstructorAsCustom(instructorIndex) {
-	markAllPrivilegesForInstructorAsBoolean(instructorIndex, false);
-}
-
 function updateCopyModalFormValues() {
 	var modalInstructorEmailsValue = "";
 	var modalInstructorNamesValue = "";
@@ -484,7 +480,6 @@ function bindDisplaySelect() {
 function bindRolesSelect() {
 	$('.roleSelect').change(function(e) {
 		var changedInstructor = $(this).parent().siblings('.instructorEmail').text();
-		console.log(changedInstructor);
 		var instructorIndex = copiedInstructorsEmails.indexOf(changedInstructor);
 		var newRole = $(this).find('option:selected').val();
 		copiedInstructorsRoles.splice(instructorIndex,1,newRole);
