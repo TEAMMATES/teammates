@@ -64,7 +64,17 @@
                                 questionIndex++;
                                 FeedbackQuestionAttributes question = responseEntries.getKey();
             %>
+            <%
+                if (responseEntries.getValue().size() == 0) {
+            %>
+            <div class="panel panel-default">
+            <%
+                } else {
+            %>
             <div class="panel panel-info">
+            <%
+                }
+            %>
                 <div class="panel-heading<%=showAll ? "" : " ajax_submit"%>">
                     <form style="display:none;" id="seeMore-<%=question.questionNumber%>" class="seeMoreForm-<%=question.questionNumber%>" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
                         <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>">

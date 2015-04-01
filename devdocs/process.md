@@ -26,17 +26,15 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
    This can be done through Issue tracker. 
    Such a discussion reduces the chance of the fix being rejected later.
 
-0. Add remote names for committer repo (let's call it `upstream`) 
-   and your fork (let's call it `myfork`)
+0. Add remote names for committer repo (let's call it `upstream`)
    ```
    git remote add   upstream      https://github.com/TEAMMATES/repo.git
-   git remote add   myfork        https://github.com/your_user_name/repo.git
    ```
 
 4. Update your local repo (the one you created when setting up the project on your computer) 
    with the latest version of the code from the committer repo.
    ```
-   git pull upstream
+   git pull upstream master
    ```
 4. If you have permissions to change labels, change the issue status to `s.Ongoing`. 
 
@@ -64,13 +62,16 @@ This workflow is an adaptation of the [GitHub flow](https://guides.github.com/in
          ~~`[Issue number] Issue title as given in the original issue`~~ 
    * Sync with the committer repo frequently: While you were fixing the issue, others 
    might have pushed new code to the committer repo. In that case, update your 
-   repo with any new changes from committer repo and merge those updates 
-   to your branch
+   repo's master branch with any new changes from committer repo and merge those 
+   updates to the branch you are working on.
         
        ```
-       git pull upstream 
+       //switch to master and sync with committer repo
+       git checkout master
+       git pull upstream master       
+       //merge updates into working branch
+       git checkout Issue{issue number}
        git merge master
-       git commit -a -m "your commit message"
        ```
 
 7. When the work is ready for review:
