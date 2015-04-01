@@ -173,13 +173,13 @@ public class AdminEmailLogPageData extends PageData {
          * add a label and values in
          */
         public void add(String label, String[] values) throws Exception{
-            if(label.equals("from")){
+            if(label.equals("after")){
                 isFromDateInQuery = true;                
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
                 Date d = sdf.parse(values[0] + " 00:00");                
                 fromDateValue = d.getTime();
                 
-            } else if (label.equals("to")){
+            } else if (label.equals("before")){
                 isToDateInQuery = true;
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
                 Date d = sdf.parse(values[0] + " 23:59");                

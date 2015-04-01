@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogQuery;
+import com.google.appengine.api.log.LogService.LogLevel;
 import com.google.appengine.api.log.LogServiceFactory;
 import com.google.appengine.api.log.RequestLogs;
 
@@ -18,7 +19,7 @@ import teammates.logic.api.GateKeeper;
 public class AdminEmailLogPageAction extends Action {
     
     private boolean includeAppLogs = true;
-    private static final int LOGS_PER_PAGE = 2;
+    private static final int LOGS_PER_PAGE = 50;
     private static final int MAX_LOGSEARCH_LIMIT = 15000;
 
     @Override
@@ -63,6 +64,7 @@ public class AdminEmailLogPageAction extends Action {
         
         query.includeAppLogs(includeAppLogs);
         query.batchSize(1000);
+        query.minLogLevel(LogLevel.INFO);
         
         try {
             query.majorVersionIds(getVersionIdsForQuery(versions));
