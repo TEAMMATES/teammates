@@ -1057,7 +1057,6 @@
                                         <option value="Manager">Manager</option>
                                         <option value="Observer">Observer</option>
                                         <option value="Tutor">Tutor</option>
-                                        <option value="Custom">Custom</option>
                                     </select>
                                 </td>
                             </tr>
