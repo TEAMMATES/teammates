@@ -165,10 +165,6 @@ public class InstructorCourseInstructorCopyAction extends InstructorCourseInstru
         InstructorAttributes instructorToAdd = updateBasicInstructorAttributes(courseId, instructorName, instructorEmail,
                 instructorRole, isDisplayedToStudents, instructorDisplayName);
         
-        if (instructorRole.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)) {
-            updateInstructorCourseLevelPrivileges(instructorToAdd, privilege);
-        }
-        
         updateInstructorWithSectionLevelPrivileges(courseId, instructorToAdd);
         
         instructorToAdd.privileges.validatePrivileges();
@@ -176,36 +172,5 @@ public class InstructorCourseInstructorCopyAction extends InstructorCourseInstru
         instructorToAdd.instructorPrivilegesAsText = instructorToAdd.getTextFromInstructorPrivileges();
         
         return instructorToAdd;
-    }
-    
-    private void updateInstructorCourseLevelPrivileges(
-            InstructorAttributes instructorToAdd, String[] privilege) {
-        boolean isAllowedToModifyCourse = privilege[0] != null && privilege[0].toLowerCase().equals(Const.BooleanTypes.TRUE);
-        boolean isAllowedToModifyInstructor = privilege[1] != null && privilege[1].toLowerCase().equals(Const.BooleanTypes.TRUE);
-        boolean isAllowedToModifySession = privilege[2] != null && privilege[2].toLowerCase().equals(Const.BooleanTypes.TRUE);
-        boolean isAllowedToModifyStudent = privilege[3] != null && privilege[3].toLowerCase().equals(Const.BooleanTypes.TRUE);
-        
-        boolean isAllowedToViewStudentInSections = privilege[4] != null && privilege[4].toLowerCase().equals(Const.BooleanTypes.TRUE);
-        boolean isAllowedToViewCommentInSections = privilege[5] != null && privilege[5].toLowerCase().equals(Const.BooleanTypes.TRUE);
-        boolean isAllowedToGiveCommentInSections = privilege[6] != null && privilege[6].toLowerCase().equals(Const.BooleanTypes.TRUE);
-        boolean isAllowedToModifyCommentInSections = privilege[7] != null && privilege[7].toLowerCase().equals(Const.BooleanTypes.TRUE);
-        
-        boolean isAllowedToViewSessionInSections = privilege[8] != null && privilege[8].toLowerCase().equals(Const.BooleanTypes.TRUE);
-        boolean isAllowedToSubmitSessionInSections = privilege[9] != null && privilege[9].toLowerCase().equals(Const.BooleanTypes.TRUE);
-        boolean isAllowedToModifySessionInSections = privilege[10] != null && privilege[10].toLowerCase().equals(Const.BooleanTypes.TRUE);
-        
-        instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, isAllowedToModifyCourse);
-        instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, isAllowedToModifyInstructor);
-        instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, isAllowedToModifySession);
-        instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, isAllowedToModifyStudent);
-        
-        instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS, isAllowedToViewStudentInSections);
-        instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS, isAllowedToViewCommentInSections);
-        instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS, isAllowedToGiveCommentInSections);
-        instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS, isAllowedToModifyCommentInSections);
-        
-        instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS, isAllowedToViewSessionInSections);
-        instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, isAllowedToSubmitSessionInSections);
-        instructorToAdd.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, isAllowedToModifySessionInSections);
     }
 }
