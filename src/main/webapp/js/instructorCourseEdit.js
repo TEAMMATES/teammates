@@ -319,13 +319,6 @@ function bindChangingRole(index){
 	});
 }
 
-function bindCopyInstructorsButton() {
-	$('#btnShowCopyInstructorsForm').on('click', function(e){
-        e.preventDefault();
-        $('#copyInstructorsModal').modal('show');
-	});
-}
-
 var numRowsSelected = 0;
 var copiedInstructorsEmails = [];
 var copiedInstructorsNames = [];
@@ -598,6 +591,15 @@ function bindCopyEvents() {
         return false;
     });
 }
+
+
+function bindCopyInstructorsButton() {
+	$('#btnShowCopyInstructorsForm').on('click', function(e){
+        e.preventDefault();
+        $('#copyInstructorsModal').modal('show');
+	});
+}
+
 
 function bindCopyButton() {
 	$('#button_copy_submit').on('click', function(e){
