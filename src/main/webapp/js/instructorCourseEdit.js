@@ -591,6 +591,12 @@ function bindCopyEvents() {
 function bindCopyInstructorsButton() {
 	$('#btnShowCopyInstructorsForm').on('click', function(e){
         e.preventDefault();
+        var instructorList = $('#copyTableModalBody').text().trim();
+        console.log(instructorList.length);
+        if(instructorList == null || instructorList.length == 0){
+            setStatusMessage(COURSE_EDIT_COPY_INVALID, true);
+            return false;
+        }
         $('#copyInstructorsModal').modal('show');
 	});
 }
