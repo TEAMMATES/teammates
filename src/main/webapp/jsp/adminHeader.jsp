@@ -63,7 +63,7 @@
                         class="caret"></span></a> 
                     <ul class="dropdown-menu" role="menu">
                         <li>
-                            <a href="#">Email</a>
+                             <a href="<%=Const.ActionURIs.ADMIN_EMAIL_COMPOSE_PAGE%>">Email</a>
                         </li>
                         <li class="divider"></li>
                         <li>
@@ -71,7 +71,6 @@
                         </li>
                     </ul>
                 </li>
-
             </ul>
 
             <ul class="nav navbar-nav pull-right">
