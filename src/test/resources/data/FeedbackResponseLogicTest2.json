@@ -1,0 +1,220 @@
+{
+    "accounts":{
+        "FQLogicPCT.instr":{
+            "googleId":"FQLogicPCT.instr",
+            "name":"Teammates Test",
+            "isInstructor":true,
+            "email":"FQLogicPCT.instr@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
+        },
+        "FQLogicPCT.alice.b":{
+            "googleId":"FQLogicPCT.alice.b",
+            "name":"Alice B.",
+            "isInstructor":false,
+            "email":"FQLogicPCT.alice.b@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
+        },
+        "FQLogicPCT.benny.c":{
+            "googleId":"FQLogicPCT.benny.c",
+            "name":"Benny C.",
+            "isInstructor":false,
+            "email":"FQLogicPCT.benny.c@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
+        },
+        "FQLogicPCT.charlie.d":{
+            "googleId":"FQLogicPCT.charlie.d",
+            "name":"Charlie D.",
+            "isInstructor":false,
+            "email":"FQLogicPCT.charlie.d@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
+        },
+        "FQLogicPCT.danny.e":{
+            "googleId":"FQLogicPCT.danny.e",
+            "name":"Danny E.",
+            "isInstructor":false,
+            "email":"FQLogicPCT.danny.e@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
+        },
+        "FQLogicPCT.emily.f":{
+            "googleId":"FQLogicPCT.emily.f",
+            "name":"Emily F.",
+            "isInstructor":false,
+            "email":"FQLogicPCT.emily.f@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
+        }
+        
+    },
+    "courses":{
+        "FQLogicPCT.CS2104":{
+            "id":"FQLogicPCT.CS2104",
+            "name":"Programming Language Concepts",
+            "isArchived": false
+        }
+    },
+    "instructors":{
+        "FQLogicPCT.instr":{
+            "googleId":"FQLogicPCT.instr",
+            "courseId":"FQLogicPCT.CS2104",
+            "name":"Teammates Test",
+            "email":"FQLogicPCT.instr@gmail.tmt",
+            "role":"Co-owner",
+            "displayedName":"Co-owner",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        }
+        
+    },
+    "students":{
+        "Alice":{
+            "googleId":"FQLogicPCT.alice.b",
+            "email":"FQLogicPCT.alice.b@gmail.tmt",
+            "course":"FQLogicPCT.CS2104",
+            "name":"Alice Betsy",
+            "comments":"This student's name is Alice Betsy",
+            "team":"Team 1\"><\'"
+        },
+        "Benny":{
+            "googleId":"FQLogicPCT.benny.c",
+            "email":"FQLogicPCT.benny.c@gmail.tmt",
+            "course":"FQLogicPCT.CS2104",
+            "name":"Benny Charles",
+            "comments":"This student's name is Benny Charles",
+            "team":"Team 1\"><\'"
+        },
+        "ExtraGuy":{
+            "googleId":"extra.guy",
+            "email":"extra.guy@gmail.tmt",
+            "course":"FQLogicPCT.CS2104",
+            "name":"Extra guy",
+            "comments":"This student will move to a new team after evaluation created",
+            "team":"Team 2"
+        },
+        "DropOut":{
+            "googleId":"",
+            "email":"drop.out@gmail.tmt",
+            "course":"FQLogicPCT.CS2104",
+            "name":"Drop out",
+            "comments":"This student will drop out after evaluation created",
+            "team":"Team 2"
+        },
+        "Charlie":{
+            "googleId":"FQLogicPCT.charlie.d",
+            "email":"FQLogicPCT.charlie.d@gmail.tmt",
+            "course":"FQLogicPCT.CS2104",
+            "name":"Charlie Davis",
+            "comments":"This student's name is Charlie Davis",
+            "team":"Team 2"
+        },
+        "Danny":{
+            "googleId":"FQLogicPCT.danny.e",
+            "email":"FQLogicPCT.danny.e@gmail.tmt",
+            "course":"FQLogicPCT.CS2104",
+            "name":"Danny Engrid",
+            "comments":"This student's name is Danny Engrid",
+            "team":"Team 2"
+        },
+        "Emily":{
+            "googleId":"FQLogicPCT.emily.f",
+            "email":"FQLogicPCT.emily.f@gmail.tmt",
+            "course":"FQLogicPCT.CS2104",
+            "name":"Emily",
+            "comments":"This student's name is Emily",
+            "team":"Team 3"
+        }
+    },
+    "feedbackSessions":{
+        "Open Session":{
+            "feedbackSessionName":"First Session",
+            "courseId":"FQLogicPCT.CS2104",
+            "creatorEmail":"FQLogicPCT.instr@gmail.tmt",
+            "instructions":{
+                "value":"Instructions for first session"
+            },
+            "createdTime":"2012-04-01 11:59 PM UTC",
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":"2016-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-04-01 11:59 PM UTC",
+            "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
+            "timeZone":8.0,
+            "gracePeriod":10,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":true
+        }
+    },
+    "feedbackQuestions":{
+        "qn1InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"FQLogicPCT.CS2104",
+            "creatorEmail":"FQLogicPCT.instr@gmail.tmt",
+            "questionMetaData":{
+                "value":"Give feedback to 3 other teams."
+            },
+            "questionNumber":"1",
+            "questionType":"TEXT",
+            "giverType":"TEAMS",
+            "recipientType":"TEAMS",
+            "numberOfEntitiesToGiveFeedbackTo":3,
+            "showResponsesTo":[
+                "RECEIVER",
+                "OWN_TEAM_MEMBERS"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER"
+            ]
+        }
+    },
+    
+
+    "feedbackResponses":{
+        "response1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"FQLogicPCT.CS2104",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"FQLogicPCT.charlie.d@gmail.tmt",
+            "recipientEmail":"Team 1\"><\'",
+            "responseMetaData":{
+                "value":"Team 2 (charlie) to team 1"
+            }
+            
+        },
+        "response2":{
+            "feedbackSessionName":"First Session",
+            "courseId":"FQLogicPCT.CS2104",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"FQLogicPCT.danny.e@gmail.tmt",
+            "recipientEmail":"Team 1\"><\'",
+            "responseMetaData":{
+                "value":"Team 2 (danny) to team 1"
+            }
+            
+        },
+        "response3":{
+            "feedbackSessionName":"First Session",
+            "courseId":"FQLogicPCT.CS2104",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"FQLogicPCT.emily.f@gmail.tmt",
+            "recipientEmail":"Team 1\"><\'",
+            "responseMetaData":{
+                "value":"Team 3 to Team 1 \r\n multiline special char test"
+            }
+            
+        },
+        "response4":{
+            "feedbackSessionName":"First Session",
+            "courseId":"FQLogicPCT.CS2104",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"FQLogicPCT.alice.b@gmail.tmt",
+            "recipientEmail":"Team 2",
+            "responseMetaData":{
+                "value":"alice to team 2"
+            }
+        }
+    }
+}
