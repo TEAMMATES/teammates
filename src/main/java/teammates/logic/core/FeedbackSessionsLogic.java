@@ -1516,15 +1516,19 @@ public class FeedbackSessionsLogic {
 
         case PRIVATE:
             List<FeedbackQuestionAttributes> instuctorQuestions =
-            fqLogic.getFeedbackQuestionsForInstructor(fsa.feedbackSessionName,
-                    fsa.courseId,
-                    fsa.creatorEmail);
-            List<FeedbackQuestionAttributes> validQuestions = fqLogic.getQuestionsWithRecipients(instuctorQuestions, fsa.creatorEmail);
-            if(validQuestions.isEmpty()) {
+                    fqLogic.getFeedbackQuestionsForInstructor(
+                            fsa.feedbackSessionName,
+                            fsa.courseId,
+                            fsa.creatorEmail);
+            List<FeedbackQuestionAttributes> validQuestions = fqLogic
+                    .getQuestionsWithRecipients(instuctorQuestions,
+                            fsa.creatorEmail);
+            if (validQuestions.isEmpty()) {
                 break;
             }
             details.stats.expectedTotal = 1;
-            if(fqLogic.areAllQuestionsFullyAnsweredByUser(validQuestions, fsa.creatorEmail)) {
+            if (fqLogic.areAllQuestionsFullyAnsweredByUser(validQuestions,
+                    fsa.creatorEmail)) {
                 details.stats.submittedTotal = 1;
             }
             break;
