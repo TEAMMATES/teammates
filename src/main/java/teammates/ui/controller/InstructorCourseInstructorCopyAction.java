@@ -134,19 +134,19 @@ public class InstructorCourseInstructorCopyAction extends InstructorCourseInstru
         for(int i = 0; i < instructorEmailsList.length; i++) {
             String[] privilege = new String[11];
             
-            privilege[0] = isAllowedToModifyCourseList[i];
-            privilege[1] = isAllowedToModifyInstructorList[i];
-            privilege[2] = isAllowedToModifySessionList[i];
-            privilege[3] = isAllowedToModifyStudentList[i];
+            privilege[0] = isAllowedToModifyCourseList[i].trim();
+            privilege[1] = isAllowedToModifyInstructorList[i].trim();
+            privilege[2] = isAllowedToModifySessionList[i].trim();
+            privilege[3] = isAllowedToModifyStudentList[i].trim();
             
-            privilege[4] = isAllowedToViewStudentInSectionsList[i];
-            privilege[5] = isAllowedToViewCommentInSectionsList[i];
-            privilege[6] = isAllowedToGiveCommentInSectionsList[i];
-            privilege[7] = isAllowedToModifyCommentInSectionsList[i];
+            privilege[4] = isAllowedToViewStudentInSectionsList[i].trim();
+            privilege[5] = isAllowedToViewCommentInSectionsList[i].trim();
+            privilege[6] = isAllowedToGiveCommentInSectionsList[i].trim();
+            privilege[7] = isAllowedToModifyCommentInSectionsList[i].trim();
            
-            privilege[8] = isAllowedToViewSessionInSectionsList[i];
-            privilege[9] = isAllowedToSubmitSessionInSectionsList[i];
-            privilege[10] = isAllowedToModifySessionInSectionsList[i];  
+            privilege[8] = isAllowedToViewSessionInSectionsList[i].trim();
+            privilege[9] = isAllowedToSubmitSessionInSectionsList[i].trim();
+            privilege[10] = isAllowedToModifySessionInSectionsList[i].trim();  
             
             instructorsToAdd.add(extractCompleteInstructor(courseId, instructorEmailsList[i].trim(), instructorNamesList[i].trim(), instructorDisplayNamesList[i].trim(), instructorRolesList[i].trim(), privilege));
         }
