@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%@ page import="java.util.Map"%>
-<%@ page import="java.util.TreeMap"%>
+<%@ page import="java.util.HashMap"%>
+<%@ page import="java.util.HashSet"%>
 
 <%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
@@ -972,41 +973,82 @@
                 </div>
                 <div class="modal-body" id="copyInstructorsBody">
                     
-                    <form class="form" id="copyModalForm" role="form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_COPY%>">
+                    <form class="form" id="copyModalForm" role="form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_COPY%>">
 
                     <!-- Existing Instructors -->
                     <label>Copy Instructors' information from:</label>
                     <table class="table-responsive table table-bordered table-hover margin-0" id="copyTableModal">
-                        <thead class="fill-primary">
-                            <th style="width:20px;">&nbsp;</th>
+                        <thead class="fill-primary" id="copyTableModalHead">
+                            <th style="width:20px;"><input id="copySelectAll" type="checkbox"></th>
                             <th> Courses </th>
                             <th> Instructor Name </th>
                             <th> Instructor Email </th>
-                            <th> New Access Level </th>
+                            <th> Display to students as </th>
+                            <th> Access Level </th>
                         </thead>
-
-                        <%  TreeMap<String, InstructorAttributes> existingCoursesInstructors = new TreeMap<String, InstructorAttributes>();
-                            InstructorAttributes insertedInstructor;
+                        <tbody id="copyTableModalBody">
+                        <%  HashMap<String, String> instructorEmailToCourseIdsMap = new HashMap<String, String>();
+                            HashMap<String, HashSet<String>> instructorEmailToNamesMap = new HashMap<String, HashSet<String>>();
+                            HashMap<String, HashSet<String>> instructorEmailToDisplayedNamesMap = new HashMap<String, HashSet<String>>();
+                            HashSet<String> instructorEmails = new HashSet<String>();
+                            String instructorCourseIds;
+                            HashSet<String> instructorNames = new HashSet<String>();
+                            HashSet<String> instructorDisplayedNames = new HashSet<String>();
                             for (InstructorAttributes ins : data.existingCoursesInstructorsList) {
-                                if (!existingCoursesInstructors.containsKey(ins.email)) {
-                                    existingCoursesInstructors.put(ins.email, ins);
-                                } else {
-                                    insertedInstructor = existingCoursesInstructors.get(ins.email);
-                                    insertedInstructor.courseId += ", " + ins.courseId;
+                                if(!ins.email.equals(data.account.email)) {
+                                    if (!instructorEmails.contains(ins.email)) {
+                                        instructorEmails.add(ins.email);
+                                        instructorEmailToCourseIdsMap.put(ins.email, ins.courseId);
+                                        instructorNames = new HashSet<String>();
+                                        instructorNames.add(ins.name);
+                                        instructorEmailToNamesMap.put(ins.email, instructorNames);
+                                        if(ins.isDisplayedToStudents) {
+                                            instructorDisplayedNames = new HashSet<String>();
+                                            instructorDisplayedNames.add(ins.displayedName);
+                                            instructorEmailToDisplayedNamesMap.put(ins.email, instructorDisplayedNames);
+                                        }
+                                    } else {
+                                        instructorCourseIds = instructorEmailToCourseIdsMap.get(ins.email);
+                                        instructorNames = instructorEmailToNamesMap.get(ins.email);
+                                        instructorCourseIds += ", " + ins.courseId;
+                                        instructorNames.add(ins.name);
+                                        if(ins.isDisplayedToStudents) {
+                                            instructorDisplayedNames = instructorEmailToDisplayedNamesMap.get(ins.email);
+                                            instructorDisplayedNames.add(ins.displayedName);
+                                        }
+                                    }
                                 }
                             }
-                            InstructorAttributes currIns;
-                            for(Map.Entry<String, InstructorAttributes> emailToIns : existingCoursesInstructors.entrySet()) {
-                                 currIns = emailToIns.getValue(); 
-                        %>
+                            String currInsCourseIds;
+                            HashSet<String> currInsNames;
+                            HashSet<String> currInsDisplayedNames;
+                            for(String instructorEmail : instructorEmails) {
+                                 currInsCourseIds = instructorEmailToCourseIdsMap.get(instructorEmail);
+                                 currInsNames =  instructorEmailToNamesMap.get(instructorEmail);
+                                 currInsDisplayedNames = instructorEmailToDisplayedNamesMap.get(instructorEmail);
+                            %>
                            
                             <tr style="cursor:pointer;">
                                 <td><input type="checkbox"></td>
-                                <td><%=currIns.courseId%></td>
-                                <td><%=currIns.name%></td>
-                                <td><%=currIns.email%></td>
-                                <td id="access_control">
-                                    <select name="new_access_level" class="form-control" id="access_control_select" disabled="disabled">
+                                <td><%=currInsCourseIds%></td>
+                                <td class="instructorNames">
+                                    <select name="instructorNameOptions" class="form-control instructorNameSelect" disabled="disabled">
+                                        <% for(String currInsName : currInsNames) { %>
+                                        <option value="<%=currInsName%>"><%=currInsName%></option> 
+                                        <%}%>
+                                    </select>
+                                </td>
+                                <td class="instructorEmail"><%=instructorEmail%></td>
+                                <td class="displayInformation">
+                                    <select name="newDisplay" class="form-control displaySelect" disabled="disabled">
+                                        <option value=""></option>
+                                        <% for(String currInsDisplayedName : currInsDisplayedNames) { %>
+                                        <option value="<%=currInsDisplayedName%>"><%=currInsDisplayedName%></option> 
+                                        <%}%>
+                                    </select>
+                                </td>
+                                <td class="instructorRoles">
+                                    <select name="newRole" class="form-control roleSelect" disabled="disabled">
                                         <option value="Co-owner">Co-owner</option>
                                         <option value="Manager">Manager</option>
                                         <option value="Observer">Observer</option>
@@ -1016,13 +1058,29 @@
                                 </td>
                             </tr>
                         <%}%>
+                        </tbody>
                     </table>
-                            <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
-                                    value="" id="modalSessionName">
-                            <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>"
-                                    value="" id="modalCourseId">
-                            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>"
-                                    value="<%=data.account.googleId%>">
+                     
+                    <input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_EMAILS%>" value="" id="modalInstructorEmails">
+                    <input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_NAMES%>" value="" id="modalInstructorNames">
+                    <input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAMES%>" value="" id="modalInstructorDisplayedNames">
+                    <input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAMES%>" value="" id="modalInstructorRoles">
+                    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=(data.course.id==null ? "" : sanitizeForHtml(data.course.id))%>">
+                                        
+                    <input class="instructorPermissions" type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSIONS_MODIFY_COURSE%>" value="" >
+                    <input class="instructorPermissions" type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSIONS_MODIFY_INSTRUCTOR%>" value="" >
+                    <input class="instructorPermissions" type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSIONS_MODIFY_SESSION%>" value="" >
+                    <input class="instructorPermissions" type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSIONS_MODIFY_STUDENT%>" value="" >
+            
+                    <input class="instructorPermissions" type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSIONS_VIEW_STUDENT_IN_SECTIONS%>" value="" >
+                    <input class="instructorPermissions" type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSIONS_GIVE_COMMENT_IN_SECTIONS%>" value="" >
+                    <input class="instructorPermissions" type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSIONS_VIEW_COMMENT_IN_SECTIONS%>" value="" >
+                    <input class="instructorPermissions" type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSIONS_MODIFY_COMMENT_IN_SECTIONS%>" value="" >
+            
+                    <input class="instructorPermissions" type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSIONS_SUBMIT_SESSION_IN_SECTIONS%>" value="" >
+                    <input class="instructorPermissions" type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSIONS_VIEW_SESSION_IN_SECTIONS%>" value="" >
+                    <input class="instructorPermissions" type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSIONS_MODIFY_SESSION_COMMENT_IN_SECTIONS%>" value="" >
+                    
                     </form>
                     
                 </div>
