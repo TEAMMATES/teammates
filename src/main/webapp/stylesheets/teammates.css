@@ -1,4 +1,4 @@
-/* http://meyerweb.com/eric/tools/css/reset/
+/* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
    --------------------------------  CSS Reset  -----------------------------------------
@@ -13,8 +13,8 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
     margin: 0;
@@ -25,7 +25,7 @@ time, mark, audio, video {
     vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure,
+article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
     display: block;
 }
@@ -235,7 +235,7 @@ h2.subcaption {
 
 .overviewByteHeading {
     color: #4379D1;
-    font-size: 20px;
+    font-size: 15px;
     font-family: Arial, Helvetica, sans-serif;
     margin: 10px auto;
     display: block;
@@ -327,13 +327,13 @@ h2.subcaption {
     font-size: 14px;
     font-weight:bold;
     line-height: 18px;
-
+    
     /*prefix required to accommodate different browsers, especially slightly out-dated
      browsers which may not yet support the browser-radius(without prefix)*/
     border-radius: 10px;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
-
+    
 }
 
 #browserMessage table{
