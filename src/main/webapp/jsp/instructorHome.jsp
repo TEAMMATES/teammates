@@ -72,9 +72,9 @@
                                             class="form-control"
                                             data-toggle="tooltip"
                                             data-placement="top"
-                                            placeholder="Student Name">
+                                            placeholder="eg: Jean Wong or jean@email.com">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default" type="submit" value="Search" id="buttonSearch">Search</button>
+                                    <button class="btn btn-default" type="submit" value="Search" id="buttonSearch">Search Student</button>
                                 </span> 
                             </div>
                             <input type="hidden" name="<%=Const.ParamsNames.SEARCH_STUDENTS%>" value="true">

@@ -62,7 +62,7 @@
                                             class="form-control"
                                             data-toggle="tooltip"
                                             data-placement="top"
-                                            placeholder="e.g. Charles Shultz"
+                                            placeholder="eg: Jean Wong or jean@email.com"
                                             value="<%=data.searchKey == null ? "" : PageData.sanitizeForHtml(data.searchKey) %>">
                                     </div>
                                 </div>
