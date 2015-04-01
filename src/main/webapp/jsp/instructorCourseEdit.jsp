@@ -994,30 +994,34 @@
                             HashSet<String> instructorNames = new HashSet<String>();
                             HashSet<String> instructorDisplayedNames = new HashSet<String>();
                             HashSet<String> instructorsAlreadyInCourse = new HashSet<String>();
-                            for(InstructorAttributes iac : data.instructorList) {
-                                instructorsAlreadyInCourse.add(iac.email);
-;                            }
-                            for (InstructorAttributes ins : data.existingCoursesInstructorsList) {
-                                if(!instructorsAlreadyInCourse.contains(ins.email)) {
-                                    if (!instructorEmails.contains(ins.email)) {
-                                        instructorEmails.add(ins.email);
-                                        instructorEmailToCourseIdsMap.put(ins.email, ins.courseId);
-                                        instructorNames = new HashSet<String>();
-                                        instructorNames.add(ins.name);
-                                        instructorEmailToNamesMap.put(ins.email, instructorNames);
-                                        if(ins.isDisplayedToStudents) {
-                                            instructorDisplayedNames = new HashSet<String>();
-                                            instructorDisplayedNames.add(ins.displayedName);
-                                            instructorEmailToDisplayedNamesMap.put(ins.email, instructorDisplayedNames);
-                                        }
-                                    } else {
-                                        instructorCourseIds = instructorEmailToCourseIdsMap.get(ins.email);
-                                        instructorNames = instructorEmailToNamesMap.get(ins.email);
-                                        instructorCourseIds += ", " + ins.courseId;
-                                        instructorNames.add(ins.name);
-                                        if(ins.isDisplayedToStudents) {
-                                            instructorDisplayedNames = instructorEmailToDisplayedNamesMap.get(ins.email);
-                                            instructorDisplayedNames.add(ins.displayedName);
+                            if (data.instructorList != null) {
+                                for(InstructorAttributes iac : data.instructorList) {
+                                    instructorsAlreadyInCourse.add(iac.email);
+    ;                            }
+                            }
+                            if (data.existingCoursesInstructorsList != null) {
+                                for (InstructorAttributes ins : data.existingCoursesInstructorsList) {
+                                    if(!instructorsAlreadyInCourse.contains(ins.email)) {
+                                        if (!instructorEmails.contains(ins.email)) {
+                                            instructorEmails.add(ins.email);
+                                            instructorEmailToCourseIdsMap.put(ins.email, ins.courseId);
+                                            instructorNames = new HashSet<String>();
+                                            instructorNames.add(ins.name);
+                                            instructorEmailToNamesMap.put(ins.email, instructorNames);
+                                            if(ins.isDisplayedToStudents) {
+                                                instructorDisplayedNames = new HashSet<String>();
+                                                instructorDisplayedNames.add(ins.displayedName);
+                                                instructorEmailToDisplayedNamesMap.put(ins.email, instructorDisplayedNames);
+                                            }
+                                        } else {
+                                            instructorCourseIds = instructorEmailToCourseIdsMap.get(ins.email);
+                                            instructorNames = instructorEmailToNamesMap.get(ins.email);
+                                            instructorCourseIds += ", " + ins.courseId;
+                                            instructorNames.add(ins.name);
+                                            if(ins.isDisplayedToStudents) {
+                                                instructorDisplayedNames = instructorEmailToDisplayedNamesMap.get(ins.email);
+                                                instructorDisplayedNames.add(ins.displayedName);
+                                            }
                                         }
                                     }
                                 }
@@ -1025,10 +1029,11 @@
                             String currInsCourseIds;
                             HashSet<String> currInsNames;
                             HashSet<String> currInsDisplayedNames;
-                            for(String instructorEmail : instructorEmails) {
-                                 currInsCourseIds = instructorEmailToCourseIdsMap.get(instructorEmail);
-                                 currInsNames =  instructorEmailToNamesMap.get(instructorEmail);
-                                 currInsDisplayedNames = instructorEmailToDisplayedNamesMap.get(instructorEmail);
+                            if (instructorEmails != null) {
+                                for(String instructorEmail : instructorEmails) {
+                                     currInsCourseIds = instructorEmailToCourseIdsMap.get(instructorEmail);
+                                     currInsNames =  instructorEmailToNamesMap.get(instructorEmail);
+                                     currInsDisplayedNames = instructorEmailToDisplayedNamesMap.get(instructorEmail);
                             %>
                            
                             <tr style="cursor:pointer;">
@@ -1045,9 +1050,11 @@
                                 <td class="displayInformation">
                                     <select name="newDisplay" class="form-control displaySelect" disabled="disabled">
                                         <option value=""></option>
-                                        <% for(String currInsDisplayedName : currInsDisplayedNames) { %>
+                                        <% if (currInsDisplayedNames != null) { 
+                                            for(String currInsDisplayedName : currInsDisplayedNames) { %>
                                         <option value="<%=currInsDisplayedName%>"><%=currInsDisplayedName%></option> 
-                                        <%}%>
+                                        <%  }
+                                        }%>
                                     </select>
                                 </td>
                                 <td class="instructorRoles">
@@ -1059,7 +1066,8 @@
                                     </select>
                                 </td>
                             </tr>
-                        <%}%>
+                        <%  }
+                        }%>
                         </tbody>
                     </table>
                      
