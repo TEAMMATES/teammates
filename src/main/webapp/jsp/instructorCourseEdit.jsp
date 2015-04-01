@@ -617,11 +617,10 @@
         %>
         
         <div class="align-center">
-            <input id="btnShowNewInstructorForm" class="btn btn-primary" value="Add New Instructor" 
-                onclick="showNewInstructorForm()"
+            <a id="btnShowNewInstructorForm" class="btn btn-primary" onclick="showNewInstructorForm()"
                 <%if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {%>
                       disabled="disabled"
-                <%}%>>
+                <%}%>>Add New Instructor</a>
             <a id="btnShowCopyInstructorsForm" class="btn btn-primary"
                 <%if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {%>
                       disabled="disabled"
