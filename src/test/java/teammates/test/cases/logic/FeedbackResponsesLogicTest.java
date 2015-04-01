@@ -49,7 +49,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         printTestClassHeader();
         turnLoggingUp(FeedbackResponsesLogic.class);
         removeAndRestoreTypicalDataInDatastore();
-        removeAndRestoreDatastoreFromJson("/FeedbackResponseLogicTest2.json");
+        removeAndRestoreDatastoreFromJson("/SpecialCharacterTest.json");
     }
     
     @Test
