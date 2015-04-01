@@ -24,6 +24,9 @@ public class Const {
         /** This is the limit given to Blobstore API, beyond which an ugly error page is shown */
         public static final long MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI = 11000000;
         
+        /** This is the limit given to Blobstore API, beyond which an ugly error page is shown */
+        public static final long MAX_ADMIN_EMAIL_FILE_LIMIT_FOR_BLOBSTORE_API = 11000000;
+        
         /** e.g. "2014-04-01 11:59 PM UTC" */
         public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
         /** Number to trim the Google ID when displaying to the user*/
@@ -37,6 +40,8 @@ public class Const {
         public static final double ADMIN_TIMZE_ZONE_DOUBLE = 8.0;
         
         public static final String EMAIL_TASK_QUEUE = "configure-and-prepare-email-queue";
+        public static final String ADMIN_EMAIL_TASK_QUEUE = "admin-send-email-queue";
+        public static final String ADMIN_PREPARE_EMAIL_TASK_QUEUE = "admin-prepare-email-task-queue";
         public static final String SUBMISSION_TASK_QUEUE = "submission-queue";
         public static final String EVAL_SUBMISSION_ADJUSTMENT_TASK_QUEUE =
                                 "eval-submission-adjust-queue";
@@ -44,8 +49,6 @@ public class Const {
         public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_TASK_QUEUE = 
                                 "feedback-submission-adjust-queue";
         
-        public static final String EVAL_PUBLISH_EMAIL_TASK_QUEUE = "evaluation-publish-email-queue";
-        public static final String EVAL_REMIND_EMAIL_TASK_QUEUE = "evaluation-remind-email-queue";
         public static final String FEEDBACK_REMIND_EMAIL_TASK_QUEUE = "feedback-remind-email-queue";
         public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_TASK_QUEUE = "feedback-remind-email-particular-users-queue";
         public static final String SEND_EMAIL_TASK_QUEUE = "send-email-queue";
@@ -341,6 +344,22 @@ public class Const {
         
         public static final String ADMIN_SEARCH_KEY = "searchkey";
         public static final String ADMIN_SEARCH_BUTTON_HIT = "searchbuttonhit";
+        
+        public static final String ADMIN_EMAIL_CONTENT = "emailcontent";
+        public static final String ADMIN_EMAIL_SUBJECT = "emailsubject";
+        public static final String ADMIN_EMAIL_RECEVIER = "emailreceiver";
+        public static final String ADMIN_EMAIL_ADDRESS_RECEVIERS = "adminemailaddressreceivers";
+        public static final String ADMIN_EMAIL_TASK_QUEUE_MODE = "adminemailtaskqueuemode";
+        public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_FILE_KEY = "adminemailgroupreceiverlistfilekey";
+        public static final String ADMIN_EMAIL_IMAGE_TO_UPLOAD = "emailimagetoupload";
+        public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_TO_UPLOAD = "emailgroupreceiverlisttoupload";
+        
+        public static final String ADMIN_EMAIL_ID = "emailid";
+        public static final String ADMIN_EMAIL_EMPTY_TRASH_BIN = "emptytrashbin";
+        public static final String ADMIN_EMAIL_TRASH_ACTION_REDIRECT = "redirect";
+        
+        public static final String ADMIN_GROUP_RECEIVER_EMAIL_LIST_INDEX = "emaillistindex";
+        public static final String ADMIN_GROUP_RECEIVER_EMAIL_INDEX = "emailindex";
     
         public static final String EVALUATION_NAME = "evaluationname";
     
@@ -676,6 +695,7 @@ public class Const {
         public static final String STUDENT_PROFILE_PICTURE_EDIT = "/page/studentProfilePictureEdit";
         public static final String STUDENT_PROFILE_CREATEUPLOADFORMURL = "/page/studentProfileCreateFormUrl";
         
+        public static final String ADMIN_EMAIL_LOG_PAGE = "/admin/adminEmailLogPage";
         public static final String ADMIN_HOME_PAGE = "/admin/adminHomePage";
         public static final String ADMIN_INSTRUCTORACCOUNT_ADD = "/admin/adminInstructorAccountAdd";
         public static final String ADMIN_ACCOUNT_MANAGEMENT_PAGE = "/admin/adminAccountManagementPage";
@@ -685,7 +705,24 @@ public class Const {
         public static final String ADMIN_ACTIVITY_LOG_PAGE = "/admin/adminActivityLogPage";
         public static final String ADMIN_SESSIONS_PAGE = "/admin/adminSessionsPage";
         public static final String ADMIN_SEARCH_PAGE = "/admin/adminSearchPage";
+        public static final String ADMIN_EMAIL_COMPOSE_PAGE = "/admin/adminEmailComposePage";
+        public static final String ADMIN_EMAIL_COMPOSE_SAVE = "/admin/adminEmailComposeSave";
+        public static final String ADMIN_EMAIL_COMPOSE_SEND = "/admin/adminEmailComposeSend";
+        public static final String ADMIN_EMAIL_SENT_PAGE = "/admin/adminEmailSentPage"; 
+        public static final String ADMIN_EMAIL_TRASH_PAGE = "/admin/adminEmailTrashPage";
+        public static final String ADMIN_EMAIL_TRASH_DELETE = "/admin/adminEmailTrashDelete";
+        public static final String ADMIN_EMAIL_DRAFT_PAGE = "/admin/adminEmailDraftPage";
+        public static final String ADMIN_EMAIL_MOVE_TO_TRASH = "/admin/adminEmailMoveToTrash";
+        public static final String ADMIN_EMAIL_MOVE_OUT_TRASH = "/admin/adminEmailMoveOutTrash";
+        public static final String ADMIN_EMAIL_IMAGE_UPLOAD = "/admin/adminEmailImageUpload";
+        public static final String ADMIN_EMAIL_CREATE_IMAGE_UPLOAD_URL = "/admin/adminEmailCreateImageUploadUrl";
+        
+        public static final String ADMIN_EMAIL_GROUP_RECEIVER_LIST_UPLOAD = "/admin/adminEmailGroupReceiverListUpload";
+        public static final String ADMIN_EMAIL_CREATE_GROUP_RECEIVER_LIST_UPLOAD_URL = "/admin/adminEmailCreateGroupReceiverListUploadUrl";
+        
+        public static final String PUBLIC_EMAIL_FILE_SERVE = "/public/publicEmailImageServe";
         public static final String ADMIN_STUDENT_GOOGLE_ID_RESET = "/admin/adminStudentGoogleIdReset";
+
         
         public static final String AUTOMATED_EVAL_OPENING_REMINDERS = "/evaluationopeningreminders";
         public static final String AUTOMATED_EVAL_CLOSING_REMINDERS = "/evaluationclosingreminders";        
@@ -698,6 +735,8 @@ public class Const {
         
         //Task Queue Worker Servlets URI
         public static final String EMAIL_WORKER = "/emailWorker";
+        public static final String ADMIN_EMAIL_WORKER = "/adminEmailWorker";
+        public static final String ADMIN_EMAIL_PREPARE_TASK_QUEUE_WORKER = "/adminEmailPrepareTaskQueueWorker";
         public static final String SUBMISSION_WORKER = "/submissionWorker";
         public static final String EVAL_SUBMISSION_ADJUSTMENT_WORKER = 
                                     "/evalSubmissionAdjustmentWorker";
@@ -725,6 +764,10 @@ public class Const {
         public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "feedbackSessionOpeningReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "feedbackSessionClosingReminders";
         public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "feedbackSessionPublishedReminders";
+    }
+    
+    public class PublicActionNames{
+        public static final String PUBLIC_IMAGE_SERVE_ACTION = "publicImageServeAction";
     }
     
     public class ViewURIs{
@@ -779,9 +822,11 @@ public class Const {
         public static final String ADMIN_HOME = "/jsp/adminHome.jsp";
         public static final String ADMIN_ACCOUNT_MANAGEMENT = "/jsp/adminAccountManagement.jsp";
         public static final String ADMIN_SEARCH = "/jsp/adminSearch.jsp";
+        public static final String ADMIN_EMAIL = "/jsp/adminEmail.jsp";
         public static final String ADMIN_ACTIVITY_LOG = "/jsp/adminActivityLog.jsp";
         public static final String ADMIN_ACCOUNT_DETAILS = "/jsp/adminAccountDetails.jsp";
         public static final String ADMIN_SESSIONS = "/jsp/adminSessions.jsp";
+        public static final String ADMIN_EMAIL_LOG = "/jsp/adminEmailLog.jsp";
         
         public static final String LOGOUT = "/logout.jsp"; 
         
@@ -806,10 +851,21 @@ public class Const {
         public static final String EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp";
         public static final String FEEDBACK_SUBMISSION_EDIT = "/jsp/feedbackSubmissionEdit.jsp";
         public static final String FEEDBACK_QUESTION_SUBMISSION_EDIT = "/jsp/feedbackQuestionSubmissionEdit.jsp"; 
+        
+        public static final String ADMIN_EMAIL_FILE_UPLOAD = "/jsp/adminEmailFileUpload.jsp"; 
     }
 
     /* These are status messages that may be shown to the user */
     public class StatusMessages{
+        
+        public static final String IMAGE_TOO_LARGE = "The uploaded image was too large. ";
+        public static final String FILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. ";
+        public static final String NO_IMAGE_GIVEN = "Please specify a image to be uploaded.";
+        
+        public static final String RECEIVER_LIST_FILE_TOO_LARGE = "The uploaded receiver list file was too large. ";
+        public static final String NOT_A_RECEIVER_LIST_FILE = "The file that you have uploaded is not a receiver list file. ";
+        public static final String NO_GROUP_RECEIVER_LIST_FILE_GIVEN = "Please specify a receiver list file to be uploaded.";
+                
         public static final String LOADING = "<img src=\"/images/ajax-loader.gif\" /><br />";
         public static final String STUDENT_FIRST_TIME = "<div style=\"text-align:left;\">Welcome stranger :-) "
                 + "<br/><br/>It seems you are not a registered user of TEAMMATES. To use TEAMMATES, a course instructor has to add you to a course first. "
@@ -1193,5 +1249,9 @@ public class Const {
             EQUAL_SHARE+ " + 100%",
             NOT_SURE);
     
+    
+    public static enum AdminEmailPageState{COMPOSE, SENT, TRASH, DRAFT};
+    public static final String ADMIN_EMAIL_TASK_QUEUE_ADDRESS_MODE = "adminEmailAddressMode";
+    public static final String ADMIN_EMAIL_TASK_QUEUE_GROUP_MODE = "adminEmailGroupMode";
     
 }

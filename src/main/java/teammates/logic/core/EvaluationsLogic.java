@@ -527,14 +527,14 @@ public class EvaluationsLogic {
     }
     
     public void scheduleEvaluationRemindEmails(String courseId, String evaluationName) {
-        
-        HashMap<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put(ParamsNames.SUBMISSION_EVAL, evaluationName);
-        paramMap.put(ParamsNames.SUBMISSION_COURSE, courseId);
-        
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(SystemParams.EVAL_REMIND_EMAIL_TASK_QUEUE,
-                Const.ActionURIs.EVAL_REMIND_EMAIL_WORKER, paramMap);
+//        TODO Evaluation Remind and Publish task queues are deleted. To be removed.        
+//        HashMap<String, String> paramMap = new HashMap<String, String>();
+//        paramMap.put(ParamsNames.SUBMISSION_EVAL, evaluationName);
+//        paramMap.put(ParamsNames.SUBMISSION_COURSE, courseId);
+//        
+//        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+//        taskQueueLogic.createAndAddTask(SystemParams.EVAL_REMIND_EMAIL_TASK_QUEUE,
+//                Const.ActionURIs.EVAL_REMIND_EMAIL_WORKER, paramMap);
     }
     
     /**
@@ -747,14 +747,14 @@ public class EvaluationsLogic {
     }
     
     private void scheduleEvaluationPublishedEmails(String courseId, String evaluationName) {
-    
-        HashMap<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put(ParamsNames.SUBMISSION_EVAL, evaluationName);
-        paramMap.put(ParamsNames.SUBMISSION_COURSE, courseId);
-        
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(SystemParams.EVAL_PUBLISH_EMAIL_TASK_QUEUE,
-                Const.ActionURIs.EVAL_PUBLISH_EMAIL_WORKER, paramMap);
+//      TODO Evaluation Remind and Publish task queues are deleted. To be removed.  
+//        HashMap<String, String> paramMap = new HashMap<String, String>();
+//        paramMap.put(ParamsNames.SUBMISSION_EVAL, evaluationName);
+//        paramMap.put(ParamsNames.SUBMISSION_COURSE, courseId);
+//        
+//        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+//        taskQueueLogic.createAndAddTask(SystemParams.EVAL_PUBLISH_EMAIL_TASK_QUEUE,
+//                Const.ActionURIs.EVAL_PUBLISH_EMAIL_WORKER, paramMap);
     }
     
     private void verifyEvaluationExists(String courseId, String evaluationName) 

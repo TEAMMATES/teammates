@@ -77,7 +77,8 @@ Important: When a version is specified, please install that version instead of t
    e.g. Change <b>`http://teammates-john.appspot.com`</b>`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS` <br>
    to <b>`http://localhost:8888`</b>`/page/instructorCourseJoin?key=F2AD69F8994BA92C8D605BAEDB35949A41E71A573721C8D60521776714DE0BF8B0860F12DD19C6B955F735D8FBD0D289&instructorinstitution=NUS`
 8. Now, to access the dev server as a student, first make sure you are logged in as an instructor. Add a course for yourself and then add the students for the course.<br>
-   After that, log in as admin and search for the student you added in as instructor. From the search results, use the join link adjacent to the student you added.<br>
+   After that, log in as admin by going to `http://localhost:8888/admin/adminSearchPage` and provide the same GoogleID you used for logging in step 6.<br>
+   Search for the student you added in as instructor. From the search results, click anywhere on the desired row(except on the student name) to get the course join link for that student.<br>
    Then, log out and use that join link to log in as a student. You have the required access now.<br>
    (Make sure you use the `http://localhost:8888/` as the host instead of the one given in the join link)<br>   
    Alternative : Run the test cases, they create several student accounts in the datastore. Use one of them to log in.<br>
@@ -219,7 +220,9 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
 * **Google App Engine Plugin for Eclipse** [version 4.4]
 * **Google App Engine SDK** [version 1.9.4]
 * **GitHub** : Used to host the repo and code reviewing.
-* **Pivotal Tracker** : Used for project management.
+* [**PowerPointLabs**](http://PowerPointLabs.info) [Sister project]: Used for creating demo videos.
+* Optional: [**HubTurbo**](https://github.com/HubTurbo/HubTurbo/wiki/Getting-Started) [Sister project]: 
+  Can be used as a client for accessing the GitHub issue tracker.
 * Optional: **SourceTree** or **GitHub for Windows/Mac** or 
   equivalent [version: latest stable] to use as a GUI client for Git.
 

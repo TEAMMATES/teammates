@@ -80,6 +80,20 @@ public class InstructorCourseDetailsPage extends AppPage {
         waitForPageToLoad();
         return changePageType(InstructorCourseStudentDetailsViewPage.class);
     }
+    
+    public void submitCommentToCourse(String comment) {
+        clickAddCommentToCourseButton();
+        WebElement commentTextForm = browser.driver.findElement(By.id("commentText"));
+        commentTextForm.click();
+        commentTextForm.clear();
+        commentTextForm.sendKeys(comment);
+        browser.driver.findElement(By.id("button_save_comment")).click();
+        waitForPageToLoad();
+    }
+    
+    public void clickAddCommentToCourseButton() {
+        browser.driver.findElement(By.id("button_add_comment")).click();
+    }
 
     public InstructorCourseStudentDetailsEditPage clickEditStudent(String studentName) {
         int rowId = getStudentRowId(studentName);
