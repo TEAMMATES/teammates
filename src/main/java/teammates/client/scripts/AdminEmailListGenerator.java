@@ -76,23 +76,62 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         }     
         
         
-        System.out.print("\n\nstudent : " + emailListConfig.student + "\n");       
-        if( emailListConfig.studentCreatedDateRangeStart !=null){
+        System.out.print("\n\nstudent : " + emailListConfig.student + "\n");  
+        
+        if(emailListConfig.student){
+            System.out.print("Student Status: ");
+            switch (emailListConfig.studentStatus){
+                case REG:
+                    System.out.print("REG\n");
+                    break;
+                case UNREG:
+                    System.out.print("UNREG\n");
+                    break;
+                case ALL:
+                    System.out.print("ALL\n");
+                    break;
+                default :
+                    System.out.print("ALL\n");
+                    break;
+            }
+        }
+        
+        if(emailListConfig.studentCreatedDateRangeStart !=null){
             System.out.print("student start : " + emailListConfig.studentCreatedDateRangeStart.toString() + "\n");
         }
         
-        if( emailListConfig.studentCreatedDateRangeEnd !=null){
+        if(emailListConfig.studentCreatedDateRangeEnd !=null){
             System.out.print("student end : " + emailListConfig.studentCreatedDateRangeEnd.toString() + "\n");
         }
+        
         System.out.print("instructor : " + emailListConfig.instructor + "\n");
         
-        if( emailListConfig.instructorCreatedDateRangeStart !=null){
+        if(emailListConfig.instructor){
+            System.out.print("Instructor Status: ");
+            switch (emailListConfig.studentStatus){
+                case REG:
+                    System.out.print("REG\n");
+                    break;
+                case UNREG:
+                    System.out.print("UNREG\n");
+                    break;
+                case ALL:
+                    System.out.print("ALL\n");
+                    break;
+                default :
+                    System.out.print("ALL\n");
+                    break;
+            }
+        }
+        
+        if(emailListConfig.instructorCreatedDateRangeStart !=null){
             System.out.print("instructor start : " + emailListConfig.instructorCreatedDateRangeStart.toString() + "\n");
         } 
         
-        if( emailListConfig.instructorCreatedDateRangeEnd !=null){
+        if(emailListConfig.instructorCreatedDateRangeEnd !=null){
             System.out.print("instructor end : " + emailListConfig.instructorCreatedDateRangeEnd.toString() + "\n");
         }
+       
     }
     
     private void getInstructorEmailConfiguration() throws InvalidParametersException{
@@ -414,7 +453,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         cal.setTime(now);
         cal = TimeHelper.convertToUserTimeZone(cal, Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
         
-        System.out.print(formatTime(cal.getTime()));
+        System.out.print(formatTime(cal.getTime())+ "\n");
         return formatTime(cal.getTime());
         
     }
@@ -422,7 +461,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     private String formatTime(Date date) {
         if (date == null)
             return "";
-        return new SimpleDateFormat("[HH-mm]dd-MMM-yyyy]").format(date);
+        return new SimpleDateFormat("[HH-mm]dd-MMM-yyyy").format(date);
         
     }
     
