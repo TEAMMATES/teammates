@@ -35,6 +35,12 @@ $(document).ready(function(){
                     $(panelBody[0]).removeClass('padding-0');
                     $(panelBody[0]).html("There are too many responses for this question. Please view the responses one section at a time.");
                 }
+                
+                bindErrorImages($(panelBody[0]).find(".profile-pic-icon-hover, .profile-pic-icon-click"));
+                // bind the show picture onclick events
+                bindStudentPhotoLink($(panelBody[0]).find(".profile-pic-icon-click > .student-profile-pic-view-link"));
+                // bind the show picture onhover events
+                bindStudentPhotoHoverLink($(panelBody[0]).find(".profile-pic-icon-hover"));
 
                 $(panelHeading).removeClass('ajax_submit');
                 $(panelHeading).off('click');
