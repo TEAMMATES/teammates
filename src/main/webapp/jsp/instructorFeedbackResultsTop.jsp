@@ -66,11 +66,7 @@
                     </form><br>
                     
                     <div>
-                    <%String publishLinkStyle="class=\"btn btn-primary btn-block btn-tm-actions session-publish-for-test";%>
-                    <%String unpublishLinkStyle="class=\"btn btn-primary btn-block btn-tm-actions session-unpublish-for-test\"";%>
-                    <%String buttonString=data.getInstructorFeedbackSessionPublishAndUnpublishAction(data.bundle.feedbackSession, false, data.instructor, publishLinkStyle,unpublishLinkStyle);%>
-                    <%buttonString=buttonString.contains(">Unpublish<")?buttonString.replace(">Unpublish<", ">Unpublish results<"):buttonString.replace(">Publish<", ">Publish results<");%>
-                    <%=buttonString%>
+                    <%=data.getInstructorFeedbackSessionPublishAndUnpublishAction(data.bundle.feedbackSession, false, data.instructor)%>
                     </div>
                   </div>
               </div>
