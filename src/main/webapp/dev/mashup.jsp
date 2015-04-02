@@ -453,10 +453,10 @@
                 if (FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 3) != null) {
                     instrQuestionId = FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 3).getId();
             %>
-            $('#instructorFeedbackQuestionSubmitPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&questionid=<%=instrQuestionId%> #frameBodyWrapper",
-                function(response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
+                    $('#instructorFeedbackQuestionSubmitPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&questionid=<%=instrQuestionId%> #frameBodyWrapper",
+                        function(response, status, xml) {
+                            $("[data-toggle='tooltip']").tooltip({html: true}); 
+                        });
             <%
                 }
             %>
@@ -501,14 +501,14 @@
                 if (student != null) {
                 	String url = StringHelper.encrypt(student.key);
             %>
-            $('#studentCourseJoinConfirmationPage').load("<%=Const.ActionURIs.STUDENT_COURSE_JOIN%>?key=<%=student.key%> #frameBodyWrapper",
-                function(response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#studentCourseJoinConfirmationPageNew').load("<%=student.getRegistrationUrl()%> #frameBodyWrapper",
-                function(response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
+                    $('#studentCourseJoinConfirmationPage').load("<%=Const.ActionURIs.STUDENT_COURSE_JOIN%>?key=<%=student.key%> #frameBodyWrapper",
+                        function(response, status, xml) {
+                            $("[data-toggle='tooltip']").tooltip({html: true}); 
+                        });
+                    $('#studentCourseJoinConfirmationPageNew').load("<%=student.getRegistrationUrl()%> #frameBodyWrapper",
+                        function(response, status, xml) {
+                            $("[data-toggle='tooltip']").tooltip({html: true}); 
+                        });
             <%
                 }
             %>
@@ -526,17 +526,43 @@
                 });
             $('#studentFeedbackSubmitPage').load("<%=Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper",
                 function(response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                    $("[data-toggle='tooltip']").tooltip({html: true});
+                    
+                    $('#studentFeedbackSubmitPage').
+                        find('div.form-horizontal').
+                        first().
+                        find('div').
+                        last().
+                        find('p').
+                        html(
+                        	 'Please please fill in the following questions before the closing date. ' +
+                             '<br/>' +
+                             'Late submission will not be entertained!' +
+                             '<br/>' +
+                             'Feedback will be sent out at the end of the course.'
+                            );
                 });
             <%
                 String studentQuestionId = null;
                 if (FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 1) != null) {
                     studentQuestionId = FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 1).getId();
             %>
-            $('#studentFeedbackQuestionSubmitPage').load("<%=Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&questionid=<%=studentQuestionId%> #frameBodyWrapper",
-                function(response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
+                    $('#studentFeedbackQuestionSubmitPage').load("<%=Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&questionid=<%=studentQuestionId%> #frameBodyWrapper",
+                        function(response, status, xml) {
+                            $("[data-toggle='tooltip']").tooltip({html: true});
+                            
+                            $('#studentFeedbackQuestionSubmitPage').
+                               find('div.form-horizontal').
+                               first().
+                               find('div').
+                               last().
+                               find('p').
+                               html(
+                            		'Please please fill in the following questions before the closing date. ' +
+                                    'Late submissions will not be entertained at any point or for any reason(s)! ' +
+                                    'Feedback will be sent out to students at the end of this course.'
+                                   );
+                        });
             <%
                 }
             %>
@@ -572,12 +598,6 @@
                 function(response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
-
-            // Do not remove, for making session comments multi-line
-            $('#instructorHelp').find('iframe').load(function() {
-                $('#instructorHelp').find('iframe').contents().find('div.col-lg-6').css('width', 800);
-                calcHeight($('#instructorHelp').find('iframe'));
-            });
         });
         
         function calcHeight(iframe) {
