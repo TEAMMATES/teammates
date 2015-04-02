@@ -83,6 +83,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         
         commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
         commentsPage.loadResponseComments();
+        removePreExistComments();
         
         commentsPage.verifyHtmlMainContent("/instructorCommentsPageForTypicalCourseWithComments.html");
     }
