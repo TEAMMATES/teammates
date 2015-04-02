@@ -121,6 +121,7 @@ public class Const {
     
         public static final String EVALUATION_RESULTS = "View the current results of the evaluation";
         public static final String EVALUATION_EDIT = "Edit evaluation details";
+        public static final String EVALUATION_COPY = "Copy evaluation details";
         public static final String EVALUATION_PREVIEW = "Preview evaluation session";
         public static final String EVALUATION_REMIND = "Send e-mails to remind students who have not submitted their evaluations to do so";
         public static final String EVALUATION_DELETE = "Delete the evaluation";

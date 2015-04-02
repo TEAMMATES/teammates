@@ -671,7 +671,7 @@
                         <%=InstructorFeedbacksPageData.getInstructorStatusForEval(edd)%>
                     </span>
                 </td>
-                <td
+                <td>
                     class="session-response-for-test<%if (!TimeHelper.isOlderThanAYear(edd.endTime)) {
                         out.print(" recent");
                     }%>">
@@ -696,6 +696,30 @@
                 }
             %>
         </table>
+        <div class="modal fade" id="fsCopyModal" tabindex="-1" role="dialog" aria-labelledby="fsCopyModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="post" name="form_copy_list" role="form"
+                          action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY%>">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">
+                                Copy this feedback session to other courses <br/>
+                                <small>(Select the course(s) you want to copy this feedback session to)</small>
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div id="courseList" class="form-group"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <input type="submit" class="btn btn-primary" id="fscopy_submit" value="Copy">
+                            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+                       </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <p class="col-md-12 text-muted">Note: The table above doesn't contain sessions from archived courses. To view sessions from an archived course, unarchive the course first.</p>
         <br> <br> <br>
         <%

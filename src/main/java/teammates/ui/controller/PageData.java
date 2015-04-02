@@ -842,12 +842,14 @@ public class PageData {
         boolean hasPublish = !session.isWaitingToOpen() && !session.isPublished();
         boolean hasUnpublish = !session.isWaitingToOpen() && session.isPublished();
         boolean hasRemind = session.isOpened();
+        boolean hasCopy = session.isOpened();
         String disabledStr = "disabled=\"disabled\"";
         String disableEditSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disableDeleteSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disableUnpublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disablePublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disableRemindSessionStr = (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) && hasRemind) ? "" : disabledStr;
+        String disableCopySessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         boolean shouldEnableSubmitLink = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         
         for (String section : sectionsInCourse) {
@@ -882,6 +884,19 @@ public class PageData {
             "href=\"" + getInstructorFeedbackSessionSubmitLink(session.courseId,session.feedbackSessionName) + "\" " +
             "title=\"" + Const.Tooltips.FEEDBACK_SESSION_SUBMIT + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
             disableSubmitSessionStr + ">Submit</a> "
+        );
+        result.append(
+            "<a class=\"btn btn-default btn-xs btn-tm-actions session-copy-for-test" + (hasCopy ? "\"" : DISABLED) + 
+            "href=#" +
+            "title=\"" + Const.Tooltips.EVALUATION_COPY + "\"" +
+            "data-actionlink=\"" + getFeedbackSessionEditCopyLink() + "\"" +
+            "data-courseid=\"" + session.courseId + "\"" +
+            "data-fsname=\"" + session.feedbackSessionName + "\"" +
+            "data-toggle=\"modal\"" +
+            "data-target=\"#fsCopyModal\"" +
+            "data-placement=\"top\"" +
+            "id=\"button_fscopy\"" +
+            disableCopySessionStr + ">Copy</a> "
         );
         
         // Don't need to show any other links if private
