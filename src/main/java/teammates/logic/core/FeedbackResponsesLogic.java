@@ -305,7 +305,7 @@ public class FeedbackResponsesLogic {
                 }
             case RECEIVER:
                 // Response to team
-                if (question.recipientType == FeedbackParticipantType.TEAMS) {
+                if (question.recipientType.isTeam()) {
                     if (roster.isStudentInTeam(userEmail, /* this is a team name */
                             response.recipientEmail)) {
                         return true;
@@ -318,7 +318,7 @@ public class FeedbackResponsesLogic {
                 }
             case RECEIVER_TEAM_MEMBERS:
                 // Response to team; recipient = teamName
-                if (question.recipientType == FeedbackParticipantType.TEAMS) {
+                if (question.recipientType.isTeam()) {
                     if (roster.isStudentInTeam(userEmail, /* this is a team name */
                             response.recipientEmail)) {
                         return true;
@@ -715,7 +715,7 @@ public class FeedbackResponsesLogic {
             return viewableResponses;
         }
 
-        if (question.recipientType == FeedbackParticipantType.TEAMS &&
+        if (question.recipientType.isTeam() &&
                 question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
             addNewResponses(
                     viewableResponses,
