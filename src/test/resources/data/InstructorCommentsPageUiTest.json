@@ -222,7 +222,7 @@
             "sentPublishedEmail":false
         },
         "sessionUriCharInCourseUriChars":{
-            "feedbackSessionName":"comments.Session with # in name",
+            "feedbackSessionName":"comments.Session with name ,?:@=+$#",
             "courseId":"comments.idOfUriCharsCourse",
             "creatorEmail":"comments.instructor@courseuri.tmt",
             "instructions":{
@@ -357,7 +357,7 @@
             
         },
         "qnInSessionUriInCourseUriChars":{
-            "feedbackSessionName":"comments.Session with # in name",
+            "feedbackSessionName":"comments.Session with name ,?:@=+$#",
             "courseId":"comments.idOfUriCharsCourse",
             "creatorEmail":"comments.instructor@courseuri.tmt",
             "questionMetaData":{
@@ -466,7 +466,7 @@
             
         },
         "responseForQ1SUriCUri":{
-            "feedbackSessionName":"comments.Session with # in name",
+            "feedbackSessionName":"comments.Session with name ,?:@=+$#",
             "courseId":"comments.idOfUriCharsCourse",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
@@ -530,13 +530,13 @@
         },
         "commentFromT1CUriToR1Q1SUriCUri": {
             "courseId":"comments.idOfUriCharsCourse",
-            "feedbackSessionName":"comments.Session with # in name",
+            "feedbackSessionName":"comments.Session with name ,?:@=+$#",
             "feedbackQuestionId":"1",
             "giverEmail":"comments.instructor@courseuri.tmt",
             "feedbackResponseId":"1%comments.studentInCourseUri@gmail.tmt%comments.studentInCourseUri@gmail.tmt",
             "createdAt":"2016-03-01 11:59 PM UTC",
             "commentText":{
-                "value":"I like that you like the session name"   
+                "value":"I like that you like the session name."   
             }
         }
     },
@@ -719,6 +719,21 @@
             "createdAt":"2012-06-02 07:22 PM UTC",
             "commentText":{
                 "value":"This is a private comment--cannot seen by other instructors"
+            }
+        },
+        "teamCommentFromInstructorOfUriCourse":{
+            "courseId":"comments.idOfUriCharsCourse",
+            "giverEmail":"comments.instructor@courseuri.tmt",
+            "recipientType":"TEAM",
+            "recipients":["Team #.1"],
+            "status": "FINAL",
+            "showCommentTo": [TEAM],
+            "showGiverNameTo": [],
+            "showRecipientNameTo": [],
+            "receiverEmail":"Team #.1",
+            "createdAt":"2012-05-07 08:54 AM UTC",
+            "commentText":{
+                "value":"Team #.1 can see this comment"
             }
         }
         
