@@ -860,6 +860,7 @@ public abstract class AppPage {
      * @return The page (for chaining method calls).
      */
     public AppPage verifyHtmlMainContent(String filePath) {
+        waitForAjaxLoaderGifToDisappear();
         verifyHtmlPart(By.id("frameBodyWrapper"), filePath);
         
         return this;
@@ -1041,6 +1042,14 @@ public abstract class AppPage {
             alert.accept();
         }else {
             alert.dismiss();
+        }
+    }
+
+    public void waitForAjaxLoaderGifToDisappear() {
+        try {
+            waitForElementToDisappear(By.xpath("//img[@src='/images/ajax-loader.gif']"));
+        } catch (NoSuchElementException alreadydisappears) {
+            // ok to ignore
         }
     }
 

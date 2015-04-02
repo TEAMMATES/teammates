@@ -144,7 +144,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         //verify sample course is accessible for newly joined instructor as an instructor
         
         ______TS("new instructor can see sample course in homepage");
-        InstructorHomePage instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);  
+        InstructorHomePage instructorHomePage = AppPage.getNewPageInstance(browser, InstructorHomePage.class);
         instructorHomePage.verifyHtmlMainContent("/newlyJoinedInstructorHomePage.html");
         
         ______TS("new instructor can access sample coure enroll page");
