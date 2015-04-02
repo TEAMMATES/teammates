@@ -146,7 +146,7 @@ public class CommentAttributes extends EntityAttributes
                 showCommentTo, 
                 showGiverNameTo, 
                 showRecipientNameTo, 
-                commentText, createdAt);
+                commentText, createdAt, lastEditorEmail, lastEditedAt);
     }
     
     public Boolean isVisibleTo(CommentRecipientType targetViewer){
@@ -168,7 +168,9 @@ public class CommentAttributes extends EntityAttributes
                 ", showGiverNameTo = " + showGiverNameTo +
                 ", showRecipientNameTo = " + showRecipientNameTo +
                 ", commentText = " + commentText.getValue() +
-                ", createdAt = " + createdAt + "]";
+                ", createdAt = " + createdAt +
+                ", lastEditorEmail = " + lastEditorEmail +
+                ", lastEditedAt = " + lastEditedAt + "]";
     }
 
     @Override

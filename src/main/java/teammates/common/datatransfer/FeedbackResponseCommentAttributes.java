@@ -151,7 +151,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public FeedbackResponseComment toEntity() {
         return new FeedbackResponseComment(courseId, feedbackSessionName,
                 feedbackQuestionId, giverEmail, feedbackResponseId, sendingState, createdAt,
-                commentText, giverSection, receiverSection, showCommentTo, showGiverNameTo);
+                commentText, giverSection, receiverSection, showCommentTo, showGiverNameTo,
+                lastEditorEmail, lastEditedAt);
     }
 
     @Override
@@ -202,7 +203,9 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
                 + ", giverEmail = " + giverEmail 
                 + ", feedbackResponseId = " + feedbackResponseId
                 + ", commentText = " + commentText.getValue() 
-                + ", createdAt = " + createdAt + "]";
+                + ", createdAt = " + createdAt
+                + ", lastEditorEmail = " + lastEditorEmail
+                + ", lastEditedAt = " + lastEditedAt + "]";
     }
     
     public static void sortFeedbackResponseCommentsByCreationTime(List<FeedbackResponseCommentAttributes> frcs) {

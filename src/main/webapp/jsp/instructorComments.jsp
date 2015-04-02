@@ -305,16 +305,13 @@
                                                 <%=TimeHelper.formatTime(comment.createdAt)%>
                                                 <%
                                                     if (comment.lastEditorEmail != null) {
-                                                %>
-                                                    (last edited 
+                                                %> (last edited 
                                                 <%
                                                     if (!data.getGiverName(giverEmail).equals("Anonymous")) {
-                                                %>
-                                                    by <%=comment.lastEditorEmail%>
+                                                %> by <%=comment.lastEditorEmail%>
                                                 <%
                                                     }
-                                                %>
-                                                    at <%=TimeHelper.formatTime(comment.lastEditedAt)%>)
+                                                %> at <%=TimeHelper.formatTime(comment.lastEditedAt)%>)
                                                 <%
                                                     }
                                                 %>

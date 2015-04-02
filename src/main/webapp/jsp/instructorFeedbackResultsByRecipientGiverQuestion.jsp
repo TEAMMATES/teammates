@@ -468,16 +468,13 @@
                                             <span class="text-muted">From: <%=comment.giverEmail%> [<%=comment.createdAt%>]
                                                 <%
                                                     if (comment.lastEditorEmail != null) {
-                                                %>
-                                                    (last edited 
+                                                %> (last edited 
                                                 <%
                                                     if (!comment.giverEmail.equals("Anonymous")) {
-                                                %>
-                                                    by <%=comment.lastEditorEmail%>
+                                                %> by <%=comment.lastEditorEmail%>
                                                 <%
                                                     }
-                                                %>
-                                                    at <%=comment.lastEditedAt%>)
+                                                %> at <%=comment.lastEditedAt%>)
                                                 <%
                                                     }
                                                 %>

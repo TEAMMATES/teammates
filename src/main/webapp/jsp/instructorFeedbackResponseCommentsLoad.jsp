@@ -129,16 +129,13 @@
                                     [<%=frc.createdAt%>]
                                 <%
                                     if (frc.lastEditorEmail != null) {
-                                %>
-                                    (last edited 
+                                %> (last edited 
                                 <%
                                     if (!frCommentGiver.equals("Anonymous")) {
-                                %>
-                                    by <%=frc.lastEditorEmail%>
+                                %> by <%=frc.lastEditorEmail%>
                                 <%
                                     }
-                                %>
-                                    at <%=frc.lastEditedAt%>)
+                                %> at <%=frc.lastEditedAt%>)
                                 <%
                                     }
                                 %>

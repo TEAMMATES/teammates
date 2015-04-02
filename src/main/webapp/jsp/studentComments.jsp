@@ -132,17 +132,14 @@
                                                 if (comment.lastEditedAt != null) {
                                                 InstructorAttributes lastEditor = data.roster.getInstructorForEmail(comment.lastEditorEmail);
                                                 String lastEditorDisplay = lastEditor.displayedName + " " + lastEditor.name;
-                                            %>
-                                                (last edited 
+                                            %> (last edited 
                                             <%
                                                 if (!giverDisplay.equals("Anonymous")) {
-                                            %>
-                                                by <%=lastEditorDisplay%>
+                                            %> by <%=lastEditorDisplay%>
                                             <%
                                                 }
-                                            %>
-                                                at <%=TimeHelper.formatDate(comment.lastEditedAt)%>)
-                                            <%
+                                            %> at <%=TimeHelper.formatDate(comment.lastEditedAt)%>)
+                                            <% 
                                                 }
                                             %>
                                         </span>
@@ -247,16 +244,13 @@
                                                                 if (frc.lastEditorEmail != null) {
                                                                 InstructorAttributes lastEditor = data.roster.getInstructorForEmail(frc.lastEditorEmail);
                                                                 String lastEditorDisplay = lastEditor.displayedName + " " + lastEditor.name;
-                                                            %>
-                                                                (last edited 
+                                                            %> (last edited 
                                                             <%
                                                                 if (!frCommentGiver.equals("Anonymous")) {
-                                                            %>
-                                                                by <%=lastEditorDisplay%>
+                                                            %> by <%=lastEditorDisplay%>
                                                             <%
                                                                 }
-                                                            %>
-                                                                at <%=TimeHelper.formatDate(frc.lastEditedAt)%>)
+                                                            %> at <%=TimeHelper.formatDate(frc.lastEditedAt)%>)
                                                             <%
                                                                 }
                                                             %>

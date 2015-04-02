@@ -149,6 +149,11 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.saveEditStudentCommentForRow(1);
         commentsPage.verifyContains("edited student comment\n<br />a new line");
         commentsPage.verifyStatus(Const.StatusMessages.COMMENT_EDITED);
+
+        ______TS("action: edit anonymous comment");
+        commentsPage.clickStudentCommentEditForRow(10);
+        commentsPage.saveEditStudentCommentForRow(10);
+        commentsPage.verifyStatus(Const.StatusMessages.COMMENT_EDITED);
         
         ______TS("action: delete student comment");
         commentsPage.clickHiddenElementAndCancel("commentdelete-" + 1);
