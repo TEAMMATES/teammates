@@ -93,7 +93,7 @@
         },
         "uriCharsCourse":{
             "id":"comments.idOfUriCharsCourse",
-            "name":"# Course",
+            "name":"Course with # Session",
             "isArchived":false
         },
         "archivedCourse":{
@@ -222,7 +222,7 @@
             "sentPublishedEmail":false
         },
         "sessionUriCharInCourseUriChars":{
-            "feedbackSessionName":"comments.Feedback session with # in name",
+            "feedbackSessionName":"comments.Session with # in name",
             "courseId":"comments.idOfUriCharsCourse",
             "creatorEmail":"comments.instructor@courseuri.tmt",
             "instructions":{
@@ -238,7 +238,7 @@
             "feedbackSessionType":"STANDARD",
             "sentOpenEmail":true,
             "sentPublishedEmail":false
-        },
+        }
         
     },
     "feedbackQuestions":{
@@ -357,7 +357,7 @@
             
         },
         "qnInSessionUriInCourseUriChars":{
-            "feedbackSessionName":"comments.Feedback session with # in name",
+            "feedbackSessionName":"comments.Session with # in name",
             "courseId":"comments.idOfUriCharsCourse",
             "creatorEmail":"comments.instructor@courseuri.tmt",
             "questionMetaData":{
@@ -466,7 +466,7 @@
             
         },
         "responseForQ1SUriCUri":{
-            "feedbackSessionName":"comments.Feedback session with # in name",
+            "feedbackSessionName":"comments.Session with # in name",
             "courseId":"comments.idOfUriCharsCourse",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
@@ -530,7 +530,7 @@
         },
         "commentFromT1CUriToR1Q1SUriCUri": {
             "courseId":"comments.idOfUriCharsCourse",
-            "feedbackSessionName":"comments.Feedback session with # in name",
+            "feedbackSessionName":"comments.Session with # in name",
             "feedbackQuestionId":"1",
             "giverEmail":"comments.instructor@courseuri.tmt",
             "feedbackResponseId":"1%comments.studentInCourseUri@gmail.tmt%comments.studentInCourseUri@gmail.tmt",
