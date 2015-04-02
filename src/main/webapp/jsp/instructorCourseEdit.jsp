@@ -1017,6 +1017,7 @@
                                             instructorCourseIds = instructorEmailToCourseIdsMap.get(ins.email);
                                             instructorNames = instructorEmailToNamesMap.get(ins.email);
                                             instructorCourseIds += ", " + ins.courseId;
+                                            instructorEmailToCourseIdsMap.put(ins.email, instructorCourseIds);
                                             instructorNames.add(ins.name);
                                             if(ins.isDisplayedToStudents) {
                                                 instructorDisplayedNames = instructorEmailToDisplayedNamesMap.get(ins.email);
