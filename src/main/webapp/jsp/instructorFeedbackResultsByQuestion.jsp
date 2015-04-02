@@ -64,7 +64,17 @@
                                 questionIndex++;
                                 FeedbackQuestionAttributes question = responseEntries.getKey();
             %>
+            <%
+                if (responseEntries.getValue().size() == 0) {
+            %>
+            <div class="panel panel-default">
+            <%
+                } else {
+            %>
             <div class="panel panel-info">
+            <%
+                }
+            %>
                 <div class="panel-heading<%=showAll ? "" : " ajax_submit"%>">
                     <form style="display:none;" id="seeMore-<%=question.questionNumber%>" class="seeMoreForm-<%=question.questionNumber%>" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
                         <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>">
@@ -166,9 +176,28 @@
                                                     	 if (questionDetails.shouldShowNoResponseText(prevGiver, possibleReceiver, question)) {
                                 %>
                                                             <tr class="pending_response_row">
-                                                            	<td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(prevGiver)%></td>
-                                                                <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(prevGiver)%></td>
-                                                                <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(possibleReceiver)%></td>
+                                                                
+                                                            	<td class="middlealign color_neutral">
+                                                            	    <%if (question.isGiverAStudent()) {%>
+                                                                    <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(prevGiver)%>">
+                                                                        <%=data.bundle.getFullNameFromRoster(prevGiver)%>
+                                                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                                    </div>                                
+                                                                    <%} else {%>                                                                    
+                                                                    <%=data.bundle.getFullNameFromRoster(prevGiver)%>                                               
+                                                                    <%}%>                                   
+                                                            	</td>                                                            	     
+                                                                <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(prevGiver)%></td>                                                                
+                                                                <td class="middlealign color_neutral">
+                                                                    <%if (question.isRecipientAStudent()) {%>
+                                                                    <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(possibleReceiver)%>">
+                                                                        <%=data.bundle.getFullNameFromRoster(possibleReceiver)%>
+                                                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                                    </div>      
+                                                                    <%} else {%>                                                
+                                                                    <%=data.bundle.getFullNameFromRoster(possibleReceiver)%>
+                                                                    <%}%>             
+                                                                </td>
                                                                 <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
                                                                 <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(prevGiver, possibleReceiver, data.bundle, question)%></td>
                                                         	</tr>
@@ -190,9 +219,27 @@
                                                 }
                                 %>
                                             <tr>
-                                                <td class="middlealign"><%=giverName%></td>
+                                                <td class="middlealign">
+                                                    <%if (question.isGiverAStudent()) {%>
+                                                    <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(responseEntry.giverEmail)%>">
+                                                        <%=giverName%>
+                                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                    </div>             
+                                                    <%} else {%>   
+                                                    <%=giverName%> 
+                                                    <%}%>                                   
+                                                </td>
                                                 <td class="middlealign"><%=giverTeamName%></td>
-                                                <td class="middlealign"><%=recipientName%></td>
+                                                <td class="middlealign">
+                                                    <%if (question.isRecipientAStudent()) {%>
+                                                    <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(responseEntry.recipientEmail)%>">
+                                                        <%=recipientName%>
+                                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                    </div>   
+                                                    <%} else {%> 
+                                                    <%=recipientName%> 
+                                                    <%}%>                                                   
+                                                </td>
                                                 <td class="middlealign"><%=recipientTeamName%></td>
                                                 <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
                                             </tr>        
@@ -215,9 +262,27 @@
                                           		    if (questionDetails.shouldShowNoResponseText(prevGiver, possibleReceiver, question)) {
                                 %>
                                                         <tr class="pending_response_row">
-                                                            <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(prevGiver)%></td>
+                                                            <td class="middlealign color_neutral">
+                                                                <%if (question.isGiverAStudent()) {%>
+                                                                <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(prevGiver)%>">
+                                                                    <%=data.bundle.getFullNameFromRoster(prevGiver)%>
+                                                                    <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                                </div>       
+                                                                <%} else {%>
+                                                                <%=data.bundle.getFullNameFromRoster(prevGiver)%>
+                                                                <%}%>                                                            
+                                                            </td>
                                                             <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(prevGiver)%></td>
-                                                            <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(possibleReceiver)%></td>
+                                                            <td class="middlealign color_neutral">
+                                                                <%if (question.isRecipientAStudent()) {%>
+                                                                <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(possibleReceiver)%>">
+                                                                    <%=data.bundle.getFullNameFromRoster(possibleReceiver)%>
+                                                                    <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                                </div>  
+                                                                <%} else {%>
+                                                                <%=data.bundle.getFullNameFromRoster(possibleReceiver)%>
+                                                                <%}%>                                                                 
+                                                            </td>
                                                             <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
                                                             <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(prevGiver, possibleReceiver, data.bundle, question)%></td>
                                                         </tr>
@@ -247,9 +312,27 @@
                                                   		if (questionDetails.shouldShowNoResponseText(possibleGiver, possibleReceiver, question)) {
                                 %>
                                                           <tr class="pending_response_row">
-                                                              <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(possibleGiver)%></td>
+                                                              <td class="middlealign color_neutral">
+                                                                  <%if (question.isGiverAStudent()) {%>
+                                                                  <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(possibleGiver)%>">
+                                                                      <%=data.bundle.getFullNameFromRoster(possibleGiver)%>
+                                                                      <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                                  </div>
+                                                                  <%} else {%>
+                                                                  <%=data.bundle.getFullNameFromRoster(possibleGiver)%>
+                                                                  <%}%>                                                                   
+                                                              </td>
                                                               <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleGiver)%></td>
-                                                              <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(possibleReceiver)%></td>
+                                                              <td class="middlealign color_neutral">
+                                                                  <%if (question.isRecipientAStudent()) {%>
+                                                                  <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(possibleReceiver)%>">
+                                                                      <%=data.bundle.getFullNameFromRoster(possibleReceiver)%>
+                                                                      <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                                  </div>
+                                                                  <%} else {%>
+                                                                  <%=data.bundle.getFullNameFromRoster(possibleReceiver)%>
+                                                                  <%}%>                                                                   
+                                                              </td>
                                                               <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
                                                               <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(possibleGiver, possibleReceiver, data.bundle, question)%></td>
                                                           </tr>
