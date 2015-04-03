@@ -144,28 +144,28 @@
     },
      "Student3Course2": {
       "googleId": "",
-      "email": "barney.c.tmms@gmail.tmt",
+      "email": "hugh.i.tmms@gmail.tmt",
       "course": "course2",
-      "name": "Barney Stinson",
-      "comments": "This student's name is Barney Stinson",
+      "name": "Hugh Ivanov",
+      "comments": "This student's name is Hugh Ivanov",
       "team": "Team 2",
       "section": "Section B"
     },
      "Student4Course2": {
       "googleId": "",
-      "email": "ted.c.tmms@gmail.tmt",
+      "email": "ivan.j.tmms@gmail.tmt",
       "course": "course2",
-      "name": "Ted Mosby",
-      "comments": "This student's name is Ted Mosby",
+      "name": "Ivan James",
+      "comments": "This student's name is Ivan James",
       "team": "Team 3",
       "section": "Section B"
     },
      "Student5Course2": {
       "googleId": "",
-      "email": "jack.c.tmms@gmail.tmt",
+      "email": "jack.k.tmms@gmail.tmt",
       "course": "course2",
-      "name": "Jack Lawrence",
-      "comments": "This student's name is Jack Lawrence",
+      "name": "Jack Khan",
+      "comments": "This student's name is Jack Kahn",
       "team": "Team 3",
       "section": "Section B"
     },
