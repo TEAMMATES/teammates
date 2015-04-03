@@ -28,10 +28,14 @@ public class Course {
     private Boolean archiveStatus;
 
 
-    public Course(String courseId, String courseName, Boolean archiveStatus) {
+    public Course(String courseId, String courseName, Boolean archiveStatus, Date createdAt) {
         this.setUniqueId(courseId);
         this.setName(courseName);
-        this.setCreatedAt(new Date());
+        if (createdAt == null) {
+            this.setCreatedAt(new Date());
+        } else {
+            this.setCreatedAt(createdAt);            
+        }
         this.setArchiveStatus(archiveStatus);
     }
 
