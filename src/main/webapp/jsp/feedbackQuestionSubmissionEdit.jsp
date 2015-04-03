@@ -70,9 +70,9 @@
         numOfResponseBoxes = maxResponsesPossible;
     }
 %>
-    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>" value="<%=question.questionType%>"/>
-    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>" value="<%=question.getId()%>"/>
-    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL%>" value="<%=numOfResponseBoxes%>"/>
+    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>-1" value="<%=question.questionType%>"/>
+    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>-1" value="<%=question.getId()%>"/>
+    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL%>-1" value="<%=numOfResponseBoxes%>"/>
     <div class="form-horizontal">
         <div class="panel panel-primary">
             <div class="panel-heading">Question <%=question.questionNumber%>:<br/>
@@ -131,9 +131,9 @@
                 <div class="form-group">
                     <div class="col-sm-2 form-inline" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right\""%>>
                         <label for="input">To:</label>
-                        <select class="participantSelect middlealign newResponse form-control" style="max-width:125px"
+                        <select class="participantSelect middlealign newResponse form-control" 
                             name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
-                            <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""%>
+                            <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none;max-width:125px\"" : "style=\"max-width:125px\""%>
                             <%=data.isSessionOpenForSubmission ? "" : "disabled=\"disabled\""%>>
                         <%
                             for(String opt: data.getRecipientOptions(null)) {

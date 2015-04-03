@@ -22,7 +22,9 @@
     <body>
         <div class="container theme-showcase">
             <div class="row">
-                <div id="dhtmltooltip"></div>
+                <div id="dhtmltooltip">
+                <div  class="alert alert-warning"><h4>Please remember to log in</h4></div>
+            </div>
                 <h1>Table Of Contents</h1>
                 <table class="table table-striped">
                 <tbody>
@@ -376,16 +378,16 @@
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
-            $('#instructorCourseStudentDetailsPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=teammates.test%40gmail.com #frameBodyWrapper",
+            $('#instructorCourseStudentDetailsPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.tmt #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
-            $('#instructorCourseStudentEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper",
+            $('#instructorCourseStudentEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.tmt #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });
 
-            $('#instructorStudentRecordsPage').load("<%=Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper",
+            $('#instructorStudentRecordsPage').load("<%=Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.tmt #frameBodyWrapper",
                 function (response, status, xml) {
                     $("[data-toggle='tooltip']").tooltip({html: true}); 
                 });

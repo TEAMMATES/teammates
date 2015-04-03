@@ -157,3 +157,17 @@ test('isNameValid(name)', function(){
     equal(isNameValid("Tom||Jacobs"), false, "| character - invalid");
     
 });
+
+test('roundToThreeDp(num)', function() {
+
+    equal(roundToThreeDp(0), 0, "Zero test");    
+    equal(roundToThreeDp(1), 1, "Positive integer test");    
+    equal(roundToThreeDp(-1), -1, "Negative integer test");    
+    equal(roundToThreeDp(1.001), 1.001, "Three dp positive number test");
+    equal(roundToThreeDp(-1.001), -1.001, "Three dp negative number test");
+    equal(roundToThreeDp(1.0015), 1.002, "Four dp positive number rounding up test");    
+    equal(roundToThreeDp(1.0011), 1.001, "Four dp negative number rounding down test");  
+    equal(roundToThreeDp(-1.0015), -1.002, "Four dp positive number rounding 'up' test");    
+    equal(roundToThreeDp(-1.0011), -1.001, "Four dp negative number rounding 'down' test");    
+    
+});

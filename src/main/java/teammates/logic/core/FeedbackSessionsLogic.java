@@ -1239,8 +1239,9 @@ public class FeedbackSessionsLogic {
 
         sessionToPublish.resultsVisibleFromTime = currentDateTime(sessionToPublish);
         updateFeedbackSession(sessionToPublish);
-
-        sendFeedbackSessionPublishedEmail(sessionToPublish);
+        if (sessionToPublish.isPublishedEmailEnabled) {
+            sendFeedbackSessionPublishedEmail(sessionToPublish);
+        }
     }
 
     private Date currentDateTime(FeedbackSessionAttributes sessionToPublish) {

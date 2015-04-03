@@ -130,7 +130,7 @@
                     <input id="studentShortname" name="<%=Const.ParamsNames.STUDENT_SHORT_NAME %>" class="form-control" type="text" data-actual-value="<%=data.account.studentProfile.shortName == null ? "" : data.account.studentProfile.shortName %>" value="<%=data.account.studentProfile.shortName == null ? "" : data.account.studentProfile.shortName %>" placeholder="How the instructor should call you" />
                 </div>
                 <div class="form-group" title="<%=Const.Tooltips.STUDENT_PROFILE_EMAIL %>" data-toggle="tooltip" data-placement="top">
-                    <label for="studentEmail">Email <em class="font-weight-normal emphasis text-muted small">- only visible to your instructors</em></label>
+                    <label for="studentEmail">Long term contact email <em class="font-weight-normal emphasis text-muted small">- only visible to your instructors</em></label>
                     <input id="studentEmail" name="<%=Const.ParamsNames.STUDENT_PROFILE_EMAIL %>" class="form-control" type="email"
                            data-actual-value="<%=data.account.studentProfile.email %>" value="<%=data.account.studentProfile.email == null ? "" : data.account.studentProfile.email %>" placeholder="Contact Email (for your instructors to contact you beyond graduation)" />
                 </div>

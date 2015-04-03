@@ -215,6 +215,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
        
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestion.html");
         
+        ______TS("test view photo for view by questions");
+        
+        resultsPage.removeNavBar();
+        resultsPage.hoverClickAndViewGiverPhotoOnTableCell(0, 0, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverClickAndViewRecipientPhotoOnTableCell(0, 0, "profile_picture_default.png");
+        
         ______TS("Ajax for view by question for helper");
         
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.helper1", "Open Session", true, "question");
@@ -404,6 +410,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "edited successive action comment");
         resultsPage.verifyCommentRowContent("-0-1-1-2",
                 "edited successive action comment", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-0-1-1-1", 2);
         
         resultsPage.deleteFeedbackResponseComment("-0-1-1-2");
         resultsPage.verifyRowMissing("-0-1-1-2");
