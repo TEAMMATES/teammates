@@ -228,7 +228,7 @@
                 
                 for (String email : teamMembersWithNoReceivedResponses) {
         %>
-                    <div class="panel panel-primary">
+                    <div class="panel panel-default">
                     <div class="panel-heading">
                         To: 
             <%
@@ -237,14 +237,14 @@
                         <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(email)%>">
                             <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                            <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                            <a href="mailTo:<%=email%>"  >[<%=email%>]</a>
                         </div>
             <%
                     } else {
             %>
                 <div class="inline panel-heading-text">
                     <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
-                    <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                    <a href="mailTo:<%=email%>"  >[<%=email%>]</a>
                 </div>
             <%
                     }
@@ -569,7 +569,7 @@
                 
             for (String email : teamMembersWithNoReceivedResponses) {
         %>
-                <div class="panel panel-primary">
+                <div class="panel panel-default">
                 <div class="panel-heading">
                     To: 
             <%
@@ -578,14 +578,14 @@
                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(email)%>">
                         <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                        <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                        <a href="mailTo:<%=email%>"  >[<%=email%>]</a>
                     </div>
             <%
                 } else {
             %>
             <div class="inline panel-heading-text">
                 <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
-                <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                <a href="mailTo:<%=email%>"  >[<%=email%>]</a>
             </div>
             <%
                 }
@@ -633,7 +633,7 @@
                               
                                     for (String teamMember : teamMembers) {
                                 %>
-                                 <div class="panel panel-primary">
+                                            <div class="panel panel-default">
                                                 <div class="panel-heading">
                                                     To: 
                                                     <%
@@ -642,14 +642,14 @@
                                                         <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(teamMember)%>">
                                                             <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
                                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                                            <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
+                                                            <a href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
                                                         </div>
                                                     <%
                                                     	} else {
                                                     %>
                                                     <div class="panel-heading-text">
                                                         <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
-                                                        <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
+                                                        <a href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
                                                     </div>
                                                     <%
                                                     	}
@@ -660,7 +660,7 @@
                                                     <div class="panel-body"> There are no responses received by this user 
                                                     </div>
                                                 </div>
-                                             </div>
+                                            </div>
                                   <%
                                   	}
                                     if (groupByTeamEnabled) {
@@ -722,7 +722,7 @@
                                             }
                                       	    for (String teamMember : teamMembers) {
                                       %>
-                                                 <div class="panel panel-primary">
+                                                 <div class="panel panel-default">
                                                     <div class="panel-heading">
                                                         To: 
                                                     <%
@@ -731,14 +731,14 @@
                                                             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(teamMember)%>">
                                                                 <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
                                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                                                <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
+                                                                <a href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
                                                             </div>
                                                     <%
                                                     	} else {
                                                     %>
                                                         <div class="inline panel-heading-text">
                                                             <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
-                                                            <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
+                                                            <a href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
                                                         </div>
                                                     <%  } %>
                                                         

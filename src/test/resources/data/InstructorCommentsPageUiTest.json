@@ -35,6 +35,13 @@
             "email":"comments.iwosc@yahoo.tmt",
             "institute":"TEAMMATES Test Institute 7"
         },
+        "instructorOfCourseWithUriChars":{
+            "googleId":"comments.idOfInstructorOfCourseWithUriChars",
+            "name":"Instructor of Course #",
+            "isInstructor":true,
+            "email":"comments.iuri@courseuri.tmt",
+            "institute":"TEAMMATES Test Institute 1"
+        },
         "student1InCourse1":{
             "googleId":"comments.student1InCourse1",
             "name":"Student 1 in course 1",
@@ -64,6 +71,13 @@
             "isInstructor":false,
             "email":"comments.student3InCourse1@gmail.tmt",
             "institute":"TEAMMATES Test Institute 1"
+        },
+        "studentInCourseUri":{
+            "googleId":"comments.studentInCourseUri",
+            "name":"Student in course #",
+            "isInstructor":false,
+            "email":"comments.studentInCourseUri@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         }
     },
     "courses":{
@@ -75,6 +89,11 @@
         "sampleCourse":{
             "id":"comments.idOfSampleCourse-demo",
             "name":"Sample Course",
+            "isArchived":false
+        },
+        "uriCharsCourse":{
+            "id":"comments.idOfUriCharsCourse",
+            "name":"Course with # Session",
             "isArchived":false
         },
         "archivedCourse":{
@@ -124,6 +143,16 @@
             "displayedName":"Instructor",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
+        "instructorOfCourseWithUriChars":{
+            "googleId":"comments.idOfInstructorOfCourseWithUriChars",
+            "courseId":"comments.idOfUriCharsCourse",
+            "name":"Instructor Of Course With # In Name",
+            "email":"comments.instructor@courseuri.tmt",
+            "role":"Manager",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        },
         "instructorOfArchivedCourse":{
             "googleId":"comments.idOfInstructor1OfCourse1",
             "courseId":"comments.idOfArchivedCourse",
@@ -162,6 +191,15 @@
             "section":"Section 1",
             "comments":"",
             "course":"comments.idOfTypicalCourse1"
+        },
+        "studentInCourseUri":{
+            "email":"comments.studentInCourseUri@gmail.tmt",
+            "name":"student In Course#",
+            "googleId":"comments.studentInCourseUri",
+            "team":"Team #.1",
+            "section":"Section 1",
+            "comments":"",
+            "course":"comments.idOfUriCharsCourse"
         }
     },
     "feedbackSessions":{
@@ -169,6 +207,24 @@
             "feedbackSessionName":"comments.First feedback session",
             "courseId":"comments.idOfTypicalCourse1",
             "creatorEmail":"comments.instructor1@course1.tmt",
+            "instructions":{
+                "value":"Please please fill in the following questions."
+            },
+            "createdTime":"2012-03-20 11:59 PM UTC",
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":"2017-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
+            "resultsVisibleFromTime":"2012-05-01 11:59 PM UTC",
+            "timeZone":2.0,
+            "gracePeriod":10,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":false
+        },
+        "sessionUriCharInCourseUriChars":{
+            "feedbackSessionName":"comments.Session with name ,?:@=+$#",
+            "courseId":"comments.idOfUriCharsCourse",
+            "creatorEmail":"comments.instructor@courseuri.tmt",
             "instructions":{
                 "value":"Please please fill in the following questions."
             },
@@ -299,6 +355,29 @@
                 "INSTRUCTORS"
             ]
             
+        },
+        "qnInSessionUriInCourseUriChars":{
+            "feedbackSessionName":"comments.Session with name ,?:@=+$#",
+            "courseId":"comments.idOfUriCharsCourse",
+            "creatorEmail":"comments.instructor@courseuri.tmt",
+            "questionMetaData":{
+                "value":"What do you think about the feedback session name?"
+            },
+            "questionNumber":"1",
+            "questionType":"TEXT",
+            "giverType":"STUDENTS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+            
         }
 
     },
@@ -385,6 +464,19 @@
             "giverSection":"None",
             "recipientSection":"None" 
             
+        },
+        "responseForQ1SUriCUri":{
+            "feedbackSessionName":"comments.Session with name ,?:@=+$#",
+            "courseId":"comments.idOfUriCharsCourse",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"comments.studentInCourseUri@gmail.tmt",
+            "recipientEmail":"comments.studentInCourseUri@gmail.tmt",
+            "responseMetaData":{
+                "value":"I like the feedback session name."
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 1" 
         }
     },
     "feedbackResponseComments":{
@@ -434,6 +526,17 @@
             "createdAt":"2016-02-01 11:59 PM UTC",
             "commentText":{
                 "value":"Instructor 1 comment to feedback Question 2"   
+            }
+        },
+        "commentFromT1CUriToR1Q1SUriCUri": {
+            "courseId":"comments.idOfUriCharsCourse",
+            "feedbackSessionName":"comments.Session with name ,?:@=+$#",
+            "feedbackQuestionId":"1",
+            "giverEmail":"comments.instructor@courseuri.tmt",
+            "feedbackResponseId":"1%comments.studentInCourseUri@gmail.tmt%comments.studentInCourseUri@gmail.tmt",
+            "createdAt":"2016-03-01 11:59 PM UTC",
+            "commentText":{
+                "value":"I like that you like the session name."   
             }
         }
     },
@@ -616,6 +719,21 @@
             "createdAt":"2012-06-02 07:22 PM UTC",
             "commentText":{
                 "value":"This is a private comment--cannot seen by other instructors"
+            }
+        },
+        "teamCommentFromInstructorOfUriCourse":{
+            "courseId":"comments.idOfUriCharsCourse",
+            "giverEmail":"comments.instructor@courseuri.tmt",
+            "recipientType":"TEAM",
+            "recipients":["Team #.1"],
+            "status": "FINAL",
+            "showCommentTo": [TEAM],
+            "showGiverNameTo": [],
+            "showRecipientNameTo": [],
+            "receiverEmail":"Team #.1",
+            "createdAt":"2012-05-07 08:54 AM UTC",
+            "commentText":{
+                "value":"Team #.1 can see this comment"
             }
         }
         
