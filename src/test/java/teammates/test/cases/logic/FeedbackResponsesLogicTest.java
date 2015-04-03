@@ -23,6 +23,7 @@ import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
+import teammates.common.datatransfer.UserType.Role;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.core.FeedbackQuestionsLogic;
@@ -48,6 +49,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         printTestClassHeader();
         turnLoggingUp(FeedbackResponsesLogic.class);
         removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreDatastoreFromJson("/SpecialCharacterTest.json");
     }
     
     @Test
@@ -58,6 +60,52 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         testUpdateFeedbackResponsesForChangingTeam();
         testUpdateFeedbackResponsesForChangingEmail();
         testDeleteFeedbackResponsesForStudent();
+        testSpecialCharactersInTeamName();
+    }
+
+    public void testSpecialCharactersInTeamName() throws Exception {
+        ______TS("test special characters");
+        
+        FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(
+                "First Session", "FQLogicPCT.CS2104", 1); 
+        
+        // Alice will see 4 responses
+        assertEquals(frLogic.getViewableFeedbackResponsesForQuestionInSection(
+                question, 
+                "FQLogicPCT.alice.b@gmail.tmt", 
+                Role.STUDENT, 
+                "First Session").size(), 4);
+        
+        // Benny will see 4 responses
+        assertEquals(frLogic.getViewableFeedbackResponsesForQuestionInSection(
+                question, 
+                "FQLogicPCT.benny.c@gmail.tmt", 
+                Role.STUDENT, 
+                "First Session").size(), 4);
+        
+        // Charlie will see 3 responses
+        assertEquals(frLogic.getViewableFeedbackResponsesForQuestionInSection(
+                question, 
+                "FQLogicPCT.charlie.d@gmail.tmt", 
+                Role.STUDENT, 
+                "First Session").size(), 3);
+        
+        // Danny will see 3 responses
+        assertEquals(frLogic.getViewableFeedbackResponsesForQuestionInSection(
+                question, 
+                "FQLogicPCT.danny.e@gmail.tmt", 
+                Role.STUDENT, 
+                "First Session").size(), 3);
+        
+        // Emily will see 1 response
+        assertEquals(frLogic.getViewableFeedbackResponsesForQuestionInSection(
+                question, 
+                "FQLogicPCT.emily.f@gmail.tmt", 
+                Role.STUDENT, 
+                "First Session").size(), 1);
+        
+        
+        
     }
 
     public void testUpdateFeedbackResponse() throws Exception {

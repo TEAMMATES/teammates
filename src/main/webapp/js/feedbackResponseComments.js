@@ -474,7 +474,7 @@ function showNewlyAddedResponseCommentEditForm(addedIndex) {
 function loadFeedbackResponseComments(user, courseId, fsName, sender) {
 	$(".tooltip").hide();
 	var panelBody = $(sender).parent().find('div[class^="panel-body"]');
-	var fsNameForUrl = fsName.split(' ').join('+');
+	var fsNameForUrl = encodeURIComponent(fsName);
 	var url = "/page/instructorFeedbackResponseCommentsLoad?user=" + user + "&courseid=" + courseId + "&fsname=" + fsNameForUrl;
 	$(sender).find('div[class^="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
 	panelBody.load(url, function( response, status, xhr ) {

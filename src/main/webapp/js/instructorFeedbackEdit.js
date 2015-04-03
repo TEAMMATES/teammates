@@ -966,17 +966,10 @@ function updateNumScalePossibleValues(questionNumber) {
         $("#stepBox" + idSuffix).val("");        
     }
 
-    var cur = min + step;
-    var largestValueInRange = min;
-    var possibleValuesCount = 1;
-    while ((max - cur) >= -1e-9) {
-        largestValueInRange = cur;
-        cur += step;
-        possibleValuesCount++;
-    }
-
+    var possibleValuesCount = Math.floor(roundToThreeDp((max - min) / step)) + 1;
+    var largestValueInRange = min + roundToThreeDp((possibleValuesCount - 1) * step);
     var possibleValuesString = "";
-    if (Math.round(largestValueInRange*1000)/1000 != max) {
+    if (roundToThreeDp(largestValueInRange) != max) {
         $("#numScalePossibleValues"+idSuffix).css("color","red");
         possibleValuesString = "[The interval " + min.toString() + " - " + max.toString() + " is not divisible by the specified increment.]";
 
@@ -998,7 +991,7 @@ function updateNumScalePossibleValues(questionNumber) {
                                     + max.toString();		
         } else {
             possibleValuesString += min.toString();
-            cur = min + step;
+            var cur = min + step;
             while ((max - cur) >= -1e-9) {
                 possibleValuesString += ", " + (Math.round(cur*1000)/1000).toString();
                 cur += step;
