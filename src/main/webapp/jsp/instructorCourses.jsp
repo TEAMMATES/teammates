@@ -141,6 +141,10 @@
                             href="<%=data.getInstructorCourseEditLink(courseDetails.course.id)%>"
                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_EDIT%>">
                             Edit</a>
+                        <a class="btn btn-default btn-xs t_course_archive<%=idx%>"
+                            href="<%=data.getInstructorCourseArchiveLink(courseDetails.course.id, true, false)%>"
+                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_ARCHIVE%>">
+                            Archive</a>
                         <a class="btn btn-default btn-xs t_course_delete<%=idx%>"
                             href="<%=data.getInstructorCourseDeleteLink(courseDetails.course.id,false)%>"
                             onclick="return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>');"
@@ -150,10 +154,6 @@
                             <% } %>
                             >
                             Delete</a>
-                        <a class="btn btn-default btn-xs t_course_archive<%=idx%>"
-                            href="<%=data.getInstructorCourseArchiveLink(courseDetails.course.id, true, false)%>"
-                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_ARCHIVE%>">
-                            Archive</a>
                     </td>
                 </tr>
             <%
