@@ -398,9 +398,32 @@
             "courseId":"SFResultsUiT.CS2104",
             "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
-                "value":"This question should be hidden."
+                "value":"Give feedback on how well the team worked together."
             },
             "questionNumber":"6",
+            "questionType":"TEXT",
+            "giverType":"STUDENTS",
+            "recipientType":"OWN_TEAM",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER"
+            ]
+            
+        },
+        "qn7InSession1":{
+            "feedbackSessionName":"First Session",
+            "courseId":"SFResultsUiT.CS2104",
+            "creatorEmail":"SFResultsUiT.instr@gmail.tmt",
+            "questionMetaData":{
+                "value":"This question should be hidden."
+            },
+            "questionNumber":"7",
             "questionType":"TEXT",
             "giverType":"INSTRUCTORS",
             "recipientType":"STUDENTS",
@@ -1152,6 +1175,18 @@
             "recipientEmail":"SFResultsUiT.alice.b@gmail.tmt",
             "responseMetaData":{
                 "value":"Teammate feedback from benny"
+            }
+            
+        },
+         "response10":{
+            "feedbackSessionName":"First Session",
+            "courseId":"SFResultsUiT.CS2104",
+            "feedbackQuestionId":"6",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"SFResultsUiT.alice.b@gmail.tmt",
+            "recipientEmail":"Team 1",
+            "responseMetaData":{
+                "value":"Feedback from alice to the team"
             }
             
         },

@@ -355,7 +355,7 @@
     
     <script type="text/javascript">
         (function() {
-        	$(document).ready(function() {
+            $(document).ready(function() {
                 $('#instructorHomePage').load('<%=Const.ActionURIs.INSTRUCTOR_HOME_PAGE%>?user=teammates.test #frameBodyWrapper',
                     function(response, status, xml) {
                         $('[data-toggle="tooltip"]').tooltip({html: true}); 
@@ -574,7 +574,7 @@
                         $('[data-toggle="tooltip"]').tooltip({html: true}); 
                     });
                 $('#index').find('iframe').on('load', function() {
-                	calcHeight($('#index').find('iframe'));
+                    calcHeight($('#index').find('iframe'));
                 });
                 $('#features').find('iframe').on('load', function() {
                     calcHeight($('#features').find('iframe'));
