@@ -48,7 +48,7 @@
         <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />    
         <div id="frameBodyWrapper" class="container theme-showcase">
             <div id="topOfPage"></div>
-            <h1>Find Students</h1>
+            <h1>Student List</h1>
             <div class="well well-plain">
                 <div class="row">
                     <div class="col-md-12">
@@ -82,7 +82,8 @@
                      </div>
                  </div>
              </div>
-            <h1>Filter Students</h1>
+             <br>
+            <h2>Filter Students</h2>
             <div id="moreOptionsDiv" class="well well-plain" <% if(data.courses.size() == 0){ %> style="display:none;" <% } %>>
                 <div class="row">
                     <div class="col-md-3">
