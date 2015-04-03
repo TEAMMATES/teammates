@@ -506,7 +506,7 @@
                             function(response, status, xml) {
                                 $('[data-toggle="tooltip"]').tooltip({html: true}); 
                             });
-                        $('#studentCourseJoinConfirmationPageNew').load("<%=student.getRegistrationUrl()%> #frameBodyWrapper',
+                        $('#studentCourseJoinConfirmationPageNew').load('<%=student.getRegistrationUrl()%> #frameBodyWrapper',
                             function(response, status, xml) {
                                 $('[data-toggle="tooltip"]').tooltip({html: true}); 
                             });
@@ -528,20 +528,6 @@
                 $('#studentFeedbackSubmitPage').load('<%=Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper',
                     function(response, status, xml) {
                         $('[data-toggle="tooltip"]').tooltip({html: true});
-                        
-                        $('#studentFeedbackSubmitPage').
-                            find('div.form-horizontal').
-                            first().
-                            find('div').
-                            last().
-                            find('p').
-                            html(
-                                 'Please please fill in the following questions before the closing date. ' +
-                                 '<br/>' +
-                                 'Late submission will not be entertained!' +
-                                 '<br/>' +
-                                 'Feedback will be sent out at the end of the course.'
-                                );
                     });
                 <%
                     String studentQuestionId = null;
@@ -551,18 +537,6 @@
                         $('#studentFeedbackQuestionSubmitPage').load('<%=Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&questionid=<%=studentQuestionId%> #frameBodyWrapper',
                             function(response, status, xml) {
                                 $('[data-toggle="tooltip"]').tooltip({html: true});
-                                
-                                $('#studentFeedbackQuestionSubmitPage').
-                                   find('div.form-horizontal').
-                                   first().
-                                   find('div').
-                                   last().
-                                   find('p').
-                                   html(
-                                        'Please please fill in the following questions before the closing date. ' +
-                                        'Late submissions will not be entertained at any point or for any reason(s)! ' +
-                                        'Feedback will be sent out to students at the end of this course.'
-                                       );
                             });
                 <%
                     }
@@ -599,8 +573,29 @@
                     function(response, status, xml) {
                         $('[data-toggle="tooltip"]').tooltip({html: true}); 
                     });
-                $('#index, #features, #about, #contact, #terms, #request, #studentHelp, #instructorHelp').load(function() {
-                	calcHeight($(this).find('iframe'));
+                $('#index').find('iframe').on('load', function() {
+                	calcHeight($('#index').find('iframe'));
+                });
+                $('#features').find('iframe').on('load', function() {
+                    calcHeight($('#features').find('iframe'));
+                });
+                $('#about').find('iframe').on('load', function() {
+                    calcHeight($('#about').find('iframe'));
+                });
+                $('#contact').find('iframe').on('load', function() {
+                    calcHeight($('#contact').find('iframe'));
+                });
+                $('#terms').find('iframe').on('load', function() {
+                    calcHeight($('#terms').find('iframe'));
+                });
+                $('#request').find('iframe').on('load', function() {
+                    calcHeight($('#request').find('iframe'));
+                });
+                $('#studentHelp').find('iframe').on('load', function() {
+                    calcHeight($('#studentHelp').find('iframe'));
+                });
+                $('#instructorHelp').find('iframe').on('load', function() {
+                    calcHeight($('#instructorHelpt').find('iframe'));
                 });
             });
             
