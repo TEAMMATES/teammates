@@ -304,9 +304,12 @@
                 </div>
                 <div class="row" id="uncommonSettingsInfo">
                     <div class="col-md-12 text-muted">
-                        <span id="uncommonSettingsInfoText">
+                        <span id="uncommonSettingsInfoText1">
                         </span>
-                        <a id="editUncommonSettingsButton" data-edit="[Edit]" data-done="[Done]">[Edit]</a>
+                        <a id="editUncommonSettingsButton1" class="edit-uncommon-settings-button" data-edit="[Edit]" data-done="[Done]">[Edit]</a>
+                        <span id="uncommonSettingsInfoText2">
+                        </span>
+                        <a id="editUncommonSettingsButton2" class="edit-uncommon-settings-button" data-edit="[Edit]" data-done="[Done]">[Edit]</a>
                         <br><br>
                     </div>
                 </div>
