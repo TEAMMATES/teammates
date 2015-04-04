@@ -329,7 +329,23 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.fillQuestionBox("Test question text");
         feedbackEditPage.clickAddQuestionButton();
         assertEquals("Too little choices for Multiple-choice (single answer) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
-        
+
+        ______TS("remove when 1 left");
+
+        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.fillQuestionBox("Test question text");
+        assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
+
+        feedbackEditPage.clickRemoveMcqOptionLink(1, -1);
+        assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-1--1"));
+
+        // TODO: Check that after deleting, the value is cleared
+        assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-0--1"));
+        feedbackEditPage.clickRemoveMcqOptionLink(0, -1);
+        assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-0--1"));
+        feedbackEditPage.clickAddQuestionButton();
+        assertEquals("Too little choices for Multiple-choice (single answer) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
     }
 
     private void testCustomizeMcqOptions() {
@@ -474,6 +490,21 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
         assertEquals("Too little choices for Multiple-choice (multiple answers) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
         
+        ______TS("remove when 1 left");
+
+        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers) question");
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.fillQuestionBox("Test question text");
+
+        feedbackEditPage.clickRemoveMsqOptionLink(1, -1);
+        assertEquals(false, feedbackEditPage.isElementPresent("msqOptionRow-1--1"));
+        
+        // TODO: Check that after deleting, the value is cleared
+        assertEquals(true, feedbackEditPage.isElementPresent("msqOptionRow-0--1"));
+        feedbackEditPage.clickRemoveMsqOptionLink(0, -1);
+        assertEquals(true, feedbackEditPage.isElementPresent("msqOptionRow-0--1"));
+        feedbackEditPage.clickAddQuestionButton();
+        assertEquals("Too little choices for Multiple-choice (multiple answers) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
     }
 
     private void testCustomizeMsqOptions() {
