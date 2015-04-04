@@ -306,7 +306,7 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
     }
     
     private void testInputJsValidationForRubricQuestion() {
-// this tests whether the JS validation disallows empty rubric options
+        // this tests whether the JS validation disallows empty rubric options
         
         ______TS("JS validation test");
 
