@@ -252,7 +252,7 @@
                 <span class='glyphicon glyphicon-chevron-up pull-right'></span>
             </div>
             <div class='panel-collapse collapse in'>
-                <div class="panel-body"> There are no responses received by this user 
+                <div class="panel-body"> <i>There are no responses received by this user</i>
                 </div>
             </div>
             </div>
@@ -593,7 +593,7 @@
                 <span class='glyphicon glyphicon-chevron-up pull-right'></span>
             </div>
             <div class='panel-collapse collapse in'>
-                <div class="panel-body"> There are no responses received by this user 
+                <div class="panel-body"> <i>There are no responses received by this user</i>
                 </div>
             </div>
             </div>
@@ -657,7 +657,7 @@
                                                     <span class='glyphicon glyphicon-chevron-up pull-right'></span>
                                                 </div>
                                                 <div class='panel-collapse collapse in'>
-                                                    <div class="panel-body"> There are no responses received by this user 
+                                                    <div class="panel-body"> <i>There are no responses received by this user</i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -745,7 +745,7 @@
                                                         <span class='glyphicon glyphicon-chevron-up pull-right'></span>
                                                     </div>
                                                     <div class='panel-collapse collapse in'>
-                                                        <div class="panel-body"> There are no responses received by this user 
+                                                        <div class="panel-body"> <i>There are no responses received by this user</i>
                                                         </div>
                                                     </div>
                                                  </div>
