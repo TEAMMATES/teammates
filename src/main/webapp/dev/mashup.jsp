@@ -1,29 +1,31 @@
-<%@ page import="teammates.common.util.Const"%>
-<%@ page import="teammates.common.util.StringHelper"%>
-<%@ page import="teammates.logic.core.FeedbackQuestionsLogic"%>
-<%@ page import="teammates.logic.api.Logic"%>
+<%@ page import="teammates.common.util.Const" %>
+<%@ page import="teammates.common.util.StringHelper" %>
+<%@ page import="teammates.logic.core.FeedbackQuestionsLogic" %>
+<%@ page import="teammates.logic.api.Logic" %>
 <%@ page import="teammates.common.datatransfer.StudentAttributes" %>
+
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="shortcut icon" href="/favicon.png"></link>
-        <meta http-equiv="X-UA-Compatible" content="IE=8" />
-        <meta content="width=device-width, initial-scale=1.0"  name="viewport" />
+        <meta http-equiv="X-UA-Compatible" content="IE=8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        
         <title>Teammates - Webpage Compilation</title>
         
-        <link href="/bootstrap/css/bootstrap.min.css"  rel="stylesheet"  type="text/css" />
-        <link href="/bootstrap/css/bootstrap-theme.min.css"  rel="stylesheet"  type="text/css" />
-        <link href="/stylesheets/teammatesCommon.css"  rel="stylesheet"  type="text/css" />
-        <link rel="stylesheet" type="text/css" href="./mashup.css">
-        <script language="JavaScript" src="/js/jquery-minified.js"></script>
-        <script src="/bootstrap/js/bootstrap.min.js"></script>
-        <script src="/js/common.js" type="text/javascript"></script>
+        <link rel="shortcut icon" href="/favicon.png">
+        <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+        <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet">
+        <link type="text/css" href="./mashup.css" rel="stylesheet">
+        <script type="text/javascript" src="/js/jquery-minified.js"></script>
+        <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/js/common.js"></script>
     </head>
     <body>
         <div class="container theme-showcase">
             <div class="row">
                 <div id="dhtmltooltip">
-                <div  class="alert alert-warning"><h4>Please remember to log in</h4></div>
+                <div class="alert alert-warning"><h4>Please remember to log in</h4></div>
             </div>
                 <h1>Table Of Contents</h1>
                 <table class="table table-striped">
@@ -302,35 +304,35 @@
                 
                 <div class="pageinfo">Home Page</div>
                 <div id="index">
-                    <iframe class="full-width" src="../index.html" onLoad="calcHeight(this);"></iframe>
+                    <iframe class="full-width" src="../index.html"></iframe>
                 </div>
                 <div class="pageinfo">Features Page</div>
                 <div id="features">
-                    <iframe class="full-width" src="../features.html" onLoad="calcHeight(this);" ></iframe>
+                    <iframe class="full-width" src="../features.html"></iframe>
                 </div>
                 <div class="pageinfo">About Us Page</div>
                 <div id="about">
-                    <iframe class="full-width" src="../about.html" onLoad="calcHeight(this);" ></iframe>
+                    <iframe class="full-width" src="../about.html"></iframe>
                 </div>
                 <div class="pageinfo">Contact Page</div>
                 <div id="contact">
-                    <iframe class="full-width" src="../contact.html" onLoad="calcHeight(this);" ></iframe>
+                    <iframe class="full-width" src="../contact.html"></iframe>
                 </div>
                 <div class="pageinfo">Terms Of Use Page</div>
                 <div id="terms">
-                    <iframe class="full-width" src="../terms.html" onLoad="calcHeight(this);" ></iframe>
+                    <iframe class="full-width" src="../terms.html"></iframe>
                 </div>
                 <div class="pageinfo">Request Account Page</div>
                 <div id="request">
-                    <iframe class="full-width" src="../request.html" onLoad="calcHeight(this);" ></iframe>
+                    <iframe class="full-width" src="../request.html"></iframe>
                 </div>
                 <div class="pageinfo">Student Help Page</div>
                 <div id="studentHelp">
-                    <iframe class="full-width" src="../studentHelp.html" onLoad="calcHeight(this);" ></iframe>
+                    <iframe class="full-width" src="../studentHelp.html"></iframe>
                 </div>
                 <div class="pageinfo">Instructor Help Page</div>
                 <div id="instructorHelp">
-                    <iframe class="full-width" src="../instructorHelp.html" onLoad="calcHeight(this);" ></iframe>
+                    <iframe class="full-width" src="../instructorHelp.html"></iframe>
                 </div>
                 <div class="pageinfo">Deadline Exceeded Error Page</div>
                 <div id="deadlineExceededErrorPage"></div>
@@ -352,235 +354,254 @@
     </body>
     
     <script type="text/javascript">
-        $(document).ready(function(){
-            $('#instructorHomePage').load("<%=Const.ActionURIs.INSTRUCTOR_HOME_PAGE%>?user=teammates.test #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+        (function() {
+            $(document).ready(function() {
+                $('#instructorHomePage').load('<%=Const.ActionURIs.INSTRUCTOR_HOME_PAGE%>?user=teammates.test #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorAddCoursePage').load('<%=Const.ActionURIs.INSTRUCTOR_COURSES_PAGE%>?user=teammates.test #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorEditCoursePage').load('<%=Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('#instructorEditCoursePage').find('#panelAddInstructor').hide();
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorEnrollPage').load('<%=Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorCourseDetailsPage').load('<%=Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorStudentListPage').load('<%=Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE%>?user=teammates.test #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorCourseStudentDetailsPage').load('<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=teammates.test%40gmail.com #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorCourseStudentEditPage').load('<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorStudentRecordsPage').load('<%=Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.com #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorCourseEvalPage').load('<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>?user=teammates.test #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorCourseEvalEditPage').load('<%=Const.ActionURIs.INSTRUCTOR_EVAL_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorCourseEvalPreviewPage').load('<%=Const.ActionURIs.INSTRUCTOR_EVAL_PREVIEW%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorCourseEvalResultsPage1').load('<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorCourseEvalResultsPage2').load('<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper', 
+                    function(response, status, xml){
+                        $('#instructorCourseEvalResultsPage2').find('#instructorEvaluationSummaryTable').hide();
+                        $('#instructorCourseEvalResultsPage2').find('#instructorEvaluationDetailedReviewerTable').show();
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorCourseEvalResultsPage3').load('<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper', 
+                    function(response, status, xml){
+                        $('#instructorCourseEvalResultsPage3').find('#instructorEvaluationSummaryTable').hide();
+                        $('#instructorCourseEvalResultsPage3').find('#instructorEvaluationDetailedRevieweeTable').show();
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorCourseEvalSubmissionViewPage').load('<%=Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=teammates.test%40gmail.com #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });        
+                $('#instructorCourseEvalSubmissionEditPage').load('<%=Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=charlie.d.tmms%40gmail.com #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorFeedbackPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>?user=teammates.test #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorFeedbackEditPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorFeedbackPreviewAsStudentPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&previewas=teammates.test@gmail.com #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorFeedbackPreviewAsInstructorPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&previewas=teammates.test@gmail.com #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorFeedbackSubmitPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                <%
+                    String instrQuestionId = null;
+                    if (FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 3) != null) {
+                        instrQuestionId = FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 3).getId();
+                %>
+                        $('#instructorFeedbackQuestionSubmitPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&questionid=<%=instrQuestionId%> #frameBodyWrapper',
+                            function(response, status, xml) {
+                                $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                            });
+                <%
+                    }
+                %>
+                $('#instructorFeedbackResultsPageByGiverRecipientQuestion').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=giver-recipient-question #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorFeedbackResultsPageByRecipientGiverQuestion').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=recipient-giver-question #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorFeedbackResultsPageByGiverQuestionRecipient').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=giver-question-recipient #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorFeedbackResultsPageByRecipientQuestionGiver').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=recipient-question-giver #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorFeedbackResultsPageByQuestion').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=question #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorCommentsPage').load('<%=Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE%>?user=teammates.test&courseid=CS2104 #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#instructorSearchPage').load('<%=Const.ActionURIs.INSTRUCTOR_SEARCH_PAGE%>?user=teammates.test&searchkey=teammates #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#studentHomePage').load('<%=Const.ActionURIs.STUDENT_HOME_PAGE%>?user=teammates.test #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#studentProfilePage').load('<%=Const.ActionURIs.STUDENT_PROFILE_PAGE%>?user=alice.b.tmms #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                <%
+                    StudentAttributes student = new Logic().getStudentForEmail("CS4215", "teammates.test@gmail.com");
+                    if (student != null) {
+                        String url = StringHelper.encrypt(student.key);
+                %>
+                        $('#studentCourseJoinConfirmationPage').load('<%=Const.ActionURIs.STUDENT_COURSE_JOIN%>?key=<%=student.key%> #frameBodyWrapper',
+                            function(response, status, xml) {
+                                $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                            });
+                        $('#studentCourseJoinConfirmationPageNew').load('<%=student.getRegistrationUrl()%> #frameBodyWrapper',
+                            function(response, status, xml) {
+                                $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                            });
+                <%
+                    }
+                %>
+                $('#studentCourseDetailsPage').load('<%=Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE%>?user=teammates.test&courseid=CS2104 #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#studentEvalEditPage').load('<%=Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#studentEvalResultsPage').load('<%=Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=Second+Eval #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#studentFeedbackSubmitPage').load('<%=Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true});
+                    });
+                <%
+                    String studentQuestionId = null;
+                    if (FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 1) != null) {
+                        studentQuestionId = FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 1).getId();
+                %>
+                        $('#studentFeedbackQuestionSubmitPage').load('<%=Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&questionid=<%=studentQuestionId%> #frameBodyWrapper',
+                            function(response, status, xml) {
+                                $('[data-toggle="tooltip"]').tooltip({html: true});
+                            });
+                <%
+                    }
+                %>
+                $('#studentFeedbackResultsPage').load('<%=Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#studentCommentsPage').load('<%=Const.ActionURIs.STUDENT_COMMENTS_PAGE%>?user=alice.b.tmms&courseid=CS2104 #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#adminHomePage').load('<%=Const.ActionURIs.ADMIN_HOME_PAGE%> #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#adminSearchPage').load('<%=Const.ActionURIs.ADMIN_SEARCH_PAGE%>?limit=20&query=teammates&search=Search #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#adminActivityLogPage').load('<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%> #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#deadlineExceededErrorPage').load('<%=Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE%> #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#errorPage').load('<%=Const.ViewURIs.ERROR_PAGE%> #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#entityNotFoundPage').load('<%=Const.ViewURIs.ENTITY_NOT_FOUND_PAGE%> #frameBodyWrapper',
+                    function(response, status, xml) {
+                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
+                    });
+                $('#index').find('iframe').on('load', function() {
+                    calcHeight($('#index').find('iframe'));
                 });
-            $('#instructorAddCoursePage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSES_PAGE%>?user=teammates.test #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                $('#features').find('iframe').on('load', function() {
+                    calcHeight($('#features').find('iframe'));
                 });
-            $('#instructorEditCoursePage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper",
-                function (response, status, xml) {
-                    $('#instructorEditCoursePage').find('#panelAddInstructor').hide();
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                $('#about').find('iframe').on('load', function() {
+                    calcHeight($('#about').find('iframe'));
                 });
-            $('#instructorEnrollPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                $('#contact').find('iframe').on('load', function() {
+                    calcHeight($('#contact').find('iframe'));
                 });
-            $('#instructorCourseDetailsPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE%>?user=teammates.test&courseid=CS1101 #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                $('#terms').find('iframe').on('load', function() {
+                    calcHeight($('#terms').find('iframe'));
                 });
-            $('#instructorStudentListPage').load("<%=Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_PAGE%>?user=teammates.test #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                $('#request').find('iframe').on('load', function() {
+                    calcHeight($('#request').find('iframe'));
                 });
-            $('#instructorCourseStudentDetailsPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.tmt #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                $('#studentHelp').find('iframe').on('load', function() {
+                    calcHeight($('#studentHelp').find('iframe'));
                 });
-            $('#instructorCourseStudentEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.tmt #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
+                $('#instructorHelp').find('iframe').on('load', function() {
+                    calcHeight($('#instructorHelpt').find('iframe'));
                 });
-
-            $('#instructorStudentRecordsPage').load("<%=Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE%>?user=teammates.test&courseid=CS2104&studentemail=benny.c.tmms%40gmail.tmt #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            
-            $('#instructorCourseEvalPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>?user=teammates.test #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#instructorCourseEvalEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#instructorCourseEvalPreviewPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_PREVIEW%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#instructorCourseEvalResultsPage1').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#instructorCourseEvalResultsPage2').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper", 
-                function (response, status, xml){
-                    $('#instructorCourseEvalResultsPage2').find('#instructorEvaluationSummaryTable').hide();
-                    $('#instructorCourseEvalResultsPage2').find('#instructorEvaluationDetailedReviewerTable').show();
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
             });
-            $('#instructorCourseEvalResultsPage3').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper", 
-                function (response, status, xml){
-                    $('#instructorCourseEvalResultsPage3').find('#instructorEvaluationSummaryTable').hide();
-                    $('#instructorCourseEvalResultsPage3').find('#instructorEvaluationDetailedRevieweeTable').show();
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-            });
-            $('#instructorCourseEvalSubmissionViewPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=teammates.test%40gmail.com #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });        
-            $('#instructorCourseEvalSubmissionEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=charlie.d.tmms%40gmail.com #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#instructorFeedbackPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>?user=teammates.test #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#instructorFeedbackEditPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#instructorFeedbackPreviewAsStudentPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASSTUDENT%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&previewas=teammates.test@gmail.com #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#instructorFeedbackPreviewAsInstructorPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_PREVIEW_ASINSTRUCTOR%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&previewas=teammates.test@gmail.com #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#instructorFeedbackSubmitPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            <%
-                String instrQuestionId = null;
-                if(FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 3)!=null){
-                    instrQuestionId = FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 3).getId();
-            %>
-            $('#instructorFeedbackQuestionSubmitPage').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&questionid=<%=instrQuestionId%> #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            <%
-                }
-            %>
-            $('#instructorFeedbackResultsPageByGiverRecipientQuestion').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=giver-recipient-question #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#instructorFeedbackResultsPageByRecipientGiverQuestion').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=recipient-giver-question #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#instructorFeedbackResultsPageByGiverQuestionRecipient').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=giver-question-recipient #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#instructorFeedbackResultsPageByRecipientQuestionGiver').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=recipient-question-giver #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#instructorFeedbackResultsPageByQuestion').load("<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&frsorttype=question #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#instructorCommentsPage').load("<%=Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE%>?user=teammates.test&courseid=CS2104 #frameBodyWrapper",
-                    function (response, status, xml) {
-                        $("[data-toggle='tooltip']").tooltip({html: true}); 
-                    });
-            $('#instructorSearchPage').load("<%=Const.ActionURIs.INSTRUCTOR_SEARCH_PAGE%>?user=teammates.test&searchkey=teammates #frameBodyWrapper",
-                    function (response, status, xml) {
-                        $("[data-toggle='tooltip']").tooltip({html: true}); 
-                    });
             
-            $('#studentHomePage').load("<%=Const.ActionURIs.STUDENT_HOME_PAGE%>?user=teammates.test #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            
-            $('#studentProfilePage').load("<%=Const.ActionURIs.STUDENT_PROFILE_PAGE%>?user=alice.b.tmms #frameBodyWrapper",
-                    function (response, status, xml) {
-                        $("[data-toggle='tooltip']").tooltip({html: true}); 
-                    });
-            
-            <%
-                StudentAttributes student = new Logic().getStudentForEmail("CS4215", "teammates.test@gmail.com");
-                if(student !=null){
-                	String url = StringHelper.encrypt(student.key);
-            %>
-            $('#studentCourseJoinConfirmationPage').load("<%=Const.ActionURIs.STUDENT_COURSE_JOIN%>?key=<%=student.key%> #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#studentCourseJoinConfirmationPageNew').load("<%=student.getRegistrationUrl()%> #frameBodyWrapper",
-                    function (response, status, xml) {
-                        $("[data-toggle='tooltip']").tooltip({html: true}); 
-                    });
-            <%
-                }
-            %>
-            $('#studentCourseDetailsPage').load("<%=Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE%>?user=teammates.test&courseid=CS2104 #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#studentEvalEditPage').load("<%=Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#studentEvalResultsPage').load("<%=Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=Second+Eval #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#studentFeedbackSubmitPage').load("<%=Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            <%
-                String studentQuestionId = null;
-                if(FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 1)!=null){
-                    studentQuestionId = FeedbackQuestionsLogic.inst().getFeedbackQuestion("First feedback session", "CS2104", 1).getId();
-            %>
-            $('#studentFeedbackQuestionSubmitPage').load("<%=Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session&questionid=<%=studentQuestionId%> #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            <%
-                }
-            %>
-            $('#studentFeedbackResultsPage').load("<%=Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#studentCommentsPage').load("<%=Const.ActionURIs.STUDENT_COMMENTS_PAGE%>?user=alice.b.tmms&courseid=CS2104 #frameBodyWrapper",
-                    function (response, status, xml) {
-                        $("[data-toggle='tooltip']").tooltip({html: true}); 
-                    });
-            
-            $('#adminHomePage').load("<%=Const.ActionURIs.ADMIN_HOME_PAGE%> #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#adminSearchPage').load("<%=Const.ActionURIs.ADMIN_SEARCH_PAGE%>?limit=20&query=teammates&search=Search #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#adminActivityLogPage').load("<%=Const.ActionURIs.ADMIN_ACTIVITY_LOG_PAGE%> #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            
-            $('#deadlineExceededErrorPage').load("<%=Const.ViewURIs.DEADLINE_EXCEEDED_ERROR_PAGE%> #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#errorPage').load("<%=Const.ViewURIs.ERROR_PAGE%> #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-            $('#entityNotFoundPage').load("<%=Const.ViewURIs.ENTITY_NOT_FOUND_PAGE%> #frameBodyWrapper",
-                function (response, status, xml) {
-                    $("[data-toggle='tooltip']").tooltip({html: true}); 
-                });
-        });
-        
-        function calcHeight(iframe) {
-            $(iframe).height($(iframe).contents().find('html').height());
-        }
+            function calcHeight(iframe) {
+                $(iframe).height($(iframe).contents().find('html').height());
+            }
+        })();
     </script>
 </html>
