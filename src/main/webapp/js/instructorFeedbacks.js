@@ -233,20 +233,24 @@ function bindEventsAfterAjax() {
 }
 
 function bindUncommonSettingsEvents(){
-    $('#editUncommonSettingsButton').click(uncommonSettingsButtonClick);
+    $('#editUncommonSettingsButton1').click(uncommonSettingsButtonClick);
+    $('#editUncommonSettingsButton2').click(uncommonSettingsButtonClick);
 }
 
 function updateUncommonSettingsInfo(){
-    var info = "Session is visible at submission opening time, responses are only visible when you publish the results.<br>" +
-                "Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.";
-
-    $('#uncommonSettingsInfoText').html(info);
+    var info1 = "Session is visible at submission opening time, responses are only visible when you publish the results.";
+    $('#uncommonSettingsInfoText1').html(info1);
+    
+    var info2 = "<br>Emails are sent when session opens (within 15 mins), 24 hrs before session closes and when results are published.";
+    $('#uncommonSettingsInfoText2').html(info2);
 }
 
 function uncommonSettingsButtonClick(){
-    var button = $('#editUncommonSettingsButton');
-    var button_edit = $(button).attr('data-edit');
-    if($(button).text() == button_edit){
+    var button1 = $('#editUncommonSettingsButton1');
+    var button2 = $('#editUncommonSettingsButton2');
+    var button_edit1 = $(button1).attr('data-edit');
+    var button_edit2 = $(button2).attr('data-edit');
+    if(($(button1).text() == button_edit1) || ($(button2).text() == button_edit2)){
         showUncommonPanels();
     }
 }

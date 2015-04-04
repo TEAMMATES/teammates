@@ -7,7 +7,11 @@ body {
     padding: 60px 0 30px;
 }
 
-a#editUncommonSettingsButton:hover{
+a#editUncommonSettingsButton1:hover{
+    cursor: pointer;
+}
+
+a#editUncommonSettingsButton2:hover{
     cursor: pointer;
 }
 

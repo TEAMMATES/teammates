@@ -272,9 +272,12 @@
                     </div>
                     <div class="row" id="uncommonSettingsInfo">
                         <div class="col-md-12 text-muted">
-                            <span id="uncommonSettingsInfoText">
+                            <span id="uncommonSettingsInfoText1">
                             </span>
-                            <a id="editUncommonSettingsButton" data-edit="[Edit]" data-done="[Done]" onclick="enableEditFS()">[Edit]</a>
+                            <a id="editUncommonSettingsButton1" data-edit="[Edit]" data-done="[Done]" onclick="enableEditFS()">[Edit]</a>
+                            <span id="uncommonSettingsInfoText2">
+                            </span>
+                            <a id="editUncommonSettingsButton2" data-edit="[Edit]" data-done="[Done]" onclick="enableEditFS()">[Edit]</a>                        
                         </div>
                     </div>
                     <div class="panel panel-primary" id="sessionResponsesVisiblePanel">
