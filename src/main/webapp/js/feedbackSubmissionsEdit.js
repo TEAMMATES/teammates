@@ -416,6 +416,26 @@ function validateConstSumQuestions(){
     return true;
 }
 
+function escapeRegExp(string) {
+    return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+}
+
+/**
+ * Replaces all occurences of regex by replace in str
+ */
+function replaceAll(regex, replace, str) {
+	return str.replace(new RegExp(escapeRegExp(regex), 'g'), replace);
+}
+
+/**
+ * Sanitizes special characters such as ' and \ to \' and \\ respectively
+ */
+function sanitize(string){
+	string = replaceAll('\\','\\\\',string);
+	string = replaceAll('\'','\\\'',string);
+	return string;
+}
+
 /**
  * Removes already selected options for recipients
  * from other select dropdowns within the same question.
@@ -431,6 +451,7 @@ function formatRecipientLists(){
             var selectedOption = $(this).find('option:selected').val();
             
             if (selectedOption != "") {
+            	selectedOption = sanitize(selectedOption);
                 $("select[name|="+FEEDBACK_RESPONSE_RECIPIENT+"-"+questionNumber+"]").not(this).
                     find("option[value='"+selectedOption+"']").hide();
             }
@@ -447,6 +468,7 @@ function formatRecipientLists(){
             find("option[value='"+lastSelectedOption+"']").show();
         }
         if (curSelectedOption != "") {
+        	curSelectedOption = sanitize(curSelectedOption);
         	$("select[name|="+FEEDBACK_RESPONSE_RECIPIENT+"-"+questionNumber+"]").not(this).
                 find("option[value='"+curSelectedOption+"']").hide();
         }
