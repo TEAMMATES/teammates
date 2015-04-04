@@ -306,17 +306,21 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
     }
     
     private void testInputJsValidationForRubricQuestion() {
+// this tests whether the JS validation disallows empty rubric options
+        
         ______TS("JS validation test");
 
+        // add a new question
         feedbackEditPage.selectNewQuestionType("Rubric question");
         feedbackEditPage.clickNewQuestionButton();
-        assertTrue(feedbackEditPage.verifyNewRubricQuestionFormIsDisplayed());
         
+        // start editing it
         feedbackEditPage.fillQuestionBox("RUBRIC qn JS validation test");
         feedbackEditPage.clickAddQuestionButton();
         
         assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
         
+        // try to remove everything
         feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 1);
         feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 0);
         feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 3);
@@ -324,6 +328,8 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 1);
         feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 0);
         
+        // add something so that we know that the elements are still there
+        // and so that we don't get empty sub question error
         feedbackEditPage.fillRubricSubQuestionBox("New sub-question text", 1, 0);
         feedbackEditPage.fillRubricDescriptionBox("New(0) description", 1, 0, 0);
         
