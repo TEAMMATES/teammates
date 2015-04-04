@@ -328,6 +328,8 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 1);
         feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 0);
         
+        // TODO check if the rubric column and link is indeed empty
+        
         // add something so that we know that the elements are still there
         // and so that we don't get empty sub question error
         feedbackEditPage.fillRubricSubQuestionBox("New sub-question text", 1, 0);

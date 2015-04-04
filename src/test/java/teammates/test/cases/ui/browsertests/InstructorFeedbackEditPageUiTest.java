@@ -339,7 +339,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.clickRemoveMcqOptionLink(1, -1);
         assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-1--1"));
-        
+
+        // TODO: Check that after deleting, the value is cleared
         assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-0--1"));
         feedbackEditPage.clickRemoveMcqOptionLink(0, -1);
         assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-0--1"));
@@ -498,6 +499,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickRemoveMsqOptionLink(1, -1);
         assertEquals(false, feedbackEditPage.isElementPresent("msqOptionRow-1--1"));
         
+        // TODO: Check that after deleting, the value is cleared
         assertEquals(true, feedbackEditPage.isElementPresent("msqOptionRow-0--1"));
         feedbackEditPage.clickRemoveMsqOptionLink(0, -1);
         assertEquals(true, feedbackEditPage.isElementPresent("msqOptionRow-0--1"));
