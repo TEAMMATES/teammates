@@ -702,9 +702,8 @@ function toggleVisibilityMessage(elem){
     $disabledInputs.prop('disabled', true);
 }
 
-var previousFormDataMap = {};
-
 function getVisibilityMessage(buttonElem){
+    var previousFormDataMap = {};
     var form = $(buttonElem).closest("form");
     var qnNumber = $(form).find("[name=questionnum]").val();
 
