@@ -29,6 +29,7 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
         String fsname = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        int fsindex = Integer.parseInt(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INDEX));
         Assumption.assertNotNull(fsname);
         
         instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
@@ -44,6 +45,7 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         data.instructorEmail = instructor.email;
         data.currentInstructor = instructor;
         data.roster = roster;
+        data.feedbackSessionIndex = fsindex;
         data.numberOfPendingComments = logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size() 
                 + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_LOAD, data);
