@@ -212,6 +212,9 @@
                     <td id="courseid<%=idx%>"><%=sanitizeForHtml(course.id)%></td>
                     <td id="coursename<%=idx%>"><%=sanitizeForHtml(course.name)%></td>
                     <td class="align-center no-print">
+                        <a class="btn btn-default btn-xs" id="t_course_unarchive<%=idx%>"
+                            href="<%=data.getInstructorCourseArchiveLink(course.id, false, false)%>">
+                            Unarchive</a>
                         <a class="btn btn-default btn-xs" id="t_course_delete<%=idx%>"
                             href="<%=data.getInstructorCourseDeleteLink(course.id,false)%>"
                             onclick="return toggleDeleteCourseConfirmation('<%=course.id%>');"
@@ -222,9 +225,6 @@
                             <% } %>
                             >
                             Delete</a>
-                        <a class="btn btn-default btn-xs" id="t_course_unarchive<%=idx%>"
-                            href="<%=data.getInstructorCourseArchiveLink(course.id, false, false)%>">
-                            Unarchive</a>
                     </td>
                 </tr>
             <%
