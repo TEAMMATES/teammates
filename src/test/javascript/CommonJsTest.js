@@ -157,3 +157,10 @@ test('isNameValid(name)', function(){
     equal(isNameValid("Tom||Jacobs"), false, "| character - invalid");
     
 });
+
+test('sanitizeForJs(string)', function(){
+    equal(sanitizeForJs(""), "", "sanitization for empty string");
+    equal(sanitizeForJs("Will o' Wisp"), "Will o\\' Wisp", "sanitization for single quote");
+    equal(sanitizeForJs("Will o'''''\\\\ Wisp"), "Will o\\'\\'\\'\\'\\'\\\\\\\\ Wisp", "sanitization for single quote and slash \\");
+    
+});

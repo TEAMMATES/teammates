@@ -175,4 +175,25 @@ public class Sanitizer {
     private static String trimIfNotNull(String string) {
         return ((string == null) ? null : string.trim());
     }
+    
+    public static String clearStringForXPath(String text){
+        String result = "";
+        int startPos = 0;
+        for(int i=0;i<text.length();i++){
+            while((i<text.length()) && (text.charAt(i)!='\'')) i++;
+            if (startPos<i){
+                result += "'" + text.substring(startPos, i) + "',";
+                startPos = i;
+            }
+            while((i<text.length()) && (text.charAt(i)=='\'')) i++;
+            if (startPos<i){
+                result += "\"" + text.substring(startPos, i) + "\",";
+                startPos = i;
+            }
+        }
+        if (result.equals("")){
+            return "''";
+        }
+        return "concat(" + result + "'')";
+    }
 }
