@@ -1527,8 +1527,8 @@ public class FeedbackSessionsLogic {
                 break;
             }
             details.stats.expectedTotal = 1;
-            if (fqLogic.areAllQuestionsFullyAnsweredByUser(validQuestions,
-                    fsa.creatorEmail)) {
+            if (this.isFeedbackSessionFullyCompletedByInstructor(
+                    fsa.feedbackSessionName, fsa.courseId, fsa.creatorEmail)) {
                 details.stats.submittedTotal = 1;
             }
             break;

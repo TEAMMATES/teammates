@@ -756,34 +756,23 @@ public class FeedbackQuestionsLogic {
     }
     
     /*
-     * Removes questions with no recipients. Also may modify value for
-     * question.numberOfEntitiesToGiveFeedbackTo
+     * Removes questions with no recipients.
      */
     public List<FeedbackQuestionAttributes> getQuestionsWithRecipients(
             List<FeedbackQuestionAttributes> questions, String giver)
             throws EntityDoesNotExistException {
         List<FeedbackQuestionAttributes> questionsWithRecipients = new ArrayList<FeedbackQuestionAttributes>();
         for (FeedbackQuestionAttributes question : questions) {
-            if (question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS) {
-                question.numberOfEntitiesToGiveFeedbackTo = this
-                        .getRecipientsForQuestion(question, giver).size();
+            int numRecipients = question.numberOfEntitiesToGiveFeedbackTo;
+            if (numRecipients == Const.MAX_POSSIBLE_RECIPIENTS) {
+                numRecipients = this.getRecipientsForQuestion(question, giver)
+                        .size();
             }
-            if (question.numberOfEntitiesToGiveFeedbackTo > 0) {
+            if (numRecipients > 0) {
                 questionsWithRecipients.add(question);
             }
         }
         return questionsWithRecipients;
-    }
-
-    public boolean areAllQuestionsFullyAnsweredByUser(
-            List<FeedbackQuestionAttributes> questions, String userEmail)
-            throws EntityDoesNotExistException {
-        for (FeedbackQuestionAttributes question : questions) {
-            if (!this.isQuestionFullyAnsweredByUser(question, userEmail)) {
-                return false;
-            }
-        }
-        return true;
     }
 
 }
