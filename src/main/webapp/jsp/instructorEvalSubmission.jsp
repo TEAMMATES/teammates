@@ -5,6 +5,7 @@
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.SubmissionAttributes"%>
 <%@ page import="teammates.ui.controller.InstructorEvalSubmissionPageData"%>
+<%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml" %>
 <%
     InstructorEvalSubmissionPageData data = (InstructorEvalSubmissionPageData)request.getAttribute("data");
 %>
@@ -80,7 +81,7 @@
                     </div>
                     <div class="col-md-4">
                         <span class="resultHeader"
-                            title="<%=Const.Tooltips.CLAIMED%>"
+                            title="<%=sanitizeForHtml(Const.Tooltips.CLAIMED)%>"
                             data-toggle="tooltip"
                             data-placement="top">
                             Claimed Contribution:
