@@ -45,7 +45,7 @@ public class InstructorStudentCommentClearPendingAction extends Action {
             }
             if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
                 isError = true;
-                log.severe("Operation did not persist in time: update comments from state PENDING to SENDING");
+                log.info("Operation did not persist in time: update comments from state PENDING to SENDING");
             } else {
                 //Set up emails notification
                 Emails emails = new Emails();
