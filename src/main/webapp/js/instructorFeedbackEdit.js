@@ -1078,16 +1078,25 @@ function hideConstSumOptionTable(questionNumber){
 }
 
 function removeConstSumOption(index, questionNumber) {
-    idOfQuestion = '#form_editquestion-' + questionNumber;
-    idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    if(questionNumber == -1){
+    var idOfQuestion = '#form_editquestion-' + questionNumber;
+    var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    
+    if (questionNumber === -1) {
         idSuffix = "--1";
     }
-
-    $("#constSumOptionRow-"+index+idSuffix).remove();
+    var $thisRow = $('#constSumOptionRow-' + index + idSuffix);
     
-    if($(idOfQuestion).attr('editStatus') == "hasResponses") {
-        $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
+    // count number of child rows the table have and - 1 because of add option button
+    var numberOfOptions = $thisRow.parent().children('div').length - 1;
+    
+    if (numberOfOptions <= 1) {
+        $thisRow.find('input').val('');
+    } else {
+        $thisRow.remove();
+    
+        if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
+            $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+        }
     }
 }
 

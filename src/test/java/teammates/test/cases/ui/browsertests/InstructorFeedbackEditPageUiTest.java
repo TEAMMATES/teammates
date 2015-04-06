@@ -817,7 +817,23 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
         
         assertEquals("Too little options for Distribute points (among options) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
- 
+        
+        ______TS("remove when 1 left");
+
+        feedbackEditPage.selectNewQuestionType("Distribute points (among options) question");
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.fillQuestionBox("Test const sum question");
+        assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
+
+        feedbackEditPage.clickRemoveConstSumOptionLink(1, -1);
+        assertEquals(false, feedbackEditPage.isElementPresent("constSumOptionRow-1--1"));
+
+        // TODO: Check that after deleting, the value is cleared
+        assertEquals(true, feedbackEditPage.isElementPresent("constSumOptionRow-0--1"));
+        feedbackEditPage.clickRemoveConstSumOptionLink(0, -1);
+        assertEquals(true, feedbackEditPage.isElementPresent("constSumOptionRow-0--1"));
+        feedbackEditPage.clickAddQuestionButton();
+        assertEquals("Too little options for Distribute points (among options) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
     }
     
     private void testCustomizeConstSumOptionOptions() {
