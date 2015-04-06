@@ -823,7 +823,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectNewQuestionType("Distribute points (among options) question");
         feedbackEditPage.clickNewQuestionButton();
         feedbackEditPage.fillQuestionBox("Test const sum question");
-        assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
+        assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
 
         feedbackEditPage.clickRemoveConstSumOptionLink(1, -1);
         assertEquals(false, feedbackEditPage.isElementPresent("constSumOptionRow-1--1"));
