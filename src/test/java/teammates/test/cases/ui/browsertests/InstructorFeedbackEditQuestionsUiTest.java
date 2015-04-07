@@ -493,11 +493,11 @@ public class InstructorFeedbackEditQuestionsUiTest extends BaseUiTestCase {
         ______TS("MSQ: add question action success");
 
         feedbackEditPage.fillQuestionBox("msq qn");
-        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
         feedbackEditPage.selectRecipientsToBeStudents();
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
-        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMsqQuestionAddSuccess.html");
     }
 
@@ -505,57 +505,57 @@ public class InstructorFeedbackEditQuestionsUiTest extends BaseUiTestCase {
 
         ______TS("MSQ: edit question success");
 
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
-        feedbackEditPage.fillEditQuestionBox("edited msq qn text", 2);
-        assertEquals(true, feedbackEditPage.isElementPresent("msqOptionRow-0-2"));
-        feedbackEditPage.clickRemoveMsqOptionLink(0, 2);
-        assertEquals(false, feedbackEditPage.isElementPresent("msqOptionRow-0-2"));
-        feedbackEditPage.clickSaveExistingQuestionButton(2);
+        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.fillEditQuestionBox("edited msq qn text", 1);
+        assertEquals(true, feedbackEditPage.isElementPresent("msqOptionRow-0-1"));
+        feedbackEditPage.clickRemoveMsqOptionLink(0, 1);
+        assertEquals(false, feedbackEditPage.isElementPresent("msqOptionRow-0-1"));
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMsqQuestionEditSuccess.html");
 
         ______TS("MSQ: edit to generated options");
 
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
-        feedbackEditPage.fillEditQuestionBox("generated msq qn text", 2);
+        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.fillEditQuestionBox("generated msq qn text", 1);
         assertEquals(true, feedbackEditPage.isElementVisible("msqAddOptionLink"));
         feedbackEditPage.verifyFieldValue(
                 Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
                 FeedbackParticipantType.NONE.toString());
-        assertEquals(false, feedbackEditPage.isElementEnabled("msqGenerateForSelect-2"));
-        feedbackEditPage.clickGenerateOptionsCheckbox(2);
-        assertEquals(true, feedbackEditPage.isElementEnabled("msqGenerateForSelect-2"));
+        assertEquals(false, feedbackEditPage.isElementEnabled("msqGenerateForSelect-1"));
+        feedbackEditPage.clickGenerateOptionsCheckbox(1);
+        assertEquals(true, feedbackEditPage.isElementEnabled("msqGenerateForSelect-1"));
         feedbackEditPage.verifyFieldValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-2",
+                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-1",
                 FeedbackParticipantType.STUDENTS.toString());
         assertEquals(false, feedbackEditPage.isElementVisible("msqAddOptionLink"));
 
-        feedbackEditPage.clickSaveExistingQuestionButton(2);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
-        assertEquals(false, feedbackEditPage.isElementPresent("msqOptionRow-0-2"));
-        assertEquals(false, feedbackEditPage.isElementEnabled("generateOptionsCheckbox-2"));
-        assertEquals(true, feedbackEditPage.isElementSelected("generateOptionsCheckbox-2"));
-        assertEquals(false, feedbackEditPage.isElementEnabled("msqGenerateForSelect-2"));
+        assertEquals(false, feedbackEditPage.isElementPresent("msqOptionRow-0-1"));
+        assertEquals(false, feedbackEditPage.isElementEnabled("generateOptionsCheckbox-1"));
+        assertEquals(true, feedbackEditPage.isElementSelected("generateOptionsCheckbox-1"));
+        assertEquals(false, feedbackEditPage.isElementEnabled("msqGenerateForSelect-1"));
         feedbackEditPage.verifyFieldValue(
-                "msqGenerateForSelect-2",
+                "msqGenerateForSelect-1",
                 FeedbackParticipantType.STUDENTS.toString());
         feedbackEditPage.verifyFieldValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-2",
+                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-1",
                 FeedbackParticipantType.STUDENTS.toString());
 
         ______TS("MSQ: change generated type");
 
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
-        assertEquals(true, feedbackEditPage.isElementEnabled("generateOptionsCheckbox-2"));
-        assertEquals(true, feedbackEditPage.isElementSelected("generateOptionsCheckbox-2"));
-        assertEquals(true, feedbackEditPage.isElementEnabled("msqGenerateForSelect-2"));
-        feedbackEditPage.selectMsqGenerateOptionsFor("teams", 2);
+        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertEquals(true, feedbackEditPage.isElementEnabled("generateOptionsCheckbox-1"));
+        assertEquals(true, feedbackEditPage.isElementSelected("generateOptionsCheckbox-1"));
+        assertEquals(true, feedbackEditPage.isElementEnabled("msqGenerateForSelect-1"));
+        feedbackEditPage.selectMsqGenerateOptionsFor("teams", 1);
         feedbackEditPage.verifyFieldValue(
-                "msqGenerateForSelect-2",
+                "msqGenerateForSelect-1",
                 FeedbackParticipantType.TEAMS.toString());
         feedbackEditPage.verifyFieldValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-2",
+                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-1",
                 FeedbackParticipantType.TEAMS.toString());
 
     }
@@ -564,14 +564,14 @@ public class InstructorFeedbackEditQuestionsUiTest extends BaseUiTestCase {
 
         ______TS("MSQ: qn delete then cancel");
 
-        feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(2));
-        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(1));
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
         ______TS("MSQ: qn delete then accept");
 
-        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
-        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
     
     @SuppressWarnings("unused")
