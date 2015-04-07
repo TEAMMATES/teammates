@@ -796,23 +796,23 @@ public class InstructorFeedbackEditQuestionsUiTest extends BaseUiTestCase {
         ______TS("CONST SUM: add question action success");
         
         feedbackEditPage.fillQuestionBox("const sum qn");
-        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
         feedbackEditPage.selectRecipientsToBeStudents();
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
-        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumOptionQuestionAddSuccess.html");
     }
 
     private void testEditConstSumOptionQuestionAction() {
         ______TS("CONST SUM: edit question success");
 
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
-        feedbackEditPage.fillEditQuestionBox("edited const sum qn text", 2);
-        feedbackEditPage.fillConstSumPointsBox("200", 2);
-        feedbackEditPage.selectConstSumPointsOptions("per recipient:", 2);
+        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.fillEditQuestionBox("edited const sum qn text", 1);
+        feedbackEditPage.fillConstSumPointsBox("200", 1);
+        feedbackEditPage.selectConstSumPointsOptions("per recipient:", 1);
         
-        feedbackEditPage.clickSaveExistingQuestionButton(2);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumOptionQuestionEditSuccess.html");
@@ -821,14 +821,14 @@ public class InstructorFeedbackEditQuestionsUiTest extends BaseUiTestCase {
     private void testDeleteConstSumOptionQuestionAction(){
         ______TS("CONSTSUM: qn delete then cancel");
 
-        feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(2));
-        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(1));
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
         ______TS("CONSTSUM: qn delete then accept");
 
-        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
-        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));    
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));    
     }
     
     @SuppressWarnings("unused")
