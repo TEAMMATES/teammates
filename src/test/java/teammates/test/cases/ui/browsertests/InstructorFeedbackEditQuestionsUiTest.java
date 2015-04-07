@@ -336,7 +336,7 @@ public class InstructorFeedbackEditQuestionsUiTest extends BaseUiTestCase {
         feedbackEditPage.selectRecipientsToBeStudents();
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
-        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         
         //NOTE: Tests feedback giver/recipient and visibility options are copied from previous question.
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMcqQuestionAddSuccess.html");
@@ -346,57 +346,57 @@ public class InstructorFeedbackEditQuestionsUiTest extends BaseUiTestCase {
 
         ______TS("MCQ: edit question success");
 
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
-        feedbackEditPage.fillEditQuestionBox("edited mcq qn text", 2);
-        assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-0-2"));
-        feedbackEditPage.clickRemoveMcqOptionLink(0, 2);
-        assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-0-2"));
-        feedbackEditPage.clickSaveExistingQuestionButton(2);
+        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.fillEditQuestionBox("edited mcq qn text", 1);
+        assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-0-1"));
+        feedbackEditPage.clickRemoveMcqOptionLink(0, 1);
+        assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-0-1"));
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackMcqQuestionEditSuccess.html");
 
         ______TS("MCQ: edit to generated options");
 
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
-        feedbackEditPage.fillEditQuestionBox("generated mcq qn text", 2);
+        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.fillEditQuestionBox("generated mcq qn text", 1);
         assertEquals(true, feedbackEditPage.isElementVisible("mcqAddOptionLink"));
         feedbackEditPage.verifyFieldValue(
                 Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS,
                 FeedbackParticipantType.NONE.toString());
-        assertEquals(false, feedbackEditPage.isElementEnabled("mcqGenerateForSelect-2"));
-        feedbackEditPage.clickGenerateOptionsCheckbox(2);
-        assertEquals(true, feedbackEditPage.isElementEnabled("mcqGenerateForSelect-2"));
+        assertEquals(false, feedbackEditPage.isElementEnabled("mcqGenerateForSelect-1"));
+        feedbackEditPage.clickGenerateOptionsCheckbox(1);
+        assertEquals(true, feedbackEditPage.isElementEnabled("mcqGenerateForSelect-1"));
         feedbackEditPage.verifyFieldValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-2",
+                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-1",
                 FeedbackParticipantType.STUDENTS.toString());
         assertEquals(false, feedbackEditPage.isElementVisible("mcqAddOptionLink"));
 
-        feedbackEditPage.clickSaveExistingQuestionButton(2);
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
-        assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-0-2"));
-        assertEquals(false, feedbackEditPage.isElementEnabled("generateOptionsCheckbox-2"));
-        assertEquals(true, feedbackEditPage.isElementSelected("generateOptionsCheckbox-2"));
-        assertEquals(false, feedbackEditPage.isElementEnabled("mcqGenerateForSelect-2"));
+        assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-0-1"));
+        assertEquals(false, feedbackEditPage.isElementEnabled("generateOptionsCheckbox-1"));
+        assertEquals(true, feedbackEditPage.isElementSelected("generateOptionsCheckbox-1"));
+        assertEquals(false, feedbackEditPage.isElementEnabled("mcqGenerateForSelect-1"));
         feedbackEditPage.verifyFieldValue(
-                "mcqGenerateForSelect-2",
+                "mcqGenerateForSelect-1",
                 FeedbackParticipantType.STUDENTS.toString());
         feedbackEditPage.verifyFieldValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-2",
+                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-1",
                 FeedbackParticipantType.STUDENTS.toString());
 
         ______TS("MCQ: change generated type");
 
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
-        assertEquals(true, feedbackEditPage.isElementEnabled("generateOptionsCheckbox-2"));
-        assertEquals(true, feedbackEditPage.isElementSelected("generateOptionsCheckbox-2"));
-        assertEquals(true, feedbackEditPage.isElementEnabled("mcqGenerateForSelect-2"));
-        feedbackEditPage.selectMcqGenerateOptionsFor("teams", 2);
+        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertEquals(true, feedbackEditPage.isElementEnabled("generateOptionsCheckbox-1"));
+        assertEquals(true, feedbackEditPage.isElementSelected("generateOptionsCheckbox-1"));
+        assertEquals(true, feedbackEditPage.isElementEnabled("mcqGenerateForSelect-1"));
+        feedbackEditPage.selectMcqGenerateOptionsFor("teams", 1);
         feedbackEditPage.verifyFieldValue(
-                "mcqGenerateForSelect-2",
+                "mcqGenerateForSelect-1",
                 FeedbackParticipantType.TEAMS.toString());
         feedbackEditPage.verifyFieldValue(
-                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-2",
+                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS + "-1",
                 FeedbackParticipantType.TEAMS.toString());
 
     }
@@ -405,14 +405,14 @@ public class InstructorFeedbackEditQuestionsUiTest extends BaseUiTestCase {
 
         ______TS("MCQ: qn delete then cancel");
 
-        feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(2));
-        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(1));
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
         ______TS("MCQ: qn delete then accept");
 
-        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
-        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
     
     @SuppressWarnings("unused")
