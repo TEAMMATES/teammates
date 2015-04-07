@@ -33,11 +33,12 @@ import teammates.test.util.Priority;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Covers the 'Edit Feedback Session' page for instructors.
+ * The second test that covers the 'Edit Feedback Session' page for instructors.
+ * This part of the test covers different capabilities of different question types.
  * SUT is {@link InstructorFeedbackEditPage}.
  */
 @Priority(-1)
-public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
+public class InstructorFeedbackEditQuestionsUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorFeedbackEditPage feedbackEditPage;
     private static DataBundle testData;
