@@ -18,7 +18,7 @@ test('filterSection()', function(){
     equal($("#section_all").is(":checked"), false, "Select all check should be removed");
 
     equal($("#student_email-c0\\.0").is(':visible'), true, "[Team 1]Alice Betsy's email visible");
-    equal($("#student_email-c0\\.1").is(':visible'), true, "[Team 2]Barney Stinson's email visible");
+    equal($("#student_email-c0\\.1").is(':visible'), true, "[Team 2]Hugh Ivanov's email visible");
     equal($("#student_email-c0\\.2").is(':visible'), true, "[Team 3]Benny Charles's email visible");
     equal($("#student_email-c1\\.0").is(':hidden'), true, "[Team 1]Duplicate Benny Charles's email should be hidden");
     equal($("#student_email-c1\\.1").is(':hidden'), true, "[Team 1]Carlos Santanna's email hidden");
@@ -47,7 +47,7 @@ test('filterSection()', function(){
     equal($("#section_all").is(":checked"), false, "Select all check should be removed");
 
     equal($("#student_email-c0\\.0").is(':visible'), true, "[Team 1]Alice Betsy's email visible");
-    equal($("#student_email-c0\\.1").is(':hidden'), true, "[Team 2]Barney Stinson's email hidden");
+    equal($("#student_email-c0\\.1").is(':hidden'), true, "[Team 2]Hugh Ivanov's email hidden");
     equal($("#student_email-c0\\.2").is(':hidden'), true, "[Team 3]Benny Charles's email hidden");
     equal($("#student_email-c1\\.0").is(':visible'), true, "[Team 1]Duplicate Benny Charles's email should be visible");
     equal($("#student_email-c1\\.1").is(':visible'), true, "[Team 1]Carlos Santanna's email visible");
@@ -94,7 +94,7 @@ test('filterTeam()', function(){
     equal($("#team_all").is(":checked"), false, "Select all check should be removed");
     
     equal($("#student_email-c0\\.0").is(':hidden'), true, "[Team 1]Alice Betsy's email hidden");
-    equal($("#student_email-c0\\.1").is(':visible'), true, "[Team 2]Barney Stinson's email visible");
+    equal($("#student_email-c0\\.1").is(':visible'), true, "[Team 2]Hugh Ivanov's email visible");
     equal($("#student_email-c0\\.2").is(':visible'), true, "[Team 3]Benny Charles's email visible");
     equal($("#student_email-c1\\.0").is(':hidden'), true, "[Team 1]Duplicate Benny Charles's email should be hidden");
     equal($("#student_email-c1\\.1").is(':hidden'), true, "[Team 1]Carlos Santanna's email visible");
@@ -129,7 +129,7 @@ test('filterTeam()', function(){
     equal($("#team_all").is(":checked"), false, "Select all check should be removed");
     
     equal($("#student_email-c0\\.0").is(':visible'), true, "[Team 1]Alice Betsy's email visible");
-    equal($("#student_email-c0\\.1").is(':visible'), true, "[Team 2]Barney Stinson's email visible");
+    equal($("#student_email-c0\\.1").is(':visible'), true, "[Team 2]Hugh Ivanov's email visible");
     equal($("#student_email-c0\\.2").is(':visible'), true, "[Team 3]Benny Charles's email visible");
     equal($("#student_email-c1\\.0").is(':hidden'), true, "[Team 1]Duplicate Benny Charles's email should be hidden");
     equal($("#student_email-c1\\.1").is(':visible'), true, "[Team 1]Carlos Santanna's email visible");

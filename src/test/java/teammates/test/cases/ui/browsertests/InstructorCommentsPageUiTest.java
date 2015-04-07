@@ -65,12 +65,22 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
         commentsPage.loadResponseComments();
         
         commentsPage.verifyHtmlMainContent("/instructorCommentsForTypicalCourseWithCommentsWithHelperView.html");
-         
+        
+        ______TS("content: course with comments with session name containing characters to be URI encoded");
+        
+        commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
+            .withUserId(testData.accounts.get("instructorOfCourseWithUriChars").googleId);
+        
+        commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
+        commentsPage.loadResponseComments();
+        
+        commentsPage.verifyHtmlMainContent("/instructorCommentsPageForCourseWithURIEncodedSessionName.html");
+        
         ______TS("content: typical course with comments");
         
         commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
             .withUserId(testData.accounts.get("instructor1OfCourse1").googleId);
-
+        
         commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
         commentsPage.loadResponseComments();
         removePreExistComments();

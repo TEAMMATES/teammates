@@ -166,7 +166,13 @@ public class InstructorFeedbackResultsPage extends AppPage {
         wait.until(ExpectedConditions.elementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea"))));
         fillTextBox(addResponseCommentForm.findElement(By.tagName("textarea")), commentText);
         addResponseCommentForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
-        ThreadHelper.waitFor(1000);
+        if (commentText.equals("")) {
+            // empty comment: wait until the textarea is clickable again
+            wait.until(ExpectedConditions.elementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea"))));            
+        } else {
+            // non-empty comment: wait until the add comment form disappears
+            waitForElementToDisappear(By.id(addResponseCommentId));            
+        }
     }
     
     public void editFeedbackResponseComment(String commentIdSuffix, String newCommentText) {
@@ -331,6 +337,40 @@ public class InstructorFeedbackResultsPage extends AppPage {
         
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild(document.getElementsByClassName('popover')[0])");
+    }
+    
+    public void hoverClickAndViewPhotoOnTableCell(int questionBodyIndex, int tableRow, int tableCol, String urlRegex) throws Exception {
+        String idOfQuestionBody = "questionBody-" + questionBodyIndex;
+        WebElement photoDiv = browser.driver.findElement(By.id(idOfQuestionBody))
+                                            .findElements(By.cssSelector(".dataTable tbody tr"))
+                                            .get(tableRow)
+                                            .findElements(By.cssSelector("td"))
+                                            .get(tableCol)
+                                            .findElement(By.className("profile-pic-icon-hover"));
+        Actions actions = new Actions(browser.driver);
+        actions.moveToElement(photoDiv).build().perform();      
+        waitForElementToAppear(By.cssSelector(".popover-content"));
+        
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("document.getElementsByClassName('popover-content')[0]"
+                + ".getElementsByTagName('a')[0].click();");
+        
+        waitForElementToAppear(By.cssSelector(".popover-content > img"));
+        
+        AssertHelper.assertContainsRegex(urlRegex, 
+                browser.driver.findElements(By.cssSelector(".popover-content > img"))
+                              .get(0)
+                              .getAttribute("src"));
+        
+        jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild(document.getElementsByClassName('popover')[0])");
+    }
+    
+    public void hoverClickAndViewGiverPhotoOnTableCell(int questionBodyIndex, int tableRow, String urlRegex) throws Exception {
+        hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 0, urlRegex);
+    }
+    
+    public void hoverClickAndViewRecipientPhotoOnTableCell(int questionBodyIndex, int tableRow, String urlRegex) throws Exception {
+        hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 2, urlRegex);
     }
 
     public void removeNavBar() {
