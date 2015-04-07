@@ -663,10 +663,10 @@ public class PageData {
      * Returns the links of actions available for a specific evaluation
      * @param eval
      *         The Evaluation details
-     * @param position
-     *         The position of the evaluation in the table (to be used for rowID)
      * @param isHome
      *         Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
+     * @param instructor
+     *         The instructor for this evaluation
      * @return
      */
     public String getInstructorEvaluationActions(EvaluationAttributes eval, boolean isHome, InstructorAttributes instructor){
