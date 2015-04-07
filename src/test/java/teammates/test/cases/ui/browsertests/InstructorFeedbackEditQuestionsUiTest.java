@@ -10,6 +10,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -66,6 +67,14 @@ public class InstructorFeedbackEditQuestionsUiTest extends BaseUiTestCase {
         feedbackEditPage.clickDefaultVisibleTimeButton();
         feedbackEditPage.clickDefaultPublishTimeButton();
         feedbackEditPage.clickSaveSessionButton();
+    }
+    
+    @BeforeMethod
+    public void reloadAndDeleteAnyExistingQuestion() {
+        feedbackEditPage = getFeedbackEditPage();
+        while (BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1) != null) {
+            feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
+        }
     }
 
     @Test
