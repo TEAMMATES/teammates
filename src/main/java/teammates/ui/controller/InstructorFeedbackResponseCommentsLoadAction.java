@@ -29,7 +29,14 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
         String fsname = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        int fsindex = Integer.parseInt(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INDEX));
+        String fsindexString = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INDEX);
+        Assumption.assertNotNull(fsindexString);
+        int fsindex = 0;
+        try {
+            fsindex = Integer.parseInt(fsindexString);
+        } catch(NumberFormatException e) {
+            Assumption.fail("Invalid request parameter value for feedback session index: "+fsindexString);
+        }
         Assumption.assertNotNull(fsname);
         
         instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
