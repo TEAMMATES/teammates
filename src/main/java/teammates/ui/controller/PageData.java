@@ -252,7 +252,7 @@ public class PageData {
     /**
      * Returns the time options as HTML code.
      * By default the selected one is the last one.
-     * @param selectCurrentTime
+     * @param timeToShowAsSelected
      */
     public ArrayList<String> getTimeOptionsAsHtml(Date timeToShowAsSelected){
         ArrayList<String> result = new ArrayList<String>();
@@ -825,8 +825,13 @@ public class PageData {
     /**
      * Returns the links of actions available for a specific session
      * @param session
+     *         The feedback session details
      * @param isHome
      *         Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
+     * @param instructor
+     *         The Instructor details
+     * @param sectionsInCourse
+     *         The list of sections for the course
      * @return
      * @throws EntityDoesNotExistException 
      */
