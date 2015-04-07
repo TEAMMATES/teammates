@@ -690,25 +690,25 @@ public class InstructorFeedbackEditQuestionsUiTest extends BaseUiTestCase {
     private void testAddNumScaleQuestionAction() {
         ______TS("NUMSCALE: add question action success");
 
-        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.selectRecipientsToBeStudents();
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
-        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackNumScaleQuestionAddSuccess.html");
     }
 
     private void testEditNumScaleQuestionAction() {
         ______TS("NUMSCALE: edit question success");
 
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
-        feedbackEditPage.fillEditQuestionBox("edited numscale qn text", 2);
-        feedbackEditPage.fillMinNumScaleBox(3, 2);
-        feedbackEditPage.fillMaxNumScaleBox(4, 2);
-        feedbackEditPage.fillStepNumScaleBox(0.002, 2);
+        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.fillEditQuestionBox("edited numscale qn text", 1);
+        feedbackEditPage.fillMinNumScaleBox(3, 1);
+        feedbackEditPage.fillMaxNumScaleBox(4, 1);
+        feedbackEditPage.fillStepNumScaleBox(0.002, 1);
         assertEquals("[Based on the above settings, acceptable responses are: 3, 3.002, 3.004, ..., 3.996, 3.998, 4]",
-                feedbackEditPage.getNumScalePossibleValuesString(2));
-        feedbackEditPage.clickSaveExistingQuestionButton(2);
+                feedbackEditPage.getNumScalePossibleValuesString(1));
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackNumScaleQuestionEditSuccess.html");
@@ -726,14 +726,14 @@ public class InstructorFeedbackEditQuestionsUiTest extends BaseUiTestCase {
     private void testDeleteNumScaleQuestionAction() {
         ______TS("NUMSCALE: qn delete then cancel");
 
-        feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(2));
-        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(1));
+        assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
         ______TS("NUMSCALE: qn delete then accept");
 
-        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
-        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 2));
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
     }
     
     @SuppressWarnings("unused")
