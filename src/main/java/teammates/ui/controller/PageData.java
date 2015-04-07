@@ -409,6 +409,7 @@ public class PageData {
         return link;
     }
     /**
+     * @param courseId
      * @param isHome True if the Browser should redirect to the Home page after the operation. 
      */
     public String getInstructorCourseDeleteLink(String courseId, boolean isHome){
