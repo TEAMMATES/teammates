@@ -37,14 +37,14 @@
               <div class="form-group">
                 <label class="col-sm-4 control-label">Session duration:</label>
                 <div class="col-sm-8">
-                  <p class="form-control-static">01 Apr 2012, 23:59&nbsp;&nbsp;&nbsp;<b>to</b>&nbsp;&nbsp;&nbsp;30 Apr 2016, 23:59</p>
+                  <p class="form-control-static">Sun, 01 Apr 2012, 23:59&nbsp;&nbsp;&nbsp;<b>to</b>&nbsp;&nbsp;&nbsp;Sat, 30 Apr 2016, 23:59</p>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-4 control-label">Results visible from:</label>
                 <div class="col-sm-8">
                   <p class="form-control-static">
-                    01 May 2012, 23:59
+                    Tue, 01 May 2012, 23:59
                     
                     </p>
                 </div>
@@ -350,6 +350,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                           <th>
+                                              Actions
+                                           </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -368,6 +371,14 @@
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space">a) Yes <span class="color_neutral"><i>(Choice 1)</i></span><br>b) Yes <span class="color_neutral"><i>(Choice 1)</i></span><br></td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=FRubricQnUiT.instructor" class="inline" method="post" target="_blank">
+                                                    <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                    <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
+                                                    <input name="fsname" type="hidden" value="Second Session"/>
+                                                    <input name="moderatedstudent" type="hidden" value="alice.b.tmms@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -384,6 +395,14 @@
                                                         <td class="middlealign color_neutral">Benny Charles</td>
                                                         <td class="middlealign color_neutral">Team 1</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
+                                                        <td>
+                                                            <form action="/page/instructorEditStudentFeedbackPage?user=FRubricQnUiT.instructor" class="inline" method="post" target="_blank">
+                                                            <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                            <input name="courseid" type="hidden" value="FRubricQnUiT.CS2104"/>
+                                                            <input name="fsname" type="hidden" value="Second Session"/>
+                                                            <input name="moderatedstudent" type="hidden" value="benny.c.tmms@gmail.tmt"/>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                         
                                     </tbody>

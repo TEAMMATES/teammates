@@ -793,4 +793,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     public WebElement getVisibilityOptions(int questionNumber) {
         return browser.driver.findElement(By.id("visibilityOptions-" + String.valueOf(questionNumber)));
     }
+
+    public void toggleNotSureCheck(int questionNumber) {
+        browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED
+                + "-" + String.valueOf(questionNumber))).click();
+    }
 }

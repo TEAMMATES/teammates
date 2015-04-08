@@ -197,7 +197,7 @@ public class TimeHelper {
     public static String formatTime(Date date) {
         if (date == null)
             return "";
-        return new SimpleDateFormat("dd MMM yyyy, HH:mm").format(date);
+        return new SimpleDateFormat("EEE, dd MMM yyyy, HH:mm").format(date);
     }
 
     public static String calendarToString(Calendar c) {

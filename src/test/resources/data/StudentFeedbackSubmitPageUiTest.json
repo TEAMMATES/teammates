@@ -96,7 +96,7 @@
             "course":"SFSubmitUiT.CS2104",
             "name":"Alice Betsy",
             "comments":"This student's name is Alice Betsy",
-            "team":"Team> 1"
+            "team":"Team >'\"< 1"
         },
         "Benny":{
             "googleId":"SFSubmitUiT.benny.c",
@@ -104,7 +104,7 @@
             "course":"SFSubmitUiT.CS2104",
             "name":"Benny Charles",
             "comments":"This student's name is Benny Charles",
-            "team":"Team> 1"
+            "team":"Team >'\"< 1"
         },
         "ExtraGuy":{
             "googleId":"extra.guy",
@@ -730,7 +730,7 @@
             "courseId":"SFSubmitUiT.CS2104",
             "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
             "questionMetaData":{
-                "value":"{\"questionType\":\"CONTRIB\", \"questionText\":\"Rate the contribution of your team members and yourself.\"}"
+                "value":"{\"questionType\":\"CONTRIB\", \"questionText\":\"Rate the contribution of your team members and yourself.\", \"isNotSureAllowed\": true}"
             },
             "questionNumber":"21",
             "questionType":"CONTRIB",
@@ -903,6 +903,28 @@
             ],
             "showRecipientNameTo":[
                 "RECEIVER"
+            ]
+        },
+        "qn3InGracePeriodSession":{
+            "feedbackSessionName":"Grace Period Session",
+            "courseId":"SFSubmitUiT.CS2104",
+            "creatorEmail":"SFSubmitUiT.instr@gmail.tmt",
+            "questionMetaData":{
+                "value":"{\"questionType\":\"CONTRIB\", \"questionText\":\"You cannot answer 'Not Sure' here.\", \"isNotSureAllowed\": false}"
+            },
+            "questionNumber":"17",
+            "questionType":"CONTRIB",
+            "giverType":"STUDENTS",
+            "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
+            "numberOfEntitiesToGiveFeedbackTo":-100,
+            "showResponsesTo":[
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
             ]
         }
     }
