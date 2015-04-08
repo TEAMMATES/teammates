@@ -417,6 +417,7 @@ public class Const {
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION = "constSumPointsPerOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMPOINTS = "constSumPoints";
         public static final String FEEDBACK_QUESTION_CONSTSUMDISTRIBUTEUNEVENLY = "constSumUnevenDistribution";
+        public static final String FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED = "isNotSureAllowedCheck";
         public static final String FEEDBACK_QUESTION_GENERATEDOPTIONS = "generatedOptions";
         public static final String FEEDBACK_QUESTION_GIVERTYPE = "givertype";
         public static final String FEEDBACK_QUESTION_RECIPIENTTYPE = "recipienttype";

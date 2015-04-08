@@ -380,6 +380,7 @@ function hideAllNewQuestionForms() {
     $('#numScaleForm').hide();
     $('#constSumForm').hide();
     $('#rubricForm').hide();
+    $('#contribForm').hide();
 }
 
 function prepareQuestionForm(type) {
@@ -433,6 +434,7 @@ function prepareQuestionForm(type) {
     case "CONTRIB":
         $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_CONTRIB);
         hideAllNewQuestionForms();
+        $('#contribForm').show();
         fixContribQnGiverRecipient();
         setDefaultContribQnVisibility();
         setContribQnVisibilityFormat();
