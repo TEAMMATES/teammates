@@ -141,6 +141,10 @@
                             href="<%=data.getInstructorCourseEditLink(courseDetails.course.id)%>"
                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_EDIT%>">
                             Edit</a>
+                        <a class="btn btn-default btn-xs t_course_archive<%=idx%>"
+                            href="<%=data.getInstructorCourseArchiveLink(courseDetails.course.id, true, false)%>"
+                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_ARCHIVE%>">
+                            Archive</a>
                         <a class="btn btn-default btn-xs t_course_delete<%=idx%>"
                             href="<%=data.getInstructorCourseDeleteLink(courseDetails.course.id,false)%>"
                             onclick="return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>');"
@@ -150,10 +154,6 @@
                             <% } %>
                             >
                             Delete</a>
-                        <a class="btn btn-default btn-xs t_course_archive<%=idx%>"
-                            href="<%=data.getInstructorCourseArchiveLink(courseDetails.course.id, true, false)%>"
-                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_ARCHIVE%>">
-                            Archive</a>
                     </td>
                 </tr>
             <%
@@ -212,6 +212,9 @@
                     <td id="courseid<%=idx%>"><%=sanitizeForHtml(course.id)%></td>
                     <td id="coursename<%=idx%>"><%=sanitizeForHtml(course.name)%></td>
                     <td class="align-center no-print">
+                        <a class="btn btn-default btn-xs" id="t_course_unarchive<%=idx%>"
+                            href="<%=data.getInstructorCourseArchiveLink(course.id, false, false)%>">
+                            Unarchive</a>
                         <a class="btn btn-default btn-xs" id="t_course_delete<%=idx%>"
                             href="<%=data.getInstructorCourseDeleteLink(course.id,false)%>"
                             onclick="return toggleDeleteCourseConfirmation('<%=course.id%>');"
@@ -222,9 +225,6 @@
                             <% } %>
                             >
                             Delete</a>
-                        <a class="btn btn-default btn-xs" id="t_course_unarchive<%=idx%>"
-                            href="<%=data.getInstructorCourseArchiveLink(course.id, false, false)%>">
-                            Unarchive</a>
                     </td>
                 </tr>
             <%
