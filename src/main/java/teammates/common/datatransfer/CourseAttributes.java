@@ -69,7 +69,7 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     }
 
     public Course toEntity() {
-        return new Course(id, name, Boolean.valueOf(isArchived));
+        return new Course(id, name, Boolean.valueOf(isArchived), createdAt);
     }
 
     public String toString() {

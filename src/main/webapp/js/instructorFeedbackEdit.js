@@ -805,17 +805,27 @@ function addMcqOption(questionNumber) {
 }
 
 function removeMcqOption(index, questionNumber) {
-    idOfQuestion = '#form_editquestion-' + questionNumber;
-    idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    if(questionNumber == -1){
-        idSuffix = "--1";
-    }
-
-    $("#mcqOptionRow-"+index+idSuffix).remove();
-    
-    if($(idOfQuestion).attr('editStatus') == "hasResponses") {
-        $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
-    }
+	var idOfQuestion = '#form_editquestion-' + questionNumber;
+	var idSuffix = (questionNumber > 0) ? ('-' + questionNumber) : '';
+	
+	if (questionNumber === -1) {
+		idSuffix = '--1';
+	}
+	
+	var $thisRow = $('#mcqOptionRow-' + index + idSuffix);
+	
+	// count number of child rows the table have and - 1 because of add option button
+	var numberOfOptions = $thisRow.parent().children('div').length - 1;
+	
+	if (numberOfOptions <= 1) {
+		$thisRow.find('input').val('');
+	} else {
+		$thisRow.remove();
+	
+		if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
+			$(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+		}
+	}
 }
 
 function toggleMcqGeneratedOptions(checkbox, questionNumber) {
@@ -872,7 +882,7 @@ function addMsqOption(questionNumber) {
         +               "id=\""+FEEDBACK_QUESTION_MSQCHOICE+"-"+curNumberOfChoiceCreated+idSuffix+"\" class=\"form-control msqOptionTextBox\">"
         +       "<span class=\"input-group-btn\">"
         +           "<button type=\"button\" class=\"btn btn-default removeOptionLink\" id=\"msqRemoveOptionLink\" "
-        +                   "onclick=\"removeMcqOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
+        +                   "onclick=\"removeMsqOption("+curNumberOfChoiceCreated+","+questionNumber+")\" tabindex=\"-1\">"
         +               "<span class=\"glyphicon glyphicon-remove\"></span>"
         +           "</button>"
         +       "</span>"
@@ -889,17 +899,27 @@ function addMsqOption(questionNumber) {
 
 
 function removeMsqOption(index, questionNumber) {
-    idOfQuestion = '#form_editquestion-' + questionNumber;
-    idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    if(questionNumber == -1){
-        idSuffix = "--1";
-    }
-
-    $("#msqOptionRow-"+index+idSuffix).remove();
-    
-    if($(idOfQuestion).attr('editStatus') == "hasResponses") {
-        $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
-    }
+	var idOfQuestion = '#form_editquestion-' + questionNumber;
+	var idSuffix = (questionNumber > 0) ? ('-' + questionNumber) : '';
+	
+	if (questionNumber === -1) {
+		idSuffix = '--1';
+	}
+	
+	var $thisRow = $('#msqOptionRow-' + index + idSuffix);
+	
+	// count number of child rows the table have and - 1 because of add option button
+	var numberOfOptions = $thisRow.parent().children('div').length - 1;
+	
+	if (numberOfOptions <= 1) {
+		$thisRow.find('input').val('');
+	} else {
+		$thisRow.remove();
+	
+		if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
+			$(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+		}
+	}
 }
 
 function toggleMsqGeneratedOptions(checkbox, questionNumber) {
@@ -1311,50 +1331,71 @@ function addRubricCol(questionNumber) {
 }
 
 function removeRubricRow(index, questionNumber) {
-
-    // Get confirmation from user
-    if (!confirm("Are you sure you want to delete the row?")) {
-        return;
-    }
-
-
-    idOfQuestion = '#form_editquestion-' + questionNumber;
-    idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    if(questionNumber == -1){
-        idSuffix = "--1";
-    }
-
-    //TODO: ensure at least one row?
-
-    //Remove row
-    $('#rubricRow' + idSuffix + '-' + index).remove();
-    
-    if($(idOfQuestion).attr('editStatus') == "hasResponses") {
-        $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
-    }
+	var idOfQuestion = '#form_editquestion-' + questionNumber;
+	var idSuffix = (questionNumber > 0) ? ('-' + questionNumber) : '';
+	
+	if (questionNumber === -1) {
+		idSuffix = '--1';
+	}
+	
+	var $thisRow = $('#rubricRow' + idSuffix + '-' + index);
+	
+	// count number of table rows from table body
+	var numberOfRows = $thisRow.parent().children('tr').length;
+	
+	if (numberOfRows <= 1) {
+		if (!confirm('Are you sure you want to clear the row?')) {
+			return;
+		}
+	} else {
+		if (!confirm('Are you sure you want to delete the row?')) {
+			return;
+		}
+	}
+	
+	if (numberOfRows <= 1) {
+		$thisRow.find('textarea').val('');
+	} else {
+		$thisRow.remove();
+	
+		if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
+			$(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+		}
+	}
 }
 
 function removeRubricCol(index, questionNumber) {
-
-    // Get confirmation from user
-    if (!confirm("Are you sure you want to delete the column?")) {
-        return;
-    }
-
-    idOfQuestion = '#form_editquestion-' + questionNumber;
-    idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    if(questionNumber == -1){
-        idSuffix = "--1";
-    }
-
-    //TODO: ensure at least two cols?
-
-    //Remove col
-    $('.rubricCol' + idSuffix + '-' + index).remove();
-    
-    if($(idOfQuestion).attr('editStatus') == "hasResponses") {
-        $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
-    }
+	var idOfQuestion = '#form_editquestion-' + questionNumber;
+	var idSuffix = (questionNumber > 0) ? ('-' + questionNumber) : '';
+	
+	if (questionNumber === -1) {
+		idSuffix = '--1';
+	}
+	
+	var $thisCol = $('.rubricCol' + idSuffix + '-' + index);
+	
+	// count number of table rows from table body
+	var numberOfCols = $thisCol.not('align-center').parent().children('th').length - 1;
+	
+	if (numberOfCols <= 1) {
+		if (!confirm('Are you sure you want to clear the column?')) {
+			return;
+		}
+	} else {
+		if (!confirm('Are you sure you want to delete the column?')) {
+			return;
+		}
+	}
+	
+	if (numberOfCols <= 1) {
+		$thisCol.find('input, textarea').val('');
+	} else {
+		$thisCol.remove();
+	
+		if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
+			$(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+		}
+	}
 }
 
 function highlightRubricRow(index, questionNumber, highlight) {
