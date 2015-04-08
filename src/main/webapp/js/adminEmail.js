@@ -78,6 +78,7 @@ $(document).ready(function(){
 		  }
 		});
 	
+	toggleSort($("#button_sort_date").parent(), 5);
 });
 
 

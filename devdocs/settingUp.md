@@ -35,7 +35,8 @@ Important: When a version is specified, please install that version instead of t
     * Tab behavior: In TEAMMATES, we use spaces in place of tabs. 
     `Window → Preferences → General → Editors → Text Editors → Insert spaces for tabs` <br>
     Similarly, configure `Web → CSS Files → Editor`, 
-    `Web → HTML Files → Editor`, and `XML Files → Editor`
+    `Web → HTML Files → Editor`, `XML Files → Editor`, and
+    `JavaScript → Code Style → Formatter → Edit → Tab Policy → Spaces Only`
     to indent using 4 spaces instead of tabs.
 3. Create main config files {These are not under revision control because their 
    content vary from developer to developer}.

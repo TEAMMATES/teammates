@@ -48,6 +48,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     @Test
     public void testAll() throws Exception {
         testContent();
+        testModerateResponsesButton();
         testViewPhotoAndAjaxForLargeScaledSession();
         testSortAction();
         testFilterAction();
@@ -79,6 +80,29 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Empty Session");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageEmpty.html");
     
+    }
+    
+    public void testModerateResponsesButton() {
+
+        resultsPage = loginToInstructorFeedbackResultsPage(
+                "CFResultsUiT.instr", "Open Session");
+        resultsPage.displayByQuestion();
+        ThreadHelper.waitFor(2000);
+
+        ______TS("test moderate responses button for individual response (including no response)");
+
+        verifyModerateResponsesButton(2, "CFResultsUiT.alice.b@gmail.tmt",
+                "CFResultsUiT.benny.c@gmail.tmt",
+                "CFResultsUiT.charlie.d@gmail.tmt",
+                "CFResultsUiT.danny.e@gmail.tmt",
+                "drop.out@gmail.tmt",
+                "extra.guy@gmail.tmt",
+                "CFResultsUiT.emily.f@gmail.tmt");
+
+        ______TS("test moderate responses button for team response");
+
+        verifyModerateResponsesButton(4, "CFResultsUiT.alice.b@gmail.tmt");
+
     }
     
     public void testSortAction(){
@@ -214,6 +238,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.clickAjaxPanel(0);
        
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestion.html");
+        
+        ______TS("test view photo for view by questions");
+        
+        resultsPage.removeNavBar();
+        resultsPage.hoverClickAndViewGiverPhotoOnTableCell(0, 0, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverClickAndViewRecipientPhotoOnTableCell(0, 0, "profile_picture_default.png");
         
         ______TS("Ajax for view by question for helper");
         
@@ -505,6 +535,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
             searchString += values[i-1]+"{*}";
         }
         resultsPage.verifyContains(searchString);
+    }
+    
+    private void verifyModerateResponsesButton(int qnNumber, String... emails) {
+        for (int i = 1; i <= emails.length; i++) {
+            resultsPage.verifyModerateResponseButtonBelongsTo(
+                    resultsPage.getModerateResponseButtonInQuestionView(qnNumber, i), emails[i - 1]);
+        }
     }
 
 }

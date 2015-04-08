@@ -20,6 +20,7 @@
 <%@ page import="teammates.ui.controller.InstructorEvalSubmissionPageData"%>
 <%@ page import="teammates.ui.controller.InstructorStudentRecordsPageData"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForJs"%>
+<%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml" %>
 <%
 	InstructorStudentRecordsPageData data = (InstructorStudentRecordsPageData)request.getAttribute("data");
 %>
@@ -599,7 +600,7 @@
                                             <td class="col-sm-4"><%=byReviewee ? "Reviewee" : "Reviewer"%>: <strong><%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name)%></strong>
                                             </td>
                                             <td class="col-sm-4">
-                                                <div class="pull-right"><span data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.CLAIMED%>">Claimed Contribution: </span>
+                                                <div class="pull-right"><span data-toggle="tooltip" data-placement="top" title="<%=sanitizeForHtml(Const.Tooltips.CLAIMED)%>">Claimed Contribution: </span>
                                                     <%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(studentResult.summary.claimedToInstructor,true)%>
                                                 </div>
                                             </td>

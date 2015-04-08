@@ -220,7 +220,7 @@
             <div class="row">
             <div class="col-sm-4">
             <h4><span class="label label-info" data-toggle="tooltip" data-placement="top" data-container="body"  
-                        title='<%=Const.Tooltips.CLAIMED%>'>CC</span> Claimed Contribution 
+                        title='<%=sanitizeForHtml(Const.Tooltips.CLAIMED)%>'>CC</span> Claimed Contribution 
             </h4>
             </div>
             <div class="col-sm-5"> 
@@ -349,7 +349,7 @@
                             <div class="col-md-4">
                               <div class="pull-right">
                                 <span data-toggle="tooltip" data-placement="top" data-container="body"  
-                                    title='<%=Const.Tooltips.CLAIMED%>'>
+                                    title='<%=sanitizeForHtml(Const.Tooltips.CLAIMED)%>'>
                                 Claimed contribution: <%=InstructorEvalResultsPageData.getPointsInEqualShareFormatAsHtml(studentResult.summary.claimedToInstructor,true)%>
                                 </span>
                               </div>
