@@ -18,7 +18,7 @@ import teammates.logic.api.GateKeeper;
 public class AdminEmailLogPageAction extends Action {
     
     private boolean includeAppLogs = true;
-    private static final int LOGS_PER_PAGE = 2;
+    private static final int LOGS_PER_PAGE = 50;
     private static final int MAX_LOGSEARCH_LIMIT = 15000;
 
     @Override
@@ -46,6 +46,9 @@ public class AdminEmailLogPageAction extends Action {
         
         LogQuery query = buildQuery(data.offset, includeAppLogs, data.versions);
         data.logs = getEmailLogs(query, data);
+        
+        
+        statusToAdmin = "adminEmailLogPage Page Load";
         
         if(data.offset == null){
             return createShowPageResult(Const.ViewURIs.ADMIN_EMAIL_LOG, data);

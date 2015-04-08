@@ -41,7 +41,7 @@ Here are some documents important for TEAMMATES developers:
     [JSP](http://teammatesv4.appspot.com/dev/jspstyleguide.html), 
     [JavaScript](http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml),
     [CSS](https://docs.google.com/document/d/1wA9paRA9cS7ByStGbhRRUZLEzEzimrNQjIDPVqy1ScI/pub), 
-    [HTML](http://teammatesv4.appspot.com/dev/htmlstyleguide.html)
+    [HTML](https://docs.google.com/document/d/12PJYbQoqjK-0LzaUuguQ4kGE--eikCcHfwzZDGwFOJ0/pub?embedded=true)
   * [**Developer Troubleshooting Guide**](https://docs.google.com/document/d/1_p7WOGryOStPfTGA_ZifE1kVlskb1zfd3HZwc4lE4QQ/pub?embedded=true)
   * **Best practices** for : 
     [UI design](https://docs.google.com/document/d/1Vj59--sCYUfxgg-iLI53hMfc6YY1gguATTN_KXTQVUo/pub?embedded=true), 
