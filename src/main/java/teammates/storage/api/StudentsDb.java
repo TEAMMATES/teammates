@@ -443,7 +443,7 @@ public class StudentsDb extends EntitiesDb {
                 elapsedTime += ThreadHelper.WAIT_DURATION;
             }
             if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
-                log.severe("Operation did not persist in time: deleteStudent->"
+                log.info("Operation did not persist in time: deleteStudent->"
                         + courseId + "/" + email);
             }
         }
