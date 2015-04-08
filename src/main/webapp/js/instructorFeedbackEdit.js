@@ -702,8 +702,14 @@ function toggleVisibilityMessage(elem){
     $disabledInputs.prop('disabled', true);
 }
 
+// Meant to be declared outside to prevent unncessary AJAX calls
 var previousFormDataMap = {};
 
+/**
+ * Used to get the visibility message of a form closest
+ * to the button element provided
+ * @param buttonElem
+ */
 function getVisibilityMessage(buttonElem){
     var form = $(buttonElem).closest("form");
     var qnNumber = $(form).find("[name=questionnum]").val();
