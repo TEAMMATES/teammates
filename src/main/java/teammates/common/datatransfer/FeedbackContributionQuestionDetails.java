@@ -42,8 +42,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         String isNotSureAllowedString = HttpRequestHelper.getValueFromParamMap(
                 requestParameters,
                 Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED);
-        Boolean isNotSureAllowed = (isNotSureAllowedString == null) ? false
-                : (isNotSureAllowedString.equals("on") ? true : false);
+        Boolean isNotSureAllowed;
+        if (isNotSureAllowedString == null) {
+            isNotSureAllowed = false;
+        } else {
+            isNotSureAllowed = isNotSureAllowedString.equals("on");
+        }
         this.setContributionQuestionDetails(isNotSureAllowed);
         return true;
     }
@@ -105,7 +109,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         return FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_EDIT_FORM,
                 "${questionNumber}", Integer.toString(questionNumber),
-                "${allowingNotSureOrNot}", (isNotSureAllowed) ? "checked=\"checked\"" : "",
+                "${isNotSureAllowedChecked}", (isNotSureAllowed) ? "checked=\"checked\"" : "",
                 "${Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED}",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED);
     }
