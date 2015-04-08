@@ -56,6 +56,8 @@
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseJoinConfirmationPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseDetailsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorEvalsPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditSessionsUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditQuestionsUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentCommentsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentCourseJoinConfirmationPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentHomePageUiTest" />
@@ -97,8 +99,6 @@
             <class name="teammates.test.cases.ui.browsertests.InstructorEvalSubmissionEditPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorEvalEditPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorEvalResultsPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditSessionsUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditQuestionsUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackResultsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackSubmitPageUiTest" /> 
