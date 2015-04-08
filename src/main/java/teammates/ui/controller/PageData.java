@@ -745,7 +745,7 @@ public class PageData {
                 "href=\"" + getInstructorEvaluationUnpublishLink(eval.courseId,eval.name,isHome) + "\" " +
                 "title=\"" + Const.Tooltips.EVALUATION_UNPUBLISH+"\" data-toggle=\"tooltip\" data-placement=\"top\"" +
                 "onclick=\"return toggleUnpublishEvaluation('" + eval.name + "');\" " + 
-                disableUnpublishSessionStr + ">Unpublish</a> "
+                disableUnpublishSessionStr + ">Unpublish Results</a> "
             );
         } else {
             result.append(
@@ -753,7 +753,7 @@ public class PageData {
                 "href=\"" + getInstructorEvaluationPublishLink(eval.courseId,eval.name,isHome) + "\" " +
                 "title=\"" + Const.Tooltips.EVALUATION_PUBLISH + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
                 (hasPublish ? "onclick=\"return togglePublishEvaluation('" + eval.name + "');\" " : " ") +
-                disablePublishSessionStr + ">Publish</a> "
+                disablePublishSessionStr + ">Publish Results</a> "
             );
         }
         return result.toString();
@@ -936,7 +936,7 @@ public class PageData {
                 "href=\"" + getInstructorFeedbackSessionUnpublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
                 "title=\"" + Const.Tooltips.FEEDBACK_SESSION_UNPUBLISH + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
                 "onclick=\"return toggleUnpublishEvaluation('" + session.feedbackSessionName + "');\" " + 
-                disableUnpublishSessionStr + ">Unpublish</a> ";
+                disableUnpublishSessionStr + ">Unpublish Results</a> ";
         } else {
             result = 
                 "<a class=\"btn btn-default btn-xs btn-tm-actions session-publish-for-test" + (hasPublish ? "\"" : DISABLED) + 
@@ -944,7 +944,7 @@ public class PageData {
                 "title=\"" + (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH :  Const.Tooltips.FEEDBACK_SESSION_AWAITING) + "\"" +
                 "data-toggle=\"tooltip\" data-placement=\"top\"" +
                 (hasPublish ? "onclick=\"return togglePublishEvaluation('" + session.feedbackSessionName + "');\" " : " ") +
-                disablePublishSessionStr + ">Publish</a> ";
+                disablePublishSessionStr + ">Publish Results</a> ";
         }
         return result;
     }
