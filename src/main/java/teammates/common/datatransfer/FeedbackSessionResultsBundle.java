@@ -323,7 +323,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
      */
     public String getTeamNameFromRoster(String participantIdentifier) {
         if (participantIdentifier.equals(Const.GENERAL_QUESTION)) {
-            return Const.USER_NOBODY_TEXT;
+            return Const.TEAM_FOR_GENERAL_QUESTION;
         }
         
         if (isParticipantIdentifierStudent(participantIdentifier)) {
@@ -939,8 +939,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle{
     
     public String getTeamNameForEmail(String email) {
         String teamName = emailTeamNameTable.get(email);
-        if (teamName == null || email.equals(Const.GENERAL_QUESTION) ) {
+        if (teamName == null) {
             return Const.USER_NOBODY_TEXT;
+        } else if (email.equals(Const.GENERAL_QUESTION)) {
+            return Const.TEAM_FOR_GENERAL_QUESTION;
         } else {
             return PageData.sanitizeForHtml(teamName);
         }
