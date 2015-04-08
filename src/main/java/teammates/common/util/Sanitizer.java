@@ -176,11 +176,25 @@ public class Sanitizer {
         return ((string == null) ? null : string.trim());
     }
     
-    public static String clearStringForXPath(String text){
+    /**
+     * Convert the string to a safer version for XPath
+     * For example:
+     * Will o' The Wisp => concat('Will o' , "'" , ' The Wisp' , '')
+     * This will result in the same string when read by XPath.
+     * 
+     * This is used when writing the test case for some special characters
+     * such as ' and "
+     * 
+     * @param text
+     * @return safer version of the text for XPath
+     */
+    public static String convertStringForXPath(String text){
         String result = "";
         int startPos = 0;
         for(int i=0;i<text.length();i++){
-            while((i<text.length()) && (text.charAt(i)!='\'')) i++;
+            while((i<text.length()) && (text.charAt(i)!='\'')){
+                i++;
+            }
             if (startPos<i){
                 result += "'" + text.substring(startPos, i) + "',";
                 startPos = i;

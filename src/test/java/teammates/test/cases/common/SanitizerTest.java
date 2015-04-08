@@ -71,15 +71,15 @@ public class SanitizerTest extends BaseTestCase {
     public void testClearStringForXPath() {
         String text = "";
         String expected = "''";
-        assertEquals(expected, Sanitizer.clearStringForXPath(text));
+        assertEquals(expected, Sanitizer.convertStringForXPath(text));
         
         text = "Will o' The Wisp";
         expected = "concat('Will o',\"'\",' The Wisp','')";
-        assertEquals(expected, Sanitizer.clearStringForXPath(text));
+        assertEquals(expected, Sanitizer.convertStringForXPath(text));
         
         text = "'''''Will o''''' The''''' Wisp";
         expected = "concat(\"'''''\",'Will o',\"'''''\",' The',\"'''''\",' Wisp','')";
-        assertEquals(expected, Sanitizer.clearStringForXPath(text));
+        assertEquals(expected, Sanitizer.convertStringForXPath(text));
         
     }
 }

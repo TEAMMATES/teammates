@@ -71,23 +71,23 @@ public class FeedbackSubmitPage extends AppPage {
     
     public void chooseMcqOption(int qnNumber, int responseNumber, String choiceName){
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
-        name = Sanitizer.clearStringForXPath(name);
-        choiceName = Sanitizer.clearStringForXPath(choiceName);
+        name = Sanitizer.convertStringForXPath(name);
+        choiceName = Sanitizer.convertStringForXPath(choiceName);
         WebElement element = browser.driver.findElement(By.xpath("//input[@name=" + name + " and @value=" + choiceName + "]"));
         element.click();
     }
     
     public void toggleMsqOption(int qnNumber, int responseNumber, String choiceName){
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
-        name = Sanitizer.clearStringForXPath(name);
-        choiceName = Sanitizer.clearStringForXPath(choiceName);
+        name = Sanitizer.convertStringForXPath(name);
+        choiceName = Sanitizer.convertStringForXPath(choiceName);
         WebElement element = browser.driver.findElement(By.xpath("//input[@name=" + name + " and @value=" + choiceName + "]"));
         element.click();
     }
     
     public void chooseContribOption(int qnNumber, int responseNumber, String choiceName){
         String name = Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber;
-        name = Sanitizer.clearStringForXPath(name);
+        name = Sanitizer.convertStringForXPath(name);
         selectDropdownByVisibleValue(browser.driver.findElement(By.xpath("//select[@name=" + name + "]")), choiceName);
     }
     
