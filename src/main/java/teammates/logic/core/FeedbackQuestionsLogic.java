@@ -754,4 +754,25 @@ public class FeedbackQuestionsLogic {
             }
         }
     }
+    
+    /*
+     * Removes questions with no recipients.
+     */
+    public List<FeedbackQuestionAttributes> getQuestionsWithRecipients(
+            List<FeedbackQuestionAttributes> questions, String giver)
+            throws EntityDoesNotExistException {
+        List<FeedbackQuestionAttributes> questionsWithRecipients = new ArrayList<FeedbackQuestionAttributes>();
+        for (FeedbackQuestionAttributes question : questions) {
+            int numRecipients = question.numberOfEntitiesToGiveFeedbackTo;
+            if (numRecipients == Const.MAX_POSSIBLE_RECIPIENTS) {
+                numRecipients = this.getRecipientsForQuestion(question, giver)
+                        .size();
+            }
+            if (numRecipients > 0) {
+                questionsWithRecipients.add(question);
+            }
+        }
+        return questionsWithRecipients;
+    }
+
 }

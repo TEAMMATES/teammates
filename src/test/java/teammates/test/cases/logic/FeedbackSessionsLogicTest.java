@@ -505,6 +505,31 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(1, stats.expectedTotal);
         assertEquals(1, stats.submittedTotal);
         
+        ______TS("private session with questions with no recipients");
+        
+        expectedSessions.clear();
+        expectedSessions.add(newDataBundle.feedbackSessions.get("private.session.norecipients").toString());
+        
+        detailsList = fsLogic.getFeedbackSessionDetailsForInstructor(
+                newDataBundle.instructors.get("instructor1OfCourse3").googleId);
+        
+        detailsMap.clear();
+        actualSessions = "";
+        for (FeedbackSessionDetailsBundle details : detailsList) {
+            actualSessions += details.feedbackSession.toString();
+            detailsMap.put(
+                    details.feedbackSession.feedbackSessionName + "%" +
+                    details.feedbackSession.courseId,
+                    details);
+        }
+        
+        AssertHelper.assertContains(expectedSessions, actualSessions);  
+        stats = detailsMap.get(newDataBundle.feedbackSessions.get("private.session.norecipients").feedbackSessionName + "%" 
+                + newDataBundle.feedbackSessions.get("private.session.norecipients").courseId).stats;
+        
+        assertEquals(0, stats.expectedTotal);
+        assertEquals(0, stats.submittedTotal);
+        
         ______TS("instructor does not exist");
             
         assertTrue(fsLogic.getFeedbackSessionDetailsForInstructor("non-existent.google.id").isEmpty());
