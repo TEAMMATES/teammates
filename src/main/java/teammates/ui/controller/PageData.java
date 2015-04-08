@@ -252,7 +252,7 @@ public class PageData {
     /**
      * Returns the time options as HTML code.
      * By default the selected one is the last one.
-     * @param selectCurrentTime
+     * @param timeToShowAsSelected
      */
     public ArrayList<String> getTimeOptionsAsHtml(Date timeToShowAsSelected){
         ArrayList<String> result = new ArrayList<String>();
@@ -409,6 +409,7 @@ public class PageData {
         return link;
     }
     /**
+     * @param courseId
      * @param isHome True if the Browser should redirect to the Home page after the operation. 
      */
     public String getInstructorCourseDeleteLink(String courseId, boolean isHome){
@@ -662,10 +663,10 @@ public class PageData {
      * Returns the links of actions available for a specific evaluation
      * @param eval
      *         The Evaluation details
-     * @param position
-     *         The position of the evaluation in the table (to be used for rowID)
      * @param isHome
      *         Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
+     * @param instructor
+     *         The instructor for this evaluation
      * @return
      */
     public String getInstructorEvaluationActions(EvaluationAttributes eval, boolean isHome, InstructorAttributes instructor){
@@ -825,11 +826,13 @@ public class PageData {
     /**
      * Returns the links of actions available for a specific session
      * @param session
-     *         The Evaluation details
-     * @param position
-     *         The position of the evaluation in the table (to be used for rowID)
+     *         The feedback session details
      * @param isHome
      *         Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
+     * @param instructor
+     *         The Instructor details
+     * @param sectionsInCourse
+     *         The list of sections for the course
      * @return
      * @throws EntityDoesNotExistException 
      */
