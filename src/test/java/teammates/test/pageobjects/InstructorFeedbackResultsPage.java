@@ -377,4 +377,14 @@ public class InstructorFeedbackResultsPage extends AppPage {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         jsExecutor.executeScript("document.getElementsByClassName('navbar-fixed-top')[0].parentNode.removeChild(document.getElementsByClassName('navbar-fixed-top')[0])");
     }
+    
+    public void verifyModerateResponseButtonBelongsTo(WebElement btn, String email) {
+        assertEquals(email, btn.findElement(By.xpath("input[4]")).getAttribute("value"));
+    }
+    
+    public WebElement getModerateResponseButtonInQuestionView(int qnNo, int responseNo) {
+        return browser.driver.findElement(By.id("questionBody-" + (qnNo - 1)))
+                .findElement(By.className("table-responsive"))
+                .findElement(By.xpath("table/tbody/tr[" + responseNo + "]/td[6]/form"));
+    }
 }
