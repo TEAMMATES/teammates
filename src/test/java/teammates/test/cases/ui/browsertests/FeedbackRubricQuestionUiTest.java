@@ -174,6 +174,7 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         testAddRubricQuestionAction();
         testEditRubricQuestionAction();
         testDeleteRubricQuestionAction();
+        testInputJsValidationForRubricQuestion();
     }
     
     
@@ -192,7 +193,6 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
 
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID, feedbackEditPage.getStatus());
-        
     }
 
     private void testAddRubricQuestionAction() {
@@ -288,6 +288,7 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         // Should end up with 2 rubric descriptions, (0) and (1)
         
         feedbackEditPage.clickSaveExistingQuestionButton(1);
+        
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditDescriptionSuccess.html");
     }
     
@@ -302,6 +303,41 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));    
+    }
+    
+    private void testInputJsValidationForRubricQuestion() {
+        // this tests whether the JS validation disallows empty rubric options
+        
+        ______TS("JS validation test");
+
+        // add a new question
+        feedbackEditPage.selectNewQuestionType("Rubric question");
+        feedbackEditPage.clickNewQuestionButton();
+        
+        // start editing it
+        feedbackEditPage.fillQuestionBox("RUBRIC qn JS validation test");
+        feedbackEditPage.clickAddQuestionButton();
+        
+        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        
+        // try to remove everything
+        feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 1);
+        feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 0);
+        feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 3);
+        feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 2);
+        feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 1);
+        feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 0);
+        
+        // TODO check if the rubric column and link is indeed empty
+        
+        // add something so that we know that the elements are still there
+        // and so that we don't get empty sub question error
+        feedbackEditPage.fillRubricSubQuestionBox("New sub-question text", 1, 0);
+        feedbackEditPage.fillRubricDescriptionBox("New(0) description", 1, 0, 0);
+        
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        
+        assertEquals("Too little choices for Rubric question. Minimum number of options is: 2", feedbackEditPage.getStatus());
     }
     
     private InstructorFeedbackEditPage getFeedbackEditPage() {

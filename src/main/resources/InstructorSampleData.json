@@ -179,15 +179,6 @@
       "team": "Team 2",
       "section": "Tutorial Group 2"
     },
-    "barney.s.tmms@demo.course": {
-      "googleId": "",
-      "email": "barney.s.tmms@gmail.tmt",
-      "course": "demo.course",
-      "name": "Barney Stinson",
-      "comments": "This student's name is Barney Stinson",
-      "team": "Team 3",
-      "section": "Tutorial Group 2"
-    },
     "francis.g.tmms@demo.course": {
       "googleId": "francis.g.tmms.sampleData",
       "email": "francis.g.tmms@gmail.tmt",
@@ -204,6 +195,15 @@
       "name": "Gene Hudson",
       "comments": "This student's name is Gene Hudson",
       "team": "Team 2",
+      "section": "Tutorial Group 2"
+    },
+    "hugh.i.tmms@demo.course": {
+      "googleId": "",
+      "email": "hugh.i.tmms@gmail.tmt",
+      "course": "demo.course",
+      "name": "Hugh Ivanov",
+      "comments": "This student's name is Hugh Ivanov",
+      "team": "Team 3",
       "section": "Tutorial Group 2"
     }
   },

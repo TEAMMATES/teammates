@@ -33,11 +33,13 @@
         "CHomeUiT.CS2104":{
             "id":"CHomeUiT.CS2104",
             "name":"Programming Language Concepts",
+            "createdAt": "2012-04-01 11:58 PM UTC",
             "isArchived":false
         },
         "CHomeUiT.CS1101":{
             "id":"CHomeUiT.CS1101",
             "name":"Programming Methodology",
+            "createdAt": "2012-04-01 11:59 PM UTC",
             "isArchived":false
         },
         "CHomeUiT.Sample":{
