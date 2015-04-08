@@ -359,6 +359,73 @@ public class StringHelper {
                              result.toString());
     }
 
+    /**
+     * Adapts the colspan size to minimize the white space wastage.
+     * 
+     * @param rowData
+     * @param maxColSize overall max. no. of columns needed
+     * @return the suggested colspan size
+     */
+    private static int adaptColspanSize(List<String> rowData, int maxColSize) {
+        return (int) Math.floor(maxColSize / rowData.size());
+    }
+
+    /**
+     * Convert a csv string to a beautified html table string for displaying.
+     * It does so by adapting the column span in appropriate ways so that white space
+     * wastage is minimised.
+     * 
+     * @param str
+     * @return beautified html table string
+     */
+    public static String csvToBeautifiedHtmlTable(String str) {
+
+        str = handleNewLine(str);
+        String[] lines = str.split(Const.EOL);
+
+        StringBuilder result = new StringBuilder();
+        int maxColSize = 0; // max. no. of table columns needed
+        List<ArrayList<String>> rowDataArray = new ArrayList<ArrayList<String>>();
+
+        // we first pre-process the table entries to calculate the colspan that will
+        // eventually be required for each entry
+        for (int i = 0; i < lines.length; i++) {
+
+            List<String> rowData = getTableData(lines[i]);
+
+            if (checkIfEmptyRow(rowData)) {
+                continue;
+            }
+
+            if (rowData.size() > maxColSize) {
+                maxColSize = rowData.size();
+            }
+            rowDataArray.add((ArrayList<String>) rowData);
+
+        }
+
+        for (List<String> rowData : rowDataArray) {
+
+            int colspan = adaptColspanSize(rowData, maxColSize);
+
+            result.append("<tr>");
+            for (String td : rowData) {
+                if (colspan == 1) {
+                    result.append(String.format("<td>%s</td>\n", td));
+                } else {
+                    result.append(String.format("<td colspan='%d'>%s</td>\n",
+                            colspan, td));
+                }
+            }
+            result.append("</tr>");
+
+        }
+
+        return String
+                .format("<table class=\"table table-bordered table-striped table-condensed\">\n%s</table>",
+                        result.toString());
+    }
+
     private static String handleNewLine(String str) {
 
         StringBuilder buffer = new StringBuilder();
