@@ -20,8 +20,19 @@
 %><%=isQuestion ? "" : "\n"%>    
     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=isQuestion ? questionData.bundle.feedbackSession.feedbackSessionName : data.bundle.feedbackSession.feedbackSessionName%>"/>
     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=isQuestion ? questionData.bundle.feedbackSession.courseId : data.bundle.feedbackSession.courseId%>"/>
-<% if (isQuestion) { %>    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=questionData.account.googleId%>">
-    
+<%=isQuestion ? "" : "    "%><% if (isQuestion) { %>    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=questionData.account.googleId%>"><% } else { %><%
+        if (data.account.googleId != null) {
+    %>
+        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+    <%
+        } else {
+    %>
+        <input type="hidden" name="<%=Const.ParamsNames.REGKEY%>" value="<%=data.student.key%>">
+        <input type="hidden" name="<%=Const.ParamsNames.STUDENT_EMAIL%>" value="<%=data.account.email%>">
+    <%
+        }
+    %><% } %>
+<% if (isQuestion) { %>    
     <div class="well well-plain" >
         <div class="form-horizontal" role="form">
             <div class="form-group">
@@ -171,19 +182,7 @@
         }
     %>
         </div>
-        </div><% } else { %>    <%
-        if (data.account.googleId != null) {
-    %>
-        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-    <%
-        } else {
-    %>
-        <input type="hidden" name="<%=Const.ParamsNames.REGKEY%>" value="<%=data.student.key%>">
-        <input type="hidden" name="<%=Const.ParamsNames.STUDENT_EMAIL%>" value="<%=data.account.email%>">
-    <%
-        }
-    %>
-    <div class="well well-plain" id="course1">
+        </div><% } else { %>    <div class="well well-plain" id="course1">
             <div class="panel-body">
                 <div class="form-horizontal">
                     <div class="panel-heading">
