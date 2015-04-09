@@ -67,7 +67,7 @@
         <%=isQuestion ? "" : "    "%></div>
     <%=isQuestion ? "" : "    "%></div><%=isQuestion ? "\n\n    <br>" : ""%>
     <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-    <br>
+    <%=isQuestion ? "<br>\n    <form class=\"form-horizontal\" role=\"form\">" : "<br />\n    "%>
 <%
 int qnIndx = 1;
 List<FeedbackQuestionAttributes> questions;
@@ -95,30 +95,30 @@ for (FeedbackQuestionAttributes question : questions) {
         continue;
     }
 %>
-        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>-<%=Integer.toString(qnIndx)%>" value="<%=question.questionType%>"/>
-        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>-<%=Integer.toString(qnIndx)%>" value="<%=question.getId()%>"/>
-        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL%>-<%=Integer.toString(qnIndx)%>" value="<%=numOfResponseBoxes%>"/>
-        <div class="form-horizontal">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Question <%=qnIndx%>:<br/>
-                    <span class="text-preserve-space"><%=sanitizeForHtml(questionDetails.questionText)%></div></span>
-                <div class="panel-body">
-                    <p class="text-muted">Only the following persons can see your responses: </p>
-                    <ul class="text-muted">
-                    <%
+    <%=isQuestion ? "" : "    "%><input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>-<%=Integer.toString(qnIndx)%>" value="<%=question.questionType%>"/>
+    <%=isQuestion ? "" : "    "%><input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>-<%=Integer.toString(qnIndx)%>" value="<%=question.getId()%>"/>
+    <%=isQuestion ? "" : "    "%><input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL%>-<%=Integer.toString(qnIndx)%>" value="<%=numOfResponseBoxes%>"/>
+    <%=isQuestion ? "" : "    "%><div class="form-horizontal">
+        <%=isQuestion ? "" : "    "%><div class="panel panel-primary">
+            <%=isQuestion ? "" : "    "%><div class="panel-heading">Question <%=isQuestion ? questionData.bundle.question.questionNumber : qnIndx%>:<br/>
+                <%=isQuestion ? "" : "    "%><span class="text-preserve-space"><%=sanitizeForHtml(questionDetails.questionText)%><%=isQuestion ? "" : "</div>"%></span><%=isQuestion ? "\n            </div>" : ""%>
+            <%=isQuestion ? "" : "    "%><div class="panel-body">
+                <%=isQuestion ? "" : "    "%><p class="text-muted">Only the following persons can see your responses: </p>
+                <%=isQuestion ? "" : "    "%><ul class="text-muted">
+                <%=isQuestion ? "" : "    "%><%
                         if (question.getVisibilityMessage().isEmpty()) {
                     %>
-                            <li class="unordered">No-one but the feedback session creator can see your responses.</li>
+                        <%=isQuestion ? "" : "    "%><li class="unordered">No-one but the feedback session creator can see your responses.</li>
                     <%
                         }
                         for (String line : question.getVisibilityMessage()) {
                     %>
-                            <li class="unordered"><%=line%></li>
-                    <%
+                        <%=isQuestion ? "" : "    "%><li class="unordered"><%=line%></li>
+                <%=isQuestion ? "" : "    "%><%
                         }
                     %>
-                    </ul>
-        <%
+                <%=isQuestion ? "" : "    "%></ul>
+    <%=isQuestion ? "" : "    "%><%
             int responseIndx = 0;
             List<FeedbackResponseAttributes> existingResponses;
             if (isQuestion) {
@@ -162,10 +162,10 @@ for (FeedbackQuestionAttributes question : questions) {
                         while (responseIndx < numOfResponseBoxes) {
         %>
                 <br />
-                <div class="form-group margin-0">
+                <div class="form-group<%=isQuestion ? "" : " margin-0"%>">
                     <div class="col-sm-2 form-inline" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right\""%>>
                         <label for="input">To:</label>
-                        <select class="participantSelect middlealign newResponse form-control" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
+                        <select class="participantSelect middlealign newResponse form-control" <%=isQuestion ? "\n                            " : ""%>name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
                             <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none;max-width:125px\"" : "style=\"max-width:125px\""%>
                             <%=((isQuestion && questionData.isSessionOpenForSubmission) || (!isQuestion && data.isSessionOpenForSubmission)) ? "" : "disabled=\"disabled\""%>>
                         <%
@@ -187,13 +187,11 @@ for (FeedbackQuestionAttributes question : questions) {
                             qnIndx, responseIndx, question.courseId)%>
                     </div>
                 </div>
-        <%
+    <%=isQuestion ? "" : "    "%><%
                 responseIndx++;
             }
-        %></div></div>
-        </div>
-        <br><br>
-<%
+        %><%=isQuestion ? "\n        " : "</div>"%></div>
+        </div><%=isQuestion ? "" : "\n        <br><br>\n"%><%
         qnIndx++;
     }
 %>
