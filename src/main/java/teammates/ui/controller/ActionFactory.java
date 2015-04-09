@@ -29,6 +29,20 @@ public class ActionFactory {
         map(ADMIN_SESSIONS_PAGE,AdminSessionsPageAction.class);
         map(ADMIN_SEARCH_PAGE, AdminSearchPageAction.class);
         map(ADMIN_STUDENT_GOOGLE_ID_RESET, AdminStudentGoogleIdResetAction.class);
+        map(ADMIN_EMAIL_COMPOSE_PAGE, AdminEmailComposePageAction.class);
+        map(ADMIN_EMAIL_COMPOSE_SAVE, AdminEmailComposeSaveAction.class);
+        map(ADMIN_EMAIL_COMPOSE_SEND, AdminEmailComposeSendAction.class);
+        map(ADMIN_EMAIL_IMAGE_UPLOAD, AdminEmailImageUploadAction.class);
+        map(ADMIN_EMAIL_GROUP_RECEIVER_LIST_UPLOAD, AdminEmailGroupReceiverListUploadAction.class);
+        map(ADMIN_EMAIL_CREATE_IMAGE_UPLOAD_URL, AdminEmailCreateImageUploadUrlAction.class);
+        map(ADMIN_EMAIL_CREATE_GROUP_RECEIVER_LIST_UPLOAD_URL, AdminEmailCreateGroupReceiverListUploadUrlAction.class);
+        map(ADMIN_EMAIL_SENT_PAGE, AdminEmailSentPageAction.class);
+        map(ADMIN_EMAIL_TRASH_PAGE, AdminEmailTrashPageAction.class);
+        map(ADMIN_EMAIL_TRASH_DELETE, AdminEmailTrashDeleteAction.class);
+        map(ADMIN_EMAIL_DRAFT_PAGE, AdminEmailDraftPageAction.class);
+        map(ADMIN_EMAIL_MOVE_TO_TRASH, AdminEmailTrashAction.class);
+        map(ADMIN_EMAIL_MOVE_OUT_TRASH, AdminEmailTrashAction.class);
+        map(ADMIN_EMAIL_LOG_PAGE, AdminEmailLogPageAction.class);
         
         map(INSTRUCTOR_COURSES_PAGE, InstructorCoursesPageAction.class);
         map(INSTRUCTOR_COURSE_ADD, InstructorCourseAddAction.class);

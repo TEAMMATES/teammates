@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.mail.Address;
@@ -30,6 +31,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
+import teammates.common.util.EmailLogEntry;
 import teammates.common.util.StringHelper;
 import teammates.common.util.EmailTemplates;
 import teammates.common.util.TimeHelper;
@@ -737,6 +739,17 @@ public class Emails {
         return message;
     }
     
+    public MimeMessage generateAdminEmail(String content, String subject, String sendTo) throws MessagingException, UnsupportedEncodingException 
+    {
+
+        MimeMessage message = getEmptyEmailAddressedToEmail(sendTo);
+        message.setSubject(subject);
+
+        message.setContent(content, "text/html");
+        return message;
+    }
+    
+
     public MimeMessage generateStudentCourseRejoinEmailAfterGoogleIdReset(
             CourseAttributes course, StudentAttributes student) 
                     throws AddressException, MessagingException, UnsupportedEncodingException {
@@ -753,7 +766,6 @@ public class Emails {
         message.setContent(emailBody, "text/html");
         return message;
     }
-    
     
     public MimeMessage generateNewInstructorAccountJoinEmail(InstructorAttributes instructor,String shortName, String institute) 
                              throws AddressException,MessagingException,UnsupportedEncodingException {
@@ -911,7 +923,28 @@ public class Emails {
 
     public void sendEmail(MimeMessage message) throws MessagingException {
         log.info(getEmailInfo(message));
+        Transport.send(message);        
+    }
+    
+    
+    /**
+     * This method sends the email as well as logs its receiver, subject and content 
+     * @param message
+     * @throws MessagingException
+     */
+    public void sendAndLogEmail(MimeMessage message) throws MessagingException {
+        log.info(getEmailInfo(message));
         Transport.send(message);
+        
+        try {
+            EmailLogEntry newEntry = new EmailLogEntry(message);
+            String emailLogInfo = newEntry.generateLogMessage();
+            log.log(Level.INFO, emailLogInfo);
+        } catch (Exception e) {
+            log.severe("Failed to generate log for email: " + getEmailInfo(message));
+            e.printStackTrace();
+        }
+        
     }
     
     public MimeMessage sendErrorReport(String path, String params, Throwable error) {

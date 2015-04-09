@@ -64,7 +64,17 @@
                                 questionIndex++;
                                 FeedbackQuestionAttributes question = responseEntries.getKey();
             %>
+            <%
+                if (responseEntries.getValue().size() == 0) {
+            %>
+            <div class="panel panel-default">
+            <%
+                } else {
+            %>
             <div class="panel panel-info">
+            <%
+                }
+            %>
                 <div class="panel-heading<%=showAll ? "" : " ajax_submit"%>">
                     <form style="display:none;" id="seeMore-<%=question.questionNumber%>" class="seeMoreForm-<%=question.questionNumber%>" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
                         <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>">
@@ -125,6 +135,9 @@
                                         Feedback
                                         <span class="icon-sort unsorted"></span>
                                     </th>
+                                    <th>
+                                        Actions
+                                    </th>
                                 </tr>
                             <thead>
                             <tbody>
@@ -151,6 +164,8 @@
                                                 String recipientName = data.bundle.getRecipientNameForResponse(question, responseEntry);
                                                 String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
                                                 
+                                                Boolean isGiverVisible = data.bundle.isGiverVisible(responseEntry);
+
                                                 if (!data.bundle.isGiverVisible(responseEntry) || !data.bundle.isRecipientVisible(responseEntry)) {
                                                   possibleGivers.clear();
                                                   if (possibleReceivers != null) {
@@ -166,11 +181,50 @@
                                                     	 if (questionDetails.shouldShowNoResponseText(prevGiver, possibleReceiver, question)) {
                                 %>
                                                             <tr class="pending_response_row">
-                                                            	<td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(prevGiver)%></td>
-                                                                <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(prevGiver)%></td>
-                                                                <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(possibleReceiver)%></td>
+                                                                
+                                                            	<td class="middlealign color_neutral">
+                                                            	    <%if (question.isGiverAStudent()) {%>
+                                                                    <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(prevGiver)%>">
+                                                                        <%=data.bundle.getFullNameFromRoster(prevGiver)%>
+                                                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                                    </div>                                
+                                                                    <%} else {%>                                                                    
+                                                                    <%=data.bundle.getFullNameFromRoster(prevGiver)%>                                               
+                                                                    <%}%>                                   
+                                                            	</td>                                                            	     
+                                                                <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(prevGiver)%></td>                                                                
+                                                                <td class="middlealign color_neutral">
+                                                                    <%if (question.isRecipientAStudent()) {%>
+                                                                    <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(possibleReceiver)%>">
+                                                                        <%=data.bundle.getFullNameFromRoster(possibleReceiver)%>
+                                                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                                    </div>      
+                                                                    <%} else {%>                                                
+                                                                    <%=data.bundle.getFullNameFromRoster(possibleReceiver)%>
+                                                                    <%}%>             
+                                                                </td>
                                                                 <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
                                                                 <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(prevGiver, possibleReceiver, data.bundle, question)%></td>
+                                                                <td>
+                                                                    <% 
+                                                                        boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(responseEntry.giverEmail), 
+                                                                                                                        data.feedbackSessionName, 
+                                                                                                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                                                                        String disabledAttribute = (!isAllowedToModerate) ? "disabled=\"disabled\"" : "";
+                                                                        if (isGiverVisible) {
+                                                                    %>
+                                                                    <form class="inline" method="post" action="<%=data.getInstructorEditStudentFeedbackLink() %>" target="_blank"> 
+                                                                        <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                                                        <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                                                        <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                                        <% if (responseEntry.giverEmail.matches(Const.REGEXP_TEAM)) { %>
+                                                                        <input type="hidden" name="moderatedstudent" value="<%= responseEntry.giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
+                                                                        <% } else { %>
+                                                                        <input type="hidden" name="moderatedstudent" value="<%= responseEntry.giverEmail%>">
+                                                                        <% } %>
+                                                                    </form>
+                                                                    <% } %>
+                                                                </td>
                                                         	</tr>
                                 <%
                                                          	}
@@ -190,11 +244,49 @@
                                                 }
                                 %>
                                             <tr>
-                                                <td class="middlealign"><%=giverName%></td>
+                                                <td class="middlealign">
+                                                    <%if (question.isGiverAStudent()) {%>
+                                                    <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(responseEntry.giverEmail)%>">
+                                                        <%=giverName%>
+                                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                    </div>             
+                                                    <%} else {%>   
+                                                    <%=giverName%> 
+                                                    <%}%>                                   
+                                                </td>
                                                 <td class="middlealign"><%=giverTeamName%></td>
-                                                <td class="middlealign"><%=recipientName%></td>
+                                                <td class="middlealign">
+                                                    <%if (question.isRecipientAStudent()) {%>
+                                                    <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(responseEntry.recipientEmail)%>">
+                                                        <%=recipientName%>
+                                                        <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                    </div>   
+                                                    <%} else {%> 
+                                                    <%=recipientName%> 
+                                                    <%}%>                                                   
+                                                </td>
                                                 <td class="middlealign"><%=recipientTeamName%></td>
                                                 <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
+                                                <td>
+                                                    <% 
+                                                        boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(responseEntry.giverEmail), 
+                                                                                                        data.feedbackSessionName, 
+                                                                                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                                                        String disabledAttribute = (!isAllowedToModerate) ? "disabled=\"disabled\"" : "";
+                                                        if (isGiverVisible) {
+                                                    %>
+                                                    <form class="inline" method="post" action="<%=data.getInstructorEditStudentFeedbackLink() %>" target="_blank"> 
+                                                        <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                                        <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                                        <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                        <% if (responseEntry.giverEmail.matches(Const.REGEXP_TEAM)) { %>
+                                                        <input type="hidden" name="moderatedstudent" value="<%= responseEntry.giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
+                                                        <% } else { %>
+                                                        <input type="hidden" name="moderatedstudent" value="<%= responseEntry.giverEmail%>">
+                                                        <% } %>
+                                                    </form>
+                                                    <% } %>
+                                                </td>
                                             </tr>        
                                 <%
                                         	if (question.recipientType == FeedbackParticipantType.TEAMS) {
@@ -215,11 +307,47 @@
                                           		    if (questionDetails.shouldShowNoResponseText(prevGiver, possibleReceiver, question)) {
                                 %>
                                                         <tr class="pending_response_row">
-                                                            <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(prevGiver)%></td>
+                                                            <td class="middlealign color_neutral">
+                                                                <%if (question.isGiverAStudent()) {%>
+                                                                <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(prevGiver)%>">
+                                                                    <%=data.bundle.getFullNameFromRoster(prevGiver)%>
+                                                                    <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                                </div>       
+                                                                <%} else {%>
+                                                                <%=data.bundle.getFullNameFromRoster(prevGiver)%>
+                                                                <%}%>                                                            
+                                                            </td>
                                                             <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(prevGiver)%></td>
-                                                            <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(possibleReceiver)%></td>
+                                                            <td class="middlealign color_neutral">
+                                                                <%if (question.isRecipientAStudent()) {%>
+                                                                <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(possibleReceiver)%>">
+                                                                    <%=data.bundle.getFullNameFromRoster(possibleReceiver)%>
+                                                                    <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                                </div>  
+                                                                <%} else {%>
+                                                                <%=data.bundle.getFullNameFromRoster(possibleReceiver)%>
+                                                                <%}%>                                                                 
+                                                            </td>
                                                             <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
                                                             <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(prevGiver, possibleReceiver, data.bundle, question)%></td>
+                                                            <td>
+                                                                <% 
+                                                                    boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(prevGiver), 
+                                                                                                                                    data.feedbackSessionName, 
+                                                                                                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                                                                    String disabledAttribute = (!isAllowedToModerate) ? "disabled=\"disabled\"" : "";
+                                                                %>
+                                                                <form class="inline" method="post" action="<%=data.getInstructorEditStudentFeedbackLink() %>" target="_blank"> 
+                                                                    <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                                                    <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                                                    <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                                    <% if (prevGiver.matches(Const.REGEXP_TEAM)) { %>
+                                                                    <input type="hidden" name="moderatedstudent" value="<%= prevGiver.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
+                                                                    <% } else { %>
+                                                                    <input type="hidden" name="moderatedstudent" value="<%= prevGiver%>">
+                                                                    <% } %>
+                                                                </form>
+                                                            </td>
                                                         </tr>
                                 <%
                                               	    }
@@ -247,11 +375,47 @@
                                                   		if (questionDetails.shouldShowNoResponseText(possibleGiver, possibleReceiver, question)) {
                                 %>
                                                           <tr class="pending_response_row">
-                                                              <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(possibleGiver)%></td>
+                                                              <td class="middlealign color_neutral">
+                                                                  <%if (question.isGiverAStudent()) {%>
+                                                                  <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(possibleGiver)%>">
+                                                                      <%=data.bundle.getFullNameFromRoster(possibleGiver)%>
+                                                                      <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                                  </div>
+                                                                  <%} else {%>
+                                                                  <%=data.bundle.getFullNameFromRoster(possibleGiver)%>
+                                                                  <%}%>                                                                   
+                                                              </td>
                                                               <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleGiver)%></td>
-                                                              <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(possibleReceiver)%></td>
+                                                              <td class="middlealign color_neutral">
+                                                                  <%if (question.isRecipientAStudent()) {%>
+                                                                  <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(possibleReceiver)%>">
+                                                                      <%=data.bundle.getFullNameFromRoster(possibleReceiver)%>
+                                                                      <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
+                                                                  </div>
+                                                                  <%} else {%>
+                                                                  <%=data.bundle.getFullNameFromRoster(possibleReceiver)%>
+                                                                  <%}%>                                                                   
+                                                              </td>
                                                               <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
                                                               <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(possibleGiver, possibleReceiver, data.bundle, question)%></td>
+                                                              <td>
+                                                                <% 
+                                                                    boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(possibleGiver), 
+                                                                                                                                    data.feedbackSessionName, 
+                                                                                                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                                                                    String disabledAttribute = (!isAllowedToModerate) ? "disabled=\"disabled\"" : "";
+                                                                %>
+                                                                <form class="inline" method="post" action="<%=data.getInstructorEditStudentFeedbackLink() %>" target="_blank"> 
+                                                                    <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                                                    <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                                                    <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                                    <% if (possibleGiver.matches(Const.REGEXP_TEAM)) { %>
+                                                                    <input type="hidden" name="moderatedstudent" value="<%= possibleGiver.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
+                                                                    <% } else { %>
+                                                                    <input type="hidden" name="moderatedstudent" value="<%= possibleGiver%>">
+                                                                    <% } %>
+                                                                </form>
+                                                              </td>
                                                           </tr>
                                 <% 
                                           		        }

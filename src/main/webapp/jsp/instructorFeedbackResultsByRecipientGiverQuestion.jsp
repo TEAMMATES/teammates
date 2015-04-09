@@ -229,21 +229,21 @@
                                 Collections.sort(teamMembersWithNoResponses);
                                 for (String email : teamMembersWithNoResponses) {
             %>
-                                <div class="panel panel-primary">
+                                <div class="panel panel-default">
                                 <div class="panel-heading">
                                     To: 
                                     <% if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) { %>
                                         <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(email)%>">
                                             <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                            <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                                            <a href="mailTo:<%=email%>"  >[<%=email%>]</a>
                                         </div>
                                     <%
                                         } else {
                                     %>
                                         <div class="inline panel-heading-text">
                                             <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
-                                            <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                                            <a href="mailTo:<%=email%>"  >[<%=email%>]</a>
                                         </div>
                                     <%
                                         }
@@ -251,7 +251,7 @@
                                     <span class='glyphicon glyphicon-chevron-up pull-right'></span>
                                 </div>
                                 <div class='panel-collapse collapse in'>
-                                    <div class="panel-body"> There are no responses received by this user 
+                                    <div class="panel-body"> <i>There are no responses received by this user</i>
                                     </div>
                                 </div>
                                 </div>
@@ -385,7 +385,7 @@
                     for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesForRecipientFromGiver : responsesForRecipient.getValue().entrySet()) {
                         giverIndex++;
                         String giverEmail = responsesForRecipientFromGiver.getValue().get(0).giverEmail;
-                                        
+                        Boolean isGiverVisible = data.bundle.isGiverVisible(responsesForRecipientFromGiver.getValue().get(0));
                 %>
                         <div class="row <%=giverIndex == 1? "": "border-top-gray"%>">
                             <div class="col-md-2">
@@ -425,6 +425,28 @@
                                 	}
                                 %> 
                                 </div>
+                                &nbsp;
+                                <div class="col-md-12">
+                                    <% 
+                                        boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(giverEmail), 
+                                                                                                        data.feedbackSessionName, 
+                                                                                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                                        String disabledAttribute = (!isAllowedToModerate) ? "disabled=\"disabled\"" : "";
+                                        if (isGiverVisible) {
+                                    %>
+                                    <form class="inline" method="post" action="<%=data.getInstructorEditStudentFeedbackLink() %>" target="_blank"> 
+                                        <input type="submit" class="btn btn-default btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                        <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                        <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                        <% if (giverEmail.matches(Const.REGEXP_TEAM)) { %>
+                                        <input type="hidden" name="moderatedstudent" value="<%= giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
+                                        <% } else { %>
+                                        <input type="hidden" name="moderatedstudent" value="<%= giverEmail%>">
+                                        <% } %>
+                                    </form>
+                                    <% } %>
+                                </div>
+                                &nbsp;
                             </div>
                             <div class="col-md-10">
                             <%
@@ -901,21 +923,21 @@
             Collections.sort(teamMembersWithNoResponses);
             for (String email : teamMembersWithNoResponses) {
         %>
-                <div class="panel panel-primary">
+                <div class="panel panel-default">
                 <div class="panel-heading">
                     To: 
                     <%  if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) { %>
                         <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(email)%>">
                             <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                            <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                            <a href="mailTo:<%=email%>"  >[<%=email%>]</a>
                         </div>
                     <%
                         } else {
                     %>
                     <div class="inline panel-heading-text">
                         <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
-                        <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                        <a href="mailTo:<%=email%>"  >[<%=email%>]</a>
                     </div>
                     <%
                         }
@@ -923,7 +945,7 @@
                     <span class='glyphicon glyphicon-chevron-up pull-right'></span>
                 </div>
                 <div class='panel-collapse collapse in'>
-                    <div class="panel-body"> There are no responses received by this user 
+                    <div class="panel-body"> <i>There are no responses received by this user</i>
                     </div>
                 </div>
                 </div>
@@ -961,7 +983,7 @@
                                   
                                         for (String teamMember : teamMembers) {
                                     %>
-                                             <div class="panel panel-primary">
+                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
                                                     To: 
                                                 <%
@@ -970,14 +992,14 @@
                                                         <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(teamMember)%>">
                                                             <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
                                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                                            <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
+                                                            <a href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
                                                         </div>
                                                     <%
                                                     	} else {
                                                     %>
                                                         <div class="inline panel-heading-text">
                                                             <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
-                                                            <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
+                                                            <a href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
                                                         </div>
                                                     <%
                                                     	}
@@ -985,7 +1007,7 @@
                                                     <span class='glyphicon glyphicon-chevron-up pull-right'></span>
                                                 </div>
                                                 <div class='panel-collapse collapse in'>
-                                                    <div class="panel-body"> There are no responses received by this user 
+                                                    <div class="panel-body"> <i>There are no responses received by this user</i>
                                                     </div>
                                                 </div>
                                              </div>
@@ -1043,7 +1065,7 @@
                                                 }
                                                 for (String teamMember : teamMembers) {
                                             %>
-                                                     <div class="panel panel-primary">
+                                                     <div class="panel panel-default">
                                                         <div class="panel-heading">
                                                             To: 
                                                             <%
@@ -1052,20 +1074,20 @@
                                                                 <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(teamMember)%>">
                                                                     <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
                                                                     <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                                                    <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
+                                                                    <a href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
                                                                 </div>
                                                             <%
                                                             } else {
                                                             %>
                                                                 <div class="inline panel-heading-text">
                                                                     <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
-                                                                    <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
+                                                                    <a href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
                                                                 </div>
                                                         <%  } %>
                                                             <span class='glyphicon glyphicon-chevron-up pull-right'></span>
                                                         </div>
                                                         <div class='panel-collapse collapse in'>
-                                                            <div class="panel-body"> There are no responses received by this user 
+                                                            <div class="panel-body"> <i>There are no responses received by this user</i>
                                                             </div>
                                                         </div>
                                                      </div>

@@ -37,14 +37,14 @@
               <div class="form-group">
                 <label class="col-sm-4 control-label">Session duration:</label>
                 <div class="col-sm-8">
-                  <p class="form-control-static">01 Apr 2012, 23:59&nbsp;&nbsp;&nbsp;<b>to</b>&nbsp;&nbsp;&nbsp;30 Apr 2016, 23:59</p>
+                  <p class="form-control-static">Sun, 01 Apr 2012, 23:59&nbsp;&nbsp;&nbsp;<b>to</b>&nbsp;&nbsp;&nbsp;Sat, 30 Apr 2016, 23:59</p>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-4 control-label">Results visible from:</label>
                 <div class="col-sm-8">
                   <p class="form-control-static">
-                    01 May 2012, 23:59
+                    Tue, 01 May 2012, 23:59
                     
                     </p>
                 </div>
@@ -52,15 +52,23 @@
           </div>
          <div class="col-sm-2">
                      <div class="form-group">
-                        <form action="/page/instructorFeedbackResultsDownload" method="post">
+                        <div class="col-sm-12">
+                          <form action="/page/instructorFeedbackResultsDownload" method="post">
                            <div id="feedbackDataButtons">
-                              <input class="btn btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download results"/>
+                              <input class="btn btn-primary btn-block" id="button_download" name="fruploaddownloadbtn" type="submit" value="Download results"/>
                                                          </div>
                            <input name="user" type="hidden" value="CFResultsUiT.instr"/>
-                                                      <input name="fsname" type="hidden" value="First Session"/>
-                                                      <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
-                                                      <input name="sectionname" type="hidden" value="Section B"/>
-                                                   </form>
+                              <input name="fsname" type="hidden" value="First Session"/>
+                              <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                              <input name="sectionname" type="hidden" value="Section B"/>
+                           </form>
+                           <br>
+                           <div>
+                           <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&amp;fsname=First+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFResultsUiT.instr&amp;user=CFResultsUiT.instr" onclick="return toggleUnpublishEvaluation('First Session');" title="">
+                              Unpublish results
+                           </a>
+                           </div>
+                        </div>
                      </div>
                   </div>
                </div>
@@ -284,6 +292,9 @@
                                         Feedback
                                         <span class="icon-sort unsorted"></span>
                                     </th>
+                                    <th>
+                                        Actions
+                                    </th>
                                 </tr>
                             </thead><thead>
                             </thead><tbody>
@@ -291,11 +302,19 @@
                                             
                                 
                                             <tr>
-                                                <td class="middlealign">Charlie Dávis</td>
+                                                <td class="middlealign"><div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">Charlie Dávis<img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/></div></td>
                                                 <td class="middlealign">Team 2</td>
-                                                <td class="middlealign">Emily</td>
+                                                <td class="middlealign"><div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr" data-original-title="" title="">Emily<img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/></div></td>
                                                 <td class="middlealign">Team 3</td>
                                                 <td class="text-preserve-space">3 Response to Emily.</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>        
                                 
                             </tbody>
@@ -306,7 +325,7 @@
                 </div>
             </div>
             
-            <div class="panel panel-info">
+            <div class="panel panel-default">
                 <div style="cursor: pointer;" id="panelHeading-2" data-target="#panelBodyCollapse-2" class="panel-heading">
                     <form style="display:none;" id="seeMore-2" class="seeMoreForm-2" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
@@ -336,7 +355,7 @@
                 </div>
             </div>
             
-            <div class="panel panel-info">
+            <div class="panel panel-default">
                 <div style="cursor: pointer;" id="panelHeading-3" data-target="#panelBodyCollapse-3" class="panel-heading">
                     <form style="display:none;" id="seeMore-3" class="seeMoreForm-3" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
@@ -366,7 +385,7 @@
                 </div>
             </div>
             
-            <div class="panel panel-info">
+            <div class="panel panel-default">
                 <div style="cursor: pointer;" id="panelHeading-4" data-target="#panelBodyCollapse-4" class="panel-heading">
                     <form style="display:none;" id="seeMore-4" class="seeMoreForm-4" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
@@ -396,7 +415,7 @@
                 </div>
             </div>
             
-            <div class="panel panel-info">
+            <div class="panel panel-default">
                 <div style="cursor: pointer;" id="panelHeading-5" data-target="#panelBodyCollapse-5" class="panel-heading">
                     <form style="display:none;" id="seeMore-5" class="seeMoreForm-5" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
@@ -426,7 +445,7 @@
                 </div>
             </div>
             
-            <div class="panel panel-info">
+            <div class="panel panel-default">
                 <div style="cursor: pointer;" id="panelHeading-6" data-target="#panelBodyCollapse-6" class="panel-heading">
                     <form style="display:none;" id="seeMore-6" class="seeMoreForm-6" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
@@ -456,7 +475,7 @@
                 </div>
             </div>
             
-            <div class="panel panel-info">
+            <div class="panel panel-default">
                 <div style="cursor: pointer;" id="panelHeading-7" data-target="#panelBodyCollapse-7" class="panel-heading">
                     <form style="display:none;" id="seeMore-7" class="seeMoreForm-7" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
@@ -491,7 +510,7 @@
                 </div>
             </div>
             
-            <div class="panel panel-info">
+            <div class="panel panel-default">
                 <div style="cursor: pointer;" id="panelHeading-8" data-target="#panelBodyCollapse-8" class="panel-heading">
                     <form style="display:none;" id="seeMore-8" class="seeMoreForm-8" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
@@ -526,7 +545,7 @@
                 </div>
             </div>
             
-            <div class="panel panel-info">
+            <div class="panel panel-default">
                 <div style="cursor: pointer;" id="panelHeading-9" data-target="#panelBodyCollapse-9" class="panel-heading">
                     <form style="display:none;" id="seeMore-9" class="seeMoreForm-9" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
@@ -561,7 +580,7 @@
                 </div>
             </div>
             
-            <div class="panel panel-info">
+            <div class="panel panel-default">
                 <div style="cursor: pointer;" id="panelHeading-10" data-target="#panelBodyCollapse-10" class="panel-heading">
                     <form style="display:none;" id="seeMore-10" class="seeMoreForm-10" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
@@ -596,7 +615,7 @@
                 </div>
             </div>
             
-            <div class="panel panel-info">
+            <div class="panel panel-default">
                 <div style="cursor: pointer;" id="panelHeading-11" data-target="#panelBodyCollapse-11" class="panel-heading">
                     <form style="display:none;" id="seeMore-11" class="seeMoreForm-11" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
@@ -631,7 +650,7 @@
                 </div>
             </div>
             
-            <div class="panel panel-info">
+            <div class="panel panel-default">
                 <div style="cursor: pointer;" id="panelHeading-12" data-target="#panelBodyCollapse-12" class="panel-heading">
                     <form style="display:none;" id="seeMore-12" class="seeMoreForm-12" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
@@ -666,7 +685,7 @@
                 </div>
             </div>
             
-            <div class="panel panel-info">
+            <div class="panel panel-default">
                 <div style="cursor: pointer;" id="panelHeading-13" data-target="#panelBodyCollapse-13" class="panel-heading">
                     <form style="display:none;" id="seeMore-13" class="seeMoreForm-13" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
@@ -700,7 +719,7 @@
                 </div>
             </div>
             
-            <div class="panel panel-info">
+            <div class="panel panel-default">
                 <div style="cursor: pointer;" id="panelHeading-14" data-target="#panelBodyCollapse-14" class="panel-heading">
                     <form style="display:none;" id="seeMore-14" class="seeMoreForm-14" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
@@ -735,7 +754,7 @@
                 </div>
             </div>
             
-            <div class="panel panel-info">
+            <div class="panel panel-default">
                 <div style="cursor: pointer;" id="panelHeading-15" data-target="#panelBodyCollapse-15" class="panel-heading">
                     <form style="display:none;" id="seeMore-15" class="seeMoreForm-15" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
@@ -769,7 +788,7 @@
                 </div>
             </div>
             
-            <div class="panel panel-info">
+            <div class="panel panel-default">
                 <div style="cursor: pointer;" id="panelHeading-16" data-target="#panelBodyCollapse-16" class="panel-heading">
                     <form style="display:none;" id="seeMore-16" class="seeMoreForm-16" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
@@ -803,7 +822,7 @@
                 </div>
             </div>
             
-            <div class="panel panel-info">
+            <div class="panel panel-default">
                 <div style="cursor: pointer;" id="panelHeading-17" data-target="#panelBodyCollapse-17" class="panel-heading">
                     <form style="display:none;" id="seeMore-17" class="seeMoreForm-17" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
@@ -837,7 +856,7 @@
                 </div>
             </div>
             
-            <div class="panel panel-info">
+            <div class="panel panel-default">
                 <div style="cursor: pointer;" id="panelHeading-18" data-target="#panelBodyCollapse-18" class="panel-heading">
                     <form style="display:none;" id="seeMore-18" class="seeMoreForm-18" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">

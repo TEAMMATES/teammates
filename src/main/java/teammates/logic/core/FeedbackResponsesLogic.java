@@ -20,6 +20,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.entity.FeedbackResponse;
@@ -305,7 +306,7 @@ public class FeedbackResponsesLogic {
                 }
             case RECEIVER:
                 // Response to team
-                if (question.recipientType == FeedbackParticipantType.TEAMS) {
+                if (question.recipientType.isTeam()) {
                     if (roster.isStudentInTeam(userEmail, /* this is a team name */
                             response.recipientEmail)) {
                         return true;
@@ -318,7 +319,7 @@ public class FeedbackResponsesLogic {
                 }
             case RECEIVER_TEAM_MEMBERS:
                 // Response to team; recipient = teamName
-                if (question.recipientType == FeedbackParticipantType.TEAMS) {
+                if (question.recipientType.isTeam()) {
                     if (roster.isStudentInTeam(userEmail, /* this is a team name */
                             response.recipientEmail)) {
                         return true;
@@ -715,12 +716,13 @@ public class FeedbackResponsesLogic {
             return viewableResponses;
         }
 
-        if (question.recipientType == FeedbackParticipantType.TEAMS &&
+        if (question.recipientType.isTeam() &&
                 question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+            String reverseSanitizedTeamName = StringHelper.recoverFromSanitizedText(student.team);
             addNewResponses(
                     viewableResponses,
                     getFeedbackResponsesForReceiverForQuestion(
-                            question.getId(), student.team));
+                            question.getId(), reverseSanitizedTeamName));
         }
 
         if (question.giverType == FeedbackParticipantType.TEAMS
