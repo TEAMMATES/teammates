@@ -51,7 +51,7 @@
             <% } %>
             <form method="post" action="<%=Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE%>" name="form_submit_response">
                 
-                <jsp:include page="<%=Const.ViewURIs.FEEDBACK_QUESTION_SUBMISSION_EDIT%>" />
+                <jsp:include page="<%=Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT + \"?isQuestion=true\"%>" />
                 
                 <div class="bold align-center">
                     <input type="submit" class="btn btn-primary center-block" 
