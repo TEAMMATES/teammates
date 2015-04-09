@@ -1,5 +1,4 @@
-<%@ page import="java.util.List"%>
-<%@ page import="teammates.common.util.TimeHelper"%>
+<%@ page import="java.util.List"%><%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
@@ -18,12 +17,11 @@
     } else {
     	data = (FeedbackSubmissionEditPageData)request.getAttribute("data");
     }
-%>
+%><%=isQuestion ? "" : "\n"%>    
     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=isQuestion ? questionData.bundle.feedbackSession.feedbackSessionName : data.bundle.feedbackSession.feedbackSessionName%>"/>
     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=isQuestion ? questionData.bundle.feedbackSession.courseId : data.bundle.feedbackSession.courseId%>"/>
-<% if (isQuestion) { %>
-    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=questionData.account.googleId%>">
-
+<% if (isQuestion) { %>    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=questionData.account.googleId%>">
+    
     <div class="well well-plain" >
         <div class="form-horizontal" role="form">
             <div class="form-group">
@@ -141,7 +139,7 @@
                 <div class="form-group">
                     <div class="col-sm-2 form-inline" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right\""%>>
                         <label for="input">To:</label>
-                        <select class="participantSelect middlealign newResponse form-control"
+                        <select class="participantSelect middlealign newResponse form-control" 
                             name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
                             <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none;max-width:125px\"" : "style=\"max-width:125px\""%>
                             <%=questionData.isSessionOpenForSubmission ? "" : "disabled=\"disabled\""%>>
@@ -173,9 +171,7 @@
         }
     %>
         </div>
-        </div>
-<% } else { %>
-    <%
+        </div><% } else { %>    <%
         if (data.account.googleId != null) {
     %>
         <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
@@ -196,13 +192,13 @@
                             <div class="col-sm-10">
                                 <p class="form-control-static"><%=sanitizeForHtml(data.bundle.feedbackSession.courseId)%></p>
                             </div>
-                        </div>
+                        </div> 
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Session:</label>
                             <div class="col-sm-10">
                                 <p class="form-control-static"><%=sanitizeForHtml(data.bundle.feedbackSession.feedbackSessionName)%></p>
                             </div>
-                        </div>
+                        </div>  
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Opening time:</label>
                             <div class="col-sm-10">
@@ -220,8 +216,8 @@
                             <div class="col-sm-10">
                                 <p class="form-control-static text-preserve-space"><%=sanitizeForHtml(data.bundle.feedbackSession.instructions.getValue())%></p>
                             </div>
-                        </div>
-                    </div>
+                        </div> 
+                    </div> 
                 </div>
             </div>
         </div>
@@ -338,5 +334,4 @@
 <%
         qnIndx++;
     }
-%>
-<% } %>
+%><% } %>
