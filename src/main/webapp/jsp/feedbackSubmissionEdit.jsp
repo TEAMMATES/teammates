@@ -19,9 +19,9 @@
     	data = (FeedbackSubmissionEditPageData)request.getAttribute("data");
     }
 %>
+    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=isQuestion ? questionData.bundle.feedbackSession.feedbackSessionName : data.bundle.feedbackSession.feedbackSessionName%>"/>
+    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=isQuestion ? questionData.bundle.feedbackSession.courseId : data.bundle.feedbackSession.courseId%>"/>
 <% if (isQuestion) { %>
-    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=questionData.bundle.feedbackSession.feedbackSessionName%>"/>
-    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=questionData.bundle.feedbackSession.courseId%>"/>
     <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=questionData.account.googleId%>">
 
     <div class="well well-plain" >
@@ -175,8 +175,6 @@
         </div>
         </div>
 <% } else { %>
-    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>"/>
-    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>"/>
     <%
         if (data.account.googleId != null) {
     %>
