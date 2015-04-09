@@ -8,41 +8,41 @@
 <%@ page import="teammates.ui.controller.FeedbackSubmissionEditPageData"%>
 <%@ page import="teammates.ui.controller.FeedbackQuestionSubmissionEditPageData"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
-
 <%
     boolean isQuestion = false;
+    FeedbackSubmissionEditPageData data = null;
+    FeedbackQuestionSubmissionEditPageData questionData = null;
     if (request.getParameter("isQuestion").equals("true")) {
         isQuestion = true;
+        questionData = (FeedbackQuestionSubmissionEditPageData)request.getAttribute("data");
+    } else {
+    	data = (FeedbackSubmissionEditPageData)request.getAttribute("data");
     }
 %>
-
 <% if (isQuestion) { %>
-<%
-    FeedbackQuestionSubmissionEditPageData data = (FeedbackQuestionSubmissionEditPageData)request.getAttribute("data");
-%>
-    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>"/>
-    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>"/>
-    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=questionData.bundle.feedbackSession.feedbackSessionName%>"/>
+    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=questionData.bundle.feedbackSession.courseId%>"/>
+    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=questionData.account.googleId%>">
 
     <div class="well well-plain" >
         <div class="form-horizontal" role="form">
             <div class="form-group">
                 <label class="col-sm-2 control-label">Course ID:</label>
                 <div class="col-sm-10">
-                    <p class="form-control-static"><%=sanitizeForHtml(data.bundle.feedbackSession.courseId)%></p>
+                    <p class="form-control-static"><%=sanitizeForHtml(questionData.bundle.feedbackSession.courseId)%></p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Session Name:</label>
                 <div class="col-sm-10">
-                    <p class="form-control-static"><%=sanitizeForHtml(data.bundle.feedbackSession.feedbackSessionName)%></p>
+                    <p class="form-control-static"><%=sanitizeForHtml(questionData.bundle.feedbackSession.feedbackSessionName)%></p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Opening Time:</label>
                 <div class="col-sm-2">
                     <p class="form-control-static">
-                        <%=TimeHelper.formatTime(data.bundle.feedbackSession.startTime)%>
+                        <%=TimeHelper.formatTime(questionData.bundle.feedbackSession.startTime)%>
                     </p>
                 </div>
             </div>
@@ -50,14 +50,14 @@
                 <label class="col-sm-2 control-label">Closing Time:</label>
                 <div class="col-sm-10">
                     <p class="form-control-static">
-                        <%=TimeHelper.formatTime(data.bundle.feedbackSession.endTime)%>
+                        <%=TimeHelper.formatTime(questionData.bundle.feedbackSession.endTime)%>
                     </p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Instructions:</label>
                 <div class="col-sm-10">
-                    <p class="form-control-static"><%=sanitizeForHtml(data.bundle.feedbackSession.instructions.getValue())%></p>
+                    <p class="form-control-static"><%=sanitizeForHtml(questionData.bundle.feedbackSession.instructions.getValue())%></p>
                 </div>
             </div>
         </div>
@@ -70,9 +70,9 @@
 <%
     int qnIndx = 1;
 
-    FeedbackQuestionAttributes question = data.bundle.question;
+    FeedbackQuestionAttributes question = questionData.bundle.question;
     int numOfResponseBoxes = question.numberOfEntitiesToGiveFeedbackTo;
-    int maxResponsesPossible = data.bundle.recipientList.size();
+    int maxResponsesPossible = questionData.bundle.recipientList.size();
     FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
 
     if (numOfResponseBoxes == Const.MAX_POSSIBLE_RECIPIENTS ||
@@ -106,7 +106,7 @@
                 </ul>
     <%
         int responseIndx = 0;
-        List<FeedbackResponseAttributes> existingResponses = data.bundle.responseList;
+        List<FeedbackResponseAttributes> existingResponses = questionData.bundle.responseList;
         for (FeedbackResponseAttributes existingResponse : existingResponses) {
     %>
                 <br />
@@ -116,9 +116,9 @@
                         <select class="participantSelect middlealign form-control" style="max-width:125px"
                             name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
                             <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""%>
-                            <%=data.isSessionOpenForSubmission ? "" : "disabled=\"disabled\""%>>
+                            <%=questionData.isSessionOpenForSubmission ? "" : "disabled=\"disabled\""%>>
                         <%
-                            for(String opt: data.getRecipientOptions(existingResponse.recipientEmail)) {
+                            for(String opt: questionData.getRecipientOptions(existingResponse.recipientEmail)) {
                                 out.println(opt);
                             }
                         %>
@@ -126,7 +126,7 @@
                     </div>
                     <div <%=(question.isRecipientNameHidden()) ? "class=\"col-sm-12\"" : "class=\"col-sm-10\""%>>
                         <%=questionDetails.getQuestionWithExistingResponseSubmissionFormHtml(
-                            data.isSessionOpenForSubmission,
+                        	questionData.isSessionOpenForSubmission,
                             qnIndx, responseIndx, question.courseId,
                             existingResponse.getResponseDetails())%>
                         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>" value="<%=existingResponse.getId()%>"/>
@@ -144,9 +144,9 @@
                         <select class="participantSelect middlealign newResponse form-control"
                             name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
                             <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none;max-width:125px\"" : "style=\"max-width:125px\""%>
-                            <%=data.isSessionOpenForSubmission ? "" : "disabled=\"disabled\""%>>
+                            <%=questionData.isSessionOpenForSubmission ? "" : "disabled=\"disabled\""%>>
                         <%
-                            for(String opt: data.getRecipientOptions(null)) {
+                            for(String opt: questionData.getRecipientOptions(null)) {
                                 out.println(opt);
                             }
                         %>
@@ -154,7 +154,7 @@
                     </div>
                     <div <%=(question.isRecipientNameHidden()) ? "class=\"col-sm-12\"" : "class=\"col-sm-10\""%>>
                     <%=questionDetails.getQuestionWithoutExistingResponseSubmissionFormHtml(
-                            data.isSessionOpenForSubmission,
+                    		questionData.isSessionOpenForSubmission,
                             qnIndx, responseIndx, question.courseId)%>
                     </div>
                 </div>
@@ -175,9 +175,6 @@
         </div>
         </div>
 <% } else { %>
-<%
-    FeedbackSubmissionEditPageData data = (FeedbackSubmissionEditPageData)request.getAttribute("data");
-%>
     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>"/>
     <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>"/>
     <%
