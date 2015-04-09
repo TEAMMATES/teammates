@@ -31,50 +31,43 @@
         <input type="hidden" name="<%=Const.ParamsNames.STUDENT_EMAIL%>" value="<%=data.account.email%>">
     <%
         }
-    %><% } %>
-<% if (isQuestion) { %>    
-    <div class="well well-plain" >
-        <div class="form-horizontal" role="form">
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Course ID:</label>
-                <div class="col-sm-10">
-                    <p class="form-control-static"><%=sanitizeForHtml(questionData.bundle.feedbackSession.courseId)%></p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Session Name:</label>
-                <div class="col-sm-10">
-                    <p class="form-control-static"><%=sanitizeForHtml(questionData.bundle.feedbackSession.feedbackSessionName)%></p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Opening Time:</label>
-                <div class="col-sm-2">
-                    <p class="form-control-static">
-                        <%=TimeHelper.formatTime(questionData.bundle.feedbackSession.startTime)%>
-                    </p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Closing Time:</label>
-                <div class="col-sm-10">
-                    <p class="form-control-static">
-                        <%=TimeHelper.formatTime(questionData.bundle.feedbackSession.endTime)%>
-                    </p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Instructions:</label>
-                <div class="col-sm-10">
-                    <p class="form-control-static"><%=sanitizeForHtml(questionData.bundle.feedbackSession.instructions.getValue())%></p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <br>
+    %><% } %><%=isQuestion ? "\n    " : ""%>
+    <div class="well well-plain" <%=isQuestion ? "" : "id=\"course1\""%>><%=isQuestion ? "" : "\n            <div class=\"panel-body\">"%>
+        <%=isQuestion ? "" : "        "%><div class="form-horizontal"<%=isQuestion ? " role=\"form\"" : ""%>><%=isQuestion ? "" : "\n                    <div class=\"panel-heading\">"%>
+            <%=isQuestion ? "" : "            "%><div class="form-group">
+                <%=isQuestion ? "" : "            "%><label class="col-sm-2 control-label">Course ID:</label>
+                <%=isQuestion ? "" : "            "%><div class="col-sm-10">
+                    <%=isQuestion ? "" : "            "%><p class="form-control-static"><%=sanitizeForHtml(isQuestion ? questionData.bundle.feedbackSession.courseId : data.bundle.feedbackSession.courseId)%></p>
+                <%=isQuestion ? "" : "            "%></div>
+            <%=isQuestion ? "" : "            "%></div><%=isQuestion ? "" : " "%>
+            <%=isQuestion ? "" : "            "%><div class="form-group">
+                <%=isQuestion ? "" : "            "%><label class="col-sm-2 control-label">Session<%=isQuestion ? " Name" : ""%>:</label>
+                <%=isQuestion ? "" : "            "%><div class="col-sm-10">
+                    <%=isQuestion ? "" : "            "%><p class="form-control-static"><%=sanitizeForHtml(isQuestion ? questionData.bundle.feedbackSession.feedbackSessionName : data.bundle.feedbackSession.feedbackSessionName)%></p>
+                <%=isQuestion ? "" : "            "%></div>
+            <%=isQuestion ? "" : "            "%></div><%=isQuestion ? "" : "  "%>
+            <%=isQuestion ? "" : "            "%><div class="form-group">
+                <%=isQuestion ? "" : "            "%><label class="col-sm-2 control-label">Opening <%=isQuestion ? "Time" : "time"%>:</label>
+                <%=isQuestion ? "" : "            "%><div class="col-sm-<%=isQuestion ? "2" : "10"%>">
+                    <%=isQuestion ? "" : "            "%><p class="form-control-static"><%=isQuestion ? "\n                        " : ""%><%=TimeHelper.formatTime(isQuestion ? questionData.bundle.feedbackSession.startTime : data.bundle.feedbackSession.startTime)%><%=isQuestion ? "\n                    " : ""%></p>
+                <%=isQuestion ? "" : "            "%></div>
+            <%=isQuestion ? "" : "            "%></div>
+            <%=isQuestion ? "" : "            "%><div class="form-group">
+                <%=isQuestion ? "" : "            "%><label class="col-sm-2 control-label">Closing <%=isQuestion ? "Time" : "time"%>:</label>
+                <%=isQuestion ? "" : "            "%><div class="col-sm-10">
+                    <%=isQuestion ? "" : "            "%><p class="form-control-static"><%=isQuestion ? "\n                        " : ""%><%=TimeHelper.formatTime(isQuestion ? questionData.bundle.feedbackSession.endTime : data.bundle.feedbackSession.endTime)%><%=isQuestion ? "\n                    " : ""%></p>
+                <%=isQuestion ? "" : "            "%></div>
+            <%=isQuestion ? "" : "            "%></div>
+            <%=isQuestion ? "" : "            "%><div class="form-group">
+                <%=isQuestion ? "" : "            "%><label class="col-sm-2 control-label">Instructions:</label>
+                <%=isQuestion ? "" : "            "%><div class="col-sm-10">
+                    <%=isQuestion ? "" : "            "%><p class="form-control-static<%=isQuestion ? "" : " text-preserve-space"%>"><%=sanitizeForHtml(isQuestion ? questionData.bundle.feedbackSession.instructions.getValue() : data.bundle.feedbackSession.instructions.getValue())%></p><%=isQuestion ? "" : "\n                            </div>"%><%=isQuestion ? "" : "\n                        </div> "%>
+                <%=isQuestion ? "" : "    "%></div><%=isQuestion ? "" : " "%>
+            <%=isQuestion ? "" : "    "%></div>
+        <%=isQuestion ? "" : "    "%></div>
+    <%=isQuestion ? "" : "    "%></div><%=isQuestion ? "\n\n    <br>" : ""%>
     <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-    <br>
+<% if (isQuestion) { %>    <br>
     <form class="form-horizontal" role="form">
 <%
     int qnIndx = 1;
@@ -182,46 +175,7 @@
         }
     %>
         </div>
-        </div><% } else { %>    <div class="well well-plain" id="course1">
-            <div class="panel-body">
-                <div class="form-horizontal">
-                    <div class="panel-heading">
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Course ID:</label>
-                            <div class="col-sm-10">
-                                <p class="form-control-static"><%=sanitizeForHtml(data.bundle.feedbackSession.courseId)%></p>
-                            </div>
-                        </div> 
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Session:</label>
-                            <div class="col-sm-10">
-                                <p class="form-control-static"><%=sanitizeForHtml(data.bundle.feedbackSession.feedbackSessionName)%></p>
-                            </div>
-                        </div>  
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Opening time:</label>
-                            <div class="col-sm-10">
-                                <p class="form-control-static"><%=TimeHelper.formatTime(data.bundle.feedbackSession.startTime)%></p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Closing time:</label>
-                            <div class="col-sm-10">
-                                <p class="form-control-static"><%=TimeHelper.formatTime(data.bundle.feedbackSession.endTime)%></p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Instructions:</label>
-                            <div class="col-sm-10">
-                                <p class="form-control-static text-preserve-space"><%=sanitizeForHtml(data.bundle.feedbackSession.instructions.getValue())%></p>
-                            </div>
-                        </div> 
-                    </div> 
-                </div>
-            </div>
-        </div>
-    <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-    <br />
+        </div><% } else { %>    <br />
     <%
         if (data.isModeration) {
     %>
