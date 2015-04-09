@@ -1,5 +1,5 @@
-<%@ page import="java.util.List"%><%@ page import="teammates.common.util.TimeHelper"%>
-<%@ page import="teammates.common.util.Const"%>
+<%@ page import="java.util.List"%><%@ page import="java.util.ArrayList"%>
+<%@ page import="teammates.common.util.TimeHelper"%><%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
@@ -67,140 +67,33 @@
         <%=isQuestion ? "" : "    "%></div>
     <%=isQuestion ? "" : "    "%></div><%=isQuestion ? "\n\n    <br>" : ""%>
     <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-<% if (isQuestion) { %>    <br>
-    <form class="form-horizontal" role="form">
+    <br>
 <%
-    int qnIndx = 1;
-
-    FeedbackQuestionAttributes question = questionData.bundle.question;
+int qnIndx = 1;
+List<FeedbackQuestionAttributes> questions;
+if (isQuestion) {
+	questions = new ArrayList<FeedbackQuestionAttributes>();
+    questions.add(questionData.bundle.question);
+} else {
+	questions = data.bundle.getSortedQuestions();
+}
+for (FeedbackQuestionAttributes question : questions) {
     int numOfResponseBoxes = question.numberOfEntitiesToGiveFeedbackTo;
-    int maxResponsesPossible = questionData.bundle.recipientList.size();
     FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
-
+    int maxResponsesPossible;
+    if (!isQuestion) {
+        maxResponsesPossible = data.bundle.recipientList.get(question.getId()).size();
+    } else {
+    	maxResponsesPossible = questionData.bundle.recipientList.size();
+    }
     if (numOfResponseBoxes == Const.MAX_POSSIBLE_RECIPIENTS ||
             numOfResponseBoxes > maxResponsesPossible) {
         numOfResponseBoxes = maxResponsesPossible;
     }
-%>
-    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>-1" value="<%=question.questionType%>"/>
-    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>-1" value="<%=question.getId()%>"/>
-    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL%>-1" value="<%=numOfResponseBoxes%>"/>
-    <div class="form-horizontal">
-        <div class="panel panel-primary">
-            <div class="panel-heading">Question <%=question.questionNumber%>:<br/>
-                <span class="text-preserve-space"><%=sanitizeForHtml(questionDetails.questionText)%></span>
-            </div>
-            <div class="panel-body">
-                <p class="text-muted">Only the following persons can see your responses: </p>
-                <ul class="text-muted">
-                <%
-                    if (question.getVisibilityMessage().isEmpty()) {
-                %>
-                        <li class="unordered">No-one but the feedback session creator can see your responses.</li>
-                <%
-                    }
-                    for (String line : question.getVisibilityMessage()) {
-                %>
-                        <li class="unordered"><%=line%></li>
-                <%
-                    }
-                %>
-                </ul>
-    <%
-        int responseIndx = 0;
-        List<FeedbackResponseAttributes> existingResponses = questionData.bundle.responseList;
-        for (FeedbackResponseAttributes existingResponse : existingResponses) {
-    %>
-                <br />
-                <div class="form-group">
-                    <div class="col-sm-2 form-inline" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right;\""%>>
-                        <label for="input">To: </label>
-                        <select class="participantSelect middlealign form-control" style="max-width:125px"
-                            name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
-                            <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none\"" : ""%>
-                            <%=questionData.isSessionOpenForSubmission ? "" : "disabled=\"disabled\""%>>
-                        <%
-                            for(String opt: questionData.getRecipientOptions(existingResponse.recipientEmail)) {
-                                out.println(opt);
-                            }
-                        %>
-                        </select>
-                    </div>
-                    <div <%=(question.isRecipientNameHidden()) ? "class=\"col-sm-12\"" : "class=\"col-sm-10\""%>>
-                        <%=questionDetails.getQuestionWithExistingResponseSubmissionFormHtml(
-                        	questionData.isSessionOpenForSubmission,
-                            qnIndx, responseIndx, question.courseId,
-                            existingResponse.getResponseDetails())%>
-                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>" value="<%=existingResponse.getId()%>"/>
-                    </div>
-                </div>
-    <%
-            responseIndx++;
-        }
-        while (responseIndx < numOfResponseBoxes) {
-    %>
-                <br />
-                <div class="form-group">
-                    <div class="col-sm-2 form-inline" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right\""%>>
-                        <label for="input">To:</label>
-                        <select class="participantSelect middlealign newResponse form-control" 
-                            name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
-                            <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none;max-width:125px\"" : "style=\"max-width:125px\""%>
-                            <%=questionData.isSessionOpenForSubmission ? "" : "disabled=\"disabled\""%>>
-                        <%
-                            for(String opt: questionData.getRecipientOptions(null)) {
-                                out.println(opt);
-                            }
-                        %>
-                        </select>
-                    </div>
-                    <div <%=(question.isRecipientNameHidden()) ? "class=\"col-sm-12\"" : "class=\"col-sm-10\""%>>
-                    <%=questionDetails.getQuestionWithoutExistingResponseSubmissionFormHtml(
-                    		questionData.isSessionOpenForSubmission,
-                            qnIndx, responseIndx, question.courseId)%>
-                    </div>
-                </div>
-    <%
-            responseIndx++;
-        }
-
-        if (numOfResponseBoxes == 0) {
-    %>
-            <div class="form-group">
-                <div class="col-sm-10">
-                    <b>You are not assigned any recipients for this question.</b>
-                </div>
-            </div>
-    <%
-        }
-    %>
-        </div>
-        </div><% } else { %>    <br />
-    <%
-        if (data.isModeration) {
-    %>
-            <div class="row"><span class="help-block align-center">
-                <%=Const.FEEDBACK_SESSION_QUESTIONS_HIDDEN%>
-            </span></div>
-    <%
-        }
-    %>
-<%
-    int qnIndx = 1;
-    List<FeedbackQuestionAttributes> questions = data.bundle.getSortedQuestions();
-    for (FeedbackQuestionAttributes question : questions) {
-        int numOfResponseBoxes = question.numberOfEntitiesToGiveFeedbackTo;
-        int maxResponsesPossible = data.bundle.recipientList.get(question.getId()).size();
-        FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
-
-        if (numOfResponseBoxes == Const.MAX_POSSIBLE_RECIPIENTS ||
-                numOfResponseBoxes > maxResponsesPossible) {
-            numOfResponseBoxes = maxResponsesPossible;
-        }
-        if (numOfResponseBoxes == 0) {
-            // Don't display question if no recipients.
-            continue;
-        }
+    if (numOfResponseBoxes == 0) {
+        // Don't display question if no recipients.
+        continue;
+    }
 %>
         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>-<%=Integer.toString(qnIndx)%>" value="<%=question.questionType%>"/>
         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>-<%=Integer.toString(qnIndx)%>" value="<%=question.getId()%>"/>
@@ -227,8 +120,12 @@
                     </ul>
         <%
             int responseIndx = 0;
-            List<FeedbackResponseAttributes> existingResponses =
-                    data.bundle.questionResponseBundle.get(question);
+            List<FeedbackResponseAttributes> existingResponses;
+            if (isQuestion) {
+            	existingResponses = questionData.bundle.responseList;
+            } else {
+            	existingResponses = data.bundle.questionResponseBundle.get(question);
+            }    
             for (FeedbackResponseAttributes existingResponse : existingResponses) {
         %>
                 <br />
@@ -237,17 +134,23 @@
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
                             <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none;max-width:125px\"" : "style=\"max-width:125px\""%>
-                            <%=data.isSessionOpenForSubmission ? "" : "disabled=\"disabled\""%>>
+                            <%=((isQuestion && questionData.isSessionOpenForSubmission) || (!isQuestion && data.isSessionOpenForSubmission)) ? "" : "disabled=\"disabled\""%>>
                         <%
-                            for(String opt: data.getRecipientOptionsForQuestion(question.getId(), existingResponse.recipientEmail)){
-                                out.println(opt);
+                            if (isQuestion) {
+                            	for(String opt: questionData.getRecipientOptions(existingResponse.recipientEmail)) {
+                                    out.println(opt);
+                                }
+                            } else {
+                            	for(String opt: data.getRecipientOptionsForQuestion(question.getId(), existingResponse.recipientEmail)){
+                                    out.println(opt);
+                                }
                             }
                         %>
                         </select>
                     </div>
                     <div <%=(question.isRecipientNameHidden()) ? "class=\"col-sm-12\"" : "class=\"col-sm-10\""%>>
                         <%=questionDetails.getQuestionWithExistingResponseSubmissionFormHtml(
-                            data.isSessionOpenForSubmission,
+                        	isQuestion ? questionData.isSessionOpenForSubmission : data.isSessionOpenForSubmission,
                             qnIndx, responseIndx, question.courseId,
                             existingResponse.getResponseDetails())%>
                         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>" value="<%=sanitizeForHtml(existingResponse.getId())%>"/>
@@ -264,17 +167,23 @@
                         <label for="input">To:</label>
                         <select class="participantSelect middlealign newResponse form-control" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
                             <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none;max-width:125px\"" : "style=\"max-width:125px\""%>
-                            <%=data.isSessionOpenForSubmission ? "" : "disabled=\"disabled\""%>>
+                            <%=((isQuestion && questionData.isSessionOpenForSubmission) || (!isQuestion && data.isSessionOpenForSubmission)) ? "" : "disabled=\"disabled\""%>>
                         <%
-                            for(String opt: data.getRecipientOptionsForQuestion(question.getId(), null)) {
-                                out.println(opt);
+                            if (isQuestion) {
+                            	for(String opt: questionData.getRecipientOptions(null)) {
+                                    out.println(opt);
+                                }
+                            } else {
+                            	for(String opt: data.getRecipientOptionsForQuestion(question.getId(), null)) {
+                                    out.println(opt);
+                                }
                             }
                         %>
                         </select>
                     </div>
                     <div <%=(question.isRecipientNameHidden()) ? "class=\"col-sm-12\"" : "class=\"col-sm-10\""%>>
                     <%=questionDetails.getQuestionWithoutExistingResponseSubmissionFormHtml(
-                            data.isSessionOpenForSubmission,
+                    		isQuestion ? questionData.isSessionOpenForSubmission : data.isSessionOpenForSubmission,
                             qnIndx, responseIndx, question.courseId)%>
                     </div>
                 </div>
@@ -287,4 +196,4 @@
 <%
         qnIndx++;
     }
-%><% } %>
+%>
