@@ -1084,7 +1084,8 @@ public class Const {
         public static final String STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR = "Normally, we would show the student’s profile here. "
                 + "However, you do not have access to view this student's profile";
         
-        public static final String UNREGISTERED_STUDENT = "You may submit feedback and view results without logging in. "
+        public static final String UNREGISTERED_STUDENT = "You are submitting feedback as <span class='text-bold'>%s</span>. " 
+                + "You may submit feedback and view results without logging in. "
                 + "To access other features you need <a href='%s' class='link'>to login using a google account</a> "
                 + "(recommended).";
     }
