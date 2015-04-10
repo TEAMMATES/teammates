@@ -121,7 +121,6 @@ public class Const {
     
         public static final String EVALUATION_RESULTS = "View the current results of the evaluation";
         public static final String EVALUATION_EDIT = "Edit evaluation details";
-        public static final String EVALUATION_COPY = "Copy evaluation details";
         public static final String EVALUATION_PREVIEW = "Preview evaluation session";
         public static final String EVALUATION_REMIND = "Send e-mails to remind students who have not submitted their evaluations to do so";
         public static final String EVALUATION_DELETE = "Delete the evaluation";
@@ -209,6 +208,7 @@ public class Const {
         
         public static final String FEEDBACK_SESSION_RESULTS = "View the submitted responses for this feedback session";
         public static final String FEEDBACK_SESSION_EDIT = "Edit feedback session details";
+        public static final String FEEDBACK_SESSION_COPY = "Copy feedback session details";
         public static final String FEEDBACK_SESSION_REMIND = "Send e-mails to remind students and instructors who have not submitted their feedbacks to do so";
         public static final String FEEDBACK_SESSION_DELETE = "Delete the feedback session";
         public static final String FEEDBACK_SESSION_SUBMIT = "Start submitting feedback";

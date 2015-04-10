@@ -21,9 +21,6 @@ $(document).ready(function(){
                 $('#sessionList').removeClass('align-center');
                 $('#sessionList').html(appendedSessionTable);
                 bindEventsAfterAjax();
-
-                console.log(appendedModalBody);
-                console.log(appendedSessionTable);
             }
         });
     };
