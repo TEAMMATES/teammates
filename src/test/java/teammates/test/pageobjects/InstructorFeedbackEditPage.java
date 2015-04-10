@@ -395,6 +395,14 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElement(By.xpath("//a[@onclick='deleteQuestion(" + qnIndex + ")']"));
     }
     
+    public WebElement getCancelQuestionLink() {
+        return browser.driver.findElement(By.xpath("//a[@onclick='cancelEdit()]"));
+    }
+    
+    public WebElement getCancelNewQuestionLink() {
+        return browser.driver.findElement(By.xpath("//a[@onclick='cancelEditNew()]"));
+    }
+    
     public void clickEditSessionButton(){
         fsEditLink.click();
     }
