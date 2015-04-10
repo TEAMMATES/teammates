@@ -200,6 +200,7 @@ function enableQuestion(number) {
     
     $('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).hide();
     $('#'+FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).show();
+    $('#'+FEEDBACK_QUESTION_CANCELEDIT+'-'+number).show();
     $('#'+'button_question_submit-'+number).show();
     $('#'+FEEDBACK_QUESTION_EDITTYPE+'-'+number).value="edit";
     // $('#questionTable'+number).find('.visibilityOptionsLabel').click();
@@ -268,7 +269,7 @@ function disableQuestion(number) {
  * @param question number
  * @returns
  */
-function deleteQuestion(number){
+function deleteQuestion(number) {
     if (number === -1) {
         location.reload();
         return false;
@@ -278,6 +279,24 @@ function deleteQuestion(number){
         return true;
     } else {
         return false;
+    }
+}
+
+/**
+ * Allows users to cancel editing the question
+ */
+function cancelEdit() {
+    if (confirm("Are you sure you want to cancel your changes?")) {
+        location.reload();
+    }
+}
+
+/**
+ * Allows users to cancel adding a new question
+ */
+function cancelEditNew() {
+    if (confirm("Are you sure you want to cancel this new question?")) {
+        location.reload();
     }
 }
 
