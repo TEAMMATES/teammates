@@ -37,14 +37,14 @@
               <div class="form-group">
                 <label class="col-sm-4 control-label">Session duration:</label>
                 <div class="col-sm-8">
-                  <p class="form-control-static">01 Apr 2012, 23:59&nbsp;&nbsp;&nbsp;<b>to</b>&nbsp;&nbsp;&nbsp;30 Apr 2016, 23:59</p>
+                  <p class="form-control-static">Sun, 01 Apr 2012, 23:59&nbsp;&nbsp;&nbsp;<b>to</b>&nbsp;&nbsp;&nbsp;Sat, 30 Apr 2016, 23:59</p>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-4 control-label">Results visible from:</label>
                 <div class="col-sm-8">
                   <p class="form-control-static">
-                    01 May 2012, 23:59
+                    Tue, 01 May 2012, 23:59
                     
                     </p>
                 </div>
@@ -53,16 +53,24 @@
           <div class="col-sm-2">
               
               <div class="form-group">
-                  <form method="post" action="/page/instructorFeedbackResultsDownload">
-                  <div id="feedbackDataButtons">
-                      <input id="button_download" class="btn btn-primary" name="fruploaddownloadbtn" value="Download results" type="submit">
+                  <div class="col-sm-12">
+                    <form method="post" action="/page/instructorFeedbackResultsDownload">
+                    <div id="feedbackDataButtons">
+                        <input id="button_download" class="btn btn-primary btn-block" name="fruploaddownloadbtn" value="Download results" type="submit">
+                    </div>
+                    <input name="user" value="CFResultsUiT.instr" type="hidden">
+                    <input name="fsname" value="First Session" type="hidden">
+                    <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
+                    <input name="sectionname" value="All" type="hidden">
+                    
+                    </form>
+                    <br>
+                    <div>
+                    <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&amp;fsname=First+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFResultsUiT.instr&amp;user=CFResultsUiT.instr" onclick="return toggleUnpublishEvaluation('First Session');" title="">
+                      Unpublish results
+                    </a>
+                    </div>
                   </div>
-                  <input name="user" value="CFResultsUiT.instr" type="hidden">
-                  <input name="fsname" value="First Session" type="hidden">
-                  <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
-                  <input name="sectionname" value="All" type="hidden">
-                  
-                  </form>
               </div>
               
           </div>
@@ -389,6 +397,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -407,6 +418,14 @@
                                                 <td class="middlealign">Teammates Test</td>
                                                 <td class="middlealign">Instructors</td>
                                                 <td class="text-preserve-space">This is for nobody specific.</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -482,6 +501,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -500,6 +522,14 @@
                                                 <td class="middlealign">Benny Charles</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space">-0.5</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -516,6 +546,14 @@
                                                         <td class="middlealign color_neutral">Alice Betsy</td>
                                                         <td class="middlealign color_neutral">Team 1</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
+                                                        <td>
+                                                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                                <input name="fsname" type="hidden" value="First Session"/>
+                                                                <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                         
                                                         <tr class="pending_response_row">
@@ -531,6 +569,14 @@
                                                         <td class="middlealign color_neutral">Charlie Dávis</td>
                                                         <td class="middlealign color_neutral">Team 2</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
+                                                        <td>
+                                                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                                <input name="fsname" type="hidden" value="First Session"/>
+                                                                <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                         
                                                         <tr class="pending_response_row">
@@ -546,6 +592,14 @@
                                                         <td class="middlealign color_neutral">Danny Engrid</td>
                                                         <td class="middlealign color_neutral">Team 2</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
+                                                        <td>
+                                                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                                <input name="fsname" type="hidden" value="First Session"/>
+                                                                <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                         
                                                         <tr class="pending_response_row">
@@ -561,6 +615,14 @@
                                                         <td class="middlealign color_neutral">Drop out</td>
                                                         <td class="middlealign color_neutral">Team 2</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
+                                                        <td>
+                                                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                                <input name="fsname" type="hidden" value="First Session"/>
+                                                                <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                         
                                                         <tr class="pending_response_row">
@@ -576,6 +638,14 @@
                                                         <td class="middlealign color_neutral">Extra guy</td>
                                                         <td class="middlealign color_neutral">Team 2</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
+                                                        <td>
+                                                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                                <input name="fsname" type="hidden" value="First Session"/>
+                                                                <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                         
                                                         <tr class="pending_response_row">
@@ -591,6 +661,14 @@
                                                         <td class="middlealign color_neutral">Emily</td>
                                                         <td class="middlealign color_neutral">Team 3</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
+                                                        <td>
+                                                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                                <input name="fsname" type="hidden" value="First Session"/>
+                                                                <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                         
                                     </tbody>
@@ -1366,6 +1444,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -1384,6 +1465,14 @@
                                                 <td class="middlealign">Drop out</td>
                                                 <td class="middlealign">Team 2</td>
                                                 <td class="text-preserve-space">Response to Alice from Dropout.</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -1417,6 +1506,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -1435,6 +1527,14 @@
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space">Alice self feedback.</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -1543,6 +1643,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -1561,6 +1664,14 @@
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space">PowerSearch</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -1669,6 +1780,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -1687,6 +1801,14 @@
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space"><ul class="selectedOptionsList"><li>PowerSearch</li><li>GoodUI</li></ul></td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -1765,6 +1887,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -1783,6 +1908,14 @@
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space">Danny</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -1861,6 +1994,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -1879,6 +2015,14 @@
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space">Team 1</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -1957,6 +2101,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -1975,6 +2122,14 @@
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space"><ul class="selectedOptionsList"><li>Danny</li></ul></td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -2063,6 +2218,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -2081,6 +2239,14 @@
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space"><ul class="selectedOptionsList"><li>Team 1</li><li>Team 2</li></ul></td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -2156,6 +2322,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -2174,6 +2343,14 @@
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space">3.5</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -2259,6 +2436,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -2277,6 +2457,14 @@
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space"><ul><li>Grades: 45</li><li>Fun: 55</li></ul></td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -2356,6 +2544,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -2374,6 +2565,14 @@
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space">110</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -2390,6 +2589,14 @@
                                                         <td class="middlealign color_neutral">Benny Charles</td>
                                                         <td class="middlealign color_neutral">Team 1</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
+                                                        <td>
+                                                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                                <input name="fsname" type="hidden" value="First Session"/>
+                                                                <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                         
                                     </tbody>
@@ -2426,6 +2633,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -2444,6 +2654,14 @@
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space"><span class="color-positive">Equal Share +11%</span><span>&nbsp;&nbsp;[Perceived Contribution: <span class="color_neutral">N/A</span>]</span></td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -2460,6 +2678,14 @@
                                                         <td class="middlealign color_neutral">Benny Charles</td>
                                                         <td class="middlealign color_neutral">Team 1</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
+                                                        <td>
+                                                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                                <input name="fsname" type="hidden" value="First Session"/>
+                                                                <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                         
                                     </tbody>
@@ -2534,6 +2760,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -2552,6 +2781,14 @@
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space">3</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -2568,6 +2805,14 @@
                                                         <td class="middlealign color_neutral">Benny Charles</td>
                                                         <td class="middlealign color_neutral">Team 1</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
+                                                        <td>
+                                                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                                <input name="fsname" type="hidden" value="First Session"/>
+                                                                <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                         
                                     </tbody>
@@ -2629,6 +2874,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -2647,6 +2895,14 @@
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space">2 Response to Benny.</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -2664,6 +2920,14 @@
                                                 <td class="middlealign">Drop out</td>
                                                 <td class="middlealign">Team 2</td>
                                                 <td class="text-preserve-space">Response to Benny from Dropout.</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -2702,6 +2966,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -2720,6 +2987,14 @@
                                                 <td class="middlealign">Benny Charles</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space"></td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -2799,6 +3074,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -2817,6 +3095,14 @@
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space">90</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -2833,6 +3119,14 @@
                                                         <td class="middlealign color_neutral">Benny Charles</td>
                                                         <td class="middlealign color_neutral">Team 1</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
+                                                        <td>
+                                                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                                <input name="fsname" type="hidden" value="First Session"/>
+                                                                <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                         
                                     </tbody>
@@ -2869,6 +3163,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -2887,6 +3184,14 @@
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space"><span class="color_neutral">Equal Share</span></td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -2903,6 +3208,14 @@
                                                         <td class="middlealign color_neutral">Benny Charles</td>
                                                         <td class="middlealign color_neutral">Team 1</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i><span>&nbsp;&nbsp;[Perceived Contribution: <span class="color_neutral">Equal Share</span>]</span> </td>
+                                                        <td>
+                                                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                                <input name="fsname" type="hidden" value="First Session"/>
+                                                                <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                         
                                     </tbody>
@@ -2981,6 +3294,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -2999,6 +3315,14 @@
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space">4</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -3015,6 +3339,14 @@
                                                         <td class="middlealign color_neutral">Benny Charles</td>
                                                         <td class="middlealign color_neutral">Team 1</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
+                                                        <td>
+                                                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                                <input name="fsname" type="hidden" value="First Session"/>
+                                                                <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                         
                                     </tbody>
@@ -3321,6 +3653,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -3339,6 +3674,14 @@
                                                 <td class="middlealign">Benny Charles</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space">4 Response to Charlie.</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -3418,6 +3761,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -3436,6 +3782,14 @@
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space">50</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -3452,6 +3806,14 @@
                                                         <td class="middlealign color_neutral">Charlie Dávis</td>
                                                         <td class="middlealign color_neutral">Team 2</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
+                                                        <td>
+                                                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                                <input name="fsname" type="hidden" value="First Session"/>
+                                                                <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                         
                                                         <tr class="pending_response_row">
@@ -3467,6 +3829,14 @@
                                                         <td class="middlealign color_neutral">Danny Engrid</td>
                                                         <td class="middlealign color_neutral">Team 2</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
+                                                        <td>
+                                                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                                <input name="fsname" type="hidden" value="First Session"/>
+                                                                <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                         
                                                         <tr class="pending_response_row">
@@ -3482,6 +3852,14 @@
                                                         <td class="middlealign color_neutral">Drop out</td>
                                                         <td class="middlealign color_neutral">Team 2</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
+                                                        <td>
+                                                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                                <input name="fsname" type="hidden" value="First Session"/>
+                                                                <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                         
                                                         <tr class="pending_response_row">
@@ -3497,6 +3875,14 @@
                                                         <td class="middlealign color_neutral">Extra guy</td>
                                                         <td class="middlealign color_neutral">Team 2</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
+                                                        <td>
+                                                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                                <input name="fsname" type="hidden" value="First Session"/>
+                                                                <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                         
                                     </tbody>
@@ -3558,6 +3944,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -3576,6 +3965,14 @@
                                                 <td class="middlealign">Benny Charles</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space">1 Response to Danny.</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -3593,6 +3990,14 @@
                                                 <td class="middlealign">Drop out</td>
                                                 <td class="middlealign">Team 2</td>
                                                 <td class="text-preserve-space">Response to Danny from Dropout.</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -3672,6 +4077,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -3690,6 +4098,14 @@
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space">150</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -3706,6 +4122,14 @@
                                                         <td class="middlealign color_neutral">Charlie Dávis</td>
                                                         <td class="middlealign color_neutral">Team 2</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
+                                                        <td>
+                                                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                                <input name="fsname" type="hidden" value="First Session"/>
+                                                                <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                         
                                                         <tr class="pending_response_row">
@@ -3721,6 +4145,14 @@
                                                         <td class="middlealign color_neutral">Danny Engrid</td>
                                                         <td class="middlealign color_neutral">Team 2</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
+                                                        <td>
+                                                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                                <input name="fsname" type="hidden" value="First Session"/>
+                                                                <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                         
                                                         <tr class="pending_response_row">
@@ -3736,6 +4168,14 @@
                                                         <td class="middlealign color_neutral">Drop out</td>
                                                         <td class="middlealign color_neutral">Team 2</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
+                                                        <td>
+                                                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                                <input name="fsname" type="hidden" value="First Session"/>
+                                                                <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                         
                                                         <tr class="pending_response_row">
@@ -3751,6 +4191,14 @@
                                                         <td class="middlealign color_neutral">Extra guy</td>
                                                         <td class="middlealign color_neutral">Team 2</td>
                                                         <td class="text-preserve-space color_neutral"><i>No Response</i> </td>
+                                                        <td>
+                                                            <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                                <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                                <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                                <input name="fsname" type="hidden" value="First Session"/>
+                                                                <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                         
                                     </tbody>
@@ -3812,6 +4260,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -3830,6 +4281,14 @@
                                                 <td class="middlealign">Alice Betsy</td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space">Response to Dropout.</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -3938,6 +4397,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -3956,6 +4418,14 @@
                                                 <td class="middlealign">Drop out</td>
                                                 <td class="middlealign">Team 2</td>
                                                 <td class="text-preserve-space">PowerSearch</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -4034,6 +4504,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -4052,6 +4525,14 @@
                                                 <td class="middlealign">Drop out</td>
                                                 <td class="middlealign">Team 2</td>
                                                 <td class="text-preserve-space">Team 2</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -4113,6 +4594,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -4130,6 +4614,14 @@
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign"></td>
                                                 <td class="text-preserve-space">Response from team 1 (by alice) to team 2.</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         
@@ -4157,7 +4649,7 @@
                 <span class="glyphicon glyphicon-chevron-up pull-right"></span>
             </div>
             <div id="panelBodyCollapse-13" class="panel-collapse collapse in">
-                <div class="panel-body"> There are no responses received by this user 
+                <div class="panel-body"> <i>There are no responses received by this user</i>
                 </div>
             </div>
             </div>
@@ -4270,6 +4762,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     </thead><thead>
                                     </thead><tbody>
@@ -4288,6 +4783,14 @@
                                                 <td class="middlealign">Charlie Dávis</td>
                                                 <td class="middlealign">Team 2</td>
                                                 <td class="text-preserve-space">3 Response to Emily.</td>
+                                                <td>
+                                                    <form action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" class="inline" method="post" target="_blank">
+                                                        <input class="btn btn-default btn-xs" data-original-title="Edit the responses given by this student" data-toggle="tooltip" title="" type="submit" value="Moderate Response"/>
+                                                        <input name="courseid" type="hidden" value="CFResultsUiT.CS2104"/>
+                                                        <input name="fsname" type="hidden" value="First Session"/>
+                                                        <input name="moderatedstudent" type="hidden" value="{*}@gmail.tmt"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         
                                         

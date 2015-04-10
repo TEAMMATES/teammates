@@ -177,6 +177,8 @@ public class StudentHomePageAction extends Action {
 
             addPlaceholderEvaluations(course);
             addPlaceholderFeedbackSessions(course);        
+            EvaluationDetailsBundle.sortEvaluationsByDeadline(course.evaluations);
+            FeedbackSessionDetailsBundle.sortFeedbackSessionsByCreationTime(course.feedbackSessions);
             
         } catch (EntityDoesNotExistException e){
             showEventualConsistencyMessage(courseId);

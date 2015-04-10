@@ -37,14 +37,14 @@
               <div class="form-group">
                 <label class="col-sm-4 control-label">Session duration:</label>
                 <div class="col-sm-8">
-                  <p class="form-control-static">01 Apr 2012, 23:59&nbsp;&nbsp;&nbsp;<b>to</b>&nbsp;&nbsp;&nbsp;30 Apr 2016, 23:59</p>
+                  <p class="form-control-static">Sun, 01 Apr 2012, 23:59&nbsp;&nbsp;&nbsp;<b>to</b>&nbsp;&nbsp;&nbsp;Sat, 30 Apr 2016, 23:59</p>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-4 control-label">Results visible from:</label>
                 <div class="col-sm-8">
                   <p class="form-control-static">
-                    01 May 2012, 23:59
+                    Tue, 01 May 2012, 23:59
                     
                     </p>
                 </div>
@@ -53,16 +53,24 @@
           <div class="col-sm-2">
               
               <div class="form-group">
-                  <form method="post" action="/page/instructorFeedbackResultsDownload">
-                  <div id="feedbackDataButtons">
-                      <input id="button_download" class="btn btn-primary" name="fruploaddownloadbtn" value="Download results" type="submit">
+                  <div class="col-sm-12">
+                    <form method="post" action="/page/instructorFeedbackResultsDownload">
+                    <div id="feedbackDataButtons">
+                        <input id="button_download" class="btn btn-primary btn-block" name="fruploaddownloadbtn" value="Download results" type="submit">
+                    </div>
+                    <input name="user" value="FRubricQnUiT.instructor" type="hidden">
+                    <input name="fsname" value="Second Session" type="hidden">
+                    <input name="courseid" value="FRubricQnUiT.CS2104" type="hidden">
+                    <input name="sectionname" value="All" type="hidden">
+                    
+                    </form>
+                    <br/>
+                    <div>
+                      <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" data-original-title="Make responses no longer visible" data-placement="top" data-toggle="tooltip" href="/page/instructorFeedbackUnpublish?courseid=FRubricQnUiT.CS2104&amp;fsname=Second+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DFRubricQnUiT.instructor&amp;user=FRubricQnUiT.instructor" onclick="return toggleUnpublishEvaluation('Second Session');" title="">
+                          Unpublish results
+                      </a>
+                    </div>
                   </div>
-                  <input name="user" value="FRubricQnUiT.instructor" type="hidden">
-                  <input name="fsname" value="Second Session" type="hidden">
-                  <input name="courseid" value="FRubricQnUiT.CS2104" type="hidden">
-                  <input name="sectionname" value="All" type="hidden">
-                  
-                  </form>
               </div>
               
           </div>
@@ -316,82 +324,115 @@
                                         Feedback
                                         <span class="icon-sort unsorted"></span>
                                     </th>
+                                    <th>
+                                        Actions
+                                    </th>
                                 </tr>
                             </thead><thead>
                             </thead><tbody>
                                 
-                                            
-                                
                                             <tr>
                                                 <td class="middlealign">
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=EBE50B16D49CF8511F63AC64F55EEE9AE11CB86F39CB9C77AEE9A11E1BE9807D&courseid=3986E56C0ED1BAC0F0677115DC5913083E65D61ADFE7BA9C8051233DF6242AF0&user=FRubricQnUiT.instructor" data-original-title="" title="">
+                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=FRubricQnUiT.instructor" data-original-title="" title="">
                                                         Alice Betsy
                                                         <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                                     </div>
                                                 </td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=3C50B225C84BC321B90C810071EEC512E11CB86F39CB9C77AEE9A11E1BE9807D&courseid=3986E56C0ED1BAC0F0677115DC5913083E65D61ADFE7BA9C8051233DF6242AF0&user=FRubricQnUiT.instructor" data-original-title="" title="">
+                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=FRubricQnUiT.instructor" data-original-title="" title="">
                                                         Benny Charles
                                                         <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                                     </div>
                                                 </td>
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="text-preserve-space">a) Yes <span class="color_neutral"><i>(Choice 1)</i></span><br>b) Yes <span class="color_neutral"><i>(Choice 1)</i></span><br></td>
+                                                <td>
+                                                    <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=FRubricQnUiT.instructor" target="_blank"> 
+                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
+                                                    <input name="courseid" value="FRubricQnUiT.CS2104" type="hidden">
+                                                    <input name="fsname" value="Second Session" type="hidden">
+                                                    <input name="moderatedstudent" value="alice.b.tmms@gmail.tmt" type="hidden">
+                                                    </form>
+                                                </td>
                                             </tr>        
                                 
                                                         <tr class="pending_response_row">
                                                             <td class="middlealign color_neutral">
-                                                                <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=EBE50B16D49CF8511F63AC64F55EEE9AE11CB86F39CB9C77AEE9A11E1BE9807D&courseid=3986E56C0ED1BAC0F0677115DC5913083E65D61ADFE7BA9C8051233DF6242AF0&user=FRubricQnUiT.instructor" data-original-title="" title="">
+                                                                <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=FRubricQnUiT.instructor" data-original-title="" title="">
                                                                     Alice Betsy
                                                                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                                                </div>
                                                             </td>
                                                             <td class="middlealign color_neutral">Team 1</td>
                                                              <td class="middlealign color_neutral">
-                                                                <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=EBE50B16D49CF8511F63AC64F55EEE9AE11CB86F39CB9C77AEE9A11E1BE9807D&courseid=3986E56C0ED1BAC0F0677115DC5913083E65D61ADFE7BA9C8051233DF6242AF0&user=FRubricQnUiT.instructor" data-original-title="" title="">
+                                                                <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=FRubricQnUiT.instructor" data-original-title="" title="">
                                                                     Alice Betsy
                                                                     <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                                                 </div>
                                                             </td>
                                                             <td class="middlealign color_neutral">Team 1</td>
                                                             <td class="text-preserve-space color_neutral"><i>No Response</i></td>
+                                                            <td>
+                                                                <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=FRubricQnUiT.instructor" target="_blank"> 
+                                                                <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
+                                                                <input name="courseid" value="FRubricQnUiT.CS2104" type="hidden">
+                                                                <input name="fsname" value="Second Session" type="hidden">
+                                                                <input name="moderatedstudent" value="alice.b.tmms@gmail.tmt" type="hidden">
+                                                                </form>
+                                                            </td>
                                                         </tr>
                                 
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=3C50B225C84BC321B90C810071EEC512E11CB86F39CB9C77AEE9A11E1BE9807D&courseid=3986E56C0ED1BAC0F0677115DC5913083E65D61ADFE7BA9C8051233DF6242AF0&user=FRubricQnUiT.instructor" data-original-title="" title="">
+                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=FRubricQnUiT.instructor" data-original-title="" title="">
                                                                       Benny Charles
                                                                       <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                                                   </div>
                                                               </td>
                                                               <td class="middlealign color_neutral">Team 1</td>
                                                               <td class="middlealign color_neutral">
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=EBE50B16D49CF8511F63AC64F55EEE9AE11CB86F39CB9C77AEE9A11E1BE9807D&courseid=3986E56C0ED1BAC0F0677115DC5913083E65D61ADFE7BA9C8051233DF6242AF0&user=FRubricQnUiT.instructor" data-original-title="" title="">
+                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=FRubricQnUiT.instructor" data-original-title="" title="">
                                                                       Alice Betsy
                                                                       <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                                                   </div>
                                                               </td>
                                                               <td class="middlealign color_neutral">Team 1</td>
                                                               <td class="text-preserve-space color_neutral"><i>No Response</i></td>
+                                                              <td>
+                                                                <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=FRubricQnUiT.instructor" target="_blank"> 
+                                                                <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
+                                                                <input name="courseid" value="FRubricQnUiT.CS2104" type="hidden">
+                                                                <input name="fsname" value="Second Session" type="hidden">
+                                                                <input name="moderatedstudent" value="benny.c.tmms@gmail.tmt" type="hidden">
+                                                                </form>
+                                                              </td>
                                                           </tr>
                                 
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=3C50B225C84BC321B90C810071EEC512E11CB86F39CB9C77AEE9A11E1BE9807D&courseid=3986E56C0ED1BAC0F0677115DC5913083E65D61ADFE7BA9C8051233DF6242AF0&user=FRubricQnUiT.instructor" data-original-title="" title="">
+                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=FRubricQnUiT.instructor" data-original-title="" title="">
                                                                       Benny Charles
                                                                       <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                                                   </div>
                                                               </td>
                                                               <td class="middlealign color_neutral">Team 1</td>
                                                               <td class="middlealign color_neutral">
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail=3C50B225C84BC321B90C810071EEC512E11CB86F39CB9C77AEE9A11E1BE9807D&courseid=3986E56C0ED1BAC0F0677115DC5913083E65D61ADFE7BA9C8051233DF6242AF0&user=FRubricQnUiT.instructor" data-original-title="" title="">
+                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&courseid={*}&user=FRubricQnUiT.instructor" data-original-title="" title="">
                                                                       Benny Charles
                                                                       <img alt="No Image Given" class="hidden profile-pic-icon-hidden" src=""/>
                                                                   </div>
                                                               </td>
                                                               <td class="middlealign color_neutral">Team 1</td>
                                                               <td class="text-preserve-space color_neutral"><i>No Response</i></td>
+                                                              <td>
+                                                                <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=FRubricQnUiT.instructor" target="_blank"> 
+                                                                <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
+                                                                <input name="courseid" value="FRubricQnUiT.CS2104" type="hidden">
+                                                                <input name="fsname" value="Second Session" type="hidden">
+                                                                <input name="moderatedstudent" value="benny.c.tmms@gmail.tmt" type="hidden">
+                                                                </form>
+                                                              </td>
                                                           </tr>
                                 
                             </tbody>

@@ -933,7 +933,8 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.INSTRUCTORS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.INSTRUCTORS.toString(),
                 Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED, "on"
         };
         
         InstructorFeedbackQuestionEditAction a = getAction(editTextParams);

@@ -329,7 +329,23 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.fillQuestionBox("Test question text");
         feedbackEditPage.clickAddQuestionButton();
         assertEquals("Too little choices for Multiple-choice (single answer) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
-        
+
+        ______TS("remove when 1 left");
+
+        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.fillQuestionBox("Test question text");
+        assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
+
+        feedbackEditPage.clickRemoveMcqOptionLink(1, -1);
+        assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-1--1"));
+
+        // TODO: Check that after deleting, the value is cleared
+        assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-0--1"));
+        feedbackEditPage.clickRemoveMcqOptionLink(0, -1);
+        assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-0--1"));
+        feedbackEditPage.clickAddQuestionButton();
+        assertEquals("Too little choices for Multiple-choice (single answer) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
     }
 
     private void testCustomizeMcqOptions() {
@@ -474,6 +490,21 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
         assertEquals("Too little choices for Multiple-choice (multiple answers) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
         
+        ______TS("remove when 1 left");
+
+        feedbackEditPage.selectNewQuestionType("Multiple-choice (multiple answers) question");
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.fillQuestionBox("Test question text");
+
+        feedbackEditPage.clickRemoveMsqOptionLink(1, -1);
+        assertEquals(false, feedbackEditPage.isElementPresent("msqOptionRow-1--1"));
+        
+        // TODO: Check that after deleting, the value is cleared
+        assertEquals(true, feedbackEditPage.isElementPresent("msqOptionRow-0--1"));
+        feedbackEditPage.clickRemoveMsqOptionLink(0, -1);
+        assertEquals(true, feedbackEditPage.isElementPresent("msqOptionRow-0--1"));
+        feedbackEditPage.clickAddQuestionButton();
+        assertEquals("Too little choices for Multiple-choice (multiple answers) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
     }
 
     private void testCustomizeMsqOptions() {
@@ -625,7 +656,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.fillQuestionBox("NumScale qn");
         feedbackEditPage.fillMinNumScaleBox("1", -1);
         feedbackEditPage.fillStepNumScaleBox("0.3", -1);
-        feedbackEditPage.fillMaxNumScaleBox("", -1);
         feedbackEditPage.fillMaxNumScaleBox("5", -1);
         
         assertEquals("[The interval 1 - 5 is not divisible by the specified increment.]",
@@ -634,6 +664,16 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
         
         assertEquals("Please enter valid options. The interval is not divisible by the specified increment.", feedbackEditPage.getStatus());
+        
+        ______TS("possible floating point error");
+        
+        feedbackEditPage.fillQuestionBox("NumScale qn");
+        feedbackEditPage.fillMinNumScaleBox("1", -1);
+        feedbackEditPage.fillStepNumScaleBox("0.001", -1);
+        feedbackEditPage.fillMaxNumScaleBox("5555", -1);
+        
+        assertEquals("[Based on the above settings, acceptable responses are: 1, 1.001, 1.002, ..., 5554.998, 5554.999, 5555]",
+                feedbackEditPage.getNumScalePossibleValuesString(-1));
         
         ______TS("more than three dp step rounding test");
 
@@ -777,7 +817,23 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
         
         assertEquals("Too little options for Distribute points (among options) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
- 
+        
+        ______TS("remove when 1 left");
+
+        feedbackEditPage.selectNewQuestionType("Distribute points (among options) question");
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.fillQuestionBox("Test const sum question");
+        assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
+
+        feedbackEditPage.clickRemoveConstSumOptionLink(1, -1);
+        assertEquals(false, feedbackEditPage.isElementPresent("constSumOptionRow-1--1"));
+
+        // TODO: Check that after deleting, the value is cleared
+        assertEquals(true, feedbackEditPage.isElementPresent("constSumOptionRow-0--1"));
+        feedbackEditPage.clickRemoveConstSumOptionLink(0, -1);
+        assertEquals(true, feedbackEditPage.isElementPresent("constSumOptionRow-0--1"));
+        feedbackEditPage.clickAddQuestionButton();
+        assertEquals("Too little options for Distribute points (among options) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
     }
     
     private void testCustomizeConstSumOptionOptions() {

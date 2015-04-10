@@ -10,6 +10,7 @@ import java.util.TreeMap;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
+import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.logic.core.TeamEvalResult;
@@ -18,19 +19,36 @@ import teammates.ui.controller.PageData;
 
 public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
     
+    public boolean isNotSureAllowed;
+    
     public FeedbackContributionQuestionDetails() {
         super(FeedbackQuestionType.CONTRIB);
+        this.isNotSureAllowed = true;
     }
 
     public FeedbackContributionQuestionDetails(String questionText) {
         super(FeedbackQuestionType.CONTRIB, questionText);
+        this.isNotSureAllowed = true;
+    }
+    
+    private void setContributionQuestionDetails(boolean isNotSureAllowed) {
+        this.isNotSureAllowed = isNotSureAllowed;
     }
        
     @Override
     public boolean extractQuestionDetails(
             Map<String, String[]> requestParameters,
             FeedbackQuestionType questionType) {
-        // Nothing to do here.
+        String isNotSureAllowedString = HttpRequestHelper.getValueFromParamMap(
+                requestParameters,
+                Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED);
+        Boolean isNotSureAllowed;
+        if (isNotSureAllowedString == null) {
+            isNotSureAllowed = false;
+        } else {
+            isNotSureAllowed = isNotSureAllowedString.equals("on");
+        }
+        this.setContributionQuestionDetails(isNotSureAllowed);
         return true;
     }
 
@@ -41,7 +59,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
     @Override
     public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
-        return false;
+        FeedbackContributionQuestionDetails newContribDetails = (FeedbackContributionQuestionDetails) newDetails;
+        return newContribDetails.isNotSureAllowed != this.isNotSureAllowed;
     }
     
     @Override
@@ -87,12 +106,21 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
 
     @Override
     public String getQuestionSpecificEditFormHtml(int questionNumber) {
-        return "";
+        return FeedbackQuestionFormTemplates.populateTemplate(
+                FeedbackQuestionFormTemplates.CONTRIB_EDIT_FORM,
+                "${questionNumber}", Integer.toString(questionNumber),
+                "${isNotSureAllowedChecked}", (isNotSureAllowed) ? "checked=\"checked\"" : "",
+                "${Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED}",
+                Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED);
     }
 
     @Override
     public String getNewQuestionSpecificEditFormHtml() {
-        return "";
+        this.isNotSureAllowed = true;
+        
+        return "<div id=\"contribForm\">" + 
+                    this.getQuestionSpecificEditFormHtml(-1) +
+               "</div>";
     }
 
     @Override
@@ -283,7 +311,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         html += FeedbackQuestionFormTemplates.populateTemplate(
                 FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS,
                 "${contribFragments}", contribFragments,
-                "${Const.Tooltips.CLAIMED}", Const.Tooltips.CLAIMED,
+                "${Const.Tooltips.CLAIMED}", Sanitizer.sanitizeForHtml(Const.Tooltips.CLAIMED),
                 "${Const.Tooltips.PERCEIVED}", Const.Tooltips.PERCEIVED,
                 "${Const.Tooltips.EVALUATION_POINTS_RECEIVED}", Const.Tooltips.EVALUATION_POINTS_RECEIVED,
                 "${Const.Tooltips.EVALUATION_DIFF}", Const.Tooltips.EVALUATION_DIFF);
@@ -753,7 +781,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     private String getContributionOptionsHtml(int points){
         String result = "";
         if(points==Const.POINTS_NOT_SUBMITTED || points==Const.INT_UNINITIALIZED ){
-            points=Const.POINTS_NOT_SURE;
+            points=Const.POINTS_EQUAL_SHARE;
         }
         for(int i=200; i>=0; i-=10){
             result += "<option "+
@@ -763,11 +791,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                         ">" + convertToEqualShareFormat(i) +
                         "</option>\r\n";
         }
-        result+="<option " +
-                "class=\"" + getContributionOptionsColor(Const.POINTS_NOT_SURE) + "\" " +
-                "value=\"" + Const.POINTS_NOT_SURE + "\"" +
-                (points==Const.POINTS_NOT_SURE ? " selected=\"selected\"" : "") + ">" +
-                "Not Sure</option>";
+        if (isNotSureAllowed) {
+            result += "<option class=\""
+                    + getContributionOptionsColor(Const.POINTS_NOT_SURE)
+                    + "\" value=\"" + Const.POINTS_NOT_SURE + "\""
+                    + (points == Const.POINTS_NOT_SURE ? " selected=\"selected\"" : "") + ">"
+                    + "Not Sure</option>";
+        }
         return result;
     }
     

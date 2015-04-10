@@ -720,9 +720,9 @@ public class InstructorFeedbackEditPage extends AppPage {
         if(qnIndex == -1){
             idSuffix = "--1";
         }
-        WebElement addRubricRowLink = browser.driver.findElement(By.id("rubricRemoveSubQuestionLink"+idSuffix+"-"+row));
+        WebElement removeRubricRowLink = browser.driver.findElement(By.id("rubricRemoveSubQuestionLink"+idSuffix+"-"+row));
         //addRubricRowLink.click();
-        clickAndConfirm(addRubricRowLink);
+        clickAndConfirm(removeRubricRowLink);
     }
     
     public void clickRemoveRubricColLinkAndConfirm(int qnIndex, int col){
@@ -730,8 +730,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         if(qnIndex == -1){
             idSuffix = "--1";
         }
-        WebElement addRubricColLink = browser.driver.findElement(By.id("rubricRemoveChoiceLink"+idSuffix+"-"+col));
-        clickAndConfirm(addRubricColLink);
+        WebElement removeRubricColLink = browser.driver.findElement(By.id("rubricRemoveChoiceLink"+idSuffix+"-"+col));
+        clickAndConfirm(removeRubricColLink);
     }
     
     public FeedbackSubmitPage clickPreviewAsStudentButton() {
@@ -792,5 +792,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public WebElement getVisibilityOptions(int questionNumber) {
         return browser.driver.findElement(By.id("visibilityOptions-" + String.valueOf(questionNumber)));
+    }
+
+    public void toggleNotSureCheck(int questionNumber) {
+        browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_CONTRIBISNOTSUREALLOWED
+                + "-" + String.valueOf(questionNumber))).click();
     }
 }

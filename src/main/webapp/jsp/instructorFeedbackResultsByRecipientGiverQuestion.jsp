@@ -251,7 +251,7 @@
                                     <span class='glyphicon glyphicon-chevron-up pull-right'></span>
                                 </div>
                                 <div class='panel-collapse collapse in'>
-                                    <div class="panel-body"> There are no responses received by this user 
+                                    <div class="panel-body"> <i>There are no responses received by this user</i>
                                     </div>
                                 </div>
                                 </div>
@@ -385,7 +385,7 @@
                     for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesForRecipientFromGiver : responsesForRecipient.getValue().entrySet()) {
                         giverIndex++;
                         String giverEmail = responsesForRecipientFromGiver.getValue().get(0).giverEmail;
-                                        
+                        Boolean isGiverVisible = data.bundle.isGiverVisible(responsesForRecipientFromGiver.getValue().get(0));
                 %>
                         <div class="row <%=giverIndex == 1? "": "border-top-gray"%>">
                             <div class="col-md-2">
@@ -425,6 +425,28 @@
                                 	}
                                 %> 
                                 </div>
+                                &nbsp;
+                                <div class="col-md-12">
+                                    <% 
+                                        boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(giverEmail), 
+                                                                                                        data.feedbackSessionName, 
+                                                                                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                                        String disabledAttribute = (!isAllowedToModerate) ? "disabled=\"disabled\"" : "";
+                                        if (isGiverVisible) {
+                                    %>
+                                    <form class="inline" method="post" action="<%=data.getInstructorEditStudentFeedbackLink() %>" target="_blank"> 
+                                        <input type="submit" class="btn btn-default btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                        <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                        <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                        <% if (giverEmail.matches(Const.REGEXP_TEAM)) { %>
+                                        <input type="hidden" name="moderatedstudent" value="<%= giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
+                                        <% } else { %>
+                                        <input type="hidden" name="moderatedstudent" value="<%= giverEmail%>">
+                                        <% } %>
+                                    </form>
+                                    <% } %>
+                                </div>
+                                &nbsp;
                             </div>
                             <div class="col-md-10">
                             <%
@@ -923,7 +945,7 @@
                     <span class='glyphicon glyphicon-chevron-up pull-right'></span>
                 </div>
                 <div class='panel-collapse collapse in'>
-                    <div class="panel-body"> There are no responses received by this user 
+                    <div class="panel-body"> <i>There are no responses received by this user</i>
                     </div>
                 </div>
                 </div>
@@ -985,7 +1007,7 @@
                                                     <span class='glyphicon glyphicon-chevron-up pull-right'></span>
                                                 </div>
                                                 <div class='panel-collapse collapse in'>
-                                                    <div class="panel-body"> There are no responses received by this user 
+                                                    <div class="panel-body"> <i>There are no responses received by this user</i>
                                                     </div>
                                                 </div>
                                              </div>
@@ -1065,7 +1087,7 @@
                                                             <span class='glyphicon glyphicon-chevron-up pull-right'></span>
                                                         </div>
                                                         <div class='panel-collapse collapse in'>
-                                                            <div class="panel-body"> There are no responses received by this user 
+                                                            <div class="panel-body"> <i>There are no responses received by this user</i>
                                                             </div>
                                                         </div>
                                                      </div>

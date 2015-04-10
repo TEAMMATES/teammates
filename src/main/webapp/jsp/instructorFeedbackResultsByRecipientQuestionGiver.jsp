@@ -252,7 +252,7 @@
                 <span class='glyphicon glyphicon-chevron-up pull-right'></span>
             </div>
             <div class='panel-collapse collapse in'>
-                <div class="panel-body"> There are no responses received by this user 
+                <div class="panel-body"> <i>There are no responses received by this user</i>
                 </div>
             </div>
             </div>
@@ -463,6 +463,9 @@
                                                 Feedback
                                                 <span class="icon-sort unsorted"></span>
                                             </th>
+                                            <th>
+                                                Actions
+                                            </th>
                                         </tr>
                                     <thead>
                                     <tbody>
@@ -510,6 +513,27 @@
                                                 <td class="middlealign"><%=giverName%></td>
                                                 <td class="middlealign"><%=giverTeamName%></td>
                                                 <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
+                                                <td>
+                                                    <% 
+                                                        boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(responseEntry.giverEmail), 
+                                                                                                                        data.feedbackSessionName, 
+                                                                                                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                                                        Boolean isGiverVisible = data.bundle.isGiverVisible(responseEntry);
+                                                        String disabledAttribute = (!isAllowedToModerate) ? "disabled=\"disabled\"" : "";
+                                                        if (isGiverVisible) {                                        
+                                                    %>
+                                                    <form class="inline" method="post" action="<%=data.getInstructorEditStudentFeedbackLink() %>" target="_blank"> 
+                                                        <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                                        <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                                        <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                        <% if (responseEntry.giverEmail.matches(Const.REGEXP_TEAM)) { %>
+                                                        <input type="hidden" name="moderatedstudent" value="<%= responseEntry.giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
+                                                        <% } else { %>
+                                                        <input type="hidden" name="moderatedstudent" value="<%= responseEntry.giverEmail%>">
+                                                        <% } %>
+                                                    </form>
+                                                    <% } %>
+                                                </td>
                                             </tr>
                                         
                                         <%
@@ -544,6 +568,24 @@
                                                         <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(possibleGiverWithNoResponse)%></td>
                                                         <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleGiverWithNoResponse)%></td>
                                                         <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(possibleGiverWithNoResponse, targetEmail, data.bundle, question)%> </td>
+                                                        <td>
+                                                            <% 
+                                                                boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(possibleGiverWithNoResponse), 
+                                                                                                                                data.feedbackSessionName, 
+                                                                                                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                                                                String disabledAttribute = (!isAllowedToModerate) ? "disabled=\"disabled\"" : "";
+                                                            %>
+                                                            <form class="inline" method="post" action="<%=data.getInstructorEditStudentFeedbackLink() %>" target="_blank"> 
+                                                                <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                                                <input type="hidden" name="courseid" value="<%=data.courseId %>">
+                                                                <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                                <% if (possibleGiverWithNoResponse.matches(Const.REGEXP_TEAM)) { %>
+                                                                <input type="hidden" name="moderatedstudent" value="<%= possibleGiverWithNoResponse.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
+                                                                <% } else { %>
+                                                                <input type="hidden" name="moderatedstudent" value="<%= possibleGiverWithNoResponse%>">
+                                                                <% } %>
+                                                            </form>
+                                                        </td>
                                                     </tr>
                                         <%
                                         	    }
@@ -593,7 +635,7 @@
                 <span class='glyphicon glyphicon-chevron-up pull-right'></span>
             </div>
             <div class='panel-collapse collapse in'>
-                <div class="panel-body"> There are no responses received by this user 
+                <div class="panel-body"> <i>There are no responses received by this user</i>
                 </div>
             </div>
             </div>
@@ -657,7 +699,7 @@
                                                     <span class='glyphicon glyphicon-chevron-up pull-right'></span>
                                                 </div>
                                                 <div class='panel-collapse collapse in'>
-                                                    <div class="panel-body"> There are no responses received by this user 
+                                                    <div class="panel-body"> <i>There are no responses received by this user</i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -745,7 +787,7 @@
                                                         <span class='glyphicon glyphicon-chevron-up pull-right'></span>
                                                     </div>
                                                     <div class='panel-collapse collapse in'>
-                                                        <div class="panel-body"> There are no responses received by this user 
+                                                        <div class="panel-body"> <i>There are no responses received by this user</i>
                                                         </div>
                                                     </div>
                                                  </div>

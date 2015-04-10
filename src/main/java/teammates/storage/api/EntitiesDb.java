@@ -86,7 +86,7 @@ public abstract class EntitiesDb {
                 }
             }
             if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
-                log.severe("Operation did not persist in time: create"
+                log.info("Operation did not persist in time: create"
                         + entityToAdd.getEntityTypeAsString() + "->"
                         + entityToAdd.getIdentificationString());
             }
@@ -165,7 +165,7 @@ public abstract class EntitiesDb {
                 }
             }
             if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
-                log.severe("Operation did not persist in time: create"
+                log.info("Operation did not persist in time: create"
                         + entityToAdd.getEntityTypeAsString() + "->"
                         + entityToAdd.getIdentificationString());
             }
@@ -206,7 +206,7 @@ public abstract class EntitiesDb {
                 }
             }
             if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
-                log.severe("Operation did not persist in time: delete"
+                log.info("Operation did not persist in time: delete"
                         + entityToDelete.getEntityTypeAsString() + "->"
                         + entityToDelete.getIdentificationString());
             }
