@@ -204,6 +204,10 @@ Apply to thead to make headers not bold.
     padding-top: 0;
 }
 
+.text-large {
+    font-size: 18px;
+}
+
 .text-bold {
     font-weight: bold;
 }
