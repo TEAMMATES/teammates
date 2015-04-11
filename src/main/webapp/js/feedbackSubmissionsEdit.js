@@ -431,6 +431,7 @@ function formatRecipientLists(){
             var selectedOption = $(this).find('option:selected').val();
             
             if (selectedOption != "") {
+            	selectedOption = sanitizeForJs(selectedOption);
                 $("select[name|="+FEEDBACK_RESPONSE_RECIPIENT+"-"+questionNumber+"]").not(this).
                     find("option[value='"+selectedOption+"']").hide();
             }
@@ -447,6 +448,7 @@ function formatRecipientLists(){
             find("option[value='"+lastSelectedOption+"']").show();
         }
         if (curSelectedOption != "") {
+        	curSelectedOption = sanitizeForJs(curSelectedOption);
             $("select[name|="+FEEDBACK_RESPONSE_RECIPIENT+"-"+questionNumber+"]").not(this).
                 find("option[value='"+curSelectedOption+"']").hide();
         }

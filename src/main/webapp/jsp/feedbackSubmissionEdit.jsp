@@ -139,7 +139,7 @@
                             data.isSessionOpenForSubmission, 
                             qnIndx, responseIndx, question.courseId, 
                             existingResponse.getResponseDetails())%>
-                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>" value="<%=existingResponse.getId()%>"/>
+                        <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>" value="<%=sanitizeForHtml(existingResponse.getId())%>"/>
                     </div>
                 </div>
         <%

@@ -213,6 +213,10 @@
                                     <div class="form-group form-inline">
                                         <div
                                             class="form-group text-muted">
+                                            <p>
+                                                Giver: <%=giverName%><br>
+                                                Recipient: <%=recipientName%>
+                                            </p>
                                             You may change comment's
                                             visibility using the
                                             visibility options on the
@@ -492,6 +496,10 @@
                                     <div class="form-group form-inline">
                                         <div
                                             class="form-group text-muted">
+                                            <p>
+                                                Giver: <%=giverName%><br>
+                                                Recipient: <%=recipientName%>
+                                            </p>
                                             You may change comment's
                                             visibility using the
                                             visibility options on the

@@ -634,7 +634,7 @@
                 <br>
                 <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
                     <div class="col-sm-12 padding-0">
-                        <b>Feedback Path</b> (Who is giving feedback to whom?)
+                        <b>Feedback Path</b> (Who is giving feedback about whom?)
                     </div>
                     <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>">  
                         <label class="col-sm-5 control-label">
