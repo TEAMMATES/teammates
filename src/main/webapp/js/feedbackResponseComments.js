@@ -471,11 +471,11 @@ function showNewlyAddedResponseCommentEditForm(addedIndex) {
     $("#responseCommentEditForm-"+addedIndex).show();
 }
 
-function loadFeedbackResponseComments(user, courseId, fsName, sender) {
+function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, sender) {
 	$(".tooltip").hide();
 	var panelBody = $(sender).parent().find('div[class^="panel-body"]');
 	var fsNameForUrl = encodeURIComponent(fsName);
-	var url = "/page/instructorFeedbackResponseCommentsLoad?user=" + user + "&courseid=" + courseId + "&fsname=" + fsNameForUrl;
+	var url = "/page/instructorFeedbackResponseCommentsLoad?user=" + user + "&courseid=" + courseId + "&fsname=" + fsNameForUrl + "&fsindex=" + fsIndx;
 	$(sender).find('div[class^="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
 	panelBody.load(url, function( response, status, xhr ) {
 	  if (status == "success") {
