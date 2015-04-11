@@ -37,7 +37,7 @@
 %>
 <div class="hidden number-of-pending-comments"><%=data.numberOfPendingComments%></div>
 <%
-	int fsIndx = 0;
+	int fsIndx = data.feedbackSessionIndex-1;
     for (String fsName : data.feedbackResultBundles.keySet()) {//FeedbackSession loop starts
         FeedbackSessionResultsBundle bundle = data.feedbackResultBundles.get(fsName);
         fsIndx++;
