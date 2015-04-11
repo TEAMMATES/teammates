@@ -32,8 +32,7 @@ import teammates.test.util.Priority;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * The first test that covers the 'Edit Feedback Session' page for instructors.
- * This part of the test covers general sessions operations (e.g edit, preview, delete).
+ * Covers the 'Edit Feedback Session' page for instructors.
  * SUT is {@link InstructorFeedbackEditPage}.
  */
 @Priority(-1)
