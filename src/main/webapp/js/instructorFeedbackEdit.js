@@ -283,20 +283,17 @@ function deleteQuestion(number) {
 }
 
 /**
- * Allows users to cancel editing the question
+ * Allows users to cancel editing questions
  */
-function cancelEdit() {
-    if (confirm("Are you sure you want to cancel your changes?")) {
-        location.reload();
-    }
-}
-
-/**
- * Allows users to cancel adding a new question
- */
-function cancelEditNew() {
-    if (confirm("Are you sure you want to cancel this new question?")) {
-        location.reload();
+function cancelEdit(number) {
+    if (number === -1) {
+        if (confirm('Are you sure you want to cancel adding this question?')) {
+            location.reload();
+        }
+    } else {
+        if (confirm('Are you sure you want to cancel your changes?')) {
+            location.reload();
+        }
     }
 }
 

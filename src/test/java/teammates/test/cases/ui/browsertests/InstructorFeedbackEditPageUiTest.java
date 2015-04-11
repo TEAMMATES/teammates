@@ -87,9 +87,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testGetQuestionLink();
 
         testTwoNewEssayQuestionsWithRecipientBeingNobodySpecific();
+        
+        testCancelNewOrEditQuestion();
 
         testNewMcqQuestionFrame();
-        testCancelNewMcqQuestion();
         testInputValidationForMcqQuestion();
         testCustomizeMcqOptions();
         testAddMcqQuestionAction();
@@ -97,7 +98,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testDeleteMcqQuestionAction();
 
         testNewMsqQuestionFrame();
-        testCancelNewMsqQuestion();
         testInputValidationForMsqQuestion();
         testCustomizeMsqOptions();
         testAddMsqQuestionAction();
@@ -105,7 +105,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testDeleteMsqQuestionAction();
         
         testNewNumScaleQuestionFrame();
-        testCancelNewNumScaleQuestion();
         testInputValidationForNumScaleQuestion();
         testCustomizeNumScaleOptions();
         testAddNumScaleQuestionAction();
@@ -114,7 +113,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testDeleteNumScaleQuestionAction();        
         
         testNewConstSumOptionQuestionFrame();
-        testCancelNewConstSumQuestion();
         testInputValidationForConstSumOptionQuestion();
         testCustomizeConstSumOptionOptions();
         testAddConstSumOptionQuestionAction();
@@ -122,7 +120,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         testDeleteConstSumOptionQuestionAction();
     
         testNewConstSumRecipientQuestionFrame();
-        testCancelNewConstSumRecipientQuestion();
         testInputValidationForConstSumRecipientQuestion();
         testCustomizeConstSumRecipientOptions();
         testAddConstSumRecipientQuestionAction();
@@ -309,6 +306,45 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
     }
     
+    private void testCancelNewOrEditQuestion() {
+        ______TS("Testing cancelling adding or editing questions");
+        
+        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
+        feedbackEditPage.clickNewQuestionButton();
+        
+        ______TS("MCQ: click and cancel 'cancel new question'");
+        
+        feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(-1));
+        assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
+        
+        ______TS("MCQ: click and confirm 'cancel new question'");
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getCancelQuestionLink(-1));
+        assertFalse(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
+        
+        ______TS("MCQ: click and cancel 'editing question'");
+        
+        // Add question 2 first
+        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.fillQuestionBox("mcq qn");
+        feedbackEditPage.fillMcqOption(0, "Choice 1");
+        feedbackEditPage.fillMcqOption(1, "Choice 2");
+        feedbackEditPage.clickAddQuestionButton();
+        
+        // Enable edit mode before testing canceling
+        assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
+        
+        feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(2));
+        assertTrue(feedbackEditPage.checkCancelEditQuestionButtonVisibility(2));
+        
+        ______TS("MCQ: click and confirm 'editing question'");
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getCancelQuestionLink(2));
+        assertFalse(feedbackEditPage.checkCancelEditQuestionButtonVisibility(2));
+        
+        // Delete it to reset the status for the following tests
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
+    }
+    
     @SuppressWarnings("unused")
     private void ____MCQ_methods___________________________________() {
     }
@@ -322,17 +358,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
     }
     
-    private void testCancelNewMcqQuestion() {
-        
-        ______TS("MCQ: click and cancel 'cancel new question'");
-        
-        feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelNewQuestionLink());
-        assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
-        
-        ______TS("MCQ: click and confirm 'cancel new question'");
-        feedbackEditPage.clickAndConfirm(feedbackEditPage.getCancelNewQuestionLink());
-        assertFalse(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
-    }
 
     private void testInputValidationForMcqQuestion() {
         feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
@@ -495,18 +520,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickNewQuestionButton();
         assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
     }
-    
-    private void testCancelNewMsqQuestion() {
-        
-        ______TS("MSQ: click and cancel 'cancel new question'");
-        
-        feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelNewQuestionLink());
-        assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
-        
-        ______TS("MSQ: click and confirm 'cancel new question'");
-        feedbackEditPage.clickAndConfirm(feedbackEditPage.getCancelNewQuestionLink());
-        assertFalse(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
-    }
 
     private void testInputValidationForMsqQuestion() {
 
@@ -663,18 +676,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectNewQuestionType("Numerical-scale question");
         feedbackEditPage.clickNewQuestionButton();
         assertTrue(feedbackEditPage.verifyNewNumScaleQuestionFormIsDisplayed());
-    }
-    
-    private void testCancelNewNumScaleQuestion() {
-        
-        ______TS("MSQ: click and cancel 'cancel new question'");
-        
-        feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelNewQuestionLink());
-        assertTrue(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
-        
-        ______TS("MSQ: click and confirm 'cancel new question'");
-        feedbackEditPage.clickAndConfirm(feedbackEditPage.getCancelNewQuestionLink());
-        assertFalse(feedbackEditPage.verifyNewMsqQuestionFormIsDisplayed());
     }
 
     private void testInputValidationForNumScaleQuestion() {

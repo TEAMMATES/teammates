@@ -395,12 +395,18 @@ public class InstructorFeedbackEditPage extends AppPage {
         return browser.driver.findElement(By.xpath("//a[@onclick='deleteQuestion(" + qnIndex + ")']"));
     }
     
-    public WebElement getCancelQuestionLink() {
-        return browser.driver.findElement(By.xpath("//a[@onclick='cancelEdit()]"));
+    public WebElement getCancelQuestionLink(int qnIndex) {
+        return browser.driver.findElement(By.xpath("//a[@onclick='cancelEdit(" + qnIndex + ")']"));
     }
     
-    public WebElement getCancelNewQuestionLink() {
-        return browser.driver.findElement(By.xpath("//a[@onclick='cancelEditNew()]"));
+    public boolean checkCancelEditQuestionButtonVisibility(int qnIndex) {
+        WebElement cancelEditButton = browser.driver.findElement(By.xpath("//a[@onclick='cancelEdit(" + qnIndex + ")']"));
+        
+        if (cancelEditButton.isDisplayed()) {
+            return true;
+        } else {
+            return false;
+        }
     }
     
     public void clickEditSessionButton(){
