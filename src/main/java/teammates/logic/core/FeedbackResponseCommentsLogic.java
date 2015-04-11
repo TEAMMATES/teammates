@@ -67,7 +67,7 @@ public class FeedbackResponseCommentsLogic {
                 }
                 frComment.setId(existingComment.getId());
                 
-                return frcDb.updateFeedbackResponseComment(frComment, true);            
+                return frcDb.addFeedbackResponseComment(frComment);            
             } catch(Exception EntityDoesNotExistException){
                 Assumption.fail();
                 return null;
@@ -112,13 +112,13 @@ public class FeedbackResponseCommentsLogic {
         for(FeedbackResponseCommentAttributes comment : comments){
             comment.giverSection = response.giverSection;
             comment.receiverSection = response.recipientSection;
-            frcDb.updateFeedbackResponseComment(comment, false);
+            frcDb.updateFeedbackResponseComment(comment);
         }
     }
 
     public FeedbackResponseCommentAttributes updateFeedbackResponseComment(
             FeedbackResponseCommentAttributes feedbackResponseComment) throws InvalidParametersException, EntityDoesNotExistException {
-        return frcDb.updateFeedbackResponseComment(feedbackResponseComment, false);    
+        return frcDb.updateFeedbackResponseComment(feedbackResponseComment);    
     }
     
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(String courseId, CommentSendingState state) 

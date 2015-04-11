@@ -12,6 +12,7 @@ import java.util.Set;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.Comment;
@@ -52,8 +53,8 @@ public class CommentAttributes extends EntityAttributes
         this.recipients = recipients;
         this.commentText = commentText;
         this.createdAt = createdAt;
-        this.lastEditorEmail = null;
-        this.lastEditedAt = null;
+        this.lastEditorEmail = giverEmail;
+        this.lastEditedAt = createdAt;
     }
 
     public CommentAttributes(Comment comment) {
@@ -306,5 +307,26 @@ public class CommentAttributes extends EntityAttributes
             return 1;
         }
         return o.createdAt.compareTo(createdAt);
+    }
+
+    private String getEditedAtText(Boolean isGiverAnonymous, String displayGiverAs,
+            String displayTimeAs) {
+        if (this.lastEditedAt != null && (!this.lastEditedAt.equals(this.createdAt))) {
+            return "(last edited " +
+                    (isGiverAnonymous ? "" : "by " + displayGiverAs + " ") +
+                    "at " + displayTimeAs + ")";
+        } else {
+            return "";
+        }
+    }
+
+    public String getEditedAtTextForInstructor(Boolean isGiverAnonymous) {
+        return getEditedAtText(isGiverAnonymous, this.lastEditorEmail,
+                TimeHelper.formatTime(this.lastEditedAt));
+    }
+
+    public String getEditedAtTextForStudent(Boolean isGiverAnonymous, String displayGiverAs) {
+        return getEditedAtText(isGiverAnonymous, displayGiverAs,
+                TimeHelper.formatDate(this.lastEditedAt));
     }
 }

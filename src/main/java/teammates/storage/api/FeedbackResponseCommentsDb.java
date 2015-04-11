@@ -46,7 +46,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         for(EntityAttributes entity : commentsToUpdate){
             FeedbackResponseCommentAttributes comment = (FeedbackResponseCommentAttributes) entity;
             try {
-                updateFeedbackResponseComment(comment, true);
+                addFeedbackResponseComment(comment);
             } catch (EntityDoesNotExistException e) {
              // This situation is not tested as replicating such a situation is 
              // difficult during testing
@@ -285,13 +285,23 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         return resultList;    
     }
     
+    public FeedbackResponseCommentAttributes addFeedbackResponseComment(FeedbackResponseCommentAttributes newAttributes) 
+            throws InvalidParametersException, EntityDoesNotExistException {
+            return addOrUpdateFeedbackResponseComment(newAttributes, true);
+        }
+            
+    public FeedbackResponseCommentAttributes updateFeedbackResponseComment(FeedbackResponseCommentAttributes newAttributes) 
+        throws InvalidParametersException, EntityDoesNotExistException {
+        return addOrUpdateFeedbackResponseComment(newAttributes, false);
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
      * @throws InvalidParametersException 
      * @throws EntityDoesNotExistException 
      */
-    public FeedbackResponseCommentAttributes updateFeedbackResponseComment(FeedbackResponseCommentAttributes newAttributes, Boolean isNewComment) 
+    public FeedbackResponseCommentAttributes addOrUpdateFeedbackResponseComment(FeedbackResponseCommentAttributes newAttributes, Boolean isNewComment) 
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
         

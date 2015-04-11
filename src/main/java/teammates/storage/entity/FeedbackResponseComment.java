@@ -104,8 +104,8 @@ public class FeedbackResponseComment {
         this.showCommentTo = showCommentTo;
         this.showGiverNameTo = showGiverNameTo;
         this.isVisibilityFollowingFeedbackQuestion = Boolean.valueOf(false);
-        this.lastEditorEmail = lastEditorEmail;
-        this.lastEditedAt = lastEditedAt;
+        this.lastEditorEmail = (lastEditorEmail == null) ? giverEmail : lastEditorEmail;
+        this.lastEditedAt = (lastEditedAt == null) ? createdAt : lastEditedAt;
     }
 
     /** Use only if the comment already persisted 

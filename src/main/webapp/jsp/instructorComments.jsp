@@ -302,19 +302,7 @@
                                         <div id="commentBar-<%=commentIdx%>">
                                             
                                             <span class="text-muted">To <%=data.getRecipientNames(comment.recipients)%> on
-                                                <%=TimeHelper.formatTime(comment.createdAt)%>
-                                                <%
-                                                    if (comment.lastEditorEmail != null) {
-                                                %> (last edited 
-                                                <%
-                                                    if (!data.getGiverName(giverEmail).equals("Anonymous")) {
-                                                %> by <%=comment.lastEditorEmail%>
-                                                <%
-                                                    }
-                                                %> at <%=TimeHelper.formatTime(comment.lastEditedAt)%>)
-                                                <%
-                                                    }
-                                                %>
+                                                <%=TimeHelper.formatTime(comment.createdAt)%> <%=comment.getEditedAtTextForInstructor(data.getGiverName(giverEmail).equals("Anonymous"))%>
                                             </span>
                                             <%
                                                if (comment.giverEmail.equals(data.instructorEmail)

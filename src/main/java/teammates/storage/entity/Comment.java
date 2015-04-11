@@ -106,8 +106,8 @@ public class Comment {
         this.showRecipientNameTo = showRecipientNameTo;
         this.createdAt = date;
         this.commentText = comment;
-        this.lastEditorEmail = lastEditorEmail;
-        this.lastEditedAt = lastEditedAt;
+        this.lastEditorEmail = (lastEditorEmail == null) ? giverEmail : lastEditorEmail;
+        this.lastEditedAt = (lastEditedAt == null) ? date : lastEditedAt;
     }
 
     public Long getId() {
