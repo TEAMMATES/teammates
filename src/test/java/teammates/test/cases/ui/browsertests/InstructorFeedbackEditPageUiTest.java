@@ -249,7 +249,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         ______TS("test visibility preview of question 1");
         feedbackEditPage.clickVisibilityPreviewForQuestion1();
-        WebElement visibilityMessage = browser.driver.findElement(By.className("visibilityMessageButton"));
+        WebElement visibilityMessage = browser.driver.findElement(By.id("visibilityMessage-1"));
         feedbackEditPage.waitForElementVisible(visibilityMessage);
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionVisibilityPreview.html");
