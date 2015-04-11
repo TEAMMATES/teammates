@@ -115,7 +115,7 @@ public class FeedbackContributionQuestionUiTest extends BaseUiTestCase{
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionEdit.html");
         
         feedbackEditPage.fillEditQuestionBox("edited contrib qn text", 1);
-        
+        feedbackEditPage.toggleNotSureCheck(1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
 
