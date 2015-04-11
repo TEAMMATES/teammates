@@ -171,3 +171,10 @@ test('roundToThreeDp(num)', function() {
     equal(roundToThreeDp(-1.0011), -1.001, "Four dp negative number rounding 'down' test");    
     
 });
+
+test('sanitizeForJs(string)', function(){
+    equal(sanitizeForJs(""), "", "sanitization for empty string");
+    equal(sanitizeForJs("Will o' Wisp"), "Will o\\' Wisp", "sanitization for single quote");
+    equal(sanitizeForJs("Will o'''''\\\\ Wisp"), "Will o\\'\\'\\'\\'\\'\\\\\\\\ Wisp", "sanitization for single quote and slash \\");
+    
+});

@@ -24,8 +24,8 @@ Here are some documents important for TEAMMATES developers:
   * [**Specification**](https://docs.google.com/document/d/1hjQQHYM3YId0EUSrGnJWG5AeFpDD_G7xg_d--7jg3vU/pub?embedded=true) 
     (short name: **Spec**) : Product specification, written from the developers 
     point of view. The user's point of view is [here](http://teammatesv4.appspot.com/features.html).
-  * The project [**vision, challenges, and principles**](http://teammatesv4.appspot.com/dev/devman.html#project) from a developer's perspective.
-  * Software [**Design**](http://teammatesv4.appspot.com/dev/devman.html#design) - Architecture, APIs, etc.
+  * The project [**vision, challenges, and principles**](/devdocs/overview.md) from a developer's perspective.
+  * Software [**Design**](/devdocs/design.md) - Architecture, APIs, etc.
   * How to [**set up the developer environment**](/devdocs/settingUp.md)- e.g., tools and libraries used.
   * The development [**process**](/devdocs/process.md).
   
@@ -35,7 +35,7 @@ Here are some documents important for TEAMMATES developers:
     : Learning resources for the use of developers (tutorials, cheat sheets etc).
   * [**Decision analysis**](https://docs.google.com/document/pub?id=1o6pNPshCp9S31ymHY0beQ1DVafDa1_k_k7bpxZo5GeU&embedded=true)
     : Analysis of problems encountered, solutions considered, rationale for selection etc.
-  * The [**glossary**](http://teammatesv4.appspot.com/dev/devman.html#glossary) of terms used in the project.
+  * The [**glossary**](/devdocs/glossary.md) of terms used in the project.
   * **Coding standards** for :
     [Java](https://docs.google.com/document/pub?id=1iAESIXM0zSxEa5OY7dFURam_SgLiSMhPQtU0drQagrs&embedded=true), 
     [JSP](http://teammatesv4.appspot.com/dev/jspstyleguide.html), 
