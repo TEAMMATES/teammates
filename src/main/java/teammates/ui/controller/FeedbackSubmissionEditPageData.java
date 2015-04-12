@@ -13,6 +13,7 @@ import teammates.common.util.StringHelper;
 public class FeedbackSubmissionEditPageData extends PageData {
 
     public FeedbackSessionQuestionsBundle bundle = null;
+    public String moderatedQuestion = null;
     public boolean isSessionOpenForSubmission;
     public boolean isPreview;
     public boolean isModeration;
