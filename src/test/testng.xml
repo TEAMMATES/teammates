@@ -56,8 +56,6 @@
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseJoinConfirmationPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseDetailsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorEvalsPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditSessionsUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditQuestionsUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentCommentsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentCourseJoinConfirmationPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentHomePageUiTest" />
@@ -93,12 +91,18 @@
             <class name="teammates.test.cases.ui.browsertests.AdminAccountManagementPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AdminAccountDetailsPageUiTest" />            
             <class name="teammates.test.cases.ui.browsertests.AutomatedSessionRemindersTest" />
+            <class name="teammates.test.cases.ui.browsertests.FeedbackConstSumOptionQuestionUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.FeedbackConstSumRecipientQuestionUiTest" />
             <class name="teammates.test.cases.ui.browsertests.FeedbackContributionQuestionUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.FeedbackMcqQuestionUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.FeedbackMsqQuestionUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.FeedbackNumScaleQuestionUiTest" />
             <class name="teammates.test.cases.ui.browsertests.FeedbackRubricQuestionUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorEvalSubmissionViewPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorEvalSubmissionEditPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorEvalEditPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorEvalResultsPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackResultsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackSubmitPageUiTest" /> 
