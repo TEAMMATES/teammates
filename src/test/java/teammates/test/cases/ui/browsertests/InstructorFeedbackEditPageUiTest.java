@@ -360,8 +360,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     
 
     private void testInputValidationForMcqQuestion() {
-        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
-        feedbackEditPage.clickNewQuestionButton();
         
         ______TS("empty question text");
 
