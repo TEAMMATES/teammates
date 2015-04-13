@@ -43,7 +43,7 @@ public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiT
     public void allTests() throws Exception{
         testEditPage();
         
-        //TODO: move/create other MCQ question related UI tests here.
+        //TODO: move/create other ConstSumRecipient question related UI tests here.
         //i.e. results page, submit page.
     }
     

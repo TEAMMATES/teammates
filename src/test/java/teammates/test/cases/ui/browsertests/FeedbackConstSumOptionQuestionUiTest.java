@@ -43,7 +43,7 @@ public class FeedbackConstSumOptionQuestionUiTest extends FeedbackQuestionUiTest
     public void allTests() throws Exception{
         testEditPage();
         
-        //TODO: move/create other MCQ question related UI tests here.
+        //TODO: move/create other ConstSumOption question related UI tests here.
         //i.e. results page, submit page.
     }
     
