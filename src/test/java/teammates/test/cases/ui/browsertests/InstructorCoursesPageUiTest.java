@@ -45,8 +45,10 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
     
     private static String instructorId;
     
+    CourseAttributes validCourse =  new CourseAttributes(" CCAddUiTest.course1 "," Software Engineering $^&*() ");
+    
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public void classSetup() throws Exception {
         printTestClassHeader();
         
         /* Explanation: These two lines persist the test data on the server. */
@@ -65,6 +67,13 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         /* Explanation: Gets a browser instance to be used for this class. */
         browser = BrowserPool.getBrowser();
+        
+        /* 
+         * Any entity that is created in previous test run must be deleted.
+         * If that previous test run fails, the entity persists and that will
+         * break tests.
+         */
+        BackDoor.deleteCourse(validCourse.id); // delete if it exists
     }
 
 
@@ -209,11 +218,6 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         ______TS("add action success: add course with leading/trailing space in parameters");
         
-        CourseAttributes validCourse =  new CourseAttributes(" CCAddUiTest.course1 "," Software Engineering $^&*() ");
-        /* Before creating an entity, we should delete it (in may have been
-         * created in a previous test run).
-         */
-        BackDoor.deleteCourse(validCourse.id); //delete if it exists
         coursesPage.addCourse(validCourse.id, validCourse.name);
 
         coursesPage.verifyHtmlMainContent("/instructorCoursesAddSuccessful.html");

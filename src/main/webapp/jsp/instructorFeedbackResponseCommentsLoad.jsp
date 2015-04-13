@@ -37,7 +37,7 @@
 %>
 <div class="hidden number-of-pending-comments"><%=data.numberOfPendingComments%></div>
 <%
-	int fsIndx = 0;
+	int fsIndx = data.feedbackSessionIndex-1;
     for (String fsName : data.feedbackResultBundles.keySet()) {//FeedbackSession loop starts
         FeedbackSessionResultsBundle bundle = data.feedbackResultBundles.get(fsName);
         fsIndx++;
@@ -213,6 +213,10 @@
                                     <div class="form-group form-inline">
                                         <div
                                             class="form-group text-muted">
+                                            <p>
+                                                Giver: <%=giverName%><br>
+                                                Recipient: <%=recipientName%>
+                                            </p>
                                             You may change comment's
                                             visibility using the
                                             visibility options on the
@@ -492,6 +496,10 @@
                                     <div class="form-group form-inline">
                                         <div
                                             class="form-group text-muted">
+                                            <p>
+                                                Giver: <%=giverName%><br>
+                                                Recipient: <%=recipientName%>
+                                            </p>
                                             You may change comment's
                                             visibility using the
                                             visibility options on the

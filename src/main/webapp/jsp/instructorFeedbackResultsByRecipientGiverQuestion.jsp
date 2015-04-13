@@ -528,6 +528,10 @@
                                                 <div class="form-group">
                                                     <div class="form-group form-inline">
                                                         <div class="form-group text-muted">
+                                                            <p>
+                                                                Giver: <%=responsesForRecipientFromGiver.getKey()%><br>
+                                                                Recipient: <%=responsesForRecipient.getKey()%>
+                                                            </p>
                                                             You may change comment's visibility using the visibility options on the right hand side.
                                                         </div>
                                                         <a id="frComment-visibility-options-trigger-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>"
@@ -719,6 +723,10 @@
                                                 <div class="form-group">
                                                     <div class="form-group form-inline">
                                                         <div class="form-group text-muted">
+                                                            <p>
+                                                                Giver: <%=responsesForRecipientFromGiver.getKey()%><br>
+                                                                Recipient: <%=responsesForRecipient.getKey()%>
+                                                            </p>
                                                             You may change comment's visibility using the visibility options on the right hand side.
                                                         </div>
                                                         <a id="frComment-visibility-options-trigger-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>"
