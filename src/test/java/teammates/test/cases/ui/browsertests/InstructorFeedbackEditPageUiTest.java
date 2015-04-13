@@ -287,17 +287,17 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
         
         // Enable edit mode before testing canceling
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(2));
+        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
         
-        feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(2));
-        assertTrue(feedbackEditPage.checkCancelEditQuestionButtonVisibility(2));
+        feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(1));
+        assertTrue(feedbackEditPage.checkCancelEditQuestionButtonVisibility(1));
         
         ______TS("MCQ: click and confirm 'editing question'");
-        feedbackEditPage.clickAndConfirm(feedbackEditPage.getCancelQuestionLink(2));
-        assertFalse(feedbackEditPage.checkCancelEditQuestionButtonVisibility(2));
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getCancelQuestionLink(1));
+        assertFalse(feedbackEditPage.checkCancelEditQuestionButtonVisibility(1));
         
         // Delete it to reset the status for the following tests
-        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(2));
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
     }
     
     private void testEditQuestionNumberAction() {
