@@ -1,13 +1,13 @@
-<%@ page import="java.util.List"%><%@ page import="java.util.ArrayList"%>
-<%@ page import="teammates.common.util.TimeHelper"%><%@ page import="teammates.common.util.Const"%>
-<%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.List"%>
+<%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
 <%@ page import="teammates.ui.controller.FeedbackSubmissionEditPageData"%>
 <%@ page import="teammates.ui.controller.FeedbackQuestionSubmissionEditPageData"%>
-<%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
-<%
+<%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%><%
     boolean showSingleQuestion = false;
     FeedbackSubmissionEditPageData data = null;
     FeedbackQuestionSubmissionEditPageData questionData = null;
