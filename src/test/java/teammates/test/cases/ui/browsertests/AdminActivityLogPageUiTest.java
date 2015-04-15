@@ -1,6 +1,5 @@
 package teammates.test.cases.ui.browsertests;
 
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.openqa.selenium.NoSuchElementException;
@@ -51,8 +50,8 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         try {
             String expectedPersonInfo = logPage.getPersonInfoOfFirstEntry();      
             logPage.clickViewActionsButtonOfFirstEntry();
-            String actualPersonInfo = trimHeader(logPage.getFilterBoxString());
-            assertSubstringOfExpectedEquals(expectedPersonInfo, actualPersonInfo);            
+            String actualPersonInfo = logPage.getFilterBoxString();
+            assertEquals(expectedPersonInfo, actualPersonInfo);            
         } catch (NoSuchElementException emptylogs) {
             /*
              * This can happen if this test is run right after the server is started.
@@ -75,15 +74,6 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
     @AfterClass
     public static void classTearDown() throws Exception {
         BrowserPool.release(browser);
-    }
-    
-    private static void assertSubstringOfExpectedEquals(String expected, String actual) {
-        assertTrue(expected.contains(actual));
-    }
-    
-    private static String trimHeader(String str) {
-        String header = "person:";
-        return str.substring(header.length());
     }
     
 }

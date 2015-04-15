@@ -26,7 +26,8 @@ public class AdminActivityLogPage extends AppPage {
         WebElement table = browser.driver.findElement(By.id("logsTable"));
         WebElement tableRow = table.findElements(By.tagName("tr")).get(1);
         WebElement element = tableRow.findElement(By.tagName("small"));
-        return element.getText().trim();
+        WebElement hiddenInput = element.findElement(By.name("filterQuery"));
+        return hiddenInput.getAttribute("value");
     }
     
     public void clickViewActionsButtonOfFirstEntry(){

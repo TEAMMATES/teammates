@@ -91,6 +91,7 @@
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseEditPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AdminAccountManagementPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AdminAccountDetailsPageUiTest" />
+            <class name="teammates.test.cases.ui.browsertests.AdminActivityLogPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.AutomatedSessionRemindersTest" />
             <class name="teammates.test.cases.ui.browsertests.FeedbackConstSumOptionQuestionUiTest" />
             <class name="teammates.test.cases.ui.browsertests.FeedbackConstSumRecipientQuestionUiTest" />
