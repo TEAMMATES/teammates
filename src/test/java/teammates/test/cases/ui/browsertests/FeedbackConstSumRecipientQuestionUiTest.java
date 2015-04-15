@@ -16,7 +16,7 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 
-public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
+public class FeedbackConstSumRecipientQuestionUiTest extends FeedbackQuestionUiTest {
     private static Browser browser;
     private static InstructorFeedbackEditPage feedbackEditPage;
     private static DataBundle testData;
@@ -28,7 +28,7 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
     @BeforeClass
     public void classSetup() throws Exception {
         printTestClassHeader();
-        testData = loadDataBundle("/FeedbackContributionQuestionUiTest.json");
+        testData = loadDataBundle("/FeedbackConstSumRecipientQuestionUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
         
@@ -39,12 +39,11 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
 
     }
     
-    
     @Test
     public void allTests() throws Exception{
         testEditPage();
         
-        //TODO: move/create other Contribution question related UI tests here.
+        //TODO: move/create other ConstSumRecipient question related UI tests here.
         //i.e. results page, submit page.
     }
     
@@ -55,105 +54,82 @@ public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
         testAddQuestionAction();
         testEditQuestionAction();
         testDeleteQuestionAction();
-        testAddContributionQuestionAsSecondQuestion();
     }
-    
-    
 
     public void testNewQuestionFrame() {
-        ______TS("CONTRIB: new question (frame) link");
+        ______TS("CONSTSUM-recipient: new question (frame) link");
 
-        feedbackEditPage.selectNewQuestionType("Team contribution question");
+        feedbackEditPage.selectNewQuestionType("Distribute points (among recipients) question");
         feedbackEditPage.clickNewQuestionButton();
-        assertTrue(feedbackEditPage.verifyNewContributionQuestionFormIsDisplayed());
+        assertTrue(feedbackEditPage.verifyNewConstSumQuestionFormIsDisplayed());
     }
     
     public void testInputValidation() {
         
-        ______TS("empty question text");
-
-        feedbackEditPage.clickAddQuestionButton();
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID, feedbackEditPage.getStatus());
+        ______TS("CONST SUM:input validation");
+        
+        feedbackEditPage.fillQuestionBox("ConstSum-recipient qn");
+        feedbackEditPage.fillConstSumPointsBox("", -1);
+        
+        assertEquals("1", feedbackEditPage.getConstSumPointsBox(-1));
+        assertEquals(false, feedbackEditPage.isElementVisible("constSumOptionTable--1"));
+        
+        feedbackEditPage.getDeleteQuestionLink(-1).click();
+        assertEquals("", feedbackEditPage.getStatus());
+        assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         
     }
-    
 
     public void testCustomizeOptions() {
+        feedbackEditPage.selectNewQuestionType("Distribute points (among recipients) question");
+        feedbackEditPage.clickNewQuestionButton();
+        
+        ______TS("CONST SUM: set points options");
 
-        //no question specific options to test
-        
-        ______TS("CONTRIB: set visibility options");
-        
-        feedbackEditPage.clickVisibilityOptionsForQuestion1();
-        //TODO: click and ensure can see answer for recipients,
-        //giver team members, recipient team members
-        //are always the same. (under visibility options)
+        feedbackEditPage.selectConstSumPointsOptions("per recipient:", -1);
+        feedbackEditPage.fillConstSumPointsBox("100", -1);
         
     }
 
     public void testAddQuestionAction() {
-        ______TS("CONTRIB: add question action success");
+        ______TS("CONST SUM: add question action success");
         
-        feedbackEditPage.fillQuestionBox("contrib qn");
+        feedbackEditPage.fillQuestionBox("const sum qn");
+        feedbackEditPage.selectRecipientsToBeStudents();
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
-        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionAddSuccess.html");
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumRecipientQuestionAddSuccess.html");
     }
 
     public void testEditQuestionAction() {
-        ______TS("CONTRIB: edit question success");
+        ______TS("CONST SUM: edit question success");
 
         assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        feedbackEditPage.fillEditQuestionBox("edited const sum qn text", 1);
+        feedbackEditPage.fillConstSumPointsBox("200", 1);
+        feedbackEditPage.selectConstSumPointsOptions("in total:", 1);
         
-        //Check invalid feedback paths are disabled.
-        //Javascript should hide giver/recipient options that are not STUDENTS to OWN_TEAM_MEMBERS_INCLUDING_SELF
-        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionEdit.html");
-        
-        feedbackEditPage.fillEditQuestionBox("edited contrib qn text", 1);
-        feedbackEditPage.toggleNotSureCheck(1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
 
-        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionEditSuccess.html");
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackConstSumRecipientQuestionEditSuccess.html");
     }
     
     public void testDeleteQuestionAction(){
-        ______TS("CONTRIB: qn delete then cancel");
+        ______TS("CONSTSUM: qn delete then cancel");
 
         feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(1));
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
 
-        ______TS("CONTRIB: qn delete then accept");
+        ______TS("CONSTSUM: qn delete then accept");
 
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));    
     }
     
-    /**
-     * Tests the case when contribution question is added after another question that
-     * has options invalid for contribution questions. This is to prevent invalid options
-     * from being copied over to the contribution question.
-     */
-    private void testAddContributionQuestionAsSecondQuestion(){
-        ______TS("CONTRIB: add as second question");
-
-        feedbackEditPage.selectNewQuestionType("Essay question");
-        feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.fillQuestionBox("q1, essay qn");
-        feedbackEditPage.clickAddQuestionButton();
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
-           
-        feedbackEditPage.selectNewQuestionType("Team contribution question");
-        feedbackEditPage.clickNewQuestionButton();
-        feedbackEditPage.fillQuestionBox("q2, contribution qn");
-        feedbackEditPage.clickAddQuestionButton();
-        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
-        
-    }
-
     @AfterClass
     public static void classTearDown() throws Exception {
         BrowserPool.release(browser);
