@@ -287,7 +287,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAddQuestionButton();
         
         // Enable edit mode before testing canceling
-        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
         
         feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(1));
         assertTrue(feedbackEditPage.checkCancelEditQuestionButtonVisibility(1));

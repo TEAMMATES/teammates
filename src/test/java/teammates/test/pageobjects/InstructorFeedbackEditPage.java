@@ -402,11 +402,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     public boolean checkCancelEditQuestionButtonVisibility(int qnIndex) {
         WebElement cancelEditButton = browser.driver.findElement(By.xpath("//a[@onclick='cancelEdit(" + qnIndex + ")']"));
         
-        if (cancelEditButton.isDisplayed()) {
-            return true;
-        } else {
-            return false;
-        }
+        return cancelEditButton.isDisplayed();
     }
     
     public void clickEditSessionButton(){
