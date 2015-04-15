@@ -51,7 +51,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
             String expectedPersonInfo = logPage.getPersonInfoOfFirstEntry();      
             logPage.clickViewActionsButtonOfFirstEntry();
             String actualPersonInfo = logPage.getFilterBoxString();
-            assertEquals(expectedPersonInfo, actualPersonInfo);            
+            assertEqualsIfQueryStringNotEmpty(expectedPersonInfo, actualPersonInfo);            
         } catch (NoSuchElementException emptylogs) {
             /*
              * This can happen if this test is run right after the server is started.
@@ -74,6 +74,13 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
     @AfterClass
     public static void classTearDown() throws Exception {
         BrowserPool.release(browser);
+    }
+    
+    private void assertEqualsIfQueryStringNotEmpty(String expected, String actual) {
+        String emptyQuery = "person:";
+        if (!expected.equals(emptyQuery)) {
+            assertEquals(expected, actual);
+        }
     }
     
 }
