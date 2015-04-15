@@ -8,19 +8,19 @@
 <%@ page import="teammates.ui.controller.FeedbackQuestionSubmissionEditPageData"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
 <%
-    boolean isQuestion = false;
+    boolean showSingleQuestion = false;
     FeedbackSubmissionEditPageData data = null;
     FeedbackQuestionSubmissionEditPageData questionData = null;
-    if (request.getParameter("isQuestion").equals("true")) {
-        isQuestion = true;
+    if (request.getParameter("showSingleQuestion").equals("true")) {
+        showSingleQuestion = true;
         questionData = (FeedbackQuestionSubmissionEditPageData)request.getAttribute("data");
     } else {
     	data = (FeedbackSubmissionEditPageData)request.getAttribute("data");
     }
-%><%=isQuestion ? "" : "\n"%>    
-    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=isQuestion ? questionData.bundle.feedbackSession.feedbackSessionName : data.bundle.feedbackSession.feedbackSessionName%>"/>
-    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=isQuestion ? questionData.bundle.feedbackSession.courseId : data.bundle.feedbackSession.courseId%>"/>
-<%=isQuestion ? "" : "    "%><% if (isQuestion) { %>    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=questionData.account.googleId%>"><% } else { %><%
+%><%=showSingleQuestion ? "" : "\n"%>    
+    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=showSingleQuestion ? questionData.bundle.feedbackSession.feedbackSessionName : data.bundle.feedbackSession.feedbackSessionName%>"/>
+    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=showSingleQuestion ? questionData.bundle.feedbackSession.courseId : data.bundle.feedbackSession.courseId%>"/>
+<%=showSingleQuestion ? "" : "    "%><% if (showSingleQuestion) { %>    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=questionData.account.googleId%>"><% } else { %><%
         if (data.account.googleId != null) {
     %>
         <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
@@ -31,47 +31,47 @@
         <input type="hidden" name="<%=Const.ParamsNames.STUDENT_EMAIL%>" value="<%=data.account.email%>">
     <%
         }
-    %><% } %><%=isQuestion ? "\n    " : ""%>
-    <div class="well well-plain" <%=isQuestion ? "" : "id=\"course1\""%>><%=isQuestion ? "" : "\n            <div class=\"panel-body\">"%>
-        <%=isQuestion ? "" : "        "%><div class="form-horizontal"<%=isQuestion ? " role=\"form\"" : ""%>><%=isQuestion ? "" : "\n                    <div class=\"panel-heading\">"%>
-            <%=isQuestion ? "" : "            "%><div class="form-group">
-                <%=isQuestion ? "" : "            "%><label class="col-sm-2 control-label">Course ID:</label>
-                <%=isQuestion ? "" : "            "%><div class="col-sm-10">
-                    <%=isQuestion ? "" : "            "%><p class="form-control-static"><%=sanitizeForHtml(isQuestion ? questionData.bundle.feedbackSession.courseId : data.bundle.feedbackSession.courseId)%></p>
-                <%=isQuestion ? "" : "            "%></div>
-            <%=isQuestion ? "" : "            "%></div><%=isQuestion ? "" : " "%>
-            <%=isQuestion ? "" : "            "%><div class="form-group">
-                <%=isQuestion ? "" : "            "%><label class="col-sm-2 control-label">Session<%=isQuestion ? " Name" : ""%>:</label>
-                <%=isQuestion ? "" : "            "%><div class="col-sm-10">
-                    <%=isQuestion ? "" : "            "%><p class="form-control-static"><%=sanitizeForHtml(isQuestion ? questionData.bundle.feedbackSession.feedbackSessionName : data.bundle.feedbackSession.feedbackSessionName)%></p>
-                <%=isQuestion ? "" : "            "%></div>
-            <%=isQuestion ? "" : "            "%></div><%=isQuestion ? "" : "  "%>
-            <%=isQuestion ? "" : "            "%><div class="form-group">
-                <%=isQuestion ? "" : "            "%><label class="col-sm-2 control-label">Opening <%=isQuestion ? "Time" : "time"%>:</label>
-                <%=isQuestion ? "" : "            "%><div class="col-sm-<%=isQuestion ? "2" : "10"%>">
-                    <%=isQuestion ? "" : "            "%><p class="form-control-static"><%=isQuestion ? "\n                        " : ""%><%=TimeHelper.formatTime(isQuestion ? questionData.bundle.feedbackSession.startTime : data.bundle.feedbackSession.startTime)%><%=isQuestion ? "\n                    " : ""%></p>
-                <%=isQuestion ? "" : "            "%></div>
-            <%=isQuestion ? "" : "            "%></div>
-            <%=isQuestion ? "" : "            "%><div class="form-group">
-                <%=isQuestion ? "" : "            "%><label class="col-sm-2 control-label">Closing <%=isQuestion ? "Time" : "time"%>:</label>
-                <%=isQuestion ? "" : "            "%><div class="col-sm-10">
-                    <%=isQuestion ? "" : "            "%><p class="form-control-static"><%=isQuestion ? "\n                        " : ""%><%=TimeHelper.formatTime(isQuestion ? questionData.bundle.feedbackSession.endTime : data.bundle.feedbackSession.endTime)%><%=isQuestion ? "\n                    " : ""%></p>
-                <%=isQuestion ? "" : "            "%></div>
-            <%=isQuestion ? "" : "            "%></div>
-            <%=isQuestion ? "" : "            "%><div class="form-group">
-                <%=isQuestion ? "" : "            "%><label class="col-sm-2 control-label">Instructions:</label>
-                <%=isQuestion ? "" : "            "%><div class="col-sm-10">
-                    <%=isQuestion ? "" : "            "%><p class="form-control-static<%=isQuestion ? "" : " text-preserve-space"%>"><%=sanitizeForHtml(isQuestion ? questionData.bundle.feedbackSession.instructions.getValue() : data.bundle.feedbackSession.instructions.getValue())%></p><%=isQuestion ? "" : "\n                            </div>"%><%=isQuestion ? "" : "\n                        </div> "%>
-                <%=isQuestion ? "" : "    "%></div><%=isQuestion ? "" : " "%>
-            <%=isQuestion ? "" : "    "%></div>
-        <%=isQuestion ? "" : "    "%></div>
-    <%=isQuestion ? "" : "    "%></div><%=isQuestion ? "\n\n    <br>" : ""%>
+    %><% } %><%=showSingleQuestion ? "\n    " : ""%>
+    <div class="well well-plain" <%=showSingleQuestion ? "" : "id=\"course1\""%>><%=showSingleQuestion ? "" : "\n            <div class=\"panel-body\">"%>
+        <%=showSingleQuestion ? "" : "        "%><div class="form-horizontal"<%=showSingleQuestion ? " role=\"form\"" : ""%>><%=showSingleQuestion ? "" : "\n                    <div class=\"panel-heading\">"%>
+            <%=showSingleQuestion ? "" : "            "%><div class="form-group">
+                <%=showSingleQuestion ? "" : "            "%><label class="col-sm-2 control-label">Course ID:</label>
+                <%=showSingleQuestion ? "" : "            "%><div class="col-sm-10">
+                    <%=showSingleQuestion ? "" : "            "%><p class="form-control-static"><%=sanitizeForHtml(showSingleQuestion ? questionData.bundle.feedbackSession.courseId : data.bundle.feedbackSession.courseId)%></p>
+                <%=showSingleQuestion ? "" : "            "%></div>
+            <%=showSingleQuestion ? "" : "            "%></div><%=showSingleQuestion ? "" : " "%>
+            <%=showSingleQuestion ? "" : "            "%><div class="form-group">
+                <%=showSingleQuestion ? "" : "            "%><label class="col-sm-2 control-label">Session<%=showSingleQuestion ? " Name" : ""%>:</label>
+                <%=showSingleQuestion ? "" : "            "%><div class="col-sm-10">
+                    <%=showSingleQuestion ? "" : "            "%><p class="form-control-static"><%=sanitizeForHtml(showSingleQuestion ? questionData.bundle.feedbackSession.feedbackSessionName : data.bundle.feedbackSession.feedbackSessionName)%></p>
+                <%=showSingleQuestion ? "" : "            "%></div>
+            <%=showSingleQuestion ? "" : "            "%></div><%=showSingleQuestion ? "" : "  "%>
+            <%=showSingleQuestion ? "" : "            "%><div class="form-group">
+                <%=showSingleQuestion ? "" : "            "%><label class="col-sm-2 control-label">Opening <%=showSingleQuestion ? "Time" : "time"%>:</label>
+                <%=showSingleQuestion ? "" : "            "%><div class="col-sm-<%=showSingleQuestion ? "2" : "10"%>">
+                    <%=showSingleQuestion ? "" : "            "%><p class="form-control-static"><%=showSingleQuestion ? "\n                        " : ""%><%=TimeHelper.formatTime(showSingleQuestion ? questionData.bundle.feedbackSession.startTime : data.bundle.feedbackSession.startTime)%><%=showSingleQuestion ? "\n                    " : ""%></p>
+                <%=showSingleQuestion ? "" : "            "%></div>
+            <%=showSingleQuestion ? "" : "            "%></div>
+            <%=showSingleQuestion ? "" : "            "%><div class="form-group">
+                <%=showSingleQuestion ? "" : "            "%><label class="col-sm-2 control-label">Closing <%=showSingleQuestion ? "Time" : "time"%>:</label>
+                <%=showSingleQuestion ? "" : "            "%><div class="col-sm-10">
+                    <%=showSingleQuestion ? "" : "            "%><p class="form-control-static"><%=showSingleQuestion ? "\n                        " : ""%><%=TimeHelper.formatTime(showSingleQuestion ? questionData.bundle.feedbackSession.endTime : data.bundle.feedbackSession.endTime)%><%=showSingleQuestion ? "\n                    " : ""%></p>
+                <%=showSingleQuestion ? "" : "            "%></div>
+            <%=showSingleQuestion ? "" : "            "%></div>
+            <%=showSingleQuestion ? "" : "            "%><div class="form-group">
+                <%=showSingleQuestion ? "" : "            "%><label class="col-sm-2 control-label">Instructions:</label>
+                <%=showSingleQuestion ? "" : "            "%><div class="col-sm-10">
+                    <%=showSingleQuestion ? "" : "            "%><p class="form-control-static<%=showSingleQuestion ? "" : " text-preserve-space"%>"><%=sanitizeForHtml(showSingleQuestion ? questionData.bundle.feedbackSession.instructions.getValue() : data.bundle.feedbackSession.instructions.getValue())%></p><%=showSingleQuestion ? "" : "\n                            </div>"%><%=showSingleQuestion ? "" : "\n                        </div> "%>
+                <%=showSingleQuestion ? "" : "    "%></div><%=showSingleQuestion ? "" : " "%>
+            <%=showSingleQuestion ? "" : "    "%></div>
+        <%=showSingleQuestion ? "" : "    "%></div>
+    <%=showSingleQuestion ? "" : "    "%></div><%=showSingleQuestion ? "\n\n    <br>" : ""%>
     <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-    <%=isQuestion ? "<br>\n    <form class=\"form-horizontal\" role=\"form\">" : "<br />\n    "%>
+    <%=showSingleQuestion ? "<br>\n    <form class=\"form-horizontal\" role=\"form\">" : "<br />\n    "%>
 <%
 int qnIndx = 1;
 List<FeedbackQuestionAttributes> questions;
-if (isQuestion) {
+if (showSingleQuestion) {
 	questions = new ArrayList<FeedbackQuestionAttributes>();
     questions.add(questionData.bundle.question);
 } else {
@@ -81,7 +81,7 @@ for (FeedbackQuestionAttributes question : questions) {
     int numOfResponseBoxes = question.numberOfEntitiesToGiveFeedbackTo;
     FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
     int maxResponsesPossible;
-    if (!isQuestion) {
+    if (!showSingleQuestion) {
         maxResponsesPossible = data.bundle.recipientList.get(question.getId()).size();
     } else {
     	maxResponsesPossible = questionData.bundle.recipientList.size();
@@ -95,33 +95,33 @@ for (FeedbackQuestionAttributes question : questions) {
         continue;
     }
 %>
-    <%=isQuestion ? "" : "    "%><input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>-<%=Integer.toString(qnIndx)%>" value="<%=question.questionType%>"/>
-    <%=isQuestion ? "" : "    "%><input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>-<%=Integer.toString(qnIndx)%>" value="<%=question.getId()%>"/>
-    <%=isQuestion ? "" : "    "%><input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL%>-<%=Integer.toString(qnIndx)%>" value="<%=numOfResponseBoxes%>"/>
-    <%=isQuestion ? "" : "    "%><div class="form-horizontal">
-        <%=isQuestion ? "" : "    "%><div class="panel panel-primary">
-            <%=isQuestion ? "" : "    "%><div class="panel-heading">Question <%=isQuestion ? questionData.bundle.question.questionNumber : qnIndx%>:<br/>
-                <%=isQuestion ? "" : "    "%><span class="text-preserve-space"><%=sanitizeForHtml(questionDetails.questionText)%><%=isQuestion ? "" : "</div>"%></span><%=isQuestion ? "\n            </div>" : ""%>
-            <%=isQuestion ? "" : "    "%><div class="panel-body">
-                <%=isQuestion ? "" : "    "%><p class="text-muted">Only the following persons can see your responses: </p>
-                <%=isQuestion ? "" : "    "%><ul class="text-muted">
-                <%=isQuestion ? "" : "    "%><%
+    <%=showSingleQuestion ? "" : "    "%><input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>-<%=Integer.toString(qnIndx)%>" value="<%=question.questionType%>"/>
+    <%=showSingleQuestion ? "" : "    "%><input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>-<%=Integer.toString(qnIndx)%>" value="<%=question.getId()%>"/>
+    <%=showSingleQuestion ? "" : "    "%><input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL%>-<%=Integer.toString(qnIndx)%>" value="<%=numOfResponseBoxes%>"/>
+    <%=showSingleQuestion ? "" : "    "%><div class="form-horizontal">
+        <%=showSingleQuestion ? "" : "    "%><div class="panel panel-primary">
+            <%=showSingleQuestion ? "" : "    "%><div class="panel-heading">Question <%=showSingleQuestion ? questionData.bundle.question.questionNumber : qnIndx%>:<br/>
+                <%=showSingleQuestion ? "" : "    "%><span class="text-preserve-space"><%=sanitizeForHtml(questionDetails.questionText)%><%=showSingleQuestion ? "" : "</div>"%></span><%=showSingleQuestion ? "\n            </div>" : ""%>
+            <%=showSingleQuestion ? "" : "    "%><div class="panel-body">
+                <%=showSingleQuestion ? "" : "    "%><p class="text-muted">Only the following persons can see your responses: </p>
+                <%=showSingleQuestion ? "" : "    "%><ul class="text-muted">
+                <%=showSingleQuestion ? "" : "    "%><%
                         if (question.getVisibilityMessage().isEmpty()) {
                     %>
-                        <%=isQuestion ? "" : "    "%><li class="unordered">No-one but the feedback session creator can see your responses.</li>
+                        <%=showSingleQuestion ? "" : "    "%><li class="unordered">No-one but the feedback session creator can see your responses.</li>
                     <%
                         }
                         for (String line : question.getVisibilityMessage()) {
                     %>
-                        <%=isQuestion ? "" : "    "%><li class="unordered"><%=line%></li>
-                <%=isQuestion ? "" : "    "%><%
+                        <%=showSingleQuestion ? "" : "    "%><li class="unordered"><%=line%></li>
+                <%=showSingleQuestion ? "" : "    "%><%
                         }
                     %>
-                <%=isQuestion ? "" : "    "%></ul>
-    <%=isQuestion ? "" : "    "%><%
+                <%=showSingleQuestion ? "" : "    "%></ul>
+    <%=showSingleQuestion ? "" : "    "%><%
             int responseIndx = 0;
             List<FeedbackResponseAttributes> existingResponses;
-            if (isQuestion) {
+            if (showSingleQuestion) {
             	existingResponses = questionData.bundle.responseList;
             } else {
             	existingResponses = data.bundle.questionResponseBundle.get(question);
@@ -134,9 +134,9 @@ for (FeedbackQuestionAttributes question : questions) {
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
                             <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none;max-width:125px\"" : "style=\"max-width:125px\""%>
-                            <%=((isQuestion && questionData.isSessionOpenForSubmission) || (!isQuestion && data.isSessionOpenForSubmission)) ? "" : "disabled=\"disabled\""%>>
+                            <%=((showSingleQuestion && questionData.isSessionOpenForSubmission) || (!showSingleQuestion && data.isSessionOpenForSubmission)) ? "" : "disabled=\"disabled\""%>>
                         <%
-                            if (isQuestion) {
+                            if (showSingleQuestion) {
                             	for(String opt: questionData.getRecipientOptions(existingResponse.recipientEmail)) {
                                     out.println(opt);
                                 }
@@ -150,7 +150,7 @@ for (FeedbackQuestionAttributes question : questions) {
                     </div>
                     <div <%=(question.isRecipientNameHidden()) ? "class=\"col-sm-12\"" : "class=\"col-sm-10\""%>>
                         <%=questionDetails.getQuestionWithExistingResponseSubmissionFormHtml(
-                        	isQuestion ? questionData.isSessionOpenForSubmission : data.isSessionOpenForSubmission,
+                        	showSingleQuestion ? questionData.isSessionOpenForSubmission : data.isSessionOpenForSubmission,
                             qnIndx, responseIndx, question.courseId,
                             existingResponse.getResponseDetails())%>
                         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>" value="<%=sanitizeForHtml(existingResponse.getId())%>"/>
@@ -162,14 +162,14 @@ for (FeedbackQuestionAttributes question : questions) {
                         while (responseIndx < numOfResponseBoxes) {
         %>
                 <br />
-                <div class="form-group<%=isQuestion ? "" : " margin-0"%>">
+                <div class="form-group<%=showSingleQuestion ? "" : " margin-0"%>">
                     <div class="col-sm-2 form-inline" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right\""%>>
                         <label for="input">To:</label>
-                        <select class="participantSelect middlealign newResponse form-control" <%=isQuestion ? "\n                            " : ""%>name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
+                        <select class="participantSelect middlealign newResponse form-control" <%=showSingleQuestion ? "\n                            " : ""%>name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
                             <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none;max-width:125px\"" : "style=\"max-width:125px\""%>
-                            <%=((isQuestion && questionData.isSessionOpenForSubmission) || (!isQuestion && data.isSessionOpenForSubmission)) ? "" : "disabled=\"disabled\""%>>
+                            <%=((showSingleQuestion && questionData.isSessionOpenForSubmission) || (!showSingleQuestion && data.isSessionOpenForSubmission)) ? "" : "disabled=\"disabled\""%>>
                         <%
-                            if (isQuestion) {
+                            if (showSingleQuestion) {
                             	for(String opt: questionData.getRecipientOptions(null)) {
                                     out.println(opt);
                                 }
@@ -183,15 +183,15 @@ for (FeedbackQuestionAttributes question : questions) {
                     </div>
                     <div <%=(question.isRecipientNameHidden()) ? "class=\"col-sm-12\"" : "class=\"col-sm-10\""%>>
                     <%=questionDetails.getQuestionWithoutExistingResponseSubmissionFormHtml(
-                    		isQuestion ? questionData.isSessionOpenForSubmission : data.isSessionOpenForSubmission,
+                    		showSingleQuestion ? questionData.isSessionOpenForSubmission : data.isSessionOpenForSubmission,
                             qnIndx, responseIndx, question.courseId)%>
                     </div>
                 </div>
-    <%=isQuestion ? "" : "    "%><%
+    <%=showSingleQuestion ? "" : "    "%><%
                 responseIndx++;
             }
-        %><%=isQuestion ? "\n        " : "</div>"%></div>
-        </div><%=isQuestion ? "" : "\n        <br><br>\n"%><%
+        %><%=showSingleQuestion ? "\n        " : "</div>"%></div>
+        </div><%=showSingleQuestion ? "" : "\n        <br><br>\n"%><%
         qnIndx++;
     }
 %>
