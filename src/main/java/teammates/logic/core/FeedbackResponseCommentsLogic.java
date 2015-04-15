@@ -67,7 +67,7 @@ public class FeedbackResponseCommentsLogic {
                 }
                 frComment.setId(existingComment.getId());
                 
-                return frcDb.addFeedbackResponseComment(frComment);            
+                return frcDb.updateFeedbackResponseComment(frComment);            
             } catch(Exception EntityDoesNotExistException){
                 Assumption.fail();
                 return null;

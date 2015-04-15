@@ -46,7 +46,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         for(EntityAttributes entity : commentsToUpdate){
             FeedbackResponseCommentAttributes comment = (FeedbackResponseCommentAttributes) entity;
             try {
-                addFeedbackResponseComment(comment);
+                updateFeedbackResponseComment(comment);
             } catch (EntityDoesNotExistException e) {
              // This situation is not tested as replicating such a situation is 
              // difficult during testing
@@ -285,23 +285,13 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         return resultList;    
     }
     
-    public FeedbackResponseCommentAttributes addFeedbackResponseComment(FeedbackResponseCommentAttributes newAttributes) 
-            throws InvalidParametersException, EntityDoesNotExistException {
-            return addOrUpdateFeedbackResponseComment(newAttributes, true);
-        }
-            
-    public FeedbackResponseCommentAttributes updateFeedbackResponseComment(FeedbackResponseCommentAttributes newAttributes) 
-        throws InvalidParametersException, EntityDoesNotExistException {
-        return addOrUpdateFeedbackResponseComment(newAttributes, false);
-    }
-    
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
      * @throws InvalidParametersException 
      * @throws EntityDoesNotExistException 
      */
-    public FeedbackResponseCommentAttributes addOrUpdateFeedbackResponseComment(FeedbackResponseCommentAttributes newAttributes, Boolean isNewComment) 
+    public FeedbackResponseCommentAttributes updateFeedbackResponseComment(FeedbackResponseCommentAttributes newAttributes) 
             throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
         
@@ -316,12 +306,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
         
-        if (isNewComment) {
-            frc.setGiverEmail(newAttributes.giverEmail);     
-        } else {
-            frc.setLastEditorEmail(newAttributes.giverEmail);
-            frc.setLastEditedAt(newAttributes.createdAt);
-        }
         frc.setCommentText(newAttributes.commentText);
         frc.setSendingState(newAttributes.sendingState);
         frc.setGiverSection(newAttributes.giverSection);
@@ -329,6 +313,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         frc.setShowCommentTo(newAttributes.showCommentTo);
         frc.setShowGiverNameTo(newAttributes.showGiverNameTo);
         frc.setIsVisibilityFollowingFeedbackQuestion(Boolean.valueOf(false));
+        frc.setLastEditorEmail(newAttributes.giverEmail);
+        frc.setLastEditedAt(newAttributes.createdAt);
         
         log.info(newAttributes.getBackupIdentifier());
         getPM().close();
