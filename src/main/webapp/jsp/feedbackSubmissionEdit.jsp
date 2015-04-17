@@ -25,6 +25,7 @@
     <%
     	}
     %>
+    <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
     <div class="well well-plain" id="course1">
             <div class="panel-body">
                 <div class="form-horizontal">
@@ -63,7 +64,6 @@
                 </div>
             </div>
         </div>
-    <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
     <br />
     <%
         if (data.isModeration) {
