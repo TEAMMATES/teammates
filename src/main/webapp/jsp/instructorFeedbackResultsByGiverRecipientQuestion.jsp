@@ -506,7 +506,8 @@
                                             %>
                                         <li class="list-group-item list-group-item-warning" id="responseCommentRow-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
                                             <div id="commentBar-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
-                                            <span class="text-muted">From: <%=comment.giverEmail%> [<%=comment.createdAt%>]</span>
+                                            <span class="text-muted">From: <%=comment.giverEmail%> [<%=comment.createdAt%>] <%=comment.getEditedAtTextForSessionsView(comment.giverEmail.equals("Anonymous"))%>
+                                            </span>
                                             <!-- frComment delete Form -->
                                             <form class="responseCommentDeleteForm pull-right">
                                                 <a href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE%>" type="button" id="commentdelete-<%=responseCommentIndex %>" class="btn btn-default btn-xs icon-button" 
