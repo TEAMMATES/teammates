@@ -125,9 +125,15 @@
                                                                                    if(instructor != null){
                                                                                        giverDisplay = instructor.displayedName + " " + instructor.name;
                                                                                    }
+                                                                                   String lastEditorDisplay = null;
+                                                                                   if (comment.lastEditorEmail != null) {
+                                                                                        InstructorAttributes lastEditor = data.roster.getInstructorForEmail(comment.lastEditorEmail);
+                                                                                        lastEditorDisplay = lastEditor.displayedName + " " + lastEditor.name;
+                                                                                   }
                                         %>
                                         <span class="text-muted">From <b><%=giverDisplay%></b> on
-                                            <%=TimeHelper.formatDate(comment.createdAt)%></span>
+                                            <%=TimeHelper.formatDate(comment.createdAt)%> <%=comment.getEditedAtTextForStudent(giverDisplay.equals("Anonymous"), lastEditorDisplay)%>
+                                        </span>
                                     </div>
                                     <div id="plainCommentText<%=commentIdx%>"><%=comment.commentText.getValue()%></div>
                                 </li>
@@ -216,6 +222,11 @@
                                                                     if (instructor != null) {
                                                                         frCommentGiver = instructor.displayedName + " " + instructor.name;
                                                                     }
+                                                                    String lastEditorDisplay = null;
+                                                                    if (frc.lastEditorEmail != null) {
+                                                                        InstructorAttributes lastEditor = data.roster.getInstructorForEmail(frc.lastEditorEmail);
+                                                                        lastEditorDisplay = lastEditor.displayedName + " " + lastEditor.name;
+                                                                    }
                                                 %>
                                                 <li
                                                     class="list-group-item list-group-item-warning"
@@ -224,7 +235,7 @@
                                                         id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                         <span class="text-muted">From:
                                                             <b><%=frCommentGiver%></b>
-                                                            on <%=TimeHelper.formatDate(frc.createdAt)%>
+                                                            on <%=TimeHelper.formatDate(frc.createdAt)%> <%=frc.getEditedAtTextForStudent(frCommentGiver.equals("Anonymous"), lastEditorDisplay) %>
                                                         </span>
                                                     </div> <!-- frComment Content -->
                                                     <div
