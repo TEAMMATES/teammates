@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 
 public class AdminActivityLogPageData extends PageData {
     
@@ -398,13 +400,19 @@ public class AdminActivityLogPageData extends PageData {
                 isFromDateInQuery = true;                
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
                 Date d = sdf.parse(values[0] + " 00:00");                
-                fromDateValue = d.getTime();
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(d);
+                cal = TimeHelper.convertToUserTimeZone(cal, - Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+                fromDateValue = cal.getTime().getTime();
                 
             } else if (label.equals("to")){
                 isToDateInQuery = true;
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
                 Date d = sdf.parse(values[0] + " 23:59");                
-                toDateValue = d.getTime();
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(d);
+                cal = TimeHelper.convertToUserTimeZone(cal, - Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+                toDateValue = cal.getTime().getTime();       
                 
             } else if (label.equals("request")){
                 isRequestInQuery = true;
