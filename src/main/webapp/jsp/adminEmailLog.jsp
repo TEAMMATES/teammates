@@ -235,7 +235,7 @@
                             
                                 <%
                                   for(EmailLogEntry log : data.logs) {
-                                    if(!data.shouldShowAll && log.getReceiver().contains("tmt")){
+                                    if(!data.shouldShowAll && log.getReceiver().endsWith(".tmt")){
                                        continue;   
                                     }
                                 %>
