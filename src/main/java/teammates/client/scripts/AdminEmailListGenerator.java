@@ -37,6 +37,8 @@ import teammates.common.exception.InvalidParametersException;
  */
 public class AdminEmailListGenerator extends RemoteApiClient {
     
+    private int iterationCounter = 0;
+    
     //handle test data
     public boolean includeTestData = true;
     
@@ -216,7 +218,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
                     instructorEmailSet.add(instructor.getEmail());
                 }
             }
-          
+            updateProgressIndicator();
         }
         
         return instructorEmailSet;
@@ -235,7 +237,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
                     studentEmailSet.add(student.getEmail());
                 }
             }
-          
+            updateProgressIndicator();
         } 
         return studentEmailSet;
     }
@@ -516,7 +518,13 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         return cal.getTime();
         
     }
-
+    
+    private void updateProgressIndicator(){
+        iterationCounter ++;       
+        if(iterationCounter%1000 == 0){           
+            System.out.print("------------------  iterations count:" + iterationCounter + "  ------------------------\n");
+        }
+    }
     
     class EmailListConfig{
         public boolean student = false;
