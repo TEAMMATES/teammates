@@ -646,12 +646,12 @@ Apply to thead to make headers not bold.
 Prevent Long URL From Breaking Out of Container
 */
 .emailLog-text {
-  -ms-word-break: break-all;
+     -ms-word-break: break-all;
      /* Be VERY careful with this, breaks normal words wh_erever */
      word-break: break-all;
      /* Non standard for webkit */
      word-break: break-word;
--webkit-hyphens: auto;
-   -moz-hyphens: auto;
-        hyphens: auto;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
 }
