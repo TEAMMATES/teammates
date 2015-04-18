@@ -16,6 +16,7 @@ public class AdminEmailLogPageData extends PageData {
     public List<EmailLogEntry> logs;
     public List<String> versions;
     
+    public boolean shouldShowAll;
     public String statusForAjax;
     private QueryParameters q;
     
