@@ -379,6 +379,7 @@ public class Const {
         public static final String EVALUATION_TYPE = "evaluationtype";
         
         public static final String FEEDBACK_SESSION_NAME = "fsname";
+        public static final String FEEDBACK_SESSION_INDEX = "fsindex";
         public static final String FEEDBACK_SESSION_CREATOR = "fscreator";
         public static final String FEEDBACK_SESSION_CREATEDATE = "createdate";
         public static final String FEEDBACK_SESSION_CREATETIME = "createtime";

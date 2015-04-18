@@ -220,7 +220,7 @@
                 <% } %>
                 <div class="col-sm-7 pull-right" style="padding-top:8px;">
                     <% if(!showAll){ %>
-                      <div style="display:inline-block;" class="pull-right" data-toggle="tooltip" title="This button is disabled. Since the data is too large, you have to click on each individual panel to load it.">
+                      <div style="display:inline-block;" class="pull-right" data-toggle="tooltip" title="This button is disabled because this session contains more data than we can retrieve at one go. You can still expand one panel at a time by clicking on the panels below.">
                        <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" <%= showAll ? "" : "disabled='disabled'" %>>
                         Expand <%= data.sortType.equals("question") ? "Questions" : "Sections" %>
                     </a>

@@ -8,6 +8,7 @@ import java.util.List;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Sanitizer;
@@ -36,6 +37,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public boolean isVisibilityFollowingFeedbackQuestion = false;
     public Date createdAt;
     public Text commentText;
+    public String lastEditorEmail;
+    public Date lastEditedAt;
 
     public FeedbackResponseCommentAttributes(){
         this.feedbackResponseCommentId = null;
@@ -50,6 +53,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.receiverSection = "None";
         this.showCommentTo = new ArrayList<FeedbackParticipantType>();
         this.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        this.lastEditorEmail = null;
+        this.lastEditedAt = null;
     }
     
     public FeedbackResponseCommentAttributes(String courseId,
@@ -75,6 +80,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.receiverSection = receiverSection;
         this.showCommentTo = new ArrayList<FeedbackParticipantType>();
         this.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        this.lastEditorEmail = giverEmail;
+        this.lastEditedAt = createdAt;
     }
     
     public FeedbackResponseCommentAttributes(FeedbackResponseComment comment) {
@@ -89,6 +96,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
         this.commentText = comment.getCommentText();
         this.giverSection = comment.getGiverSection() != null ? comment.getGiverSection() : "None";
         this.receiverSection = comment.getReceiverSection() != null ? comment.getReceiverSection() : "None";
+        this.lastEditorEmail = comment.getLastEditorEmail() != null ? comment.getLastEditorEmail() : comment.getGiverEmail();
+        this.lastEditedAt = comment.getLastEditedAt() != null ? comment.getLastEditedAt() : comment.getCreatedAt();
         if(comment.getIsVisibilityFollowingFeedbackQuestion() != null
                 && !comment.getIsVisibilityFollowingFeedbackQuestion()){
             this.showCommentTo = comment.getShowCommentTo();
@@ -143,7 +152,8 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
     public FeedbackResponseComment toEntity() {
         return new FeedbackResponseComment(courseId, feedbackSessionName,
                 feedbackQuestionId, giverEmail, feedbackResponseId, sendingState, createdAt,
-                commentText, giverSection, receiverSection, showCommentTo, showGiverNameTo);
+                commentText, giverSection, receiverSection, showCommentTo, showGiverNameTo,
+                lastEditorEmail, lastEditedAt);
     }
 
     @Override
@@ -194,7 +204,9 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
                 + ", giverEmail = " + giverEmail 
                 + ", feedbackResponseId = " + feedbackResponseId
                 + ", commentText = " + commentText.getValue() 
-                + ", createdAt = " + createdAt + "]";
+                + ", createdAt = " + createdAt
+                + ", lastEditorEmail = " + lastEditorEmail
+                + ", lastEditedAt = " + lastEditedAt + "]";
     }
     
     public static void sortFeedbackResponseCommentsByCreationTime(List<FeedbackResponseCommentAttributes> frcs) {
@@ -203,5 +215,31 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes {
                return frc1.createdAt.compareTo(frc2.createdAt);
            }
         });
+    }
+    
+    private String getEditedAtText(Boolean isGiverAnonymous, String displayGiverAs,
+            String displayTimeAs) {
+        if (this.lastEditedAt != null && (!this.lastEditedAt.equals(this.createdAt))) {
+            return "(last edited " +
+                    (isGiverAnonymous ? "" : "by " + displayGiverAs + " ") +
+                    "at " + displayTimeAs + ")";
+        } else {
+            return "";
+        }
+    }
+
+    public String getEditedAtTextForInstructor(Boolean isGiverAnonymous) {
+        return getEditedAtText(isGiverAnonymous, this.lastEditorEmail,
+                TimeHelper.formatTime(this.lastEditedAt));
+    }
+    
+    public String getEditedAtTextForSessionsView(Boolean isGiverAnonymous) {
+        return getEditedAtText(isGiverAnonymous, this.lastEditorEmail,
+                this.lastEditedAt.toString());        
+    }
+
+    public String getEditedAtTextForStudent(Boolean isGiverAnonymous, String displayGiverAs) {
+        return getEditedAtText(isGiverAnonymous, displayGiverAs,
+                TimeHelper.formatDate(this.lastEditedAt));
     }
 }
