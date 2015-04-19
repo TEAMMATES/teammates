@@ -5,14 +5,15 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.FeedbackQuestionBundle;
 
 public class FeedbackQuestionSubmissionEditPageData extends PageData {
     public FeedbackQuestionBundle bundle;
     public boolean isSessionOpenForSubmission;
     
-    public FeedbackQuestionSubmissionEditPageData(AccountAttributes account) {
-        super(account);
+    public FeedbackQuestionSubmissionEditPageData(AccountAttributes account, StudentAttributes student) {
+        super(account, student);
     }
     
     public List<String> getRecipientOptions(String currentlySelectedOption) {
