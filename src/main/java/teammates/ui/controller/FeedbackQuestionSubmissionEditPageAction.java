@@ -28,7 +28,7 @@ public abstract class FeedbackQuestionSubmissionEditPageAction extends Action {
         verifyAccesibleForSpecificUser();
         
         String userEmailForCourse = getUserEmailForCourse();        
-        data = new FeedbackQuestionSubmissionEditPageData(account);
+        data = new FeedbackQuestionSubmissionEditPageData(account, student);
         data.bundle = getDataBundle(userEmailForCourse);
         
         data.isSessionOpenForSubmission = isSessionOpenForSpecificUser(data.bundle.feedbackSession);

@@ -126,7 +126,7 @@
                             <div
                                 id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                 <span class="text-muted">From: <b><%=frCommentGiver%></b>
-                                    [<%=frc.createdAt%>]
+                                    [<%=frc.createdAt%>] <%=frc.getEditedAtTextForSessionsView(frCommentGiver.equals("Anonymous"))%>
                                 </span>
                                 <%
                                     if (isPublicResponseComment && bundle.feedbackSession.isPublished()) {

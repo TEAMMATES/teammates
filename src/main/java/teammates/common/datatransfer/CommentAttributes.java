@@ -12,6 +12,7 @@ import java.util.Set;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.Comment;
@@ -37,6 +38,8 @@ public class CommentAttributes extends EntityAttributes
     public List<CommentRecipientType> showRecipientNameTo;
     public Text commentText;
     public Date createdAt;
+    public String lastEditorEmail;
+    public Date lastEditedAt;
 
     public CommentAttributes() {
 
@@ -50,6 +53,8 @@ public class CommentAttributes extends EntityAttributes
         this.recipients = recipients;
         this.commentText = commentText;
         this.createdAt = createdAt;
+        this.lastEditorEmail = giverEmail;
+        this.lastEditedAt = createdAt;
     }
 
     public CommentAttributes(Comment comment) {
@@ -65,6 +70,8 @@ public class CommentAttributes extends EntityAttributes
         this.recipients = comment.getRecipients();
         this.createdAt = comment.getCreatedAt();
         this.commentText = comment.getCommentText();
+        this.lastEditorEmail = comment.getLastEditorEmail() != null ? comment.getLastEditorEmail() : comment.getGiverEmail();
+        this.lastEditedAt = comment.getLastEditedAt() != null ? comment.getLastEditedAt() : comment.getCreatedAt();
     }
 
     public Long getCommentId() {
@@ -140,7 +147,7 @@ public class CommentAttributes extends EntityAttributes
                 showCommentTo, 
                 showGiverNameTo, 
                 showRecipientNameTo, 
-                commentText, createdAt);
+                commentText, createdAt, lastEditorEmail, lastEditedAt);
     }
     
     public Boolean isVisibleTo(CommentRecipientType targetViewer){
@@ -162,7 +169,9 @@ public class CommentAttributes extends EntityAttributes
                 ", showGiverNameTo = " + showGiverNameTo +
                 ", showRecipientNameTo = " + showRecipientNameTo +
                 ", commentText = " + commentText.getValue() +
-                ", createdAt = " + createdAt + "]";
+                ", createdAt = " + createdAt +
+                ", lastEditorEmail = " + lastEditorEmail +
+                ", lastEditedAt = " + lastEditedAt + "]";
     }
 
     @Override
@@ -298,5 +307,26 @@ public class CommentAttributes extends EntityAttributes
             return 1;
         }
         return o.createdAt.compareTo(createdAt);
+    }
+
+    private String getEditedAtText(Boolean isGiverAnonymous, String displayGiverAs,
+            String displayTimeAs) {
+        if (this.lastEditedAt != null && (!this.lastEditedAt.equals(this.createdAt))) {
+            return "(last edited " +
+                    (isGiverAnonymous ? "" : "by " + displayGiverAs + " ") +
+                    "at " + displayTimeAs + ")";
+        } else {
+            return "";
+        }
+    }
+
+    public String getEditedAtTextForInstructor(Boolean isGiverAnonymous) {
+        return getEditedAtText(isGiverAnonymous, this.lastEditorEmail,
+                TimeHelper.formatTime(this.lastEditedAt));
+    }
+
+    public String getEditedAtTextForStudent(Boolean isGiverAnonymous, String displayGiverAs) {
+        return getEditedAtText(isGiverAnonymous, displayGiverAs,
+                TimeHelper.formatDate(this.lastEditedAt));
     }
 }

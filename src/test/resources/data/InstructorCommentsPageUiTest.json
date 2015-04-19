@@ -489,7 +489,9 @@
             "createdAt":"2016-03-01 11:59 PM UTC",
             "commentText":{
                 "value":"Instructor 1 comment to student 1 self feedback"   
-            }
+            },
+            "lastEditorEmail":"comments.instructor1@course1.tmt",
+            "lastEditedAt":"2016-03-02 11:59 PM UTC"
         },
         "comment1FromT1C1ToR1Q2S1C1": {
             "courseId":"comments.idOfTypicalCourse1",
@@ -584,7 +586,9 @@
             "createdAt":"2012-05-02 08:50 AM UTC",
             "commentText":{
                 "value":"recipient can see this comment without giver's name"
-            }
+            },
+            "lastEditorEmail":"comments.instructor1@course1.tmt",
+            "lastEditedAt":"2012-05-02 08:51 AM UTC"
         },
         "teammatesCanViewThisComment":{
             "courseId":"comments.idOfTypicalCourse1",
@@ -629,7 +633,9 @@
             "createdAt":"2012-05-05 08:53 AM UTC",
             "commentText":{
                 "value":"team can see this comment with giver and recipient's name"
-            }
+            },
+            "lastEditorEmail":"comments.instructor1@course1.tmt",
+            "lastEditedAt":"2012-05-05 08:54 AM UTC"
         },
         "teamCanViewThisCommentWithoutName":{
             "courseId":"comments.idOfTypicalCourse1",
@@ -704,7 +710,9 @@
             "createdAt":"2012-06-02 07:21 PM UTC",
             "commentText":{
                 "value":"Other instructors in this course can see this comment without names"
-            }
+            },
+            "lastEditorEmail":"comments.instructor2@course1.tmt",
+            "lastEditedAt":"2012-06-02 07:22 PM UTC"
         },
         "privateCommentFromHelper":{
             "courseId":"comments.idOfTypicalCourse1",

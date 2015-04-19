@@ -306,7 +306,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
             throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
         }
         
-        frc.setGiverEmail(newAttributes.giverEmail);
         frc.setCommentText(newAttributes.commentText);
         frc.setSendingState(newAttributes.sendingState);
         frc.setGiverSection(newAttributes.giverSection);
@@ -314,6 +313,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         frc.setShowCommentTo(newAttributes.showCommentTo);
         frc.setShowGiverNameTo(newAttributes.showGiverNameTo);
         frc.setIsVisibilityFollowingFeedbackQuestion(Boolean.valueOf(false));
+        frc.setLastEditorEmail(newAttributes.giverEmail);
+        frc.setLastEditedAt(newAttributes.createdAt);
         
         log.info(newAttributes.getBackupIdentifier());
         getPM().close();
