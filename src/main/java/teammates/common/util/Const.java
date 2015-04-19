@@ -234,6 +234,8 @@ public class Const {
         public static final String FEEDBACK_QUESTION_INPUT_INSTRUCTIONS = "Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?";
         public static final String FEEDBACK_QUESTION_EDIT = "Edit this question";
         public static final String FEEDBACK_QUESTION_GETLINK = "Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time.";
+        public static final String FEEDBACK_QUESTION_CANCEL = "Discard your changes";
+        public static final String FEEDBACK_QUESTION_CANCEL_NEW = "Discard new question";
         public static final String FEEDBACK_QUESTION_DELETE = "Delete this question";
         public static final String FEEDBACK_QUESTION_VISBILITY = "Here you can select how each question's response will be visible to the different types of users in your course.";
         public static final String FEEDBACK_QUESTION_NUMSCALE_MAX = "Maximum acceptable response value";
@@ -425,6 +427,7 @@ public class Const {
         public static final String FEEDBACK_QUESTION_NUMBEROFENTITIES = "numofrecipients";
         public static final String FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE = "numofrecipientstype";
         public static final String FEEDBACK_QUESTION_EDITTEXT = "questionedittext";
+        public static final String FEEDBACK_QUESTION_CANCELEDIT = "questioncanceledit";
         public static final String FEEDBACK_QUESTION_EDITTYPE = "questionedittype";
         public static final String FEEDBACK_QUESTION_SAVECHANGESTEXT = "questionsavechangestext";
         public static final String FEEDBACK_QUESTION_GETLINK = "questiongetlink";

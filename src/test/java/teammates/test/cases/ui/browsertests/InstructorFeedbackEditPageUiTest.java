@@ -89,6 +89,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     }
     
     private void testGeneralQuestionOperations() {
+        testCancelNewOrEditQuestion();
+        
         testNewQuestionLink();
         testInputValidationForQuestion();
         testAddQuestionAction();
@@ -117,14 +119,14 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
     }
 
-    private void testEditSessionLink(){
+    private void testEditSessionLink() {
         ______TS("edit session link");
         feedbackEditPage.clickEditSessionButton();
         assertTrue(feedbackEditPage.verifyEditSessionBoxIsEnabled());
         
     }
 
-    private void testEditSessionAction() throws Exception{
+    private void testEditSessionAction() throws Exception {
 
         ______TS("typical success case");
 
@@ -259,6 +261,45 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage = getFeedbackEditPage();
     }
 
+    private void testCancelNewOrEditQuestion() {
+        ______TS("Testing cancelling adding or editing questions");
+        
+        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
+        feedbackEditPage.clickNewQuestionButton();
+        
+        ______TS("MCQ: click and cancel 'cancel new question'");
+        
+        feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(-1));
+        assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
+        
+        ______TS("MCQ: click and confirm 'cancel new question'");
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getCancelQuestionLink(-1));
+        assertFalse(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
+        
+        ______TS("MCQ: click and cancel 'editing question'");
+        
+        // Add question 2 first
+        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.fillQuestionBox("mcq qn");
+        feedbackEditPage.fillMcqOption(0, "Choice 1");
+        feedbackEditPage.fillMcqOption(1, "Choice 2");
+        feedbackEditPage.clickAddQuestionButton();
+        
+        // Enable edit mode before testing canceling
+        assertTrue(feedbackEditPage.clickEditQuestionButton(1));
+        
+        feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(1));
+        assertTrue(feedbackEditPage.checkCancelEditQuestionButtonVisibility(1));
+        
+        ______TS("MCQ: click and confirm 'editing question'");
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getCancelQuestionLink(1));
+        assertFalse(feedbackEditPage.checkCancelEditQuestionButtonVisibility(1));
+        
+        // Delete it to reset the status for the following tests
+        feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
+    }
+    
     private void testEditQuestionNumberAction() {
         ______TS("edit question number success");
 
