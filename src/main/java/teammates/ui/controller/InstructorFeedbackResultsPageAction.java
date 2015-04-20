@@ -138,9 +138,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
                     "Feedback session " + feedbackSessionName + " does not exist in " + courseId + ".");
         }
         
-        //Warning for section wise viewing in case of many responses.
-        if(data.selectedSection.equals(ALL_SECTION_OPTION) && data.bundle.isComplete==false)
-        {
+        // Warning for section wise viewing in case of many responses.
+        if (data.selectedSection.equals(ALL_SECTION_OPTION) && data.bundle.isComplete == false) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING);
         }
         
