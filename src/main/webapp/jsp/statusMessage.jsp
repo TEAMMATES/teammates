@@ -3,8 +3,6 @@
 
 <%
     boolean isError = Boolean.parseBoolean((String)request.getAttribute(Const.ParamsNames.ERROR));
-%>
-<%
     String statusMessage = (String)request.getAttribute(Const.ParamsNames.STATUS_MESSAGE);
 %>
 <%
@@ -23,7 +21,7 @@
         </div>
         
         <script type="text/javascript">
-            document.getElementById( 'statusMessage' ).scrollIntoView();
+            document.getElementById('statusMessage').scrollIntoView();
         </script>
 <%    
     } else { 
