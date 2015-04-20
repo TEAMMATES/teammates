@@ -21,7 +21,7 @@
         </div>
         
         <script type="text/javascript">
-            document.getElementById('statusMessage').scrollIntoView();
+            document.getElementById( 'statusMessage' ).scrollIntoView();
         </script>
 <%    
     } else { 
