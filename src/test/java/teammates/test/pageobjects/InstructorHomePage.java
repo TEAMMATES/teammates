@@ -271,6 +271,7 @@ public class InstructorHomePage extends AppPage {
     public void submitRemindParticularUsersForm() {
         WebElement remindModal = browser.driver.findElement(By.id("remindModal"));
         remindModal.findElement(By.name("form_remind_list")).submit();
+        waitForPageToLoad();
     }
     
     public WebElement getPublishLink(String courseId, String evalName){

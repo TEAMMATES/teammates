@@ -318,7 +318,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickRemindParticularUsersLink(feedbackSession_OPEN.courseId, feedbackSession_OPEN.feedbackSessionName);
         homePage.fillRemindParticularUsersForm();
         homePage.submitRemindParticularUsersForm();
-        ThreadHelper.waitFor(1000);
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
         homePage.goToPreviousPage(InstructorHomePage.class);
         

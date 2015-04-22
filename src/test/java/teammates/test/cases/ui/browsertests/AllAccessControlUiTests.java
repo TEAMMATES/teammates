@@ -35,7 +35,7 @@ import teammates.test.util.Priority;
  * We do not test all access control at UI level. This class contains a few
  * representative tests only. Access control is tested fully at 'Action' level.
  */
-@Priority(6)
+@Priority(-6)
 public class AllAccessControlUiTests extends BaseUiTestCase {
     
     private static String unregUsername = TestProperties.inst().TEST_UNREG_ACCOUNT;
