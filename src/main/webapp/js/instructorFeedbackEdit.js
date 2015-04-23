@@ -2,7 +2,7 @@
 /**
  * This function is called on edit page load.
  */
-function readyFeedbackEditPage(){
+function readyFeedbackEditPage() {
     // Disable all questions
     disableAllQuestions();
 
