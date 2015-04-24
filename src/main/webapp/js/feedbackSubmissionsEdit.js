@@ -14,7 +14,7 @@ $(document).ready(function () {
         var validationStatus = true;
         validationStatus &= validateConstSumQuestions();
         validationStatus &= validateAllAnswersHaveRecipient();
-        if(!validationStatus) {
+        if (!validationStatus) {
             return false;
         }
         
@@ -89,12 +89,12 @@ function prepareContribQuestions() {
 
     // Get index of contribution questions
     var contribQuestionNums = getQuestionTypeNumbers("CONTRIB");
-    for(var i=0 ; i<contribQuestionNums.length ; i++){
+    for (var i = 0; i < contribQuestionNums.length; i++){
         var qnNum = contribQuestionNums[i];
         
         // Get number of options for the specified question number of contribution question type
         var optionNums = $("[name^='responsetext-" + qnNum + "']").length;
-        for(var k=0; k<optionNums; k++){
+        for(var k = 0; k < optionNums; k++) {
 
             var dropdown = $("[name='responsetext-" + qnNum + "-" + k + "']");
 
@@ -104,7 +104,14 @@ function prepareContribQuestions() {
                 $(this).removeClass("color-positive");
                 $(this).removeClass("color-negative");
                 $(this).addClass(this.options[this.selectedIndex].className);
-            });            
+            });
+            
+            // TODO: Example of how to update upon loading, might want to refactor the whole thing to make it clearer
+            // quite confusing right now.
+            dropdown.removeClass("color_neutral");
+            dropdown.removeClass("color-positive");
+            dropdown.removeClass("color-negative");
+            dropdown.addClass(dropdown[0].options[dropdown[0].selectedIndex].className);
         }
     }
 }
