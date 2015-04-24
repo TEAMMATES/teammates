@@ -672,9 +672,14 @@
                     </span>
                 </td>
                 <td
-                    class="session-response-for-test<%if (!TimeHelper.isOlderThanAYear(edd.endTime)) {
-                        out.print(" recent");
-                    }%>">
+                    class="session-response-for-test
+                        <%
+                            if (!TimeHelper.isOlderThanAYear(edd.endTime)) {
+                                out.print(" recent");
+                            }
+                        %>
+                    "
+                >
                     <a oncontextmenu="return false;"
                     href="<%=data.getEvaluationStatsLink(edd.courseId,
                             edd.name)%>">Show</a>

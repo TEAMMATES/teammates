@@ -892,7 +892,8 @@ public class PageData {
             "data-toggle=\"modal\"" +
             "data-target=\"#fsCopyModal\"" +
             "data-placement=\"top\"" +
-            "id=\"button_fscopy\"" + ">Copy</a> "
+            "id=\"button_fscopy" + session.feedbackSessionName + "\"" +
+            ">Copy</a> "
         );
         
         // Don't need to show any other links if private
