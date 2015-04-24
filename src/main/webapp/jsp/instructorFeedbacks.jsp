@@ -671,7 +671,7 @@
                         <%=InstructorFeedbacksPageData.getInstructorStatusForEval(edd)%>
                     </span>
                 </td>
-                <td>
+                <td
                     class="session-response-for-test<%if (!TimeHelper.isOlderThanAYear(edd.endTime)) {
                         out.print(" recent");
                     }%>">
