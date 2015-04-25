@@ -268,7 +268,7 @@ public class AdminSearchPageAction extends Action {
           
             if(instructor.googleId != null){
                googleId = instructor.googleId;
-               if(instructor.isAllowedForPrivilege(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)){            
+               if(instructor.role.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)){            
                    break;
                } 
             }            
