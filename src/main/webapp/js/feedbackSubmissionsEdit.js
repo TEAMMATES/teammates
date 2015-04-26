@@ -93,7 +93,10 @@ function prepareContribQuestions() {
         for (var k = 0; k < optionNums; k++) {
 
             var dropdown = $("[name='responsetext-" + qnNum + "-" + k + "']");
-
+            
+            // Set initial color
+            dropdown.addClass(dropdown[0].options[dropdown[0].selectedIndex].className);
+            
             // Bind on change event
             dropdown.on("change", function() {
                 $(this).removeClass("color_neutral");
@@ -101,13 +104,6 @@ function prepareContribQuestions() {
                 $(this).removeClass("color-negative");
                 $(this).addClass(this.options[this.selectedIndex].className);
             });
-            
-            // TODO: Example of how to update upon loading, might want to refactor the whole thing to make it clearer
-            // quite confusing right now.
-            dropdown.removeClass("color_neutral");
-            dropdown.removeClass("color-positive");
-            dropdown.removeClass("color-negative");
-            dropdown.addClass(dropdown[0].options[dropdown[0].selectedIndex].className);
         }
     }
 }
