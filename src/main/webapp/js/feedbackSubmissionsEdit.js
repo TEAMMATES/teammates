@@ -281,13 +281,48 @@ function updateConstSumMessageQn(qnNum){
     if(pointsPerOption){
         points *= numOptions;
     }
+    
+    function checkAndDisplayMessage(messageElement, allNotNumbers, remainingPoints, forceUnevenDistribution, allUnique) {
+        if (allNotNumbers) {
+            message = "Please distribute " + points + " points among the above " + (distributeToRecipients? "recipients." : "options.");
+            $(messageElement).addClass("text-color-blue");
+            $(messageElement).removeClass("text-color-red");
+            $(messageElement).removeClass("text-color-green");
+        } else if(remainingPoints === 0) {
+            if (!forceUnevenDistribution || allUnique) {
+                message = "All points distributed!";
+                $(messageElement).addClass("text-color-green");
+                $(messageElement).removeClass("text-color-red");
+                $(messageElement).removeClass("text-color-blue");
+            }
+        } else if (remainingPoints > 0) {
+            message = remainingPoints + " points left to distribute.";
+            $(messageElement).addClass("text-color-red");
+            $(messageElement).removeClass("text-color-green");
+            $(messageElement).removeClass("text-color-blue");
+        } else {
+            message = "Over allocated " + (-remainingPoints) + " points.";
+            $(messageElement).addClass("text-color-red");
+            $(messageElement).removeClass("text-color-green");
+            $(messageElement).removeClass("text-color-blue");
+        }
+        
+        if (!allNotNumbers && forceUnevenDistribution && !allUnique) {
+            message += " The same amount of points should not be given multiple times.";
+            $(messageElement).addClass("text-color-red");
+            $(messageElement).removeClass("text-color-green");
+        } 
+        
+        $(messageElement).text(message);
+    }
 
-    if(distributeToRecipients){
-        var messageElement = $("#constSumMessage-"+qnNum+"-"+(numOptions-1));
+    if (distributeToRecipients) {
+        var constSumMessageElement = $("#constSumMessage-"+qnNum+"-"+(numOptions-1));
         var sum = 0;
         var allNotNumbers = true;
         var answerSet = {};
         var allUnique = true;
+        
         for(var i=0 ; i<numOptions ; i++){
             var p = parseInt($("#"+FEEDBACK_RESPONSE_TEXT+"-"+qnNum+"-"+i+"-0").val());
             if(!isNumber(p)) {
@@ -301,44 +336,19 @@ function updateConstSumMessageQn(qnNum){
             }
             answerSet[p] = true;
         }
+        
         var remainingPoints = points - sum;
         var message = "";
-        if(allNotNumbers){
-            message = "Please distribute " + points + " points among the above " + (distributeToRecipients? "recipients." : "options.");
-            $(messageElement).addClass("text-color-blue");
-            $(messageElement).removeClass("text-color-red");
-            $(messageElement).removeClass("text-color-green");
-        } else if(remainingPoints === 0){
-            if (!forceUnevenDistribution || allUnique) {
-                message = "All points distributed!";
-                $(messageElement).addClass("text-color-green");
-                $(messageElement).removeClass("text-color-red");
-                $(messageElement).removeClass("text-color-blue");
-            }
-        } else if(remainingPoints > 0){
-            message = remainingPoints + " points left to distribute.";
-            $(messageElement).addClass("text-color-red");
-            $(messageElement).removeClass("text-color-green");
-            $(messageElement).removeClass("text-color-blue");
-        } else {
-            message = "Over allocated " + (-remainingPoints) + " points.";
-            $(messageElement).addClass("text-color-red");
-            $(messageElement).removeClass("text-color-green");
-            $(messageElement).removeClass("text-color-blue");
-        }
-        if (!allNotNumbers && forceUnevenDistribution && !allUnique) {
-            message += " The same amount of points should not given multiple times.";
-            $(messageElement).addClass("text-color-red");
-            $(messageElement).removeClass("text-color-green");
-        } 
-        $(messageElement).text(message);
+        
+        checkAndDisplayMessage(constSumMessageElement, allNotNumbers, remainingPoints, forceUnevenDistribution, allUnique);
     } else {
         for(var j=0 ; j<numRecipients ; j++){
-            var messageElement = $("#constSumMessage-"+qnNum+"-"+j);
+            var constSumMessageElement = $("#constSumMessage-"+qnNum+"-"+j);
             var sum = 0;
             var allNotNumbers = true;
             var answerSet = {};
             var allUnique = true;
+            
             for(var i=0 ; i<numOptions ; i++){
                 var p = parseInt($("#"+FEEDBACK_RESPONSE_TEXT+"-"+qnNum+"-"+j+"-"+i).val());
                 if(!isNumber(p)) {
@@ -352,36 +362,11 @@ function updateConstSumMessageQn(qnNum){
                 }
                 answerSet[p] = true;
             }
+            
             var remainingPoints = points - sum;
             var message = "";
-            if(allNotNumbers){
-                message = "Please distribute " + points + " points among the above " + (distributeToRecipients? "recipients." : "options.");
-                $(messageElement).addClass("text-color-blue");
-                $(messageElement).removeClass("text-color-red");
-                $(messageElement).removeClass("text-color-green");
-            } else if(remainingPoints === 0){
-                if (!forceUnevenDistribution || allUnique) {
-                    message = "All points distributed!";
-                    $(messageElement).addClass("text-color-green");
-                    $(messageElement).removeClass("text-color-red");
-                }
-            } else if(remainingPoints > 0){
-                message = remainingPoints + " points left to distribute.";
-                $(messageElement).addClass("text-color-red");
-                $(messageElement).removeClass("text-color-green");
-                $(messageElement).removeClass("text-color-blue");
-            } else {
-                message = "Over allocated " + (-remainingPoints) + " points.";
-                $(messageElement).addClass("text-color-red");
-                $(messageElement).removeClass("text-color-green");
-                $(messageElement).removeClass("text-color-blue");
-            }
-            if (!allNotNumbers && forceUnevenDistribution && !allUnique) {
-                message += " The same amount of points should not be given multiple times.";
-                $(messageElement).addClass("text-color-red");
-                $(messageElement).removeClass("text-color-green");
-            }
-            $(messageElement).text(message);
+            
+            checkAndDisplayMessage(constSumMessageElement, allNotNumbers, remainingPoints, forceUnevenDistribution, allUnique);
         }
     }
     
