@@ -324,30 +324,29 @@ function updateConstSumMessageQn(qnNum) {
         messageElement.text(message);
     }
     
-    // TODO: Change function name and find out what p is about and find a better variable name
-    function update(p) {
-        if (!isNumber(p)) {
-            p = 0;
+    function updateSumBasedOn(pointsAllocated) {
+        if (!isNumber(pointsAllocated)) {
+            pointsAllocated = 0;
         } else {
             allNotNumbers = false;
         }
         
-        sum += p;
+        sum += pointsAllocated;
         
-        if (p in answerSet) {
+        if (pointsAllocated in answerSet) {
             allUnique = false;
         }
         
-        answerSet[p] = true;
+        answerSet[pointsAllocated] = true;
     }
 
     if (distributeToRecipients) {
         var $constSumMessageElement = $("#constSumMessage-" + qnNum + "-" + (numOptions - 1));
         
         for (var i = 0; i < numOptions; i++) {
-            var p = parseInt($("#" + FEEDBACK_RESPONSE_TEXT + "-" + qnNum + "-" + i + "-0").val());
+            var pointsAllocated = parseInt($("#" + FEEDBACK_RESPONSE_TEXT + "-" + qnNum + "-" + i + "-0").val());
             
-            update(p);
+            updateSumBasedOn(pointsAllocated);
         }
         
         remainingPoints = points - sum;
@@ -358,9 +357,9 @@ function updateConstSumMessageQn(qnNum) {
             var $constSumMessageElement = $("#constSumMessage-" + qnNum + "-" + j);
             
             for (var i = 0; i < numOptions; i++) {
-                var p = parseInt($("#" + FEEDBACK_RESPONSE_TEXT + "-" + qnNum + "-" + j + "-" + i).val());
+                var pointsAllocated = parseInt($("#" + FEEDBACK_RESPONSE_TEXT + "-" + qnNum + "-" + j + "-" + i).val());
                 
-                update(p);
+                updateSumBasedOn(pointsAllocated);
             }
             
             remainingPoints = points - sum;
