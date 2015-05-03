@@ -189,7 +189,7 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
     }
     
     private void getPageData(String userEmailForCourse) throws EntityDoesNotExistException{
-        data = new FeedbackQuestionSubmissionEditPageData(account);
+        data = new FeedbackQuestionSubmissionEditPageData(account, student);
         data.bundle = getDataBundle(userEmailForCourse);
     }
 

@@ -145,13 +145,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
-            AccountAttributes currentUser,
+            PageData pageData,
             FeedbackSessionResultsBundle bundle,
             String view) {
         if(view.equals("question")){//for instructor, only question view has stats.
             return getQuestionResultsStatisticsHtmlQuestionView(responses, question, bundle);
         } else if(view.equals("student")){//Student view of stats.
-            return getQuestionResultStatisticsHtmlStudentView(responses, question, currentUser, bundle);
+            return getQuestionResultStatisticsHtmlStudentView(responses, question, pageData, bundle);
         } else {
             return "";
         }
@@ -159,15 +159,15 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
     private String getQuestionResultStatisticsHtmlStudentView(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
-            AccountAttributes currentUser,
+            PageData pageData,
             FeedbackSessionResultsBundle bundle) {
     
         if(responses.size() == 0 ){
             return "";
         }
     
-        String currentUserEmail = currentUser.email;
-        String currentUserTeam = bundle.emailTeamNameTable.get(currentUser.email);
+        String currentUserEmail = pageData.student.email;
+        String currentUserTeam = bundle.emailTeamNameTable.get(pageData.student.email);
         
         responses = getActualResponses(question, bundle);
 

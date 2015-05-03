@@ -26,7 +26,7 @@ public class StudentFeedbackResultsPageAction extends Action {
                 getCurrentStudent(courseId), 
                 logic.getFeedbackSession(feedbackSessionName, courseId));
         
-        StudentFeedbackResultsPageData data = new StudentFeedbackResultsPageData(account);
+        StudentFeedbackResultsPageData data = new StudentFeedbackResultsPageData(account, student);
         
         data.student = getCurrentStudent(courseId);
         data.bundle = logic.getFeedbackSessionResultsForStudent(feedbackSessionName, courseId, data.student.email);

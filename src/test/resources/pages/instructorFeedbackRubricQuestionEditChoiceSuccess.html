@@ -474,6 +474,9 @@
                             <a data-original-title="Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time." class="btn btn-primary btn-xs" id="questiongetlink-1" data-toggle="tooltip" data-placement="top" title="" onclick="getQuestionLink(1)">Get Link</a>
                             <a data-original-title="Edit this question" class="btn btn-primary btn-xs" id="questionedittext-1" data-toggle="tooltip" data-placement="top" title="" onclick="enableEdit(1,1)">Edit</a>
                             <a class="btn btn-primary btn-xs" style="display:none" id="questionsavechangestext-1">Save Changes</a>
+                            <a class="btn btn-primary btn-xs" data-original-title="Discard your changes" data-placement="top" data-toggle="tooltip" id="questioncanceledit-1" onclick="cancelEdit(1)" style="display:none" title="">
+                                Cancel
+                            </a>
                             <a data-original-title="Delete this question" class="btn btn-primary btn-xs" onclick="deleteQuestion(1)" data-toggle="tooltip" data-placement="top" title="">Delete</a>
                         </span>
                     </div>
@@ -812,6 +815,9 @@
                     &nbsp;
                     <span id="questionTypeHeader"></span>
                     <span class="pull-right">
+                        <a class="btn btn-primary btn-xs" data-original-title="Discard new question" data-placement="top" data-toggle="tooltip" onclick="cancelEdit(-1)" title="">
+                            Cancel
+                        </a>
                         <a data-original-title="Delete this question" class="btn btn-primary btn-xs" onclick="deleteQuestion(-1)" data-toggle="tooltip" data-placement="top" title="">Delete
                         </a>
                     </span>
