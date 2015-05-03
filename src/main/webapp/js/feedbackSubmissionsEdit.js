@@ -354,6 +354,12 @@ function updateConstSumMessageQn(qnNum) {
         checkAndDisplayMessage($constSumMessageElement);
     } else {
         for (var j = 0; j < numRecipients; j++) {
+            sum = 0;
+            allNotNumbers = true;
+            answerSet = {};
+            allUnique = true;
+            remainingPoints = points;
+            
             var $constSumMessageElement = $("#constSumMessage-" + qnNum + "-" + j);
             
             for (var i = 0; i < numOptions; i++) {
