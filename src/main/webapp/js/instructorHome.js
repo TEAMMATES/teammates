@@ -7,16 +7,16 @@ $(document).ready(function() {
             var fsname = button.data('fsname');
             
             $.ajax({
-                type : 'GET',
-                url : actionlink,
-                beforeSend : function() {
+                type: 'GET',
+                url: actionlink,
+                beforeSend: function() {
                     $('#courseList').html("<img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
                 },
-                error : function() {
+                error: function() {
                     $('#courseList').html('Error retrieving course list.' + 
                         'Please close the dialog window and try again.');
                 },
-                success : function(data) {
+                success: function(data) {
                     var htmlToAppend = "";
                     var coursesTable = data.courses;
                     
@@ -26,7 +26,7 @@ $(document).ready(function() {
                     fsname + 
                     "\"></div>";
                     
-                    for (var i = 0 ; i < coursesTable.length; i++) {
+                    for (var i = 0; i < coursesTable.length; i++) {
                         htmlToAppend += "<div class=\"checkbox\">";
                         htmlToAppend += "<label><input type=\"checkbox\" name=\"copiedcoursesid\"";
                         if (String(coursesTable[i].id) === courseid) {
@@ -41,7 +41,6 @@ $(document).ready(function() {
                     htmlToAppend += "<input type=\"hidden\" name=\"fsname\" value=\"" + fsname + "\">";
                     
                     $('#courseList').html(htmlToAppend);
-                    
                 }
             });
         });
@@ -49,7 +48,7 @@ $(document).ready(function() {
 
     setupFsCopyModal();
     
-    //Click event binding for radio buttons
+    // Click event binding for radio buttons
     var radiobuttons = $("label[name='sortby']");
     
     $.each(radiobuttons, function() {
@@ -59,17 +58,17 @@ $(document).ready(function() {
             var params = {};
             
             var param_values = query.split("&");
-            for(var i=0;i<param_values.length;i++){
+            for (var i = 0; i < param_values.length; i++) {
                 var param_value = param_values[i].split("=");
                 params[param_value[0]] = param_value[1];
             }
 
-            if ("user" in params == false) {
+            if ("user" in params === false) {
                 params["user"] = $("input[name='user']").val();
             }
 
-            console.log(currentPath+"?user="+params["user"])+"&sortby="+$(this).attr("data");
-            window.location.href = currentPath+"?user="+params["user"]+"&sortby="+$(this).attr("data");
+            console.log(currentPath + "?user=" + params["user"]) + "&sortby=" + $(this).attr("data");
+            window.location.href = currentPath + "?user=" + params["user"] + "&sortby=" + $(this).attr("data");
         });
     });
 });

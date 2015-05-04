@@ -221,16 +221,16 @@ function setupFsCopyModal() {
         var fsname = button.data('fsname');
         
         $.ajax({
-            type : 'GET',
-            url : actionlink,
-            beforeSend : function() {
+            type: 'GET',
+            url: actionlink,
+            beforeSend: function() {
                 $('#courseList').html("<img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
             },
-            error : function() {
+            error: function() {
                 $('#courseList').html('Error retrieving course list.' + 
                     'Please close the dialog window and try again.');
             },
-            success : function(data) {
+            success: function(data) {
                 var htmlToAppend = "";
                 var coursesTable = data.courses;
                 
@@ -240,7 +240,7 @@ function setupFsCopyModal() {
                 fsname + 
                 "\"></div>";
                 
-                for (var i = 0 ; i < coursesTable.length; i++) {
+                for (var i = 0; i < coursesTable.length; i++) {
                     htmlToAppend += "<div class=\"checkbox\">";
                     htmlToAppend += "<label><input type=\"checkbox\" name=\"copiedcoursesid\"";
                     if (String(coursesTable[i].id) === courseid) {
@@ -255,7 +255,6 @@ function setupFsCopyModal() {
                 htmlToAppend += "<input type=\"hidden\" name=\"fsname\" value=\"" + fsname + "\">";
                 
                 $('#courseList').html(htmlToAppend);
-                
             }
         });
     });
@@ -318,7 +317,7 @@ function showUncommonPanels(){
 }
 
 function hideUncommonPanels(){
-    //Hide panels only if they match the default values.
+    // Hide panels only if they match the default values.
     if(isDefaultSetting()){
         $('#sessionResponsesVisiblePanel').hide();
         $('#sendEmailsForPanel').hide();
