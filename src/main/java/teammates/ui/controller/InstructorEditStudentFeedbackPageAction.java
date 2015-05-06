@@ -22,6 +22,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String moderatedStudentEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT);
+        String moderatedQuestionNumber = getRequestParamValue("moderatedquestion");
 
         Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
                                                Const.ParamsNames.COURSE_ID), 
@@ -58,6 +59,11 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         data.isSessionOpenForSubmission = true;
         data.isModeration = true;
         data.studentToViewPageAs = studentUnderModeration;
+        
+        if (moderatedQuestionNumber != null) {
+          data.moderatedQuestion = moderatedQuestionNumber;
+        }
+        
         hideQuestionsWithAnonymousResponses(data.bundle);
 
         
