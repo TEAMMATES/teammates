@@ -22,4 +22,7 @@ $(document).ready(function(){
             window.location.href = currentPath+"?user="+params["user"]+"&sortby="+$(this).attr("data");
         });
     });
+    
+    //Change Instructor Home UI
+    $(".col-md-3").addClass("sort-by");
 });
