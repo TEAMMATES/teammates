@@ -42,7 +42,7 @@
                 <div class="bold align-center">
                     <input type="submit" class="btn btn-primary center-block" 
                         id="response_submit_button" 
-                        data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>"
+                        data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE %>"
                         value="Save Feedback"
                         <%= 
                             (data.bundle.feedbackSession.isOpened() || data.bundle.feedbackSession.isPrivateSession()) ? 
