@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import teammates.client.remoteapi.RemoteApiClient;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackResponseDetails;
 import teammates.common.datatransfer.FeedbackContributionQuestionDetails;
@@ -55,18 +56,16 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         Datastore.initialize();
         
         /**
-         * Specify courseId, evaluationName, and new feedback session name here.
-         * If new feedbackSessionName already exists, a number in brackets will be appended.
+         * Specify courseId. Feedback sessions will be made for all evaluations in the course, 
+         * the evaluations will be deleted.
          */
         String courseId = "example.gma-demo";
-        String evaluationName = "First Evaluation";
-        String newFeedbackSessionName = "Migrated FeedbackSession";
         
-        EvaluationAttributes evalAttribute = logic.getEvaluation(courseId, evaluationName);
-        if(evalAttribute != null){
-            convertOneEvaluationToFeedbackSession(evalAttribute , newFeedbackSessionName);
-        } else {
-            System.out.println("Specified evaluation not found." + courseId + " : " + evaluationName);
+        List<EvaluationAttributes> evalList = logic.getEvaluationsForCourse(courseId);
+        
+        for (EvaluationAttributes evalAttribute : evalList) {
+            convertOneEvaluationToFeedbackSession(evalAttribute , evalAttribute.name);
+            //logic.deleteEvaluation(courseId, evalAttribute.name);
         }
         
         //Converts all evaluations to feedback sessions
@@ -124,6 +123,10 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         while(true){ //Loop to retry with a different name if entity already exists.
             
             feedbackSessionName = newFeedbackSessionName + (num==0 ? "" : ("("+num+")"));//Use same name, or if exists, use "<name>(<num>)"
+        
+            if (logic.getFeedbackSession(feedbackSessionName, courseId) != null ) {
+                System.out.println(String.format("Feedback session with the name %s already exists", feedbackSessionName));  
+            }
             
             FeedbackSessionAttributes fsa = new FeedbackSessionAttributes(feedbackSessionName,
                     courseId, creatorEmail, instructions,
@@ -141,13 +144,12 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
                 e.printStackTrace();
                 break;
             } catch (EntityAlreadyExistsException e) {
-                System.out.println("Entity already exists, retrying with a different name.");
+                System.out.println(String.format("Feedback session with the name %s already exists, retrying with a different name.", feedbackSessionName));
                 e.printStackTrace();
             }
             
             num++;
         }
-        
 
         boolean peerFeedback = eval.p2pEnabled;
         
@@ -356,7 +358,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         feedbackQuestion.setQuestionDetails(questionDetails);
         
         try {
-            logic.createFeedbackQuestion(feedbackQuestion);
+            logic.createFeedbackQuestionForTemplate(feedbackQuestion, feedbackQuestion.questionNumber);
         } catch (InvalidParametersException e) {
             System.out.println("Failed to create Feedback Question 5 =(");
             e.printStackTrace();
@@ -393,7 +395,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         feedbackQuestion.setQuestionDetails(questionDetails);
         
         try {
-            logic.createFeedbackQuestion(feedbackQuestion);
+            logic.createFeedbackQuestionForTemplate(feedbackQuestion, feedbackQuestion.questionNumber);
         } catch (InvalidParametersException e) {
             System.out.println("Failed to create Feedback Question 4 =(");
             e.printStackTrace();
@@ -430,7 +432,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         feedbackQuestion.setQuestionDetails(questionDetails);
         
         try {
-            logic.createFeedbackQuestion(feedbackQuestion);
+            logic.createFeedbackQuestionForTemplate(feedbackQuestion, feedbackQuestion.questionNumber);
         } catch (InvalidParametersException e) {
             System.out.println("Failed to create Feedback Question 3 =(");
             e.printStackTrace();
@@ -476,7 +478,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         feedbackQuestion.setQuestionDetails(questionDetails);
         
         try {
-            logic.createFeedbackQuestion(feedbackQuestion);
+            logic.createFeedbackQuestionForTemplate(feedbackQuestion, feedbackQuestion.questionNumber);
         } catch (InvalidParametersException e) {
             System.out.println("Failed to create Feedback Question 2 =(");
             e.printStackTrace();
@@ -517,7 +519,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         feedbackQuestion.setQuestionDetails(questionDetails);
         
         try {
-            logic.createFeedbackQuestion(feedbackQuestion);
+            logic.createFeedbackQuestionForTemplate(feedbackQuestion, feedbackQuestion.questionNumber);
         } catch (InvalidParametersException e) {
             System.out.println("Failed to create Feedback Question 1 =(");
             e.printStackTrace();
