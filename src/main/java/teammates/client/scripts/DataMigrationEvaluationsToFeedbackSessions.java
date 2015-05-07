@@ -35,6 +35,9 @@ import com.google.appengine.api.datastore.Text;
 /**
  * Migrates Evaluations and Submissions to FeedbackSessions and Responses.
  * Feedback session/question creator will be any instructor from the course.
+ * 
+ * The response rate will not be updated in this script. The script DataMigrationForResponseRate
+ * can be ran after this to update it.
  */
 public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient {
     
