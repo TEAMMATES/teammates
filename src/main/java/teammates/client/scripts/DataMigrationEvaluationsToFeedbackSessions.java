@@ -74,7 +74,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
             // Specify courseId. Feedback sessions will be made for all evaluations in the course, 
             // the evaluations will be deleted.
              
-            String courseId = "example.gma-demo";
+            String courseId = "oldcourse";
             convertEvaluationsForCourse(courseId);
         }
         
@@ -91,7 +91,12 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         int fsNum = fsDb.getAllFeedbackSessions().size();
         
         for(EvaluationAttributes evalAttribute : allEvaluations){
-            convertOneEvaluationToFeedbackSession(evalAttribute, "");
+            try {
+                convertOneEvaluationToFeedbackSession(evalAttribute, "");
+            } catch (InvalidParametersException e) {
+                System.out.println("Something went wrong");
+                e.printStackTrace();
+            }
         }
 
         System.out.println(allEvaluations.size() + " evaluations found and migrated.");
@@ -118,8 +123,15 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         List<EvaluationAttributes> evalList = logic.getEvaluationsForCourse(courseId);
         
         for (EvaluationAttributes evalAttribute : evalList) {
-            convertOneEvaluationToFeedbackSession(evalAttribute , evalAttribute.name);
-            deleteEvaluation(courseId, evalAttribute.name);
+            try {
+                convertOneEvaluationToFeedbackSession(evalAttribute , evalAttribute.name);
+                
+                deleteEvaluation(courseId, evalAttribute.name);
+                
+            } catch (InvalidParametersException ipe) {
+                System.out.println("Something went wrong");
+                ipe.printStackTrace();
+            }
         }
     }
     
@@ -134,7 +146,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         logic.deleteEvaluation(courseId, evalName);
     }
     
-    protected void convertOneEvaluationToFeedbackSession(EvaluationAttributes eval, String newFeedbackSessionName){
+    protected void convertOneEvaluationToFeedbackSession(EvaluationAttributes eval, String newFeedbackSessionName) throws InvalidParametersException {
 
         if(newFeedbackSessionName == null || newFeedbackSessionName.isEmpty()){
             newFeedbackSessionName = "Migrated - " + eval.name;
@@ -184,10 +196,6 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
             try {
                 fsDb.createEntity(fsa);
                 break;
-            } catch (InvalidParametersException e) {
-                System.out.println("Something went wrong.");
-                e.printStackTrace();
-                return;  // do not continue to create the questions and responses if fail to create the feedback session
             } catch (EntityAlreadyExistsException e) {
                 System.out.println(String.format("Feedback session with the name %s already exists, retrying with a different name.", feedbackSessionName));
                 e.printStackTrace();
