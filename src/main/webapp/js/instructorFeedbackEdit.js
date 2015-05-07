@@ -84,7 +84,7 @@ function enableEditFS(){
     var $customDateTimeFields = getCustomDateTimeFields();
 
     $($customDateTimeFields).each(function() {
-        $(this).prop('disabled', 
+        $(this).prop('disabled',
                 $(this).data('last'));
     });
     
@@ -205,7 +205,7 @@ function enableQuestion(number) {
     $('#'+FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).show();
     $('#'+FEEDBACK_QUESTION_CANCELEDIT+'-'+number).show();
     $('#'+'button_question_submit-'+number).show();
-    $('#'+FEEDBACK_QUESTION_EDITTYPE+'-'+number).value = "edit";
+    $('#'+FEEDBACK_QUESTION_EDITTYPE+'-'+number).value="edit";
     // $('#questionTable'+number).find('.visibilityOptionsLabel').click();
 }
 
@@ -244,7 +244,7 @@ function enableNewQuestion() {
     $('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).hide();
     $('#'+FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).show();
     $('#'+'button_question_submit-'+number).show();
-    $('#'+FEEDBACK_QUESTION_EDITTYPE+'-'+number).value = "edit";
+    $('#'+FEEDBACK_QUESTION_EDITTYPE+'-'+number).value="edit";
     // $('#questionTable'+number).find('.visibilityOptionsLabel').click();
 }
 
@@ -501,7 +501,7 @@ function formatCheckBoxes() {
                 $(this).parent().parent().find("input[class*='answerCheckbox']").prop('checked',true);
             }
         });
-        $("input[name=receiverLeaderCheckbox]").change(function(){
+        $("input[name=receiverLeaderCheckbox]").change(function (){
             $(this).parent().parent().find("input[name=receiverFollowerCheckbox]").
                                     prop('checked', $(this).prop('checked'));
         });
@@ -790,7 +790,7 @@ function getVisibilityMessageIfPreviewIsActive(buttonElem) {
 function formatVisibilityMessageHtml(visibilityMessage){
     var htmlString = "This is the visibility as seen by the feedback giver.";
     htmlString += "<ul class='background-color-warning'>";
-    for (var i=0; i<visibilityMessage.length; i++) {
+    for (var i=0 ; i<visibilityMessage.length ; i++) {
         htmlString += "<li>" + visibilityMessage[i] + "</li>";
     }
     htmlString += "</ul>";
