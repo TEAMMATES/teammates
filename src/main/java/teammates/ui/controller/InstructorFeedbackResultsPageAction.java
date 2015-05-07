@@ -139,7 +139,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
         }
         
         //Warning for section wise viewing in case of many responses.
-        if(data.selectedSection.equals(ALL_SECTION_OPTION) && data.bundle.isComplete == false)
+        if(data.selectedSection.equals(ALL_SECTION_OPTION) && data.bundle.isComplete==false)
         {
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING);
         }
