@@ -3,7 +3,9 @@ package teammates.client.scripts;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.CourseAttributes;
@@ -29,6 +31,7 @@ import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.SubmissionsDb;
 import teammates.storage.datastore.Datastore;
+import teammates.storage.entity.Course;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -58,17 +61,22 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
     protected void doOperation() {
         Datastore.initialize();
         
-        /**
-         * Specify courseId. Feedback sessions will be made for all evaluations in the course, 
-         * the evaluations will be deleted.
-         */
-        String courseId = "example.gma-demo";
+        // modify this value to migrate evaluations for all courses, or for a specific course
+        boolean isForAllCourses = true;
         
-        List<EvaluationAttributes> evalList = logic.getEvaluationsForCourse(courseId);
-        
-        for (EvaluationAttributes evalAttribute : evalList) {
-            convertOneEvaluationToFeedbackSession(evalAttribute , evalAttribute.name);
-            //logic.deleteEvaluation(courseId, evalAttribute.name);
+        if (isForAllCourses) {
+            Set<String> coursesId = getCourses();
+            
+            for (String courseId : coursesId) {
+                convertEvaluationsForCourse(courseId);
+            }
+            
+        } else {
+            // Specify courseId. Feedback sessions will be made for all evaluations in the course, 
+            // the evaluations will be deleted.
+             
+            String courseId = "example.gma-demo";
+            convertEvaluationsForCourse(courseId);
         }
         
         //Converts all evaluations to feedback sessions
@@ -90,6 +98,41 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         System.out.println(allEvaluations.size() + " evaluations found and migrated.");
         System.out.println("Original number of FS: " + fsNum);
         System.out.println("After migration number of FS: " + fsDb.getAllFeedbackSessions().size());
+    }
+    
+    @SuppressWarnings("unchecked")
+    private Set<String> getCourses() {
+        String q = "SELECT FROM " + Course.class.getName();
+        List<Course> courses = (List<Course>) Datastore.getPersistenceManager().newQuery(q).execute();
+        
+        Set<String> allCourses = new HashSet<String>();
+        
+        for(Course course : courses) {
+            allCourses.add(course.getUniqueId());
+        }
+        return allCourses;
+    }
+    
+    private void convertEvaluationsForCourse(String courseId) {
+        System.out.println("Converting evaluations for course : " + courseId);
+        
+        List<EvaluationAttributes> evalList = logic.getEvaluationsForCourse(courseId);
+        
+        for (EvaluationAttributes evalAttribute : evalList) {
+            convertOneEvaluationToFeedbackSession(evalAttribute , evalAttribute.name);
+            deleteEvaluation(courseId, evalAttribute.name);
+        }
+    }
+    
+    protected void deleteEvaluation(String courseId, String evalName) {
+        // first, check if a feedback session have been created for the evaluation
+        // do not delete if the feedback session was not created
+        if (logic.getFeedbackSession(evalName, courseId) == null) {
+            System.out.println("deleteEvaluation: a feedback session was not created for the evaluation " + evalName);
+            return;
+        }
+        
+        logic.deleteEvaluation(courseId, evalName);
     }
     
     protected void convertOneEvaluationToFeedbackSession(EvaluationAttributes eval, String newFeedbackSessionName){
@@ -145,7 +188,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
             } catch (InvalidParametersException e) {
                 System.out.println("Something went wrong.");
                 e.printStackTrace();
-                break;
+                return;
             } catch (EntityAlreadyExistsException e) {
                 System.out.println(String.format("Feedback session with the name %s already exists, retrying with a different name.", feedbackSessionName));
                 e.printStackTrace();
