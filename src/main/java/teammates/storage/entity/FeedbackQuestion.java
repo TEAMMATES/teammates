@@ -62,7 +62,6 @@ public class FeedbackQuestion {
     @Persistent
     private List<FeedbackParticipantType> showRecipientNameTo;
 
-    
     public FeedbackQuestion(
             String feedbackSessionName, String courseId, String creatorEmail,
             Text questionText, int questionNumber, FeedbackQuestionType questionType,
