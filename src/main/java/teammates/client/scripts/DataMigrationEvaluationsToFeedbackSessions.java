@@ -254,7 +254,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
                 q4Response.courseId = courseId;
                 q4Response.giverEmail = giver;
                 q4Response.giverSection = giverSection;
-                q4Response.recipientEmail = recipient;
+                q4Response.recipientEmail = studentRecipient.team;
                 q4Response.recipientSection = recipientSection;
                 
                 q4Response.feedbackQuestionType = FeedbackQuestionType.TEXT;
