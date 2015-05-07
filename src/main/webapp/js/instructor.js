@@ -9,7 +9,7 @@
 //-----------------------------------------------------------------------------
 
 var onLoadFunction = function () {
-    if (typeof doPageSpecificOnload !== 'undefined') {
+    if(typeof doPageSpecificOnload !== 'undefined'){
         doPageSpecificOnload();
     };
     
@@ -21,7 +21,7 @@ var onLoadFunction = function () {
     
 };
 
-if (window.addEventListener) {
+if(window.addEventListener) {
 	window.addEventListener('load', onLoadFunction);
 } else {
 	window.attachEvent('onload', onLoadFunction);
@@ -140,7 +140,7 @@ function isStudentInputValid(editName, editTeamName, editEmail) {
  * 		identifier that points to elements with
  * class: profile-pic-icon-click or profile-pic-icon-hover 
  */
-function bindErrorImages(elements) {
+function bindErrorImages(elements){
 	$(elements).children('img').on('error', function() {
 		if ($(this).attr('src') != "") {
 			$(this).attr("src","../images/profile_picture_default.png");
@@ -153,7 +153,7 @@ function bindErrorImages(elements) {
  * 		identifier that points to elements with
  * class: student-profile-pic-view-link
  */
-function bindStudentPhotoLink(elements) {
+function bindStudentPhotoLink(elements){
 	$(elements).on('click', function(event) {
 		if (!event) {
 			var event = window.event;
@@ -233,8 +233,7 @@ function bindStudentPhotoHoverLink(elements) {
 	    content: function () {
     		return '<a class="cursor-pointer" onclick="loadProfilePictureForHoverEvent($(this).closest(\'.popover\').siblings(\'.profile-pic-icon-hover\'))">'
     					+ 'View Photo</a>';
-	    }
-	});
+	    }});
 }
 
 /**
