@@ -1,8 +1,9 @@
 <%@ page import="teammates.ui.controller.PageData" %>
 <%@ page import="teammates.common.util.Const" %>
-
 <%
     boolean isError = Boolean.parseBoolean((String)request.getAttribute(Const.ParamsNames.ERROR));
+%>
+<%
     String statusMessage = (String)request.getAttribute(Const.ParamsNames.STATUS_MESSAGE);
 %>
 <%
