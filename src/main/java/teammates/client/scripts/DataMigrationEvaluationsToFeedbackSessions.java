@@ -61,7 +61,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         Datastore.initialize();
         
         // modify this value to migrate evaluations for all courses, or for a specific course
-        boolean isForAllCourses = true;
+        boolean isForAllCourses = false;
         
         if (isForAllCourses) {
             Set<String> coursesId = getCourses();
@@ -207,14 +207,8 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         boolean peerFeedback = eval.p2pEnabled;
         
         //Create feedback questions
-        createFeedbackQuestions(eval, feedbackSessionName, courseId, creatorEmail, peerFeedback);
+        List<String> fqIds = createFeedbackQuestions(eval, feedbackSessionName, courseId, creatorEmail, peerFeedback);
         
-        
-        //Get feedbackQuestionIds
-        List<String> fqIds = new ArrayList<String>();
-        for(int i=1 ; i<=(peerFeedback?5:3) ; i++){
-            fqIds.add(logic.getFeedbackQuestion(feedbackSessionName, courseId, i).getId());
-        }
         
         //Create feedback Responses
         List<SubmissionAttributes> allSubmissions = subDb.getSubmissionsForEvaluation(courseId, eval.name);
@@ -358,29 +352,39 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         }
     }
 
-    private void createFeedbackQuestions(EvaluationAttributes eval,
-            String feedbackSessionName, String courseId, String creatorEmail, boolean peerFeedback) {
+    private List<String> createFeedbackQuestions(EvaluationAttributes eval,
+            String feedbackSessionName, String courseId, String creatorEmail, boolean peerFeedback) throws InvalidParametersException {
+        List<String> result = new ArrayList<String>();
+        
         //Question 1: Contribution Question
-        createQuestion1(feedbackSessionName, courseId, creatorEmail);
+        FeedbackQuestionAttributes q1 = createQuestion1(feedbackSessionName, courseId, creatorEmail);
+        
+        result.add(q1.getId());
         
         //Question 2: Essay Question "Comments about my contribution(shown to other teammates)"
-        createQuestion2(feedbackSessionName, courseId, creatorEmail);
+        FeedbackQuestionAttributes q2 = createQuestion2(feedbackSessionName, courseId, creatorEmail);
+        result.add(q2.getId());
         
         //Question3: Essay Question "My comments about this teammate(confidential and only shown to instructor)"
-        createQuestion3(feedbackSessionName, courseId, creatorEmail);
+        FeedbackQuestionAttributes q3 = createQuestion3(feedbackSessionName, courseId, creatorEmail);
+        result.add(q3.getId());
         
         //Questions below are only enabled if peer to peer feedback is enabled.
         if(peerFeedback){
             //Question 4: Essay Question "Comments about team dynamics(confidential and only shown to instructor)"
-            createQuestion4(feedbackSessionName, courseId, creatorEmail);
+            FeedbackQuestionAttributes q4 = createQuestion4(feedbackSessionName, courseId, creatorEmail);
+            result.add(q4.getId());
             
             //Question 5: Essay Question "My feedback to this teammate(shown anonymously to the teammate)"
-            createQuestion5(feedbackSessionName, courseId, creatorEmail);
+            FeedbackQuestionAttributes q5 = createQuestion5(feedbackSessionName, courseId, creatorEmail);
+            result.add(q5.getId());
         }
+        
+        return result;
     }
 
-    private void createQuestion5(String feedbackSessionName, String courseId,
-            String creatorEmail) {
+    private FeedbackQuestionAttributes createQuestion5(String feedbackSessionName, String courseId,
+            String creatorEmail) throws InvalidParametersException {
         FeedbackQuestionAttributes feedbackQuestion = new FeedbackQuestionAttributes();
         feedbackQuestion.creatorEmail = creatorEmail;
         feedbackQuestion.courseId = courseId;
@@ -410,16 +414,13 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails(questionText );
         feedbackQuestion.setQuestionDetails(questionDetails);
         
-        try {
-            logic.createFeedbackQuestionForTemplate(feedbackQuestion, feedbackQuestion.questionNumber);
-        } catch (InvalidParametersException e) {
-            System.out.println("Failed to create Feedback Question 5 =(");
-            e.printStackTrace();
-        }
+        FeedbackQuestionAttributes fqa = logic.createFeedbackQuestionForTemplate(feedbackQuestion, feedbackQuestion.questionNumber);
+        return fqa;
+        
     }
 
-    private void createQuestion4(String feedbackSessionName, String courseId,
-            String creatorEmail) {
+    private FeedbackQuestionAttributes createQuestion4(String feedbackSessionName, String courseId,
+            String creatorEmail) throws InvalidParametersException {
         FeedbackQuestionAttributes feedbackQuestion = new FeedbackQuestionAttributes();
         feedbackQuestion.creatorEmail = creatorEmail;
         feedbackQuestion.courseId = courseId;
@@ -447,16 +448,12 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails(questionText );
         feedbackQuestion.setQuestionDetails(questionDetails);
         
-        try {
-            logic.createFeedbackQuestionForTemplate(feedbackQuestion, feedbackQuestion.questionNumber);
-        } catch (InvalidParametersException e) {
-            System.out.println("Failed to create Feedback Question 4 =(");
-            e.printStackTrace();
-        }
+        FeedbackQuestionAttributes fqa = logic.createFeedbackQuestionForTemplate(feedbackQuestion, feedbackQuestion.questionNumber);
+        return fqa;
     }
 
-    private void createQuestion3(String feedbackSessionName, String courseId,
-            String creatorEmail) {
+    private FeedbackQuestionAttributes createQuestion3(String feedbackSessionName, String courseId,
+            String creatorEmail) throws InvalidParametersException {
         FeedbackQuestionAttributes feedbackQuestion = new FeedbackQuestionAttributes();
         feedbackQuestion.creatorEmail = creatorEmail;
         feedbackQuestion.courseId = courseId;
@@ -484,16 +481,13 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails(questionText );
         feedbackQuestion.setQuestionDetails(questionDetails);
         
-        try {
-            logic.createFeedbackQuestionForTemplate(feedbackQuestion, feedbackQuestion.questionNumber);
-        } catch (InvalidParametersException e) {
-            System.out.println("Failed to create Feedback Question 3 =(");
-            e.printStackTrace();
-        }
+        FeedbackQuestionAttributes fqa = logic.createFeedbackQuestionForTemplate(feedbackQuestion, feedbackQuestion.questionNumber);
+        return fqa;
+        
     }
 
-    private void createQuestion2(String feedbackSessionName, String courseId,
-            String creatorEmail) {
+    private FeedbackQuestionAttributes createQuestion2(String feedbackSessionName, String courseId,
+            String creatorEmail) throws InvalidParametersException {
         FeedbackQuestionAttributes feedbackQuestion = new FeedbackQuestionAttributes();
         feedbackQuestion.creatorEmail = creatorEmail;
         feedbackQuestion.courseId = courseId;
@@ -530,16 +524,13 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails(questionText );
         feedbackQuestion.setQuestionDetails(questionDetails);
         
-        try {
-            logic.createFeedbackQuestionForTemplate(feedbackQuestion, feedbackQuestion.questionNumber);
-        } catch (InvalidParametersException e) {
-            System.out.println("Failed to create Feedback Question 2 =(");
-            e.printStackTrace();
-        }
+        FeedbackQuestionAttributes fqa = logic.createFeedbackQuestionForTemplate(feedbackQuestion, feedbackQuestion.questionNumber);
+        return fqa;
+       
     }
 
-    private void createQuestion1(String feedbackSessionName, String courseId,
-            String creatorEmail) {
+    private FeedbackQuestionAttributes createQuestion1(String feedbackSessionName, String courseId,
+            String creatorEmail) throws InvalidParametersException {
         FeedbackQuestionAttributes feedbackQuestion = new FeedbackQuestionAttributes();
         feedbackQuestion.creatorEmail = creatorEmail;
         feedbackQuestion.courseId = courseId;
@@ -571,11 +562,8 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         FeedbackContributionQuestionDetails questionDetails = new FeedbackContributionQuestionDetails(questionText );
         feedbackQuestion.setQuestionDetails(questionDetails);
         
-        try {
-            logic.createFeedbackQuestionForTemplate(feedbackQuestion, feedbackQuestion.questionNumber);
-        } catch (InvalidParametersException e) {
-            System.out.println("Failed to create Feedback Question 1 =(");
-            e.printStackTrace();
-        }
+        FeedbackQuestionAttributes fqa = logic.createFeedbackQuestionForTemplate(feedbackQuestion, feedbackQuestion.questionNumber);
+        return fqa;
+        
     }
 }
