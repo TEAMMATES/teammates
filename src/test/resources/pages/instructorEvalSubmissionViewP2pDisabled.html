@@ -1,399 +1,194 @@
-   <html>
-      <head>
-         <link href="/favicon.png"  rel="shortcut icon" />
-                  <meta content="text/html; charset=UTF-8"  http-equiv="Content-Type" />
-                  <title>
-            TEAMMATES - Instructor
-         </title>
-         <!---->
-         <link href="/bootstrap/css/bootstrap.min.css"  rel="stylesheet" />
-                  <!---->
-         <link href="/bootstrap/css/bootstrap-theme.min.css"  rel="stylesheet" />
-                  <link href="/stylesheets/teammatesCommon.css"  rel="stylesheet"  type="text/css" />
-                  <script async=""  src="https://ssl.google-analytics.com/ga.js"  type="text/javascript" >
-         </script>
-         <script src="/js/googleAnalytics.js"  type="text/javascript" >
-         </script>
-         <script src="/js/jquery-minified.js"  type="text/javascript" >
-         </script>
-         <script src="/js/date.js"  type="text/javascript" >
-         </script>
-                  <script src="/js/common.js"  type="text/javascript" >
-         </script>
-         <script src="/bootstrap/js/bootstrap.min.js"  type="text/javascript" >
-         </script>
-         <script src="/js/instructor.js"  type="text/javascript" >
-         </script>
-      </head>
-      <body>
-         <div class="navbar navbar-inverse navbar-fixed-top"  role="navigation" >
-            <div class="container" >
-               <div class="navbar-header" >
-                  <button class="navbar-toggle"  data-target="#contentLinks"  data-toggle="collapse"  type="button" >
-                     <span class="sr-only" >
-                        Toggle navigation
-                     </span>
-                     <span class="icon-bar" >
-                     </span>
-                     <span class="icon-bar" >
-                     </span>
-                     <span class="icon-bar" >
-                     </span>
-                  </button>
-                  <a class="navbar-brand"  href="/index.html" >
-                     TEAMMATES
-                  </a>
-               </div>
-               <div class="collapse navbar-collapse"  id="contentLinks" >
-                  <ul class="nav navbar-nav" >
-                     <li class="" >
-                        <a class="nav home"  data-link="instructorHome"  href="/page/instructorHomePage?user=CESubViewUiT.instructor" >
-                           Home
-                        </a>
-                     </li>
-                     <li class="" >
-                        <a class="nav courses"  data-link="instructorCourse"  href="/page/instructorCoursesPage?user=CESubViewUiT.instructor" >
-                           Courses
-                        </a>
-                     </li>
-                     <li class="active" >
-                        <a class="nav evaluations"  data-link="instructorEval"  href="/page/instructorFeedbacksPage?user=CESubViewUiT.instructor" >
-                           Sessions
-                        </a>
-                     </li>
-                     <li class="" >
-                        <a class="nav students"  data-link="instructorStudent"  href="/page/instructorStudentListPage?user=CESubViewUiT.instructor" >
-                           Students
-                        </a>
-                     </li>
-                     <li>
-                        <a class="nav help"  href="/instructorHelp.html"  target="_blank" >
-                           Help
-                        </a>
-                     </li>
-                  </ul>
-                  <ul class="nav navbar-nav pull-right" >
-                     <li>
-                        <a class="nav logout"  href="/logout.jsp" >
-                           Logout
-                        
-                        (
-                           <span class="text-info"  data-original-title="CESubViewUiT.instructor"  data-placement="bottom"  data-toggle="tooltip"  title="" >
-                              CESubViewUiT.instructor
-                           </span>
-                           )
-                        </a>
-                     </li>
-                  </ul>
-               </div>
-            </div>
-         </div>
-         <div class="container"  id="frameBodyWrapper" >
-            <div id="topOfPage" >
-            </div>
-            <h1>
-               View Student's Evaluation
-            </h1>
-            <br/>
-                        <div class="well well-plain inputTable"  id="studentEvaluationInfo" >
-               <form class="form-horizontal"  role="form" >
-                  <div class="panel-heading" >
-                     <div class="form-group" >
-                        <label class="col-sm-2 control-label" >
-                           Course ID:
+<div id="frameBodyWrapper" class="container">
+        <div id="topOfPage"></div>
+        <h1>View Student's Evaluation</h1>
+        <br>
+
+        <div class="well well-plain inputTable" id="studentEvaluationInfo">
+            <form class="form-horizontal" role="form">
+                <div class="panel-heading">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                            Course ID:
                         </label>
-                        <div class="col-sm-10" >
-                           <p class="form-control-static" >
-                              CESubViewUiT.CS1101
-                           </p>
+                        <div class="col-sm-10">
+                            <p class="form-control-static">CESubViewUiT.CS1101</p>
                         </div>
-                     </div>
-                     <div class="form-group" >
-                        <label class="col-sm-2 control-label" >
-                           Evaluation Name:
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">
+                            Evaluation Name:
                         </label>
-                        <div class="col-sm-10" >
-                           <p class="form-control-static" >
-                              Second Eval
-                           </p>
+                        <div class="col-sm-10">
+                            <p class="form-control-static">Second Eval</p>
                         </div>
-                     </div>
-                  </div>
-               </form>
-            </div>
-            <h3 class="text-center" >
-               Charlie Dávis's Result
-            </h3>
-            <div class="panel panel-primary resultsTable" >
-               <div class="panel-heading" >
-                  <div class="row" >
-                     <div class="col-md-4" >
-                        <span class="resultHeader" >
-                           Reviewee:
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <h3 class="text-center">
+            Charlie Dávis's Result
+        </h3>
+
+        <div class="panel panel-primary resultsTable">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="resultHeader">
+                            Reviewee:
                         </span>
                         <strong>
-                           Charlie Dávis
+                            Charlie Dávis
                         </strong>
-                     </div>
-                     <div class="col-md-4" >
-                        <span class="resultHeader"  data-original-title="This is the students own estimation of his/her contributions"  data-placement="top"  data-toggle="tooltip"  title="" >
-                           Claimed Contribution:
+                    </div>
+                    <div class="col-md-4">
+                        <span data-original-title="This is the student's own estimation of his/her contributions" class="resultHeader" title="" data-toggle="tooltip" data-placement="top">
+                            Claimed Contribution:
                         </span>
-                        <span class="badge background-color-white color-positive" >
-                           E +3%
+                        <span class="badge background-color-white color-positive"> E +3%</span>
+                    </div>
+                    <div class="col-md-4">
+                        <span data-original-title="This is the average of what other team members think this student contributed" class="resultHeader" title="" data-toggle="tooltip" data-placement="top">
+                            Perceived Contribution: 
                         </span>
-                     </div>
-                     <div class="col-md-4" >
-                        <span class="resultHeader"  data-original-title="This is the average of what other team members think this student contributed"  data-placement="top"  data-toggle="tooltip"  title="" >
-                           Perceived Contribution:
-                        </span>
-                        <span class="badge background-color-white color-negative" >
-                           E -3%
-                        </span>
-                     </div>
-                  </div>
-               </div>
-               <table class="table table-bordered" >
-                  <tbody>
-                     <tr>
-                        <td>
-                           <strong>
-                              Self evaluation:
-                           </strong>
-                           <br/>
-                                                      This is a justification from CESubViewUiT.charlie.d.tmms@gmail.tmt to CESubViewUiT.charlie.d.tmms@gmail.tmt
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <strong>
-                              Comments about team:
-                           </strong>
-                           <br/>
-                                                      This is a public comment from CESubViewUiT.charlie.d.tmms@gmail.tmt to CESubViewUiT.charlie.d.tmms@gmail.tmt
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-               <table class="table table-bordered table-striped" >
-                  <thead>
-                     <tr class="border-top-gray fill-info resultSubheader" >
-                        <th class="col-sm-1" >
-                           From
-                        </th>
-                        <th class="col-sm-1" >
-                           Contribution
-                        </th>
-                        <th class="col-sm-5" >
-                           Confidential comments
-                        </th>
-                        <th class="col-sm-5" >
-                           Feedback to peer
-                        </th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr>
-                        <td>
-                           <b>
-                              Danny Engrid
-                           </b>
-                        </td>
-                        <td>
-                           <span class="badge background-color-white color-negative" >
-                              E -1%
-                           </span>
-                        </td>
-                        <td>
-                           This is a justification from CESubViewUiT.danny.e.tmms@gmail.tmt to CESubViewUiT.charlie.d.tmms@gmail.tmt
-                        </td>
-                        <td>
-                           <span style="font-style: italic;" >
-                              Disabled
-                           </span>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <b>
-                              Emily
-                           </b>
-                        </td>
-                        <td>
-                           <span class="badge background-color-white color-negative" >
-                              E -6%
-                           </span>
-                        </td>
-                        <td>
-                           This is a justification from CESubViewUiT.emily.tmms@gmail.tmt to CESubViewUiT.charlie.d.tmms@gmail.tmt
-                        </td>
-                        <td>
-                           <span style="font-style: italic;" >
-                              Disabled
-                           </span>
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
+                        <span class="badge background-color-white color-negative"> E -3%</span>
+                    </div>
+                </div>
             </div>
-            <br/>
-                        <br/>
-                        <h3 class="text-center" >
-               Charlie Dávis's Submission
-            </h3>
-            <div class="panel panel-primary resultsTable" >
-               <div class="panel-heading" >
-                  <div class="row" >
-                     <div class="col-md-4" >
-                        <span class="resultHeader" >
-                           Reviewer:
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong>
+                                Self evaluation:
+                            </strong>
+                            <br>
+                            This is a justification from CESubViewUiT.charlie.d.tmms@gmail.tmt to CESubViewUiT.charlie.d.tmms@gmail.tmt</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>
+                                Comments about team:
+                            </strong>
+                            <br>
+                            This is a public comment from CESubViewUiT.charlie.d.tmms@gmail.tmt to CESubViewUiT.charlie.d.tmms@gmail.tmt</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr class="border-top-gray fill-info resultSubheader">
+                        <th class="col-sm-1">From</th>
+                        <th class="col-sm-1">Contribution</th>
+                        <th class="col-sm-5">Confidential comments</th>
+                        <th class="col-sm-5">Feedback to peer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                    <tr>
+                        <td><b>Danny Engrid</b></td>
+                        <td><span class="badge background-color-white color-negative"> E -1%</span></td>
+                        <td>This is a justification from CESubViewUiT.danny.e.tmms@gmail.tmt to CESubViewUiT.charlie.d.tmms@gmail.tmt</td>
+                        <td><span style="font-style: italic;">Disabled</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td><b>Emily</b></td>
+                        <td><span class="badge background-color-white color-negative"> E -6%</span></td>
+                        <td>This is a justification from CESubViewUiT.emily.tmms@gmail.tmt to CESubViewUiT.charlie.d.tmms@gmail.tmt</td>
+                        <td><span style="font-style: italic;">Disabled</span></td>
+                    </tr>
+                
+                </tbody>
+            </table>
+        </div>
+        <br><br>
+        
+        <h3 class="text-center">
+            Charlie Dávis's Submission
+        </h3>
+
+        <div class="panel panel-primary resultsTable">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="resultHeader">
+                            Reviewer:
                         </span>
                         <strong>
-                           Charlie Dávis
+                            Charlie Dávis
                         </strong>
-                     </div>
-                     <div class="col-md-4" >
-                        <span class="resultHeader"  data-original-title="This is the students own estimation of his/her contributions"  data-placement="top"  data-toggle="tooltip"  title="" >
-                           Claimed Contribution:
+                    </div>
+                    <div class="col-md-4">
+                        <span data-original-title="This is the student's own estimation of his/her contributions" class="resultHeader" title="" data-toggle="tooltip" data-placement="top">
+                            Claimed Contribution:
                         </span>
-                        <span class="badge background-color-white color-positive" >
-                           E +3%
+                        <span class="badge background-color-white color-positive"> E +3%</span>
+                    </div>
+                    <div class="col-md-4">
+                        <span data-original-title="This is the average of what other team members think this student contributed" class="resultHeader" title="" data-toggle="tooltip" data-placement="top">
+                            Perceived Contribution: 
                         </span>
-                     </div>
-                     <div class="col-md-4" >
-                        <span class="resultHeader"  data-original-title="This is the average of what other team members think this student contributed"  data-placement="top"  data-toggle="tooltip"  title="" >
-                           Perceived Contribution:
-                        </span>
-                        <span class="badge background-color-white color-negative" >
-                           E -3%
-                        </span>
-                     </div>
-                  </div>
-               </div>
-               <table class="table table-bordered" >
-                  <tbody>
-                     <tr>
-                        <td>
-                           <strong>
-                              Self evaluation:
-                           </strong>
-                           <br/>
-                                                      This is a justification from CESubViewUiT.charlie.d.tmms@gmail.tmt to CESubViewUiT.charlie.d.tmms@gmail.tmt
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <strong>
-                              Comments about team:
-                           </strong>
-                           <br/>
-                                                      This is a public comment from CESubViewUiT.charlie.d.tmms@gmail.tmt to CESubViewUiT.charlie.d.tmms@gmail.tmt
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-               <table class="table table-bordered table-striped" >
-                  <thead>
-                     <tr class="border-top-gray fill-info resultSubheader" >
-                        <th class="col-sm-1" >
-                           To
-                        </th>
-                        <th class="col-sm-1" >
-                           Contribution
-                        </th>
-                        <th class="col-sm-5" >
-                           Confidential comments
-                        </th>
-                        <th class="col-sm-5" >
-                           Feedback to peer
-                        </th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr>
-                        <td>
-                           <b>
-                              Danny Engrid
-                           </b>
-                        </td>
-                        <td>
-                           <span class="badge background-color-white color-negative" >
-                              E -6%
-                           </span>
-                        </td>
-                        <td>
-                           This is a justification from CESubViewUiT.charlie.d.tmms@gmail.tmt to CESubViewUiT.danny.e.tmms@gmail.tmt
-                        </td>
-                        <td>
-                           <span style="font-style: italic;" >
-                              Disabled
-                           </span>
-                        </td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <b>
-                              Emily
-                           </b>
-                        </td>
-                        <td>
-                           <span class="badge background-color-white color-positive" >
-                              E +3%
-                           </span>
-                        </td>
-                        <td>
-                           This is a justification from CESubViewUiT.charlie.d.tmms@gmail.tmt to CESubViewUiT.emily.tmms@gmail.tmt
-                        </td>
-                        <td>
-                           <span style="font-style: italic;" >
-                              Disabled
-                           </span>
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
+                        <span class="badge background-color-white color-negative"> E -3%</span>
+                    </div>
+                </div>
             </div>
-            <br/>
-                        <br/>
-                        <div class="col-sm-12" >
-               <input class="btn btn-primary center-block"  id="button_edit"  onclick="window.location.href='/page/instructorEvalSubmissionEdit?courseid=CESubViewUiT.CS1101&evaluationname=Second+Eval&studentemail=CESubViewUiT.charlie.d.tmms%40gmail.tmt&user=CESubViewUiT.instructor'"  type="button"  value="Edit Submission" />
-                           </div>
-            <br/>
-                        <br/>
-                        <br/>
-                     </div>
-         <div class="container-fluid"  id="footerComponent" >
-            <div class="container" >
-               <div class="row" >
-                  <div class="col-md-4" >
-                     <span>
-                        [
-                        <a href="/index.html" >
-                           TEAMMATES
-                        </a>
-                        V{$version}]
-                     </span>
-                  </div>
-                  <div class="col-md-4" >
-                     [for
-                     <span class="highlight-white" >
-                        <span class="color_white" >
-                           TEAMMATES Test Institute 1
-                        </span>
-                     </span>
-                     ]
-                  </div>
-                  <div class="col-md-4" >
-                     <span>
-                        [Send
-                        <a class="link"  href="../contact.html"  target="_blank" >
-                           Feedback
-                        </a>
-                        ]
-                     </span>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </body>
-   </html>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong>
+                                Self evaluation:
+                            </strong>
+                            <br>
+                            This is a justification from CESubViewUiT.charlie.d.tmms@gmail.tmt to CESubViewUiT.charlie.d.tmms@gmail.tmt</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>
+                                Comments about team:
+                            </strong>
+                            <br>
+                            This is a public comment from CESubViewUiT.charlie.d.tmms@gmail.tmt to CESubViewUiT.charlie.d.tmms@gmail.tmt</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr class="border-top-gray fill-info resultSubheader">
+                        <th class="col-sm-1">To</th>
+                        <th class="col-sm-1">Contribution</th>
+                        <th class="col-sm-5">Confidential comments</th>
+                        <th class="col-sm-5">Feedback to peer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                
+                    <tr>
+                        <td><b>Danny Engrid</b></td>
+                        <td><span class="badge background-color-white color-negative"> E -6%</span></td>
+                        <td>This is a justification from CESubViewUiT.charlie.d.tmms@gmail.tmt to CESubViewUiT.danny.e.tmms@gmail.tmt</td>
+                        <td><span style="font-style: italic;">Disabled</span></td>
+                    </tr>
+                
+                    <tr>
+                        <td><b>Emily</b></td>
+                        <td><span class="badge background-color-white color-positive"> E +3%</span></td>
+                        <td>This is a justification from CESubViewUiT.charlie.d.tmms@gmail.tmt to CESubViewUiT.emily.tmms@gmail.tmt</td>
+                        <td><span style="font-style: italic;">Disabled</span></td>
+                    </tr>
+                
+                </tbody>
+            </table>
+        </div>
+        <br><br>
+        
+        <div class="col-sm-12">
+            <input class="btn btn-primary center-block" id="button_edit" value="Edit Submission" onclick="window.location.href='/page/instructorEvalSubmissionEdit?courseid=CESubViewUiT.CS1101&amp;evaluationname=Second+Eval&amp;studentemail=CESubViewUiT.charlie.d.tmms%40gmail.tmt&amp;user=CESubViewUiT.instructor'" type="button">
+        </div>
+        <br>
+        <br>
+        <br>
+
+    </div>

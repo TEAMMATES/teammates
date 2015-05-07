@@ -32,7 +32,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TEAMMATES - Submit Feedback</title>
+    <title>TEAMMATES - Feedback Results</title>
     <!-- Bootstrap core CSS -->
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap theme -->
@@ -70,7 +70,7 @@
                                         .toString();
             %>
                 <div id="registerMessage" class="alert alert-info">
-                    <%=String.format(Const.StatusMessages.UNREGISTERED_STUDENT, joinUrl)%>
+                    <%=String.format(Const.StatusMessages.UNREGISTERED_STUDENT_RESULTS, data.student.name, joinUrl)%>
                 </div>
             <%
             	}
@@ -127,7 +127,7 @@
                         <h4>Question <%=qnIndx%>: <span class="text-preserve-space"><%=StudentFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText)%><%=questionDetails.getQuestionAdditionalInfoHtml(qnIndx, "")%></span></h4>
                         <%=
                             questionDetails.getQuestionResultStatisticsHtml(questionWithResponses
-                                    .getValue(), question, data.account, data.bundle, "student")
+                                    .getValue(), question, data, data.bundle, "student")
                         %>
                     <%
                     	ListIterator<FeedbackResponseAttributes> itr = questionWithResponses

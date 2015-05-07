@@ -10,6 +10,7 @@ import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
+import teammates.ui.controller.PageData;
 
 public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     public int numOfRubricChoices;
@@ -368,8 +369,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         this.rubricChoices.add("Strongly Disagree");
         
         // Add some sub-questions by default
-        this.numOfRubricSubQuestions = 1;
+        this.numOfRubricSubQuestions = 2;
         this.rubricSubQuestions.add("This student participates well in online discussions.");
+        this.rubricSubQuestions.add("This student completes assigned tasks on time.");
         
         this.initializeRubricDescriptions();
         
@@ -377,6 +379,11 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         setDescription(0,1, "Takes part in discussions and sometimes initiates discussions.");
         setDescription(0,2, "Occasionally responds, but never initiates discussions.");
         setDescription(0,3, "Rarely or never responds.");
+        
+        setDescription(1,0, "Tasks are always completed before the deadline.");
+        setDescription(1,1, "Occasionally misses deadlines.");
+        setDescription(1,2, "Often misses deadlines.");
+        setDescription(1,3, "Rarely or never completes tasks.");
         
         return "<div id=\"rubricForm\">" + 
                     this.getQuestionSpecificEditFormHtml(-1) +
@@ -442,7 +449,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
-            AccountAttributes currentUser,
+            PageData pageData,
             FeedbackSessionResultsBundle bundle,
             String view) {
 

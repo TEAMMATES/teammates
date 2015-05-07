@@ -3,8 +3,7 @@
         <h1>Submit Feedback</h1>
         <br>
         
-        <form method="post" action="/page/studentFeedbackSubmissionEditSave" name="form_student_submit_response">
-            
+        <form method="post" name="form_student_submit_response" action="/page/studentFeedbackSubmissionEditSave">
             
 
 
@@ -18,7 +17,9 @@
     
     <input name="fsname" value="Second Session" type="hidden">
     <input name="courseid" value="SFSubmitUiT.CS2104" type="hidden">
-    <input name="user" value="SFSubmitUiT.alice.b" type="hidden">
+    
+        <input name="user" value="SFSubmitUiT.alice.b" type="hidden">
+    
     <div class="well well-plain" id="course1">
             <div class="panel-body">
                 <div class="form-horizontal">
@@ -38,13 +39,13 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Opening time:</label>
                             <div class="col-sm-10">
-                                <p class="form-control-static">02 Apr 2012, 23:59</p>
+                                <p class="form-control-static">Mon, 02 Apr 2012, 23:59</p>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Closing time:</label>
                             <div class="col-sm-10">
-                                <p class="form-control-static">30 Apr 2012, 23:59</p>
+                                <p class="form-control-static">Mon, 30 Apr 2012, 23:59</p>
                             </div>
                         </div>
                         <div class="form-group">
@@ -70,6 +71,7 @@
     </script>
 
     <br>
+    
 
         <input name="questiontype-1" value="TEXT" type="hidden">
         <input name="questionid-1" value="{*}" type="hidden">
@@ -349,6 +351,6 @@
                     <input data-original-title="You can save your responses at any time and come back later to continue." disabled="disabled" class="btn btn-primary" id="response_submit_button" data-toggle="tooltip" data-placement="top" title="" value="Submit Feedback" style="background: #66727A;" type="submit">
             
             </div>
-            <br><br>    
+            <br><br>
         </form>
     </div>

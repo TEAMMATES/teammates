@@ -42,7 +42,7 @@ $(function() {
  */
 function toggleDeleteCourseConfirmation(courseID) {
     return confirm("Are you sure you want to delete the course: " + courseID + "? " +
-            "This operation will delete all students and evaluations in this course. " +
+            "This operation will delete all students and sessions in this course. " +
             "All instructors of this course will not be able to access it hereafter as well.");
 }
 
@@ -72,7 +72,7 @@ function toggleDeleteFeedbackSessionConfirmation(courseID, name) {
  * @param name
  */
 function togglePublishEvaluation(name) {
-    return confirm("Are you sure you want to publish the evaluation " + name + "?");
+    return confirm("Are you sure you want to publish the session " + name + "?");
 }
 
 /**
@@ -81,7 +81,7 @@ function togglePublishEvaluation(name) {
  * @param name
  */
 function toggleUnpublishEvaluation(name){
-    return confirm("Are you sure you want to unpublish the evaluation " + name + "?");
+    return confirm("Are you sure you want to unpublish the session " + name + "?");
 }
 
 /**
@@ -91,7 +91,7 @@ function toggleUnpublishEvaluation(name){
  * @param evaluationName
  */
 function toggleRemindStudents(evaluationName) {
-    return confirm("Send e-mails to remind students who have not submitted their evaluations for " + evaluationName + "?");
+    return confirm("Send e-mails to remind students who have not submitted their feedback for " + evaluationName + "?");
 }
 
 

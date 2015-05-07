@@ -25,35 +25,6 @@
     <script src="/js/instructorFeedbackEdit.js" type="text/javascript"></script>
 
     <noscript>
-&lt;style&gt;
-/* remove display of original page*/
-#frameBody, #frameTop, #frameBottom{display:none;}
-
-/*Some styles for link, might need it as the css from common.css isn't that nice.
-ul #nav {
-    margin: 0;
-    padding: 0;
-}
-
-#nav li {
-    display: inline;
-    padding: 0;
-    margin: 0;
-}
-
-#nav a:link,#nav a:visited {
-    color: #000;
-    padding: 10px;
-    background: #aaa;
-    text-decoration: none;
-}
-
-#nav a:hover {
-    background: #222;
-    color: #fff;
-}
-*/
-&lt;/style&gt;
 
     &lt;div id="noscript-warning"&gt;
         &lt;h1&gt;
@@ -278,7 +249,6 @@ ul #nav {
                         (<span title="" data-placement="bottom" data-toggle="tooltip" class="text-info" data-original-title="CFeedbackEditUiT.instructor">
                                 CFeedbackEditUiT.ins...
                         </span>)
-                        
                     </a>
                 </li>
             </ul>            
@@ -304,11 +274,7 @@ ul #nav {
                                 <a id="fsDeleteLink" class="btn btn-primary btn-sm" data-placement="top" data-toggle="tooltip" title="" onclick="return toggleDeleteFeedbackSessionConfirmation('CFeedbackEditUiT.CS2104','First Session');" href="/page/instructorFeedbackDelete?courseid=CFeedbackEditUiT.CS2104&amp;fsname=First+Session&amp;next=%3Fuser%3DCFeedbackEditUiT.instructor&amp;user=CFeedbackEditUiT.instructor" data-original-title="Delete the feedback session">
                                     Delete
                                 </a>
-                                <span data-original-title="Copy this feedback session to other courses" data-placement="top" data-toggle="tooltip" title="">
-                                  <a class="btn btn-primary btn-sm" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CFeedbackEditUiT.instructor" data-courseid="CFeedbackEditUiT.CS2104" data-fsname="First Session" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" id="button_fscopy">
-                                     Copy
-                                  </a>
-                               </span>
+                                <span data-placement="top" title="" data-toggle="tooltip" data-original-title="Copy this feedback session to other courses"><a id="button_fscopy" data-placement="top" data-target="#fsCopyModal" data-toggle="modal" href="#" class="btn btn-primary btn-sm" data-fsname="First Session" data-courseid="CFeedbackEditUiT.CS2104" data-actionlink="/page/instructorFeedbackEditCopyPage?user=CFeedbackEditUiT.instructor">Copy</a></span>
                             </span>
                         </div>
                     </div>
@@ -666,7 +632,7 @@ ul #nav {
                                         <label>
                                             Session opening reminder
                                         </label>
-                                        <input type="checkbox" value="FEEDBACK_OPENING" id="sendreminderemail_open" name="sendreminderemail" checked="checked" disabled="disabled"/>
+                                        <input type="checkbox" value="FEEDBACK_OPENING" id="sendreminderemail_open" name="sendreminderemail" checked="checked" disabled="disabled" />
                                     </div>
                                 </div>
                                 <div data-placement="top" data-toggle="tooltip" title="" class="col-sm-3" data-original-title="Select this option to automatically send an email to students to remind them to submit 24 hours before the end of the session.">
@@ -706,34 +672,31 @@ ul #nav {
 
 
     <div style="display: none;" id="statusMessage"></div>
-        <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
-       <div class="modal-dialog">
-          <div class="modal-content">
-             <form action="/page/instructorFeedbackEditCopy" method="post" name="form_copy_list" role="form">
-                <div class="modal-header">
-                   <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
-                      ×
-                   </button>
-                   <h4 class="modal-title">
-                      Copy this feedback session to other courses <br/><small>
-                         (Select the course(s) you want to copy this feedback session to)
-                      </small>
-                   </h4>
-                </div>
-                <div class="modal-body">
-                   <div class="form-group" id="courseList">
-                   </div>
-                </div>
-                <div class="modal-footer">
-                   <button class="btn btn-default" data-dismiss="modal" type="button">
-                      Cancel</button><input class="btn btn-primary" type="submit" id="fscopy_submit" value="Copy"/>
-                                              <input name="user" type="hidden" value="CFeedbackEditUiT.instructor"/>
-                                           </div>
-             </form>
-          </div>
-       </div>
-    </div>
 
+
+            <div aria-hidden="true" aria-labelledby="fsCopyModal" role="dialog" tabindex="-1" id="fsCopyModal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form action="/page/instructorFeedbackEditCopy" role="form" name="form_copy_list" method="post">
+                            <div class="modal-header">
+                                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                                <h4 class="modal-title">
+                                    Copy this feedback session to other courses <br />
+                                    <small>(Select the course(s) you want to copy this feedback session to)</small>
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group" id="courseList"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button data-dismiss="modal" class="btn btn-default" type="button">Cancel</button>
+                                <input type="submit" value="Copy" id="fscopy_submit" class="btn btn-primary" />
+                                <input type="hidden" value="CFeedbackEditUiT.instructor" name="user" />
+                           </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <br />
 
             
@@ -773,7 +736,7 @@ ul #nav {
                         <a value="Copy Question" class="btn btn-primary" id="button_copy">   Copy Question   </a>
                     </div>
                     <div class="col-sm-2">
-                        <a href="/page/instructorFeedbacksPage?user=CFeedbackEditUiT.instructor&amp;courseid=CFeedbackEditUiT.CS2104" class="btn btn-primary">   Done Editing   </a>
+                        <a href="/page/instructorFeedbacksPage?user=CFeedbackEditUiT.instructor&amp;courseid=CFeedbackEditUiT.CS2104&amp;fsname=First%20Session" class="btn btn-primary">   Done Editing   </a>
                     </div>
                 </div>
             </div>
@@ -788,6 +751,8 @@ ul #nav {
                      
                     <span id="questionTypeHeader"></span>
                     <span class="pull-right">
+                        <a title="" data-placement="top" data-toggle="tooltip" onclick="cancelEdit(-1)" class="btn btn-primary btn-xs" data-original-title="Discard new question">Cancel
+                        </a>
                         <a title="" data-placement="top" data-toggle="tooltip" onclick="deleteQuestion(-1)" class="btn btn-primary btn-xs" data-original-title="Delete this question">Delete
                         </a>
                     </span>
@@ -999,6 +964,14 @@ ul #nav {
         </div>
     </div>
     <br />
+</div></div><div id="contribForm"><div class="row">
+    <br />
+    <div class="col-sm-6">
+        <div title="" data-container="body" data-placement="top" data-toggle="tooltip" id="contrib_tooltipText--1" class="form-inline col-sm-12" data-original-title="Ticking this allows a giver to select 'Not Sure' as his/her answer">
+            <input type="checkbox" checked="checked" id="isNotSureAllowedCheck--1" name="isNotSureAllowedCheck" />
+            <span style="margin-left: 5px; font-weight: bold;">Allow response giver to select 'Not Sure' as the answer</span>
+        </div>
+    </div>
 </div></div><div id="rubricForm"><div class="row">
     <br />
     <div class="col-sm-12 table-responsive">
@@ -1065,11 +1038,34 @@ ul #nav {
 </td>
 
 </tr>
+<tr id="rubricRow--1-1">
+    <td>
+    	<div class="col-sm-12 input-group">
+    		<span onmouseout="highlightRubricRow(1, -1, false)" onmouseover="highlightRubricRow(1, -1, true)" onclick="removeRubricRow(1,-1)" id="rubricRemoveSubQuestionLink--1-1" class="input-group-addon btn btn-default rubricRemoveSubQuestionLink--1">
+				<span class="glyphicon glyphicon-remove"></span>
+			</span>
+	    	<textarea name="rubricSubQn-1" id="rubricSubQn--1-1" rows="3" class="form-control">This student completes assigned tasks on time.</textarea>
+		</div>
+    </td>
+    <td class="align-center rubricCol--1-0">
+	<textarea name="rubricDesc-1-0" id="rubricDesc--1-1-0" rows="3" class="form-control nonDestructive">Tasks are always completed before the deadline.</textarea>
+</td>
+<td class="align-center rubricCol--1-1">
+	<textarea name="rubricDesc-1-1" id="rubricDesc--1-1-1" rows="3" class="form-control nonDestructive">Occasionally misses deadlines.</textarea>
+</td>
+<td class="align-center rubricCol--1-2">
+	<textarea name="rubricDesc-1-2" id="rubricDesc--1-1-2" rows="3" class="form-control nonDestructive">Often misses deadlines.</textarea>
+</td>
+<td class="align-center rubricCol--1-3">
+	<textarea name="rubricDesc-1-3" id="rubricDesc--1-1-3" rows="3" class="form-control nonDestructive">Rarely or never completes tasks.</textarea>
+</td>
+
+</tr>
 
             </tbody>
         </table>
     </div>
-    <input type="hidden" value="1" id="rubricNumRows--1" name="rubricNumRows" />
+    <input type="hidden" value="2" id="rubricNumRows--1" name="rubricNumRows" />
     <input type="hidden" value="4" id="rubricNumCols--1" name="rubricNumCols" />
 </div>
 <div class="row">
@@ -1374,15 +1370,15 @@ ul #nav {
 <div class="container-fluid" id="footerComponent">
     <div class="container">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <span>[<a href="/index.html">TEAMMATES</a> V{$version}]</span>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-8">
                 
                         [for <span class="highlight-white"><span class="color_white">TEAMMATES Test Institute 1</span></span>]
                 
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <span>[Send <a target="_blank" href="../contact.html" class="link">Feedback</a>]</span>
             </div>
         </div>

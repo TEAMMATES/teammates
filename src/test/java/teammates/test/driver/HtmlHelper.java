@@ -17,6 +17,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import teammates.common.util.Config;
+import teammates.common.util.Sanitizer;
 
 public class HtmlHelper {
 
@@ -133,7 +134,7 @@ public class HtmlHelper {
         StringBuilder currentHtmlText, boolean isHtmlPartPassedIn){
         
         if(currentNode.getNodeType() == Node.TEXT_NODE){
-            String text = currentNode.getNodeValue();
+            String text = Sanitizer.sanitizeForHtml(currentNode.getNodeValue());
             if(!text.trim().isEmpty()){
                 currentHtmlText.append(indentation + text.trim() + "\n");
             }
@@ -162,7 +163,7 @@ public class HtmlHelper {
                 
                 for (int i = 0; i < actualAttributeList.getLength(); i++){
                     Node actualAttribute = actualAttributeList.item(i);
-                    currentHtmlText.append(" "+ actualAttribute.getNodeName().toLowerCase() + "=\"" + actualAttribute.getNodeValue() + "\"");
+                    currentHtmlText.append(" "+ actualAttribute.getNodeName().toLowerCase() + "=\"" + Sanitizer.sanitizeForHtml(actualAttribute.getNodeValue()) + "\"");
                 }
                 //close the tag
                 currentHtmlText.append(getEndOfOpeningTag(currentNode)+"\n");

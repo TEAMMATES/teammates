@@ -48,6 +48,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     @Test
     public void testAll() throws Exception {
         testContent();
+        testModerateResponsesButton();
         testViewPhotoAndAjaxForLargeScaledSession();
         testSortAction();
         testFilterAction();
@@ -79,6 +80,29 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Empty Session");
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageEmpty.html");
     
+    }
+    
+    public void testModerateResponsesButton() {
+
+        resultsPage = loginToInstructorFeedbackResultsPage(
+                "CFResultsUiT.instr", "Open Session");
+        resultsPage.displayByQuestion();
+        ThreadHelper.waitFor(2000);
+
+        ______TS("test moderate responses button for individual response (including no response)");
+
+        verifyModerateResponsesButton(2, "CFResultsUiT.alice.b@gmail.tmt",
+                "CFResultsUiT.benny.c@gmail.tmt",
+                "CFResultsUiT.charlie.d@gmail.tmt",
+                "CFResultsUiT.danny.e@gmail.tmt",
+                "drop.out@gmail.tmt",
+                "extra.guy@gmail.tmt",
+                "CFResultsUiT.emily.f@gmail.tmt");
+
+        ______TS("test moderate responses button for team response");
+
+        verifyModerateResponsesButton(4, "CFResultsUiT.alice.b@gmail.tmt");
+
     }
     
     public void testSortAction(){
@@ -215,6 +239,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
        
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestion.html");
         
+        ______TS("test view photo for view by questions");
+        
+        resultsPage.removeNavBar();
+        resultsPage.hoverClickAndViewGiverPhotoOnTableCell(0, 0, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
+        resultsPage.hoverClickAndViewRecipientPhotoOnTableCell(0, 0, "profile_picture_default.png");
+        
         ______TS("Ajax for view by question for helper");
         
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.helper1", "Open Session", true, "question");
@@ -350,14 +380,14 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
         ______TS("failure: add empty feedback response comment");
         
-        resultsPage.addFeedbackResponseComment("");
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-1", "");
         resultsPage.verifyCommentFormErrorMessage("-0-1-1", Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY);
         
         ______TS("action: add new feedback response comments");
         
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.addFeedbackResponseComment("test comment 1");
-        resultsPage.addFeedbackResponseComment("test comment 2");
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-1", "test comment 1");
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-1", "test comment 2");
         resultsPage.verifyCommentRowContent("-0-1-1-1",
                 "test comment 1", "CFResultsUiT.instr@gmail.tmt");
         resultsPage.verifyContains("id=\"frComment-visibility-options-trigger-0-1-1-1\"");
@@ -371,6 +401,10 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "test comment 1", "CFResultsUiT.instr@gmail.tmt");
         resultsPage.verifyCommentRowContent("-0-1-1-2",
                 "test comment 2", "CFResultsUiT.instr@gmail.tmt");
+        
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-1-1-1", "test comment 3");
+        resultsPage.verifyCommentRowContent("-1-1-1-1",
+                "test comment 3", "CFResultsUiT.instr@gmail.tmt");
         
         ______TS("action: edit existing feedback response comment");
 
@@ -392,7 +426,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("action: add edit and delete successively");
         
         resultsPage.displayByRecipientGiverQuestion();
-        resultsPage.addFeedbackResponseComment("successive action comment");
+        resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-1", "successive action comment");
         resultsPage.verifyCommentRowContent("-0",
                 "successive action comment", "CFResultsUiT.instr@gmail.tmt");
         
@@ -400,6 +434,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "edited successive action comment");
         resultsPage.verifyCommentRowContent("-0-1-1-2",
                 "edited successive action comment", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-0-1-1-1", 2);
         
         resultsPage.deleteFeedbackResponseComment("-0-1-1-2");
         resultsPage.verifyRowMissing("-0-1-1-2");
@@ -409,7 +444,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyCommentRowContent("-0-1-1-1",
                 "test comment 2", "CFResultsUiT.instr@gmail.tmt");
         resultsPage.verifyRowMissing("-0-1-1-2");
-        
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsDeleteComment.html");
     }
     
     private void testDownloadAction() {
@@ -500,6 +535,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
             searchString += values[i-1]+"{*}";
         }
         resultsPage.verifyContains(searchString);
+    }
+    
+    private void verifyModerateResponsesButton(int qnNumber, String... emails) {
+        for (int i = 1; i <= emails.length; i++) {
+            resultsPage.verifyModerateResponseButtonBelongsTo(
+                    resultsPage.getModerateResponseButtonInQuestionView(qnNumber, i), emails[i - 1]);
+        }
     }
 
 }

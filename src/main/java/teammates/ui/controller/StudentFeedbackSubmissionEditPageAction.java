@@ -110,11 +110,11 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
     }
     
     @Override
-    protected RedirectResult createSpecificRedirectResult() {
-        if (regkey == null) {
+    protected RedirectResult createSpecificRedirectResult() throws EntityDoesNotExistException {
+        if (isRegisteredStudent()) {
             return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
         } else {
-            return createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);
+            throw new EntityDoesNotExistException("unregistered student trying to access non-existent session");
         }
     }
     
@@ -124,5 +124,9 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
         }
         
         return student;
+    }
+    
+    protected boolean isRegisteredStudent(){
+        return account.isUserRegistered();
     }
 }

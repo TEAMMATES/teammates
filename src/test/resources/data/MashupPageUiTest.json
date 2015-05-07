@@ -217,7 +217,7 @@
             "courseId":"CS2104",
             "name":"First Eval",
             "instructions":{
-                "value":"Please please fill it in"
+                "value":"Please please fill in the following questions before the closing date. Late submissions will not be entertained at any point or for any reason(s)! Feedback will be sent out to students at the end of this course."
             },
             "startTime":"2012-04-01 11:59 PM UTC",
             "endTime":"2017-04-01 11:59 PM UTC",
@@ -501,7 +501,7 @@
             "courseId":"CS2104",
             "creatorEmail":"teammates.test@gmail.tmt",
             "instructions":{
-                "value":"Please please fill in the following questions."
+                "value":"Please please fill in the following questions before the closing date. Late submission will not be entertained! Feedback will be sent out at the end of the course."
             },
             "createdTime":"2012-03-20 11:59 PM UTC",
             "startTime":"2012-04-01 11:59 PM UTC",

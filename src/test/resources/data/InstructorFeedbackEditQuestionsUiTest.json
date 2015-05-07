@@ -1,0 +1,113 @@
+{
+  "accounts": {
+  	"instructorWithSessions": {
+  	  "googleId": "CFeedbackEditUiT.instructor",
+  	  "name": "Teammates Test",
+  	  "isInstructor": true,
+  	  "email": "tmms.test@gmail.tmt",
+  	  "institute": "TEAMMATES Test Institute 1"
+  	},
+  	"otherInstructor": {
+  	  "googleId": "CFeedbackEditUiT.instructor2",
+  	  "name": "Instructor 2",
+  	  "isInstructor": true,
+  	  "email": "tmms.instr@gmail.tmt",
+  	  "institute": "TEAMMATES Test Institute 1"
+  	},
+  	"alice.tmms": {
+  	  "googleId": "CFeedbackEditUiT.alice.tmms",
+  	  "name": "Alice Betsy",
+  	  "isInstructor": false,
+  	  "email": "alice.b.tmms@gmail.tmt",
+  	  "institute": "TEAMMATES Test Institute 1"
+  	}
+  },
+
+  "courses": {
+    "course": {
+      "id": "CFeedbackEditUiT.CS2104",
+      "name": "Programming Language Concepts",
+      "isArchived": false
+    },
+    "course2": {
+      "id": "CFeedbackEditUiT.CS1101",
+      "name": "Programming Methodology",
+      "isArchived": false
+    }
+  },
+  
+  "instructors": {
+    "teammates.test.instructor": {
+      "googleId": "CFeedbackEditUiT.instructor",
+      "courseId": "CFeedbackEditUiT.CS2104",
+      "name": "Teammates Test",
+      "email": "tmms.test@gmail.tmt",
+      "role":"Co-owner",
+      "displayedName":"Co-owner",
+      "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+    },
+    "teammates.test.instructor2": {
+      "googleId": "CFeedbackEditUiT.instructor2",
+      "courseId": "CFeedbackEditUiT.CS2104",
+      "name": "Instructor 2",
+      "email": "tmms.instr@course.tmt",
+      "role":"Co-owner",
+      "displayedName":"Co-owner",
+      "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+    }
+  },
+  
+  "students": {
+    "alice.tmms@CFeedbackEditUiT.CS2104": {
+      "googleId": "CFeedbackEditUiT.alice.tmms",
+      "email": "alice.b.tmms@gmail.tmt",
+      "course": "CFeedbackEditUiT.CS2104",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice Betsy",
+      "team": "Team 1"
+    },
+    "benny.tmms@CFeedbackEditUiT.CS2104": {
+      "googleId": "CFeedbackEditUiT.benny.tmms",
+      "email": "benny.tmms@gmail.tmt",
+      "course": "CFeedbackEditUiT.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1"
+    },
+    "charlie.tmms@CFeedbackEditUiT.CS1101": {
+      "googleId": "charlie.tmms",
+      "email": "CFeedbackEditUiT.charlie.tmms@gmail.tmt",
+      "course": "CFeedbackEditUiT.CS1101",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "team": "Team 2"
+    },
+    "danny.tmms@CFeedbackEditUiT.CS1101": {
+      "googleId": "danny.tmms",
+      "email": "CFeedbackEditUiT.danny.tmms@gmail.tmt",
+      "course": "CFeedbackEditUiT.CS1101",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "team": "Team 2"
+    }
+  },
+  
+  "feedbackSessions" : {  
+    "openSession": {
+      "feedbackSessionName" : "First Session",
+      "courseId" : "CFeedbackEditUiT.CS2104",
+      "creatorEmail" : "tmms.test@gmail.tmt",
+      "instructions": {"value" : "Please fill in the edited feedback session."},
+      "createdTime" : "2012-04-01 11:59 PM UTC",
+      "startTime" : "2012-04-01 11:59 PM UTC",
+      "endTime" : "2016-05-01 10:00 PM UTC",
+      "sessionVisibleFromTime" : "2012-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime" : "2016-05-01 10:00 PM UTC",
+      "timeZone" : 2.0,
+      "gracePeriod": 30,
+      "feedbackSessionType" : "STANDARD",
+      "sentOpenEmail" : true,
+      "sentPublishedEmail" : false
+    }
+  }
+}

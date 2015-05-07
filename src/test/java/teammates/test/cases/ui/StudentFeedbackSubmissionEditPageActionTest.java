@@ -5,12 +5,12 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.BeforeClass;
-
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
 import teammates.storage.api.FeedbackSessionsDb;
@@ -34,6 +34,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
     public void testExecuteAndPostProcess() throws Exception {
         StudentAttributes student1InCourse1 = dataBundle.students
                 .get("student1InCourse1");
+        StudentAttributes unregStudent = new StudentAttributes("1", "Team0.1", "Unreg Student", "unreg@stud.ent", "asdf", "idOfTypicalCourse1");
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
 
         ______TS("not enough parameters");
@@ -114,10 +115,36 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
                 "The feedback session has been deleted"
                         + " and is no longer accessible.",
                 redirectResult.getStatusMessage());
+        
+        //-------for unreg student---------
+        
+        StudentsDb stDb = new StudentsDb();
+        stDb.createStudentWithoutDocument(unregStudent);
+        unregStudent = stDb.getStudentForEmail("idOfTypicalCourse1", "unreg@stud.ent");
+        gaeSimulation.logoutUser();
+        
+        params = new String[] {
+                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                session1InCourse1.feedbackSessionName,
+                Const.ParamsNames.REGKEY, unregStudent.key,
+                Const.ParamsNames.STUDENT_EMAIL, unregStudent.email
+        };
+        
+        try {
+            pageAction = getAction(params);
+            redirectResult = getRedirectResult(pageAction);
+            signalFailureToDetectException("EntityDoesNotExist");
+        } catch (EntityDoesNotExistException edne) {
+            assertEquals("unregistered student trying to access non-existent session", edne.getMessage());
+        }
+        
+        stDb.deleteStudent("idOfTypicalCourse1", "unreg@stud.ent");
 
         ______TS("typical success case");
 
-        		removeAndRestoreTypicalDataInDatastore();
+        gaeSimulation.loginAsStudent(student1InCourse1.googleId);
+        removeAndRestoreTypicalDataInDatastore();
 
         session1InCourse1 = dataBundle.feedbackSessions
                 .get("session1InCourse1");

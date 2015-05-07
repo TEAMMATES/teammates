@@ -1,33 +1,4 @@
 <noscript>
-<style>
-/* remove display of original page*/
-#frameBody, #frameTop, #frameBottom{display:none;}
-
-/*Some styles for link, might need it as the css from common.css isn't that nice.
-ul #nav {
-    margin: 0;
-    padding: 0;
-}
-
-#nav li {
-    display: inline;
-    padding: 0;
-    margin: 0;
-}
-
-#nav a:link,#nav a:visited {
-    color: #000;
-    padding: 10px;
-    background: #aaa;
-    text-decoration: none;
-}
-
-#nav a:hover {
-    background: #222;
-    color: #fff;
-}
-*/
-</style>
 
     <div id="noscript-warning">
         <h1>

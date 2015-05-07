@@ -611,6 +611,8 @@
                             onclick="enableEdit(<%=question.questionNumber%>,<%=data.questions.size()%>)">Edit</a>
                             <a class="btn btn-primary btn-xs" style="display:none"
                              id="<%=Const.ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT%>-<%=question.questionNumber%>">Save Changes</a>
+                            <a class="btn btn-primary btn-xs" onclick="cancelEdit(<%=question.questionNumber%>)" style="display:none" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_CANCELEDIT%>-<%=question.questionNumber%>"
+                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_QUESTION_CANCEL%>">Cancel</a>
                             <a class="btn btn-primary btn-xs" onclick="deleteQuestion(<%=question.questionNumber%>)"
                              data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_QUESTION_DELETE%>">Delete</a>
                         </span>
@@ -634,7 +636,7 @@
                 <br>
                 <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
                     <div class="col-sm-12 padding-0">
-                        <b>Feedback Path</b> (Who is giving feedback to whom?)
+                        <b>Feedback Path</b> (Who is giving feedback about whom?)
                     </div>
                     <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>">  
                         <label class="col-sm-5 control-label">
@@ -876,7 +878,7 @@
                         <a id="button_copy" class="btn btn-primary" value="Copy Question">&nbsp;&nbsp;&nbsp;Copy Question&nbsp;&nbsp;&nbsp;</a>
                     </div>
                     <div class="col-sm-2">
-                        <a class="btn btn-primary" href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + "?" + Const.ParamsNames.USER_ID + "=" + data.account.googleId + "&" + Const.ParamsNames.COURSE_ID + "=" + data.session.courseId%>" class="button">&nbsp;&nbsp;&nbsp;Done Editing&nbsp;&nbsp;&nbsp;</a>
+                        <a class="btn btn-primary" href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + "?" + Const.ParamsNames.USER_ID + "=" + data.account.googleId + "&" + Const.ParamsNames.COURSE_ID + "=" + data.session.courseId + "&" + Const.ParamsNames.FEEDBACK_SESSION_NAME + "=" + data.session.feedbackSessionName%>" class="button">&nbsp;&nbsp;&nbsp;Done Editing&nbsp;&nbsp;&nbsp;</a>
                     </div>
                 </div>
             </div>
@@ -894,6 +896,8 @@
                     &nbsp;
                     <span id="questionTypeHeader"></span>
                     <span class="pull-right">
+                        <a class="btn btn-primary btn-xs" onclick="cancelEdit(-1)" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_QUESTION_CANCEL_NEW%>">Cancel
+                        </a>
                         <a class="btn btn-primary btn-xs" onclick="deleteQuestion(-1)" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_QUESTION_DELETE%>">Delete
                         </a>
                     </span>

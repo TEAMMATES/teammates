@@ -11,17 +11,20 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
+import teammates.test.pageobjects.FeedbackQuestionSubmitPage;
 import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
 
-public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
+public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     private static Browser browser;
     private static InstructorFeedbackEditPage feedbackEditPage;
     private static FeedbackSubmitPage submitPage;
@@ -34,7 +37,7 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
     private static String instructorId;
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackRubricQuestionUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -43,6 +46,7 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         instructorId = testData.accounts.get("instructor1").googleId;
         courseId = testData.courses.get("course").id;
         feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
+        feedbackEditPage = getFeedbackEditPage();
 
     }
     
@@ -54,6 +58,7 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         testStudentSubmitPage();
         testStudentResultsPage();
         testInstructorResultsPage();
+        testStudentQuestionSubmitPage();
     }
 
     private void testStudentResultsPage() {
@@ -138,21 +143,42 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageRubricSuccess.html");
         
     }
+    
+    private void testStudentQuestionSubmitPage() {
+        
+        ______TS("test rubric question input for FeedbackQuestionSubmissionEdit");
+        FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("FRubricQnUiT.CS2104", "Third Session", 1);
+        
+        FeedbackQuestionSubmitPage questionSubmitPage = loginToStudentFeedbackQuestionSubmitPage("alice.tmms@FRubricQnUiT.CS2104", "openSession3", fq.getId());
+
+        // Select table cell
+        questionSubmitPage.clickRubricCell(0, 0, 1);
+        questionSubmitPage.clickRubricCell(0, 1, 0);
+        questionSubmitPage.clickRubricCell(0, 0, 0);
+
+        // Submit
+        questionSubmitPage.clickSubmitButton();
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, questionSubmitPage.getStatus());
+        
+        assertNotNull(BackDoor.getFeedbackResponse(fq.getId(),
+                "alice.b.tmms@gmail.tmt",
+                "alice.b.tmms@gmail.tmt"));
+        
+    }
 
     private void testEditPage(){
-        
-        feedbackEditPage = getFeedbackEditPage();
-        
-        testNewRubricQuestionFrame();
-        testInputValidationForRubricQuestion();
-        testAddRubricQuestionAction();
-        testEditRubricQuestionAction();
-        testDeleteRubricQuestionAction();
+        testNewQuestionFrame();
+        testInputValidation();
+        testCustomizeOptions();
+        testAddQuestionAction();
+        testEditQuestionAction();
+        testDeleteQuestionAction();
+        testInputJsValidationForRubricQuestion();
     }
     
     
 
-    private void testNewRubricQuestionFrame() {
+    public void testNewQuestionFrame() {
         ______TS("RUBRIC: new question (frame) link");
 
         feedbackEditPage.selectNewQuestionType("Rubric question");
@@ -160,16 +186,21 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         assertTrue(feedbackEditPage.verifyNewRubricQuestionFormIsDisplayed());
     }
     
-    private void testInputValidationForRubricQuestion() {
+    public void testInputValidation() {
         
         ______TS("empty question text");
 
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID, feedbackEditPage.getStatus());
+    }
+    
+    public void testCustomizeOptions() {
+        
+        // TODO somebody do this?
         
     }
 
-    private void testAddRubricQuestionAction() {
+    public void testAddQuestionAction() {
         ______TS("RUBRIC: add question action success");
         
         feedbackEditPage.fillQuestionBox("RUBRIC qn");
@@ -180,7 +211,7 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionAddSuccess.html");
     }
 
-    private void testEditRubricQuestionAction() {
+    public void testEditQuestionAction() {
         ______TS("RUBRIC: edit question success");
         
         // Click edit button
@@ -204,17 +235,18 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         
         // Add new sub-question
         feedbackEditPage.clickAddRubricRowLink(1);
-        feedbackEditPage.fillRubricSubQuestionBox("New(1) sub-question text", 1, 1);
+        feedbackEditPage.fillRubricSubQuestionBox("New(1) sub-question text", 1, 2);
         
-        // Remove existing sub-question
+        // Remove existing sub-questions
         feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 0);
+        feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 1);
  
         // Add new sub-question
         feedbackEditPage.clickAddRubricRowLink(1);
-        feedbackEditPage.fillRubricSubQuestionBox("New(2) sub-question text", 1, 2);
+        feedbackEditPage.fillRubricSubQuestionBox("New(2) sub-question text", 1, 3);
         
         // Remove new sub-question
-        feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 1);
+        feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 2);
         
         // Should end up with 1 question
         
@@ -261,10 +293,11 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         // Should end up with 2 rubric descriptions, (0) and (1)
         
         feedbackEditPage.clickSaveExistingQuestionButton(1);
+        
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditDescriptionSuccess.html");
     }
     
-    private void testDeleteRubricQuestionAction() {
+    public void testDeleteQuestionAction() {
         ______TS("RUBRIC: qn delete then cancel");
 
         feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(1));
@@ -275,6 +308,41 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(1));
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_DELETED, feedbackEditPage.getStatus());
         assertNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));    
+    }
+    
+    private void testInputJsValidationForRubricQuestion() {
+        // this tests whether the JS validation disallows empty rubric options
+        
+        ______TS("JS validation test");
+
+        // add a new question
+        feedbackEditPage.selectNewQuestionType("Rubric question");
+        feedbackEditPage.clickNewQuestionButton();
+        
+        // start editing it
+        feedbackEditPage.fillQuestionBox("RUBRIC qn JS validation test");
+        feedbackEditPage.clickAddQuestionButton();
+        
+        assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
+        
+        // try to remove everything
+        feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 1);
+        feedbackEditPage.clickRemoveRubricRowLinkAndConfirm(1, 0);
+        feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 3);
+        feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 2);
+        feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 1);
+        feedbackEditPage.clickRemoveRubricColLinkAndConfirm(1, 0);
+        
+        // TODO check if the rubric column and link is indeed empty
+        
+        // add something so that we know that the elements are still there
+        // and so that we don't get empty sub question error
+        feedbackEditPage.fillRubricSubQuestionBox("New sub-question text", 1, 0);
+        feedbackEditPage.fillRubricDescriptionBox("New(0) description", 1, 0, 0);
+        
+        feedbackEditPage.clickSaveExistingQuestionButton(1);
+        
+        assertEquals("Too little choices for Rubric question. Minimum number of options is: 2", feedbackEditPage.getStatus());
     }
     
     private InstructorFeedbackEditPage getFeedbackEditPage() {
@@ -328,6 +396,20 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         
         return loginAdminToPage(browser, editUrl,
                 InstructorFeedbackResultsPage.class);
+    }
+    
+    
+    private FeedbackQuestionSubmitPage loginToStudentFeedbackQuestionSubmitPage(
+            String studentName, String fsName, String questionId) {
+        StudentAttributes s = testData.students.get(studentName);
+        Url editUrl = createUrl(
+                Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
+                .withUserId(s.googleId)
+                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
+                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName)
+                .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
+        
+        return loginAdminToPage(browser, editUrl,FeedbackQuestionSubmitPage.class);
     }
 
     @AfterClass

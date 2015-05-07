@@ -49,6 +49,7 @@ var FEEDBACK_QUESTION_NUMSCALE_STEP = "numscalestep";
 var FEEDBACK_QUESTION_NUMBER ="questionnum";
 var FEEDBACK_QUESTION_TEXT ="questiontext";
 var FEEDBACK_QUESTION_EDITTEXT = "questionedittext";
+var FEEDBACK_QUESTION_CANCELEDIT = "questioncanceledit";
 var FEEDBACK_QUESTION_EDITTYPE = "questionedittype";
 var FEEDBACK_QUESTION_SAVECHANGESTEXT = "questionsavechangestext";
 var FEEDBACK_QUESTION_SHOWRESPONSESTO = "showresponsesto";
@@ -570,4 +571,13 @@ function replaceAll(string, find, replace) {
 
 function escapeRegExp(string) {
     return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+}
+
+/**
+ * Sanitizes special characters such as ' and \ to \' and \\ respectively
+ */
+function sanitizeForJs(string){
+    string = replaceAll(string, '\\','\\\\');
+    string = replaceAll(string, '\'','\\\'');
+    return string;
 }

@@ -20,6 +20,7 @@
 <%@ page import="teammates.ui.controller.InstructorEvalSubmissionPageData"%>
 <%@ page import="teammates.ui.controller.InstructorStudentRecordsPageData"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForJs"%>
+<%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml" %>
 <%
 	InstructorStudentRecordsPageData data = (InstructorStudentRecordsPageData)request.getAttribute("data");
 %>
@@ -205,6 +206,9 @@
                                 <div id="commentTextEdit<%=commentIdx%>" style="display:none;">
                                     <div class="form-group form-inline">
                                         <div class="form-group text-muted">
+                                            <p>
+                                                Comment about <%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name)%>:
+                                            </p>
                                             You may change comment's visibility using the visibility options on the right hand side.
                                         </div>
                                         <a id="visibility-options-trigger<%=commentIdx%>"
@@ -401,7 +405,10 @@
                                   <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD%>" name="form_commentadd" class="form_comment">
                                     <div class="form-group form-inline">
                                         <div class="form-group text-muted">
-                                            The default visibility for your comment is private. You may change it using the visibility options.
+                                            <p>
+                                                Comment about <%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name)%>: 
+                                            </p>
+                                            The default visibility for your comment is private. You may change it using the visibility options. 
                                         </div>
                                         <a id="visibility-options-trigger<%=commentIdx%>"
                                             class="btn btn-sm btn-info pull-right">
@@ -593,7 +600,7 @@
                                             <td class="col-sm-4"><%=byReviewee ? "Reviewee" : "Reviewer"%>: <strong><%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name)%></strong>
                                             </td>
                                             <td class="col-sm-4">
-                                                <div class="pull-right"><span data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.CLAIMED%>">Claimed Contribution: </span>
+                                                <div class="pull-right"><span data-toggle="tooltip" data-placement="top" title="<%=sanitizeForHtml(Const.Tooltips.CLAIMED)%>">Claimed Contribution: </span>
                                                     <%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(studentResult.summary.claimedToInstructor,true)%>
                                                 </div>
                                             </td>

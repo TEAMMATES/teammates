@@ -48,7 +48,7 @@
         <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />    
         <div id="frameBodyWrapper" class="container theme-showcase">
             <div id="topOfPage"></div>
-            <h1>Find Students</h1>
+            <h1>Student List</h1>
             <div class="well well-plain">
                 <div class="row">
                     <div class="col-md-12">
@@ -82,7 +82,8 @@
                      </div>
                  </div>
              </div>
-            <h1>Filter Students</h1>
+             <br>
+            <h2>Filter Students</h2>
             <div id="moreOptionsDiv" class="well well-plain" <% if(data.courses.size() == 0){ %> style="display:none;" <% } %>>
                 <div class="row">
                     <div class="col-md-3">
@@ -171,6 +172,21 @@
             </div>
     
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
+            
+            <%
+                if(data.courses.size() > 0) {
+            %>
+            
+            <br>
+            <div class="text-muted">
+                Click on the panels below to expand
+            </div>
+            <br>
+            
+            <%
+                }
+            %>
+            
             <%
                 courseIdx = -1;
                 
@@ -187,7 +203,7 @@
                         <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
                         <input type="hidden" id="numStudents-<%=courseIdx%>" value="<%=data.numStudents.get(course.id)%>">
                     </form>
-                    <a class="btn btn-default btn-xs pull-right pull-down course-enroll-for-test"
+                    <a class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test"
                                 id="enroll-<%=courseIdx%>"
                                 href="<%=data.getInstructorCourseEnrollLink(course.id)%>"
                                 title="<%=Const.Tooltips.COURSE_ENROLL%>"
