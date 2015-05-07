@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackResponseDetails;
 import teammates.common.datatransfer.FeedbackContributionQuestionDetails;
@@ -125,8 +124,8 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
     }
     
     protected void deleteEvaluation(String courseId, String evalName) {
-        // first, check if a feedback session have been created for the evaluation
-        // do not delete if the feedback session was not created
+        // first, check if a feedback session have been created for the evaluation.
+        // do not delete the evaluation if the feedback session was not created
         if (logic.getFeedbackSession(evalName, courseId) == null) {
             System.out.println("deleteEvaluation: a feedback session was not created for the evaluation " + evalName);
             return;
@@ -188,7 +187,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
             } catch (InvalidParametersException e) {
                 System.out.println("Something went wrong.");
                 e.printStackTrace();
-                return;
+                return;  // do not continue to create the questions and responses if fail to create the feedback session
             } catch (EntityAlreadyExistsException e) {
                 System.out.println(String.format("Feedback session with the name %s already exists, retrying with a different name.", feedbackSessionName));
                 e.printStackTrace();
