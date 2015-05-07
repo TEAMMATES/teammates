@@ -732,8 +732,7 @@ public abstract class AppPage {
         return this;
     }
 
-    private boolean testAndRunGodMode(String filePath, String content) {        
-        
+    private boolean testAndRunGodMode(String filePath, String content) {
         if (System.getProperty("godmode") != null && System.getProperty("godmode").equals("true")) {
             assert(TestProperties.inst().isDevServer());
             if (areTestAccountsDefaultValues()) {
@@ -754,7 +753,7 @@ public abstract class AppPage {
 
     private String processPageSourceForGodMode(String content) {
         Date now = new Date();
-        assertEquals(new SimpleDateFormat("dd MMM yyyy, HH:mm").format(now), TimeHelper.formatTime(now));
+        assertEquals(new SimpleDateFormat("EEE, dd MMM yyyy, HH:mm").format(now), TimeHelper.formatTime(now));
         return content
                 .replaceAll("<#comment[ ]*</#comment>", "<!---->")
                 .replace(Config.APP_URL, "{$app.url}")
@@ -768,8 +767,10 @@ public abstract class AppPage {
                         + Const.ParamsNames.STUDENT_EMAIL + "=([a-zA-Z0-9]){1,}", 
                         Const.ActionURIs.STUDENT_PROFILE_PICTURE + "\\?" + Const.ParamsNames.COURSE_ID 
                         + "={*}\\&amp;" + Const.ParamsNames.STUDENT_EMAIL + "={*}")
+                //regkey
                 .replaceAll(Const.ParamsNames.REGKEY + "=([a-zA-Z0-9]){1,}\\&amp;", Const.ParamsNames.REGKEY + "={*}\\&amp;")
                 .replaceAll(Const.ParamsNames.REGKEY + "%3D([a-zA-Z0-9]){1,}\\%", Const.ParamsNames.REGKEY + "%3D{*}\\%")
+                .replaceAll("\"([a-zA-Z0-9-_]){50,}\"","\"{*}\"")
                 //responseid
                 .replaceAll("([a-zA-Z0-9-_]){30,}%"
                         + "[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+@([A-Za-z0-9-]+\\.)*[A-Za-z]+%"
@@ -790,7 +791,9 @@ public abstract class AppPage {
                 // today's date
                 .replace(TimeHelper.formatDate(now), "{*}")
                 // now (used in opening time/closing time Grace period)
-                .replaceAll(new SimpleDateFormat("dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}", "{*}");
+                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}", "{*}")
+                // now (used in comments last edited date) e.g. [Thu May 07 07:52:13 UTC 2015]
+                .replaceAll(new SimpleDateFormat("EEE MMM dd ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC [0-9]{4}", "{*}");
     }
 
     private boolean areTestAccountsDefaultValues() {
