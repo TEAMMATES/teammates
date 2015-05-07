@@ -48,7 +48,7 @@
                             (data.bundle.feedbackSession.isOpened() || data.bundle.feedbackSession.isPrivateSession()) ? 
                             "" : "style=\"background: #66727A;\" disabled=\"disabled\"" 
                         %>
-                    />
+                    >
                 </div>
                 <br><br>    
             </form>
