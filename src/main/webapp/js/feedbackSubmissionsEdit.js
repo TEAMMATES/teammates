@@ -6,6 +6,7 @@ var FEEDBACK_MISSING_RECIPIENT = "You did not specify a recipient for your respo
 
 // On body load event
 $(document).ready(function () {
+    
     // Bind submission event
     $('form[name="form_submit_response"],form[name="form_student_submit_response"]').submit(function() {
         formatRubricQuestions();
@@ -69,7 +70,7 @@ function prepareMCQQuestions() {
 				var name = $(this).attr("name");
 				// toggle the radio button checked state
 				$(this).attr("checked",
-				        (radioStates[name][val] = !radioStates[name][val]));
+				            (radioStates[name][val] = !radioStates[name][val]));
 
 				// set other radio buttons' states to false
 				$.each(radioButtons[name], function(index, radio) {
@@ -115,7 +116,7 @@ function prepareContribQuestions() {
 function prepareMSQQuestions() {
     // Get index of MSQ questions
     var msqQuestionNums = getQuestionTypeNumbers("MSQ");
-    for (var i=0 ; i<msqQuestionNums.length ; i++) {
+    for(var i=0 ; i<msqQuestionNums.length ; i++) {
         var qnNum = msqQuestionNums[i];
         
         var noneOfTheAboveOption = $("input[name^='responsetext-" + qnNum + "'][value='']");
@@ -189,6 +190,7 @@ function prepareRubricQuestions() {
             updateRubricCellSelectedColor(rubricRadioInputs[j]);
         }
     }
+    
 }
 
 /**
@@ -207,7 +209,7 @@ function updateRubricCellSelectedColor(radioInput) {
 //Format rubric question for form submission
 function formatRubricQuestions() {
     var rubricQuestionNums = getQuestionTypeNumbers("RUBRIC");
-    for(var i=0 ; i<rubricQuestionNums.length ; i++){
+    for(var i=0 ; i<rubricQuestionNums.length ; i++) {
         var qnNum = rubricQuestionNums[i];
         var numResponses = $("[name='questionresponsetotal-"+qnNum+"']").val();
         numResponses = parseInt(numResponses);
@@ -229,11 +231,11 @@ function formatRubricQuestions() {
 function prepareConstSumQuestions() {
     var constSumQuestionNums = getQuestionTypeNumbers("CONSTSUM");
 
-    for(var i=0 ; i<constSumQuestionNums.length ; i++) {
+    for(var i=0 ; i<constSumQuestionNums.length ; i++){
         var qnNum = constSumQuestionNums[i];
-        // const sum to recipients
-        if(! $("#response_submit_button").is(":disabled") || $(document).find('.navbar').text().indexOf('Preview') != -1){
-            if($("#constSumToRecipients-"+qnNum).val() === "true"){
+        //const sum to recipients
+        if(! $("#response_submit_button").is(":disabled") || $(document).find('.navbar').text().indexOf('Preview')!=-1){
+            if( $("#constSumToRecipients-"+qnNum).val() === "true" ){
                 var numResponses = $("[name='questionresponsetotal-"+qnNum+"']").val();
                 numResponses = parseInt(numResponses);
                 $("#constSumInfo-"+qnNum+"-"+(numResponses-1)).show();
@@ -256,7 +258,7 @@ function getQuestionTypeNumbers(qnType){
 }
 
 //Updates all const sum messages
-function updateConstSumMessages() {
+function updateConstSumMessages(){
     var constSumQuestionNums = getQuestionTypeNumbers("CONSTSUM");
     for(var i=0 ; i<constSumQuestionNums.length ; i++){
         var qnNum = constSumQuestionNums[i];
@@ -265,7 +267,7 @@ function updateConstSumMessages() {
 }
 
 //updates const sum message for one question
-function updateConstSumMessageQn(qnNum) {
+function updateConstSumMessageQn(qnNum){
     var points = parseInt($("#constSumPoints-"+qnNum).val());
     var distributeToRecipients = $("#constSumToRecipients-"+qnNum).val() === "true" ? true : false;
     var pointsPerOption = $("#constSumPointsPerOption-"+qnNum).val() === "true" ? true : false;
@@ -283,7 +285,7 @@ function updateConstSumMessageQn(qnNum) {
         points *= numOptions;
     }
     
-    if (distributeToRecipients) {
+    if(distributeToRecipients){
         var messageElement = $("#constSumMessage-"+qnNum+"-"+(numOptions-1));
         var sum = 0;
         var allNotNumbers = true;
@@ -397,7 +399,7 @@ function validateConstSumQuestions(){
         var constSumQuestionNums = getQuestionTypeNumbers("CONSTSUM");
         var statusMessage = "Please fix the error(s) for distribution question(s) ";
         var errorCount = 0;
-        for (var i=0; i<constSumQuestionNums.length; i++) {
+        for(var i=0 ; i<constSumQuestionNums.length ; i++){
             var qnNum = constSumQuestionNums[i];
             
             // indicate the question number where the errors are located at
@@ -431,10 +433,10 @@ function formatRecipientLists(){
                 $(this).attr('name').split('-')[1];
             var selectedOption = $(this).find('option:selected').val();
             
-            if (selectedOption !== "") {
+            if (selectedOption != "") {
             	selectedOption = sanitizeForJs(selectedOption);
-                $("select[name|=" + FEEDBACK_RESPONSE_RECIPIENT + "-" + questionNumber + "]").not(this).
-                    find("option[value='" + selectedOption + "']").hide();
+                $("select[name|="+FEEDBACK_RESPONSE_RECIPIENT+"-"+questionNumber+"]").not(this).
+                    find("option[value='"+selectedOption+"']").hide();
             }
         }
         // Save initial data.
@@ -444,7 +446,7 @@ function formatRecipientLists(){
         var lastSelectedOption = $(this).data('previouslySelected');
         var curSelectedOption = $(this).find('option:selected').val();
 
-        if (lastSelectedOption != "") {
+        if(lastSelectedOption != "") {
             $("select[name|="+FEEDBACK_RESPONSE_RECIPIENT+"-"+questionNumber+"]").not(this).
             find("option[value='"+lastSelectedOption+"']").show();
         }
@@ -458,12 +460,12 @@ function formatRecipientLists(){
     });
     
     // Auto-select first valid option.
-    $('select.participantSelect.newResponse').each(function(){
+    $('select.participantSelect.newResponse').each(function() {
         var firstUnhidden = "";
         // select the first valid recipient if the dropdown is hidden from the user,
         // otherwise, leave it as ""
         if (this.style.display == 'none') {
-            $(this).children().reverse().each(function() {
+            $(this).children().reverse().each(function(){
                 if (this.style.display != 'none' && $(this).val() != "") {
                     firstUnhidden = this;
                 }
