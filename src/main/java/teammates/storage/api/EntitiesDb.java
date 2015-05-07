@@ -135,7 +135,7 @@ public abstract class EntitiesDb {
      * Preconditions: 
      * <br> * {@code entityToAdd} is not null and has valid data.
      */
-    public void createEntityWithoutExistenceCheck(EntityAttributes entityToAdd) 
+    public Object createEntityWithoutExistenceCheck(EntityAttributes entityToAdd) 
             throws InvalidParametersException {
         
         Assumption.assertNotNull(
@@ -171,6 +171,8 @@ public abstract class EntitiesDb {
             }
         }
         log.info(entityToAdd.getBackupIdentifier());
+        
+        return entity;
     }
     
     // TODO: use this method for subclasses.
