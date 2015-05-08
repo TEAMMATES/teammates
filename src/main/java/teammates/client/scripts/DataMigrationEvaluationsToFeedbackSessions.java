@@ -20,6 +20,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.FeedbackTextResponseDetails;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -67,9 +68,6 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
     protected void doOperation() {
         Datastore.initialize();
         
-        
-        
-        
         if (isForAllCourses) {
             Set<String> coursesId = getCourses();
             
@@ -85,8 +83,6 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
             convertEvaluationsForCourse(courseId);
         }
         
-        //Converts all evaluations to feedback sessions
-        //convertEvaluationsToFeedbackSessions();
     }
     
     
@@ -104,7 +100,6 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
     }
     
     private void convertEvaluationsForCourse(String courseId) {
-        System.out.println("Converting evaluations for course : " + courseId);
         
         List<EvaluationAttributes> evalList = logic.getEvaluationsForCourse(courseId);
         
@@ -116,9 +111,9 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
                     deleteEvaluation(courseId, evalAttribute.name);
                 }
                 
-            } catch (InvalidParametersException ipe) {
-                System.out.println("Something went wrong");
-                ipe.printStackTrace();
+            } catch (Exception e) {
+                printErrorMessage("Something went wrong");
+                e.printStackTrace();
             }
         }
     }
@@ -131,14 +126,19 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         // first, check if a feedback session have been created for the evaluation.
         // do not delete the evaluation if the feedback session was not created
         if (logic.getFeedbackSession(evalName, courseId) == null) {
-            System.out.println("deleteEvaluation: a feedback session was not created for the evaluation " + evalName);
+            printErrorMessage("ERROR a feedback session was not created for the evaluation " + evalName);
             return;
         }
         
         logic.deleteEvaluation(courseId, evalName);
     }
+
+
+    private void printErrorMessage(String message) {
+        System.out.println("\n\n"+ message + "\n");
+    }
     
-    protected void convertOneEvaluationToFeedbackSession(EvaluationAttributes eval, String newFeedbackSessionName) throws InvalidParametersException {
+    protected void convertOneEvaluationToFeedbackSession(EvaluationAttributes eval, String newFeedbackSessionName) throws Exception {
 
         if(newFeedbackSessionName == null || newFeedbackSessionName.isEmpty()){
             newFeedbackSessionName = "Migrated - " + eval.name;
@@ -151,8 +151,13 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         String feedbackSessionName = newFeedbackSessionName + (num==0 ? "" : ("("+num+")"));//Use same name, or if exists, use "<name>(<num>)"
         String courseId = eval.courseId;
         
-        String instEmail = logic.getInstructorsForCourse(courseId).get(0).email;//Use email of any instructor in the course.
-        
+        List<InstructorAttributes> instructorsForCourse = logic.getInstructorsForCourse(courseId);
+        if (instructorsForCourse.size() == 0) {
+            printErrorMessage("ERROR: no instructors for the course " + courseId);
+            return;
+        }
+        String instEmail = instructorsForCourse.get(0).email;//Use email of any instructor in the course.
+        System.out.print("[" + eval.courseId + ":" + eval.name + "]");
         String creatorEmail = instEmail;
         Text instructions = eval.instructions;
         Date createdTime = (new Date()).compareTo(eval.startTime) > 0 ? new Date() : eval.startTime; //Now, or opening time if start time is earlier.
@@ -174,7 +179,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
             feedbackSessionName = newFeedbackSessionName + (num==0 ? "" : ("("+num+")"));//Use same name, or if exists, use "<name>(<num>)"
         
             if (logic.getFeedbackSession(feedbackSessionName, courseId) != null ) {
-                System.out.println(String.format("Feedback session with the name %s already exists", feedbackSessionName));  
+                printErrorMessage(String.format("ERROR Feedback session with the name %s already exists", feedbackSessionName));  
             }
             
             if (isPreview) {
@@ -194,7 +199,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
                 fsDb.createEntity(fsa);
                 break;
             } catch (EntityAlreadyExistsException e) {
-                System.out.println(String.format("Feedback session with the name %s already exists, retrying with a different name.", feedbackSessionName));
+                printErrorMessage(String.format("ERROR Feedback session with the name %s already exists, retrying with a different name.", feedbackSessionName));
                 e.printStackTrace();
             }
             
@@ -223,7 +228,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
 
     private void createFeedbackResponsesFromSubmission(
             String feedbackSessionName, String courseId, boolean peerFeedback,
-            List<String> fqIds, SubmissionAttributes sub) {
+            List<String> fqIds, SubmissionAttributes sub) throws Exception {
         if (isPreview) {
             return;
         }
@@ -234,8 +239,18 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         String recipientSection = "";
         
         StudentAttributes studentGiver = logic.getStudentForEmail(courseId, giver);
-        giverSection = (studentGiver == null) ? Const.DEFAULT_SECTION : studentGiver.section;
         StudentAttributes studentRecipient = logic.getStudentForEmail(courseId, recipient);
+        
+        if(studentGiver == null){
+            printErrorMessage("Student cannot be found "+giver);
+            return;
+        }
+        if(studentRecipient == null){
+            printErrorMessage("Student cannot be found "+giver);
+            return;
+        }
+        
+        giverSection = (studentGiver == null) ? Const.DEFAULT_SECTION : studentGiver.section;
         recipientSection = (studentRecipient == null) ? Const.DEFAULT_SECTION : studentRecipient.section;
         
         FeedbackResponseAttributes q1Response = null;
@@ -342,10 +357,10 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
                     try {
                         logic.createFeedbackResponse(response);
                     } catch (EntityAlreadyExistsException e) {
-                        System.out.println("Response already exists.");
+                        printErrorMessage("Response already exists.");
                         e.printStackTrace();
                     } catch (InvalidParametersException e) {
-                        System.out.println("Invalid Parameters for Response");
+                        printErrorMessage("Invalid Parameters for Response");
                         e.printStackTrace();
                     }
                 }
