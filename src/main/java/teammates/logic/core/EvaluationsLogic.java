@@ -404,7 +404,6 @@ public class EvaluationsLogic {
         
         for (EvaluationAttributes ed: evaluations) {
             Emails emails = new Emails();
-            emails.addEvaluationReminderToEmailsQueue(ed, Emails.EmailType.EVAL_OPENING);
         }
     }
 
@@ -415,7 +414,6 @@ public class EvaluationsLogic {
         
         for (EvaluationAttributes ed : evaluationDataList) {
             Emails emails = new Emails();
-            emails.addEvaluationReminderToEmailsQueue(ed, Emails.EmailType.EVAL_CLOSING);
         }
     }
     
@@ -446,7 +444,6 @@ public class EvaluationsLogic {
         }
     
         setEvaluationPublishedStatus(courseId, evaluationName, true);
-        scheduleEvaluationPublishedEmails(courseId, evaluationName);
     }
     
     public List<MimeMessage> sendEvaluationPublishedEmails(String courseId,
@@ -464,10 +461,7 @@ public class EvaluationsLogic {
             List<StudentAttributes> students = studentsLogic.getStudentsForCourse(courseId);
             List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(courseId);
             
-            Emails emailMgr = new Emails();
-            emailsSent = emailMgr.generateEvaluationPublishedEmails(course, eval,
-                        students, instructors);
-            emailMgr.sendEmails(emailsSent);
+            
         } catch (Exception e) {
             log.severe("Unexpected error while sending emails " + e.getMessage());
         }
@@ -515,15 +509,11 @@ public class EvaluationsLogic {
             
             CourseAttributes course = coursesLogic.getCourse(courseId);    
             
-            Emails emailMgr = new Emails();
-            emails = emailMgr.generateEvaluationReminderEmails(course,
-                    evaluation, studentsToRemindList, instructorList);
-            emailMgr.sendEmails(emails);
         } catch (Exception e) {
             throw new RuntimeException("Error while sending emails :", e);
         }
         
-        return emails;
+        return null;
     }
     
     public void scheduleEvaluationRemindEmails(String courseId, String evaluationName) {

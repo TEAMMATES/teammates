@@ -68,14 +68,13 @@ public class EvaluationOpeningMailAction extends EmailAction {
               * Check if evaluation was deleted between scheduling
               * and the actual sending of emails
               */
-            preparedEmails = emailManager
-                            .generateEvaluationOpeningEmailsForEval(evalObject);
+            
         } else {
             log.severe("Evaluation object for evaluation name : " + evaluationName +
                        " for course : " + courseId +" could not be fetched" );
         }
         
-        return preparedEmails;
+        return null;
     }
     
     private void initializeNameAndDescription() {
