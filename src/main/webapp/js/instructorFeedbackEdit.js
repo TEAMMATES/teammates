@@ -213,15 +213,15 @@ function enableNewQuestion() {
     var newQnSuffix = "New";
     var number = "-1";
     
-    var $currentQuetsionTablSuffix = $('#questionTable' + newQnSuffix);
+    var $currentQuestionTableSuffix = $('#questionTable' + newQnSuffix);
     var $currentQuestionTableNumber = $('#questionTable' + number);
     
-    $currentQuetsionTablSuffix.find('text,button,textarea,select,input').
+    $currentQuestionTableSuffix.find('text,button,textarea,select,input').
         not('[name="receiverFollowerCheckbox"]').
         not('.disabled_radio').
         removeAttr("disabled", "disabled");
-    $currentQuetsionTablSuffix.find('.removeOptionLink').show();
-    $currentQuetsionTablSuffix.find('.addOptionLink').show();
+    $currentQuestionTableSuffix.find('.removeOptionLink').show();
+    $currentQuestionTableSuffix.find('.addOptionLink').show();
 
     $currentQuestionTableNumber.find('#rubricAddChoiceLink-' + number).show();
     $currentQuestionTableNumber.find('#rubricAddSubQuestionLink-' + number).show();
@@ -768,9 +768,10 @@ function getVisibilityMessage(buttonElem) {
     	data: formData,
     	success: function(data) {
     	    var $formVisibility = $(form).find('.visibilityMessage');
+    	    var $formOptions = $(form).find('.visibilityOptions');
     	    
     	    $formVisibility.html(formatVisibilityMessageHtml(data.visibilityMessage));
-    	    $formVisibility.hide();
+    	    $formOptions.hide();
     	    $formVisibility.show();
     	},
     	error: function(jqXHR, textStatus, errorThrown) {
