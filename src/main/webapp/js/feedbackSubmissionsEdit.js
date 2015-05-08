@@ -457,7 +457,7 @@ function formatRecipientLists() {
             var questionNumber = $(this).attr('name').split('-')[1];
             var selectedOption = $(this).find('option:selected').val();
             
-            if (selectedOption != '') {
+            if (selectedOption !== '') {
                 selectedOption = sanitizeForJs(selectedOption);
                 $('select[name|=' + FEEDBACK_RESPONSE_RECIPIENT + '-' + questionNumber + ']').
                     not(this).

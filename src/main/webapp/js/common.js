@@ -149,7 +149,7 @@ function toggleSort(divElement, colIdx, comparator, row) {
         $selectedDivElement.parent().find('.icon-sort').attr('class', 'icon-sort unsorted');
         $selectedDivElement.attr('class', 'button-sort-ascending');
         $selectedDivElement.find('.icon-sort').attr('class', 'icon-sort sorted-ascending');
-    } else if (selectedDivElement.attr('class') === 'button-sort-ascending') {
+    } else if ($selectedDivElement.attr('class') === 'button-sort-ascending') {
         sortTable(divElement, colIdx, comparator, false, row);
         $selectedDivElement.attr('class', 'button-sort-descending');
         $selectedDivElement.find('.icon-sort').attr('class', 'icon-sort sorted-descending');
@@ -160,7 +160,7 @@ function toggleSort(divElement, colIdx, comparator, row) {
     }
 }
 
-//http://stackoverflow.com/questions/7558182/sort-a-table-fast-by-its-first-column-with-javascript-or-jquery
+// http://stackoverflow.com/questions/7558182/sort-a-table-fast-by-its-first-column-with-javascript-or-jquery
 /**
  * Sorts a table based on certain column and comparator
  *
@@ -176,7 +176,7 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
     var $table = $(oneOfTableCell);
     
     if (!$table.is('table')) {
-        $table =  $table.parents('table');
+        $table = $table.parents('table');
     }
     
     var columnType = 0;
@@ -185,7 +185,7 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
     
     // Iterate through column's contents to decide which comparator to use
     for (var i = row; i < $RowList.length; i++) {
-        if ($RowList[i].cells[colIdx - 1] === undefined || $RowList[i].cells[colIdx - 1] === null) {
+        if ($RowList[i].cells[colIdx - 1] == undefined || $RowList[i].cells[colIdx - 1] == null) {
             continue;
         }
         
@@ -203,7 +203,7 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
         }
     }
     
-    if (comparator === null) {
+    if (comparator == null) {
         if (columnType === 1) {
             comparator = sortNum;
         } else if (columnType === 2) {
@@ -217,7 +217,7 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
         if (ascending === true) {
             var compareResult = comparator(x[0].toUpperCase(), y[0].toUpperCase());
             if (compareResult === 0) {
-                return  x[2] - y[2];
+                return x[2] - y[2];
             } else {
                 return compareResult;
             }
@@ -231,10 +231,12 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
         }
     });
     
-    var $tbody = $(table.get(0)).children('tbody');
+    // Must rewrap because .get() does not return a jQuery wrapped DOM node
+    // and hence does not have the .children() function
+    var $tbody = $($table.get(0)).children('tbody');
 
     if ($tbody.size < 1) {
-        $tbody = table;
+        $tbody = $table;
     }
     
     // Must push to target tbody else it will generate a new tbody for the table
@@ -476,7 +478,7 @@ function isValidGoogleId(googleId) {
     // match() retrieve the matches when matching a string against a regular expression.
     var matches = googleId.match(/^([\w-]+(?:\.[\w-]+)*)/);
     
-    isValidNonEmailGoogleId = (matches !== null && matches[0] === googleId);
+    isValidNonEmailGoogleId = (matches != null && matches[0] === googleId);
     
     var isValidEmailGoogleId = isEmailValid(googleId);
     
@@ -496,7 +498,7 @@ function isValidGoogleId(googleId) {
  * @returns {Boolean}
  */
 function isEmailValid(email) {
-    return email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) !== null;
+    return email.match(/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i) != null;
 }
 
 /**
