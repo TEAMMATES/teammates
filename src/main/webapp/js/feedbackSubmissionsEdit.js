@@ -149,9 +149,9 @@ function prepareRubricQuestions() {
     var $rubricRadioInputs = $('[name^="rubricChoice-"]');
     
     for (var i = 0; i < $rubricRadioInputs.length; i++) {
-        var parentCell = $rubricRadioInputs[i].parent();
+        var $parentCell = $($rubricRadioInputs[i]).parent();
         // Bind hover events
-        parentCell.hover(function() {
+        $parentCell.hover(function() {
                 // Mouse enter
                 $(this).addClass('cell-hover');
             }, function() {
@@ -161,23 +161,23 @@ function prepareRubricQuestions() {
         );
 
         // Bind click
-        parentCell.click(function(event) {
-                var radioInput = $(this).find('[name^="rubricChoice-"]');
+        $parentCell.click(function(event) {
+                var $radioInput = $(this).find('[name^="rubricChoice-"]');
 
                 // If input is disabled, do not check.
-                if (radioInput.prop('disabled')) {
+                if ($radioInput.prop('disabled')) {
                     return;
                 }
 
                 // trigger checkbox manually if cell is clicked.
                 if (event.target === this) {
-                    radioInput.prop('checked', !radioInput.prop('checked'));
-                    radioInput.trigger('change');
+                    $radioInput.prop('checked', !$radioInput.prop('checked'));
+                    $radioInput.trigger('change');
                 }
             });
 
         // Bind refresh highlights on check
-        $rubricRadioInputs[i].on('change', function() {
+        $($rubricRadioInputs[i]).on('change', function() {
                 // Update all radio inputs in the same row.
                 var $rowRadioInputs = $(this).closest('tr').find('[name^="rubricChoice-"]');
                 for (var j = 0; j < $rowRadioInputs.length; j++) {
@@ -197,11 +197,11 @@ function prepareRubricQuestions() {
  *  Updates the colour of a rubric cell if it is checked.
  */
 function updateRubricCellSelectedColor(radioInput) {
-    if ($(radioInput).prop("checked")) {
-        $(radioInput).parent().addClass("cell-selected");
+    if ($(radioInput).prop('checked')) {
+        $(radioInput).parent().addClass('cell-selected');
     } else {
-        if ($(radioInput).parent().hasClass("cell-selected")) {
-            $(radioInput).parent().removeClass("cell-selected");
+        if ($(radioInput).parent().hasClass('cell-selected')) {
+            $(radioInput).parent().removeClass('cell-selected');
         }
     }
 }
@@ -219,8 +219,8 @@ function formatRubricQuestions() {
 
             var $responses = $('[name^="rubricChoice-' + qnNum + '-' + j + '-"]:checked');
             
-            for (var k = 0; k < responses.length; k++) {
-                responsetext.push($responses[k].val());
+            for (var k = 0; k < $responses.length; k++) {
+                responsetext.push($($responses[k]).val());
             }
 
             $('[name="responsetext-' + qnNum + '-' + j + '"]').val(responsetext);
@@ -384,13 +384,13 @@ function updateConstSumMessageQn(qnNum) {
                 $messageElement.addClass('text-color-blue');
                 $messageElement.removeClass('text-color-red');
                 $messageElement.removeClass('text-color-green');
-            } else if(remainingPoints === 0) {
+            } else if (remainingPoints === 0) {
                 if (!forceUnevenDistribution || allUnique) {
                     message = 'All points distributed!';
                     $messageElement.addClass('text-color-green');
                     $messageElement.removeClass('text-color-red');
                 }
-            } else if (remainingPoints > 0){
+            } else if (remainingPoints > 0) {
                 message = remainingPoints + ' points left to distribute.';
                 $messageElement.addClass('text-color-red');
                 $messageElement.removeClass('text-color-green');
@@ -461,7 +461,10 @@ function formatRecipientLists() {
                 selectedOption = sanitizeForJs(selectedOption);
                 $('select[name|=' + FEEDBACK_RESPONSE_RECIPIENT + '-' + questionNumber + ']').
                     not(this).
-                    find('option[value="' + selectedOption + '"]').
+                    // leave this in double quotes and single within
+                    // TODO: Find out what is causing this to fail when it's double quotes on
+                    // the inside
+                    find("option[value='" + selectedOption + "']").
                     hide();
             }
         }
@@ -476,7 +479,10 @@ function formatRecipientLists() {
         if (lastSelectedOption !== '') {
             $('select[name|=' + FEEDBACK_RESPONSE_RECIPIENT + '-' + questionNumber + ']').
                 not(this).
-                find('option[value="' + lastSelectedOption + '"]').
+                // leave this in double quotes and single within
+                // TODO: Find out what is causing this to fail when it's double quotes on
+                // the inside
+                find("option[value='" + lastSelectedOption + "']").
                 show();
         }
         
@@ -484,7 +490,10 @@ function formatRecipientLists() {
             curSelectedOption = sanitizeForJs(curSelectedOption);
             $('select[name|=' + FEEDBACK_RESPONSE_RECIPIENT + '-' + questionNumber + ']').
                 not(this).
-                find('option[value="' + curSelectedOption + '"]').
+                // leave this in double quotes and single within
+                // TODO: Find out what is causing this to fail when it's double quotes on
+                // the inside
+                find("option[value='" + curSelectedOption + "']").
                 hide();
         }
         
@@ -515,26 +524,26 @@ function reenableFieldsForSubmission() {
 }
 
 function validateNumScaleAnswer(qnIdx, responseIdx) {
-    var answerBox = $('[name=responsetext-' + qnIdx + '-' + responseIdx + ']');
-    var min = parseInt(answerBox.attr('min'));
-    var max = parseInt(answerBox.attr('max'));
-    var answer = parseInt(answerBox.val());
+    var $answerBox = $('[name=responsetext-' + qnIdx + '-' + responseIdx + ']');
+    var min = parseInt($answerBox.attr('min'));
+    var max = parseInt($answerBox.attr('max'));
+    var answer = parseInt($answerBox.val());
     
     if (answer < min) {
-        answerBox.val(answerBox.attr('min'));
+        $answerBox.val($answerBox.attr('min'));
     } else if (answer > max) {
-        answerBox.val(answerBox.attr('max'));
+        $answerBox.val($answerBox.attr('max'));
     }
 }
 
 function isAnswerBlank(question, response) {
-    var answer = $('[name=responsetext-' + question + '-' + response + ']');
+    var $answer = $('[name=responsetext-' + question + '-' + response + ']');
     
-    if (answer.attr('type') === 'radio' || answer.attr('type') === 'checkbox') {
+    if ($answer.attr('type') === 'radio' || $answer.attr('type') === 'checkbox') {
         // for question types that involve checking boxes such as MSQ, MCQ
-        return !answer.is(':checked');
+        return !$answer.is(':checked');
     } else {
-        return answer.val().trim() === '';
+        return $answer.val().trim() === '';
     }
 }
 

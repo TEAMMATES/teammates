@@ -564,7 +564,7 @@ function disallowNonNumericEntries(element, decimalPointAllowed, negativeAllowed
         // Allow: backspace, delete, tab, escape, and enter
         if (key === 46 || key === 8 || key === 9 || key === 27 || key === 13 ||
             // Allow: Ctrl+A
-            (key === 65 && event.ctrlKey === true) ||
+            (key === 65 && event.ctrlKey) ||
              // Allow: home, end, left, right
             (key >= 35 && key <= 39) ||
              // Allow dot if decimal point is allowed
@@ -572,7 +572,7 @@ function disallowNonNumericEntries(element, decimalPointAllowed, negativeAllowed
              // Allow hyphen if negative is allowed
              // Code differs by browser (FF/Opera:109, IE/Chrome:189)
              // see http://www.javascripter.net/faq/keycodes.htm
-            (negativeAllowed && (key === 189 || key == 109))) {
+            (negativeAllowed && (key === 189 || key === 109))) {
             
             // let it happen, don't do anything
             return;
