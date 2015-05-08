@@ -111,7 +111,6 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         
         getPageData(userEmailForCourse);
         
-        // TODO: Investigate whether or not this is even being used
         data.isSessionOpenForSubmission = isSessionOpenForSpecificUser(fs);
         
         return createSpecificShowPageResult();
