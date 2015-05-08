@@ -81,46 +81,6 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         // Not checking for invalid values in other entities because they
         // should be checked at lower level methods
     }
-
-    @Test
-    public void testGetSubmission() throws Exception {
-
-        ______TS("typical case");
-        SubmissionAttributes expected = dataBundle.submissions
-                .get("submissionFromS1C1ToS1C1");
-        
-        SubmissionsDb sDb = new SubmissionsDb();
-        try {
-            sDb.createEntity(expected);
-        } catch (EntityAlreadyExistsException e) {
-            // it is alright if the submission already exists
-        }
-        sDb.updateSubmission(expected);
-        
-        TestHelper.verifyPresentInDatastore(expected);
-
-        ______TS("null parameters");
-        // no need to check for null as this is a private method
-
-        ______TS("non-existent");
-
-        assertEquals(
-                null,
-                TestHelper.invokeGetSubmission("non-existent", expected.evaluation,
-                        expected.reviewer, expected.reviewee));
-        assertEquals(
-                null,
-                TestHelper.invokeGetSubmission(expected.course, "non-existent",
-                        expected.reviewer, expected.reviewee));
-        assertEquals(
-                null,
-                TestHelper.invokeGetSubmission(expected.course, expected.evaluation,
-                        "non-existent", expected.reviewee));
-        assertEquals(
-                null,
-                TestHelper.invokeGetSubmission(expected.course, expected.evaluation,
-                        expected.reviewer, "non-existent"));
-    }
     
     private void verifyPresentInDatastore(DataBundle data) throws Exception {
         HashMap<String, AccountAttributes> accounts = data.accounts;
@@ -143,15 +103,6 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
             TestHelper.verifyPresentInDatastore(expectedStudent);
         }
     
-        HashMap<String, EvaluationAttributes> evaluations = data.evaluations;
-        for (EvaluationAttributes expectedEvaluation : evaluations.values()) {
-            TestHelper.verifyPresentInDatastore(expectedEvaluation);
-        }
-    
-        HashMap<String, SubmissionAttributes> submissions = data.submissions;
-        for (SubmissionAttributes expectedSubmission : submissions.values()) {
-            TestHelper.verifyPresentInDatastore(expectedSubmission);
-        }
     }
 
     /*

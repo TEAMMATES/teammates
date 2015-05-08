@@ -60,7 +60,6 @@ public class CoursesLogic {
     private static final CoursesDb coursesDb = new CoursesDb();
     
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    private static final EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();
     private static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
@@ -137,13 +136,6 @@ public class CoursesLogic {
             throws EntityDoesNotExistException {
         CourseDetailsBundle courseSummary = getCourseSummary(courseId);
 
-        ArrayList<EvaluationDetailsBundle> evaluationList = 
-                evaluationsLogic.getEvaluationsDetailsForCourse(courseSummary.course.id);
-        
-        for (EvaluationDetailsBundle edd : evaluationList) {
-            courseSummary.evaluations.add(edd);
-        }
-
         return courseSummary;
     }
 
@@ -173,20 +165,11 @@ public class CoursesLogic {
                 Assumption.assertNotNull("Student should not be null at this point.", s);
             }
             
-            List<EvaluationAttributes> evaluationDataList = evaluationsLogic
-                    .getEvaluationsForCourse(c.id);            
             List<FeedbackSessionAttributes> feedbackSessionList = 
                     feedbackSessionsLogic.getFeedbackSessionsForUserInCourse(c.id, s.email);
             
             CourseDetailsBundle cdd = new CourseDetailsBundle(c);
             
-            for (EvaluationAttributes ed : evaluationDataList) {
-                EvaluationDetailsBundle edd = new EvaluationDetailsBundle(ed);
-                log.fine("Adding evaluation " + ed.name + " to course " + c.id);
-                if (ed.getStatus() != EvalStatus.AWAITING) {
-                    cdd.evaluations.add(edd);
-                }
-            }
             for (FeedbackSessionAttributes fs : feedbackSessionList) {
                 cdd.feedbackSessions.add(new FeedbackSessionDetailsBundle(fs));
             }
@@ -598,17 +581,9 @@ public class CoursesLogic {
         // getEvaluationsDetailsForInstructor
         // getFeedbackSessionDetailsForInstructor
         // The above functions make repeated calls to get InstructorAttributes
-        ArrayList<EvaluationDetailsBundle> evaluationList = 
-                evaluationsLogic.getEvaluationsDetailsForInstructor(instructorId, omitArchived);
         List<FeedbackSessionDetailsBundle> feedbackSessionList = 
                 feedbackSessionsLogic.getFeedbackSessionDetailsForInstructor(instructorId, omitArchived);
         
-        for (EvaluationDetailsBundle edd : evaluationList) {
-            CourseDetailsBundle courseSummary = courseList.get(edd.evaluation.courseId);
-            if (courseSummary != null) {
-                courseSummary.evaluations.add(edd);
-            }
-        }
         for (FeedbackSessionDetailsBundle fsb : feedbackSessionList) {
             CourseDetailsBundle courseSummary = courseList.get(fsb.feedbackSession.courseId);
             if (courseSummary != null) {
@@ -628,17 +603,9 @@ public class CoursesLogic {
                 getCourseSummaryWithoutStatsForInstructor(instructorList);
         
 
-        ArrayList<EvaluationAttributes> evaluationList = 
-                evaluationsLogic.getEvaluationsListForInstructor(instructorList);
         List<FeedbackSessionAttributes> feedbackSessionList = 
                 feedbackSessionsLogic.getFeedbackSessionsListForInstructor(instructorList);
         
-        for (EvaluationAttributes edd : evaluationList) {
-            CourseSummaryBundle courseSummary = courseList.get(edd.courseId);
-            if (courseSummary != null) {
-                courseSummary.evaluations.add(edd);
-            }
-        }
         for (FeedbackSessionAttributes fsb : feedbackSessionList) {
             CourseSummaryBundle courseSummary = courseList.get(fsb.courseId);
             if (courseSummary != null) {
@@ -688,7 +655,6 @@ public class CoursesLogic {
      * This will also cascade the data in other databases which are related to this course
      */ 
     public void deleteCourseCascade(String courseId) {
-        evaluationsLogic.deleteEvaluationsForCourse(courseId);
         studentsLogic.deleteStudentsForCourse(courseId);
         instructorsLogic.deleteInstructorsForCourse(courseId);
         commentsLogic.deleteCommentsForCourse(courseId);

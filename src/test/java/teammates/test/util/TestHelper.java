@@ -40,7 +40,6 @@ import teammates.logic.api.Logic;
 import teammates.logic.backdoor.BackDoorLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
-import teammates.logic.core.SubmissionsLogic;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.EvaluationsDb;
@@ -60,7 +59,6 @@ import com.google.gson.Gson;
 public class TestHelper extends BaseComponentTestCase{
     
     private static final Logic logic = new Logic();
-    protected static SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();
 
     private static final CoursesDb coursesDb = new CoursesDb();
     private static final InstructorsDb instructorsDb = new InstructorsDb();
@@ -214,15 +212,6 @@ public class TestHelper extends BaseComponentTestCase{
         assertNull(logic.getAccount(account.googleId));
     }
 
-    
-    public static void verifyAbsentInDatastore(SubmissionAttributes submission)
-            throws Exception {
-        assertEquals(
-                null,
-                invokeGetSubmission(submission.course, submission.evaluation,
-                        submission.reviewer, submission.reviewee));
-    }
-
     public static void verifyAbsentInDatastore(InstructorAttributes expectedInstructor) {
         assertNull(instructorsDb.getInstructorForGoogleId(expectedInstructor.courseId, expectedInstructor.googleId));
     }
@@ -233,10 +222,6 @@ public class TestHelper extends BaseComponentTestCase{
 
     public static void verifyAbsentInDatastore(StudentAttributes student) {
         assertNull(logic.getStudentForEmail(student.course, student.email));
-    }
-
-    public static void verifyAbsentInDatastore(EvaluationAttributes evaluation) {
-        assertNull(logic.getEvaluation(evaluation.courseId, evaluation.name));
     }
     
     public static void verifyAbsentInDatastore(FeedbackSessionAttributes fsa) {
@@ -278,19 +263,6 @@ public class TestHelper extends BaseComponentTestCase{
         expectedStudent.lastName = StringHelper.splitName(expectedStudent.name)[1];
         equalizeIrrelevantData(expectedStudent, actualStudent);
         assertEquals(gson.toJson(expectedStudent), gson.toJson(actualStudent));
-    }
-
-    public static void verifyPresentInDatastore(SubmissionAttributes expected)
-            throws Exception {
-        SubmissionAttributes actual = invokeGetSubmission(expected.course,
-                expected.evaluation, expected.reviewer, expected.reviewee);
-        assertEquals(gson.toJson(expected), gson.toJson(actual));
-    }
-
-    public static void verifyPresentInDatastore(EvaluationAttributes expected) {
-        EvaluationAttributes actual = evaluationsDb.getEvaluation(expected.courseId,
-                expected.name);
-        assertEquals(gson.toJson(expected), gson.toJson(actual));
     }
 
     public static void verifyPresentInDatastore(CourseAttributes expected) {
@@ -436,106 +408,8 @@ public class TestHelper extends BaseComponentTestCase{
     }
 
 
-    public static void invokeEditEvaluation(EvaluationAttributes e)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        logic.updateEvaluation(e.courseId, e.name, e.instructions.getValue(), e.startTime,
-                e.endTime, e.timeZone, e.gracePeriod, e.p2pEnabled);
-    }
-
-
-    public static SubmissionAttributes invokeGetSubmission(String course,
-            String evaluation, String reviewer, String reviewee)
-            throws Exception {
-        Method privateMethod = BackDoorLogic.class.getDeclaredMethod("getSubmission",
-                new Class[] { String.class, String.class, String.class,
-                        String.class });
-        privateMethod.setAccessible(true);
-        Object[] params = new Object[] { course, evaluation, reviewer, reviewee };
-        return (SubmissionAttributes) privateMethod.invoke(new BackDoorLogic(), params);
-    }
-
-
     @SuppressWarnings("unused")
     private void ____test_object_manipulation_methods__() {
-    }
-
-    public static void createNewEvaluationWithSubmissions(String courseId,
-            String evaluationName, int[][] input)
-            throws EntityAlreadyExistsException, InvalidParametersException,
-            EntityDoesNotExistException {
-        // create course
-        
-        logic.createAccount("instructorForTestingER", "Instructor 1", true, "instructor@email.tmt", "TEAMMATES Test Institute 1");
-        logic.createCourseAndInstructor("instructorForTestingER", courseId,
-                "Course For Testing Evaluation Results");
-        // create students
-        int teamSize = input.length;
-        String teamName = "team1";
-        for (int i = 0; i < teamSize; i++) {
-            StudentAttributes student = new StudentAttributes();
-            int studentNumber = i + 1;
-            student.email = "s" + studentNumber + "@gmail.tmt";
-            student.name = "Student " + studentNumber;
-            student.team = teamName;
-            student.course = courseId;
-            student.comments = "";
-            student.googleId="";
-            studentsDb.createStudentWithoutDocument(student);
-        }
-        // create evaluation
-        EvaluationAttributes e = new EvaluationAttributes();
-        e.courseId = courseId;
-        e.name = evaluationName;
-        e.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        e.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
-        e.gracePeriod = 0;
-        e.instructions = new Text("instructions for " + e.name);
-        logic.createEvaluationWithoutSubmissionQueue(e);
-        // create submissions
-        ArrayList<SubmissionAttributes> submissions = new ArrayList<SubmissionAttributes>();
-        for (int i = 0; i < teamSize; i++) {
-            for (int j = 0; j < teamSize; j++) {
-                SubmissionAttributes sub = new SubmissionAttributes();
-                sub.course = courseId;
-                sub.evaluation = e.name;
-                sub.team = teamName;
-                int reviewerNumber = i + 1;
-                sub.reviewer = "s" + reviewerNumber + "@gmail.tmt";
-                int revieweeNumber = j + 1;
-                sub.reviewee = "s" + revieweeNumber + "@gmail.tmt";
-                sub.points = input[i][j];
-                sub.justification = new Text("jus[s" + reviewerNumber + "->s"
-                        + revieweeNumber + "]");
-                sub.p2pFeedback = new Text("p2p[s" + reviewerNumber + "->s"
-                        + revieweeNumber + "]");
-                submissions.add(sub);
-            }
-        }
-        logic.updateSubmissions(submissions);
-    }
-
-    public static void alterSubmission(SubmissionAttributes submission) {
-        submission.points = submission.points + 10;
-        submission.p2pFeedback = new Text(submission.p2pFeedback.getValue()
-                + "x");
-        submission.justification = new Text(submission.justification.getValue()
-                + "y");
-    }
-
-    public static void setPointsForSubmissions(int[][] points) throws Exception {
-        int teamSize = points.length;
-        ArrayList<SubmissionAttributes> submissions = new ArrayList<SubmissionAttributes>();
-        for (int i = 0; i < teamSize; i++) {
-            for (int j = 0; j < teamSize; j++) {
-                SubmissionAttributes s = invokeGetSubmission("idOfTypicalCourse1",
-                        "evaluation1 In Course1", "student" + (i + 1)
-                                + "InCourse1@gmail.tmt", "student" + (j + 1)
-                                + "InCourse1@gmail.tmt");
-                s.points = points[i][j];
-                submissions.add(s);
-            }
-        }
-        logic.updateSubmissions(submissions);
     }
     
     //this function used to check whether two lists have same contents,ignoring order

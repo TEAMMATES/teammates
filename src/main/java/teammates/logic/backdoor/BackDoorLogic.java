@@ -11,7 +11,6 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
@@ -20,7 +19,6 @@ import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
-import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -136,32 +134,7 @@ public class BackDoorLogic extends Logic {
         }
         accountsDb.createAccounts(studentAccounts, false);
         studentsDb.createStudentsWithoutSearchability(students.values());
-
-        HashMap<String, EvaluationAttributes> evaluations = dataBundle.evaluations;
-        for (EvaluationAttributes evaluation : evaluations.values()) {
-            log.fine("API Servlet adding evaluation :" + evaluation.name
-                    + " to course " + evaluation.courseId);
-            try {
-                super.updateEvaluation(evaluation.courseId, evaluation.name, 
-                        evaluation.instructions.getValue(), evaluation.startTime, evaluation.endTime, 
-                        evaluation.timeZone, evaluation.gracePeriod, evaluation.p2pEnabled);
-            } catch (EntityDoesNotExistException e) {
-                createEvaluationWithoutSubmissionQueue(evaluation);
-            }
-        }
-
-        // processing is slightly different for submissions because we are
-        // adding all submissions in one go
-        HashMap<String, SubmissionAttributes> submissionsMap = dataBundle.submissions;
-        List<SubmissionAttributes> submissionsList = new ArrayList<SubmissionAttributes>();
-        for (SubmissionAttributes submission : submissionsMap.values()) {
-            log.fine("API Servlet adding submission for "
-                    + submission.evaluation + " from " + submission.reviewer
-                    + " to " + submission.reviewee);
-            submissionsList.add(submission);
-        }
-        submissionsLogic.updateSubmissions(submissionsList);
-        log.fine("API Servlet added " + submissionsList.size() + " submissions");
+        
 
         HashMap<String, FeedbackSessionAttributes> sessions = dataBundle.feedbackSessions;
         for(FeedbackSessionAttributes session : sessions.values()){
@@ -282,24 +255,6 @@ public class BackDoorLogic extends Logic {
                 .getStudentsForCourse(courseId);
         return Utils.getTeammatesGson().toJson(studentList);
     }
-
-    public String getEvaluationAsJson(String courseId, String evaluationName) {
-        EvaluationAttributes evaluation = getEvaluation(courseId, evaluationName);
-        return Utils.getTeammatesGson().toJson(evaluation);
-    }
-
-    public String getSubmissionAsJson(String courseId, String evaluationName,
-            String reviewerEmail, String revieweeEmail) {
-        SubmissionAttributes target = getSubmission(courseId, evaluationName,
-                reviewerEmail, revieweeEmail);
-        return Utils.getTeammatesGson().toJson(target);
-    }
-    
-    public String getAllSubmissionsAsJson(String courseId) {
-        List<SubmissionAttributes> submissionList = submissionsLogic
-                .getSubmissionsForCourse(courseId);
-        return Utils.getTeammatesGson().toJson(submissionList);
-    }
     
     public String getFeedbackSessionAsJson(String feedbackSessionName, String courseId) {
         FeedbackSessionAttributes fs = getFeedbackSession(feedbackSessionName, courseId);
@@ -350,33 +305,12 @@ public class BackDoorLogic extends Logic {
         student.section = (student.section == null) ? "None" : student.section;
         updateStudentWithoutDocument(originalEmail, student);
     }
-
-    public void editEvaluationAsJson(String evaluationJson)
-            throws InvalidParametersException, EntityDoesNotExistException {
-        EvaluationAttributes evaluation = Utils.getTeammatesGson().fromJson(
-                evaluationJson, EvaluationAttributes.class);
-        updateEvaluation(evaluation);
-    }
     
     public void editFeedbackSessionAsJson(String feedbackSessionJson)
             throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackSessionAttributes feedbackSession = Utils.getTeammatesGson().fromJson(
                 feedbackSessionJson, FeedbackSessionAttributes.class);
         updateFeedbackSession(feedbackSession);
-    }
-
-    public void editSubmissionAsJson(String submissionJson) throws InvalidParametersException, EntityDoesNotExistException {
-        SubmissionAttributes submission = Utils.getTeammatesGson().fromJson(
-                submissionJson, SubmissionAttributes.class);
-        ArrayList<SubmissionAttributes> submissionList = new ArrayList<SubmissionAttributes>();
-        submissionList.add(submission);
-        updateSubmissions(submissionList);
-    }
-    
-    public void updateEvaluation(EvaluationAttributes evaluation) 
-            throws InvalidParametersException, EntityDoesNotExistException{
-        //Using EvaluationsDb here because the update operations at higher levels are too restrictive.
-        new EvaluationsDb().updateEvaluation(evaluation);
     }
     
     /**
@@ -540,23 +474,6 @@ public class BackDoorLogic extends Logic {
             }
         }
         
-        for (EvaluationAttributes e : dataBundle.evaluations.values()) {
-            Object retreived = null;
-            int retryCount = 0;
-            while(retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
-                retreived = this.getEvaluation(e.courseId, e.name);
-                if(retreived == null){
-                    break;
-                }else {
-                    retryCount++;
-                    if(retryCount%10 == 0) { log.info("Waiting for delete to persist"); }
-                    ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
-                }
-            }
-            if(retreived != null) {
-                log.warning("Object did not get deleted in time \n"+ e.toString());
-            }
-        }
         
         for (FeedbackSessionAttributes f : dataBundle.feedbackSessions.values()) {
             Object retreived = null;
@@ -578,22 +495,6 @@ public class BackDoorLogic extends Logic {
         
         //TODO: add missing entity types here
         
-        for (SubmissionAttributes s : dataBundle.submissions.values()) {
-            Object retreived = null;
-            int retryCount = 0;
-            while(retryCount < MAX_RETRY_COUNT_FOR_DELETE_CHECKING){
-                retreived = this.getSubmission(s.course, s.evaluation, s.reviewer, s.reviewee);
-                if(retreived == null){
-                    break;
-                }else {
-                    retryCount++;
-                    ThreadHelper.waitFor(WAIT_DURATION_FOR_DELETE_CHECKING);
-                }
-            }
-            if(retreived != null) {
-                log.warning("Object did not get deleted in time \n"+ Utils.getTeammatesGson().toJson(s));
-            }
-        }
         
         for (StudentAttributes s : dataBundle.students.values()) {
             Object retreived = null;
@@ -628,13 +529,6 @@ public class BackDoorLogic extends Logic {
                 log.warning("Object did not get deleted in time \n"+ i.toString());
             }
         }
-    }
-
-    private SubmissionAttributes getSubmission(
-            String courseId, String evaluationName, String reviewerEmail, String revieweeEmail) {
-                
-        return submissionsLogic.getSubmission(
-                courseId, evaluationName, revieweeEmail, reviewerEmail);
     }
 
     public String isPicturePresentInGcs(String pictureKey) {

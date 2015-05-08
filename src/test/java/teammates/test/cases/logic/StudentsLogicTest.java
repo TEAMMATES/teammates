@@ -6,7 +6,6 @@ import static org.testng.AssertJUnit.assertTrue;
 import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,6 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -43,16 +41,13 @@ import teammates.common.util.TimeHelper;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
-import teammates.logic.core.EvaluationsLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.logic.core.SubmissionsLogic;
 import teammates.storage.api.StudentsDb;
 import teammates.storage.entity.Student;
 import teammates.test.cases.BaseComponentTestCase;
-import teammates.test.cases.storage.EvaluationsDbTest;
 import teammates.test.driver.AssertHelper;
 import teammates.test.util.TestHelper;
 
@@ -62,10 +57,8 @@ import com.google.appengine.api.datastore.Text;
 public class StudentsLogicTest extends BaseComponentTestCase{
     
     protected static StudentsLogic studentsLogic = StudentsLogic.inst();
-    protected static SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();
     protected static AccountsLogic accountsLogic = AccountsLogic.inst();
     protected static CoursesLogic coursesLogic = CoursesLogic.inst();
-    protected static EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
     private static DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
@@ -167,54 +160,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         student1.googleId = "googleId";
         studentsLogic.updateStudentCascadeWithoutDocument(student1.email, student1);
         
-        ______TS("add evaluation and modify team of existing student" +
-                "(to check the cascade logic of the SUT)");
-        EvaluationAttributes e = EvaluationsDbTest.generateTypicalEvaluation();
-        e.courseId = instructorCourse;
-        evaluationsLogic.createEvaluationCascadeWithoutSubmissionQueue(e);
-
-        //add some more details to the student
-        String oldTeam = student2.team;
-        student2.team = "t2";
-        
-        //Save student structure before changing of teams
-        //This allows for verification of existence of old submissions 
-        List<StudentAttributes> studentDetailsBeforeModification = studentsLogic
-                .getStudentsForCourse(instructorCourse);
-        
-        enrollmentResult = invokeEnrollStudent(student2);
-        TestHelper.verifyPresentInDatastore(student2);
-        TestHelper.verifyEnrollmentDetailsForStudent(student2, oldTeam, enrollmentResult,
-                StudentAttributes.UpdateStatus.MODIFIED);
-        
-        //verify that submissions have not been adjusted
-        //i.e no new submissions have been added
-        List<SubmissionAttributes> student2Submissions = submissionsLogic
-                .getSubmissionsForEvaluation(instructorCourse, e.name);
-        
-        for (SubmissionAttributes submission : student2Submissions) {
-            boolean isStudent2Participant = (submission.reviewee == student2.email) ||
-                                           (submission.reviewer == student2.email);
-            boolean isNewTeam = submission.team == student2.team;
-            
-            assertFalse(isNewTeam && isStudent2Participant);
-        }
-        
-        //also, verify that the datastore still has the old team structure
-        TestHelper.verifySubmissionsExistForCurrentTeamStructureInEvaluation(e.name,
-                studentDetailsBeforeModification, submissionsLogic.getSubmissionsForCourse(instructorCourse));
-
-        ______TS("error during enrollment");
-
-        StudentAttributes student5 = new StudentAttributes("sect 1", "", "n6", "e6@g@", "", instructorCourse);
-        try {
-            enrollmentResult = invokeEnrollStudent(student5);
-            signalFailureToDetectException();
-        } catch (InvocationTargetException exception) {
-            //Verify student with error was not enrolled
-            TestHelper.verifySubmissionsExistForCurrentTeamStructureInEvaluation(e.name,
-                    studentDetailsBeforeModification, submissionsLogic.getSubmissionsForCourse(instructorCourse));
-        }
 
     }
     
@@ -309,26 +254,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         student4InCourse1.section = "Section 2";
         student4InCourse1.team = "Team 1.2"; // move to a different team
 
-        // take a snapshot of submissions before
-        List<SubmissionAttributes> submissionsBeforeEdit = submissionsLogic.getSubmissionsForCourse(student4InCourse1.course);
-
-        // verify student details changed correctly
-        studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, student4InCourse1);
-        TestHelper.verifyPresentInDatastore(student4InCourse1);
-
-        // take a snapshot of submissions after the edit
-        List<SubmissionAttributes> submissionsAfterEdit = submissionsLogic.getSubmissionsForCourse(student4InCourse1.course);
-        
-        // We moved a student from a 4-person team to an existing 1-person team.
-        // We have 2 evaluations in the course.
-        // Therefore, submissions that will be deleted = 7*2 = 14
-        //              submissions that will be added = 3*2
-        assertEquals(submissionsBeforeEdit.size() - 14  + 6,
-                submissionsAfterEdit.size()); 
-        
-        // verify new submissions were created to match new team structure
-        TestHelper.verifySubmissionsExistForCurrentTeamStructureInAllExistingEvaluations(submissionsAfterEdit,
-                student4InCourse1.course);
 
         ______TS("check for KeepExistingPolicy : change email only");
         
@@ -833,23 +758,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         String initialEmail = newStudent.email;
         newStudent.email = "new@student.tmt";
         TestHelper.verifyAbsentInDatastore(newStudent);
-        
-        List<SubmissionAttributes> submissionsBeforeAdding = submissionsLogic.getSubmissionsForCourse(newStudent.course);
-        
-        studentsLogic.createStudentCascadeWithoutDocument(newStudent);
-        TestHelper.verifyPresentInDatastore(newStudent);
-        
-        List<SubmissionAttributes> submissionsAfterAdding = submissionsLogic.getSubmissionsForCourse(newStudent.course);
-        
-        //expected increase in submissions = 2*(1+4+4)
-        //2 is the number of evaluations in the course
-        //4 is the number of existing members in the team
-        //1 is the self evaluation
-        //We simply check the increase in submissions. A deeper check is 
-        //  unnecessary because adjusting existing submissions should be 
-        //  checked elsewhere.
-        
-        assertEquals(submissionsBeforeAdding.size() + 18, submissionsAfterAdding.size());
 
         ______TS("duplicate student");
 
