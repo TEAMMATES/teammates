@@ -22,6 +22,11 @@
         <script type="text/javascript" src="/js/common.js"></script>
     </head>
     <body>
+    
+    <h1>This page contains a combination of all pages of the TEAMMATES
+        app. It is used for manually inspecting the TEAMMATES UI for
+        visual defects. To load this page, you need to run the test
+        MashupPageUiTest.java.</h1>
         <div class="container theme-showcase">
             <div class="row">
                 <div id="dhtmltooltip">
