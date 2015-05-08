@@ -164,7 +164,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         Date startTime = eval.startTime;
         Date endTime = eval.endTime;
         Date sessionVisibleFromTime = eval.startTime;
-        Date resultsVisibleFromTime = eval.endTime;
+        Date resultsVisibleFromTime = eval.published ? eval.endTime : Const.TIME_REPRESENTS_LATER;
         double timeZone = eval.timeZone;
         int gracePeriod = eval.gracePeriod;
         FeedbackSessionType feedbackSessionType = FeedbackSessionType.STANDARD;
