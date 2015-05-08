@@ -33,7 +33,6 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
 import teammates.common.util.Const.ParamsNames;
-import teammates.logic.automated.EvaluationSubmissionAdjustmentAction;
 import teammates.logic.automated.FeedbackSubmissionAdjustmentAction;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
