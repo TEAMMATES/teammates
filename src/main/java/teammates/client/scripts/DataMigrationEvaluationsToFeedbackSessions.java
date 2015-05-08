@@ -60,6 +60,8 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
     private boolean isForAllCourses = false;
     //modify this to delete the evaluation after migrating
     private boolean isDeletingEvaluations = false;
+    //modify this to make changes to the database
+    private boolean isPreview = false;
 
     @Override
     protected void doOperation() {
@@ -122,6 +124,10 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
     }
     
     protected void deleteEvaluation(String courseId, String evalName) {
+        if (isPreview) {
+            return;
+        }
+        
         // first, check if a feedback session have been created for the evaluation.
         // do not delete the evaluation if the feedback session was not created
         if (logic.getFeedbackSession(evalName, courseId) == null) {
@@ -171,6 +177,11 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
                 System.out.println(String.format("Feedback session with the name %s already exists", feedbackSessionName));  
             }
             
+            if (isPreview) {
+                return;
+            }
+            
+            
             FeedbackSessionAttributes fsa = new FeedbackSessionAttributes(feedbackSessionName,
                     courseId, creatorEmail, instructions,
                     createdTime, startTime, endTime,
@@ -213,6 +224,10 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
     private void createFeedbackResponsesFromSubmission(
             String feedbackSessionName, String courseId, boolean peerFeedback,
             List<String> fqIds, SubmissionAttributes sub) {
+        if (isPreview) {
+            return;
+        }
+        
         String giver = sub.reviewer;
         String recipient = sub.reviewee;
         String giverSection = "";
@@ -340,6 +355,9 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
 
     private List<String> createFeedbackQuestions(EvaluationAttributes eval,
             String feedbackSessionName, String courseId, String creatorEmail, boolean peerFeedback) throws InvalidParametersException {
+        if (isPreview) {
+            return null;
+        }
         List<String> result = new ArrayList<String>();
         
         //Question 1: Contribution Question
