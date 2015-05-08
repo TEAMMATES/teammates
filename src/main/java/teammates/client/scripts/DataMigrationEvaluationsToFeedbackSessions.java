@@ -56,12 +56,17 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         System.out.println("Total execution time: " + (endTime - startTime) + "ms" );
     }
 
+    // modify this value to migrate evaluations for all courses, or for a specific course
+    private boolean isForAllCourses = false;
+    //modify this to delete the evaluation after migrating
+    private boolean isDeletingEvaluations = false;
+
     @Override
     protected void doOperation() {
         Datastore.initialize();
         
-        // modify this value to migrate evaluations for all courses, or for a specific course
-        boolean isForAllCourses = false;
+        
+        
         
         if (isForAllCourses) {
             Set<String> coursesId = getCourses();
@@ -82,27 +87,6 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         //convertEvaluationsToFeedbackSessions();
     }
     
-    @SuppressWarnings("deprecation")
-    protected void convertEvaluationsToFeedbackSessions(){
-        List<EvaluationAttributes> allEvaluations = evalsDb.getAllEvaluations();
-        
-        System.out.println(allEvaluations.size() + " evaluations found.");
-        
-        int fsNum = fsDb.getAllFeedbackSessions().size();
-        
-        for(EvaluationAttributes evalAttribute : allEvaluations){
-            try {
-                convertOneEvaluationToFeedbackSession(evalAttribute, "");
-            } catch (InvalidParametersException e) {
-                System.out.println("Something went wrong");
-                e.printStackTrace();
-            }
-        }
-
-        System.out.println(allEvaluations.size() + " evaluations found and migrated.");
-        System.out.println("Original number of FS: " + fsNum);
-        System.out.println("After migration number of FS: " + fsDb.getAllFeedbackSessions().size());
-    }
     
     @SuppressWarnings("unchecked")
     private Set<String> getCourses() {
@@ -126,7 +110,9 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
             try {
                 convertOneEvaluationToFeedbackSession(evalAttribute , evalAttribute.name);
                 
-                deleteEvaluation(courseId, evalAttribute.name);
+                if(isDeletingEvaluations) {
+                    deleteEvaluation(courseId, evalAttribute.name);
+                }
                 
             } catch (InvalidParametersException ipe) {
                 System.out.println("Something went wrong");
