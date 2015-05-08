@@ -23,6 +23,7 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.storage.datastore.Datastore;
+import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.search.SearchDocument;
 import teammates.storage.search.SearchManager;
 import teammates.storage.search.SearchQuery;
@@ -125,6 +126,37 @@ public abstract class EntitiesDb {
         getPM().flush();
  
         return entitiesToUpdate;
+
+    }
+    
+    public List<Object> createAndReturnEntities(Collection<? extends EntityAttributes> entitiesToAdd) throws InvalidParametersException {
+        
+        Assumption.assertNotNull(
+                Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToAdd);
+        
+        List<EntityAttributes> entitiesToUpdate = new ArrayList<EntityAttributes>();
+        List<Object> entities = new ArrayList<Object>(); 
+        
+        for(EntityAttributes entityToAdd : entitiesToAdd){
+            entityToAdd.sanitizeForSaving();
+            
+            if (!entityToAdd.isValid()) {
+                throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
+            }
+            
+            if(getEntity(entityToAdd) != null){
+                entitiesToUpdate.add(entityToAdd);
+            } else {
+                entities.add(entityToAdd.toEntity());
+            }
+            
+            log.info(entityToAdd.getBackupIdentifier());
+        }
+        
+        getPM().makePersistentAll(entities);
+        getPM().flush();
+ 
+        return entities;
 
     }
 

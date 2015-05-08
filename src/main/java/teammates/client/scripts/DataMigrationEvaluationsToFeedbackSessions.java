@@ -28,10 +28,13 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.api.Logic;
 import teammates.storage.api.EvaluationsDb;
+import teammates.storage.api.FeedbackQuestionsDb;
+import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.SubmissionsDb;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackQuestion;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -48,6 +51,8 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
     protected static EvaluationsDb evalsDb = new EvaluationsDb();
     protected static SubmissionsDb subDb = new SubmissionsDb();
     protected static FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
+    protected static FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+    protected static FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     
     public static void main(String[] args) throws IOException {
         final long startTime = System.currentTimeMillis();
@@ -209,28 +214,46 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         boolean peerFeedback = eval.p2pEnabled;
         
         //Create feedback questions
-        List<String> fqIds = createFeedbackQuestions(eval, feedbackSessionName, courseId, creatorEmail, peerFeedback);
+        List<FeedbackQuestionAttributes> fqas = createFeedbackQuestions(eval, feedbackSessionName, courseId, creatorEmail, peerFeedback);
+        List<Object> fqEntities = fqDb.createAndReturnEntities(fqas);
         
+        System.out.println("Created questions");
+        
+        List<String> fqIds = new ArrayList<String>();
+        
+        for (Object fq : fqEntities) {
+            String id = ((FeedbackQuestion)fq).getId();
+            fqIds.add(id);
+        }
         
         //Create feedback Responses
         List<SubmissionAttributes> allSubmissions = subDb.getSubmissionsForEvaluation(courseId, eval.name);
+        List<FeedbackResponseAttributes> allResponses = new ArrayList<FeedbackResponseAttributes>();
         for(SubmissionAttributes sub : allSubmissions){
             
             //Create Feedback Responses for Submission
             
-            createFeedbackResponsesFromSubmission(feedbackSessionName,
+            List<FeedbackResponseAttributes> responsesForSubmission = createFeedbackResponsesFromSubmission(feedbackSessionName,
                     courseId, peerFeedback, fqIds, sub);
             
+            if (responsesForSubmission != null) {
+                allResponses.addAll(responsesForSubmission);
+            } else {
+                printErrorMessage("Failed to create responses");
+                return;
+            }
         }
         
+        frDb.createAndReturnEntities(allResponses);
         
+        //System.out.println("Completed conversion for [" + courseId + ":" + eval.name + "]");        
     }
 
-    private void createFeedbackResponsesFromSubmission(
+    private List<FeedbackResponseAttributes> createFeedbackResponsesFromSubmission(
             String feedbackSessionName, String courseId, boolean peerFeedback,
             List<String> fqIds, SubmissionAttributes sub) throws Exception {
         if (isPreview) {
-            return;
+            return null;
         }
         
         String giver = sub.reviewer;
@@ -243,11 +266,11 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         
         if(studentGiver == null){
             printErrorMessage("Student cannot be found "+giver);
-            return;
+            return null;
         }
         if(studentRecipient == null){
             printErrorMessage("Student cannot be found "+giver);
-            return;
+            return null;
         }
         
         giverSection = (studentGiver == null) ? Const.DEFAULT_SECTION : studentGiver.section;
@@ -344,59 +367,68 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         
         //Save responses
         List<FeedbackResponseAttributes> allResponses = new ArrayList<FeedbackResponseAttributes>();
-        allResponses.add(q1Response);
-        allResponses.add(q2Response);
-        allResponses.add(q3Response);
-        allResponses.add(q4Response);
-        allResponses.add(q5Response);
-        
-        for(FeedbackResponseAttributes response : allResponses){
-            if(response != null){
-                if(!(response.responseMetaData.getValue().isEmpty() || 
-                        response.recipientEmail.isEmpty())){
-                    try {
-                        logic.createFeedbackResponse(response);
-                    } catch (EntityAlreadyExistsException e) {
-                        printErrorMessage("Response already exists.");
-                        e.printStackTrace();
-                    } catch (InvalidParametersException e) {
-                        printErrorMessage("Invalid Parameters for Response");
-                        e.printStackTrace();
-                    }
-                }
+        if (q1Response != null) {
+            if(!(q1Response.responseMetaData.getValue().isEmpty() || 
+                    q1Response.recipientEmail.isEmpty())){
+                allResponses.add(q1Response);
             }
         }
+        if (q2Response != null) {
+            if(!(q2Response.responseMetaData.getValue().isEmpty() || 
+                    q2Response.recipientEmail.isEmpty())){
+                allResponses.add(q2Response);
+            }
+        } 
+        if (q3Response != null) {
+            if(!(q3Response.responseMetaData.getValue().isEmpty() || 
+                    q3Response.recipientEmail.isEmpty())){
+                allResponses.add(q3Response);
+            }
+        }
+        if (q4Response != null) {
+            if(!(q4Response.responseMetaData.getValue().isEmpty() || 
+                    q4Response.recipientEmail.isEmpty())){
+                allResponses.add(q4Response);
+            }
+        }
+        if (q5Response != null) {
+            if(!(q5Response.responseMetaData.getValue().isEmpty() || 
+                    q5Response.recipientEmail.isEmpty())){
+                allResponses.add(q5Response);
+            }
+        }
+        
+        return allResponses;
     }
 
-    private List<String> createFeedbackQuestions(EvaluationAttributes eval,
+    private List<FeedbackQuestionAttributes> createFeedbackQuestions(EvaluationAttributes eval,
             String feedbackSessionName, String courseId, String creatorEmail, boolean peerFeedback) throws InvalidParametersException {
         if (isPreview) {
             return null;
         }
-        List<String> result = new ArrayList<String>();
+        List<FeedbackQuestionAttributes> result = new ArrayList<FeedbackQuestionAttributes>();
         
         //Question 1: Contribution Question
         FeedbackQuestionAttributes q1 = createQuestion1(feedbackSessionName, courseId, creatorEmail);
-        
-        result.add(q1.getId());
+        result.add(q1);
         
         //Question 2: Essay Question "Comments about my contribution(shown to other teammates)"
         FeedbackQuestionAttributes q2 = createQuestion2(feedbackSessionName, courseId, creatorEmail);
-        result.add(q2.getId());
+        result.add(q2);
         
         //Question3: Essay Question "My comments about this teammate(confidential and only shown to instructor)"
         FeedbackQuestionAttributes q3 = createQuestion3(feedbackSessionName, courseId, creatorEmail);
-        result.add(q3.getId());
+        result.add(q3);
         
         //Questions below are only enabled if peer to peer feedback is enabled.
         if(peerFeedback){
             //Question 4: Essay Question "Comments about team dynamics(confidential and only shown to instructor)"
             FeedbackQuestionAttributes q4 = createQuestion4(feedbackSessionName, courseId, creatorEmail);
-            result.add(q4.getId());
+            result.add(q4);
             
             //Question 5: Essay Question "My feedback to this teammate(shown anonymously to the teammate)"
             FeedbackQuestionAttributes q5 = createQuestion5(feedbackSessionName, courseId, creatorEmail);
-            result.add(q5.getId());
+            result.add(q5);
         }
         
         return result;
@@ -433,8 +465,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails(questionText );
         feedbackQuestion.setQuestionDetails(questionDetails);
         
-        FeedbackQuestionAttributes fqa = logic.createFeedbackQuestionForTemplate(feedbackQuestion, feedbackQuestion.questionNumber);
-        return fqa;
+        return feedbackQuestion;
         
     }
 
@@ -467,8 +498,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails(questionText );
         feedbackQuestion.setQuestionDetails(questionDetails);
         
-        FeedbackQuestionAttributes fqa = logic.createFeedbackQuestionForTemplate(feedbackQuestion, feedbackQuestion.questionNumber);
-        return fqa;
+        return feedbackQuestion;
     }
 
     private FeedbackQuestionAttributes createQuestion3(String feedbackSessionName, String courseId,
@@ -500,9 +530,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails(questionText );
         feedbackQuestion.setQuestionDetails(questionDetails);
         
-        FeedbackQuestionAttributes fqa = logic.createFeedbackQuestionForTemplate(feedbackQuestion, feedbackQuestion.questionNumber);
-        return fqa;
-        
+        return feedbackQuestion;
     }
 
     private FeedbackQuestionAttributes createQuestion2(String feedbackSessionName, String courseId,
@@ -543,8 +571,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails(questionText );
         feedbackQuestion.setQuestionDetails(questionDetails);
         
-        FeedbackQuestionAttributes fqa = logic.createFeedbackQuestionForTemplate(feedbackQuestion, feedbackQuestion.questionNumber);
-        return fqa;
+        return feedbackQuestion;
        
     }
 
@@ -581,8 +608,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         FeedbackContributionQuestionDetails questionDetails = new FeedbackContributionQuestionDetails(questionText );
         feedbackQuestion.setQuestionDetails(questionDetails);
         
-        FeedbackQuestionAttributes fqa = logic.createFeedbackQuestionForTemplate(feedbackQuestion, feedbackQuestion.questionNumber);
-        return fqa;
+        return feedbackQuestion;
         
     }
 }
