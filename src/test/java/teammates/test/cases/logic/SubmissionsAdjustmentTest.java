@@ -261,53 +261,7 @@ public class SubmissionsAdjustmentTest extends
     
     @Test
     private void testAdjustmentOfResponses() throws Exception {
-        
-        ______TS("typical case: add new student to existing team");
-        String evaluationName = "evaluation1 In Course1";
-        StudentAttributes newStudent = new StudentAttributes();
-        newStudent.team = "Team 1.1";
-        newStudent.section = "Section 1";
-        newStudent.course = "idOfTypicalCourse1";
-        newStudent.email = "random@g.tmt";
-        newStudent.name = "someName";
-        newStudent.comments = "comments";
-        
-        /*
-         * Old number of submissions = (4 * 4 + 1 * 1) = 17
-         */
-        int oldNumberOfSubmissionsForEvaluation = submissionsLogic
-                .getSubmissionsForEvaluation(newStudent.course, evaluationName).size();
-        assertEquals(17, oldNumberOfSubmissionsForEvaluation);
-        
-        studentsLogic.createStudentCascadeWithSubmissionAdjustmentScheduled(newStudent, false);
-        
-        StudentEnrollDetails enrollDetails = new StudentEnrollDetails
-                (UpdateStatus.NEW, newStudent.course, newStudent.email, "", newStudent.team, "", newStudent.section);
-        
-        ArrayList<StudentEnrollDetails> enrollList = new ArrayList<StudentEnrollDetails>();
-        enrollList.add(enrollDetails);
-        Gson gsonBuilder = Utils.getTeammatesGson();
-        String enrollString = gsonBuilder.toJson(enrollList);
-        
-        //Prepare parameter map
-        HashMap<String, String> paramMap = new HashMap<String,String>();
-        paramMap.put(ParamsNames.COURSE_ID, newStudent.course);
-        paramMap.put(ParamsNames.EVALUATION_NAME, evaluationName);
-        paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollString);
-        
-        EvaluationSubmissionAdjustmentAction newSubmissionAdjustmentAction = new EvaluationSubmissionAdjustmentAction(paramMap);
-        assertTrue(newSubmissionAdjustmentAction.execute());
-        TestHelper.verifySubmissionsExistForCurrentTeamStructureInEvaluation(evaluationName, 
-                studentsLogic.getStudentsForCourse(newStudent.course), 
-                submissionsLogic.getSubmissionsForCourse(newStudent.course));
-        
-        /*
-         * New number of submissions = (5 * 5 + 1 * 1) = 26
-         */
-        int newNumberOfSubmissionsForEvaluation = submissionsLogic
-                .getSubmissionsForEvaluation(newStudent.course, evaluationName).size();
-        assertEquals(26, newNumberOfSubmissionsForEvaluation);
-        
+                
         ______TS("typical case : existing student changes team");
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session2InCourse1");
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
@@ -324,14 +278,16 @@ public class SubmissionsAdjustmentTest extends
         student.team = newTeam;
         student.section = newSection;
         
-        enrollDetails = new StudentEnrollDetails
+        
+        StudentEnrollDetails enrollDetails = new StudentEnrollDetails
                 (UpdateStatus.MODIFIED, student.course, student.email, oldTeam, newTeam, oldSection, newSection);
-        enrollList = new ArrayList<StudentEnrollDetails>();
+        ArrayList<StudentEnrollDetails> enrollList = new ArrayList<StudentEnrollDetails>();
         enrollList.add(enrollDetails);
-        enrollString = gsonBuilder.toJson(enrollList);
+        Gson gsonBuilder = Utils.getTeammatesGson();
+        String enrollString = gsonBuilder.toJson(enrollList);
 
         //Prepare parameter map
-        paramMap = new HashMap<String,String>();
+        HashMap<String, String> paramMap = new HashMap<String,String>();
         paramMap.put(ParamsNames.COURSE_ID, student.course);
         paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName);
         paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollString);
@@ -340,25 +296,9 @@ public class SubmissionsAdjustmentTest extends
         FeedbackSubmissionAdjustmentAction responseAdjustmentAction = new FeedbackSubmissionAdjustmentAction(paramMap);
         assertTrue(responseAdjustmentAction.execute());
         
-        paramMap.remove(ParamsNames.FEEDBACK_SESSION_NAME);
-        paramMap.put(ParamsNames.EVALUATION_NAME, evaluationName);
-        
-        EvaluationSubmissionAdjustmentAction submissionAdjustmentAction = new EvaluationSubmissionAdjustmentAction(paramMap);
-        assertTrue(submissionAdjustmentAction.execute());
-        TestHelper.verifySubmissionsExistForCurrentTeamStructureInEvaluation(evaluationName, 
-                studentsLogic.getStudentsForCourse(student.course), 
-                submissionsLogic.getSubmissionsForCourse(student.course));
-        
         int numberOfNewResponses = getAllResponsesForStudentForSession
                 (student, session.feedbackSessionName).size();
-        assertEquals(0, numberOfNewResponses);
-        
-        /*
-         * New number of submissions = (4 * 4 + 2 * 2) = 20
-         */
-        newNumberOfSubmissionsForEvaluation = submissionsLogic
-                .getSubmissionsForEvaluation(newStudent.course, evaluationName).size();
-        assertEquals(20, newNumberOfSubmissionsForEvaluation);
+        assertEquals(0, numberOfNewResponses);        
     }
 
     private List<FeedbackResponseAttributes> getAllTeamResponsesForStudent(StudentAttributes student) {

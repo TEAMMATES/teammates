@@ -24,7 +24,6 @@
             <class name="teammates.test.cases.logic.CommentsLogicTest"/>
             <class name="teammates.test.cases.logic.CoursesLogicTest"/>
             <class name="teammates.test.cases.logic.EmailsTest" />
-            <class name="teammates.test.cases.logic.EvaluationsLogicTest" />
             <class name="teammates.test.cases.logic.FeedbackSessionsLogicTest" />
             <class name="teammates.test.cases.logic.FeedbackQuestionsLogicTest" />
             <class name="teammates.test.cases.logic.FeedbackResponsesLogicTest" />
@@ -35,11 +34,8 @@
             <class name="teammates.test.cases.logic.SubmissionTaskQueueLogicTest" />
    
             <class name="teammates.test.cases.logic.FeedbackSessionEmailTaskQueueTest" />
-            <class name="teammates.test.cases.logic.TeamEvalResultTest" />
             
             <!-- The tests below use logic functions to test automated reminders -->
-            <class name="teammates.test.automated.EvaluationClosingReminderTest" />
-            <class name="teammates.test.automated.EvaluationOpeningReminderTest" />
             <class name="teammates.test.automated.FeedbackSessionClosingReminderTest" />
             <class name="teammates.test.automated.FeedbackSessionOpeningReminderTest" />
             <class name="teammates.test.automated.FeedbackSessionPublishedReminderTest" />
@@ -55,7 +51,6 @@
             <class name="teammates.test.cases.ui.browsertests.InstructorCommentsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseJoinConfirmationPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorCourseDetailsPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorEvalsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentCommentsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentCourseJoinConfirmationPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentHomePageUiTest" />
@@ -101,10 +96,6 @@
             <class name="teammates.test.cases.ui.browsertests.FeedbackNumScaleQuestionUiTest" />
             <class name="teammates.test.cases.ui.browsertests.FeedbackRubricQuestionUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorEditStudentFeedbackPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorEvalSubmissionViewPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorEvalSubmissionEditPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorEvalEditPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.InstructorEvalResultsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackEditCopyUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorFeedbackPageUiTest" />
@@ -117,8 +108,6 @@
             <class name="teammates.test.cases.ui.browsertests.InstructorHomePageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.InstructorSearchPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentCourseDetailsPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.StudentEvalEditSubmissionPageUiTest" />
-            <class name="teammates.test.cases.ui.browsertests.StudentEvalResultsPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentFeedbackSubmitPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentFeedbackQuestionSubmitPageUiTest" />
             <class name="teammates.test.cases.ui.browsertests.StudentFeedbackResultsPageUiTest" />
