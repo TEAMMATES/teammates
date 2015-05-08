@@ -59,10 +59,14 @@ public class ShowPageResult extends ActionResult{
 
     private void addStatusMessageToRequest(HttpServletRequest req) {
         String statusMessageInSession = (String) req.getSession().getAttribute(Const.ParamsNames.STATUS_MESSAGE); 
-        if(statusMessageInSession != null && !statusMessageInSession.isEmpty()){
-            //Remove status message in session, thus it becomes an one-time message
+        if (statusMessageInSession != null && !statusMessageInSession.isEmpty()) {
+            // Remove status message in session, thus it becomes an one-time message
             req.getSession().removeAttribute(Const.ParamsNames.STATUS_MESSAGE);
             req.setAttribute(Const.ParamsNames.STATUS_MESSAGE, statusMessageInSession);
+            
+            if (statusMessageInSession.equals(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING)) {
+                req.setAttribute(Const.ParamsNames.ERROR, "true");
+            }
         } else {
             req.setAttribute(Const.ParamsNames.STATUS_MESSAGE, "");
         }

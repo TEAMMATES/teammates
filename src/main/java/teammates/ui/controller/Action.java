@@ -60,7 +60,9 @@ public abstract class Action {
     /** Execution status info to be shown to the user */
     protected List<String> statusToUser = new ArrayList<String>();
     
-    /** Whether the execution completed without any errors */
+    /** Whether the execution completed without any errors or
+     * when are unable to perform the requested action(s)
+     **/
     protected boolean isError = false;
     
     /** Session that contains status message information */

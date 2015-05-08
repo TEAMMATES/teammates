@@ -11,7 +11,7 @@
 %>
         <div id="statusMessage"
             <%
-                if (isError || statusMessage.equals(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING)) { 
+                if (isError) { 
                     out.print(" class=\"alert alert-danger\""); 
                 } else {
                     out.print(" class=\"alert alert-warning\""); 
