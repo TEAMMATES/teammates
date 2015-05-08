@@ -23,7 +23,6 @@
 <%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page import="teammates.common.datatransfer.SubmissionAttributes"%>
-<%@ page import="teammates.ui.controller.InstructorEvalSubmissionPageData"%>
 <%@ page import="teammates.ui.controller.InstructorCommentsPageData"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForJs"%>
 
