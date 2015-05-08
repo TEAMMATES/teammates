@@ -55,7 +55,7 @@ public abstract class Action {
     protected Map<String, String[]> requestParameters;
     
     /** Execution status info to be shown to he admin (in 'activity log')*/
-    protected String statusToAdmin; //TODO: make this a list?
+    protected String statusToAdmin; // TODO: make this a list?
     
     /** Execution status info to be shown to the user */
     protected List<String> statusToUser = new ArrayList<String>();
@@ -140,7 +140,7 @@ public abstract class Action {
 
     protected AccountAttributes createDummyAccountIfUserIsUnregistered(UserType currentUser,
             AccountAttributes loggedInUser) {
-        if (loggedInUser == null) { //Unregistered but loggedin user
+        if (loggedInUser == null) { // Unregistered but loggedin user
             loggedInUser = new AccountAttributes();
             loggedInUser.googleId = currentUser.id;
         }
@@ -276,17 +276,20 @@ public abstract class Action {
 
     private boolean isPageNotCourseJoinRelated() {
         String currentURI = request.getRequestURI();
-        return !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN) && !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW) &&
+        return !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN) &&
+               !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW) &&
                !currentURI.equals(Const.ActionURIs.STUDENT_COURSE_JOIN_AUTHENTICATED);
     }
 
     private boolean isHomePage() {
         String currentURI = request.getRequestURI();
-        return currentURI.equals(Const.ActionURIs.STUDENT_HOME_PAGE) || currentURI.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
+        return currentURI.equals(Const.ActionURIs.STUDENT_HOME_PAGE) ||
+               currentURI.equals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
     }
 
     private boolean doesRegkeyBelongToUnregisteredStudent() {
-        return student != null && !student.isRegistered();
+        return student != null &&
+               !student.isRegistered();
     }
 
     private boolean doesUserNeedRegistration(AccountAttributes user) {
@@ -526,9 +529,9 @@ public abstract class Action {
     }
 
     private boolean isMasqueradeModeRequested(AccountAttributes loggedInUser, String requestedUserId) {
-        return loggedInUser != null && requestedUserId != null
-                && !requestedUserId.trim().equals("null")
-                && !loggedInUser.googleId.equals(requestedUserId);
+        return loggedInUser != null && requestedUserId != null &&
+               !requestedUserId.trim().equals("null") &&
+               !loggedInUser.googleId.equals(requestedUserId);
     }
     
     // ===================== Utility methods used by some child classes========
