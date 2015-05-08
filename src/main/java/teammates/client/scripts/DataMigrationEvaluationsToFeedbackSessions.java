@@ -367,38 +367,23 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         
         //Save responses
         List<FeedbackResponseAttributes> allResponses = new ArrayList<FeedbackResponseAttributes>();
-        if (q1Response != null) {
-            if(!(q1Response.responseMetaData.getValue().isEmpty() || 
-                    q1Response.recipientEmail.isEmpty())){
-                allResponses.add(q1Response);
-            }
-        }
-        if (q2Response != null) {
-            if(!(q2Response.responseMetaData.getValue().isEmpty() || 
-                    q2Response.recipientEmail.isEmpty())){
-                allResponses.add(q2Response);
-            }
-        } 
-        if (q3Response != null) {
-            if(!(q3Response.responseMetaData.getValue().isEmpty() || 
-                    q3Response.recipientEmail.isEmpty())){
-                allResponses.add(q3Response);
-            }
-        }
-        if (q4Response != null) {
-            if(!(q4Response.responseMetaData.getValue().isEmpty() || 
-                    q4Response.recipientEmail.isEmpty())){
-                allResponses.add(q4Response);
-            }
-        }
-        if (q5Response != null) {
-            if(!(q5Response.responseMetaData.getValue().isEmpty() || 
-                    q5Response.recipientEmail.isEmpty())){
-                allResponses.add(q5Response);
-            }
-        }
+        List<FeedbackResponseAttributes> validResponses = new ArrayList<FeedbackResponseAttributes>();
+        allResponses.add(q1Response);
+        allResponses.add(q2Response);
+        allResponses.add(q3Response);
+        allResponses.add(q4Response);
+        allResponses.add(q5Response);
         
-        return allResponses;
+        for (FeedbackResponseAttributes response : allResponses) {
+            if (response != null) {
+                if(!(response.responseMetaData.getValue().isEmpty() || 
+                        response.recipientEmail.isEmpty())){
+                    validResponses.add(response);
+                }
+            }   
+        }
+           
+        return validResponses;
     }
 
     private List<FeedbackQuestionAttributes> createFeedbackQuestions(EvaluationAttributes eval,
