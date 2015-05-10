@@ -22,10 +22,8 @@ import java.util.Set;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.util.FileHelper;
 import teammates.common.util.Utils;
 import teammates.test.driver.BackDoor;

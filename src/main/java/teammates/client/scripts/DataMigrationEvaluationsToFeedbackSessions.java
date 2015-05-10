@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackResponseDetails;
 import teammates.common.datatransfer.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.FeedbackContributionResponseDetails;
@@ -19,14 +18,11 @@ import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.FeedbackTextResponseDetails;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.api.Logic;
-import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.FeedbackSessionsDb;
-import teammates.storage.api.SubmissionsDb;
 import teammates.storage.datastore.Datastore;
 
 import com.google.appengine.api.datastore.Text;
@@ -35,13 +31,13 @@ import com.google.appengine.api.datastore.Text;
  * Migrates Evaluations and Submissions to FeedbackSessions and Responses.
  * Feedback session/question creator will be any instructor from the course.
  */
-public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient {
+public class DataMigrationEvaluationsToFeedbackSessions {//extends RemoteApiClient {
     
     protected static Logic logic = new Logic();
-    protected static EvaluationsDb evalsDb = new EvaluationsDb();
-    protected static SubmissionsDb subDb = new SubmissionsDb();
+    //protected static EvaluationsDb evalsDb = new EvaluationsDb();
+    //protected static SubmissionsDb subDb = new SubmissionsDb();
     protected static FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
-    
+    /*
     public static void main(String[] args) throws IOException {
         final long startTime = System.currentTimeMillis();
         DataMigrationEvaluationsToFeedbackSessions migrator = new DataMigrationEvaluationsToFeedbackSessions();
@@ -57,7 +53,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         /**
          * Specify courseId, evaluationName, and new feedback session name here.
          * If new feedbackSessionName already exists, a number in brackets will be appended.
-         */
+         *
         String courseId = "example.gma-demo";
         String evaluationName = "First Evaluation";
         String newFeedbackSessionName = "Migrated FeedbackSession";
@@ -522,5 +518,5 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
             System.out.println("Failed to create Feedback Question 1 =(");
             e.printStackTrace();
         }
-    }
+    }*/
 }

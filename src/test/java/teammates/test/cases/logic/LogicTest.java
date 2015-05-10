@@ -11,10 +11,8 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.logic.api.Logic;
 import teammates.test.cases.BaseComponentTestCase;

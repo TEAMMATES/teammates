@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;

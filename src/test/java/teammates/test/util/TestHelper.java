@@ -19,8 +19,6 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -28,7 +26,6 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
-import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -42,7 +39,6 @@ import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.CoursesDb;
-import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
@@ -62,7 +58,6 @@ public class TestHelper extends BaseComponentTestCase{
 
     private static final CoursesDb coursesDb = new CoursesDb();
     private static final InstructorsDb instructorsDb = new InstructorsDb();
-    private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
     private static final StudentsDb studentsDb = new StudentsDb();
     private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
@@ -73,41 +68,6 @@ public class TestHelper extends BaseComponentTestCase{
     private static Gson gson = Utils.getTeammatesGson();
 
     
-    public static void verifySubmissionsExistForCurrentTeamStructureInEvaluation(String evaluationName,
-            List<StudentAttributes> students, List<SubmissionAttributes> submissions) {
-
-        for (StudentAttributes reviewer : students) {
-            for (StudentAttributes reviewee : students) {
-                if (!reviewer.team.equals(reviewee.team)) {
-                    continue;
-                }
-                verifySubmissionExists(evaluationName, reviewer.email, reviewee.email,
-                        reviewer.team, submissions);
-            }
-        }
-
-    }
-
-    /**
-     * Verifies if there is a submission in the list for the 
-     *    given evaluation for the same reviewer and reviewee 
-     *    under the same team. Does not check other attributes.
-     */
-    public static void verifySubmissionExists(String evaluationName, String reviewer,
-            String reviewee, String team, List<SubmissionAttributes> submissions) {
-        int count = 0;
-        for (SubmissionAttributes s : submissions) {
-            if (s.evaluation.equals(evaluationName)
-                    && s.reviewer.equals(reviewer)
-                    && s.reviewee.equals(reviewee) 
-                    && s.team.equals(team)) {
-                count++;
-            }
-        }
-        String errorMsg = "Count is not 1 for "+evaluationName+":"+team+":"+reviewer+"->"+reviewee;
-        assertEquals(errorMsg, 1, count);
-    }
-
     public static MimeMessage getEmailToStudent(StudentAttributes s,
             List<MimeMessage> emailsSent) throws MessagingException {
         for (MimeMessage m : emailsSent) {
@@ -151,25 +111,6 @@ public class TestHelper extends BaseComponentTestCase{
         AssertHelper.assertContains(instr.courseId, email.getSubject());
     }
 
-    public static void verifyEvaluationInfoExistsInList(EvaluationAttributes evaluation,
-            ArrayList<EvaluationDetailsBundle> evalInfoList) {
-
-        for (EvaluationDetailsBundle edd : evalInfoList) {
-            if (edd.evaluation.name.equals(evaluation.name))
-                return;
-        }
-        Assert.fail("Did not find " + evaluation.name + " in the evaluation info list");
-    }
-
-    public static void verifyEvaluationInfoExistsInAttributeList(EvaluationAttributes evaluation,
-            ArrayList<EvaluationAttributes> evalInfoList) {
-
-        for (EvaluationAttributes evalAttr : evalInfoList) {
-            if (evalAttr.name.equals(evaluation.name))
-                return;
-        }
-        Assert.fail("Did not find " + evaluation.name + " in the evaluation info list");
-    }
 
     public static void verifyEnrollmentDetailsForStudent(StudentAttributes expectedStudent,
             String oldTeam, StudentEnrollDetails enrollmentResult, StudentAttributes.UpdateStatus status) {
@@ -321,20 +262,7 @@ public class TestHelper extends BaseComponentTestCase{
         assertEquals(expected.feedbackSessionName, actual.feedbackSessionName);
         assertEquals(expected.commentText, actual.commentText);
     }
-    
-    public static void verifySameEvaluationData(EvaluationAttributes expected,
-            EvaluationAttributes actual) {
-        assertEquals(expected.courseId, actual.courseId);
-        assertEquals(expected.name, actual.name);
-        AssertHelper.assertSameDates(expected.startTime, actual.startTime);
-        AssertHelper.assertSameDates(expected.endTime, actual.endTime);
-        assertEquals(expected.timeZone, actual.timeZone, 0.1);
-        assertEquals(expected.instructions, actual.instructions);
-        assertEquals(expected.p2pEnabled, actual.p2pEnabled);
-        assertEquals(expected.published, actual.published);
-        assertEquals(expected.activated, actual.activated);
-    }
-
+   
 
     public static void verifyEntityDoesNotExistException(String methodName,
             Class<?>[] paramTypes, Object[] params) throws Exception {

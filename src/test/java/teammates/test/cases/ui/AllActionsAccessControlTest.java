@@ -17,15 +17,12 @@ import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -36,7 +33,6 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.CommentsDb;
-import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
@@ -51,7 +47,6 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
     
     private final CommentsDb commentsDb = new CommentsDb();
-    private final EvaluationsDb evaluationsDb = new EvaluationsDb();
     private final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     private final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
     private final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
@@ -1220,35 +1215,6 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         fs.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
         fsDb.updateFeedbackSession(fs);
     }
-
-    private void makeEvaluationPublished(EvaluationAttributes eval) throws Exception {
-        eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-        eval.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        eval.activated = true;
-        eval.published = true;
-        assertEquals(EvalStatus.PUBLISHED, eval.getStatus());
-        evaluationsDb.updateEvaluation(eval);
-        
-    }
-
-    private void makeEvaluationClosed(EvaluationAttributes eval) throws Exception {
-        eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-        eval.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        eval.activated = true;
-        eval.published = false;
-        assertEquals(EvalStatus.CLOSED, eval.getStatus());
-        evaluationsDb.updateEvaluation(eval);
-        
-    }
-    
-    private void makeEvaluationOpen(EvaluationAttributes eval) throws Exception {
-        eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-        eval.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
-        eval.activated = true;
-        eval.published = false;
-        assertEquals(EvalStatus.OPEN, eval.getStatus());
-        evaluationsDb.updateEvaluation(eval);
-    }
     
     private String[] addQuestionIdToParams(String questionId, String[] params) {
         List<String> list = new ArrayList<String>();
@@ -1258,44 +1224,5 @@ public class AllActionsAccessControlTest extends BaseActionTest {
             list.add(s);
         }
         return list.toArray(new String[list.size()]);
-    }
-
-    private void checkAccessControlForEval(EvaluationAttributes eval, boolean isEditableForStudent)
-            throws Exception {
-
-        String courseId = eval.courseId;
-        String evalName = eval.name;
-        
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.googleId;
-        
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        String studentId = student1InCourse1.googleId;
-        
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.EVALUATION_NAME, evalName};
-        
-        verifyUnaccessibleWithoutLogin(submissionParams);
-        
-        gaeSimulation.loginUser("student1InCourse2");
-        //if the user is not a student of the course, we redirect to home page.
-        verifyRedirectTo(Const.ActionURIs.STUDENT_HOME_PAGE, submissionParams);
-        verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
-        
-        if(isEditableForStudent){
-            verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
-        }else {
-            verifyUnaccessibleForStudents(submissionParams);
-        }
-        
-        
-        gaeSimulation.loginAsInstructor(instructorId);
-        //if the user is not a student of the course, we redirect to home page.
-        verifyRedirectTo(Const.ActionURIs.STUDENT_HOME_PAGE, submissionParams);
-        verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
-        
-        verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
     }
 }

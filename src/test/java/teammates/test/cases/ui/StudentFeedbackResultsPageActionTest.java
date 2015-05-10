@@ -19,7 +19,6 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.FeedbackSessionsLogic;
-import teammates.storage.api.EvaluationsDb;
 import teammates.test.util.TestHelper;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.ActionResult;
@@ -31,7 +30,6 @@ import teammates.ui.controller.StudentFeedbackResultsPageData;
 public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    EvaluationsDb evaluationsDb = new EvaluationsDb();
 
     @BeforeClass
     public static void classSetUp() throws Exception {

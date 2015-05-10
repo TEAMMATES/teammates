@@ -7,7 +7,6 @@ import java.util.List;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.SessionAttributes;
@@ -134,21 +133,6 @@ public class InstructorStudentRecordsPageAction extends Action {
         }
     }
 
-    private void filterEvaluations(String courseId,
-            List<EvaluationAttributes> evals) {
-        Iterator<EvaluationAttributes> iterEval = evals.iterator();
-        while (iterEval.hasNext()) {
-            EvaluationAttributes tempEval = iterEval.next();
-            if (!tempEval.courseId.equals(courseId)) {
-                iterEval.remove();
-            } else if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, 
-                    Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + tempEval.getSessionName(),
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
-                iterEval.remove();
-            }
-        }
-    }
-    
     private void loadStudentProfile() {
         boolean hasExistingStatus = !statusToUser.isEmpty() || 
                 session.getAttribute(Const.ParamsNames.STATUS_MESSAGE) != null;

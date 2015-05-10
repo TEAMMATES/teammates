@@ -5,7 +5,6 @@
 <%@ page import="java.util.Map"%>
 
 <%@page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
-<%@page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>

@@ -1,6 +1,7 @@
 package teammates.logic.backdoor;
 
 import java.util.ArrayList;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,14 +33,12 @@ import teammates.logic.api.Logic;
 import teammates.storage.api.AccountsDb;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.CoursesDb;
-import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
-import teammates.storage.api.SubmissionsDb;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
@@ -52,8 +51,6 @@ public class BackDoorLogic extends Logic {
     private static final CommentsDb commentsDb = new CommentsDb();
     private static final StudentsDb studentsDb = new StudentsDb();
     private static final InstructorsDb instructorsDb = new InstructorsDb();
-    private static final EvaluationsDb evaluationsDb = new EvaluationsDb();
-    private static final SubmissionsDb submissionsDb = new SubmissionsDb();
     private static final FeedbackSessionsDb fbDb = new FeedbackSessionsDb();
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
@@ -426,8 +423,6 @@ public class BackDoorLogic extends Logic {
             instructorsDb.deleteInstructorsForCourses(courseIds);
             studentsDb.deleteStudentsForCourses(courseIds);
             commentsDb.deleteCommentsForCourses(courseIds);
-            evaluationsDb.deleteEvaluationsForCourses(courseIds);
-            submissionsDb.deleteSubmissionsForCourses(courseIds);
             fbDb.deleteFeedbackSessionsForCourses(courseIds);
             fqDb.deleteFeedbackQuestionsForCourses(courseIds);
             frDb.deleteFeedbackResponsesForCourses(courseIds);

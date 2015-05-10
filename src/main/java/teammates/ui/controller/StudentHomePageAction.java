@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes;

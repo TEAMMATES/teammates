@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;

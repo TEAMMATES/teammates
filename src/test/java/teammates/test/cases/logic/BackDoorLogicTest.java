@@ -13,16 +13,13 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.logic.backdoor.BackDoorLogic;
-import teammates.storage.api.SubmissionsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.common.CourseAttributesTest;
 import teammates.test.util.TestHelper;
@@ -111,13 +108,8 @@ public class BackDoorLogicTest extends BaseComponentTestCase {
         getInstructorAsJson(String, String)
         getCourseAsJson(String)
         getStudentAsJson(String, String)
-        getEvaluationAsJson(String, String)
-        getSubmissionAsJson(String, String, String, String)
         editAccountAsJson(String)
         editStudentAsJson(String, String)
-        editEvaluationAsJson(String)
-        editSubmissionAsJson(String)
-        editEvaluation(EvaluationAttributes)
         createCourse(String, String)
     */
     

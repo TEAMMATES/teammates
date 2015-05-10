@@ -12,8 +12,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
@@ -59,8 +57,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
     // both TEST_INSTRUCTOR and TEST_STUDENT are from this course
     private static CourseAttributes ownCourse;
-
-    private static EvaluationAttributes ownEvaluation;
     
     @BeforeClass
     public static void classSetup() {
