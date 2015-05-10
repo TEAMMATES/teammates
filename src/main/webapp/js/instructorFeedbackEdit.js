@@ -621,7 +621,7 @@ function getQuestionLink(qnNumber) {
     var questionLink =  window.location.protocol + "//" 
                         + window.location.host + actionUrl
                         + "?courseid=" + courseid 
-                        + "&fsname=" + fsname
+                        + "&fsname=" + fsname 
                         + "&questionid=" + questionId;
     
     setStatusMessage("Link for question " + qnNumber + ": " + questionLink, false);
