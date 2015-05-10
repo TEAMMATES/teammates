@@ -145,14 +145,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <url-pattern>/sendEmailWorker</url-pattern>
     </servlet-mapping>
     
-    <servlet>
-        <servlet-name>SubmissionWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.SubmissionWorkerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>SubmissionWorkerServlet</servlet-name>
-        <url-pattern>/submissionWorker</url-pattern>
-    </servlet-mapping>
     
     
     <servlet>

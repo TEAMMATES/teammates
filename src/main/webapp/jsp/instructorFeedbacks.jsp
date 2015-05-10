@@ -623,8 +623,7 @@
             <%
                 int sessionIdx = -1;
                 String tableHighlight = "";
-                if (data.existingFeedbackSessions.size() > 0
-                        || data.existingEvalSessions.size() > 0) {
+                if (data.existingFeedbackSessions.size() > 0) {
                     int displayFeedbackStatsCount = 0;
                     Map<String, List<String>> courseIdSectionNamesMap = data.getCourseIdSectionNamesMap(data.existingFeedbackSessions);
                     for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {
@@ -659,30 +658,10 @@
             </tr>
             <%
                 }
-                    for (EvaluationAttributes edd : data.existingEvalSessions) {
-                        sessionIdx++;
             %>
-            <tr class="sessionsRow" id="evaluation<%=sessionIdx%>">
-                <td><%=edd.courseId%></td>
-                <td><%=InstructorFeedbacksPageData
-                            .sanitizeForHtml(edd.name)%></td>
-                <td><span title="<%=InstructorFeedbacksPageData.getInstructorHoverMessageForEval(edd)%>"
-                        data-toggle="tooltip" data-placement="top">
-                        <%=InstructorFeedbacksPageData.getInstructorStatusForEval(edd)%>
-                    </span>
-                </td>
-                <td
-                    class="session-response-for-test<%if (!TimeHelper.isOlderThanAYear(edd.endTime)) {
-                        out.print(" recent");
-                    }%>">
-                    <a oncontextmenu="return false;"
-                    href="<%=data.getEvaluationStatsLink(edd.courseId,
-                            edd.name)%>">Show</a>
-                </td>
-                <td class="no-print"><%=data.getInstructorEvaluationActions(edd, false, data.instructors.get(edd.courseId))%></td>
-            </tr>
+            
             <%
-                }
+                
                 } else {
             %>
             <tr>

@@ -3,7 +3,6 @@
 <%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.util.TimeHelper" %>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle" %>
-<%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle" %>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionDetailsBundle"%>
 <%@ page import="teammates.ui.controller.PageData"%>
 <%@ page import="teammates.ui.controller.StudentHomePageData"%>
@@ -66,8 +65,7 @@
             
             <table class="table-responsive table table-striped">
             <%
-                if (courseDetails.evaluations.size() > 0 || 
-                    courseDetails.feedbackSessions.size() > 0) {
+                if (courseDetails.feedbackSessions.size() > 0) {
             %>
                         <thead>
                             <tr>
@@ -78,23 +76,7 @@
                             </tr>
                         </thead>
                     <%
-                        for (EvaluationDetailsBundle edd : courseDetails.evaluations) {
-                            sessionIdx++;
-                    %>
-                            <tr id="evaluation<%=sessionIdx%>">
-                                <td><%=PageData.sanitizeForHtml(edd.evaluation.name)%></td>
-                                <td><%=TimeHelper.formatTime(edd.evaluation.endTime)%></td>
-                                <td><span data-toggle="tooltip" data-placement="top" 
-                                    title="<%=data.getStudentHoverMessageForEval(data.getStudentStatusForEval(edd.evaluation))%>">
-                                    <%=data.getStudentStatusForEval(edd.evaluation)%>
-                                    </span>
-                                </td>
-                                <td class="studentHomeActions">
-                                    <%=data.getStudentEvaluationActions(edd.evaluation,sessionIdx)%>
-                                </td>
-                            </tr>
-                    <%
-                        }
+                        
                             for (FeedbackSessionDetailsBundle fsd : courseDetails.feedbackSessions) {
                                 sessionIdx++;
                         %>

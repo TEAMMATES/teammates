@@ -68,7 +68,6 @@ public class InstructorHomePageAction extends Action {
                     + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
             data.numberOfPendingComments.put(courseId, numberOfPendingCommentsForThisCourse);
             
-            EvaluationAttributes.sortEvaluationsByDeadlineDescending(course.evaluations);
             FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(course.feedbackSessions);
         }
         

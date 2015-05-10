@@ -23,25 +23,13 @@ public class CourseDetailsBundle {
 
     public CourseAttributes course;
     public CourseStats stats = new CourseStats();
-    public ArrayList<EvaluationDetailsBundle> evaluations = new ArrayList<EvaluationDetailsBundle>();
+    
     public ArrayList<FeedbackSessionDetailsBundle> feedbackSessions = new ArrayList<FeedbackSessionDetailsBundle>();
     public ArrayList<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
     //TODO: remove this as we do not allow loners anymore
     //Do not remove as we might cater for situations where there are no teams in future
     public ArrayList<StudentAttributes> loners = new ArrayList<StudentAttributes>();
     
-    
-    /**
-     * Gets all EvaluationAttributes in this CourseDetailsBundle
-     * @return
-     */
-    public List<EvaluationAttributes> getEvaluationsList() {
-        List<EvaluationAttributes> evaluationsAttributes = new ArrayList<EvaluationAttributes>();
-        for (EvaluationDetailsBundle evaluationDetails : evaluations) {
-            evaluationsAttributes.add(evaluationDetails.evaluation);
-        }
-        return evaluationsAttributes;
-    }
     
     /**
      * Gets all FeedbackSessionAttributes in this CourseDetailsBundle

@@ -46,7 +46,6 @@ public class StudentHomePageAction extends Action {
             }
             
             for(CourseDetailsBundle course: data.courses){
-                EvaluationDetailsBundle.sortEvaluationsByDeadline(course.evaluations);
                 FeedbackSessionDetailsBundle.sortFeedbackSessionsByCreationTime(course.feedbackSessions);
             }
             
@@ -123,9 +122,7 @@ public class StudentHomePageAction extends Action {
             CourseDetailsBundle course = logic.getCourseDetails(courseId);
             data.courses.add(course);
 
-            addPlaceholderEvaluations(course);
             addPlaceholderFeedbackSessions(course);        
-            EvaluationDetailsBundle.sortEvaluationsByDeadline(course.evaluations);
             FeedbackSessionDetailsBundle.sortFeedbackSessionsByCreationTime(course.feedbackSessions);
             
         } catch (EntityDoesNotExistException e){
@@ -134,22 +131,6 @@ public class StudentHomePageAction extends Action {
         } 
     }
     
-    private void addPlaceholderEvaluations(CourseDetailsBundle course) {
-        for(EvaluationDetailsBundle edb: course.evaluations){
-            EvaluationAttributes eval = edb.evaluation;
-            switch (eval.getStatus()) {
-                case PUBLISHED:
-                    data.evalSubmissionStatusMap.put(eval.courseId+"%"+eval.name, Const.STUDENT_EVALUATION_STATUS_PUBLISHED);
-                    break;
-                case CLOSED:
-                    data.evalSubmissionStatusMap.put(eval.courseId+"%"+eval.name, Const.STUDENT_EVALUATION_STATUS_CLOSED);
-                    break;
-                default:
-                    data.evalSubmissionStatusMap.put(eval.courseId+"%"+eval.name, Const.STUDENT_EVALUATION_STATUS_PENDING);
-                    break;
-            }
-        }
-    }
     
     private void addPlaceholderFeedbackSessions(CourseDetailsBundle course) {
         for(FeedbackSessionDetailsBundle fsb: course.feedbackSessions){
