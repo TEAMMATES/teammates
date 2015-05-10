@@ -51,7 +51,6 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         assertEquals(2, pageData.courseDetails.stats.teamsTotal);
         assertEquals(5, pageData.courseDetails.stats.studentsTotal);
         assertEquals(0, pageData.courseDetails.stats.unregisteredTotal);
-        assertEquals(2, pageData.courseDetails.evaluations.size());
         assertEquals(0, pageData.courseDetails.feedbackSessions.size());
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorCourseDetailsPage|||instructorCourseDetailsPage|||"
@@ -81,7 +80,6 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         assertEquals(0, pageData.courseDetails.stats.teamsTotal);
         assertEquals(0, pageData.courseDetails.stats.studentsTotal);
         assertEquals(0, pageData.courseDetails.stats.unregisteredTotal);
-        assertEquals(0, pageData.courseDetails.evaluations.size());
         assertEquals(0, pageData.courseDetails.feedbackSessions.size());
 
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseDetailsPage|||instructorCourseDetailsPage|||"

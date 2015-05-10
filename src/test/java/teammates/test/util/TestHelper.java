@@ -72,22 +72,6 @@ public class TestHelper extends BaseComponentTestCase{
 
     private static Gson gson = Utils.getTeammatesGson();
 
-    /** 
-     * Verifies submissions required to support the current Team structure
-     *    exists in the database, for all evaluations under the give course. 
-     *    However, there could also be orphaned submissions in the database. 
-     *    This method does not care about those.
-     */
-    
-    public static void verifySubmissionsExistForCurrentTeamStructureInAllExistingEvaluations(
-            List<SubmissionAttributes> submissionList, String courseId) throws EntityDoesNotExistException {
-        CourseDetailsBundle course = CoursesLogic.inst().getCourseDetails(courseId);
-        List<StudentAttributes> students = studentsDb.getStudentsForCourse(courseId);
-
-        for(EvaluationDetailsBundle e: course.evaluations){
-            verifySubmissionsExistForCurrentTeamStructureInEvaluation(e.evaluation.name, students, submissionList);
-        }
-    }
     
     public static void verifySubmissionsExistForCurrentTeamStructureInEvaluation(String evaluationName,
             List<StudentAttributes> students, List<SubmissionAttributes> submissions) {

@@ -86,7 +86,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         testEnrollStudent();
         testAdjustFeedbackResponseForEnrollments();
-        testCreateStudentWithSubmissionAdjustment();
+
         testValidateSections();
         testupdateStudentCascadeWithoutDocument();
         testSendRegistrationInviteToStudent();
@@ -254,6 +254,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         student4InCourse1.section = "Section 2";
         student4InCourse1.team = "Team 1.2"; // move to a different team
 
+        studentsLogic.updateStudentCascadeWithoutDocument(originalEmail, student4InCourse1);
 
         ______TS("check for KeepExistingPolicy : change email only");
         
@@ -748,59 +749,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         }
         
     }
-    
-    public void testCreateStudentWithSubmissionAdjustment() throws Exception {
-
-        ______TS("typical case");
-
-        //reuse existing student to create a new student
-        StudentAttributes newStudent = dataBundle.students.get("student4InCourse1");
-        String initialEmail = newStudent.email;
-        newStudent.email = "new@student.tmt";
-        TestHelper.verifyAbsentInDatastore(newStudent);
-
-        ______TS("duplicate student");
-
-        // try to create the same student
-        try {
-            studentsLogic.createStudentCascadeWithoutDocument(newStudent);
-            signalFailureToDetectException();
-        } catch (EntityAlreadyExistsException e) {
-            ignoreExpectedException();
-        }
-        
-        studentsLogic.deleteStudentCascadeWithoutDocument(newStudent.course, newStudent.email);
-        
-        ______TS("invalid parameter");
-
-        // Only checking that exception is thrown at logic level
-        newStudent.email = "invalid email";
-        
-        try {
-            studentsLogic.createStudentCascadeWithoutDocument(newStudent);
-            signalFailureToDetectException();
-        } catch (InvalidParametersException e) {
-            assertEquals(
-                    String.format(EMAIL_ERROR_MESSAGE, "invalid email", REASON_INCORRECT_FORMAT),
-                    e.getMessage());
-        }
-        
-        ______TS("null parameters");
-        
-        try {
-            studentsLogic.createStudentCascadeWithoutDocument(null);
-            signalFailureToDetectException();
-        } catch (AssertionError a) {
-            assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
-        }
-
-        // other combination of invalid data should be tested against
-        // StudentAttributes
-        
-        newStudent.email = initialEmail;
-
-    }
-
+   
     public void testGetStudentForEmail() throws Exception {
 
         ______TS("null parameters");
