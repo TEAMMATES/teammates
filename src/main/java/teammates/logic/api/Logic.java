@@ -59,14 +59,12 @@ import teammates.logic.core.AdminEmailsLogic;
 import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
-import teammates.logic.core.EvaluationsLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.logic.core.SubmissionsLogic;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
@@ -1367,6 +1365,21 @@ public class Logic {
     public void putDocument(StudentAttributes student){
         studentsLogic.putDocument(student);
     }
+    
+    /**
+     * Generates students list of a course in CSV format. <br>
+     * Preconditions: <br>
+     * * All parameters are non-null. <br>
+     */
+    public String getCourseStudentListAsCsv(String courseId, String googleId)
+            throws EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
+        
+        return coursesLogic.getCourseStudentListAsCsv(courseId, googleId);
+    }
+
 
     
     @SuppressWarnings("unused")

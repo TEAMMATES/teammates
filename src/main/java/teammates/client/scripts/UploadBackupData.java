@@ -37,7 +37,6 @@ import teammates.common.util.FileHelper;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackQuestionsLogic;
-import teammates.logic.core.SubmissionsLogic;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -74,7 +73,6 @@ public class UploadBackupData extends RemoteApiClient {
     private static HashMap<String, String> feedbackQuestionIds = new HashMap<String, String>();
     
     private static Logic logic = new Logic();
-    private static SubmissionsLogic submissionsLogic = new SubmissionsLogic();
     private static final CoursesDb coursesDb = new CoursesDb();
     private static final CommentsDb commentsDb = new CommentsDb();
     private static final StudentsDb studentsDb = new StudentsDb();
@@ -158,9 +156,6 @@ public class UploadBackupData extends RemoteApiClient {
                 if (!data.students.isEmpty()){                   // Students
                     persistStudents(data.students);
                 } 
-                if (!data.evaluations.isEmpty()){                // Evaluations
-                    persistEvaluations(data.evaluations);
-                } 
                 if (!data.feedbackSessions.isEmpty()){           // Feedback sessions
                     persistFeedbackSessions(data.feedbackSessions);
                 } 
@@ -172,9 +167,6 @@ public class UploadBackupData extends RemoteApiClient {
                 } 
                 if (!data.feedbackResponseComments.isEmpty()){   // Feedback response comments
                     persistFeedbackResponseComments(data.feedbackResponseComments);
-                } 
-                if (!data.submissions.isEmpty()){                // Submissions
-                    persistSubmissions(data.submissions);;
                 } 
                 if (!data.comments.isEmpty()) {                   // Comments
                     persistComments(data.comments);
@@ -221,18 +213,6 @@ public class UploadBackupData extends RemoteApiClient {
             studentsDb.createStudentsWithoutSearchability(students.values());
         } catch (InvalidParametersException e) {
             System.out.println("Error in uploading students: " + e.getMessage());
-        }
-    }
-    
-    private static void persistEvaluations(HashMap<String, EvaluationAttributes> evaluations) {
-
-        for (EvaluationAttributes evaluation : evaluations.values()) {
-            try {
-                logic.createEvaluationWithoutSubmissionQueue(evaluation);
-            } catch (EntityAlreadyExistsException | InvalidParametersException
-                    | EntityDoesNotExistException e) {
-                System.out.println("Error in uploading evaluations: " + e.getMessage());
-            }
         }
     }
     
@@ -296,18 +276,6 @@ public class UploadBackupData extends RemoteApiClient {
         }
     }
     
-    private static void persistSubmissions(HashMap<String, SubmissionAttributes> submissions) {
-        List<SubmissionAttributes> listOfSubmissionsToAdd = new ArrayList<SubmissionAttributes>();
-        for(SubmissionAttributes submission : submissions.values()) {
-            listOfSubmissionsToAdd.add(submission);
-        }
-        
-        try {
-            submissionsLogic.createSubmissions(listOfSubmissionsToAdd);
-        } catch (InvalidParametersException e) {
-            System.out.println("Error in uploading submissions: " + e.getMessage());
-        }
-    }
     
     private static void persistProfiles(HashMap<String, StudentProfileAttributes> studentProfiles) {
         HashMap<String, StudentProfileAttributes> profiles = studentProfiles;

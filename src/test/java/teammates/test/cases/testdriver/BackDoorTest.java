@@ -70,38 +70,7 @@ public class BackDoorTest extends BaseTestCase {
         status = BackDoor.deleteInstructor(instructor1OfCourse1.email, instructor1OfCourse1.courseId);
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
         
-        // ----------deleting Evaluation entities-------------------------
-
-        // check the existence of a submission that will be deleted along with
-        // the evaluation
-        SubmissionAttributes subInDeletedEvaluation = dataBundle.submissions
-                .get("submissionFromS1C1ToS2C1");
-        verifyPresentInDatastore(subInDeletedEvaluation);
-
-        // delete the evaluation and verify it is deleted
-        EvaluationAttributes evaluation1InCourse1 = dataBundle.evaluations
-                .get("evaluation1InCourse1");
-        verifyPresentInDatastore(evaluation1InCourse1);
-        status = BackDoor.deleteEvaluation(evaluation1InCourse1.courseId,
-                evaluation1InCourse1.name);
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
-        verifyAbsentInDatastore(evaluation1InCourse1);
-
-        // verify that the submission is deleted too
-        verifyAbsentInDatastore(subInDeletedEvaluation);
-
-        // try to delete the evaluation again, should succeed
-        status = BackDoor.deleteEvaluation(evaluation1InCourse1.courseId,
-                evaluation1InCourse1.name);
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
-
-        // verify that the other evaluation in the same course is intact
-        EvaluationAttributes evaluation2InCourse1 = dataBundle.evaluations
-                .get("evaluation2InCourse1");
-        verifyPresentInDatastore(evaluation2InCourse1);
-
         // ----------deleting Course entities-------------------------
-
         // #COURSE 2
         CourseAttributes course2 = dataBundle.courses.get("typicalCourse2");
         verifyPresentInDatastore(course2);
@@ -113,11 +82,6 @@ public class BackDoorTest extends BaseTestCase {
         StudentAttributes student2InCourse2 = dataBundle.students
                 .get("student2InCourse2");
         verifyAbsentInDatastore(student2InCourse2);
-
-        // check if related evaluation entities are also deleted
-        EvaluationAttributes evaluation1InCourse2 = dataBundle.evaluations
-                .get("evaluation1InCourse2");
-        verifyAbsentInDatastore(evaluation1InCourse2);
         
         // #COURSE 1
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
@@ -131,8 +95,6 @@ public class BackDoorTest extends BaseTestCase {
                 .get("student1InCourse1");
         verifyAbsentInDatastore(student1InCourse1);
         
-        // previously not deleted evaluation should be deleted now since the course has been deleted
-        verifyAbsentInDatastore(evaluation2InCourse1);
         
         // #COURSE NO EVALS
         CourseAttributes courseNoEvals = dataBundle.courses.get("courseNoEvals");
@@ -408,104 +370,7 @@ public class BackDoorTest extends BaseTestCase {
     @SuppressWarnings("unused")
     private void ____EVALUATION_level_methods______________________________() {
     }
-
-    @Test
-    public void testCreateEvaluation() throws InvalidParametersException {
-        // only minimal testing because this is a wrapper method for
-        // another well-tested method.
-
-        EvaluationAttributes e = new EvaluationAttributes();
-        e.courseId = "tmapit.tce.course";
-        e.name = "Eval for tmapit.tce.course";
-        e.instructions = new Text("inst.");
-        e.p2pEnabled = true;
-        e.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
-        e.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
-        e.timeZone = 8.0;
-        e.gracePeriod = 5;
-        BackDoor.deleteEvaluation(e.courseId, e.name);
-        verifyAbsentInDatastore(e);
-        BackDoor.createEvaluation(e);
-        verifyPresentInDatastore(e);
-        BackDoor.deleteEvaluation(e.courseId, e.name);
-        verifyAbsentInDatastore(e);
-    }
-
-    public void testGetEvaluationAsJson() {
-        // already tested by testPersistenceAndDeletion
-    }
-
-    @Test
-    public void testEditEvaluation() {
-
-        // check for successful edit
-        EvaluationAttributes eval = dataBundle.evaluations
-                .get("evaluation1InCourse2");
-        
-        // try creating the entity to make sure it exists
-        BackDoor.createEvaluation(eval);
-
-        eval.gracePeriod = eval.gracePeriod + 1;
-        eval.instructions = new Text(eval.instructions + "x");
-        eval.p2pEnabled = (!eval.p2pEnabled);
-        eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-        eval.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        eval.activated = (!eval.activated);
-        eval.published = (!eval.published);
-        eval.timeZone = eval.timeZone + 1.0;
-
-        String status = BackDoor.editEvaluation(eval);
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
-        verifyPresentInDatastore(eval);
-
-        // not testing for unsuccesful edit because this does 
-        //  not go through the Logic API (i.e., no error checking done)
-
-    }
-
-    public void testDeleteEvaluation() {
-        // already tested by testPersistenceAndDeletion
-    }
-
-    @SuppressWarnings("unused")
-    private void ____SUBMISSION_level_methods______________________________() {
-    }
-
-    public void testCreateSubmission() {
-        // not implemented
-    }
-
-    public void testGetSubmission() {
-        // already tested by testPersistenceAndDeletion
-    }
-
-    @Priority(-1)
-    @Test
-    public void testEditSubmission() {
-
-        // check for successful edit
-        SubmissionAttributes submission = dataBundle.submissions
-                .get("submissionFromS1C2ToS2C2");
-        
-        submission.justification = new Text(submission.justification.getValue()    + "x");
-        submission.points = submission.points + 10;
-        String status = BackDoor.editSubmission(submission);
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
-        verifyPresentInDatastore(submission);
-
-        // test for unsuccessful edit
-        String initialReviewer = submission.reviewer;
-        submission.reviewer = "non-existent@gmail.tmt";
-        status = BackDoor.editSubmission(submission);
-        assertTrue(status.startsWith(Const.StatusCodes.BACKDOOR_STATUS_FAILURE));
-        verifyAbsentInDatastore(submission);
-        
-        submission.reviewer = initialReviewer;
-    }
-
-    public void testDeleteSubmission() {
-        // not implemented
-    }
+    
 
     @SuppressWarnings("unused")
     private void ____helper_methods_________________________________() {
@@ -528,20 +393,6 @@ public class BackDoorTest extends BaseTestCase {
     private void verifyAbsentInDatastore(StudentAttributes student) {
         assertEquals("null",
                 BackDoor.getStudentAsJson(student.course, student.email));
-    }
-
-    private void verifyAbsentInDatastore(EvaluationAttributes evaluation1InCourse1) {
-        assertEquals("null", BackDoor.getEvaluationAsJson(
-                evaluation1InCourse1.courseId, evaluation1InCourse1.name));
-    }
-
-    private void verifyAbsentInDatastore(SubmissionAttributes subInDeletedEvaluation) {
-        String submissionAsJson = BackDoor.getSubmissionAsJson(
-                subInDeletedEvaluation.course,
-                subInDeletedEvaluation.evaluation,
-                subInDeletedEvaluation.reviewer,
-                subInDeletedEvaluation.reviewee);
-        assertEquals("null", submissionAsJson);
     }
 
     
@@ -569,48 +420,8 @@ public class BackDoorTest extends BaseTestCase {
             verifyPresentInDatastore(expectedStudent);
         }
 
-        HashMap<String, EvaluationAttributes> evaluations = data.evaluations;
-        for (EvaluationAttributes expectedEvaluation : evaluations.values()) {
-            verifyPresentInDatastore(expectedEvaluation);
-        }
-
-        HashMap<String, SubmissionAttributes> submissions = data.submissions;
-        for (SubmissionAttributes expectedSubmission : submissions.values()) {
-            verifyPresentInDatastore(expectedSubmission);
-        }
     }
 
-    private void verifyPresentInDatastore(SubmissionAttributes expectedSubmission) {
-        int tries = 0;
-        SubmissionAttributes actualSubmission = null;
-        while (tries < 2){
-            try {
-                String submissionsJsonString = BackDoor.getSubmissionAsJson(
-                        expectedSubmission.course, expectedSubmission.evaluation,
-                        expectedSubmission.reviewer, expectedSubmission.reviewee);
-                actualSubmission = gson.fromJson(submissionsJsonString,
-                        SubmissionAttributes.class);
-                assertEquals(gson.toJson(expectedSubmission),
-                        gson.toJson(actualSubmission));
-                break;
-            } catch (AssertionError ae) {
-                tries += 1;
-            }
-        }
-        assertEquals(gson.toJson(expectedSubmission),
-                gson.toJson(actualSubmission));
-    }
-
-    private void verifyPresentInDatastore(EvaluationAttributes expectedEvaluation) {
-        String evaluationJsonString = BackDoor.getEvaluationAsJson(
-                expectedEvaluation.courseId, expectedEvaluation.name);
-        EvaluationAttributes actualEvaluation = gson.fromJson(evaluationJsonString,
-                EvaluationAttributes.class);
-        // equalize id field before comparing (because id field is
-        // autogenerated by GAE)
-        assertEquals(gson.toJson(expectedEvaluation),
-                gson.toJson(actualEvaluation));
-    }
 
     private void verifyPresentInDatastore(StudentAttributes expectedStudent) {
         String studentJsonString = BackDoor.getStudentAsJson(

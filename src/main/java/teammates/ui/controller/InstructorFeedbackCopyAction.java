@@ -68,14 +68,12 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
         data.instructors = loadCourseInstructorMap(omitArchived);
         List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>(data.instructors.values());
         data.courses = loadCoursesList(instructorList);
-        data.existingEvalSessions = loadEvaluationsList(instructorList);
         data.existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
         
         if (data.existingFeedbackSessions.size() == 0) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY);
         }
     
-        EvaluationAttributes.sortEvaluationsByDeadlineDescending(data.existingEvalSessions);
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);

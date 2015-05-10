@@ -22,7 +22,6 @@ public class InstructorFeedbacksPageData extends PageData {
     public String feedbackSessionType;
     public FeedbackSessionAttributes newFeedbackSession;
     public List<CourseAttributes> courses;
-    public List<EvaluationAttributes> existingEvalSessions;
     public List<FeedbackSessionAttributes> existingFeedbackSessions;
     public HashMap<String, InstructorAttributes> instructors;
     public boolean isUsingAjax;

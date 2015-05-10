@@ -62,7 +62,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         String evaluationName = "First Evaluation";
         String newFeedbackSessionName = "Migrated FeedbackSession";
         
-        EvaluationAttributes evalAttribute = logic.getEvaluation(courseId, evaluationName);
+        EvaluationAttributes evalAttribute = null;// = logic.getEvaluation(courseId, evaluationName);
         if(evalAttribute != null){
             convertOneEvaluationToFeedbackSession(evalAttribute , newFeedbackSessionName);
         } else {

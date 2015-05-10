@@ -50,18 +50,15 @@ public class InstructorFeedbacksPageAction extends Action {
         }
         
         if(data.courses.size() == 0 ||!data.isUsingAjax) {
-            data.existingEvalSessions = new ArrayList<EvaluationAttributes>();
             data.existingFeedbackSessions = new ArrayList<FeedbackSessionAttributes>();
         } else {
-            data.existingEvalSessions = loadEvaluationsList(instructorList);
+            
             data.existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
-            if (data.existingFeedbackSessions.isEmpty() &&
-                data.existingEvalSessions.isEmpty()) {
+            if (data.existingFeedbackSessions.isEmpty()) {
                 statusToUser.add(Const.StatusMessages.EVALUATION_EMPTY);
             }
         }            
         
-        EvaluationAttributes.sortEvaluationsByDeadlineDescending(data.existingEvalSessions);
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
         
         statusToAdmin = "Number of feedback sessions: "+data.existingFeedbackSessions.size();
@@ -78,13 +75,6 @@ public class InstructorFeedbacksPageAction extends Action {
         return sessions;
     }
 
-    protected List<EvaluationAttributes> loadEvaluationsList(List<InstructorAttributes> instructorList)
-            throws EntityDoesNotExistException {
-        List<EvaluationAttributes> evaluations =  logic.getEvaluationsListForInstructor(instructorList);
-        
-        return evaluations;
-    }
-    
     protected List<CourseAttributes> loadCoursesList(List<InstructorAttributes> instructorList)
             throws EntityDoesNotExistException {
         

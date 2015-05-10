@@ -15,9 +15,7 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.CoursesLogic;
-import teammates.logic.core.EvaluationsLogic;
 import teammates.storage.api.AccountsDb;
-import teammates.test.cases.common.EvaluationAttributesTest;
 import teammates.test.driver.AssertHelper;
 import teammates.test.util.Priority;
 import teammates.ui.controller.ShowPageResult;
@@ -105,27 +103,6 @@ public class StudentHomePageActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin(adminUserId);
         studentId = dataBundle.students.get("student2InCourse2").googleId;
         
-        //create a CLOSED evaluation
-        EvaluationAttributes eval = EvaluationAttributesTest.generateValidEvaluationAttributesObject();
-        String IdOfCourse2 = dataBundle.courses.get("typicalCourse2").id;
-        eval.courseId = IdOfCourse2;
-        eval.name = "Closed eval";
-        eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-        eval.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        eval.setDerivedAttributes();
-        assertEquals(EvalStatus.CLOSED, eval.getStatus());
-        EvaluationsLogic evaluationsLogic = new EvaluationsLogic();
-        evaluationsLogic.createEvaluationCascade(eval);
-        
-        //create a PUBLISHED evaluation
-        eval.name = "published eval";
-        eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-        eval.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        eval.published = true;
-        eval.setDerivedAttributes();
-        assertEquals(EvalStatus.PUBLISHED, eval.getStatus());
-        evaluationsLogic.createEvaluationCascade(eval);
-        
         //access page in masquerade mode
         a = getAction(addUserIdToParams(studentId, submissionParams));
         r = getShowPageResult(a);
@@ -136,14 +113,6 @@ public class StudentHomePageActionTest extends BaseActionTest {
         
         data = (StudentHomePageData)r.data;
         assertEquals(2, data.courses.size());
-        assertEquals(5, data.evalSubmissionStatusMap.keySet().size());
-        assertEquals(
-                "{idOfTypicalCourse2%published eval=Published, " +
-                "idOfTypicalCourse2%Closed eval=Closed, " +
-                "idOfTypicalCourse1%evaluation2 In Course1=Pending, " +
-                "idOfTypicalCourse1%evaluation1 In Course1=Submitted, " +
-                "idOfTypicalCourse2%evaluation1 In Course2=Pending}", 
-                data.evalSubmissionStatusMap.toString());
         
         
         expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage|||true" +

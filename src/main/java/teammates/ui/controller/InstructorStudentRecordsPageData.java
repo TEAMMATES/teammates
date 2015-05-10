@@ -18,7 +18,6 @@ public class InstructorStudentRecordsPageData extends PageData {
     public String targetSessionName;
     public List<CommentAttributes> comments;
     public List<SessionAttributes> sessions;
-    public List<SessionAttributes> evals;
     public List<SessionResultsBundle> results;
     public String showCommentBox;
     

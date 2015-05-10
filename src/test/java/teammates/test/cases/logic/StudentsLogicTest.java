@@ -1200,14 +1200,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
         TestHelper.verifyPresentInDatastore(student2InCourse1);
 
-        // ensure student-to-be-deleted has some submissions
-        SubmissionAttributes submissionFromS1C1ToS2C1 = dataBundle.submissions.get("submissionFromS1C1ToS2C1");
-        TestHelper.verifyPresentInDatastore(submissionFromS1C1ToS2C1);
-        SubmissionAttributes submissionFromS2C1ToS1C1 = dataBundle.submissions.get("submissionFromS2C1ToS1C1");
-        TestHelper.verifyPresentInDatastore(submissionFromS2C1ToS1C1);
-        SubmissionAttributes submissionFromS1C1ToS1C1 = dataBundle.submissions.get("submissionFromS1C1ToS1C1");
-        TestHelper.verifyPresentInDatastore(submissionFromS1C1ToS1C1);
-
         studentsLogic.deleteStudentCascadeWithoutDocument(student2InCourse1.course, student2InCourse1.email);
         TestHelper.verifyAbsentInDatastore(student2InCourse1);
 
@@ -1216,13 +1208,6 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         TestHelper.verifyPresentInDatastore(student1InCourse1);
 
-        // verify that submissions are deleted
-        TestHelper.verifyAbsentInDatastore(submissionFromS1C1ToS2C1);
-        TestHelper.verifyAbsentInDatastore(submissionFromS2C1ToS1C1);
-
-        // verify other student's submissions are intact
-        TestHelper.verifyPresentInDatastore(submissionFromS1C1ToS1C1);
-        
         // verify comments made to this student are gone
         TestHelper.verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
 

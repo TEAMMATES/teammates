@@ -34,7 +34,6 @@ public class StudentHomePageAction extends Action {
         try{
             data.courses = logic.getCourseDetailsListForStudent(account.googleId);
     
-            data.evalSubmissionStatusMap = generateEvalSubmissionStatusMap(data.courses, account.googleId);
             data.sessionSubmissionStatusMap = generateFeedbackSessionSubmissionStatusMap(data.courses, account.googleId);
             CourseDetailsBundle.sortDetailedCourses(data.courses);
             
@@ -66,29 +65,6 @@ public class StudentHomePageAction extends Action {
 
     }
     
-    
-    private Map<String, String> generateEvalSubmissionStatusMap(
-            List<CourseDetailsBundle> courses, String googleId) {
-        Map<String, String> returnValue = new HashMap<String, String>();
-        
-        String recentlySubmittedEvaluation = getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_EVALUATION);
-        
-        for(CourseDetailsBundle c: courses){
-            for(EvaluationDetailsBundle edb: c.evaluations){
-                EvaluationAttributes e = edb.evaluation;
-                
-                String currentEvaluation = e.courseId+e.name;
-                boolean isEvaluationRecentlySubmitted = currentEvaluation.equals(recentlySubmittedEvaluation);
-                
-                if(isEvaluationRecentlySubmitted) {
-                    returnValue.put(e.courseId+"%"+e.name, Const.STUDENT_EVALUATION_STATUS_SUBMITTED);
-                } else {
-                    returnValue.put(e.courseId+"%"+e.name, getStudentStatusForEval(e, googleId));
-                }
-            }
-        }
-        return returnValue;
-    }
 
     private Map<String, Boolean> generateFeedbackSessionSubmissionStatusMap(
             List<CourseDetailsBundle> courses, String googleId) {
@@ -104,34 +80,6 @@ public class StudentHomePageAction extends Action {
         return returnValue;
     }
 
-    private String getStudentStatusForEval(EvaluationAttributes eval, String googleId){
-        
-        StudentAttributes student = logic.getStudentForGoogleId(eval.courseId, googleId);
-        Assumption.assertNotNull(student);
-
-        String studentEmail = student.email;
-        
-        switch (eval.getStatus()) {
-            case PUBLISHED:
-                return Const.STUDENT_EVALUATION_STATUS_PUBLISHED;
-            case CLOSED:
-                return Const.STUDENT_EVALUATION_STATUS_CLOSED;
-            default:
-                break; // continue processing.
-        }
-        
-        boolean submitted = false;
-        
-        try {
-            submitted = logic.hasStudentSubmittedEvaluation(eval.courseId, eval.name, studentEmail);
-        } catch (InvalidParametersException e) {
-            Assumption.fail("Parameters are expected to be valid at this point :" + TeammatesException.toStringWithStackTrace(e));
-        }
-        
-        return submitted ? 
-                Const.STUDENT_EVALUATION_STATUS_SUBMITTED 
-                : Const.STUDENT_EVALUATION_STATUS_PENDING;
-    }
     
     private boolean getStudentStatusForSession(FeedbackSessionAttributes fs, String googleId){
         

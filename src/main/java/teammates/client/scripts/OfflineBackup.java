@@ -144,7 +144,6 @@ public class OfflineBackup extends RemoteApiClient {
             retrieveAndSaveAccountsByCourse(courseId);
             retrieveAndSaveCommentsByCourse(courseId);
             retrieveAndSaveCourse(courseId);
-            retrieveAndSaveEvaluationsByCourse(courseId);
             retrieveAndSaveFeedbackQuestionsByCourse(courseId);
             retrieveAndSaveFeedbackResponsesByCourse(courseId);
             retrieveAndSaveFeedbackResponseCommentsByCourse(courseId);
@@ -219,22 +218,6 @@ public class OfflineBackup extends RemoteApiClient {
         FileHelper.appendToFile(currentFileName, "\n\t},\n");
     }
     
-    /** 
-     *  Retrieves all the evaluations from a course and saves them
-     */
-    protected void retrieveAndSaveEvaluationsByCourse(String courseId) {
-        Logic logic = new Logic();
-
-        List<EvaluationAttributes> evaluations = logic.getEvaluationsForCourse(courseId);
-   
-        FileHelper.appendToFile(currentFileName, "\t\"evaluations\":{\n");
-        
-        for(EvaluationAttributes evaluation : evaluations) {
-            saveEvaluation(evaluation);
-        }
-        hasPreviousEntity = false;
-        FileHelper.appendToFile(currentFileName, "\n\t},\n");
-    }
     
     /** 
      *  Retrieves all the feedback questions from a course and saves them

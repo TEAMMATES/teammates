@@ -9,7 +9,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.CoursesLogic;
-import teammates.logic.core.EvaluationsLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.ui.controller.InstructorFeedbacksPageAction;
 import teammates.ui.controller.InstructorFeedbacksPageData;
@@ -52,7 +51,6 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         InstructorFeedbacksPageData pageData = (InstructorFeedbacksPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
         assertEquals(2, pageData.courses.size());
-        assertEquals(2, pageData.existingEvalSessions.size());
         assertEquals(6, pageData.existingFeedbackSessions.size());
         assertEquals(null, pageData.newFeedbackSession);
         assertEquals(null, pageData.courseIdForNewSession);
@@ -62,35 +60,8 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
                 "|||instr1@course1.tmt|||Number of feedback sessions: 6|||/page/instructorFeedbacksPage";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
-        ______TS("no feedback, has eval");
-        
-        FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourse(instructor1ofCourse1.courseId);
-        
-        submissionParams = new String[]{Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId, 
-                Const.ParamsNames.IS_USING_AJAX, "true"};
-        a = getAction(addUserIdToParams(instructorId, submissionParams));
-        r = (ShowPageResult) a.executeAndPostProcess();
-        
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACKS+"?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
-        assertEquals(false, r.isError);
-        assertEquals("", r.getStatusMessage());
-        
-        pageData = (InstructorFeedbacksPageData) r.data;
-        assertEquals(instructorId, pageData.account.googleId);
-        assertEquals(2, pageData.courses.size());
-        assertEquals(2, pageData.existingEvalSessions.size());
-        assertEquals(0, pageData.existingFeedbackSessions.size());
-        assertEquals(null, pageData.newFeedbackSession);
-        assertEquals(instructor1ofCourse1.courseId, pageData.courseIdForNewSession);
-        
-        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage" +
-                "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
-                "|||instr1@course1.tmt|||Number of feedback sessions: 0|||/page/instructorFeedbacksPage";
-        assertEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("0 sessions");
-        
-        EvaluationsLogic.inst().deleteEvaluationsForCourse(instructor1ofCourse1.courseId);
         
         submissionParams = new String[]{Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId, 
                 Const.ParamsNames.IS_USING_AJAX, "true"};
@@ -107,7 +78,6 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         pageData = (InstructorFeedbacksPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
         assertEquals(2, pageData.courses.size());
-        assertEquals(0, pageData.existingEvalSessions.size());
         assertEquals(0, pageData.existingFeedbackSessions.size());
         assertEquals(null, pageData.newFeedbackSession);
         assertEquals(instructor1ofCourse1.courseId, pageData.courseIdForNewSession);
@@ -137,7 +107,6 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         pageData = (InstructorFeedbacksPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
         assertEquals(0, pageData.courses.size());
-        assertEquals(0, pageData.existingEvalSessions.size());
         assertEquals(0, pageData.existingFeedbackSessions.size());
         assertEquals(null, pageData.newFeedbackSession);
         

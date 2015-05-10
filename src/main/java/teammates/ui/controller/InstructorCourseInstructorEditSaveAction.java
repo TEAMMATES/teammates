@@ -164,12 +164,9 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
         for (String sectionName : sectionNames) {
             sectionNamesTable.put(sectionName, false);
         }
-        List<String> evalNames = new ArrayList<String>();
+        
         List<String> feedbackNames = new ArrayList<String>();
-        List<EvaluationAttributes> evaluations = logic.getEvaluationsForCourse(courseId);
-        for (EvaluationAttributes eval : evaluations) {
-            evalNames.add(eval.name);
-        }
+        
         List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsForCourse(courseId);
         for (FeedbackSessionAttributes feedback : feedbacks) {
             feedbackNames.add(feedback.feedbackSessionName);
@@ -180,7 +177,7 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
             String setSessionsStr = getRequestParamValue("is" + entry.getKey() + "sessionsset");
             boolean isSessionsSpecial = setSessionsStr != null && setSessionsStr.equals("true");
             if (isSessionsSpecial) {
-                updateInstructorPrivilegesForSectionInSessionLevel(entry.getKey(), entry.getValue(), evalNames, feedbackNames, instructorToEdit);
+                updateInstructorPrivilegesForSectionInSessionLevel(entry.getKey(), entry.getValue(), feedbackNames, instructorToEdit);
             } else {
                 removeSessionLevelPrivileges(instructorToEdit, entry.getValue());
             }
@@ -242,23 +239,7 @@ public class InstructorCourseInstructorEditSaveAction extends Action {
     }
 
     private void updateInstructorPrivilegesForSectionInSessionLevel(String sectionParam,
-            List<String> sectionNames, List<String> evalNames, List<String> feedbackNames, InstructorAttributes instructorToEdit) {
-        for (String evalName : evalNames) {
-            boolean isViewSessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS 
-                    + sectionParam + "feedback" + Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName) != null;
-            boolean isSubmitSessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS
-                    + sectionParam + "feedback" + Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName) != null;
-            boolean isModifySessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
-                    + sectionParam + "feedback" + Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName) != null;
-            for (String sectionName : sectionNames) {
-                instructorToEdit.privileges.updatePrivilege(sectionName, Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName,
-                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS, isViewSessionInSectionsChecked);
-                instructorToEdit.privileges.updatePrivilege(sectionName, Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName,
-                        Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, isSubmitSessionInSectionsChecked);
-                instructorToEdit.privileges.updatePrivilege(sectionName, Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName,
-                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, isModifySessionInSectionsChecked);
-            }
-        }
+            List<String> sectionNames, List<String> feedbackNames, InstructorAttributes instructorToEdit) {
         for (String feedbackName : feedbackNames) {
             boolean isViewSessionInSectionsChecked = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS 
                     + sectionParam + "feedback" + feedbackName) != null;

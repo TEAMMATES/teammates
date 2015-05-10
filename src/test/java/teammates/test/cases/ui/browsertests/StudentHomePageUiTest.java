@@ -226,15 +226,6 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
 
         StudentHomePage studentHomePage = loginAdminToPage(browser, detailsPageUrl, StudentHomePage.class);
         
-        ______TS("access the eval exactly after it is deleted");
-               
-        BackDoor.deleteEvaluation("SHomeUiT.CS1101", "Third Eval");
-        
-        studentHomePage.getEditEvalButton("Third Eval").click();
-        browser.selenium.waitForPageToLoad("15000");
-        studentHomePage.verifyHtmlMainContent("/StudentHomeEvalDeletedHTML.html");
-        studentHomePage.reloadPage();
-        
         
         ______TS("access the feedback session exactly after it is deleted");
         
