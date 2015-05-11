@@ -92,6 +92,7 @@ var DISPLAY_INSTRUCTOR_ID_EMPTY = "Instructor ID cannot be empty.";
 var DISPLAY_INSTRUCTOR_NAME_EMPTY = "Instructor name cannot be empty.";
 var DISPLAY_INSTRUCTOR_EMAIL_EMPTY = "Instructor email cannot be empty.";
 var DISPLAY_CANNOT_DELETE_LAST_INSTRUCTOR = "There is only ONE instructor left in the course. You are not allowed to delete this instructor.";
+var COURSE_EDIT_COPY_INVALID = "There are no instructors to copy.";
 
 // Used in instructorCourseEnroll.js only
 var DISPLAY_ENROLLMENT_INPUT_EMPTY = "Please input at least one student detail.";

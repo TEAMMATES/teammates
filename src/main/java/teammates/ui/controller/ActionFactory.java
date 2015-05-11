@@ -54,6 +54,7 @@ public class ActionFactory {
         map(INSTRUCTOR_COURSE_REMIND, InstructorCourseRemindAction.class);
         map(INSTRUCTOR_COURSE_EDIT_PAGE, InstructorCourseEditPageAction.class);
         map(INSTRUCTOR_COURSE_INSTRUCTOR_ADD, InstructorCourseInstructorAddAction.class);
+        map(INSTRUCTOR_COURSE_INSTRUCTOR_COPY, InstructorCourseInstructorCopyAction.class);
         map(INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE, InstructorCourseInstructorEditSaveAction.class);
         map(INSTRUCTOR_COURSE_INSTRUCTOR_DELETE, InstructorCourseInstructorDeleteAction.class);
         map(INSTRUCTOR_COURSE_ENROLL_PAGE, InstructorCourseEnrollPageAction.class);

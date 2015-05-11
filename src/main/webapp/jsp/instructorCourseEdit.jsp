@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
+<%@ page import="java.util.Map"%>
+<%@ page import="java.util.HashMap"%>
+<%@ page import="java.util.HashSet"%>
+
 <%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
 <%@ page import="teammates.common.util.FieldValidator"%>
@@ -19,6 +23,7 @@
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css"/>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css"/>
     <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css"/>
+    <link rel="stylesheet" href="/stylesheets/instructorCourseEdit.css" type="text/css" />
    
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
@@ -573,16 +578,25 @@
         %>
         
         <div class="align-center">
-            <input id="btnShowNewInstructorForm" class="btn btn-primary" value="Add New Instructor" 
-                onclick="showNewInstructorForm()"
+            <a id="btnShowNewInstructorForm" class="btn btn-primary" onclick="showNewInstructorForm()"
                 <%if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {%>
                       disabled="disabled"
-                <%}%>>
+                <%}%>>Add New Instructor</a>
+            <a id="btnShowCopyInstructorsForm" class="btn btn-primary"
+                <%if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {%>
+                      disabled="disabled"
+                <%}%>
+            >Copy Instructors</a>
         </div>
         
         <div class="panel panel-primary" id="panelAddInstructor" style="display: none;">
             <div class="panel-heading">
                 <strong>Instructors <%=data.instructorList.size()+1%>:</strong>
+                <div class="pull-right">
+                <a id="cancelAddInstructor"
+                    class="btn btn-primary btn-xs" onclick="hideNewInstructorForm()">
+                    <span class="glyphicon glyphicon-remove"></span> Cancel</a>
+                </div>
             </div>
 
             <div class="panel-body fill-plain">
@@ -889,6 +903,147 @@
         <br><br>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="copyInstructorsModal" tabindex="-1" role="dialog" aria-labelledby="copyInstructorsModalTitle" aria-hidden="true">
+        <div class="modal-dialog" id="copyInstructorsModalDialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="copyInstructorsModalTitle">Copy instructors over from existing courses</h4>
+                </div>
+                <div class="modal-body" id="copyInstructorsBody">
+                    
+                    <form class="form" id="copyModalForm" role="form" method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_COPY%>">
+
+                    <!-- Existing Instructors -->
+                    <label>Copy Instructors' information from:</label>
+                    <table class="table-responsive table table-bordered table-hover margin-0" id="copyTableModal">
+                        <thead class="fill-primary" id="copyTableModalHead">
+                            <th style="width:20px;"><input id="copySelectAll" type="checkbox"></th>
+                            <th> Courses </th>
+                            <th> Instructor Name </th>
+                            <th> Instructor Email </th>
+                            <th> Display to students as </th>
+                            <th> Access Level </th>
+                        </thead>
+                        <tbody id="copyTableModalBody">
+                        <%  HashMap<String, String> instructorEmailToCourseIdsMap = new HashMap<String, String>();
+                            HashMap<String, HashSet<String>> instructorEmailToNamesMap = new HashMap<String, HashSet<String>>();
+                            HashMap<String, HashSet<String>> instructorEmailToDisplayedNamesMap = new HashMap<String, HashSet<String>>();
+                            HashSet<String> instructorEmails = new HashSet<String>();
+                            String instructorCourseIds;
+                            HashSet<String> instructorNames = new HashSet<String>();
+                            HashSet<String> instructorDisplayedNames = new HashSet<String>();
+                            HashSet<String> instructorsAlreadyInCourse = new HashSet<String>();
+                            if (data.instructorList != null) {
+                                for(InstructorAttributes iac : data.instructorList) {
+                                    instructorsAlreadyInCourse.add(iac.email);
+    ;                            }
+                            }
+                            if (data.existingCoursesInstructorsList != null) {
+                                for (InstructorAttributes ins : data.existingCoursesInstructorsList) {
+                                    if(!instructorsAlreadyInCourse.contains(ins.email)) {
+                                        if (!instructorEmails.contains(ins.email)) {
+                                            instructorEmails.add(ins.email);
+                                            instructorEmailToCourseIdsMap.put(ins.email, ins.courseId);
+                                            instructorNames = new HashSet<String>();
+                                            instructorNames.add(ins.name);
+                                            instructorEmailToNamesMap.put(ins.email, instructorNames);
+                                            if(ins.isDisplayedToStudents) {
+                                                instructorDisplayedNames = new HashSet<String>();
+                                                instructorDisplayedNames.add(ins.displayedName);
+                                                instructorEmailToDisplayedNamesMap.put(ins.email, instructorDisplayedNames);
+                                            }
+                                        } else {
+                                            instructorCourseIds = instructorEmailToCourseIdsMap.get(ins.email);
+                                            instructorNames = instructorEmailToNamesMap.get(ins.email);
+                                            instructorCourseIds += ", " + ins.courseId;
+                                            instructorEmailToCourseIdsMap.put(ins.email, instructorCourseIds);
+                                            instructorNames.add(ins.name);
+                                            if(ins.isDisplayedToStudents) {
+                                                instructorDisplayedNames = instructorEmailToDisplayedNamesMap.get(ins.email);
+                                                instructorDisplayedNames.add(ins.displayedName);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            String currInsCourseIds;
+                            HashSet<String> currInsNames;
+                            HashSet<String> currInsDisplayedNames;
+                            if (instructorEmails != null) {
+                                for(String instructorEmail : instructorEmails) {
+                                     currInsCourseIds = instructorEmailToCourseIdsMap.get(instructorEmail);
+                                     currInsNames =  instructorEmailToNamesMap.get(instructorEmail);
+                                     currInsDisplayedNames = instructorEmailToDisplayedNamesMap.get(instructorEmail);
+                            %>
+                           
+                            <tr style="cursor:pointer;">
+                                <td><input type="checkbox"></td>
+                                <td><%=currInsCourseIds%></td>
+                                <td class="instructorNames">
+                                    <select name="instructorNameOptions" class="form-control instructorNameSelect" disabled="disabled">
+                                        <% for(String currInsName : currInsNames) { %>
+                                        <option value="<%=currInsName%>"><%=currInsName%></option> 
+                                        <%}%>
+                                    </select>
+                                </td>
+                                <td class="instructorEmail"><%=instructorEmail%></td>
+                                <td class="displayInformation">
+                                    <select name="newDisplay" class="form-control displaySelect" disabled="disabled">
+                                        <option value=""></option>
+                                        <% if (currInsDisplayedNames != null) { 
+                                            for(String currInsDisplayedName : currInsDisplayedNames) { %>
+                                        <option value="<%=currInsDisplayedName%>"><%=currInsDisplayedName%></option> 
+                                        <%  }
+                                        }%>
+                                    </select>
+                                </td>
+                                <td class="instructorRoles">
+                                    <select name="newRole" class="form-control roleSelect" disabled="disabled">
+                                        <option value="Co-owner">Co-owner</option>
+                                        <option value="Manager">Manager</option>
+                                        <option value="Observer">Observer</option>
+                                        <option value="Tutor">Tutor</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        <%  }
+                        }%>
+                        </tbody>
+                    </table>
+                     
+                    <input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_EMAILS%>" value="" id="modalInstructorEmails">
+                    <input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_NAMES%>" value="" id="modalInstructorNames">
+                    <input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_DISPLAY_NAMES%>" value="" id="modalInstructorDisplayedNames">
+                    <input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAMES%>" value="" id="modalInstructorRoles">
+                    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=(data.course.id==null ? "" : sanitizeForHtml(data.course.id))%>">
+                                        
+                    <input class="instructorPermissions" type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSIONS_MODIFY_COURSE%>" value="" >
+                    <input class="instructorPermissions" type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSIONS_MODIFY_INSTRUCTOR%>" value="" >
+                    <input class="instructorPermissions" type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSIONS_MODIFY_SESSION%>" value="" >
+                    <input class="instructorPermissions" type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSIONS_MODIFY_STUDENT%>" value="" >
+            
+                    <input class="instructorPermissions" type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSIONS_VIEW_STUDENT_IN_SECTIONS%>" value="" >
+                    <input class="instructorPermissions" type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSIONS_GIVE_COMMENT_IN_SECTIONS%>" value="" >
+                    <input class="instructorPermissions" type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSIONS_VIEW_COMMENT_IN_SECTIONS%>" value="" >
+                    <input class="instructorPermissions" type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSIONS_MODIFY_COMMENT_IN_SECTIONS%>" value="" >
+            
+                    <input class="instructorPermissions" type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSIONS_SUBMIT_SESSION_IN_SECTIONS%>" value="" >
+                    <input class="instructorPermissions" type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSIONS_VIEW_SESSION_IN_SECTIONS%>" value="" >
+                    <input class="instructorPermissions" type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSIONS_MODIFY_SESSION_COMMENT_IN_SECTIONS%>" value="" >
+                    
+                    </form>
+                    
+                </div>
+                <div class="modal-footer margin-0">
+                    <button type="button" class="btn btn-primary" id="button_copy_submit" disabled="disabled">Copy</button>
+                    <button type="button" class="btn btn-default" id="button_clear_selection">Clear Selection</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
 </html>
