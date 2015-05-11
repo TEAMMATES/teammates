@@ -117,63 +117,12 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         assertTrue(browser.driver.getCurrentUrl().contains("page/studentCourseDetailsPage?user=SHomeUiT.charlie.d&courseid=SHomeUiT.CS1101"));
         studentHomePage.clickHomeTab();
         
-        ______TS("link: links of pending eval");
-        
-        
-        studentHomePage.getSubmitEvalButton("Fifth Eval").click();
-        studentHomePage.reloadPage();
-        String pageSource = browser.driver.getPageSource();
-        assertTrue(pageSource.contains("SHomeUiT.CS1101"));
-        assertTrue(pageSource.contains("Fifth Eval"));
-        assertTrue(pageSource.contains("Evaluation Submission"));
-        studentHomePage.clickHomeTab();
-               
-        ______TS("link: links of closed eval");
-        
-        //results not visible yet
-        assertTrue(studentHomePage.getViewEvalResultsButton("Third Eval").getAttribute("class").contains("disabled"));
-        
-        
-        studentHomePage.getEditEvalButton("Third Eval").click();
-        studentHomePage.reloadPage();
-        pageSource = browser.driver.getPageSource();
-        assertTrue(pageSource.contains("SHomeUiT.CS1101"));
-        assertTrue(pageSource.contains("Evaluation Submission"));
-        assertTrue(pageSource.contains("This evaluation is not open at this time. You are not allowed to edit your submission."));
-        studentHomePage.clickHomeTab();
-        
-        ______TS("link: links of published eval");
-        
-        assertTrue(studentHomePage.getEditEvalButton("Second Eval").getAttribute("class").contains("disabled"));
-        
-        
-        studentHomePage.getViewEvalResultsButton("Second Eval").click();
-        studentHomePage.reloadPage();
-        pageSource = browser.driver.getPageSource();
-        assertTrue(pageSource.contains("SHomeUiT.CS2104"));
-        assertTrue(pageSource.contains("Evaluation Results"));
-        assertTrue(pageSource.contains("Second Eval"));
-        studentHomePage.clickHomeTab();
-        
-        ______TS("link: links of submitted eval");
-        
-        assertTrue(studentHomePage.getViewEvalResultsButton("First Eval").getAttribute("class").contains("disabled"));
-        
-        
-        studentHomePage.getEditEvalButton("First Eval").click();
-        studentHomePage.reloadPage();
-        pageSource = browser.driver.getPageSource();
-        assertTrue(pageSource.contains("SHomeUiT.CS2104"));
-        assertTrue(pageSource.contains("Evaluation Submission"));
-        assertTrue(pageSource.contains("First Eval"));
-        studentHomePage.clickHomeTab();
-        
         ______TS("link: link of published feedback");
         
         
         studentHomePage.getViewFeedbackButton("Closed Feedback Session").click();
         studentHomePage.reloadPage();
-        pageSource = browser.driver.getPageSource();
+        String pageSource = browser.driver.getPageSource();
         assertTrue(pageSource.contains("Feedback Results"));
         assertTrue(pageSource.contains("SHomeUiT.CS2104"));
         assertTrue(pageSource.contains("Closed Feedback Session"));

@@ -10,7 +10,6 @@
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.util.FieldValidator"%>
 <%@ page import="teammates.logic.core.Emails.EmailType"%>
-<%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
 <%@ page
     import="teammates.common.datatransfer.FeedbackSessionDetailsBundle"%>
 <%@ page import="teammates.ui.controller.InstructorFeedbacksPageData"%>
