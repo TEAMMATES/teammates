@@ -1583,8 +1583,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         Summary Statistics,
         ,"Yes","No"
-        "This student has done a good job.",67% (2),33% (1)
-        "This student has tried his/her best.",75% (3),25% (1)
+        "a) This student has done a good job.",67% (2),33% (1)
+        "b) This student has tried his/her best.",75% (3),25% (1)
         
         Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice
         "Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In Course1","Course1","student1InCourse1@gmail.tmt","a","Yes (Choice 1)"
@@ -1620,8 +1620,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[5], "");
         assertEquals(exportLines[6], "Summary Statistics,");
         assertEquals(exportLines[7], ",\"Yes\",\"No\"");
-        assertEquals(exportLines[8], "\"This student has done a good job.\",67% (2),33% (1)");
-        assertEquals(exportLines[9], "\"This student has tried his/her best.\",75% (3),25% (1)");
+        assertEquals(exportLines[8], "\"a) This student has done a good job.\",67% (2),33% (1)");
+        assertEquals(exportLines[9], "\"b) This student has tried his/her best.\",75% (3),25% (1)");
         assertEquals(exportLines[10], "");
         assertEquals(exportLines[11], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice Value,Choice Number");
         assertEquals(exportLines[12], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"a\",\"Yes\",\"1\"");

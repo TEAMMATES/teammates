@@ -595,7 +595,8 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         float[][] rubricStats = calculateRubricStats(responses, question);
         
         for (int i = 0; i < rubricSubQuestions.size(); i++) {
-            csv.append(Sanitizer.sanitizeForCsv(rubricSubQuestions.get(i)));
+            String alphabeticalIndex = StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1);
+            csv.append(Sanitizer.sanitizeForCsv(alphabeticalIndex + ") " + rubricSubQuestions.get(i)));
             for (int j = 0; j < rubricChoices.size(); j++) {
                 String percentageFrequency = df.format(rubricStats[i][j] * 100) + "%";
                 csv.append("," + percentageFrequency + " (" + responseFrequency[i][j] + ")");
