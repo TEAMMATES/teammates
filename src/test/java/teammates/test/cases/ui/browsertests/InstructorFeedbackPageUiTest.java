@@ -651,7 +651,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         ______TS("test response rate");
         //Already displayed
-        assertEquals("0 / 2", feedbackPage.getResponseValue("CFeedbackUiT.CS1101","First Eval"));
+        assertEquals("0 / 2", feedbackPage.getResponseValue("CFeedbackUiT.CS1101", "Allow Early Viewing Session"));
         
         // Failure case tested in HomePageUiTest
         
