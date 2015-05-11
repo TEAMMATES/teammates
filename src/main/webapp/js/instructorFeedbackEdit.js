@@ -607,7 +607,7 @@ function formatQuestionNumbers(){
 
 function getQuestionLink(qnNumber) {
     var courseid = $("input[name='courseid']").val();
-    var fsname = toParameterFormat($("input[name='fsname']").val());
+    var fsname = encodeURIComponent($("input[name='fsname']").val());
     
     var questionId = $("#form_editquestion-" + qnNumber)
                         .find("input[name='questionid']").val();
