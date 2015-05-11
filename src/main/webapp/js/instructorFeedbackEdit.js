@@ -1218,8 +1218,8 @@ function fixContribQnGiverRecipient(questionNumber){
     $('#givertype'+idSuffix).find('option').not('[value="STUDENTS"]').prop('disabled', true);
     $('#recipienttype'+idSuffix).find('option').not('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').prop('disabled', true);
 
-    $('#givertype'+idSuffix).find('option').filter('[value="STUDENTS"]').attr('selected','selected');
-    $('#recipienttype'+idSuffix).find('option').filter('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').attr('selected','selected');
+    $('#givertype'+idSuffix).find('option').filter('[value="STUDENTS"]').prop('selected','selected');
+    $('#recipienttype'+idSuffix).find('option').filter('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').prop('selected','selected');
 }
 
 /**
