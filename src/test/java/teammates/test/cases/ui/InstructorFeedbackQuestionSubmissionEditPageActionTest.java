@@ -31,8 +31,6 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        @SuppressWarnings("unused")
-        AccountAttributes instructorAccount = dataBundle.accounts.get("instructor1OfCourse1");
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         
@@ -104,8 +102,7 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends
         assertFalse(r.isError);
         
         ______TS("Closed session");
-        
-        instructorAccount = dataBundle.accounts.get("instructor1OfCourse1");
+
         instructor = dataBundle.instructors.get("instructor1OfCourse1");
         fs = dataBundle.feedbackSessions.get("closedSession");
         
@@ -126,8 +123,7 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends
         assertFalse(r.isError);
         
         ______TS("Private session");
-        
-        instructorAccount = dataBundle.accounts.get("instructor1OfCourse2");
+
         instructor = dataBundle.instructors.get("instructor1OfCourse2");
         fs = dataBundle.feedbackSessions.get("session1InCourse2");
         
