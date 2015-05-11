@@ -40,7 +40,6 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     }
     
     private void testContent() throws Exception {
-        
         ______TS("Awaiting session");
         
         fq = BackDoor.getFeedbackQuestion("IFQSubmitUiT.CS2104", "Awaiting Session", 1);
@@ -70,17 +69,16 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         fq = BackDoor.getFeedbackQuestion("IFQSubmitUiT.CS2104", "Private Session", 1);
         submitPage = loginToInstructorFeedbackQuestionSubmitPage("IFQSubmitUiT.instr", "Private Session", fq.getId());
         submitPage.verifyHtmlMainContent("/instructorFeedbackQuestionSubmitPagePrivate.html");
-    
     }
     
     private void testSubmitAction() {
-        
         ______TS("create new responses");
 
         fq = BackDoor.getFeedbackQuestion("IFQSubmitUiT.CS2104", "Open Session", 1);
         submitPage = loginToInstructorFeedbackQuestionSubmitPage("IFQSubmitUiT.instr", "Open Session", fq.getId());
         
         submitPage.fillResponseTextBox(0, "Test Self Feedback");
+        
         assertNull(BackDoor.getFeedbackResponse(fq.getId(),
                 "IFQSubmitUiT.instr@gmail.tmt",
                 "IFQSubmitUiT.instr@gmail.tmt"));
@@ -120,11 +118,11 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
     
     private FeedbackQuestionSubmitPage loginToInstructorFeedbackQuestionSubmitPage(
             String instructorName, String fsName, String questionId) {
-        Url editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE)
-                .withUserId(testData.instructors.get(instructorName).googleId)
-                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName)
-                .withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
+        Url editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE).
+                withUserId(testData.instructors.get(instructorName).googleId).
+                withCourseId(testData.feedbackSessions.get(fsName).courseId).
+                withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName).
+                withParam(Const.ParamsNames.FEEDBACK_QUESTION_ID, questionId);
         return loginAdminToPage(browser, editUrl, FeedbackQuestionSubmitPage.class);
     }
     

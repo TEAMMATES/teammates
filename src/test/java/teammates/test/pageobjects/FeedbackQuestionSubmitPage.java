@@ -40,12 +40,12 @@ public class FeedbackQuestionSubmitPage extends AppPage {
         getSubmitButton().click();
     }
     
-    public WebElement getSubmitButton(){
+    public WebElement getSubmitButton() {
         WebElement button = browser.driver.findElement(By.id("response_submit_button"));
         return button;
     }
     
-    public WebElement getTextArea(int questionNum, int responseNum){
+    public WebElement getTextArea(int questionNum, int responseNum) {
         String textAreaName = "responsetext-" + questionNum + "-" + responseNum; 
         WebElement textArea = browser.driver.findElement(By.name(textAreaName));     
         return textArea;
@@ -53,17 +53,15 @@ public class FeedbackQuestionSubmitPage extends AppPage {
     
     public void clickRubricRadio(int respIndex, int row, int col) {
         int qnIndex = 1;
-        WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-"+qnIndex+"-"+respIndex+"-"+row+"-"+col));
+        WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
         radio.click();
     }
     
     public void clickRubricCell(int respIndex, int row, int col) {
         int qnIndex = 1;
-        WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-"+qnIndex+"-"+respIndex+"-"+row+"-"+col));
+        WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
         // Gets the parent element.
         WebElement cell = radio.findElement(By.xpath(".."));
         cell.click();
     }
 }
-
-
