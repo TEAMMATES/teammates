@@ -3,7 +3,9 @@ package teammates.client.scripts;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.EvaluationAttributes;
@@ -18,6 +20,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.FeedbackTextResponseDetails;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -25,15 +28,22 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.api.Logic;
 import teammates.storage.api.EvaluationsDb;
+import teammates.storage.api.FeedbackQuestionsDb;
+import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.SubmissionsDb;
 import teammates.storage.datastore.Datastore;
+import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackQuestion;
 
 import com.google.appengine.api.datastore.Text;
 
 /**
  * Migrates Evaluations and Submissions to FeedbackSessions and Responses.
  * Feedback session/question creator will be any instructor from the course.
+ * 
+ * The response rate will not be updated in this script. The script DataMigrationForResponseRate
+ * can be ran after this to update it.
  */
 public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient {
     
@@ -41,6 +51,8 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
     protected static EvaluationsDb evalsDb = new EvaluationsDb();
     protected static SubmissionsDb subDb = new SubmissionsDb();
     protected static FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
+    protected static FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+    protected static FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     
     public static void main(String[] args) throws IOException {
         final long startTime = System.currentTimeMillis();
@@ -50,47 +62,88 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         System.out.println("Total execution time: " + (endTime - startTime) + "ms" );
     }
 
+    // modify this value to migrate evaluations for all courses, or for a specific course
+    private boolean isForAllCourses = false;
+    //modify this to delete the evaluation after migrating
+    private boolean isDeletingEvaluations = false;
+    //modify this to make changes to the database
+    private boolean isPreview = false;
+
     @Override
     protected void doOperation() {
         Datastore.initialize();
         
-        /**
-         * Specify courseId, evaluationName, and new feedback session name here.
-         * If new feedbackSessionName already exists, a number in brackets will be appended.
-         */
-        String courseId = "example.gma-demo";
-        String evaluationName = "First Evaluation";
-        String newFeedbackSessionName = "Migrated FeedbackSession";
-        
-        EvaluationAttributes evalAttribute = logic.getEvaluation(courseId, evaluationName);
-        if(evalAttribute != null){
-            convertOneEvaluationToFeedbackSession(evalAttribute , newFeedbackSessionName);
+        if (isForAllCourses) {
+            Set<String> coursesId = getCourses();
+            
+            for (String courseId : coursesId) {
+                convertEvaluationsForCourse(courseId);
+            }
+            
         } else {
-            System.out.println("Specified evaluation not found." + courseId + " : " + evaluationName);
+            // Specify courseId. Feedback sessions will be made for all evaluations in the course, 
+            // the evaluations will be deleted.
+             
+            String courseId = "oldcourse";
+            convertEvaluationsForCourse(courseId);
         }
         
-        //Converts all evaluations to feedback sessions
-        //convertEvaluationsToFeedbackSessions();
     }
     
-    @SuppressWarnings("deprecation")
-    protected void convertEvaluationsToFeedbackSessions(){
-        List<EvaluationAttributes> allEvaluations = evalsDb.getAllEvaluations();
+    
+    @SuppressWarnings("unchecked")
+    private Set<String> getCourses() {
+        String q = "SELECT FROM " + Course.class.getName();
+        List<Course> courses = (List<Course>) Datastore.getPersistenceManager().newQuery(q).execute();
         
-        System.out.println(allEvaluations.size() + " evaluations found.");
+        Set<String> allCourses = new HashSet<String>();
         
-        int fsNum = fsDb.getAllFeedbackSessions().size();
-        
-        for(EvaluationAttributes evalAttribute : allEvaluations){
-            convertOneEvaluationToFeedbackSession(evalAttribute, "");
+        for(Course course : courses) {
+            allCourses.add(course.getUniqueId());
         }
+        return allCourses;
+    }
+    
+    private void convertEvaluationsForCourse(String courseId) {
+        
+        List<EvaluationAttributes> evalList = logic.getEvaluationsForCourse(courseId);
+        
+        for (EvaluationAttributes evalAttribute : evalList) {
+            try {
+                convertOneEvaluationToFeedbackSession(evalAttribute , evalAttribute.name);
+                
+                if(isDeletingEvaluations) {
+                    deleteEvaluation(courseId, evalAttribute.name);
+                }
+                
+            } catch (Exception e) {
+                printErrorMessage("Something went wrong");
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    protected void deleteEvaluation(String courseId, String evalName) {
+        if (isPreview) {
+            return;
+        }
+        
+        // first, check if a feedback session have been created for the evaluation.
+        // do not delete the evaluation if the feedback session was not created
+        if (logic.getFeedbackSession(evalName, courseId) == null) {
+            printErrorMessage("ERROR a feedback session was not created for the evaluation " + evalName);
+            return;
+        }
+        
+        logic.deleteEvaluation(courseId, evalName);
+    }
 
-        System.out.println(allEvaluations.size() + " evaluations found and migrated.");
-        System.out.println("Original number of FS: " + fsNum);
-        System.out.println("After migration number of FS: " + fsDb.getAllFeedbackSessions().size());
+
+    private void printErrorMessage(String message) {
+        System.out.println("\n\n"+ message + "\n");
     }
     
-    protected void convertOneEvaluationToFeedbackSession(EvaluationAttributes eval, String newFeedbackSessionName){
+    protected void convertOneEvaluationToFeedbackSession(EvaluationAttributes eval, String newFeedbackSessionName) throws Exception {
 
         if(newFeedbackSessionName == null || newFeedbackSessionName.isEmpty()){
             newFeedbackSessionName = "Migrated - " + eval.name;
@@ -103,15 +156,20 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         String feedbackSessionName = newFeedbackSessionName + (num==0 ? "" : ("("+num+")"));//Use same name, or if exists, use "<name>(<num>)"
         String courseId = eval.courseId;
         
-        String instEmail = logic.getInstructorsForCourse(courseId).get(0).email;//Use email of any instructor in the course.
-        
+        List<InstructorAttributes> instructorsForCourse = logic.getInstructorsForCourse(courseId);
+        if (instructorsForCourse.size() == 0) {
+            printErrorMessage("ERROR: no instructors for the course " + courseId);
+            return;
+        }
+        String instEmail = instructorsForCourse.get(0).email;//Use email of any instructor in the course.
+        System.out.print("[" + eval.courseId + ":" + eval.name + "]");
         String creatorEmail = instEmail;
         Text instructions = eval.instructions;
         Date createdTime = (new Date()).compareTo(eval.startTime) > 0 ? new Date() : eval.startTime; //Now, or opening time if start time is earlier.
         Date startTime = eval.startTime;
         Date endTime = eval.endTime;
         Date sessionVisibleFromTime = eval.startTime;
-        Date resultsVisibleFromTime = eval.endTime;
+        Date resultsVisibleFromTime = eval.published ? eval.endTime : Const.TIME_REPRESENTS_LATER;
         double timeZone = eval.timeZone;
         int gracePeriod = eval.gracePeriod;
         FeedbackSessionType feedbackSessionType = FeedbackSessionType.STANDARD;
@@ -124,6 +182,15 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         while(true){ //Loop to retry with a different name if entity already exists.
             
             feedbackSessionName = newFeedbackSessionName + (num==0 ? "" : ("("+num+")"));//Use same name, or if exists, use "<name>(<num>)"
+        
+            if (logic.getFeedbackSession(feedbackSessionName, courseId) != null ) {
+                printErrorMessage(String.format("ERROR Feedback session with the name %s already exists", feedbackSessionName));  
+            }
+            
+            if (isPreview) {
+                return;
+            }
+            
             
             FeedbackSessionAttributes fsa = new FeedbackSessionAttributes(feedbackSessionName,
                     courseId, creatorEmail, instructions,
@@ -136,56 +203,77 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
             try {
                 fsDb.createEntity(fsa);
                 break;
-            } catch (InvalidParametersException e) {
-                System.out.println("Something went wrong.");
-                e.printStackTrace();
-                break;
             } catch (EntityAlreadyExistsException e) {
-                System.out.println("Entity already exists, retrying with a different name.");
+                printErrorMessage(String.format("ERROR Feedback session with the name %s already exists, retrying with a different name.", feedbackSessionName));
                 e.printStackTrace();
             }
             
             num++;
         }
-        
 
         boolean peerFeedback = eval.p2pEnabled;
         
         //Create feedback questions
-        createFeedbackQuestions(eval, feedbackSessionName, courseId, creatorEmail, peerFeedback);
+        List<FeedbackQuestionAttributes> fqas = createFeedbackQuestions(eval, feedbackSessionName, courseId, creatorEmail, peerFeedback);
+        List<Object> fqEntities = fqDb.createAndReturnEntities(fqas);
         
+        System.out.println("Created questions");
         
-        //Get feedbackQuestionIds
         List<String> fqIds = new ArrayList<String>();
-        for(int i=1 ; i<=(peerFeedback?5:3) ; i++){
-            fqIds.add(logic.getFeedbackQuestion(feedbackSessionName, courseId, i).getId());
+        
+        for (Object fq : fqEntities) {
+            String id = ((FeedbackQuestion)fq).getId();
+            fqIds.add(id);
         }
         
         //Create feedback Responses
         List<SubmissionAttributes> allSubmissions = subDb.getSubmissionsForEvaluation(courseId, eval.name);
+        List<FeedbackResponseAttributes> allResponses = new ArrayList<FeedbackResponseAttributes>();
         for(SubmissionAttributes sub : allSubmissions){
             
             //Create Feedback Responses for Submission
             
-            createFeedbackResponsesFromSubmission(feedbackSessionName,
+            List<FeedbackResponseAttributes> responsesForSubmission = createFeedbackResponsesFromSubmission(feedbackSessionName,
                     courseId, peerFeedback, fqIds, sub);
             
+            if (responsesForSubmission != null) {
+                allResponses.addAll(responsesForSubmission);
+            } else {
+                printErrorMessage("Failed to create responses");
+                return;
+            }
         }
         
+        frDb.createAndReturnEntities(allResponses);
         
+        //System.out.println("Completed conversion for [" + courseId + ":" + eval.name + "]");        
     }
 
-    private void createFeedbackResponsesFromSubmission(
+    private List<FeedbackResponseAttributes> createFeedbackResponsesFromSubmission(
             String feedbackSessionName, String courseId, boolean peerFeedback,
-            List<String> fqIds, SubmissionAttributes sub) {
+            List<String> fqIds, SubmissionAttributes sub) throws Exception {
+        if (isPreview) {
+            return null;
+        }
+        
         String giver = sub.reviewer;
         String recipient = sub.reviewee;
         String giverSection = "";
         String recipientSection = "";
         
         StudentAttributes studentGiver = logic.getStudentForEmail(courseId, giver);
-        giverSection = (studentGiver == null) ? Const.DEFAULT_SECTION : studentGiver.section;
         StudentAttributes studentRecipient = logic.getStudentForEmail(courseId, recipient);
+        
+        if(studentGiver == null){
+            printErrorMessage("Student cannot be found "+giver);
+            return null;
+        }
+        if(studentRecipient == null){
+            printErrorMessage("Student cannot be found "+giver);
+            return null;
+        }
+        
+        giverSection = (studentGiver == null) ? Const.DEFAULT_SECTION : studentGiver.section;
         recipientSection = (studentRecipient == null) ? Const.DEFAULT_SECTION : studentRecipient.section;
         
         FeedbackResponseAttributes q1Response = null;
@@ -252,7 +340,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
                 q4Response.courseId = courseId;
                 q4Response.giverEmail = giver;
                 q4Response.giverSection = giverSection;
-                q4Response.recipientEmail = recipient;
+                q4Response.recipientEmail = studentRecipient.team;
                 q4Response.recipientSection = recipientSection;
                 
                 q4Response.feedbackQuestionType = FeedbackQuestionType.TEXT;
@@ -279,53 +367,60 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         
         //Save responses
         List<FeedbackResponseAttributes> allResponses = new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> validResponses = new ArrayList<FeedbackResponseAttributes>();
         allResponses.add(q1Response);
         allResponses.add(q2Response);
         allResponses.add(q3Response);
         allResponses.add(q4Response);
         allResponses.add(q5Response);
         
-        for(FeedbackResponseAttributes response : allResponses){
-            if(response != null){
+        for (FeedbackResponseAttributes response : allResponses) {
+            if (response != null) {
                 if(!(response.responseMetaData.getValue().isEmpty() || 
                         response.recipientEmail.isEmpty())){
-                    try {
-                        logic.createFeedbackResponse(response);
-                    } catch (EntityAlreadyExistsException e) {
-                        System.out.println("Response already exists.");
-                        e.printStackTrace();
-                    } catch (InvalidParametersException e) {
-                        System.out.println("Invalid Parameters for Response");
-                        e.printStackTrace();
-                    }
+                    validResponses.add(response);
                 }
-            }
+            }   
         }
+           
+        return validResponses;
     }
 
-    private void createFeedbackQuestions(EvaluationAttributes eval,
-            String feedbackSessionName, String courseId, String creatorEmail, boolean peerFeedback) {
+    private List<FeedbackQuestionAttributes> createFeedbackQuestions(EvaluationAttributes eval,
+            String feedbackSessionName, String courseId, String creatorEmail, boolean peerFeedback) throws InvalidParametersException {
+        if (isPreview) {
+            return null;
+        }
+        List<FeedbackQuestionAttributes> result = new ArrayList<FeedbackQuestionAttributes>();
+        
         //Question 1: Contribution Question
-        createQuestion1(feedbackSessionName, courseId, creatorEmail);
+        FeedbackQuestionAttributes q1 = createQuestion1(feedbackSessionName, courseId, creatorEmail);
+        result.add(q1);
         
         //Question 2: Essay Question "Comments about my contribution(shown to other teammates)"
-        createQuestion2(feedbackSessionName, courseId, creatorEmail);
+        FeedbackQuestionAttributes q2 = createQuestion2(feedbackSessionName, courseId, creatorEmail);
+        result.add(q2);
         
         //Question3: Essay Question "My comments about this teammate(confidential and only shown to instructor)"
-        createQuestion3(feedbackSessionName, courseId, creatorEmail);
+        FeedbackQuestionAttributes q3 = createQuestion3(feedbackSessionName, courseId, creatorEmail);
+        result.add(q3);
         
         //Questions below are only enabled if peer to peer feedback is enabled.
         if(peerFeedback){
             //Question 4: Essay Question "Comments about team dynamics(confidential and only shown to instructor)"
-            createQuestion4(feedbackSessionName, courseId, creatorEmail);
+            FeedbackQuestionAttributes q4 = createQuestion4(feedbackSessionName, courseId, creatorEmail);
+            result.add(q4);
             
             //Question 5: Essay Question "My feedback to this teammate(shown anonymously to the teammate)"
-            createQuestion5(feedbackSessionName, courseId, creatorEmail);
+            FeedbackQuestionAttributes q5 = createQuestion5(feedbackSessionName, courseId, creatorEmail);
+            result.add(q5);
         }
+        
+        return result;
     }
 
-    private void createQuestion5(String feedbackSessionName, String courseId,
-            String creatorEmail) {
+    private FeedbackQuestionAttributes createQuestion5(String feedbackSessionName, String courseId,
+            String creatorEmail) throws InvalidParametersException {
         FeedbackQuestionAttributes feedbackQuestion = new FeedbackQuestionAttributes();
         feedbackQuestion.creatorEmail = creatorEmail;
         feedbackQuestion.courseId = courseId;
@@ -355,16 +450,12 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails(questionText );
         feedbackQuestion.setQuestionDetails(questionDetails);
         
-        try {
-            logic.createFeedbackQuestion(feedbackQuestion);
-        } catch (InvalidParametersException e) {
-            System.out.println("Failed to create Feedback Question 5 =(");
-            e.printStackTrace();
-        }
+        return feedbackQuestion;
+        
     }
 
-    private void createQuestion4(String feedbackSessionName, String courseId,
-            String creatorEmail) {
+    private FeedbackQuestionAttributes createQuestion4(String feedbackSessionName, String courseId,
+            String creatorEmail) throws InvalidParametersException {
         FeedbackQuestionAttributes feedbackQuestion = new FeedbackQuestionAttributes();
         feedbackQuestion.creatorEmail = creatorEmail;
         feedbackQuestion.courseId = courseId;
@@ -392,16 +483,11 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails(questionText );
         feedbackQuestion.setQuestionDetails(questionDetails);
         
-        try {
-            logic.createFeedbackQuestion(feedbackQuestion);
-        } catch (InvalidParametersException e) {
-            System.out.println("Failed to create Feedback Question 4 =(");
-            e.printStackTrace();
-        }
+        return feedbackQuestion;
     }
 
-    private void createQuestion3(String feedbackSessionName, String courseId,
-            String creatorEmail) {
+    private FeedbackQuestionAttributes createQuestion3(String feedbackSessionName, String courseId,
+            String creatorEmail) throws InvalidParametersException {
         FeedbackQuestionAttributes feedbackQuestion = new FeedbackQuestionAttributes();
         feedbackQuestion.creatorEmail = creatorEmail;
         feedbackQuestion.courseId = courseId;
@@ -429,16 +515,11 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails(questionText );
         feedbackQuestion.setQuestionDetails(questionDetails);
         
-        try {
-            logic.createFeedbackQuestion(feedbackQuestion);
-        } catch (InvalidParametersException e) {
-            System.out.println("Failed to create Feedback Question 3 =(");
-            e.printStackTrace();
-        }
+        return feedbackQuestion;
     }
 
-    private void createQuestion2(String feedbackSessionName, String courseId,
-            String creatorEmail) {
+    private FeedbackQuestionAttributes createQuestion2(String feedbackSessionName, String courseId,
+            String creatorEmail) throws InvalidParametersException {
         FeedbackQuestionAttributes feedbackQuestion = new FeedbackQuestionAttributes();
         feedbackQuestion.creatorEmail = creatorEmail;
         feedbackQuestion.courseId = courseId;
@@ -475,16 +556,12 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails(questionText );
         feedbackQuestion.setQuestionDetails(questionDetails);
         
-        try {
-            logic.createFeedbackQuestion(feedbackQuestion);
-        } catch (InvalidParametersException e) {
-            System.out.println("Failed to create Feedback Question 2 =(");
-            e.printStackTrace();
-        }
+        return feedbackQuestion;
+       
     }
 
-    private void createQuestion1(String feedbackSessionName, String courseId,
-            String creatorEmail) {
+    private FeedbackQuestionAttributes createQuestion1(String feedbackSessionName, String courseId,
+            String creatorEmail) throws InvalidParametersException {
         FeedbackQuestionAttributes feedbackQuestion = new FeedbackQuestionAttributes();
         feedbackQuestion.creatorEmail = creatorEmail;
         feedbackQuestion.courseId = courseId;
@@ -516,11 +593,7 @@ public class DataMigrationEvaluationsToFeedbackSessions extends RemoteApiClient 
         FeedbackContributionQuestionDetails questionDetails = new FeedbackContributionQuestionDetails(questionText );
         feedbackQuestion.setQuestionDetails(questionDetails);
         
-        try {
-            logic.createFeedbackQuestion(feedbackQuestion);
-        } catch (InvalidParametersException e) {
-            System.out.println("Failed to create Feedback Question 1 =(");
-            e.printStackTrace();
-        }
+        return feedbackQuestion;
+        
     }
 }

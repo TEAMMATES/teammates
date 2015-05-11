@@ -2117,12 +2117,12 @@ public class Logic {
      * * All parameters are non-null.
      * * questionNumber is > 0
      */
-    public void createFeedbackQuestionForTemplate(
+    public FeedbackQuestionAttributes createFeedbackQuestionForTemplate(
             FeedbackQuestionAttributes feedbackQuestion, int questionNumber) throws InvalidParametersException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestion);
         Assumption.assertTrue(questionNumber > 0);
-        feedbackQuestionsLogic.createFeedbackQuestionNoIntegrityCheck(feedbackQuestion, questionNumber);
+        return feedbackQuestionsLogic.createFeedbackQuestionNoIntegrityCheck(feedbackQuestion, questionNumber);
     }
     
     /**
