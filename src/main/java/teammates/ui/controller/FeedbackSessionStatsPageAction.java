@@ -11,7 +11,6 @@ public class FeedbackSessionStatsPageAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
         
@@ -33,5 +32,4 @@ public class FeedbackSessionStatsPageAction extends Action {
         
         return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_STATS, data);
     }
-
 }

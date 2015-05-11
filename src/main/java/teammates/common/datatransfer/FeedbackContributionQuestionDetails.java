@@ -14,7 +14,6 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.logic.core.TeamEvalResult;
-import teammates.ui.controller.InstructorEvalResultsPageData;
 import teammates.ui.controller.PageData;
 
 public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
@@ -145,13 +144,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
-            AccountAttributes currentUser,
+            PageData pageData,
             FeedbackSessionResultsBundle bundle,
             String view) {
         if(view.equals("question")){//for instructor, only question view has stats.
             return getQuestionResultsStatisticsHtmlQuestionView(responses, question, bundle);
         } else if(view.equals("student")){//Student view of stats.
-            return getQuestionResultStatisticsHtmlStudentView(responses, question, currentUser, bundle);
+            return getQuestionResultStatisticsHtmlStudentView(responses, question, pageData, bundle);
         } else {
             return "";
         }
@@ -159,15 +158,15 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
     private String getQuestionResultStatisticsHtmlStudentView(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
-            AccountAttributes currentUser,
+            PageData pageData,
             FeedbackSessionResultsBundle bundle) {
     
         if(responses.size() == 0 ){
             return "";
         }
     
-        String currentUserEmail = currentUser.email;
-        String currentUserTeam = bundle.emailTeamNameTable.get(currentUser.email);
+        String currentUserEmail = pageData.student.email;
+        String currentUserTeam = bundle.emailTeamNameTable.get(pageData.student.email);
         
         responses = getActualResponses(question, bundle);
 
@@ -298,11 +297,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             contribFragments += FeedbackQuestionFormTemplates.populateTemplate(
                     FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_FRAGMENT,
                     "${studentTeam}", PageData.sanitizeForHtml(displayTeam),
-                    "${studentName}", PageData.sanitizeForHtml(displayName),
-                    
-                    "${CC}", InstructorEvalResultsPageData.getPointsAsColorizedHtml(summary.claimedToInstructor),
-                    "${PC}", InstructorEvalResultsPageData.getPointsAsColorizedHtml(summary.perceivedToInstructor),
-                    "${Diff}", InstructorEvalResultsPageData.getPointsDiffAsHtml(summary),
+                    "${studentName}", PageData.sanitizeForHtml(displayName),                    
+                    "${CC}", PageData.getPointsAsColorizedHtml(summary.claimedToInstructor),
+                    "${PC}", PageData.getPointsAsColorizedHtml(summary.perceivedToInstructor),
+                    "${Diff}", PageData.getPointsDiffAsHtml(summary),
                     "${RR}", getNormalizedPointsListColorizedDescending(incomingPoints, studentIndx),
                     
                     "${Const.ParamsNames.STUDENT_NAME}", Const.ParamsNames.STUDENT_NAME);

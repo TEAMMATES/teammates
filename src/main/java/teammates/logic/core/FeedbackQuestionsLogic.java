@@ -30,6 +30,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackQuestionsDb;
+import teammates.storage.entity.FeedbackQuestion;
 
 public class FeedbackQuestionsLogic {
     
@@ -78,11 +79,12 @@ public class FeedbackQuestionsLogic {
      * @param questionNumber
      * @throws InvalidParametersException
      */
-    public void createFeedbackQuestionNoIntegrityCheck(FeedbackQuestionAttributes fqa, int questionNumber)
+    public FeedbackQuestionAttributes createFeedbackQuestionNoIntegrityCheck(FeedbackQuestionAttributes fqa, int questionNumber)
             throws InvalidParametersException {
         fqa.questionNumber = questionNumber;
         fqa.removeIrrelevantVisibilityOptions();
-        fqDb.createEntityWithoutExistenceCheck(fqa);
+        FeedbackQuestionAttributes newFqa = fqDb.createFeedbackQuestionWithoutExistenceCheck(fqa);
+        return newFqa;
     }
     
     public FeedbackQuestionAttributes copyFeedbackQuestion(String feedbackQuestionId,

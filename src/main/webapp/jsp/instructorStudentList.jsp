@@ -9,7 +9,6 @@
 <%@ page import="teammates.common.datatransfer.InstructorAttributes" %>
 <%@ page import="teammates.common.datatransfer.CourseAttributes" %>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
-<%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
 <%@ page import="teammates.ui.controller.PageData"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForJs"%>

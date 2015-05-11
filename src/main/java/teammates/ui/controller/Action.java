@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -531,44 +530,6 @@ public abstract class Action {
     }
     
     //===================== Utility methods used by some child classes========
-    
-    protected EvaluationAttributes extractEvaluationData() {
-        EvaluationAttributes newEval = new EvaluationAttributes();
-        newEval.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        newEval.name = getRequestParamValue(Const.ParamsNames.EVALUATION_NAME);
-        newEval.p2pEnabled = getRequestParamAsBoolean(Const.ParamsNames.EVALUATION_COMMENTSENABLED);
-        
-        newEval.startTime = TimeHelper.combineDateTime(
-                getRequestParamValue(Const.ParamsNames.EVALUATION_START),
-                getRequestParamValue(Const.ParamsNames.EVALUATION_STARTTIME));
-
-        newEval.endTime = TimeHelper.combineDateTime(
-                getRequestParamValue(Const.ParamsNames.EVALUATION_DEADLINE),
-                getRequestParamValue(Const.ParamsNames.EVALUATION_DEADLINETIME));
-
-        String paramTimeZone = getRequestParamValue(Const.ParamsNames.EVALUATION_TIMEZONE);
-        if (paramTimeZone != null) {
-            newEval.timeZone = Double.parseDouble(paramTimeZone);
-        }
-
-        String paramGracePeriod = getRequestParamValue(Const.ParamsNames.EVALUATION_GRACEPERIOD);
-        if (paramGracePeriod != null) {
-            newEval.gracePeriod = Integer.parseInt(paramGracePeriod);
-        }
-
-        newEval.instructions = new Text(getRequestParamValue(Const.ParamsNames.EVALUATION_INSTRUCTIONS));
-
-        Assumption.assertNotNull("courseId is null when extracting evaluation data", newEval.courseId);
-        Assumption.assertNotNull("Evaluation name is null when extracting evaluation data", newEval.name);
-        Assumption.assertNotNull("p2pEnabled is null when extracting evaluation data", newEval.p2pEnabled);
-        Assumption.assertNotNull("startTime is null when extracting evaluation data", newEval.startTime);
-        Assumption.assertNotNull("endTime is null when extracting evaluation data", newEval.endTime);
-        Assumption.assertNotNull("timeZone is null when extracting evaluation data", newEval.timeZone);
-        Assumption.assertNotNull("gracePeriod is null when extracting evaluation data", newEval.gracePeriod);
-        Assumption.assertNotNull("instructions is null when extracting evaluation data", newEval.instructions);
-                
-        return newEval;
-    }
     
     protected void excludeStudentDetailsFromResponseParams() {
         regkey = null;
