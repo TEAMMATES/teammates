@@ -51,12 +51,6 @@ public class FeedbackQuestionSubmitPage extends AppPage {
         return textArea;
     }   
     
-    public void clickRubricRadio(int respIndex, int row, int col) {
-        int qnIndex = 1;
-        WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
-        radio.click();
-    }
-    
     public void clickRubricCell(int respIndex, int row, int col) {
         int qnIndex = 1;
         WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
