@@ -6,10 +6,8 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 
@@ -73,54 +71,6 @@ public class DataBundleTest extends BaseTestCase {
         assertEquals("student2 In Course2", student2InCourse2.name);
         assertEquals("Team 2.1", student2InCourse2.team);
 
-        // EVALUATIONS
-        EvaluationAttributes evaluation1 = data.evaluations
-                .get("evaluation1InCourse1");
-        assertEquals("evaluation1 In Course1", evaluation1.name);
-        assertEquals("idOfTypicalCourse1", evaluation1.courseId);
-        assertEquals("instructions for evaluation1InCourse1",
-                evaluation1.instructions.getValue());
-        assertEquals(10, evaluation1.gracePeriod);
-        assertEquals(true, evaluation1.p2pEnabled);
-        assertEquals(TimeHelper.convertToDate("2012-04-01 11:59 PM UTC"),
-                evaluation1.startTime);
-        assertEquals(TimeHelper.convertToDate("2017-04-30 11:59 PM UTC"),
-                evaluation1.endTime);
-        assertEquals(true, evaluation1.activated);
-        assertEquals(false, evaluation1.published);
-        assertEquals(2.0, evaluation1.timeZone, 0.01);
-
-        EvaluationAttributes evaluation2 = data.evaluations
-                .get("evaluation2InCourse1");
-        assertEquals("evaluation2 In Course1", evaluation2.name);
-        assertEquals("idOfTypicalCourse1", evaluation2.courseId);
-
-        // SUBMISSIONS
-        SubmissionAttributes submissionFromS1C1ToS2C1 = data.submissions
-                .get("submissionFromS1C1ToS2C1");
-        assertEquals("student1InCourse1@gmail.tmt",
-                submissionFromS1C1ToS2C1.reviewer);
-        assertEquals("student2InCourse1@gmail.tmt",
-                submissionFromS1C1ToS2C1.reviewee);
-        assertEquals("idOfTypicalCourse1", submissionFromS1C1ToS2C1.course);
-        assertEquals("evaluation1 In Course1",
-                submissionFromS1C1ToS2C1.evaluation);
-        assertEquals(10, submissionFromS1C1ToS2C1.points);
-        assertEquals("Team 1.1", submissionFromS1C1ToS2C1.team);
-        // since justification filed is of Text type, we have to use it's
-        // .getValue() method to access the string contained inside it
-        assertEquals(
-                "justification of student1InCourse1 rating to student2InCourse1",
-                submissionFromS1C1ToS2C1.justification.getValue());
-        assertEquals("comments from student1InCourse1 to student2InCourse1",
-                submissionFromS1C1ToS2C1.p2pFeedback.getValue());
-
-        SubmissionAttributes submissionFromS2C1ToS1C1 = data.submissions
-                .get("submissionFromS2C1ToS1C1");
-        assertEquals("student2InCourse1@gmail.tmt",
-                submissionFromS2C1ToS1C1.reviewer);
-        assertEquals("student1InCourse1@gmail.tmt",
-                submissionFromS2C1ToS1C1.reviewee);
     }
 
 }
