@@ -119,7 +119,7 @@ Role: reviewer
     * Tests have been updated to reflect changes to the functional code. Almost 
     all code changes should have changes to both functional code and test code.
     * User documentation has been updated, if required. e.g. help pages.
-    * Developer documentation has been updated, if required. e.g. `devman.html`
+    * Developer documentation has been updated, if required. e.g. `design.md`
     * The changeset does not contain changes unrelated to the issue. 
     e.g. unnecessary formatting changes.
     * The code is synced with upstream. GitHub should show it as 'can merge'. 
