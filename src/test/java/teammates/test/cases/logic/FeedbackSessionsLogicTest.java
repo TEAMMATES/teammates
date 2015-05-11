@@ -1424,8 +1424,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         Summary Statistics,
         Option, Average Points
-        Fun,50.5
-        Grades,49.5
+        "Fun",50.5
+        "Grades",49.5
         
         
         Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
@@ -1440,8 +1440,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         Summary Statistics,
         Recipient, Average Points
-        Team 1.1,80
-        Team 1.2,20
+        "Team 1.1",80
+        "Team 1.2",20
         
         
         Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
@@ -1458,8 +1458,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[5], "");
         assertEquals(exportLines[6], "Summary Statistics,");
         assertEquals(exportLines[7], "Option, Average Points");
-        assertEquals(exportLines[8], "Fun,50.5");
-        assertEquals(exportLines[9], "Grades,49.5");
+        assertEquals(exportLines[8], "\"Fun\",50.5");
+        assertEquals(exportLines[9], "\"Grades\",49.5");
         assertEquals(exportLines[10], "");
         assertEquals(exportLines[11], "");
         assertEquals(exportLines[12], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"Grades\",\"Fun\"");
@@ -1474,8 +1474,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[21], "");
         assertEquals(exportLines[22], "Summary Statistics,");
         assertEquals(exportLines[23], "Recipient, Average Points");
-        assertEquals(exportLines[24], "Team 1.1,80");
-        assertEquals(exportLines[25], "Team 1.2,20");
+        assertEquals(exportLines[24], "\"Team 1.1\",80");
+        assertEquals(exportLines[25], "\"Team 1.2\",20");
         assertEquals(exportLines[26], "");
         assertEquals(exportLines[27], "");
         assertEquals(exportLines[28], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
