@@ -61,7 +61,7 @@ public abstract class Action {
     protected List<String> statusToUser = new ArrayList<String>();
     
     /** Whether the execution completed without any errors or
-     * when are unable to perform the requested action(s)
+     * when we are unable to perform the requested action(s)
      **/
     protected boolean isError = false;
     

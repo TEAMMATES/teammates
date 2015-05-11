@@ -18,7 +18,7 @@
                 }
             %>
         >
-            <%=statusMessage%>
+            <%= statusMessage %>
         </div>
         
         <script type="text/javascript">
