@@ -6,7 +6,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
@@ -29,17 +28,10 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
         printTestClassHeader();
         testData = loadDataBundle("/AutomatedSessionRemindersTest.json");
         
-        //Set opening time of one evaluation within last hour
-        EvaluationAttributes openingEval = testData.evaluations.get("openingEval");
-        openingEval.startTime = TimeHelper.getMsOffsetToCurrentTime(-1);
-        
-        //Set closing time of one evaluation in 23+ hours ahead of now.
-        EvaluationAttributes closingEval = testData.evaluations.get("closingEval");
-        int _23hours59min_InMilliSeconds = (60*23+59)*60*1000;
-        closingEval.endTime = TimeHelper.getMsOffsetToCurrentTime(_23hours59min_InMilliSeconds);
         
         //Set closing time of one feedback session in 23+ hours ahead of now.
         FeedbackSessionAttributes closingFeedbackSession = testData.feedbackSessions.get("closingSession");
+        int _23hours59min_InMilliSeconds = (60*23+59)*60*1000;
         closingFeedbackSession.endTime = TimeHelper.getMsOffsetToCurrentTime(_23hours59min_InMilliSeconds);
 
         //Opening time for one feedback session already set to some time in the past.

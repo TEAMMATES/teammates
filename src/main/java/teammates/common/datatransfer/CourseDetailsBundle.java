@@ -6,10 +6,9 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Represents details of a course, including its students and evaluations.
+ * Represents details of a course, including its students and feedback sessions.
  * <br> Contains:
  * <br> * statistics of teams, enrollments, registrations
- * <br> * Details of its evaluations (as {@link EvaluationDetailsBundle} objects)
  * <br> * Details of its feedback sessions (as {@link FeedbackSessionDetailsBundle} objects)
  * <br> * Details of its teams (as {@link TeamDetailsBundle} objects)
  * <br> * Details of students without teams i.e. 'loners'  (as {@link StudentAttributes} objects)
@@ -23,25 +22,13 @@ public class CourseDetailsBundle {
 
     public CourseAttributes course;
     public CourseStats stats = new CourseStats();
-    public ArrayList<EvaluationDetailsBundle> evaluations = new ArrayList<EvaluationDetailsBundle>();
+    
     public ArrayList<FeedbackSessionDetailsBundle> feedbackSessions = new ArrayList<FeedbackSessionDetailsBundle>();
     public ArrayList<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
     //TODO: remove this as we do not allow loners anymore
     //Do not remove as we might cater for situations where there are no teams in future
     public ArrayList<StudentAttributes> loners = new ArrayList<StudentAttributes>();
     
-    
-    /**
-     * Gets all EvaluationAttributes in this CourseDetailsBundle
-     * @return
-     */
-    public List<EvaluationAttributes> getEvaluationsList() {
-        List<EvaluationAttributes> evaluationsAttributes = new ArrayList<EvaluationAttributes>();
-        for (EvaluationDetailsBundle evaluationDetails : evaluations) {
-            evaluationsAttributes.add(evaluationDetails.evaluation);
-        }
-        return evaluationsAttributes;
-    }
     
     /**
      * Gets all FeedbackSessionAttributes in this CourseDetailsBundle

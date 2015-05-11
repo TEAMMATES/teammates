@@ -55,65 +55,67 @@
                     </div>
                  </div>
                  
-                <div class="form-group">
-               <div class="align-center">
-                  <input class="btn btn-primary" data-original-title="Email an invitation to all students yet to join requesting them to join the course using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" data-placement="top" data-toggle="tooltip" id="button_remind" onclick="if(toggleSendRegistrationKeysConfirmation('CCDetailsUiT.CS2103')) window.location.href='/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2103&user=CCDetailsUiT.instr2';" tabindex="1" title="" type="button" value="Remind Students to Join"/>
-                                    <form action="/page/instructorCourseStudentListDownload" method="post" style="display:inline;">
-                     <input class="btn btn-primary" id="button_download" name="fruploaddownloadbtn" type="submit" value=" Download Student List "/>
-                                          <input name="user" type="hidden" value="CCDetailsUiT.instr2"/>
-                                          <input name="courseid" type="hidden" value="CCDetailsUiT.CS2103"/>
-                                       </form>
-                  <div>
-                     <span class="help-block">
-                        Non-English characters not displayed properly in the downloaded file?
-                        <span class="btn-link" data-target="#studentTableWindow" data-toggle="modal" onclick="submitFormAjax()">
-                           click here
-                        </span>
-                     </span>
-                  </div>
-                  <form id="csvToHtmlForm">
-                     <input name="courseid" type="hidden" value="CCDetailsUiT.CS2103"/>
-                                          <input name="user" type="hidden" value="CCDetailsUiT.instr2"/>
-                                          <input name="csvtohtmltable" type="hidden" value="true"/>
-                                       </form>
-                  <div class="modal fade" id="studentTableWindow">
-                     <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                           <div class="modal-header">
-                              <span class="pull-left help-block">
-                                 Tips: After Selecting the table,
-                                 <kbd>
-                                    Ctrl + C
-                                 </kbd>
-                                 to COPY and
-                                 <kbd>
-                                    Ctrl + V
-                                 </kbd>
-                                 to PASTE to your Excel Workbook.
-                              </span>
-                              <button class="btn btn-default" data-dismiss="modal" type="button">
-                                 Close
-                              </button>
-                              <button class="btn btn-primary" onclick="selectElementContents( document.getElementById('detailsTable') );" type="button">
-                                 Select Table
-                              </button>
-                           </div>
-                           <div class="modal-body">
-                              <div class="table-responsive">
-                                 <div id="detailsTable">
-                                 </div>
-                                 <br/>
-                                                                  <div id="ajaxStatus">
-                                 </div>
-                              </div>
-                           </div>
+                 <div class="form-group">
+                     <div class="align-center">
+                         <input data-original-title="Email an invitation to all students yet to join requesting them to join the course using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" class="btn btn-primary" id="button_remind" data-toggle="tooltip" data-placement="top" title="" onclick="if(toggleSendRegistrationKeysConfirmation('CCDetailsUiT.CS2103')) window.location.href='/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2103&amp;user=CCDetailsUiT.instr2';" value="Remind Students to Join" tabindex="1" type="button">
+                         <form method="post" action="/page/instructorCourseStudentListDownload" style="display:inline;">
+                            <input id="button_download" class="btn btn-primary" name="fruploaddownloadbtn" value=" Download Student List " type="submit">
+                            <input name="user" value="CCDetailsUiT.instr2" type="hidden">
+                            <input name="courseid" value="CCDetailsUiT.CS2103" type="hidden">
+                        </form>
+
+                            
+                            
+                        <div>
+                         <span class="help-block">
+                            Non-English characters not displayed properly in the downloaded file?<span class="btn-link" data-toggle="modal" data-target="#studentTableWindow" onclick="submitFormAjax()">
+                            click here</span>
+                         </span>
                         </div>
-                     </div>
-                  </div>
-               </div>
+                        
+                        <form id="csvToHtmlForm">
+                        <input name="courseid" value="CCDetailsUiT.CS2103" type="hidden">
+                        <input name="user" value="CCDetailsUiT.instr2" type="hidden">
+                        <input name="csvtohtmltable" value="true" type="hidden">
+                        </form>
+                        
+                        <div class="modal fade" id="studentTableWindow">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">       
+                                        
+                                         <span class="pull-left help-block">
+                                        Tips: After Selecting the table, <kbd>Ctrl + C</kbd> to COPY and <kbd>Ctrl + V</kbd> to PASTE to your Excel Workbook.
+                                        </span>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" onclick="selectElementContents( document.getElementById('detailsTable') );">
+                                            Select Table</button>                                
+                                    </div>
+                                    <div class="modal-body">
+                                     <div class="table-responsive">
+                                    
+                                    <div id="detailsTable">                                  
+                                    </div>
+                                    <br>                                    
+                                    <div id="ajaxStatus">
+                                    </div>
+                                    
+                                    
+                               
+                                    </div>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
+
+                    </div>
+                 </div>
+                 
             </div>
-         </div>
-      </div>
+        </div>
         <div id="commentArea" class="well well-plain" style="display: none;">
             <form method="post" action="/page/instructorStudentCommentAdd" name="form_commentadd">
                 <div class="form-group form-inline">

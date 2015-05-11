@@ -9,9 +9,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.util.FileHelper;
 import teammates.common.util.Utils;
 import teammates.test.driver.BackDoor;
@@ -57,10 +55,6 @@ public class ImportData {
                 status = persist(data.courses);
             } else if (!data.students.isEmpty()){    //Students
                 status = persist(data.students);
-            } else if (!data.evaluations.isEmpty()){//Evaluations
-                status = persist(data.evaluations);
-            } else if (!data.submissions.isEmpty()){//Submissions
-                status = persist(data.submissions);
             } else {    
                 // No more data, break the loop
                 System.out.print("\n Finish!");
@@ -118,17 +112,7 @@ public class ImportData {
                 type = "StudentData";
                 StudentAttributes studentData = (StudentAttributes)obj;
                 bundle.students.put(key, studentData);
-            } else if (obj instanceof EvaluationAttributes)
-            {
-                type = "EvaluationData";
-                EvaluationAttributes evaluationData = (EvaluationAttributes)obj;
-                bundle.evaluations.put(key, evaluationData);
-            } else if (obj instanceof SubmissionAttributes)
-            {
-                type = "SubmissionData";
-                SubmissionAttributes submissionData = (SubmissionAttributes)obj;
-                bundle.submissions.put(key, submissionData);
-            }
+            } 
             count ++;
             itr.remove();
             System.out.print(key + "\n");
