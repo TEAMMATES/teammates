@@ -9,7 +9,6 @@ import teammates.common.util.Assumption;
  * Interface for Sessions, to be used for grouping
  * sessions together and sort them based on common attributes (time and name)
  * Current implementing classes:
- * - {@link EvaluationAttributes}
  * - {@link FeedbackSessionAttributes}
  */
 public interface SessionAttributes {

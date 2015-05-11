@@ -22,7 +22,6 @@ public class InstructorCourseEditPageData extends PageData {
     public List<InstructorAttributes> instructorList;
     public InstructorAttributes currentInstructor;
     public List<String> sectionNames;
-    public List<String> evalNames;
     public List<String> feedbackNames;
     public int index;
     public boolean isAccessControlDisplayed;

@@ -491,50 +491,11 @@
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <% if (data.evalNames.isEmpty() && data.feedbackNames.isEmpty()) {%>
+                                                                    <% if (data.feedbackNames.isEmpty()) {%>
                                                                             <tr>
                                                                                 <td colspan="4" class="text-center text-bold">No sessions in this course for you to configure</td>
                                                                             </tr>
                                                                     <% } %>
-                                                                    <%
-                                                                    	for (String evalName : data.evalNames) {
-                                                                    %>
-                                                                    <tr>
-                                                                        <td><%=evalName%></td>
-                                                                        <td class="align-center">
-                                                                            <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS 
-                                                                            + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j + "feedback" + Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName%>" value="true"
-                                                                            <%if (instructor.isAllowedForPrivilege(data.sectionNames.get(j),
-                                                                            		Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES+evalName,
-                                                                            		Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {%>
-                                                                            checked="checked"
-                                                                            <%}%>
-                                                                            />
-                                                                        </td>
-                                                                        <td class="align-center">
-                                                                            <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS
-                                                                            + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j + "feedback" + Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName%>" value="true"
-                                                                            <%if (instructor.isAllowedForPrivilege(data.sectionNames.get(j),
-                                                                            		Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES+evalName,
-                                                                            		Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {%>
-                                                                            checked="checked"
-                                                                            <%}%>
-                                                                            />
-                                                                        </td>
-                                                                        <td class="align-center">
-                                                                            <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
-                                                                            + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j + "feedback" + Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName%>" value="true"
-                                                                            <%if (instructor.isAllowedForPrivilege(data.sectionNames.get(j),
-                                                                            		Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES+evalName,
-                                                                            		Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)) {%>
-                                                                            checked="checked"
-                                                                            <%}%>
-                                                                            />
-                                                                        </td>
-                                                                    </tr>
-                                                                    <%
-                                                                    	}
-                                                                    %>
                                                                     <%
                                                                     	for (String feedbackName : data.feedbackNames) {
                                                                     %>
@@ -824,30 +785,10 @@
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <% if (data.evalNames.isEmpty() && data.feedbackNames.isEmpty()) {%>
+                                                                    <% if (data.feedbackNames.isEmpty()) {%>
                                                                             <tr>
                                                                                 <td colspan="4" class="text-center text-bold">No sessions in this course for you to configure</td>
                                                                             </tr>
-                                                                    <% } %>
-                                                                    <% for (String evalName : data.evalNames) { %>
-                                                                    <tr>
-                                                                        <td><%=evalName%></td>
-                                                                        <td class="align-center">
-                                                                            <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS 
-                                                                                + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j + "feedback" + Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName%>"
-                                                                                value="true"/>
-                                                                        </td>
-                                                                        <td class="align-center">
-                                                                            <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS
-                                                                                + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j + "feedback" + Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName%>"
-                                                                                value="true"/>
-                                                                        </td>
-                                                                        <td class="align-center">
-                                                                            <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
-                                                                                + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j + "feedback" + Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + evalName%>"
-                                                                                value="true"/>
-                                                                        </td>
-                                                                    </tr>
                                                                     <% } %>
                                                                     <% for (String feedbackName : data.feedbackNames) { %>
                                                                     <tr>

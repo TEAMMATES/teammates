@@ -12,7 +12,6 @@ public class CourseSummaryBundle {
     }
 
     public CourseAttributes course;
-    public ArrayList<EvaluationAttributes> evaluations = new ArrayList<EvaluationAttributes>();
     public ArrayList<FeedbackSessionAttributes> feedbackSessions = new ArrayList<FeedbackSessionAttributes>();
     public ArrayList<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
     public ArrayList<StudentAttributes> loners = new ArrayList<StudentAttributes>();
