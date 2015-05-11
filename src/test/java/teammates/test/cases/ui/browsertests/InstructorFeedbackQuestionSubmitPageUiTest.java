@@ -112,8 +112,6 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
                 BackDoor.getFeedbackResponse(fq.getId(),
                     "IFQSubmitUiT.instr@gmail.tmt",
                     "IFQSubmitUiT.instr@gmail.tmt").getResponseDetails().getAnswerString());
-        
-        submitPage.verifyHtmlMainContent("/instructorFeedbackQuestionSubmitPageFilled.html");
     }
     
     private FeedbackQuestionSubmitPage loginToInstructorFeedbackQuestionSubmitPage(
