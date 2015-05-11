@@ -6,7 +6,6 @@ import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
@@ -18,10 +17,10 @@ public class InstructorFeedbacksPageData extends PageData {
     }
 
     public String courseIdForNewSession;
+    public String feedbackSessionNameForSessionList;
     public String feedbackSessionType;
     public FeedbackSessionAttributes newFeedbackSession;
     public List<CourseAttributes> courses;
-    public List<EvaluationAttributes> existingEvalSessions;
     public List<FeedbackSessionAttributes> existingFeedbackSessions;
     public HashMap<String, InstructorAttributes> instructors;
     public boolean isUsingAjax;

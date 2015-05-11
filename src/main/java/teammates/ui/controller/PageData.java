@@ -12,16 +12,13 @@ import java.util.TimeZone;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.StudentResultSummary;
-import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -153,20 +150,6 @@ public class PageData {
         }
     }
     
-    /**
-     * Prints the difference between Perceived and Claimed (normalized).
-     * Positive difference will be colored green, negative will be red, and
-     * neutral will be black.
-     * If any of the Perceived or Claimed is Not Available, the difference will
-     * be N/A, indicating not available.
-     * If any of the Perceived or Claimed is Not Sure, the difference will be
-     * N/S, indicating not sure.
-     * For each of the two special case above, a tooltip will be displayed to
-     * explain the meaning of the abbreviation.
-     */
-    protected static String getPointsDiffAsHtml(StudentResultBundle sub){
-        return getPointsDiffAsHtml(sub.summary);
-    }
     
     public static String getPointsDiffAsHtml(StudentResultSummary summary){
         int claimed = summary.claimedToInstructor;
@@ -186,16 +169,7 @@ public class PageData {
         }
     }
     
-    /**
-     * Returns the justification from the given submission data.
-     */
-    protected static String getJustificationAsSanitizedHtml(SubmissionAttributes sub){
-        if(sub.justification==null || sub.justification.getValue()==null
-                || sub.justification.getValue().equals(""))
-            return "N/A";
-        else return Sanitizer.sanitizeForHtml(sub.justification.getValue());
-    }
-    
+
     
     /**
      * Formats P2P feedback.
@@ -229,7 +203,7 @@ public class PageData {
         for (int i = 0; i < options.length; i++) {
             String utcFormatOption = StringHelper.toUtcFormat(options[i]);      
             result.add("<option value=\"" + formatAsString(options[i]) + "\"" +
-                       (existingTimeZone == options[i] ? "selected=\"selected\"" : "") + 
+                       (existingTimeZone == options[i] ? " selected=\"selected\"" : "") + 
                        ">" + "(" + utcFormatOption + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(options[i])) + "</option>");
         }
         return result;
@@ -252,7 +226,7 @@ public class PageData {
     /**
      * Returns the time options as HTML code.
      * By default the selected one is the last one.
-     * @param selectCurrentTime
+     * @param timeToShowAsSelected
      */
     public ArrayList<String> getTimeOptionsAsHtml(Date timeToShowAsSelected){
         ArrayList<String> result = new ArrayList<String>();
@@ -409,6 +383,7 @@ public class PageData {
         return link;
     }
     /**
+     * @param courseId
      * @param isHome True if the Browser should redirect to the Home page after the operation. 
      */
     public String getInstructorCourseDeleteLink(String courseId, boolean isHome){
@@ -643,121 +618,7 @@ public class PageData {
     //========================================================================    
     }
 
-    /**
-     * Returns the hover message to explain evaluation status
-     */
-    public static String getInstructorHoverMessageForEval(EvaluationAttributes eval){
-        switch(eval.getStatus()){
-        case AWAITING: return Const.Tooltips.EVALUATION_STATUS_AWAITING;
-        case OPEN: return Const.Tooltips.EVALUATION_STATUS_OPEN;
-        case CLOSED: return Const.Tooltips.EVALUATION_STATUS_CLOSED;
-        case PUBLISHED: return Const.Tooltips.EVALUATION_STATUS_PUBLISHED;
-        default: 
-            Assumption.fail("Unknown evaluation status :"+ eval.getStatus());
-            return "unknown";
-        }
-    }
 
-    /**
-     * Returns the links of actions available for a specific evaluation
-     * @param eval
-     *         The Evaluation details
-     * @param position
-     *         The position of the evaluation in the table (to be used for rowID)
-     * @param isHome
-     *         Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
-     * @return
-     */
-    public String getInstructorEvaluationActions(EvaluationAttributes eval, boolean isHome, InstructorAttributes instructor){
-        StringBuilder result = new StringBuilder();
-        
-        boolean hasView = false;
-        boolean hasEdit = false;
-        boolean hasRemind = false;
-        boolean hasPublish = false;
-        boolean hasUnpublish = false;
-        
-        switch(eval.getStatus()){
-        case AWAITING:
-            hasView = true;
-            hasEdit = true;
-            break;
-        case OPEN:
-            hasView = true;
-            hasEdit = true;
-            hasRemind = true;
-            break;
-        case CLOSED:
-            hasView = true;
-            hasEdit = true;
-            hasPublish = true;
-            break;
-        case PUBLISHED:
-            hasUnpublish = true;
-            hasView = true;
-            break;
-        default:
-            Assumption.fail("Unknown evaluation status :"+ eval.getStatus());
-            break;
-        }
-        String disabledStr = "disabled=\"disabled\"";
-        String disableEditSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
-        String disableDeleteSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
-        String disableRemindSessionStr = (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) && hasRemind) ? "" : disabledStr;
-        String disableUnpublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
-        String disablePublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
-        result.append(
-            "<a class=\"btn btn-default btn-xs btn-tm-actions session-view-for-test" + (hasView ? "\"" : DISABLED) +
-            "href=\"" + getInstructorEvaluationResultsLink(eval.courseId,eval.name) + "\" " +
-            "title=\"" + Const.Tooltips.EVALUATION_RESULTS+"\" data-toggle=\"tooltip\" data-placement=\"top\" " + 
-            ">View Results</a> "
-        );
-        result.append(
-            "<a class=\"btn btn-default btn-xs btn-tm-actions session-edit-for-test" + (hasEdit ? "\"" : DISABLED) + 
-            "href=\"" + getInstructorEvaluationEditLink(eval.courseId,eval.name) + "\" " +
-            "title=\"" + Const.Tooltips.EVALUATION_EDIT + "\" data-toggle=\"tooltip\" data-placement=\"top\" " + 
-            disableEditSessionStr + ">Edit</a> "
-        );
-        result.append(
-            "<a class=\"btn btn-default btn-xs btn-tm-actions session-preview-for-test\"" + 
-            "href=\"" + getInstructorEvaluationPreviewLink(eval.courseId,eval.name) + "\" " +
-            "title=\"" + Const.Tooltips.EVALUATION_PREVIEW + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
-            "target=\"_blank\">Preview</a> "
-        );
-        result.append(
-            "<a class=\"btn btn-default btn-xs btn-tm-actions session-delete-for-test\"" + 
-            "href=\"" + getInstructorEvaluationDeleteLink(eval.courseId,eval.name,(isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)) + "\" " +
-            "title=\"" + Const.Tooltips.EVALUATION_DELETE + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
-            "onclick=\"return toggleDeleteEvaluationConfirmation('" + eval.courseId + "','" + eval.name + "');\" " +
-            disableDeleteSessionStr + ">Delete</a> "
-        );
-        result.append(
-            "<a class=\"btn btn-default btn-xs btn-tm-actions session-remind-for-test" + (hasRemind ? "\"" : DISABLED) + 
-            "href=\"" + getInstructorEvaluationRemindLink(eval.courseId,eval.name) + "\" " +
-            (hasRemind ? "onclick=\"return toggleRemindStudents('" + eval.name + "');\" " : "") +
-            "title=\"" + Const.Tooltips.EVALUATION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
-            disableRemindSessionStr + ">Remind</a> "
-        );
-        
-        if (hasUnpublish) {
-            result.append(
-                "<a class=\"btn btn-default btn-xs btn-tm-actions session-unpublish-for-test\"" + 
-                "href=\"" + getInstructorEvaluationUnpublishLink(eval.courseId,eval.name,isHome) + "\" " +
-                "title=\"" + Const.Tooltips.EVALUATION_UNPUBLISH+"\" data-toggle=\"tooltip\" data-placement=\"top\"" +
-                "onclick=\"return toggleUnpublishEvaluation('" + eval.name + "');\" " + 
-                disableUnpublishSessionStr + ">Unpublish</a> "
-            );
-        } else {
-            result.append(
-                "<a class=\"btn btn-default btn-xs btn-tm-actions session-publish-for-test" + (hasPublish ? "\"" : DISABLED) +
-                "href=\"" + getInstructorEvaluationPublishLink(eval.courseId,eval.name,isHome) + "\" " +
-                "title=\"" + Const.Tooltips.EVALUATION_PUBLISH + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
-                (hasPublish ? "onclick=\"return togglePublishEvaluation('" + eval.name + "');\" " : " ") +
-                disablePublishSessionStr + ">Publish</a> "
-            );
-        }
-        return result.toString();
-    }
 
     public static String getInstructorStatusForFeedbackSession(FeedbackSessionAttributes session){
         if (session.isPrivateSession()) {
@@ -823,13 +684,15 @@ public class PageData {
     }
     
     /**
-     * Returns the links of actions available for a specific evaluation
+     * Returns the links of actions available for a specific session
      * @param session
-     *         The Evaluation details
-     * @param position
-     *         The position of the evaluation in the table (to be used for rowID)
+     *         The feedback session details
      * @param isHome
      *         Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
+     * @param instructor
+     *         The Instructor details
+     * @param sectionsInCourse
+     *         The list of sections for the course
      * @return
      * @throws EntityDoesNotExistException 
      */
@@ -839,14 +702,10 @@ public class PageData {
         
         // Allowing ALL instructors to view results regardless of publish state.
         boolean hasSubmit = session.isVisible() || session.isPrivateSession();
-        boolean hasPublish = !session.isWaitingToOpen() && !session.isPublished();
-        boolean hasUnpublish = !session.isWaitingToOpen() && session.isPublished();
         boolean hasRemind = session.isOpened();
         String disabledStr = "disabled=\"disabled\"";
         String disableEditSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disableDeleteSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
-        String disableUnpublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
-        String disablePublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
         String disableRemindSessionStr = (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) && hasRemind) ? "" : disabledStr;
         boolean shouldEnableSubmitLink = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         
@@ -912,27 +771,45 @@ public class PageData {
             "data-courseid=\"" + session.courseId + "\" data-fsname=\"" + session.feedbackSessionName + "\" " +
             "data-toggle=\"modal\" data-target=\"#remindModal\">Remind particular students</a></li></ul></div> "
         );
-        
+        result.append(getInstructorFeedbackSessionPublishAndUnpublishAction(session, isHome, instructor));
+
+        return result.toString();
+    }
+    
+    /**
+     * Returns the link of publish and unpublish action for the session feedback
+     * @param session
+     *         The session details
+     * @param isHome
+     *         Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
+     * @param instructor
+     *         The instructor attributes of the session feedback
+     * @return
+     */
+    public String getInstructorFeedbackSessionPublishAndUnpublishAction(FeedbackSessionAttributes session, boolean isHome, InstructorAttributes instructor) {
+        boolean hasPublish = !session.isWaitingToOpen() && !session.isPublished();
+        boolean hasUnpublish = !session.isWaitingToOpen() && session.isPublished();
+        String disabledStr = "disabled=\"disabled\"";
+        String disableUnpublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
+        String disablePublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
+        String result = "";
         if (hasUnpublish) {
-            result.append(
-                "<a class=\"btn btn-default btn-xs btn-tm-actions session-unpublish-for-test\"" +
+            result =
+                "<a class=\"btn btn-default btn-xs btn-tm-actions session-unpublish-for-test\""+
                 "href=\"" + getInstructorFeedbackSessionUnpublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
                 "title=\"" + Const.Tooltips.FEEDBACK_SESSION_UNPUBLISH + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
                 "onclick=\"return toggleUnpublishEvaluation('" + session.feedbackSessionName + "');\" " + 
-                disableUnpublishSessionStr + ">Unpublish</a> "
-            );
+                disableUnpublishSessionStr + ">Unpublish Results</a> ";
         } else {
-            result.append(
+            result = 
                 "<a class=\"btn btn-default btn-xs btn-tm-actions session-publish-for-test" + (hasPublish ? "\"" : DISABLED) + 
                 "href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
                 "title=\"" + (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH :  Const.Tooltips.FEEDBACK_SESSION_AWAITING) + "\"" +
                 "data-toggle=\"tooltip\" data-placement=\"top\"" +
                 (hasPublish ? "onclick=\"return togglePublishEvaluation('" + session.feedbackSessionName + "');\" " : " ") +
-                disablePublishSessionStr + ">Publish</a> "
-            );
+                disablePublishSessionStr + ">Publish Results</a> ";
         }
-        
-        return result.toString();
+        return result;
     }
     
     /**
@@ -1031,23 +908,6 @@ public class PageData {
         return str.substring(0, str.length() - 2);
     }
 
-    /**
-     * Returns the evaluation status. Can be any one of these:
-     * <ul>
-     * <li>AWAITING - When the evaluation start time is still in the future</li>
-     * <li>OPEN - When the evaluation is started and has not passed the deadline</li>
-     * <li>CLOSED - When the evaluation deadline has passed but not published yet</li>
-     * <li>PUBLISHED - When the evaluation results has been published to students</li>
-     * </ul>
-     */
-    public static String getInstructorStatusForEval(EvaluationAttributes eval){
-        switch(eval.getStatus()){
-        case AWAITING: return Const.INSTRUCTOR_EVALUATION_STATUS_AWAITING;
-        case OPEN: return Const.INSTRUCTOR_EVALUATION_STATUS_OPEN;
-        case CLOSED: return Const.INSTRUCTOR_EVALUATION_STATUS_CLOSED;
-        default: return Const.INSTRUCTOR_EVALUATION_STATUS_PUBLISHED;
-        }
-    }
     
     private boolean isTimeToBeSelected(Date timeToShowAsSelected, int hourOfTheOption){
         boolean isEditingExistingEvaluation = (timeToShowAsSelected!=null);

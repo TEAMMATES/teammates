@@ -30,6 +30,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackQuestionsDb;
+import teammates.storage.entity.FeedbackQuestion;
 
 public class FeedbackQuestionsLogic {
     
@@ -78,11 +79,12 @@ public class FeedbackQuestionsLogic {
      * @param questionNumber
      * @throws InvalidParametersException
      */
-    public void createFeedbackQuestionNoIntegrityCheck(FeedbackQuestionAttributes fqa, int questionNumber)
+    public FeedbackQuestionAttributes createFeedbackQuestionNoIntegrityCheck(FeedbackQuestionAttributes fqa, int questionNumber)
             throws InvalidParametersException {
         fqa.questionNumber = questionNumber;
         fqa.removeIrrelevantVisibilityOptions();
-        fqDb.createEntityWithoutExistenceCheck(fqa);
+        FeedbackQuestionAttributes newFqa = fqDb.createFeedbackQuestionWithoutExistenceCheck(fqa);
+        return newFqa;
     }
     
     public FeedbackQuestionAttributes copyFeedbackQuestion(String feedbackQuestionId,
@@ -754,4 +756,25 @@ public class FeedbackQuestionsLogic {
             }
         }
     }
+    
+    /*
+     * Removes questions with no recipients.
+     */
+    public List<FeedbackQuestionAttributes> getQuestionsWithRecipients(
+            List<FeedbackQuestionAttributes> questions, String giver)
+            throws EntityDoesNotExistException {
+        List<FeedbackQuestionAttributes> questionsWithRecipients = new ArrayList<FeedbackQuestionAttributes>();
+        for (FeedbackQuestionAttributes question : questions) {
+            int numRecipients = question.numberOfEntitiesToGiveFeedbackTo;
+            if (numRecipients == Const.MAX_POSSIBLE_RECIPIENTS) {
+                numRecipients = this.getRecipientsForQuestion(question, giver)
+                        .size();
+            }
+            if (numRecipients > 0) {
+                questionsWithRecipients.add(question);
+            }
+        }
+        return questionsWithRecipients;
+    }
+
 }

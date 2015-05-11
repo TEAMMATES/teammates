@@ -46,7 +46,7 @@
                                 .toString();
             %>
                 <div id="registerMessage" class="alert alert-info">
-                    <%=String.format(Const.StatusMessages.UNREGISTERED_STUDENT, joinUrl)%>
+                    <%=String.format(Const.StatusMessages.UNREGISTERED_STUDENT, data.student.name, joinUrl)%>
                 </div>
             <% } %>
             <form method="post" action="<%=Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE%>" name="form_submit_response">

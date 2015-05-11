@@ -230,21 +230,21 @@
                                 
                                 for (String email : teamMembersWithNoResponses) {
             %>
-                                <div class="panel panel-primary">
+                                <div class="panel panel-default">
                                 <div class="panel-heading">
                                     From: 
                                     <%  if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) { %>
                                             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(email)%>">
                                                 <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                                <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                                                <a href="mailTo:<%=email%>"  >[<%=email%>]</a>
                                             </div>
                                     <%
                                         } else {
                                     %>
                                         <div class="inline panel-heading-text">
                                             <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
-                                            <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                                            <a href="mailTo:<%=email%>"  >[<%=email%>]</a>
                                         </div>
                                     <%
                                         }
@@ -258,7 +258,7 @@
                                     %>
                                         <form class="inline" method="post" action="<%=data.getInstructorEditStudentFeedbackLink() %>" target="_blank"> 
                                         
-                                            <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                            <input type="submit" class="btn btn-default btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                             <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                             <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
                                             <input type="hidden" name="moderatedstudent" value=<%= email%>>
@@ -271,7 +271,8 @@
                                     </div>
                                 </div>
                                 <div class='panel-collapse collapse in'>
-                                    <div class="panel-body"> There are no responses given by this user 
+                                    <div class="panel-body"> 
+                                        <i>There are no responses given by this user</i> 
                                     </div>
                                 </div>
                                 </div>
@@ -505,7 +506,8 @@
                                             %>
                                         <li class="list-group-item list-group-item-warning" id="responseCommentRow-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
                                             <div id="commentBar-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
-                                            <span class="text-muted">From: <%=comment.giverEmail%> [<%=comment.createdAt%>]</span>
+                                            <span class="text-muted">From: <%=comment.giverEmail%> [<%=comment.createdAt%>] <%=comment.getEditedAtTextForSessionsView(comment.giverEmail.equals("Anonymous"))%>
+                                            </span>
                                             <!-- frComment delete Form -->
                                             <form class="responseCommentDeleteForm pull-right">
                                                 <a href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE%>" type="button" id="commentdelete-<%=responseCommentIndex %>" class="btn btn-default btn-xs icon-button" 
@@ -547,6 +549,11 @@
                                                 <div class="form-group">
                                                     <div class="form-group form-inline">
                                                         <div class="form-group text-muted">
+                                                            <p>
+                                                                Giver: <%=responsesFromGiver.getKey()%><br>
+                                                                Recipient: <%=responsesFromGiverToRecipient.getKey()%>
+                                                            </p>
+                                                            
                                                             You may change comment's visibility using the visibility options on the right hand side.
                                                         </div>
                                                         <a id="frComment-visibility-options-trigger-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>"
@@ -738,6 +745,10 @@
                                                 <div class="form-group">
                                                     <div class="form-group form-inline">
                                                         <div class="form-group text-muted">
+                                                            <p>
+                                                                Giver: <%=responsesFromGiver.getKey()%><br>
+                                                                Recipient: <%=responsesFromGiverToRecipient.getKey()%>
+                                                            </p>
                                                             You may change comment's visibility using the visibility options on the right hand side.
                                                         </div>
                                                         <a id="frComment-visibility-options-trigger-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>"
@@ -946,21 +957,21 @@
                 
                 for (String email : teamMembersWithNoResponses) {
             %>
-                <div class="panel panel-primary">
+                <div class="panel panel-default">
                 <div class="panel-heading">
                     From: 
                     <%  if (validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email).isEmpty()) { %>
                             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(email)%>">
                                 <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                                <a href="mailTo:<%=email%>"  >[<%=email%>]</a>
                             </div>
                     <%
                         } else {
                     %>
                         <div class="inline panel-heading-text">
                             <strong><%=data.bundle.getFullNameFromRoster(email)%></strong>
-                            <a class="link-in-dark-bg" href="mailTo:<%=email%>"  >[<%=email%>]</a>
+                            <a href="mailTo:<%=email%>"  >[<%=email%>]</a>
                         </div>
                     <%
                         }
@@ -974,7 +985,7 @@
                     %>
                         <form class="inline" method="post" action="<%=data.getInstructorEditStudentFeedbackLink() %>" target="_blank"> 
                         
-                            <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                            <input type="submit" class="btn btn-default btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                             <input type="hidden" name="courseid" value="<%=data.courseId %>">
                             <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
                             <input type="hidden" name="moderatedstudent" value=<%= email%>>
@@ -987,7 +998,8 @@
                     </div>
                 </div>
                 <div class='panel-collapse collapse in'>
-                    <div class="panel-body"> There are no responses given by this user 
+                    <div class="panel-body"> 
+                        <i>There are no responses given by this user</i> 
                     </div>
                 </div>
                 </div>
@@ -1027,7 +1039,7 @@
                                         Collections.sort(teamMembers);
                                         for (String teamMember : teamMembers) {
                                       %>
-                                             <div class="panel panel-primary">
+                                             <div class="panel panel-default">
                                                 <div class="panel-heading">
                                                     From: 
                                                     <%
@@ -1036,14 +1048,14 @@
                                                             <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(teamMember)%>">
                                                                 <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
                                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                                                <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
+                                                                <a href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
                                                             </div>
                                                     <%
                                                     	} else {
                                                     %>
                                                         <div class="inline panel-heading-text">
                                                             <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
-                                                            <a class="link-in-dark-bg" href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
+                                                            <a href="mailTo:<%=teamMember%>"  >[<%=teamMember%>]</a>
                                                         </div>
                                                     <%
                                                     	}
@@ -1058,7 +1070,7 @@
                                                         %>
                                                             <form class="inline" method="post" action="<%=data.getInstructorEditStudentFeedbackLink() %>" target="_blank"> 
                                                             
-                                                                <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" <%= disabledAttribute %> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                                                <input type="submit" class="btn btn-default btn-xs" value="Moderate Responses" <%= disabledAttribute %> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                                                 <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                                 <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
                                                                 <input type="hidden" name="moderatedstudent" value=<%= teamMember%>>
@@ -1071,7 +1083,8 @@
                                                      </div>
                                                 </div>
                                                 <div class='panel-collapse collapse in'>
-                                                    <div class="panel-body"> There are no responses given by this user 
+                                                    <div class="panel-body"> 
+                                                        <i>There are no responses given by this user</i> 
                                                     </div>
                                                 </div>
                                              </div>
@@ -1133,7 +1146,7 @@
                                                     }
                                                   	for (String teamMember : teamMembers) {
                                                   %>
-                                                             <div class="panel panel-primary">
+                                                             <div class="panel panel-default">
                                                                 <div class="panel-heading">
                                                                     From: 
                                                                     <%
@@ -1142,14 +1155,14 @@
                                                                         <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="<%=data.getProfilePictureLink(teamMember)%>">
                                                                             <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
                                                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                                                                            <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
+                                                                            <a href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
                                                                         </div>
                                                                     <%
                                                                     	} else {
                                                                     %>
                                                                         <div class="inline panel-heading-text">
                                                                             <strong><%=data.bundle.getFullNameFromRoster(teamMember)%></strong>
-                                                                            <a class="link-in-dark-bg" href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
+                                                                            <a href="mailTo:<%= teamMember%>"  >[<%=teamMember%>]</a>
                                                                         </div>
                                                                     <%  } %>
                                                                     <div class="pull-right">
@@ -1161,7 +1174,7 @@
                                                                         %>
                                                                             <form class="inline" method="post" action="<%=data.getInstructorEditStudentFeedbackLink() %>" target="_blank"> 
                                                                             
-                                                                                <input type="submit" class="btn btn-primary btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
+                                                                                <input type="submit" class="btn btn-default btn-xs" value="Moderate Responses" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                                                                 <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                                                 <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
                                                                                 <input type="hidden" name="moderatedstudent" value=<%= teamMember%>>
@@ -1174,7 +1187,8 @@
                                                                      </div>
                                                                 </div>
                                                                 <div class='panel-collapse collapse in'>
-                                                                    <div class="panel-body"> There are no responses given by this user 
+                                                                    <div class="panel-body"> 
+                                                                        <i>There are no responses given by this user</i> 
                                                                     </div>
                                                                 </div>
                                                              </div>

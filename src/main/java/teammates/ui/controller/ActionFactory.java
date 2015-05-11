@@ -29,6 +29,20 @@ public class ActionFactory {
         map(ADMIN_SESSIONS_PAGE,AdminSessionsPageAction.class);
         map(ADMIN_SEARCH_PAGE, AdminSearchPageAction.class);
         map(ADMIN_STUDENT_GOOGLE_ID_RESET, AdminStudentGoogleIdResetAction.class);
+        map(ADMIN_EMAIL_COMPOSE_PAGE, AdminEmailComposePageAction.class);
+        map(ADMIN_EMAIL_COMPOSE_SAVE, AdminEmailComposeSaveAction.class);
+        map(ADMIN_EMAIL_COMPOSE_SEND, AdminEmailComposeSendAction.class);
+        map(ADMIN_EMAIL_IMAGE_UPLOAD, AdminEmailImageUploadAction.class);
+        map(ADMIN_EMAIL_GROUP_RECEIVER_LIST_UPLOAD, AdminEmailGroupReceiverListUploadAction.class);
+        map(ADMIN_EMAIL_CREATE_IMAGE_UPLOAD_URL, AdminEmailCreateImageUploadUrlAction.class);
+        map(ADMIN_EMAIL_CREATE_GROUP_RECEIVER_LIST_UPLOAD_URL, AdminEmailCreateGroupReceiverListUploadUrlAction.class);
+        map(ADMIN_EMAIL_SENT_PAGE, AdminEmailSentPageAction.class);
+        map(ADMIN_EMAIL_TRASH_PAGE, AdminEmailTrashPageAction.class);
+        map(ADMIN_EMAIL_TRASH_DELETE, AdminEmailTrashDeleteAction.class);
+        map(ADMIN_EMAIL_DRAFT_PAGE, AdminEmailDraftPageAction.class);
+        map(ADMIN_EMAIL_MOVE_TO_TRASH, AdminEmailTrashAction.class);
+        map(ADMIN_EMAIL_MOVE_OUT_TRASH, AdminEmailTrashAction.class);
+        map(ADMIN_EMAIL_LOG_PAGE, AdminEmailLogPageAction.class);
         
         map(INSTRUCTOR_COURSES_PAGE, InstructorCoursesPageAction.class);
         map(INSTRUCTOR_COURSE_ADD, InstructorCourseAddAction.class);
@@ -51,21 +65,6 @@ public class ActionFactory {
         map(INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE, InstructorCourseStudentDetailsEditSaveAction.class);
         map(INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE, InstructorEditStudentFeedbackPageAction.class);
         map(INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE, InstructorEditStudentFeedbackSaveAction.class);
-        map(INSTRUCTOR_EVALS_PAGE, InstructorEvalsPageAction.class);
-        map(INSTRUCTOR_EVAL_ADD, InstructorEvalAddAction.class);
-        map(INSTRUCTOR_EVAL_DELETE, InstructorEvalDeleteAction.class);
-        map(INSTRUCTOR_EVAL_RESULTS_DOWNLOAD, InstructorEvalResultsDownloadAction.class);
-        map(INSTRUCTOR_EVAL_EDIT_PAGE, InstructorEvalEditPageAction.class);
-        map(INSTRUCTOR_EVAL_EDIT_SAVE, InstructorEvalEditSaveAction.class);
-        map(INSTRUCTOR_EVAL_PREVIEW, InstructorEvalPreviewAction.class);
-        map(INSTRUCTOR_EVAL_PUBLISH, InstructorEvalPublishAction.class);
-        map(INSTRUCTOR_EVAL_REMIND, InstructorEvalRemindAction.class);
-        map(INSTRUCTOR_EVAL_RESULTS_PAGE, InstructorEvalResultsPageAction.class);
-        map(INSTRUCTOR_EVAL_STATS_PAGE, EvaluationStatsPageAction.class);
-        map(INSTRUCTOR_EVAL_SUBMISSION_EDIT, InstructorEvalSubmissionEditPageAction.class);
-        map(INSTRUCTOR_EVAL_SUBMISSION_EDIT_SAVE, InstructorEvalSubmissionEditSaveAction.class);
-        map(INSTRUCTOR_EVAL_SUBMISSION_PAGE, InstructorEvalSubmissionPageAction.class);
-        map(INSTRUCTOR_EVAL_UNPUBLISH, InstructorEvalUnpublishAction.class);
         map(INSTRUCTOR_FEEDBACKS_PAGE, InstructorFeedbacksPageAction.class);
         map(INSTRUCTOR_FEEDBACK_ADD, InstructorFeedbackAddAction.class);
         map(INSTRUCTOR_FEEDBACK_COPY, InstructorFeedbackCopyAction.class);
@@ -102,20 +101,16 @@ public class ActionFactory {
         map(INSTRUCTOR_STUDENT_LIST_PAGE, InstructorStudentListPageAction.class);
         map(INSTRUCTOR_STUDENT_LIST_AJAX_PAGE, InstructorStudentListAjaxPageAction.class);
         map(INSTRUCTOR_STUDENT_RECORDS_PAGE, InstructorStudentRecordsPageAction.class);
-        
         map(INSTRUCTOR_STUDENT_COMMENT_ADD, InstructorStudentCommentAddAction.class);
         map(INSTRUCTOR_STUDENT_COMMENT_EDIT, InstructorStudentCommentEditAction.class);
         map(INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING, InstructorStudentCommentClearPendingAction.class);
         map(INSTRUCTOR_COMMENTS_PAGE, InstructorCommentsPageAction.class);
-
+        
         map(STUDENT_COMMENTS_PAGE, StudentCommentsPageAction.class);
         map(STUDENT_COURSE_DETAILS_PAGE, StudentCourseDetailsPageAction.class);
         map(STUDENT_COURSE_JOIN, StudentCourseJoinAction.class);
         map(STUDENT_COURSE_JOIN_NEW, StudentCourseJoinAction.class);
         map(STUDENT_COURSE_JOIN_AUTHENTICATED, StudentCourseJoinAuthenticatedAction.class);
-        map(STUDENT_EVAL_SUBMISSION_EDIT_PAGE, StudentEvalSubmissionEditPageAction.class);
-        map(STUDENT_EVAL_RESULTS_PAGE, StudentEvalResultsPageAction.class);
-        map(STUDENT_EVAL_SUBMISSION_EDIT_SAVE, StudentEvalSubmissionEditSaveAction.class);
         map(STUDENT_FEEDBACK_RESULTS_PAGE, StudentFeedbackResultsPageAction.class);
         map(STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE, StudentFeedbackSubmissionEditPageAction.class);
         map(STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE, StudentFeedbackSubmissionEditSaveAction.class);

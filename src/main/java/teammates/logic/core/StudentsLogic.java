@@ -10,7 +10,6 @@ import javax.mail.internet.MimeMessage;
 import com.google.gson.Gson;
 
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -50,7 +49,6 @@ public class StudentsLogic {
     private StudentsDb studentsDb = new StudentsDb();
     
     private CoursesLogic coursesLogic = CoursesLogic.inst();
-    private EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
     private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private AccountsLogic accLogic = AccountsLogic.inst();
@@ -86,8 +84,6 @@ public class StudentsLogic {
                     "Course does not exist [" + studentData.course + "]");
         }
         
-        evaluationsLogic.adjustSubmissionsForNewStudent(
-                studentData.course, studentData.email, studentData.team);
     }
     
     public void createStudentCascadeWithSubmissionAdjustmentScheduled(StudentAttributes studentData, boolean hasDocument) 
@@ -249,7 +245,6 @@ public class StudentsLogic {
         
         // adjust submissions if moving to a different team
         if (isTeamChanged(originalStudent.team, student.team)) {
-            evaluationsLogic.adjustSubmissionsForChangingTeam(student.course, finalEmail, student.team);
             frLogic.updateFeedbackResponsesForChangingTeam(student.course, finalEmail, originalStudent.team, student.team);
         }
 
@@ -284,7 +279,6 @@ public class StudentsLogic {
         
         // cascade email change, if any
         if (!originalEmail.equals(student.email)) {
-            evaluationsLogic.updateStudentEmailForSubmissionsInCourse(student.course, originalEmail, student.email);
             frLogic.updateFeedbackResponsesForChangingEmail(student.course, originalEmail, student.email);
             fsLogic.updateRespondantsForStudent(originalEmail, student.email, student.course);
         }
@@ -373,15 +367,6 @@ public class StudentsLogic {
             
             enrollmentList.add(enrollmentDetails);
             returnList.add(student);
-        }
-        
-        //Adjust submissions for each evaluation within the course
-        List<EvaluationAttributes> evaluations = evaluationsLogic
-                .getEvaluationsForCourse(courseId);
-        
-        for(EvaluationAttributes eval : evaluations) {
-            //Schedule adjustment of submissions for evaluation in course
-            scheduleSubmissionAdjustmentForEvaluationInCourse(enrollmentList,courseId,eval.name);
         }
         
         //Adjust submissions for all feedback responses within the course
@@ -526,22 +511,6 @@ public class StudentsLogic {
         
     }
 
-    private void scheduleSubmissionAdjustmentForEvaluationInCourse(
-            ArrayList<StudentEnrollDetails> enrollmentList, String courseId, String evalName) {
-        HashMap<String, String> paramMap = new HashMap<String, String>();
-        
-        paramMap.put(ParamsNames.COURSE_ID, courseId);
-        paramMap.put(ParamsNames.EVALUATION_NAME, evalName);
-        
-        Gson gsonBuilder = Utils.getTeammatesGson();
-        String enrollmentDetails = gsonBuilder.toJson(enrollmentList);
-        paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollmentDetails);
-        
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(SystemParams.EVAL_SUBMISSION_ADJUSTMENT_TASK_QUEUE,
-                Const.ActionURIs.EVAL_SUBMISSION_ADJUSTMENT_WORKER, paramMap);
-    }
-
     public MimeMessage sendRegistrationInviteToStudent(String courseId, String studentEmail) 
             throws EntityDoesNotExistException {
         
@@ -560,7 +529,7 @@ public class StudentsLogic {
         Emails emailMgr = new Emails();
         try {
             MimeMessage email = emailMgr.generateStudentCourseJoinEmail(course, studentData);
-            emailMgr.sendEmail(email);
+            emailMgr.sendAndLogEmail(email);
             return email;
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while sending email", e);
@@ -586,7 +555,7 @@ public class StudentsLogic {
         Emails emailMgr = new Emails();
         try {
             MimeMessage email = emailMgr.generateStudentCourseRejoinEmailAfterGoogleIdReset(course, studentData);
-            emailMgr.sendEmail(email);
+            emailMgr.sendAndLogEmail(email);
             return email;
         } catch (Exception e) {
             throw new RuntimeException("Unexpected error while sending email", e);
@@ -624,7 +593,6 @@ public class StudentsLogic {
     public void deleteStudentCascade(String courseId, String studentEmail, boolean hasDocument) {
         // delete responses before deleting the student as we need to know the student's team.
         frLogic.deleteFeedbackResponsesForStudentAndCascade(courseId, studentEmail);
-        SubmissionsLogic.inst().deleteAllSubmissionsForStudent(courseId, studentEmail);
         commentsLogic.deleteCommentsForStudent(courseId, studentEmail);
         fsLogic.deleteStudentFromRespondantsList(getStudentForEmail(courseId, studentEmail));
         studentsDb.deleteStudent(courseId, studentEmail, hasDocument);
@@ -661,23 +629,6 @@ public class StudentsLogic {
 
     public void deleteStudentsForCourseWithoutDocument(String courseId) {
         studentsDb.deleteStudentsForCourseWithoutDocument(courseId);
-    }
-    
-    public void adjustSubmissionsForEnrollments(
-            ArrayList<StudentEnrollDetails> enrollmentList,
-            EvaluationAttributes eval) throws InvalidParametersException, EntityDoesNotExistException {
-        // will not be tested as submissions are depreciated
-        
-        for(StudentEnrollDetails enrollment : enrollmentList) {
-            if(enrollment.updateStatus == UpdateStatus.MODIFIED &&
-                    isTeamChanged(enrollment.oldTeam, enrollment.newTeam)) {
-                evaluationsLogic.adjustSubmissionsForChangingTeamInEvaluation(enrollment.course,
-                        enrollment.email, enrollment.newTeam, eval.name);
-            } else if (enrollment.updateStatus == UpdateStatus.NEW) {
-                evaluationsLogic.adjustSubmissionsForNewStudentInEvaluation(
-                        enrollment.course, enrollment.email, enrollment.newTeam, eval.name);
-            }
-        }
     }
     
     public void adjustFeedbackResponseForEnrollments(

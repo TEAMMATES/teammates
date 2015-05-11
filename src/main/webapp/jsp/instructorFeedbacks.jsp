@@ -5,13 +5,11 @@
 <%@ page import="java.util.Map"%>
 
 <%@page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
-<%@page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.util.FieldValidator"%>
 <%@ page import="teammates.logic.core.Emails.EmailType"%>
-<%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
 <%@ page
     import="teammates.common.datatransfer.FeedbackSessionDetailsBundle"%>
 <%@ page import="teammates.ui.controller.InstructorFeedbacksPageData"%>
@@ -587,6 +585,10 @@
             <form style="display:none;" id="ajaxForSessions" class="ajaxForSessionsForm" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>">
                 <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId %>">
                 <input type="hidden" name="<%=Const.ParamsNames.IS_USING_AJAX%>" value="on">
+                <%if (data.feedbackSessionNameForSessionList != null && data.courseIdForNewSession != null) {%>
+                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.feedbackSessionNameForSessionList%>">
+                    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.courseIdForNewSession%>">
+                <%}%>
             </form>
         </div>
         <% } %>
@@ -618,14 +620,19 @@
             </thead>
             <%
                 int sessionIdx = -1;
-                if (data.existingFeedbackSessions.size() > 0
-                        || data.existingEvalSessions.size() > 0) {
+                String tableHighlight = "";
+                if (data.existingFeedbackSessions.size() > 0) {
                     int displayFeedbackStatsCount = 0;
                     Map<String, List<String>> courseIdSectionNamesMap = data.getCourseIdSectionNamesMap(data.existingFeedbackSessions);
                     for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {
                         sessionIdx++;
+                        if (data.feedbackSessionNameForSessionList != null && fdb.feedbackSessionName.equals(data.feedbackSessionNameForSessionList) && data.courseIdForNewSession != null && fdb.courseId.equals(data.courseIdForNewSession)) {
+                            tableHighlight = " warning";
+                        } else {
+                            tableHighlight = "";
+                        }
             %>
-            <tr class="sessionsRow" id="session<%=sessionIdx%>">
+            <tr class="sessionsRow<%=tableHighlight%>" id="session<%=sessionIdx%>">
                 <td><%=fdb.courseId%></td>
                 <td><%=InstructorFeedbacksPageData
                             .sanitizeForHtml(fdb.feedbackSessionName)%></td>
@@ -649,30 +656,10 @@
             </tr>
             <%
                 }
-                    for (EvaluationAttributes edd : data.existingEvalSessions) {
-                        sessionIdx++;
             %>
-            <tr class="sessionsRow" id="evaluation<%=sessionIdx%>">
-                <td><%=edd.courseId%></td>
-                <td><%=InstructorFeedbacksPageData
-                            .sanitizeForHtml(edd.name)%></td>
-                <td><span title="<%=InstructorFeedbacksPageData.getInstructorHoverMessageForEval(edd)%>"
-                        data-toggle="tooltip" data-placement="top">
-                        <%=InstructorFeedbacksPageData.getInstructorStatusForEval(edd)%>
-                    </span>
-                </td>
-                <td
-                    class="session-response-for-test<%if (!TimeHelper.isOlderThanAYear(edd.endTime)) {
-                        out.print(" recent");
-                    }%>">
-                    <a oncontextmenu="return false;"
-                    href="<%=data.getEvaluationStatsLink(edd.courseId,
-                            edd.name)%>">Show</a>
-                </td>
-                <td class="no-print"><%=data.getInstructorEvaluationActions(edd, false, data.instructors.get(edd.courseId))%></td>
-            </tr>
+            
             <%
-                }
+                
                 } else {
             %>
             <tr>
@@ -686,6 +673,7 @@
                 }
             %>
         </table>
+        <p class="col-md-12 text-muted">Note: The table above doesn't contain sessions from archived courses. To view sessions from an archived course, unarchive the course first.</p>
         <br> <br> <br>
         <%
                 if (sessionIdx == -1) {

@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -21,6 +20,7 @@ public class InstructorFeedbacksPageAction extends Action {
         //This can be null. Non-null value indicates the page is being loaded 
         //   to add a feedback to the specified course
         String courseIdForNewSession = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String feedbackSessionNameForSessionList = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String isUsingAjax = getRequestParamValue(Const.ParamsNames.IS_USING_AJAX);
         
         new GateKeeper().verifyInstructorPrivileges(account);
@@ -34,6 +34,7 @@ public class InstructorFeedbacksPageAction extends Action {
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
         data.isUsingAjax = (isUsingAjax == null) ? false : true;
         data.courseIdForNewSession = courseIdForNewSession;
+        data.feedbackSessionNameForSessionList = feedbackSessionNameForSessionList;
         // This indicates that an empty form to be shown (except possibly the course value filled in)
         data.newFeedbackSession = null;
         boolean omitArchived = true; // TODO: implement as a request parameter
@@ -48,18 +49,15 @@ public class InstructorFeedbacksPageAction extends Action {
         }
         
         if(data.courses.size() == 0 ||!data.isUsingAjax) {
-            data.existingEvalSessions = new ArrayList<EvaluationAttributes>();
             data.existingFeedbackSessions = new ArrayList<FeedbackSessionAttributes>();
         } else {
-            data.existingEvalSessions = loadEvaluationsList(instructorList);
+            
             data.existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
-            if (data.existingFeedbackSessions.isEmpty() &&
-                data.existingEvalSessions.isEmpty()) {
+            if (data.existingFeedbackSessions.isEmpty()) {
                 statusToUser.add(Const.StatusMessages.EVALUATION_EMPTY);
             }
         }            
         
-        EvaluationAttributes.sortEvaluationsByDeadlineDescending(data.existingEvalSessions);
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
         
         statusToAdmin = "Number of feedback sessions: "+data.existingFeedbackSessions.size();
@@ -76,13 +74,6 @@ public class InstructorFeedbacksPageAction extends Action {
         return sessions;
     }
 
-    protected List<EvaluationAttributes> loadEvaluationsList(List<InstructorAttributes> instructorList)
-            throws EntityDoesNotExistException {
-        List<EvaluationAttributes> evaluations =  logic.getEvaluationsListForInstructor(instructorList);
-        
-        return evaluations;
-    }
-    
     protected List<CourseAttributes> loadCoursesList(List<InstructorAttributes> instructorList)
             throws EntityDoesNotExistException {
         

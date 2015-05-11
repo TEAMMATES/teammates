@@ -38,12 +38,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
     @FindBy(id = "show-stats-checkbox")
     public WebElement showStatsCheckbox;
     
-    @FindBy(id = "button_add_comment")
-    private WebElement showResponseCommentAddFormButton;
-    
-    @FindBy(id = "showResponseCommentAddForm-0-1-1")
-    private WebElement addResponseCommentForm;
-    
     
     public InstructorFeedbackResultsPage(Browser browser) {
         super(browser);
@@ -163,13 +157,22 @@ public class InstructorFeedbackResultsPage extends AppPage {
         return qnAdditionalInfoButton.getText();
     }
     
-    public void addFeedbackResponseComment(String commentText) {
-        WebDriverWait wait = new WebDriverWait(browser.driver, 30);
+    public void addFeedbackResponseComment(String addResponseCommentId, String commentText) {
+        WebDriverWait wait = new WebDriverWait(browser.driver, 5);
+        WebElement addResponseCommentForm = browser.driver.findElement(By.id(addResponseCommentId));
+        WebElement parentContainer = addResponseCommentForm.findElement(By.xpath("../.."));
+        WebElement showResponseCommentAddFormButton = parentContainer.findElement(By.id("button_add_comment"));
         showResponseCommentAddFormButton.click();
         wait.until(ExpectedConditions.elementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea"))));
         fillTextBox(addResponseCommentForm.findElement(By.tagName("textarea")), commentText);
         addResponseCommentForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
-        ThreadHelper.waitFor(1000);
+        if (commentText.equals("")) {
+            // empty comment: wait until the textarea is clickable again
+            wait.until(ExpectedConditions.elementToBeClickable(addResponseCommentForm.findElement(By.tagName("textarea"))));            
+        } else {
+            // non-empty comment: wait until the add comment form disappears
+            waitForElementToDisappear(By.id(addResponseCommentId));            
+        }
     }
     
     public void editFeedbackResponseComment(String commentIdSuffix, String newCommentText) {
@@ -180,7 +183,17 @@ public class InstructorFeedbackResultsPage extends AppPage {
         fillTextBox(commentEditForm.findElement(By.name("responsecommenttext")), newCommentText);
         commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
         ThreadHelper.waitFor(1000);
-   
+    }
+    
+    public void clickVisibilityOptionForResponseCommentAndSave(String idString, int numOfTheCheckbox) {
+        String idSuffix = idString.substring(18);
+        WebElement commentRow = browser.driver.findElement(By.id(idString));
+        commentRow.findElements(By.tagName("a")).get(1).click();
+        WebElement commentEditForm = browser.driver.findElement(By.id("responseCommentEditForm" + idSuffix));
+        commentRow.findElement(By.id("frComment-visibility-options-trigger" + idSuffix)).click();
+        commentRow.findElements(By.cssSelector("input[type='checkbox']")).get(numOfTheCheckbox).click();
+        commentEditForm.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("a")).click();
+        ThreadHelper.waitFor(1000);
     }
     
     public boolean verifyAllResultsPanelBodyVisibility(boolean visible){
@@ -325,9 +338,53 @@ public class InstructorFeedbackResultsPage extends AppPage {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild(document.getElementsByClassName('popover')[0])");
     }
+    
+    public void hoverClickAndViewPhotoOnTableCell(int questionBodyIndex, int tableRow, int tableCol, String urlRegex) throws Exception {
+        String idOfQuestionBody = "questionBody-" + questionBodyIndex;
+        WebElement photoDiv = browser.driver.findElement(By.id(idOfQuestionBody))
+                                            .findElements(By.cssSelector(".dataTable tbody tr"))
+                                            .get(tableRow)
+                                            .findElements(By.cssSelector("td"))
+                                            .get(tableCol)
+                                            .findElement(By.className("profile-pic-icon-hover"));
+        Actions actions = new Actions(browser.driver);
+        actions.moveToElement(photoDiv).build().perform();      
+        waitForElementToAppear(By.cssSelector(".popover-content"));
+        
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("document.getElementsByClassName('popover-content')[0]"
+                + ".getElementsByTagName('a')[0].click();");
+        
+        waitForElementToAppear(By.cssSelector(".popover-content > img"));
+        
+        AssertHelper.assertContainsRegex(urlRegex, 
+                browser.driver.findElements(By.cssSelector(".popover-content > img"))
+                              .get(0)
+                              .getAttribute("src"));
+        
+        jsExecutor.executeScript("document.getElementsByClassName('popover')[0].parentNode.removeChild(document.getElementsByClassName('popover')[0])");
+    }
+    
+    public void hoverClickAndViewGiverPhotoOnTableCell(int questionBodyIndex, int tableRow, String urlRegex) throws Exception {
+        hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 0, urlRegex);
+    }
+    
+    public void hoverClickAndViewRecipientPhotoOnTableCell(int questionBodyIndex, int tableRow, String urlRegex) throws Exception {
+        hoverClickAndViewPhotoOnTableCell(questionBodyIndex, tableRow, 2, urlRegex);
+    }
 
     public void removeNavBar() {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         jsExecutor.executeScript("document.getElementsByClassName('navbar-fixed-top')[0].parentNode.removeChild(document.getElementsByClassName('navbar-fixed-top')[0])");
+    }
+    
+    public void verifyModerateResponseButtonBelongsTo(WebElement btn, String email) {
+        assertEquals(email, btn.findElement(By.xpath("input[4]")).getAttribute("value"));
+    }
+    
+    public WebElement getModerateResponseButtonInQuestionView(int qnNo, int responseNo) {
+        return browser.driver.findElement(By.id("questionBody-" + (qnNo - 1)))
+                .findElement(By.className("table-responsive"))
+                .findElement(By.xpath("table/tbody/tr[" + responseNo + "]/td[6]/form"));
     }
 }

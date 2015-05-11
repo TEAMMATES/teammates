@@ -48,14 +48,14 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     @Test 
     public void allTests() throws Exception{
         testConent();
-        
+        testCommentToWholeCourse();
         testTableSort();
         //No input validation required
         testLinks();
         testRemindAction();
         testDeleteAction();
     }
-    
+
     public void testConent() throws Exception{
         
         ______TS("content: no students");
@@ -87,6 +87,17 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         
         detailsPage = getCourseDetailsPage();
         detailsPage.verifyHtmlMainContent("/InstructorCourseDetailsWithoutSections.html");
+    }
+    
+    private void testCommentToWholeCourse() {
+        ______TS("comment to whole course: submit empty comment");
+        detailsPage.submitCommentToCourse("");
+        detailsPage.verifyStatus("Please enter a valid comment. The comment can't be empty.");
+        detailsPage.clickAddCommentToCourseButton();
+        
+        ______TS("comment to whole course: any comment");
+        detailsPage.submitCommentToCourse("this is a comment");
+        detailsPage.verifyStatus(Const.StatusMessages.COMMENT_ADDED);
     }
 
     private void testTableSort() {

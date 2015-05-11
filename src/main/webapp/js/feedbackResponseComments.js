@@ -43,6 +43,7 @@ var addCommentHandler = function(e) {
 	                    var newCommentRow = addFormRow.prev();
 	                    newCommentRow.find("form[class*='responseCommentEditForm'] > div > a[id*='button_save_comment_for_edit']").click(editCommentHandler);
 	                    newCommentRow.find("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
+	                    registerResponseCommentCheckboxEvent();
 	                    newCommentRow.find("[data-toggle='tooltip']").tooltip({html: true});
 	                    
 	                    // Reset add comment form
@@ -104,6 +105,7 @@ var editCommentHandler = function(e) {
                     } else {
 	                    // Update editted comment
 	                    displayedText.html(data.comment.commentText.value);
+	                    updateVisibilityOptionsForResponseComment(formObject, data);
 	                    commentBar.show();
 	                    
 	                    // Reset edit comment form
@@ -184,31 +186,37 @@ var deleteCommentHandler = function(e) {
 };
 
 function registerResponseCommentsEvent(){
-    $("form[class*='responseCommentAddForm'] > div > a").click(addCommentHandler);
-    $("form[class*='responseCommentEditForm'] > div > a").click(editCommentHandler);
-    $("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
+    $("form[class*='responseCommentAddForm'] > div > a[id^='button_save_comment_for_add']").click(addCommentHandler);
+    $("form[class*='responseCommentEditForm'] > div > a[id^='button_save_comment_for_edit']").click(editCommentHandler);
+    $("form[class*='responseCommentDeleteForm'] > a[id^='commentdelete']").click(deleteCommentHandler);
     
     String.prototype.contains = function(substr) { return this.indexOf(substr) != -1; };
     
-    $("input[type=checkbox]").click(function(e){
-    	var table = $(this).parent().parent().parent().parent();
-    	var form = table.parent().parent().parent();
-    	var visibilityOptions = [];
-    	var _target = $(e.target);
-    	
-    	if (_target.prop("class").contains("answerCheckbox") && !_target.prop("checked")) {
-    		_target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
-    		_target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
-    	}
-    	if ((_target.prop("class").contains("giverCheckbox") || 
-    			_target.prop("class").contains("recipientCheckbox")) && _target.prop("checked")) {
-    		_target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
-    	}
-    	
-    	table.find('.answerCheckbox:checked').each(function () {
+    registerResponseCommentCheckboxEvent();
+    
+    $("div[id^=plainCommentText]").css("margin-left","15px");
+}
+
+function registerResponseCommentCheckboxEvent(){
+	$("input[type=checkbox]").click(function(e){
+		var table = $(this).parent().parent().parent().parent();
+		var form = table.parent().parent().parent();
+		var visibilityOptions = [];
+		var _target = $(e.target);
+		
+		if (_target.prop("class").contains("answerCheckbox") && !_target.prop("checked")) {
+			_target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
+			_target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
+		}
+		if ((_target.prop("class").contains("giverCheckbox") || 
+				_target.prop("class").contains("recipientCheckbox")) && _target.prop("checked")) {
+			_target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
+		}
+		
+		table.find('.answerCheckbox:checked').each(function () {
 			visibilityOptions.push($(this).val());
 	    });
-    	form.find("input[name='showresponsecommentsto']").val(visibilityOptions.toString());
+		form.find("input[name='showresponsecommentsto']").val(visibilityOptions.toString());
 	    
 	    visibilityOptions = [];
 	    table.find('.giverCheckbox:checked').each(function () {
@@ -216,8 +224,21 @@ function registerResponseCommentsEvent(){
 	    });
 	    form.find("input[name='showresponsegiverto']").val(visibilityOptions.toString());
     });
-    
-    $("div[id^=plainCommentText]").css("margin-left","15px");
+}
+
+function updateVisibilityOptionsForResponseComment(formObject, data) {
+	formObject.find("input[class*='answerCheckbox'][value='GIVER']").prop("checked", (data.comment.showCommentTo.indexOf("GIVER") !== -1));
+    formObject.find("input[class*='giverCheckbox'][value='GIVER']").prop("checked", (data.comment.showGiverNameTo.indexOf("GIVER") !== -1));
+    formObject.find("input[class*='answerCheckbox'][value='RECEIVER']").prop("checked", (data.comment.showCommentTo.indexOf("RECEIVER") !== -1));
+    formObject.find("input[class*='giverCheckbox'][value='RECEIVER']").prop("checked", (data.comment.showGiverNameTo.indexOf("RECEIVER") !== -1));
+    formObject.find("input[class*='answerCheckbox'][value='OWN_TEAM_MEMBERS']").prop("checked", (data.comment.showCommentTo.indexOf("OWN_TEAM_MEMBERS") !== -1));
+    formObject.find("input[class*='giverCheckbox'][value='OWN_TEAM_MEMBERS']").prop("checked", (data.comment.showGiverNameTo.indexOf("OWN_TEAM_MEMBERS") !== -1));
+    formObject.find("input[class*='answerCheckbox'][value='RECEIVER_TEAM_MEMBERS']").prop("checked", (data.comment.showCommentTo.indexOf("RECEIVER_TEAM_MEMBERS") !== -1));
+    formObject.find("input[class*='giverCheckbox'][value='RECEIVER_TEAM_MEMBERS']").prop("checked", (data.comment.showGiverNameTo.indexOf("RECEIVER_TEAM_MEMBERS") !== -1));
+    formObject.find("input[class*='answerCheckbox'][value='STUDENTS']").prop("checked", (data.comment.showCommentTo.indexOf("STUDENTS") !== -1));
+    formObject.find("input[class*='giverCheckbox'][value='STUDENTS']").prop("checked", (data.comment.showGiverNameTo.indexOf("STUDENTS") !== -1));
+    formObject.find("input[class*='answerCheckbox'][value='INSTRUCTORS']").prop("checked", (data.comment.showCommentTo.indexOf("INSTRUCTORS") !== -1));
+    formObject.find("input[class*='giverCheckbox'][value='INSTRUCTORS']").prop("checked", (data.comment.showGiverNameTo.indexOf("INSTRUCTORS") !== -1));
 }
 
 function enableHoverToDisplayEditOptions(){
@@ -305,6 +326,8 @@ function generateNewCommentRow(data, responseCommentId, numberOfComments) {
     + 	 "<input type=\"hidden\" name=\"" + COURSE_ID + "\" value=\"" + data.comment.courseId + "\">"
     + 	 "<input type=\"hidden\" name=\"" + FEEDBACK_SESSION_NAME + "\" value=\"" + data.comment.feedbackSessionName + "\">"
     + 	 "<input type=\"hidden\" name=\"" + USER_ID + "\" value=\"" + data.account.googleId + "\">"
+    +    "<input type=\"hidden\" name=\"showresponsecommentsto\" value=\"" + data.comment.showCommentTo.join(",") + "\">"
+    +    "<input type=\"hidden\" name=\"showresponsegiverto\" value=\"" + data.comment.showGiverNameTo.join(",") + "\">"
     + "</form>"
     + "</li>";
     return newRow;
@@ -339,6 +362,11 @@ function generateNewCommentVisibilityTable(data, addedCommentId) {
 		tableStr += "<tr id=\"response-recipient-team-" + addedCommentId + "\"><td class=\"text-left\"><div data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" data-original-title=\"Control what team members of response recipient(s) can view\">Response Recipient's Team Members</div></td>"
 	    +    "<td><input class=\"visibilityCheckbox answerCheckbox\" type=\"checkbox\" value=\"RECEIVER_TEAM_MEMBERS\" " + ((data.comment.showCommentTo.indexOf("RECEIVER_TEAM_MEMBERS") === -1) ? "" : "checked=\"checked\"") + "></td>"
 	    +    "<td><input class=\"visibilityCheckbox giverCheckbox\" type=\"checkbox\" value=\"RECEIVER_TEAM_MEMBERS\" " + ((data.comment.showGiverNameTo.indexOf("RECEIVER_TEAM_MEMBERS") === -1) ? "" : "checked=\"checked\"") + "></td></tr>";
+	}
+	if (valuesOfCheckbox.indexOf('STUDENTS') != -1) {
+		tableStr += "<tr id=\"response-instructors-" + addedCommentId + "\"><td class=\"text-left\"><div data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" data-original-title=\"Control what other students in this course can view\">Other students in this course</div></td>"
+	    +    "<td><input class=\"visibilityCheckbox answerCheckbox\" type=\"checkbox\" value=\"STUDENTS\" " + ((data.comment.showCommentTo.indexOf("STUDENTS") === -1) ? "" : "checked=\"checked\"") + "></td>"
+	    +    "<td><input class=\"visibilityCheckbox giverCheckbox\" type=\"checkbox\" value=\"STUDENTS\" " + ((data.comment.showGiverNameTo.indexOf("STUDENTS") === -1) ? "" : "checked=\"checked\"") + "></td></tr>";
 	}
 	if (valuesOfCheckbox.indexOf('INSTRUCTORS') != -1) {
 		tableStr += "<tr id=\"response-instructors-" + addedCommentId + "\"><td class=\"text-left\"><div data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" data-original-title=\"Control what instructors can view\">Instructors</div></td>"
@@ -443,11 +471,11 @@ function showNewlyAddedResponseCommentEditForm(addedIndex) {
     $("#responseCommentEditForm-"+addedIndex).show();
 }
 
-function loadFeedbackResponseComments(user, courseId, fsName, sender) {
+function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, sender) {
 	$(".tooltip").hide();
 	var panelBody = $(sender).parent().find('div[class^="panel-body"]');
-	var fsNameForUrl = fsName.split(' ').join('+');
-	var url = "/page/instructorFeedbackResponseCommentsLoad?user=" + user + "&courseid=" + courseId + "&fsname=" + fsNameForUrl;
+	var fsNameForUrl = encodeURIComponent(fsName);
+	var url = "/page/instructorFeedbackResponseCommentsLoad?user=" + user + "&courseid=" + courseId + "&fsname=" + fsNameForUrl + "&fsindex=" + fsIndx;
 	$(sender).find('div[class^="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
 	panelBody.load(url, function( response, status, xhr ) {
 	  if (status == "success") {

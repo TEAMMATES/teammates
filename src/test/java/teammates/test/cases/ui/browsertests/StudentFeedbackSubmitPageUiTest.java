@@ -35,7 +35,7 @@ import teammates.test.pageobjects.FeedbackSubmitPage;
 /**
  * Tests 'Submit Feedback' view of students.
  * 
- * The first team is named "Team> 1" to test cases where a HTML character exists in the team name.
+ * The first team is named "Team >'"< 1" to test cases where a HTML character exists in the team name.
  * 
  * SUT: {@link StudentFeedbackSubmitPage}.
  */
@@ -223,6 +223,21 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");        
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPagePartiallyFilled.html");
         
+        ______TS("test toggle radio button");
+        
+        submitPage.chooseMcqOption(7, 1, "UI");
+        submitPage.chooseMcqOption(7, 1, "Algo");
+        submitPage.chooseMcqOption(7, 1, "Algo"); // toggle 'Algo' radio option
+        
+        submitPage.clickSubmitButton();
+        
+        assertNull(BackDoor.getFeedbackResponse(fqMcq.getId(),
+                "SFSubmitUiT.alice.b@gmail.tmt",
+                "Team 3"));
+        
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");        
+        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPagePartiallyFilled.html");
+        
         ______TS("edit existing response");        
         
         // Test editing an existing response 
@@ -246,13 +261,13 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.toggleMsqOption(9, 1, "Design");
         
         submitPage.chooseMcqOption(10, 0, "Drop out (Team 2)");
-        submitPage.toggleMsqOption(11, 0, "Alice Betsy (Team> 1)");
-        submitPage.toggleMsqOption(11, 0, "Benny Charles (Team> 1)");
+        submitPage.toggleMsqOption(11, 0, "Alice Betsy (Team >'\"< 1)");
+        submitPage.toggleMsqOption(11, 0, "Benny Charles (Team >'\"< 1)");
         submitPage.toggleMsqOption(11, 0, "Charlie Davis (Team 2)");
         submitPage.toggleMsqOption(11, 0, "Extra guy (Team 2)");
         
         submitPage.chooseMcqOption(12, 0, "Team 2");
-        submitPage.toggleMsqOption(13, 0, "Team> 1");
+        submitPage.toggleMsqOption(13, 0, "Team >'\"< 1");
         submitPage.toggleMsqOption(13, 0, "Team 3");
         
         submitPage.fillResponseTextBox(14, 0, "5"); 
@@ -485,7 +500,17 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                   "SFSubmitUiT.alice.b@gmail.tmt");  
         
         assertEquals("5",frNumscale.getResponseDetails().getAnswerString());
+        
      
+        ______TS("write response without specifying recipient");
+        submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
+        
+        submitPage.selectRecipient(2, 2, "");
+        submitPage.fillResponseTextBox(2, 2, "Response to no recipient");
+        submitPage.clickSubmitButton();
+        assertEquals("You did not specify a recipient for your response in question(s) 2.", 
+                     submitPage.getStatus());
+        
     }
     
     
@@ -512,9 +537,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                 dropOutGuy.email);
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
 
-        // move Benny out of Team> 1 into team 2 and change her email
+        // move Benny out of Team >'"< 1 into team 2 and change her email
         // This should cause the team mates question to disappear completely as 
-        // no one else is in Team> 1, but other responses to Benny should remain.
+        // no one else is in Team >'"< 1, but other responses to Benny should remain.
         StudentAttributes Benny = testData.students.get("Benny");
         moveToTeam(Benny, "Team 2");
         

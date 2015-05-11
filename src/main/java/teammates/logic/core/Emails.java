@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.mail.Address;
@@ -20,7 +21,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -30,6 +30,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
+import teammates.common.util.EmailLogEntry;
 import teammates.common.util.StringHelper;
 import teammates.common.util.EmailTemplates;
 import teammates.common.util.TimeHelper;
@@ -90,18 +91,6 @@ public class Emails {
         return messageInfo.toString();
     }
 
-    public void addEvaluationReminderToEmailsQueue(EvaluationAttributes evaluation,
-            EmailType typeOfEmail) {
-        
-        HashMap<String, String> paramMap = new HashMap<String, String>();
-        paramMap.put(ParamsNames.EMAIL_EVAL, evaluation.name);
-        paramMap.put(ParamsNames.EMAIL_COURSE, evaluation.courseId);
-        paramMap.put(ParamsNames.EMAIL_TYPE, typeOfEmail.toString());
-        
-        TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
-        taskQueueLogic.createAndAddTask(SystemParams.EMAIL_TASK_QUEUE,
-                Const.ActionURIs.EMAIL_WORKER, paramMap);
-    }
     
     public void addFeedbackSessionReminderToEmailsQueue(FeedbackSessionAttributes feedback,
             EmailType typeOfEmail) {
@@ -127,247 +116,6 @@ public class Emails {
                 Const.ActionURIs.EMAIL_WORKER, paramMap);
     }
     
-    public List<MimeMessage> generateEvaluationOpeningEmails(
-            CourseAttributes course,
-            EvaluationAttributes evaluation, 
-            List<StudentAttributes> students,
-            List<InstructorAttributes> instructors)
-                    throws MessagingException, IOException {
-
-        String template = EmailTemplates.USER_EVALUATION_;
-        List<MimeMessage> emails = generateEvaluationEmailBases(course,
-                evaluation, students, instructors, template);
-        for (MimeMessage email : emails) {
-            email.setSubject(email.getSubject().replace("${subjectPrefix}",
-                    SUBJECT_PREFIX_STUDENT_EVALUATION_OPENING));
-            email.setContent(
-                    email.getContent().toString()
-                            .replace("${status}", "is now open"), "text/html");
-        }
-        return emails;
-    }
-    public List<MimeMessage> generateEvaluationOpeningEmailsForEval(
-            EvaluationAttributes evaluation) 
-                    throws MessagingException, IOException, EntityDoesNotExistException {
-        StudentsLogic studentsLogic = StudentsLogic.inst();
-        CoursesLogic coursesLogic = CoursesLogic.inst();
-        InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-
-        CourseAttributes course = coursesLogic.getCourse(evaluation.courseId);
-        List<StudentAttributes> students = studentsLogic.getStudentsForCourse(evaluation.courseId);
-        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(evaluation.courseId);
-        
-        List<MimeMessage> emails = null;
-        emails = generateEvaluationOpeningEmails(course, evaluation,
-                                                    students, instructors);
-        return emails;
-    }
-
-    public List<MimeMessage> generateEvaluationReminderEmails(
-            CourseAttributes course, 
-            EvaluationAttributes evaluation,
-            List<StudentAttributes> students,
-            List<InstructorAttributes> instructors) 
-                    throws MessagingException, IOException {
-
-        String template = EmailTemplates.USER_EVALUATION_;
-        List<MimeMessage> emails = generateEvaluationEmailBases(course,
-                evaluation, students, instructors, template);
-        for (MimeMessage email : emails) {
-            email.setSubject(email.getSubject().replace("${subjectPrefix}",
-                    SUBJECT_PREFIX_STUDENT_EVALUATION_REMINDER));
-            email.setContent(
-                    email.getContent()
-                            .toString()
-                            .replace("${status}",
-                                    "is still open for submissions"),
-                    "text/html");
-        }
-        return emails;
-    }
-
-    public List<MimeMessage> generateEvaluationClosingEmails(
-            CourseAttributes c,
-            EvaluationAttributes e, 
-            List<StudentAttributes> students, List<InstructorAttributes> instructors)
-                    throws MessagingException, IOException {
-
-        String template = EmailTemplates.USER_EVALUATION_;
-        List<MimeMessage> emails = generateEvaluationEmailBases(c, e, students,
-                instructors, template);
-        
-        for (MimeMessage email : emails) {
-            email.setSubject(email.getSubject().replace("${subjectPrefix}",
-                    SUBJECT_PREFIX_STUDENT_EVALUATION_CLOSING));
-            email.setContent(
-                    email.getContent().toString()
-                            .replace("${status}", "is closing soon"),
-                    "text/html");
-        }
-        return emails;
-    }
-    
-    public List<MimeMessage> generateEvaluationClosingEmailsForEval(EvaluationAttributes ed)
-                    throws MessagingException, IOException, EntityDoesNotExistException {
-
-        StudentsLogic studentsLogic = StudentsLogic.inst();
-        CoursesLogic coursesLogic = CoursesLogic.inst();
-        InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-        EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
-        
-        List<StudentAttributes> studentDataList = studentsLogic.getStudentsForCourse(ed.courseId);
-        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForCourse(ed.courseId);
-        List<StudentAttributes> studentToRemindList = new ArrayList<StudentAttributes>();
-        
-        for (StudentAttributes sd : studentDataList) {
-            if (!evaluationsLogic.isEvaluationCompletedByStudent(ed, sd.email)) {
-                studentToRemindList.add(sd);
-            }
-        }
-    
-        CourseAttributes c = coursesLogic.getCourse(ed.courseId);
-
-        List<MimeMessage> emails = null;
-        emails = generateEvaluationClosingEmails(c, ed, 
-                studentToRemindList, instructorList);
-        
-        return emails;
-    }
-
-    public List<MimeMessage> generateEvaluationPublishedEmails(
-            CourseAttributes c,
-            EvaluationAttributes e, 
-            List<StudentAttributes> students,
-            List<InstructorAttributes> instructors)
-                    throws MessagingException, IOException {
-
-        String template = EmailTemplates.USER_EVALUATION_PUBLISHED;
-        List<MimeMessage> emails = generateEvaluationEmailBases(c, e, students,
-                instructors, template);
-        for (MimeMessage email : emails) {
-            email.setSubject(email.getSubject().replace("${subjectPrefix}",
-                    SUBJECT_PREFIX_STUDENT_EVALUATION_PUBLISHED));
-        }
-        return emails;
-    }
-
-    public List<MimeMessage> generateEvaluationEmailBases(
-            CourseAttributes course,
-            EvaluationAttributes evaluation, 
-            List<StudentAttributes> students,
-            List<InstructorAttributes> instructors,
-            String template) 
-                    throws MessagingException, UnsupportedEncodingException {
-        
-        ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
-        for (StudentAttributes s : students) {
-            emails.add(generateEvaluationEmailBaseForStudent(course, evaluation, s,
-                    template));
-        }
-        for (InstructorAttributes i : instructors) {
-            emails.add(generateEvaluationEmailBaseForInstructor(course, evaluation, i,
-                    template));
-        }
-        return emails;
-    }
-
-    public MimeMessage generateEvaluationEmailBaseForStudent(
-            CourseAttributes c,
-            EvaluationAttributes e, 
-            StudentAttributes s, 
-            String template)
-                    throws MessagingException, UnsupportedEncodingException {
-
-        MimeMessage message = getEmptyEmailAddressedToEmail(s.email);
-
-        message.setSubject(String
-                .format("${subjectPrefix} [Course: %s][Evaluation: %s]",
-                        c.name, e.name));
-
-        String emailBody = template;
-
-        if (isYetToJoinCourse(s)) {
-            emailBody = fillUpStudentJoinFragment(s, emailBody);
-        } else {
-            emailBody = emailBody.replace("${joinFragment}", "");
-        }
-
-        emailBody = emailBody.replace("${userName}", s.name);
-        emailBody = emailBody.replace("${instructorFragment}", "");
-        emailBody = emailBody.replace("${courseName}", c.name);
-        emailBody = emailBody.replace("${courseId}", c.id);
-        emailBody = emailBody.replace("${evaluationName}", e.name);
-        emailBody = emailBody.replace("${deadline}",
-                TimeHelper.formatTime(e.endTime));
-
-        String submitUrl = Config.APP_URL
-                + Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_PAGE;
-        submitUrl = Url.addParamToUrl(submitUrl, Const.ParamsNames.COURSE_ID,
-                c.id);
-        submitUrl = Url.addParamToUrl(submitUrl,
-                Const.ParamsNames.EVALUATION_NAME, e.name);
-        emailBody = emailBody.replace("${submitUrl}", submitUrl);
-
-        String reportUrl = Config.APP_URL
-                + Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE;
-        reportUrl = Url.addParamToUrl(reportUrl, Const.ParamsNames.COURSE_ID,
-                c.id);
-        reportUrl = Url.addParamToUrl(reportUrl,
-                Const.ParamsNames.EVALUATION_NAME, e.name);
-        emailBody = emailBody.replace("${reportUrl}", reportUrl);
-
-        message.setContent(emailBody, "text/html");
-
-        return message;
-    }
-    
-    public MimeMessage generateEvaluationEmailBaseForInstructor(
-            CourseAttributes c,
-            EvaluationAttributes e, 
-            InstructorAttributes i, 
-            String template)
-                    throws MessagingException, UnsupportedEncodingException {
-
-        MimeMessage message = getEmptyEmailAddressedToEmail(i.email);
-
-        message.setSubject(String
-                .format("${subjectPrefix} [Course: %s][Evaluation: %s]",
-                        c.name, e.name));
-
-        String emailBody = template;
-
-        emailBody = emailBody.replace("${userName}", i.name);
-        emailBody = emailBody.replace("${joinFragment}", "");
-        emailBody = emailBody.replace("${instructorFragment}",
-                    "The email below has been sent to students of course: "+c.id+".<br/>");
-        
-        emailBody = emailBody.replace("${courseName}", c.name);
-        emailBody = emailBody.replace("${courseId}", c.id);
-        emailBody = emailBody.replace("${evaluationName}", e.name);
-        emailBody = emailBody.replace("${deadline}",
-                TimeHelper.formatTime(e.endTime));
-
-        String submitUrl = Config.APP_URL
-                + Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_PAGE;
-        submitUrl = Url.addParamToUrl(submitUrl, Const.ParamsNames.COURSE_ID,
-                c.id);
-        submitUrl = Url.addParamToUrl(submitUrl,
-                Const.ParamsNames.EVALUATION_NAME, e.name);
-        emailBody = emailBody.replace("${submitUrl}", submitUrl);
-
-        String reportUrl = Config.APP_URL
-                + Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE;
-        reportUrl = Url.addParamToUrl(reportUrl, Const.ParamsNames.COURSE_ID,
-                c.id);
-        reportUrl = Url.addParamToUrl(reportUrl,
-                Const.ParamsNames.EVALUATION_NAME, e.name);
-        emailBody = emailBody.replace("${reportUrl}", reportUrl);
-
-        message.setContent(emailBody, "text/html");
-
-        return message;
-    }
-
     public List<MimeMessage> generateFeedbackSessionOpeningEmails(FeedbackSessionAttributes session) 
                     throws EntityDoesNotExistException, MessagingException, IOException {
         
@@ -737,6 +485,17 @@ public class Emails {
         return message;
     }
     
+    public MimeMessage generateAdminEmail(String content, String subject, String sendTo) throws MessagingException, UnsupportedEncodingException 
+    {
+
+        MimeMessage message = getEmptyEmailAddressedToEmail(sendTo);
+        message.setSubject(subject);
+
+        message.setContent(content, "text/html");
+        return message;
+    }
+    
+
     public MimeMessage generateStudentCourseRejoinEmailAfterGoogleIdReset(
             CourseAttributes course, StudentAttributes student) 
                     throws AddressException, MessagingException, UnsupportedEncodingException {
@@ -753,7 +512,6 @@ public class Emails {
         message.setContent(emailBody, "text/html");
         return message;
     }
-    
     
     public MimeMessage generateNewInstructorAccountJoinEmail(InstructorAttributes instructor,String shortName, String institute) 
                              throws AddressException,MessagingException,UnsupportedEncodingException {
@@ -911,7 +669,28 @@ public class Emails {
 
     public void sendEmail(MimeMessage message) throws MessagingException {
         log.info(getEmailInfo(message));
+        Transport.send(message);        
+    }
+    
+    
+    /**
+     * This method sends the email as well as logs its receiver, subject and content 
+     * @param message
+     * @throws MessagingException
+     */
+    public void sendAndLogEmail(MimeMessage message) throws MessagingException {
+        log.info(getEmailInfo(message));
         Transport.send(message);
+        
+        try {
+            EmailLogEntry newEntry = new EmailLogEntry(message);
+            String emailLogInfo = newEntry.generateLogMessage();
+            log.log(Level.INFO, emailLogInfo);
+        } catch (Exception e) {
+            log.severe("Failed to generate log for email: " + getEmailInfo(message));
+            e.printStackTrace();
+        }
+        
     }
     
     public MimeMessage sendErrorReport(String path, String params, Throwable error) {

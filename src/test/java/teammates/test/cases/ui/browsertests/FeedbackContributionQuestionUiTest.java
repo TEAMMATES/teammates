@@ -11,13 +11,12 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
-import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 
-public class FeedbackContributionQuestionUiTest extends BaseUiTestCase{
+public class FeedbackContributionQuestionUiTest extends FeedbackQuestionUiTest {
     private static Browser browser;
     private static InstructorFeedbackEditPage feedbackEditPage;
     private static DataBundle testData;
@@ -27,7 +26,7 @@ public class FeedbackContributionQuestionUiTest extends BaseUiTestCase{
     private static String instructorId;
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackContributionQuestionUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -36,6 +35,7 @@ public class FeedbackContributionQuestionUiTest extends BaseUiTestCase{
         instructorId = testData.accounts.get("instructor1").googleId;
         courseId = testData.courses.get("course").id;
         feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
+        feedbackEditPage = getFeedbackEditPage(instructorId, courseId, feedbackSessionName, browser);
 
     }
     
@@ -49,21 +49,18 @@ public class FeedbackContributionQuestionUiTest extends BaseUiTestCase{
     }
     
     private void testEditPage(){
-        
-        feedbackEditPage = getFeedbackEditPage();
-        
-        testNewContributionQuestionFrame();
-        testInputValidationForContributionQuestion();
-        testCustomizeContributionOptions();
-        testAddContributionQuestionAction();
-        testEditContributionQuestionAction();
-        testDeleteContributionQuestionAction();
+        testNewQuestionFrame();
+        testInputValidation();
+        testCustomizeOptions();
+        testAddQuestionAction();
+        testEditQuestionAction();
+        testDeleteQuestionAction();
         testAddContributionQuestionAsSecondQuestion();
     }
     
     
 
-    private void testNewContributionQuestionFrame() {
+    public void testNewQuestionFrame() {
         ______TS("CONTRIB: new question (frame) link");
 
         feedbackEditPage.selectNewQuestionType("Team contribution question");
@@ -71,7 +68,7 @@ public class FeedbackContributionQuestionUiTest extends BaseUiTestCase{
         assertTrue(feedbackEditPage.verifyNewContributionQuestionFormIsDisplayed());
     }
     
-    private void testInputValidationForContributionQuestion() {
+    public void testInputValidation() {
         
         ______TS("empty question text");
 
@@ -81,7 +78,7 @@ public class FeedbackContributionQuestionUiTest extends BaseUiTestCase{
     }
     
 
-    private void testCustomizeContributionOptions() {
+    public void testCustomizeOptions() {
 
         //no question specific options to test
         
@@ -94,7 +91,7 @@ public class FeedbackContributionQuestionUiTest extends BaseUiTestCase{
         
     }
 
-    private void testAddContributionQuestionAction() {
+    public void testAddQuestionAction() {
         ______TS("CONTRIB: add question action success");
         
         feedbackEditPage.fillQuestionBox("contrib qn");
@@ -105,7 +102,7 @@ public class FeedbackContributionQuestionUiTest extends BaseUiTestCase{
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionAddSuccess.html");
     }
 
-    private void testEditContributionQuestionAction() {
+    public void testEditQuestionAction() {
         ______TS("CONTRIB: edit question success");
 
         assertEquals(true, feedbackEditPage.clickEditQuestionButton(1));
@@ -115,14 +112,14 @@ public class FeedbackContributionQuestionUiTest extends BaseUiTestCase{
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionEdit.html");
         
         feedbackEditPage.fillEditQuestionBox("edited contrib qn text", 1);
-        
+        feedbackEditPage.toggleNotSureCheck(1);
         feedbackEditPage.clickSaveExistingQuestionButton(1);
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_EDITED, feedbackEditPage.getStatus());
 
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackContribQuestionEditSuccess.html");
     }
     
-    private void testDeleteContributionQuestionAction(){
+    public void testDeleteQuestionAction(){
         ______TS("CONTRIB: qn delete then cancel");
 
         feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(1));
@@ -155,12 +152,6 @@ public class FeedbackContributionQuestionUiTest extends BaseUiTestCase{
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
         
-    }
-    
-    private InstructorFeedbackEditPage getFeedbackEditPage() {
-        Url feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE).
-                withUserId(instructorId).withCourseId(courseId).withSessionName(feedbackSessionName);
-        return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
     @AfterClass

@@ -26,7 +26,7 @@
                     <label class="col-sm-3 control-label">Opening time:</label>
                     <div class="col-sm-9">
                         <p class="form-control-static">
-                           01 Apr 2012, 23:59
+                           Sun, 01 Apr 2012, 23:59
                         </p>
                     </div>
                 </div>  
@@ -34,7 +34,7 @@
                     <label class="col-sm-3 control-label">Closing time:</label>
                     <div class="col-sm-9">
                         <p class="form-control-static">
-                           02 Apr 2012, 23:59
+                           Mon, 02 Apr 2012, 23:59
                         </p>
                     </div>
                 </div>
@@ -56,72 +56,77 @@
                     </div>     
                 </div>
                 <br>
-               <div class="form-group">
-               <div class="align-center">
-                  <button class="btn btn-primary" id="button_publish" onclick="if(togglePublishEvaluation('Fifth Eval')) window.location.href='/page/instructorEvalPublish?courseid=CEvalRUiT.CS1101&evaluationname=Fifth+Eval&next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCEvalRUiT.instr&user=CEvalRUiT.instr';" type="button" value="Publish">
-                     Publish
-                  </button>
-                  <form action="/page/instructorEvalResultsDownload" id="download_eval_report" method="GET" style="display:inline;">
-                     <button class="btn btn-primary" type="submit" value="Download Report">
-                        Download Report
-                     </button>
-                     <input name="user" type="hidden" value="CEvalRUiT.instr"/>
-                                          <input name="courseid" type="hidden" value="CEvalRUiT.CS1101"/>
-                                          <input name="evaluationname" type="hidden" value="Fifth Eval"/>
-                                       </form>
-                  <div>
-                     <span class="help-block">
-                        Non-English characters not displayed properly in the downloaded file?
-                        <span class="btn-link" data-target="#evalResultsHtmlWindow" data-toggle="modal" onclick="submitFormAjax()">
-                           click here
-                        </span>
-                     </span>
-                  </div>
-                  <form id="csvToHtmlForm">
-                     <input name="courseid" type="hidden" value="CEvalRUiT.CS1101"/>
-                                          <input name="evaluationname" type="hidden" value="Fifth Eval"/>
-                                          <input name="user" type="hidden" value="CEvalRUiT.instr"/>
-                                          <input name="csvtohtmltable" type="hidden" value="true"/>
-                                       </form>
-                  <div class="modal fade" id="evalResultsHtmlWindow">
-                     <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                           <div class="modal-header">
-                              <span class="pull-left help-block">
-                                 Tips: After Selecting the table,
-                                 <kbd>
-                                    Ctrl + C
-                                 </kbd>
-                                 to COPY and
-                                 <kbd>
-                                    Ctrl + V
-                                 </kbd>
-                                 to PASTE to your Excel Workbook.
-                              </span>
-                              <button class="btn btn-default" data-dismiss="modal" type="button">
-                                 Close
-                              </button>
-                              <button class="btn btn-primary" onclick="selectElementContents( document.getElementById('summaryModalTable') );" type="button">
-                                 Select Table
-                              </button>
-                           </div>
-                           <div class="modal-body">
-                              <div class="table-responsive">
-                                 <div id="summaryModalTable">
-                                 </div>
-                                 <br/>
-                                                                  <div id="ajaxStatus">
-                                 </div>
-                              </div>
-                           </div>
+                <div class="form-group">
+                    <div class="align-center">
+                    
+                    
+                    <button type="button" class="btn btn-primary" id="button_publish" value="Publish" onclick="if(togglePublishEvaluation('Fifth Eval')) window.location.href='/page/instructorEvalPublish?courseid=CEvalRUiT.CS1101&amp;evaluationname=Fifth+Eval&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCEvalRUiT.instr&amp;user=CEvalRUiT.instr';">Publish</button>
+                    
+                   
+                <form id="download_eval_report" method="GET" action="/page/instructorEvalResultsDownload" style="display:inline;">
+                    
+                <button type="submit" value="Download Report" class="btn btn-primary">Download Report</button>    
+                
+                <input name="user" value="CEvalRUiT.instr" type="hidden">
+                <input name="courseid" value="CEvalRUiT.CS1101" type="hidden">
+                <input name="evaluationname" value="Fifth Eval" type="hidden">
+                              
+                </form>
+                            
+                        <div>
+                        <span class="help-block">
+                            Non-English characters not displayed properly in the downloaded file?<span class="btn-link" data-toggle="modal" data-target="#evalResultsHtmlWindow" onclick="submitFormAjax()">
+                            click here</span>
+                         </span>
                         </div>
-                     </div>
-                  </div>
-               </div>
+                        
+                        <form id="csvToHtmlForm">
+                        <input name="courseid" value="CEvalRUiT.CS1101" type="hidden">
+                        <input name="evaluationname" value="Fifth Eval" type="hidden">
+                        <input name="user" value="CEvalRUiT.instr" type="hidden">
+                        <input name="csvtohtmltable" value="true" type="hidden">
+                        </form>
+
+                        <div class="modal fade" id="evalResultsHtmlWindow">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                          <span class="pull-left help-block">
+                                        Tips: After Selecting the table, <kbd>Ctrl + C</kbd> to COPY and <kbd>Ctrl + V</kbd> to PASTE to your Excel Workbook.
+                                        </span>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" onclick="selectElementContents( document.getElementById('summaryModalTable') );">
+                                            Select Table</button>
+                                    </div>
+                                    <div class="modal-body">
+                                    <div class="table-responsive">
+                                    <div id="summaryModalTable">
+                                    
+                                    </div>
+                                    <br>
+                                    <div id="ajaxStatus">
+                                    </div>
+                                    </div>
+                                    </div>
+                                   
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
+                
+                      
+                   </div>
+                </div>
             </div>
-         </div>
-      </div>
-      <br/>
+            
+        </div>
+
+        <br>
+        
+
+
 
 
     <div style="display: none;" id="statusMessage" class="alert alert-warning"></div>
@@ -136,7 +141,7 @@
         <div id="instructorEvaluationSummaryTable" class="evaluation_result">
             <div class="row">
             <div class="col-sm-4">
-            <h4><span data-original-title="This is the students own estimation of his/her contributions" class="label label-info" data-toggle="tooltip" data-placement="top" data-container="body" title="">CC</span> Claimed Contribution 
+            <h4><span data-original-title="This is the student's own estimation of his/her contributions" class="label label-info" data-toggle="tooltip" data-placement="top" data-container="body" title="">CC</span> Claimed Contribution 
             </h4>
             </div>
             <div class="col-sm-5"> 
@@ -269,7 +274,7 @@
                             </div>
                             <div class="col-md-4">
                               <div class="pull-right">
-                                <span data-original-title="This is the students own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                <span data-original-title="This is the student's own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
                                 Claimed contribution: <span class="badge background-color-white color-positive"> E +20%</span>
                                 </span>
                               </div>
@@ -336,7 +341,7 @@
                             </div>
                             <div class="col-md-4">
                               <div class="pull-right">
-                                <span data-original-title="This is the students own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                <span data-original-title="This is the student's own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
                                 Claimed contribution: <span class="badge background-color-white color-negative"> E -10%</span>
                                 </span>
                               </div>
@@ -419,7 +424,7 @@
                             </div>
                             <div class="col-md-4">
                               <div class="pull-right">
-                                <span data-original-title="This is the students own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                <span data-original-title="This is the student's own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
                                 Claimed contribution: <span class="badge background-color-white color-negative"> E -3%</span>
                                 </span>
                               </div>
@@ -493,7 +498,7 @@
                             </div>
                             <div class="col-md-4">
                               <div class="pull-right">
-                                <span data-original-title="This is the students own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                <span data-original-title="This is the student's own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
                                 Claimed contribution: <span class="badge background-color-white color-negative"> E -3%</span>
                                 </span>
                               </div>
@@ -567,7 +572,7 @@
                             </div>
                             <div class="col-md-4">
                               <div class="pull-right">
-                                <span data-original-title="This is the students own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                <span data-original-title="This is the student's own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
                                 Claimed contribution: <span class="badge background-color-white color-positive"> E +6%</span>
                                 </span>
                               </div>
@@ -662,7 +667,7 @@
                             </div>
                             <div class="col-md-4">
                               <div class="pull-right">
-                                <span data-original-title="This is the students own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                <span data-original-title="This is the student's own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
                                 Claimed contribution: <span class="badge background-color-white color-positive"> E +20%</span>
                                 </span>
                               </div>
@@ -721,7 +726,7 @@
                             </div>
                             <div class="col-md-4">
                               <div class="pull-right">
-                                <span data-original-title="This is the students own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                <span data-original-title="This is the student's own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
                                 Claimed contribution: <span class="badge background-color-white color-negative"> E -10%</span>
                                 </span>
                               </div>
@@ -796,7 +801,7 @@
                             </div>
                             <div class="col-md-4">
                               <div class="pull-right">
-                                <span data-original-title="This is the students own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                <span data-original-title="This is the student's own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
                                 Claimed contribution: <span class="badge background-color-white color-negative"> E -3%</span>
                                 </span>
                               </div>
@@ -862,7 +867,7 @@
                             </div>
                             <div class="col-md-4">
                               <div class="pull-right">
-                                <span data-original-title="This is the students own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                <span data-original-title="This is the student's own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
                                 Claimed contribution: <span class="badge background-color-white color-negative"> E -3%</span>
                                 </span>
                               </div>
@@ -928,7 +933,7 @@
                             </div>
                             <div class="col-md-4">
                               <div class="pull-right">
-                                <span data-original-title="This is the students own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
+                                <span data-original-title="This is the student's own estimation of his/her contributions" data-toggle="tooltip" data-placement="top" data-container="body" title="">
                                 Claimed contribution: <span class="badge background-color-white color-positive"> E +6%</span>
                                 </span>
                               </div>

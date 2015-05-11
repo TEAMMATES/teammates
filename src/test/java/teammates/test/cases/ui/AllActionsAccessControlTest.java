@@ -17,15 +17,12 @@ import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentRecipientType;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
@@ -36,7 +33,6 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.api.CommentsDb;
-import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
@@ -51,7 +47,6 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     String invalidEncryptedKey = StringHelper.encrypt("invalidKey");
     
     private final CommentsDb commentsDb = new CommentsDb();
-    private final EvaluationsDb evaluationsDb = new EvaluationsDb();
     private final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     private final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
     private final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
@@ -147,16 +142,6 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     public void AdminSearchPage() throws Exception{
         uri = Const.ActionURIs.ADMIN_SEARCH_PAGE;
         verifyOnlyAdminsCanAccess(submissionParams);
-    }
-    
-    @Test
-    public void InstructorEvaluationStatsPage() throws Exception {
-        uri = Const.ActionURIs.INSTRUCTOR_EVAL_STATS_PAGE;
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        EvaluationAttributes accessableEvaluation = dataBundle.evaluations.get("evaluation1InCourse1");
-        String[] submissionParams = new String[] { Const.ParamsNames.EVALUATION_NAME, accessableEvaluation.name,
-                                          Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId};
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }
     
     @Test
@@ -430,234 +415,6 @@ public class AllActionsAccessControlTest extends BaseActionTest {
     }
     
     @Test
-    public void InstructorEvaluationAdd() throws Exception{
-        uri = Const.ActionURIs.INSTRUCTOR_EVAL_ADD;
-        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        
-        String[] submissionParams = 
-                createParamsForTypicalEval(instructor1ofCourse1.courseId, "ieaat tca eval");
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
-        
-        // delete the evaluation
-        evaluationsDb.deleteEvaluation(instructor1ofCourse1.courseId, "ieaat tca eval");
-    }
-    
-    @Test
-    public void InstructorEvaluationDelete() throws Exception{
-        uri = Const.ActionURIs.INSTRUCTOR_EVAL_DELETE;
-        EvaluationAttributes evaluationInCourse1 = dataBundle.evaluations.get("evaluation2InCourse1");
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, evaluationInCourse1.courseId,
-                Const.ParamsNames.EVALUATION_NAME, evaluationInCourse1.name 
-        };
-        
-        verifyUnaccessibleWithoutLogin(submissionParams);
-        verifyUnaccessibleForUnregisteredUsers(submissionParams);
-        verifyUnaccessibleForStudents(submissionParams);
-        verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
-        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
-        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
-        
-        //recreate the evaluation
-        evaluationsDb.createEntity(evaluationInCourse1);
-        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
-        
-    }
-    
-    @Test
-    public void InstructorEvaluationEditPage() throws Exception{
-        uri = Const.ActionURIs.INSTRUCTOR_EVAL_EDIT_PAGE;
-        EvaluationAttributes evaluationInCourse1 = dataBundle.evaluations.get("evaluation1InCourse1");
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, evaluationInCourse1.courseId,
-                Const.ParamsNames.EVALUATION_NAME, evaluationInCourse1.name 
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
-    }
-    
-    @Test
-    public void InstructorEvaluationEditSave() throws Exception{
-        uri = Const.ActionURIs.INSTRUCTOR_EVAL_EDIT_SAVE;
-        EvaluationAttributes evaluationInCourse1 = dataBundle.evaluations.get("evaluation1InCourse1");
-        
-        String[] submissionParams = createParamsForTypicalEval(
-                evaluationInCourse1.courseId, evaluationInCourse1.name);
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
-    }
-    
-    @Test
-    public void InstructorEvaluationPreview() throws Exception{
-        uri = Const.ActionURIs.INSTRUCTOR_EVAL_PREVIEW;
-        EvaluationAttributes evaluationInCourse1 = dataBundle.evaluations.get("evaluation1InCourse1");
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, evaluationInCourse1.courseId,
-                Const.ParamsNames.EVALUATION_NAME, evaluationInCourse1.name 
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        
-    }
-    
-    @Test
-    public void InstructorEvaluationPublish() throws Exception{
-        uri = Const.ActionURIs.INSTRUCTOR_EVAL_PUBLISH;
-        EvaluationAttributes evaluationInCourse1 = dataBundle.evaluations.get("evaluation1InCourse1");
-        
-        makeEvaluationClosed(evaluationInCourse1);
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, evaluationInCourse1.courseId,
-                Const.ParamsNames.EVALUATION_NAME, evaluationInCourse1.name 
-        };
-        
-        verifyUnaccessibleWithoutLogin(submissionParams);
-        verifyUnaccessibleForUnregisteredUsers(submissionParams);
-        verifyUnaccessibleForStudents(submissionParams);
-        verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
-        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
-        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
-        
-        makeEvaluationClosed(evaluationInCourse1); //we have to revert to the closed state
-        
-        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
-        
-    }
-    
-    @Test
-    public void InstructorEvaluationRemind() throws Exception{
-        uri = Const.ActionURIs.INSTRUCTOR_EVAL_REMIND;
-        EvaluationAttributes evaluationInCourse1 = dataBundle.evaluations.get("evaluation1InCourse1");
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, evaluationInCourse1.courseId,
-                Const.ParamsNames.EVALUATION_NAME, evaluationInCourse1.name 
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        
-    }
-    
-    @Test
-    public void InstructorEvaluationResultsDownload() throws Exception{
-        uri = Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_DOWNLOAD;
-        EvaluationAttributes evaluationInCourse1 = dataBundle.evaluations.get("evaluation1InCourse1");
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, evaluationInCourse1.courseId,
-                Const.ParamsNames.EVALUATION_NAME, evaluationInCourse1.name 
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        
-    }
-    
-    @Test
-    public void InstructorEvaluationResultsPage() throws Exception{
-        uri = Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE;
-        EvaluationAttributes evaluationInCourse1 = dataBundle.evaluations.get("evaluation1InCourse1");
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, evaluationInCourse1.courseId,
-                Const.ParamsNames.EVALUATION_NAME, evaluationInCourse1.name
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        
-    }
-
-    @Test
-    public void InstructorEvaluationPage() throws Exception {
-        uri = Const.ActionURIs.INSTRUCTOR_EVALS_PAGE;
-        verifyOnlyInstructorsCanAccess(submissionParams);
-        gaeSimulation.loginAsInstructor(dataBundle.instructors.get("instructor1OfCourse2").googleId);
-        verifyRedirectTo(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE, submissionParams);
-        gaeSimulation.logoutUser();
-    }
-    
-    @Test
-    public void InstructorEvaluationSubmissionEdit() throws Exception{
-        uri = Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT;
-        EvaluationAttributes eval = dataBundle.evaluations.get("evaluation1InCourse1");
-        StudentAttributes student = dataBundle.students.get("student1InCourse1");
-                
-        String[] submissionParams = {
-            Const.ParamsNames.COURSE_ID, eval.courseId,
-            Const.ParamsNames.EVALUATION_NAME, eval.name,
-            Const.ParamsNames.STUDENT_EMAIL, student.email
-            };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyUnaccessibleWithoutModifySessionInSectionsPrivilege(submissionParams);
-    }
-    
-    @Test
-    public void InstructorEvaluationSubmissionEditSave() throws Exception{
-        uri = Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT_SAVE;
-        EvaluationAttributes eval = dataBundle.evaluations.get("evaluation1InCourse1");
-        StudentAttributes student = dataBundle.students.get("student1InCourse1");
-                
-        String[] submissionParams = {
-                Const.ParamsNames.COURSE_ID, eval.courseId,
-                Const.ParamsNames.EVALUATION_NAME, eval.name,
-                Const.ParamsNames.FROM_EMAIL, student.email
-            };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyUnaccessibleWithoutModifySessionInSectionsPrivilege(submissionParams);
-    }
-    
-    @Test
-    public void InstructorEvaluationSubmissionPage() throws Exception{
-        uri = Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_PAGE;
-        EvaluationAttributes evaluationInCourse1 = dataBundle.evaluations.get("evaluation1InCourse1");
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, evaluationInCourse1.courseId,
-                Const.ParamsNames.EVALUATION_NAME, evaluationInCourse1.name,
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email
-        };
-        
-        verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
-        verifyUnaccessibleWithoutViewSessionInSectionsPrivilege(submissionParams);
-    }
-    
-    @Test
-    public void InstructorEvaluationUnpublish() throws Exception{
-        uri = Const.ActionURIs.INSTRUCTOR_EVAL_UNPUBLISH;
-        EvaluationAttributes evaluationInCourse1 = dataBundle.evaluations.get("evaluation1InCourse1");
-        makeEvaluationPublished(evaluationInCourse1);
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, evaluationInCourse1.courseId,
-                Const.ParamsNames.EVALUATION_NAME, evaluationInCourse1.name 
-        };
-        
-        verifyUnaccessibleWithoutLogin(submissionParams);
-        verifyUnaccessibleForUnregisteredUsers(submissionParams);
-        verifyUnaccessibleForStudents(submissionParams);
-        verifyUnaccessibleForInstructorsOfOtherCourses(submissionParams);
-        verifyUnaccessibleWithoutModifySessionPrivilege(submissionParams);
-        verifyAccessibleForInstructorsOfTheSameCourse(submissionParams);
-        
-        makeEvaluationPublished(evaluationInCourse1); //we have revert to the PUBLISHED state
-        
-        verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
-        
-        makeEvaluationClosed(evaluationInCourse1);
-        
-    }
-    
-    @Test
     public void InstructorFeedbackAdd() throws Exception{
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD;
         InstructorAttributes instructor1ofCourse1 = 
@@ -834,8 +591,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, q.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "0"
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", q.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "0"
         };
         
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);        
@@ -1247,108 +1004,7 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
     
-    @Test
-    public void StudentEvaluationResultsPage() throws Exception{
-        uri = Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE;
-        EvaluationAttributes eval = dataBundle.evaluations.get("evaluation1InCourse1");
-        eval.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        eval.published = true;
-        assertEquals(EvalStatus.PUBLISHED, eval.getStatus());
-        evaluationsDb.updateEvaluation(eval);
-        
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.googleId;
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        String studentId = student1InCourse1.googleId;
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, eval.courseId,
-                Const.ParamsNames.EVALUATION_NAME, eval.name
-                };
-        
-        verifyUnaccessibleWithoutLogin(submissionParams);
-        
-        ______TS("Student not part of course, redirect to home page.");
-        gaeSimulation.loginUser("student1InCourse2");
-        verifyRedirectTo(Const.ActionURIs.STUDENT_HOME_PAGE, submissionParams);
-        verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
-        
-        verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
-
-        gaeSimulation.loginAsInstructor(instructorId);
-        verifyRedirectTo(Const.ActionURIs.STUDENT_HOME_PAGE, submissionParams);
-        verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
-        
-        verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);    
-        
-        eval.published = false;
-    }
     
-    @Test
-    public void StudentEvaluationSubmissionEditPage() throws Exception{
-        uri = Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_PAGE;
-        EvaluationAttributes eval = dataBundle.evaluations.get("evaluation1InCourse1");
-        makeEvaluationOpen(eval);
-        ______TS("OPEN evaluation");
-        
-        assertEquals(EvalStatus.OPEN, eval.getStatus());
-        checkAccessControlForEval(eval, true);
-        
-        ______TS("CLOSED evaluation");
-        
-        eval.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        assertEquals(EvalStatus.CLOSED, eval.getStatus());
-        evaluationsDb.updateEvaluation(eval);
-        checkAccessControlForEval(eval, true);
-        
-        ______TS("PUBLISHED evaluation");
-        
-        eval.published = true;
-        assertEquals(EvalStatus.PUBLISHED, eval.getStatus());
-        evaluationsDb.updateEvaluation(eval);
-        checkAccessControlForEval(eval, true);
-        
-        ______TS("AWAITING evaluation");
-        
-        eval.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
-        eval.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
-        eval.setDerivedAttributes();
-        assertEquals(EvalStatus.AWAITING, eval.getStatus());
-        evaluationsDb.updateEvaluation(eval);
-        //We allow accessing it in AWAITING state because it is hard for students to do if 
-        //  they don't know the evaluation name. In any case there's no harm if they did it.
-        checkAccessControlForEval(eval, true);
-        
-    }
-    
-    @Test
-    public void StudentEvaluationSubmissionEditSave() throws Exception{
-        uri = Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_SAVE;
-        EvaluationAttributes eval = dataBundle.evaluations.get("evaluation1InCourse1");
-        makeEvaluationOpen(eval);
-        assertEquals(EvalStatus.OPEN, eval.getStatus());
-        SubmissionAttributes sub = dataBundle.submissions.get("submissionFromS1C1ToS3C1");
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, eval.courseId,
-                Const.ParamsNames.EVALUATION_NAME, eval.name,
-                Const.ParamsNames.FROM_EMAIL, dataBundle.students.get("student1InCourse1").email,
-                Const.ParamsNames.TEAM_NAME, sub.team,
-                Const.ParamsNames.TO_EMAIL, sub.reviewee,
-                Const.ParamsNames.POINTS, sub.points+"",
-                Const.ParamsNames.JUSTIFICATION, sub.justification.toString(),
-                Const.ParamsNames.COMMENTS, sub.p2pFeedback.toString()
-            };
-        
-        verifyUnaccessibleWithoutLogin(submissionParams);
-        verifyUnaccessibleForUnregisteredUsers(submissionParams);
-        verifyUnaccessibleForDifferentStudentOfTheSameCourses(submissionParams);
-        verifyUnaccessibleForInstructors(submissionParams);
-        
-        verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
-        verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
-    }
-
     @Test
     public void StudentFeedbackQuestionSubmissionEditPage() throws Exception {
         uri = Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE;
@@ -1402,9 +1058,9 @@ public class AllActionsAccessControlTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
                 session1InCourse1.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1",
                 feedbackQuestion.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "0"
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "0"
         };
 
         verifyOnlyStudentsOfTheSameCourseCanAccess(submissionParams);
@@ -1559,35 +1215,6 @@ public class AllActionsAccessControlTest extends BaseActionTest {
         fs.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
         fsDb.updateFeedbackSession(fs);
     }
-
-    private void makeEvaluationPublished(EvaluationAttributes eval) throws Exception {
-        eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-        eval.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        eval.activated = true;
-        eval.published = true;
-        assertEquals(EvalStatus.PUBLISHED, eval.getStatus());
-        evaluationsDb.updateEvaluation(eval);
-        
-    }
-
-    private void makeEvaluationClosed(EvaluationAttributes eval) throws Exception {
-        eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-        eval.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        eval.activated = true;
-        eval.published = false;
-        assertEquals(EvalStatus.CLOSED, eval.getStatus());
-        evaluationsDb.updateEvaluation(eval);
-        
-    }
-    
-    private void makeEvaluationOpen(EvaluationAttributes eval) throws Exception {
-        eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-        eval.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
-        eval.activated = true;
-        eval.published = false;
-        assertEquals(EvalStatus.OPEN, eval.getStatus());
-        evaluationsDb.updateEvaluation(eval);
-    }
     
     private String[] addQuestionIdToParams(String questionId, String[] params) {
         List<String> list = new ArrayList<String>();
@@ -1597,44 +1224,5 @@ public class AllActionsAccessControlTest extends BaseActionTest {
             list.add(s);
         }
         return list.toArray(new String[list.size()]);
-    }
-
-    private void checkAccessControlForEval(EvaluationAttributes eval, boolean isEditableForStudent)
-            throws Exception {
-
-        String courseId = eval.courseId;
-        String evalName = eval.name;
-        
-        InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.googleId;
-        
-        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        String studentId = student1InCourse1.googleId;
-        
-        
-        String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.EVALUATION_NAME, evalName};
-        
-        verifyUnaccessibleWithoutLogin(submissionParams);
-        
-        gaeSimulation.loginUser("student1InCourse2");
-        //if the user is not a student of the course, we redirect to home page.
-        verifyRedirectTo(Const.ActionURIs.STUDENT_HOME_PAGE, submissionParams);
-        verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
-        
-        if(isEditableForStudent){
-            verifyAccessibleForStudentsOfTheSameCourse(submissionParams);
-        }else {
-            verifyUnaccessibleForStudents(submissionParams);
-        }
-        
-        
-        gaeSimulation.loginAsInstructor(instructorId);
-        //if the user is not a student of the course, we redirect to home page.
-        verifyRedirectTo(Const.ActionURIs.STUDENT_HOME_PAGE, submissionParams);
-        verifyCannotMasquerade(addUserIdToParams(studentId,submissionParams));
-        
-        verifyAccessibleForAdminToMasqueradeAsStudent(submissionParams);
     }
 }

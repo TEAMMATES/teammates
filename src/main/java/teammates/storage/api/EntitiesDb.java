@@ -23,6 +23,7 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.storage.datastore.Datastore;
+import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.search.SearchDocument;
 import teammates.storage.search.SearchManager;
 import teammates.storage.search.SearchQuery;
@@ -32,6 +33,7 @@ public abstract class EntitiesDb {
     public static final String ERROR_CREATE_ENTITY_ALREADY_EXISTS = "Trying to create a %s that exists: ";
     public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent Entity: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_ACCOUNT = "Trying to update non-existent Account: ";
+    public static final String ERROR_UPDATE_NON_EXISTENT_ADMIN_EMAIL = "Trying to update non-existent Admin Email: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_STUDENT = "Trying to update non-existent Student: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_STUDENT_PROFILE = "Trying to update non-existent Student Profile: ";
     public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update non-existent Course: ";
@@ -84,8 +86,8 @@ public abstract class EntitiesDb {
                     elapsedTime += ThreadHelper.WAIT_DURATION;
                 }
             }
-            if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
-                log.severe("Operation did not persist in time: create"
+            if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
+                log.info("Operation did not persist in time: create"
                         + entityToAdd.getEntityTypeAsString() + "->"
                         + entityToAdd.getIdentificationString());
             }
@@ -126,6 +128,37 @@ public abstract class EntitiesDb {
         return entitiesToUpdate;
 
     }
+    
+    public List<Object> createAndReturnEntities(Collection<? extends EntityAttributes> entitiesToAdd) throws InvalidParametersException {
+        
+        Assumption.assertNotNull(
+                Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToAdd);
+        
+        List<EntityAttributes> entitiesToUpdate = new ArrayList<EntityAttributes>();
+        List<Object> entities = new ArrayList<Object>(); 
+        
+        for(EntityAttributes entityToAdd : entitiesToAdd){
+            entityToAdd.sanitizeForSaving();
+            
+            if (!entityToAdd.isValid()) {
+                throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
+            }
+            
+            if(getEntity(entityToAdd) != null){
+                entitiesToUpdate.add(entityToAdd);
+            } else {
+                entities.add(entityToAdd.toEntity());
+            }
+            
+            log.info(entityToAdd.getBackupIdentifier());
+        }
+        
+        getPM().makePersistentAll(entities);
+        getPM().flush();
+ 
+        return entities;
+
+    }
 
     
     /**
@@ -134,7 +167,7 @@ public abstract class EntitiesDb {
      * Preconditions: 
      * <br> * {@code entityToAdd} is not null and has valid data.
      */
-    public void createEntityWithoutExistenceCheck(EntityAttributes entityToAdd) 
+    public Object createEntityWithoutExistenceCheck(EntityAttributes entityToAdd) 
             throws InvalidParametersException {
         
         Assumption.assertNotNull(
@@ -163,13 +196,15 @@ public abstract class EntitiesDb {
                     elapsedTime += ThreadHelper.WAIT_DURATION;
                 }
             }
-            if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
-                log.severe("Operation did not persist in time: create"
+            if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
+                log.info("Operation did not persist in time: create"
                         + entityToAdd.getEntityTypeAsString() + "->"
                         + entityToAdd.getIdentificationString());
             }
         }
         log.info(entityToAdd.getBackupIdentifier());
+        
+        return entity;
     }
     
     // TODO: use this method for subclasses.
@@ -204,8 +239,8 @@ public abstract class EntitiesDb {
                     elapsedTime += ThreadHelper.WAIT_DURATION;
                 }
             }
-            if (elapsedTime == Config.PERSISTENCE_CHECK_DURATION) {
-                log.severe("Operation did not persist in time: delete"
+            if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
+                log.info("Operation did not persist in time: delete"
                         + entityToDelete.getEntityTypeAsString() + "->"
                         + entityToDelete.getIdentificationString());
             }

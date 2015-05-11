@@ -116,6 +116,26 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <url-pattern>/emailWorker</url-pattern>
     </servlet-mapping>
     
+    
+    <servlet>
+        <servlet-name>AdminEmailWorkerServlet</servlet-name>
+        <servlet-class>teammates.logic.automated.AdminEmailWorkerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminEmailWorkerServlet</servlet-name>
+        <url-pattern>/adminEmailWorker</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>AdminEmailPrepareTaskQueueWorkerServlet</servlet-name>
+        <servlet-class>teammates.logic.automated.AdminEmailPrepareTaskQueueWorkerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminEmailPrepareTaskQueueWorkerServlet</servlet-name>
+        <url-pattern>/adminEmailPrepareTaskQueueWorker</url-pattern>
+    </servlet-mapping>
+    
+    
     <servlet>
         <servlet-name>SendEmailWorkerServlet</servlet-name>
         <servlet-class>teammates.logic.automated.SendEmailWorkerServlet</servlet-class>
@@ -125,23 +145,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <url-pattern>/sendEmailWorker</url-pattern>
     </servlet-mapping>
     
-    <servlet>
-        <servlet-name>SubmissionWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.SubmissionWorkerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>SubmissionWorkerServlet</servlet-name>
-        <url-pattern>/submissionWorker</url-pattern>
-    </servlet-mapping>
     
-    <servlet>
-        <servlet-name>EvaluationSubmissionAdjustmentWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.EvaluationSubmissionAdjustmentWorkerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>EvaluationSubmissionAdjustmentWorkerServlet</servlet-name>
-        <url-pattern>/evalSubmissionAdjustmentWorker</url-pattern>
-    </servlet-mapping>
     
     <servlet>
         <servlet-name>FeedbackSubmissionAdjustmentWorkerServlet</servlet-name>
@@ -150,42 +154,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     <servlet-mapping>
         <servlet-name>FeedbackSubmissionAdjustmentWorkerServlet</servlet-name>
         <url-pattern>/feedbackSubmissionAdjustmentWorker</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>EvaluationOpeningReminders</servlet-name>
-        <servlet-class>teammates.logic.automated.EvaluationOpeningRemindersServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>EvaluationOpeningReminders</servlet-name>
-        <url-pattern>/evaluationopeningreminders</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>EvaluationClosingReminders</servlet-name>
-        <servlet-class>teammates.logic.automated.EvaluationClosingRemindersServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>EvaluationClosingReminders</servlet-name>
-        <url-pattern>/evaluationclosingreminders</url-pattern>
-    </servlet-mapping>    
-    
-    <servlet>
-        <servlet-name>EvaluationPublishEmailWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.EvaluationPublishEmailWorkerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>EvaluationPublishEmailWorkerServlet</servlet-name>
-        <url-pattern>/evalPublishEmailWorker</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>EvaluationRemindEmailWorkerServlet</servlet-name>
-        <servlet-class>teammates.logic.automated.EvaluationRemindEmailWorkerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>EvaluationRemindEmailWorkerServlet</servlet-name>
-        <url-pattern>/evalRemindEmailWorker</url-pattern>
     </servlet-mapping>
     
     <servlet>
@@ -274,6 +242,17 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
         <url-pattern>/page/*</url-pattern>
     </servlet-mapping>
     
+    
+    <servlet>
+        <servlet-name>PublicImageServlet</servlet-name>
+        <servlet-class>teammates.logic.publicresource.PublicImageServlet</servlet-class>
+    </servlet>
+    
+     <servlet-mapping>
+        <servlet-name>PublicImageServlet</servlet-name>
+        <url-pattern>/public/publicEmailImageServe</url-pattern>
+    </servlet-mapping>
+    
     <security-constraint>
       <web-resource-collection>
           <web-resource-name>AllPage</web-resource-name>
@@ -286,8 +265,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>AutomatedEmails</web-resource-name>
-            <url-pattern>/evaluationopeningreminders</url-pattern>
-            <url-pattern>/evaluationclosingreminders</url-pattern>
             <url-pattern>/feedbackSessionOpeningReminders</url-pattern>
             <url-pattern>/feedbackSessionClosingReminders</url-pattern>
             <url-pattern>/feedbackSessionPublishedReminders</url-pattern>
@@ -296,9 +273,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          <web-resource-collection>
             <web-resource-name>TaskQueue</web-resource-name>
             <url-pattern>/searchTask</url-pattern>
-            <url-pattern>/submissionWorker</url-pattern>
             <url-pattern>/feedbackSubmissionAdjustmentWorker</url-pattern>
-            <url-pattern>/evalSubmissionAdjustmentWorker</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>admin</role-name>

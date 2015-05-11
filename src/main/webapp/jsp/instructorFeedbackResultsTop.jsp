@@ -52,18 +52,23 @@
           <div class="col-sm-2">
               
               <div class="form-group">
-                  <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
-                  <div id="feedbackDataButtons">
-                      <input id="button_download" type="submit" class="btn btn-primary"
-                          name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
-                          value="Download results">
+                  <div class="col-sm-12">
+                    <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
+                    <div id="feedbackDataButtons">
+                        <input id="button_download" type="submit" class="btn btn-primary btn-block"
+                            name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
+                            value="Download results">
+                    </div>
+                    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>">
+                    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>">
+                    <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="<%=data.selectedSection%>">
+                    </form><br>
+                    
+                    <div>
+                    <%=data.getInstructorFeedbackSessionPublishAndUnpublishAction(data.bundle.feedbackSession, false, data.instructor)%>
+                    </div>
                   </div>
-                  <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-                  <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>">
-                  <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>">
-                  <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="<%=data.selectedSection%>">
-                  
-                  </form>
               </div>
               
           </div>
@@ -215,7 +220,7 @@
                 <% } %>
                 <div class="col-sm-7 pull-right" style="padding-top:8px;">
                     <% if(!showAll){ %>
-                      <div style="display:inline-block;" class="pull-right" data-toggle="tooltip" title="This button is disabled. Since the data is too large, you have to click on each individual panel to load it.">
+                      <div style="display:inline-block;" class="pull-right" data-toggle="tooltip" title="This button is disabled because this session contains more data than we can retrieve at one go. You can still expand one panel at a time by clicking on the panels below.">
                        <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" <%= showAll ? "" : "disabled='disabled'" %>>
                         Expand <%= data.sortType.equals("question") ? "Questions" : "Sections" %>
                     </a>

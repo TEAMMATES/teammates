@@ -4,7 +4,6 @@
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page import="teammates.common.datatransfer.InstructorAttributes"%>
-<%@ page import="teammates.common.datatransfer.TeamResultBundle"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForJs"%>
 <%@ page import="teammates.ui.controller.InstructorCourseDetailsPageData"%>
@@ -354,7 +353,7 @@
                                 }
                             %>
                             <a class="btn btn-default btn-xs" href="<%=data.getCourseStudentDeleteLink(student)%>"
-                                onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(student.name)%>')"
+                                onclick="return toggleDeleteStudentConfirmation('<%=sanitizeForJs(student.course)%>','<%=sanitizeForJs(student.name)%>')"
                                 data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_STUDENT_DELETE%>"
                                 <% if (!data.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) { %>
                                 disabled="disabled"

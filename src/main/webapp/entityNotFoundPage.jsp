@@ -22,12 +22,31 @@
 
     <div id="frameBodyWrapper" class="container">
         <div class="row">
-            <div class="alert alert-warning col-md-4 col-md-offset-4">
+            <div class="alert alert-warning col-md-6 col-md-offset-3">
                 <img src="/images/puzzled.png"
                     style="float: left; margin: 0 10px 10px 0; height: 90px;">
-                <p>
-                    We could not locate what you were trying to access.<br><br>
-                    Make sure that the URL is correct, and you are a registered user of TEAMMATES. [<a href="/logout.jsp">Logout</a>]
+                <p><br><br>
+                    TEAMMATES could not locate what you were trying to access. <br><br>
+                    <br><br>
+                    Possible reasons include:
+                        <ul>
+                            <li>
+                                You clicked on a link received in email, but the link was mangled by the
+                                email software. Try copy-pasting the entire link into the Browser address
+                                bar.
+                            </li>
+                            <li>
+                                The entity (e.g. course, session) you were trying to access was deleted
+                                by an instructor after the link was sent to you by TEAMMATES.<br><br>
+                            </li>
+                        </ul>
+                        
+                        If the problem persists, contact TEAMMATES support at
+                        <a>teammates@comp.nus.edu.sg</a> <br><br><b>Note: </b>If the problematic link was received via email,
+                        remember to copy-paste that email content when contacting TEAMMATES
+                        support.<br><br>
+                        
+                        If you are a registered user you can go back to the <a href="/page/studentHomePage">home page</a><br><br>
                 </p>
             </div>
         </div>
