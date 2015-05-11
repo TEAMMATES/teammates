@@ -1191,8 +1191,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         Summary Statistics,
         Choice, Response Count, Percentage
-        It's good,1,50
-        It's perfect,1,50
+        "It's good",1,50
+        "It's perfect",1,50
         
         Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
         "Team 1.1","student1 In" Course1,"Course1","student1InCourse1@gmail.tmt","Team 1.1","student1 In" Course1,"Course1","student1InCourse1@gmail.tmt","It's good"
@@ -1206,8 +1206,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         Summary Statistics,
         Choice, Response Count, Percentage
-        It's good,1,50
-        It's perfect,1,50
+        "It's good",1,50
+        "It's perfect",1,50
         
         Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
         "Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","Instructors","Instructor1 Course1","Instructor1 Course1","instructor1@course1.tmt","It's good"
@@ -1224,8 +1224,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[5], "");
         assertEquals(exportLines[6], "Summary Statistics,");
         assertEquals(exportLines[7], "Choice, Response Count, Percentage");
-        assertEquals(exportLines[8], "It's good,1,50");
-        assertEquals(exportLines[9], "It's perfect,1,50");
+        assertEquals(exportLines[8], "\"It's good\",1,50");
+        assertEquals(exportLines[9], "\"It's perfect\",1,50");
         assertEquals(exportLines[10], "");
         assertEquals(exportLines[11], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
         assertEquals(exportLines[12], "\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"Team 1.1\",\"student1 In Course1\",\"Course1\",\"student1InCourse1@gmail.tmt\",\"It's good\"");
@@ -1239,8 +1239,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[20], "");
         assertEquals(exportLines[21], "Summary Statistics,");
         assertEquals(exportLines[22], "Choice, Response Count, Percentage");
-        assertEquals(exportLines[23], "It's good,1,50");
-        assertEquals(exportLines[24], "It's perfect,1,50");
+        assertEquals(exportLines[23], "\"It's good\",1,50");
+        assertEquals(exportLines[24], "\"It's perfect\",1,50");
         assertEquals(exportLines[25], "");
         assertEquals(exportLines[26], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
         assertEquals(exportLines[27], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"It's good\"");
@@ -1267,8 +1267,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         Summary Statistics,
         Choice, Response Count, Percentage
-        It's good,2,66.67
-        It's perfect,1,33.33
+        "It's good",2,66.67
+        "It's perfect",1,33.33
         
         
         Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,"It's good","It's perfect"
@@ -1282,8 +1282,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         Summary Statistics,
         Choice, Response Count, Percentage
-        It's good,1,33.33
-        It's perfect,2,66.67
+        "It's good",1,33.33
+        "It's perfect",2,66.67
         
         
         Team,Giver's Full Name,Giver's Last Name,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Feedbacks:,"It's good","It's perfect"
@@ -1301,8 +1301,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[5], "");
         assertEquals(exportLines[6], "Summary Statistics,");
         assertEquals(exportLines[7], "Choice, Response Count, Percentage");
-        assertEquals(exportLines[8], "It's good,2,66.67");
-        assertEquals(exportLines[9], "It's perfect,1,33.33");
+        assertEquals(exportLines[8], "\"It's good\",2,66.67");
+        assertEquals(exportLines[9], "\"It's perfect\",1,33.33");
         assertEquals(exportLines[10], "");
         assertEquals(exportLines[11], "");
         assertEquals(exportLines[12], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"It's good\",\"It's perfect\"");
@@ -1317,8 +1317,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[21], "");
         assertEquals(exportLines[22], "Summary Statistics,");
         assertEquals(exportLines[23], "Choice, Response Count, Percentage");
-        assertEquals(exportLines[24], "It's good,1,33.33");
-        assertEquals(exportLines[25], "It's perfect,2,66.67");
+        assertEquals(exportLines[24], "\"It's good\",1,33.33");
+        assertEquals(exportLines[25], "\"It's perfect\",2,66.67");
         assertEquals(exportLines[26], "");
         assertEquals(exportLines[27], "");
         assertEquals(exportLines[28], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedbacks:,\"It's good\",\"It's perfect\"");
