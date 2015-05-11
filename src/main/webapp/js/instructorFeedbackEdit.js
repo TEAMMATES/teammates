@@ -732,9 +732,14 @@ var previousFormDataMap = {};
 function getVisibilityMessage(buttonElem) {
     var form = $(buttonElem).closest("form");
     var qnNumber = $(form).find("[name=questionnum]").val();
-
-    // trigger onsubmit event of the qnNumber which has already binded with
-    eval($(form).attr('onsubmit'));
+    var newQnNumber = $('input[name=questionnum]').last().val();
+    
+    if (qnNumber === newQnNumber) {
+        tallyCheckboxes('');
+    } else {
+        tallyCheckboxes(qnNumber);
+    }
+    
     var formData =  $(form[0]).serialize();
 
     if (previousFormDataMap[qnNumber] === formData) {
