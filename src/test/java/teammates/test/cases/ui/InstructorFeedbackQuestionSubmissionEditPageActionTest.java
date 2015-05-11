@@ -31,6 +31,7 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
+        @SuppressWarnings("unused")
         AccountAttributes instructorAccount = dataBundle.accounts.get("instructor1OfCourse1");
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
@@ -48,6 +49,7 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
         };
+        
         verifyAssumptionFailure(submissionParams);
         
         ______TS("typical case");
@@ -67,6 +69,7 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends
         ______TS("trying to access questions not meant for the user");
         
         q = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
+        
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
@@ -74,6 +77,7 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends
         };
         
         a = getAction(submissionParams);
+        
         try {
             r = (ShowPageResult) a.executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
@@ -85,6 +89,7 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends
         gaeSimulation.loginAsAdmin("admin.user");
         
         q = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 3);
+        
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
@@ -141,10 +146,9 @@ public class InstructorFeedbackQuestionSubmissionEditPageActionTest extends
         
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
         assertFalse(r.isError);
-        
     }
     
-    private InstructorFeedbackQuestionSubmissionEditPageAction getAction(String... params) throws Exception{
+    private InstructorFeedbackQuestionSubmissionEditPageAction getAction(String... params) throws Exception {
         return (InstructorFeedbackQuestionSubmissionEditPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }
