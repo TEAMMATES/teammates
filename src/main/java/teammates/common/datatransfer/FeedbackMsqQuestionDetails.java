@@ -429,7 +429,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         DecimalFormat df = new DecimalFormat("#.##");
         
         for(Entry<String, Integer> entry : answerFrequency.entrySet() ){
-            fragments += entry.getKey() + ","
+            fragments += Sanitizer.sanitizeForCsv(entry.getKey()) + ","
                       + entry.getValue().toString() + ","
                       + df.format(100*(double)entry.getValue()/numChoicesSelected) + Const.EOL;
                     
