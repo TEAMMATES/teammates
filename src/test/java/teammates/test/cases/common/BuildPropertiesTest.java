@@ -18,12 +18,7 @@ public class BuildPropertiesTest extends BaseTestCase {
 
     @Test
     public void checkReadingEmailTemplates() {
-        AssertHelper.assertContainsRegex("${joinFragment}{*}${submitUrl}",
-                EmailTemplates.USER_EVALUATION_);
-        
-        AssertHelper.assertContainsRegex("${reportUrl}",
-                EmailTemplates.USER_EVALUATION_PUBLISHED);
-        
+    
         AssertHelper.assertContainsRegex("${userName}{*}${joinFragment}",
                 EmailTemplates.USER_COURSE_JOIN);
         
