@@ -125,8 +125,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         studentEmail = student.email;
         
         viewPage = getStudentRecordsPage();
-        viewPage.clickEvalEditLink("First Eval");
-        assertTrue(browser.driver.getCurrentUrl().toString().contains(Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT));
+        //TODO add link to a feedback session
     }
     
     private void testScript() throws Exception{

@@ -24,10 +24,6 @@
 <%@ page
     import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.SessionResultsBundle"%>
-<%@ page import="teammates.common.datatransfer.StudentResultBundle"%>
-<%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
-<%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
-<%@ page import="teammates.common.datatransfer.SubmissionAttributes"%>
 <%@ page
     import="teammates.ui.controller.InstructorFeedbackResponseCommentsLoadPageData"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForJs"%>

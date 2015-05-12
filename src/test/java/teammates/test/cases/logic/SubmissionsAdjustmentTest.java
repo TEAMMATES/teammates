@@ -24,7 +24,6 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
-import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -33,16 +32,13 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
 import teammates.common.util.Const.ParamsNames;
-import teammates.logic.automated.EvaluationSubmissionAdjustmentAction;
 import teammates.logic.automated.FeedbackSubmissionAdjustmentAction;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
-import teammates.logic.core.EvaluationsLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.logic.core.SubmissionsLogic;
 import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
 import teammates.test.cases.BaseTaskQueueCallback;
 import teammates.test.util.TestHelper;
@@ -51,12 +47,10 @@ public class SubmissionsAdjustmentTest extends
         BaseComponentUsingTaskQueueTestCase {
     
     protected static StudentsLogic studentsLogic = StudentsLogic.inst();
-    protected static SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();
     protected static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     protected static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     protected static AccountsLogic accountsLogic = AccountsLogic.inst();
     protected static CoursesLogic coursesLogic = CoursesLogic.inst();
-    protected static EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
     private static DataBundle dataBundle = getTypicalDataBundle();
     
     
@@ -99,7 +93,6 @@ public class SubmissionsAdjustmentTest extends
     @AfterClass
     public static void classTearDown() throws Exception {
         printTestClassFooter();
-        turnLoggingDown(EvaluationsLogic.class);
     }
     
     @Test
@@ -165,16 +158,14 @@ public class SubmissionsAdjustmentTest extends
 
             //Verify no tasks sent to the task queue
             if(SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(
-                    fsLogic.getFeedbackSessionsForCourse(course1.id).size() +
-                    evaluationsLogic.getEvaluationsForCourse(course1.id).size())){
+                    fsLogic.getFeedbackSessionsForCourse(course1.id).size())){
                 break;
             }
             counter++;
         }
         
         assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount,
-                    fsLogic.getFeedbackSessionsForCourse(course1.id).size() +
-                    evaluationsLogic.getEvaluationsForCourse(course1.id).size());     
+                    fsLogic.getFeedbackSessionsForCourse(course1.id).size());     
         
         
         ______TS("change an existing students email and verify update "
@@ -197,7 +188,6 @@ public class SubmissionsAdjustmentTest extends
         
         //Verify that no response exists for old email
         verifyResponsesDoNotExistForEmailInCourse(oldEmail, course1.id);
-        verifySubmissionsDoNotExistForEmailInCourse(oldEmail, course1.id);
         
         ______TS("change team of existing student and verify deletion of all his responses");
         StudentAttributes studentInTeam1 = dataBundle.students.get("student2InCourse1");
@@ -218,16 +208,14 @@ public class SubmissionsAdjustmentTest extends
             
             //Verify scheduling of adjustment of responses
             if(SubmissionsAdjustmentTaskQueueCallback.verifyTaskCount(
-                    fsLogic.getFeedbackSessionsForCourse(studentInTeam1.course).size() +
-                    evaluationsLogic.getEvaluationsForCourse(course1.id).size())){
+                    fsLogic.getFeedbackSessionsForCourse(studentInTeam1.course).size())){
                 break;
             }
             counter++;
         }
         if(counter == 10){
             assertEquals(SubmissionsAdjustmentTaskQueueCallback.taskCount,
-                        fsLogic.getFeedbackSessionsForCourse(studentInTeam1.course).size() +
-                        evaluationsLogic.getEvaluationsForCourse(course1.id).size());
+                        fsLogic.getFeedbackSessionsForCourse(studentInTeam1.course).size());
         }
        
         
@@ -261,53 +249,7 @@ public class SubmissionsAdjustmentTest extends
     
     @Test
     private void testAdjustmentOfResponses() throws Exception {
-        
-        ______TS("typical case: add new student to existing team");
-        String evaluationName = "evaluation1 In Course1";
-        StudentAttributes newStudent = new StudentAttributes();
-        newStudent.team = "Team 1.1";
-        newStudent.section = "Section 1";
-        newStudent.course = "idOfTypicalCourse1";
-        newStudent.email = "random@g.tmt";
-        newStudent.name = "someName";
-        newStudent.comments = "comments";
-        
-        /*
-         * Old number of submissions = (4 * 4 + 1 * 1) = 17
-         */
-        int oldNumberOfSubmissionsForEvaluation = submissionsLogic
-                .getSubmissionsForEvaluation(newStudent.course, evaluationName).size();
-        assertEquals(17, oldNumberOfSubmissionsForEvaluation);
-        
-        studentsLogic.createStudentCascadeWithSubmissionAdjustmentScheduled(newStudent, false);
-        
-        StudentEnrollDetails enrollDetails = new StudentEnrollDetails
-                (UpdateStatus.NEW, newStudent.course, newStudent.email, "", newStudent.team, "", newStudent.section);
-        
-        ArrayList<StudentEnrollDetails> enrollList = new ArrayList<StudentEnrollDetails>();
-        enrollList.add(enrollDetails);
-        Gson gsonBuilder = Utils.getTeammatesGson();
-        String enrollString = gsonBuilder.toJson(enrollList);
-        
-        //Prepare parameter map
-        HashMap<String, String> paramMap = new HashMap<String,String>();
-        paramMap.put(ParamsNames.COURSE_ID, newStudent.course);
-        paramMap.put(ParamsNames.EVALUATION_NAME, evaluationName);
-        paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollString);
-        
-        EvaluationSubmissionAdjustmentAction newSubmissionAdjustmentAction = new EvaluationSubmissionAdjustmentAction(paramMap);
-        assertTrue(newSubmissionAdjustmentAction.execute());
-        TestHelper.verifySubmissionsExistForCurrentTeamStructureInEvaluation(evaluationName, 
-                studentsLogic.getStudentsForCourse(newStudent.course), 
-                submissionsLogic.getSubmissionsForCourse(newStudent.course));
-        
-        /*
-         * New number of submissions = (5 * 5 + 1 * 1) = 26
-         */
-        int newNumberOfSubmissionsForEvaluation = submissionsLogic
-                .getSubmissionsForEvaluation(newStudent.course, evaluationName).size();
-        assertEquals(26, newNumberOfSubmissionsForEvaluation);
-        
+                
         ______TS("typical case : existing student changes team");
         FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session2InCourse1");
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
@@ -324,14 +266,16 @@ public class SubmissionsAdjustmentTest extends
         student.team = newTeam;
         student.section = newSection;
         
-        enrollDetails = new StudentEnrollDetails
+        
+        StudentEnrollDetails enrollDetails = new StudentEnrollDetails
                 (UpdateStatus.MODIFIED, student.course, student.email, oldTeam, newTeam, oldSection, newSection);
-        enrollList = new ArrayList<StudentEnrollDetails>();
+        ArrayList<StudentEnrollDetails> enrollList = new ArrayList<StudentEnrollDetails>();
         enrollList.add(enrollDetails);
-        enrollString = gsonBuilder.toJson(enrollList);
+        Gson gsonBuilder = Utils.getTeammatesGson();
+        String enrollString = gsonBuilder.toJson(enrollList);
 
         //Prepare parameter map
-        paramMap = new HashMap<String,String>();
+        HashMap<String, String> paramMap = new HashMap<String,String>();
         paramMap.put(ParamsNames.COURSE_ID, student.course);
         paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName);
         paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollString);
@@ -340,25 +284,9 @@ public class SubmissionsAdjustmentTest extends
         FeedbackSubmissionAdjustmentAction responseAdjustmentAction = new FeedbackSubmissionAdjustmentAction(paramMap);
         assertTrue(responseAdjustmentAction.execute());
         
-        paramMap.remove(ParamsNames.FEEDBACK_SESSION_NAME);
-        paramMap.put(ParamsNames.EVALUATION_NAME, evaluationName);
-        
-        EvaluationSubmissionAdjustmentAction submissionAdjustmentAction = new EvaluationSubmissionAdjustmentAction(paramMap);
-        assertTrue(submissionAdjustmentAction.execute());
-        TestHelper.verifySubmissionsExistForCurrentTeamStructureInEvaluation(evaluationName, 
-                studentsLogic.getStudentsForCourse(student.course), 
-                submissionsLogic.getSubmissionsForCourse(student.course));
-        
         int numberOfNewResponses = getAllResponsesForStudentForSession
                 (student, session.feedbackSessionName).size();
-        assertEquals(0, numberOfNewResponses);
-        
-        /*
-         * New number of submissions = (4 * 4 + 2 * 2) = 20
-         */
-        newNumberOfSubmissionsForEvaluation = submissionsLogic
-                .getSubmissionsForEvaluation(newStudent.course, evaluationName).size();
-        assertEquals(20, newNumberOfSubmissionsForEvaluation);
+        assertEquals(0, numberOfNewResponses);        
     }
 
     private List<FeedbackResponseAttributes> getAllTeamResponsesForStudent(StudentAttributes student) {
@@ -424,16 +352,4 @@ public class SubmissionsAdjustmentTest extends
         }
     }
     
-    private void verifySubmissionsDoNotExistForEmailInCourse(String email,
-            String courseId) {
-        List<SubmissionAttributes> allSubmissions = submissionsLogic.getSubmissionsForCourse(courseId);
-        
-        for (SubmissionAttributes currentSubmission : allSubmissions) {
-            if (currentSubmission.reviewee.equals(email) ||
-                currentSubmission.reviewer.equals(email)) {
-                fail("Cause : Submission for " + email +
-                        " found on system");
-            }
-        }
-    }
 }

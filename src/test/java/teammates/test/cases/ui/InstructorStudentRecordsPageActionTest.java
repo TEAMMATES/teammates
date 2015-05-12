@@ -19,6 +19,8 @@ import teammates.common.util.Const;
 import teammates.logic.api.Logic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
+import teammates.test.driver.BackDoor;
+import teammates.test.util.TestHelper;
 import teammates.ui.controller.InstructorStudentRecordsPageAction;
 import teammates.ui.controller.InstructorStudentRecordsPageData;
 import teammates.ui.controller.RedirectResult;
@@ -41,6 +43,11 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
         StudentAttributes student = dataBundle.students.get("student2InCourse1");
         String instructorId = instructor.googleId;
+        
+        System.out.println(":::");
+        System.out.println(instructorId);
+        String isInDatabase = BackDoor.getInstructorAsJsonByGoogleId(instructorId, instructor.courseId);
+        System.out.println(isInDatabase);
         
         gaeSimulation.loginAsInstructor(instructorId);
 
@@ -101,7 +108,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         assertEquals(instructorId, actualData.account.googleId);
         assertEquals(instructor.courseId, actualData.courseId);
         assertEquals(1, actualData.comments.size());
-        assertEquals(8, actualData.sessions.size());
+        assertEquals(6, actualData.sessions.size());
         assertEquals(student.googleId, actualData.studentProfile.googleId);
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorStudentRecordsPage|||instructorStudentRecordsPage"+
@@ -109,7 +116,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
                 "|||instr3@course1n2.tmt|||instructorStudentRecords Page Load<br>" +
                 "Viewing <span class=\"bold\">" + student.email + "'s</span> records " +
                 "for Course <span class=\"bold\">[" + instructor.courseId + "]</span><br>" +
-                "Number of sessions: 8<br>" +
+                "Number of sessions: 6<br>" +
                 "Student Profile: " + expectedProfile.toString() +  
                 "|||/page/instructorStudentRecordsPage";
         assertEquals(expectedLogMessage, a.getLogMessage());
