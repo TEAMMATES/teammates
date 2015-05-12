@@ -11,7 +11,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.logic.api.Logic;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.datastore.Datastore;
-import teammates.storage.entity.FeedbackSession;
 
 public class DataMigrationForResponseRate extends RemoteApiClient {
     
@@ -62,22 +61,21 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
        }   
     }
     
-    @SuppressWarnings("unchecked")
     public List<FeedbackSessionAttributes> getFeedbackSessionsWithZeroResponseRate() {
-        String q = "SELECT FROM " + FeedbackSession.class.getName();
-        List<FeedbackSession> feedbackSessions = (List<FeedbackSession>) Datastore.getPersistenceManager().newQuery(q).execute();
+        @SuppressWarnings("deprecation")
+        List<FeedbackSessionAttributes> feedbackSessions = fsDb.getAllFeedbackSessions();
         
-        List<FeedbackSessionAttributes> feedbackSessionsAttributes = new ArrayList<FeedbackSessionAttributes>();
+        List<FeedbackSessionAttributes> feedbackSessionsWithNoRespondants = new ArrayList<FeedbackSessionAttributes>();
         
-        for(FeedbackSession feedbackSession : feedbackSessions) {
-            if (feedbackSession.getRespondingStudentList().size() != 0 || feedbackSession.getRespondingInstructorList().size() != 0) {
+        for(FeedbackSessionAttributes feedbackSession : feedbackSessions) {
+            if (feedbackSession.respondingStudentList.size() != 0 || feedbackSession.respondingInstructorList.size() != 0) {
                 continue;
             }
             
-            feedbackSessionsAttributes.add(new FeedbackSessionAttributes(feedbackSession));
+            feedbackSessionsWithNoRespondants.add(feedbackSession);
         }
         
-        return feedbackSessionsAttributes;
+        return feedbackSessionsWithNoRespondants;
     }
     
     /* Operation for a specific session */
