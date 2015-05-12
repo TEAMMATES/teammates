@@ -19,12 +19,7 @@
     <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
     
         <input name="user" value="{$test.instructor}" type="hidden">
-    <div class="alert alert-warning" id="statusMessage">
-            You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.
-         </div>
-         <script type="text&#x2f;javascript">
-            document.getElementById( &#39;statusMessage&#39; ).scrollIntoView();
-         </script>
+    
     <div class="well well-plain" id="course1">
             <div class="panel-body">
                 <div class="form-horizontal">
@@ -68,6 +63,14 @@
 
 
 
+        <div id="statusMessage" class="alert alert-warning">
+            You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.
+        </div>
+        
+        <script type="text/javascript">
+            document.getElementById( 'statusMessage' ).scrollIntoView();
+        </script>
+
     <br>
     
 
@@ -107,7 +110,7 @@
                     </div>
                     <div class="col-sm-10">
                         <div class="col-sm-3">
-	<select class="form-control" name="responsetext-1-0" disabled="disabled">
+	<select class="form-control color-positive" name="responsetext-1-0" disabled="disabled">
 		<option class="color-positive" value="200">Equal share + 100%</option>
 <option class="color-positive" value="190">Equal share + 90%</option>
 <option class="color-positive" value="180">Equal share + 80%</option>
@@ -151,7 +154,7 @@
                     </div>
                     <div class="col-sm-10">
                         <div class="col-sm-3">
-	<select class="form-control" name="responsetext-1-1" disabled="disabled">
+	<select class="form-control color-negative" name="responsetext-1-1" disabled="disabled">
 		<option class="color-positive" value="200">Equal share + 100%</option>
 <option class="color-positive" value="190">Equal share + 90%</option>
 <option class="color-positive" value="180">Equal share + 80%</option>
@@ -195,7 +198,7 @@
                     </div>
                     <div class="col-sm-10">
                         <div class="col-sm-3">
-	<select class="form-control" name="responsetext-1-2" disabled="disabled">
+	<select class="form-control color-positive" name="responsetext-1-2" disabled="disabled">
 		<option class="color-positive" value="200">Equal share + 100%</option>
 <option class="color-positive" value="190">Equal share + 90%</option>
 <option class="color-positive" value="180">Equal share + 80%</option>
@@ -239,7 +242,7 @@
                     </div>
                     <div class="col-sm-10">
                         <div class="col-sm-3">
-	<select class="form-control" name="responsetext-1-3" disabled="disabled">
+	<select class="form-control color-positive" name="responsetext-1-3" disabled="disabled">
 		<option class="color-positive" value="200">Equal share + 100%</option>
 <option class="color-positive" value="190">Equal share + 90%</option>
 <option class="color-positive" value="180">Equal share + 80%</option>
