@@ -430,9 +430,9 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             if(distributeToRecipients){
                 String teamName = bundle.getTeamNameForEmail(entry.getKey());
                 String recipientName = bundle.getNameForEmail(entry.getKey());
-                option = teamName + "," + recipientName;
+                option = Sanitizer.sanitizeForCsv(teamName) + "," + Sanitizer.sanitizeForCsv(recipientName);
             } else {
-                option = options.get(Integer.parseInt(entry.getKey()));
+                option = Sanitizer.sanitizeForCsv(options.get(Integer.parseInt(entry.getKey())));
             }
             
             List<Integer> points = entry.getValue();
