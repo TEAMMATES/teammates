@@ -200,6 +200,7 @@ function enableQuestion(number) {
     
     $('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).hide();
     $('#'+FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).show();
+    $('#'+FEEDBACK_QUESTION_CANCELEDIT+'-'+number).show();
     $('#'+'button_question_submit-'+number).show();
     $('#'+FEEDBACK_QUESTION_EDITTYPE+'-'+number).value="edit";
     // $('#questionTable'+number).find('.visibilityOptionsLabel').click();
@@ -268,7 +269,7 @@ function disableQuestion(number) {
  * @param question number
  * @returns
  */
-function deleteQuestion(number){
+function deleteQuestion(number) {
     if (number === -1) {
         location.reload();
         return false;
@@ -278,6 +279,21 @@ function deleteQuestion(number){
         return true;
     } else {
         return false;
+    }
+}
+
+/**
+ * Allows users to cancel editing questions
+ */
+function cancelEdit(number) {
+    if (number === -1) {
+        if (confirm('Are you sure you want to cancel adding this question?')) {
+            location.reload();
+        }
+    } else {
+        if (confirm('Are you sure you want to cancel your changes?')) {
+            location.reload();
+        }
     }
 }
 
@@ -591,7 +607,7 @@ function formatQuestionNumbers(){
 
 function getQuestionLink(qnNumber) {
     var courseid = $("input[name='courseid']").val();
-    var fsname = toParameterFormat($("input[name='fsname']").val());
+    var fsname = encodeURIComponent($("input[name='fsname']").val());
     
     var questionId = $("#form_editquestion-" + qnNumber)
                         .find("input[name='questionid']").val();
@@ -716,9 +732,14 @@ var previousFormDataMap = {};
 function getVisibilityMessage(buttonElem) {
     var form = $(buttonElem).closest("form");
     var qnNumber = $(form).find("[name=questionnum]").val();
-
-    // trigger onsubmit event of the qnNumber which has already binded with
-    eval($(form).attr('onsubmit'));
+    var newQnNumber = $('input[name=questionnum]').last().val();
+    
+    if (qnNumber === newQnNumber) {
+        tallyCheckboxes('');
+    } else {
+        tallyCheckboxes(qnNumber);
+    }
+    
     var formData =  $(form[0]).serialize();
 
     if (previousFormDataMap[qnNumber] === formData) {
@@ -1202,8 +1223,8 @@ function fixContribQnGiverRecipient(questionNumber){
     $('#givertype'+idSuffix).find('option').not('[value="STUDENTS"]').prop('disabled', true);
     $('#recipienttype'+idSuffix).find('option').not('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').prop('disabled', true);
 
-    $('#givertype'+idSuffix).find('option').filter('[value="STUDENTS"]').attr('selected','selected');
-    $('#recipienttype'+idSuffix).find('option').filter('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').attr('selected','selected');
+    $('#givertype'+idSuffix).find('option').filter('[value="STUDENTS"]').prop('selected','selected');
+    $('#recipienttype'+idSuffix).find('option').filter('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').prop('selected','selected');
 }
 
 /**

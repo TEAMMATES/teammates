@@ -70,7 +70,7 @@
                                 .toString();
         %>
             <div id="registerMessage" class="alert alert-info">
-                <%=String.format(Const.StatusMessages.UNREGISTERED_STUDENT, joinUrl)%>
+                <%=String.format(Const.StatusMessages.UNREGISTERED_STUDENT, data.student.name, joinUrl)%>
             </div>
         <%
         	} 

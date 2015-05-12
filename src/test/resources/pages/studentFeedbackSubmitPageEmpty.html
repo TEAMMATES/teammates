@@ -3,8 +3,7 @@
         <h1>Submit Feedback</h1>
         <br>
         
-        <form method="post" action="/page/studentFeedbackSubmissionEditSave" name="form_student_submit_response">
-            
+        <form method="post" name="form_student_submit_response" action="/page/studentFeedbackSubmissionEditSave">
             
 
 
@@ -18,9 +17,9 @@
     
     <input name="fsname" value="Third Session" type="hidden">
     <input name="courseid" value="SFSubmitUiT.CS2104" type="hidden">
-    <input name="user" value="SFSubmitUiT.alice.b" type="hidden">
-    <div id="statusMessage" style="display: none;">
-         </div>
+    
+        <input name="user" value="SFSubmitUiT.alice.b" type="hidden">
+    
     <div class="well well-plain" id="course1">
             <div class="panel-body">
                 <div class="form-horizontal">
@@ -64,8 +63,10 @@
 
 
 
+    <div id="statusMessage" style="display: none;"></div>
 
     <br>
+    
 
             
             <div class="bold align-center">
@@ -73,6 +74,6 @@
                     There are no questions for you to answer here!
             
             </div>
-            <br><br>    
+            <br><br>
         </form>
     </div>

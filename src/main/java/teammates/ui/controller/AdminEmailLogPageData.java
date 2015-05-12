@@ -2,11 +2,14 @@ package teammates.ui.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.util.Const;
 import teammates.common.util.EmailLogEntry;
+import teammates.common.util.TimeHelper;
 
 public class AdminEmailLogPageData extends PageData {
 
@@ -16,6 +19,7 @@ public class AdminEmailLogPageData extends PageData {
     public List<EmailLogEntry> logs;
     public List<String> versions;
     
+    public boolean shouldShowAll;
     public String statusForAjax;
     private QueryParameters q;
     
@@ -176,14 +180,20 @@ public class AdminEmailLogPageData extends PageData {
             if(label.equals("after")){
                 isFromDateInQuery = true;                
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
-                Date d = sdf.parse(values[0] + " 00:00");                
-                fromDateValue = d.getTime();
+                Date d = sdf.parse(values[0] + " 0:00");                          
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(d);
+                cal = TimeHelper.convertToUserTimeZone(cal, - Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+                fromDateValue = cal.getTime().getTime();
                 
             } else if (label.equals("before")){
                 isToDateInQuery = true;
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm");
-                Date d = sdf.parse(values[0] + " 23:59");                
-                toDateValue = d.getTime();          
+                Date d = sdf.parse(values[0] + " 23:59");  
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(d);
+                cal = TimeHelper.convertToUserTimeZone(cal, - Const.SystemParams.ADMIN_TIMZE_ZONE_DOUBLE);
+                toDateValue = cal.getTime().getTime();          
             } else if (label.equals("receiver")){
                 isReceiverInQuery = true;
                 receiverValues = values;

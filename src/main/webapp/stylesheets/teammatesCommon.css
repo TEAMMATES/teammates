@@ -204,6 +204,10 @@ Apply to thead to make headers not bold.
     padding-top: 0;
 }
 
+.text-large {
+    font-size: 18px;
+}
+
 .text-bold {
     font-weight: bold;
 }
@@ -636,4 +640,22 @@ Apply to thead to make headers not bold.
 
 .back-to-top-right:hover {
     background-color: rgba(135, 135, 135, 0.50);
+}
+
+/*////////////////////////////////////////////////////////////
+////////////////////////// Email Log Text ///////////////////////////
+//////////////////////////////////////////////////////////*/
+
+/*
+Prevent Long URL From Breaking Out of Container
+*/
+.emailLog-text {
+     -ms-word-break: break-all;
+     /* Be VERY careful with this, breaks normal words wh_erever */
+     word-break: break-all;
+     /* Non standard for webkit */
+     word-break: break-word;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
 }

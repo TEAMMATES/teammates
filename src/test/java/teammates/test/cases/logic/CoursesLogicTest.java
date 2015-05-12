@@ -16,13 +16,9 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
-import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
-import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -320,7 +316,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(5, courseSummary.stats.studentsTotal);
         assertEquals(0, courseSummary.stats.unregisteredTotal);
         
-        assertEquals(0, courseSummary.evaluations.size());
 
         assertEquals(1, courseSummary.sections.get(0).teams.size()); 
         assertEquals("Team 1.1", courseSummary.sections.get(0).teams.get(0).name);
@@ -340,7 +335,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(0, courseSummary.stats.studentsTotal);
         assertEquals(0, courseSummary.stats.unregisteredTotal);
         
-        assertEquals(0, courseSummary.evaluations.size());
         assertEquals(0, courseSummary.sections.size());
         
         coursesLogic.deleteCourseCascade("course1");
@@ -375,7 +369,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(course.name, courseSummary.course.name);
         assertEquals(false, courseSummary.course.isArchived);
 
-        assertEquals(0, courseSummary.evaluations.size());
         assertEquals(0, courseSummary.sections.size()); 
        
         ______TS("course without students");
@@ -390,7 +383,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals("course1", courseSummary.course.id);
         assertEquals("course 1", courseSummary.course.name);
          
-        assertEquals(0, courseSummary.evaluations.size());
         assertEquals(0, courseSummary.sections.size());
         
         coursesLogic.deleteCourseCascade("course1");
@@ -429,10 +421,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(5, courseDetails.stats.studentsTotal);
         assertEquals(0, courseDetails.stats.unregisteredTotal);
         
-        assertEquals(2, courseDetails.evaluations.size());
-        assertEquals("evaluation2 In Course1", courseDetails.evaluations.get(0).evaluation.name);
-        assertEquals("evaluation1 In Course1", courseDetails.evaluations.get(1).evaluation.name);
-
         assertEquals(1, courseDetails.sections.get(0).teams.size()); 
         assertEquals("Team 1.1", courseDetails.sections.get(0).teams.get(0).name);
         
@@ -452,7 +440,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         assertEquals(0, courseDetails.stats.studentsTotal);
         assertEquals(0, courseDetails.stats.unregisteredTotal);
         
-        assertEquals(0, courseDetails.evaluations.size());
         assertEquals(0, courseDetails.sections.size());
         
         coursesLogic.deleteCourseCascade("course1");
@@ -745,38 +732,10 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     
         CourseAttributes expectedCourse1 = dataBundle.courses.get("typicalCourse1");
         CourseAttributes expectedCourse2 = dataBundle.courses.get("typicalCourse2");
-
-        EvaluationAttributes expectedEval1InCourse1 = dataBundle.evaluations
-                .get("evaluation1InCourse1");
-        EvaluationAttributes expectedEval2InCourse1 = dataBundle.evaluations
-                .get("evaluation2InCourse1");
-
-        EvaluationAttributes expectedEval1InCourse2 = dataBundle.evaluations
-                .get("evaluation1InCourse2");
-    
+        
         // This student is in both course 1 and 2
         StudentAttributes studentInBothCourses = dataBundle.students
                 .get("student2InCourse1");
-    
-        // Make sure all evaluations in course1 are visible (i.e., not AWAITING)
-        expectedEval1InCourse1.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-        expectedEval1InCourse1.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        expectedEval1InCourse1.published = false;
-        assertEquals(EvalStatus.CLOSED, expectedEval1InCourse1.getStatus());
-        BackDoorLogic backDoorLogic = new BackDoorLogic();
-        backDoorLogic.updateEvaluation(expectedEval1InCourse1);
-    
-        expectedEval2InCourse1.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        expectedEval2InCourse1.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
-        assertEquals(EvalStatus.OPEN, expectedEval2InCourse1.getStatus());
-        backDoorLogic.updateEvaluation(expectedEval2InCourse1);
-    
-        // Make sure all evaluations in course2 are still AWAITING
-        expectedEval1InCourse2.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
-        expectedEval1InCourse2.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
-        expectedEval1InCourse2.activated = false;
-        assertEquals(EvalStatus.AWAITING, expectedEval1InCourse2.getStatus());
-        backDoorLogic.updateEvaluation(expectedEval1InCourse2);
     
         // Get course details for student
         List<CourseDetailsBundle> courseList = coursesLogic
@@ -789,34 +748,9 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         CourseDetailsBundle actualCourse1 = courseList.get(1);
         assertEquals(expectedCourse1.id, actualCourse1.course.id);
         assertEquals(expectedCourse1.name, actualCourse1.course.name);
-        assertEquals(2, actualCourse1.evaluations.size());
-    
-        // Verify details of evaluation 1 in course 1
-        EvaluationAttributes actualEval1InCourse1 = actualCourse1.evaluations.get(1).evaluation;
-        TestHelper.verifySameEvaluationData(expectedEval1InCourse1, actualEval1InCourse1);
-    
-        // Verify some details of evaluation 2 in course 1
-        EvaluationAttributes actualEval2InCourse1 = actualCourse1.evaluations.get(0).evaluation;
-        TestHelper.verifySameEvaluationData(expectedEval2InCourse1, actualEval2InCourse1);
-    
-        // For course 2, verify no evaluations returned (because the evaluation
-        // in this course is still AWAITING.
-        CourseDetailsBundle actualCourse2 = courseList.get(0);
-        assertEquals(expectedCourse2.id, actualCourse2.course.id);
-        assertEquals(expectedCourse2.name, actualCourse2.course.name);
-        assertEquals(0, actualCourse2.evaluations.size());
-    
-        ______TS("student in a course with no evaluations");
-    
-        StudentAttributes studentWithNoEvaluations = dataBundle.students
-                .get("student1InCourse2");
-        courseList = coursesLogic
-                .getCourseDetailsListForStudent(studentWithNoEvaluations.googleId);
-        assertEquals(1, courseList.size());
-        assertEquals(0, courseList.get(0).evaluations.size());
-    
+   
+ 
         // student with no courses is not applicable
-    
         ______TS("non-existent student");
     
         try {
@@ -889,43 +823,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         HashMap<String, CourseDetailsBundle> courseListForInstructor = coursesLogic
                 .getCoursesDetailsListForInstructor("idOfInstructor3", false);
         assertEquals(2, courseListForInstructor.size());
-        String course1Id = "idOfTypicalCourse1";
-    
-        // course with 2 evaluations
-        ArrayList<EvaluationDetailsBundle> course1Evals = courseListForInstructor
-                .get(course1Id).evaluations;
-        String course1EvalDetails = "";
-        for (EvaluationDetailsBundle ed : course1Evals) {
-            course1EvalDetails = course1EvalDetails
-                    + Utils.getTeammatesGson().toJson(ed) + Const.EOL;
-        }
-        int numberOfEvalsInCourse1 = course1Evals.size();
-        assertEquals(course1EvalDetails, 2, numberOfEvalsInCourse1);
-        assertEquals(course1Id, course1Evals.get(0).evaluation.courseId);
-        TestHelper.verifyEvaluationInfoExistsInList(
-                dataBundle.evaluations.get("evaluation1InCourse1"),
-                course1Evals);
-        TestHelper.verifyEvaluationInfoExistsInList(
-                dataBundle.evaluations.get("evaluation2InCourse1"),
-                course1Evals);
-    
-        // course with 1 evaluation
-        assertEquals(course1Id, course1Evals.get(1).evaluation.courseId);
-        ArrayList<EvaluationDetailsBundle> course2Evals = courseListForInstructor
-                .get("idOfTypicalCourse2").evaluations;
-        assertEquals(1, course2Evals.size());
-        TestHelper.verifyEvaluationInfoExistsInList(
-                dataBundle.evaluations.get("evaluation1InCourse2"),
-                course2Evals);
-    
-        ______TS("Instructor has a course with 0 evaluations");
-
-        courseListForInstructor = coursesLogic
-                .getCoursesDetailsListForInstructor("idOfInstructor4", false);
-        assertEquals(1, courseListForInstructor.size());
-        assertEquals(0,
-                courseListForInstructor.get("idOfCourseNoEvals").evaluations
-                        .size());
         
         ______TS("Instructor has an archived course");
 
@@ -967,43 +864,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         HashMap<String, CourseSummaryBundle> courseListForInstructor = coursesLogic
                 .getCoursesSummaryWithoutStatsForInstructor("idOfInstructor3", false);
         assertEquals(2, courseListForInstructor.size());
-        String course1Id = "idOfTypicalCourse1";
     
-        // course with 2 evaluations
-        ArrayList<EvaluationAttributes> course1Evals = courseListForInstructor
-                .get(course1Id).evaluations;
-        String course1EvalsAttributes = "";
-        for (EvaluationAttributes evalAttr : course1Evals) {
-            course1EvalsAttributes = course1EvalsAttributes
-                    + Utils.getTeammatesGson().toJson(evalAttr) + Const.EOL;
-        }
-        int numberOfEvalsInCourse1 = course1Evals.size();
-        assertEquals(course1EvalsAttributes, 2, numberOfEvalsInCourse1);
-        assertEquals(course1Id, course1Evals.get(0).courseId);
-        TestHelper.verifyEvaluationInfoExistsInAttributeList(
-                dataBundle.evaluations.get("evaluation1InCourse1"),
-                course1Evals);
-        TestHelper.verifyEvaluationInfoExistsInAttributeList(
-                dataBundle.evaluations.get("evaluation2InCourse1"),
-                course1Evals);
-    
-        // course with 1 evaluation
-        assertEquals(course1Id, course1Evals.get(1).courseId);
-        ArrayList<EvaluationAttributes> course2Evals = courseListForInstructor
-                .get("idOfTypicalCourse2").evaluations;
-        assertEquals(1, course2Evals.size());
-        TestHelper.verifyEvaluationInfoExistsInAttributeList(
-                dataBundle.evaluations.get("evaluation1InCourse2"),
-                course2Evals);
-    
-        ______TS("Instructor has a course with 0 evaluations");
-
-        courseListForInstructor = coursesLogic
-                .getCoursesSummaryWithoutStatsForInstructor("idOfInstructor4", false);
-        assertEquals(1, courseListForInstructor.size());
-        assertEquals(0,
-                courseListForInstructor.get("idOfCourseNoEvals").evaluations
-                        .size());
         
         ______TS("Instructor has an archived course");
 
@@ -1294,8 +1155,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         
         TestHelper.verifyPresentInDatastore(course1OfInstructor);
         TestHelper.verifyPresentInDatastore(studentInCourse);
-        TestHelper.verifyPresentInDatastore(dataBundle.evaluations.get("evaluation1InCourse1"));
-        TestHelper.verifyPresentInDatastore(dataBundle.evaluations.get("evaluation2InCourse1"));
         TestHelper.verifyPresentInDatastore(dataBundle.instructors.get("instructor1OfCourse1"));
         TestHelper.verifyPresentInDatastore(dataBundle.instructors.get("instructor3OfCourse1"));
         TestHelper.verifyPresentInDatastore(dataBundle.students.get("student1InCourse1"));
@@ -1309,8 +1168,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         // Ensure the course and related entities are deleted
         TestHelper.verifyAbsentInDatastore(course1OfInstructor);
         TestHelper.verifyAbsentInDatastore(studentInCourse);
-        TestHelper.verifyAbsentInDatastore(dataBundle.evaluations.get("evaluation1InCourse1"));
-        TestHelper.verifyAbsentInDatastore(dataBundle.evaluations.get("evaluation2InCourse1"));
         TestHelper.verifyAbsentInDatastore(dataBundle.instructors.get("instructor1OfCourse1"));
         TestHelper.verifyAbsentInDatastore(dataBundle.instructors.get("instructor3OfCourse1"));
         TestHelper.verifyAbsentInDatastore(dataBundle.students.get("student1InCourse1"));
@@ -1320,13 +1177,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         TestHelper.verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI1C1toS1C1"));
         TestHelper.verifyAbsentInDatastore(dataBundle.comments.get("comment2FromI1C1toS1C1"));
         TestHelper.verifyAbsentInDatastore(dataBundle.comments.get("comment1FromI3C1toS2C1"));
-
-        ArrayList<SubmissionAttributes> submissionsOfCourse = new ArrayList<SubmissionAttributes>(dataBundle.submissions.values());
-        for (SubmissionAttributes s : submissionsOfCourse) {
-            if (s.course.equals(course1OfInstructor.id)) {
-                TestHelper.verifyAbsentInDatastore(s);
-            }
-        }
     
         ______TS("non-existent");
     

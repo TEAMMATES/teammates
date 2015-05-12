@@ -31,6 +31,7 @@ public class AdminEmailLogPageAction extends Action {
         
         data.offset = getRequestParamValue("offset");
         data.filterQuery = getRequestParamValue("filterQuery");
+        data.shouldShowAll = getRequestParamAsBoolean("all");
         String pageChange = getRequestParamValue("pageChange");
        
         if(pageChange != null && pageChange.equals("true")){

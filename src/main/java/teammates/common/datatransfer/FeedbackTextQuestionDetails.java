@@ -8,6 +8,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FeedbackQuestionFormTemplates;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
+import teammates.ui.controller.PageData;
 
 public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     
@@ -79,7 +80,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
-            AccountAttributes currentUser,
+            PageData pageData,
             FeedbackSessionResultsBundle bundle,
             String view) {
         @SuppressWarnings("unused")

@@ -12,8 +12,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
@@ -59,8 +57,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
     // both TEST_INSTRUCTOR and TEST_STUDENT are from this course
     private static CourseAttributes ownCourse;
-
-    private static EvaluationAttributes ownEvaluation;
     
     @BeforeClass
     public static void classSetup() {
@@ -71,7 +67,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         
         otherInstructor = testData.instructors.get("instructor1OfCourse2");
         ownCourse = testData.courses.get("typicalCourse1");
-        ownEvaluation = testData.evaluations.get("evaluation1InCourse1");
 
         browser = BrowserPool.getBrowser();
         
@@ -149,122 +144,7 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         link = Const.ActionURIs.STUDENT_HOME_PAGE;
         verifyCannotMasquerade(link, otherInstructor.googleId);
     }
-
-    @Test
-    public void testStudentEvalSubmission() {
-        
-        restoreSpecialTestData();
-        
-        loginStudent(studentUsername, studentPassword);
-        
-        link = Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_PAGE;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, ownCourse.id);
-        EvaluationAttributes ownEvaluation = testData.evaluations.get("evaluation1InCourse1");
-        link = Url.addParamToUrl(link, Const.ParamsNames.EVALUATION_NAME,    ownEvaluation.name);
-        
-        ______TS("student cannot submit evaluation in AWAITING state");
     
-        ownEvaluation.startTime = TimeHelper.getDateOffsetToCurrentTime(1);
-        ownEvaluation.endTime = TimeHelper.getDateOffsetToCurrentTime(2);
-        ownEvaluation.activated = false;
-        assertEquals(EvalStatus.AWAITING, ownEvaluation.getStatus());
-        backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
-        currentPage.navigateTo(createUrl(link))
-            .verifyStatus(Const.StatusMessages.EVALUATION_NOT_OPEN);
-        assertEquals("true", currentPage.getElementAttribute(By.id(Const.ParamsNames.POINTS + "0"), "disabled"));
-        assertEquals("true", currentPage.getElementAttribute(By.id(Const.ParamsNames.JUSTIFICATION + "0"), "disabled"));
-        assertEquals("true", currentPage.getElementAttribute(By.id(Const.ParamsNames.COMMENTS + "0"), "disabled"));
-        assertEquals("true", currentPage.getElementAttribute(By.id("button_submit"), "disabled"));
-        
-        ______TS("student can view own evaluation submission page");
-    
-        link = Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_PAGE;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, ownCourse.id);
-        link = Url.addParamToUrl(link, Const.ParamsNames.EVALUATION_NAME,
-                ownEvaluation.name);
-        verifyPageContains(link, studentUsername
-                + "{*}Evaluation Submission{*}" + ownCourse.id + "{*}"
-                + ownEvaluation.name);
-    
-        ______TS("student cannot submit evaluation in CLOSED state");
-        
-        ownEvaluation.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-        ownEvaluation.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
-        currentPage.navigateTo(createUrl(link))
-            .verifyStatus(Const.StatusMessages.EVALUATION_NOT_OPEN);
-        assertEquals("true", currentPage.getElementAttribute(By.id(Const.ParamsNames.POINTS + "0"), "disabled"));
-        assertEquals("true", currentPage.getElementAttribute(By.id(Const.ParamsNames.JUSTIFICATION + "0"), "disabled"));
-        assertEquals("true", currentPage.getElementAttribute(By.id(Const.ParamsNames.COMMENTS + "0"), "disabled"));
-        assertEquals("true", currentPage.getElementAttribute(By.id("button_submit"), "disabled"));
-        
-        ______TS("student cannot submit evaluation in CLOSED state (evaluation with different timezone)");
-        //Set the end time to the next hour, but push the timezone ahead 2 hours, so the evaluation has expired by 1 hour
-        //Then we verify that the evaluation is disabled
-        ownEvaluation.endTime = TimeHelper.getNextHour();
-        ownEvaluation.timeZone = 10.0;   //put user's timezone ahead by 10hrs
-        //TODO: this test case needs tweaking. It fails on some computers when
-        //  the above is set to +2. Furthermore, we need a test case to ensure
-        //  editing is enabled when the user timezone is behind. This test 
-        //  case only checks if editing is disabled when timezone is ahead.
-        backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
-        currentPage.navigateTo(createUrl(link))
-            .verifyStatus(Const.StatusMessages.EVALUATION_NOT_OPEN);
-        assertEquals("true", currentPage.getElementAttribute(By.id(Const.ParamsNames.POINTS + "0"), "disabled"));
-        assertEquals("true", currentPage.getElementAttribute(By.id(Const.ParamsNames.JUSTIFICATION + "0"), "disabled"));
-        assertEquals("true", currentPage.getElementAttribute(By.id(Const.ParamsNames.COMMENTS + "0"), "disabled"));
-        assertEquals("true", currentPage.getElementAttribute(By.id("button_submit"), "disabled"));
-        
-        ______TS("student cannot submit evaluation in PUBLISHED state");
-    
-        ownEvaluation.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        ownEvaluation.timeZone = 0.0;
-        ownEvaluation.published = true;
-        assertEquals(EvalStatus.PUBLISHED, ownEvaluation.getStatus());
-        backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
-        currentPage.navigateTo(createUrl(link))
-            .verifyStatus(Const.StatusMessages.EVALUATION_NOT_OPEN);
-        assertEquals("true", currentPage.getElementAttribute(By.id(Const.ParamsNames.POINTS + "0"), "disabled"));
-        assertEquals("true", currentPage.getElementAttribute(By.id(Const.ParamsNames.JUSTIFICATION + "0"), "disabled"));
-        assertEquals("true", currentPage.getElementAttribute(By.id(Const.ParamsNames.COMMENTS + "0"), "disabled"));
-        assertEquals("true", currentPage.getElementAttribute(By.id("button_submit"), "disabled"));
-        
-    }
-
-    @Test
-    public void testStudentEvalResult() {
-        restoreSpecialTestData();
-        loginStudent(studentUsername, studentPassword);
-        ______TS("student cannot view own evaluation result before publishing");
-        
-        ownEvaluation.published = false;
-        assertTrue(EvalStatus.PUBLISHED != ownEvaluation.getStatus());
-        backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
-    
-        link = Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, ownCourse.id);
-        link = Url.addParamToUrl(link, Const.ParamsNames.EVALUATION_NAME,
-                ownEvaluation.name);
-        verifyRedirectToNotAuthorized(link); //TODO: this error should be handled better.
-    
-        ______TS("student can view own evaluation result after publishing");
-    
-        ownEvaluation.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-        ownEvaluation.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        ownEvaluation.timeZone = 0.0;
-        ownEvaluation.published = true;
-        assertEquals(EvalStatus.PUBLISHED, ownEvaluation.getStatus());
-        backDoorOperationStatus = BackDoor.editEvaluation(ownEvaluation);
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
-        verifyPageContains(link, studentUsername + "{*}Evaluation Results{*}" + ownCourse.id + "{*}" + ownEvaluation.name);
-
-    }
-
     @Test
     public void testInstructorHome() {
     
