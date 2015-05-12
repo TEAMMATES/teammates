@@ -76,6 +76,7 @@
     %>
 <%
 	int qnIndx = 1;
+    String divClassType;
     List<FeedbackQuestionAttributes> questions = data.bundle.getSortedQuestions();
     for (FeedbackQuestionAttributes question : questions) {
         int numOfResponseBoxes = question.numberOfEntitiesToGiveFeedbackTo;
@@ -90,6 +91,13 @@
             // Don't display question if no recipients.
             continue;
         }
+        if (question.isRecipientNameHidden()) {
+            divClassType = "class=\"col-sm-12\""; 
+        } else if(numOfResponseBoxes == maxResponsesPossible) {
+        	divClassType = "class=\"col-sm-10\"";
+        } else {   
+        	divClassType = "class=\"col-sm-8\""; 
+        } 
 %>
         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_TYPE%>-<%=Integer.toString(qnIndx)%>" value="<%=question.questionType%>"/>
         <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>-<%=Integer.toString(qnIndx)%>" value="<%=question.getId()%>"/>
@@ -122,10 +130,10 @@
         %>
                 <br />
                 <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right;\""%>>
+                    <div class=<%=(numOfResponseBoxes == maxResponsesPossible) ? "\"col-sm-2 form-inline\"" : "\"col-sm-4 form-inline\"" %> <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right;\""%>>
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
-                            <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none;max-width:125px\"" : "style=\"max-width:125px\""%>
+                            <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none;max-width:125px\"" : "style=\"width:275px;max-width:275px\""%>
                             <%=data.isSessionOpenForSubmission ? "" : "disabled=\"disabled\""%>>
                         <%
                             for(String opt: data.getRecipientOptionsForQuestion(question.getId(), existingResponse.recipientEmail)){
@@ -134,7 +142,7 @@
                         %>
                         </select>
                     </div>
-                    <div <%=(question.isRecipientNameHidden()) ? "class=\"col-sm-12\"" : "class=\"col-sm-10\""%>>
+                    <div <%=divClassType%>>                       
                         <%=questionDetails.getQuestionWithExistingResponseSubmissionFormHtml(
                             data.isSessionOpenForSubmission, 
                             qnIndx, responseIndx, question.courseId, 
@@ -149,10 +157,10 @@
         %>
                 <br />
                 <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right\""%>>
+                    <div class=<%=(numOfResponseBoxes == maxResponsesPossible) ? "\"col-sm-2 form-inline\"" : "\"col-sm-4 form-inline\"" %> <%=(question.isRecipientNameHidden()) ? "style=\"display:none\"" : "style=\"text-align:right\""%>>
                         <label for="input">To:</label>
                         <select class="participantSelect middlealign newResponse form-control" name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT%>-<%=Integer.toString(qnIndx)%>-<%=Integer.toString(responseIndx)%>"
-                            <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none;max-width:125px\"" : "style=\"max-width:125px\""%>
+                            <%=(numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none;max-width:125px\"" : "style=\"width:275px;max-width:275px\""%>
                             <%=data.isSessionOpenForSubmission ? "" : "disabled=\"disabled\""%>>
                         <%
                             for(String opt: data.getRecipientOptionsForQuestion(question.getId(), null)) {
@@ -161,7 +169,7 @@
                         %>
                         </select>
                     </div>
-                    <div <%=(question.isRecipientNameHidden()) ? "class=\"col-sm-12\"" : "class=\"col-sm-10\""%>>
+                    <div <%=divClassType%>>
                     <%=questionDetails.getQuestionWithoutExistingResponseSubmissionFormHtml(
                             data.isSessionOpenForSubmission, 
                             qnIndx, responseIndx, question.courseId)%>
