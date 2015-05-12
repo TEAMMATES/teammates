@@ -71,8 +71,13 @@ function toggleDeleteFeedbackSessionConfirmation(courseID, name) {
  * evaluation
  * @param name
  */
-function togglePublishEvaluation(name) {
-    return confirm("Are you sure you want to publish the session " + name + "?");
+function togglePublishEvaluation(name, isSendingPublishEmail) {
+    if (isSendingPublishEmail) {
+        return confirm("Are you sure you want to publish the responses for the session \"" + name + "\"?" +
+               " An email will be sent to students to inform them that the responses are ready for viewing.");
+    } else {
+        return confirm("Are you sure you want to publish the responses for the session \"" + name + "\"?");
+    }
 }
 
 /**

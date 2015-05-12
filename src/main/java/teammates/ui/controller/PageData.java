@@ -806,7 +806,7 @@ public class PageData {
                 "href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
                 "title=\"" + (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH :  Const.Tooltips.FEEDBACK_SESSION_AWAITING) + "\"" +
                 "data-toggle=\"tooltip\" data-placement=\"top\"" +
-                (hasPublish ? "onclick=\"return togglePublishEvaluation('" + session.feedbackSessionName + "');\" " : " ") +
+                (hasPublish ? "onclick=\"return togglePublishEvaluation('" + session.feedbackSessionName + "'" + ", " + session.isPublishedEmailEnabled + ");\" " : " ") +
                 disablePublishSessionStr + ">Publish Results</a> ";
         }
         return result;
