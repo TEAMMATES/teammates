@@ -32,11 +32,12 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
         new GateKeeper().verifyAccessible(
                 instructor, 
                 logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-                
+        
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
         
         try {
-            FeedbackSessionAttributes fs = logic.copyFeedbackSession(copiedFeedbackSessionName, copiedCourseId, feedbackSessionName, courseId, instructor.email);
+            FeedbackSessionAttributes fs = logic.copyFeedbackSession(
+                    copiedFeedbackSessionName, copiedCourseId, feedbackSessionName, courseId, instructor.email);
             data.newFeedbackSession = fs;
             
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
@@ -48,31 +49,25 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
             
             //TODO: add a condition to include the status due to inconsistency problem of database 
             //      (similar to the one below)
-            return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(fs.courseId,fs.feedbackSessionName));
+            return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(fs.courseId, fs.feedbackSessionName));
             
         } catch (EntityAlreadyExistsException e) {
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
-            statusToAdmin = e.getMessage();
-            isError = true;
-            
+            setStatusForException(e, Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
         } catch (InvalidParametersException e) {
-            // updates isError attribute
             setStatusForException(e);
-        } 
+        }
+        // isError == true if an exception occurred above
         
-        // if isError == true, (an exception occurred above)
-
-
         boolean omitArchived = true;
         data.instructors = loadCourseInstructorMap(omitArchived);
         List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>(data.instructors.values());
         data.courses = loadCoursesList(instructorList);
         data.existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
         
-        if (data.existingFeedbackSessions.size() == 0) {
+        if (data.existingFeedbackSessions.isEmpty()) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY);
         }
-    
+        
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
