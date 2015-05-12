@@ -90,6 +90,7 @@ public class DataMigrationForResponseRate extends RemoteApiClient {
             System.out.println("Successfully updated response rate for session " + feedbackSessionName + " in course " + courseId);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
             System.out.println("ERROR Failed to update respondants for session " + feedbackSessionName + " in course " + courseId);
+            e.printStackTrace();
         }
     }
     
