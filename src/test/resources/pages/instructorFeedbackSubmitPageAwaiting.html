@@ -273,7 +273,12 @@
     <input type="hidden" value="IFSubmitUiT.CS2104" name="courseid" />
     
         <input type="hidden" value="IFSubmitUiT.instr" name="user" />
-    
+    <div class="alert alert-warning" id="statusMessage">
+                  You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.
+               </div>
+               <script type="text&#x2f;javascript">
+                  document.getElementById( &#39;statusMessage&#39; ).scrollIntoView();
+               </script>
     <div id="course1" class="well well-plain">
             <div class="panel-body">
                 <div class="form-horizontal">
@@ -317,12 +322,6 @@
 
 
 
-    <div class="alert alert-warning" id="statusMessage">
-        You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.
-    </div>
-    <script type="text/javascript">
-        document.getElementById( 'statusMessage' ).scrollIntoView();
-    </script>
 
     <br />
     
