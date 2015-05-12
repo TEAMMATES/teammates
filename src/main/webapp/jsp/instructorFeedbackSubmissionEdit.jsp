@@ -53,7 +53,7 @@
         
         <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE%>" name="form_submit_response">
             
-            <jsp:include page="<%=Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT%>" />
+            <jsp:include page="<%=Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT + \"?showSingleQuestion=false\"%>" />
             
             <div class="bold align-center">
             <%

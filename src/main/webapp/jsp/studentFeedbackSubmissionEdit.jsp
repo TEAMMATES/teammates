@@ -80,7 +80,7 @@
         %>
         <form method="post" name="form_student_submit_response"
               action="<%=submitAction%>" >
-            <jsp:include page="<%=Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT%>" />
+            <jsp:include page="<%=Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT + \"?showSingleQuestion=false\"%>" />
             
             <div class="bold align-center">
             <%
