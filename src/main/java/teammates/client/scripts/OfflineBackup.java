@@ -19,7 +19,6 @@ import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
@@ -27,14 +26,12 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
-import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.logic.api.Logic;
 import teammates.storage.api.CommentsDb;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.api.FeedbackResponsesDb;
-import teammates.storage.api.SubmissionsDb;
 import teammates.storage.datastore.Datastore;
 import teammates.test.driver.TestProperties;
 import teammates.test.util.FileHelper;
@@ -144,14 +141,12 @@ public class OfflineBackup extends RemoteApiClient {
             retrieveAndSaveAccountsByCourse(courseId);
             retrieveAndSaveCommentsByCourse(courseId);
             retrieveAndSaveCourse(courseId);
-            retrieveAndSaveEvaluationsByCourse(courseId);
             retrieveAndSaveFeedbackQuestionsByCourse(courseId);
             retrieveAndSaveFeedbackResponsesByCourse(courseId);
             retrieveAndSaveFeedbackResponseCommentsByCourse(courseId);
             retrieveAndSaveFeedbackSessionsByCourse(courseId);
             retrieveAndSaveInstructorsByCourse(courseId);
             retrieveAndSaveStudentsByCourse(courseId);
-            retrieveAndSaveSubmissionsByCourse(courseId);
             retrieveAndSaveStudentProfilesByCourse(courseId);
             
             FileHelper.appendToFile(currentFileName, "\n}"); 
@@ -219,22 +214,6 @@ public class OfflineBackup extends RemoteApiClient {
         FileHelper.appendToFile(currentFileName, "\n\t},\n");
     }
     
-    /** 
-     *  Retrieves all the evaluations from a course and saves them
-     */
-    protected void retrieveAndSaveEvaluationsByCourse(String courseId) {
-        Logic logic = new Logic();
-
-        List<EvaluationAttributes> evaluations = logic.getEvaluationsForCourse(courseId);
-   
-        FileHelper.appendToFile(currentFileName, "\t\"evaluations\":{\n");
-        
-        for(EvaluationAttributes evaluation : evaluations) {
-            saveEvaluation(evaluation);
-        }
-        hasPreviousEntity = false;
-        FileHelper.appendToFile(currentFileName, "\n\t},\n");
-    }
     
     /** 
      *  Retrieves all the feedback questions from a course and saves them
@@ -342,22 +321,6 @@ public class OfflineBackup extends RemoteApiClient {
     /** 
      *  Retrieves all the submissions from a course and saves them
      */
-    protected void retrieveAndSaveSubmissionsByCourse(String courseId) {
-        SubmissionsDb submissionsDb = new SubmissionsDb();
-        List<SubmissionAttributes> submissions = submissionsDb.getSubmissionsForCourse(courseId);
-        
-        FileHelper.appendToFile(currentFileName, "\t\"submissions\":{\n");
-        
-        for(SubmissionAttributes submission : submissions) {
-            saveSubmission(submission);
-        }
-        hasPreviousEntity = false;
-        FileHelper.appendToFile(currentFileName, "\n\t},\n");
-    }
-    
-    /** 
-     *  Retrieves all the submissions from a course and saves them
-     */
     protected void retrieveAndSaveStudentProfilesByCourse(String courseId) {
   
         try {
@@ -443,10 +406,6 @@ public class OfflineBackup extends RemoteApiClient {
         FileHelper.appendToFile(currentFileName, formatJsonString(comment.getJsonString(), comment.getCommentId().toString()));
     }   
     
-    protected void saveEvaluation(EvaluationAttributes evaluation) {
-        FileHelper.appendToFile(currentFileName, formatJsonString(evaluation.getJsonString(), evaluation.name));
-    }
-    
     protected void saveFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion) {   
         FileHelper.appendToFile(currentFileName, formatJsonString(feedbackQuestion.getJsonString(), feedbackQuestion.getId()));
     }
@@ -469,10 +428,6 @@ public class OfflineBackup extends RemoteApiClient {
     
     protected void saveStudent(StudentAttributes student) {
         FileHelper.appendToFile(currentFileName, formatJsonString(student.getJsonString(), student.googleId));
-    }
-    
-    protected void saveSubmission(SubmissionAttributes submission) {
-        FileHelper.appendToFile(currentFileName, formatJsonString(submission.getJsonString(), submission.getIdentificationString()));
     }
     
     protected void saveProfile(StudentProfileAttributes studentProfile) {

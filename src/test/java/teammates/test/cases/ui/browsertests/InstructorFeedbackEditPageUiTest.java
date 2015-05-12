@@ -245,7 +245,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         String expectedUrl = TestProperties.inst().TEAMMATES_URL
                 + Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE
                 + "?courseid=" + courseId
-                + "&fsname=First+Session"
+                + "&fsname=First%20Session"
                 + "&questionid=" + questionId;
 
         assertTrue(feedbackEditPage.isElementVisible("statusMessage"));
