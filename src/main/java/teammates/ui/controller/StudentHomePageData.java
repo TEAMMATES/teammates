@@ -68,27 +68,6 @@ public class StudentHomePageData extends PageData {
         return msg;
     }
     
-    /**
-     * @param submissionStatus Submission status of a student for a particular evaluation. 
-     * Can be: PENDING, SUBMITTED, ClOSED, PUBLISHED.
-     * 
-     * @return The hover message to explain evaluation submission status.
-     */
-    public String getStudentHoverMessageForEval(String submissionStatus){
-        if(submissionStatus.equals(Const.STUDENT_EVALUATION_STATUS_PENDING)){
-            return Const.Tooltips.STUDENT_EVALUATION_STATUS_PENDING;
-        } else if(submissionStatus.equals(Const.STUDENT_EVALUATION_STATUS_SUBMITTED)){
-            return Const.Tooltips.STUDENT_EVALUATION_STATUS_SUBMITTED;
-        } else if(submissionStatus.equals(Const.STUDENT_EVALUATION_STATUS_CLOSED)){
-            return Const.Tooltips.STUDENT_EVALUATION_STATUS_CLOSED;
-        } else if(submissionStatus.equals(Const.STUDENT_EVALUATION_STATUS_PUBLISHED)){
-            return Const.Tooltips.STUDENT_EVALUATION_STATUS_PUBLISHED;
-        } else {
-            return Const.Tooltips.STUDENT_EVALUATION_STATUS_ERROR;
-        }
-    }
-    
-    
     
     public String getStudentCourseDetailsLink(String courseId){
         String link = Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE;

@@ -114,21 +114,6 @@ public class BaseActionTest extends BaseComponentTestCase {
         return submissionParams;
     }
 
-    protected String[] createParamsForTypicalEval(String courseId, String evalName) {
-        
-        return new String[]{
-                Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.EVALUATION_NAME, evalName,
-                Const.ParamsNames.EVALUATION_COMMENTSENABLED, "true",
-                Const.ParamsNames.EVALUATION_START, "01/01/2015",
-                Const.ParamsNames.EVALUATION_STARTTIME, "0",
-                Const.ParamsNames.EVALUATION_DEADLINE, "01/01/2015",
-                Const.ParamsNames.EVALUATION_DEADLINETIME, "0",
-                Const.ParamsNames.EVALUATION_TIMEZONE, "0",
-                Const.ParamsNames.EVALUATION_GRACEPERIOD, "0",
-                Const.ParamsNames.EVALUATION_INSTRUCTIONS, "ins"
-        };
-    }
     
     protected String[] createParamsCombinationForFeedbackSession(String courseId, String fsName, int order) {
         String[] typicalCase = createParamsForTypicalFeedbackSession(courseId, fsName);
