@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseSummaryBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -68,7 +67,6 @@ public class InstructorHomePageAction extends Action {
                     + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
             data.numberOfPendingComments.put(courseId, numberOfPendingCommentsForThisCourse);
             
-            EvaluationAttributes.sortEvaluationsByDeadlineDescending(course.evaluations);
             FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(course.feedbackSessions);
         }
         

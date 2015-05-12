@@ -54,6 +54,13 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         return new FeedbackQuestionAttributes(fq);        
     }
     
+    
+    public FeedbackQuestionAttributes createFeedbackQuestionWithoutExistenceCheck(EntityAttributes entityToAdd) throws InvalidParametersException {
+        Object obj = this.createEntityWithoutExistenceCheck(entityToAdd);
+        
+        return new FeedbackQuestionAttributes((FeedbackQuestion)obj);
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null. 

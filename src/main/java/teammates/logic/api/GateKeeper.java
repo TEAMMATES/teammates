@@ -4,18 +4,15 @@ import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.InstructorsLogic;
-import teammates.storage.api.EvaluationsDb;
 import teammates.storage.api.StudentsDb;
 
 import com.google.appengine.api.users.User;
@@ -37,7 +34,6 @@ public class GateKeeper {
     
     // TODO: refactor this! gate keeper should not use Db level APIs
     private static final StudentsDb studentsDb = new StudentsDb();
-    private static EvaluationsDb evaluationsDb = new EvaluationsDb();
 
     private static GateKeeper instance = null;
     public static GateKeeper inst() {
@@ -155,18 +151,6 @@ public class GateKeeper {
         }
     }
     
-    public void verifyAccessible(StudentAttributes student, EvaluationAttributes evaluation){
-        verifyNotNull(student, "student");
-        verifyNotNull(student.course, "student's course ID");
-        verifyNotNull(evaluation, "evaluation");
-        verifyNotNull(evaluation.courseId, "course ID in the evaluation");
-        
-        if(!student.course.equals(evaluation.courseId)){
-            throw new UnauthorizedAccessException(
-                    "Evaluation [" + evaluation.name + 
-                    "] is not accessible to student ["+ student.email+ "]");
-        }
-    }
     
     public void verifyAccessible(StudentAttributes student, FeedbackSessionAttributes feedbacksession){
         verifyNotNull(student, "student");
@@ -187,23 +171,6 @@ public class GateKeeper {
         }
     }
     
-    public void verifyAccessible(StudentAttributes student, List<SubmissionAttributes> submissions){
-        verifyNotNull(student, "student");
-        
-        if(submissions.size() == 0) return;
-        
-        verifyAccessible(
-                student, 
-                evaluationsDb.getEvaluation(
-                        submissions.get(0).course, 
-                        submissions.get(0).evaluation));
-        
-        for(SubmissionAttributes s: submissions){
-            if(!s.reviewer.equals(student.email)){
-                throw new UnauthorizedAccessException("Student [" + student.email + "] cannot edit submission of ["+ s.reviewer+ "]");
-            }
-        }
-    }
 
     public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course){
         verifyNotNull(instructor, "instructor");
@@ -262,71 +229,7 @@ public class GateKeeper {
                     "] on section [" + sectionName + "]");
         }
     }
-    
-    public void verifyAccessible(InstructorAttributes instructor, EvaluationAttributes evaluation){
-        verifyNotNull(instructor, "instructor");
-        verifyNotNull(instructor.courseId, "instructor's course ID");
-        verifyNotNull(evaluation, "evaluation");
-        verifyNotNull(evaluation.courseId, "course ID in the evaluation");
-        if(!instructor.courseId.equals(evaluation.courseId)){
-            throw new UnauthorizedAccessException(
-                    "Evaluation [" + evaluation.name + 
-                    "] is not accessible to instructor ["+ instructor.email+ "]");
-        }
-    }
-    
-    /**
-     * verify the instructor and course are not null, the instructor belongs to the course and
-     * the instructor has the privilege specified by privilegeName for evaluation--not in use any more
-     * @param instructor
-     * @param evaluation
-     * @param privilegeName
-     */
-    public void verifyAccessible(InstructorAttributes instructor, EvaluationAttributes evaluation, String privilegeName) {
-        verifyNotNull(instructor, "instructor");
-        verifyNotNull(instructor.courseId, "instructor's course ID");
-        verifyNotNull(evaluation, "evaluation");
-        verifyNotNull(evaluation.courseId, "course ID in the evaluation");
-        if (!instructor.courseId.equals(evaluation.courseId)) {
-            throw new UnauthorizedAccessException(
-                    "Evaluation [" + evaluation.name + 
-                    "] is not accessible to instructor ["+ instructor.email+ "]");
-        }
-        if (!instructor.isAllowedForPrivilege(privilegeName)) {
-            throw new UnauthorizedAccessException(
-                    "Evaluation [" + evaluation.name + 
-                    "] is not accessible to instructor ["+ instructor.email+ "] for privilege [" + privilegeName + "]");
-        }
-    }
-    
-    /**
-     * verify the instructor and course are not null, the instructor belongs to the course and
-     * the instructor has the privilege specified by privilegeName for evaluationName--not in use any more
-     * @param instructor
-     * @param evaluation
-     * @param sectionName
-     * @param sessionName
-     * @param privilegeName
-     */
-    public void verifyAccessible(InstructorAttributes instructor, EvaluationAttributes evaluation, String sectionName, 
-            String sessionName, String privilegeName) {
-        verifyNotNull(instructor, "instructor");
-        verifyNotNull(instructor.courseId, "instructor's course ID");
-        verifyNotNull(evaluation, "evaluation");
-        verifyNotNull(evaluation.courseId, "course ID in the evaluation");
-        verifyNotNull(sectionName, "section name");
-        if (!instructor.courseId.equals(evaluation.courseId)) {
-            throw new UnauthorizedAccessException(
-                    "Evaluation [" + evaluation.name + 
-                    "] is not accessible to instructor ["+ instructor.email+ "]");
-        }
-        if (!instructor.isAllowedForPrivilege(sectionName, Const.EVAL_PREFIX_FOR_INSTRUCTOR_PRIVILEGES + sessionName, privilegeName)) {
-            throw new UnauthorizedAccessException(
-                    "Evaluation [" + evaluation.name + 
-                    "] is not accessible to instructor ["+ instructor.email+ "] for privilege [" + privilegeName +
-                    "] on section [" + sectionName + "]");
-        }
-    }
+       
     
     public void verifyAccessible(InstructorAttributes instructor, 
             FeedbackSessionAttributes feedbacksession, boolean creatorOnly){

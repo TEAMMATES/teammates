@@ -576,7 +576,35 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
             List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
             FeedbackSessionResultsBundle bundle) {
-        return "";
+        if(responses.isEmpty()){
+            return "";
+        }
+
+        StringBuilder csv = new StringBuilder();
+
+        // table header
+        for (String choice : rubricChoices) {
+            csv.append("," + Sanitizer.sanitizeForCsv(choice));
+        }
+        csv.append(Const.EOL);
+
+        // table body
+        DecimalFormat df = new DecimalFormat("#");
+
+        int[][] responseFrequency = calculateResponseFrequency(responses, this);
+        float[][] rubricStats = calculateRubricStats(responses, question);
+        
+        for (int i = 0; i < rubricSubQuestions.size(); i++) {
+            String alphabeticalIndex = StringHelper.integerToLowerCaseAlphabeticalIndex(i + 1);
+            csv.append(Sanitizer.sanitizeForCsv(alphabeticalIndex + ") " + rubricSubQuestions.get(i)));
+            for (int j = 0; j < rubricChoices.size(); j++) {
+                String percentageFrequency = df.format(rubricStats[i][j] * 100) + "%";
+                csv.append("," + percentageFrequency + " (" + responseFrequency[i][j] + ")");
+            }
+            csv.append(Const.EOL);
+        }
+
+        return csv.toString();
     }
     
     public String getNoResponseTextInCsv(String giverEmail, String recipientEmail,

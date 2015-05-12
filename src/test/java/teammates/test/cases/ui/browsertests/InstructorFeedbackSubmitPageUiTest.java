@@ -474,12 +474,12 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         qnNumber = 19;
         assertEquals("100 points left to distribute.",submitPage.getConstSumMessage(qnNumber, 3));
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "105");
-        assertEquals("80 points left to distribute. The same amount of points should not given multiple times.",submitPage.getConstSumMessage(qnNumber, 3));
+        assertEquals("80 points left to distribute. The same amount of points should not be given multiple times.",submitPage.getConstSumMessage(qnNumber, 3));
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "106");
         assertEquals("79 points left to distribute.",submitPage.getConstSumMessage(qnNumber, 3));
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "155");
         submitPage.fillResponseTextBox(qnNumber, 1, 0, "155");
-        assertEquals("Over allocated 15 points. The same amount of points should not given multiple times.",submitPage.getConstSumMessage(qnNumber, 3));
+        assertEquals("Over allocated 15 points. The same amount of points should not be given multiple times.",submitPage.getConstSumMessage(qnNumber, 3));
         submitPage.fillResponseTextBox(qnNumber, 1, 0, "154");
         assertEquals("Over allocated 14 points.",submitPage.getConstSumMessage(qnNumber, 3));
         
@@ -487,7 +487,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(qnNumber, 1, 0, "50");
         submitPage.fillResponseTextBox(qnNumber, 2, 0, "200");
         submitPage.fillResponseTextBox(qnNumber, 3, 0, "100");
-        assertEquals("The same amount of points should not given multiple times.",submitPage.getConstSumMessage(qnNumber, 3));
+        assertEquals("The same amount of points should not be given multiple times.",submitPage.getConstSumMessage(qnNumber, 3));
         
         submitPage.clickSubmitButton();
         assertEquals("Please fix the error(s) for distribution question(s) 17, 18, 19."
