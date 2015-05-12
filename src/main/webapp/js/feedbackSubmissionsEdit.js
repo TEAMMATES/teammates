@@ -98,6 +98,9 @@ function prepareContribQuestions() {
         var optionNums = $('[name^="responsetext-' + qnNum + '"]').length;
         for (var k = 0; k < optionNums; k++) {
             var $dropdown = $('[name="responsetext-' + qnNum + '-' + k + '"]');
+            
+            // Set initial color
+            $dropdown.addClass($dropdown[0].options[$dropdown[0].selectedIndex].className);
 
             // Bind on change event
             $dropdown.on('change', function() {
