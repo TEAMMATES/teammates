@@ -112,13 +112,6 @@ public class Const {
                 + " extra features e.g. set up a user profile";
         public static final String COURSE_DELETE_ALL_STUDENTS = "Delete all students in this course";
 
-        public static final String EVALUATION_DIFF = "Perceived Contribution - Claimed Contribution";
-        public static final String EVALUATION_POINTS_RECEIVED = "The list of points that this student received from others";
-
-
-        public static final String EVALUATION_SUBMISSION_NOT_AVAILABLE = "Not Available: There is no data for this or the data is not enough";
-        public static final String EVALUATION_SUBMISSION_NOT_SURE = "Not sure about the contribution";
-
         public static final String INSTRUCTOR_DISPLAYED_TO_STUDENT = "If this is unselected, the instructor will be completely invisible to students." 
                 + " E.g. to give access to a colleague for ‘auditing’ your course";
         
@@ -132,7 +125,15 @@ public class Const {
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED = "You have submitted your feedback for this session.";
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_CLOSED = "<br />The session is now closed for submissions.";
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED = "<br />The responses for the session can now be viewed.";
-    
+
+        
+        public static final String FEEDBACK_CONTRIBUTION_DIFF = "Perceived Contribution - Claimed Contribution";
+        public static final String FEEDBACK_CONTRIBUTION_POINTS_RECEIVED = "The list of points that this student received from others";
+
+        public static final String FEEDBACK_CONTRIBUTION_NOT_AVAILABLE = "Not Available: There is no data for this or the data is not enough";
+        public static final String FEEDBACK_CONTRIBUTION_NOT_SURE = "Not sure about the contribution";
+
+        
         public static final String FEEDBACK_SESSION_COURSE = "Please select the course for which the feedback session is to be created.";
         public static final String FEEDBACK_SESSION_INPUT_NAME = "Enter the name of the feedback session e.g. Feedback Session 1.";
         public static final String FEEDBACK_SESSION_STARTDATE = "Please select the date and time for which users can start submitting responses for the feedback session.";

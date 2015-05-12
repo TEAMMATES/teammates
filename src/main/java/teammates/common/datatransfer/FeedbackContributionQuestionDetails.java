@@ -311,8 +311,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 "${contribFragments}", contribFragments,
                 "${Const.Tooltips.CLAIMED}", Sanitizer.sanitizeForHtml(Const.Tooltips.CLAIMED),
                 "${Const.Tooltips.PERCEIVED}", Const.Tooltips.PERCEIVED,
-                "${Const.Tooltips.EVALUATION_POINTS_RECEIVED}", Const.Tooltips.EVALUATION_POINTS_RECEIVED,
-                "${Const.Tooltips.EVALUATION_DIFF}", Const.Tooltips.EVALUATION_DIFF);
+                "${Const.Tooltips.EVALUATION_POINTS_RECEIVED}", Const.Tooltips.FEEDBACK_CONTRIBUTION_POINTS_RECEIVED,
+                "${Const.Tooltips.EVALUATION_DIFF}", Const.Tooltips.FEEDBACK_CONTRIBUTION_DIFF);
 
         
         return html;
