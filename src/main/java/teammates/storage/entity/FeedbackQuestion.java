@@ -15,8 +15,7 @@ import teammates.common.datatransfer.FeedbackQuestionType;
 
 @PersistenceCapable
 public class FeedbackQuestion {
-    
-    //TODO: where applicable, we should specify fields as "gae.unindexed" to prevent GAE from building unnecessary indexes. 
+    // TODO: where applicable, we should specify fields as "gae.unindexed" to prevent GAE from building unnecessary indexes. 
     
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -33,7 +32,8 @@ public class FeedbackQuestion {
     @Persistent
     private String creatorEmail;
     
-    private Text questionText; //TODO: rename to questionMetaData, will require database conversion
+    // TODO: rename to questionMetaData, will require database conversion
+    private Text questionText;
     
     @Persistent
     private int questionNumber;
@@ -62,7 +62,6 @@ public class FeedbackQuestion {
     @Persistent
     private List<FeedbackParticipantType> showRecipientNameTo;
 
-    
     public FeedbackQuestion(
             String feedbackSessionName, String courseId, String creatorEmail,
             Text questionText, int questionNumber, FeedbackQuestionType questionType,
@@ -82,7 +81,7 @@ public class FeedbackQuestion {
         this.questionType = questionType;
         this.giverType = giverType;
         this.recipientType = recipientType;
-        this.numberOfEntitiesToGiveFeedbackTo =    numberOfEntitiesToGiveFeedbackTo;
+        this.numberOfEntitiesToGiveFeedbackTo = numberOfEntitiesToGiveFeedbackTo;
         this.showResponsesTo = showResponsesTo;
         this.showGiverNameTo = showGiverNameTo;
         this.showRecipientNameTo = showRecipientNameTo;

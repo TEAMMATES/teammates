@@ -20,15 +20,17 @@ public class FeedbackQuestionSubmissionEditPageData extends PageData {
         ArrayList<String> result = new ArrayList<String>();
         
         // Add an empty option first.
-        result.add("<option value=\"\" " +
-                (currentlySelectedOption==null ? "selected=\"selected\">" : ">") +
+        result.add(
+                "<option value=\"\" " +
+                (currentlySelectedOption == null ? "selected=\"selected\">" : ">") +
                 "</option>");
         
-        for(Map.Entry<String, String> recipient : bundle.recipientList.entrySet()) {
-            result.add("<option value=\"" + recipient.getKey() + "\"" +
-                    (recipient.getKey().equals(currentlySelectedOption) 
-                        ? " selected=\"selected\"" : "") +
-                    ">"+sanitizeForHtml(recipient.getValue())+"</option>");            
+        for (Map.Entry<String, String> recipient : bundle.recipientList.entrySet()) {
+            result.add(
+                    "<option value=\"" + recipient.getKey() + "\" " +
+                    (recipient.getKey().equals(currentlySelectedOption) ? "selected=\"selected\">" : ">") +
+                    sanitizeForHtml(recipient.getValue()) +
+                    "</option>");            
         }
 
         return result;
