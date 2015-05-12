@@ -736,18 +736,34 @@ public class PageData {
             "onclick=\"return toggleDeleteFeedbackSessionConfirmation('" + session.courseId + "','" + session.feedbackSessionName + "');\" " +
             disableDeleteSessionStr + ">Delete</a> "
         );
-        result.append(
-            "<a class=\"btn btn-default btn-xs btn-tm-actions session-submit-for-test" + (hasSubmit ? "\"" : DISABLED) +
-            "href=\"" + getInstructorFeedbackSessionSubmitLink(session.courseId,session.feedbackSessionName) + "\" " +
-            "title=\"" + Const.Tooltips.FEEDBACK_SESSION_SUBMIT + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
-            disableSubmitSessionStr + ">Submit</a> "
-        );
+        
+        hasSubmit = false;
+        
+        // TODO: refactor this portion
+        if (hasSubmit) {
+            result.append(
+                    "<a class=\"btn btn-default btn-xs btn-tm-actions session-submit-for-test" + "\"" +
+                    "href=\"" + getInstructorFeedbackSessionSubmitLink(session.courseId,session.feedbackSessionName) + "\" " +
+                    "title=\"" + Const.Tooltips.FEEDBACK_SESSION_SUBMIT + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
+                    disableSubmitSessionStr + ">Submit</a> "
+                );
+        } else {
+            result.append(
+                    "<div title=\"" + Const.Tooltips.FEEDBACK_SESSION_SUBMIT + "\" data-toggle=\"tooltip\" data-placement=\"top\" style=\"display: inline-block; padding-right: 5px;\"" + ">" +
+                    "<a class=\"btn btn-default btn-xs btn-tm-actions session-submit-for-test" + DISABLED +
+                    "href=\"" + getInstructorFeedbackSessionSubmitLink(session.courseId,session.feedbackSessionName) + "\" " +
+                    disableSubmitSessionStr + ">Submit</a> " +
+                    "</div>"
+                );
+        }
+        
         
         // Don't need to show any other links if private
         if(session.isPrivateSession()) {
             return result.toString();
         }
-        
+
+        // TODO: Disabled -> wrap in div for tooltip
         result.append(
             "<div class=\"btn-group\"><a class=\"btn btn-default btn-xs btn-tm-actions session-remind-for-test" + 
             ((instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) && hasRemind) ? "\"" : DISABLED) +  
@@ -801,6 +817,7 @@ public class PageData {
                 "onclick=\"return toggleUnpublishEvaluation('" + session.feedbackSessionName + "');\" " + 
                 disableUnpublishSessionStr + ">Unpublish Results</a> ";
         } else {
+            // TODO: Disabled -> wrap in div for tooltip
             result = 
                 "<a class=\"btn btn-default btn-xs btn-tm-actions session-publish-for-test" + (hasPublish ? "\"" : DISABLED) + 
                 "href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
