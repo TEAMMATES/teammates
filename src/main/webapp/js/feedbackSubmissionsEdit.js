@@ -6,7 +6,7 @@ var FEEDBACK_MISSING_RECIPIENT = "You did not specify a recipient for your respo
 
 // On body load event
 $(document).ready(function () {
-
+    
     // Bind submission event
     $('form[name="form_submit_response"],form[name="form_student_submit_response"]').submit(function() {
         formatRubricQuestions();
@@ -53,7 +53,7 @@ function prepareMCQQuestions() {
 	for (var i = 0; i < mcqQuestionNums.length; i++) {
 		var qnNum = mcqQuestionNums[i];
 		var numResponses = $("[name='questionresponsetotal-" + qnNum + "']")
-				.val();
+		                .val();
 
 		for (var j = 0; j < numResponses; j++) {
 			var id = "responsetext-" + qnNum + "-" + j;
@@ -70,7 +70,7 @@ function prepareMCQQuestions() {
 				var name = $(this).attr("name");
 				// toggle the radio button checked state
 				$(this).attr("checked",
-						(radioStates[name][val] = !radioStates[name][val]));
+				            (radioStates[name][val] = !radioStates[name][val]));
 
 				// set other radio buttons' states to false
 				$.each(radioButtons[name], function(index, radio) {
@@ -86,10 +86,10 @@ function prepareMCQQuestions() {
 
 // Prepare contrib questions for answering by user
 function prepareContribQuestions() {
-
+    
     // Get index of contribution questions
     var contribQuestionNums = getQuestionTypeNumbers("CONTRIB");
-    for(var i=0 ; i<contribQuestionNums.length ; i++){
+    for(var i=0; i<contribQuestionNums.length; i++){
         var qnNum = contribQuestionNums[i];
         
         // Get number of options for the specified question number of contribution question type
@@ -97,14 +97,17 @@ function prepareContribQuestions() {
         for(var k=0; k<optionNums; k++){
 
             var dropdown = $("[name='responsetext-" + qnNum + "-" + k + "']");
-
+            
+            // Set initial color
+            dropdown.addClass(dropdown[0].options[dropdown[0].selectedIndex].className);
+            
             // Bind on change event
             dropdown.on("change", function() {
                 $(this).removeClass("color_neutral");
                 $(this).removeClass("color-positive");
                 $(this).removeClass("color-negative");
                 $(this).addClass(this.options[this.selectedIndex].className);
-            });            
+            });         
         }
     }
 }
@@ -133,7 +136,7 @@ function prepareMSQQuestions() {
             var noneOfTheAboveOption = $(this).closest("table").find("input[name^='responsetext-'][value='']");
             noneOfTheAboveOption.prop('checked', false);
         });
-
+        
     }
 }
 
@@ -187,7 +190,7 @@ function prepareRubricQuestions() {
             updateRubricCellSelectedColor(rubricRadioInputs[j]);
         }
     }
-
+    
 }
 
 /**
