@@ -26,10 +26,10 @@ public class InstructorFeedbackEditCopyAction extends Action {
         Assumption.assertNotNull("null course id", originalCourseId);
         Assumption.assertNotNull("null fs name", originalFeedbackSessionName);
         Assumption.assertNotNull("null copied fs name", newFeedbackSessionName);
-
         
         if (coursesIdToCopyTo == null || coursesIdToCopyTo.length == 0) {
-            return createRedirectToEditPageWithErrorMsg(originalFeedbackSessionName, originalCourseId, Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
+            return createRedirectToEditPageWithErrorMsg(
+                    originalFeedbackSessionName, originalCourseId, Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         }
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(originalCourseId, account.googleId); 
@@ -43,22 +43,21 @@ public class InstructorFeedbackEditCopyAction extends Action {
         
         try {
             // Check if there are no conflicting feedback sessions in all the courses 
-            List<String> conflictCourse = filterConflictsInCourses(
+            List<String> conflictCourses = filterConflictsInCourses(
                     newFeedbackSessionName, coursesIdToCopyTo);
             
-            if (!conflictCourse.isEmpty()) {
+            if (!conflictCourses.isEmpty()) {
                 String errorToAdmin = "For measuring failure rate: user tried to copy session to multiple courses.";
                 errorToAdmin += "Name of Session: " + newFeedbackSessionName + "<br>"; 
-                                               
-                errorToAdmin += "Copying to course(s) " + conflictCourse.toString() + " failed.";
+                errorToAdmin += "Copying to course(s) " + conflictCourses.toString() + " failed.";
                 log.severe(errorToAdmin);
-                                
-                String commaSeparatedListOfCourses = StringHelper.toString(conflictCourse, ",");
-                String errorToUser = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, newFeedbackSessionName, commaSeparatedListOfCourses);
+                
+                String commaSeparatedListOfCourses = StringHelper.toString(conflictCourses, ",");
+                String errorToUser = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS,
+                        newFeedbackSessionName, commaSeparatedListOfCourses);
                 
                 return createRedirectToEditPageWithErrorMsg(originalFeedbackSessionName, originalCourseId, errorToUser);
             }
-            
             
             FeedbackSessionAttributes fs = null;
             // Copy the feedback sessions
@@ -66,7 +65,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
             for (String courseIdToCopyTo : coursesIdToCopyTo) {
                 InstructorAttributes instructorForCourse = logic.getInstructorForGoogleId(courseIdToCopyTo, account.googleId);
                 gk.verifyAccessible(
-                        instructorForCourse, 
+                        instructorForCourse,
                         logic.getCourse(courseIdToCopyTo), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
                 
                 fs = logic.copyFeedbackSession(newFeedbackSessionName, courseIdToCopyTo, originalFeedbackSessionName, originalCourseId, instructor.email);
@@ -90,17 +89,11 @@ public class InstructorFeedbackEditCopyAction extends Action {
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
             
         } catch (EntityAlreadyExistsException e) {
-            statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
-            statusToAdmin = e.getMessage();
-            isError = true;
-            
+            setStatusForException(e, Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
             return createRedirectToEditPageWithError(originalFeedbackSessionName, originalCourseId);
-            
         } catch (InvalidParametersException e) {
             setStatusForException(e);
-            
             return createRedirectToEditPageWithError(originalFeedbackSessionName, originalCourseId);
-            
         }
         
     }
@@ -127,8 +120,8 @@ public class InstructorFeedbackEditCopyAction extends Action {
         return courses;
     }    
     
-    private RedirectResult createRedirectToEditPageWithError(String feedbackSessionName,
-            String courseId) {
+    private RedirectResult createRedirectToEditPageWithError(
+            String feedbackSessionName, String courseId) {
         isError = true;
         
         RedirectResult redirectResult = createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE);
@@ -138,9 +131,9 @@ public class InstructorFeedbackEditCopyAction extends Action {
         
         return redirectResult;
     }
-
-    private RedirectResult createRedirectToEditPageWithErrorMsg(String feedbackSessionName,
-            String courseId, String errorToUser) {
+    
+    private RedirectResult createRedirectToEditPageWithErrorMsg(
+            String feedbackSessionName, String courseId, String errorToUser) {
         statusToUser.add(errorToUser);
         return createRedirectToEditPageWithError(feedbackSessionName, courseId);
     }
