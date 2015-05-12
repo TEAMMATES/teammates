@@ -5,7 +5,6 @@
 <%@ page import="teammates.common.util.Config"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.datatransfer.CourseAttributes"%>
-<%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page
     import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
 <%@ page

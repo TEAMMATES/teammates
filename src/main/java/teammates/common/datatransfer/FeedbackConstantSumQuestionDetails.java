@@ -435,7 +435,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             
             List<Integer> points = entry.getValue();
             double average = computeAverage(points);
-            fragments += option + "," + 
+            fragments += Sanitizer.sanitizeForCsv(option) + "," + 
                          df.format(average) + Const.EOL;
             
         }

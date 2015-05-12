@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -48,12 +47,8 @@ public class InstructorCourseEditPageAction extends Action {
         
         data.currentInstructor = instructor;
         data.sectionNames = logic.getSectionNamesForCourse(courseId);
-        data.evalNames = new ArrayList<String>();
         data.feedbackNames = new ArrayList<String>();
-        List<EvaluationAttributes> evaluations = logic.getEvaluationsForCourse(courseId);
-        for (EvaluationAttributes eval : evaluations) {
-            data.evalNames.add(eval.name);
-        }
+        
         List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsForCourse(courseId);
         for (FeedbackSessionAttributes feedback : feedbacks) {
             data.feedbackNames.add(feedback.feedbackSessionName);

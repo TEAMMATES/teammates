@@ -38,13 +38,6 @@ public class InstructorStudentRecordsPage extends AppPage {
         verifyBelongsToStudent(studentName);
     }
     
-    public InstructorEvalSubmissionEditPage clickEvalEditLink(String evalName){
-        int rowId = getEvalRowId(evalName);
-        getEvalEditLink(rowId).click();
-        waitForPageToLoad();
-        return changePageType(InstructorEvalSubmissionEditPage.class);
-    }
-    
     public InstructorStudentRecordsPage addComment(String commentText){
         addCommentLink.click();
         commentTextBox.sendKeys(commentText);

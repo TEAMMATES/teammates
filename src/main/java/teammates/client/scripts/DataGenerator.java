@@ -59,9 +59,7 @@ public class DataGenerator {
     public static HashMap<String, String> instructors = new HashMap<String, String>();
     public static ArrayList<String> studentEmails = new ArrayList<String>();
     public static ArrayList<String> students = new ArrayList<String>();
-    public static ArrayList<String> evaluations = new ArrayList<String>();
     public static ArrayList<ArrayList<String>> teams = new ArrayList<ArrayList<String>>();
-    public static ArrayList<Dictionary<String, String>> submissions = new ArrayList<Dictionary<String, String>>();
     
     public static Random random = new Random();
 
@@ -139,15 +137,7 @@ public class DataGenerator {
         
         // Add students to this course
         generateStudentsDataForCourse(courseName);
-        
-        // Add evaluation(s) for this course
-        Integer numerOfActiveEval = (int) Math.round(random.nextInt
-                (MAX_ACTIVE_EVALUATION_PER_COURSE - MIN_ACTIVE_EVALUATION_PER_COURSE+1)+MIN_ACTIVE_EVALUATION_PER_COURSE);
-        
-        for (int n = 0; n < numerOfActiveEval ; n ++) {
-            String eval = "Eval"+n+"_in_"+courseName;
-            evaluations.add(eval);    
-        }
+       
     }
     
     /**
@@ -206,8 +196,7 @@ public class DataGenerator {
         output += allCourses() + "\n\n";
         output += allInstructors() + "\n\n";
         output += allStudents() + "\n\n";
-        output += allEvaluations() + "\n\n";
-        output += allSubmissions() + "\n\n}";
+        output += "}";
         
         System.out.println("Finish writing to file !");
         return output;
@@ -275,79 +264,8 @@ public class DataGenerator {
         output+= "\n},";
         return output;
     }
-    /**
-     * @return Json string presentation for all evaluations
-     */
-    public static String allEvaluations(){
-        String output = "\"evaluations\":{\n";
-        for (int i = 0; i < evaluations.size(); i++) {
-            String eval = PREFIX+evaluations.get(i);
-            String course = PREFIX+eval.split("_in_")[1];
-            output+="\t"+evaluation("idOf_"+eval, "courseIdOf_"+course, eval, 
-                    "instructions for "+eval, 10, true,
-                    START_TIME, END_TIME_NOT_PASSED, 8.0, true, false);
-            if(i!=evaluations.size()-1)
-                output+=",\n";
-        }
-        output+= "\n},";
-        return output;
-    }
     
-    /**
-     * @return Json string presentation for all Submissions
-     */
-    public static String allSubmissions(){
-        String output = "\"submissions\":{\n";
-        for (String eval : evaluations) {
-            String courseOfEval = eval.split("_in_")[1];
-            for (ArrayList<String> team : teams) {
-                if (team.size() == 0) // Ignore if team's size is 0
-                    continue;
-                String courseOfTeam = team.get(0).split("_in_")[1];
-                if (courseOfEval.equals(courseOfTeam)){
-                    output += submissionForTeam(courseOfEval,eval,team);
-                }
-            }
-        }
-        if (evaluations.size() > 0)
-            output = output.substring(0,output.length() -2); //remove the last comma
-        output+= "\n}";
-        return output;
-    }
 
-    
-    /**
-     *  Json string presentation for submissions for a particular team
-     * @param course - name of the course
-     * @param eval - name of the eval
-     * @param team - arrayList of student in the team 
-     * @return
-     */
-    public static String submissionForTeam(String course,String eval,ArrayList<String> team) {
-        String output = "";
-        Integer subCount =0;
-        while(team.size() >0){
-            String stu = team.get(0);
-            String teamIndex = stu.split("Team")[1].split("_in_")[0];
-            String stuEmail = emailFromStudentId(stu);
-            for (int i = 0 ; i < team.size() ; i++){
-                String other = team.get(i);
-                String otherEmail = emailFromStudentId(other);
-                output += "\t"+submissions(PREFIX+"Sub"+subCount+"Team"+teamIndex+eval, stuEmail, otherEmail,
-                        "idOf_"+PREFIX+course,PREFIX+eval, 10, "justification", "p2p", "Team "+teamIndex);
-                output += ",\n";
-                subCount++;
-                if (!stuEmail.equals(otherEmail)){
-                    output += "\t"+submissions(PREFIX+"Sub"+subCount+"Team"+teamIndex+eval, otherEmail, stuEmail,
-                            "idOf_"+PREFIX+course,PREFIX+eval, 10, "justification", "p2p", "Team "+teamIndex);
-                    output += ",\n";
-                    subCount++;
-                }
-            }
-            team.remove(0);
-        }
-        return output;
-    }
     
     public static String account(String acc) {
         String result = "\""+acc+"\":{";
@@ -396,45 +314,6 @@ public class DataGenerator {
         result += "\"comments\":\""+comments+"\",";
         result += "\"course\":\""+course+"\",";
         result += "\"profile\":{\"value\": \""+name+"\"}";
-          result += "}";
-          return result;
-    }
-    
-    /**
-     * @return Json string presentation for a evaluation entity
-     */
-    public static String evaluation(String objName,String course, String name,String instructions,
-            Integer gracePeriod,Boolean p2pEnabled, String startTime,String endTime,
-            Double timeZone, Boolean activated, Boolean published) {
-        String result = "\""+objName+"\":{";
-        result += "\"course\":\""+course+"\",";
-        result += "\"name\":\""+name+"\",";
-        result += "\"instructions\":\""+instructions+"\",";
-        result += "\"gracePeriod\":"+gracePeriod+",";
-        result += "\"p2pEnabled\":"+p2pEnabled+",";
-        result += "\"startTime\":\""+startTime+"\",";
-        result += "\"endTime\":\""+endTime+"\",";
-        result += "\"startTime\":\""+startTime+"\",";
-        result += "\"timeZone\":"+timeZone+",";
-        result += "\"activated\":"+activated+",";
-        result += "\"published\":"+published+"";
-          result += "}";
-          return result;
-    }
-    /**
-     * @return Json string presentation for a submission entity
-     */
-    public static String submissions(String objName,String reviewer,String reviewee,String course,String evaluation,
-            Integer points,String justification,String p2pFeedback,String team) {
-        String result = "\""+objName+"\":{";
-        result += "\"reviewer\":\""+reviewer+"\",";
-        result += "\"reviewee\":\""+reviewee+"\",";
-        result += "\"course\":\""+course+"\",";
-        result += "\"evaluation\":\""+evaluation+"\",";
-        result += "\"points\":"+points+",";
-        result += "\"justification\":{\"value\":\""+justification+"\"},";
-        result += "\"p2pFeedback\":{\"value\":\""+p2pFeedback+"\"},";
-        result += "\"team\":\""+team+"\"";
           result += "}";
           return result;
     }
