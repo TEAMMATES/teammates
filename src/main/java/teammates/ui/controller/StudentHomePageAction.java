@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.CourseDetailsBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.EvaluationDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes;
@@ -34,7 +32,6 @@ public class StudentHomePageAction extends Action {
         try{
             data.courses = logic.getCourseDetailsListForStudent(account.googleId);
     
-            data.evalSubmissionStatusMap = generateEvalSubmissionStatusMap(data.courses, account.googleId);
             data.sessionSubmissionStatusMap = generateFeedbackSessionSubmissionStatusMap(data.courses, account.googleId);
             CourseDetailsBundle.sortDetailedCourses(data.courses);
             
@@ -47,7 +44,6 @@ public class StudentHomePageAction extends Action {
             }
             
             for(CourseDetailsBundle course: data.courses){
-                EvaluationDetailsBundle.sortEvaluationsByDeadline(course.evaluations);
                 FeedbackSessionDetailsBundle.sortFeedbackSessionsByCreationTime(course.feedbackSessions);
             }
             
@@ -66,29 +62,6 @@ public class StudentHomePageAction extends Action {
 
     }
     
-    
-    private Map<String, String> generateEvalSubmissionStatusMap(
-            List<CourseDetailsBundle> courses, String googleId) {
-        Map<String, String> returnValue = new HashMap<String, String>();
-        
-        String recentlySubmittedEvaluation = getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_EVALUATION);
-        
-        for(CourseDetailsBundle c: courses){
-            for(EvaluationDetailsBundle edb: c.evaluations){
-                EvaluationAttributes e = edb.evaluation;
-                
-                String currentEvaluation = e.courseId+e.name;
-                boolean isEvaluationRecentlySubmitted = currentEvaluation.equals(recentlySubmittedEvaluation);
-                
-                if(isEvaluationRecentlySubmitted) {
-                    returnValue.put(e.courseId+"%"+e.name, Const.STUDENT_EVALUATION_STATUS_SUBMITTED);
-                } else {
-                    returnValue.put(e.courseId+"%"+e.name, getStudentStatusForEval(e, googleId));
-                }
-            }
-        }
-        return returnValue;
-    }
 
     private Map<String, Boolean> generateFeedbackSessionSubmissionStatusMap(
             List<CourseDetailsBundle> courses, String googleId) {
@@ -104,34 +77,6 @@ public class StudentHomePageAction extends Action {
         return returnValue;
     }
 
-    private String getStudentStatusForEval(EvaluationAttributes eval, String googleId){
-        
-        StudentAttributes student = logic.getStudentForGoogleId(eval.courseId, googleId);
-        Assumption.assertNotNull(student);
-
-        String studentEmail = student.email;
-        
-        switch (eval.getStatus()) {
-            case PUBLISHED:
-                return Const.STUDENT_EVALUATION_STATUS_PUBLISHED;
-            case CLOSED:
-                return Const.STUDENT_EVALUATION_STATUS_CLOSED;
-            default:
-                break; // continue processing.
-        }
-        
-        boolean submitted = false;
-        
-        try {
-            submitted = logic.hasStudentSubmittedEvaluation(eval.courseId, eval.name, studentEmail);
-        } catch (InvalidParametersException e) {
-            Assumption.fail("Parameters are expected to be valid at this point :" + TeammatesException.toStringWithStackTrace(e));
-        }
-        
-        return submitted ? 
-                Const.STUDENT_EVALUATION_STATUS_SUBMITTED 
-                : Const.STUDENT_EVALUATION_STATUS_PENDING;
-    }
     
     private boolean getStudentStatusForSession(FeedbackSessionAttributes fs, String googleId){
         
@@ -175,9 +120,7 @@ public class StudentHomePageAction extends Action {
             CourseDetailsBundle course = logic.getCourseDetails(courseId);
             data.courses.add(course);
 
-            addPlaceholderEvaluations(course);
             addPlaceholderFeedbackSessions(course);        
-            EvaluationDetailsBundle.sortEvaluationsByDeadline(course.evaluations);
             FeedbackSessionDetailsBundle.sortFeedbackSessionsByCreationTime(course.feedbackSessions);
             
         } catch (EntityDoesNotExistException e){
@@ -186,22 +129,6 @@ public class StudentHomePageAction extends Action {
         } 
     }
     
-    private void addPlaceholderEvaluations(CourseDetailsBundle course) {
-        for(EvaluationDetailsBundle edb: course.evaluations){
-            EvaluationAttributes eval = edb.evaluation;
-            switch (eval.getStatus()) {
-                case PUBLISHED:
-                    data.evalSubmissionStatusMap.put(eval.courseId+"%"+eval.name, Const.STUDENT_EVALUATION_STATUS_PUBLISHED);
-                    break;
-                case CLOSED:
-                    data.evalSubmissionStatusMap.put(eval.courseId+"%"+eval.name, Const.STUDENT_EVALUATION_STATUS_CLOSED);
-                    break;
-                default:
-                    data.evalSubmissionStatusMap.put(eval.courseId+"%"+eval.name, Const.STUDENT_EVALUATION_STATUS_PENDING);
-                    break;
-            }
-        }
-    }
     
     private void addPlaceholderFeedbackSessions(CourseDetailsBundle course) {
         for(FeedbackSessionDetailsBundle fsb: course.feedbackSessions){
