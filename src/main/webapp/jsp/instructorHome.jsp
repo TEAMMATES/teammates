@@ -226,7 +226,7 @@
                                                 Session Name<span class="icon-sort unsorted"></span></th>
                                             <th>Status</th>
                                             <th>
-                                                <span title="<%=Const.Tooltips.EVALUATION_RESPONSE_RATE%>" data-toggle="tooltip" data-placement="top">Response Rate</span>
+                                                <span title="<%=Const.Tooltips.FEEDBACK_SESSION_RESPONSE_RATE%>" data-toggle="tooltip" data-placement="top">Response Rate</span>
                                             </th>
                                             <th class="no-print">Action(s)</th>
                                         </tr>

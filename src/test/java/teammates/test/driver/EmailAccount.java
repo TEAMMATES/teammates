@@ -78,45 +78,6 @@ public class EmailAccount {
         return key.trim();
     }
 
-    /**
-     * Retrieve evaluation reminder sent to Gmail inbox. After retrieving, marks
-     * the email as read.
-     * 
-     * Can be easily modified to support other mail providers
-     * 
-     * @param username
-     * @param password
-     * @return
-     * @throws Exception
-     */
-    public static String getEvaluationReminderFromGmail(String username,
-            String password, String courseId, String evalulationName)
-            throws Exception {
-        Folder inbox = getGmailInbox(username, password);
-        Message[] messages = getMessages(inbox);
-
-        // Loop over the last 5 messages
-        for (int i = messages.length - 1; i >= messages.length - 5; i--) {
-            Message message = messages[i];
-
-            String subject = message.getSubject();
-            // TODO: make this test deeper
-            // TODO: courseID is not used
-            boolean isTheRightEmail = subject
-                    .contains(Emails.SUBJECT_PREFIX_STUDENT_EVALUATION_REMINDER)
-                    && subject.contains(evalulationName);
-            if (!isTheRightEmail)
-                continue;
-
-            // Mark the message as read
-            message.setFlag(Flags.Flag.SEEN, true);
-
-            // Return the courseId
-            return courseId;
-        }
-
-        return "";
-    }
 
     /**
      * Checks whether the Publish had actually sent the e-mails to students

@@ -117,7 +117,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6"
-                                title="<%=Const.Tooltips.EVALUATION_INPUT_TIMEZONE%>"
+                                title="<%=Const.Tooltips.FEEDBACK_SESSION_INPUT_TIMEZONE%>"
                                 data-toggle="tooltip"
                                 data-placement="top">
                                 <div class="form-group">
@@ -273,7 +273,7 @@
                                 </div>
                             </div>
                             <div class="col-md-2 border-left-gray"
-                                title="<%=Const.Tooltips.EVALUATION_INPUT_GRACEPERIOD%>"
+                                title="<%=Const.Tooltips.FEEDBACK_SESSION_INPUT_GRACEPERIOD%>"
                                 data-toggle="tooltip"
                                 data-placement="top">
                                 <div class="row">
@@ -612,7 +612,7 @@
                     </th>
                     <th>Status</th>
                     <th><span
-                        title="<%=Const.Tooltips.EVALUATION_RESPONSE_RATE%>"
+                        title="<%=Const.Tooltips.FEEDBACK_SESSION_RESPONSE_RATE%>"
                         data-toggle="tooltip" data-placement="top">
                             Response Rate</span></th>
                     <th class="no-print">Action(s)</th>

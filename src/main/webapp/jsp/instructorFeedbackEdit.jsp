@@ -114,7 +114,7 @@
                                             <label
                                                 for="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>"
                                                 class="col-sm-4 control-label"
-                                                title="<%=Const.Tooltips.EVALUATION_INPUT_TIMEZONE%>"
+                                                title="<%=Const.Tooltips.FEEDBACK_SESSION_INPUT_TIMEZONE%>"
                                                 data-toggle="tooltip"
                                                 data-placement="top">Timezone</label>
                                         </h5>
@@ -242,7 +242,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2 border-left-gray" title="<%=Const.Tooltips.EVALUATION_INPUT_GRACEPERIOD%>"
+                                <div class="col-md-2 border-left-gray" title="<%=Const.Tooltips.FEEDBACK_SESSION_INPUT_GRACEPERIOD%>"
                                                 data-toggle="tooltip"
                                                 data-placement="top">
                                     <div class="row">
