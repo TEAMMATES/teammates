@@ -168,6 +168,13 @@ public class Const {
         public static final String FEEDBACK_SESSION_STATUS_CLOSED = ", and has ended";
         public static final String FEEDBACK_SESSION_STATUS_PUBLISHED = ".<br />The responses for this session are visible";
         
+        public static final String FEEDBACK_SESSION_INPUT_TIMEZONE = "You should not need to change this as your timezone is auto-detected. <br /><br />However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is "
+                + "daylight saving, you should choose UTC -7:00 and its corresponding timings.";
+
+        public static final String FEEDBACK_SESSION_INPUT_GRACEPERIOD = "Please select the amount of time that the system will continue accepting <br />"
+                + "submissions after the specified deadline.";
+
+        public static final String FEEDBACK_SESSION_RESPONSE_RATE = "Number of students submitted / Class size";
         public static final String FEEDBACK_SESSION_RESULTS = "View the submitted responses for this feedback session";
         public static final String FEEDBACK_SESSION_EDIT = "Edit feedback session details";
         public static final String FEEDBACK_SESSION_REMIND = "Send e-mails to remind students and instructors who have not submitted their feedbacks to do so";
