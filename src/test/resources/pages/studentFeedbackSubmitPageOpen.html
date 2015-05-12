@@ -20,6 +20,13 @@
     
         <input name="user" value="SFSubmitUiT.alice.b" type="hidden">
     
+    
+
+
+
+
+        <div id="statusMessage" style="display: none;"></div>
+
     <div class="well well-plain" id="course1">
             <div class="panel-body">
                 <div class="form-horizontal">
@@ -58,14 +65,8 @@
                 </div>
             </div>
         </div>
-    
-
-
-
-
-    <div id="statusMessage" style="display: none;"></div>
-
     <br>
+    
 
         <input name="questiontype-1" value="TEXT" type="hidden">
         <input name="questionid-1" value="{*}" type="hidden">
@@ -621,12 +622,12 @@
                     <table>
     <tbody><tr>
     <td>
-        <label><input name="responsetext-10-0" value="Alice Betsy (Team &gt;&#39;&quot;&lt; 1)" type="radio"> Alice Betsy (Team &gt;&#39;&quot;&lt; 1)</label>
+        <label><input name="responsetext-10-0" value="Alice Betsy (Team >'&quot;< 1)" type="radio"> Alice Betsy (Team &gt;'"&lt; 1)</label>
     </td>
 </tr>
 <tr>
     <td>
-        <label><input name="responsetext-10-0" value="Benny Charles (Team &gt;&#39;&quot;&lt; 1)" type="radio"> Benny Charles (Team &gt;&#39;&quot;&lt; 1)</label>
+        <label><input name="responsetext-10-0" value="Benny Charles (Team >'&quot;< 1)" type="radio"> Benny Charles (Team &gt;'"&lt; 1)</label>
     </td>
 </tr>
 <tr>
@@ -697,12 +698,12 @@
                     <table>
     <tbody><tr>
     <td>
-        <label><input name="responsetext-11-0" value="Alice Betsy (Team &gt;&#39;&quot;&lt; 1)" type="checkbox"> Alice Betsy (Team &gt;&#39;&quot;&lt; 1)</label>
+        <label><input name="responsetext-11-0" value="Alice Betsy (Team >'&quot;< 1)" type="checkbox"> Alice Betsy (Team &gt;'"&lt; 1)</label>
     </td>
 </tr>
 <tr>
     <td>
-        <label><input name="responsetext-11-0" value="Benny Charles (Team &gt;&#39;&quot;&lt; 1)" type="checkbox"> Benny Charles (Team &gt;&#39;&quot;&lt; 1)</label>
+        <label><input name="responsetext-11-0" value="Benny Charles (Team >'&quot;< 1)" type="checkbox"> Benny Charles (Team &gt;'"&lt; 1)</label>
     </td>
 </tr>
 <tr>
@@ -778,7 +779,7 @@
                     <table>
     <tbody><tr>
     <td>
-        <label><input name="responsetext-12-0" value="Team &gt;&#39;&quot;&lt; 1" type="radio"> Team &gt;&#39;&quot;&lt; 1</label>
+        <label><input name="responsetext-12-0" value="Team >'&quot;< 1" type="radio"> Team &gt;'"&lt; 1</label>
     </td>
 </tr>
 <tr>
@@ -834,7 +835,7 @@
                     <table>
     <tbody><tr>
     <td>
-        <label><input name="responsetext-13-0" value="Team &gt;&#39;&quot;&lt; 1" type="checkbox"> Team &gt;&#39;&quot;&lt; 1</label>
+        <label><input name="responsetext-13-0" value="Team >'&quot;< 1" type="checkbox"> Team &gt;'"&lt; 1</label>
     </td>
 </tr>
 <tr>
@@ -1146,7 +1147,8 @@
     <input id="constSumPointsPerOption-18" value="false" type="hidden">
     <input id="constSumNumOption-18" value="2" type="hidden">
     <input id="constSumPoints-18" value="100" type="hidden">
-    <input id="constSumUnevenDistribution-18" type="hidden" value="false"/>
+    <input id="constSumUnevenDistribution-18" value="false" type="hidden">
+    
 </div>
                     </div>
                 </div>
@@ -1205,7 +1207,8 @@
     <input id="constSumPointsPerOption-19" value="true" type="hidden">
     <input id="constSumNumOption-19" value="0" type="hidden">
     <input id="constSumPoints-19" value="100" type="hidden">
-    <input id="constSumUnevenDistribution-19" type="hidden" value="false"/>
+    <input id="constSumUnevenDistribution-19" value="false" type="hidden">
+    
 </div>
                     </div>
                 </div>
@@ -1243,7 +1246,8 @@
     <input id="constSumPointsPerOption-19" value="true" type="hidden">
     <input id="constSumNumOption-19" value="0" type="hidden">
     <input id="constSumPoints-19" value="100" type="hidden">
-    <input id="constSumUnevenDistribution-19" type="hidden" value="false"/>
+    <input id="constSumUnevenDistribution-19" value="false" type="hidden">
+    
 </div>
                     </div>
                 </div>
@@ -1278,32 +1282,32 @@
                         </select><span> Alice Betsy</span>
                     </div>
                     <div class="col-sm-10">
-                        <div class="col-sm-3">
-                            <select class="form-control" name="responsetext-20-0">
-                                <option class="color-positive" value="200">Equal share + 100%</option>
-                                <option class="color-positive" value="190">Equal share + 90%</option>
-                                <option class="color-positive" value="180">Equal share + 80%</option>
-                                <option class="color-positive" value="170">Equal share + 70%</option>
-                                <option class="color-positive" value="160">Equal share + 60%</option>
-                                <option class="color-positive" value="150">Equal share + 50%</option>
-                                <option class="color-positive" value="140">Equal share + 40%</option>
-                                <option class="color-positive" value="130">Equal share + 30%</option>
-                                <option class="color-positive" value="120">Equal share + 20%</option>
-                                <option class="color-positive" value="110">Equal share + 10%</option>
-                                <option class="color_neutral" value="100" selected="selected">Equal share</option>
-                                <option class="color-negative" value="90">Equal share - 10%</option>
-                                <option class="color-negative" value="80">Equal share - 20%</option>
-                                <option class="color-negative" value="70">Equal share - 30%</option>
-                                <option class="color-negative" value="60">Equal share - 40%</option>
-                                <option class="color-negative" value="50">Equal share - 50%</option>
-                                <option class="color-negative" value="40">Equal share - 60%</option>
-                                <option class="color-negative" value="30">Equal share - 70%</option>
-                                <option class="color-negative" value="20">Equal share - 80%</option>
-                                <option class="color-negative" value="10">Equal share - 90%</option>
-                                <option class="color-negative" value="0">0%</option>
-                                <option class="color_neutral" value="-101">Not Sure</option>
-                            </select>
-                        </div>
+                    <div class="col-sm-3">
+	<select class="form-control color_neutral" name="responsetext-20-0">
+		<option class="color-positive" value="200">Equal share + 100%</option>
+<option class="color-positive" value="190">Equal share + 90%</option>
+<option class="color-positive" value="180">Equal share + 80%</option>
+<option class="color-positive" value="170">Equal share + 70%</option>
+<option class="color-positive" value="160">Equal share + 60%</option>
+<option class="color-positive" value="150">Equal share + 50%</option>
+<option class="color-positive" value="140">Equal share + 40%</option>
+<option class="color-positive" value="130">Equal share + 30%</option>
+<option class="color-positive" value="120">Equal share + 20%</option>
+<option class="color-positive" value="110">Equal share + 10%</option>
+<option class="color_neutral" value="100" selected="selected">Equal share</option>
+<option class="color-negative" value="90">Equal share - 10%</option>
+<option class="color-negative" value="80">Equal share - 20%</option>
+<option class="color-negative" value="70">Equal share - 30%</option>
+<option class="color-negative" value="60">Equal share - 40%</option>
+<option class="color-negative" value="50">Equal share - 50%</option>
+<option class="color-negative" value="40">Equal share - 60%</option>
+<option class="color-negative" value="30">Equal share - 70%</option>
+<option class="color-negative" value="20">Equal share - 80%</option>
+<option class="color-negative" value="10">Equal share - 90%</option>
+<option class="color-negative" value="0">0%</option>
+<option class="color_neutral" value="-101">Not Sure</option>
+	</select>
+</div>
                     </div>
                 </div>
         
@@ -1319,32 +1323,32 @@
                         </select><span> Benny Charles</span>
                     </div>
                     <div class="col-sm-10">
-                        <div class="col-sm-3">
-                            <select class="form-control" name="responsetext-20-1">
-                                <option class="color-positive" value="200">Equal share + 100%</option>
-                                <option class="color-positive" value="190">Equal share + 90%</option>
-                                <option class="color-positive" value="180">Equal share + 80%</option>
-                                <option class="color-positive" value="170">Equal share + 70%</option>
-                                <option class="color-positive" value="160">Equal share + 60%</option>
-                                <option class="color-positive" value="150">Equal share + 50%</option>
-                                <option class="color-positive" value="140">Equal share + 40%</option>
-                                <option class="color-positive" value="130">Equal share + 30%</option>
-                                <option class="color-positive" value="120">Equal share + 20%</option>
-                                <option class="color-positive" value="110">Equal share + 10%</option>
-                                <option class="color_neutral" value="100" selected="selected">Equal share</option>
-                                <option class="color-negative" value="90">Equal share - 10%</option>
-                                <option class="color-negative" value="80">Equal share - 20%</option>
-                                <option class="color-negative" value="70">Equal share - 30%</option>
-                                <option class="color-negative" value="60">Equal share - 40%</option>
-                                <option class="color-negative" value="50">Equal share - 50%</option>
-                                <option class="color-negative" value="40">Equal share - 60%</option>
-                                <option class="color-negative" value="30">Equal share - 70%</option>
-                                <option class="color-negative" value="20">Equal share - 80%</option>
-                                <option class="color-negative" value="10">Equal share - 90%</option>
-                                <option class="color-negative" value="0">0%</option>
-                                <option class="color_neutral" value="-101">Not Sure</option>
-                            </select>
-                        </div>
+                    <div class="col-sm-3">
+	<select class="form-control color_neutral" name="responsetext-20-1">
+		<option class="color-positive" value="200">Equal share + 100%</option>
+<option class="color-positive" value="190">Equal share + 90%</option>
+<option class="color-positive" value="180">Equal share + 80%</option>
+<option class="color-positive" value="170">Equal share + 70%</option>
+<option class="color-positive" value="160">Equal share + 60%</option>
+<option class="color-positive" value="150">Equal share + 50%</option>
+<option class="color-positive" value="140">Equal share + 40%</option>
+<option class="color-positive" value="130">Equal share + 30%</option>
+<option class="color-positive" value="120">Equal share + 20%</option>
+<option class="color-positive" value="110">Equal share + 10%</option>
+<option class="color_neutral" value="100" selected="selected">Equal share</option>
+<option class="color-negative" value="90">Equal share - 10%</option>
+<option class="color-negative" value="80">Equal share - 20%</option>
+<option class="color-negative" value="70">Equal share - 30%</option>
+<option class="color-negative" value="60">Equal share - 40%</option>
+<option class="color-negative" value="50">Equal share - 50%</option>
+<option class="color-negative" value="40">Equal share - 60%</option>
+<option class="color-negative" value="30">Equal share - 70%</option>
+<option class="color-negative" value="20">Equal share - 80%</option>
+<option class="color-negative" value="10">Equal share - 90%</option>
+<option class="color-negative" value="0">0%</option>
+<option class="color_neutral" value="-101">Not Sure</option>
+	</select>
+</div>
                     </div>
                 </div>
         </div></div>

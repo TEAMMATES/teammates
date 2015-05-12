@@ -11,8 +11,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
@@ -25,9 +23,6 @@ import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseDetailsPage;
 import teammates.test.pageobjects.InstructorCourseEditPage;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
-import teammates.test.pageobjects.InstructorEvalEditPage;
-import teammates.test.pageobjects.InstructorEvalPreview;
-import teammates.test.pageobjects.InstructorEvalResultsPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
 import teammates.test.pageobjects.InstructorHelpPage;
 import teammates.test.pageobjects.InstructorHomePage;
@@ -43,10 +38,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorHomePage homePage;
     
-    private static EvaluationAttributes firstEval_OPEN;
-    private static EvaluationAttributes secondEval_PUBLISHED;
-    private static EvaluationAttributes thirdEval_CLOSED;
-    private static EvaluationAttributes fourthEval_AWAITING;
     private static FeedbackSessionAttributes feedbackSession_AWAITING;
     private static FeedbackSessionAttributes feedbackSession_OPEN;
     private static FeedbackSessionAttributes feedbackSession_CLOSED;
@@ -68,11 +59,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/InstructorHomePageUiTest3.json");
         removeAndRestoreTestDataOnServer(testData);
         
-        firstEval_OPEN = testData.evaluations.get("First Eval");
-        secondEval_PUBLISHED = testData.evaluations.get("Second Eval");
-        thirdEval_CLOSED = testData.evaluations.get("Third Eval");
-        fourthEval_AWAITING = testData.evaluations.get("Fourth Eval");
-        
         feedbackSession_AWAITING = testData.feedbackSessions.get("Second Feedback Session");
         feedbackSession_OPEN = testData.feedbackSessions.get("First Feedback Session");
         feedbackSession_CLOSED = testData.feedbackSessions.get("Third Feedback Session");
@@ -87,12 +73,10 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         testShowFeedbackStatsLink();
         testHelpLink();
         testCourseLinks();
-        testEvaluationLinks();
         testSearchAction();
         testSortAction();
         testRemindActions();
         testPublishUnpublishActions();
-        testDeleteEvalAction();
         testArchiveCourseAction();
         testDeleteCourseAction();
     }
@@ -230,49 +214,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
     
     
-    public void testEvaluationLinks(){
-        
-        String courseId = testData.courses.get("CHomeUiT.CS1101").id;
-        String evaluation = testData.evaluations.get("Fourth Eval").name;
-        
-        ______TS("link: evaluation view results");
-        InstructorEvalResultsPage evalResultsPage = homePage.clickSessionViewResultsLink(courseId, evaluation);
-        evalResultsPage.verifyContains("Evaluation Results");
-        homePage.goToPreviousPage(InstructorHomePage.class);
-        
-        ______TS("link: evaluation edit");
-        InstructorEvalEditPage evalEditPage = homePage.clickSessionEditLink(courseId, evaluation);
-        evalEditPage.verifyContains("Edit Evaluation");
-        homePage.goToPreviousPage(InstructorHomePage.class);
-        
-        ______TS("link: evaluation preview");
-        InstructorEvalPreview evalPreviewPage = homePage.clickSessionPreviewLink(courseId, evaluation);
-        evalPreviewPage.verifyContains("Previewing Evaluation as");
-        evalPreviewPage.closeCurrentWindowAndSwitchToParentWindow();
-    }
     
     public void testRemindActions(){
-        
-        ______TS("remind action: AWAITING evaluation");
-        
-        homePage.verifyUnclickable(homePage.getRemindLink(fourthEval_AWAITING.courseId, fourthEval_AWAITING.name));
-        
-        ______TS("remind action: OPEN evaluation");
-        
-        homePage.clickAndCancel(homePage.getRemindLink(firstEval_OPEN.courseId, firstEval_OPEN.name));
-        homePage.clickAndConfirm(homePage.getRemindLink(firstEval_OPEN.courseId, firstEval_OPEN.name))
-            .verifyStatus(Const.StatusMessages.EVALUATION_REMINDERSSENT);
-        
-        //go back to previous page because 'send reminder' redirects to the 'Evaluations' page.
-        homePage.goToPreviousPage(InstructorHomePage.class);
-        
-        ______TS("remind action: CLOSED evaluation");
-        
-        homePage.verifyUnclickable(homePage.getRemindLink(thirdEval_CLOSED.courseId, thirdEval_CLOSED.name));
-        
-        ______TS("remind action: PUBLISHED evaluation");
-        
-        homePage.verifyUnclickable(homePage.getRemindLink(secondEval_PUBLISHED.courseId, secondEval_PUBLISHED.name));
         
         ______TS("remind action: AWAITING feedback session");
         
@@ -335,49 +278,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
 
     public void testPublishUnpublishActions(){
-        
-        ______TS("publish action: AWAITING evaluation");
-        
-        homePage.verifyUnclickable(homePage.getPublishLink(fourthEval_AWAITING.courseId, fourthEval_AWAITING.name));
-        
-        ______TS("publish action: OPEN evaluation");
-        
-        homePage.verifyUnclickable(homePage.getPublishLink(firstEval_OPEN.courseId, firstEval_OPEN.name));
-        
-        ______TS("publish action: CLOSED evaluation");
-        
-        String courseId = thirdEval_CLOSED.courseId;
-        String evalName = thirdEval_CLOSED.name;
-        
-        homePage.clickAndCancel(homePage.getPublishLink(courseId, evalName));
-        assertEquals(EvalStatus.CLOSED, BackDoor.getEvaluation(courseId, evalName).getStatus());
-        
-        homePage.clickAndConfirm(homePage.getPublishLink(courseId, evalName))
-            .verifyStatus(Const.StatusMessages.EVALUATION_PUBLISHED);
-        assertEquals(EvalStatus.PUBLISHED, BackDoor.getEvaluation(courseId, evalName).getStatus());
-        
-        ______TS("unpublish action: PUBLISHED evaluation");
-        
-        homePage.clickAndCancel(homePage.getUnpublishLink(courseId, evalName));
-        assertEquals(EvalStatus.PUBLISHED, BackDoor.getEvaluation(courseId, evalName).getStatus());
-        
-        homePage.clickAndConfirm(homePage.getUnpublishLink(courseId, evalName))
-            .verifyStatus(Const.StatusMessages.EVALUATION_UNPUBLISHED);
-        assertEquals(EvalStatus.CLOSED, BackDoor.getEvaluation(courseId, evalName).getStatus());
-    }
-
-    public void testDeleteEvalAction() throws Exception{
-        
-        ______TS("delete evaluation action");
-        
-        homePage.clickAndCancel(homePage.getDeleteEvalLink(firstEval_OPEN.courseId, firstEval_OPEN.name));
-        assertNotNull(BackDoor.getEvaluation(firstEval_OPEN.courseId, firstEval_OPEN.name));
-        
-        homePage.clickAndConfirm(homePage.getDeleteEvalLink(firstEval_OPEN.courseId, firstEval_OPEN.name));
-        ThreadHelper.waitFor(500);
-        assertTrue(BackDoor.isEvaluationNonExistent(firstEval_OPEN.courseId, firstEval_OPEN.name));
-        homePage.verifyHtmlAjax("/instructorHomeEvalDeleteSuccessful.html");
-        
+        //TODO add test for publishing and unpublishing feedback sessions
     }
     
     public void testArchiveCourseAction() throws Exception {

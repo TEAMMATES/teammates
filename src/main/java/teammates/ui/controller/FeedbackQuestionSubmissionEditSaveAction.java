@@ -34,8 +34,10 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        
         feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        
         feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1");
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_ID, feedbackQuestionId);
         
@@ -47,6 +49,7 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         setStatusToAdmin();
         
         FeedbackSessionAttributes fs = logic.getFeedbackSession(feedbackSessionName, courseId);
+        
         if (isSessionOpenForSpecificUser(fs) == false) {
             isError = true;
             statusToUser.add(Const.StatusMessages.FEEDBACK_SUBMISSION_EXCEEDED_DEADLINE);
@@ -62,17 +65,17 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);
         List<FeedbackResponseAttributes> responsesForQuestion = new ArrayList<FeedbackResponseAttributes>();
         FeedbackQuestionDetails questionDetails  = data.bundle.question.getQuestionDetails();
-           
         Set<String> emailSet = data.bundle.getRecipientEmails(feedbackQuestionId);
-        emailSet.add("");
         ArrayList<String> responsesRecipients = new ArrayList<String>();
         
-        for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
-            FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, 1, responseIndx, questionDetails);
+        emailSet.add("");
+        
+        for (int responseIndex = 0; responseIndex < numOfResponsesToGet; responseIndex++) {
+            FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, 1, responseIndex, questionDetails);
             responsesRecipients.add(response.recipientEmail);                
             
-            if(response.responseMetaData.getValue().isEmpty()){
-                //deletes the response since answer is empty.
+            if (response.responseMetaData.getValue().isEmpty()) {
+                // Delete the response since answer is empty.
                 saveResponse(response);
             } else {
                 response.giverEmail = userEmailForCourse;
@@ -87,8 +90,8 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
             errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_INVALID_RECIPIENT, data.bundle.question.questionNumber));                      
         }
         
-        if(errors.isEmpty()) {
-            for(FeedbackResponseAttributes response : responsesForQuestion) {
+        if (errors.isEmpty()) {
+            for (FeedbackResponseAttributes response : responsesForQuestion) {
                 saveResponse(response);
             }
         } else {
@@ -100,7 +103,7 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         }
 
-        if(logic.hasGiverRespondedForSession(userEmailForCourse, feedbackSessionName, courseId)){
+        if (logic.hasGiverRespondedForSession(userEmailForCourse, feedbackSessionName, courseId)) {
             appendRespondant();
         } else {
             removeRespondant();
@@ -113,8 +116,7 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         return createSpecificShowPageResult();
     }
     
-    private void saveResponse(FeedbackResponseAttributes response)
-            throws EntityDoesNotExistException {
+    private void saveResponse(FeedbackResponseAttributes response) throws EntityDoesNotExistException {
         if (response.getId() != null) {
             // Delete away response if any empty fields
             if (response.responseMetaData.getValue().isEmpty() || 
@@ -122,13 +124,14 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
                 logic.deleteFeedbackResponse(response);
                 return;
             }
+            
             try {
                 logic.updateFeedbackResponse(response);
             } catch (EntityAlreadyExistsException | InvalidParametersException e) {
                 setStatusForException(e);
             }
         } else if (!response.responseMetaData.getValue().isEmpty() &&
-                    !response.recipientEmail.isEmpty()){
+                   !response.recipientEmail.isEmpty()) {
             try {
                 logic.createFeedbackResponse(response);
             } catch (EntityAlreadyExistsException | InvalidParametersException e) {
@@ -137,11 +140,11 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         }
     }
     
-    private FeedbackResponseAttributes extractFeedbackResponseData(Map<String, String[]> requestParameters, int questionIndx, int responseIndx, FeedbackQuestionDetails questionDetails) {
+    private FeedbackResponseAttributes extractFeedbackResponseData(Map<String, String[]> requestParameters, int questionIndex, int responseIndex, FeedbackQuestionDetails questionDetails) {
         FeedbackResponseAttributes response = new FeedbackResponseAttributes();
         
-        //This field can be null if the response is new
-        response.setId(HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-"+questionIndx+"-"+responseIndx));
+        // This field can be null if the response is new
+        response.setId(HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-" + questionIndex + "-" + responseIndex));
                 
         response.feedbackSessionName = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertNotNull("Null feedback session name", response.feedbackSessionName);
@@ -149,30 +152,32 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         response.courseId = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull("Null feedback courseId", response.courseId);
         
-        response.feedbackQuestionId = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
+        response.feedbackQuestionId = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndex);
         Assumption.assertNotNull("Null feedbackQuestionId", response.feedbackQuestionId);
         
-        response.recipientEmail = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-"+questionIndx+"-"+responseIndx);
+        response.recipientEmail = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-" + questionIndex + "-" + responseIndex);
         Assumption.assertNotNull("Null feedback recipientEmail", response.recipientEmail);
         
-        String feedbackQuestionType = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-" + questionIndx);
+        String feedbackQuestionType = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-" + questionIndex);
         Assumption.assertNotNull("Null feedbackQuestionType", feedbackQuestionType);
+        
         response.feedbackQuestionType = FeedbackQuestionType.valueOf(feedbackQuestionType);
         
         FeedbackQuestionAttributes question = FeedbackQuestionsLogic.inst().getFeedbackQuestion(response.feedbackQuestionId);
         FeedbackParticipantType recipientType = question.recipientType;
-        if(recipientType == FeedbackParticipantType.INSTRUCTORS || recipientType == FeedbackParticipantType.NONE){
+        
+        if (recipientType == FeedbackParticipantType.INSTRUCTORS || recipientType == FeedbackParticipantType.NONE) {
             response.recipientSection = Const.DEFAULT_SECTION;
-        } else if(recipientType == FeedbackParticipantType.TEAMS){
+        } else if (recipientType == FeedbackParticipantType.TEAMS) {
             response.recipientSection = StudentsLogic.inst().getSectionForTeam(courseId, response.recipientEmail);
-        } else if(recipientType == FeedbackParticipantType.STUDENTS){
+        } else if (recipientType == FeedbackParticipantType.STUDENTS) {
             response.recipientSection = logic.getStudentForEmail(courseId, response.recipientEmail).section;
         } else {
             response.recipientSection = getUserSectionForCourse();
         }
         
-        //This field can be null if the question is skipped
-        String[] answer = HttpRequestHelper.getValuesFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-"+questionIndx+"-"+responseIndx);
+        // This field can be null if the question is skipped
+        String[] answer = HttpRequestHelper.getValuesFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + questionIndex + "-" + responseIndex);
         
         if (!questionDetails.isQuestionSkipped(answer)) {
             FeedbackResponseDetails responseDetails = 
@@ -188,7 +193,7 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends Action {
         return response;
     }
     
-    private void getPageData(String userEmailForCourse) throws EntityDoesNotExistException{
+    private void getPageData(String userEmailForCourse) throws EntityDoesNotExistException {
         data = new FeedbackQuestionSubmissionEditPageData(account, student);
         data.bundle = getDataBundle(userEmailForCourse);
     }
