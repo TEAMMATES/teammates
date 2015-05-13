@@ -46,9 +46,8 @@ public class CommentAttributes extends BaseCommentAttributes {
     }
 
     public CommentAttributes(Comment comment) {
+        super(comment.getCourseId(), comment.getGiverEmail(), comment.getCreatedAt(), comment.getCommentText());
         this.commentId = comment.getId();
-        this.courseId = comment.getCourseId();
-        this.giverEmail = comment.getGiverEmail();
         this.recipientType = comment.getRecipientType();
         this.status = comment.getStatus();
         this.sendingState = comment.getSendingState() != null? comment.getSendingState() : CommentSendingState.SENT;
@@ -56,8 +55,6 @@ public class CommentAttributes extends BaseCommentAttributes {
         this.showGiverNameTo = comment.getShowGiverNameTo();
         this.showRecipientNameTo = comment.getShowRecipientNameTo();
         this.recipients = comment.getRecipients();
-        this.createdAt = comment.getCreatedAt();
-        this.commentText = comment.getCommentText();
         this.lastEditorEmail = comment.getLastEditorEmail() != null ? comment.getLastEditorEmail() : comment.getGiverEmail();
         this.lastEditedAt = comment.getLastEditedAt() != null ? comment.getLastEditedAt() : comment.getCreatedAt();
     }

@@ -71,15 +71,12 @@ public class FeedbackResponseCommentAttributes extends BaseCommentAttributes {
     }
     
     public FeedbackResponseCommentAttributes(FeedbackResponseComment comment) {
+        super(comment.getCourseId(), comment.getGiverEmail(), comment.getCreatedAt(), comment.getCommentText());
         this.feedbackResponseCommentId = comment.getFeedbackResponseCommentId();
-        this.courseId = comment.getCourseId();
         this.feedbackSessionName = comment.getFeedbackSessionName();
         this.feedbackQuestionId = comment.getFeedbackQuestionId();
-        this.giverEmail = comment.getGiverEmail();
         this.feedbackResponseId = comment.getFeedbackResponseId();
         this.sendingState = comment.getSendingState() != null? comment.getSendingState() : CommentSendingState.SENT;
-        this.createdAt = comment.getCreatedAt();
-        this.commentText = comment.getCommentText();
         this.giverSection = comment.getGiverSection() != null ? comment.getGiverSection() : "None";
         this.receiverSection = comment.getReceiverSection() != null ? comment.getReceiverSection() : "None";
         this.lastEditorEmail = comment.getLastEditorEmail() != null ? comment.getLastEditorEmail() : comment.getGiverEmail();
