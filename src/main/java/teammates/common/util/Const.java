@@ -154,7 +154,7 @@ public class Const {
                 + "will be visible to the designated recipients.";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE = "Select this option to have the feedback responses be immediately visible<br />"
                 + "when the session becomes visible to users.";
-        public static final String FEEDBACK_SESSION_RESULTSVISIBLELATER = "Select this option if you intend to manually publish the session later on.";
+        public static final String FEEDBACK_SESSION_RESULTSVISIBLELATER = "Select this option if you intend to manually publish the responses for this session later on.";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLENEVER = "Select this option if you intend never to publish the responses.";
         public static final String FEEDBACK_SESSION_SENDJOINEMAIL = "If the student has not joined the course yet, an email containing the link to join the course will automatically be sent on session opening time.";
         public static final String FEEDBACK_SESSION_SENDOPENEMAIL = "Select this option to automatically send an email to students to notify them when the session is open for submission.";
