@@ -214,8 +214,6 @@ function bindCopyEvents() {
     });
 }
 
-
-
 function readyFeedbackPage() {
     formatSessionVisibilityGroup();
     formatResponsesVisibilityGroup();
