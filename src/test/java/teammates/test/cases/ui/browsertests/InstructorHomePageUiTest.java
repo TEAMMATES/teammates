@@ -321,7 +321,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
     
     public void testCopyFsAction() throws Exception {
-        String feedbackSessionName = "First team feedback session";
+        String feedbackSessionName = "First Feedback Session";
         String courseIdForCS2104 = testData.courses.get("CHomeUiT.CS2104").id;
         
         ______TS("Submit empty course list: Home Page");
@@ -342,7 +342,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         homePage.clickFsCopySubmitButton();
         
-        String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, feedbackSessionName, testData.courses.get("course").id);
+        String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, feedbackSessionName, testData.courses.get("CHomeUiT.CS2104").id);
         
         homePage.verifyStatus(error);
         
@@ -369,9 +369,6 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickFsCopySubmitButton();
         
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
-        homePage.waitForElementPresence(By.id("table-sessions"), 5);
-        ThreadHelper.waitFor(1000);
-        homePage.verifyHtml("/instructorHomeCopySuccess.html");
         
         homePage.goToPreviousPage(InstructorHomePage.class);
     }
