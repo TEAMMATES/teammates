@@ -52,7 +52,7 @@ $(document).ready(function() {
     var radiobuttons = $("label[name='sortby']");
     
     $.each(radiobuttons, function() {
-        $(this).click(function(){
+        $(this).click(function (){
             var currentPath = window.location.pathname;
             var query = window.location.search.substring(1);
             var params = {};
