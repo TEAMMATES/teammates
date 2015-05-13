@@ -760,31 +760,74 @@ public class PageData {
         if(session.isPrivateSession()) {
             return result.toString();
         }
-
-        // TODO: Disabled -> wrap in div for tooltip
-        result.append(
-            "<div class=\"btn-group\"><a class=\"btn btn-default btn-xs btn-tm-actions session-remind-for-test" + 
-            ((instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) && hasRemind) ? "\"" : DISABLED) +  
-            "href=\"" + getInstructorFeedbackSessionRemindLink(session.courseId,session.feedbackSessionName) + "\" " +
-            "title=\"" + Const.Tooltips.FEEDBACK_SESSION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
-            ((instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) && hasRemind) ? "onclick=\"return toggleRemindStudents('"
-            + session.feedbackSessionName + "');\" " : "") +
-            disableRemindSessionStr + ">Remind</a>" +
-            "<button type=\"button\" class=\"btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test\"" + 
-            disableRemindSessionStr +
-            "data-toggle=\"dropdown\" aria-expanded=\"false\"> <span class=\"caret\"></span></button> " +
-            "<ul class=\"dropdown-menu\" role=\"menu\">" +
-            "<li><a href=\"" + getInstructorFeedbackSessionRemindLink(session.courseId,session.feedbackSessionName) + "\" " +
-            "class=\"session-remind-inner-for-test\" " +
-            "title=\"" + Const.Tooltips.FEEDBACK_SESSION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
-            (hasRemind ? "onclick=\"return toggleRemindStudents('" + session.feedbackSessionName + "');\" " : "") +
-            disableRemindSessionStr + ">Remind all students</a></li>" +
-            "<li><a href=\"#\" data-actionlink=\"" + 
-            getInstructorFeedbackSessionRemindParticularStudentsPageLink(session.courseId, session.feedbackSessionName) + "\" " +
-            "class=\"session-remind-particular-for-test\" " + disableRemindSessionStr +
-            "data-courseid=\"" + session.courseId + "\" data-fsname=\"" + session.feedbackSessionName + "\" " +
-            "data-toggle=\"modal\" data-target=\"#remindModal\">Remind particular students</a></li></ul></div> "
-        );
+        
+        if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) && hasRemind) {
+            result.append(
+                    "<div class=\"btn-group\">" +
+                        "<a class=\"btn btn-default btn-xs btn-tm-actions session-remind-for-test\"" + 
+                        "href=\"" + getInstructorFeedbackSessionRemindLink(session.courseId, session.feedbackSessionName) + "\" " +
+                        "title=\"" + Const.Tooltips.FEEDBACK_SESSION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
+                        "onclick=\"return toggleRemindStudents('" + session.feedbackSessionName + "');\" " +
+                        disableRemindSessionStr + ">Remind" +
+                        "</a>" +
+                        "<button type=\"button\" class=\"btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test\"" + 
+                        disableRemindSessionStr +
+                        "data-toggle=\"dropdown\" aria-expanded=\"false\">" +
+                            "<span class=\"caret\"></span>" +
+                        "</button>" +
+                        "<ul class=\"dropdown-menu\" role=\"menu\">" +
+                            "<li>" +
+                                "<a href=\"" + getInstructorFeedbackSessionRemindLink(session.courseId, session.feedbackSessionName) + "\" " +
+                                "class=\"session-remind-inner-for-test\" " +
+                                "title=\"" + Const.Tooltips.FEEDBACK_SESSION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
+                                "onclick=\"return toggleRemindStudents('" + session.feedbackSessionName + "');\" " +
+                                disableRemindSessionStr + ">Remind all students</a>" +
+                            "</li>" +
+                            "<li>" +
+                                "<a href=\"#\" data-actionlink=\"" + 
+                                getInstructorFeedbackSessionRemindParticularStudentsPageLink(session.courseId, session.feedbackSessionName) + "\" " +
+                                "class=\"session-remind-particular-for-test\" " + disableRemindSessionStr +
+                                "data-courseid=\"" + session.courseId + "\" data-fsname=\"" + session.feedbackSessionName + "\" " +
+                                "data-toggle=\"modal\" data-target=\"#remindModal\">Remind particular students" +
+                                "</a>" +
+                            "</li>" +
+                        "</ul>" +
+                    "</div>"
+                );
+        } else {
+            result.append(
+                    "<div title=\"" + Const.Tooltips.FEEDBACK_SESSION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +" style=\"display: inline-block; padding-right: 5px;\"" + ">" +
+                        "<div class=\"btn-group\">" +
+                            "<a class=\"btn btn-default btn-xs btn-tm-actions session-remind-for-test" + DISABLED +
+                            "href=\"" + getInstructorFeedbackSessionRemindLink(session.courseId, session.feedbackSessionName) + "\" " +
+                            disableRemindSessionStr + ">Remind" +
+                            "</a>" +
+                            "<button type=\"button\" class=\"btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test\"" + 
+                            disableRemindSessionStr +
+                            "data-toggle=\"dropdown\" aria-expanded=\"false\">" +
+                                "<span class=\"caret\"></span>" +
+                            "</button>" +
+                            "<ul class=\"dropdown-menu\" role=\"menu\">" +
+                                "<li>" +
+                                    "<a href=\"" + getInstructorFeedbackSessionRemindLink(session.courseId, session.feedbackSessionName) + "\" " +
+                                    "class=\"session-remind-inner-for-test\" " +
+                                    disableRemindSessionStr + ">Remind all students" +
+                                    "</a>" +
+                                "</li>" +
+                                "<li>" +
+                                    "<a href=\"#\" data-actionlink=\"" + 
+                                    getInstructorFeedbackSessionRemindParticularStudentsPageLink(session.courseId, session.feedbackSessionName) + "\" " +
+                                    "class=\"session-remind-particular-for-test\" " + disableRemindSessionStr +
+                                    "data-courseid=\"" + session.courseId + "\" data-fsname=\"" + session.feedbackSessionName + "\" " +
+                                    "data-toggle=\"modal\" data-target=\"#remindModal\">Remind particular students" +
+                                    "</a>" +
+                                "</li>" +
+                            "</ul>" +
+                        "</div>" +
+                    "</div>"
+                );
+        }
+        
         result.append(getInstructorFeedbackSessionPublishAndUnpublishAction(session, isHome, instructor));
 
         return result.toString();
