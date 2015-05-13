@@ -70,19 +70,9 @@ public class CommentAttributes extends BaseCommentAttributes {
 
     public List<String> getInvalidityInfo() {
 
+        List<String> errors = super.getInvalidityInfo();
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
         String error;
-
-        error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
-
-        error = validator.getInvalidityInfo(FieldType.EMAIL, giverEmail);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
 
         if (recipients != null && recipientType != null) {
             switch (recipientType) {
@@ -171,10 +161,7 @@ public class CommentAttributes extends BaseCommentAttributes {
     
     @Override
     public void sanitizeForSaving() {
-        this.courseId = this.courseId.trim();
-        this.commentText = Sanitizer.sanitizeTextField(this.commentText);
-        this.courseId = Sanitizer.sanitizeForHtml(courseId);
-        this.giverEmail = Sanitizer.sanitizeForHtml(giverEmail);
+        super.sanitizeForSaving();
 
         if(recipients != null){
             HashSet<String> sanitizedRecipients = new HashSet<String>();

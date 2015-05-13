@@ -1,9 +1,14 @@
 package teammates.common.datatransfer;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import teammates.common.util.Const;
+import teammates.common.util.FieldValidator;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.FieldValidator.FieldType;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -48,6 +53,32 @@ public abstract class BaseCommentAttributes extends EntityAttributes implements
             return 1;
         }
         return o.createdAt.compareTo(createdAt);
+    }
+
+    @Override
+    public List<String> getInvalidityInfo() {
+        FieldValidator validator = new FieldValidator();
+        List<String> errors = new ArrayList<String>();
+        String error;
+
+        error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
+
+        error = validator.getInvalidityInfo(FieldType.EMAIL, giverEmail);
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
+
+        return errors;
+    }
+
+    @Override
+    public void sanitizeForSaving() {
+        this.courseId = Sanitizer.sanitizeForHtml(this.courseId.trim());
+        this.commentText = Sanitizer.sanitizeTextField(this.commentText);
+        this.giverEmail = Sanitizer.sanitizeForHtml(giverEmail);
     }
 
     protected String getEditedAtText(Boolean isGiverAnonymous,

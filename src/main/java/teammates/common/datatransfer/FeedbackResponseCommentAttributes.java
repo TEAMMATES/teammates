@@ -110,17 +110,9 @@ public class FeedbackResponseCommentAttributes extends BaseCommentAttributes {
     
     @Override
     public List<String> getInvalidityInfo() {
+        List<String> errors = super.getInvalidityInfo();
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
-        String error;
-        
-        error= validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
-        if(!error.isEmpty()) { errors.add(error); }
-        
-        error= validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        if(!error.isEmpty()) { errors.add(error); }
-        
-        error= validator.getInvalidityInfo(FieldType.EMAIL, giverEmail);
+        String error = validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
         if(!error.isEmpty()) { errors.add(error); }
         
         //TODO: handle the new attributes showCommentTo and showGiverNameTo
@@ -148,13 +140,10 @@ public class FeedbackResponseCommentAttributes extends BaseCommentAttributes {
     
     @Override
     public void sanitizeForSaving() {
-        this.courseId = this.courseId.trim();
+        super.sanitizeForSaving();
         this.feedbackSessionName = this.feedbackSessionName.trim();
-        this.commentText = Sanitizer.sanitizeTextField(this.commentText);
-        this.courseId = Sanitizer.sanitizeForHtml(courseId);
         this.feedbackSessionName = Sanitizer.sanitizeForHtml(feedbackSessionName);
         this.feedbackQuestionId = Sanitizer.sanitizeForHtml(feedbackQuestionId);
-        this.giverEmail = Sanitizer.sanitizeForHtml(giverEmail);
         this.feedbackResponseId = Sanitizer.sanitizeForHtml(feedbackResponseId);
         if(commentText != null){
             //replacing "\n" with "\n<br>" here is to make comment text support displaying breakline
