@@ -43,27 +43,6 @@ public class StudentHomePage extends AppPage {
 
         viewTeamLinks.get(0).click();
     }
-
-    public WebElement getViewEvalResultsButton(String EvalOrFeedbackName) {
-        
-        int rowId = getEvalRowId(EvalOrFeedbackName);       
-        WebElement button = browser.driver.findElement(By.id("viewEvaluationResults"+rowId));
-        return button;
-    }
-    
-    public WebElement getEditEvalButton(String EvalOrFeedbackName) {
-
-        int rowId = getEvalRowId(EvalOrFeedbackName);        
-        WebElement button = browser.driver.findElement(By.id("editEvaluationSubmission"+rowId));
-        return button;
-    }
-    
-    public WebElement getSubmitEvalButton(String EvalOrFeedbackName) {
-
-        int rowId = getEvalRowId(EvalOrFeedbackName);        
-        WebElement button = browser.driver.findElement(By.id("submitEvaluation"+rowId));
-        return button;
-    }
     
     public WebElement getViewFeedbackButton(String EvalOrFeedbackName) {
         

@@ -91,35 +91,6 @@ public class InstructorHomePage extends AppPage {
     }
     
     /**
-     * This is for standard evaluation 
-     */
-    public InstructorEvalResultsPage clickSessionViewResultsLink(String courseId, String evalName) {
-        getViewResultsLink(courseId, evalName).click();
-        waitForPageToLoad();
-        return changePageType(InstructorEvalResultsPage.class);
-    }
-    
-    /**
-     * This is for standard evaluation 
-     */
-    public InstructorEvalEditPage clickSessionEditLink(String courseId, String evalName) {
-        getEditLink(courseId, evalName).click();
-        waitForPageToLoad();
-        return changePageType(InstructorEvalEditPage.class);
-    }
-    
-    /**
-     * This is for standard evaluation 
-     */
-    public InstructorEvalPreview clickSessionPreviewLink(String courseId, String evalName) {
-        getPreviewLink(courseId, evalName).click();
-        waitForPageToLoad();
-        switchToNewWindow();
-        return changePageType(InstructorEvalPreview.class);
-    }
-    
-    
-    /**
      * This is for customized feedback session 
      */
     public InstructorFeedbackResultsPage clickFeedbackSessionViewResultsLink(String courseId, String fsName) {

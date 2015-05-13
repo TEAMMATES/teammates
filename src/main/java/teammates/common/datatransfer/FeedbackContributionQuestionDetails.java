@@ -14,7 +14,6 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.logic.core.TeamEvalResult;
-import teammates.ui.controller.InstructorEvalResultsPageData;
 import teammates.ui.controller.PageData;
 
 public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
@@ -298,11 +297,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             contribFragments += FeedbackQuestionFormTemplates.populateTemplate(
                     FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_FRAGMENT,
                     "${studentTeam}", PageData.sanitizeForHtml(displayTeam),
-                    "${studentName}", PageData.sanitizeForHtml(displayName),
-                    
-                    "${CC}", InstructorEvalResultsPageData.getPointsAsColorizedHtml(summary.claimedToInstructor),
-                    "${PC}", InstructorEvalResultsPageData.getPointsAsColorizedHtml(summary.perceivedToInstructor),
-                    "${Diff}", InstructorEvalResultsPageData.getPointsDiffAsHtml(summary),
+                    "${studentName}", PageData.sanitizeForHtml(displayName),                    
+                    "${CC}", PageData.getPointsAsColorizedHtml(summary.claimedToInstructor),
+                    "${PC}", PageData.getPointsAsColorizedHtml(summary.perceivedToInstructor),
+                    "${Diff}", PageData.getPointsDiffAsHtml(summary),
                     "${RR}", getNormalizedPointsListColorizedDescending(incomingPoints, studentIndx),
                     
                     "${Const.ParamsNames.STUDENT_NAME}", Const.ParamsNames.STUDENT_NAME);
@@ -313,8 +311,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 "${contribFragments}", contribFragments,
                 "${Const.Tooltips.CLAIMED}", Sanitizer.sanitizeForHtml(Const.Tooltips.CLAIMED),
                 "${Const.Tooltips.PERCEIVED}", Const.Tooltips.PERCEIVED,
-                "${Const.Tooltips.EVALUATION_POINTS_RECEIVED}", Const.Tooltips.EVALUATION_POINTS_RECEIVED,
-                "${Const.Tooltips.EVALUATION_DIFF}", Const.Tooltips.EVALUATION_DIFF);
+                "${Const.Tooltips.EVALUATION_POINTS_RECEIVED}", Const.Tooltips.FEEDBACK_CONTRIBUTION_POINTS_RECEIVED,
+                "${Const.Tooltips.EVALUATION_DIFF}", Const.Tooltips.FEEDBACK_CONTRIBUTION_DIFF);
 
         
         return html;

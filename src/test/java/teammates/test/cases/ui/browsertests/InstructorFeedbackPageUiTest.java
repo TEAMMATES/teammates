@@ -124,18 +124,18 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyHtmlAjax("/instructorFeedbackAllSessionTypes.html");
 
         feedbackPage.sortByName()
-            .verifyTablePattern(0, 1,"Awaiting Session{*}First Eval{*}First Session{*}Manual Session{*}New Session (Copied){*}Open Session{*}Private Session");
+            .verifyTablePattern(0, 1,"Awaiting Session{*}First Session{*}Manual Session{*}New Session (Copied){*}Open Session{*}Private Session");
         feedbackPage.sortByName()
-            .verifyTablePattern(0, 1,"Private Session{*}Open Session{*}New Session (Copied){*}Manual Session{*}First Session{*}First Eval{*}Awaiting Session");
+            .verifyTablePattern(0, 1,"Private Session{*}Open Session{*}New Session (Copied){*}Manual Session{*}First Session{*}Awaiting Session");
         
         ______TS("sort by course id");
         
         feedbackPage.sortById()
-            .verifyTablePattern(0, 0,"CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101"
+            .verifyTablePattern(0, 0,"CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101"
                     + "{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104");
         feedbackPage.sortById()
             .verifyTablePattern(0, 0,"CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104"
-                    + "{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101");
+                    + "{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101");
     
     }
     
@@ -651,7 +651,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         ______TS("test response rate");
         //Already displayed
-        assertEquals("0 / 2", feedbackPage.getResponseValue("CFeedbackUiT.CS1101","First Eval"));
+        assertEquals("0 / 2", feedbackPage.getResponseValue("CFeedbackUiT.CS1101", "Allow Early Viewing Session"));
         
         // Failure case tested in HomePageUiTest
         

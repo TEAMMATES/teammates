@@ -363,7 +363,7 @@
                             <%
                             	if(currentTeamResponses.size() > 0){
                             %>
-                                <h3><%=currentTeam%> Given Responses Statistics </h3>
+                                <h3><%=currentTeam%> Statistics for Given Responses </h3>
                                 <hr class="margin-top-0">
                                 <%
                                 	int numStatsShown = 0;

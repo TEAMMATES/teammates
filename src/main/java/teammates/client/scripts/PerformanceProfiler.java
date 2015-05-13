@@ -22,10 +22,8 @@ import java.util.Set;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.util.FileHelper;
 import teammates.common.util.Utils;
 import teammates.test.driver.BackDoor;
@@ -581,89 +579,8 @@ public class PerformanceProfiler extends Thread{
         return status;
     }
     
-    @PerformanceTest(name = "BD create evaluation")
-    public String createEvaluation()
-    {
-        String status = "";
-        Set<String> set = data.evaluations.keySet();
-        for (String evaluationKey : set)
-        {
-            EvaluationAttributes eval = data.evaluations.get(evaluationKey);
-            status += " " + BackDoor.createEvaluation(eval);
-        }
-        return status;
-    }
-    
-    @PerformanceTest(name = "BD edit evaluation")
-    public String editEvaluation()
-    {
-        String status = "";
-        Set<String> set = data.evaluations.keySet();
-        for (String evaluationKey : set)
-        {
-            EvaluationAttributes eval = data.evaluations.get(evaluationKey);
-            status += " " + BackDoor.editEvaluation(eval);
-        }
-        return status;
-    }
-    
-    @PerformanceTest(name = "BD get evaluation")
-    public String getEvaluation()
-    {
-        String status = "";
-        Set<String> set = data.evaluations.keySet();
-        for (String evaluationKey : set)
-        {
-            EvaluationAttributes eval = data.evaluations.get(evaluationKey);
-            status += " " + BackDoor.getEvaluationAsJson(eval.courseId, eval.name);
-        }
-        return status;
-    }
-    
 
-    @PerformanceTest(name = "BD get submission")
-    public String getSubmissions()
-    {
-        String status = "";
-        Set<String> set = data.submissions.keySet();
-        for (String submissionKey : set)
-        {
-            SubmissionAttributes submission = data.submissions.get(submissionKey);
-            status += " " + BackDoor.getSubmissionAsJson(submission.course, submission.evaluation, submission.reviewer, submission.reviewee);
-        }
-        return status;
-    }
     
-    @PerformanceTest(name = "BD edit submission")
-    public String editSubmissions()
-    {
-        String status = "";
-        Set<String> set = data.submissions.keySet();
-        for (String submissionKey : set)
-        {
-            SubmissionAttributes submission = data.submissions.get(submissionKey);
-            status += " " + BackDoor.editSubmission(submission);
-        }
-        return status;
-    }
-    /**
-     * The method deleteSubmission is not implemented in BackDoor yet.
-     * @return
-     */
-//    @PerformanceTest(name = "BD delete submissions")
-//    public String deleteSubmissions() throws NotImplementedException
-//    {
-//        String status = "";
-//        Set<String> set = data.submissions.keySet();
-//        for (String submissionKey : set)
-//        {
-//            SubmissionData submission = data.submissions.get(submissionKey);
-//            status += " " + BackDoor.deleteSubmission(submission.course, submission.evaluation, submission.reviewer, submission.reviewee);
-//        }
-//        return status;
-//    }
-    
-
     @PerformanceTest(name = "BD delete student")
     public String deleteStudent()
     {
@@ -673,19 +590,6 @@ public class PerformanceProfiler extends Thread{
         {
             StudentAttributes student = data.students.get(studentKey);
             status += " " + BackDoor.deleteStudent(student.course, student.email);
-        }
-        return status;
-    }
-    
-    @PerformanceTest(name = "BD Delete Evaluation")
-    public String deleteEvaluation()
-    {
-        String status = "";
-        Set<String> set = data.evaluations.keySet();
-        for (String evaluationKey : set)
-        {
-            EvaluationAttributes eval = data.evaluations.get(evaluationKey);
-            status += " " + BackDoor.deleteEvaluation(eval.courseId, eval.name);
         }
         return status;
     }
