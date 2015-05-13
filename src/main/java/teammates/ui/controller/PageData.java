@@ -99,9 +99,9 @@ public class PageData {
      */
     public static String getPointsAsColorizedHtml(int points){
         if(points==Const.POINTS_NOT_SUBMITTED || points==Const.INT_UNINITIALIZED)
-            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + Const.Tooltips.EVALUATION_SUBMISSION_NOT_AVAILABLE+ "\">N/A</span>";
+            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_AVAILABLE+ "\">N/A</span>";
         else if(points==Const.POINTS_NOT_SURE)
-            return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + Const.Tooltips.EVALUATION_SUBMISSION_NOT_SURE + "\">N/S</span>";
+            return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_SURE + "\">N/S</span>";
         else if(points==0)
             return "<span class=\"color-negative\">0%</span>";
         else if(points>100)
@@ -157,9 +157,9 @@ public class PageData {
         int diff = perceived - claimed;
         if(perceived==Const.POINTS_NOT_SUBMITTED || perceived==Const.INT_UNINITIALIZED
                 || claimed==Const.POINTS_NOT_SUBMITTED || claimed==Const.INT_UNINITIALIZED){
-            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" data-container=\"body\" title=\"" + Const.Tooltips.EVALUATION_SUBMISSION_NOT_AVAILABLE + "\">N/A</span>";
+            return "<span class=\"color_neutral\" data-toggle=\"tooltip\" data-placement=\"top\" data-container=\"body\" title=\"" + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_AVAILABLE + "\">N/A</span>";
         } else if(perceived==Const.POINTS_NOT_SURE || claimed==Const.POINTS_NOT_SURE) {
-            return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" data-container=\"body\" title=\"" + Const.Tooltips.EVALUATION_SUBMISSION_NOT_SURE + "\">N/S</span>";
+            return "<span class=\"color-negative\" data-toggle=\"tooltip\" data-placement=\"top\" data-container=\"body\" title=\"" + Const.Tooltips.FEEDBACK_CONTRIBUTION_NOT_SURE + "\">N/S</span>";
         } else if(diff>0){
             return "<span class=\"color-positive\">+"+diff+"%</span>";
         } else if(diff<0){
@@ -375,13 +375,7 @@ public class PageData {
         return link;
     }
     
-    public String getEvaluationStatsLink(String courseID, String evalName){
-        String link = Const.ActionURIs.INSTRUCTOR_EVAL_STATS_PAGE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseID);
-        link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName); 
-        link = addUserIdToUrl(link);
-        return link;
-    }
+  
     /**
      * @param courseId
      * @param isHome True if the Browser should redirect to the Home page after the operation. 
@@ -423,91 +417,6 @@ public class PageData {
     public String getInstructorClearPendingCommentsLink(String courseId){
         String link = Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING;
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseId);
-        link = addUserIdToUrl(link);
-        return link;
-    }
-
-    public String getInstructorEvaluationDeleteLink(String courseID, String evalName, String nextURL){
-        String link = Const.ActionURIs.INSTRUCTOR_EVAL_DELETE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseID);
-        link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
-        link = Url.addParamToUrl(link,Const.ParamsNames.NEXT_URL,addUserIdToUrl(nextURL));
-        link = addUserIdToUrl(link);
-        return link;
-    }
-    
-    
-    public String getInstructorEvaluationEditLink(String courseID, String evalName){
-        String link = Const.ActionURIs.INSTRUCTOR_EVAL_EDIT_PAGE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseID);
-        link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
-        link = addUserIdToUrl(link);
-        return link;
-    }
-    
-    
-    public String getInstructorEvaluationPreviewLink(String courseID, String evalName){
-        String link = Const.ActionURIs.INSTRUCTOR_EVAL_PREVIEW;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseID);
-        link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
-        link = addUserIdToUrl(link);
-        return link;
-    }
-    
-    
-    public String getInstructorEvaluationResultsLink(String courseID, String evalName){
-        String link = Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseID);
-        link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
-        link = addUserIdToUrl(link);
-        return link;
-    }
-
-    
-    public String getInstructorEvaluationRemindLink(String courseID, String evalName){
-        String link = Const.ActionURIs.INSTRUCTOR_EVAL_REMIND;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseID);
-        link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
-        link = addUserIdToUrl(link);
-        return link;
-    }
-    
-    
-    public String getInstructorEvaluationPublishLink(String courseID, String evalName, boolean isHome){
-        String link = Const.ActionURIs.INSTRUCTOR_EVAL_PUBLISH;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseID);
-        link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
-        link = Url.addParamToUrl(link,Const.ParamsNames.NEXT_URL,(isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE): addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
-        link = addUserIdToUrl(link);
-        return link;
-    }
-    
-    
-    public String getInstructorEvaluationUnpublishLink(String courseID, String evalName, boolean isHome){
-        String link = Const.ActionURIs.INSTRUCTOR_EVAL_UNPUBLISH;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseID);
-        link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
-        link = Url.addParamToUrl(link,Const.ParamsNames.NEXT_URL,(isHome ? addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_HOME_PAGE): addUserIdToUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)));
-        link = addUserIdToUrl(link);
-        return link;
-    }
-    
-
-    public String getInstructorEvaluationSubmissionViewLink(String courseID, String evalName, String studentEmail){
-        String link = Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_PAGE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseID);
-        link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
-        link = Url.addParamToUrl(link,Const.ParamsNames.STUDENT_EMAIL,studentEmail);
-        link = addUserIdToUrl(link);
-        return link;
-    }
-    
-    
-    public String getInstructorEvaluationSubmissionEditLink(String courseID, String evalName, String studentEmail){
-        String link = Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseID);
-        link = Url.addParamToUrl(link,Const.ParamsNames.EVALUATION_NAME,evalName);
-        link = Url.addParamToUrl(link,Const.ParamsNames.STUDENT_EMAIL,studentEmail);
         link = addUserIdToUrl(link);
         return link;
     }

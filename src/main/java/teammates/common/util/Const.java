@@ -43,8 +43,6 @@ public class Const {
         public static final String ADMIN_EMAIL_TASK_QUEUE = "admin-send-email-queue";
         public static final String ADMIN_PREPARE_EMAIL_TASK_QUEUE = "admin-prepare-email-task-queue";
         public static final String SUBMISSION_TASK_QUEUE = "submission-queue";
-        public static final String EVAL_SUBMISSION_ADJUSTMENT_TASK_QUEUE =
-                                "eval-submission-adjust-queue";
         
         public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_TASK_QUEUE = 
                                 "feedback-submission-adjust-queue";
@@ -113,45 +111,7 @@ public class Const {
                 + " using their Google Accounts. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access"
                 + " extra features e.g. set up a user profile";
         public static final String COURSE_DELETE_ALL_STUDENTS = "Delete all students in this course";
-    
-        public static final String EVALUATION_STATUS_AWAITING = "The evaluation is created but has not yet started";
-        public static final String EVALUATION_STATUS_OPEN = "The evaluation has started and students can submit feedback until the closing time";
-        public static final String EVALUATION_STATUS_CLOSED = "The evaluation has finished but the results have not been made available to the students";
-        public static final String EVALUATION_STATUS_PUBLISHED = "The evaluation has finished and the results have been made available to students";
-    
-        public static final String EVALUATION_RESULTS = "View the current results of the evaluation";
-        public static final String EVALUATION_EDIT = "Edit evaluation details";
-        public static final String EVALUATION_PREVIEW = "Preview evaluation session";
-        public static final String EVALUATION_REMIND = "Send e-mails to remind students who have not submitted their evaluations to do so";
-        public static final String EVALUATION_DELETE = "Delete the evaluation";
-        public static final String EVALUATION_PUBLISH = "Publish evaluation results for students to view";
-        public static final String EVALUATION_UNPUBLISH = "Make results not visible to students";
-        public static final String EVALUATION_SUBMIT = "Start evaluation";
-        public static final String EVALUATION_EDIT_SUBMISSION = "Edit submitted evaluation";
-        
-        public static final String EVALUATION_DIFF = "Perceived Contribution - Claimed Contribution";
-        public static final String EVALUATION_RESPONSE_RATE = "Number of students submitted / Class size";
-        public static final String EVALUATION_POINTS_RECEIVED = "The list of points that this student received from others";
-    
-        public static final String EVALUATION_INPUT_COURSE = "Please select the course for which the evaluation is to be created.";
-        public static final String EVALUATION_INPUT_START = "Please enter the start date for the evaluation.";
-        public static final String EVALUATION_INPUT_NAME = "Enter the name of the evaluation e.g. Mid-term Evaluation 1.";
-        public static final String EVALUATION_INPUT_DEADLINE = "Please enter deadline for the evaluation.";
-        public static final String EVALUATION_INPUT_COMMENTSSTATUS = "Enable this if you want students to give anonymous feedback to team members.<br />"
-                + "You can moderate those peer feedback before publishing it to the team.";
-        public static final String EVALUATION_INPUT_TIMEZONE = "You should not need to change this as your timezone is auto-detected. <br /><br />However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is "
-                + "daylight saving, you should choose UTC -7:00 and its corresponding timings.";
-        public static final String EVALUATION_INPUT_GRACEPERIOD = "Please select the amount of time that the system will continue accepting <br />"
-                + "submissions after the specified deadline.";
-        public static final String EVALUATION_INPUT_INSTRUCTIONS = "Please enter instructions for your students, e.g. Avoid comments which are too critical.";
-    
-        public static final String EVALUATION_SUBMISSION_VIEW_REVIEWER = "View feedback from the student for his team<br />This opens in a new window";
-        public static final String EVALUATION_SUBMISSION_VIEW_REVIEWEE = "View feedback from the team for the student<br />This opens in a new window";
-        public static final String EVALUATION_SUBMISSION_INSTRUCTOR_EDIT = "Edit feedback from the student for his team<br />This opens in a new window";
-    
-        public static final String EVALUATION_SUBMISSION_NOT_AVAILABLE = "Not Available: There is no data for this or the data is not enough";
-        public static final String EVALUATION_SUBMISSION_NOT_SURE = "Not sure about the contribution";
-        
+
         public static final String INSTRUCTOR_DISPLAYED_TO_STUDENT = "If this is unselected, the instructor will be completely invisible to students." 
                 + " E.g. to give access to a colleague for ‘auditing’ your course";
         
@@ -160,18 +120,20 @@ public class Const {
         public static final String STUDENT_COURSE_PROFILE = "Your profile in this course";
         public static final String STUDENT_COURSE_DETAILS = "View and edit information regarding your team";
     
-        public static final String STUDENT_EVALUATION_STATUS_PENDING = "The evaluation is yet to be completed by you";
-        public static final String STUDENT_EVALUATION_STATUS_SUBMITTED = "You have submitted your feedback for this evaluation";
-        public static final String STUDENT_EVALUATION_STATUS_CLOSED = "The evaluation has finished but the instructor has not published the results yet";
-        public static final String STUDENT_EVALUATION_STATUS_PUBLISHED = "The evaluation has finished and you can check the results";
-        public static final String STUDENT_EVALUATION_STATUS_ERROR = "There were some errors in retrieving this evaluation.";
-
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_AWAITING = "The session is not open for submission at this time. It is expected to open later.";
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_PENDING = "The feedback session is yet to be completed by you.";
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED = "You have submitted your feedback for this session.";
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_CLOSED = "<br />The session is now closed for submissions.";
         public static final String STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED = "<br />The responses for the session can now be viewed.";
-    
+
+        
+        public static final String FEEDBACK_CONTRIBUTION_DIFF = "Perceived Contribution - Claimed Contribution";
+        public static final String FEEDBACK_CONTRIBUTION_POINTS_RECEIVED = "The list of points that this student received from others";
+
+        public static final String FEEDBACK_CONTRIBUTION_NOT_AVAILABLE = "Not Available: There is no data for this or the data is not enough";
+        public static final String FEEDBACK_CONTRIBUTION_NOT_SURE = "Not sure about the contribution";
+
+        
         public static final String FEEDBACK_SESSION_COURSE = "Please select the course for which the feedback session is to be created.";
         public static final String FEEDBACK_SESSION_INPUT_NAME = "Enter the name of the feedback session e.g. Feedback Session 1.";
         public static final String FEEDBACK_SESSION_STARTDATE = "Please select the date and time for which users can start submitting responses for the feedback session.";
@@ -192,7 +154,7 @@ public class Const {
                 + "will be visible to the designated recipients.";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLEATVISIBLE = "Select this option to have the feedback responses be immediately visible<br />"
                 + "when the session becomes visible to users.";
-        public static final String FEEDBACK_SESSION_RESULTSVISIBLELATER = "Select this option if you intend to manually publish the session later on.";
+        public static final String FEEDBACK_SESSION_RESULTSVISIBLELATER = "Select this option if you intend to manually publish the responses for this session later on.";
         public static final String FEEDBACK_SESSION_RESULTSVISIBLENEVER = "Select this option if you intend never to publish the responses.";
         public static final String FEEDBACK_SESSION_SENDJOINEMAIL = "If the student has not joined the course yet, an email containing the link to join the course will automatically be sent on session opening time.";
         public static final String FEEDBACK_SESSION_SENDOPENEMAIL = "Select this option to automatically send an email to students to notify them when the session is open for submission.";
@@ -206,6 +168,13 @@ public class Const {
         public static final String FEEDBACK_SESSION_STATUS_CLOSED = ", and has ended";
         public static final String FEEDBACK_SESSION_STATUS_PUBLISHED = ".<br />The responses for this session are visible";
         
+        public static final String FEEDBACK_SESSION_INPUT_TIMEZONE = "You should not need to change this as your timezone is auto-detected. <br /><br />However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is "
+                + "daylight saving, you should choose UTC -7:00 and its corresponding timings.";
+
+        public static final String FEEDBACK_SESSION_INPUT_GRACEPERIOD = "Please select the amount of time that the system will continue accepting <br />"
+                + "submissions after the specified deadline.";
+
+        public static final String FEEDBACK_SESSION_RESPONSE_RATE = "Number of students submitted / Class size";
         public static final String FEEDBACK_SESSION_RESULTS = "View the submitted responses for this feedback session";
         public static final String FEEDBACK_SESSION_EDIT = "Edit feedback session details";
         public static final String FEEDBACK_SESSION_REMIND = "Send e-mails to remind students and instructors who have not submitted their feedbacks to do so";
@@ -363,22 +332,6 @@ public class Const {
         public static final String ADMIN_GROUP_RECEIVER_EMAIL_LIST_INDEX = "emaillistindex";
         public static final String ADMIN_GROUP_RECEIVER_EMAIL_INDEX = "emailindex";
     
-        public static final String EVALUATION_NAME = "evaluationname";
-    
-        public static final String EVALUATION_START = "start";
-        public static final String EVALUATION_STARTTIME = "starttime";
-        public static final String EVALUATION_DEADLINE = "deadline";
-        public static final String EVALUATION_DEADLINETIME = "deadlinetime";
-        public static final String EVALUATION_TIMEZONE = "timezone";
-    
-        public static final String EVALUATION_COMMENTSENABLED = "commentsstatus";
-        public static final String EVALUATION_GRACEPERIOD = "graceperiod";
-        public static final String EVALUATION_INSTRUCTIONS = "instr";
-        public static final String EVALUATION_NUMBEROFCOMPLETEDEVALUATIONS = "numberofevaluations";
-        public static final String EVALUATION_NUMBEROFEVALUATIONS = "numberofcompletedevaluations";
-        public static final String EVALUATION_PUBLISHED = "published";
-        public static final String EVALUATION_TYPE = "evaluationtype";
-        
         public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_INDEX = "fsindex";
         public static final String FEEDBACK_SESSION_CREATOR = "fscreator";
@@ -1146,17 +1099,6 @@ public class Const {
     
     public static final String FEEDBACK_SESSION_QUESTIONS_HIDDEN = "Some questions may be hidden due to visibility options";
     public static final String NONE_OF_THE_ABOVE = "None of the above";
-    
-    public static final String INSTRUCTOR_EVALUATION_STATUS_AWAITING = "Awaiting";
-    public static final String INSTRUCTOR_EVALUATION_STATUS_OPEN = "Open";
-    public static final String INSTRUCTOR_EVALUATION_STATUS_CLOSED = "Closed";
-    public static final String INSTRUCTOR_EVALUATION_STATUS_PUBLISHED = "Published";
-
-    public static final String STUDENT_EVALUATION_STATUS_PENDING = "Pending";
-    public static final String STUDENT_EVALUATION_STATUS_SUBMITTED = "Submitted";
-    public static final String STUDENT_EVALUATION_STATUS_CLOSED = "Closed";
-    public static final String STUDENT_EVALUATION_STATUS_PUBLISHED = "Published";
-    public static final String STUDENT_EVALUATION_STATUS_ERROR = "Error";
 
     public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM = "custom";
     public static final String INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN = "atopen";

@@ -55,11 +55,6 @@ public class Url {
         return this;
     }
 
-    public Url withEvalName(String evaluationName) {
-        this.urlString = Url.addParamToUrl(this.urlString, Const.ParamsNames.EVALUATION_NAME, evaluationName);
-        return this;
-    }
-    
     public Url withSessionName(String feedbackSessionName) {
         this.urlString = Url.addParamToUrl(this.urlString, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         return this;
