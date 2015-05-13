@@ -860,7 +860,7 @@ public class PageData {
         } else {
             if (hasPublish) {
                 result = 
-                        "<a class=\"btn btn-default btn-xs btn-tm-actions session-publish-for-test" +
+                        "<a class=\"btn btn-default btn-xs btn-tm-actions session-publish-for-test\"" +
                         "href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId, session.feedbackSessionName, isHome) + "\" " +
                         "title=\"" + Const.Tooltips.FEEDBACK_SESSION_PUBLISH + "\"" +
                         "data-toggle=\"tooltip\" data-placement=\"top\"" +
@@ -871,7 +871,7 @@ public class PageData {
                 result = 
                         "<div title=\"" + Const.Tooltips.FEEDBACK_SESSION_AWAITING + "\" data-toggle=\"tooltip\" data-placement=\"top\"" + " style=\"display: inline-block; padding-right: 5px;\"" + ">" +
                             "<a class=\"btn btn-default btn-xs btn-tm-actions session-publish-for-test" + DISABLED + 
-                            "href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
+                            "href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId, session.feedbackSessionName, isHome) + "\" " +
                             disablePublishSessionStr + ">Publish Results" +
                             "</a> " +
                         "</div>";
