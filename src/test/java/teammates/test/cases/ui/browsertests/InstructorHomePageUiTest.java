@@ -322,10 +322,11 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     
     public void testCopyFsAction() throws Exception {
         String feedbackSessionName = "First team feedback session";
+        String courseIdForCS2104 = testData.courses.get("CHomeUiT.CS2104").id;
         
         ______TS("Submit empty course list: Home Page");
         
-        homePage.clickFsCopyButton(feedbackSessionName);
+        homePage.clickFsCopyButton(courseIdForCS2104, feedbackSessionName);
         homePage.waitForModalToLoad();
         homePage.clickFsCopySubmitButton();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
@@ -335,7 +336,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("Copying fails due to fs with same name in course selected: Home Page");
         
-        homePage.clickFsCopyButton(feedbackSessionName);
+        homePage.clickFsCopyButton(courseIdForCS2104, feedbackSessionName);
         homePage.waitForModalToLoad();
         homePage.fillCopyToOtherCoursesForm(feedbackSessionName);
         
@@ -349,7 +350,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("Copying fails due to fs with invalid name: Home Page");
         
-        homePage.clickFsCopyButton(feedbackSessionName);
+        homePage.clickFsCopyButton(courseIdForCS2104, feedbackSessionName);
         homePage.waitForModalToLoad();
         homePage.fillCopyToOtherCoursesForm("Invalid name | for feedback session");
         
@@ -361,7 +362,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("Successful case: Home Page");
         
-        homePage.clickFsCopyButton(feedbackSessionName);
+        homePage.clickFsCopyButton(courseIdForCS2104, feedbackSessionName);
         homePage.waitForModalToLoad();
         homePage.fillCopyToOtherCoursesForm("New name!");
         
@@ -370,7 +371,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
         homePage.waitForElementPresence(By.id("table-sessions"), 5);
         ThreadHelper.waitFor(1000);
-        homePage.verifyHtml("/instructorFeedbackEditCopySuccess.html");
+        homePage.verifyHtml("/instructorHomeCopySuccess.html");
         
         homePage.goToPreviousPage(InstructorHomePage.class);
     }

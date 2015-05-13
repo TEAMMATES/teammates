@@ -317,8 +317,8 @@ public class InstructorHomePage extends AppPage {
         return browser.driver.findElement(locator).getText();
     }
     
-    public void clickFsCopyButton(String feedbackSessionName) {
-        WebElement fsCopyButton = browser.driver.findElement(By.id("button_fscopy" + feedbackSessionName));
+    public void clickFsCopyButton(String courseId, String feedbackSessionName) {
+        WebElement fsCopyButton = browser.driver.findElement(By.id("button_fscopy" + "-" + courseId + "-" + feedbackSessionName));
         
         fsCopyButton.click();
     }

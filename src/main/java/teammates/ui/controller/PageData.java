@@ -655,8 +655,9 @@ public class PageData {
             "data-toggle=\"modal\"" +
             "data-target=\"#fsCopyModal\"" +
             "data-placement=\"top\"" +
-            "id=\"button_fscopy" + session.feedbackSessionName + "\"" +
-            ">Copy</a> "
+            "id=\"button_fscopy" + "-" + session.courseId + "-" + session.feedbackSessionName + "\"" +
+            ">Copy" +
+            "</a> "
         );
         result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions session-submit-for-test" + (hasSubmit ? "\"" : DISABLED) +

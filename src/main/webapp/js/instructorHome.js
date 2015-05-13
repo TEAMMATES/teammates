@@ -50,7 +50,6 @@ $(document).ready(function() {
     
     //Click event binding for radio buttons
     var radiobuttons = $("label[name='sortby']");
-    
     $.each(radiobuttons, function() {
         $(this).click(function (){
             var currentPath = window.location.pathname;
