@@ -2272,9 +2272,7 @@ public class FeedbackSessionsLogic {
             FeedbackSessionAttributes session,
             String userEmail) throws EntityDoesNotExistException {
 
-        if (fsDb.getFeedbackSession(
-                session.courseId,
-                session.feedbackSessionName) == null) {
+        if (session == null) {
             throw new EntityDoesNotExistException(
                     "Trying to get a feedback session that does not exist.");
         }
