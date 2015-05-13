@@ -15,7 +15,6 @@ import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 
-import com.google.appengine.api.search.Cursor;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.google.gson.Gson;
@@ -23,8 +22,7 @@ import com.google.gson.Gson;
 /**
  * The search result bundle for {@link FeedbackResponseCommentAttributes}. 
  */
-public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundle {
-    private int numberOfCommentFound = 0;
+public class FeedbackResponseCommentSearchResultBundle extends BaseCommentSearchResultBundle {
     public Map<String, List<FeedbackResponseCommentAttributes>> comments = new HashMap<String, List<FeedbackResponseCommentAttributes>>();
     public Map<String, List<FeedbackResponseAttributes>> responses = new HashMap<String, List<FeedbackResponseAttributes>>();
     public Map<String, List<FeedbackQuestionAttributes>> questions = new HashMap<String, List<FeedbackQuestionAttributes>>();
@@ -33,8 +31,6 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     public Map<String, String> responseGiverTable = new HashMap<String, String>();
     public Map<String, String> responseRecipientTable = new HashMap<String, String>();
     public Set<String> instructorEmails = new HashSet<String>();
-    
-    public Cursor cursor = null;
     
     private Set<String> isAdded = new HashSet<String>();
     
@@ -45,7 +41,9 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     private FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
     private FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
     
-    public FeedbackResponseCommentSearchResultBundle(){}
+    public FeedbackResponseCommentSearchResultBundle() {
+        
+    }
 
     /**
      * Produce a FeedbackResponseCommentSearchResultBundle from the Results<ScoredDocument> collection
@@ -142,7 +140,7 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
             String commentGiverName = extractContentFromQuotedString(
                     doc.getOnlyField(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME).getText());
             commentGiverTable.put(comment.getId().toString(), getFilteredCommentGiverName(response, comment, commentGiverName));
-            numberOfCommentFound++;
+            numberOfResults++;
         }
         
         for (List<FeedbackQuestionAttributes> questions : this.questions.values()) {
@@ -246,8 +244,4 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
         return false;
     }
 
-    @Override
-    public int getResultSize() {
-        return numberOfCommentFound;
-    }
 }
