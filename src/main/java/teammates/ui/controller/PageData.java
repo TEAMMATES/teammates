@@ -747,7 +747,7 @@ public class PageData {
                 );
         } else {
             result.append(
-                    "<div title=\"" + Const.Tooltips.FEEDBACK_SESSION_SUBMIT + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +" style=\"display: inline-block; padding-right: 5px;\"" + ">" +
+                    "<div title=\"" + Const.Tooltips.FEEDBACK_SESSION_SUBMIT + "\" data-toggle=\"tooltip\" data-placement=\"top\"" + " style=\"display: inline-block; padding-right: 5px;\"" + ">" +
                         "<a class=\"btn btn-default btn-xs btn-tm-actions session-submit-for-test" + DISABLED +
                         "href=\"" + getInstructorFeedbackSessionSubmitLink(session.courseId, session.feedbackSessionName) + "\" " +
                         disableSubmitSessionStr + ">Submit" +
@@ -763,7 +763,7 @@ public class PageData {
         
         if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) && hasRemind) {
             result.append(
-                    "<div class=\"btn-group\">" +
+                    "<div class=\"btn-group\" style=\"padding-right: 5px;\">" +
                         "<a class=\"btn btn-default btn-xs btn-tm-actions session-remind-for-test\"" + 
                         "href=\"" + getInstructorFeedbackSessionRemindLink(session.courseId, session.feedbackSessionName) + "\" " +
                         "title=\"" + Const.Tooltips.FEEDBACK_SESSION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
@@ -796,7 +796,7 @@ public class PageData {
                 );
         } else {
             result.append(
-                    "<div title=\"" + Const.Tooltips.FEEDBACK_SESSION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +" style=\"display: inline-block; padding-right: 5px;\"" + ">" +
+                    "<div title=\"" + Const.Tooltips.FEEDBACK_SESSION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\"" + " style=\"display: inline-block; padding-right: 5px;\"" + ">" +
                         "<div class=\"btn-group\">" +
                             "<a class=\"btn btn-default btn-xs btn-tm-actions session-remind-for-test" + DISABLED +
                             "href=\"" + getInstructorFeedbackSessionRemindLink(session.courseId, session.feedbackSessionName) + "\" " +
@@ -869,7 +869,7 @@ public class PageData {
                         "</a> ";
             } else {
                 result = 
-                        "<div title=\"" + Const.Tooltips.FEEDBACK_SESSION_AWAITING + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +" style=\"display: inline-block; padding-right: 5px;\"" + ">" +
+                        "<div title=\"" + Const.Tooltips.FEEDBACK_SESSION_AWAITING + "\" data-toggle=\"tooltip\" data-placement=\"top\"" + " style=\"display: inline-block; padding-right: 5px;\"" + ">" +
                             "<a class=\"btn btn-default btn-xs btn-tm-actions session-publish-for-test" + DISABLED + 
                             "href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
                             disablePublishSessionStr + ">Publish Results" +
