@@ -79,7 +79,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         testRemindActions();
         testPublishUnpublishActions();
         testArchiveCourseAction();
-        testCopyFsAction();
+        testCopyToFsAction();
         testDeleteCourseAction();
     }
     
@@ -320,29 +320,29 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickHomeTab();
     }
     
-    public void testCopyFsAction() throws Exception {
+    public void testCopyToFsAction() throws Exception {
         String feedbackSessionName = "First Feedback Session";
-        String courseIdForCS2104 = testData.courses.get("CHomeUiT.CS2104").id;
+        String courseId = testData.courses.get("CHomeUiT.CS2104").id;
         
         ______TS("Submit empty course list: Home Page");
         
-        homePage.clickFsCopyButton(courseIdForCS2104, feedbackSessionName);
+        homePage.clickFsCopyButton(courseId, feedbackSessionName);
         homePage.waitForModalToLoad();
         homePage.clickFsCopySubmitButton();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         
-        // Go back to previous page because 'copy feedback session' redirects to the 'Feedbacks' page.
+        // Go back to previous page because 'copy feedback session' redirects to the 'FeedbackEdit' page.
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("Copying fails due to fs with same name in course selected: Home Page");
         
-        homePage.clickFsCopyButton(courseIdForCS2104, feedbackSessionName);
+        homePage.clickFsCopyButton(courseId, feedbackSessionName);
         homePage.waitForModalToLoad();
         homePage.fillCopyToOtherCoursesForm(feedbackSessionName);
         
         homePage.clickFsCopySubmitButton();
         
-        String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, feedbackSessionName, testData.courses.get("CHomeUiT.CS2104").id);
+        String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, feedbackSessionName, courseId);
         
         homePage.verifyStatus(error);
         
@@ -350,7 +350,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("Copying fails due to fs with invalid name: Home Page");
         
-        homePage.clickFsCopyButton(courseIdForCS2104, feedbackSessionName);
+        homePage.clickFsCopyButton(courseId, feedbackSessionName);
         homePage.waitForModalToLoad();
         homePage.fillCopyToOtherCoursesForm("Invalid name | for feedback session");
         
@@ -362,7 +362,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         ______TS("Successful case: Home Page");
         
-        homePage.clickFsCopyButton(courseIdForCS2104, feedbackSessionName);
+        homePage.clickFsCopyButton(courseId, feedbackSessionName);
         homePage.waitForModalToLoad();
         homePage.fillCopyToOtherCoursesForm("New name!");
         
