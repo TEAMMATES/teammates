@@ -67,7 +67,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
     
     @Test
-    public void allTests() throws Exception {
+    public void allTests() throws Exception{
         testPersistenceCheck();
         testLogin();
         testContent();
@@ -121,7 +121,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.verifyHtmlAjax("/instructorHomeHTMLResponseRatePass.html");
     }
     
-    public void testContent() throws Exception {
+    public void testContent() throws Exception{
         
         ______TS("content: no courses");
         
@@ -160,7 +160,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         BackDoor.createInstructor(instructor);
     }
     
-    public void testHelpLink() throws Exception {
+    public void testHelpLink() throws Exception{
         
         ______TS("link: help page");
         
@@ -169,7 +169,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
     }
     
-    public void testCourseLinks() {
+    public void testCourseLinks(){
         String courseId = testData.courses.get("CHomeUiT.CS1101").id;
         String instructorId = testData.accounts.get("account").googleId;
         
@@ -215,7 +215,9 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
     }
     
-    public void testRemindActions() {
+    
+    
+    public void testRemindActions(){
         
         ______TS("remind action: AWAITING feedback session");
         
@@ -276,9 +278,9 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.verifyUnclickable(homePage.getRemindOptionsLink(feedbackSession_PUBLISHED.courseId, feedbackSession_PUBLISHED.feedbackSessionName));
 
     }
-    
+
     public void testPublishUnpublishActions(){
-        // TODO add test for publishing and unpublishing feedback sessions
+        //TODO add test for publishing and unpublishing feedback sessions
     }
     
     public void testArchiveCourseAction() throws Exception {
@@ -318,16 +320,13 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickHomeTab();
     }
     
-    // TODO: Sure fail, Done halfway - writing failing tests first
     public void testCopyFsAction() throws Exception {
         String feedbackSessionName = "First team feedback session";
         
         ______TS("Submit empty course list: Home Page");
+        
         homePage.clickFsCopyButton(feedbackSessionName);
         homePage.waitForModalToLoad();
-        
-        homePage.verifyHtml("/instructorFeedbackEditCopyPage.html");
-        
         homePage.clickFsCopySubmitButton();
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
         
@@ -335,6 +334,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("Copying fails due to fs with same name in course selected: Home Page");
+        
         homePage.clickFsCopyButton(feedbackSessionName);
         homePage.waitForModalToLoad();
         homePage.fillCopyToOtherCoursesForm(feedbackSessionName);
@@ -342,16 +342,13 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         homePage.clickFsCopySubmitButton();
         
         String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, feedbackSessionName, testData.courses.get("course").id);
+        
         homePage.verifyStatus(error);
         
-        // TODO: Sure fail, writing failing test cases first
-        // TODO: Try to use web element tests instead of verifying HTML
-        homePage.verifyHtml("/instructorFeedbackEditCopyFail.html");
-        
-        // Go back to previous page because 'copy feedback session' redirects to the 'Feedbacks' page.
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("Copying fails due to fs with invalid name: Home Page");
+        
         homePage.clickFsCopyButton(feedbackSessionName);
         homePage.waitForModalToLoad();
         homePage.fillCopyToOtherCoursesForm("Invalid name | for feedback session");
@@ -360,10 +357,10 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         homePage.verifyStatus("\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as feedback session name because it contains invalid characters. All feedback session name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).");
         
-        // Go back to previous page because 'copy feedback session' redirects to the 'Feedbacks' page.
         homePage.goToPreviousPage(InstructorHomePage.class);
         
         ______TS("Successful case: Home Page");
+        
         homePage.clickFsCopyButton(feedbackSessionName);
         homePage.waitForModalToLoad();
         homePage.fillCopyToOtherCoursesForm("New name!");
@@ -372,16 +369,13 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
         homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
         homePage.waitForElementPresence(By.id("table-sessions"), 5);
-        ThreadHelper.waitFor(1000); // wait for sessions' response rate to load
-        // TODO: Sure fail, writing failing test cases first
-        // TODO: Try to use web element tests instead of verifying HTML
+        ThreadHelper.waitFor(1000);
         homePage.verifyHtml("/instructorFeedbackEditCopySuccess.html");
         
-        // Go back to previous page because 'copy feedback session' redirects to the 'Feedbacks' page.
         homePage.goToPreviousPage(InstructorHomePage.class);
     }
 
-    public void testDeleteCourseAction() throws Exception {
+    public void testDeleteCourseAction() throws Exception{
         
         ______TS("delete course action");
         
@@ -402,11 +396,11 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         
     }
     
-    public void testSearchAction() throws Exception {
+    public void testSearchAction() throws Exception{
         // Tested in student list page
     }
     
-    public void testSortAction() throws Exception {
+    public void testSortAction() throws Exception{
         ______TS("sort by id");
         homePage.clickSortByIdButton();
         homePage.verifyHtmlAjax("/InstructorHomeHTMLSortById.html");

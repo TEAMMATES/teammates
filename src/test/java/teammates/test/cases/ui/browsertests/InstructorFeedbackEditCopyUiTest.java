@@ -12,6 +12,7 @@ import teammates.common.util.Url;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
+import teammates.test.util.Priority;
 
 public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
     private static Browser browser;
@@ -80,7 +81,8 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
         feedbackEditPage.waitForElementPresence(By.id("table-sessions"), 5);
         ThreadHelper.waitFor(1000); // wait for sessions' response rate to load
-        feedbackEditPage.verifyHtml("/instructorFeedbackEditCopySuccess.html");   
+        feedbackEditPage.verifyHtml("/instructorFeedbackEditCopySuccess.html");  
+        
     }
 
 

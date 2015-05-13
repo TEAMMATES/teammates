@@ -3,6 +3,7 @@ var SELECT_OPTION_UNINITIALISED = -9999;
 
 var modalSelectedRow;
 
+
 /**
  * Check whether the feedback question input is valid
  * @param form
@@ -317,7 +318,7 @@ function showUncommonPanels(){
 }
 
 function hideUncommonPanels(){
-    // Hide panels only if they match the default values.
+    //Hide panels only if they match the default values.
     if(isDefaultSetting()){
         $('#sessionResponsesVisiblePanel').hide();
         $('#sendEmailsForPanel').hide();

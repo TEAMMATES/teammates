@@ -646,12 +646,6 @@ public class PageData {
             disableDeleteSessionStr + ">Delete</a> "
         );
         result.append(
-            "<a class=\"btn btn-default btn-xs btn-tm-actions session-submit-for-test" + (hasSubmit ? "\"" : DISABLED) +
-            "href=\"" + getInstructorFeedbackSessionSubmitLink(session.courseId,session.feedbackSessionName) + "\" " +
-            "title=\"" + Const.Tooltips.FEEDBACK_SESSION_SUBMIT + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
-            disableSubmitSessionStr + ">Submit</a> "
-        );
-        result.append(
             "<a class=\"btn btn-default btn-xs btn-tm-actions session-copy-for-test\"" +
             "href=\"#\"" +
             "title=\"" + Const.Tooltips.FEEDBACK_SESSION_COPY + "\"" +
@@ -663,6 +657,12 @@ public class PageData {
             "data-placement=\"top\"" +
             "id=\"button_fscopy" + session.feedbackSessionName + "\"" +
             ">Copy</a> "
+        );
+        result.append(
+            "<a class=\"btn btn-default btn-xs btn-tm-actions session-submit-for-test" + (hasSubmit ? "\"" : DISABLED) +
+            "href=\"" + getInstructorFeedbackSessionSubmitLink(session.courseId,session.feedbackSessionName) + "\" " +
+            "title=\"" + Const.Tooltips.FEEDBACK_SESSION_SUBMIT + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
+            disableSubmitSessionStr + ">Submit</a> "
         );
         
         // Don't need to show any other links if private
