@@ -9,10 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.Comment;
@@ -22,24 +20,16 @@ import com.google.appengine.api.datastore.Text;
 /**
  * A data transfer object for {@link Comment} entities.
  */
-public class CommentAttributes extends EntityAttributes 
-    implements Comparable<CommentAttributes>{
+public class CommentAttributes extends BaseCommentAttributes {
 
     private Long commentId = null;
-    public String courseId;
-    public String giverEmail;
     public CommentRecipientType recipientType = CommentRecipientType.PERSON;
     public Set<String> recipients;
     public CommentStatus status = CommentStatus.FINAL;
-    public CommentSendingState sendingState = CommentSendingState.SENT;
     //TODO: rename CommentRecipientType to CommentParticipantType
     public List<CommentRecipientType> showCommentTo;
     public List<CommentRecipientType> showGiverNameTo;
     public List<CommentRecipientType> showRecipientNameTo;
-    public Text commentText;
-    public Date createdAt;
-    public String lastEditorEmail;
-    public Date lastEditedAt;
 
     public CommentAttributes() {
 
@@ -47,14 +37,12 @@ public class CommentAttributes extends EntityAttributes
 
     public CommentAttributes(String courseId, String giverEmail, CommentRecipientType recipientType,
             Set<String> recipients, Date createdAt, Text commentText) {
-        this.courseId = courseId;
-        this.giverEmail = giverEmail;
+        super(courseId, giverEmail, createdAt, commentText);
         this.recipientType = recipientType != null ? recipientType : CommentRecipientType.PERSON;
         this.recipients = recipients;
-        this.commentText = commentText;
-        this.createdAt = createdAt;
-        this.lastEditorEmail = giverEmail;
-        this.lastEditedAt = createdAt;
+        this.showCommentTo = new ArrayList<CommentRecipientType>();
+        this.showGiverNameTo = new ArrayList<CommentRecipientType>();
+        this.showRecipientNameTo = new ArrayList<CommentRecipientType>();
     }
 
     public CommentAttributes(Comment comment) {
@@ -175,11 +163,6 @@ public class CommentAttributes extends EntityAttributes
     }
 
     @Override
-    public String getIdentificationString() {
-        return toString();
-    }
-
-    @Override
     public String getEntityTypeAsString() {
         return "Comment";
     }
@@ -187,11 +170,6 @@ public class CommentAttributes extends EntityAttributes
     @Override
     public String getJsonString() {
         return Utils.getTeammatesGson().toJson(this, CommentAttributes.class);
-    }
-    
-    @Override
-    public String getBackupIdentifier() {
-        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
     }
     
     @Override
@@ -300,33 +278,5 @@ public class CommentAttributes extends EntityAttributes
             }
         });
     }
-    
-    @Override
-    public int compareTo(CommentAttributes o) {
-        if(o == null){
-            return 1;
-        }
-        return o.createdAt.compareTo(createdAt);
-    }
 
-    private String getEditedAtText(Boolean isGiverAnonymous, String displayGiverAs,
-            String displayTimeAs) {
-        if (this.lastEditedAt != null && (!this.lastEditedAt.equals(this.createdAt))) {
-            return "(last edited " +
-                    (isGiverAnonymous ? "" : "by " + displayGiverAs + " ") +
-                    "at " + displayTimeAs + ")";
-        } else {
-            return "";
-        }
-    }
-
-    public String getEditedAtTextForInstructor(Boolean isGiverAnonymous) {
-        return getEditedAtText(isGiverAnonymous, this.lastEditorEmail,
-                TimeHelper.formatTime(this.lastEditedAt));
-    }
-
-    public String getEditedAtTextForStudent(Boolean isGiverAnonymous, String displayGiverAs) {
-        return getEditedAtText(isGiverAnonymous, displayGiverAs,
-                TimeHelper.formatDate(this.lastEditedAt));
-    }
 }
