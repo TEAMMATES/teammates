@@ -747,7 +747,7 @@ public class PageData {
                 );
         } else {
             result.append(
-                    "<div title=\"" + Const.Tooltips.FEEDBACK_SESSION_SUBMIT + "\" data-toggle=\"tooltip\" data-placement=\"top\" style=\"display: inline-block; padding-right: 5px;\"" + ">" +
+                    "<div title=\"" + Const.Tooltips.FEEDBACK_SESSION_SUBMIT + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +" style=\"display: inline-block; padding-right: 5px;\"" + ">" +
                         "<a class=\"btn btn-default btn-xs btn-tm-actions session-submit-for-test" + DISABLED +
                         "href=\"" + getInstructorFeedbackSessionSubmitLink(session.courseId, session.feedbackSessionName) + "\" " +
                         disableSubmitSessionStr + ">Submit" +
@@ -815,14 +815,24 @@ public class PageData {
                 "onclick=\"return toggleUnpublishEvaluation('" + session.feedbackSessionName + "');\" " + 
                 disableUnpublishSessionStr + ">Unpublish Results</a> ";
         } else {
-            // TODO: Disabled -> wrap in div for tooltip
-            result = 
-                "<a class=\"btn btn-default btn-xs btn-tm-actions session-publish-for-test" + (hasPublish ? "\"" : DISABLED) + 
-                "href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
-                "title=\"" + (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH :  Const.Tooltips.FEEDBACK_SESSION_AWAITING) + "\"" +
-                "data-toggle=\"tooltip\" data-placement=\"top\"" +
-                (hasPublish ? "onclick=\"return togglePublishEvaluation('" + session.feedbackSessionName + "'" + ", " + session.isPublishedEmailEnabled + ");\" " : " ") +
-                disablePublishSessionStr + ">Publish Results</a> ";
+            if (hasPublish) {
+                result = 
+                        "<a class=\"btn btn-default btn-xs btn-tm-actions session-publish-for-test" +
+                        "href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId, session.feedbackSessionName, isHome) + "\" " +
+                        "title=\"" + Const.Tooltips.FEEDBACK_SESSION_PUBLISH + "\"" +
+                        "data-toggle=\"tooltip\" data-placement=\"top\"" +
+                        "onclick=\"return togglePublishEvaluation('" + session.feedbackSessionName + "'" + ", " + session.isPublishedEmailEnabled + ");\" " +
+                        disablePublishSessionStr + ">Publish Results" + 
+                        "</a> ";
+            } else {
+                result = 
+                        "<div title=\"" + Const.Tooltips.FEEDBACK_SESSION_AWAITING + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +" style=\"display: inline-block; padding-right: 5px;\"" + ">" +
+                            "<a class=\"btn btn-default btn-xs btn-tm-actions session-publish-for-test" + DISABLED + 
+                            "href=\"" + getInstructorFeedbackSessionPublishLink(session.courseId,session.feedbackSessionName,isHome) + "\" " +
+                            disablePublishSessionStr + ">Publish Results" +
+                            "</a> " +
+                        "</div>";
+            }
         }
         return result;
     }
