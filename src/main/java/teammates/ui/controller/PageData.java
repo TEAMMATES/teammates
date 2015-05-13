@@ -737,26 +737,24 @@ public class PageData {
             disableDeleteSessionStr + ">Delete</a> "
         );
         
-        hasSubmit = false;
-        
-        // TODO: refactor this portion
         if (hasSubmit) {
             result.append(
-                    "<a class=\"btn btn-default btn-xs btn-tm-actions session-submit-for-test" + "\"" +
-                    "href=\"" + getInstructorFeedbackSessionSubmitLink(session.courseId,session.feedbackSessionName) + "\" " +
+                    "<a class=\"btn btn-default btn-xs btn-tm-actions session-submit-for-test" + "\" " +
+                    "href=\"" + getInstructorFeedbackSessionSubmitLink(session.courseId, session.feedbackSessionName) + "\" " +
                     "title=\"" + Const.Tooltips.FEEDBACK_SESSION_SUBMIT + "\" data-toggle=\"tooltip\" data-placement=\"top\"" +
-                    disableSubmitSessionStr + ">Submit</a> "
+                    disableSubmitSessionStr +">Submit" +
+                    "</a> "
                 );
         } else {
             result.append(
                     "<div title=\"" + Const.Tooltips.FEEDBACK_SESSION_SUBMIT + "\" data-toggle=\"tooltip\" data-placement=\"top\" style=\"display: inline-block; padding-right: 5px;\"" + ">" +
-                    "<a class=\"btn btn-default btn-xs btn-tm-actions session-submit-for-test" + DISABLED +
-                    "href=\"" + getInstructorFeedbackSessionSubmitLink(session.courseId,session.feedbackSessionName) + "\" " +
-                    disableSubmitSessionStr + ">Submit</a> " +
+                        "<a class=\"btn btn-default btn-xs btn-tm-actions session-submit-for-test" + DISABLED +
+                        "href=\"" + getInstructorFeedbackSessionSubmitLink(session.courseId, session.feedbackSessionName) + "\" " +
+                        disableSubmitSessionStr + ">Submit" +
+                        "</a> " +
                     "</div>"
                 );
         }
-        
         
         // Don't need to show any other links if private
         if(session.isPrivateSession()) {
