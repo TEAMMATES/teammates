@@ -33,7 +33,6 @@ import teammates.test.pageobjects.FeedbackSubmitPage;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.pageobjects.InstructorFeedbacksPage;
-import teammates.test.pageobjects.InstructorHomePage;
 import teammates.test.util.Priority;
 
 import com.google.appengine.api.datastore.Text;
