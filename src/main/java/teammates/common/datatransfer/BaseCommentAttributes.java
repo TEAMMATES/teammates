@@ -37,6 +37,8 @@ public abstract class BaseCommentAttributes extends EntityAttributes implements
         this.lastEditedAt = createdAt;
     }
 
+    public abstract Long getId();
+
     @Override
     public String getIdentificationString() {
         return toString();

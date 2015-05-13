@@ -59,6 +59,10 @@ public class CommentAttributes extends BaseCommentAttributes {
         this.lastEditedAt = comment.getLastEditedAt() != null ? comment.getLastEditedAt() : comment.getCreatedAt();
     }
 
+    public Long getId() {
+        return getCommentId();
+    }
+    
     public Long getCommentId() {
         return this.commentId;
     }
