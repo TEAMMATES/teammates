@@ -901,27 +901,26 @@ public class FeedbackSessionsLogic {
             String courseId, String userEmail)
             throws EntityDoesNotExistException {
 
-        if (isFeedbackSessionExists(feedbackSessionName, courseId) == false) {
+        FeedbackSessionAttributes  fsa = this.getFeedbackSession(feedbackSessionName, courseId);
+        if (fsa == null) {
             throw new EntityDoesNotExistException(
                     "Trying to check a feedback session that does not exist.");
         }
-
+        
+        if (fsa.respondingStudentList.contains(userEmail)) {
+            return true;
+        }
+        
+        
+        // TODO: consider removing the code below as it is costly.
+        // feedback sessions with no questions for students are also
+        // not visible to the students due to isFeedbackSessionViewableToStudents.
+        
         List<FeedbackQuestionAttributes> allQuestions =
                 fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName,
                         courseId);
-
-        if (allQuestions.isEmpty()) {
-            // if there is no question for students, session is complete
-            return true;
-        }
-
-        for (FeedbackQuestionAttributes question : allQuestions) {
-            if (fqLogic.isQuestionAnsweredByUser(question, userEmail)) {
-                // If any question is answered, session is complete.
-                return true;
-            }
-        }
-        return false;
+        // if there is no question for students, session is complete
+        return allQuestions.isEmpty();
     }
 
     public boolean isFeedbackSessionCompletedByInstructor(
@@ -929,27 +928,22 @@ public class FeedbackSessionsLogic {
             String courseId, String userEmail)
             throws EntityDoesNotExistException {
 
-        if (isFeedbackSessionExists(feedbackSessionName, courseId) == false) {
+        FeedbackSessionAttributes  fsa = this.getFeedbackSession(feedbackSessionName, courseId);
+        if (fsa == null) {
             throw new EntityDoesNotExistException(
                     "Trying to check a feedback session that does not exist.");
+        }
+        
+        if (fsa.respondingInstructorList.contains(userEmail)) {
+            return true;
         }
 
         List<FeedbackQuestionAttributes> allQuestions =
                 fqLogic.getFeedbackQuestionsForInstructor(feedbackSessionName,
                         courseId, userEmail);
 
-        if (allQuestions.isEmpty()) {
-            // if there is no question for instructor, session is complete
-            return true;
-        }
-
-        for (FeedbackQuestionAttributes question : allQuestions) {
-            if (fqLogic.isQuestionAnsweredByUser(question, userEmail)) {
-                // If any question is answered, session is complete.
-                return true;
-            }
-        }
-        return false;
+        // if there is no question for instructor, session is complete
+        return allQuestions.isEmpty();
     }
 
     // This method is for manual adding of additional responses to a FS.
@@ -2272,9 +2266,7 @@ public class FeedbackSessionsLogic {
             FeedbackSessionAttributes session,
             String userEmail) throws EntityDoesNotExistException {
 
-        if (fsDb.getFeedbackSession(
-                session.courseId,
-                session.feedbackSessionName) == null) {
+        if (session == null) {
             throw new EntityDoesNotExistException(
                     "Trying to get a feedback session that does not exist.");
         }

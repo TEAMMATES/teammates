@@ -38,7 +38,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
     private final int numOfStudentsInSection = 50;
     
     // modify for preview
-    boolean isPreview = false;
+    boolean isPreview = true;
     
     
     public static void main(String[] args) throws IOException {
@@ -141,6 +141,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
                 // increment section
                 numSections++;
                 currentSection = sectionPrefix + numSections; 
+                currentSectionSize = 0;
             }
         }
         
