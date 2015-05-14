@@ -1178,6 +1178,7 @@ public class Const {
     //Used for Feedback CONTRIBUTION question
     public static final String EQUAL_SHARE = "Equal Share";
     public static final String NOT_SURE = "Not Sure";
+    public static final String NOT_SUBMITTED = "Not Submitted";
     public static final List<String> FEEDBACK_CONTRIBUTION_OPTIONS = Arrays.asList(
             "0%",
             EQUAL_SHARE+ " - 90%",
@@ -1200,7 +1201,8 @@ public class Const {
             EQUAL_SHARE+ " + 80%",
             EQUAL_SHARE+ " + 90%",
             EQUAL_SHARE+ " + 100%",
-            NOT_SURE);
+            NOT_SURE,
+            NOT_SUBMITTED);
     
     
     public static enum AdminEmailPageState{COMPOSE, SENT, TRASH, DRAFT};
