@@ -178,7 +178,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
             updateStudentToBeInSection(studentEntity, currentSection);
             
             List<FeedbackResponse> responsesForStudent = getResponsesForStudent(student.email, pm);
-            updateFeedbackResponsesToBeInSection(responsesForStudent, student.email, currentSection);
+            updateFeedbackResponsesToBeInSection(responsesForStudent, student, currentSection);
             
             pm.close();
             
@@ -210,15 +210,21 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
     }
     
 
-    private void updateFeedbackResponsesToBeInSection(List<FeedbackResponse> responses, String studentEmail, String sectionName) {
+    private void updateFeedbackResponsesToBeInSection(List<FeedbackResponse> responses, StudentAttributes student, String sectionName) {
         if (isPreview) {
             return;
         }
         
+        String studentEmail = student.email;
+        String studentTeam = student.team;
+        
         for (FeedbackResponse response : responses) {
-            if (response.getRecipientEmail().equals(studentEmail)) {
+            if (response.getRecipientEmail().equals(studentEmail) ||
+                response.getRecipientEmail().equals(studentTeam)) {
+                
                 response.setRecipientSection(sectionName);
             } 
+            
             if (response.getGiverEmail().equals(studentEmail)) {
                 response.setGiverSection(sectionName);
             }
