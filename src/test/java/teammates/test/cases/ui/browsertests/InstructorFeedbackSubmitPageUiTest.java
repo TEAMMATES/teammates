@@ -380,7 +380,6 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         // Test that the recipient selection is disabled and not visible
         assertFalse(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
-        // TODO: Failing at the moment, it was never disabled
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
     }
     
@@ -396,7 +395,6 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         // Test that the recipient selection is disabled and not visible
         assertFalse(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
-        // TODO: Failing at the moment, it was never disabled
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
     }
     
@@ -412,7 +410,6 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         // Test that the recipient selection is disabled and not visible
         assertFalse(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
-        // TODO: Failing at the moment, it was never disabled
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
     }
     
@@ -428,7 +425,6 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         // Test that the recipient selection is disabled and not visible
         assertFalse(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
-        // TODO: Failing at the moment, it was never disabled
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
         
         // Test input entered are valid numbers for the question.
@@ -467,7 +463,6 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         // Test that the recipient selection is disabled and not visible
         assertFalse(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
-        // TODO: Failing at the moment, it was never disabled
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
         
         // Test messages for different values entered
@@ -548,7 +543,6 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         // Test that the recipient selection is disabled and not visible
         assertFalse(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
-        // TODO: Failing at the moment, it was never disabled
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
     }
     
