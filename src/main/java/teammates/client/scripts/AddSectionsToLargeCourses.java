@@ -22,10 +22,10 @@ import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.entity.Student;
 
 /**
- * Adds sections to large courses without sections.
+ * Adds sections to large courses without sections. For use after migrating evaluations
+ * to feedback sessions. Handles updating sections in responses, but not comments. 
  * 
- * On changing sections, adds sections to the responses as well. However, this 
- * does not update the comments on the responses.
+ * 
  */
 public class AddSectionsToLargeCourses extends RemoteApiClient {
     
@@ -177,7 +177,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
             Student studentEntity = getStudent(student.email, student.course, pm);
             updateStudentToBeInSection(studentEntity, currentSection);
             
-            List<FeedbackResponse> responsesForStudent = getResponsesForStudent(student.email, pm);
+            List<FeedbackResponse> responsesForStudent = getResponsesForStudent(student, pm);
             updateFeedbackResponsesToBeInSection(responsesForStudent, student, currentSection);
             
             pm.close();
@@ -233,20 +233,27 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         // note that comments are not updated
     }
     
-    private List<FeedbackResponse> getResponsesForStudent(String studentEmail, PersistenceManager pm) {
+    private List<FeedbackResponse> getResponsesForStudent(StudentAttributes student, PersistenceManager pm) {
+        String studentEmail = student.email;
+        String studentTeam = student.team;
+        String course = student.course;
+        
         String q = "SELECT FROM " + FeedbackResponse.class.getName() + " " +
                    "WHERE giverEmail == emailParam" + " " +
-                   "PARAMETERS String emailParam";
+                   "&& courseId == courseParam" + " " +
+                   "PARAMETERS String emailParam, String courseParam";
         
         @SuppressWarnings("unchecked")
-        List<FeedbackResponse> responsesAsGiver = (List<FeedbackResponse>) pm.newQuery(q).execute(studentEmail);
+        List<FeedbackResponse> responsesAsGiver = (List<FeedbackResponse>) pm.newQuery(q).execute(studentEmail, course);
         
         q = "SELECT FROM " + FeedbackResponse.class.getName() + " " +
-            "WHERE receiver == emailParam" + " " +
-            "PARAMETERS String emailParam";
+            "WHERE (receiver == emailParam" + " " +
+            "|| receiver == teamParam)" + " " +
+            "&& courseId == courseParam" + " " +
+            "PARAMETERS String emailParam, String teamParam, String courseParam";
      
         @SuppressWarnings("unchecked")
-        List<FeedbackResponse> responsesAsReceiver = (List<FeedbackResponse>) Datastore.getPersistenceManager().newQuery(q).execute(studentEmail);
+        List<FeedbackResponse> responsesAsReceiver = (List<FeedbackResponse>) Datastore.getPersistenceManager().newQuery(q).execute(studentEmail, studentTeam, course);
         
         List<FeedbackResponse> responses = new ArrayList<FeedbackResponse>(); 
         responses.addAll(responsesAsGiver);
