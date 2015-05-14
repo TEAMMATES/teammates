@@ -25,7 +25,6 @@ import teammates.storage.entity.Student;
  * Adds sections to large courses without sections. For use after migrating evaluations
  * to feedback sessions. Handles updating sections in responses, but not comments. 
  * 
- * 
  */
 public class AddSectionsToLargeCourses extends RemoteApiClient {
     
@@ -37,17 +36,25 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
     // modify this to modify the max size of a course without a section
     // if numStudents in a course > maxCourseSizeWithoutSections,
     // then sections will be added to the course
-    private final int maxCourseSizeWithoutSections = 150;
+    private final int maxCourseSizeWithoutSections = 100;
     
     // if not modifying all courses, specify which course to modify here
-    private final String courseToAddSectionsTo = "instructor.ema-demo";
+    private final String courseToAddSectionsTo = "demo-course";
     
     // when adding teams to a section, when this value is reached or exceeded,  
     // change the section for the next team
-    private final int numOfStudentsInSection = 50;
+    private final int numOfStudentsInSection = 100;
     
     // modify for preview
     boolean isPreview = true;
+    
+    /*
+     * IMPORTANT: *******************************
+     * This script does not update FeedbackResponseComments because it was created
+     * originally to deal with feedback responses migrated from legacy data (those
+     * responses did not have comments)
+     * ******************************************
+     */
     
     
     public static void main(String[] args) throws IOException {
@@ -144,6 +151,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
             String teamName = team.name;
             
             List<StudentAttributes> students = logic.getStudentsForTeam(teamName, courseId);
+            System.out.println("Students in team " + teamName + " : "+students.size());
             
             for (StudentAttributes student : students) {
                 updateStudentSection(currentSection, student);
@@ -163,12 +171,11 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         System.out.println();
     }
 
-    private void updateStudentSection(String currentSection,
-            StudentAttributes student) {
+    private void updateStudentSection(String currentSection, StudentAttributes student) {
          
         try {
+            System.out.println("Update " + student.email + " to section " + currentSection);
             if (isPreview) {
-                System.out.println("Update " + student.email + " to section " + currentSection);
                 return;
             } 
             
