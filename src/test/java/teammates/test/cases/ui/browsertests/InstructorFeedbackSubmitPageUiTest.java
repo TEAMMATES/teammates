@@ -429,24 +429,36 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         // Test input entered are valid numbers for the question.
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        
         qnNumber = 14;
         responseNumber = 0;
         
-        submitPage.fillResponseTextBox(14, 0, "2.5");
-        assertEquals("2.5",submitPage.getResponseTextBoxValue(14, 0));
+        // 1 decimal allowed, not a valid response
+        submitPage.fillResponseTextBox(qnNumber, responseNumber, "2.5");
+        assertEquals("2.5", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
         
-        submitPage.fillResponseTextBox(14, 0, "ABCD");
-        assertEquals("",submitPage.getResponseTextBoxValue(14, 0));
+        // users not allowed to type letters but if somehow in, not a valid response
+        submitPage.fillResponseTextBox(qnNumber, responseNumber, "ABCD");
+        assertEquals("", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
         
-        fillResponseTextBoxWithRecheck(14, 0, "0", "1");
+        // if < minimum, textbox will be set to minimum
+        fillResponseTextBoxWithRecheck(qnNumber, responseNumber, "0", "1");
         
-        submitPage.fillResponseTextBox(14, 0, "-1");
-        assertEquals("1",submitPage.getResponseTextBoxValue(14, 0));
+        // if negative, textbox will be set to minimum
+        submitPage.fillResponseTextBox(qnNumber, responseNumber, "-1");
+        assertEquals("1", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
         
-        fillResponseTextBoxWithRecheck(14, 0, "6", "5");
+        submitPage.fillResponseTextBox(qnNumber, responseNumber, "-1.23");
+        assertEquals("1", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
         
-        // TODO: test for stronger step validation.
+        // if > maximum, textbox will be set to maximum
+        fillResponseTextBoxWithRecheck(qnNumber, responseNumber, "6", "5");
         
+        fillResponseTextBoxWithRecheck(qnNumber, responseNumber, "6.78", "5");
+        
+        // > 3 decimals allowed but still not a valid response
+        submitPage.fillResponseTextBox(qnNumber, responseNumber, "1.123456");
+        assertEquals("1.123", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
     }
     
     private void testConstSumSubmitAction() {
