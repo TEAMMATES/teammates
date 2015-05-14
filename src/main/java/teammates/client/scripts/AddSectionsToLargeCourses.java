@@ -1,10 +1,13 @@
 package teammates.client.scripts;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+
+import javax.jdo.PersistenceManager;
 
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.CourseDetailsBundle;
@@ -13,17 +16,23 @@ import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.logic.api.Logic;
-import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Course;
+import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.entity.Student;
 
+/**
+ * Adds sections to large courses without sections.
+ * 
+ * On changing sections, adds sections to the responses as well. However, this 
+ * does not update the comments on the responses.
+ */
 public class AddSectionsToLargeCourses extends RemoteApiClient {
     
     private Logic logic = new Logic();
-    private FeedbackResponsesLogic frLogic = new FeedbackResponsesLogic();
     
     // modify this to modify only a specific course or all courses
-    private final boolean isForAllCourses = true;
+    private final boolean isForAllCourses = false;
     
     // modify this to modify the max size of a course without a section
     // if numStudents in a course > maxCourseSizeWithoutSections,
@@ -53,6 +62,10 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
     
     @Override
     protected void doOperation() {
+        if (isPreview) {
+            System.out.println("In Preview Mode");
+        }
+        
         Datastore.initialize();
         
         Set<String> courses;
@@ -111,6 +124,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
     public void addSectionsToCourse(String courseId) {
         System.out.println("Course: [" + courseId + "] ");
         
+        
         List<TeamDetailsBundle> teams;
         try {
             teams = logic.getTeamsForCourse(courseId);
@@ -145,29 +159,95 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
             }
         }
         
+        
         System.out.println();
     }
 
     private void updateStudentSection(String currentSection,
             StudentAttributes student) {
+         
         try {
-            student.section = currentSection;
-            
             if (isPreview) {
                 System.out.println("Update " + student.email + " to section " + currentSection);
-            } else {
-                logic.updateStudent(student.email, student);
-                frLogic.updateFeedbackResponsesForChangingSection(student.course, student.email, student.section, currentSection);
-            }
+                return;
+            } 
+            
+            PersistenceManager pm = Datastore.getPersistenceManager();
+            
+            Student studentEntity = getStudent(student.email, student.course, pm);
+            updateStudentToBeInSection(studentEntity, currentSection);
+            
+            List<FeedbackResponse> responsesForStudent = getResponsesForStudent(student.email, pm);
+            updateFeedbackResponsesToBeInSection(responsesForStudent, student.email, currentSection);
+            
+            pm.close();
             
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            System.out.println("ERROR Failed to update " + student.email);
+            System.out.println("ERROR failed to update student " + student.email);
             e.printStackTrace();
             
             confirmToContinue();
-        }
+        }        
     }
+    
+    private Student getStudent(String email, String courseId, PersistenceManager pm) {
+        
+        String q = "SELECT FROM " + Student.class.getName() + " " +
+                "WHERE email == emailParam && courseID == courseIdParam" + " " +
+                "PARAMETERS String emailParam, String courseIdParam";
+        @SuppressWarnings("unchecked")
+        List<Student> studentList = (List<Student>) pm.newQuery(q).execute(email, courseId);
+        
+        return studentList.get(0);
+    }
+    
+    private void updateStudentToBeInSection(Student student, String sectionToChangeTo) throws InvalidParametersException, EntityDoesNotExistException {
+        if (isPreview) {
+            return;
+        }
+        
+        student.setSectionName(sectionToChangeTo);
+    }
+    
 
+    private void updateFeedbackResponsesToBeInSection(List<FeedbackResponse> responses, String studentEmail, String sectionName) {
+        if (isPreview) {
+            return;
+        }
+        
+        for (FeedbackResponse response : responses) {
+            if (response.getRecipientEmail().equals(studentEmail)) {
+                response.setRecipientSection(sectionName);
+            } 
+            if (response.getGiverEmail().equals(studentEmail)) {
+                response.setGiverSection(sectionName);
+            }
+        }
+        
+        // note that comments are not updated
+    }
+    
+    private List<FeedbackResponse> getResponsesForStudent(String studentEmail, PersistenceManager pm) {
+        String q = "SELECT FROM " + FeedbackResponse.class.getName() + " " +
+                   "WHERE giverEmail == emailParam" + " " +
+                   "PARAMETERS String emailParam";
+        
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponse> responsesAsGiver = (List<FeedbackResponse>) pm.newQuery(q).execute(studentEmail);
+        
+        q = "SELECT FROM " + FeedbackResponse.class.getName() + " " +
+            "WHERE receiver == emailParam" + " " +
+            "PARAMETERS String emailParam";
+     
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponse> responsesAsReceiver = (List<FeedbackResponse>) Datastore.getPersistenceManager().newQuery(q).execute(studentEmail);
+        
+        List<FeedbackResponse> responses = new ArrayList<FeedbackResponse>(); 
+        responses.addAll(responsesAsGiver);
+        responses.addAll(responsesAsReceiver);
+        
+        return responses;
+    }
     
     private void confirmToContinue() {
         System.out.println("An error occurred, continue?");
