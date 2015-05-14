@@ -11,6 +11,7 @@
 <%
     FeedbackSubmissionEditPageData data = (FeedbackSubmissionEditPageData)request.getAttribute("data");
 %>
+
 <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%= data.bundle.feedbackSession.feedbackSessionName %>">
 <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="<%= data.bundle.feedbackSession.courseId %>">
 <%
