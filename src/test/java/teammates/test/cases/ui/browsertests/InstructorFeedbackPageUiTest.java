@@ -79,28 +79,43 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         browser = BrowserPool.getBrowser();
     }
     
-    @Test
-    public void allTests() throws Exception{
-        testCopyFromAction();
-        testCopyToAction();
-        testContent();
-        testAddAction();
-        testDeleteAction();
-        testRemindActions();
-        testPublishAction();
-        testUnpublishAction();
-        
+
+    // @Test
+    public void testLinks() throws Exception {
         testResponseRateLink();
         testViewResultsLink();
         testEditLink();
         testSubmitLink();
+    }
+
+    // @Test
+    public void testMiscellaneous() throws Exception {
         testValidationReload();
-        
         testJScripts();
     }
-    
-    public void testContent() throws Exception{
-        
+
+    // @Test
+    public void testCopyActions() throws Exception {
+        testCopyFromAction();
+        testCopyToAction();
+    }
+
+    // @Test
+    public void testAddDeleteActions() throws Exception {
+        testAddAction();
+        testDeleteAction();
+    }
+
+    // @Test
+    public void testRemindPublishActions() throws Exception {
+        testRemindActions();
+        testPublishAction();
+        testUnpublishAction();
+    }
+
+    // @Test
+    public void testContent() throws Exception {
+
         ______TS("no courses");
         
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
