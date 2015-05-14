@@ -34,7 +34,6 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private FeedbackSubmitPage submitPage;
     
-    
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();
@@ -90,20 +89,18 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Private Session");
         submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPagePrivate.html");
-    
     }
     
-    private void testClosedSessionSubmitAction(){
+    private void testClosedSessionSubmitAction() {
         
         ______TS("test submitting for closed session");
     
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Closed Session");
        
         assertFalse(submitPage.isElementEnabled("response_submit_button"));
-        
     }
     
-    private void testSubmitAction(){
+    private void testSubmitAction() {
         
         ______TS("create new responses");
 
@@ -356,7 +353,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
      *  Tests the behavior of different question types.
      *  Test response validation on client side as well, if any.
      */
-    private void testQuestionTypesSubmitAction(){
+    private void testQuestionTypesSubmitAction() {
         ______TS("test submit actions for different question types.");
         
         testEssaySubmitAction();
@@ -367,7 +364,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         testContribSubmitAction();
     }
     
-    private void testEssaySubmitAction(){
+    private void testEssaySubmitAction() {
         ______TS("test submit actions for essay question.");
         
         //Nothing much to test for input validation.
@@ -383,7 +380,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         //TODO: test that the recipient selection is also disabled
     }
     
-    private void testMcqSubmitAction(){
+    private void testMcqSubmitAction() {
         ______TS("test submit actions for mcq.");
         
         //Test input disabled
@@ -395,7 +392,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         //TODO: test that the recipient selection is also disabled
     }
     
-    private void testMsqSubmitAction(){
+    private void testMsqSubmitAction() {
         ______TS("test submit actions for msq.");
         
         //Test input disabled
@@ -407,7 +404,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         //TODO: test that the recipient selection is also disabled
     }
     
-    private void testNumScaleSubmitAction(){
+    private void testNumScaleSubmitAction() {
         ______TS("test submit actions for numscale questions.");
         
         //Test input disabled
@@ -440,7 +437,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
     }
     
-    private void testConstSumSubmitAction(){
+    private void testConstSumSubmitAction() {
         ______TS("test submit actions for constsum questions.");
         
         //Test input disabled
@@ -509,10 +506,9 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         //For other const sum question, just test one message.
         qnNumber = 18;
         assertEquals("100 points left to distribute.",submitPage.getConstSumMessage(qnNumber, 3));
-        
     }
     
-    private void testContribSubmitAction(){
+    private void testContribSubmitAction() {
         ______TS("test submit actions for contribution questions.");
         
         //No tests from instructor since contribution questions are only from students to own team members.
@@ -530,9 +526,9 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     
     private void fillResponseTextBoxWithRecheck(int qnNumber, int responseNumber, String text, String expected) {
         int counter = 0;
-        while(counter != 100){
+        while (counter != 100) {
             submitPage.fillResponseTextBox(qnNumber, responseNumber, text);
-            if(expected.equals(submitPage.getResponseTextBoxValue(qnNumber, responseNumber))){
+            if (expected.equals(submitPage.getResponseTextBoxValue(qnNumber, responseNumber))) {
                 return;
             }
             counter++;
@@ -541,7 +537,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals(expected ,submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
     }
     
-    private void testModifyData() throws EnrollException{
+    private void testModifyData() throws EnrollException {
         ______TS("modify data");
         
         // Next, we edit some student data to cover editing of students
@@ -593,5 +589,4 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     public static void classTearDown() throws Exception {
         BrowserPool.release(browser);
     }
-
 }

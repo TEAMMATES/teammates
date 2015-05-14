@@ -41,8 +41,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
-        //TODO Test error states (catch-blocks and isError == true states)
+    public void testExecuteAndPostProcess() throws Exception {
+        // TODO Test error states (catch-blocks and isError == true states)
         ______TS("edit existing answer");
         
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
@@ -329,7 +329,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         
         ______TS("numscale");
         
-        
         fq = fqDb.getFeedbackQuestion("NUMSCALE Session", "FSQTT.idOfTypicalCourse1", 1);
         assertNotNull("Feedback question not found in database", fq);
         FeedbackNumericalScaleQuestionDetails fqd =
@@ -392,7 +391,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         
         ______TS("Successful case: const sum: typical case");
         
-        
         fq = fqDb.getFeedbackQuestion("CONSTSUM Session", "FSQTT.idOfTypicalCourse1", 1);
         assertNotNull("Feedback question not found in database", fq);
         
@@ -449,7 +447,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertEquals("/page/studentHomePage?error=false&user=FSQTT.student1InCourse1",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
-        
         
         ______TS("Successful case: contrib qn: typical case");
         
@@ -557,11 +554,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, "invalid recipient"));
         gaeSimulation.logoutUser();
         
-        
-        
-        
         ______TS("Unregistered student with valid submission of response remains at submission page");
-        
         
         StudentAttributes unregisteredStudent = dataBundle.students.get("unregisteredStudentInCourse1");
         
@@ -613,11 +606,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 redirectResult.getDestinationWithParams());
         assertEquals("All responses submitted succesfully!", redirectResult.getStatusMessage());
         gaeSimulation.logoutUser();
-        
-        
-        
+
         ______TS("Unregistered student with invalid submission of response remains at submission page");
-        
         
         // Setting uri for unregistered student which contains the key of the student
         studentKey = StudentsLogic.inst().getEncryptedKeyForStudent(unregisteredStudent.course, unregisteredStudent.email);
@@ -659,7 +649,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
     }
     
     @Test
-    public void testGracePeriodExecuteAndPostProcess() throws Exception{
+    public void testGracePeriodExecuteAndPostProcess() throws Exception {
         FeedbackSessionsDb feedbackSessionDb = new FeedbackSessionsDb();
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriodSession");
         StudentAttributes studentInGracePeriod = dataBundle.students.get("student1InCourse1");
@@ -720,7 +710,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 r.getStatusMessage());
     }
     
-    private StudentFeedbackSubmissionEditSaveAction getAction(String... params) throws Exception{
+    private StudentFeedbackSubmissionEditSaveAction getAction(String... params) throws Exception {
         return (StudentFeedbackSubmissionEditSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

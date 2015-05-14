@@ -21,13 +21,14 @@
         <!-- Bootstrap theme -->
         <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
         <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet">
+        
         <script type="text/javascript" src="/js/googleAnalytics.js"></script>
         <script type="text/javascript" src="/js/jquery-minified.js"></script>
         <script type="text/javascript" src="/js/common.js"></script>
         <script type="text/javascript" src="/js/feedbackSubmissionsEdit.js"></script>
         <script type="text/javascript" src="/js/student.js"></script>
         <!-- Bootstrap core JavaScript ================================================== -->
-        <script src="/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>

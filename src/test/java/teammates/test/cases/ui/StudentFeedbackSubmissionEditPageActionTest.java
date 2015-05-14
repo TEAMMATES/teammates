@@ -44,14 +44,14 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions
                 .get("session1InCourse1");
 
-        String[] submissionParams = new String[] {
+        String[] submissionParams = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
                 session1InCourse1.feedbackSessionName,
                 Const.ParamsNames.USER_ID, student1InCourse1.googleId
         };
         verifyAssumptionFailure(submissionParams);
 
-        submissionParams = new String[] {
+        submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
                 Const.ParamsNames.USER_ID, student1InCourse1.googleId
         };
@@ -149,7 +149,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         session1InCourse1 = dataBundle.feedbackSessions
                 .get("session1InCourse1");
 
-        params = new String[] {
+        params = new String[]{
                 Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.feedbackSessionName,
                 Const.ParamsNames.USER_ID, student1InCourse1.googleId

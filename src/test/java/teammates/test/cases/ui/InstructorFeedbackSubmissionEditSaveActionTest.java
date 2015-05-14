@@ -47,7 +47,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        //TODO Test error states (catch-blocks and isError == true states)
+        // TODO Test error states (catch-blocks and isError == true states)
         InstructorAttributes instructor1InCourse1 = dataBundle.instructors.get("instructor1InCourse1");
         gaeSimulation.loginAsInstructor(instructor1InCourse1.googleId);
         ______TS("Unsuccessful case: test empty feedback session name parameter");
@@ -65,7 +65,6 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
                     Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
         }
-                
         
         ______TS("Unsuccessful case: test empty course id parameter");
         submissionParams = new String[]{
@@ -80,8 +79,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
                     Const.ParamsNames.COURSE_ID), e.getMessage());
         }
-        
-        
+
         ______TS("Successful case: edit existing answer");
         
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
@@ -523,15 +521,11 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         ______TS("Successful case: contrib qn: typical case");
         
-        //No tests since contrib qn can only be answered by students to own team members including self.
-        
-        
-        
-        
+        // No tests since contrib qn can only be answered by students to own team members including self.
     }
     
     @Test
-    public void testGracePeriodExecuteAndPostProcess() throws Exception{
+    public void testGracePeriodExecuteAndPostProcess() throws Exception {
         FeedbackSessionsDb feedbackSessionDb = new FeedbackSessionsDb();
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("Grace Period Session");
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1InCourse1");
@@ -540,7 +534,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
-                };
+        };
         
         ______TS("opened");
         
@@ -590,10 +584,9 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN,
                 r.getStatusMessage());
-        
     }
     
-    private InstructorFeedbackSubmissionEditSaveAction getAction(String... params) throws Exception{
+    private InstructorFeedbackSubmissionEditSaveAction getAction(String... params) throws Exception {
         return (InstructorFeedbackSubmissionEditSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

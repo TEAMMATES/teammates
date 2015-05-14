@@ -118,7 +118,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Empty Session");
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageEmpty.html");
-        
     }
     
     private void testSubmitAction() {
@@ -297,7 +296,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                 "SFSubmitUiT.alice.b@gmail.tmt",
                                                 "Team 3"));
         
-        
         submitPage.clickSubmitButton();
         
         //check new response
@@ -440,11 +438,9 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNotNull(BackDoor.getFeedbackResponse(fqContrib.getId(),
                          "SFSubmitUiT.alice.b@gmail.tmt",
                          "SFSubmitUiT.benny.c@gmail.tmt"));
-
     }
     
-    
-    private void testInputValidation() throws Exception{
+    private void testInputValidation() throws Exception {
         
         ______TS("Test InputValidation lower than Min value");
         //this should not give any error since the value will be automatically adjusted before the form is submitted
@@ -481,10 +477,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         assertEquals("5",frNumscale.getResponseDetails().getAnswerString());
         
-
-        
         ______TS("Test InputValidation extreme negative value");
-        /*Attention: in safari, negative sign "-" can be input so the result will be adjusted to 1          
+        /* Attention: in safari, negative sign "-" can be input so the result will be adjusted to 1          
          *           However, in firefox, the sign "-" can not be typed into the text box so no negative 
          *           value can be input
          */
@@ -510,13 +504,12 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.clickSubmitButton();
         assertEquals("You did not specify a recipient for your response in question(s) 2.", 
                      submitPage.getStatus());
-        
     }
     
     
-    private void testModifyData() throws EnrollException{
+    private void testModifyData() throws EnrollException {
         
-        //TODO: This should be tested at Logic level instead?
+        // TODO: This should be tested at Logic level instead?
         
         ______TS("modify data");
         
@@ -545,7 +538,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageModified.html");
-
     }
     
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(StudentAttributes s, String fsDataId) {
@@ -581,5 +573,4 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     public static void classTearDown() throws Exception {
         BrowserPool.release(browser);
     }
-
 }
