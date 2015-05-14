@@ -115,7 +115,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             }
             
             if (errors.isEmpty()) {
-                for(FeedbackResponseAttributes response : responsesForQuestion) {
+                for (FeedbackResponseAttributes response : responsesForQuestion) {
                     saveResponse(response);
                 }
             } else {
@@ -135,7 +135,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             removeRespondant();
         }
         
-        // TODO what happens if team/etc change such that receiver / response in general is invalid?
         return createSpecificRedirectResult();
     }
 
@@ -169,7 +168,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         FeedbackQuestionDetails questionDetails = feedbackQuestionAttributes.getQuestionDetails();
         FeedbackResponseAttributes response = new FeedbackResponseAttributes();
         
-        //This field can be null if the response is new
+        // This field can be null if the response is new
         response.setId(HttpRequestHelper.getValueFromParamMap(
                 requestParameters, 
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-" + questionIndx + "-" + responseIndx));
@@ -190,7 +189,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         Assumption.assertNotNull("Null feedbackQuestionId", response.feedbackQuestionId);
         Assumption.assertEquals("feedbackQuestionId Mismatch", feedbackQuestionAttributes.getId(), response.feedbackQuestionId);
         
-        
         response.recipientEmail = HttpRequestHelper.getValueFromParamMap(
                 requestParameters, 
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + questionIndx + "-" + responseIndx);
@@ -203,7 +201,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         response.feedbackQuestionType = FeedbackQuestionType.valueOf(feedbackQuestionType);
         
         FeedbackParticipantType recipientType = feedbackQuestionAttributes.recipientType;
-        if(recipientType == FeedbackParticipantType.INSTRUCTORS || recipientType == FeedbackParticipantType.NONE){
+        if (recipientType == FeedbackParticipantType.INSTRUCTORS || recipientType == FeedbackParticipantType.NONE) {
             response.recipientSection = Const.DEFAULT_SECTION;
         } else if(recipientType == FeedbackParticipantType.TEAMS){
             response.recipientSection = StudentsLogic.inst().getSectionForTeam(courseId, response.recipientEmail);
@@ -214,13 +212,12 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             response.recipientSection = getUserSectionForCourse();
         }
         
-        
-        //This field can be null if the question is skipped
+        // This field can be null if the question is skipped
         String[] answer = HttpRequestHelper.getValuesFromParamMap(
                 requestParameters, 
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + questionIndx + "-" + responseIndx);
         
-        if(!questionDetails.isQuestionSkipped(answer)) {
+        if (!questionDetails.isQuestionSkipped(answer)) {
             FeedbackResponseDetails responseDetails = 
                     FeedbackResponseDetails.createResponseDetails(
                             answer,
