@@ -437,6 +437,10 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(qnNumber, responseNumber, "2.5");
         assertEquals("2.5", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
         
+        // > 3 decimals allowed but still not a valid response
+        submitPage.fillResponseTextBox(qnNumber, responseNumber, "1.123456");
+        assertEquals("1.123", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
+        
         // users not allowed to type letters but if somehow in, not a valid response
         submitPage.fillResponseTextBox(qnNumber, responseNumber, "ABCD");
         assertEquals("", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
@@ -455,10 +459,6 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         fillResponseTextBoxWithRecheck(qnNumber, responseNumber, "6", "5");
         
         fillResponseTextBoxWithRecheck(qnNumber, responseNumber, "6.78", "5");
-        
-        // > 3 decimals allowed but still not a valid response
-        submitPage.fillResponseTextBox(qnNumber, responseNumber, "1.123456");
-        assertEquals("1.123", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
     }
     
     private void testConstSumSubmitAction() {

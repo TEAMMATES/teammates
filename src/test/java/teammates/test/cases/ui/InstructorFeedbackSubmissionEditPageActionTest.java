@@ -44,6 +44,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         verifyAssumptionFailure(paramsWithoutFeedbackSessionName);
         
         ______TS("Test null feedback session name parameter");
+        
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, session.courseId,
                 Const.ParamsNames.USER_ID, instructor.googleId
@@ -62,6 +63,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         }
         
         ______TS("Test null course id parameter");
+        
         submissionParams = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
                 Const.ParamsNames.USER_ID, instructor.googleId
@@ -87,9 +89,9 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         a = getAction(params);
         r = (ShowPageResult) a.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT
-                + "?error=false"
-                + "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT +
+                "?error=false" +
+                "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
@@ -101,9 +103,9 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         a = getAction(params);
         r = (ShowPageResult) a.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT
-                + "?error=false"
-                + "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT +
+                "?error=false" +
+                "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
@@ -123,14 +125,13 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         a = getAction(params);
         r = (ShowPageResult) a.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT
-                + "?"
-                + "error=false"
-                + "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT +
+                "?" +
+                "error=false" +
+                "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
                 r.getDestinationWithParams());
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, r.getStatusMessage());
-        
     }
     
     private InstructorFeedbackSubmissionEditPageAction getAction(String... params) throws Exception {
