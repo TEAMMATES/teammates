@@ -15,6 +15,7 @@ import java.util.TimeZone;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -53,9 +54,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();
-        testData = loadDataBundle("/InstructorFeedbackPageUiTest.json");
-        removeAndRestoreTestDataOnServer(testData);
-        idOfInstructorWithSessions = testData.accounts.get("instructorWithSessions").googleId;
         
         newSession = new FeedbackSessionAttributes();
         newSession.courseId = "CFeedbackUiT.CS1101";
@@ -79,6 +77,13 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         browser = BrowserPool.getBrowser();
     }
     
+    @BeforeMethod
+    public void abc() {
+        testData = loadDataBundle("/InstructorFeedbackPageUiTest.json");
+        removeAndRestoreTestDataOnServer(testData);
+        idOfInstructorWithSessions = testData.accounts.get("instructorWithSessions").googleId;
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);        
+    }
 
     // @Test
     public void testLinks() throws Exception {
@@ -435,9 +440,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     
     public void testCopyFromAction() throws Exception{
         
-        ______TS("Success case: copy successfully a previous session");
-        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
-        
+        ______TS("Success case: copy successfully a previous session");        
         feedbackPage.copyFeedbackSession("New Session (Copied)", newSession.courseId);
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
         // Check that we are redirected to the edit page.
@@ -862,7 +865,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         BrowserPool.release(browser);
     }
 
-    private InstructorFeedbacksPage getFeedbackPageForInstructor(String instructorId) {
+    private static InstructorFeedbacksPage getFeedbackPageForInstructor(String instructorId) {
         Url feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withUserId(instructorId);        
         InstructorFeedbacksPage page = loginAdminToPage(browser, feedbackPageLink, InstructorFeedbacksPage.class);
         page.waitForElementPresence(By.id("table-sessions"), 5);
