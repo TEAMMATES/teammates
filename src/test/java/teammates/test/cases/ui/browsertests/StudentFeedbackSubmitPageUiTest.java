@@ -146,7 +146,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.fillResponseTextBox(18, 0, 1, "10");
         
         submitPage.chooseContribOption(20, 0, "Equal share");
-        submitPage.chooseContribOption(20, 1, "Equal share");
         
         // Just check that some of the responses persisted.
         FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("SFSubmitUiT.CS2104",
@@ -217,7 +216,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNotNull(BackDoor.getFeedbackResponse(fqContrib.getId(),
                                                     "SFSubmitUiT.alice.b@gmail.tmt",
                                                     "SFSubmitUiT.alice.b@gmail.tmt"));
-        assertNotNull(BackDoor.getFeedbackResponse(fqContrib.getId(),
+        assertNull(BackDoor.getFeedbackResponse(fqContrib.getId(),
                                                     "SFSubmitUiT.alice.b@gmail.tmt",
                                                     "SFSubmitUiT.benny.c@gmail.tmt"));
 
