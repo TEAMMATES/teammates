@@ -646,6 +646,20 @@ public class PageData {
             disableDeleteSessionStr + ">Delete</a> "
         );
         result.append(
+            "<a class=\"btn btn-default btn-xs btn-tm-actions session-copy-for-test\"" +
+            "href=\"#\"" +
+            "title=\"" + Const.Tooltips.FEEDBACK_SESSION_COPY + "\"" +
+            "data-actionlink=\"" + getFeedbackSessionEditCopyLink() + "\"" +
+            "data-courseid=\"" + session.courseId + "\"" +
+            "data-fsname=\"" + session.feedbackSessionName + "\"" +
+            "data-toggle=\"modal\"" +
+            "data-target=\"#fsCopyModal\"" +
+            "data-placement=\"top\"" +
+            "id=\"button_fscopy" + "-" + session.courseId + "-" + session.feedbackSessionName + "\"" +
+            ">Copy" +
+            "</a> "
+        );
+        result.append(
             "<div title=\"" + Const.Tooltips.FEEDBACK_SESSION_SUBMIT + "\" data-toggle=\"tooltip\" data-placement=\"top\"" + " style=\"display: inline-block; padding-right: 5px;\"" + ">" +
                 "<a class=\"btn btn-default btn-xs btn-tm-actions session-submit-for-test" + (hasSubmit ? "\"" : DISABLED) +
                 "href=\"" + getInstructorFeedbackSessionSubmitLink(session.courseId, session.feedbackSessionName) + "\" " +

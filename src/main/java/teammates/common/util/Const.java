@@ -177,6 +177,7 @@ public class Const {
         public static final String FEEDBACK_SESSION_RESPONSE_RATE = "Number of students submitted / Class size";
         public static final String FEEDBACK_SESSION_RESULTS = "View the submitted responses for this feedback session";
         public static final String FEEDBACK_SESSION_EDIT = "Edit feedback session details";
+        public static final String FEEDBACK_SESSION_COPY = "Copy feedback session details";
         public static final String FEEDBACK_SESSION_REMIND = "Send e-mails to remind students and instructors who have not submitted their feedbacks to do so";
         public static final String FEEDBACK_SESSION_DELETE = "Delete the feedback session";
         public static final String FEEDBACK_SESSION_SUBMIT = "Start submitting feedback";

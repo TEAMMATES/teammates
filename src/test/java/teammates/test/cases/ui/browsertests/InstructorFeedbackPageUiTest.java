@@ -81,7 +81,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     
     @Test
     public void allTests() throws Exception{
-        testCopyAction();
+        testCopyFromAction();
+        testCopyToAction();
         testContent();
         testAddAction();
         testDeleteAction();
@@ -417,7 +418,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
     }
     
-    public void testCopyAction() throws Exception{
+    public void testCopyFromAction() throws Exception{
         
         ______TS("Success case: copy successfully a previous session");
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
@@ -445,6 +446,64 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.copyFeedbackSession("(New Session)", newSession.courseId);
         feedbackPage.verifyStatus("\"(New Session)\" is not acceptable to TEAMMATES as feedback session name because it starts with a non-alphanumeric character. All feedback session name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).");
         
+        feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
+    }
+    
+    public void testCopyToAction() throws Exception {
+        String feedbackSessionName = "Open Session";
+        String courseId = newSession.courseId;
+        
+        ______TS("Submit empty course list: Feedbacks Page");
+        
+        feedbackPage.clickFsCopyButton(courseId, feedbackSessionName);
+        feedbackPage.waitForModalToLoad();
+        feedbackPage.clickFsCopySubmitButton();
+        feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
+        
+        // Go back to previous page because 'copy feedback session' redirects to the 'FeedbackEdit' page.
+        feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
+        
+        ______TS("Copying fails due to fs with same name in course selected: Feedbacks Page");
+        
+        feedbackPage.clickFsCopyButton(courseId, feedbackSessionName);
+        feedbackPage.waitForModalToLoad();
+        feedbackPage.fillCopyToOtherCoursesForm(feedbackSessionName);
+        
+        feedbackPage.clickFsCopySubmitButton();
+        
+        String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, feedbackSessionName, courseId);
+        
+        feedbackPage.verifyStatus(error);
+        
+        feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
+        
+        ______TS("Copying fails due to fs with invalid name: Feedbacks Page");
+        
+        feedbackPage.clickFsCopyButton(courseId, feedbackSessionName);
+        feedbackPage.waitForModalToLoad();
+        feedbackPage.fillCopyToOtherCoursesForm("Invalid name | for feedback session");
+        
+        feedbackPage.clickFsCopySubmitButton();
+        
+        feedbackPage.verifyStatus("\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as feedback session name because it contains invalid characters. All feedback session name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).");
+        
+        feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
+        
+        ______TS("Successful case: Feedbacks Page");
+        
+        feedbackPage.clickFsCopyButton(courseId, feedbackSessionName);
+        feedbackPage.waitForModalToLoad();
+        feedbackPage.fillCopyToOtherCoursesForm("New name!");
+        
+        feedbackPage.clickFsCopySubmitButton();
+        
+        feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
+        
+        feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
+        
+        // Clean up
+        feedbackPage.clickAndConfirm(feedbackPage.getDeleteLink(courseId, "New name!"));
+        feedbackPage.clickAndConfirm(feedbackPage.getDeleteLink("CFeedbackUiT.CS2104", "New name!"));
     }
 
     public void testDeleteAction() throws Exception{

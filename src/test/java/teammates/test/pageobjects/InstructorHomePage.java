@@ -7,6 +7,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 
@@ -316,5 +317,32 @@ public class InstructorHomePage extends AppPage {
         return browser.driver.findElement(locator).getText();
     }
     
-
+    public void clickFsCopyButton(String courseId, String feedbackSessionName) {
+        WebElement fsCopyButton = browser.driver.findElement(By.id("button_fscopy" + "-" + courseId + "-" + feedbackSessionName));
+        
+        fsCopyButton.click();
+    }
+    
+    public void waitForModalToLoad() {
+        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME), 1);
+    }
+    
+    public void clickFsCopySubmitButton() {
+        WebElement fsCopySubmitButton = browser.driver.findElement(By.id("fscopy_submit"));
+        
+        fsCopySubmitButton.click();
+    }
+    
+    public void fillCopyToOtherCoursesForm(String newName) {
+        WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
+        List<WebElement> coursesCheckBoxes = fsCopyModal.findElements(By.name(Const.ParamsNames.COPIED_COURSES_ID));
+        
+        for (WebElement e : coursesCheckBoxes) {
+            markCheckBoxAsChecked(e);
+        }
+        
+        WebElement fsNameInput = fsCopyModal.findElement(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
+        
+        fillTextBox(fsNameInput, newName);
+    }
 }
