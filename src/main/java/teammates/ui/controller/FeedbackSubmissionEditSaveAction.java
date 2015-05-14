@@ -58,7 +58,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
         
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
-        for(int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
+        for (int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
             String totalResponsesForQuestion = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-" + questionIndx);
             
             if (totalResponsesForQuestion == null) {
@@ -70,14 +70,14 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     requestParameters, 
                     Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
             FeedbackQuestionAttributes questionAttributes = data.bundle.getQuestionAttributes(questionId);
-            if(questionAttributes == null){
+            if (questionAttributes == null) {
                 statusToUser.add("The feedback session or questions may have changed while you were submitting. Please check your responses to make sure they are saved correctly.");
                 isError = true;
                 log.warning("Question not found. (deleted or invalid id passed?) id: "+ questionId + " index: " + questionIndx);
                 continue;
             }
+            
             FeedbackQuestionDetails questionDetails = questionAttributes.getQuestionDetails();
-
             
             int numOfResponsesToGet = Integer.parseInt(totalResponsesForQuestion);  
             String qnId = "";
@@ -89,7 +89,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             ArrayList<String> responsesRecipients = new ArrayList<String>();
             List<String> errors = new ArrayList<String>();
             
-            for(int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
+            for (int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
                 FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, questionIndx, responseIndx, questionAttributes);
                 
                 responsesRecipients.add(response.recipientEmail);
@@ -98,8 +98,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_MISSING_RECIPIENT, questionIndx));
                 }
                 
-                if(response.responseMetaData.getValue().isEmpty()){
-                    //deletes the response since answer is empty
+                if (response.responseMetaData.getValue().isEmpty()) {
+                    // deletes the response since answer is empty
                     saveResponse(response);
                 } else {
                     response.giverEmail = userEmailForCourse;
@@ -114,7 +114,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_INVALID_RECIPIENT, questionIndx));                
             }
             
-            if(errors.isEmpty()) {
+            if (errors.isEmpty()) {
                 for(FeedbackResponseAttributes response : responsesForQuestion) {
                     saveResponse(response);
                 }
@@ -129,14 +129,13 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         }
 
-        if(logic.hasGiverRespondedForSession(userEmailForCourse, feedbackSessionName, courseId)){
+        if (logic.hasGiverRespondedForSession(userEmailForCourse, feedbackSessionName, courseId)) {
             appendRespondant();
         } else {
             removeRespondant();
         }
         
-        // TODO: what happens if qn is deleted as response is being submitted?
-        // what happens if team/etc change such that receiver / response in general is invalid?
+        // TODO what happens if team/etc change such that receiver / response in general is invalid?
         return createSpecificRedirectResult();
     }
 
