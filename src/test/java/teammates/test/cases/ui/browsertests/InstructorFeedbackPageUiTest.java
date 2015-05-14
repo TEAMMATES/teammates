@@ -78,14 +78,14 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     }
     
     @BeforeMethod
-    public void abc() {
+    public void refreshTestData() {
         testData = loadDataBundle("/InstructorFeedbackPageUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
         idOfInstructorWithSessions = testData.accounts.get("instructorWithSessions").googleId;
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);        
     }
 
-    // @Test
+    @Test
     public void testLinks() throws Exception {
         testResponseRateLink();
         testViewResultsLink();
@@ -93,32 +93,32 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         testSubmitLink();
     }
 
-    // @Test
+    @Test
     public void testMiscellaneous() throws Exception {
         testValidationReload();
         testJScripts();
     }
 
-    // @Test
+    @Test
     public void testCopyActions() throws Exception {
         testCopyFromAction();
         testCopyToAction();
     }
 
-    // @Test
+    @Test
     public void testAddDeleteActions() throws Exception {
         testAddAction();
         testDeleteAction();
     }
 
-    // @Test
+    @Test
     public void testRemindPublishActions() throws Exception {
         testRemindActions();
         testPublishAction();
         testUnpublishAction();
     }
 
-    // @Test
+    @Test
     public void testContent() throws Exception {
 
         ______TS("no courses");
@@ -519,9 +519,10 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         
         feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
         
-        // Clean up
-        feedbackPage.clickAndConfirm(feedbackPage.getDeleteLink(courseId, "New name!"));
-        feedbackPage.clickAndConfirm(feedbackPage.getDeleteLink("CFeedbackUiT.CS2104", "New name!"));
+        // Clean up: no longer needed as testData is refreshed before each sub-test
+        // feedbackPage.clickAndConfirm(feedbackPage.getDeleteLink(courseId, "New Session (Copied)"));
+        // feedbackPage.clickAndConfirm(feedbackPage.getDeleteLink(courseId, "New name!"));
+        // feedbackPage.clickAndConfirm(feedbackPage.getDeleteLink("CFeedbackUiT.CS2104", "New name!"));
     }
 
     public void testDeleteAction() throws Exception{
