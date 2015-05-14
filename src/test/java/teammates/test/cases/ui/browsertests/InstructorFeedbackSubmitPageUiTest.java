@@ -439,7 +439,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         // > 3 decimals allowed but still not a valid response
         submitPage.fillResponseTextBox(qnNumber, responseNumber, "1.123456");
-        assertEquals("1.123", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
+        assertEquals("1.123456", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
         
         // users not allowed to type letters but if somehow in, not a valid response
         submitPage.fillResponseTextBox(qnNumber, responseNumber, "ABCD");
@@ -448,11 +448,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         // if < minimum, textbox will be set to minimum
         fillResponseTextBoxWithRecheck(qnNumber, responseNumber, "0", "1");
         
-        // if negative, textbox will be set to minimum
         submitPage.fillResponseTextBox(qnNumber, responseNumber, "-1");
-        assertEquals("1", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
-        
-        submitPage.fillResponseTextBox(qnNumber, responseNumber, "-1.23");
         assertEquals("1", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
         
         // if > maximum, textbox will be set to maximum
