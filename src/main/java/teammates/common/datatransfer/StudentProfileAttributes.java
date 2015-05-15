@@ -29,8 +29,9 @@ public class StudentProfileAttributes extends EntityAttributes {
     public String pictureKey;
     public Date modifiedDate;
 
-    public StudentProfileAttributes(String googleId, String shortName, String email,
-            String institute, String nationality, String gender, String moreInfo, String pictureKey) {
+    public StudentProfileAttributes(String googleId, String shortName,
+            String email, String institute, String nationality, String gender,
+            String moreInfo, String pictureKey) {
         this.googleId = googleId;
         this.shortName = Sanitizer.sanitizeName(shortName);
         this.email = Sanitizer.sanitizeEmail(email);
@@ -40,8 +41,8 @@ public class StudentProfileAttributes extends EntityAttributes {
         this.moreInfo = moreInfo;
         this.pictureKey = pictureKey;
     }
-    
-    public StudentProfileAttributes (StudentProfile sp) {
+
+    public StudentProfileAttributes(StudentProfile sp) {
         this.googleId = sp.getGoogleId();
         this.shortName = sp.getShortName();
         this.email = sp.getEmail();
@@ -52,7 +53,7 @@ public class StudentProfileAttributes extends EntityAttributes {
         this.pictureKey = sp.getPictureKey().getKeyString();
         this.modifiedDate = sp.getModifiedDate();
     }
-    
+
     public StudentProfileAttributes() {
         // just a container so all can be null
         this.googleId = "";
@@ -65,48 +66,37 @@ public class StudentProfileAttributes extends EntityAttributes {
         this.pictureKey = "";
         this.modifiedDate = null;
     }
-    
+
     public String generateUpdateMessageForStudent() {
-        String reminder = "";
-        
         if (isMultipleFieldsEmpty()) {
-            reminder = Const.StatusMessages.STUDENT_UPDATE_PROFILE; 
+            return Const.StatusMessages.STUDENT_UPDATE_PROFILE;
         } else {
             if (this.shortName.isEmpty()) {
-                reminder = Const.StatusMessages.STUDENT_UPDATE_PROFILE_SHORTNAME; 
+                return Const.StatusMessages.STUDENT_UPDATE_PROFILE_SHORTNAME;
             } else if (this.email.isEmpty()) {
-                reminder = Const.StatusMessages.STUDENT_UPDATE_PROFILE_EMAIL; 
+                return Const.StatusMessages.STUDENT_UPDATE_PROFILE_EMAIL;
             } else if (this.pictureKey.isEmpty()) {
-                reminder = Const.StatusMessages.STUDENT_UPDATE_PROFILE_PICTURE;
+                return Const.StatusMessages.STUDENT_UPDATE_PROFILE_PICTURE;
             } else if (this.moreInfo.isEmpty()) {
-                reminder = Const.StatusMessages.STUDENT_UPDATE_PROFILE_MOREINFO;
+                return Const.StatusMessages.STUDENT_UPDATE_PROFILE_MOREINFO;
             } else if (this.nationality.isEmpty()) {
-                reminder = Const.StatusMessages.STUDENT_UPDATE_PROFILE_NATIONALITY;
+                return Const.StatusMessages.STUDENT_UPDATE_PROFILE_NATIONALITY;
             }
+            return "";
         }
-        
-        return reminder;
     }
-    
+
     private boolean isMultipleFieldsEmpty() {
-        int numEmptyFields = 0;
-        if (this.shortName.isEmpty()) {
-            numEmptyFields ++;
-        }
-        if (this.email.isEmpty()) {
-            numEmptyFields ++;
-        }
-        if (this.nationality.isEmpty()) {
-            numEmptyFields ++;
-        }
-        if (this.moreInfo.isEmpty()) {
-            numEmptyFields ++;
-        }
-        if (this.pictureKey.isEmpty()) {
-            numEmptyFields ++;
-        }
-        
+        int numEmptyFields = addCounterIfEmpty(shortName)
+                + addCounterIfEmpty(email)
+                + addCounterIfEmpty(nationality)
+                + addCounterIfEmpty(moreInfo)
+                + addCounterIfEmpty(pictureKey);
         return numEmptyFields > 1;
+    }
+
+    private int addCounterIfEmpty(String str) {
+        return str.isEmpty() ? 1 : 0;
     }
 
     @Override
@@ -114,41 +104,59 @@ public class StudentProfileAttributes extends EntityAttributes {
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
         String error;
-        
-        error= validator.getInvalidityInfo(FieldValidator.FieldType.GOOGLE_ID, googleId);
-        if(!error.isEmpty()) { errors.add(error); }
-        
+
+        error = validator.getInvalidityInfo(FieldValidator.FieldType.GOOGLE_ID, googleId);
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
+
         // accept empty string values as it means the user has not specified anything yet.
-        error = shortName.isEmpty() ? "" : validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, shortName);
-        if(!error.isEmpty()) { errors.add(error); }
-        
-        error = email.isEmpty() ? "" : validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
-        if(!error.isEmpty()) { errors.add(error); }
-        
-        error = institute.isEmpty() ? "" : validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
-        if(!error.isEmpty()) { errors.add(error); }
-        
-        error = nationality.isEmpty() ? "" : validator.getInvalidityInfo(FieldValidator.FieldType.NATIONALITY, nationality);
-        if(!error.isEmpty()) { errors.add(error); }
-        
-        error = validator.getInvalidityInfo(FieldValidator.FieldType.GENDER, gender);
-        if(!error.isEmpty()) { errors.add(error); }
-        
+        error = shortName.isEmpty() ? "" : validator.getInvalidityInfo(
+                FieldValidator.FieldType.PERSON_NAME, shortName);
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
+
+        error = email.isEmpty() ? "" : validator.getInvalidityInfo(
+                FieldValidator.FieldType.EMAIL, email);
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
+
+        error = institute.isEmpty() ? "" : validator.getInvalidityInfo(
+                FieldValidator.FieldType.INSTITUTE_NAME, institute);
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
+
+        error = nationality.isEmpty() ? "" : validator.getInvalidityInfo(
+                FieldValidator.FieldType.NATIONALITY, nationality);
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
+
+        error = validator.getInvalidityInfo(FieldValidator.FieldType.GENDER,
+                gender);
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
+
         Assumption.assertNotNull(this.pictureKey);
 
         // No validation for modified date as it is determined by the system.
         // No validation for More Info. It will properly sanitized.
-        
+
         return errors;
     }
-    
-    public String toString(){
-        return Utils.getTeammatesGson().toJson(this, StudentProfileAttributes.class);
+
+    public String toString() {
+        return Utils.getTeammatesGson().toJson(this,
+                StudentProfileAttributes.class);
     }
 
     @Override
     public Object toEntity() {
-        return new StudentProfile(googleId, shortName, email, institute, 
+        return new StudentProfile(googleId, shortName, email, institute,
                 nationality, gender, new Text(moreInfo), new BlobKey(this.pictureKey));
     }
 
@@ -161,17 +169,17 @@ public class StudentProfileAttributes extends EntityAttributes {
     public String getEntityTypeAsString() {
         return "StudentProfile";
     }
-    
+
     @Override
     public String getBackupIdentifier() {
         return "Student profile modified";
     }
-    
+
     @Override
     public String getJsonString() {
         return Utils.getTeammatesGson().toJson(this, StudentProfileAttributes.class);
     }
-    
+
     @Override
     public void sanitizeForSaving() {
         this.googleId = Sanitizer.sanitizeGoogleId(this.googleId);

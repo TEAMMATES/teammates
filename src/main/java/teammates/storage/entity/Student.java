@@ -12,12 +12,11 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * An association class that represents the association Account -->
- * [enrolled in] --> Course.
+ * An association class that represents the association Account --> [enrolled
+ * in] --> Course.
  */
 @PersistenceCapable
 public class Student {
-
     // TODO: some of the serialized names are not correct.
 
     @PrimaryKey
@@ -40,8 +39,8 @@ public class Student {
     private String email;
 
     /**
-     * The student's Course ID. References the primary key of the course.
-     * This shows the course the student is taking
+     * The student's Course ID. References the primary key of the course. This
+     * shows the course the student is taking
      */
     @Persistent
     @SerializedName("coursename")
@@ -51,7 +50,7 @@ public class Student {
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     @SerializedName("name")
     private String name = null;
-    
+
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     @SerializedName("lastName")
@@ -122,19 +121,19 @@ public class Student {
         this.name = processedFullName.trim();
         this.setLastName(StringHelper.splitName(name)[1]);
     }
-    
-    public void setLastName(String lastName){
+
+    public void setLastName(String lastName) {
         this.lastName = lastName.trim();
     }
-    
-    public String getLastName(){
-        //for legacy data
-        if(this.lastName == null){
+
+    public String getLastName() {
+        // for legacy data
+        if (this.lastName == null) {
             this.lastName = StringHelper.splitName(this.name)[1];
         }
         return lastName;
     }
-    
+
     public String getComments() {
         return comments;
     }
@@ -181,7 +180,6 @@ public class Student {
     }
 
     public static String getStringKeyForLongKey(long longKey) {
-        return KeyFactory.createKeyString(Student.class.getSimpleName(),
-                longKey);
+        return KeyFactory.createKeyString(Student.class.getSimpleName(), longKey);
     }
 }
