@@ -565,9 +565,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
             String newRecipient, String newRecipientSection) {
         
         List<FeedbackResponse> responseEntities = getFeedbackResponseEntitiesForReceiverForCourse(courseId, oldRecipient);
-        System.out.println("at db layer: " + responseEntities.size());
         updateFeedbackResponsesRecipient(responseEntities, newRecipient, newRecipientSection);
-        
     }
     
     private void updateFeedbackResponsesRecipient(List<FeedbackResponse> responseEntities, String newRecipient, String newRecipientSection) {
@@ -580,7 +578,7 @@ public class FeedbackResponsesDb extends EntitiesDb {
             fr.setRecipientSection(newRecipientSection);
         }
         
-        getPM().flush();
+        getPM().close();
     }
     
     /**

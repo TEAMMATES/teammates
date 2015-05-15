@@ -21,6 +21,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
@@ -32,7 +33,9 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
 import teammates.common.util.Const.ParamsNames;
+import teammates.logic.api.Logic;
 import teammates.logic.automated.FeedbackSubmissionAdjustmentAction;
+import teammates.logic.backdoor.BackDoorLogic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
@@ -41,6 +44,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
 import teammates.test.cases.BaseTaskQueueCallback;
+import teammates.test.driver.BackDoor;
 import teammates.test.util.TestHelper;
 
 public class SubmissionsAdjustmentTest extends
@@ -52,6 +56,7 @@ public class SubmissionsAdjustmentTest extends
     protected static AccountsLogic accountsLogic = AccountsLogic.inst();
     protected static CoursesLogic coursesLogic = CoursesLogic.inst();
     private static DataBundle dataBundle = getTypicalDataBundle();
+    private static DataBundle dataBundle2;
     
     
     @SuppressWarnings("serial")
@@ -84,6 +89,9 @@ public class SubmissionsAdjustmentTest extends
                 SubmissionsAdjustmentTaskQueueCallback.class);
         gaeSimulation.resetDatastore();
         removeAndRestoreTypicalDataInDatastore();
+        
+        dataBundle2 = loadDataBundle("/FeedbackSubmissionAdjustmentTest.json");
+        removeAndRestoreDatastoreFromJson("/FeedbackSubmissionAdjustmentTest.json");
     }
     
     @AfterClass
@@ -283,6 +291,57 @@ public class SubmissionsAdjustmentTest extends
         int numberOfNewResponses = getAllResponsesForStudentForSession
                 (student, session.feedbackSessionName).size();
         assertEquals(0, numberOfNewResponses);        
+        
+        
+        ______TS("Test that moving a team causes the responses to be updated");
+        student = dataBundle2.students.get("student1InCourse1");
+        session = dataBundle2.feedbackSessions.get("session1InCourse1");
+        
+        FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+        List<FeedbackResponseAttributes> responses = frLogic.getFeedbackResponsesFromGiverForCourse(student.course, student.email);
+        assertNotNull(responses);
+        
+        List<FeedbackResponseAttributes> responsesToTeam = new ArrayList<FeedbackResponseAttributes>();
+        for (FeedbackResponseAttributes response : responses) {
+            if (response.recipientEmail.equals(student.team)) {
+                responsesToTeam.add(response);
+            }
+        }
+        assertEquals(1, responsesToTeam.size());
+        
+        String originalTeam = student.team;
+        String renamedTeam = student.team + "_renamed";
+        student.team = renamedTeam;
+        enrollDetails = new StudentEnrollDetails
+                (UpdateStatus.MODIFIED, student.course, student.email, originalTeam, renamedTeam, student.section, student.section);
+        enrollList = new ArrayList<StudentEnrollDetails>();
+        enrollList.add(enrollDetails);
+        gsonBuilder = Utils.getTeammatesGson();
+        enrollString = gsonBuilder.toJson(enrollList);
+
+        //Prepare parameter map
+        paramMap = new HashMap<String,String>();
+        paramMap.put(ParamsNames.COURSE_ID, student.course);
+        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName);
+        paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollString);
+        
+        studentsLogic.updateStudentCascadeWithSubmissionAdjustmentScheduled(student.email, student, false);
+        responseAdjustmentAction = new FeedbackSubmissionAdjustmentAction(paramMap);
+        assertTrue(responseAdjustmentAction.execute());
+        
+        
+        responses = frLogic.getFeedbackResponsesFromGiverForCourse(student.course, student.email);
+        assertNotNull(responses);
+        
+        responsesToTeam = new ArrayList<FeedbackResponseAttributes>();
+        for (FeedbackResponseAttributes response : responses) {
+            System.out.println(response.recipientEmail);
+            if (response.recipientEmail.equals(renamedTeam)) {
+                responsesToTeam.add(response);
+            }
+        }
+        assertEquals(1, responsesToTeam.size());
+        
     }
 
     private List<FeedbackResponseAttributes> getAllTeamResponsesForStudent(StudentAttributes student) {
