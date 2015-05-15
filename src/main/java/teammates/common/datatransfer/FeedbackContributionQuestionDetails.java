@@ -866,6 +866,17 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         else
             return "";
     }
-    
+
+    public boolean isQuestionSkipped(String[] answer) {
+        if (answer == null) {
+            return true;
+        }
+        for (String ans : answer) {
+            if (!ans.trim().isEmpty() && Integer.parseInt(ans) != Const.POINTS_NOT_SUBMITTED) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 }

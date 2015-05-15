@@ -145,8 +145,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         if (response.getId() != null) {
             // Delete away response if any empty fields
             if (response.responseMetaData.getValue().isEmpty() ||
-                    response.recipientEmail.isEmpty() ||
-                    isEmptyContributionResponse(response)) {
+                    response.recipientEmail.isEmpty()) {
                 logic.deleteFeedbackResponse(response);
                 return;
             }
@@ -156,8 +155,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 setStatusForException(e);
             }
         } else if (!response.responseMetaData.getValue().isEmpty() &&
-                !response.recipientEmail.isEmpty() &&
-                !isEmptyContributionResponse(response)) {
+                !response.recipientEmail.isEmpty()) {
             try {
                 logic.createFeedbackResponse(response);
             } catch (EntityAlreadyExistsException | InvalidParametersException e) {
@@ -166,19 +164,6 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
     }
     
-    private static final String CONTRIB_NOT_SUBMITTED_RESPONSE_METADATA = "{"
-            + "\n  \"answer\": -999,"
-            + "\n  \"questionType\": \"CONTRIB\""
-            + "\n}";
-
-    private boolean isEmptyContributionResponse(
-            FeedbackResponseAttributes response) {
-        return (response.feedbackQuestionType == FeedbackQuestionType.CONTRIB)
-                &&
-                (response.responseMetaData.getValue().equals(
-                        CONTRIB_NOT_SUBMITTED_RESPONSE_METADATA));
-    }
-
     private FeedbackResponseAttributes extractFeedbackResponseData(
             Map<String, String[]> requestParameters, int questionIndx, int responseIndx,
             FeedbackQuestionAttributes feedbackQuestionAttributes) {
