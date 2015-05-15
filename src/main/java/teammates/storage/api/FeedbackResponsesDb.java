@@ -561,6 +561,28 @@ public class FeedbackResponsesDb extends EntitiesDb {
         updateFeedbackResponseOptimized(newAttributes, fr);
     }
     
+    public void updateFeedbackResponsesRecipientForRecipient(String courseId, String oldRecipient, String oldRecipientSection, 
+            String newRecipient, String newRecipientSection) {
+        
+        List<FeedbackResponse> responseEntities = getFeedbackResponseEntitiesForReceiverForCourse(courseId, oldRecipient);
+        System.out.println("at db layer: " + responseEntities.size());
+        updateFeedbackResponsesRecipient(responseEntities, newRecipient, newRecipientSection);
+        
+    }
+    
+    private void updateFeedbackResponsesRecipient(List<FeedbackResponse> responseEntities, String newRecipient, String newRecipientSection) {
+        Assumption.assertNotNull(
+                Const.StatusCodes.DBLEVEL_NULL_INPUT, 
+                responseEntities);
+        
+        for (FeedbackResponse fr : responseEntities) {
+            fr.setRecipientEmail(newRecipient);
+            fr.setRecipientSection(newRecipientSection);
+        }
+        
+        getPM().flush();
+    }
+    
     /**
      * Optimized to take in FeedbackResponse entity if available, to prevent reading the entity again.
      * Updates the feedback response identified by {@code newAttributes.getId()} 

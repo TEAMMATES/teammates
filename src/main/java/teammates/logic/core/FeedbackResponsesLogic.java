@@ -482,6 +482,14 @@ public class FeedbackResponsesLogic {
         }
 
     }
+    
+    public void updateFeedbackResponsesForRenamingTeam(String courseId, String feedbackSessionName, 
+            String oldTeam, String oldSection, 
+            String newTeam, String newSection) {
+
+        frDb.updateFeedbackResponsesRecipientForRecipient(courseId, oldTeam, oldSection, newTeam, newSection);
+        
+    }
 
     public boolean updateFeedbackResponseForChangingTeam(
             StudentEnrollDetails enrollment,
