@@ -60,7 +60,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         // (ie already logged in as studentWithEmptyProfile
         
         ______TS("typical success case");
-        profilePage.verifyHtml("/studentProfilePageDefault.html");
+        profilePage.verifyHtmlMainContent("/studentProfilePageDefault.html");
         
         ______TS("existing profile values");
         // this test uses actual user accounts
