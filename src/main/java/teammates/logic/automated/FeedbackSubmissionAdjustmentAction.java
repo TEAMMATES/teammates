@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.util.ActivityLogEntry;
@@ -20,6 +21,7 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.common.util.Const.ParamsNames;
+import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
@@ -104,29 +106,52 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
 
     private void adjustResponsesForTeamChange(ArrayList<StudentEnrollDetails> enrolmentList, String feedbackSessionName) {
         FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+        StudentsLogic studentsLogic = StudentsLogic.inst();
+        
         // check if all members of the same team got moved to the same team
         // if it is, then the team is renamed
         Map<String, String> oldTeamToNewTeamMap = new HashMap<String, String>();
         Map<String, Boolean> isGivenTeamRenamed = new HashMap<String, Boolean>();
+        Set<String> modifiedStudents = new HashSet<String>();
         
         // initialise isGivenTeamRenamed 
         for (StudentEnrollDetails details : enrolmentList) {
             String originalSectionTeam = constructOriginalSectionTeamStr(details);
             
-            if (details.updateStatus == UpdateStatus.UNMODIFIED) {
-                // if someone from the same team is not modified, then
-                // the team is not renamed
+            if (details.updateStatus == UpdateStatus.UNMODIFIED || 
+                (details.oldSection == null && details.oldTeam == null) ) {
+                // if someone from the same team is not modified, 
+                // or if the team and section is not modified,
+                // then the team is not renamed
                 isGivenTeamRenamed.put(originalSectionTeam, false);
-                continue;
-            }
-            if (details.oldSection == null && details.oldTeam == null) {
-                continue; // team was not modified
-            }
-            
-            if (!isGivenTeamRenamed.containsKey(originalSectionTeam)) {
-                isGivenTeamRenamed.put(originalSectionTeam, true);
+            } else {
+                modifiedStudents.add(details.email);
+                
+                if (!isGivenTeamRenamed.containsKey(originalSectionTeam)) {
+                    isGivenTeamRenamed.put(originalSectionTeam, true);
+                }
             }
         }
+        
+        // For every team, check that all team members got modified
+        Set<String> sectionTeams = new HashSet<String>(isGivenTeamRenamed.keySet());
+        for (String sectionTeam : sectionTeams) {
+            String team = sectionTeam.split("\\|")[1];
+            List<StudentAttributes> studentsInTeam = studentsLogic.getStudentsForTeam(team, courseId);
+
+            boolean isAllStudentsModified = true;
+            for (StudentAttributes student : studentsInTeam) {
+                
+                if (!modifiedStudents.contains(student.email)) {
+                    isAllStudentsModified = false;
+                }
+            }
+            
+            if (!isAllStudentsModified) {
+                isGivenTeamRenamed.put(sectionTeam, false);
+            }
+        }
+        
         
         // For every old team, check if there exists another member of the old team
         // who got a different new team
@@ -186,6 +211,5 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
         
         return oldSectionName + "|" + oldTeamName;
     }
-    
 
 }

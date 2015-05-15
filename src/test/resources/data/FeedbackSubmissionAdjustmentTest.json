@@ -38,6 +38,15 @@
             "googleId":"student1InSATCourse",
             "course":"idOfCourse1ForSAT",
             "comments": "comment for student"
+        },
+        "student2InCourse1":{
+            "email":"student2InSatCourse1@gmail.tmt",
+            "name":"student2 In Course1",
+            "team":"Team 1.1",
+            "section":"Section 1",
+            "googleId":"student1InSATCourse",
+            "course":"idOfCourse1ForSAT",
+            "comments": "comment for student 2"
         }
     },
     "feedbackSessions":{
