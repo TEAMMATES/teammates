@@ -14,7 +14,6 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.logic.api.GateKeeper;
 
-
 public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionEditSaveAction {
     
     StudentAttributes moderatedStudent;
@@ -29,7 +28,6 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
                 false, moderatedStudent.section, 
                 session.feedbackSessionName, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        
     }
     
     @Override
@@ -69,14 +67,12 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
             boolean isRecipientVisibleToInstructors = questionAttributes.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
             boolean isResponseVisibleToInstructors = questionAttributes.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
             
-            
             if (!isGiverVisibleToInstructors || !isRecipientVisibleToInstructors || !isResponseVisibleToInstructors) {
                 isError = true;
                 throw new UnauthorizedAccessException(
                         "Feedback session [" + feedbackSessionName + 
                         "] question [" + questionAttributes.getId() + "] is not accessible to instructor ["+ instructor.email + "]");
             }
-            
         }
     }
     

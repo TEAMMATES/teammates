@@ -34,9 +34,9 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         StudentAttributes studentUnderModeration = logic.getStudentForEmail(courseId, moderatedStudentEmail); 
         
         if (studentUnderModeration == null) {
-            throw new EntityDoesNotExistException("Student Email "
-                    + moderatedStudentEmail + " does not exist in " + courseId
-                    + ".");
+            throw new EntityDoesNotExistException("Student Email " +
+                    moderatedStudentEmail + " does not exist in " + courseId +
+                    ".");
         }
         
         new GateKeeper().verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId),
@@ -44,7 +44,6 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
                 false, studentUnderModeration.section, 
                 feedbackSessionName, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        
         
         FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, student);
         
@@ -58,7 +57,6 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         data.studentToViewPageAs = studentUnderModeration;
         hideQuestionsWithAnonymousResponses(data.bundle);
 
-        
         statusToAdmin = "Moderating feedback session for student (" + studentUnderModeration.email + ")<br>" +
                 "Session Name: " + feedbackSessionName + "<br>" +
                 "Course ID: " + courseId;
@@ -87,5 +85,4 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         bundle.questionResponseBundle.keySet().removeAll(questionsToHide);
         return !questionsToHide.isEmpty();
     }
-    
 }
