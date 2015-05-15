@@ -28,7 +28,6 @@ import teammates.ui.controller.ActionResult;
 import teammates.ui.controller.InstructorFeedbackSubmissionEditSaveAction;
 import teammates.ui.controller.RedirectResult;
 
-
 public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTest {
 
     private static final DataBundle dataBundle = loadDataBundle("/InstructorFeedbackSubmissionEditSaveActionTest.json");
@@ -47,7 +46,6 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
     
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        // TODO Test error states (catch-blocks and isError == true states)
         InstructorAttributes instructor1InCourse1 = dataBundle.instructors.get("instructor1InCourse1");
         gaeSimulation.loginAsInstructor(instructor1InCourse1.googleId);
         
@@ -262,6 +260,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
         ______TS("Unsuccessful case: modified recipient to invalid recipient");
+        
         submissionParams = new String[]{
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
