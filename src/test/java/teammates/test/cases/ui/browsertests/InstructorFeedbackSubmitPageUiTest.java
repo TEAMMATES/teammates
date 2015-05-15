@@ -446,7 +446,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals("", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
         
         // if < minimum, textbox will be set to minimum
-        fillResponseTextBoxWithRecheck(qnNumber, responseNumber, "0", "1");
+        submitPage.fillResponseTextBox(qnNumber, responseNumber, "0");
+        assertEquals("1", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
         
         /* Note: Negative will be tested properly on Chrome or Safari but not on Firefox,
          * In the Firefox version that we are using for tests, Firefox does not allow for
@@ -464,10 +465,12 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         // submitPage.fillResponseTextBox(qnNumber, responseNumber, "-1.23");
         // assertEquals("1", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
         
-        // if > maximum, textbox will be set to maximum
-        fillResponseTextBoxWithRecheck(qnNumber, responseNumber, "6", "5");
-        
-        fillResponseTextBoxWithRecheck(qnNumber, responseNumber, "6.78", "5");
+        // if > maximum, int or with decimals, textbox will be set to maximum
+        submitPage.fillResponseTextBox(qnNumber, responseNumber, "6");
+        assertEquals("5", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
+
+        submitPage.fillResponseTextBox(qnNumber, responseNumber, "6.78");
+        assertEquals("5", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
     }
     
     private void testConstSumSubmitAction() {
@@ -565,19 +568,6 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         // Test that the recipient selection is disabled and not visible
         assertFalse(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
-    }
-    
-    private void fillResponseTextBoxWithRecheck(int qnNumber, int responseNumber, String text, String expected) {
-        int counter = 0;
-        while (counter != 100) {
-            submitPage.fillResponseTextBox(qnNumber, responseNumber, text);
-            if (expected.equals(submitPage.getResponseTextBoxValue(qnNumber, responseNumber))) {
-                return;
-            }
-            counter++;
-            browser.driver.switchTo().window("");
-        }
-        assertEquals(expected ,submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
     }
     
     private void testModifyData() throws EnrollException {
