@@ -128,6 +128,7 @@ public class Student {
 
     public String getLastName() {
         // for legacy data
+        // TODO no longer covered in tests. can remove?
         if (this.lastName == null) {
             this.lastName = StringHelper.splitName(this.name)[1];
         }
@@ -146,10 +147,11 @@ public class Student {
         return registrationKey;
     }
 
+    // TODO method unused
     public void setRegistrationKey(Long registrationKey) {
         this.registrationKey = registrationKey;
     }
-
+    
     public String getCourseId() {
         return courseID;
     }
