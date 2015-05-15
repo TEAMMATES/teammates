@@ -1179,7 +1179,7 @@ public class Const {
     //Used for Feedback CONTRIBUTION question
     public static final String EQUAL_SHARE = "Equal Share";
     public static final String NOT_SURE = "Not Sure";
-    public static final String NOT_SUBMITTED = "Not Submitted";
+    public static final String NOT_SUBMITTED = "";
     public static final List<String> FEEDBACK_CONTRIBUTION_OPTIONS = Arrays.asList(
             "0%",
             EQUAL_SHARE+ " - 90%",
