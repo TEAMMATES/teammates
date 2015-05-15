@@ -15,8 +15,7 @@ import teammates.common.util.Const;
 import teammates.ui.controller.InstructorEditStudentFeedbackPageAction;
 import teammates.ui.controller.ShowPageResult;
 
-public class InstructorEditStudentFeedbackPageActionTest extends
-        BaseActionTest {
+public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
@@ -27,7 +26,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         InstructorAttributes instructorHelper = dataBundle.instructors.get("helperOfCourse1");
         String idOfInstructor = instructor.googleId;
@@ -42,7 +41,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends
         String courseId = student.course;
         String moderatedStudentEmail = student.email;
 
-        String[] submissionParams = new String[] {
+        String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
@@ -51,19 +50,18 @@ public class InstructorEditStudentFeedbackPageActionTest extends
         InstructorEditStudentFeedbackPageAction editPageAction = getAction(submissionParams);
         ShowPageResult showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT 
-                + "?error=false"
-                + "&user="+ idOfInstructor
-                , showPageResult.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT +
+                "?error=false" +
+                "&user=" + idOfInstructor,
+                showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
 
-        assertEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage"
-                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                + "Moderating feedback session for student (" + student.email + ")<br>"
-                + "Session Name: First feedback session<br>Course ID: idOfTypicalCourse1|||"
-                + "/page/instructorEditStudentFeedbackPage"
-                , editPageAction.getLogMessage());
-        
+        assertEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage" +
+                "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
+                "Moderating feedback session for student (" + student.email + ")<br>" +
+                "Session Name: First feedback session<br>Course ID: idOfTypicalCourse1|||" +
+                "/page/instructorEditStudentFeedbackPage",
+                editPageAction.getLogMessage());
         
         ______TS("success case: closed session");
 
@@ -71,7 +69,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends
         courseId = student.course;
         moderatedStudentEmail = student.email;
 
-        submissionParams = new String[] {
+        submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
@@ -80,19 +78,18 @@ public class InstructorEditStudentFeedbackPageActionTest extends
         editPageAction = getAction(submissionParams);
         showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT 
-                + "?error=false"
-                + "&user="+ idOfInstructor
-                , showPageResult.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT +
+                "?error=false" +
+                "&user="+ idOfInstructor,
+                showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
 
-        assertEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage"
-                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                + "Moderating feedback session for student (" + student.email + ")<br>"
-                + "Session Name: Closed Session<br>Course ID: idOfTypicalCourse1|||"
-                + "/page/instructorEditStudentFeedbackPage"
-                , editPageAction.getLogMessage());
-        
+        assertEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage" +
+                "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
+                "Moderating feedback session for student (" + student.email + ")<br>" +
+                "Session Name: Closed Session<br>Course ID: idOfTypicalCourse1|||" +
+                "/page/instructorEditStudentFeedbackPage",
+                editPageAction.getLogMessage());
         
         gaeSimulation.loginAsInstructor(idOfInstructorHelper);
         
@@ -102,7 +99,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends
         courseId = "idOfTypicalCourse1";
         moderatedStudentEmail = student.email;
         
-        submissionParams = new String[] {
+        submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
@@ -122,7 +119,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends
         
         moderatedStudentEmail = "non-exIstentEmail@gsail.tmt";
 
-        submissionParams = new String[] {
+        submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
@@ -133,14 +130,13 @@ public class InstructorEditStudentFeedbackPageActionTest extends
             showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            assertEquals("Student Email "
-                            + moderatedStudentEmail + " does not exist in " + courseId
-                            + ".", 
-                         edne.getMessage());
+            assertEquals("Student Email " +
+                    moderatedStudentEmail + " does not exist in " + courseId + ".",
+                    edne.getMessage());
         }
     }
             
-    private InstructorEditStudentFeedbackPageAction getAction(String... params) throws Exception{
+    private InstructorEditStudentFeedbackPageAction getAction(String... params) throws Exception {
         return (InstructorEditStudentFeedbackPageAction) gaeSimulation.getActionObject(uri, params);
     }
 }
