@@ -150,7 +150,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         for (TeamDetailsBundle team : teams) {
             String teamName = team.name;
             
-            List<StudentAttributes> students = logic.getStudentsForTeam(teamName, courseId);
+            List<StudentAttributes> students = team.students;
             System.out.println("Students in team " + teamName + " : "+students.size());
             
             for (StudentAttributes student : students) {
