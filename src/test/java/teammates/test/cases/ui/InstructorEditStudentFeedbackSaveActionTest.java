@@ -183,7 +183,8 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         };
         
         InstructorEditStudentFeedbackSaveAction a;
-        // TODO: check whether or not removing r will cause anything to break since it is not being used at all
+        @SuppressWarnings("unused")
+        // unused but still needed to allow detection of exception
         RedirectResult r;
         
         try {
@@ -496,12 +497,14 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         };
         
         InstructorEditStudentFeedbackSaveAction a;
-        // TODO: check whether or not removing r will cause anything to break since it is not being used at all
+        @SuppressWarnings("unused")
+        // unused but still needed to allow detection of exception
         RedirectResult r;
         
         try {
             a = getAction(submissionParams);
             r = (RedirectResult) a.executeAndPostProcess();
+            signalFailureToDetectException("Did not detect that this instructor cannot access this particular question.");
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] is not accessible to instructor [" + 
                     instructor.email + "]", e.getMessage());
