@@ -20,8 +20,6 @@ import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.InstructorEditStudentFeedbackSaveAction;
 import teammates.ui.controller.RedirectResult;
 
-
-
 public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest {
 
     private static DataBundle dataBundle;
