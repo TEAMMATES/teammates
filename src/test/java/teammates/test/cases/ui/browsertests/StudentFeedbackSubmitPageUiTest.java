@@ -477,7 +477,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertEquals("5",frNumscale.getResponseDetails().getAnswerString());
         
         ______TS("Test InputValidation extreme negative value");
-        /* Attention: in safari, negative sign "-" can be input so the result will be adjusted to 1          
+        /* Attention: in safari or chrome, negative sign "-" can be input so the result will be adjusted to 1          
          *            However, in firefox, the sign "-" can not be typed into the text box so no negative 
          *            value can be input
          */

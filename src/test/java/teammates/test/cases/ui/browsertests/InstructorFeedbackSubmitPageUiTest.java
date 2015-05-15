@@ -448,8 +448,21 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         // if < minimum, textbox will be set to minimum
         fillResponseTextBoxWithRecheck(qnNumber, responseNumber, "0", "1");
         
+        /* Note: Negative will be tested properly on Chrome or Safari but not on Firefox,
+         * In the Firefox version that we are using for tests, Firefox does not allow for
+         * the negative sign to be input so the test below is passing since trying to input
+         * -1 will result in 1 being input.
+         */
         submitPage.fillResponseTextBox(qnNumber, responseNumber, "-1");
         assertEquals("1", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
+        
+        /* However, if we test -1.23, on Chrome and Safari it will be changed to 1 but on
+         * Firefox it will be 1.23 and not the expected 1. Tests are disabled until
+         * the Firefox version that we use for testing allows for this so that
+         * developers will not randomly pass or fail depending on browser used for testing
+         */
+        // submitPage.fillResponseTextBox(qnNumber, responseNumber, "-1.23");
+        // assertEquals("1", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
         
         // if > maximum, textbox will be set to maximum
         fillResponseTextBoxWithRecheck(qnNumber, responseNumber, "6", "5");
