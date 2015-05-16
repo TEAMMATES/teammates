@@ -21,7 +21,6 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;

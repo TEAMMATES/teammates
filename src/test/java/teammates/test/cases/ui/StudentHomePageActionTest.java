@@ -11,7 +11,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 import teammates.logic.core.CoursesLogic;
 import teammates.storage.api.AccountsDb;
 import teammates.test.driver.AssertHelper;

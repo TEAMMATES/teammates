@@ -20,7 +20,6 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.BackDoor;

@@ -2,9 +2,6 @@ package teammates.test.cases.ui;
 
 import static org.testng.AssertJUnit.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import teammates.test.util.TestHelper;
 
@@ -19,9 +16,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.StudentsLogic;
 import teammates.logic.core.InstructorsLogic;
-import teammates.ui.controller.Action;
-import teammates.ui.controller.ActionResult;
-import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentCourseDetailsPageAction;
 import teammates.ui.controller.StudentCourseDetailsPageData;
 import teammates.ui.controller.ShowPageResult;

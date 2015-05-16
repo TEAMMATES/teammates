@@ -30,7 +30,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.storage.api.FeedbackQuestionsDb;
-import teammates.storage.entity.FeedbackQuestion;
 
 public class FeedbackQuestionsLogic {
     

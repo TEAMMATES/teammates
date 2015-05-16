@@ -13,7 +13,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.controller.InstructorEditStudentFeedbackPageAction;
-import teammates.ui.controller.InstructorFeedbackPreviewAsStudentAction;
 import teammates.ui.controller.ShowPageResult;
 
 public class InstructorEditStudentFeedbackPageActionTest extends
