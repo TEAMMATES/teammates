@@ -518,11 +518,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
         
         feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
-        
-        // Clean up: no longer needed as testData is refreshed before each sub-test
-        // feedbackPage.clickAndConfirm(feedbackPage.getDeleteLink(courseId, "New Session (Copied)"));
-        // feedbackPage.clickAndConfirm(feedbackPage.getDeleteLink(courseId, "New name!"));
-        // feedbackPage.clickAndConfirm(feedbackPage.getDeleteLink("CFeedbackUiT.CS2104", "New name!"));
     }
 
     public void testDeleteAction() throws Exception{
