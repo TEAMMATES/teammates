@@ -63,6 +63,21 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
                 "/page/instructorEditStudentFeedbackPage",
                 editPageAction.getLogMessage());
         
+        ______TS("new case");
+        
+        feedbackSessionName = "Second feedback session";
+        courseId = student.course;
+        moderatedStudentEmail = student.email;
+
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+        };
+
+        editPageAction = getAction(submissionParams);
+        showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
+        
         ______TS("success case: closed session");
 
         feedbackSessionName = "Closed Session";
