@@ -144,8 +144,8 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             throws EntityDoesNotExistException {
         if (response.getId() != null) {
             // Delete away response if any empty fields
-            if (response.responseMetaData.getValue().isEmpty() || 
-                response.recipientEmail.isEmpty()) {
+            if (response.responseMetaData.getValue().isEmpty() ||
+                    response.recipientEmail.isEmpty()) {
                 logic.deleteFeedbackResponse(response);
                 return;
             }
@@ -155,7 +155,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 setStatusForException(e);
             }
         } else if (!response.responseMetaData.getValue().isEmpty() &&
-                    !response.recipientEmail.isEmpty()){
+                !response.recipientEmail.isEmpty()) {
             try {
                 logic.createFeedbackResponse(response);
             } catch (EntityAlreadyExistsException | InvalidParametersException e) {

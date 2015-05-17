@@ -216,7 +216,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNotNull(BackDoor.getFeedbackResponse(fqContrib.getId(),
                                                     "SFSubmitUiT.alice.b@gmail.tmt",
                                                     "SFSubmitUiT.alice.b@gmail.tmt"));
-        assertNotNull(BackDoor.getFeedbackResponse(fqContrib.getId(),
+        assertNull(BackDoor.getFeedbackResponse(fqContrib.getId(),
                                                     "SFSubmitUiT.alice.b@gmail.tmt",
                                                     "SFSubmitUiT.benny.c@gmail.tmt"));
 
