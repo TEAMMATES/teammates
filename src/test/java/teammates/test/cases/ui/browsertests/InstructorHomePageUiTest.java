@@ -5,6 +5,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -78,6 +79,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         testRemindActions();
         testPublishUnpublishActions();
         testArchiveCourseAction();
+        testCopyToFsAction();
         testDeleteCourseAction();
     }
     
@@ -316,6 +318,59 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         loginAsCommonInstructor();
         homePage.clickArchiveCourseLink(courseIdForCS1101);
         homePage.clickHomeTab();
+    }
+    
+    public void testCopyToFsAction() throws Exception {
+        String feedbackSessionName = "First Feedback Session";
+        String courseId = testData.courses.get("CHomeUiT.CS2104").id;
+        
+        ______TS("Submit empty course list: Home Page");
+        
+        homePage.clickFsCopyButton(courseId, feedbackSessionName);
+        homePage.waitForModalToLoad();
+        homePage.clickFsCopySubmitButton();
+        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
+        
+        // Go back to previous page because 'copy feedback session' redirects to the 'FeedbackEdit' page.
+        homePage.goToPreviousPage(InstructorHomePage.class);
+        
+        ______TS("Copying fails due to fs with same name in course selected: Home Page");
+        
+        homePage.clickFsCopyButton(courseId, feedbackSessionName);
+        homePage.waitForModalToLoad();
+        homePage.fillCopyToOtherCoursesForm(feedbackSessionName);
+        
+        homePage.clickFsCopySubmitButton();
+        
+        String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, feedbackSessionName, courseId);
+        
+        homePage.verifyStatus(error);
+        
+        homePage.goToPreviousPage(InstructorHomePage.class);
+        
+        ______TS("Copying fails due to fs with invalid name: Home Page");
+        
+        homePage.clickFsCopyButton(courseId, feedbackSessionName);
+        homePage.waitForModalToLoad();
+        homePage.fillCopyToOtherCoursesForm("Invalid name | for feedback session");
+        
+        homePage.clickFsCopySubmitButton();
+        
+        homePage.verifyStatus("\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as feedback session name because it contains invalid characters. All feedback session name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).");
+        
+        homePage.goToPreviousPage(InstructorHomePage.class);
+        
+        ______TS("Successful case: Home Page");
+        
+        homePage.clickFsCopyButton(courseId, feedbackSessionName);
+        homePage.waitForModalToLoad();
+        homePage.fillCopyToOtherCoursesForm("New name!");
+        
+        homePage.clickFsCopySubmitButton();
+        
+        homePage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
+        
+        homePage.goToPreviousPage(InstructorHomePage.class);
     }
 
     public void testDeleteCourseAction() throws Exception{
