@@ -1,7 +1,5 @@
 package teammates.ui.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 

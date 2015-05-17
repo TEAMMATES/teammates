@@ -42,7 +42,6 @@ import teammates.storage.api.StudentsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 
-import com.google.appengine.api.datastore.Text;
 import com.google.appengine.labs.repackaged.com.google.common.base.Joiner;
 import com.google.gson.Gson;
 

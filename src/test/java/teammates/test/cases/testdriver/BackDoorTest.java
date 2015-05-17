@@ -25,7 +25,6 @@ import teammates.test.cases.BaseTestCase;
 import teammates.test.driver.BackDoor;
 import teammates.test.util.Priority;
 
-import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 
 @Priority(2)

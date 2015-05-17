@@ -62,7 +62,6 @@ import teammates.logic.core.StudentsLogic;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
-import com.google.appengine.api.datastore.Text;
 
 /**
  * This class represents the API to the business logic of the system. Please

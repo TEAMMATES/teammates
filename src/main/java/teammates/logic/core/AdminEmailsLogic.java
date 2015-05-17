@@ -4,9 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.jdo.JDOHelper;
-import javax.jdo.Query;
-
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
 

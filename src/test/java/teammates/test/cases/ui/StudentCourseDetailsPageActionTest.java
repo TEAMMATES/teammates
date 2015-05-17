@@ -8,8 +8,6 @@ import teammates.test.util.TestHelper;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.appengine.labs.repackaged.com.google.common.base.Joiner;
-
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;

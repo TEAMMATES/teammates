@@ -8,8 +8,6 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
