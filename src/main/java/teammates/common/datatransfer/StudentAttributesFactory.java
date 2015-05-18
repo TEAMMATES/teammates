@@ -7,9 +7,9 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 
 /**
- * A factory for the creation of {@link StudentAttributes} objects. It
- * encapsulates the mechanism to create a {@link StudentAttributes} object from
- * a given enroll line.
+ * A factory for the creation of {@link StudentAttributes} objects.
+ * It encapsulates the mechanism to create a {@link StudentAttributes} object
+ * from a given enroll line.
  */
 public class StudentAttributesFactory {
     public static final int MIN_FIELD_COUNT = 3;

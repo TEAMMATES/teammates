@@ -107,9 +107,11 @@ public class StudentAttributes extends EntityAttributes {
                 : student.getGoogleId());
         Long keyAsLong = student.getRegistrationKey();
         this.key = (keyAsLong == null ? null : Student.getStringKeyForLongKey(keyAsLong));
-        // TODO: this is for backward compatibility with old system. Old system
-        // considers "" as unregistered. It should be changed to consider null
-        // as unregistered.
+        /*
+         * TODO: this is for backward compatibility with old system.
+         * Old system considers "" as unregistered.
+         * It should be changed to consider null as unregistered.
+         */
     }
 
     public String toEnrollmentString() {

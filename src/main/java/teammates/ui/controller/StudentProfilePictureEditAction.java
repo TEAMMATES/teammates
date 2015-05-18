@@ -66,7 +66,7 @@ public class StudentProfilePictureEditAction extends Action {
     /**
      * Uploads the given image data to the cloud storage into a file with the
      * user's googleId as the name. Returns a blobKey that can be used to
-     * identify the file
+     * identify the file.
      * 
      * @param fileName
      * @param transformedImage
@@ -96,9 +96,11 @@ public class StudentProfilePictureEditAction extends Action {
         Double bottomY = Double.parseDouble(_bottomYString) / height;
 
         try {
-            // This branch is covered in UiTests as the following method
-            // does not behave the same in dev as in staging
-            // TODO: find a way to cover it in Action Tests
+            /*
+             * This branch is covered in UiTests as the following method does
+             * not behave the same in dev as in staging.
+             * TODO: find a way to cover it in Action Tests.
+             */
             Image newImage = getTransformedImage(leftX, topY, rightX, bottomY);
             return newImage.getImageData();
         } catch (RuntimeException re) {

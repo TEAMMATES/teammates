@@ -29,9 +29,12 @@ import teammates.logic.api.GateKeeper;
  *         that was just uploaded.
  */
 public class StudentProfilePictureUploadAction extends Action {
-    // This class is not tested in ActionTests as it is difficult to
-    // reproduce the upload action done by Google Blobstore API without
-    // the server running. This class is covered in UiTests
+    /*
+     * This class is not tested in ActionTests as it is difficult to
+     * reproduce the upload action done by Google Blobstore API
+     * without the server running.
+     * This class is covered in UiTests.
+     */
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         new GateKeeper().verifyLoggedInUserPrivileges();
@@ -55,8 +58,10 @@ public class StudentProfilePictureUploadAction extends Action {
             updateStatusesForBlobstoreFailure();
             isError = true;
         } catch (Exception e) {
-            // this is for other exceptions like EntityNotFound, IllegalState, etc
-            // that occur rarely and are handled higher up.
+            /*
+             * This is for other exceptions like EntityNotFound, IllegalState, etc
+             * that occur rarely and are handled higher up.
+             */
             deletePicture(new BlobKey(pictureKey));
             statusToUser.clear();
             throw e;
@@ -80,9 +85,9 @@ public class StudentProfilePictureUploadAction extends Action {
     }
 
     /**
-     * Uploads the given image data to the cloud storage into a file with the
-     * user's googleId as the name. Returns a blobKey that can be used to
-     * identify the file
+     * Uploads the given image data to the cloud storage into a file with
+     * the user's googleId as the name.
+     * Returns a blobKey that can be used to identify the file.
      * 
      * @param fileName
      * @param transformedImage
@@ -118,8 +123,10 @@ public class StudentProfilePictureUploadAction extends Action {
                 return null;
             }
         } catch (IllegalStateException e) {
-            // this means the action was called directly (and not via BlobStore API callback)
-            // simply redirect to ProfilePage
+            /*
+             * This means the action was called directly (and not via BlobStore API callback).
+             * Simply redirect to ProfilePage.
+             */
             return null;
         }
     }
