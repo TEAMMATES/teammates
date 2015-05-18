@@ -34,7 +34,6 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private FeedbackSubmitPage submitPage;
     
-    
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();
@@ -59,7 +58,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         ______TS("Awaiting session");
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Awaiting Session");
-        submitPage.verifyHtml("/instructorFeedbackSubmitPageAwaiting.html");
+        submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPageAwaiting.html");
         
         ______TS("Open session");
         
@@ -90,20 +89,18 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Private Session");
         submitPage.verifyHtmlMainContent("/instructorFeedbackSubmitPagePrivate.html");
-    
     }
     
-    private void testClosedSessionSubmitAction(){
+    private void testClosedSessionSubmitAction() {
         
         ______TS("test submitting for closed session");
     
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Closed Session");
        
         assertFalse(submitPage.isElementEnabled("response_submit_button"));
-        
     }
     
-    private void testSubmitAction(){
+    private void testSubmitAction() {
         
         ______TS("create new responses");
 
@@ -216,8 +213,8 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.selectRecipient(6, 2, "Teammates Test4");
         submitPage.chooseMcqOption(6, 2, "UI");
         
-        submitPage.toggleMsqOption(7, 0, "");  // Click on "None of the above", 
-                                               // the option will be deselected when another option is clicked 
+        submitPage.toggleMsqOption(7, 0, ""); // Click on "None of the above", 
+                                              // the option will be deselected when another option is clicked 
         submitPage.toggleMsqOption(7, 0, "UI");
         submitPage.toggleMsqOption(7, 0, "Algo");
         submitPage.toggleMsqOption(7, 0, "Design");
@@ -356,7 +353,7 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
      *  Tests the behavior of different question types.
      *  Test response validation on client side as well, if any.
      */
-    private void testQuestionTypesSubmitAction(){
+    private void testQuestionTypesSubmitAction() {
         ______TS("test submit actions for different question types.");
         
         testEssaySubmitAction();
@@ -367,181 +364,213 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
         testContribSubmitAction();
     }
     
-    private void testEssaySubmitAction(){
+    private void testEssaySubmitAction() {
         ______TS("test submit actions for essay question.");
         
-        //Nothing much to test for input validation.
-        //Test fields are disabled when session is closed.
+        // Nothing much to test for input validation.
+        // Test fields are disabled when session is closed.
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Closed Session");
         
-        //Test input disabled
+        // Test input disabled
         int qnNumber = 1;
         int responseNumber = 0;
+        
         assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
-
-        //TODO: test that the recipient selection is also disabled
+        
+        // Test that the recipient selection is disabled and not visible
+        assertFalse(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
     }
     
-    private void testMcqSubmitAction(){
+    private void testMcqSubmitAction() {
         ______TS("test submit actions for mcq.");
         
-        //Test input disabled
+        // Test input disabled
         int qnNumber = 2;
         int responseNumber = 0;
+        
         assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
-
-        //TODO: test that the recipient selection is also disabled
+        
+        // Test that the recipient selection is disabled and not visible
+        assertFalse(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
     }
     
-    private void testMsqSubmitAction(){
+    private void testMsqSubmitAction() {
         ______TS("test submit actions for msq.");
         
-        //Test input disabled
+        // Test input disabled
         int qnNumber = 3;
         int responseNumber = 0;
+        
         assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         
-        //TODO: test that the recipient selection is also disabled
+        // Test that the recipient selection is disabled and not visible
+        assertFalse(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
     }
     
-    private void testNumScaleSubmitAction(){
+    private void testNumScaleSubmitAction() {
         ______TS("test submit actions for numscale questions.");
         
-        //Test input disabled
+        // Test input disabled
         int qnNumber = 4;
         int responseNumber = 0;
+        
         assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
-
-        //TODO: test that the recipient selection is also disabled
         
-        //Test input entered are valid numbers for the question.
+        // Test that the recipient selection is disabled and not visible
+        assertFalse(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
+        
+        // Test input entered are valid numbers for the question.
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
+        
         qnNumber = 14;
         responseNumber = 0;
         
-        submitPage.fillResponseTextBox(14, 0, "2.5");
-        assertEquals("2.5",submitPage.getResponseTextBoxValue(14, 0));
+        // 1 decimal allowed, not a valid response
+        submitPage.fillResponseTextBox(qnNumber, responseNumber, "2.5");
+        assertEquals("2.5", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
         
-        submitPage.fillResponseTextBox(14, 0, "ABCD");
-        assertEquals("",submitPage.getResponseTextBoxValue(14, 0));
+        // > 3 decimals allowed but still not a valid response
+        submitPage.fillResponseTextBox(qnNumber, responseNumber, "1.123456");
+        assertEquals("1.123456", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
         
-        fillResponseTextBoxWithRecheck(14, 0, "0", "1");
+        // users not allowed to type letters but if somehow in, not a valid response
+        submitPage.fillResponseTextBox(qnNumber, responseNumber, "ABCD");
+        assertEquals("", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
         
-        submitPage.fillResponseTextBox(14, 0, "-1");
-        assertEquals("1",submitPage.getResponseTextBoxValue(14, 0));
+        // if < minimum, textbox will be set to minimum
+        submitPage.fillResponseTextBox(qnNumber, responseNumber, "0");
+        assertEquals("1", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
         
-        fillResponseTextBoxWithRecheck(14, 0, "6", "5");
+        /* Note: Negative will be tested properly on Chrome or Safari but not on Firefox,
+         * In the Firefox version that we are using for tests, Firefox does not allow for
+         * the negative sign to be input so the test below is passing since trying to input
+         * -1 will result in 1 being input.
+         */
+        submitPage.fillResponseTextBox(qnNumber, responseNumber, "-1");
+        assertEquals("1", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
         
-        //TODO: test for stronger step validation.
+        /* However, if we test -1.23, on Chrome and Safari it will be changed to 1 but on
+         * Firefox it will be 1.23 and not the expected 1. Tests are disabled until
+         * the Firefox version that we use for testing allows for this so that
+         * developers will not randomly pass or fail depending on browser used for testing
+         */
+        // submitPage.fillResponseTextBox(qnNumber, responseNumber, "-1.23");
+        // assertEquals("1", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
         
+        // if > maximum, int or with decimals, textbox will be set to maximum
+        submitPage.fillResponseTextBox(qnNumber, responseNumber, "6");
+        assertEquals("5", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
+
+        submitPage.fillResponseTextBox(qnNumber, responseNumber, "6.78");
+        assertEquals("5", submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
     }
     
-    private void testConstSumSubmitAction(){
+    private void testConstSumSubmitAction() {
         ______TS("test submit actions for constsum questions.");
         
-        //Test input disabled
+        // Test input disabled
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Closed Session");
+        
         int qnNumber = 5;
         int responseNumber = 0;
+        
         assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         
-        //Test messages for different values entered
+        // Test that the recipient selection is disabled and not visible
+        assertFalse(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
+        
+        // Test messages for different values entered
         submitPage = loginToInstructorFeedbackSubmitPage("IFSubmitUiT.instr", "Open Session");
         qnNumber = 17;
-        assertEquals("All points distributed!",submitPage.getConstSumMessage(qnNumber, 0));
+        assertEquals("All points distributed!", submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "80");
-        assertEquals("Over allocated 10 points.",submitPage.getConstSumMessage(qnNumber, 0));
+        assertEquals("Over allocated 10 points.", submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "");
-        assertEquals("70 points left to distribute.",submitPage.getConstSumMessage(qnNumber, 0));
+        assertEquals("70 points left to distribute.", submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 1, "");
-        assertEquals("Please distribute 100 points among the above options.",submitPage.getConstSumMessage(qnNumber, 0));
+        assertEquals("Please distribute 100 points among the above options.", submitPage.getConstSumMessage(qnNumber, 0));
         
-        //Test error message when submitting
+        // Test error message when submitting
         submitPage.fillResponseTextBox(qnNumber, 0, 1, "10");
-        assertEquals("90 points left to distribute.",submitPage.getConstSumMessage(qnNumber, 0));
+        assertEquals("90 points left to distribute.", submitPage.getConstSumMessage(qnNumber, 0));
         
         submitPage.clickSubmitButton();
-        assertEquals("Please fix the error(s) for distribution question(s) 17, 18, 19."
-                + " To skip a distribution question, leave the boxes blank.",
+        assertEquals("Please fix the error(s) for distribution question(s) 17, 18, 19." +
+                " To skip a distribution question, leave the boxes blank.",
                 submitPage.getStatus());
         
-        //Test error message for const sum (to recipient) qn with uneven distribution
+        // Test error message for const sum (to recipient) qn with uneven distribution
         qnNumber = 19;
-        assertEquals("100 points left to distribute.",submitPage.getConstSumMessage(qnNumber, 3));
+        assertEquals("100 points left to distribute.", submitPage.getConstSumMessage(qnNumber, 3));
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "105");
-        assertEquals("80 points left to distribute. The same amount of points should not be given multiple times.",submitPage.getConstSumMessage(qnNumber, 3));
+        assertEquals("80 points left to distribute. The same amount of points should not be given multiple times.", submitPage.getConstSumMessage(qnNumber, 3));
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "106");
-        assertEquals("79 points left to distribute.",submitPage.getConstSumMessage(qnNumber, 3));
+        assertEquals("79 points left to distribute.", submitPage.getConstSumMessage(qnNumber, 3));
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "155");
         submitPage.fillResponseTextBox(qnNumber, 1, 0, "155");
-        assertEquals("Over allocated 15 points. The same amount of points should not be given multiple times.",submitPage.getConstSumMessage(qnNumber, 3));
+        assertEquals("Over allocated 15 points. The same amount of points should not be given multiple times.", submitPage.getConstSumMessage(qnNumber, 3));
         submitPage.fillResponseTextBox(qnNumber, 1, 0, "154");
-        assertEquals("Over allocated 14 points.",submitPage.getConstSumMessage(qnNumber, 3));
+        assertEquals("Over allocated 14 points.", submitPage.getConstSumMessage(qnNumber, 3));
         
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "50");
         submitPage.fillResponseTextBox(qnNumber, 1, 0, "50");
         submitPage.fillResponseTextBox(qnNumber, 2, 0, "200");
         submitPage.fillResponseTextBox(qnNumber, 3, 0, "100");
-        assertEquals("The same amount of points should not be given multiple times.",submitPage.getConstSumMessage(qnNumber, 3));
+        assertEquals("The same amount of points should not be given multiple times.", submitPage.getConstSumMessage(qnNumber, 3));
         
         submitPage.clickSubmitButton();
-        assertEquals("Please fix the error(s) for distribution question(s) 17, 18, 19."
-                + " To skip a distribution question, leave the boxes blank.",
+        assertEquals("Please fix the error(s) for distribution question(s) 17, 18, 19." +
+                " To skip a distribution question, leave the boxes blank.",
                 submitPage.getStatus());
         
-        //Test error message for const sum (to options) qn with uneven distribution
+        // Test error message for const sum (to options) qn with uneven distribution
         qnNumber = 20;
-        assertEquals("All points distributed!",submitPage.getConstSumMessage(qnNumber, 0));
+        assertEquals("All points distributed!", submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "25");
-        assertEquals("10 points left to distribute. The same amount of points should not be given multiple times.",submitPage.getConstSumMessage(qnNumber, 0));
+        assertEquals("10 points left to distribute. The same amount of points should not be given multiple times.", submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "26");
-        assertEquals("9 points left to distribute.",submitPage.getConstSumMessage(qnNumber, 0));
+        assertEquals("9 points left to distribute.", submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 0, "50");
-        assertEquals("Over allocated 15 points.",submitPage.getConstSumMessage(qnNumber, 0));
+        assertEquals("Over allocated 15 points.", submitPage.getConstSumMessage(qnNumber, 0));
         submitPage.fillResponseTextBox(qnNumber, 0, 1, "50");
-        assertEquals("Over allocated 25 points. The same amount of points should not be given multiple times.",submitPage.getConstSumMessage(qnNumber, 0));
+        assertEquals("Over allocated 25 points. The same amount of points should not be given multiple times.", submitPage.getConstSumMessage(qnNumber, 0));
         
-        //For other const sum question, just test one message.
+        // For other const sum question, just test one message.
         qnNumber = 18;
-        assertEquals("100 points left to distribute.",submitPage.getConstSumMessage(qnNumber, 3));
-        
+        assertEquals("100 points left to distribute.", submitPage.getConstSumMessage(qnNumber, 3));
     }
     
-    private void testContribSubmitAction(){
+    private void testContribSubmitAction() {
         ______TS("test submit actions for contribution questions.");
         
-        //No tests from instructor since contribution questions are only from students to own team members.
-        //Test by logging in as student instead.
+        // No tests from instructor since contribution questions are only from students to own team members.
+        // Test by logging in as student instead.
         
-        
-        //Test input disabled
+        // Test input disabled
         submitPage = loginToStudentFeedbackSubmitPage("Danny", "Closed Session");
+        
         int qnNumber = 1;
         int responseNumber = 0;
+        
         assertTrue(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         
+        // Test that the recipient selection is disabled and not visible
+        assertFalse(submitPage.isNamedElementVisible(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
+        assertFalse(submitPage.isNamedElementEnabled(Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-" + qnNumber + "-" + responseNumber));
     }
     
-    private void fillResponseTextBoxWithRecheck(int qnNumber, int responseNumber, String text, String expected) {
-        int counter = 0;
-        while(counter != 100){
-            submitPage.fillResponseTextBox(qnNumber, responseNumber, text);
-            if(expected.equals(submitPage.getResponseTextBoxValue(qnNumber, responseNumber))){
-                return;
-            }
-            counter++;
-            browser.driver.switchTo().window("");
-        }
-        assertEquals(expected ,submitPage.getResponseTextBoxValue(qnNumber, responseNumber));
-    }
-    
-    private void testModifyData() throws EnrollException{
+    private void testModifyData() throws EnrollException {
         ______TS("modify data");
         
         // Next, we edit some student data to cover editing of students
@@ -566,19 +595,19 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
 
     private FeedbackSubmitPage loginToInstructorFeedbackSubmitPage(
             String instructorName, String fsName) {
-        Url editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                .withUserId(testData.instructors.get(instructorName).googleId)
-                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+        Url editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE).
+                withUserId(testData.instructors.get(instructorName).googleId).
+                withCourseId(testData.feedbackSessions.get(fsName).courseId).
+                withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
         return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
     }
     
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(
             String studentName, String fsName) {
-        Url editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                .withUserId(testData.students.get(studentName).googleId)
-                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+        Url editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE).
+                withUserId(testData.students.get(studentName).googleId).
+                withCourseId(testData.feedbackSessions.get(fsName).courseId).
+                withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
         return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
     }
 
@@ -593,5 +622,4 @@ public class InstructorFeedbackSubmitPageUiTest extends BaseUiTestCase {
     public static void classTearDown() throws Exception {
         BrowserPool.release(browser);
     }
-
 }
