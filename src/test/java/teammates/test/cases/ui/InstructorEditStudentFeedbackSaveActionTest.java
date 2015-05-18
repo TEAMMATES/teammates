@@ -27,8 +27,8 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        dataBundle = loadDataBundle("/InstructorEditStudentFeedbackSaveActionTest.json");
-        removeAndRestoreDatastoreFromJson("/InstructorEditStudentFeedbackSaveActionTest.json");
+        dataBundle = loadDataBundle("/InstructorEditStudentFeedbackPageTest.json");
+        removeAndRestoreDatastoreFromJson("/InstructorEditStudentFeedbackPageTest.json");
         
         uri = Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE;
     }
@@ -86,6 +86,8 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                      "&fsname=First+feedback+session",
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+        
+        ______TS("edit existing answer with different visibility settings");
         
         ______TS("deleted response");
         

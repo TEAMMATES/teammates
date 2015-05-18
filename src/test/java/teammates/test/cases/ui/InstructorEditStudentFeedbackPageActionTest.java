@@ -21,8 +21,8 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        dataBundle = loadDataBundle("/InstructorEditStudentFeedbackPageActionTest.json");
-        removeAndRestoreDatastoreFromJson("/InstructorEditStudentFeedbackPageActionTest.json");
+        dataBundle = loadDataBundle("/InstructorEditStudentFeedbackPageTest.json");
+        removeAndRestoreDatastoreFromJson("/InstructorEditStudentFeedbackPageTest.json");
         
         uri = Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
     }

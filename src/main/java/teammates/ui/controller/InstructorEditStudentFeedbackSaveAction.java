@@ -46,17 +46,20 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
+        
         for (int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
             String questionId = HttpRequestHelper.getValueFromParamMap(
                     requestParameters, 
                     Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
+            
             if (questionId == null) {
                 // we do not throw an error if the question was not present on the page for instructors to edit
                 continue;
             }
+            
             FeedbackQuestionAttributes questionAttributes = data.bundle.getQuestionAttributes(questionId);
             
-            if (questionAttributes == null){
+            if (questionAttributes == null) {
                 statusToUser.add("The feedback session or questions may have changed while you were submitting. Please check your responses to make sure they are saved correctly.");
                 isError = true;
                 log.warning("Question not found. (deleted or invalid id passed?) id: "+ questionId + " index: " + questionIndx);
