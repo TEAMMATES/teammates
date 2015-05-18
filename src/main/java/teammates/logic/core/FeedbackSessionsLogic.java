@@ -285,39 +285,9 @@ public class FeedbackSessionsLogic {
 
         for (FeedbackQuestionAttributes question : questions) {
 
-            List<FeedbackResponseAttributes> responses =
-                    frLogic.getFeedbackResponsesFromGiverForQuestion(
-                            question.getId(), userEmail);
-            Map<String, String> recipients =
-                    fqLogic.getRecipientsForQuestion(question, userEmail, instructorGiver, studentGiver);
-            // instructor can only see students in allowed sections for him/her
-            if (question.recipientType.equals(FeedbackParticipantType.STUDENTS)) {
-                Iterator<Map.Entry<String, String>> iter = recipients.entrySet().iterator();
-                while (iter.hasNext()) {
-                    Map.Entry<String, String> studentEntry = iter.next();
-                    StudentAttributes student = studentsLogic.getStudentForEmail(courseId, studentEntry.getKey());
-                    if (!instructor.isAllowedForPrivilege(student.section, 
-                            fsa.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
-                        iter.remove();
-                    }
-                }
-            }
-            // instructor can only see teams in allowed sections for him/her
-            if (question.recipientType.equals(FeedbackParticipantType.TEAMS)) {
-                Iterator<Map.Entry<String, String>> iter = recipients.entrySet().iterator();
-                while (iter.hasNext()) {
-                    Map.Entry<String, String> teamEntry = iter.next();
-                    String teamSection = studentsLogic.getSectionForTeam(courseId, teamEntry.getKey());
-                    if (!instructor.isAllowedForPrivilege(teamSection,
-                            fsa.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
-                        iter.remove();
-                    }
-                }
-            }
-            normalizeMaximumResponseEntities(question, recipients);
-
-            bundle.put(question, responses);
-            recipientList.put(question.getId(), recipients);
+            updateBundleAndRecipientListWithResponsesForInstructor(courseId, 
+                    userEmail, fsa, instructor, bundle, recipientList,
+                    question, instructorGiver, studentGiver);
         }
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
@@ -341,50 +311,63 @@ public class FeedbackSessionsLogic {
         Map<String, Map<String,String>> recipientList
             = new HashMap<String, Map<String,String>>();
         
-        List<FeedbackQuestionAttributes> questions = new ArrayList<FeedbackQuestionAttributes>();
-        questions.add(fqLogic.getFeedbackQuestion(feedbackQuestionId));
+        
+        FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);
         
         InstructorAttributes instructorGiver = instructor;
         StudentAttributes studentGiver = null;
 
-        for (FeedbackQuestionAttributes question : questions) {
-
-            List<FeedbackResponseAttributes> responses =
-                    frLogic.getFeedbackResponsesFromGiverForQuestion(
-                            question.getId(), userEmail);
-            Map<String, String> recipients =
-                    fqLogic.getRecipientsForQuestion(question, userEmail, instructorGiver, studentGiver);
-            // instructor can only see students in allowed sections for him/her
-            if (question.recipientType.equals(FeedbackParticipantType.STUDENTS)) {
-                Iterator<Map.Entry<String, String>> iter = recipients.entrySet().iterator();
-                while (iter.hasNext()) {
-                    Map.Entry<String, String> studentEntry = iter.next();
-                    StudentAttributes student = studentsLogic.getStudentForEmail(courseId, studentEntry.getKey());
-                    if (!instructor.isAllowedForPrivilege(student.section, 
-                            fsa.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
-                        iter.remove();
-                    }
-                }
-            }
-            // instructor can only see teams in allowed sections for him/her
-            if (question.recipientType.equals(FeedbackParticipantType.TEAMS)) {
-                Iterator<Map.Entry<String, String>> iter = recipients.entrySet().iterator();
-                while (iter.hasNext()) {
-                    Map.Entry<String, String> teamEntry = iter.next();
-                    String teamSection = studentsLogic.getSectionForTeam(courseId, teamEntry.getKey());
-                    if (!instructor.isAllowedForPrivilege(teamSection,
-                            fsa.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
-                        iter.remove();
-                    }
-                }
-            }
-            normalizeMaximumResponseEntities(question, recipients);
-
-            bundle.put(question, responses);
-            recipientList.put(question.getId(), recipients);
-        }
+        updateBundleAndRecipientListWithResponsesForInstructor(courseId,
+                userEmail, fsa, instructor, bundle, recipientList,
+                question, instructorGiver, studentGiver);
+    
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
+    }
+
+    private void updateBundleAndRecipientListWithResponsesForInstructor(
+            String courseId,
+            String userEmail,
+            FeedbackSessionAttributes fsa,
+            InstructorAttributes instructor,
+            Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle,
+            Map<String, Map<String, String>> recipientList,
+            FeedbackQuestionAttributes question,
+            InstructorAttributes instructorGiver, StudentAttributes studentGiver)
+            throws EntityDoesNotExistException {
+        List<FeedbackResponseAttributes> responses =
+                frLogic.getFeedbackResponsesFromGiverForQuestion(
+                        question.getId(), userEmail);
+        Map<String, String> recipients =
+                fqLogic.getRecipientsForQuestion(question, userEmail, instructorGiver, studentGiver);
+        // instructor can only see students in allowed sections for him/her
+        if (question.recipientType.equals(FeedbackParticipantType.STUDENTS)) {
+            Iterator<Map.Entry<String, String>> iter = recipients.entrySet().iterator();
+            while (iter.hasNext()) {
+                Map.Entry<String, String> studentEntry = iter.next();
+                StudentAttributes student = studentsLogic.getStudentForEmail(courseId, studentEntry.getKey());
+                if (!instructor.isAllowedForPrivilege(student.section, 
+                        fsa.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
+                    iter.remove();
+                }
+            }
+        }
+        // instructor can only see teams in allowed sections for him/her
+        if (question.recipientType.equals(FeedbackParticipantType.TEAMS)) {
+            Iterator<Map.Entry<String, String>> iter = recipients.entrySet().iterator();
+            while (iter.hasNext()) {
+                Map.Entry<String, String> teamEntry = iter.next();
+                String teamSection = studentsLogic.getSectionForTeam(courseId, teamEntry.getKey());
+                if (!instructor.isAllowedForPrivilege(teamSection,
+                        fsa.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
+                    iter.remove();
+                }
+            }
+        }
+        normalizeMaximumResponseEntities(question, recipients);
+
+        bundle.put(question, responses);
+        recipientList.put(question.getId(), recipients);
     }
 
     /**
@@ -422,15 +405,9 @@ public class FeedbackSessionsLogic {
 
         for (FeedbackQuestionAttributes question : questions) {
 
-            List<FeedbackResponseAttributes> responses =
-                    frLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(
-                            question, student);
-            Map<String, String> recipients =
-                    fqLogic.getRecipientsForQuestion(question, userEmail, instructorGiver, studentGiver);
-            normalizeMaximumResponseEntities(question, recipients);
-
-            bundle.put(question, responses);
-            recipientList.put(question.getId(), recipients);
+            updateBundleAndRecipientListWithResponses(userEmail, student,
+                    bundle, recipientList, question, instructorGiver,
+                    studentGiver);
         }
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
@@ -457,26 +434,37 @@ public class FeedbackSessionsLogic {
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle = new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
         Map<String, Map<String, String>> recipientList = new HashMap<String, Map<String, String>>();
 
-        List<FeedbackQuestionAttributes> questions = new ArrayList<FeedbackQuestionAttributes>();
-        questions.add(fqLogic.getFeedbackQuestion(feedbackQuestionId));
+        FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(feedbackQuestionId);
 
         InstructorAttributes instructorGiver = null;
         StudentAttributes studentGiver = student;
 
-        for (FeedbackQuestionAttributes question : questions) {
-
-            List<FeedbackResponseAttributes> responses =
-                    frLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(
-                            question, student);
-            Map<String, String> recipients =
-                    fqLogic.getRecipientsForQuestion(question, userEmail, instructorGiver, studentGiver);
-            normalizeMaximumResponseEntities(question, recipients);
-
-            bundle.put(question, responses);
-            recipientList.put(question.getId(), recipients);
-        }
+        
+        updateBundleAndRecipientListWithResponses(userEmail, student,
+                bundle, recipientList, question, instructorGiver,
+                studentGiver);
+        
 
         return new FeedbackSessionQuestionsBundle(fsa, bundle, recipientList);
+    }
+
+    private void updateBundleAndRecipientListWithResponses(
+            String userEmail,
+            StudentAttributes student,
+            Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> bundle,
+            Map<String, Map<String, String>> recipientList,
+            FeedbackQuestionAttributes question,
+            InstructorAttributes instructorGiver, StudentAttributes studentGiver)
+            throws EntityDoesNotExistException {
+        List<FeedbackResponseAttributes> responses =
+                frLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(
+                        question, student);
+        Map<String, String> recipients =
+                fqLogic.getRecipientsForQuestion(question, userEmail, instructorGiver, studentGiver);
+        normalizeMaximumResponseEntities(question, recipients);
+
+        bundle.put(question, responses);
+        recipientList.put(question.getId(), recipients);
     }
     
     public FeedbackSessionResponseStatus getFeedbackSessionResponseStatus(String feedbackSessionName, String courseId) throws EntityDoesNotExistException{
