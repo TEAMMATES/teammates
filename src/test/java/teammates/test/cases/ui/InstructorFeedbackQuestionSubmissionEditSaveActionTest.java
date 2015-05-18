@@ -19,6 +19,7 @@ import teammates.common.util.Const;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.InstructorFeedbackQuestionSubmissionEditSaveAction;
+import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
@@ -75,9 +76,9 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         };
         
         InstructorFeedbackQuestionSubmissionEditSaveAction a = getAction(submissionParams);
-        ShowPageResult r = (ShowPageResult) a.executeAndPostProcess();
+        RedirectResult r = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, r.destination);
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
@@ -93,14 +94,14 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", "",
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fq.questionType.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Qn Answer",
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId()
         };
         
         a = getAction(submissionParams);
-        r = (ShowPageResult) a.executeAndPostProcess();
+        r = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, r.destination);
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
@@ -135,9 +136,9 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         };
         
         a = getAction(submissionParams);
-        r = (ShowPageResult) a.executeAndPostProcess();
+        r = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, r.destination);
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
@@ -172,9 +173,9 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         };
         
         a = getAction(submissionParams);
-        r = (ShowPageResult) a.executeAndPostProcess();
+        r = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, r.destination);
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
@@ -194,9 +195,9 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         };
         
         a = getAction(submissionParams);
-        r = (ShowPageResult) a.executeAndPostProcess();
+        r = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, r.destination);
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
@@ -218,7 +219,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         
         try {
             a = getAction(submissionParams);
-            r = (ShowPageResult) a.executeAndPostProcess();
+            r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (IllegalArgumentException e) {
             ignoreExpectedException();
@@ -259,9 +260,9 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         };
         
         a = getAction(submissionParams);
-        r = (ShowPageResult) a.executeAndPostProcess();
+        r = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, r.destination);
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
@@ -279,9 +280,9 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         };
         
         a = getAction(submissionParams);
-        r = (ShowPageResult) a.executeAndPostProcess();
+        r = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, r.destination);
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
@@ -299,9 +300,9 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         };
         
         a = getAction(submissionParams);
-        r = (ShowPageResult) a.executeAndPostProcess();
+        r = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, r.destination);
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
@@ -319,9 +320,9 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         };
         
         a = getAction(submissionParams);
-        r = (ShowPageResult) a.executeAndPostProcess();
+        r = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, r.destination);
         assertTrue(r.isError);
         assertNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, "invalid_recipient_email"));
         
@@ -351,9 +352,9 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         };
         
         a = getAction(submissionParams);
-        r = (ShowPageResult) a.executeAndPostProcess();
+        r = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, r.destination);
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
@@ -379,14 +380,17 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fq.questionType.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Qn Answer",
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Qn Answer 1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId()
         };
         
         a = getAction(submissionParams);
-        r = (ShowPageResult) a.executeAndPostProcess();
+        r = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSION_EXCEEDED_DEADLINE, r.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, r.getStatusMessage());
+        
+        FeedbackResponseAttributes updatedResponse = frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail);
+        assertEquals(fr.responseMetaData, updatedResponse.responseMetaData);
         
         ______TS("private session edit answer");
         
@@ -413,9 +417,9 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         };
         
         a = getAction(submissionParams);
-        r = (ShowPageResult) a.executeAndPostProcess();
+        r = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, r.destination);
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, r.destination);
         assertFalse(r.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, r.getStatusMessage());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
@@ -434,7 +438,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         
         try {
             a = getAction(submissionParams);
-            r = (ShowPageResult) a.executeAndPostProcess();
+            r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
@@ -455,7 +459,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         
         try {
             a = getAction(submissionParams);
-            r = (ShowPageResult) a.executeAndPostProcess();
+            r = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
