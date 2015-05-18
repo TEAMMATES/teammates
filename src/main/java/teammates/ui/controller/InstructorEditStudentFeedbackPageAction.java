@@ -22,7 +22,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        String moderatedStudentIdentifier = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT);
+        String moderatedEntityIdentifier = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT);
 
         Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
                                                Const.ParamsNames.COURSE_ID), 
@@ -32,17 +32,17 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
                                  feedbackSessionName);
         Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
                                                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT),
-                                 moderatedStudentIdentifier);
+                                 moderatedEntityIdentifier);
 
         
-        StudentAttributes studentUnderModeration = logic.getStudentForEmail(courseId, moderatedStudentIdentifier); 
+        StudentAttributes studentUnderModeration = logic.getStudentForEmail(courseId, moderatedEntityIdentifier); 
         
         if (studentUnderModeration == null) {
             List<TeamDetailsBundle> teams = logic.getTeamsForCourse(courseId);
             boolean isTeam = false;
             
             for (TeamDetailsBundle team : teams) {
-                if (team.name.equals(moderatedStudentIdentifier)) {
+                if (team.name.equals(moderatedEntityIdentifier)) {
                     isTeam = true;
                     studentUnderModeration = team.students.get(0);
                     break;
@@ -50,8 +50,8 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
             }
             
             if (!isTeam) {
-                throw new EntityDoesNotExistException("Identifier "
-                        + moderatedStudentIdentifier + " does not exist in " + courseId
+                throw new EntityDoesNotExistException("An entity with the identifier "
+                        + moderatedEntityIdentifier + " does not exist in " + courseId
                         + ".");
             }
         }
