@@ -11,9 +11,9 @@ public class InstructorCourseArchiveAction extends Action {
 
         String idOfCourseToArchive = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(idOfCourseToArchive);
-        String setArchiveStatus = getRequestParamValue(Const.ParamsNames.COURSE_ARCHIVE_STATUS);
-        Assumption.assertNotNull(setArchiveStatus);
-        boolean setArchive = Boolean.parseBoolean(setArchiveStatus);
+        String archiveStatus = getRequestParamValue(Const.ParamsNames.COURSE_ARCHIVE_STATUS);
+        Assumption.assertNotNull(archiveStatus);
+        boolean isArchive = Boolean.parseBoolean(archiveStatus);
         
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(idOfCourseToArchive, account.googleId),
@@ -21,8 +21,8 @@ public class InstructorCourseArchiveAction extends Action {
         
         try {
             // Set the archive status and status shown to user and admin
-            logic.setArchiveStatusOfInstructor(account.googleId, idOfCourseToArchive, setArchive);
-            if (setArchive) {
+            logic.setArchiveStatusOfInstructor(account.googleId, idOfCourseToArchive, isArchive);
+            if (isArchive) {
                 if (isRedirectedToHomePage()) {
                     statusToUser.add(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, idOfCourseToArchive));
                 } else {

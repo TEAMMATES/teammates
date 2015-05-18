@@ -27,7 +27,6 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
         new GateKeeper().verifyAccessible(instructor,
                 session,
                 false, moderatedStudent.section, 
-                session.feedbackSessionName, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         
     }
