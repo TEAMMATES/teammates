@@ -218,6 +218,10 @@ public class StudentAttributesTest extends BaseTestCase {
         other = new StudentAttributes(generateTypicalStudentObject());
         other.team = "otherTeam";
         assertFalse(student.isEnrollInfoSameAs(other));
+
+        ______TS("Typical case: Different in section");
+        other = new StudentAttributes(generateStudentWithoutSectionObject());
+        assertFalse(student.isEnrollInfoSameAs(other));
     }
 
     @Test
@@ -328,6 +332,12 @@ public class StudentAttributesTest extends BaseTestCase {
     private Student generateTypicalStudentObject() {
         Student expected = new Student("email@email.com", "name 1",
                 "googleId.1", "comment 1", "courseId1", "team 1", "sect 1");
+        return expected;
+    }
+
+    private Student generateStudentWithoutSectionObject() {
+        Student expected = new Student("email@email.com", "name 1",
+                "googleId.1", "comment 1", "courseId1", "team 1", null);
         return expected;
     }
 

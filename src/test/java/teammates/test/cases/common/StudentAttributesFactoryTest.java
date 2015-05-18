@@ -84,6 +84,16 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
             assertEquals(StudentAttributesFactory.ERROR_HEADER_ROW_FIELD_REPEATED,
                     e.getMessage());
         }
+        
+        // adding this for complete coverage
+        ______TS("fail: repeated required columns");
+        headerRow = "name \t email \t team \t comments \t section \t email \t team \t comments \t section ";            
+        try {
+            saf = new StudentAttributesFactory(headerRow);
+            signalFailureToDetectException();
+        } catch (EnrollException e) {
+            // similar as the previous case, so not tested again
+        }
 
         // remaining cases have been implicitly tested in testMakeStudent()
     }
