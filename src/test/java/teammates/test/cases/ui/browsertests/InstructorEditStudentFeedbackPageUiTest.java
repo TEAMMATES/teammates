@@ -2,6 +2,7 @@ package teammates.test.cases.ui.browsertests;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;

@@ -87,8 +87,6 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
                      r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
-        ______TS("edit existing answer with different visibility settings");
-        
         ______TS("deleted response");
         
         submissionParams = new String[]{
@@ -217,14 +215,14 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         ______TS("Unsuccessful case: test no moderated student parameter");
         
         submissionParams = new String[]{
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-2", "1",
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-2-0", fr.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, fr.courseId,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-2", fr.feedbackQuestionId,
-                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-2-0", "",
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-2", fr.feedbackQuestionType.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-2-0", "Edited" + fr.getResponseDetails().getAnswerString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", "",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString(),
         };
         
         try {
@@ -502,6 +500,62 @@ public class InstructorEditStudentFeedbackSaveActionTest extends BaseActionTest 
         @SuppressWarnings("unused")
         // unused but still needed to allow detection of exception
         RedirectResult r;
+        
+        try {
+            a = getAction(submissionParams);
+            r = (RedirectResult) a.executeAndPostProcess();
+            signalFailureToDetectException("Did not detect that this instructor cannot access this particular question.");
+        } catch (UnauthorizedAccessException e) {
+            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] is not accessible to instructor [" + 
+                    instructor.email + "]", e.getMessage());
+        }
+
+        fq = fqDb.getFeedbackQuestion("First feedback session", "IESFPTCourse", 4);
+        assertNotNull("Feedback question not found in database", fq);
+
+        fr = dataBundle.feedbackResponses.get("response1ForQ4");
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); // necessary to get the correct responseId
+        assertNotNull("Feedback response not found in database", fr);
+        
+        submissionParams = new String[]{
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString(),
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+        };
+        
+        try {
+            a = getAction(submissionParams);
+            r = (RedirectResult) a.executeAndPostProcess();
+            signalFailureToDetectException("Did not detect that this instructor cannot access this particular question.");
+        } catch (UnauthorizedAccessException e) {
+            assertEquals("Feedback session [First feedback session] question [" + fr.feedbackQuestionId + "] is not accessible to instructor [" + 
+                    instructor.email + "]", e.getMessage());
+        }
+        
+        fq = fqDb.getFeedbackQuestion("First feedback session", "IESFPTCourse", 5);
+        assertNotNull("Feedback question not found in database", fq);
+
+        fr = dataBundle.feedbackResponses.get("response1ForQ5");
+        fr = frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail); // necessary to get the correct responseId
+        assertNotNull("Feedback response not found in database", fr);
+        
+        submissionParams = new String[]{
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Edited" + fr.getResponseDetails().getAnswerString(),
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+        };
         
         try {
             a = getAction(submissionParams);
