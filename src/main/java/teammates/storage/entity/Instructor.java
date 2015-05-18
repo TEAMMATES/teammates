@@ -66,8 +66,9 @@ public class Instructor {
     @Persistent
     private Text instructorPrivilegesAsText;
     
-    public Instructor(String instructorGoogleId, String courseId, Boolean isArchived, String instructorName, String instructorEmail,
-            String role, boolean isDisplayedToStudents, String displayedName, String instructorPrivilegesAsText) {
+    public Instructor(String instructorGoogleId, String courseId, Boolean isArchived, String instructorName, 
+                      String instructorEmail,String role, boolean isDisplayedToStudents, 
+                      String displayedName, String instructorPrivilegesAsText) {
         this.setGoogleId(instructorGoogleId);
         this.setCourseId(courseId);
         this.setIsArchived(isArchived);
@@ -85,8 +86,9 @@ public class Instructor {
     /**
      * Constructor used for testing purpose only.
      */
-    public Instructor(String instructorGoogleId, String courseId, String instructorName, String instructorEmail, 
-            String key, String role, boolean isDisplayedToStudents, String displayedName, String instructorPrivilegesAsText) {
+    public Instructor(String instructorGoogleId, String courseId, String instructorName, 
+                      String instructorEmail, String key, String role, boolean isDisplayedToStudents, 
+                      String displayedName, String instructorPrivilegesAsText) {
         this.setGoogleId(instructorGoogleId);
         this.setCourseId(courseId);
         this.setName(instructorName);

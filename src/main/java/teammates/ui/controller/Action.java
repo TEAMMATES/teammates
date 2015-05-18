@@ -8,8 +8,6 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.google.appengine.api.datastore.Text;
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
@@ -21,7 +19,6 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
-import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.logic.api.Logic;
@@ -104,7 +101,9 @@ public abstract class Action {
     }
     
     protected AccountAttributes authenticateAndGetActualUser(UserType currentUser) {
-        if (doesUserNeedToLogin(currentUser)) return null;
+        if (doesUserNeedToLogin(currentUser)) {
+            return null;
+        }
         
         AccountAttributes loggedInUser = null;
         
@@ -158,9 +157,9 @@ public abstract class Action {
                     String expectedId = StringHelper.obscure(student.googleId);
                     expectedId = StringHelper.encrypt(expectedId);
                     Url redirectUrl = new Url(Const.ViewURIs.LOGOUT)
-                                          .withParam(Const.ParamsNames.NEXT_URL, Logic.getLoginUrl(requestUrl))
-                                          .withParam(Const.ParamsNames.HINT, expectedId)
-                                          .withUserId(StringHelper.encrypt(loggedInUserId)); 
+                                              .withParam(Const.ParamsNames.NEXT_URL, Logic.getLoginUrl(requestUrl))
+                                              .withParam(Const.ParamsNames.HINT, expectedId)
+                                              .withUserId(StringHelper.encrypt(loggedInUserId)); 
                     
                     setRedirectPage(redirectUrl.toString());
                     return false;
@@ -172,9 +171,9 @@ public abstract class Action {
 
     protected AccountAttributes authenticateNotLoggedInUser(String email, String courseId) {
         student = logic.getStudentForRegistrationKey(regkey);
-        boolean isUnknownKey = student == null;
+        boolean isUnknownKey = (student == null);
         boolean isARegisteredUser = !isUnknownKey && student.googleId != null && !student.googleId.isEmpty();
-        boolean isMissingAdditionalAuthenticationInfo = email == null || courseId == null;
+        boolean isMissingAdditionalAuthenticationInfo = (email == null) || (courseId == null);
         boolean isAuthenticationFailure = !isUnknownKey && (!student.email.equals(email) || !student.course.equals(courseId));
         
         AccountAttributes loggedInUser = null;
@@ -221,10 +220,10 @@ public abstract class Action {
         
         if (!isMasqueradeModeRequested(loggedInUser, paramRequestedUserId)) {
             account = loggedInUser;
-            boolean isUserLoggedIn = account.googleId != null;
+            boolean isUserLoggedIn = (account.googleId != null);
             if (isPersistenceIssue() && isHomePage()) {
                 // let the user go through as this is a persistence issue
-            } else if(doesUserNeedRegistration(account) && !loggedInUserType.isAdmin) {
+            } else if (doesUserNeedRegistration(account) && !loggedInUserType.isAdmin) {
                 if (regkey != null && student != null) {
                     // TODO: encrypt the email as currently anyone with the regkey can
                     //       get the email because of this redirect:                    
@@ -362,7 +361,7 @@ public abstract class Action {
         response.responseParams.put(Const.ParamsNames.ERROR, "" + response.isError);
         
         // Pass status message using session to prevent XSS attack
-        if (!response.getStatusMessage().isEmpty()){
+        if (!response.getStatusMessage().isEmpty()) {
             putStatusMessageToSession(response);
         }
         
@@ -396,13 +395,12 @@ public abstract class Action {
     public String getLogMessage() {
         UserType currentUser = logic.getCurrentUser();
         
-        ActivityLogEntry activityLogEntry = new ActivityLogEntry(
-                account, 
-                isInMasqueradeMode(),
-                statusToAdmin, 
-                requestUrl,
-                student,
-                currentUser);
+        ActivityLogEntry activityLogEntry = new ActivityLogEntry(account, 
+                                                                 isInMasqueradeMode(),
+                                                                 statusToAdmin, 
+                                                                 requestUrl,
+                                                                 student,
+                                                                 currentUser);
         
         return activityLogEntry.generateLogMessage();
     }
@@ -429,24 +427,22 @@ public abstract class Action {
      * Generates a {@link ShowPageResult} with the information in this object.
      */
     public ShowPageResult createShowPageResult(String destination, PageData pageData) {
-        return new ShowPageResult(
-                destination, 
-                account,
-                requestParameters,
-                pageData,
-                statusToUser);
+        return new ShowPageResult(destination, 
+                                  account,
+                                  requestParameters,
+                                  pageData,
+                                  statusToUser);
     }
     
     /**
      * Generates a {@link ShowPageResult} with the information in this object.
      */
     public AjaxResult createAjaxResult(String destination, PageData pageData) {
-        return new AjaxResult(
-                destination, 
-                account,
-                requestParameters,
-                statusToUser,
-                pageData);
+        return new AjaxResult(destination, 
+                              account,
+                              requestParameters,
+                              statusToUser,
+                              pageData);
     }
     
     protected boolean isJoinedCourse(String courseId, String googleId) {
@@ -461,24 +457,22 @@ public abstract class Action {
      * Generates a {@link RedirectResult} with the information in this object.
      */
     public RedirectResult createRedirectResult(String destination) {
-        return new RedirectResult(
-                destination, 
-                account,
-                requestParameters,
-                statusToUser);
+        return new RedirectResult(destination, 
+                                  account,
+                                  requestParameters,
+                                  statusToUser);
     }
     
     /**
      * Generates a {@link FileDownloadResult} with the information in this object.
      */
     public FileDownloadResult createFileDownloadResult(String fileName, String fileContent) {
-        return new FileDownloadResult(
-                "filedownload", 
-                account,
-                requestParameters,
-                statusToUser,
-                fileName,
-                fileContent);
+        return new FileDownloadResult("filedownload", 
+                                      account,
+                                      requestParameters,
+                                      statusToUser,
+                                      fileName,
+                                      fileContent);
     }
 
     protected ActionResult createPleaseJoinCourseResponse(String courseId) {
@@ -490,12 +484,11 @@ public abstract class Action {
     }
     
     protected ActionResult createImageResult(String blobKey) {
-        return new ImageResult(
-                "imagedisplay",
-                blobKey,
-                account,
-                requestParameters,
-                statusToUser);
+        return new ImageResult("imagedisplay",
+                               blobKey,
+                               account,
+                               requestParameters,
+                               statusToUser);
     }
 
     /**
@@ -523,7 +516,7 @@ public abstract class Action {
 
     protected boolean isInMasqueradeMode() {
         try { 
-            return !loggedInUser.googleId.equals(account.googleId);
+            return (!loggedInUser.googleId.equals(account.googleId));
         } catch (NullPointerException e) {
             return false;
         }

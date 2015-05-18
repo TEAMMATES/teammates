@@ -14,6 +14,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
+import teammates.logic.api.Logic;
 
 /**
  * Action: adding a course for an instructor
@@ -39,7 +40,7 @@ public class InstructorCourseAddAction extends Action {
         /* Prepare data for the refreshed page after executing the adding action */
         data.allCourses = new ArrayList<CourseDetailsBundle>(
                 logic.getCourseSummariesForInstructor(data.account.googleId)
-                        .values());
+                     .values());
         data.archivedCourses = extractArchivedCourses(data.allCourses);
         CourseDetailsBundle.sortDetailedCoursesByCourseId(data.allCourses);
         data.instructors = new HashMap<String, InstructorAttributes>();
@@ -65,11 +66,12 @@ public class InstructorCourseAddAction extends Action {
     private void createCourse(CourseAttributes course) {
 
         try {
-            logic.createCourseAndInstructor(data.account.googleId, course.id,
-                    course.name);
+            logic.createCourseAndInstructor(data.account.googleId, 
+                                            course.id,
+                                            course.name);
             String statusMessage = Const.StatusMessages.COURSE_ADDED.replace("${courseEnrollLink}",
-                    data.getInstructorCourseEnrollLink(course.id))
-                    .replace("${courseEditLink}",data.getInstructorCourseEditLink(course.id));
+                    data.getInstructorCourseEnrollLink(course.id)).replace("${courseEditLink}",
+                    data.getInstructorCourseEditLink(course.id));
             statusToUser.add(statusMessage);
             isError = false;
 
@@ -84,8 +86,7 @@ public class InstructorCourseAddAction extends Action {
         }
     }
 
-    private List<CourseAttributes> extractArchivedCourses(
-            List<CourseDetailsBundle> courseBundles) {
+    private List<CourseAttributes> extractArchivedCourses(List<CourseDetailsBundle> courseBundles) {
         ArrayList<CourseAttributes> archivedCourses = new ArrayList<CourseAttributes>();
 
         for (CourseDetailsBundle courseBundle : courseBundles) {
@@ -93,12 +94,10 @@ public class InstructorCourseAddAction extends Action {
 
             InstructorAttributes curInstructor = logic.getInstructorForGoogleId(course.id, account.googleId);
 
-            if (logic.isCourseArchived(course.id, curInstructor.googleId)) {
+            if (Logic.isCourseArchived(course.id, curInstructor.googleId)) {
                 archivedCourses.add(course);
             }
         }
-
         return archivedCourses;
     }
-
 }

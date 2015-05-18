@@ -73,13 +73,13 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                 Const.ParamsNames.COURSE_NAME, "ticac tpa1 name");
         pageResult = (ShowPageResult) addAction.executeAndPostProcess();
         
-        pageData = (InstructorCoursesPageData)pageResult.data;
+        pageData = (InstructorCoursesPageData) pageResult.data;
         assertEquals(2, pageData.allCourses.size());
         
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd" 
-                + "|||instructorCourseAdd|||true|||Instructor|||Instructor 1 of Course 1" 
-                + "|||idOfInstructor1OfCourse1|||instr1@course1.tmt" 
-                + "|||Course added : ticac.tpa1.id<br>Total courses: 2|||/page/instructorCourseAdd";
+                             + "|||instructorCourseAdd|||true|||Instructor|||Instructor 1 of Course 1" 
+                             + "|||idOfInstructor1OfCourse1|||instr1@course1.tmt" 
+                             + "|||Course added : ticac.tpa1.id<br>Total courses: 2|||/page/instructorCourseAdd";
         assertEquals(expectedLogMessage, addAction.getLogMessage());
         
         
@@ -90,24 +90,22 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         
         ______TS("Error: Try to add the same course again");
         
-        addAction = getAction(
-                Const.ParamsNames.COURSE_ID, "ticac.tpa1.id",
-                Const.ParamsNames.COURSE_NAME, "ticac tpa1 name");
-        pageResult = (ShowPageResult)addAction.executeAndPostProcess();
+        addAction = getAction(Const.ParamsNames.COURSE_ID, "ticac.tpa1.id",
+                              Const.ParamsNames.COURSE_NAME, "ticac tpa1 name");
+        pageResult = (ShowPageResult) addAction.executeAndPostProcess();
         
-        assertEquals(
-                Const.ViewURIs.INSTRUCTOR_COURSES+"?error=true&user=idOfInstructor1OfCourse1", 
-                pageResult.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=true&user=idOfInstructor1OfCourse1", 
+                     pageResult.getDestinationWithParams());
         assertEquals(true, pageResult.isError);
         assertEquals(Const.StatusMessages.COURSE_EXISTS, pageResult.getStatusMessage());
         
-        pageData = (InstructorCoursesPageData)pageResult.data;
+        pageData = (InstructorCoursesPageData) pageResult.data;
         assertEquals(2, pageData.allCourses.size());
         
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd"
-                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1"
-                + "|||instr1@course1.tmt|||A course by the same ID already exists in the system, possibly created by another user. Please choose a different course ID"
-                + "|||/page/instructorCourseAdd";
+                             + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1"
+                             + "|||instr1@course1.tmt|||A course by the same ID already exists in the system, possibly created by another user. Please choose a different course ID"
+                             + "|||/page/instructorCourseAdd";
         assertEquals(expectedLogMessage, addAction.getLogMessage());
         
         ______TS("Masquerade mode, 0 courses");
@@ -115,10 +113,9 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         CoursesLogic.inst().deleteCourseCascade(instructor1OfCourse1.courseId);
         CoursesLogic.inst().deleteCourseCascade("ticac.tpa1.id");
         gaeSimulation.loginAsAdmin(adminUserId);
-        addAction = getAction(
-                Const.ParamsNames.USER_ID, instructorId,
-                Const.ParamsNames.COURSE_ID, "ticac.tpa2.id",
-                Const.ParamsNames.COURSE_NAME, "ticac tpa2 name");
+        addAction = getAction(Const.ParamsNames.USER_ID, instructorId,
+                              Const.ParamsNames.COURSE_ID, "ticac.tpa2.id",
+                              Const.ParamsNames.COURSE_NAME, "ticac tpa2 name");
         pageResult = (ShowPageResult) addAction.executeAndPostProcess();
         
         String expectedDestination = Const.ViewURIs.INSTRUCTOR_COURSES + "?error=false&user=idOfInstructor1OfCourse1";
@@ -128,13 +125,13 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                         "click <a href=\"/page/instructorCourseEditPage?courseid=ticac.tpa2.id&user=idOfInstructor1OfCourse1\">here</a> to add other instructors.<br>If you don't see the course in the list below, please refresh the page after a few moments.";
         assertEquals(expectedStatus, pageResult.getStatusMessage());
         
-        pageData = (InstructorCoursesPageData)pageResult.data;
+        pageData = (InstructorCoursesPageData) pageResult.data;
         assertEquals(1, pageData.allCourses.size());
         
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd" 
-                + "|||true|||Instructor(M)|||Instructor 1 of Course 1" 
-                + "|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||Course added : ticac.tpa2.id<br>Total courses: 1" 
-                + "|||/page/instructorCourseAdd";
+                             + "|||true|||Instructor(M)|||Instructor 1 of Course 1" 
+                             + "|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||Course added : ticac.tpa2.id<br>Total courses: 1" 
+                             + "|||/page/instructorCourseAdd";
         assertEquals(expectedLogMessage, addAction.getLogMessage());
         
         // delete the new course
@@ -142,7 +139,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
     }
     
     private Action getAction(String... parameters) throws Exception {
-        return (Action)gaeSimulation.getActionObject(uri, parameters);
+        return (Action) gaeSimulation.getActionObject(uri, parameters);
     }
 
 }
