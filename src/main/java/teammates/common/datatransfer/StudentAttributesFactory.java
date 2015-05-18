@@ -20,7 +20,7 @@ public class StudentAttributesFactory {
 
     public static final String ERROR_ENROLL_LINE_EMPTY = "Enroll line was empty\n";
     public static final String ERROR_ENROLL_LINE_TOOFEWPARTS = "Enroll line had fewer than the minimally expected "
-            + MIN_FIELD_COUNT + " columns (Team, Name and Email)\n";
+                                                             + MIN_FIELD_COUNT + " columns (Team, Name and Email)\n";
 
     public static final int FIRST_COLUMN_INDEX = 0;
     public static final int SECOND_COLUMN_INDEX = 1;

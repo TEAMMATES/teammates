@@ -115,7 +115,7 @@ public class StudentProfilePage extends AppPage {
                 break;
             default:
                 throw new InvalidParametersException("Given gender " + gender
-                        + " is not valid!");
+                                                     + " is not valid!");
         }
     }
 
@@ -170,16 +170,17 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void verifyPhotoSize(int height, int width) throws Exception {
-        assertEquals(String.valueOf(height), browser.driver.
-                findElement(By.id("pictureHeight")).getAttribute("value"));
-        assertEquals(String.valueOf(width), browser.driver.
-                findElement(By.id("pictureWidth")).getAttribute("value"));
+        assertEquals(String.valueOf(height),
+                     browser.driver.findElement(By.id("pictureHeight")).getAttribute("value"));
+        assertEquals(String.valueOf(width),
+                     browser.driver.findElement(By.id("pictureWidth")).getAttribute("value"));
     }
 
     // TODO method unused
     public void verifyPictureIsVisible(int height) throws Exception {
-        assertEquals(height, Integer.parseInt(browser.driver.
-                findElement(By.className("jcrop-holder")).getCssValue("height")));
+        assertEquals(height, Integer.parseInt(browser.driver
+                                                     .findElement(By.className("jcrop-holder"))
+                                                     .getCssValue("height")));
     }
 
 }

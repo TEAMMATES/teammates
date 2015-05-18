@@ -41,18 +41,18 @@ public class StudentProfilePictureAction extends Action {
         log.info("email: " + email + ", course: " + courseId);
 
         StudentAttributes student = getStudentForGivenParameters(courseId, email);
-        new GateKeeper().verifyAccessibleForCurrentUserAsInstructor(account,
-                courseId, student.section);
+        new GateKeeper().verifyAccessibleForCurrentUserAsInstructor(account, courseId,
+                                                                    student.section);
 
         return createImageResult(getPictureKeyForStudent(student));
     }
 
-    private StudentAttributes getStudentForGivenParameters(String courseId,
-            String email) throws EntityDoesNotExistException {
+    private StudentAttributes getStudentForGivenParameters(String courseId, String email)
+            throws EntityDoesNotExistException {
         StudentAttributes student = logic.getStudentForEmail(courseId, email);
         if (student == null) {
-            throw new EntityDoesNotExistException("student with " +
-                    courseId + "/" + email);
+            throw new EntityDoesNotExistException("student with " + courseId
+                                                  + "/" + email);
         }
         return student;
     }

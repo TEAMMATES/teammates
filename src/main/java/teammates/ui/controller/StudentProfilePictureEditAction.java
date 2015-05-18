@@ -78,8 +78,9 @@ public class StudentProfilePictureEditAction extends Action {
         GcsFilename fileName = new GcsFilename(Config.GCS_BUCKETNAME, account.googleId);
 
         GcsService gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
-        GcsOutputChannel outputChannel = gcsService
-                .createOrReplace(fileName, new GcsFileOptions.Builder().mimeType("image/png").build());
+        GcsOutputChannel outputChannel =
+                gcsService.createOrReplace(fileName,
+                                           new GcsFileOptions.Builder().mimeType("image/png").build());
 
         outputChannel.write(ByteBuffer.wrap(transformedImage));
         outputChannel.close();
@@ -117,22 +118,22 @@ public class StudentProfilePictureEditAction extends Action {
         Assumption.assertNotNull(_blobKey);
 
         Image oldImage = ImagesServiceFactory.makeImageFromBlob(_blobKey);
-        CompositeTransform finalTransform = getCompositeTransformToApply(leftX,
-                topY, rightX, bottomY);
+        CompositeTransform finalTransform = getCompositeTransformToApply(leftX, topY,
+                                                                         rightX, bottomY);
         OutputSettings settings = new OutputSettings(ImagesService.OutputEncoding.PNG);
 
         return ImagesServiceFactory.getImagesService()
-                .applyTransform(finalTransform, oldImage, settings);
+                                   .applyTransform(finalTransform, oldImage, settings);
     }
 
     private CompositeTransform getCompositeTransformToApply(Double leftX, Double topY,
                                                             Double rightX, Double bottomY) {
         Transform crop = ImagesServiceFactory.makeCrop(leftX, topY, rightX, bottomY);
         Transform resize = ImagesServiceFactory.makeResize(150, 150);
-        CompositeTransform finalTransform = ImagesServiceFactory
-                .makeCompositeTransform()
-                .concatenate(crop)
-                .concatenate(resize);
+        CompositeTransform finalTransform =
+                ImagesServiceFactory.makeCompositeTransform()
+                                    .concatenate(crop)
+                                    .concatenate(resize);
         return finalTransform;
     }
 
@@ -141,7 +142,7 @@ public class StudentProfilePictureEditAction extends Action {
      */
     private boolean validatePostParameters() {
         if (_leftXString.isEmpty() || _topYString.isEmpty()
-                || _rightXString.isEmpty() || _bottomYString.isEmpty()) {
+         || _rightXString.isEmpty() || _bottomYString.isEmpty()) {
             isError = true;
             statusToUser.add("Given crop locations were not valid. Please try again");
             statusToAdmin = Const.ACTION_RESULT_FAILURE
@@ -180,42 +181,48 @@ public class StudentProfilePictureEditAction extends Action {
 
     private BlobKey getBlobKey() {
         Assumption.assertPostParamNotNull(Const.ParamsNames.BLOB_KEY,
-                getRequestParamValue(Const.ParamsNames.BLOB_KEY));
+                                          getRequestParamValue(Const.ParamsNames.BLOB_KEY));
         return new BlobKey(getRequestParamValue(Const.ParamsNames.BLOB_KEY));
     }
 
     private String getPictureWidth() {
-        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_WIDTH,
+        Assumption.assertPostParamNotNull(
+                Const.ParamsNames.PROFILE_PICTURE_WIDTH,
                 getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_WIDTH));
         return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_WIDTH);
     }
 
     private String getPictureHeight() {
-        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_HEIGHT,
+        Assumption.assertPostParamNotNull(
+                Const.ParamsNames.PROFILE_PICTURE_HEIGHT,
                 getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_HEIGHT));
         return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_HEIGHT);
     }
 
     private String getBottomYString() {
-        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_BOTTOMY,
+        Assumption.assertPostParamNotNull(
+                Const.ParamsNames.PROFILE_PICTURE_BOTTOMY,
                 getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_BOTTOMY));
         return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_BOTTOMY);
     }
 
     private String getRightXString() {
-        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_RIGHTX,
+        Assumption.assertPostParamNotNull(
+                Const.ParamsNames.PROFILE_PICTURE_RIGHTX,
                 getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_RIGHTX));
         return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_RIGHTX);
     }
 
     private String getTopYString() {
-        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_TOPY, 
+        Assumption.assertPostParamNotNull(
+                Const.ParamsNames.PROFILE_PICTURE_TOPY, 
                 getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_TOPY));
         return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_TOPY);
     }
 
     private String getLeftXString() {
-        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_LEFTX, 
+        Assumption.assertPostParamNotNull(
+                Const.ParamsNames.PROFILE_PICTURE_LEFTX, 
                 getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_LEFTX));
         return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_LEFTX);
     }

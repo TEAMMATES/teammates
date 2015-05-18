@@ -73,8 +73,8 @@ public class StudentAttributes extends EntityAttributes {
 
     public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
 
-    public StudentAttributes(String id, String email, String name,
-                             String comments, String courseId, String team, String section) {
+    public StudentAttributes(String id, String email, String name, String comments,
+                             String courseId, String team, String section) {
         this(section, team, name, email, comments, courseId);
         this.googleId = Sanitizer.sanitizeGoogleId(id);
     }
@@ -103,12 +103,13 @@ public class StudentAttributes extends EntityAttributes {
         this.lastName = student.getLastName();
         this.comments = Sanitizer.sanitizeTextField(student.getComments());
         this.team = Sanitizer.sanitizeTitle(student.getTeamName());
-        this.section = ((student.getSectionName() == null) ? Const.DEFAULT_SECTION
-                : Sanitizer.sanitizeTitle(student.getSectionName()));
-        this.googleId = ((student.getGoogleId() == null) ? ""
-                : student.getGoogleId());
+        this.section = (student.getSectionName() == null)
+                     ? Const.DEFAULT_SECTION
+                     : Sanitizer.sanitizeTitle(student.getSectionName());
+        this.googleId = (student.getGoogleId() == null) ? ""
+                                                        : student.getGoogleId();
         Long keyAsLong = student.getRegistrationKey();
-        this.key = (keyAsLong == null ? null : Student.getStringKeyForLongKey(keyAsLong));
+        this.key = (keyAsLong == null) ? null : Student.getStringKeyForLongKey(keyAsLong);
         /*
          * TODO: this is for backward compatibility with old system.
          * Old system considers "" as unregistered.
@@ -135,17 +136,17 @@ public class StudentAttributes extends EntityAttributes {
 
     public String getRegistrationUrl() {
         return new Url(Config.APP_URL + Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
-                .withRegistrationKey(StringHelper.encrypt(key))
-                .withStudentEmail(email)
-                .withCourseId(course)
-                .toString();
+                       .withRegistrationKey(StringHelper.encrypt(key))
+                       .withStudentEmail(email)
+                       .withCourseId(course)
+                       .toString();
     }
 
     public String getPublicProfilePictureUrl() {
         return new Url(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
-                .withStudentEmail(StringHelper.encrypt(email))
-                .withCourseId(StringHelper.encrypt(course))
-                .toString();
+                       .withStudentEmail(StringHelper.encrypt(email))
+                       .withCourseId(StringHelper.encrypt(course))
+                       .toString();
     }
 
     public boolean isEnrollInfoSameAs(StudentAttributes otherStudent) {
@@ -193,8 +194,7 @@ public class StudentAttributes extends EntityAttributes {
             errors.add(error);
         }
 
-        error = validator.getInvalidityInfo(FieldType.STUDENT_ROLE_COMMENTS,
-                comments);
+        error = validator.getInvalidityInfo(FieldType.STUDENT_ROLE_COMMENTS, comments);
         if (!error.isEmpty()) {
             errors.add(error);
         }

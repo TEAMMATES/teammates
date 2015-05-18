@@ -98,15 +98,17 @@ public class StudentProfilePictureUploadAction extends Action {
     private String uploadFileToGcs(byte[] transformedImage) throws IOException {
         GcsFilename fileName = new GcsFilename(Config.GCS_BUCKETNAME, account.googleId);
         GcsService gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
-        GcsOutputChannel outputChannel = gcsService.createOrReplace(fileName,
-                new GcsFileOptions.Builder().mimeType("image/png").build());
+        GcsOutputChannel outputChannel =
+                gcsService.createOrReplace(fileName,
+                                           new GcsFileOptions.Builder()
+                                                             .mimeType("image/png").build());
 
         outputChannel.write(ByteBuffer.wrap(transformedImage));
         outputChannel.close();
 
         return BlobstoreServiceFactory.getBlobstoreService()
-                .createGsBlobKey("/gs/" + Config.GCS_BUCKETNAME + "/" + account.googleId)
-                .getKeyString();
+                                      .createGsBlobKey("/gs/" + Config.GCS_BUCKETNAME + "/" + account.googleId)
+                                      .getKeyString();
     }
 
     private BlobInfo extractProfilePictureKey() {
@@ -155,18 +157,18 @@ public class StudentProfilePictureUploadAction extends Action {
             logic.deletePicture(blobKey);
         } catch (BlobstoreFailureException bfe) {
             statusToAdmin = Const.ACTION_RESULT_FAILURE
-                    + " : Unable to delete profile picture (possible unused picture with key: "
-                    + blobKey.getKeyString()
-                    + " || Error Message: "
-                    + bfe.getMessage() + Const.EOL;
+                          + " : Unable to delete profile picture (possible unused picture with key: "
+                          + blobKey.getKeyString()
+                          + " || Error Message: "
+                          + bfe.getMessage() + Const.EOL;
         }
     }
 
     private void updateStatusesForBlobstoreFailure() {
         statusToAdmin += Const.ACTION_RESULT_FAILURE
-                + " : Could not delete profile picture for account ("
-                + account.googleId
-                + ")" + Const.EOL;
+                       + " : Could not delete profile picture for account ("
+                       + account.googleId
+                       + ")" + Const.EOL;
         statusToUser.clear();
         statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PIC_SERVICE_DOWN);
     }

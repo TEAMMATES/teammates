@@ -81,8 +81,8 @@ public class StudentProfile {
      *            Miscellaneous information, including external profile
      */
     public StudentProfile(String googleId, String shortName, String email,
-            String institute, String nationality, String gender, Text moreInfo,
-            BlobKey pictureKey) {
+                          String institute, String nationality, String gender,
+                          Text moreInfo, BlobKey pictureKey) {
         this.setGoogleId(googleId);
         this.setShortName(shortName);
         this.setEmail(email);
@@ -177,4 +177,5 @@ public class StudentProfile {
     public void setModifiedDate(Date modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
+
 }

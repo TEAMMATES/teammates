@@ -23,9 +23,10 @@ public class StudentProfileCreateFormUrlAction extends Action {
     }
 
     private UploadOptions generateUploadOptions() {
-        UploadOptions uploadOptions = UploadOptions.Builder.withDefaults()
-                .googleStorageBucketName(Config.GCS_BUCKETNAME)
-                .maxUploadSizeBytes(Const.SystemParams.MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI);
+        UploadOptions uploadOptions =
+                UploadOptions.Builder.withDefaults()
+                             .googleStorageBucketName(Config.GCS_BUCKETNAME)
+                             .maxUploadSizeBytes(Const.SystemParams.MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI);
         return uploadOptions;
     }
 
@@ -39,7 +40,7 @@ public class StudentProfileCreateFormUrlAction extends Action {
             // This branch is not tested as this error can and should never occur
             isError = true;
             log.severe(Const.ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD
-                    + " was found to be illegal success path. Error: " + e.getMessage());
+                       + " was found to be illegal success path. Error: " + e.getMessage());
             statusToAdmin = "Failed to create profile picture upload-url: " + e.getMessage();
         }
         return "";
@@ -47,8 +48,10 @@ public class StudentProfileCreateFormUrlAction extends Action {
 
     private String generateNewUploadUrl() {
         UploadOptions uploadOptions = generateUploadOptions();
-        String formPostUrl = BlobstoreServiceFactory.getBlobstoreService()
-                .createUploadUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD, uploadOptions);
+        String formPostUrl =
+                BlobstoreServiceFactory.getBlobstoreService()
+                                       .createUploadUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD,
+                                                        uploadOptions);
         statusToAdmin = "Created Url successfully: " + formPostUrl;
         return formPostUrl;
     }

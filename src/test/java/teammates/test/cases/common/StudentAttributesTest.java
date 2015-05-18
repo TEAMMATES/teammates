@@ -101,8 +101,7 @@ public class StudentAttributesTest extends BaseTestCase {
                                    FieldValidator.REASON_EMPTY));
 
         ______TS("Failure case: empty email");
-        invalidStudent = new StudentAttributes("sect", "t1", "n", "", "c",
-                                               courseId);
+        invalidStudent = new StudentAttributes("sect", "t1", "n", "", "c", courseId);
         assertFalse(invalidStudent.isValid());
         assertEquals(String.format(EMAIL_ERROR_MESSAGE, "", REASON_EMPTY), 
                      invalidStudent.getInvalidityInfo().get(0));
@@ -134,7 +133,7 @@ public class StudentAttributesTest extends BaseTestCase {
         assertFalse(invalidStudent.isValid());
         assertEquals(String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE,
                                    longStudentName, FieldValidator.REASON_TOO_LONG),
-                invalidStudent.getInvalidityInfo().get(0));
+                     invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: invalid email");
         invalidStudent = new StudentAttributes("sect", "t1", "name", "ee.com",
@@ -168,10 +167,9 @@ public class StudentAttributesTest extends BaseTestCase {
         s.name = "";
         s.email = "invalid email";
         s.course = "";
-        s.comments = StringHelper
-                .generateStringOfLength(FieldValidator.STUDENT_ROLE_COMMENTS_MAX_LENGTH + 1);
-        s.team = StringHelper
-                .generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
+        s.comments = StringHelper.generateStringOfLength(
+                FieldValidator.STUDENT_ROLE_COMMENTS_MAX_LENGTH + 1);
+        s.team = StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
 
         assertFalse("invalid value", s.isValid());
         String errorMessage = "\"invalid@google@id\" is not acceptable to TEAMMATES as a Google ID because it is not in the correct format. A Google ID must be a valid id already registered with Google. It cannot be longer than 45 characters. It cannot be empty." + EOL
@@ -240,14 +238,14 @@ public class StudentAttributesTest extends BaseTestCase {
         List<StudentAttributes> sortedList = generateTypicalStudentAttributesList();
         StudentAttributes.sortByTeamName(sortedList);
         List<StudentAttributes> unsortedList = generateTypicalStudentAttributesList();
-        assertEquals(sortedList.get(0).toEnrollmentString(), unsortedList
-                .get(2).toEnrollmentString());
-        assertEquals(sortedList.get(1).toEnrollmentString(), unsortedList
-                .get(0).toEnrollmentString());
-        assertEquals(sortedList.get(2).toEnrollmentString(), unsortedList
-                .get(1).toEnrollmentString());
-        assertEquals(sortedList.get(3).toEnrollmentString(), unsortedList
-                .get(3).toEnrollmentString());
+        assertEquals(sortedList.get(0).toEnrollmentString(),
+                     unsortedList.get(2).toEnrollmentString());
+        assertEquals(sortedList.get(1).toEnrollmentString(),
+                     unsortedList.get(0).toEnrollmentString());
+        assertEquals(sortedList.get(2).toEnrollmentString(),
+                     unsortedList.get(1).toEnrollmentString());
+        assertEquals(sortedList.get(3).toEnrollmentString(),
+                     unsortedList.get(3).toEnrollmentString());
     }
 
     @Test
@@ -255,14 +253,14 @@ public class StudentAttributesTest extends BaseTestCase {
         List<StudentAttributes> sortedList = generateTypicalStudentAttributesList();
         StudentAttributes.sortBySectionName(sortedList);
         List<StudentAttributes> unsortedList = generateTypicalStudentAttributesList();
-        assertEquals(sortedList.get(0).toEnrollmentString(), unsortedList
-                .get(3).toEnrollmentString());
-        assertEquals(sortedList.get(1).toEnrollmentString(), unsortedList
-                .get(0).toEnrollmentString());
-        assertEquals(sortedList.get(2).toEnrollmentString(), unsortedList
-                .get(1).toEnrollmentString());
-        assertEquals(sortedList.get(3).toEnrollmentString(), unsortedList
-                .get(2).toEnrollmentString());
+        assertEquals(sortedList.get(0).toEnrollmentString(),
+                     unsortedList.get(3).toEnrollmentString());
+        assertEquals(sortedList.get(1).toEnrollmentString(),
+                     unsortedList.get(0).toEnrollmentString());
+        assertEquals(sortedList.get(2).toEnrollmentString(),
+                     unsortedList.get(1).toEnrollmentString());
+        assertEquals(sortedList.get(3).toEnrollmentString(),
+                     unsortedList.get(2).toEnrollmentString());
     }
 
     @Test
@@ -323,9 +321,9 @@ public class StudentAttributesTest extends BaseTestCase {
                                                      "email@email.com", "comment 1",
                                                      "course1");
         String profilePicUrl = new Url(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
-                .withStudentEmail(StringHelper.encrypt("email@email.com"))
-                .withCourseId(StringHelper.encrypt("course1"))
-                .toString();
+                                       .withStudentEmail(StringHelper.encrypt("email@email.com"))
+                                       .withCourseId(StringHelper.encrypt("course1"))
+                                       .toString();
         assertEquals(profilePicUrl, sd.getPublicProfilePictureUrl());
     }
 

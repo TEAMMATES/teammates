@@ -28,7 +28,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         AccountAttributes student = dataBundle.accounts
-                .get("student1InCourse1");
+                                              .get("student1InCourse1");
         testActionSuccessTypical(student);
         testActionInMasquerade(student);
     }
@@ -41,9 +41,8 @@ public class StudentProfilePageActionTest extends BaseActionTest {
         StudentProfilePageAction action = getAction(submissionParams);
         ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
 
-        AssertHelper.assertContains(
-                "/jsp/studentProfilePage.jsp?error=false&user="
-                        + student.googleId, result.getDestinationWithParams());
+        AssertHelper.assertContains("/jsp/studentProfilePage.jsp?error=false&user="
+                                    + student.googleId, result.getDestinationWithParams());
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
 
@@ -65,8 +64,8 @@ public class StudentProfilePageActionTest extends BaseActionTest {
         ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
 
         AssertHelper.assertContains(Const.ViewURIs.STUDENT_PROFILE_PAGE
-                + "?error=false&user=" + student.googleId,
-                result.getDestinationWithParams());
+                                    + "?error=false&user=" + student.googleId,
+                                    result.getDestinationWithParams());
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
 
@@ -90,17 +89,16 @@ public class StudentProfilePageActionTest extends BaseActionTest {
     private void verifyLogMessage(AccountAttributes student,
             StudentProfilePageAction action, boolean isMasquerade) {
         String expectedLogMessage = "TEAMMATESLOG|||studentProfilePage|||studentProfilePage"
-                + "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||" + student.name
-                + "|||" + student.googleId + "|||" + student.email
-                + "|||studentProfile Page Load <br> Profile: " + student.studentProfile.toString()
-                + "|||/page/studentProfilePage";
+                                  + "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||"
+                                  + student.name + "|||" + student.googleId + "|||" + student.email
+                                  + "|||studentProfile Page Load <br> Profile: "
+                                  + student.studentProfile.toString() + "|||/page/studentProfilePage";
         assertEquals(expectedLogMessage, action.getLogMessage());
     }
 
     private StudentProfilePageAction getAction(String... params)
             throws Exception {
-        return (StudentProfilePageAction) (gaeSimulation.getActionObject(uri,
-                params));
+        return (StudentProfilePageAction) (gaeSimulation.getActionObject(uri, params));
     }
 
 }

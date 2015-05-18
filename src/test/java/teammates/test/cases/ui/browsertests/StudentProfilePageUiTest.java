@@ -46,7 +46,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
     private void testNavLinkToPage() {
         Url profileUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
-                                 .withUserId(testData.accounts.get("studentWithEmptyProfile").googleId);
+                                   .withUserId(testData.accounts.get("studentWithEmptyProfile").googleId);
         StudentHomePage shp = loginAdminToPage(browser, profileUrl, StudentHomePage.class);
         profilePage = shp.loadProfileTab().changePageType(StudentProfilePage.class);
     }
@@ -178,31 +178,31 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                 .verifyIsEntityNotFoundErrorPage(expectedFilename);
     }
 
-    private StudentProfilePicturePage getProfilePicturePage(
-            String instructorId, String email, String courseId) {
+    private StudentProfilePicturePage getProfilePicturePage(String instructorId, String email,
+                                                            String courseId) {
         Url profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
-                .withUserId(testData.accounts.get(instructorId).googleId)
-                .withParam(Const.ParamsNames.STUDENT_EMAIL, email)
-                .withParam(Const.ParamsNames.COURSE_ID, courseId);
+                                   .withUserId(testData.accounts.get(instructorId).googleId)
+                                   .withParam(Const.ParamsNames.STUDENT_EMAIL, email)
+                                   .withParam(Const.ParamsNames.COURSE_ID, courseId);
         return loginAdminToPage(browser, profileUrl, StudentProfilePicturePage.class);
     }
 
     private StudentProfilePicturePage getProfilePicturePage(String studentId,
-            String pictureKey) {
+                                                            String pictureKey) {
         Url profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
-                .withUserId(testData.accounts.get(studentId).googleId)
-                .withParam(Const.ParamsNames.BLOB_KEY, pictureKey);
+                                   .withUserId(testData.accounts.get(studentId).googleId)
+                                   .withParam(Const.ParamsNames.BLOB_KEY, pictureKey);
         return loginAdminToPage(browser, profileUrl, StudentProfilePicturePage.class);
     }
 
     private void verifyPictureIsPresent(String pictureKey) {
         assertEquals(BackDoorServlet.RETURN_VALUE_TRUE,
-                BackDoor.getWhetherPictureIsPresentInGcs(pictureKey));
+                     BackDoor.getWhetherPictureIsPresentInGcs(pictureKey));
     }
 
     private StudentProfilePage getProfilePageForStudent(String studentId) {
         Url profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PAGE)
-                .withUserId(testData.accounts.get(studentId).googleId);
+                                   .withUserId(testData.accounts.get(studentId).googleId);
         return loginAdminToPage(browser, profileUrl, StudentProfilePage.class);
     }
 
