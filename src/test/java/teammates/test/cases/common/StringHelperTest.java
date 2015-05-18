@@ -210,14 +210,16 @@ public class StringHelperTest extends BaseTestCase {
     }
 
     @Test
-    public void testCountingEmptyStrings() {
+    public void testCountEmptyStrings() {
         String empty = "";
+        String whitespace = " ";
         String nul = null;
-        String nonempty = "non-empty";
+        String nonEmpty = "non-empty";
         assertEquals(1, StringHelper.countEmptyStrings(empty));
+        assertEquals(0, StringHelper.countEmptyStrings(whitespace));
         assertEquals(1, StringHelper.countEmptyStrings(nul));
-        assertEquals(0, StringHelper.countEmptyStrings(nonempty));
-        assertEquals(2, StringHelper.countEmptyStrings(empty, nul, nonempty));
+        assertEquals(0, StringHelper.countEmptyStrings(nonEmpty));
+        assertEquals(2, StringHelper.countEmptyStrings(empty, whitespace, nul, nonEmpty));
     }
 
     private void verifyRegexMatch(String[] stringsToMatch, String[] regexArray, boolean expectedResult){
