@@ -16,6 +16,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
     public boolean isPreview;
     public boolean isModeration;
     public boolean isShowRealQuestionNumber;
+    public boolean isHeaderHidden;
+    public String pageTitle = null;
     public StudentAttributes studentToViewPageAs;
     public InstructorAttributes previewInstructor;    
     
@@ -24,6 +26,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
         isPreview = false;
         isModeration = false;
         isShowRealQuestionNumber = false;
+        isHeaderHidden = false;
     }
     
     public List<String> getRecipientOptionsForQuestion(String feedbackQuestionId, String currentlySelectedOption) {

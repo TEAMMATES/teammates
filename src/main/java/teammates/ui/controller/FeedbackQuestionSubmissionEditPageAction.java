@@ -33,6 +33,8 @@ public abstract class FeedbackQuestionSubmissionEditPageAction extends Action {
         String userEmailForCourse = getUserEmailForCourse();        
         data = new FeedbackSubmissionEditPageData(account, student);
         data.isShowRealQuestionNumber = true;
+        data.isHeaderHidden = true;
+        data.pageTitle = "Submit Feedback Question";
         data.bundle = getDataBundle(userEmailForCourse);
         data.isSessionOpenForSubmission = isSessionOpenForSpecificUser(data.bundle.feedbackSession);
         

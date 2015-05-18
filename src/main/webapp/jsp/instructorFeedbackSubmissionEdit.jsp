@@ -40,11 +40,11 @@
 
     <body>
         <%
-            if (!data.isPreview) {
+            if (!data.isPreview && !data.isHeaderHidden) {
         %>
                 <jsp:include page="<%= Const.ViewURIs.INSTRUCTOR_HEADER %>" />
         <%
-            } else {
+            } else if (data.isPreview) {
         %>
             <nav class="navbar navbar-default navbar-fixed-top">
                 <h3 class="text-center">Previewing Session as Instructor <%= data.previewInstructor.name %> (<%= data.previewInstructor.email %>)</h3>
@@ -55,7 +55,7 @@
 
         <div id="frameBodyWrapper" class="container">
             <div id="topOfPage"></div>
-            <h1>Submit Feedback</h1>
+            <h1><%= data.pageTitle.equals("") ? "Submit Feedback" : data.pageTitle %></h1>
             <br>
 
             <form method="post" action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE %>" name="form_submit_response">
