@@ -35,7 +35,7 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
 
     private void testGenerateUploadUrlSuccessTypical(AccountAttributes student)
             throws Exception {
-        ______TS("typical success");
+        ______TS("Typical case");
 
         String[] submissionParams = new String[] {};
         gaeSimulation.loginAsStudent(student.googleId);
@@ -49,7 +49,7 @@ public class StudentProfileCreateFormUrlActionTest extends BaseActionTest {
 
     private void testGenerateUploadUrlSuccessMasqueradeMode(
             AccountAttributes student) throws Exception {
-        ______TS("masquerade mode");
+        ______TS("Typical case: masquerade mode");
 
         gaeSimulation.loginAsAdmin("admin.user");
 

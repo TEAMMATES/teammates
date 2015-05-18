@@ -54,10 +54,10 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     private void testContent() {
         // assumes it is run after NavLinks Test
         // (ie already logged in as studentWithEmptyProfile
-        ______TS("typical success case");
+        ______TS("Typical case: empty profile values");
         profilePage.verifyHtmlMainContent("/studentProfilePageDefault.html");
 
-        ______TS("existing profile values");
+        ______TS("Typical case: existing profile values");
         // this test uses actual user accounts
         profilePage = getProfilePageForStudent("studentWithExistingProfile");
         profilePage.verifyHtmlPart(By.id("editProfileDiv"), "/studentProfileEditDivExistingValues.html");
@@ -68,7 +68,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         // (ie already logged in as studentWithExistingProfile
         String studentGoogleId = testData.accounts.get("studentWithExistingProfile").googleId;
 
-        ______TS("typical success case, no picture");
+        ______TS("Typical case: no picture");
 
         profilePage.editProfileThroughUi("", "short.name", "e@email.tmt", "inst", "Usual Nationality",
                                          "female", "this is enough!$%&*</>");
@@ -76,7 +76,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                                           "female", "this is enough!$%&*</>");
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_EDITED);
 
-        ______TS("invalid data");
+        ______TS("Failure case: invalid data");
 
         StudentProfileAttributes spa = new StudentProfileAttributes("valid.id", "$$short.name",
                                                                     "e@email.tmt", " inst  ",
@@ -88,7 +88,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                                           "female", "this is enough!$%&*</>");
         profilePage.verifyStatus(StringHelper.toString(spa.getInvalidityInfo(), " "));
 
-        ______TS("success case picture upload and edit");
+        ______TS("Typical case: picture upload and edit");
 
         profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");
         profilePage.uploadPicture();
@@ -103,7 +103,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         String prevPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
         verifyPictureIsPresent(prevPictureKey);
 
-        ______TS("repeated edit");
+        ______TS("Typical case: repeated edit");
         
         profilePage.showPictureEditor();
         profilePage.editProfilePhoto();
@@ -114,21 +114,21 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         prevPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
         verifyPictureIsPresent(prevPictureKey);
         
-        ______TS("not a picture");
+        ______TS("Failure case: not a picture");
 
         profilePage.fillProfilePic("src/test/resources/images/not_a_picture.txt");
         profilePage.uploadPicture();
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE);
         verifyPictureIsPresent(prevPictureKey);
 
-        ______TS("picture too large");
+        ______TS("Failure case: picture too large");
 
         profilePage.fillProfilePic("src/test/resources/images/profile_pic_too_large.jpg");
         profilePage.uploadPicture();
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
         verifyPictureIsPresent(prevPictureKey);
 
-        ______TS("success case, update picture (too tall)");
+        ______TS("Typical case: update picture (too tall)");
 
         profilePage.fillProfilePic("src/test/resources/images/image_tall.jpg");
         profilePage.uploadPicture();
@@ -152,26 +152,26 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         courseId = StringHelper.encrypt(courseId);
         String invalidEmail = StringHelper.encrypt("random-EmAIl");
 
-        ______TS("success case, with blob-key");
+        ______TS("Typical case: with blob-key");
 
         getProfilePicturePage(studentId, currentPictureKey).verifyHasPicture();
 
-        ______TS("failure case, invalid blob-key");
+        ______TS("Failure case: invalid blob-key");
 
         String expectedFilename = "/studentProfilePictureNotFound.html";
         getProfilePicturePage(studentId, "random-StRing123").verifyIsErrorPage(expectedFilename);
 
-        ______TS("success case, with email and course");
+        ______TS("Typical case: with email and course");
 
         getProfilePicturePage(instructorId, email, courseId).verifyHasPicture();
 
-        ______TS("failure case: instructor does not have privilege");
+        ______TS("Failure case: instructor does not have privilege");
 
         expectedFilename = "/studentProfilePictureUnauthorized.html";
         getProfilePicturePage(helperId, email, courseId)
                 .verifyIsUnauthorisedErrorPage(expectedFilename);
 
-        ______TS("failure case: non-existent student");
+        ______TS("Failure case: non-existent student");
 
         expectedFilename = "/studentProfilePictureStudentDoesNotExist.html";
         getProfilePicturePage(instructorId, invalidEmail, courseId)

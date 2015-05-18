@@ -46,7 +46,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
 
     public void testActionWithNoParams() throws Exception {
 
-        ______TS("failure: no parameters given");
+        ______TS("Failure case: no parameters given");
         gaeSimulation.loginAsStudent(_account.googleId);
 
         String[] submissionParams = new String[] {};
@@ -75,7 +75,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     }
 
     protected void testActionWithBlobKeySuccess() throws Exception {
-        ______TS("using blobkey");
+        ______TS("Typical case: using blobkey");
         gaeSimulation.loginAsStudent(_account.googleId);
 
         String[] submissionParams = new String[] {
@@ -91,7 +91,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     }
 
     protected void testActionWithBlobKeySuccessMasquerade() throws Exception {
-        ______TS("masquerade mode");
+        ______TS("Typical case: masquerade mode");
         gaeSimulation.loginAsAdmin("admin.user");
 
         String[] submissionParams = new String[] {
@@ -127,7 +127,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     protected void testActionWithEmailAndCourseSuccessTypical(
             AccountAttributes instructor) throws Exception {
 
-        ______TS("using email and course");
+        ______TS("Typical case: using email and course");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL,
@@ -146,7 +146,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     }
 
     protected void testActionWithEmailAndCourseNoStudent() throws Exception {
-        ______TS("failure: student does not exist");
+        ______TS("Failure case: student does not exist");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL,
@@ -194,7 +194,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
     }
 
     private void testActionForStudentWithEmptyGoogleId() throws Exception {
-        ______TS("no profile available (unreg student)");
+        ______TS("Failure case: no profile available (unreg student)");
 
         StudentAttributes student = _dataBundle.students
                 .get("student2InUnregisteredCourse");
@@ -214,7 +214,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
 
     protected void testActionWithEmailAndCourseUnauthorisedInstructor()
             throws Exception {
-        ______TS("failure: instructor not from same course");
+        ______TS("Failure case: instructor not from same course");
         AccountAttributes unauthInstructor = _dataBundle.accounts
                 .get("instructor1OfCourse2");
         gaeSimulation.loginAsInstructor(unauthInstructor.googleId);

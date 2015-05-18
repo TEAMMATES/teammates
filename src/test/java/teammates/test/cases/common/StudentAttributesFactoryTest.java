@@ -27,7 +27,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         String headerRow = null;
         StudentAttributesFactory saf = null;
 
-        ______TS("fail: null parameter");
+        ______TS("Failure case: null parameter");
         try {
             saf = new StudentAttributesFactory(headerRow);
             signalFailureToDetectException();
@@ -35,7 +35,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
             ignoreExpectedException();
         }
 
-        ______TS("fail: not satisfy the minimum requirement of fields");
+        ______TS("Failure case: not satisfy the minimum requirement of fields");
         headerRow = "name \t email";
         try {
             saf = new StudentAttributesFactory(headerRow);
@@ -45,7 +45,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
                     + ":  <mark>Team</mark>", e.getMessage());
         }
 
-        ______TS("fail: missing 'Name' field");
+        ______TS("Failure case: missing 'Name' field");
         headerRow = "section \t team \t email";
         try {
             saf = new StudentAttributesFactory(headerRow);
@@ -55,7 +55,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
                     + ":  <mark>Name</mark>", e.getMessage());
         }
 
-        ______TS("fail: missing 'Team' field");
+        ______TS("Failure case: missing 'Team' field");
         headerRow = "section \t name \t email";
         try {
             saf = new StudentAttributesFactory(headerRow);
@@ -65,7 +65,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
                     + ":  <mark>Team</mark>", e.getMessage());
         }
 
-        ______TS("fail: missing 'Email' field");
+        ______TS("Failure case: missing 'Email' field");
         headerRow = "section \t team \t name";
         try {
             saf = new StudentAttributesFactory(headerRow);
@@ -75,7 +75,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
                     + ":  <mark>Email</mark>", e.getMessage());
         }
 
-        ______TS("fail: repeated required columns");
+        ______TS("Failure case: repeated required columns");
         headerRow = "name \t email \t team \t comments \t name";
         try {
             saf = new StudentAttributesFactory(headerRow);
@@ -86,7 +86,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         }
         
         // adding this for complete coverage
-        ______TS("fail: repeated required columns");
+        ______TS("Failure case: repeated required columns");
         headerRow = "name \t email \t team \t comments \t section \t email \t team \t comments \t section ";            
         try {
             saf = new StudentAttributesFactory(headerRow);
@@ -106,7 +106,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
 
         StudentAttributes studentCreated;
 
-        ______TS("fail: empty row");
+        ______TS("Failure case: empty row");
         line = "";
         courseId = "SAFT.courseId";
         try {
@@ -116,7 +116,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
             assertEquals(StudentAttributesFactory.ERROR_ENROLL_LINE_EMPTY, e.getMessage());
         }
 
-        ______TS("fail: too few columns");
+        ______TS("Failure case: too few columns");
         line = "name|email";
         try {
             saf.makeStudent(line, courseId);
@@ -126,7 +126,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
                     e.getMessage());
         }
 
-        ______TS("success: normal column order with comment");
+        ______TS("Typical case: normal column order with comment");
         saf = new StudentAttributesFactory("TEAMS|Names|Email|comments");
         line = "team 1|SAFT.name|SAFT@email.com|some comment...";
 
@@ -144,7 +144,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         assertEquals(studentCreated.email, "SAFT2@email.com");
         assertEquals(studentCreated.comments, "");
 
-        ______TS("success: different column order without comment");
+        ______TS("Typical case: different column order without comment");
         saf = new StudentAttributesFactory("Name|emails|teams");
         line = "SAFT.name|SAFT@email.com|team 1";
 
@@ -154,7 +154,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         assertEquals(studentCreated.email, "SAFT@email.com");
         assertEquals(studentCreated.comments, "");
 
-        ______TS("success: different column order, contains empty columns");
+        ______TS("Typical case: different column order, contains empty columns");
         saf = new StudentAttributesFactory("email \t name \t    \t team");
         line = "SAFT@email.com \t SAFT.name \t      \t team 1";
 
@@ -164,7 +164,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         assertEquals(studentCreated.email, "SAFT@email.com");
         assertEquals(studentCreated.comments, "");
 
-        ______TS("success: no header specified, assume default column order");
+        ______TS("Typical case: no header specified, assume default column order");
         saf = new StudentAttributesFactory();
         line = "section 1| team 1|SAFT.name|SAFT@email.com|comment";
 
@@ -190,12 +190,12 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         String headerRow = null;
         int columnCount = 0;
 
-        ______TS("not a header row");
+        ______TS("Typical case: not a header row");
         headerRow = "team 1|SAFT.name|SAFT@email.com";
         columnCount = invokeLocateColumnIndexes(headerRow);
         assertEquals(0, columnCount);
 
-        ______TS("header row contains empty columns");
+        ______TS("Typical case: header row contains empty columns");
         headerRow = " | team | name | | email | | comment";
         columnCount = invokeLocateColumnIndexes(headerRow);
         assertEquals(4, columnCount);
@@ -206,7 +206,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         String line = null;
         String[] columns = null;
 
-        ______TS("fail: null parameter");
+        ______TS("Failure case: null parameter");
         try {
             invokeSplitLineIntoColumns(line);
             signalFailureToDetectException();
@@ -214,7 +214,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
             ignoreExpectedException();
         }
 
-        ______TS("success: line with pipe symbol as separators");
+        ______TS("Typical case: line with pipe symbol as separators");
         line = "name | email |  | team";
         columns = invokeSplitLineIntoColumns(line);
 
@@ -224,7 +224,7 @@ public class StudentAttributesFactoryTest extends BaseTestCase {
         assertEquals("  ", columns[2]);
         assertEquals(" team", columns[3]);
 
-        ______TS("success: line with tab as separators");
+        ______TS("Typical case: line with tab as separators");
         line = "team\temail\tname\t";
         columns = invokeSplitLineIntoColumns(line);
 

@@ -36,7 +36,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
     private void testActionSuccessTypical(AccountAttributes student)
             throws Exception {
         gaeSimulation.loginAsStudent(student.googleId);
-        ______TS("typical success");
+        ______TS("Typical case");
         String[] submissionParams = new String[] {};
         StudentProfilePageAction action = getAction(submissionParams);
         ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
@@ -54,7 +54,7 @@ public class StudentProfilePageActionTest extends BaseActionTest {
     private void testActionInMasquerade(AccountAttributes student)
             throws Exception {
         gaeSimulation.loginAsAdmin("admin.user");
-        ______TS("masquerade mode");
+        ______TS("Typical case: masquerade mode");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.STUDENT_PROFILE_PHOTOEDIT, "false",
                 Const.ParamsNames.USER_ID, student.googleId

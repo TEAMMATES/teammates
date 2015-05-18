@@ -44,7 +44,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
     private void testActionWithInvalidParameters(AccountAttributes student)
             throws EntityDoesNotExistException {
         gaeSimulation.loginAsStudent(student.googleId);
-        ______TS("invalid parameters");
+        ______TS("Failure case: invalid parameters");
         
         String[] submissionParams = createInvalidParamsForProfile();
         StudentProfileAttributes expectedProfile = getProfileAttributesFrom(submissionParams);
@@ -74,7 +74,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
         StudentProfileAttributes expectedProfile = getProfileAttributesFrom(submissionParams);
         gaeSimulation.loginAsStudent(student.googleId);
         
-        ______TS("typical success case");
+        ______TS("Typical case");
         
         StudentProfileEditSaveAction action = getAction(submissionParams);
         RedirectResult result = (RedirectResult) action.executeAndPostProcess();
@@ -90,7 +90,7 @@ public class StudentProfileEditSaveActionTest extends BaseActionTest {
     private void testActionInMasqueradeMode(AccountAttributes student)
             throws EntityDoesNotExistException {
 
-        ______TS("masquerade mode");
+        ______TS("Typical case: masquerade mode");
         gaeSimulation.loginAsAdmin("admin.user");
         
         String[] submissionParams = createValidParamsForProfile();
