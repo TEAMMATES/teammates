@@ -10,6 +10,7 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -21,7 +22,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        String moderatedStudentEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT);
+        String moderatedStudentIdentifier = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT);
 
         Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
                                                Const.ParamsNames.COURSE_ID), 
@@ -31,14 +32,28 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
                                  feedbackSessionName);
         Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
                                                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT),
-                                 moderatedStudentEmail);
+                                 moderatedStudentIdentifier);
 
-        StudentAttributes studentUnderModeration = logic.getStudentForEmail(courseId, moderatedStudentEmail); 
+        
+        StudentAttributes studentUnderModeration = logic.getStudentForEmail(courseId, moderatedStudentIdentifier); 
         
         if (studentUnderModeration == null) {
-            throw new EntityDoesNotExistException("Student Email "
-                    + moderatedStudentEmail + " does not exist in " + courseId
-                    + ".");
+            List<TeamDetailsBundle> teams = logic.getTeamsForCourse(courseId);
+            boolean isTeam = false;
+            
+            for (TeamDetailsBundle team : teams) {
+                if (team.name.equals(moderatedStudentIdentifier)) {
+                    isTeam = true;
+                    studentUnderModeration = team.students.get(0);
+                    break;
+                }
+            }
+            
+            if (!isTeam) {
+                throw new EntityDoesNotExistException("Identifier "
+                        + moderatedStudentIdentifier + " does not exist in " + courseId
+                        + ".");
+            }
         }
         
         new GateKeeper().verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId),
