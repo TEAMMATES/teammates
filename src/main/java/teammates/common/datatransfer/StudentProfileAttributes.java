@@ -87,15 +87,15 @@ public class StudentProfileAttributes extends EntityAttributes {
     }
 
     private boolean isMultipleFieldsEmpty() {
-        int numEmptyFields = addCounterIfEmpty(shortName)
-                + addCounterIfEmpty(email)
-                + addCounterIfEmpty(nationality)
-                + addCounterIfEmpty(moreInfo)
-                + addCounterIfEmpty(pictureKey);
+        int numEmptyFields = returnOneIfEmpty(shortName)
+                + returnOneIfEmpty(email)
+                + returnOneIfEmpty(nationality)
+                + returnOneIfEmpty(moreInfo)
+                + returnOneIfEmpty(pictureKey);
         return numEmptyFields > 1;
     }
 
-    private int addCounterIfEmpty(String str) {
+    private int returnOneIfEmpty(String str) {
         return str.isEmpty() ? 1 : 0;
     }
 

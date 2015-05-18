@@ -12,8 +12,8 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * An association class that represents the association Account --> [enrolled
- * in] --> Course.
+ * An association class that represents the association Account -->
+ * [enrolled in] --> Course.
  */
 @PersistenceCapable
 public class Student {
@@ -39,8 +39,8 @@ public class Student {
     private String email;
 
     /**
-     * The student's Course ID. References the primary key of the course. This
-     * shows the course the student is taking
+     * The student's Course ID. References the primary key of the course.
+     * This shows the course the student is taking.
      */
     @Persistent
     @SerializedName("coursename")
@@ -127,8 +127,7 @@ public class Student {
     }
 
     public String getLastName() {
-        // for legacy data
-        // TODO no longer covered in tests. can remove?
+        // for legacy data. do not remove even if not covered in test.
         if (this.lastName == null) {
             this.lastName = StringHelper.splitName(this.name)[1];
         }
@@ -147,11 +146,6 @@ public class Student {
         return registrationKey;
     }
 
-    // TODO method unused
-    public void setRegistrationKey(Long registrationKey) {
-        this.registrationKey = registrationKey;
-    }
-    
     public String getCourseId() {
         return courseID;
     }
