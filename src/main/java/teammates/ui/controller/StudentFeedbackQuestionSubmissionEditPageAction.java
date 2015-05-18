@@ -55,6 +55,6 @@ public class StudentFeedbackQuestionSubmissionEditPageAction extends
 
     @Override
     protected ShowPageResult createSpecificShowPageResult() {
-        return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, data);
+        return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT, data);
     }
 }

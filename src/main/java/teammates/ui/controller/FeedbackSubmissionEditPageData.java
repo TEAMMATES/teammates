@@ -17,7 +17,6 @@ public class FeedbackSubmissionEditPageData extends PageData {
     public boolean isModeration;
     public boolean isShowRealQuestionNumber;
     public boolean isHeaderHidden;
-    public String pageTitle = null;
     public StudentAttributes studentToViewPageAs;
     public InstructorAttributes previewInstructor;    
     

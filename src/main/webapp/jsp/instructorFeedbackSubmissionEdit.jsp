@@ -55,7 +55,7 @@
 
         <div id="frameBodyWrapper" class="container">
             <div id="topOfPage"></div>
-            <h1><%= data.pageTitle.equals("") ? "Submit Feedback" : data.pageTitle %></h1>
+            <h1>Submit Feedback</h1>
             <br>
 
             <form method="post" action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE %>" name="form_submit_response">

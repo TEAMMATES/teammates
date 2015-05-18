@@ -48,6 +48,6 @@ public class InstructorFeedbackQuestionSubmissionEditPageAction extends
 
     @Override
     protected ShowPageResult createSpecificShowPageResult() {
-        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, data);
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, data);
     }
 }

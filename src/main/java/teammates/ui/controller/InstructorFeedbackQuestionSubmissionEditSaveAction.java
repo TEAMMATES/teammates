@@ -1,10 +1,9 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.FeedbackQuestionBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
@@ -47,10 +46,10 @@ public class InstructorFeedbackQuestionSubmissionEditSaveAction extends
     }
 
     @Override
-    protected FeedbackQuestionBundle getDataBundle(
+    protected FeedbackSessionQuestionsBundle getDataBundle(
             String userEmailForCourse) throws EntityDoesNotExistException {
-        return logic.getFeedbackQuestionBundleForInstructor(
-                feedbackSessionName, courseId, feedbackQuestionId, userEmailForCourse);
+        return logic.getFeedbackSessionQuestionsBundleForInstructor(
+                feedbackSessionName, courseId, userEmailForCourse);
     }
 
     @Override
@@ -69,5 +68,17 @@ public class InstructorFeedbackQuestionSubmissionEditSaveAction extends
     @Override
     protected ShowPageResult createSpecificShowPageResult() {
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, data);
+    }
+
+    @Override
+    protected RedirectResult createSpecificRedirectResult() {
+        RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE);
+        result.responseParams.put(Const.ParamsNames.COURSE_ID, courseId);
+        result.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                feedbackSessionName);
+       
+        result.responseParams.put(Const.ParamsNames.FEEDBACK_QUESTION_ID,
+                feedbackQuestionId);
+        return result;
     }
 }
