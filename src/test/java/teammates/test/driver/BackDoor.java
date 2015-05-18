@@ -17,14 +17,12 @@ import java.util.Map;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
-import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.exception.NotImplementedException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
@@ -467,118 +465,7 @@ public class BackDoor {
         return status;
     }
 
-    @SuppressWarnings("unused")
-    private void ____EVALUATION_level_methods______________________________() {
-    }
 
-    public static String createEvaluation(EvaluationAttributes evaluation) {
-        DataBundle dataBundle = new DataBundle();
-        dataBundle.evaluations.put("dummy-key", evaluation);
-        return persistNewDataBundle(Utils.getTeammatesGson()
-                .toJson(dataBundle));
-    }
-
-    public static String getEvaluationAsJson(String courseID,
-            String evaluationName) {
-        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_EVALUATION_AS_JSON);
-        params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseID);
-        params.put(BackDoorServlet.PARAMETER_EVALUATION_NAME, evaluationName);
-        String evaluationJson = makePOSTRequest(params);
-        return evaluationJson;
-    }
-    
-    /**
-     * Checks existence with a bias for non existence. If object found in the
-     * first try, it will retry once more after a delay.
-     */
-    public static boolean isEvaluationNonExistent(String courseID, String evaluationName) {
-        EvaluationAttributes e = getEvaluation(courseID, evaluationName);
-        if(e != null){
-            ThreadHelper.waitFor(RETRY_DELAY_IN_MILLISECONDS);
-            e = getEvaluation(courseID, evaluationName);
-        }
-        return (e == null) ;
-    }
-    
-    public static EvaluationAttributes getEvaluation(String courseID,
-            String evaluationName) {
-        String jsonString = getEvaluationAsJson(courseID, evaluationName);
-        return Utils.getTeammatesGson().fromJson(jsonString, EvaluationAttributes.class);
-    }
-
-    public static String editEvaluation(EvaluationAttributes evaluation) {
-        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_EVALUATION);
-        params.put(BackDoorServlet.PARAMETER_JSON_STRING, Utils
-                .getTeammatesGson().toJson(evaluation));
-        String status = makePOSTRequest(params);
-        return status;
-    }
-
-    public static String deleteEvaluation(String courseID, String evaluationName) {
-        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_DELETE_EVALUATION);
-        params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseID);
-        params.put(BackDoorServlet.PARAMETER_EVALUATION_NAME, evaluationName);
-        String status = makePOSTRequest(params);
-        return status;
-    }
-
-    @SuppressWarnings("unused")
-    private void ____SUBMISSION_level_methods______________________________() {
-    }
-
-    public static String createSubmission(SubmissionAttributes submission)
-            throws NotImplementedException {
-        throw new NotImplementedException(
-                "Not implemented because creating submissions is automatically done");
-    }
-    
-    public static SubmissionAttributes getSubmission(String courseID,
-            String evaluationName, String reviewerEmail, String revieweeEmail) {
-        return Utils.getTeammatesGson()
-                .fromJson(
-                        getSubmissionAsJson(courseID, evaluationName, reviewerEmail, revieweeEmail),
-                        SubmissionAttributes.class);
-    }
-    
-    public static List<SubmissionAttributes> getAllSubmissions(String courseId) {
-        HashMap<String, Object> params = createParamMap(
-                BackDoorServlet.OPERATION_GET_ALL_SUBMISSIONS_AS_JSON);
-        params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseId);
-        String submissionJson = makePOSTRequest(params);
-        
-        Gson gsonParser = Utils.getTeammatesGson();
-        List<SubmissionAttributes> submissionList = gsonParser
-                .fromJson(submissionJson, new TypeToken<List<SubmissionAttributes>>(){}
-                .getType());
-        return submissionList;
-    }
-
-    public static String getSubmissionAsJson(String courseID,
-            String evaluationName, String reviewerEmail, String revieweeEmail) {
-        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_GET_SUBMISSION_AS_JSON);
-        params.put(BackDoorServlet.PARAMETER_COURSE_ID, courseID);
-        params.put(BackDoorServlet.PARAMETER_EVALUATION_NAME, evaluationName);
-        params.put(BackDoorServlet.PARAMETER_REVIEWER_EMAIL, reviewerEmail);
-        params.put(BackDoorServlet.PARAMETER_REVIEWEE_EMAIL, revieweeEmail);
-        String submissionJson = makePOSTRequest(params);
-        return submissionJson;
-    }
-
-    public static String editSubmission(SubmissionAttributes submission) {
-        HashMap<String, Object> params = createParamMap(BackDoorServlet.OPERATION_EDIT_SUBMISSION);
-        params.put(BackDoorServlet.PARAMETER_JSON_STRING, Utils
-                .getTeammatesGson().toJson(submission));
-        String status = makePOSTRequest(params);
-        return status;
-    }
-
-    public static String deleteSubmission(String courseID,
-            String evaluationName, String reviewerEmail, String revieweeEmail)
-            throws NotImplementedException {
-        throw new NotImplementedException(
-                "not implemented yet because submissions do not need to be deleted via the API");
-    }
-    
     @SuppressWarnings("unused")
     private void ____FEEDBACK_SESSION_level_methods______________________________() {
     }

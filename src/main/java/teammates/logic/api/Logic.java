@@ -1,6 +1,5 @@
 package teammates.logic.api;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,9 +18,6 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.CourseSummaryBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.EvaluationDetailsBundle;
-import teammates.common.datatransfer.EvaluationResultsBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionBundle;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -38,9 +34,7 @@ import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
-import teammates.common.datatransfer.StudentResultBundle;
 import teammates.common.datatransfer.StudentSearchResultBundle;
-import teammates.common.datatransfer.SubmissionAttributes;
 import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EnrollException;
@@ -59,18 +53,15 @@ import teammates.logic.core.AdminEmailsLogic;
 import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
-import teammates.logic.core.EvaluationsLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
 import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
-import teammates.logic.core.SubmissionsLogic;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.blobstore.BlobstoreFailureException;
-import com.google.appengine.api.datastore.Text;
 
 /**
  * This class represents the API to the business logic of the system. Please
@@ -96,8 +87,6 @@ public class Logic {
     protected static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     protected static CoursesLogic coursesLogic = CoursesLogic.inst();
     protected static CommentsLogic commentsLogic = CommentsLogic.inst();
-    protected static EvaluationsLogic evaluationsLogic = EvaluationsLogic.inst();
-    protected static SubmissionsLogic submissionsLogic = SubmissionsLogic.inst();
     protected static FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
     protected static FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
     protected static FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
@@ -1291,20 +1280,6 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null. <br>
      */
-    public void sendReminderForEvaluation(String courseId,
-            String evaluationName) throws EntityDoesNotExistException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
-    
-        evaluationsLogic.scheduleEvaluationRemindEmails(courseId, evaluationName);
-    }
-    
-    /**
-     * Sends reminders to students who haven't submitted yet. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     */
     public void sendReminderForFeedbackSession(String courseId,
             String feedbackSessionName) throws EntityDoesNotExistException {
         
@@ -1383,146 +1358,6 @@ public class Logic {
     public void putDocument(StudentAttributes student){
         studentsLogic.putDocument(student);
     }
-
-    @SuppressWarnings("unused")
-    private void ____EVALUATION_level_methods______________________________() {
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public void createEvaluation(EvaluationAttributes evaluation)
-            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluation);
-        
-        evaluationsLogic.createEvaluationCascade(evaluation);
-    }
-    
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    @SuppressWarnings("deprecation")
-    public void createEvaluationWithoutSubmissionQueue(EvaluationAttributes evaluation)
-            throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluation);
-
-        evaluationsLogic.createEvaluationCascadeWithoutSubmissionQueue(evaluation);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public EvaluationAttributes getEvaluation(String courseId, String evaluationName) {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
-
-        return evaluationsLogic.getEvaluation(courseId, evaluationName);
-    }
-    
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @throws EntityDoesNotExistException 
-     */
-    public EvaluationDetailsBundle getEvaluationDetails(String courseId, String evaluationName) 
-            throws EntityDoesNotExistException {
-
-        EvaluationAttributes ea = evaluationsLogic.getEvaluation(courseId, evaluationName);
-        
-        return evaluationsLogic.getEvaluationsDetailsForCourseAndEval(ea);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     * 
-     * @return Details of Instructor's evaluations. <br>
-     * Returns an empty list if none found.
-     */
-    public ArrayList<EvaluationDetailsBundle> getEvaluationsDetailsForInstructor(String instructorId) 
-            throws EntityDoesNotExistException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
-
-        instructorsLogic.verifyInstructorExists(instructorId);
-
-        return evaluationsLogic.getEvaluationsDetailsForInstructor(instructorId);
-    }
-    
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     * 
-     * @return List of Instructor's evaluations. <br>
-     * Returns an empty list if none found.
-     */
-    public ArrayList<EvaluationAttributes> getEvaluationsListForInstructor(String instructorId) 
-            throws EntityDoesNotExistException {
-        
-        return getEvaluationsListForInstructor(instructorId, false);
-    }
-    
-    /**
-     * Omits evaluations from archived courses if omitArchived == true<br>
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     * 
-     * @return List of Instructor's evaluations. <br>
-     * Returns an empty list if none found.
-     */
-    public ArrayList<EvaluationAttributes> getEvaluationsListForInstructor(String instructorId, boolean omitArchived) 
-            throws EntityDoesNotExistException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorId);
-        
-        instructorsLogic.verifyInstructorExists(instructorId);
-
-        return evaluationsLogic.getEvaluationsListForInstructor(instructorId, omitArchived);
-    }
-    
-
-    public ArrayList<EvaluationAttributes> getEvaluationsListForInstructor(List<InstructorAttributes> instructorList) 
-            throws EntityDoesNotExistException {
-
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorList);
-        
-        return evaluationsLogic.getEvaluationsListForInstructor(instructorList);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null. 
-     */
-    public EvaluationResultsBundle getEvaluationResult(
-            String courseId, String evaluationName) 
-                    throws EntityDoesNotExistException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
-
-        return evaluationsLogic.getEvaluationResult(courseId, evaluationName);
-
-    }
-
-    /**
-     * Generates summary results (without comments) in CSV format. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     */
-    public String getEvaluationResultSummaryAsCsv(String courseId, String instrEmail, String evalName) 
-            throws EntityDoesNotExistException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, evalName);
-        
-        return evaluationsLogic.getEvaluationResultSummaryAsCsv(courseId, instrEmail, evalName);
-    }
     
     /**
      * Generates students list of a course in CSV format. <br>
@@ -1537,185 +1372,8 @@ public class Logic {
         
         return coursesLogic.getCourseStudentListAsCsv(courseId, googleId);
     }
-    
-    public List<EvaluationAttributes> getEvaluationsForCourse(String courseId) {
-        
-        Assumption.assertNotNull(courseId);
-        
-        return evaluationsLogic.getEvaluationsForCourse(courseId);
-    }
-    
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     * 
-     * @return Returns details of the course's evaluations. <br>
-     */
-    public ArrayList<EvaluationDetailsBundle> getEvaluationDetailsForCourse(String courseId)
-            throws EntityDoesNotExistException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-    
-        return evaluationsLogic.getEvaluationsDetailsForCourse(courseId);
-    }
 
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public StudentResultBundle getEvaluationResultForStudent(
-            String courseId, String evaluationName, String studentEmail)
-            throws EntityDoesNotExistException, InvalidParametersException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
-    
-        return evaluationsLogic.getEvaluationResultForStudent(courseId, evaluationName, studentEmail);
-    }
 
-    /**
-     * Can be used to change instructions, p2pEnabled, start/end times, grace period and time zone. <br>
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * 
-     */
-    public void updateEvaluation(String courseId, String evaluationName,
-            String instructions, Date start, Date end, double timeZone,
-            int gracePeriod, boolean p2pEnabled)
-            throws EntityDoesNotExistException, InvalidParametersException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructions);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, start);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, end);
-    
-        //TODO: push the code below to a lower level class?
-        if (!evaluationsLogic.isEvaluationExists(courseId, evaluationName)) {
-            throw new EntityDoesNotExistException("Trying to edit non-existent evaluation " + courseId + "/" + evaluationName);
-        }
-    
-        EvaluationAttributes evaluation = new EvaluationAttributes();
-        evaluation.courseId = courseId;
-        evaluation.name = evaluationName;
-        evaluation.instructions = new Text(instructions);
-        evaluation.p2pEnabled = p2pEnabled;
-        evaluation.startTime = start;
-        evaluation.endTime = end;
-        evaluation.gracePeriod = gracePeriod;
-        evaluation.timeZone = timeZone;
-    
-        evaluationsLogic.updateEvaluation(evaluation);
-    }
-
-    /**
-     * Publishes the evaluation and send email alerts to students.
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     * @throws InvalidParametersException
-     *             if the evaluation is not ready to be published.
-     * @throws EntityDoesNotExistException
-     */
-    public void publishEvaluation(String courseId, String evaluationName)
-            throws EntityDoesNotExistException, InvalidParametersException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
-    
-        evaluationsLogic.publishEvaluation(courseId, evaluationName);
-        
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     * @throws InvalidParametersException
-     *             if the evaluation is not ready to be unpublished.
-     */
-    public void unpublishEvaluation(String courseId, String evaluationName)
-            throws EntityDoesNotExistException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
-    
-        evaluationsLogic.unpublishEvaluation(courseId, evaluationName);
-    }
-
-    /**
-     * Deletes the evaluation and all its submissions.
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public void deleteEvaluation(String courseId, String evaluationName) {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
-    
-        evaluationsLogic.deleteEvaluationCascade(courseId, evaluationName);
-    }
-
-    @SuppressWarnings("unused")
-    private void ____SUBMISSION_level_methods_____________________________() {
-    }
-
-    public void createSubmission(SubmissionAttributes submission)
-            throws NotImplementedException {
-        throw new NotImplementedException(
-                "Not implemented because submissions "
-                        + "are created automatically");
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     */
-    public List<SubmissionAttributes> getSubmissionsForEvaluationFromStudent(String courseId,
-            String evaluationName, String reviewerEmail)
-            throws EntityDoesNotExistException, InvalidParametersException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, reviewerEmail);
-    
-        return submissionsLogic.getSubmissionsForEvaluationFromStudent(courseId, evaluationName, reviewerEmail);
-    
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public boolean hasStudentSubmittedEvaluation(
-            String courseId, String evaluationName, String studentEmail)
-            throws InvalidParametersException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, evaluationName);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
-    
-        return submissionsLogic.hasStudentSubmittedEvaluation(
-                courseId, evaluationName, studentEmail);
-    }
-
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     */
-    public void updateSubmissions(List<SubmissionAttributes> submissionsList)
-            throws EntityDoesNotExistException, InvalidParametersException {
-        
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, submissionsList);
-
-        submissionsLogic.updateSubmissions(submissionsList);
-    }
-
-    public void deleteSubmission(SubmissionAttributes submission)
-            throws NotImplementedException {
-        throw new NotImplementedException(
-                "Not implemented because submissions "
-                        + "are deleted automatically");
-    }
     
     @SuppressWarnings("unused")
     private void ____FEEDBACK_SESSION_level_methods_____________________________() {
@@ -2117,12 +1775,12 @@ public class Logic {
      * * All parameters are non-null.
      * * questionNumber is > 0
      */
-    public void createFeedbackQuestionForTemplate(
+    public FeedbackQuestionAttributes createFeedbackQuestionForTemplate(
             FeedbackQuestionAttributes feedbackQuestion, int questionNumber) throws InvalidParametersException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestion);
         Assumption.assertTrue(questionNumber > 0);
-        feedbackQuestionsLogic.createFeedbackQuestionNoIntegrityCheck(feedbackQuestion, questionNumber);
+        return feedbackQuestionsLogic.createFeedbackQuestionNoIntegrityCheck(feedbackQuestion, questionNumber);
     }
     
     /**

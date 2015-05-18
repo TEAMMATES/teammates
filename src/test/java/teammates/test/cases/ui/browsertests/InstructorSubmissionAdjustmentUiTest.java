@@ -24,7 +24,6 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.util.Priority;
-import teammates.test.util.TestHelper;
 
 /**
  * Covers Ui aspect of submission adjustment for evaluations and feedbacks
@@ -71,28 +70,11 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         enrollString =  "Section | Team | Name | Email | Comment" + Const.EOL;
         enrollString += newStudent.toEnrollmentString();
         
-        /*
-         * Old number of submissions = 2 * (4 * 4 + 1 * 1) = 34
-         */
-        int oldNumberOfSubmissionsForEvaluation = BackDoor
-                .getAllSubmissions(newStudent.course).size();
-        assertEquals(34, oldNumberOfSubmissionsForEvaluation);
-        
         enrollPage.enroll(enrollString);
         
         //Wait briefly to allow task queue to successfully execute tasks
         ThreadHelper.waitFor(2000);
         
-        TestHelper.verifySubmissionsExistForCurrentTeamStructureInEvaluation(evaluationName, 
-                BackDoor.getAllStudentsForCourse(newStudent.course), 
-                BackDoor.getAllSubmissions(newStudent.course));
-        
-        /*
-         * New number of submissions = 2 * (5 * 5 + 1 * 1) = 52
-         */
-        int newNumberOfSubmissionsForEvaluation = BackDoor
-                .getAllSubmissions(newStudent.course).size();
-        assertEquals(52, newNumberOfSubmissionsForEvaluation);
         
         ______TS("typical case : existing student changes team");
         loadEnrollmentPage();
@@ -112,20 +94,11 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         enrollString += student.toEnrollmentString();
         enrollPage.enroll(enrollString);
         
-        TestHelper.verifySubmissionsExistForCurrentTeamStructureInEvaluation(evaluationName, 
-                BackDoor.getAllStudentsForCourse(student.course), 
-                BackDoor.getAllSubmissions(student.course));
         
         int numberOfNewResponses = getAllResponsesForStudentForSession
                 (student, session.feedbackSessionName).size();
         assertEquals(0, numberOfNewResponses);
         
-        /*
-         * New number of submissions = 2 * (4 * 4 + 2 * 2) = 40
-         */
-        newNumberOfSubmissionsForEvaluation = BackDoor
-                .getAllSubmissions(newStudent.course).size();
-        assertEquals(40, newNumberOfSubmissionsForEvaluation);
     }
     
     private void loadEnrollmentPage() {

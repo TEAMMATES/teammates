@@ -14,7 +14,6 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Utils;
 import teammates.logic.core.TeamEvalResult;
-import teammates.ui.controller.InstructorEvalResultsPageData;
 import teammates.ui.controller.PageData;
 
 public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
@@ -145,13 +144,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     @Override
     public String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
-            AccountAttributes currentUser,
+            PageData pageData,
             FeedbackSessionResultsBundle bundle,
             String view) {
         if(view.equals("question")){//for instructor, only question view has stats.
             return getQuestionResultsStatisticsHtmlQuestionView(responses, question, bundle);
         } else if(view.equals("student")){//Student view of stats.
-            return getQuestionResultStatisticsHtmlStudentView(responses, question, currentUser, bundle);
+            return getQuestionResultStatisticsHtmlStudentView(responses, question, pageData, bundle);
         } else {
             return "";
         }
@@ -159,15 +158,15 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
     
     private String getQuestionResultStatisticsHtmlStudentView(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
-            AccountAttributes currentUser,
+            PageData pageData,
             FeedbackSessionResultsBundle bundle) {
     
         if(responses.size() == 0 ){
             return "";
         }
     
-        String currentUserEmail = currentUser.email;
-        String currentUserTeam = bundle.emailTeamNameTable.get(currentUser.email);
+        String currentUserEmail = pageData.student.email;
+        String currentUserTeam = bundle.emailTeamNameTable.get(pageData.student.email);
         
         responses = getActualResponses(question, bundle);
 
@@ -298,11 +297,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             contribFragments += FeedbackQuestionFormTemplates.populateTemplate(
                     FeedbackQuestionFormTemplates.CONTRIB_RESULT_STATS_FRAGMENT,
                     "${studentTeam}", PageData.sanitizeForHtml(displayTeam),
-                    "${studentName}", PageData.sanitizeForHtml(displayName),
-                    
-                    "${CC}", InstructorEvalResultsPageData.getPointsAsColorizedHtml(summary.claimedToInstructor),
-                    "${PC}", InstructorEvalResultsPageData.getPointsAsColorizedHtml(summary.perceivedToInstructor),
-                    "${Diff}", InstructorEvalResultsPageData.getPointsDiffAsHtml(summary),
+                    "${studentName}", PageData.sanitizeForHtml(displayName),                    
+                    "${CC}", PageData.getPointsAsColorizedHtml(summary.claimedToInstructor),
+                    "${PC}", PageData.getPointsAsColorizedHtml(summary.perceivedToInstructor),
+                    "${Diff}", PageData.getPointsDiffAsHtml(summary),
                     "${RR}", getNormalizedPointsListColorizedDescending(incomingPoints, studentIndx),
                     
                     "${Const.ParamsNames.STUDENT_NAME}", Const.ParamsNames.STUDENT_NAME);
@@ -313,8 +311,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 "${contribFragments}", contribFragments,
                 "${Const.Tooltips.CLAIMED}", Sanitizer.sanitizeForHtml(Const.Tooltips.CLAIMED),
                 "${Const.Tooltips.PERCEIVED}", Const.Tooltips.PERCEIVED,
-                "${Const.Tooltips.EVALUATION_POINTS_RECEIVED}", Const.Tooltips.EVALUATION_POINTS_RECEIVED,
-                "${Const.Tooltips.EVALUATION_DIFF}", Const.Tooltips.EVALUATION_DIFF);
+                "${Const.Tooltips.EVALUATION_POINTS_RECEIVED}", Const.Tooltips.FEEDBACK_CONTRIBUTION_POINTS_RECEIVED,
+                "${Const.Tooltips.EVALUATION_DIFF}", Const.Tooltips.FEEDBACK_CONTRIBUTION_DIFF);
 
         
         return html;
@@ -678,7 +676,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             if(isValidRange && isMultipleOf10) {
                 validAnswer = true;
             }
-            if(frd.getAnswer() == Const.POINTS_NOT_SURE){
+            if (frd.getAnswer() == Const.POINTS_NOT_SURE || frd.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
                 validAnswer = true;
             }
             if(validAnswer == false){
@@ -779,10 +777,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      * Returns the options for contribution share in a team. 
      */
     private String getContributionOptionsHtml(int points){
-        String result = "";
-        if(points==Const.POINTS_NOT_SUBMITTED || points==Const.INT_UNINITIALIZED ){
-            points=Const.POINTS_EQUAL_SHARE;
+        if (points == Const.INT_UNINITIALIZED) {
+            points = Const.POINTS_NOT_SUBMITTED;
         }
+        String result = "<option class=\""
+                + getContributionOptionsColor(Const.POINTS_NOT_SUBMITTED)
+                + "\" value=\"" + Const.POINTS_NOT_SUBMITTED + "\""
+                + (points == Const.POINTS_NOT_SUBMITTED ? " selected=\"selected\"" : "") + ">"
+                + convertToEqualShareFormat(Const.POINTS_NOT_SUBMITTED) + "</option>";
         for(int i=200; i>=0; i-=10){
             result += "<option "+
                         "class=\"" + getContributionOptionsColor(i) + "\" " +
@@ -805,8 +807,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      * Return the CSS color of different point
      */
     private String getContributionOptionsColor(int points){
-        if(points == Const.POINTS_NOT_SURE || points == Const.POINTS_EQUAL_SHARE){
-            // Not sure, Equal Share
+        if (points == Const.POINTS_NOT_SURE
+                || points == Const.POINTS_EQUAL_SHARE
+                || points == Const.POINTS_NOT_SUBMITTED) {
+            // Not sure, Equal Share, Not Submitted
             return "color_neutral";
         } else if ( points < Const.POINTS_EQUAL_SHARE){
             // Negative share
@@ -833,6 +837,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             return "0%"; // Do none
         else if(i == Const.POINTS_NOT_SURE)
             return "Not Sure";
+        else if (i == Const.POINTS_NOT_SUBMITTED)
+            return "";
         else
             return "";
     }
@@ -843,8 +849,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      * @return points in text form "Equal Share..." with html formatting for colors.
      */
     public static String convertToEqualShareFormatHtml(int i) {
-        if(i==Const.POINTS_NOT_SUBMITTED || i==Const.INT_UNINITIALIZED)
+        if(i==Const.INT_UNINITIALIZED)
             return "<span class=\"color_neutral\">N/A</span>";
+        else if (i == Const.POINTS_NOT_SUBMITTED)
+            return "<span class=\"color_neutral\"></span>";
         else if(i==Const.POINTS_NOT_SURE)
             return "<span class=\"color-negative\">Not Sure</span>";
         else if(i==0)
@@ -858,6 +866,17 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         else
             return "";
     }
-    
+
+    public boolean isQuestionSkipped(String[] answer) {
+        if (answer == null) {
+            return true;
+        }
+        for (String ans : answer) {
+            if (!ans.trim().isEmpty() && Integer.parseInt(ans) != Const.POINTS_NOT_SUBMITTED) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 }

@@ -2,16 +2,13 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.EvaluationAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -48,12 +45,8 @@ public class InstructorCourseEditPageAction extends Action {
         
         data.currentInstructor = instructor;
         data.sectionNames = logic.getSectionNamesForCourse(courseId);
-        data.evalNames = new ArrayList<String>();
         data.feedbackNames = new ArrayList<String>();
-        List<EvaluationAttributes> evaluations = logic.getEvaluationsForCourse(courseId);
-        for (EvaluationAttributes eval : evaluations) {
-            data.evalNames.add(eval.name);
-        }
+        
         List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsForCourse(courseId);
         for (FeedbackSessionAttributes feedback : feedbacks) {
             data.feedbackNames.add(feedback.feedbackSessionName);

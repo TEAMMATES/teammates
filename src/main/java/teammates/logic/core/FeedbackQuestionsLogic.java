@@ -78,11 +78,12 @@ public class FeedbackQuestionsLogic {
      * @param questionNumber
      * @throws InvalidParametersException
      */
-    public void createFeedbackQuestionNoIntegrityCheck(FeedbackQuestionAttributes fqa, int questionNumber)
+    public FeedbackQuestionAttributes createFeedbackQuestionNoIntegrityCheck(FeedbackQuestionAttributes fqa, int questionNumber)
             throws InvalidParametersException {
         fqa.questionNumber = questionNumber;
         fqa.removeIrrelevantVisibilityOptions();
-        fqDb.createEntityWithoutExistenceCheck(fqa);
+        FeedbackQuestionAttributes newFqa = fqDb.createFeedbackQuestionWithoutExistenceCheck(fqa);
+        return newFqa;
     }
     
     public FeedbackQuestionAttributes copyFeedbackQuestion(String feedbackQuestionId,

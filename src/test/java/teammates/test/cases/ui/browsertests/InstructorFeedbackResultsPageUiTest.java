@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -40,24 +41,36 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();
-        testData = loadDataBundle("/InstructorFeedbackResultsPageUiTest.json");
-        removeAndRestoreTestDataOnServer(testData);
         browser = BrowserPool.getBrowser();
     }
     
+    @BeforeMethod
+    public void refreshTestData() throws Exception {
+        testData = loadDataBundle("/InstructorFeedbackResultsPageUiTest.json");
+        removeAndRestoreTestDataOnServer(testData);
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
+    }
+    
     @Test
-    public void testAll() throws Exception {
+    public void testHtmlContent() throws Exception {
         testContent();
-        testModerateResponsesButton();
-        testViewPhotoAndAjaxForLargeScaledSession();
+        testModerateResponsesButton();        
+        testLink();
+    }
+    
+    @Test
+    public void testFrontEndActions() throws Exception {
         testSortAction();
         testFilterAction();
-        testPanelsCollapseExpand();
+        testPanelsCollapseExpand();        
         testShowStats();
         testSearchScript();
+    }
+    
+    @Test
+    public void testBackEndActions() throws Exception {
         testFeedbackResponseCommentActions();
         testDownloadAction();
-        testLink();
     }
 
     public void testContent(){
@@ -84,8 +97,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     
     public void testModerateResponsesButton() {
 
-        resultsPage = loginToInstructorFeedbackResultsPage(
-                "CFResultsUiT.instr", "Open Session");
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByQuestion();
         ThreadHelper.waitFor(2000);
 
@@ -241,6 +253,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         
     }
     
+    @Test
     public void testViewPhotoAndAjaxForLargeScaledSession() throws Exception {
         
         uploadPhotoForStudent(testData.students.get("Alice").googleId);

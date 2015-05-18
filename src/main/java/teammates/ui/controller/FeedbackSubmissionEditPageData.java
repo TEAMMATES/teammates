@@ -11,7 +11,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.StringHelper;
 
 public class FeedbackSubmissionEditPageData extends PageData {
-
     public FeedbackSessionQuestionsBundle bundle = null;
     public String moderatedQuestion = null;
     public boolean isSessionOpenForSubmission;
@@ -27,23 +26,28 @@ public class FeedbackSubmissionEditPageData extends PageData {
     }
     
     public List<String> getRecipientOptionsForQuestion(String feedbackQuestionId, String currentlySelectedOption) {
-        ArrayList<String> result = new ArrayList<String>();        
-        if(this.bundle == null) {
+        ArrayList<String> result = new ArrayList<String>();
+        
+        if (this.bundle == null) {
             return null;
         }
         
         Map<String, String> emailNamePair = this.bundle.getSortedRecipientList(feedbackQuestionId);
         
         // Add an empty option first.
-        result.add("<option value=\"\" " +
-                (currentlySelectedOption==null ? "selected=\"selected\">" : ">") +
-                "</option>");
+        result.add(
+            "<option value=\"\" " +
+            (currentlySelectedOption == null ? "selected=\"selected\">" : ">") +
+            "</option>"
+        );
         
-        for(Map.Entry<String, String> pair : emailNamePair.entrySet()) {
-            result.add("<option value=\""+pair.getKey()+"\"" +
-                    (StringHelper.recoverFromSanitizedText(pair.getKey()).equals(currentlySelectedOption) 
-                        ? " selected=\"selected\"" : "") +
-                    ">"+sanitizeForHtml(pair.getValue())+"</option>");
+        for (Map.Entry<String, String> pair : emailNamePair.entrySet()) {
+            result.add(
+                "<option value=\"" + pair.getKey() + "\"" +
+                (StringHelper.recoverFromSanitizedText(pair.getKey()).equals(currentlySelectedOption)  ? " selected=\"selected\"" : "") +
+                ">" + sanitizeForHtml(pair.getValue()) + 
+                "</option>"
+            );
         }
 
         return result;

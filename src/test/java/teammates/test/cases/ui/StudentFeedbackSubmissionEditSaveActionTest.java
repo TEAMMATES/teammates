@@ -41,8 +41,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
-        //TODO Test error states (catch-blocks and isError == true states)
+    public void testExecuteAndPostProcess() throws Exception {
         ______TS("edit existing answer");
         
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
@@ -166,10 +165,10 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         
         assertTrue(r.isError);
         assertEquals("You did not specify a recipient for your response in question 2.", r.getStatusMessage());
-        assertEquals("/page/studentFeedbackSubmissionEditPage?error=" 
-                     + r.isError + "&user=student1InCourse1" 
-                     + "&courseid=idOfTypicalCourse1" 
-                     + "&fsname=First+feedback+session",
+        assertEquals("/page/studentFeedbackSubmissionEditPage?error=" +
+                     r.isError + "&user=student1InCourse1" +
+                     "&courseid=idOfTypicalCourse1" +
+                     "&fsname=First+feedback+session",
                      r.getDestinationWithParams());
         
         ______TS("edit response, empty answer");
@@ -189,7 +188,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/studentHomePage?error=" + r.isError +"&user=student1InCourse1",
+        assertEquals("/page/studentHomePage?error=" + r.isError + "&user=student1InCourse1",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -210,10 +209,10 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         
         assertTrue(r.isError);
         assertEquals("You did not specify a recipient for your response in question 2.", r.getStatusMessage());
-        assertEquals("/page/studentFeedbackSubmissionEditPage?error=" 
-                      + r.isError + "&user=student1InCourse1" 
-                      + "&courseid=idOfTypicalCourse1" 
-                      + "&fsname=First+feedback+session",
+        assertEquals("/page/studentFeedbackSubmissionEditPage?error=" +
+                      r.isError + "&user=student1InCourse1" +
+                      "&courseid=idOfTypicalCourse1" +
+                      "&fsname=First+feedback+session",
                       r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
     
@@ -275,7 +274,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         
         ______TS("msq");
         
-        
         fq = fqDb.getFeedbackQuestion("MSQ Session", "FSQTT.idOfTypicalCourse1", 1);
         assertNotNull("Feedback question not found in database", fq);
         
@@ -328,7 +326,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
         ______TS("numscale");
-        
         
         fq = fqDb.getFeedbackQuestion("NUMSCALE Session", "FSQTT.idOfTypicalCourse1", 1);
         assertNotNull("Feedback question not found in database", fq);
@@ -392,7 +389,6 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         
         ______TS("Successful case: const sum: typical case");
         
-        
         fq = fqDb.getFeedbackQuestion("CONSTSUM Session", "FSQTT.idOfTypicalCourse1", 1);
         assertNotNull("Feedback question not found in database", fq);
         
@@ -424,7 +420,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
         assertFalse(r.isError);
-        assertEquals("/page/studentHomePage?error=" + r.isError +"&user=FSQTT.student1InCourse1",
+        assertEquals("/page/studentHomePage?error=" + r.isError + "&user=FSQTT.student1InCourse1",
                         r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -450,9 +446,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
-        
         ______TS("Successful case: contrib qn: typical case");
-        
         
         fq = fqDb.getFeedbackQuestion("CONTRIB Session", "FSQTT.idOfTypicalCourse1", 1);
         assertNotNull("Feedback question not found in database", fq);
@@ -507,6 +501,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
         ______TS("Unsuccessful case: test empty feedback session name parameter");
+        
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, dataBundle.feedbackResponses.get("response1ForQ1S1C1").courseId
         };
@@ -519,9 +514,9 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
                     Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
         }
-                
         
         ______TS("Unsuccessful case: test empty course id parameter");
+        
         submissionParams = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, dataBundle.feedbackResponses.get("response1ForQ1S1C1").feedbackSessionName
         };
@@ -557,11 +552,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, "invalid recipient"));
         gaeSimulation.logoutUser();
         
-        
-        
-        
         ______TS("Unregistered student with valid submission of response remains at submission page");
-        
         
         StudentAttributes unregisteredStudent = dataBundle.students.get("unregisteredStudentInCourse1");
         
@@ -581,12 +572,12 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
 
         // Setting uri for unregistered student which contains the key of the student
         String studentKey = StudentsLogic.inst().getEncryptedKeyForStudent(unregisteredStudent.course, unregisteredStudent.email);
-        uri = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE)
-                      .withCourseId(unregisteredStudent.course)
-                      .withSessionName(fsa.feedbackSessionName)
-                      .withRegistrationKey(studentKey)
-                      .withStudentEmail(unregisteredStudent.email)
-                      .toString();
+        uri = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE).
+                      withCourseId(unregisteredStudent.course).
+                      withSessionName(fsa.feedbackSessionName).
+                      withRegistrationKey(studentKey).
+                      withStudentEmail(unregisteredStudent.email).
+                      toString();
         
         // Valid response from unregistered student
         String[] validSubmissionParams = new String[]{
@@ -608,25 +599,22 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         
         assertFalse(redirectResult.isError);
         assertEquals(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE + 
-                "?studentemail=unregisteredStudentInCourse2%40gmail.tmt&error="+redirectResult.isError+"&courseid="+unregisteredStudent.course
-                + "&fsname=Unregistered+Student+Session&key="+studentKey, 
+                "?studentemail=unregisteredStudentInCourse2%40gmail.tmt&error=" + redirectResult.isError + "&courseid="+unregisteredStudent.course +
+                "&fsname=Unregistered+Student+Session&key=" + studentKey, 
                 redirectResult.getDestinationWithParams());
         assertEquals("All responses submitted succesfully!", redirectResult.getStatusMessage());
         gaeSimulation.logoutUser();
-        
-        
-        
+
         ______TS("Unregistered student with invalid submission of response remains at submission page");
-        
         
         // Setting uri for unregistered student which contains the key of the student
         studentKey = StudentsLogic.inst().getEncryptedKeyForStudent(unregisteredStudent.course, unregisteredStudent.email);
-        uri = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE)
-                      .withCourseId(unregisteredStudent.course)
-                      .withSessionName(fsa.feedbackSessionName)
-                      .withRegistrationKey(studentKey)
-                      .withStudentEmail(unregisteredStudent.email)
-                      .toString();
+        uri = new Url(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE).
+                      withCourseId(unregisteredStudent.course).
+                      withSessionName(fsa.feedbackSessionName).
+                      withRegistrationKey(studentKey).
+                      withStudentEmail(unregisteredStudent.email).
+                      toString();
         
         // Invalid response from unregistered student
         String[] invalidSubmissionParams = new String[]{
@@ -648,8 +636,8 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         
         assertTrue(redirectResult.isError);
         assertEquals(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE + 
-                "?studentemail=unregisteredStudentInCourse2%40gmail.tmt&error="+redirectResult.isError+"&courseid="+unregisteredStudent.course
-                + "&fsname=Unregistered+Student+Session&key="+studentKey, 
+                "?studentemail=unregisteredStudentInCourse2%40gmail.tmt&error=" + redirectResult.isError + "&courseid="+unregisteredStudent.course +
+                "&fsname=Unregistered+Student+Session&key=" + studentKey, 
                 redirectResult.getDestinationWithParams());
         assertEquals("100 is out of the range for Numerical-scale question.(min=1, max=5)", redirectResult.getStatusMessage());
         gaeSimulation.logoutUser();
@@ -659,7 +647,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
     }
     
     @Test
-    public void testGracePeriodExecuteAndPostProcess() throws Exception{
+    public void testGracePeriodExecuteAndPostProcess() throws Exception {
         FeedbackSessionsDb feedbackSessionDb = new FeedbackSessionsDb();
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("gracePeriodSession");
         StudentAttributes studentInGracePeriod = dataBundle.students.get("student1InCourse1");
@@ -668,7 +656,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
-                };
+        };
         
         ______TS("opened");
         
@@ -720,7 +708,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 r.getStatusMessage());
     }
     
-    private StudentFeedbackSubmissionEditSaveAction getAction(String... params) throws Exception{
+    private StudentFeedbackSubmissionEditSaveAction getAction(String... params) throws Exception {
         return (StudentFeedbackSubmissionEditSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

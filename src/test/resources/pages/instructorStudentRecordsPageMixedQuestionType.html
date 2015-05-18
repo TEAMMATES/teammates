@@ -7,7 +7,7 @@
 
 
 
-    <div id="statusMessage" style="display: none;"></div>
+        <div id="statusMessage" style="display: none;"></div>
 
         
                 <div class="modal fade" id="studentProfileMoreInfo" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -99,7 +99,10 @@
                                   <form method="post" action="/page/instructorStudentCommentAdd" name="form_commentadd" class="form_comment">
                                     <div class="form-group form-inline">
                                         <div class="form-group text-muted">
-                                            The default visibility for your comment is private. You may change it using the visibility options.
+                                            <p>
+                                                Comment about student1 In Course1: 
+                                            </p>
+                                            The default visibility for your comment is private. You may change it using the visibility options. 
                                         </div>
                                         <a id="visibility-options-trigger-1" class="btn btn-sm btn-info pull-right">
                                             <span class="glyphicon glyphicon-eye-close"></span>
@@ -221,10 +224,6 @@
 
 
 
-
-
-
-
 <br>
 <div class="panel panel-primary">
     <div class="panel-heading">
@@ -233,14 +232,30 @@
     <div class="panel-body">
     
     <div class="row ">
+        <div class="col-md-2"><strong>From: Instructor1 Course1 (Instructors)</strong></div>
+        <div class="col-md-10">
+        
+                <div class="panel panel-info">
+                    <div class="panel-heading">Question 3: How much has each student worked?&nbsp;<span style=" white-space: normal;">
+    <a href="javascript:;" id="questionAdditionalInfoButton-3-giver-1-session-0" class="color_gray" onclick="toggleAdditionalQuestionInfo('3-giver-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
+    <br>
+    <span id="questionAdditionalInfo-3-giver-1-session-0" style="display:none;">Distribute points (among recipients) question<br>Points per recipient: 100</span>
+</span></div>
+                <div class="panel-body"><span class="text-preserve-space">30</span>
+            </div></div>
+            
+            </div></div>
+            <br>
+    
+    <div class="row border-top-gray">
         <div class="col-md-2"><strong>From: student1 In Course1 (Team 1.1)</strong></div>
         <div class="col-md-10">
         
                 <div class="panel panel-info">
                     <div class="panel-heading">Question 1: How important are the following factors to you? Give points accordingly.&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-1-giver-1-session-0" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-giver-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
+    <a href="javascript:;" id="questionAdditionalInfoButton-1-giver-2-session-0" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-giver-2-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
-    <span id="questionAdditionalInfo-1-giver-1-session-0" style="display:none;">Distribute points (among options) question options:
+    <span id="questionAdditionalInfo-1-giver-2-session-0" style="display:none;">Distribute points (among options) question options:
 <ul style="list-style-type: disc;margin-left: 20px;"><li>Grades</li><li>Fun</li></ul>Total points: 100</span>
 </span></div>
                 <div class="panel-body"><span class="text-preserve-space"><ul><li>Grades: 19</li><li>Fun: 81</li></ul></span>
@@ -265,7 +280,7 @@
                 
                 <div class="panel panel-info">
                     <div class="panel-heading">Question 1: How important are the following factors to you? Give points accordingly.&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-1-recipient-1-session-0" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
+    <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-1-session-0" style="display:none;">Distribute points (among options) question options:
 <ul style="list-style-type: disc;margin-left: 20px;"><li>Grades</li><li>Fun</li></ul>Total points: 100</span>
@@ -290,10 +305,6 @@
                             </div>
                             <div class="placeholder-img-loading"></div>
                             <div id="target-feedback-1">
-
-
-
-
 
 
 
@@ -354,7 +365,7 @@
                 
                 <div class="panel panel-info">
                     <div class="panel-heading">Question 1: How much has each team member including yourself, contributed to the project?&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-1-recipient-1-session-0" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
+    <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-1-session-0" style="display:none;">Team contribution question</span>
 </span></div>
@@ -372,7 +383,7 @@
                 
                 <div class="panel panel-info">
                     <div class="panel-heading">Question 1: How much has each team member including yourself, contributed to the project?&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-1-recipient-2-session-0" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-2-session-0')" data-more="[more]" data-less="[less]">[more]</a>
+    <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-2-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-2-session-0" style="display:none;">Team contribution question</span>
 </span></div>
@@ -390,7 +401,7 @@
                 
                 <div class="panel panel-info">
                     <div class="panel-heading">Question 1: How much has each team member including yourself, contributed to the project?&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-1-recipient-3-session-0" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-3-session-0')" data-more="[more]" data-less="[less]">[more]</a>
+    <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-3-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-3-session-0" style="display:none;">Team contribution question</span>
 </span></div>
@@ -408,7 +419,7 @@
                 
                 <div class="panel panel-info">
                     <div class="panel-heading">Question 1: How much has each team member including yourself, contributed to the project?&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-1-recipient-4-session-0" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-4-session-0')" data-more="[more]" data-less="[less]">[more]</a>
+    <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-4-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-4-session-0" style="display:none;">Team contribution question</span>
 </span></div>
@@ -432,10 +443,6 @@
                             </div>
                             <div class="placeholder-img-loading"></div>
                             <div id="target-feedback-2">
-
-
-
-
 
 
 
@@ -497,7 +504,7 @@
                 
                 <div class="panel panel-info">
                     <div class="panel-heading">Question 1: What do you like best about our product?&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-1-recipient-1-session-0" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
+    <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-1-session-0" style="display:none;">Multiple-choice (single answer) question options:
 <ul style="list-style-type: disc;margin-left: 20px;"><li>It's good</li><li>It's perfect</li></ul></span>
@@ -522,10 +529,6 @@
                             </div>
                             <div class="placeholder-img-loading"></div>
                             <div id="target-feedback-3">
-
-
-
-
 
 
 
@@ -587,7 +590,7 @@
                 
                 <div class="panel panel-info">
                     <div class="panel-heading">Question 1: What do you like best about our product?&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-1-recipient-1-session-0" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
+    <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-1-session-0" style="display:none;">Multiple-choice (multiple answers) question options:
 <ul style="list-style-type: disc;margin-left: 20px;"><li>It's good</li><li>It's perfect</li></ul></span>
@@ -612,10 +615,6 @@
                             </div>
                             <div class="placeholder-img-loading"></div>
                             <div id="target-feedback-4">
-
-
-
-
 
 
 
@@ -676,7 +675,7 @@
                 
                 <div class="panel panel-info">
                     <div class="panel-heading">Question 1: Rate our product.&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-1-recipient-1-session-0" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
+    <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-1-session-0" style="display:none;">Numerical-scale question:<br>Minimum value: 1. Increment: 0.5. Maximum value: 5.</span>
 </span></div>
@@ -700,10 +699,6 @@
                             </div>
                             <div class="placeholder-img-loading"></div>
                             <div id="target-feedback-5">
-
-
-
-
 
 
 
@@ -765,7 +760,7 @@
                 
                 <div class="panel panel-info">
                     <div class="panel-heading">Question 1: Please choose the best choice for the following sub-questions.&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-1-recipient-1-session-0" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
+    <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-1-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-1-session-0" style="display:none;">Rubric question sub-questions:
 <p>a) This student has done a good job.<br>b) This student has tried his/her best.<br></p></span>
@@ -784,7 +779,7 @@
                 
                 <div class="panel panel-info">
                     <div class="panel-heading">Question 1: Please choose the best choice for the following sub-questions.&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-1-recipient-2-session-0" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-2-session-0')" data-more="[more]" data-less="[less]">[more]</a>
+    <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-2-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-2-session-0" style="display:none;">Rubric question sub-questions:
 <p>a) This student has done a good job.<br>b) This student has tried his/her best.<br></p></span>
@@ -803,7 +798,7 @@
                 
                 <div class="panel panel-info">
                     <div class="panel-heading">Question 1: Please choose the best choice for the following sub-questions.&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-1-recipient-3-session-0" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-3-session-0')" data-more="[more]" data-less="[less]">[more]</a>
+    <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-3-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-3-session-0" style="display:none;">Rubric question sub-questions:
 <p>a) This student has done a good job.<br>b) This student has tried his/her best.<br></p></span>
@@ -822,7 +817,7 @@
                 
                 <div class="panel panel-info">
                     <div class="panel-heading">Question 1: Please choose the best choice for the following sub-questions.&nbsp;<span style=" white-space: normal;">
-    <a href="javascript:;" id="questionAdditionalInfoButton-1-recipient-4-session-0" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-4-session-0')" data-more="[more]" data-less="[less]">[more]</a>
+    <a href="javascript:;" id="{*}" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-recipient-4-session-0')" data-more="[more]" data-less="[less]">[more]</a>
     <br>
     <span id="questionAdditionalInfo-1-recipient-4-session-0" style="display:none;">Rubric question sub-questions:
 <p>a) This student has done a good job.<br>b) This student has tried his/her best.<br></p></span>

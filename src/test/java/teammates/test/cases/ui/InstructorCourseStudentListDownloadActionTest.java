@@ -10,7 +10,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.logic.core.StudentsLogic;
-import teammates.storage.api.StudentsDb;
 import teammates.ui.controller.FileDownloadResult;
 import teammates.ui.controller.InstructorCourseStudentListDownloadAction;
 

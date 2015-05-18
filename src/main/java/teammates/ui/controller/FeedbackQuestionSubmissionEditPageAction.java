@@ -16,22 +16,24 @@ public abstract class FeedbackQuestionSubmissionEditPageAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
+        
         feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertNotNull(feedbackSessionName);
+        
         feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         Assumption.assertNotNull(feedbackQuestionId);
         
-        if(!isSpecificUserJoinedCourse()){
+        if (!isSpecificUserJoinedCourse()) {
             return createPleaseJoinCourseResponse(courseId);
         }
         
         verifyAccesibleForSpecificUser();
         
         String userEmailForCourse = getUserEmailForCourse();        
-        data = new FeedbackQuestionSubmissionEditPageData(account);
+        data = new FeedbackQuestionSubmissionEditPageData(account, student);
         data.bundle = getDataBundle(userEmailForCourse);
-        
         data.isSessionOpenForSubmission = isSessionOpenForSpecificUser(data.bundle.feedbackSession);
+        
         if (!data.isSessionOpenForSubmission) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN);
         }

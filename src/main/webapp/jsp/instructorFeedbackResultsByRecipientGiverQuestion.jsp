@@ -476,7 +476,8 @@
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
-                                            <% List<FeedbackResponseCommentAttributes> responseComments = data.bundle.responseComments.get(singleResponse.getId()); %>
+                                            <% List<FeedbackResponseCommentAttributes> responseComments = data.bundle.responseComments.get(singleResponse.getId());
+                                             %>
                                             <ul class="list-group" id="responseCommentTable-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>"
                                              style="<%=responseComments != null && responseComments.size() > 0? "margin-top:15px;": "display:none"%>">
                                             <%
@@ -486,7 +487,8 @@
                                             %>
                                         <li class="list-group-item list-group-item-warning" id="responseCommentRow-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
                                             <div id="commentBar-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
-                                            <span class="text-muted">From: <%=comment.giverEmail%> [<%=comment.createdAt%>]</span>
+                                            <span class="text-muted">From: <%=comment.giverEmail%> [<%=comment.createdAt%>] <%=comment.getEditedAtTextForSessionsView(comment.giverEmail.equals("Anonymous"))%>
+                                            </span>
                                             <!-- frComment delete Form -->
                                             <form class="responseCommentDeleteForm pull-right">
                                                 <a href="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENT_DELETE%>" type="button" id="commentdelete-<%=responseCommentIndex %>" class="btn btn-default btn-xs icon-button" 
@@ -528,6 +530,10 @@
                                                 <div class="form-group">
                                                     <div class="form-group form-inline">
                                                         <div class="form-group text-muted">
+                                                            <p>
+                                                                Giver: <%=responsesForRecipientFromGiver.getKey()%><br>
+                                                                Recipient: <%=responsesForRecipient.getKey()%>
+                                                            </p>
                                                             You may change comment's visibility using the visibility options on the right hand side.
                                                         </div>
                                                         <a id="frComment-visibility-options-trigger-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>"
@@ -719,6 +725,10 @@
                                                 <div class="form-group">
                                                     <div class="form-group form-inline">
                                                         <div class="form-group text-muted">
+                                                            <p>
+                                                                Giver: <%=responsesForRecipientFromGiver.getKey()%><br>
+                                                                Recipient: <%=responsesForRecipient.getKey()%>
+                                                            </p>
                                                             You may change comment's visibility using the visibility options on the right hand side.
                                                         </div>
                                                         <a id="frComment-visibility-options-trigger-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>"

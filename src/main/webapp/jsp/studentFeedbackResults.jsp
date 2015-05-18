@@ -70,7 +70,7 @@
                                         .toString();
             %>
                 <div id="registerMessage" class="alert alert-info">
-                    <%=String.format(Const.StatusMessages.UNREGISTERED_STUDENT, joinUrl)%>
+                    <%=String.format(Const.StatusMessages.UNREGISTERED_STUDENT_RESULTS, data.student.name, joinUrl)%>
                 </div>
             <%
             	}
@@ -127,7 +127,7 @@
                         <h4>Question <%=qnIndx%>: <span class="text-preserve-space"><%=StudentFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText)%><%=questionDetails.getQuestionAdditionalInfoHtml(qnIndx, "")%></span></h4>
                         <%=
                             questionDetails.getQuestionResultStatisticsHtml(questionWithResponses
-                                    .getValue(), question, data.account, data.bundle, "student")
+                                    .getValue(), question, data, data.bundle, "student")
                         %>
                     <%
                     	ListIterator<FeedbackResponseAttributes> itr = questionWithResponses

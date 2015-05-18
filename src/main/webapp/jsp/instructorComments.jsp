@@ -19,11 +19,6 @@
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.SessionResultsBundle"%>
-<%@ page import="teammates.common.datatransfer.StudentResultBundle"%>
-<%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
-<%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
-<%@ page import="teammates.common.datatransfer.SubmissionAttributes"%>
-<%@ page import="teammates.ui.controller.InstructorEvalSubmissionPageData"%>
 <%@ page import="teammates.ui.controller.InstructorCommentsPageData"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForJs"%>
 
@@ -302,7 +297,8 @@
                                         <div id="commentBar-<%=commentIdx%>">
                                             
                                             <span class="text-muted">To <%=data.getRecipientNames(comment.recipients)%> on
-                                                <%=TimeHelper.formatTime(comment.createdAt)%></span>
+                                                <%=TimeHelper.formatTime(comment.createdAt)%> <%=comment.getEditedAtTextForInstructor(data.getGiverName(giverEmail).equals("Anonymous"))%>
+                                            </span>
                                             <%
                                                if (comment.giverEmail.equals(data.instructorEmail)
                                                        || (data.currentInstructor != null && 
@@ -589,7 +585,7 @@
                 <div id="panel_display-<%=panelIdx%>">
                 <br>
                 <div class="panel panel-primary">
-                    <div class="panel-heading" onclick="loadFeedbackResponseComments('<%=data.account.googleId%>','<%=data.courseId%>','<%=fsName%>', this);"
+                    <div class="panel-heading" onclick="loadFeedbackResponseComments('<%=data.account.googleId%>','<%=data.courseId%>','<%=fsName%>', '<%=fsIndx%>', this);"
                         style="cursor: pointer;">
                         <strong>Comments in session: <%=fsName%></strong>
                         <div class="placeholder-img-loading pull-right"></div>

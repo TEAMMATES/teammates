@@ -40,34 +40,6 @@
     }
   },
   
-  "evaluations" : {
-  
-    "openingEval": {
-      "courseId" : "AutSessRem.course",
-      "name" : "Opening Eval",
-      "startTime" : "2012-04-01 11:59 PM UTC",
-      "endTime" : "2016-04-30 11:59 PM UTC",
-      "timeZone" : 0.0,
-      "p2pEnabled" : true,
-      "instructions": {"value" : "This is instruction for first eval"},
-      "gracePeriod": 0,
-      "published" : false,
-      "activated" : false
-    },
-    "closingEval": {
-      "courseId" : "AutSessRem.course",
-      "name": "Closing Eval",
-      "startTime" : "2012-04-01 11:59 PM UTC",
-      "endTime" : "2016-04-02 11:59 PM UTC",
-      "timeZone": 0.0,
-      "p2pEnabled": true,
-      "instructions": {"value" : "Please please fill in the second evaluation"},
-      "gracePeriod": 0,
-      "published": false,
-      "activated": true
-    }
-  },
-  
   "feedbackSessions" : {
   	 "openingSession": {
       "feedbackSessionName" : "AutSessRem Opening Session",

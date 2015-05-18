@@ -160,46 +160,50 @@ function enableEdit(qnNumber, maxQuestions) {
  * @param number
  */
 function enableQuestion(number) {
-    $('#questionTable'+number).find('text,button,textarea,select,input').
+    var $currentQuestionTable = $('#questionTable' + number);
+    
+    $currentQuestionTable.find('text,button,textarea,select,input').
         not('[name="receiverFollowerCheckbox"]').
         not('.disabled_radio').
         removeAttr("disabled", "disabled");
-    $('#questionTable'+number).find('.removeOptionLink').show();
-    $('#questionTable'+number).find('.addOptionLink').show();
+    $currentQuestionTable.find('.removeOptionLink').show();
+    $currentQuestionTable.find('.addOptionLink').show();
 
-    $('#questionTable'+number).find('#rubricAddChoiceLink-'+number).show();
-    $('#questionTable'+number).find('#rubricAddSubQuestionLink-'+number).show();
-    $('#questionTable'+number).find('.rubricRemoveChoiceLink-'+number).show();
-    $('#questionTable'+number).find('.rubricRemoveSubQuestionLink-'+number).show();
+    $currentQuestionTable.find('#rubricAddChoiceLink-' + number).show();
+    $currentQuestionTable.find('#rubricAddSubQuestionLink-' + number).show();
+    $currentQuestionTable.find('.rubricRemoveChoiceLink-' + number).show();
+    $currentQuestionTable.find('.rubricRemoveSubQuestionLink-' + number).show();
     
-    if ($("#generateOptionsCheckbox-"+number).prop("checked")) {
-        $("#mcqChoiceTable-"+number).hide();
-        $("#msqChoiceTable-"+number).hide();
-        $("#mcqGenerateForSelect-"+number).prop("disabled", false);
-        $("#msqGenerateForSelect-"+number).prop("disabled", false);
+    if ($("#generateOptionsCheckbox-" + number).prop("checked")) {
+        $("#mcqChoiceTable-" + number).hide();
+        $("#msqChoiceTable-" + number).hide();
+        $("#mcqGenerateForSelect-" + number).prop("disabled", false);
+        $("#msqGenerateForSelect-" + number).prop("disabled", false);
     } else {
-        $("#mcqChoiceTable-"+number).show();
-        $("#msqChoiceTable-"+number).show();
-        $("#mcqGenerateForSelect-"+number).prop("disabled", true);
-        $("#msqGenerateForSelect-"+number).prop("disabled", true);
+        $("#mcqChoiceTable-" + number).show();
+        $("#msqChoiceTable-" + number).show();
+        $("#mcqGenerateForSelect-" + number).prop("disabled", true);
+        $("#msqGenerateForSelect-" + number).prop("disabled", true);
     }
     
-    if ($("#constSumToRecipients-"+number).val() === "true") {
-        $("#constSumOptionTable-"+number).hide();
-        $("#constSumOption_Option-"+number).hide();
+    if ($("#constSumToRecipients-" + number).val() === "true") {
+        $("#constSumOptionTable-" + number).hide();
+        $("#constSumOption_Option-" + number).hide();
     } else {
-        $("#constSumOptionTable-"+number).show();
-        $("#constSumOption_Recipient-"+number).hide();
+        $("#constSumOptionTable-" + number).show();
+        $("#constSumOption_Recipient-" + number).hide();
     }
-    $("#constSumOption_distributeUnevenly-"+number).prop("disabled", false);
     
-    if ($('#questionTable'+number).parent().find('input[name="questiontype"]').val() === 'CONTRIB') {
+    $("#constSumOption_distributeUnevenly-" + number).prop("disabled", false);
+    
+    if ($('#questionTable' + number).parent().find('input[name="questiontype"]').val() === 'CONTRIB') {
         fixContribQnGiverRecipient(number);
         setContribQnVisibilityFormat(number);
     }
     
     $('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).hide();
     $('#'+FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).show();
+    $('#'+FEEDBACK_QUESTION_CANCELEDIT+'-'+number).show();
     $('#'+'button_question_submit-'+number).show();
     $('#'+FEEDBACK_QUESTION_EDITTYPE+'-'+number).value="edit";
     // $('#questionTable'+number).find('.visibilityOptionsLabel').click();
@@ -208,17 +212,21 @@ function enableQuestion(number) {
 function enableNewQuestion() {
     var newQnSuffix = "New";
     var number = "-1";
-    $('#questionTable'+newQnSuffix).find('text,button,textarea,select,input').
+    
+    var $currentQuestionTableSuffix = $('#questionTable' + newQnSuffix);
+    var $currentQuestionTableNumber = $('#questionTable' + number);
+    
+    $currentQuestionTableSuffix.find('text,button,textarea,select,input').
         not('[name="receiverFollowerCheckbox"]').
         not('.disabled_radio').
         removeAttr("disabled", "disabled");
-    $('#questionTable'+newQnSuffix).find('.removeOptionLink').show();
-    $('#questionTable'+newQnSuffix).find('.addOptionLink').show();
+    $currentQuestionTableSuffix.find('.removeOptionLink').show();
+    $currentQuestionTableSuffix.find('.addOptionLink').show();
 
-    $('#questionTable'+number).find('#rubricAddChoiceLink-'+number).show();
-    $('#questionTable'+number).find('#rubricAddSubQuestionLink-'+number).show();
-    $('#questionTable'+number).find('.rubricRemoveChoiceLink-'+number).show();
-    $('#questionTable'+number).find('.rubricRemoveSubQuestionLink-'+number).show();
+    $currentQuestionTableNumber.find('#rubricAddChoiceLink-' + number).show();
+    $currentQuestionTableNumber.find('#rubricAddSubQuestionLink-' + number).show();
+    $currentQuestionTableNumber.find('.rubricRemoveChoiceLink-' + number).show();
+    $currentQuestionTableNumber.find('.rubricRemoveSubQuestionLink-' + number).show();
 
 
     if ($("#generateOptionsCheckbox-"+number).prop("checked")) {
@@ -246,17 +254,18 @@ function enableNewQuestion() {
  * @param number
  */
 function disableQuestion(number) {
+    var $currentQuestionTable = $('#questionTable' + number);
 
-    $('#questionTable'+number).find('text,button,textarea,select,input').attr("disabled", "disabled");
+    $currentQuestionTable.find('text,button,textarea,select,input').attr("disabled", "disabled");
     
-    $('#questionTable'+number).find('#mcqAddOptionLink').hide();
-    $('#questionTable'+number).find('#msqAddOptionLink').hide();
-    $('#questionTable'+number).find('.removeOptionLink').hide();
+    $currentQuestionTable.find('#mcqAddOptionLink').hide();
+    $currentQuestionTable.find('#msqAddOptionLink').hide();
+    $currentQuestionTable.find('.removeOptionLink').hide();
 
-    $('#questionTable'+number).find('#rubricAddChoiceLink-'+number).hide();
-    $('#questionTable'+number).find('#rubricAddSubQuestionLink-'+number).hide();
-    $('#questionTable'+number).find('.rubricRemoveChoiceLink-'+number).hide();
-    $('#questionTable'+number).find('.rubricRemoveSubQuestionLink-'+number).hide();
+    $currentQuestionTable.find('#rubricAddChoiceLink-'+number).hide();
+    $currentQuestionTable.find('#rubricAddSubQuestionLink-'+number).hide();
+    $currentQuestionTable.find('.rubricRemoveChoiceLink-'+number).hide();
+    $currentQuestionTable.find('.rubricRemoveSubQuestionLink-'+number).hide();
 
     $('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).show();
     $('#'+FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).hide();
@@ -268,7 +277,7 @@ function disableQuestion(number) {
  * @param question number
  * @returns
  */
-function deleteQuestion(number){
+function deleteQuestion(number) {
     if (number === -1) {
         location.reload();
         return false;
@@ -278,6 +287,21 @@ function deleteQuestion(number){
         return true;
     } else {
         return false;
+    }
+}
+
+/**
+ * Allows users to cancel editing questions
+ */
+function cancelEdit(number) {
+    if (number === -1) {
+        if (confirm('Are you sure you want to cancel adding this question?')) {
+            location.reload();
+        }
+    } else {
+        if (confirm('Are you sure you want to cancel your changes?')) {
+            location.reload();
+        }
     }
 }
 
@@ -320,14 +344,17 @@ function formatNumberBox(value, qnNumber) {
     if (value === "STUDENTS" || value === "TEAMS") {
         $("div.numberOfEntitiesElements"+qnNumber).show();
         
+        var $span = $("span#" + FEEDBACK_QUESTION_NUMBEROFENTITIES + "_text_inner-" + qnNumber);
+        
         if (value === "STUDENTS") {
-            $("span#"+FEEDBACK_QUESTION_NUMBEROFENTITIES+"_text_inner-"+qnNumber).html("students");
+            $span.html("students");
         } else {
-            $("span#"+FEEDBACK_QUESTION_NUMBEROFENTITIES+"_text_inner-"+qnNumber).html("teams");
+            $span.html("teams");
         }
     } else {
         $("div.numberOfEntitiesElements"+qnNumber).hide();
     }
+    
     tallyCheckboxes(qnNumber);
 }
 
@@ -591,7 +618,7 @@ function formatQuestionNumbers(){
 
 function getQuestionLink(qnNumber) {
     var courseid = $("input[name='courseid']").val();
-    var fsname = toParameterFormat($("input[name='fsname']").val());
+    var fsname = encodeURIComponent($("input[name='fsname']").val());
     
     var questionId = $("#form_editquestion-" + qnNumber)
                         .find("input[name='questionid']").val();
@@ -676,10 +703,12 @@ function bindCopyEvents() {
             numRowsSelected++;
         }
 
+        var $button = $('#button_copy_submit');
+        
         if (numRowsSelected <= 0) {
-            $('#button_copy_submit').prop('disabled', true);
+            $button.prop('disabled', true);
         } else {
-            $('#button_copy_submit').prop('disabled', false);
+            $button.prop('disabled', false);
         }
 
         return false;
@@ -716,9 +745,14 @@ var previousFormDataMap = {};
 function getVisibilityMessage(buttonElem) {
     var form = $(buttonElem).closest("form");
     var qnNumber = $(form).find("[name=questionnum]").val();
-
-    // trigger onsubmit event of the qnNumber which has already binded with
-    eval($(form).attr('onsubmit'));
+    var newQnNumber = $('input[name=questionnum]').last().val();
+    
+    if (qnNumber === newQnNumber) {
+        tallyCheckboxes('');
+    } else {
+        tallyCheckboxes(qnNumber);
+    }
+    
     var formData =  $(form[0]).serialize();
 
     if (previousFormDataMap[qnNumber] === formData) {
@@ -738,9 +772,12 @@ function getVisibilityMessage(buttonElem) {
     	url: url,
     	data: formData,
     	success: function(data) {
-    		$(form).find('.visibilityMessage').html(formatVisibilityMessageHtml(data.visibilityMessage));
-    		$(form).find('.visibilityOptions').hide();
-    		$(form).find('.visibilityMessage').show();
+    	    var $formVisibility = $(form).find('.visibilityMessage');
+    	    var $formOptions = $(form).find('.visibilityOptions');
+    	    
+    	    $formVisibility.html(formatVisibilityMessageHtml(data.visibilityMessage));
+    	    $formOptions.hide();
+    	    $formVisibility.show();
     	},
     	error: function(jqXHR, textStatus, errorThrown) {
     		console.log('AJAX request failed');
@@ -990,26 +1027,29 @@ function updateNumScalePossibleValues(questionNumber) {
     if (step === 0) {
         step = 0.001;
     }
-    $("#stepBox" + idSuffix).val(step);        
+    
+    var $stepBox = $("#stepBox" + idSuffix);
+    $stepBox.val(step);        
     if (isNaN(step)) {
-        $("#stepBox" + idSuffix).val("");        
+        $stepBox.val("");        
     }
 
     var possibleValuesCount = Math.floor(roundToThreeDp((max - min) / step)) + 1;
     var largestValueInRange = min + roundToThreeDp((possibleValuesCount - 1) * step);
     var possibleValuesString = "";
+    var $numScalePossibleValues = $("#numScalePossibleValues" + idSuffix);
     if (roundToThreeDp(largestValueInRange) != max) {
-        $("#numScalePossibleValues"+idSuffix).css("color","red");
+        $numScalePossibleValues.css("color","red");
         possibleValuesString = "[The interval " + min.toString() + " - " + max.toString() + " is not divisible by the specified increment.]";
 
         if (min.toString() === "NaN" || max.toString() === "NaN" || step.toString() === "NaN") {
             possibleValuesString = "[Please enter valid numbers for all the options.]"
         }
 
-        $("#numScalePossibleValues"+idSuffix).text(possibleValuesString);
+        $numScalePossibleValues.text(possibleValuesString);
         return false;
     } else {
-        $("#numScalePossibleValues"+idSuffix).css("color","black");
+        $numScalePossibleValues.css("color","black");
         possibleValuesString = "[Based on the above settings, acceptable responses are: ";
         if (possibleValuesCount > 6) {
             possibleValuesString += min.toString() + ", "
@@ -1027,7 +1067,7 @@ function updateNumScalePossibleValues(questionNumber) {
             }
         }
         possibleValuesString += "]";
-        $("#numScalePossibleValues"+idSuffix).text(possibleValuesString);
+        $numScalePossibleValues.text(possibleValuesString);
         return true;
     }
 }
@@ -1119,20 +1159,22 @@ function removeConstSumOption(index, questionNumber) {
 function setDefaultContribQnVisibility(questionNumber) {
     var idSuffix = questionNumber ? (questionNumber) : "New";
     var idSuffix2 = questionNumber ? questionNumber : "";
+    
+    $currentQuestionTable = $('#questionTable' + idSuffix);
 
-    $('#questionTable'+idSuffix).find('input.visibilityCheckbox').prop('checked', false);
+    $currentQuestionTable.find('input.visibilityCheckbox').prop('checked', false);
     //All except STUDENTS can see answer
-    $('#questionTable'+idSuffix).find('input.visibilityCheckbox')
-                                .filter('[class*="answerCheckbox'+idSuffix2+'"]')
-                                .not('[value="STUDENTS"]').prop('checked', true);
+    $currentQuestionTable.find('input.visibilityCheckbox')
+                         .filter('[class*="answerCheckbox'+idSuffix2+'"]')
+                         .not('[value="STUDENTS"]').prop('checked', true);
     //Only instructor can see giver
-    $('#questionTable'+idSuffix).find('input.visibilityCheckbox')
-                                .filter('[class*="giverCheckbox'+idSuffix2+'"]')
-                                .filter('[value="INSTRUCTORS"]').prop('checked', true);
+    $currentQuestionTable.find('input.visibilityCheckbox')
+                         .filter('[class*="giverCheckbox'+idSuffix2+'"]')
+                         .filter('[value="INSTRUCTORS"]').prop('checked', true);
     //Recipient and instructor can see recipient
-    $('#questionTable'+idSuffix).find('input.visibilityCheckbox')
-                                .filter('[class*="recipientCheckbox'+idSuffix2+'"]')
-                                .filter('[value="INSTRUCTORS"],[value="RECEIVER"]').prop('checked', true);
+    $currentQuestionTable.find('input.visibilityCheckbox')
+                         .filter('[class*="recipientCheckbox'+idSuffix2+'"]')
+                         .filter('[value="INSTRUCTORS"],[value="RECEIVER"]').prop('checked', true);
 
 }
 
@@ -1140,14 +1182,16 @@ function setContribQnVisibilityFormat(questionNumber) {
     var idSuffix = questionNumber ? (questionNumber) : "New";
     var idSuffix2 = questionNumber ? questionNumber : "";
 
+    $currentQuestionTable = $('#questionTable' + idSuffix);
+
     //Format checkboxes 'Can See Answer' for recipient/giver's team members/recipient's team members must be the same.
 
-    $('#questionTable'+idSuffix).find('input.visibilityCheckbox').off('change');
+    $currentQuestionTable.find('input.visibilityCheckbox').off('change');
     
-    $('#questionTable'+idSuffix).find('input.visibilityCheckbox').filter("[class*='answerCheckbox']").change(function() {
+    $currentQuestionTable.find('input.visibilityCheckbox').filter("[class*='answerCheckbox']").change(function() {
         if ($(this).prop('checked') === false) {
             if ($(this).val() === 'RECEIVER' || $(this).val() === 'OWN_TEAM_MEMBERS' || $(this).val() === 'RECEIVER_TEAM_MEMBERS') {
-                $('#questionTable'+idSuffix).find('input.visibilityCheckbox')
+                $currentQuestionTable.find('input.visibilityCheckbox')
                                             .filter("input[class*='giverCheckbox'],input[class*='recipientCheckbox']")
                                             .filter("[value='RECEIVER'],[value='OWN_TEAM_MEMBERS'],[value='RECEIVER_TEAM_MEMBERS']")
                                             .prop('checked', false);
@@ -1159,33 +1203,33 @@ function setContribQnVisibilityFormat(questionNumber) {
         }
         
         if ($(this).val() === 'RECEIVER' || $(this).val() === 'OWN_TEAM_MEMBERS' || $(this).val() === 'RECEIVER_TEAM_MEMBERS') {
-            $('#questionTable'+idSuffix).find('input.visibilityCheckbox')
+            $currentQuestionTable.find('input.visibilityCheckbox')
                                         .filter("input[name=receiverFollowerCheckbox]")
                                         .prop('checked', $(this).prop('checked'));
         }
         
         if ($(this).val() === "RECEIVER" || $(this).val() === "OWN_TEAM_MEMBERS" || $(this).val() === "RECEIVER_TEAM_MEMBERS") {
-            $('#questionTable'+idSuffix).find('input.visibilityCheckbox')
+            $currentQuestionTable.find('input.visibilityCheckbox')
                                         .filter("[class*='answerCheckbox']")
                                         .filter("[value='RECEIVER'],[value='OWN_TEAM_MEMBERS'],[value='RECEIVER_TEAM_MEMBERS']")
                                         .prop('checked',$(this).prop('checked'));
         }
     });
-    $('#questionTable'+idSuffix).find('input.visibilityCheckbox').filter("[class*='giverCheckbox']").change(function() {
+    $currentQuestionTable.find('input.visibilityCheckbox').filter("[class*='giverCheckbox']").change(function() {
         if ($(this).is(':checked')) {
             $query = $(this).parent().parent().find("input[class*='answerCheckbox']");
             $query.prop('checked',true);
             $query.trigger('change');
         }
     });
-    $('#questionTable'+idSuffix).find('input.visibilityCheckbox').filter("[class*='recipientCheckbox']").change(function() {
+    $currentQuestionTable.find('input.visibilityCheckbox').filter("[class*='recipientCheckbox']").change(function() {
         if ($(this).is(':checked')) {
             $query = $(this).parent().parent().find("input[class*='answerCheckbox']");
             $query.prop('checked',true);
             $query.trigger('change');
         }
     });
-    $('#questionTable'+idSuffix).find('input.visibilityCheckbox').filter("[name=receiverLeaderCheckbox]").change(function (){
+    $currentQuestionTable.find('input.visibilityCheckbox').filter("[name=receiverLeaderCheckbox]").change(function (){
         $(this).parent().parent().find("input[name=receiverFollowerCheckbox]").
                                 prop('checked', $(this).prop('checked'));
     });
@@ -1194,16 +1238,18 @@ function setContribQnVisibilityFormat(questionNumber) {
 
 function fixContribQnGiverRecipient(questionNumber){
     var idSuffix = questionNumber ? ("-" + questionNumber) : "";
+    var $giverType = $('#givertype' + idSuffix);
+    var $recipientType = $('#recipienttype'+idSuffix);
 
     //Fix giver->recipient to be STUDENT->OWN_TEAM_MEMBERS_INCLUDING_SELF
-    $('#givertype'+idSuffix).find('option').not('[value="STUDENTS"]').hide();
-    $('#recipienttype'+idSuffix).find('option').not('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').hide();
+    $giverType.find('option').not('[value="STUDENTS"]').hide();
+    $recipientType.find('option').not('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').hide();
 
-    $('#givertype'+idSuffix).find('option').not('[value="STUDENTS"]').prop('disabled', true);
-    $('#recipienttype'+idSuffix).find('option').not('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').prop('disabled', true);
+    $giverType.find('option').not('[value="STUDENTS"]').prop('disabled', true);
+    $recipientType.find('option').not('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').prop('disabled', true);
 
-    $('#givertype'+idSuffix).find('option').filter('[value="STUDENTS"]').attr('selected','selected');
-    $('#recipienttype'+idSuffix).find('option').filter('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').attr('selected','selected');
+    $giverType.find('option').filter('[value="STUDENTS"]').attr('selected','selected');
+    $recipientType.find('option').filter('[value="OWN_TEAM_MEMBERS_INCLUDING_SELF"]').attr('selected','selected');
 }
 
 /**
@@ -1417,14 +1463,17 @@ function removeRubricCol(index, questionNumber) {
 function highlightRubricRow(index, questionNumber, highlight) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
     var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    
     if (questionNumber === -1){
         idSuffix = "--1";
     }
+    
+    var $rubricRow = $('#rubricRow' + idSuffix + '-' + index);
 
     if (highlight) {
-        $('#rubricRow' + idSuffix + '-' + index).find('td').addClass('cell-selected-negative');
+        $rubricRow.find('td').addClass('cell-selected-negative');
     } else {
-        $('#rubricRow' + idSuffix + '-' + index).find('td').removeClass('cell-selected-negative');
+        $rubricRow.find('td').removeClass('cell-selected-negative');
     }
 
 }
@@ -1432,61 +1481,16 @@ function highlightRubricRow(index, questionNumber, highlight) {
 function highlightRubricCol(index, questionNumber, highlight) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
     var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+    
     if (questionNumber === -1) {
         idSuffix = "--1";
     }
+    
+    var $rubricCol = $('.rubricCol' + idSuffix + '-' + index);
 
     if (highlight) {
-        $('.rubricCol' + idSuffix + '-' + index).addClass('cell-selected-negative');
+        $rubricCol.addClass('cell-selected-negative');
     } else {
-        $('.rubricCol' + idSuffix + '-' + index).removeClass('cell-selected-negative');
+        $rubricCol.removeClass('cell-selected-negative');
     }
-}
-
-function setupFsCopyModal() {
-    $('#fsCopyModal').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget); // Button that triggered the modal
-        var actionlink = button.data('actionlink');
-        var courseid = button.data('courseid');
-        var fsname = button.data('fsname');
-        
-        $.ajax({
-            type : 'GET',
-            url : actionlink,
-            beforeSend : function() {
-                $('#courseList').html("<img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
-            },
-            error : function() {
-                $('#courseList').html('Error retrieving course list.' + 
-                    'Please close the dialog window and try again.');
-            },
-            success : function(data) {
-                var htmlToAppend = "";
-                var coursesTable = data.courses;
-                
-                htmlToAppend += "<div class=\"form-group\">" +
-                "<label for=\"copiedfsname\" class=\"control-label\"> Name for copied sessions </label>" + 
-                "<input class=\"form-control\" id=\"copiedfsname\" type=\"text\" name=\"copiedfsname\" value=\"" + 
-                fsname + 
-                "\"></div>";
-                
-                for (var i = 0 ; i < coursesTable.length; i++) {
-                    htmlToAppend += "<div class=\"checkbox\">";
-                    htmlToAppend += "<label><input type=\"checkbox\" name=\"copiedcoursesid\"";
-                    if (String(coursesTable[i].id) === courseid) {
-                    	htmlToAppend += "value=\"" + coursesTable[i].id + "\"> [" + "<span class=\"text-color-red\">" + coursesTable[i].id + "</span>" + "] : " + coursesTable[i].name;
-                    	htmlToAppend += "<br><span class=\"text-color-red small\">{Session currently in this course}</span>";
-                    } else {
-                    	htmlToAppend += "value=\"" + coursesTable[i].id + "\"> [" + coursesTable[i].id + "] : " + coursesTable[i].name;
-                    }
-                    htmlToAppend +=  "</label></div>";
-                }
-                htmlToAppend += "<input type=\"hidden\" name=\"courseid\" value=\"" + courseid + "\">";
-                htmlToAppend += "<input type=\"hidden\" name=\"fsname\" value=\"" + fsname + "\">";
-                
-                $('#courseList').html(htmlToAppend);
-                
-            }
-        });
-    });
 }

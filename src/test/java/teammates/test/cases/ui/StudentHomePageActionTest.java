@@ -8,16 +8,11 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.EvaluationAttributes;
-import teammates.common.datatransfer.EvaluationAttributes.EvalStatus;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 import teammates.logic.core.CoursesLogic;
-import teammates.logic.core.EvaluationsLogic;
 import teammates.storage.api.AccountsDb;
-import teammates.test.cases.common.EvaluationAttributesTest;
 import teammates.test.driver.AssertHelper;
 import teammates.test.util.Priority;
 import teammates.ui.controller.ShowPageResult;
@@ -57,7 +52,6 @@ public class StudentHomePageActionTest extends BaseActionTest {
         
         StudentHomePageData data = (StudentHomePageData)r.data;
         assertEquals(0, data.courses.size());
-        assertEquals(0, data.evalSubmissionStatusMap.keySet().size());
         
         String expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage" +
                 "|||true|||Unregistered|||null|||unreg.user|||null" +
@@ -92,7 +86,6 @@ public class StudentHomePageActionTest extends BaseActionTest {
         
         data = (StudentHomePageData)r.data;
         assertEquals(0, data.courses.size());
-        assertEquals(0, data.evalSubmissionStatusMap.keySet().size());
         
         expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage|||true" +
                 "|||Unregistered|||Student Without Courses|||googleId.without.courses" +
@@ -105,27 +98,6 @@ public class StudentHomePageActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin(adminUserId);
         studentId = dataBundle.students.get("student2InCourse2").googleId;
         
-        //create a CLOSED evaluation
-        EvaluationAttributes eval = EvaluationAttributesTest.generateValidEvaluationAttributesObject();
-        String IdOfCourse2 = dataBundle.courses.get("typicalCourse2").id;
-        eval.courseId = IdOfCourse2;
-        eval.name = "Closed eval";
-        eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-        eval.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        eval.setDerivedAttributes();
-        assertEquals(EvalStatus.CLOSED, eval.getStatus());
-        EvaluationsLogic evaluationsLogic = new EvaluationsLogic();
-        evaluationsLogic.createEvaluationCascade(eval);
-        
-        //create a PUBLISHED evaluation
-        eval.name = "published eval";
-        eval.startTime = TimeHelper.getDateOffsetToCurrentTime(-2);
-        eval.endTime = TimeHelper.getDateOffsetToCurrentTime(-1);
-        eval.published = true;
-        eval.setDerivedAttributes();
-        assertEquals(EvalStatus.PUBLISHED, eval.getStatus());
-        evaluationsLogic.createEvaluationCascade(eval);
-        
         //access page in masquerade mode
         a = getAction(addUserIdToParams(studentId, submissionParams));
         r = getShowPageResult(a);
@@ -136,14 +108,6 @@ public class StudentHomePageActionTest extends BaseActionTest {
         
         data = (StudentHomePageData)r.data;
         assertEquals(2, data.courses.size());
-        assertEquals(5, data.evalSubmissionStatusMap.keySet().size());
-        assertEquals(
-                "{idOfTypicalCourse2%published eval=Published, " +
-                "idOfTypicalCourse2%Closed eval=Closed, " +
-                "idOfTypicalCourse1%evaluation2 In Course1=Pending, " +
-                "idOfTypicalCourse1%evaluation1 In Course1=Submitted, " +
-                "idOfTypicalCourse2%evaluation1 In Course2=Pending}", 
-                data.evalSubmissionStatusMap.toString());
         
         
         expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage|||true" +
@@ -161,11 +125,6 @@ public class StudentHomePageActionTest extends BaseActionTest {
         data = (StudentHomePageData)r.data;
         assertEquals(1, data.courses.size());
         assertEquals("idOfTypicalCourse1", data.courses.get(0).course.id);
-        assertEquals(2, data.evalSubmissionStatusMap.keySet().size());
-        assertEquals(
-                "{idOfTypicalCourse1%evaluation2 In Course1=Pending, " +
-                "idOfTypicalCourse1%evaluation1 In Course1=Pending}", 
-                data.evalSubmissionStatusMap.toString());
         
         
         ______TS("Registered student with existing courses, course join affected by eventual consistency");
@@ -178,14 +137,6 @@ public class StudentHomePageActionTest extends BaseActionTest {
         data = (StudentHomePageData)r.data;
         assertEquals(2, data.courses.size());
         assertEquals("idOfTypicalCourse2", data.courses.get(1).course.id);
-        assertEquals(5, data.evalSubmissionStatusMap.keySet().size());
-        assertEquals(
-                "{idOfTypicalCourse2%published eval=Published, " +
-                "idOfTypicalCourse2%Closed eval=Closed, " +
-                "idOfTypicalCourse1%evaluation2 In Course1=Pending, " +
-                "idOfTypicalCourse1%evaluation1 In Course1=Submitted, " +
-                "idOfTypicalCourse2%evaluation1 In Course2=Pending}", 
-                data.evalSubmissionStatusMap.toString());
         
         
         ______TS("Just joined course, course join not affected by eventual consistency and appears in list");
@@ -207,10 +158,6 @@ public class StudentHomePageActionTest extends BaseActionTest {
         a = getAction(submissionParams);
         r = getShowPageResult(a);
         data = (StudentHomePageData)r.data;
-        assertEquals(
-                "{idOfTypicalCourse1%evaluation2 In Course1=Submitted, " +
-                "idOfTypicalCourse1%evaluation1 In Course1=Submitted}",
-                data.evalSubmissionStatusMap.toString());
         
         // delete additional sessions that were created
         CoursesLogic.inst().deleteCourseCascade("typicalCourse2");

@@ -42,8 +42,8 @@ public class FeedbackSubmitPage extends AppPage {
                 By.name(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + qnNumber + "-" + responseNumber));
         element.click();
         fillTextBox(element, text);
-        //Fire the change event using javascript since firefox with selenium
-        //might be buggy and fail to trigger.
+        // Fire the change event using javascript since firefox with selenium
+        // might be buggy and fail to trigger.
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         jsExecutor.executeScript("$(arguments[0]).change();", element);
     }
@@ -92,12 +92,12 @@ public class FeedbackSubmitPage extends AppPage {
     }
     
     public void clickRubricRadio(int qnIndex, int respIndex, int row, int col) {
-        WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-"+qnIndex+"-"+respIndex+"-"+row+"-"+col));
+        WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
         radio.click();
     }
     
     public void clickRubricCell(int qnIndex, int respIndex, int row, int col) {
-        WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE+"-"+qnIndex+"-"+respIndex+"-"+row+"-"+col));
+        WebElement radio = browser.driver.findElement(By.id(Const.ParamsNames.FEEDBACK_QUESTION_RUBRIC_CHOICE + "-" + qnIndex + "-" + respIndex + "-" + row + "-" + col));
         // Gets the parent element.
         WebElement cell = radio.findElement(By.xpath(".."));
         cell.click();
@@ -124,5 +124,4 @@ public class FeedbackSubmitPage extends AppPage {
         AppPage.getNewPageInstance(browser, StudentCommentsPage.class);
         
     }
-
 }

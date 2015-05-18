@@ -5,13 +5,11 @@
 <%@ page import="java.util.Map"%>
 
 <%@page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
-<%@page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page import="java.util.Date"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.util.FieldValidator"%>
 <%@ page import="teammates.logic.core.Emails.EmailType"%>
-<%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
 <%@ page
     import="teammates.common.datatransfer.FeedbackSessionDetailsBundle"%>
 <%@ page import="teammates.ui.controller.InstructorFeedbacksPageData"%>
@@ -119,7 +117,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6"
-                                title="<%=Const.Tooltips.EVALUATION_INPUT_TIMEZONE%>"
+                                title="<%=Const.Tooltips.FEEDBACK_SESSION_INPUT_TIMEZONE%>"
                                 data-toggle="tooltip"
                                 data-placement="top">
                                 <div class="form-group">
@@ -275,7 +273,7 @@
                                 </div>
                             </div>
                             <div class="col-md-2 border-left-gray"
-                                title="<%=Const.Tooltips.EVALUATION_INPUT_GRACEPERIOD%>"
+                                title="<%=Const.Tooltips.FEEDBACK_SESSION_INPUT_GRACEPERIOD%>"
                                 data-toggle="tooltip"
                                 data-placement="top">
                                 <div class="row">
@@ -614,7 +612,7 @@
                     </th>
                     <th>Status</th>
                     <th><span
-                        title="<%=Const.Tooltips.EVALUATION_RESPONSE_RATE%>"
+                        title="<%=Const.Tooltips.FEEDBACK_SESSION_RESPONSE_RATE%>"
                         data-toggle="tooltip" data-placement="top">
                             Response Rate</span></th>
                     <th class="no-print">Action(s)</th>
@@ -623,8 +621,7 @@
             <%
                 int sessionIdx = -1;
                 String tableHighlight = "";
-                if (data.existingFeedbackSessions.size() > 0
-                        || data.existingEvalSessions.size() > 0) {
+                if (data.existingFeedbackSessions.size() > 0) {
                     int displayFeedbackStatsCount = 0;
                     Map<String, List<String>> courseIdSectionNamesMap = data.getCourseIdSectionNamesMap(data.existingFeedbackSessions);
                     for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {
@@ -659,30 +656,10 @@
             </tr>
             <%
                 }
-                    for (EvaluationAttributes edd : data.existingEvalSessions) {
-                        sessionIdx++;
             %>
-            <tr class="sessionsRow" id="evaluation<%=sessionIdx%>">
-                <td><%=edd.courseId%></td>
-                <td><%=InstructorFeedbacksPageData
-                            .sanitizeForHtml(edd.name)%></td>
-                <td><span title="<%=InstructorFeedbacksPageData.getInstructorHoverMessageForEval(edd)%>"
-                        data-toggle="tooltip" data-placement="top">
-                        <%=InstructorFeedbacksPageData.getInstructorStatusForEval(edd)%>
-                    </span>
-                </td>
-                <td
-                    class="session-response-for-test<%if (!TimeHelper.isOlderThanAYear(edd.endTime)) {
-                        out.print(" recent");
-                    }%>">
-                    <a oncontextmenu="return false;"
-                    href="<%=data.getEvaluationStatsLink(edd.courseId,
-                            edd.name)%>">Show</a>
-                </td>
-                <td class="no-print"><%=data.getInstructorEvaluationActions(edd, false, data.instructors.get(edd.courseId))%></td>
-            </tr>
+            
             <%
-                }
+                
                 } else {
             %>
             <tr>
@@ -809,6 +786,30 @@
               </div>
             </div>
           </div>
+        </div>
+    </div>
+    <div class="modal fade" id="fsCopyModal" tabindex="-1" role="dialog" aria-labelledby="fsCopyModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" name="form_copy_list" role="form"
+                      action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY%>">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">
+                            Copy this feedback session to other courses <br/>
+                            <small>(Select the course(s) you want to copy this feedback session to)</small>
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="courseList" class="form-group"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <input type="submit" class="btn btn-primary" id="fscopy_submit" value="Copy">
+                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+                   </div>
+                </form>
+            </div>
         </div>
     </div>
 

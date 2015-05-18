@@ -358,7 +358,7 @@
                                     </div>
                                 </div>
                                 <div class="row radio">
-                                    <div data-original-title="Select this option if you intend to manually publish the session later on." class="col-md-4" title="" data-toggle="tooltip" data-placement="top">
+                                    <div data-original-title="Select this option if you intend to manually publish the responses for this session later on." class="col-md-4" title="" data-toggle="tooltip" data-placement="top">
                                         <label for="resultsVisibleFromButton_later">Publish
                                             manually</label> <input name="resultsVisibleFromButton" id="resultsVisibleFromButton_later" value="later" checked="checked" type="radio">
                                     </div>
@@ -385,7 +385,7 @@
                             <div data-original-title="Select this option to automatically send an email to students to notify them when the session is open for submission." class="col-sm-3" title="" data-toggle="tooltip" data-placement="top">
                                 <div class="checkbox">
                                     <label>Session opening
-                                        reminder</label> <input checked="checked" name="sendreminderemail" id="sendreminderemail_open" value="FEEDBACK_OPENING" type="checkbox" disabled="disabled">
+                                        reminder</label> <input checked="checked" name="sendreminderemail" id="sendreminderemail_open" value="FEEDBACK_OPENING" disabled="disabled" type="checkbox">
                                 </div>
                             </div>
                             <div data-original-title="Select this option to automatically send an email to students to remind them to submit 24 hours before the end of the session." class="col-sm-3" title="" data-toggle="tooltip" data-placement="top">
@@ -417,6 +417,7 @@
             <form style="display:none;" id="ajaxForSessions" class="ajaxForSessionsForm" action="/page/instructorFeedbacksPage">
                 <input name="user" value="CFeedbackUiT.nosessions" type="hidden">
                 <input name="isusingAjax" value="on" type="hidden">
+                
             </form>
         </div>
         
@@ -456,7 +457,7 @@
                 <td></td>
                 <td></td>
             </tr></tbody></table>
-         <p class="col-md-12 text-muted">Note: The table above doesn't contain sessions from archived courses. To view sessions from an archived course, unarchive the course first.</p>
+        <p class="col-md-12 text-muted">Note: The table above doesn't contain sessions from archived courses. To view sessions from an archived course, unarchive the course first.</p>
         <br> <br> <br>
         
                 <div class="align-center">No records found.</div>
@@ -467,36 +468,30 @@
         
 
         <!-- Modal -->
-        <div aria-hidden="true" aria-labelledby="remindModal" class="modal fade" id="remindModal" role="dialog" tabindex="-1">
-             <div class="modal-dialog">
-                <div class="modal-content">
-                   <form action="/page/instructorFeedbackRemindParticularStudents" method="post" name="form_remind_list" role="form">
-                      <div class="modal-header">
-                         <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
-                            ×
-                         </button>
-                         <h4 class="modal-title">
-                            Remind Particular Students
-                            <small>
-                               (Select the student(s) you want to remind)
-                            </small>
-                         </h4>
-                      </div>
-                      <div class="modal-body">
-                         <div class="form-group" id="studentList">
-                         </div>
-                      </div>
-                      <div class="modal-footer">
-                         <button class="btn btn-default" data-dismiss="modal" type="button">
-                            Cancel
-                         </button>
-                         <input class="btn btn-primary" type="submit" value="Remind"/>
-                                              <input name="user" type="hidden" value="CFeedbackUiT.nosessions"/>
-                                           </div>
-                   </form>
+        <div class="modal fade" id="remindModal" tabindex="-1" role="dialog" aria-labelledby="remindModal" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <form method="post" name="form_remind_list" role="form" action="/page/instructorFeedbackRemindParticularStudents">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                  <h4 class="modal-title">
+                    Remind Particular Students
+                    <small>(Select the student(s) you want to remind)</small>
+                  </h4>
                 </div>
-             </div>
+                <div class="modal-body">
+                  <div id="studentList" class="form-group"></div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <input class="btn btn-primary" value="Remind" type="submit">
+                  <input name="user" value="CFeedbackUiT.nosessions" type="hidden">
+                </div>
+              </form>
+            </div>
           </div>
+        </div>
+        
         <div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalTitle" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">

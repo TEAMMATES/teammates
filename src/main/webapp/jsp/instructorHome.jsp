@@ -8,7 +8,6 @@
 <%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.datatransfer.InstructorAttributes" %>
 <%@ page import="teammates.common.datatransfer.CourseSummaryBundle"%>
-<%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
 <%@ page import="teammates.ui.controller.PageData"%>
 <%@ page import="teammates.ui.controller.InstructorHomePageData"%>
@@ -217,8 +216,7 @@
                             </div>
                         </div>
                         <%
-                            if (courseDetails.evaluations.size() > 0||
-                                courseDetails.feedbackSessions.size() > 0) {
+                            if (courseDetails.feedbackSessions.size() > 0) {
                         %>
                                 <table class="table-responsive table table-striped table-bordered">
                                     <thead>
@@ -228,37 +226,12 @@
                                                 Session Name<span class="icon-sort unsorted"></span></th>
                                             <th>Status</th>
                                             <th>
-                                                <span title="<%=Const.Tooltips.EVALUATION_RESPONSE_RATE%>" data-toggle="tooltip" data-placement="top">Response Rate</span>
+                                                <span title="<%=Const.Tooltips.FEEDBACK_SESSION_RESPONSE_RATE%>" data-toggle="tooltip" data-placement="top">Response Rate</span>
                                             </th>
                                             <th class="no-print">Action(s)</th>
                                         </tr>
                                     </thead>
                             <%
-                                int displayEvaluationStatsCount = 0;
-                                for (EvaluationAttributes edd : courseDetails.evaluations){
-                                    sessionIdx++;
-                            %>
-                                    <tr id="session<%=sessionIdx%>">
-                                        <td><%=PageData.sanitizeForHtml(edd.name)%></td>
-                                        <td>
-                                            <span title="<%=PageData.getInstructorHoverMessageForEval(edd)%>" data-toggle="tooltip" data-placement="top">
-                                                <%=PageData.getInstructorStatusForEval(edd)%>
-                                            </span>
-                                        </td>
-                                        <td class="session-response-for-test<% 
-                                            if(edd.getStatus() == EvaluationAttributes.EvalStatus.OPEN || edd.getStatus() == EvaluationAttributes.EvalStatus.AWAITING) { 
-                                                out.print(" recent");
-                                            } else if (displayEvaluationStatsCount < data.MAX_CLOSED_SESSION_STATS && !TimeHelper.isOlderThanAYear(edd.endTime)) { 
-                                                out.print(" recent"); 
-                                                displayEvaluationStatsCount++; 
-                                            }%>">
-                                            <a oncontextmenu="return false;" href="<%=data.getEvaluationStatsLink(edd.courseId, edd.name)%>">Show</a>
-                                        </td>
-                                        <td class="no-print"><%=data.getInstructorEvaluationActions(edd, true, instructor)%>
-                                        </td>
-                                    </tr>
-                            <%
-                                }
                                 int displayFeedbackStatsCount = 0;
                                 Map<String, List<String>> courseIdSectionNamesMap = data.getCourseIdSectionNamesMap(courseDetails.feedbackSessions);
                                 for(FeedbackSessionAttributes fdb: courseDetails.feedbackSessions) {
@@ -297,7 +270,31 @@
                 }
             }
         %>
-        </div>    
+        </div>
+        <div class="modal fade" id="fsCopyModal" tabindex="-1" role="dialog" aria-labelledby="fsCopyModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="post" name="form_copy_list" role="form"
+                          action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY%>">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">
+                                Copy this feedback session to other courses <br/>
+                                <small>(Select the course(s) you want to copy this feedback session to)</small>
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div id="courseList" class="form-group"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <input type="submit" class="btn btn-primary" id="fscopy_submit" value="Copy">
+                            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
+                       </div>
+                    </form>
+                </div>
+            </div>
+        </div> 
         <br>
         <br>
         <br>

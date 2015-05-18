@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -53,7 +54,7 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         }
         
         FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(
-                courseId, feedbackSessionName, null, instructor.email, null, null,
+                courseId, feedbackSessionName, null, instructor.email, null, new Date(),
                 new Text(commentText), response.giverSection, response.recipientSection);
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
         

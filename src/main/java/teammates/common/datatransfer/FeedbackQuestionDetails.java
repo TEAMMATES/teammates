@@ -8,6 +8,7 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
+import teammates.ui.controller.PageData;
 
 /** A class holding the details for a specific question type.
 + * This abstract class is inherited by concrete Feedback*QuestionDetails
@@ -46,7 +47,7 @@ public abstract class FeedbackQuestionDetails {
     
     public abstract String getQuestionResultStatisticsHtml(List<FeedbackResponseAttributes> responses,
             FeedbackQuestionAttributes question,
-            AccountAttributes currentUser,
+            PageData pageData,
             FeedbackSessionResultsBundle bundle,
             String view);
     

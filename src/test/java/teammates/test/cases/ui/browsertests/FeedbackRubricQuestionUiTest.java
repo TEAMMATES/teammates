@@ -24,7 +24,7 @@ import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
 import teammates.test.pageobjects.StudentFeedbackResultsPage;
 
-public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
+public class FeedbackRubricQuestionUiTest extends FeedbackQuestionUiTest {
     private static Browser browser;
     private static InstructorFeedbackEditPage feedbackEditPage;
     private static FeedbackSubmitPage submitPage;
@@ -37,7 +37,7 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
     private static String instructorId;
     
     @BeforeClass
-    public static void classSetup() throws Exception {
+    public void classSetup() throws Exception {
         printTestClassHeader();
         testData = loadDataBundle("/FeedbackRubricQuestionUiTest.json");
         removeAndRestoreTestDataOnServer(testData);
@@ -46,6 +46,7 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         instructorId = testData.accounts.get("instructor1").googleId;
         courseId = testData.courses.get("course").id;
         feedbackSessionName = testData.feedbackSessions.get("openSession").feedbackSessionName;
+        feedbackEditPage = getFeedbackEditPage();
 
     }
     
@@ -166,20 +167,18 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
     }
 
     private void testEditPage(){
-        
-        feedbackEditPage = getFeedbackEditPage();
-        
-        testNewRubricQuestionFrame();
-        testInputValidationForRubricQuestion();
-        testAddRubricQuestionAction();
-        testEditRubricQuestionAction();
-        testDeleteRubricQuestionAction();
+        testNewQuestionFrame();
+        testInputValidation();
+        testCustomizeOptions();
+        testAddQuestionAction();
+        testEditQuestionAction();
+        testDeleteQuestionAction();
         testInputJsValidationForRubricQuestion();
     }
     
     
 
-    private void testNewRubricQuestionFrame() {
+    public void testNewQuestionFrame() {
         ______TS("RUBRIC: new question (frame) link");
 
         feedbackEditPage.selectNewQuestionType("Rubric question");
@@ -187,15 +186,21 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         assertTrue(feedbackEditPage.verifyNewRubricQuestionFormIsDisplayed());
     }
     
-    private void testInputValidationForRubricQuestion() {
+    public void testInputValidation() {
         
         ______TS("empty question text");
 
         feedbackEditPage.clickAddQuestionButton();
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID, feedbackEditPage.getStatus());
     }
+    
+    public void testCustomizeOptions() {
+        
+        // TODO somebody do this?
+        
+    }
 
-    private void testAddRubricQuestionAction() {
+    public void testAddQuestionAction() {
         ______TS("RUBRIC: add question action success");
         
         feedbackEditPage.fillQuestionBox("RUBRIC qn");
@@ -206,7 +211,7 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionAddSuccess.html");
     }
 
-    private void testEditRubricQuestionAction() {
+    public void testEditQuestionAction() {
         ______TS("RUBRIC: edit question success");
         
         // Click edit button
@@ -292,7 +297,7 @@ public class FeedbackRubricQuestionUiTest extends BaseUiTestCase{
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackRubricQuestionEditDescriptionSuccess.html");
     }
     
-    private void testDeleteRubricQuestionAction() {
+    public void testDeleteQuestionAction() {
         ______TS("RUBRIC: qn delete then cancel");
 
         feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(1));

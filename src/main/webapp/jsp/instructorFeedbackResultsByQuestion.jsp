@@ -109,7 +109,7 @@
                         if(showAll && responseEntries.getValue().size() > 0) {
                     %>                
                     <div class="resultStatistics">
-                        <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries.getValue(), question, data.account, data.bundle, "question")%>
+                        <%=questionDetails.getQuestionResultStatisticsHtml(responseEntries.getValue(), question, data, data.bundle, "question")%>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered dataTable margin-0">

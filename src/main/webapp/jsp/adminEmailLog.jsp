@@ -235,7 +235,9 @@
                             
                                 <%
                                   for(EmailLogEntry log : data.logs) {
-                                    
+                                    if(!data.shouldShowAll && log.getReceiver().endsWith(".tmt")){
+                                       continue;   
+                                    }
                                 %>
                                     <tr class="log">
                                         <td><%=log.getReceiver()%></td>
@@ -257,7 +259,7 @@
                                       <td colspan="3">
                                         <div class="well well-sm">
                                             <ul class="list-group">
-                                                <li class="list-group-item list-group-item-success"><small>
+                                                <li class="list-group-item list-group-item-success emailLog-text"><small>
                                                 <%=StringHelper.recoverFromSanitizedText(log.getContent())%></small>
                                                 </li>
                                             </ul>

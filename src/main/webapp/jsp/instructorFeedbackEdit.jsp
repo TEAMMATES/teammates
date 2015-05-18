@@ -114,7 +114,7 @@
                                             <label
                                                 for="<%=Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE%>"
                                                 class="col-sm-4 control-label"
-                                                title="<%=Const.Tooltips.EVALUATION_INPUT_TIMEZONE%>"
+                                                title="<%=Const.Tooltips.FEEDBACK_SESSION_INPUT_TIMEZONE%>"
                                                 data-toggle="tooltip"
                                                 data-placement="top">Timezone</label>
                                         </h5>
@@ -242,7 +242,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-2 border-left-gray" title="<%=Const.Tooltips.EVALUATION_INPUT_GRACEPERIOD%>"
+                                <div class="col-md-2 border-left-gray" title="<%=Const.Tooltips.FEEDBACK_SESSION_INPUT_GRACEPERIOD%>"
                                                 data-toggle="tooltip"
                                                 data-placement="top">
                                     <div class="row">
@@ -611,6 +611,8 @@
                             onclick="enableEdit(<%=question.questionNumber%>,<%=data.questions.size()%>)">Edit</a>
                             <a class="btn btn-primary btn-xs" style="display:none"
                              id="<%=Const.ParamsNames.FEEDBACK_QUESTION_SAVECHANGESTEXT%>-<%=question.questionNumber%>">Save Changes</a>
+                            <a class="btn btn-primary btn-xs" onclick="cancelEdit(<%=question.questionNumber%>)" style="display:none" id="<%=Const.ParamsNames.FEEDBACK_QUESTION_CANCELEDIT%>-<%=question.questionNumber%>"
+                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_QUESTION_CANCEL%>">Cancel</a>
                             <a class="btn btn-primary btn-xs" onclick="deleteQuestion(<%=question.questionNumber%>)"
                              data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_QUESTION_DELETE%>">Delete</a>
                         </span>
@@ -634,7 +636,7 @@
                 <br>
                 <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
                     <div class="col-sm-12 padding-0">
-                        <b>Feedback Path</b> (Who is giving feedback to whom?)
+                        <b>Feedback Path</b> (Who is giving feedback about whom?)
                     </div>
                     <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_GIVER%>">  
                         <label class="col-sm-5 control-label">
@@ -894,6 +896,8 @@
                     &nbsp;
                     <span id="questionTypeHeader"></span>
                     <span class="pull-right">
+                        <a class="btn btn-primary btn-xs" onclick="cancelEdit(-1)" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_QUESTION_CANCEL_NEW%>">Cancel
+                        </a>
                         <a class="btn btn-primary btn-xs" onclick="deleteQuestion(-1)" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.FEEDBACK_QUESTION_DELETE%>">Delete
                         </a>
                     </span>

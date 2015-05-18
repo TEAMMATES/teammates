@@ -37,6 +37,11 @@ import teammates.common.exception.InvalidParametersException;
  */
 public class AdminEmailListGenerator extends RemoteApiClient {
     
+    private int iterationCounter = 0;
+    
+    //handle test data
+    public boolean includeTestData = true;
+    
     //admin email configuration
     public boolean student = false;
     public boolean instructor = true;
@@ -213,7 +218,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
                     instructorEmailSet.add(instructor.getEmail());
                 }
             }
-          
+            updateProgressIndicator();
         }
         
         return instructorEmailSet;
@@ -232,7 +237,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
                     studentEmailSet.add(student.getEmail());
                 }
             }
-          
+            updateProgressIndicator();
         } 
         return studentEmailSet;
     }
@@ -247,21 +252,30 @@ public class AdminEmailListGenerator extends RemoteApiClient {
             OutputStreamWriter osw = new OutputStreamWriter(fos);    
             Writer w = new BufferedWriter(osw);
             
-            
+            int studentEmailCount = 0;
             if(studentEmailSet.size() > 0){
                 for(String email : studentEmailSet){
+                    if(!includeTestData && email.endsWith(".tmt")){
+                        continue;
+                    }
                     w.write(email + ",");
+                    studentEmailCount ++;
                 }
             } 
             
+            int instructorEmailCount = 0;
             if(instructorEmailSet.size() > 0){
                 for(String email : instructorEmailSet){
+                    if(!includeTestData && email.endsWith(".tmt")){
+                        continue;
+                    }
                     w.write(email + ",");
+                    instructorEmailCount ++;
                 }
             }
             
-            System.out.print("Student email num: " + studentEmailSet.size() + "\n");
-            System.out.print("Instructor email num: " + instructorEmailSet.size() + "\n");    
+            System.out.print("Student email num: " + studentEmailCount + "\n");
+            System.out.print("Instructor email num: " + instructorEmailCount + "\n");    
             w.close();
         
         } catch (IOException e) {
@@ -504,7 +518,13 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         return cal.getTime();
         
     }
-
+    
+    private void updateProgressIndicator(){
+        iterationCounter ++;       
+        if(iterationCounter%1000 == 0){           
+            System.out.print("------------------  iterations count:" + iterationCounter + "  ------------------------\n");
+        }
+    }
     
     class EmailListConfig{
         public boolean student = false;

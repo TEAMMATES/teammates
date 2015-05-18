@@ -127,6 +127,37 @@ public abstract class EntitiesDb {
         return entitiesToUpdate;
 
     }
+    
+    public List<Object> createAndReturnEntities(Collection<? extends EntityAttributes> entitiesToAdd) throws InvalidParametersException {
+        
+        Assumption.assertNotNull(
+                Const.StatusCodes.DBLEVEL_NULL_INPUT, entitiesToAdd);
+        
+        List<EntityAttributes> entitiesToUpdate = new ArrayList<EntityAttributes>();
+        List<Object> entities = new ArrayList<Object>(); 
+        
+        for(EntityAttributes entityToAdd : entitiesToAdd){
+            entityToAdd.sanitizeForSaving();
+            
+            if (!entityToAdd.isValid()) {
+                throw new InvalidParametersException(entityToAdd.getInvalidityInfo());
+            }
+            
+            if(getEntity(entityToAdd) != null){
+                entitiesToUpdate.add(entityToAdd);
+            } else {
+                entities.add(entityToAdd.toEntity());
+            }
+            
+            log.info(entityToAdd.getBackupIdentifier());
+        }
+        
+        getPM().makePersistentAll(entities);
+        getPM().flush();
+ 
+        return entities;
+
+    }
 
     
     /**
@@ -135,7 +166,7 @@ public abstract class EntitiesDb {
      * Preconditions: 
      * <br> * {@code entityToAdd} is not null and has valid data.
      */
-    public void createEntityWithoutExistenceCheck(EntityAttributes entityToAdd) 
+    public Object createEntityWithoutExistenceCheck(EntityAttributes entityToAdd) 
             throws InvalidParametersException {
         
         Assumption.assertNotNull(
@@ -171,6 +202,8 @@ public abstract class EntitiesDb {
             }
         }
         log.info(entityToAdd.getBackupIdentifier());
+        
+        return entity;
     }
     
     // TODO: use this method for subclasses.

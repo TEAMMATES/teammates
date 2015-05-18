@@ -13,11 +13,6 @@
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.SessionResultsBundle"%>
-<%@ page import="teammates.common.datatransfer.StudentResultBundle"%>
-<%@ page import="teammates.common.datatransfer.EvaluationDetailsBundle"%>
-<%@ page import="teammates.common.datatransfer.EvaluationAttributes"%>
-<%@ page import="teammates.common.datatransfer.SubmissionAttributes"%>
-<%@ page import="teammates.ui.controller.InstructorEvalSubmissionPageData"%>
 <%@ page import="teammates.ui.controller.InstructorStudentRecordsPageData"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForJs"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml" %>
@@ -206,6 +201,9 @@
                                 <div id="commentTextEdit<%=commentIdx%>" style="display:none;">
                                     <div class="form-group form-inline">
                                         <div class="form-group text-muted">
+                                            <p>
+                                                Comment about <%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name)%>:
+                                            </p>
                                             You may change comment's visibility using the visibility options on the right hand side.
                                         </div>
                                         <a id="visibility-options-trigger<%=commentIdx%>"
@@ -402,7 +400,10 @@
                                   <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD%>" name="form_commentadd" class="form_comment">
                                     <div class="form-group form-inline">
                                         <div class="form-group text-muted">
-                                            The default visibility for your comment is private. You may change it using the visibility options.
+                                            <p>
+                                                Comment about <%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name)%>: 
+                                            </p>
+                                            The default visibility for your comment is private. You may change it using the visibility options. 
                                         </div>
                                         <a id="visibility-options-trigger<%=commentIdx%>"
                                             class="btn btn-sm btn-info pull-right">
@@ -569,125 +570,8 @@
                                                 }
                         %>
                         <%
-                        	int evalIndex = -1;
-                                                    int sessionIndex = -1;
-                                                    for(SessionResultsBundle sessionResult: data.results){
-                                                        sessionIndex++;
-                                                        if(sessionResult instanceof StudentResultBundle){
-                                                            evalIndex++;
-                                                            StudentResultBundle studentResult = (StudentResultBundle) sessionResult;
-                                                            EvaluationAttributes eval = (EvaluationAttributes) data.evals.get(sessionIndex);
-                        %>
-                                <div class="well well-plain student_eval" id="studentEval-<%=evalIndex%>">
-                                <div class="text-primary">
-                                    <h2 id="eval_name-<%=evalIndex%>">Evaluation Name: <%=InstructorStudentRecordsPageData.sanitizeForHtml(eval.name)%></h2>
-                                </div>
-                            <%
-                            	for(boolean byReviewee = true, repeat=true; repeat; repeat = byReviewee, byReviewee=false){
-                            %>
-                            <h3>
-                                <span class="label <%=byReviewee ? "label-primary" : "label-default"%>"><%=(byReviewee ? "Result" : "Submission")%></span>
-                            </h3>
-                            <div class="panel <%=byReviewee ? "panel-primary" : "panel-default"%>">
-                                <table class="table panel-heading">
-                                    <tr>
-                                            <td class="col-sm-4"><%=byReviewee ? "Reviewee" : "Reviewer"%>: <strong><%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name)%></strong>
-                                            </td>
-                                            <td class="col-sm-4">
-                                                <div class="pull-right"><span data-toggle="tooltip" data-placement="top" title="<%=sanitizeForHtml(Const.Tooltips.CLAIMED)%>">Claimed Contribution: </span>
-                                                    <%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(studentResult.summary.claimedToInstructor,true)%>
-                                                </div>
-                                            </td>
-                                            <td class="col-sm-4">
-                                                <div class="pull-right"><span data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.PERCEIVED%>">Perceived Contribution: </span>
-                                                    <%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(studentResult.summary.perceivedToInstructor,true)%>
-                                                </div>
-                                            </td>
-                                    </tr>
-                                </table>
-                                <table class="table">
-                                    <tbody>
-                                        <tr>
-                                            <td><strong>Self evaluation: </strong><br />
-                                                <%=InstructorEvalSubmissionPageData.getJustificationAsSanitizedHtml(studentResult.getSelfEvaluation())%></td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Comments about the team: </strong><br />
-                                                <%
-                                                	String commentAboutTeam = 
-                                                                                                	    InstructorEvalSubmissionPageData.sanitizeForHtml(studentResult.getSelfEvaluation().p2pFeedback.getValue());
-                                                                                                  if(commentAboutTeam == null || commentAboutTeam.isEmpty()) {
-                                                %>
-                                                  N/A
-                                                <%
-                                                	} else {
-                                                %>
-                                                <%=commentAboutTeam%>
-                                                <%
-                                                	}
-                                                %>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            <%
-                            	if(byReviewee){
-                            %>
-                            <table class="table">
-                            <tr class="fill-primary"><td>
-                                Feedback from others
-                            </td></tr></table>
-                            <%
-                            	} else {
-                            %>
-                            <div class="panel-heading panel-default">
-                                <div style="margin-left:-5px">
-                                Feedback to others</div>
-                            </div>
-                            <%
-                            	}
-                            %>
-                            <table class="table table-bordered table-striped">
-                                        <thead>
-                                            <tr class="border-top-gray <%=byReviewee ? "fill-info" : ""%>">
-                                                <td width="15%"><strong><%=byReviewee ? "From" : "To"%> student</strong></td>
-                                                <td width="5%"><strong>Contribution</strong></td>
-                                                <td width="40%"><strong>Confidential comments</strong></td>
-                                                <td width="40%"><strong>Feedback to peer</strong></td>
-                                            </tr>
-                                        </thead><tbody>
-                                <%
-                                	for(SubmissionAttributes sub: (byReviewee ? studentResult.incoming : studentResult.outgoing)){
-                                                                        if(sub.reviewer.equals(sub.reviewee)) continue;
-                                %>
-                                    
-                                        <tr>
-                                            <td><b><%=InstructorEvalSubmissionPageData.sanitizeForHtml(byReviewee ? sub.details.reviewerName : sub.details.revieweeName)%></b></td>
-                                            <td><%=InstructorEvalSubmissionPageData.getPointsInEqualShareFormatAsHtml(sub.details.normalizedToInstructor,true)%></td>
-                                            <td><%=InstructorEvalSubmissionPageData.getJustificationAsSanitizedHtml(sub)%></td>
-                                            <td><%=InstructorEvalSubmissionPageData.getP2pFeedbackAsHtml(InstructorEvalSubmissionPageData.sanitizeForHtml(sub.p2pFeedback.getValue()), eval.p2pEnabled)%></td>
-                                        </tr>
-                                <%
-                                	}
-                                %></tbody>
-                            </table></div>
-                            <%
-                            	}
-                            %>
-                                <div class="align-center">
-                                    <input type="button" class="btn btn-primary" id="button_edit-<%=evalIndex%>" value="Edit Submission"
-                                        onclick="window.location.href='<%=data.getInstructorEvaluationSubmissionEditLink(eval.courseId, eval.name, data.student.email)%>'"
-                                        <%if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, eval.name, 
-                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)) {%>
-                                                disabled="disabled"
-                                        <%}%>
-                                        >
-                                </div>
-                                </div>
-                                <br>
-                        <%
-                        	}
-                                                    }
+                        	
+                                                    
                         %>
                     </div>
             </div>
