@@ -114,7 +114,7 @@
         <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_ID %>-<%= Integer.toString(qnIndx) %>" value="<%= question.getId() %>">
         <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL %>-<%= Integer.toString(qnIndx) %>" value="<%= numOfResponseBoxes %>">
         <div class="form-horizontal">
-            <div class="panel panel-primary <%= questionNumberString.equals(data.moderatedQuestion) ? "moderated-question" : "" %>">
+            <div class="panel panel-primary<%= questionNumberString.equals(data.moderatedQuestion) ? " moderated-question" : "" %>">
                 <div class="panel-heading">Question <%= qnIndx %>:
                     <br>
                     <span class="text-preserve-space">
