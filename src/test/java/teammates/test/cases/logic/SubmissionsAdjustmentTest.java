@@ -28,6 +28,7 @@ import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
@@ -308,6 +309,7 @@ public class SubmissionsAdjustmentTest extends
                 responsesToTeam.add(response);
             }
         }
+        responsesToTeam = getResponsesFromGiverToTeamAndSection(student, frLogic, student.team, student.section);
         assertEquals(1, responsesToTeam.size());
         
         String originalTeam = student.team;
@@ -325,27 +327,12 @@ public class SubmissionsAdjustmentTest extends
         gsonBuilder = Utils.getTeammatesGson();
         enrollString = gsonBuilder.toJson(enrollList);
 
-        //Prepare parameter map
-        paramMap = new HashMap<String,String>();
-        paramMap.put(ParamsNames.COURSE_ID, student.course);
-        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName);
-        paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollString);
+        paramMap = prepareParamMapForEnrollment(session, student, enrollString);
         
         studentsLogic.updateStudentCascadeWithSubmissionAdjustmentScheduled(student.email, student, false);
-        studentsLogic.updateStudentCascadeWithSubmissionAdjustmentScheduled(otherStudent.email, otherStudent, false);
-        responseAdjustmentAction = new FeedbackSubmissionAdjustmentAction(paramMap);
-        assertTrue(responseAdjustmentAction.execute());
+        updateStudentAndAdjustResponses(otherStudent, paramMap);
         
-        
-        responses = frLogic.getFeedbackResponsesFromGiverForCourse(student.course, student.email);
-        assertNotNull(responses);
-        
-        responsesToTeam = new ArrayList<FeedbackResponseAttributes>();
-        for (FeedbackResponseAttributes response : responses) {
-            if (response.recipientEmail.equals(renamedTeam)) {
-                responsesToTeam.add(response);
-            }
-        }
+        responsesToTeam = getResponsesFromGiverToTeamAndSection(student, frLogic, renamedTeam, student.section);
         assertEquals(1, responsesToTeam.size());
         
         ______TS("Test that if only one student moves, the response to the team does not change");
@@ -359,26 +346,11 @@ public class SubmissionsAdjustmentTest extends
         enrollList.add(enrollDetails);
         enrollString = gsonBuilder.toJson(enrollList);
 
-        //Prepare parameter map
-        paramMap = new HashMap<String,String>();
-        paramMap.put(ParamsNames.COURSE_ID, student.course);
-        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName);
-        paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollString);
-        
-        studentsLogic.updateStudentCascadeWithSubmissionAdjustmentScheduled(student.email, student, false);
-        responseAdjustmentAction = new FeedbackSubmissionAdjustmentAction(paramMap);
-        assertTrue(responseAdjustmentAction.execute());
+        paramMap = prepareParamMapForEnrollment(session, student, enrollString);
+        updateStudentAndAdjustResponses(student, paramMap);
         
         
-        responses = frLogic.getFeedbackResponsesFromGiverForCourse(student.course, student.email);
-        assertNotNull(responses);
-        
-        responsesToTeam = new ArrayList<FeedbackResponseAttributes>();
-        for (FeedbackResponseAttributes response : responses) {
-            if (response.recipientEmail.equals(originalTeam)) {
-                responsesToTeam.add(response);
-            }
-        }
+        responsesToTeam = getResponsesFromGiverToTeamAndSection(student, frLogic, student.team, student.section);
         assertEquals(0, responsesToTeam.size());
         
         ______TS("Move the other student to the team, response should move");
@@ -391,26 +363,11 @@ public class SubmissionsAdjustmentTest extends
         enrollList.add(enrollDetails);
         enrollString = gsonBuilder.toJson(enrollList);
 
-        //Prepare parameter map
-        paramMap = new HashMap<String,String>();
-        paramMap.put(ParamsNames.COURSE_ID, student.course);
-        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName);
-        paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollString);
-        
-        studentsLogic.updateStudentCascadeWithSubmissionAdjustmentScheduled(otherStudent.email, otherStudent, false);
-        responseAdjustmentAction = new FeedbackSubmissionAdjustmentAction(paramMap);
-        assertTrue(responseAdjustmentAction.execute());
+        paramMap = prepareParamMapForEnrollment(session, student, enrollString);
+        updateStudentAndAdjustResponses(otherStudent, paramMap);
         
         
-        responses = frLogic.getFeedbackResponsesFromGiverForCourse(student.course, student.email);
-        assertNotNull(responses);
-        
-        responsesToTeam = new ArrayList<FeedbackResponseAttributes>();
-        for (FeedbackResponseAttributes response : responses) {
-            if (response.recipientEmail.equals(originalTeam)) {
-                responsesToTeam.add(response);
-            }
-        }
+        responsesToTeam = getResponsesFromGiverToTeamAndSection(student, frLogic, originalTeam, student.section);
         assertEquals(1, responsesToTeam.size());
 
         ______TS("Test that a change in section causes response to move");
@@ -429,26 +386,12 @@ public class SubmissionsAdjustmentTest extends
         enrollString = gsonBuilder.toJson(enrollList);
         
         // Prepare parameter map
-        paramMap = new HashMap<String,String>();
-        paramMap.put(ParamsNames.COURSE_ID, student.course);
-        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName);
-        paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollString);
-        
-        studentsLogic.updateStudentCascadeWithSubmissionAdjustmentScheduled(student.email, student, false);
-        responseAdjustmentAction = new FeedbackSubmissionAdjustmentAction(paramMap);
-        assertTrue(responseAdjustmentAction.execute());
+        paramMap = prepareParamMapForEnrollment(session, student, enrollString);
+        updateStudentAndAdjustResponses(student, paramMap);
         
         
-        responses = frLogic.getFeedbackResponsesFromGiverForCourse(student.course, student.email);
-        assertNotNull(responses);
-        
-        responsesToTeam = new ArrayList<FeedbackResponseAttributes>();
-        for (FeedbackResponseAttributes response : responses) {
-            if (response.recipientEmail.equals(originalTeam) && 
-                   response.recipientSection.equals(student.section)) {
-                responsesToTeam.add(response);
-            }
-        }
+        responsesToTeam = getResponsesFromGiverToTeamAndSection(student,
+                frLogic, originalTeam, student.section);
         assertEquals(1, responsesToTeam.size());
         
         ______TS("Test that if the team is move into 2 different teams, the responses does not move");
@@ -467,30 +410,56 @@ public class SubmissionsAdjustmentTest extends
         enrollList.add(enrollDetails2);
         enrollString = gsonBuilder.toJson(enrollList);
 
-        // Prepare parameter map
-        paramMap = new HashMap<String,String>();
-        paramMap.put(ParamsNames.COURSE_ID, student.course);
-        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName);
-        paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollString);
+        paramMap = prepareParamMapForEnrollment(session, student, enrollString);
         
-        studentsLogic.updateStudentCascadeWithSubmissionAdjustmentScheduled(student.email, student, false);
-        responseAdjustmentAction = new FeedbackSubmissionAdjustmentAction(paramMap);
-        assertTrue(responseAdjustmentAction.execute());
+        updateStudentAndAdjustResponses(student, paramMap);
         
+        
+        responsesToTeam = getResponsesFromGiverToTeamAndSection(student,
+                frLogic, originalTeam, student.section);
+        assertEquals(1, responsesToTeam.size());
+        
+    }
+
+    private List<FeedbackResponseAttributes> getResponsesFromGiverToTeamAndSection(
+            StudentAttributes student, FeedbackResponsesLogic frLogic,
+            String team, String section) {
+        
+        List<FeedbackResponseAttributes> responses;
         
         responses = frLogic.getFeedbackResponsesFromGiverForCourse(student.course, student.email);
         assertNotNull(responses);
         
-        responsesToTeam = new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> responsesToTeam = new ArrayList<FeedbackResponseAttributes>();
         for (FeedbackResponseAttributes response : responses) {
-            if (response.recipientEmail.equals(originalTeam) && 
-                response.recipientSection.equals(student.section)) {
+            if (response.recipientEmail.equals(team) && 
+                response.recipientSection.equals(section)) {
                 
                 responsesToTeam.add(response);
             }
         }
-        assertEquals(1, responsesToTeam.size());
         
+        return responsesToTeam;
+    }
+
+    private void updateStudentAndAdjustResponses(StudentAttributes student,
+            HashMap<String, String> paramMap)
+            throws EntityDoesNotExistException, InvalidParametersException {
+        FeedbackSubmissionAdjustmentAction responseAdjustmentAction;
+        studentsLogic.updateStudentCascadeWithSubmissionAdjustmentScheduled(student.email, student, false);
+        responseAdjustmentAction = new FeedbackSubmissionAdjustmentAction(paramMap);
+        assertTrue(responseAdjustmentAction.execute());
+    }
+
+    private HashMap<String, String> prepareParamMapForEnrollment(
+            FeedbackSessionAttributes session, StudentAttributes student,
+            String enrollString) {
+        HashMap<String, String> paramMap;
+        paramMap = new HashMap<String,String>();
+        paramMap.put(ParamsNames.COURSE_ID, student.course);
+        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName);
+        paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollString);
+        return paramMap;
     }
 
     private List<FeedbackResponseAttributes> getAllTeamResponsesForStudent(StudentAttributes student) {
