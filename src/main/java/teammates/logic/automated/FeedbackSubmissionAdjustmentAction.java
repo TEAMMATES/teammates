@@ -108,18 +108,54 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
         FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
         StudentsLogic studentsLogic = StudentsLogic.inst();
         
-        // check if all members of the same team got moved to the same team
-        // if it is, then the team is renamed
-        Map<String, String> oldTeamToNewTeamMap = new HashMap<String, String>();
-        Map<String, Boolean> isGivenTeamRenamed = new HashMap<String, Boolean>();
         Set<String> modifiedStudents = new HashSet<String>();
+        Map<String, String> oldSectionTeamToNewSectionTeamMap = new HashMap<String, String>();
         
-        // initialise isGivenTeamRenamed 
+        // Initialise modifiedStudents, oldSectionTeamToNewSectionTeamMap, renamedTeams 
+        Set<String> renamedTeams = extractDataFromEnrollmentList(
+                enrolmentList, modifiedStudents, oldSectionTeamToNewSectionTeamMap);
+        
+        // For every possible renamed team, check that all team members are in the enrollment
+        removeTeamsWithMembersMissingFromEnrollmentData(studentsLogic, modifiedStudents, renamedTeams);
+
+        for (String sectionTeamToRename : renamedTeams) {
+            
+            String[] splitsectionTeamToRename = sectionTeamToRename.split("\\|");
+            String oldSection = splitsectionTeamToRename[0];
+            String oldTeam = splitsectionTeamToRename[1];
+            
+            String newSectionTeam = oldSectionTeamToNewSectionTeamMap.get(sectionTeamToRename);
+            
+            String[] splitNewSectionTeam = newSectionTeam.split("\\|");
+            String newSection = splitNewSectionTeam[0];
+            String newTeam = splitNewSectionTeam[1];
+            
+            frLogic.updateFeedbackResponsesForRenamingTeam(courseId, feedbackSessionName, oldTeam, oldSection, newTeam, newSection);
+        }
+    }
+
+    /**
+     * Using the enrollment list, return the list of teams which are renamed.
+     * Updates the set of students who are modified by the enrollment
+     * Updates the mapping from old section and team names to new section and team names.
+     * @param enrolmentList
+     * @param modifiedStudents
+     * @return
+     */
+    private Set<String> extractDataFromEnrollmentList(
+            ArrayList<StudentEnrollDetails> enrolmentList,
+            Set<String> modifiedStudents,
+            Map<String, String> oldSectionTeamToNewSectionTeamMap) {
+        
+        Map<String, Boolean> isGivenTeamRenamed = new HashMap<String, Boolean>();
+        
         for (StudentEnrollDetails details : enrolmentList) {
             String originalSectionTeam = constructOriginalSectionTeamStr(details);
+            boolean isTeamUpdated = details.oldTeam != null;
+            boolean isSectionUpdated = details.oldSection != null;
             
             if (details.updateStatus == UpdateStatus.UNMODIFIED || 
-                (details.oldSection == null && details.oldTeam == null) ) {
+                (!isTeamUpdated && !isSectionUpdated) ) {
                 // if someone from the same team is not modified, 
                 // or if the team and section is not modified,
                 // then the team is not renamed
@@ -143,7 +179,23 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
             }
         }
         
-        // For every team, check that all team members is in the enrollment
+        // For every old team, check if there exists another member of the old team
+        // who got a different new team
+        generateOldToNewTeamMappingWithConsistencyCheck(oldSectionTeamToNewSectionTeamMap, enrolmentList,
+                renamedTeams);
+        
+        return renamedTeams;
+    }
+
+    /**
+     * Updates renamedTeams by removing teams where not every member was modified
+     * in the enrollment
+     * @param studentsLogic
+     * @param modifiedStudents
+     * @param renamedTeams
+     */
+    private void removeTeamsWithMembersMissingFromEnrollmentData(StudentsLogic studentsLogic,
+            Set<String> modifiedStudents, Set<String> renamedTeams) {
         Set<String> sectionTeams = new HashSet<String>(renamedTeams);
         for (String sectionTeam : sectionTeams) {
             String team = sectionTeam.split("\\|")[1];
@@ -161,10 +213,18 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
                 renamedTeams.remove(sectionTeam);
             }
         }
-        
-        
-        // For every old team, check if there exists another member of the old team
-        // who got a different new team
+    }
+
+    /**
+     * Creates a map of old section Team name, to new section team name.
+     * If an old name maps to 2 different team names, it is removed from the 
+     * set of teams that are renamed.
+     * @param enrolmentList
+     * @param oldTeamToNewTeamMap 
+     * @param renamedTeams Teams that are renamed.  
+     */
+    private void generateOldToNewTeamMappingWithConsistencyCheck(Map<String, String> oldTeamToNewTeamMap,
+            ArrayList<StudentEnrollDetails> enrolmentList, Set<String> renamedTeams) {
         for (StudentEnrollDetails details : enrolmentList) {
             String originalSectionTeam = constructOriginalSectionTeamStr(details);
             String newSectionTeam = details.newSection + "|" + details.newTeam;
@@ -176,20 +236,6 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
             } else {
                 oldTeamToNewTeamMap.put(originalSectionTeam, newSectionTeam);
             }
-        }
-        
-        for (String sectionTeamToRename : renamedTeams) {
-            
-            String[] splitsectionTeamToRename = sectionTeamToRename.split("\\|");
-            String oldSection = splitsectionTeamToRename[0];
-            String oldTeam = splitsectionTeamToRename[1];
-            
-            String newSectionTeam = oldTeamToNewTeamMap.get(sectionTeamToRename);
-            String[] splitNewSectionTeam = newSectionTeam.split("\\|");
-            String newSection = splitNewSectionTeam[0];
-            String newTeam = splitNewSectionTeam[1];
-            
-            frLogic.updateFeedbackResponsesForRenamingTeam(courseId, feedbackSessionName, oldTeam, oldSection, newTeam, newSection);
         }
     }
 

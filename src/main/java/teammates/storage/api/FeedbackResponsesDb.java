@@ -561,10 +561,11 @@ public class FeedbackResponsesDb extends EntitiesDb {
         updateFeedbackResponseOptimized(newAttributes, fr);
     }
     
-    public void updateFeedbackResponsesRecipientForRecipient(String courseId, String oldRecipient, String oldRecipientSection, 
-            String newRecipient, String newRecipientSection) {
+    public void updateFeedbackResponsesRecipientForRecipient(String courseId, String feedbackSessionName, 
+                                                             String oldRecipient, String oldRecipientSection, 
+                                                             String newRecipient, String newRecipientSection) {
+        List<FeedbackResponse> responseEntities = getFeedbackResponseEntitiesForReceiverForFeedbackSession(courseId, feedbackSessionName, oldRecipient);
         
-        List<FeedbackResponse> responseEntities = getFeedbackResponseEntitiesForReceiverForCourse(courseId, oldRecipient);
         updateFeedbackResponsesRecipient(responseEntities, newRecipient, newRecipientSection);
     }
     
@@ -1003,6 +1004,20 @@ public class FeedbackResponsesDb extends EntitiesDb {
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> FeedbackResponseList =
             (List<FeedbackResponse>) q.execute(courseId, receiver);
+        
+        return FeedbackResponseList;
+    }
+    
+    private List<FeedbackResponse> getFeedbackResponseEntitiesForReceiverForFeedbackSession(
+            String courseId, String feedbackSessionName, String receiver) {
+
+        Query q = getPM().newQuery(FeedbackResponse.class);
+        q.declareParameters("String courseIdParam, String feedbackSessionNameParam, String receiverParam");
+        q.setFilter("courseId == courseIdParam && feedbackSessionName == feedbackSessionNameParam && receiver == receiverParam");
+        
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponse> FeedbackResponseList =
+            (List<FeedbackResponse>) q.execute(courseId, feedbackSessionName, receiver);
         
         return FeedbackResponseList;
     }

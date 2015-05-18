@@ -487,7 +487,7 @@ public class FeedbackResponsesLogic {
             String oldTeam, String oldSection, 
             String newTeam, String newSection) {
 
-        frDb.updateFeedbackResponsesRecipientForRecipient(courseId, oldTeam, oldSection, newTeam, newSection);
+        frDb.updateFeedbackResponsesRecipientForRecipient(courseId, feedbackSessionName, oldTeam, oldSection, newTeam, newSection);
         
     }
 

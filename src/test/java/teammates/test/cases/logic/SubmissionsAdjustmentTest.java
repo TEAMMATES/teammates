@@ -366,7 +366,6 @@ public class SubmissionsAdjustmentTest extends
         paramMap = prepareParamMapForEnrollment(session, student, enrollString);
         updateStudentAndAdjustResponses(otherStudent, paramMap);
         
-        
         responsesToTeam = getResponsesFromGiverToTeamAndSection(student, frLogic, originalTeam, student.section);
         assertEquals(1, responsesToTeam.size());
 
@@ -389,7 +388,6 @@ public class SubmissionsAdjustmentTest extends
         paramMap = prepareParamMapForEnrollment(session, student, enrollString);
         updateStudentAndAdjustResponses(student, paramMap);
         
-        
         responsesToTeam = getResponsesFromGiverToTeamAndSection(student,
                 frLogic, originalTeam, student.section);
         assertEquals(1, responsesToTeam.size());
@@ -411,9 +409,7 @@ public class SubmissionsAdjustmentTest extends
         enrollString = gsonBuilder.toJson(enrollList);
 
         paramMap = prepareParamMapForEnrollment(session, student, enrollString);
-        
         updateStudentAndAdjustResponses(student, paramMap);
-        
         
         responsesToTeam = getResponsesFromGiverToTeamAndSection(student,
                 frLogic, originalTeam, student.section);
