@@ -65,7 +65,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
                 "/page/instructorEditStudentFeedbackPage",
                 editPageAction.getLogMessage());
         
-        ______TS("new case");
+        ______TS("success: another feedback");
         
         feedbackSessionName = "Another feedback session";
         courseId = student.course;

@@ -76,24 +76,13 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
             boolean isRecipientVisibleToInstructor = question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
             boolean isResponseVisibleToInstructor = question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
 
-            System.out.println("questionNumber: " + question.questionNumber);
-            System.out.println("questionQuestion: " + question.questionMetaData.getValue());
-            System.out.println("feedbackSessionName: " + question.feedbackSessionName);
-            System.out.println("courseId: " + question.courseId);
-            
-            System.out.println("isGiverVisibleToInstructor: " + isGiverVisibleToInstructor);
-            System.out.println("isRecipientVisibleToInstructor: " + isRecipientVisibleToInstructor);
-            System.out.println("isResponseVisibleToInstructor: " + isResponseVisibleToInstructor);
-
-            if (!isGiverVisibleToInstructor || !isRecipientVisibleToInstructor || !isResponseVisibleToInstructor) {
+            if (!isResponseVisibleToInstructor || !isGiverVisibleToInstructor || !isRecipientVisibleToInstructor) {
                 questionsToHide.add(question);
                 bundle.questionResponseBundle.put(question, new ArrayList<FeedbackResponseAttributes>());
             }
         }
         
         bundle.questionResponseBundle.keySet().removeAll(questionsToHide);
-        
-        System.out.println("isEmpty: " + questionsToHide.isEmpty());
         
         return !questionsToHide.isEmpty();
     }
