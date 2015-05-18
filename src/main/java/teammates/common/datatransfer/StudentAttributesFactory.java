@@ -82,8 +82,8 @@ public class StudentAttributesFactory {
         String[] columns = splitLineIntoColumns(enrollLine);
 
         boolean hasMissingFields = columns.length <= teamColumnIndex
-                || columns.length <= nameColumnIndex
-                || columns.length <= emailColumnIndex;
+                                || columns.length <= nameColumnIndex
+                                || columns.length <= emailColumnIndex;
         if (hasMissingFields) {
             throw new EnrollException(ERROR_ENROLL_LINE_TOOFEWPARTS);
         }
