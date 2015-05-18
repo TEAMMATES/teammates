@@ -3,6 +3,7 @@ package teammates.test.cases.ui.browsertests;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -108,7 +109,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Open Session", 1);
         submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fq.getId());
 
-        submitPage.fillResponseTextBox(0, "Test Self Feedback");
+        submitPage.fillResponseTextBox(1, 0, "Test Self Feedback");
         assertNull(BackDoor.getFeedbackResponse(fq.getId(),
                                                 "SFQSubmitUiT.alice.b@gmail.tmt",
                                                 "SFQSubmitUiT.alice.b@gmail.tmt"));
@@ -129,7 +130,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         ______TS("edit existing response");
 
         String editedResponse = "Edited self feedback.";
-        submitPage.fillResponseTextBox(0, editedResponse);
+        submitPage.fillResponseTextBox(1, 0, editedResponse);
         submitPage.clickSubmitButton();
 
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, submitPage.getStatus());
@@ -158,10 +159,10 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         fs.gracePeriod = 10;
         BackDoor.editFeedbackSession(fs);
 
-        submitPage.fillResponseTextBox(0, "this is a response edited during grace period");
+        submitPage.fillResponseTextBox(1, 0, "this is a response edited during grace period");
         submitPage.clickSubmitButton();
 
-        assertEquals("All responses submitted succesfully!", submitPage.getStatus());
+        assertTrue(submitPage.getStatus().contains("All responses submitted succesfully!"));
 
         // test if the button is disabled after the response has been submitted
         submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Open Session", fq.getId());
@@ -197,7 +198,7 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         fs.gracePeriod = 10;
         BackDoor.editFeedbackSession(fs);
 
-        submitPage.fillResponseTextBox(0,"this is a response edited during grace period,but submitted after grace period");
+        submitPage.fillResponseTextBox(1, 0,"this is a response edited during grace period,but submitted after grace period");
         submitPage.clickSubmitButton();
         submitPage.verifyHtmlMainContent("/studentFeedbackQuestionSubmitPageDeadLineExceeded.html");
         

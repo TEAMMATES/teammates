@@ -77,7 +77,7 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         fq = BackDoor.getFeedbackQuestion("IFQSubmitUiT.CS2104", "Open Session", 1);
         submitPage = loginToInstructorFeedbackQuestionSubmitPage("IFQSubmitUiT.instr", "Open Session", fq.getId());
         
-        submitPage.fillResponseTextBox(0, "Test Self Feedback");
+        submitPage.fillResponseTextBox(1, 0, "Test Self Feedback");
         
         assertNull(BackDoor.getFeedbackResponse(fq.getId(),
                 "IFQSubmitUiT.instr@gmail.tmt",
@@ -99,7 +99,7 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         ______TS("edit existing response");        
         
         String editedResponse = "Edited self feedback.";
-        submitPage.fillResponseTextBox(0, editedResponse);
+        submitPage.fillResponseTextBox(1, 0, editedResponse);
         
         submitPage.clickSubmitButton();
 
