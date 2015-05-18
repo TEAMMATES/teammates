@@ -457,4 +457,15 @@ public class StringHelper {
         }
         return untrimmedString;
     }
+
+    public static int countEmptyStrings(String... strings) {
+        int numOfEmptyStrings = 0;
+        for (String s : strings) {
+            if (s == null || s.isEmpty()) {
+                numOfEmptyStrings += 1;
+            }
+        }
+        return numOfEmptyStrings;
+    }
+
 }

@@ -11,6 +11,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.storage.entity.StudentProfile;
 
@@ -87,16 +88,9 @@ public class StudentProfileAttributes extends EntityAttributes {
     }
 
     private boolean isMultipleFieldsEmpty() {
-        int numEmptyFields = returnOneIfEmpty(shortName)
-                + returnOneIfEmpty(email)
-                + returnOneIfEmpty(nationality)
-                + returnOneIfEmpty(moreInfo)
-                + returnOneIfEmpty(pictureKey);
+        int numEmptyFields = StringHelper.countEmptyStrings(shortName, email, nationality,
+                                                            moreInfo, pictureKey);
         return numEmptyFields > 1;
-    }
-
-    private int returnOneIfEmpty(String str) {
-        return str.isEmpty() ? 1 : 0;
     }
 
     @Override

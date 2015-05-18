@@ -208,7 +208,18 @@ public class StringHelperTest extends BaseTestCase {
         str = Sanitizer.sanitizeForHtml("<text><div> 'param' &&& \\//\\");
         assertEquals("<text><div> 'param' &&& \\//\\",StringHelper.recoverFromSanitizedText(str));
     }
-    
+
+    @Test
+    public void testCountingEmptyStrings() {
+        String empty = "";
+        String nul = null;
+        String nonempty = "non-empty";
+        assertEquals(1, StringHelper.countEmptyStrings(empty));
+        assertEquals(1, StringHelper.countEmptyStrings(nul));
+        assertEquals(0, StringHelper.countEmptyStrings(nonempty));
+        assertEquals(2, StringHelper.countEmptyStrings(empty, nul, nonempty));
+    }
+
     private void verifyRegexMatch(String[] stringsToMatch, String[] regexArray, boolean expectedResult){
         for(String str : stringsToMatch){
             assertEquals(expectedResult, StringHelper.isAnyMatching(str, regexArray));
