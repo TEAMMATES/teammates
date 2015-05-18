@@ -16,19 +16,21 @@ import teammates.ui.controller.InstructorEditStudentFeedbackPageAction;
 import teammates.ui.controller.ShowPageResult;
 
 public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest {
-    private final DataBundle dataBundle = getTypicalDataBundle();
+    private static DataBundle dataBundle;
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        dataBundle = loadDataBundle("/InstructorEditStudentFeedbackPageActionTest.json");
+        removeAndRestoreDatastoreFromJson("/InstructorEditStudentFeedbackPageActionTest.json");
+        
         uri = Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
     }
     
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
-        InstructorAttributes instructorHelper = dataBundle.instructors.get("helperOfCourse1");
+        InstructorAttributes instructor = dataBundle.instructors.get("IESFPTCourseinstr");
+        InstructorAttributes instructorHelper = dataBundle.instructors.get("IESFPTCoursehelper1");
         String idOfInstructor = instructor.googleId;
         String idOfInstructorHelper = instructorHelper.googleId;
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
@@ -57,15 +59,15 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         assertEquals("", showPageResult.getStatusMessage());
 
         assertEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage" +
-                "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
+                "|||true|||Instructor|||IESFPTCourseinstr|||IESFPTCourseinstr|||IESFPTCourseintr@course1.tmt|||" +
                 "Moderating feedback session for student (" + student.email + ")<br>" +
-                "Session Name: First feedback session<br>Course ID: idOfTypicalCourse1|||" +
+                "Session Name: First feedback session<br>Course ID: IESFPTCourse|||" +
                 "/page/instructorEditStudentFeedbackPage",
                 editPageAction.getLogMessage());
         
         ______TS("new case");
         
-        feedbackSessionName = "Second feedback session";
+        feedbackSessionName = "Another feedback session";
         courseId = student.course;
         moderatedStudentEmail = student.email;
 
@@ -80,7 +82,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         
         ______TS("success case: closed session");
 
-        feedbackSessionName = "Closed Session";
+        feedbackSessionName = "Closed feedback session";
         courseId = student.course;
         moderatedStudentEmail = student.email;
 
@@ -98,11 +100,11 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
                 "&user="+ idOfInstructor,
                 showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
-
+        
         assertEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage" +
-                "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
+                "|||true|||Instructor|||IESFPTCourseinstr|||IESFPTCourseinstr|||IESFPTCourseintr@course1.tmt|||" +
                 "Moderating feedback session for student (" + student.email + ")<br>" +
-                "Session Name: Closed Session<br>Course ID: idOfTypicalCourse1|||" +
+                "Session Name: Closed feedback session<br>Course ID: IESFPTCourse|||" +
                 "/page/instructorEditStudentFeedbackPage",
                 editPageAction.getLogMessage());
         
@@ -111,7 +113,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         ______TS("failure: does not have privilege");
         
         feedbackSessionName = "First feedback session";
-        courseId = "idOfTypicalCourse1";
+        courseId = "IESFPTCourse";
         moderatedStudentEmail = student.email;
         
         submissionParams = new String[]{
