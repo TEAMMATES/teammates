@@ -9,7 +9,6 @@
 %>
 
 <!DOCTYPE html>
-
 <html>
     <head>
         <link rel="shortcut icon" href="/favicon.png">
@@ -50,17 +49,16 @@
                 <jsp:include page="<%= Const.ViewURIs.STUDENT_MOTD %>" />
         <%
             } else if (data.isPreview) {
-
         %>
-            <nav class="navbar navbar-default navbar-fixed-top">
-                <h3 class="text-center">Previewing Session as Student <%= data.studentToViewPageAs.name %> (<%= data.studentToViewPageAs.email %>)</h3>
-            </nav>
+                <nav class="navbar navbar-default navbar-fixed-top">
+                    <h3 class="text-center">Previewing Session as Student <%= data.studentToViewPageAs.name %> (<%= data.studentToViewPageAs.email %>)</h3>
+                </nav>
         <%
             } else if (data.isModeration) {
         %>
-            <nav class="navbar navbar-default navbar-fixed-top">
-                <h3 class="text-center">Moderating Responses for Student <%= data.studentToViewPageAs.name %> (<%= data.studentToViewPageAs.email %>)</h3>
-            </nav>
+                <nav class="navbar navbar-default navbar-fixed-top">
+                    <h3 class="text-center">Moderating Responses for Student <%= data.studentToViewPageAs.name %> (<%= data.studentToViewPageAs.email %>)</h3>
+                </nav>
         <%
             }
         %>
@@ -72,31 +70,32 @@
                 <%
                     if (data.account.googleId == null) {
                         String joinUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW).
-                                        withRegistrationKey(request.getParameter(Const.ParamsNames.REGKEY)).
-                                        withStudentEmail(request.getParameter(Const.ParamsNames.STUDENT_EMAIL)).
-                                        withCourseId(request.getParameter(Const.ParamsNames.COURSE_ID)).
-                                        toString();
+                                            withRegistrationKey(request.getParameter(Const.ParamsNames.REGKEY)).
+                                            withStudentEmail(request.getParameter(Const.ParamsNames.STUDENT_EMAIL)).
+                                            withCourseId(request.getParameter(Const.ParamsNames.COURSE_ID)).
+                                            toString();
+
                 %>
-                        <div id="registerMessage" class="alert alert-info">
-                            <%= String.format(Const.StatusMessages.UNREGISTERED_STUDENT, data.student.name, joinUrl) %>
-                        </div>
+                    <div id="registerMessage" class="alert alert-info">
+                        <%= String.format(Const.StatusMessages.UNREGISTERED_STUDENT, data.student.name, joinUrl) %>
+                    </div>
                 <%
                     }
-                    String submitAction = data.isModeration ?
-                                        Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE :
-                                        Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
-                %>
-                <form method="post" name="form_student_submit_response"
-                      action="<%= submitAction %>">
 
-                    <jsp:include page="<%=Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT%>" />
+                    String submitAction = data.isModeration ?
+                                            Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE :
+                                            Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
+                %>
+                <form method="post" name="form_student_submit_response" action="<%= submitAction %>">
+                    <jsp:include page="<%= Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT %>" />
 
                     <div class="bold align-center">
                         <%
                             if (data.isModeration) {
                         %>
                                 <input name="moderatedstudent" value="<%= data.studentToViewPageAs.email %>" type="hidden">
-                        <%  }
+                        <%
+                            }
 
                             boolean isSubmittable = data.isSessionOpenForSubmission || data.isModeration;
                             if (data.bundle.questionResponseBundle.isEmpty()) {
