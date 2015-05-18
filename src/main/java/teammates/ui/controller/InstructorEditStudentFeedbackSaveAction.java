@@ -67,7 +67,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
             boolean isRecipientVisibleToInstructors = questionAttributes.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
             boolean isResponseVisibleToInstructors = questionAttributes.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
             
-            if (!isGiverVisibleToInstructors || !isRecipientVisibleToInstructors || !isResponseVisibleToInstructors) {
+            if (!isResponseVisibleToInstructors || !isGiverVisibleToInstructors || !isRecipientVisibleToInstructors) {
                 isError = true;
                 throw new UnauthorizedAccessException(
                         "Feedback session [" + feedbackSessionName + 
