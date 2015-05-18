@@ -119,9 +119,9 @@ public class StudentProfilePage extends AppPage {
         }
     }
 
-    public void editProfileThroughUi(String fileName, String shortName,
-            String email, String institute, String nationality, String gender,
-            String moreInfo) throws Exception {
+    public void editProfileThroughUi(String fileName, String shortName, String email,
+                                     String institute, String nationality, String gender,
+                                     String moreInfo) throws Exception {
         if (!fileName.equals("")) {
             fillProfilePic(fileName);
         }
@@ -134,8 +134,8 @@ public class StudentProfilePage extends AppPage {
         submitEditedProfile();
     }
 
-    public void ensureProfileContains(String shortName, String email,
-            String institute, String nationality, String gender, String moreInfo) {
+    public void ensureProfileContains(String shortName, String email, String institute,
+                                      String nationality, String gender, String moreInfo) {
         assertEquals(shortName, shortNameBox.getAttribute("value"));
         assertEquals(email, emailBox.getAttribute("value"));
         assertEquals(institute, institutionBox.getAttribute("value"));

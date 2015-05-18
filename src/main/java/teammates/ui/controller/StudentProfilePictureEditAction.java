@@ -77,10 +77,9 @@ public class StudentProfilePictureEditAction extends Action {
     private void uploadFileToGcs(byte[] transformedImage) throws IOException {
         GcsFilename fileName = new GcsFilename(Config.GCS_BUCKETNAME, account.googleId);
 
-        GcsService gcsService = GcsServiceFactory.createGcsService(RetryParams
-                .getDefaultInstance());
-        GcsOutputChannel outputChannel = gcsService.createOrReplace(fileName,
-                new GcsFileOptions.Builder().mimeType("image/png").build());
+        GcsService gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
+        GcsOutputChannel outputChannel = gcsService
+                .createOrReplace(fileName, new GcsFileOptions.Builder().mimeType("image/png").build());
 
         outputChannel.write(ByteBuffer.wrap(transformedImage));
         outputChannel.close();

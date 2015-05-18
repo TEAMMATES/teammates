@@ -59,16 +59,16 @@ public class StudentAttributesTest extends BaseTestCase {
 
         ______TS("Typical case: contains white space");
         expected = generateTypicalStudentObject();
-        studentUnderTest = new StudentAttributes("  sect 1 ", "  team 1   ",
-                "   name 1   ", "   email@email.com  ", "  comment 1  ",
-                "courseId1");
+        studentUnderTest = new StudentAttributes("  sect 1 ", "  team 1   ", "   name 1   ",
+                                                 "   email@email.com  ", "  comment 1  ",
+                                                 "courseId1");
         verifyStudentContent(expected, studentUnderTest.toEntity());
 
         ______TS("Typical case: contains google id");
         expected = generateTypicalStudentObject();
-        studentUnderTest = new StudentAttributes("googleId.1",
-                "email@email.com", "name 1", "comment 1", "courseId1",
-                "team 1", "section 1");
+        studentUnderTest = new StudentAttributes("googleId.1", "email@email.com", "name 1",
+                                                 "comment 1", "courseId1", "team 1",
+                                                 "section 1");
         verifyStudentContentIncludingID(expected, studentUnderTest.toEntity());
 
         ______TS("Typical case: initialize from entity");
@@ -78,75 +78,81 @@ public class StudentAttributesTest extends BaseTestCase {
 
         ______TS("Failure case: empty course id");
         invalidStudent = new StudentAttributes("section", "team", "name",
-                "e@e.com", "c", "");
+                                               "e@e.com", "c", "");
         assertFalse(invalidStudent.isValid());
         assertEquals(String.format(COURSE_ID_ERROR_MESSAGE, invalidStudent.course,
-                REASON_EMPTY), invalidStudent.getInvalidityInfo().get(0));
+                                   REASON_EMPTY),
+                     invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: invalid course id");
-        invalidStudent = new StudentAttributes("section", "team", "name",
-                "e@e.com", "c", "Course Id with space");
+        invalidStudent = new StudentAttributes("section", "team", "name", "e@e.com",
+                                               "c", "Course Id with space");
         assertFalse(invalidStudent.isValid());
         assertEquals(String.format(COURSE_ID_ERROR_MESSAGE, invalidStudent.course,
-                REASON_INCORRECT_FORMAT), invalidStudent.getInvalidityInfo().get(0));
+                                   REASON_INCORRECT_FORMAT),
+                     invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: empty name");
         invalidStudent = new StudentAttributes("sect", "t1", "", "e@e.com",
-                "c", courseId);
+                                               "c", courseId);
         assertFalse(invalidStudent.isValid());
         assertEquals(invalidStudent.getInvalidityInfo().get(0),
-                String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, "",
-                        FieldValidator.REASON_EMPTY));
+                     String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, "",
+                                   FieldValidator.REASON_EMPTY));
 
         ______TS("Failure case: empty email");
         invalidStudent = new StudentAttributes("sect", "t1", "n", "", "c",
-                courseId);
+                                               courseId);
         assertFalse(invalidStudent.isValid());
         assertEquals(String.format(EMAIL_ERROR_MESSAGE, "", REASON_EMPTY), 
-                invalidStudent.getInvalidityInfo().get(0));
+                     invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: section name too long");
         String longSectionName = StringHelper
                 .generateStringOfLength(FieldValidator.SECTION_NAME_MAX_LENGTH + 1);
         invalidStudent = new StudentAttributes(longSectionName, "t1", "n",
-                "e@e.com", "c", courseId);
+                                               "e@e.com", "c", courseId);
         assertFalse(invalidStudent.isValid());
         assertEquals(String.format(SECTION_NAME_ERROR_MESSAGE, longSectionName,
-                REASON_TOO_LONG), invalidStudent.getInvalidityInfo().get(0));
+                                   REASON_TOO_LONG),
+                     invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: team name too long");
         String longTeamName = StringHelper.generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
         invalidStudent = new StudentAttributes("sect", longTeamName, "name",
-                "e@e.com", "c", courseId);
+                                               "e@e.com", "c", courseId);
         assertFalse(invalidStudent.isValid());
         assertEquals(String.format(TEAM_NAME_ERROR_MESSAGE, longTeamName,
-                REASON_TOO_LONG), invalidStudent.getInvalidityInfo().get(0));
+                                   REASON_TOO_LONG),
+                     invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: student name too long");
         String longStudentName = StringHelper
                 .generateStringOfLength(FieldValidator.PERSON_NAME_MAX_LENGTH + 1);
         invalidStudent = new StudentAttributes("sect", "t1", longStudentName,
-                "e@e.com", "c", courseId);
+                                               "e@e.com", "c", courseId);
         assertFalse(invalidStudent.isValid());
         assertEquals(String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE,
-                longStudentName, FieldValidator.REASON_TOO_LONG),
+                                   longStudentName, FieldValidator.REASON_TOO_LONG),
                 invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: invalid email");
         invalidStudent = new StudentAttributes("sect", "t1", "name", "ee.com",
-                "c", courseId);
+                                               "c", courseId);
         assertFalse(invalidStudent.isValid());
         assertEquals(String.format(EMAIL_ERROR_MESSAGE, "ee.com",
-                REASON_INCORRECT_FORMAT), invalidStudent.getInvalidityInfo().get(0));
+                                   REASON_INCORRECT_FORMAT),
+                     invalidStudent.getInvalidityInfo().get(0));
 
         ______TS("Failure case: comment too long");
         String longComment = StringHelper
                 .generateStringOfLength(FieldValidator.STUDENT_ROLE_COMMENTS_MAX_LENGTH + 1);
         invalidStudent = new StudentAttributes("sect", "t1", "name", "e@e.com",
-                longComment, courseId);
+                                               longComment, courseId);
         assertFalse(invalidStudent.isValid());
         assertEquals(String.format(STUDENT_ROLE_COMMENTS_ERROR_MESSAGE, longComment,
-                REASON_TOO_LONG), invalidStudent.getInvalidityInfo().get(0));
+                                   REASON_TOO_LONG),
+                     invalidStudent.getInvalidityInfo().get(0));
 
         // Other invalid parameters cases are omitted because they are already
         // unit-tested in validate*() methods in Common.java
@@ -156,7 +162,7 @@ public class StudentAttributesTest extends BaseTestCase {
     public void testValidate() {
         StudentAttributes s = generateValidStudentAttributesObject();
 
-        assertEquals("valid value", true, s.isValid());
+        assertTrue("valid value", s.isValid());
 
         s.googleId = "invalid@google@id";
         s.name = "";
@@ -167,20 +173,14 @@ public class StudentAttributesTest extends BaseTestCase {
         s.team = StringHelper
                 .generateStringOfLength(FieldValidator.TEAM_NAME_MAX_LENGTH + 1);
 
-        assertEquals("invalid value", false, s.isValid());
-        String errorMessage = "\"invalid@google@id\" is not acceptable to TEAMMATES as a Google ID because it is not in the correct format. A Google ID must be a valid id already registered with Google. It cannot be longer than 45 characters. It cannot be empty."
-                + EOL
-                + "\"\" is not acceptable to TEAMMATES as a Course ID because it is empty. A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. It cannot be longer than 40 characters. It cannot be empty or contain spaces."
-                + EOL
-                + "\"invalid email\" is not acceptable to TEAMMATES as an email because it is not in the correct format. An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 45 characters. It cannot be empty and it cannot have spaces."
-                + EOL
-                + "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as a team name because it is too long. The value of a team name should be no longer than 60 characters. It should not be empty."
-                + EOL
-                + "\""
-                + s.comments
-                + "\" is not acceptable to TEAMMATES as comments about a student enrolled in a course because it is too long. The value of comments about a student enrolled in a course should be no longer than 500 characters."
-                + EOL
-                + "\"\" is not acceptable to TEAMMATES as a person name because it is empty. The value of a person name should be no longer than 100 characters. It should not be empty.";
+        assertFalse("invalid value", s.isValid());
+        String errorMessage = "\"invalid@google@id\" is not acceptable to TEAMMATES as a Google ID because it is not in the correct format. A Google ID must be a valid id already registered with Google. It cannot be longer than 45 characters. It cannot be empty." + EOL
+                            + "\"\" is not acceptable to TEAMMATES as a Course ID because it is empty. A Course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. It cannot be longer than 40 characters. It cannot be empty or contain spaces." + EOL
+                            + "\"invalid email\" is not acceptable to TEAMMATES as an email because it is not in the correct format. An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 45 characters. It cannot be empty and it cannot have spaces." + EOL
+                            + "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" is not acceptable to TEAMMATES as a team name because it is too long. The value of a team name should be no longer than 60 characters. It should not be empty." + EOL
+                            + "\"" + s.comments
+                            + "\" is not acceptable to TEAMMATES as comments about a student enrolled in a course because it is too long. The value of comments about a student enrolled in a course should be no longer than 500 characters." + EOL
+                            + "\"\" is not acceptable to TEAMMATES as a person name because it is empty. The value of a person name should be no longer than 100 characters. It should not be empty.";
         assertEquals("invalid value", errorMessage, StringHelper.toString(s.getInvalidityInfo()));
     }
 
@@ -229,14 +229,10 @@ public class StudentAttributesTest extends BaseTestCase {
         List<StudentAttributes> sortedList = generateTypicalStudentAttributesList();
         StudentAttributes.sortByNameAndThenByEmail(sortedList);
         List<StudentAttributes> unsortedList = generateTypicalStudentAttributesList();
-        assertEquals(sortedList.get(0).toEnrollmentString(), unsortedList
-                .get(0).toEnrollmentString());
-        assertEquals(sortedList.get(1).toEnrollmentString(), unsortedList
-                .get(3).toEnrollmentString());
-        assertEquals(sortedList.get(2).toEnrollmentString(), unsortedList
-                .get(2).toEnrollmentString());
-        assertEquals(sortedList.get(3).toEnrollmentString(), unsortedList
-                .get(1).toEnrollmentString());
+        assertEquals(sortedList.get(0).toEnrollmentString(), unsortedList.get(0).toEnrollmentString());
+        assertEquals(sortedList.get(1).toEnrollmentString(), unsortedList.get(3).toEnrollmentString());
+        assertEquals(sortedList.get(2).toEnrollmentString(), unsortedList.get(2).toEnrollmentString());
+        assertEquals(sortedList.get(3).toEnrollmentString(), unsortedList.get(1).toEnrollmentString());
     }
 
     @Test
@@ -271,8 +267,9 @@ public class StudentAttributesTest extends BaseTestCase {
 
     @Test
     public void testIsRegistered() throws Exception {
-        StudentAttributes sd = new StudentAttributes("sect 1", "team 1",
-                "name 1", "email@email.com", "comment 1", "course1");
+        StudentAttributes sd = new StudentAttributes("sect 1", "team 1", "name 1",
+                                                     "email@email.com", "comment 1",
+                                                     "course1");
 
         // Id is not given yet
         assertFalse(sd.isRegistered());
@@ -288,40 +285,43 @@ public class StudentAttributesTest extends BaseTestCase {
 
     @Test
     public void testToString() {
-        StudentAttributes sd = new StudentAttributes("sect 1", "team 1",
-                "name 1", "email@email.com", "comment 1", "course1");
+        StudentAttributes sd = new StudentAttributes("sect 1", "team 1", "name 1",
+                                                     "email@email.com", "comment 1",
+                                                     "course1");
         assertEquals("Student:name 1[email@email.com]" + Const.EOL,
-                sd.toString());
+                     sd.toString());
         assertEquals("    Student:name 1[email@email.com]" + Const.EOL,
-                sd.toString(4));
+                     sd.toString(4));
     }
 
     @Test
     public void testToEnrollmentString() {
-        StudentAttributes sd = new StudentAttributes("sect 1", "team 1",
-                "name 1", "email@email.com", "comment 1", "course1");
+        StudentAttributes sd = new StudentAttributes("sect 1", "team 1", "name 1",
+                                                     "email@email.com", "comment 1",
+                                                     "course1");
         assertEquals("sect 1|team 1|name 1|email@email.com|comment 1",
-                sd.toEnrollmentString());
+                     sd.toEnrollmentString());
     }
 
     @Test
     public void testGetRegistrationLink() {
-        StudentAttributes sd = new StudentAttributes("sect 1", "team 1",
-                "name 1", "email@email.com", "comment 1", "course1");
+        StudentAttributes sd = new StudentAttributes("sect 1", "team 1", "name 1",
+                                                     "email@email.com", "comment 1",
+                                                     "course1");
         sd.key = "testkey";
-        String regUrl = new Url(Config.APP_URL
-                + Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
-                .withRegistrationKey(StringHelper.encrypt("testkey"))
-                .withStudentEmail("email@email.com")
-                .withCourseId("course1")
-                .toString();
+        String regUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+                                .withRegistrationKey(StringHelper.encrypt("testkey"))
+                                .withStudentEmail("email@email.com")
+                                .withCourseId("course1")
+                                .toString();
         assertEquals(regUrl, sd.getRegistrationUrl());
     }
 
     @Test
     public void testGetPublicProfilePictureUrl() {
-        StudentAttributes sd = new StudentAttributes("sect 1", "team 1",
-                "name 1", "email@email.com", "comment 1", "course1");
+        StudentAttributes sd = new StudentAttributes("sect 1", "team 1", "name 1",
+                                                     "email@email.com", "comment 1",
+                                                     "course1");
         String profilePicUrl = new Url(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
                 .withStudentEmail(StringHelper.encrypt("email@email.com"))
                 .withCourseId(StringHelper.encrypt("course1"))
@@ -330,27 +330,27 @@ public class StudentAttributesTest extends BaseTestCase {
     }
 
     private Student generateTypicalStudentObject() {
-        Student expected = new Student("email@email.com", "name 1",
-                "googleId.1", "comment 1", "courseId1", "team 1", "sect 1");
+        Student expected = new Student("email@email.com", "name 1", "googleId.1", 
+                                       "comment 1", "courseId1", "team 1", "sect 1");
         return expected;
     }
 
     private Student generateStudentWithoutSectionObject() {
-        Student expected = new Student("email@email.com", "name 1",
-                "googleId.1", "comment 1", "courseId1", "team 1", null);
+        Student expected = new Student("email@email.com", "name 1", "googleId.1",
+                                       "comment 1", "courseId1", "team 1", null);
         return expected;
     }
 
     private List<StudentAttributes> generateTypicalStudentAttributesList() {
         List<StudentAttributes> list = new Vector<>();
         list.add(new StudentAttributes("sect 2", "team 2", "name 1", "email 1",
-                "comment 1", "courseId"));
+                                       "comment 1", "courseId"));
         list.add(new StudentAttributes("sect 2", "team 2", "name 4", "email 4",
-                "comment 4", "courseId"));
+                                       "comment 4", "courseId"));
         list.add(new StudentAttributes("sect 3", "team 1", "name 2", "email 3",
-                "comment 3", "courseId"));
+                                       "comment 3", "courseId"));
         list.add(new StudentAttributes("sect 1", "team 3", "name 2", "email 2",
-                "comment 2", "courseId"));
+                                       "comment 2", "courseId"));
         return list;
     }
 
@@ -361,8 +361,7 @@ public class StudentAttributesTest extends BaseTestCase {
         assertEquals(expected.getComments(), actual.getComments());
     }
 
-    private void verifyStudentContentIncludingID(Student expected,
-            Student actual) {
+    private void verifyStudentContentIncludingID(Student expected, Student actual) {
         verifyStudentContent(expected, actual);
         assertEquals(expected.getGoogleId(), actual.getGoogleId());
     }

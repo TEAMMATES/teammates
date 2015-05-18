@@ -45,8 +45,8 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     }
 
     private void testNavLinkToPage() {
-        Url profileUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE).withUserId(
-                testData.accounts.get("studentWithEmptyProfile").googleId);
+        Url profileUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
+                                 .withUserId(testData.accounts.get("studentWithEmptyProfile").googleId);
         StudentHomePage shp = loginAdminToPage(browser, profileUrl, StudentHomePage.class);
         profilePage = shp.loadProfileTab().changePageType(StudentProfilePage.class);
     }
@@ -70,24 +70,23 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         ______TS("typical success case, no picture");
 
-        profilePage.editProfileThroughUi("", "short.name", "e@email.tmt", "inst",
-                "Usual Nationality", "female", "this is enough!$%&*</>");
-        profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst",
-                "Usual Nationality", "female", "this is enough!$%&*</>");
+        profilePage.editProfileThroughUi("", "short.name", "e@email.tmt", "inst", "Usual Nationality",
+                                         "female", "this is enough!$%&*</>");
+        profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality",
+                                          "female", "this is enough!$%&*</>");
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_EDITED);
 
         ______TS("invalid data");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes("valid.id",
-                "$$short.name", "e@email.tmt", " inst  ",
-                StringHelper.generateStringOfLength(54), "male",
-                "this is enough!$%&*</>", "");
-        profilePage.editProfileThroughUi("", spa.shortName, spa.email,
-                spa.institute, spa.nationality, spa.gender, spa.moreInfo);
-        profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst",
-                "Usual Nationality", "female", "this is enough!$%&*</>");
-        profilePage.verifyStatus(StringHelper.toString(spa.getInvalidityInfo(),
-                " "));
+        StudentProfileAttributes spa = new StudentProfileAttributes("valid.id", "$$short.name",
+                                                                    "e@email.tmt", " inst  ",
+                                                                    StringHelper.generateStringOfLength(54),
+                                                                    "male", "this is enough!$%&*</>", "");
+        profilePage.editProfileThroughUi("", spa.shortName, spa.email, spa.institute,
+                                         spa.nationality, spa.gender, spa.moreInfo);
+        profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality",
+                                          "female", "this is enough!$%&*</>");
+        profilePage.verifyStatus(StringHelper.toString(spa.getInvalidityInfo(), " "));
 
         ______TS("success case picture upload and edit");
 
@@ -97,8 +96,8 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.isElementVisible("studentPhotoUploader");
 
         profilePage.editProfilePhoto();
-        profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst",
-                "Usual Nationality", "female", "this is enough!$%&*</>");
+        profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality",
+                                          "female", "this is enough!$%&*</>");
         profilePage.verifyPhotoSize(150, 150);
 
         String prevPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
@@ -108,8 +107,8 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         
         profilePage.showPictureEditor();
         profilePage.editProfilePhoto();
-        profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst",
-                "Usual Nationality", "female", "this is enough!$%&*</>");
+        profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality",
+                                          "female", "this is enough!$%&*</>");
         profilePage.verifyPhotoSize(150, 150);
         
         prevPictureKey = BackDoor.getStudentProfile(studentGoogleId).pictureKey;
@@ -160,8 +159,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         ______TS("failure case, invalid blob-key");
 
         String expectedFilename = "/studentProfilePictureNotFound.html";
-        getProfilePicturePage(studentId, "random-StRing123").verifyIsErrorPage(
-                expectedFilename);
+        getProfilePicturePage(studentId, "random-StRing123").verifyIsErrorPage(expectedFilename);
 
         ______TS("success case, with email and course");
 
@@ -186,8 +184,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                 .withUserId(testData.accounts.get(instructorId).googleId)
                 .withParam(Const.ParamsNames.STUDENT_EMAIL, email)
                 .withParam(Const.ParamsNames.COURSE_ID, courseId);
-        return loginAdminToPage(browser, profileUrl,
-                StudentProfilePicturePage.class);
+        return loginAdminToPage(browser, profileUrl, StudentProfilePicturePage.class);
     }
 
     private StudentProfilePicturePage getProfilePicturePage(String studentId,
