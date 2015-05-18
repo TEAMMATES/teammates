@@ -17,11 +17,11 @@ import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.common.util.Const.ParamsNames;
-import teammates.logic.core.CoursesLogic;
+import teammates.logic.api.Logic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
@@ -95,7 +95,7 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
                     return false;
                 }
             } 
-            adjustResponsesForTeamChange(enrollmentList, feedbackSession.feedbackSessionName);
+            adjustResponsesForRenamedTeam(enrollmentList, feedbackSession.feedbackSessionName);
             
             return true;
         } else {
@@ -104,22 +104,20 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
         }    
     }
 
-    private void adjustResponsesForTeamChange(ArrayList<StudentEnrollDetails> enrolmentList, String feedbackSessionName) {
-        FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-        StudentsLogic studentsLogic = StudentsLogic.inst();
+    private void adjustResponsesForRenamedTeam(ArrayList<StudentEnrollDetails> enrolmentList, String feedbackSessionName) {
+        Logic logic = new Logic();
         
         Set<String> modifiedStudents = new HashSet<String>();
         Map<String, String> oldSectionTeamToNewSectionTeamMap = new HashMap<String, String>();
         
-        // Initialise modifiedStudents, oldSectionTeamToNewSectionTeamMap, renamedTeams 
+        // Initialise modifiedStudents, oldSectionTeamToNewSectionTeamMap and renamedTeams 
         Set<String> renamedTeams = extractDataFromEnrollmentList(
                 enrolmentList, modifiedStudents, oldSectionTeamToNewSectionTeamMap);
         
         // For every possible renamed team, check that all team members are in the enrollment
-        removeTeamsWithMembersMissingFromEnrollmentData(studentsLogic, modifiedStudents, renamedTeams);
+        removeTeamsWithMembersMissingFromEnrollmentData(logic, modifiedStudents, renamedTeams);
 
         for (String sectionTeamToRename : renamedTeams) {
-            
             String[] splitsectionTeamToRename = sectionTeamToRename.split("\\|");
             String oldSection = splitsectionTeamToRename[0];
             String oldTeam = splitsectionTeamToRename[1];
@@ -130,16 +128,17 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
             String newSection = splitNewSectionTeam[0];
             String newTeam = splitNewSectionTeam[1];
             
-            frLogic.updateFeedbackResponsesForRenamingTeam(courseId, feedbackSessionName, oldTeam, oldSection, newTeam, newSection);
+            logic.updateFeedbackResponsesForRenamingTeam(courseId, feedbackSessionName, oldTeam, oldSection, newTeam, newSection);
         }
     }
 
     /**
      * Using the enrollment list, return the list of teams which are renamed.
-     * Updates the set of students who are modified by the enrollment
+     * Updates the set of students who are modified by the enrollment.
      * Updates the mapping from old section and team names to new section and team names.
      * @param enrolmentList
      * @param modifiedStudents
+     * @param oldSectionTeamToNewSectionTeamMap
      * @return
      */
     private Set<String> extractDataFromEnrollmentList(
@@ -151,8 +150,10 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
         
         for (StudentEnrollDetails details : enrolmentList) {
             String originalSectionTeam = constructOriginalSectionTeamStr(details);
-            boolean isTeamUpdated = details.oldTeam != null;
-            boolean isSectionUpdated = details.oldSection != null;
+            boolean isTeamUpdated = (details.newTeam != null) && (details.oldTeam != null) 
+                                    && (!details.oldTeam.equals(details.newTeam));
+            boolean isSectionUpdated = (details.newSection != null) && (details.oldSection != null) 
+                                        && (!details.oldSection.equals(details.newSection));
             
             if (details.updateStatus == UpdateStatus.UNMODIFIED || 
                 (!isTeamUpdated && !isSectionUpdated) ) {
@@ -179,8 +180,8 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
             }
         }
         
-        // For every old team, check if there exists another member of the old team
-        // who got a different new team
+        // Obtains a mapping of old sectionTeam name to new sectionTeam name.
+        // This also removes teams where not the entire team moved to the same team
         generateOldToNewTeamMappingWithConsistencyCheck(oldSectionTeamToNewSectionTeamMap, enrolmentList,
                 renamedTeams);
         
@@ -190,16 +191,16 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
     /**
      * Updates renamedTeams by removing teams where not every member was modified
      * in the enrollment
-     * @param studentsLogic
+     * @param logic
      * @param modifiedStudents
      * @param renamedTeams
      */
-    private void removeTeamsWithMembersMissingFromEnrollmentData(StudentsLogic studentsLogic,
+    private void removeTeamsWithMembersMissingFromEnrollmentData(Logic logic,
             Set<String> modifiedStudents, Set<String> renamedTeams) {
         Set<String> sectionTeams = new HashSet<String>(renamedTeams);
         for (String sectionTeam : sectionTeams) {
             String team = sectionTeam.split("\\|")[1];
-            List<StudentAttributes> studentsInTeam = studentsLogic.getStudentsForTeam(team, courseId);
+            List<StudentAttributes> studentsInTeam = logic.getStudentsForTeam(team, courseId);
 
             boolean isAllStudentsModified = true;
             for (StudentAttributes student : studentsInTeam) {
@@ -239,6 +240,11 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
         }
     }
 
+    /**
+     * Construct a string of sectionName|teamName
+     * @param details
+     * @return
+     */
     private String constructOriginalSectionTeamStr(StudentEnrollDetails details) {
         boolean isSectionChanged = details.oldSection != null;
         String oldSectionName;
@@ -247,7 +253,9 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
         } else {
             // if the section is not changed, details.oldSection is null
             // and newSection contains the original value
-            oldSectionName = details.newSection;
+            oldSectionName = details.newSection != null? 
+                             details.newSection : 
+                             Const.DEFAULT_SECTION;
         }
         
         boolean isTeamChanged = details.oldTeam != null;
