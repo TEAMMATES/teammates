@@ -15,8 +15,7 @@ import teammates.common.util.Const;
 import teammates.ui.controller.InstructorFeedbackPreviewAsStudentAction;
 import teammates.ui.controller.ShowPageResult;
 
-public class InstructorFeedbackPreviewAsStudentActionTest extends
-        BaseActionTest {
+public class InstructorFeedbackPreviewAsStudentActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
@@ -27,7 +26,7 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         InstructorAttributes instructorHelper = dataBundle.instructors.get("helperOfCourse1");
         String idOfInstructor = instructor.googleId;
@@ -42,7 +41,7 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends
         String courseId = student.course;
         String previewAsEmail = student.email;
 
-        String[] submissionParams = new String[] {
+        String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.PREVIEWAS, previewAsEmail
@@ -51,18 +50,18 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends
         InstructorFeedbackPreviewAsStudentAction paia = getAction(submissionParams);
         ShowPageResult showPageResult = (ShowPageResult) paia.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT 
-                + "?error=false"
-                + "&user="+ idOfInstructor
-                ,showPageResult.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT +
+                     "?error=false" +
+                     "&user="+ idOfInstructor,
+                     showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
 
-        assertEquals("TEAMMATESLOG|||instructorFeedbackPreviewAsStudent|||instructorFeedbackPreviewAsStudent"
-                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                + "Preview feedback session as student (" + student.email + ")<br>"
-                + "Session Name: First feedback session<br>Course ID: idOfTypicalCourse1|||"
-                + "/page/instructorFeedbackPreviewAsStudent"
-                , paia.getLogMessage());
+        assertEquals("TEAMMATESLOG|||instructorFeedbackPreviewAsStudent|||instructorFeedbackPreviewAsStudent" +
+                     "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
+                     "Preview feedback session as student (" + student.email + ")<br>" +
+                     "Session Name: First feedback session<br>Course ID: idOfTypicalCourse1|||" +
+                     "/page/instructorFeedbackPreviewAsStudent",
+                     paia.getLogMessage());
         
         gaeSimulation.loginAsInstructor(idOfInstructorHelper);
         
@@ -72,7 +71,7 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends
         courseId = "idOfTypicalCourse1";
         previewAsEmail = student.email;
         
-        submissionParams = new String[] {
+        submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.PREVIEWAS, previewAsEmail
@@ -83,7 +82,7 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends
             showPageResult = (ShowPageResult) paia.executeAndPostProcess();
         } catch (UnauthorizedAccessException e) {
             assertEquals("Feedback session [First feedback session] is not accessible to instructor [" + 
-                    instructorHelper.email + "] for privilege [canmodifysession]", e.getMessage());
+                         instructorHelper.email + "] for privilege [canmodifysession]", e.getMessage());
         }
         
         gaeSimulation.loginAsInstructor(idOfInstructor);
@@ -92,7 +91,7 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends
         
         previewAsEmail = "non-exIstentEmail@gsail.tmt";
 
-        submissionParams = new String[] {
+        submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.PREVIEWAS, previewAsEmail
@@ -103,14 +102,14 @@ public class InstructorFeedbackPreviewAsStudentActionTest extends
             showPageResult = (ShowPageResult) paia.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            assertEquals("Student Email "
-                            + previewAsEmail + " does not exist in " + courseId
-                            + ".", 
-                        edne.getMessage());
+            assertEquals("Student Email " +
+                         previewAsEmail + " does not exist in " + courseId +
+                         ".", 
+                         edne.getMessage());
         }
     }
             
-        private InstructorFeedbackPreviewAsStudentAction getAction(String... params) throws Exception{
+    private InstructorFeedbackPreviewAsStudentAction getAction(String... params) throws Exception {
         return (InstructorFeedbackPreviewAsStudentAction) gaeSimulation.getActionObject(uri, params);
     }
 }
