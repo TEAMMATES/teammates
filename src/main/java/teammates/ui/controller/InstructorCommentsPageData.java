@@ -40,30 +40,30 @@ public class InstructorCommentsPageData extends PageData {
         super(account);
     }
     
-    public String getGiverName(String giverEmail){
+    public String getGiverName(String giverEmail) {
         InstructorAttributes instructor = roster.getInstructorForEmail(giverEmail);
         String giverDisplay = giverEmail;
-        if(giverEmail.equals(COMMENT_GIVER_NAME_THAT_COMES_FIRST)){
+        if (giverEmail.equals(COMMENT_GIVER_NAME_THAT_COMES_FIRST)) {
             giverDisplay = "You";
-        } else if(instructor != null){
+        } else if (instructor != null) {
             String title = instructor.displayedName;
             giverDisplay = title + " " + instructor.name;
         }
         return giverDisplay;
     }
     
-    public String getRecipientNames(Set<String> recipients){
+    public String getRecipientNames(Set<String> recipients) {
         StringBuilder namesStringBuilder = new StringBuilder();
         int i = 0;
-        for(String recipient : recipients){
-            if(i == recipients.size() - 1 && recipients.size() > 1){
+        for (String recipient : recipients) {
+            if (i == recipients.size() - 1 && recipients.size() > 1) {
                 namesStringBuilder.append("and ");
             }
             StudentAttributes student = roster.getStudentForEmail(recipient);
-            if(courseId.equals(recipient)){ 
+            if (courseId.equals(recipient)) { 
                 namesStringBuilder.append("<b>All students in this course</b>, ");
-            } else if(student != null){
-                if(recipients.size() == 1){
+            } else if (student != null) {
+                if (recipients.size() == 1) {
                     namesStringBuilder.append("<b>" + student.name + "</b>" 
                             + " (" + student.team + ", <a href=\"mailto:" + student.email + "\">" + student.email + "</a>), ");
                 } else {
