@@ -69,8 +69,7 @@
                         <h1>Comments from Instructors</h1>
                     </div>
                     <div class="col-sm-6 instructor-header-bar">
-                        <form method="get" action="<%=data.getInstructorSearchLink()%>"
-                            name="search_form">
+                        <form method="get" action="<%=data.getInstructorSearchLink()%>" name="search_form">
                             <div class="input-group">
                                 <input type="text" name="<%=Const.ParamsNames.SEARCH_KEY%>"
                                     title="Search for comment"
@@ -80,7 +79,9 @@
                                 <span class="input-group-btn">
                                     <button class="btn btn-default"
                                         type="submit" value="Search"
-                                        id="buttonSearch">Search</button>
+                                        id="buttonSearch">
+                                        Search
+                                    </button>
                                 </span>
                             </div>
                             <input type="hidden" name="<%=Const.ParamsNames.SEARCH_COMMENTS_FOR_STUDENTS%>" value="true">
@@ -97,8 +98,10 @@
                     <div class="col-md-2">
                         <div class="checkbox">
                             <input id="option-check" type="checkbox">
-                            <label for="option-check">Show More
-                                Options</label>
+                            <label for="option-check">
+                                Show More
+                                Options
+                            </label>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -106,8 +109,10 @@
                             <input id="displayArchivedCourses_check"
                                 type="checkbox"
                                 <%=data.isDisplayArchive ? "checked=\"checked\"" : ""%>>
-                            <label for="displayArchivedCourses_check">Include
-                                Archived Courses</label>
+                            <label for="displayArchivedCourses_check">
+                                Include
+                                Archived Courses
+                            </label>
                             <div id="displayArchivedCourses_link" style="display:none;">
                                 <a href="<%=data.getInstructorCommentsLink()%>">link back to the page</a>
                             </div>
@@ -126,31 +131,34 @@
                                     <div class="checkbox">
                                         <input id="panel_all"
                                             type="checkbox"
-                                            checked="checked"> <label
-                                            for="panel_all"><strong>All</strong></label>
+                                            checked="checked">
+                                        <label for="panel_all"><strong>All</strong></label>
                                     </div>
                                     <br>
                                     <% int panelIdx = 0; %>
-                                    <% if(data.comments.keySet().size() != 0){ 
+                                    <% if (data.comments.keySet().size() != 0) { 
                                            panelIdx++;
                                     %>
                                     <div class="checkbox">
                                         <input id="panel_check-<%=panelIdx%>"
                                             type="checkbox"
-                                            checked="checked"> <label
+                                            checked="checked"> 
+                                        <label
                                             for="panel_check-<%=panelIdx%>">
-                                            Students </label>
+                                            Students 
+                                        </label>
                                     </div>
                                     <% } %>
-                                    <% for(FeedbackSessionAttributes fs : data.feedbackSessions){ 
+                                    <% for (FeedbackSessionAttributes fs : data.feedbackSessions) { 
                                            panelIdx++;
                                     %>
                                     <div class="checkbox">
                                         <input id="panel_check-<%=panelIdx%>"
                                             type="checkbox"
-                                            checked="checked"> <label
-                                            for="panel_check-<%=panelIdx%>">
-                                            Session: <%=fs.feedbackSessionName%> </label>
+                                            checked="checked"> 
+                                        <label for="panel_check-<%=panelIdx%>">
+                                            Session: <%=fs.feedbackSessionName%>
+                                        </label>
                                     </div>
                                     <% } %>
                                 </div>
@@ -162,23 +170,27 @@
                                     <div class="checkbox">
                                         <input type="checkbox" value=""
                                             id="giver_all"
-                                            checked="checked"> <label
-                                            for="giver_all"><strong>All</strong></label>
+                                            checked="checked"> 
+                                        <label for="giver_all">
+                                            <strong>All</strong>
+                                        </label>
                                     </div>
                                     <br>
                                     <div class="checkbox">
                                         <input id="giver_check-by-you"
                                             type="checkbox"
-                                            checked="checked"> <label
-                                            for="giver_check-by-you">
-                                            You </label>
+                                            checked="checked">
+                                        <label for="giver_check-by-you">
+                                            You
+                                        </label>
                                     </div>
                                     <div class="checkbox">
                                         <input id="giver_check-by-others"
                                             type="checkbox"
-                                            checked="checked"> <label
-                                            for="giver_check-by-others">
-                                            Others </label>
+                                            checked="checked">
+                                        <label for="giver_check-by-others">
+                                            Others
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
@@ -189,23 +201,27 @@
                                     <div class="checkbox">
                                         <input type="checkbox" value=""
                                             id="status_all"
-                                            checked="checked"> <label
-                                            for="status_all"><strong>All</strong></label>
+                                            checked="checked"> 
+                                        <label for="status_all">
+                                            <strong>All</strong>
+                                        </label>
                                     </div>
                                     <br>
                                     <div class="checkbox">
                                         <input id="status_check-public"
                                             type="checkbox"
-                                            checked="checked"> <label
-                                            for="status_check-public">
-                                            Public </label>
+                                            checked="checked">
+                                        <label for="status_check-public">
+                                            Public
+                                        </label>
                                     </div>
                                     <div class="checkbox">
                                         <input id="status_check-private"
                                             type="checkbox"
-                                            checked="checked"> <label
-                                            for="status_check-private">
-                                            Private </label>
+                                            checked="checked">
+                                        <label for="status_check-private">
+                                            Private
+                                        </label>
                                     </div>
                                 </div>
                             </div>
@@ -213,7 +229,7 @@
                     </div>
                 </div>
             </div>
-            <% if(data.coursePaginationList.size() > 0) { %>
+            <% if (data.coursePaginationList.size() > 0) { %>
             <ul class="pagination">
                 <li><a href="<%=data.previousPageLink%>">«</a></li>
                 <!--<li class="<%=data.isViewingDraft ? "active" : ""%>"><a
@@ -223,8 +239,7 @@
                 %>
                 <li
                     class="<%=!data.isViewingDraft && courseId.equals(data.courseId) ? "active" : ""%>">
-                    <a
-                    href="<%=data.getInstructorCommentsLink() + "&courseid=" + courseId%>"><%=courseId%></a>
+                    <a href="<%=data.getInstructorCommentsLink() + "&courseid=" + courseId%>"><%=courseId%></a>
                 </li>
                 <%
                     }
@@ -234,22 +249,23 @@
             <div class="well well-plain">
                 <div class="row">
                     <h4 class="col-sm-9 text-color-primary">
-                        <strong> <%=data.isViewingDraft ? "Drafts" : data.courseName%>
+                        <strong>
+                            <%=data.isViewingDraft ? "Drafts" : data.courseName%>
                         </strong>
                     </h4>
-                    <div class="btn-group pull-right" style="<%=data.numberOfPendingComments==0?"display:none":""%>">
-                      <a type="button" class="btn btn-sm btn-info" data-toggle="tooltip" style="margin-right: 17px;"
-                         href="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING + "?" + Const.ParamsNames.COURSE_ID + "=" + data.courseId
+                    <div class="btn-group pull-right" style="<%=data.numberOfPendingComments==0 ? "display:none" : ""%>">
+                        <a type="button" class="btn btn-sm btn-info" data-toggle="tooltip" style="margin-right: 17px;"
+                            href="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING + "?" + Const.ParamsNames.COURSE_ID + "=" + data.courseId
                                         + "&" + Const.ParamsNames.USER_ID + "=" + data.account.googleId%>"
-                         title="Send email notification to <%=data.numberOfPendingComments%> recipient(s) of comments pending notification">
-                        <span class="badge" style="margin-right: 5px"><%=data.numberOfPendingComments%></span>
-                        <span class="glyphicon glyphicon-comment"></span>
-                        <span class="glyphicon glyphicon-arrow-right"></span>
-                        <span class="glyphicon glyphicon-envelope"></span>
-                      </a>
+                            title="Send email notification to <%=data.numberOfPendingComments%> recipient(s) of comments pending notification">
+                            <span class="badge" style="margin-right: 5px"><%=data.numberOfPendingComments%></span>
+                            <span class="glyphicon glyphicon-comment"></span>
+                            <span class="glyphicon glyphicon-arrow-right"></span>
+                            <span class="glyphicon glyphicon-envelope"></span>
+                        </a>
                     </div>
                 </div>
-                <div id="no-comment-panel" style="<%=data.comments.keySet().size() == 0 && data.feedbackSessions.size() == 0?"":"display:none;"%>">
+                <div id="no-comment-panel" style="<%=data.comments.keySet().size() == 0 && data.feedbackSessions.size() == 0 ? "" : "display:none;"%>">
                     <br>
                     <div class="panel">
                         <div class="panel-body">
@@ -258,7 +274,7 @@
                     </div>
                 </div>
                 <%  panelIdx = 0;
-                    if(data.comments.keySet().size() != 0){// check student comments starts 
+                    if (data.comments.keySet().size() != 0) {// check student comments starts 
                         panelIdx++;
                 %>
                 <div id="panel_display-<%=panelIdx%>">
@@ -275,7 +291,7 @@
                             for (String giverEmail : data.comments.keySet()) {//recipient loop starts
                                 studentIdx++;
                         %>
-                        <div class="panel panel-info student-record-comments <%=giverEmail.equals(InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST)?"giver_display-by-you":"giver_display-by-others"%>"
+                        <div class="panel panel-info student-record-comments <%=giverEmail.equals(InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST) ? "giver_display-by-you" : "giver_display-by-others"%>"
                             <% if (data.comments.get(giverEmail).isEmpty()) { %> style="display: none;" <% } %>>
                             <div class="panel-heading">
                                 From <b><%=data.getGiverName(giverEmail)%></b>
@@ -288,7 +304,7 @@
                                             recipientTypeForThisRecipient = comment.recipientType;
                                 %>
                                 <li id="<%=comment.getCommentId()%>"
-                                    class="list-group-item list-group-item-warning <%=comment.showCommentTo.size()>0?"status_display-public":"status_display-private"%>">
+                                    class="list-group-item list-group-item-warning <%=comment.showCommentTo.size() > 0 ? "status_display-public" : "status_display-private"%>">
                                     <form method="post"
                                         action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT%>"
                                         name="form_commentedit"
@@ -314,9 +330,9 @@
                                                 title=""
                                                 data-original-title="<%=Const.Tooltips.COMMENT_DELETE%>"
                                                 style="display: none;">
-                                                <span
-                                                class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                            </a> <a type="button"
+                                                <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                                            </a> 
+                                            <a type="button"
                                                 id="commentedit-<%=commentIdx%>"
                                                 class="btn btn-default btn-xs icon-button pull-right"
                                                 onclick="return enableEdit('<%=commentIdx%>');"
@@ -325,11 +341,10 @@
                                                 title=""
                                                 data-original-title="<%=Const.Tooltips.COMMENT_EDIT%>"
                                                 style="display: none;">
-                                                <span
-                                                class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                                                <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                             </a>
                                             <% }//comment edit/delete control ends %>
-                                            <% if(comment.showCommentTo.size() > 0){ 
+                                            <% if (comment.showCommentTo.size() > 0) { 
                                                    String peopleCanSee = data.getTypeOfPeopleCanViewComment(comment);
                                             %>
                                             <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;"
@@ -337,15 +352,14 @@
                                                 title="This comment is visible to <%=peopleCanSee%>"></span>
                                             <% } %>
                                             <% 
-                                               if(comment.sendingState == CommentSendingState.PENDING){ 
+                                               if (comment.sendingState == CommentSendingState.PENDING) { 
                                             %>
                                             <span class="glyphicon glyphicon-bell" data-toggle="tooltip" 
                                                 data-placement="top"
                                                 title="This comment is pending notification. i.e., you have not sent a notification about this comment yet"></span>
                                             <% } %>
                                         </div>
-                                        <div
-                                            id="plainCommentText<%=commentIdx%>"><%=comment.commentText.getValue()%></div>
+                                        <div id="plainCommentText<%=commentIdx%>"><%=comment.commentText.getValue()%></div>
                                         <%
                                            if (comment.giverEmail.equals(data.instructorEmail)
                                         		   || (data.currentInstructor != null && 
@@ -379,87 +393,89 @@
                                                             <th class="text-center">Can see
                                                                 recipient's name</th>
                                                         </tr>
-                                                        <% if(comment.recipientType == CommentRecipientType.PERSON){ %>
+                                                        <% if (comment.recipientType == CommentRecipientType.PERSON) { %>
                                                         <tr id="recipient-person<%=commentIdx%>">
                                                             <td class="text-left">
                                                                 <div data-toggle="tooltip"
                                                                     data-placement="top" title=""
                                                                     data-original-title="Control what comment recipient(s) can view">
-                                                                    Recipient(s)</div>
+                                                                    Recipient(s)
+                                                                </div>
                                                             </td>
                                                             <td><input
                                                                 class="visibilityCheckbox answerCheckbox"
                                                                 type="checkbox" value="<%=CommentRecipientType.PERSON%>"
-                                                                <%=comment.showCommentTo.contains(CommentRecipientType.PERSON)?"checked=\"checked\"":""%>>
+                                                                <%=comment.showCommentTo.contains(CommentRecipientType.PERSON) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                             <td><input
                                                                 class="visibilityCheckbox giverCheckbox"
                                                                 type="checkbox" value="<%=CommentRecipientType.PERSON%>"
-                                                                <%=comment.showGiverNameTo.contains(CommentRecipientType.PERSON)?"checked=\"checked\"":""%>>
+                                                                <%=comment.showGiverNameTo.contains(CommentRecipientType.PERSON) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                             <td><input
                                                                 class="visibilityCheckbox recipientCheckbox"
                                                                 name="receiverFollowerCheckbox"
                                                                 type="checkbox" value="<%=CommentRecipientType.PERSON%>"
-                                                                disabled="disabled"></td>
+                                                                disabled="disabled">
+                                                            </td>
                                                         </tr>
                                                         <% } %>
-                                                        <% if(comment.recipientType == CommentRecipientType.PERSON
-                                                                || comment.recipientType == CommentRecipientType.TEAM){ %>
+                                                        <% if (comment.recipientType == CommentRecipientType.PERSON
+                                                                || comment.recipientType == CommentRecipientType.TEAM) { %>
                                                         <tr id="recipient-team<%=commentIdx%>">
                                                             <td class="text-left">
                                                                 <div data-toggle="tooltip"
                                                                     data-placement="top" title=""
                                                                     data-original-title="Control what team members of comment recipients can view">
-                                                                    <%=comment.recipientType == CommentRecipientType.TEAM? "Recipient Team" : "Recipient's Team" %></div>
+                                                                    <%=comment.recipientType == CommentRecipientType.TEAM ? "Recipient Team" : "Recipient's Team" %></div>
                                                             </td>
                                                             <td><input
                                                                 class="visibilityCheckbox answerCheckbox"
                                                                 type="checkbox"
                                                                 value="<%=CommentRecipientType.TEAM%>"
-                                                                <%=comment.showCommentTo.contains(CommentRecipientType.TEAM)?"checked=\"checked\"":""%>>
+                                                                <%=comment.showCommentTo.contains(CommentRecipientType.TEAM) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                             <td><input
                                                                 class="visibilityCheckbox giverCheckbox"
                                                                 type="checkbox"
                                                                 value="<%=CommentRecipientType.TEAM%>"
-                                                                <%=comment.showGiverNameTo.contains(CommentRecipientType.TEAM)?"checked=\"checked\"":""%>>
+                                                                <%=comment.showGiverNameTo.contains(CommentRecipientType.TEAM) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                             <td><input
                                                                 class="visibilityCheckbox recipientCheckbox"
                                                                 type="checkbox"
                                                                 value="<%=CommentRecipientType.TEAM%>"
-                                                                <%=comment.recipientType == CommentRecipientType.TEAM? "disabled=\"disabled\"" : "" %>
-                                                                <%=comment.showRecipientNameTo.contains(CommentRecipientType.TEAM)?"checked=\"checked\"":""%>>
+                                                                <%=comment.recipientType == CommentRecipientType.TEAM ? "disabled=\"disabled\"" : "" %>
+                                                                <%=comment.showRecipientNameTo.contains(CommentRecipientType.TEAM) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                         </tr>
                                                         <% } %>
-                                                        <% if(comment.recipientType != CommentRecipientType.COURSE){ %>
+                                                        <% if (comment.recipientType != CommentRecipientType.COURSE) { %>
                                                         <tr id="recipient-section<%=commentIdx%>">
                                                             <td class="text-left">
                                                                 <div data-toggle="tooltip"
                                                                     data-placement="top" title=""
                                                                     data-original-title="Control what students in the same section can view">
-                                                                    <%=comment.recipientType == CommentRecipientType.SECTION? "Recipient Section" : "Recipient's Section" %></div>
+                                                                    <%=comment.recipientType == CommentRecipientType.SECTION ? "Recipient Section" : "Recipient's Section" %></div>
                                                             </td>
                                                             <td><input
                                                                 class="visibilityCheckbox answerCheckbox"
                                                                 type="checkbox"
                                                                 value="<%=CommentRecipientType.SECTION%>"
-                                                                <%=comment.showCommentTo.contains(CommentRecipientType.SECTION)?"checked=\"checked\"":""%>>
+                                                                <%=comment.showCommentTo.contains(CommentRecipientType.SECTION) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                             <td><input
                                                                 class="visibilityCheckbox giverCheckbox"
                                                                 type="checkbox"
                                                                 value="<%=CommentRecipientType.SECTION%>"
-                                                                <%=comment.showGiverNameTo.contains(CommentRecipientType.SECTION)?"checked=\"checked\"":""%>>
+                                                                <%=comment.showGiverNameTo.contains(CommentRecipientType.SECTION) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                             <td><input
                                                                 class="visibilityCheckbox recipientCheckbox"
                                                                 type="checkbox"
                                                                 value="<%=CommentRecipientType.SECTION%>"
-                                                                <%=comment.recipientType == CommentRecipientType.SECTION? "disabled=\"disabled\"" : "" %>
-                                                                <%=comment.showRecipientNameTo.contains(CommentRecipientType.SECTION)?"checked=\"checked\"":""%>>
+                                                                <%=comment.recipientType == CommentRecipientType.SECTION ? "disabled=\"disabled\"" : "" %>
+                                                                <%=comment.showRecipientNameTo.contains(CommentRecipientType.SECTION) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                         </tr>
                                                         <% } %>
@@ -468,23 +484,26 @@
                                                                 <div data-toggle="tooltip"
                                                                     data-placement="top" title=""
                                                                     data-original-title="Control what other students in this course can view">
-                                                                    <%=comment.recipientType == CommentRecipientType.COURSE? "Students in this course" : "Other students in this course" %></div>
+                                                                    <%=comment.recipientType == CommentRecipientType.COURSE ? "Students in this course" : "Other students in this course" %></div>
                                                             </td>
-                                                            <td><input
+                                                            <td>
+                                                                <input
                                                                 class="visibilityCheckbox answerCheckbox"
                                                                 type="checkbox" value="<%=CommentRecipientType.COURSE%>"
-                                                                <%=comment.showCommentTo.contains(CommentRecipientType.COURSE)?"checked=\"checked\"":""%>>
+                                                                <%=comment.showCommentTo.contains(CommentRecipientType.COURSE) ? "checked=\"checked\"" : ""%>>
                                                             </td>
-                                                            <td><input
+                                                            <td>
+                                                                <input
                                                                 class="visibilityCheckbox giverCheckbox"
                                                                 type="checkbox" value="<%=CommentRecipientType.COURSE%>"
-                                                                <%=comment.showGiverNameTo.contains(CommentRecipientType.COURSE)?"checked=\"checked\"":""%>>
+                                                                <%=comment.showGiverNameTo.contains(CommentRecipientType.COURSE) ? "checked=\"checked\"" : ""%>>
                                                             </td>
-                                                            <td><input
+                                                            <td>
+                                                                <input
                                                                 class="visibilityCheckbox recipientCheckbox"
                                                                 type="checkbox" value="<%=CommentRecipientType.COURSE%>"
-                                                                <%=comment.recipientType == CommentRecipientType.COURSE? "disabled=\"disabled\"" : "" %>
-                                                                <%=comment.showRecipientNameTo.contains(CommentRecipientType.COURSE)?"checked=\"checked\"":""%>>
+                                                                <%=comment.recipientType == CommentRecipientType.COURSE ? "disabled=\"disabled\"" : "" %>
+                                                                <%=comment.showRecipientNameTo.contains(CommentRecipientType.COURSE) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -492,22 +511,26 @@
                                                                 <div data-toggle="tooltip"
                                                                     data-placement="top" title=""
                                                                     data-original-title="Control what instructors can view">
-                                                                    Instructors</div>
-                                                        </td>
-                                                        <td><input
-                                                            class="visibilityCheckbox answerCheckbox"
-                                                            type="checkbox" value="<%=CommentRecipientType.INSTRUCTOR%>"
-                                                            <%=comment.showCommentTo.contains(CommentRecipientType.INSTRUCTOR)?"checked=\"checked\"":""%>>
-                                                        </td>
-                                                        <td><input
-                                                            class="visibilityCheckbox giverCheckbox"
-                                                            type="checkbox" value="<%=CommentRecipientType.INSTRUCTOR%>"
-                                                            <%=comment.showGiverNameTo.contains(CommentRecipientType.INSTRUCTOR)?"checked=\"checked\"":""%>>
-                                                        </td>
-                                                            <td><input
+                                                                    Instructors
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <input
+                                                                class="visibilityCheckbox answerCheckbox"
+                                                                type="checkbox" value="<%=CommentRecipientType.INSTRUCTOR%>"
+                                                                <%=comment.showCommentTo.contains(CommentRecipientType.INSTRUCTOR) ? "checked=\"checked\"" : ""%>>
+                                                            </td>
+                                                            <td>
+                                                                <input
+                                                                class="visibilityCheckbox giverCheckbox"
+                                                                type="checkbox" value="<%=CommentRecipientType.INSTRUCTOR%>"
+                                                                <%=comment.showGiverNameTo.contains(CommentRecipientType.INSTRUCTOR) ? "checked=\"checked\"" : ""%>>
+                                                            </td>
+                                                            <td>
+                                                                <input
                                                                 class="visibilityCheckbox recipientCheckbox"
                                                                 type="checkbox" value="<%=CommentRecipientType.INSTRUCTOR%>"
-                                                                <%=comment.showRecipientNameTo.contains(CommentRecipientType.INSTRUCTOR)?"checked=\"checked\"":""%>>
+                                                                <%=comment.showRecipientNameTo.contains(CommentRecipientType.INSTRUCTOR) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -519,7 +542,8 @@
                                                     rows="3"
                                                     placeholder="Your comment about this student"
                                                     name=<%=Const.ParamsNames.COMMENT_TEXT%>
-                                                    id="commentText<%=commentIdx%>"><%=comment.commentText.getValue()%></textarea>
+                                                    id="commentText<%=commentIdx%>"><%=comment.commentText.getValue()%>
+                                                </textarea>
                                             </div>
                                             <div class="col-sm-offset-5">
                                                 <input
@@ -583,25 +607,25 @@
                         panelIdx++;
                 %>
                 <div id="panel_display-<%=panelIdx%>">
-                <br>
-                <div class="panel panel-primary">
-                    <div class="panel-heading" onclick="loadFeedbackResponseComments('<%=data.account.googleId%>','<%=data.courseId%>','<%=fsName%>', '<%=fsIndx%>', this);"
-                        style="cursor: pointer;">
-                        <strong>Comments in session: <%=fsName%></strong>
-                        <div class="placeholder-img-loading pull-right"></div>
-                    </div>
-                    <div class="panel-body hidden">
-                        <div class="placeholder-error-msg-<%=panelIdx%> hidden">
-                            <div class="panel panel-info">
-                                <ul class="list-group comments">
-                                    <li class="list-group-item list-group-item-danger">
-                                        Failed to load response comments for this session. Please try again later.
-                                    </li>
-                                </ul>
+                    <br>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" onclick="loadFeedbackResponseComments('<%=data.account.googleId%>','<%=data.courseId%>','<%=fsName%>', '<%=fsIndx%>', this);"
+                            style="cursor: pointer;">
+                            <strong>Comments in session: <%=fsName%></strong>
+                            <div class="placeholder-img-loading pull-right"></div>
+                        </div>
+                        <div class="panel-body hidden">
+                            <div class="placeholder-error-msg-<%=panelIdx%> hidden">
+                                <div class="panel panel-info">
+                                    <ul class="list-group comments">
+                                        <li class="list-group-item list-group-item-danger">
+                                            Failed to load response comments for this session. Please try again later.
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 </div>
                 <%
                     }//FeedbackSession loop ends
@@ -614,10 +638,8 @@
                 <%
                     for (String courseId : data.coursePaginationList) {
                 %>
-                <li
-                    class="<%=!data.isViewingDraft && courseId.equals(data.courseId) ? "active" : ""%>">
-                    <a
-                    href="<%=data.getInstructorCommentsLink() + "&courseid=" + courseId%>"><%=courseId%></a>
+                <li class="<%=!data.isViewingDraft && courseId.equals(data.courseId) ? "active" : ""%>">
+                    <a href="<%=data.getInstructorCommentsLink() + "&courseid=" + courseId%>"><%=courseId%></a>
                 </li>
                 <%
                     }
