@@ -162,7 +162,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
     }
     
-    protected FeedbackResponseAttributes extractFeedbackResponseData(
+    private FeedbackResponseAttributes extractFeedbackResponseData(
             Map<String, String[]> requestParameters, int questionIndx, int responseIndx,
             FeedbackQuestionAttributes feedbackQuestionAttributes) {
         FeedbackQuestionDetails questionDetails = feedbackQuestionAttributes.getQuestionDetails();
