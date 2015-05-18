@@ -29,9 +29,9 @@ public class StudentProfileAttributes extends EntityAttributes {
     public String pictureKey;
     public Date modifiedDate;
 
-    public StudentProfileAttributes(String googleId, String shortName,
-            String email, String institute, String nationality, String gender,
-            String moreInfo, String pictureKey) {
+    public StudentProfileAttributes(String googleId, String shortName, String email,
+                                    String institute, String nationality, String gender,
+                                    String moreInfo, String pictureKey) {
         this.googleId = googleId;
         this.shortName = Sanitizer.sanitizeName(shortName);
         this.email = Sanitizer.sanitizeEmail(email);
@@ -111,32 +111,36 @@ public class StudentProfileAttributes extends EntityAttributes {
         }
 
         // accept empty string values as it means the user has not specified anything yet.
-        error = shortName.isEmpty() ? "" : validator.getInvalidityInfo(
-                FieldValidator.FieldType.PERSON_NAME, shortName);
-        if (!error.isEmpty()) {
-            errors.add(error);
+
+        if (!shortName.isEmpty()) {
+            error = validator.getInvalidityInfo(FieldValidator.FieldType.PERSON_NAME, shortName);
+            if (!error.isEmpty()) {
+                errors.add(error);
+            }
         }
 
-        error = email.isEmpty() ? "" : validator.getInvalidityInfo(
-                FieldValidator.FieldType.EMAIL, email);
-        if (!error.isEmpty()) {
-            errors.add(error);
+        if (!email.isEmpty()) {
+            error = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, email);
+            if (!error.isEmpty()) {
+                errors.add(error);
+            }
         }
 
-        error = institute.isEmpty() ? "" : validator.getInvalidityInfo(
-                FieldValidator.FieldType.INSTITUTE_NAME, institute);
-        if (!error.isEmpty()) {
-            errors.add(error);
+        if (!institute.isEmpty()) {
+            error = validator.getInvalidityInfo(FieldValidator.FieldType.INSTITUTE_NAME, institute);
+            if (!error.isEmpty()) {
+                errors.add(error);
+            }
         }
 
-        error = nationality.isEmpty() ? "" : validator.getInvalidityInfo(
-                FieldValidator.FieldType.NATIONALITY, nationality);
-        if (!error.isEmpty()) {
-            errors.add(error);
+        if (!nationality.isEmpty()) {
+            error = validator.getInvalidityInfo(FieldValidator.FieldType.NATIONALITY, nationality);
+            if (!error.isEmpty()) {
+                errors.add(error);
+            }
         }
 
-        error = validator.getInvalidityInfo(FieldValidator.FieldType.GENDER,
-                gender);
+        error = validator.getInvalidityInfo(FieldValidator.FieldType.GENDER, gender);
         if (!error.isEmpty()) {
             errors.add(error);
         }
@@ -150,14 +154,14 @@ public class StudentProfileAttributes extends EntityAttributes {
     }
 
     public String toString() {
-        return Utils.getTeammatesGson().toJson(this,
-                StudentProfileAttributes.class);
+        return Utils.getTeammatesGson().toJson(this, StudentProfileAttributes.class);
     }
 
     @Override
     public Object toEntity() {
         return new StudentProfile(googleId, shortName, email, institute,
-                nationality, gender, new Text(moreInfo), new BlobKey(this.pictureKey));
+                                  nationality, gender, new Text(moreInfo),
+                                  new BlobKey(this.pictureKey));
     }
 
     @Override

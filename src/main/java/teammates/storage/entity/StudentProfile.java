@@ -12,8 +12,8 @@ import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 
 /**
- * Represents profile details for student entities associated with an account
- * entity
+ * Represents profile details for student entities associated with an
+ * account entity
  */
 @PersistenceCapable
 public class StudentProfile {

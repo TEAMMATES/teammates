@@ -23,11 +23,11 @@ public class StudentAttributes extends EntityAttributes {
     // =========================================================================
     public enum UpdateStatus {
         // @formatter:off
-        ERROR(0), 
-        NEW(1), 
-        MODIFIED(2), 
-        UNMODIFIED(3), 
-        NOT_IN_ENROLL_LIST(4), 
+        ERROR(0),
+        NEW(1),
+        MODIFIED(2),
+        UNMODIFIED(3),
+        NOT_IN_ENROLL_LIST(4),
         UNKNOWN(5);
         // @formatter:on
 
@@ -40,25 +40,27 @@ public class StudentAttributes extends EntityAttributes {
 
         public static UpdateStatus enumRepresentation(int numericRepresentation) {
             switch (numericRepresentation) {
-            case 0:
-                return ERROR;
-            case 1:
-                return NEW;
-            case 2:
-                return MODIFIED;
-            case 3:
-                return UNMODIFIED;
-            case 4:
-                return NOT_IN_ENROLL_LIST;
-            default:
-                return UNKNOWN;
+                case 0:
+                    return ERROR;
+                case 1:
+                    return NEW;
+                case 2:
+                    return MODIFIED;
+                case 3:
+                    return UNMODIFIED;
+                case 4:
+                    return NOT_IN_ENROLL_LIST;
+                default:
+                    return UNKNOWN;
             }
         }
     }
 
     // =========================================================================
 
+    // @formatter:off
     // Note: be careful when changing these variables as their names are used in *.json files.
+    // @formatter:on
     public String googleId;
     public String name;
     public String lastName;
@@ -72,7 +74,7 @@ public class StudentAttributes extends EntityAttributes {
     public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
 
     public StudentAttributes(String id, String email, String name,
-            String comments, String courseId, String team, String section) {
+                             String comments, String courseId, String team, String section) {
         this(section, team, name, email, comments, courseId);
         this.googleId = Sanitizer.sanitizeGoogleId(id);
     }
@@ -82,7 +84,7 @@ public class StudentAttributes extends EntityAttributes {
     }
 
     public StudentAttributes(String section, String team, String name,
-            String email, String comment, String courseId) {
+                             String email, String comment, String courseId) {
         this();
         this.section = Sanitizer.sanitizeTitle(section);
         this.team = Sanitizer.sanitizeTitle(team);
@@ -103,7 +105,7 @@ public class StudentAttributes extends EntityAttributes {
         this.team = Sanitizer.sanitizeTitle(student.getTeamName());
         this.section = ((student.getSectionName() == null) ? Const.DEFAULT_SECTION
                 : Sanitizer.sanitizeTitle(student.getSectionName()));
-        this.googleId = ((student.getGoogleId() == null) ? "" 
+        this.googleId = ((student.getGoogleId() == null) ? ""
                 : student.getGoogleId());
         Long keyAsLong = student.getRegistrationKey();
         this.key = (keyAsLong == null ? null : Student.getStringKeyForLongKey(keyAsLong));

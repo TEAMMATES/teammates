@@ -56,8 +56,8 @@ public class StudentProfilePictureEditAction extends Action {
             isError = true;
             statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PIC_SERVICE_DOWN);
             statusToAdmin = Const.ACTION_RESULT_FAILURE
-                    + " : Writing transformed image to file failed. Error: "
-                    + e.getMessage();
+                          + " : Writing transformed image to file failed. Error: "
+                          + e.getMessage();
         }
 
         return createRedirectResult(Const.ActionURIs.STUDENT_PROFILE_PAGE);
@@ -65,8 +65,8 @@ public class StudentProfilePictureEditAction extends Action {
 
     /**
      * Uploads the given image data to the cloud storage into a file with the
-     * user's googleId as the name. Returns a blobKey that can be used to
-     * identify the file.
+     * user's googleId as the name.
+     * Returns a blobKey that can be used to identify the file.
      * 
      * @param fileName
      * @param transformedImage
@@ -79,9 +79,8 @@ public class StudentProfilePictureEditAction extends Action {
 
         GcsService gcsService = GcsServiceFactory.createGcsService(RetryParams
                 .getDefaultInstance());
-        GcsOutputChannel outputChannel =
-                gcsService.createOrReplace(fileName,
-                        new GcsFileOptions.Builder().mimeType("image/png").build());
+        GcsOutputChannel outputChannel = gcsService.createOrReplace(fileName,
+                new GcsFileOptions.Builder().mimeType("image/png").build());
 
         outputChannel.write(ByteBuffer.wrap(transformedImage));
         outputChannel.close();
@@ -107,15 +106,15 @@ public class StudentProfilePictureEditAction extends Action {
             isError = true;
             statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PICTURE_EDIT_FAILED);
             statusToAdmin = Const.ACTION_RESULT_FAILURE
-                    + " : Reading and transforming image failed."
-                    + re.getMessage();
+                          + " : Reading and transforming image failed."
+                          + re.getMessage();
         }
 
         return null;
     }
 
-    private Image getTransformedImage(Double leftX, Double topY, Double rightX,
-            Double bottomY) {
+    private Image getTransformedImage(Double leftX, Double topY,
+                                      Double rightX, Double bottomY) {
         Assumption.assertNotNull(_blobKey);
 
         Image oldImage = ImagesServiceFactory.makeImageFromBlob(_blobKey);
@@ -127,8 +126,8 @@ public class StudentProfilePictureEditAction extends Action {
                 .applyTransform(finalTransform, oldImage, settings);
     }
 
-    private CompositeTransform getCompositeTransformToApply(Double leftX,
-            Double topY, Double rightX, Double bottomY) {
+    private CompositeTransform getCompositeTransformToApply(Double leftX, Double topY,
+                                                            Double rightX, Double bottomY) {
         Transform crop = ImagesServiceFactory.makeCrop(leftX, topY, rightX, bottomY);
         Transform resize = ImagesServiceFactory.makeResize(150, 150);
         CompositeTransform finalTransform = ImagesServiceFactory
@@ -146,30 +145,29 @@ public class StudentProfilePictureEditAction extends Action {
                 || _rightXString.isEmpty() || _bottomYString.isEmpty()) {
             isError = true;
             statusToUser.add("Given crop locations were not valid. Please try again");
-            statusToAdmin = Const.ACTION_RESULT_FAILURE +
-                    " : One or more of the given coords were empty.";
+            statusToAdmin = Const.ACTION_RESULT_FAILURE
+                          + " : One or more of the given coords were empty.";
             return false;
         } else if (_heightString.isEmpty() || _widthString.isEmpty()) {
             isError = true;
             statusToUser.add("Given crop locations were not valid. Please try again");
-            statusToAdmin = Const.ACTION_RESULT_FAILURE +
-                    " : One or both of the image dimensions were empty.";
+            statusToAdmin = Const.ACTION_RESULT_FAILURE
+                          + " : One or both of the image dimensions were empty.";
             return false;
         } else if (Double.parseDouble(_widthString) == 0
                 || Double.parseDouble(_heightString) == 0) {
             isError = true;
-            statusToUser
-                    .add("Given crop locations were not valid. Please try again");
-            statusToAdmin = Const.ACTION_RESULT_FAILURE +
-                    " : One or both of the image dimensions were zero.";
+            statusToUser.add("Given crop locations were not valid. Please try again");
+            statusToAdmin = Const.ACTION_RESULT_FAILURE
+                          + " : One or both of the image dimensions were zero.";
             return false;
         }
         return true;
     }
 
     /**
-     * Gets all the parameters from the Request and ensures that they are not
-     * null
+     * Gets all the parameters from the Request and ensures that
+     * they are not null
      */
     private void readAllPostParamterValuesToFields() {
         _leftXString = getLeftXString();

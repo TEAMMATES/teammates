@@ -84,7 +84,7 @@ public class StudentProfilePictureAction extends Action {
         } else {
             StudentProfileAttributes profile = logic.getStudentProfile(student.googleId);
 
-            // TODO: remove the null check once all legacy data has been ported over
+            // TODO: remove the null check once all legacy data has been ported
             if (profile != null) {
                 blobKey = profile.pictureKey;
             }

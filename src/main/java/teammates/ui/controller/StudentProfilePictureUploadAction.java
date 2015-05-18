@@ -149,7 +149,7 @@ public class StudentProfilePictureUploadAction extends Action {
 
     private void deletePicture(BlobKey blobKey) {
         if (blobKey == new BlobKey("")) {
-            return;            
+            return;
         }
         try {
             logic.deletePicture(blobKey);
