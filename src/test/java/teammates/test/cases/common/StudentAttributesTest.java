@@ -184,18 +184,6 @@ public class StudentAttributesTest extends BaseTestCase {
         assertEquals("invalid value", errorMessage, StringHelper.toString(s.getInvalidityInfo()));
     }
 
-/*
-    @Test
-    public void testGetValidityInfo() {
-        // already tested in testValidate() above
-    }
-
-    @Test
-    public void testIsValid() {
-        // already tested in testValidate() above
-    }
-*/
-
     @Test
     public void testIsEnrollInfoSameAs() {
         StudentAttributes student = new StudentAttributes(generateTypicalStudentObject());
