@@ -94,6 +94,35 @@ public class InstructorEditStudentFeedbackPageActionTest extends
                 + "/page/instructorEditStudentFeedbackPage"
                 , editPageAction.getLogMessage());
         
+        gaeSimulation.loginAsInstructor(idOfInstructor);
+        ______TS("success case: moderate team");
+
+        feedbackSessionName = "Closed Session";
+        courseId = student.course;
+        String moderatedStudentTeam = student.team;
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentTeam
+        };
+
+        editPageAction = getAction(submissionParams);
+        showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
+
+        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT 
+                + "?error=false"
+                + "&user="+ idOfInstructor
+                , showPageResult.getDestinationWithParams());
+        assertEquals("", showPageResult.getStatusMessage());
+
+        assertEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage"
+                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "Moderating feedback session for student (" + student.email + ")<br>"
+                + "Session Name: Closed Session<br>Course ID: idOfTypicalCourse1|||"
+                + "/page/instructorEditStudentFeedbackPage"
+                , editPageAction.getLogMessage());
+        
         
         gaeSimulation.loginAsInstructor(idOfInstructorHelper);
         
@@ -134,7 +163,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends
             showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            assertEquals("Student Email "
+            assertEquals("Identifier "
                             + moderatedStudentEmail + " does not exist in " + courseId
                             + ".", 
                          edne.getMessage());
