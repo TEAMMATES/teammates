@@ -22,9 +22,9 @@ public class InstructorFeedbackPublishAction extends InstructorFeedbacksPageActi
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         boolean isCreatorOnly = false;
         
-        new GateKeeper().verifyAccessible(instructor, 
-                                          session, 
-                                          isCreatorOnly, 
+        new GateKeeper().verifyAccessible(instructor,
+                                          session,
+                                          isCreatorOnly,
                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         try {
