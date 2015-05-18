@@ -1517,6 +1517,17 @@ public class Logic {
         return feedbackSessionsLogic.getFeedbackSessionQuestionsForInstructor(feedbackSessionName, courseId, userEmail);
     }
     
+    public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsBundleForInstructor(
+            String feedbackSessionName, String courseId, String questionId, String userEmail)
+                throws EntityDoesNotExistException{
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+        
+        return feedbackSessionsLogic.getFeedbackSessionQuestionsForInstructor(feedbackSessionName, courseId, questionId, userEmail);
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null. <br>
@@ -1533,6 +1544,17 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
         
         return feedbackSessionsLogic.getFeedbackSessionQuestionsForStudent(feedbackSessionName, courseId, userEmail);
+    }
+    
+    public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsBundleForStudent(
+            String feedbackSessionName, String courseId, String questionId, String userEmail)
+                throws EntityDoesNotExistException{
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+        
+        return feedbackSessionsLogic.getFeedbackSessionQuestionsForStudent(feedbackSessionName, courseId, questionId, userEmail);
     }
 
 
