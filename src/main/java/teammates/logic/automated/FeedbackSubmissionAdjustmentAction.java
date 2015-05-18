@@ -133,8 +133,18 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
             }
         }
         
-        // For every team, check that all team members got modified
-        Set<String> sectionTeams = new HashSet<String>(isGivenTeamRenamed.keySet());
+        Set<String> renamedTeams = new HashSet<String>();
+        for (Entry<String, Boolean> entry : isGivenTeamRenamed.entrySet()) {
+            String team = entry.getKey();
+            boolean isRenamed = entry.getValue();
+            
+            if (isRenamed) {
+                renamedTeams.add(team);
+            }
+        }
+        
+        // For every team, check that all team members is in the enrollment
+        Set<String> sectionTeams = new HashSet<String>(renamedTeams);
         for (String sectionTeam : sectionTeams) {
             String team = sectionTeam.split("\\|")[1];
             List<StudentAttributes> studentsInTeam = studentsLogic.getStudentsForTeam(team, courseId);
@@ -148,7 +158,7 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
             }
             
             if (!isAllStudentsModified) {
-                isGivenTeamRenamed.put(sectionTeam, false);
+                renamedTeams.remove(sectionTeam);
             }
         }
         
@@ -161,20 +171,15 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
             
             if (oldTeamToNewTeamMap.containsKey(originalSectionTeam)) {
                 if (!oldTeamToNewTeamMap.get(originalSectionTeam).equals(newSectionTeam)) {
-                    isGivenTeamRenamed.put(originalSectionTeam, false);
+                    renamedTeams.remove(originalSectionTeam);
                 }
             } else {
                 oldTeamToNewTeamMap.put(originalSectionTeam, newSectionTeam);
             }
         }
         
-        for (Entry<String, Boolean> entry : isGivenTeamRenamed.entrySet()) {
-            Boolean isTeamRenamed = entry.getValue();
-            if (!isTeamRenamed) {
-                continue;
-            }
+        for (String sectionTeamToRename : renamedTeams) {
             
-            String sectionTeamToRename = entry.getKey();
             String[] splitsectionTeamToRename = sectionTeamToRename.split("\\|");
             String oldSection = splitsectionTeamToRename[0];
             String oldTeam = splitsectionTeamToRename[1];
