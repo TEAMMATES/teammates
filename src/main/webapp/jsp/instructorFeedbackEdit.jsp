@@ -439,7 +439,7 @@
                                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_later"
                                             value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER %>"
                                             <%= Const.TIME_REPRESENTS_LATER.equals(data.session.resultsVisibleFromTime) ||
-                                        		Const.TIME_REPRESENTS_NOW.equals(data.session.resultsVisibleFromTime) ?
+                                                Const.TIME_REPRESENTS_NOW.equals(data.session.resultsVisibleFromTime) ?
                                                 "checked=\"checked\"" : "" %>>
                                     </div>
                                 </div>
@@ -661,7 +661,7 @@
                                         onchange="feedbackGiverUpdateVisibilityOptions(this)">
                                         <%
                                             for (String opt : data.getParticipantOptions(question, true)) {
-                                            	out.println(opt);
+                                                out.println(opt);
                                             }
                                         %>
                                     </select>
@@ -679,7 +679,7 @@
                                         disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
                                         <%
                                             for (String opt : data.getParticipantOptions(question, false)) {
-                                            	out.println(opt);
+                                                out.println(opt);
                                             }
                                         %>
                                     </select>
@@ -992,7 +992,7 @@
                                     onchange="feedbackGiverUpdateVisibilityOptions(this)">
                                     <%
                                         for (String opt : data.getParticipantOptions(null, true)) {
-                                        	out.println(opt);
+                                            out.println(opt);
                                         }
                                     %>
                                 </select>
@@ -1010,7 +1010,7 @@
                                     onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
                                     <%
                                         for (String opt : data.getParticipantOptions(null, false)) {
-                                        	out.println(opt);
+                                            out.println(opt);
                                         }
                                     %>
                                 </select>
