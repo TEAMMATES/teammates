@@ -697,6 +697,25 @@ public class FeedbackResponsesLogic {
         
         return teamResponses;
     }
+    
+    public boolean isResponseOfFeedbackQuestionVisibleToStudent(FeedbackQuestionAttributes question) {
+        if (question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
+            return true;
+        }
+        if (question.recipientType.isTeam() &&
+            question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+            return true;
+        }
+        if (question.giverType == FeedbackParticipantType.TEAMS ||
+            question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
+            return true;
+        }
+        if (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {
+            return true;
+        }
+        
+        return false;
+    }
 
     private List<FeedbackResponseAttributes> getViewableFeedbackResponsesForStudentForQuestion(
             FeedbackQuestionAttributes question, String studentEmail) {

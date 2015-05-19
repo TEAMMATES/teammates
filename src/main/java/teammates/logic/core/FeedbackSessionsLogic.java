@@ -912,10 +912,6 @@ public class FeedbackSessionsLogic {
         }
         
         
-        // TODO: consider removing the code below as it is costly.
-        // feedback sessions with no questions for students are also
-        // not visible to the students due to isFeedbackSessionViewableToStudents.
-        
         List<FeedbackQuestionAttributes> allQuestions =
                 fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName,
                         courseId);
@@ -2291,14 +2287,30 @@ public class FeedbackSessionsLogic {
     public boolean isFeedbackSessionViewableToStudents(
             FeedbackSessionAttributes session)
             throws EntityDoesNotExistException {
-        // Allow students to view if there are questions for them
-        // TODO this is a bug. For example if instructors have feedback for the
-        // class
-        List<FeedbackQuestionAttributes> questions =
+        // Allow students to view the feedback session if there are questions for them
+        List<FeedbackQuestionAttributes> questionsToAnswer =
                 fqLogic.getFeedbackQuestionsForStudents(
                         session.feedbackSessionName, session.courseId);
-
-        return (session.isVisible() && !questions.isEmpty()) ? true : false;
+        
+        if (session.isVisible() && !questionsToAnswer.isEmpty()) {
+            return true;
+        }
+        
+        // Allow students to view the feedback session 
+        // if there are any questions for instructors to answer
+        // where the responses of the questions are visible to the students
+        List<FeedbackQuestionAttributes> questionsWithVisibleResponses = new ArrayList<FeedbackQuestionAttributes>();
+        List<FeedbackQuestionAttributes> questionsForInstructors =
+                                        fqLogic.getFeedbackQuestionsForCreatorInstructor(session.feedbackSessionName, 
+                                                                                         session.courseId, 
+                                                                                         true);
+        for (FeedbackQuestionAttributes question : questionsForInstructors) {
+            if (frLogic.isResponseOfFeedbackQuestionVisibleToStudent(question)) {
+                questionsWithVisibleResponses.add(question);
+            }
+        }
+        
+        return session.isVisible() && !questionsWithVisibleResponses.isEmpty();
     }
 
     private void normalizeMaximumResponseEntities(

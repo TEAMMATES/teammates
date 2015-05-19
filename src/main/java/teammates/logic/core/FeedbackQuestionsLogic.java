@@ -223,6 +223,36 @@ public class FeedbackQuestionsLogic {
      * Gets a {@code List} of all questions for the list of questions that an
      * instructor can view/submit
      */
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForCreatorInstructor(
+                                    String feedbackSessionName, String courseId, boolean isCreator) 
+                    throws EntityDoesNotExistException {
+        
+        if (fsLogic.getFeedbackSession(feedbackSessionName, courseId) == null) {
+            throw new EntityDoesNotExistException(
+                    "Trying to get questions for a feedback session that does not exist.");
+        }
+
+        List<FeedbackQuestionAttributes> questions =
+                new ArrayList<FeedbackQuestionAttributes>();
+        
+       
+        
+        questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
+                                       feedbackSessionName, courseId, INSTRUCTORS));
+        
+        
+        // Return all self (creator) questions
+        questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSessionName,
+                courseId, SELF));
+        
+        
+        return questions;
+    }
+    
+    /**
+     * Gets a {@code List} of all questions for the list of questions that an
+     * instructor can view/submit
+     */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructor(
             List<FeedbackQuestionAttributes> allQuestions, boolean isCreator) 
                     throws EntityDoesNotExistException {
@@ -239,6 +269,8 @@ public class FeedbackQuestionsLogic {
         
         return questions;
     }
+    
+    
 
     /**
      * Gets a given {@code FeedbackQuestion} and its previously filled {@code FeedbackResponses}
