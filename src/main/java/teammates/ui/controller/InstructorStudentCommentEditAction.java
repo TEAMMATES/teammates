@@ -9,7 +9,7 @@ import java.util.List;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.CourseAttributes;
@@ -88,13 +88,13 @@ public class InstructorStudentCommentEditAction extends Action {
         if (commentInDb == null) {
             Assumption.fail("Comment or instructor cannot be null for editing comment");
         }
-        CommentRecipientType commentRecipientType = commentInDb.recipientType;
+        CommentParticipantType commentRecipientType = commentInDb.recipientType;
         String recipients = commentInDb.recipients.iterator().next();
-        if (commentRecipientType == CommentRecipientType.COURSE) {
+        if (commentRecipientType == CommentParticipantType.COURSE) {
             new GateKeeper().verifyAccessible(instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
-        } else if (commentRecipientType == CommentRecipientType.SECTION) {
+        } else if (commentRecipientType == CommentParticipantType.SECTION) {
             new GateKeeper().verifyAccessible(instructor, course, recipients, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
-        } else if (commentRecipientType == CommentRecipientType.TEAM) {
+        } else if (commentRecipientType == CommentParticipantType.TEAM) {
             List<StudentAttributes> students = logic.getStudentsForTeam(recipients, courseId);
 
             if (students.isEmpty()) { // considered as a serious bug in coding or user submitted corrupted data
@@ -137,7 +137,7 @@ public class InstructorStudentCommentEditAction extends Action {
         comment.courseId = courseId;
         comment.giverEmail = instructorDetailForCourse.email; 
         if(recipientType != null){
-            comment.recipientType = CommentRecipientType.valueOf(recipientType);
+            comment.recipientType = CommentParticipantType.valueOf(recipientType);
         } else {
             comment.recipientType = null;
         }
@@ -155,27 +155,27 @@ public class InstructorStudentCommentEditAction extends Action {
         }
         comment.status = CommentStatus.FINAL;
         
-        comment.showCommentTo = new ArrayList<CommentRecipientType>();
+        comment.showCommentTo = new ArrayList<CommentParticipantType>();
         if(showCommentTo != null && !showCommentTo.isEmpty()){
             String[] showCommentToArray = showCommentTo.split(",");
             for(String sct : showCommentToArray){
-                comment.showCommentTo.add(CommentRecipientType.valueOf(sct.trim()));
+                comment.showCommentTo.add(CommentParticipantType.valueOf(sct.trim()));
             }
         }
         
-        comment.showGiverNameTo = new ArrayList<CommentRecipientType>();
+        comment.showGiverNameTo = new ArrayList<CommentParticipantType>();
         if(showGiverTo != null && !showGiverTo.isEmpty()){
             String[] showGiverToArray = showGiverTo.split(",");
             for(String sgt : showGiverToArray){
-                comment.showGiverNameTo.add(CommentRecipientType.valueOf(sgt.trim()));
+                comment.showGiverNameTo.add(CommentParticipantType.valueOf(sgt.trim()));
             }
         }
         
-        comment.showRecipientNameTo = new ArrayList<CommentRecipientType>();
+        comment.showRecipientNameTo = new ArrayList<CommentParticipantType>();
         if(showRecipientTo != null && !showRecipientTo.isEmpty()){
             String[] showRecipientToArray = showRecipientTo.split(",");
             for(String srt : showRecipientToArray){
-                comment.showRecipientNameTo.add(CommentRecipientType.valueOf(srt.trim()));
+                comment.showRecipientNameTo.add(CommentParticipantType.valueOf(srt.trim()));
             }
         }
         //if a comment is public to recipient (except Instructor), it's a pending comment
@@ -190,9 +190,9 @@ public class InstructorStudentCommentEditAction extends Action {
 
     private boolean isCommentPublicToRecipient(CommentAttributes comment) {
         return comment.showCommentTo != null
-                && (comment.isVisibleTo(CommentRecipientType.PERSON)
-                    || comment.isVisibleTo(CommentRecipientType.TEAM)
-                    || comment.isVisibleTo(CommentRecipientType.SECTION)
-                    || comment.isVisibleTo(CommentRecipientType.COURSE));
+                && (comment.isVisibleTo(CommentParticipantType.PERSON)
+                    || comment.isVisibleTo(CommentParticipantType.TEAM)
+                    || comment.isVisibleTo(CommentParticipantType.SECTION)
+                    || comment.isVisibleTo(CommentParticipantType.COURSE));
     }
 }

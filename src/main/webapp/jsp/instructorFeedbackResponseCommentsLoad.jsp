@@ -1,7 +1,7 @@
 <%@page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@page import="teammates.common.datatransfer.CommentSendingState"%>
 <%@page import="teammates.common.datatransfer.InstructorAttributes"%>
-<%@page import="teammates.common.datatransfer.CommentRecipientType"%>
+<%@page import="teammates.common.datatransfer.CommentParticipantType"%>
 <%@page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
 <%@page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@page import="teammates.common.datatransfer.CommentStatus"%>

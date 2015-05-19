@@ -15,7 +15,7 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
@@ -24,7 +24,7 @@ import teammates.test.cases.BaseTestCase;
 public class CommentAttributesTest extends BaseTestCase {
     private static String courseId;
     private static String giverEmail;
-    private static CommentRecipientType recipientType;
+    private static CommentParticipantType recipientType;
     private static Set<String> recipients;
     private static Text commentText;
     private static Date createdAt;
@@ -34,7 +34,7 @@ public class CommentAttributesTest extends BaseTestCase {
         printTestClassHeader();
         courseId = "test-course-id";
         giverEmail = "email from giver";
-        recipientType = CommentRecipientType.PERSON;
+        recipientType = CommentParticipantType.PERSON;
         recipients = new HashSet<String>();
         recipients.add("recipient-1");
         recipients.add("recipient-2");
@@ -58,7 +58,7 @@ public class CommentAttributesTest extends BaseTestCase {
         
         assertEquals("test-course-id", comment.courseId);
         assertEquals("email from giver", comment.giverEmail);
-        assertEquals(CommentRecipientType.PERSON, comment.recipientType);
+        assertEquals(CommentParticipantType.PERSON, comment.recipientType);
         assertEquals(3, comment.recipients.size());
         assertTrue(comment.recipients.contains("recipient-2"));
         assertEquals("test comment text", comment.commentText.getValue());

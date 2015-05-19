@@ -1,7 +1,7 @@
 <%@page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@page import="teammates.common.datatransfer.CommentSendingState"%>
 <%@page import="teammates.common.datatransfer.InstructorAttributes"%>
-<%@page import="teammates.common.datatransfer.CommentRecipientType"%>
+<%@page import="teammates.common.datatransfer.CommentParticipantType"%>
 <%@page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
 <%@page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@page import="teammates.common.datatransfer.CommentStatus"%>
@@ -298,7 +298,7 @@
                             </div>
                             <ul class="list-group comments">
                                 <%
-                                    CommentRecipientType recipientTypeForThisRecipient = CommentRecipientType.PERSON;//default value is PERSON
+                                    CommentParticipantType recipientTypeForThisRecipient = CommentParticipantType.PERSON;//default value is PERSON
                                     for (CommentAttributes comment : data.comments.get(giverEmail)) {//student comments loop starts
                                             commentIdx++;
                                             recipientTypeForThisRecipient = comment.recipientType;
@@ -393,7 +393,7 @@
                                                             <th class="text-center">Can see
                                                                 recipient's name</th>
                                                         </tr>
-                                                        <% if (comment.recipientType == CommentRecipientType.PERSON) { %>
+                                                        <% if (comment.recipientType == CommentParticipantType.PERSON) { %>
                                                         <tr id="recipient-person<%=commentIdx%>">
                                                             <td class="text-left">
                                                                 <div data-toggle="tooltip"
@@ -404,78 +404,78 @@
                                                             </td>
                                                             <td><input
                                                                 class="visibilityCheckbox answerCheckbox"
-                                                                type="checkbox" value="<%=CommentRecipientType.PERSON%>"
-                                                                <%=comment.showCommentTo.contains(CommentRecipientType.PERSON) ? "checked=\"checked\"" : ""%>>
+                                                                type="checkbox" value="<%=CommentParticipantType.PERSON%>"
+                                                                <%=comment.showCommentTo.contains(CommentParticipantType.PERSON) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                             <td><input
                                                                 class="visibilityCheckbox giverCheckbox"
-                                                                type="checkbox" value="<%=CommentRecipientType.PERSON%>"
-                                                                <%=comment.showGiverNameTo.contains(CommentRecipientType.PERSON) ? "checked=\"checked\"" : ""%>>
+                                                                type="checkbox" value="<%=CommentParticipantType.PERSON%>"
+                                                                <%=comment.showGiverNameTo.contains(CommentParticipantType.PERSON) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                             <td><input
                                                                 class="visibilityCheckbox recipientCheckbox"
                                                                 name="receiverFollowerCheckbox"
-                                                                type="checkbox" value="<%=CommentRecipientType.PERSON%>"
+                                                                type="checkbox" value="<%=CommentParticipantType.PERSON%>"
                                                                 disabled="disabled">
                                                             </td>
                                                         </tr>
                                                         <% } %>
-                                                        <% if (comment.recipientType == CommentRecipientType.PERSON
-                                                                || comment.recipientType == CommentRecipientType.TEAM) { %>
+                                                        <% if (comment.recipientType == CommentParticipantType.PERSON
+                                                                || comment.recipientType == CommentParticipantType.TEAM) { %>
                                                         <tr id="recipient-team<%=commentIdx%>">
                                                             <td class="text-left">
                                                                 <div data-toggle="tooltip"
                                                                     data-placement="top" title=""
                                                                     data-original-title="Control what team members of comment recipients can view">
-                                                                    <%=comment.recipientType == CommentRecipientType.TEAM ? "Recipient Team" : "Recipient's Team" %></div>
+                                                                    <%=comment.recipientType == CommentParticipantType.TEAM ? "Recipient Team" : "Recipient's Team" %></div>
                                                             </td>
                                                             <td><input
                                                                 class="visibilityCheckbox answerCheckbox"
                                                                 type="checkbox"
-                                                                value="<%=CommentRecipientType.TEAM%>"
-                                                                <%=comment.showCommentTo.contains(CommentRecipientType.TEAM) ? "checked=\"checked\"" : ""%>>
+                                                                value="<%=CommentParticipantType.TEAM%>"
+                                                                <%=comment.showCommentTo.contains(CommentParticipantType.TEAM) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                             <td><input
                                                                 class="visibilityCheckbox giverCheckbox"
                                                                 type="checkbox"
-                                                                value="<%=CommentRecipientType.TEAM%>"
-                                                                <%=comment.showGiverNameTo.contains(CommentRecipientType.TEAM) ? "checked=\"checked\"" : ""%>>
+                                                                value="<%=CommentParticipantType.TEAM%>"
+                                                                <%=comment.showGiverNameTo.contains(CommentParticipantType.TEAM) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                             <td><input
                                                                 class="visibilityCheckbox recipientCheckbox"
                                                                 type="checkbox"
-                                                                value="<%=CommentRecipientType.TEAM%>"
-                                                                <%=comment.recipientType == CommentRecipientType.TEAM ? "disabled=\"disabled\"" : "" %>
-                                                                <%=comment.showRecipientNameTo.contains(CommentRecipientType.TEAM) ? "checked=\"checked\"" : ""%>>
+                                                                value="<%=CommentParticipantType.TEAM%>"
+                                                                <%=comment.recipientType == CommentParticipantType.TEAM ? "disabled=\"disabled\"" : "" %>
+                                                                <%=comment.showRecipientNameTo.contains(CommentParticipantType.TEAM) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                         </tr>
                                                         <% } %>
-                                                        <% if (comment.recipientType != CommentRecipientType.COURSE) { %>
+                                                        <% if (comment.recipientType != CommentParticipantType.COURSE) { %>
                                                         <tr id="recipient-section<%=commentIdx%>">
                                                             <td class="text-left">
                                                                 <div data-toggle="tooltip"
                                                                     data-placement="top" title=""
                                                                     data-original-title="Control what students in the same section can view">
-                                                                    <%=comment.recipientType == CommentRecipientType.SECTION ? "Recipient Section" : "Recipient's Section" %></div>
+                                                                    <%=comment.recipientType == CommentParticipantType.SECTION ? "Recipient Section" : "Recipient's Section" %></div>
                                                             </td>
                                                             <td><input
                                                                 class="visibilityCheckbox answerCheckbox"
                                                                 type="checkbox"
-                                                                value="<%=CommentRecipientType.SECTION%>"
-                                                                <%=comment.showCommentTo.contains(CommentRecipientType.SECTION) ? "checked=\"checked\"" : ""%>>
+                                                                value="<%=CommentParticipantType.SECTION%>"
+                                                                <%=comment.showCommentTo.contains(CommentParticipantType.SECTION) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                             <td><input
                                                                 class="visibilityCheckbox giverCheckbox"
                                                                 type="checkbox"
-                                                                value="<%=CommentRecipientType.SECTION%>"
-                                                                <%=comment.showGiverNameTo.contains(CommentRecipientType.SECTION) ? "checked=\"checked\"" : ""%>>
+                                                                value="<%=CommentParticipantType.SECTION%>"
+                                                                <%=comment.showGiverNameTo.contains(CommentParticipantType.SECTION) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                             <td><input
                                                                 class="visibilityCheckbox recipientCheckbox"
                                                                 type="checkbox"
-                                                                value="<%=CommentRecipientType.SECTION%>"
-                                                                <%=comment.recipientType == CommentRecipientType.SECTION ? "disabled=\"disabled\"" : "" %>
-                                                                <%=comment.showRecipientNameTo.contains(CommentRecipientType.SECTION) ? "checked=\"checked\"" : ""%>>
+                                                                value="<%=CommentParticipantType.SECTION%>"
+                                                                <%=comment.recipientType == CommentParticipantType.SECTION ? "disabled=\"disabled\"" : "" %>
+                                                                <%=comment.showRecipientNameTo.contains(CommentParticipantType.SECTION) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                         </tr>
                                                         <% } %>
@@ -484,26 +484,26 @@
                                                                 <div data-toggle="tooltip"
                                                                     data-placement="top" title=""
                                                                     data-original-title="Control what other students in this course can view">
-                                                                    <%=comment.recipientType == CommentRecipientType.COURSE ? "Students in this course" : "Other students in this course" %></div>
+                                                                    <%=comment.recipientType == CommentParticipantType.COURSE ? "Students in this course" : "Other students in this course" %></div>
                                                             </td>
                                                             <td>
                                                                 <input
                                                                 class="visibilityCheckbox answerCheckbox"
-                                                                type="checkbox" value="<%=CommentRecipientType.COURSE%>"
-                                                                <%=comment.showCommentTo.contains(CommentRecipientType.COURSE) ? "checked=\"checked\"" : ""%>>
+                                                                type="checkbox" value="<%=CommentParticipantType.COURSE%>"
+                                                                <%=comment.showCommentTo.contains(CommentParticipantType.COURSE) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                             <td>
                                                                 <input
                                                                 class="visibilityCheckbox giverCheckbox"
-                                                                type="checkbox" value="<%=CommentRecipientType.COURSE%>"
-                                                                <%=comment.showGiverNameTo.contains(CommentRecipientType.COURSE) ? "checked=\"checked\"" : ""%>>
+                                                                type="checkbox" value="<%=CommentParticipantType.COURSE%>"
+                                                                <%=comment.showGiverNameTo.contains(CommentParticipantType.COURSE) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                             <td>
                                                                 <input
                                                                 class="visibilityCheckbox recipientCheckbox"
-                                                                type="checkbox" value="<%=CommentRecipientType.COURSE%>"
-                                                                <%=comment.recipientType == CommentRecipientType.COURSE ? "disabled=\"disabled\"" : "" %>
-                                                                <%=comment.showRecipientNameTo.contains(CommentRecipientType.COURSE) ? "checked=\"checked\"" : ""%>>
+                                                                type="checkbox" value="<%=CommentParticipantType.COURSE%>"
+                                                                <%=comment.recipientType == CommentParticipantType.COURSE ? "disabled=\"disabled\"" : "" %>
+                                                                <%=comment.showRecipientNameTo.contains(CommentParticipantType.COURSE) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -517,20 +517,20 @@
                                                             <td>
                                                                 <input
                                                                 class="visibilityCheckbox answerCheckbox"
-                                                                type="checkbox" value="<%=CommentRecipientType.INSTRUCTOR%>"
-                                                                <%=comment.showCommentTo.contains(CommentRecipientType.INSTRUCTOR) ? "checked=\"checked\"" : ""%>>
+                                                                type="checkbox" value="<%=CommentParticipantType.INSTRUCTOR%>"
+                                                                <%=comment.showCommentTo.contains(CommentParticipantType.INSTRUCTOR) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                             <td>
                                                                 <input
                                                                 class="visibilityCheckbox giverCheckbox"
-                                                                type="checkbox" value="<%=CommentRecipientType.INSTRUCTOR%>"
-                                                                <%=comment.showGiverNameTo.contains(CommentRecipientType.INSTRUCTOR) ? "checked=\"checked\"" : ""%>>
+                                                                type="checkbox" value="<%=CommentParticipantType.INSTRUCTOR%>"
+                                                                <%=comment.showGiverNameTo.contains(CommentParticipantType.INSTRUCTOR) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                             <td>
                                                                 <input
                                                                 class="visibilityCheckbox recipientCheckbox"
-                                                                type="checkbox" value="<%=CommentRecipientType.INSTRUCTOR%>"
-                                                                <%=comment.showRecipientNameTo.contains(CommentRecipientType.INSTRUCTOR) ? "checked=\"checked\"" : ""%>>
+                                                                type="checkbox" value="<%=CommentParticipantType.INSTRUCTOR%>"
+                                                                <%=comment.showRecipientNameTo.contains(CommentParticipantType.INSTRUCTOR) ? "checked=\"checked\"" : ""%>>
                                                             </td>
                                                         </tr>
                                                     </tbody>

@@ -10,7 +10,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -69,7 +69,7 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
         
 
         ______TS("Typical case, edit comment successful");
-        List<CommentAttributes> comments = backDoorLogic.getCommentsForReceiver(instructor.courseId, CommentRecipientType.PERSON, student.email);
+        List<CommentAttributes> comments = backDoorLogic.getCommentsForReceiver(instructor.courseId, CommentParticipantType.PERSON, student.email);
         Iterator<CommentAttributes> iterator = comments.iterator();
         while(iterator.hasNext()){
             CommentAttributes commentAttributes = iterator.next();

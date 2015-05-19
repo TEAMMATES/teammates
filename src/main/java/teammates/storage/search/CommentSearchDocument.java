@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -118,7 +118,7 @@ public class CommentSearchDocument extends SearchDocument {
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.COURSE_ID).setText(comment.courseId))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_EMAIL).setText(comment.giverEmail))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_INSTRUCTOR).setText(
-                    comment.isVisibleTo(CommentRecipientType.INSTRUCTOR).toString()))
+                    comment.isVisibleTo(CommentParticipantType.INSTRUCTOR).toString()))
             //searchableText and createdDate are used to match the query string
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT).setText(searchableTextBuilder.toString()))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.CREATED_DATE).setDate(comment.createdAt))

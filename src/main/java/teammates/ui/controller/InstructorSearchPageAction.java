@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -210,7 +210,7 @@ public class InstructorSearchPageAction extends Action {
                     recipient = recipientInSet;
                     break;
                 }
-                if (commentAttributes.recipientType == CommentRecipientType.PERSON) {
+                if (commentAttributes.recipientType == CommentParticipantType.PERSON) {
                     StudentAttributes student = logic.getStudentForEmail(commentAttributes.courseId, recipient);
                     if (student == null) {
                         // error checking--comment that is for a student who is deleted or whose email got edited
@@ -218,7 +218,7 @@ public class InstructorSearchPageAction extends Action {
                         return false;
                     }
                     section = student.section;
-                } else if (commentAttributes.recipientType == CommentRecipientType.TEAM) {
+                } else if (commentAttributes.recipientType == CommentParticipantType.TEAM) {
                     List<StudentAttributes> studentsInTeam = logic.getStudentsForTeam(recipient, commentAttributes.courseId);
                     if (studentsInTeam.isEmpty()) {
                         // error checking--no students in the team, delete the comment
@@ -226,9 +226,9 @@ public class InstructorSearchPageAction extends Action {
                         return false;
                     }
                     section = studentsInTeam.get(0).section;
-                } else if (commentAttributes.recipientType == CommentRecipientType.SECTION) {
+                } else if (commentAttributes.recipientType == CommentParticipantType.SECTION) {
                     section = recipient;
-                } else if (commentAttributes.recipientType == CommentRecipientType.COURSE) {
+                } else if (commentAttributes.recipientType == CommentParticipantType.COURSE) {
                     isForSection = false;
                 }
                 if (isForSection) {

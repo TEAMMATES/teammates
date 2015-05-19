@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@page import="teammates.common.datatransfer.CommentRecipientType"%>
+<%@page import="teammates.common.datatransfer.CommentParticipantType"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
@@ -200,7 +200,7 @@
                     <label style="margin-right: 24px;">Recipient:
                     </label> 
                     <select id="comment_recipient_select" class="form-control" disabled="disabled">
-                        <option value="<%=CommentRecipientType.COURSE%>" selected>The whole class</option>
+                        <option value="<%=CommentParticipantType.COURSE%>" selected>The whole class</option>
                     </select>
                     <a id="visibility-options-trigger"
                         class="btn btn-sm btn-info pull-right"><span
@@ -234,15 +234,15 @@
                                 </td>
                                 <td><input
                                     class="visibilityCheckbox answerCheckbox"
-                                    type="checkbox" value="<%=CommentRecipientType.COURSE%>">
+                                    type="checkbox" value="<%=CommentParticipantType.COURSE%>">
                                 </td>
                                 <td><input
                                     class="visibilityCheckbox giverCheckbox"
-                                    type="checkbox" value="<%=CommentRecipientType.COURSE%>">
+                                    type="checkbox" value="<%=CommentParticipantType.COURSE%>">
                                 </td>
                                 <td><input
                                     class="visibilityCheckbox recipientCheckbox"
-                                    type="checkbox" value="<%=CommentRecipientType.COURSE%>" disabled="disabled">
+                                    type="checkbox" value="<%=CommentParticipantType.COURSE%>" disabled="disabled">
                                 </td>
                             </tr>
                             <tr>
@@ -254,15 +254,15 @@
                                 </td>
                                 <td><input
                                     class="visibilityCheckbox answerCheckbox"
-                                    type="checkbox" value="<%=CommentRecipientType.INSTRUCTOR%>">
+                                    type="checkbox" value="<%=CommentParticipantType.INSTRUCTOR%>">
                                 </td>
                                 <td><input
                                     class="visibilityCheckbox giverCheckbox"
-                                    type="checkbox" value="<%=CommentRecipientType.INSTRUCTOR%>">
+                                    type="checkbox" value="<%=CommentParticipantType.INSTRUCTOR%>">
                                 </td>
                                 <td><input
                                     class="visibilityCheckbox recipientCheckbox"
-                                    type="checkbox" value="<%=CommentRecipientType.INSTRUCTOR%>">
+                                    type="checkbox" value="<%=CommentParticipantType.INSTRUCTOR%>">
                                 </td>
                             </tr>
                         </tbody>
@@ -276,7 +276,7 @@
                     <input type="button" class="btn btn-default"
                         id="button_cancel_comment" value="Cancel">
                     <input type="hidden" name=<%=Const.ParamsNames.COURSE_ID%> value="<%=data.courseDetails.course.id%>">
-                    <input type="hidden" name=<%=Const.ParamsNames.RECIPIENT_TYPE%> value="<%=CommentRecipientType.COURSE%>">
+                    <input type="hidden" name=<%=Const.ParamsNames.RECIPIENT_TYPE%> value="<%=CommentParticipantType.COURSE%>">
                     <input type="hidden" name=<%=Const.ParamsNames.RECIPIENTS%> value="<%=data.courseDetails.course.id%>">
                     <input type="hidden" name=<%=Const.ParamsNames.COMMENTS_SHOWCOMMENTSTO%> value="">
                     <input type="hidden" name=<%=Const.ParamsNames.COMMENTS_SHOWGIVERTO%> value="">

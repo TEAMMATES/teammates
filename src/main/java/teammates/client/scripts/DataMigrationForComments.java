@@ -10,7 +10,7 @@ import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.logic.core.InstructorsLogic;
@@ -50,15 +50,15 @@ public class DataMigrationForComments extends RemoteApiClient {
                 //map receiverEmail to recipients
                 c.setRecipients(recipients);
                 //set default recipientType to PERSON
-                c.setRecipientType(CommentRecipientType.PERSON);
+                c.setRecipientType(CommentParticipantType.PERSON);
                 //set default comment status to FINAL (sent/published)
                 c.setStatus(CommentStatus.FINAL);
                 //set default visibility option of showCommentTo to private
-                c.setShowCommentTo(new ArrayList<CommentRecipientType>());
+                c.setShowCommentTo(new ArrayList<CommentParticipantType>());
                 //set default visibility option of showGiverNameTo to private
-                c.setShowGiverNameTo(new ArrayList<CommentRecipientType>());
+                c.setShowGiverNameTo(new ArrayList<CommentParticipantType>());
                 //set default visibility option of showRecipientNameTo to private
-                c.setShowRecipientNameTo(new ArrayList<CommentRecipientType>());
+                c.setShowRecipientNameTo(new ArrayList<CommentParticipantType>());
             }
         }
         getPM().close();

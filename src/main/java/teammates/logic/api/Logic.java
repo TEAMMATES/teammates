@@ -12,7 +12,7 @@ import javax.mail.internet.MimeMessage;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSearchResultBundle;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseAttributes;
@@ -2491,7 +2491,7 @@ public class Logic {
      * @throws EntityDoesNotExistException when the course with given courseId doesn't exist
      */
     public List<CommentAttributes> getCommentsForReceiver(String courseId,
-            CommentRecipientType recipientType, String receiver) throws EntityDoesNotExistException{
+            CommentParticipantType recipientType, String receiver) throws EntityDoesNotExistException{
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, recipientType);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, receiver);
@@ -2506,7 +2506,7 @@ public class Logic {
      * @throws EntityDoesNotExistException when the course with given courseId doesn't exist
      */
     public List<CommentAttributes> getCommentsForReceiver(String courseId, String giverEmail,
-            CommentRecipientType recipientType, String receiver) throws EntityDoesNotExistException{
+            CommentParticipantType recipientType, String receiver) throws EntityDoesNotExistException{
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, giverEmail);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, recipientType);

@@ -7,7 +7,7 @@ import java.util.Set;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -88,16 +88,16 @@ public class InstructorCommentsPageData extends PageData {
         if (this.currentInstructor == null) {
             return false;
         }
-        if (comment.recipientType == CommentRecipientType.COURSE) {
+        if (comment.recipientType == CommentParticipantType.COURSE) {
             return this.currentInstructor.isAllowedForPrivilege(privilegeName);          
-        } else if (comment.recipientType == CommentRecipientType.SECTION) {
+        } else if (comment.recipientType == CommentParticipantType.SECTION) {
             String section = "";
             if (!comment.recipients.isEmpty()) {
                 Iterator<String> iterator = comment.recipients.iterator();
                 section = iterator.next();
             }
             return this.currentInstructor.isAllowedForPrivilege(section, privilegeName);
-        } else if (comment.recipientType == CommentRecipientType.TEAM) {
+        } else if (comment.recipientType == CommentParticipantType.TEAM) {
             String team = "";
             String section = "";
             if (!comment.recipients.isEmpty()) {
@@ -109,7 +109,7 @@ public class InstructorCommentsPageData extends PageData {
                 section = students.get(0).section;
             }
             return this.currentInstructor.isAllowedForPrivilege(section, privilegeName);
-        } else if (comment.recipientType == CommentRecipientType.PERSON) {
+        } else if (comment.recipientType == CommentParticipantType.PERSON) {
             String studentEmail = "";
             String section = "";
             if (!comment.recipients.isEmpty()) {
