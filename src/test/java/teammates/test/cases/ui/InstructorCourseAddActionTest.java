@@ -3,7 +3,6 @@ package teammates.test.cases.ui;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -41,36 +40,32 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
 
         ______TS("Not enough parameters");
         verifyAssumptionFailure();
-        verifyAssumptionFailure(
-                Const.ParamsNames.COURSE_NAME, "ticac tac name");
+        verifyAssumptionFailure(Const.ParamsNames.COURSE_NAME, "ticac tac name");
         
         ______TS("Error: Invalid parameter for Course ID");
         
-        Action addAction = getAction(
-                Const.ParamsNames.COURSE_ID, "ticac,tpa1,id",
-                Const.ParamsNames.COURSE_NAME, "ticac tpa1 name");
+        Action addAction = getAction(Const.ParamsNames.COURSE_ID, "ticac,tpa1,id",
+                                     Const.ParamsNames.COURSE_NAME, "ticac tpa1 name");
         ShowPageResult pageResult = (ShowPageResult) addAction.executeAndPostProcess();
         
-        assertEquals(
-                Const.ViewURIs.INSTRUCTOR_COURSES+"?error=true&user=idOfInstructor1OfCourse1", 
-                pageResult.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=true&user=idOfInstructor1OfCourse1", 
+                     pageResult.getDestinationWithParams());
         assertEquals(true, pageResult.isError);
         assertEquals(Const.StatusMessages.COURSE_INVALID_ID, pageResult.getStatusMessage());
         
-        InstructorCoursesPageData pageData = (InstructorCoursesPageData)pageResult.data;
+        InstructorCoursesPageData pageData = (InstructorCoursesPageData) pageResult.data;
         assertEquals(1, pageData.allCourses.size());
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd"
-                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt"
-                + "|||Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID."
-                + "|||/page/instructorCourseAdd";
+                                    + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt"
+                                    + "|||Please use only alphabets, numbers, dots, hyphens, underscores and dollar signs in course ID."
+                                    + "|||/page/instructorCourseAdd";
         assertEquals(expectedLogMessage, addAction.getLogMessage());
 
         ______TS("Typical case, 1 existing course");
         
-        addAction = getAction(
-                Const.ParamsNames.COURSE_ID, "ticac.tpa1.id",
-                Const.ParamsNames.COURSE_NAME, "ticac tpa1 name");
+        addAction = getAction(Const.ParamsNames.COURSE_ID, "ticac.tpa1.id",
+                              Const.ParamsNames.COURSE_NAME, "ticac tpa1 name");
         pageResult = (ShowPageResult) addAction.executeAndPostProcess();
         
         pageData = (InstructorCoursesPageData) pageResult.data;
@@ -136,6 +131,31 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         
         // delete the new course
         CoursesLogic.inst().deleteCourseCascade("ticac.tpa2.id");
+        
+        ______TS("Test archived Courses");
+        InstructorAttributes instructorOfArchivedCourse = dataBundle.instructors.get("instructorOfArchivedCourse");
+        instructorId = instructorOfArchivedCourse.googleId;
+        
+        gaeSimulation.loginAsInstructor(instructorId);
+        
+        addAction = getAction(Const.ParamsNames.COURSE_ID, "ticac.tpa2.id",
+                              Const.ParamsNames.COURSE_NAME, "ticac tpa2 name");
+        pageResult = (ShowPageResult) addAction.executeAndPostProcess();
+        
+        pageData = (InstructorCoursesPageData) pageResult.data;
+        assertEquals(2, pageData.allCourses.size());
+        
+        expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd" 
+                             + "|||instructorCourseAdd|||true|||Instructor|||InstructorOfArchiveCourse name" 
+                             + "|||idOfInstructorOfArchivedCourse|||instructorOfArchiveCourse@archiveCourse.tmt" 
+                             + "|||Course added : ticac.tpa2.id<br>Total courses: 2|||/page/instructorCourseAdd";
+        assertEquals(expectedLogMessage, addAction.getLogMessage());
+        
+        
+        expected = Const.StatusMessages.COURSE_ADDED
+                        .replace("${courseEnrollLink}", "/page/instructorCourseEnrollPage?courseid=ticac.tpa2.id&user=idOfInstructorOfArchivedCourse")
+                        .replace("${courseEditLink}", "/page/instructorCourseEditPage?courseid=ticac.tpa2.id&user=idOfInstructorOfArchivedCourse");
+        assertEquals(expected,pageResult.getStatusMessage());
     }
     
     private Action getAction(String... parameters) throws Exception {
