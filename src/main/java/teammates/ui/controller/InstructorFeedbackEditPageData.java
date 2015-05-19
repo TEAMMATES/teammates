@@ -44,13 +44,15 @@ public class InstructorFeedbackEditPageData extends PageData {
             
             if (isValidGiver || isValidRecipient) {
                 String optionStr = "<option value=\"%s\"%s>%s</option>";
-                String participantName = isValidGiver ? option.toDisplayGiverName() : option.toDisplayRecipientName();
+                String participantName = isValidGiver ? option.toDisplayGiverName()
+                                                      : option.toDisplayRecipientName();
                 
                 String selected = "";
                 // for existing questions
                 if (question != null) {
                     boolean isGiverType = isValidGiver && question.giverType == option;
                     boolean isRecipientType = isValidRecipient && question.recipientType == option;
+                    
                     if (isGiverType || isRecipientType) {
                         selected = " selected=\"selected\"";
                     }
@@ -83,16 +85,19 @@ public class InstructorFeedbackEditPageData extends PageData {
     public String getNewQuestionSpecificEditFormHtml() {
         String newQuestionSpecificEditForms = "";
         for (FeedbackQuestionType type : FeedbackQuestionType.values()) {
-            newQuestionSpecificEditForms += type.getFeedbackQuestionDetailsInstance().getNewQuestionSpecificEditFormHtml();
+            newQuestionSpecificEditForms +=
+                    type.getFeedbackQuestionDetailsInstance().getNewQuestionSpecificEditFormHtml();
         }
         return newQuestionSpecificEditForms;
     }
     
     public ArrayList<String> getTimeZoneOptionsAsHtml() {
-        return getTimeZoneOptionsAsHtml(session == null ? Const.DOUBLE_UNINITIALIZED : session.timeZone);
+        return getTimeZoneOptionsAsHtml(session == null ? Const.DOUBLE_UNINITIALIZED
+                                                        : session.timeZone);
     }
     
     public ArrayList<String> getGracePeriodOptionsAsHtml() {
-        return getGracePeriodOptionsAsHtml(session == null ? Const.INT_UNINITIALIZED : session.gracePeriod);
+        return getGracePeriodOptionsAsHtml(session == null ? Const.INT_UNINITIALIZED
+                                                           : session.gracePeriod);
     }
 }
