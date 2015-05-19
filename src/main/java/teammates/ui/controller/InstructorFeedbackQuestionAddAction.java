@@ -19,7 +19,7 @@ import teammates.logic.api.GateKeeper;
 public class InstructorFeedbackQuestionAddAction extends Action {
 
     @Override
-    protected ActionResult execute()  throws EntityDoesNotExistException {
+    protected ActionResult execute() throws EntityDoesNotExistException {
 
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
@@ -103,8 +103,8 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         Assumption.assertNotNull("Null number of entity types", numberOfEntityTypes);
 
         if (numberOfEntityTypes.equals("custom") &&
-                (newQuestion.recipientType == FeedbackParticipantType.STUDENTS ||
-                 newQuestion.recipientType == FeedbackParticipantType.TEAMS)) {
+           (newQuestion.recipientType == FeedbackParticipantType.STUDENTS ||
+            newQuestion.recipientType == FeedbackParticipantType.TEAMS)) {
             String numberOfEntities = HttpRequestHelper.getValueFromParamMap(
                     requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
             Assumption.assertNotNull("Null number of entities for custom entity number", numberOfEntities);
