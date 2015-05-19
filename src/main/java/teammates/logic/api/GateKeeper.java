@@ -17,8 +17,7 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
 public class GateKeeper {
-    private static UserService userService = UserServiceFactory
-            .getUserService();
+    private static UserService userService = UserServiceFactory.getUserService();
 
     /*
      * This enum is not used at the moment. It is for future reference. We plan
@@ -103,16 +102,13 @@ public class GateKeeper {
      * masquerading going on.
      */
     public void verifyAdminPrivileges(AccountAttributes account) {
-        if (isUserLoggedOn()
-                && userService.isUserAdmin()
-                && getCurrentGoogleUser().getNickname()
-                        .equals(account.googleId)) {
+        if (isUserLoggedOn() && userService.isUserAdmin() 
+                && getCurrentGoogleUser().getNickname().equals(account.googleId)) {
             return;
         }
 
-        throw new UnauthorizedAccessException("User "
-                + getCurrentGoogleUser().getNickname() +
-                " does not have admin privilleges");
+        throw new UnauthorizedAccessException("User " + getCurrentGoogleUser().getNickname() + 
+                                              " does not have admin privilleges");
     }
 
     /**
@@ -123,9 +119,8 @@ public class GateKeeper {
         if (account.isInstructor) {
             return;
         }
-        throw new UnauthorizedAccessException("User " + account.googleId
-                + " does not have instructor privilleges");
-
+        throw new UnauthorizedAccessException("User " + account.googleId + 
+                                              " does not have instructor privilleges");
     }
 
     /**
@@ -144,51 +139,42 @@ public class GateKeeper {
     private void ____ACCESS_control_per_entity_________________________() {
     }
 
-    public void verifyAccessible(StudentAttributes student,
-            CourseAttributes course) {
+    public void verifyAccessible(StudentAttributes student, CourseAttributes course) {
         verifyNotNull(student, "student");
         verifyNotNull(student.course, "student's course ID");
         verifyNotNull(course, "course");
         verifyNotNull(course.id, "course ID");
 
         if (!student.course.equals(course.id)) {
-            throw new UnauthorizedAccessException(
-                    "Course [" + course.id + "] is not accessible to student ["
-                            + student.email + "]");
+            throw new UnauthorizedAccessException("Course [" + course.id + "] is not accessible to student [" + 
+                                                  student.email + "]");
         }
     }
 
-    public void verifyAccessible(StudentAttributes student,
-            FeedbackSessionAttributes feedbacksession) {
+    public void verifyAccessible(StudentAttributes student, FeedbackSessionAttributes feedbacksession) {
         verifyNotNull(student, "student");
         verifyNotNull(student.course, "student's course ID");
         verifyNotNull(feedbacksession, "feedback session");
         verifyNotNull(feedbacksession.courseId, "feedback session's course ID");
 
-        if (!student.course.equals(feedbacksession.courseId) ||
-                feedbacksession.isPrivateSession() == true) {
-            throw new UnauthorizedAccessException(
-                    "Feedback session [" + feedbacksession.feedbackSessionName +
-                            "] is not accessible to student [" + student.email
-                            + "]");
+        if (!student.course.equals(feedbacksession.courseId) || feedbacksession.isPrivateSession()) {
+            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.feedbackSessionName +
+                                                  "] is not accessible to student [" + student.email + "]");
         }
 
-        if (feedbacksession.isVisible() == false) {
-            throw new UnauthorizedAccessException(
-                    "This feedback session is not yet visible.");
+        if (!feedbacksession.isVisible()) {
+            throw new UnauthorizedAccessException("This feedback session is not yet visible.");
         }
     }
 
-    public void verifyAccessible(InstructorAttributes instructor,
-            CourseAttributes course) {
+    public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course) {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(course, "course");
         verifyNotNull(course.id, "course ID");
         if (!instructor.courseId.equals(course.id)) {
-            throw new UnauthorizedAccessException("Course [" + course.id +
-                    "] is not accessible to instructor [" + instructor.email
-                    + "]");
+            throw new UnauthorizedAccessException("Course [" + course.id + "] is not accessible to instructor [" 
+                                                  + instructor.email + "]");
         }
     }
 
@@ -201,21 +187,18 @@ public class GateKeeper {
      * @param course
      * @param privilegeName
      */
-    public void verifyAccessible(InstructorAttributes instructor,
-            CourseAttributes course, String privilegeName) {
+    public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course, String privilegeName) {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(course, "course");
         verifyNotNull(course.id, "course ID");
         if (!instructor.courseId.equals(course.id)) {
-            throw new UnauthorizedAccessException("Course [" + course.id +
-                    "] is not accessible to instructor [" + instructor.email
-                    + "]");
+            throw new UnauthorizedAccessException("Course [" + course.id + "] is not accessible to instructor [" 
+                                                  + instructor.email + "]");
         }
         if (!instructor.isAllowedForPrivilege(privilegeName)) {
-            throw new UnauthorizedAccessException("Course [" + course.id +
-                    "] is not accessible to instructor [" + instructor.email
-                    + "] for privilege [" + privilegeName + "]");
+            throw new UnauthorizedAccessException("Course [" + course.id + "] is not accessible to instructor [" 
+                                                  + instructor.email + "] for privilege [" + privilegeName + "]");
         }
     }
 
@@ -230,46 +213,42 @@ public class GateKeeper {
      * @param privilegeName
      */
     public void verifyAccessible(InstructorAttributes instructor,
-            CourseAttributes course, String sectionName, String privilegeName) {
+                                 CourseAttributes course, 
+                                 String sectionName, 
+                                 String privilegeName) {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(course, "course");
         verifyNotNull(course.id, "course ID");
         verifyNotNull(sectionName, "section name");
         if (!instructor.courseId.equals(course.id)) {
-            throw new UnauthorizedAccessException("Course [" + course.id +
-                    "] is not accessible to instructor [" + instructor.email
-                    + "]");
+            throw new UnauthorizedAccessException("Course [" + course.id + "] is not accessible to instructor [" 
+                                                  + instructor.email + "]");
         }
         if (!instructor.isAllowedForPrivilege(sectionName, privilegeName)) {
-            throw new UnauthorizedAccessException("Course [" + course.id +
-                    "] is not accessible to instructor [" + instructor.email
-                    + "] for privilege [" + privilegeName +
-                    "] on section [" + sectionName + "]");
+            throw new UnauthorizedAccessException("Course [" + course.id + "] is not accessible to instructor [" + 
+                                                  instructor.email + "] for privilege [" + privilegeName + 
+                                                  "] on section [" + sectionName + "]");
         }
     }
 
     public void verifyAccessible(InstructorAttributes instructor,
-            FeedbackSessionAttributes feedbacksession, boolean creatorOnly) {
+                                 FeedbackSessionAttributes feedbacksession, 
+                                 boolean creatorOnly) {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(feedbacksession, "feedback session");
         verifyNotNull(feedbacksession.courseId, "feedback session's course ID");
 
         if (!instructor.courseId.equals(feedbacksession.courseId)) {
-            throw new UnauthorizedAccessException(
-                    "Feedback session [" + feedbacksession.feedbackSessionName +
-                            "] is not accessible to instructor ["
-                            + instructor.email + "]");
+            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.feedbackSessionName +
+                                                  "] is not accessible to instructor [" + instructor.email + "]");
         }
 
-        if (creatorOnly &&
-                !feedbacksession.creatorEmail.equals(
-                        instructor.email)) {
-            throw new UnauthorizedAccessException(
-                    "Feedback session [" + feedbacksession.feedbackSessionName +
-                            "] is not accessible to instructor ["
-                            + instructor.email + "] for this purpose");
+        if (creatorOnly && !feedbacksession.creatorEmail.equals(instructor.email)) {
+            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.feedbackSessionName +
+                                                  "] is not accessible to instructor [" + instructor.email + 
+                                                  "] for this purpose");
         }
     }
 
@@ -284,71 +263,58 @@ public class GateKeeper {
      * @param privilegeName
      */
     public void verifyAccessible(InstructorAttributes instructor,
-            FeedbackSessionAttributes feedbacksession,
-            boolean creatorOnly, String privilegeName) {
+                                 FeedbackSessionAttributes feedbacksession,
+                                 boolean creatorOnly, 
+                                 String privilegeName) {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(feedbacksession, "feedback session");
         verifyNotNull(feedbacksession.courseId, "feedback session's course ID");
 
         if (!instructor.courseId.equals(feedbacksession.courseId)) {
-            throw new UnauthorizedAccessException(
-                    "Feedback session [" + feedbacksession.feedbackSessionName +
-                            "] is not accessible to instructor ["
-                            + instructor.email + "]");
+            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.feedbackSessionName +
+                                                  "] is not accessible to instructor [" + instructor.email + "]");
         }
 
-        if (creatorOnly &&
-                !feedbacksession.creatorEmail.equals(
-                        instructor.email)) {
-            throw new UnauthorizedAccessException(
-                    "Feedback session [" + feedbacksession.feedbackSessionName +
-                            "] is not accessible to instructor ["
-                            + instructor.email + "] for this purpose");
+        if (creatorOnly && !feedbacksession.creatorEmail.equals(instructor.email)) {
+            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.feedbackSessionName +
+                                                  "] is not accessible to instructor [" + instructor.email + 
+                                                  "] for this purpose");
         }
 
         if (!instructor.isAllowedForPrivilege(privilegeName)) {
-            throw new UnauthorizedAccessException(
-                    "Feedback session [" + feedbacksession.feedbackSessionName +
-                            "] is not accessible to instructor ["
-                            + instructor.email + "] for privilege ["
-                            + privilegeName + "]");
+            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.feedbackSessionName +
+                                                  "] is not accessible to instructor [" + instructor.email + 
+                                                  "] for privilege [" + privilegeName + "]");
         }
     }
 
     public void verifyAccessible(InstructorAttributes instructor,
-            FeedbackSessionAttributes feedbacksession,
-            boolean creatorOnly, String sectionName,
-            String privilegeName) {
+                                 FeedbackSessionAttributes feedbacksession,
+                                 boolean creatorOnly, 
+                                 String sectionName,
+                                 String privilegeName) {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(feedbacksession, "feedback session");
         verifyNotNull(feedbacksession.courseId, "feedback session's course ID");
 
         if (!instructor.courseId.equals(feedbacksession.courseId)) {
-            throw new UnauthorizedAccessException(
-                    "Feedback session [" + feedbacksession.feedbackSessionName +
-                            "] is not accessible to instructor ["
-                            + instructor.email + "]");
+            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.feedbackSessionName +
+                                                  "] is not accessible to instructor [" + instructor.email + "]");
         }
 
-        if (creatorOnly &&
-                !feedbacksession.creatorEmail.equals(
-                        instructor.email)) {
-            throw new UnauthorizedAccessException(
-                    "Feedback session [" + feedbacksession.feedbackSessionName +
-                            "] is not accessible to instructor ["
-                            + instructor.email + "] for this purpose");
+        if (creatorOnly && !feedbacksession.creatorEmail.equals(instructor.email)) {
+            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.feedbackSessionName +
+                                                  "] is not accessible to instructor [" + instructor.email + 
+                                                  "] for this purpose");
         }
 
-        if (!instructor.isAllowedForPrivilege(sectionName, feedbacksession.feedbackSessionName,
-                privilegeName)) {
-            throw new UnauthorizedAccessException(
-                    "Feedback session [" + feedbacksession.feedbackSessionName +
-                            "] is not accessible to instructor ["
-                            + instructor.email + "] for privilege ["
-                            + privilegeName +
-                            "] on section [" + sectionName + "]");
+        if (!instructor.isAllowedForPrivilege(sectionName, feedbacksession.feedbackSessionName, privilegeName)) {
+            throw new UnauthorizedAccessException("Feedback session [" + feedbacksession.feedbackSessionName +
+                                                  "] is not accessible to instructor [" + instructor.email + 
+                                                  "] for privilege [" + privilegeName + "] on section [" + 
+                                                  sectionName + "]");
         }
     }
 
@@ -368,9 +334,8 @@ public class GateKeeper {
 
     private void verifyNotNull(Object object, String typeName) {
         if (object == null) {
-            throw new UnauthorizedAccessException(
-                    "Trying to access system using a non-existent " + typeName
-                            + " entity");
+            throw new UnauthorizedAccessException("Trying to access system using a non-existent " + typeName + 
+                                                  " entity");
         }
 
     }
@@ -397,23 +362,17 @@ public class GateKeeper {
         return StudentsLogic.inst().isStudentInAnyCourse(user.getNickname());
     }
 
-    public void verifyAccessibleForCurrentUserAsInstructor(
-            AccountAttributes account,
-            String courseId, String section) {
+    public void verifyAccessibleForCurrentUserAsInstructor(AccountAttributes account,
+                                                           String courseId, 
+                                                           String section) {
 
-        InstructorAttributes instructor =
-                InstructorsLogic.inst().getInstructorForGoogleId(courseId,
-                        account.googleId);
+        InstructorAttributes instructor = InstructorsLogic.inst().getInstructorForGoogleId(courseId, account.googleId);
 
         if (instructor == null) {
-            throw new UnauthorizedAccessException(
-                    "User is not instructor of the course that student belongs to");
-        } else if (!instructor
-                .isAllowedForPrivilege(
-                        section,
+            throw new UnauthorizedAccessException("User is not instructor of the course that student belongs to");
+        } else if (!instructor.isAllowedForPrivilege(section, 
                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
-            throw new UnauthorizedAccessException(
-                    "User does not have enough privileges to view the photo");
+            throw new UnauthorizedAccessException("User does not have enough privileges to view the photo");
         }
     }
 
