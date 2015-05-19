@@ -49,7 +49,7 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         InstructorCourseArchiveAction archiveAction = getAction(submissionParams);
         RedirectResult redirectResult = getRedirectResult(archiveAction);
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE + "?error=false&user=idOfInstructor1OfCourse1", 
                      redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
         assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, courseId), redirectResult.getStatusMessage());
@@ -68,10 +68,11 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         archiveAction = getAction(submissionParams);
         redirectResult = getRedirectResult(archiveAction);
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE + "?error=false&user=idOfInstructor1OfCourse1", 
                      redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
-        assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, courseId), redirectResult.getStatusMessage());
+        assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED_FROM_HOMEPAGE, courseId), 
+                     redirectResult.getStatusMessage());
         
         expectedLogSegment = "Course archived: " + courseId;
         AssertHelper.assertContains(expectedLogSegment, archiveAction.getLogMessage());
@@ -87,10 +88,11 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         InstructorCourseArchiveAction unarchiveAction = getAction(submissionParams);
         redirectResult = getRedirectResult(unarchiveAction);
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1", 
                      redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
-        assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId), redirectResult.getStatusMessage());
+        assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId), 
+                     redirectResult.getStatusMessage());
         
         expectedLogSegment = "Course unarchived: " + courseId;
         AssertHelper.assertContains(expectedLogSegment, unarchiveAction.getLogMessage());
@@ -106,10 +108,11 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         unarchiveAction = getAction(submissionParams);
         redirectResult = getRedirectResult(unarchiveAction);
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1", 
                      redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
-        assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId), redirectResult.getStatusMessage());
+        assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId), 
+                     redirectResult.getStatusMessage());
         
         expectedLogSegment = "Course unarchived: " + courseId;
         AssertHelper.assertContains(expectedLogSegment, unarchiveAction.getLogMessage());
@@ -125,13 +128,35 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         archiveAction = getAction(addUserIdToParams(instructorId, submissionParams));
         redirectResult = getRedirectResult(archiveAction);
         
-        assertEquals(
-                Const.ActionURIs.INSTRUCTOR_COURSES_PAGE+"?error=false&user=idOfInstructor1OfCourse1", 
-                redirectResult.getDestinationWithParams());
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1", 
+                     redirectResult.getDestinationWithParams());
         assertEquals(false, redirectResult.isError);
-        assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED, courseId), redirectResult.getStatusMessage());
+        assertEquals(String.format(Const.StatusMessages.COURSE_ARCHIVED, courseId), 
+                     redirectResult.getStatusMessage());
         
         expectedLogSegment = "Course archived: " + courseId;
+        AssertHelper.assertContains(expectedLogSegment, archiveAction.getLogMessage());
+        
+        ______TS("Rare case: null course ID");
+        
+        gaeSimulation.loginAsAdmin("admin.user");
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, null,
+                Const.ParamsNames.COURSE_ARCHIVE_STATUS, "true",
+                Const.ParamsNames.NEXT_URL, Const.ActionURIs.INSTRUCTOR_COURSES_PAGE
+        };
+        archiveAction = getAction(addUserIdToParams(instructorId, submissionParams));
+        redirectResult = getRedirectResult(archiveAction);
+        
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=true&user=idOfInstructor1OfCourse1", 
+                     redirectResult.getDestinationWithParams());
+        assertEquals(true, redirectResult.isError);
+        assertEquals("name cannot be null or empty", redirectResult.getStatusMessage());
+        
+        expectedLogSegment = "TEAMMATESLOG|||instructorCourseArchive|||instructorCourseArchive|||true|||" + 
+                             "Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||" + 
+                             "instr1@course1.tmt|||Servlet Action Failure : name cannot be null or empty|||" + 
+                             "/page/instructorCourseArchive";
         AssertHelper.assertContains(expectedLogSegment, archiveAction.getLogMessage());
         
     }
