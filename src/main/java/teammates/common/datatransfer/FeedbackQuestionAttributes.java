@@ -18,9 +18,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public String feedbackSessionName;
     public String courseId;
     public String creatorEmail;
-    /** Contains the JSON formatted string that holds the information of the question details <br>
-     *  Don't use directly unless for storing/loading from data store <br>
-     *  To get the question text use {@code getQuestionDetails().questionText}
+    /** 
+     * Contains the JSON formatted string that holds the information of the question details <br>
+     * Don't use directly unless for storing/loading from data store <br>
+     * To get the question text use {@code getQuestionDetails().questionText}
      */
     public Text questionMetaData;
     public int questionNumber;
@@ -261,6 +262,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      * Checks if updating this question to the {@code newAttributes} will
      * require the responses to be deleted for consistency.
      * Does not check if any responses exist.
+     * 
      * @param newAttributes
      * @return
      */
@@ -504,8 +506,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.creatorEmail = Sanitizer.sanitizeEmail(creatorEmail);
     }
 
-    /** This method converts the given Feedback*QuestionDetails object to JSON for storing
-     *  @param questionDetails
+    /** 
+     * This method converts the given Feedback*QuestionDetails object to JSON for storing
+     * 
+     * @param questionDetails
      */
     public void setQuestionDetails(FeedbackQuestionDetails questionDetails) {
         // For Text questions, the questionText simply contains the question, not a JSON
@@ -518,8 +522,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
     }
 
-    /** This method retrieves the Feedback*QuestionDetails object for this question
-     *  @return The Feedback*QuestionDetails object representing the question's details
+    /** 
+     * This method retrieves the Feedback*QuestionDetails object for this question
+     * 
+     * @return The Feedback*QuestionDetails object representing the question's details
      */
     public FeedbackQuestionDetails getQuestionDetails() {
         // For Text questions, the questionText simply contains the question, not a JSON
@@ -532,9 +538,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         }
     }
 
-    /** This method gets the appropriate class type for the Feedback*QuestionDetails object
-     *  for this question.
-     *  @return The Feedback*QuestionDetails class type appropriate for this question.
+    /** 
+     * This method gets the appropriate class type for the Feedback*QuestionDetails object for this question.
+     * 
+     * @return The Feedback*QuestionDetails class type appropriate for this question.
      */
     private Class<? extends FeedbackQuestionDetails> getFeedbackQuestionDetailsClass() {
         return questionType.getQuestionDetailsClass();

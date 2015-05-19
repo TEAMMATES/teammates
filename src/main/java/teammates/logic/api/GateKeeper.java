@@ -20,10 +20,11 @@ import com.google.appengine.api.users.UserServiceFactory;
 public class GateKeeper {
     private static UserService userService = UserServiceFactory.getUserService();
 
-    /** This enum is not used at the moment. It is for future reference.
-     *  We plan to pass Activity as an additional parameter to access control
-     *  methods for finer-grain access control. e.g., to block some instructors
-     *  from viewing results of an evaluation.
+    /** 
+     * This enum is not used at the moment. It is for future reference.
+     * We plan to pass Activity as an additional parameter to access control
+     * methods for finer-grain access control. e.g., to block some instructors
+     * from viewing results of an evaluation.
      */
     public enum Activity {
         ADD, VIEW, UPDATE, DELETE
@@ -103,8 +104,9 @@ public class GateKeeper {
         throw new UnauthorizedAccessException("User is not logged in");
     }
 
-    /** Verifies that the logged in user is the admin and there is no
-     *  masquerading going on.
+    /** 
+     * Verifies that the logged in user is the admin and there is no
+     * masquerading going on.
      */
     public void verifyAdminPrivileges(AccountAttributes account) {
         if (isUserLoggedOn() && userService.isUserAdmin() &&
@@ -116,8 +118,7 @@ public class GateKeeper {
                                               " does not have admin privilleges");
     }
 
-    /** Verifies that the nominal user has instructor privileges.
-     */
+    /** Verifies that the nominal user has instructor privileges. */
     public void verifyInstructorPrivileges(AccountAttributes account) {
         if (account.isInstructor) {
             return;
@@ -126,16 +127,12 @@ public class GateKeeper {
         throw new UnauthorizedAccessException("User " + account.googleId + " does not have instructor privilleges");
     }
 
-    /** Verifies that the nominal user has student privileges. Currently, all
-     *  logged in users as student privileges.
-     */
+    /** Verifies that the nominal user has student privileges. Currently, all logged in users as student privileges. */
     public void verifyStudentPrivileges(AccountAttributes account) {
         verifyLoggedInUserPrivileges();
     }
 
-    /** These methods ensures that the nominal user specified has access
-     *  to a given entity.
-     */
+    /** These methods ensures that the nominal user specified has access to a given entity. */
     @SuppressWarnings("unused")
     private void ____ACCESS_control_per_entity_________________________() {
     }
@@ -182,11 +179,13 @@ public class GateKeeper {
         }
     }
 
-    /** Verify the instructor and course are not null, the instructor belongs to the course and
-     *  the instructor has the privilege specified by privilegeName
-     *  @param instructor
-     *  @param course
-     *  @param privilegeName
+    /** 
+     * Verify the instructor and course are not null, the instructor belongs to the course and
+     * the instructor has the privilege specified by privilegeName
+     * 
+     * @param instructor
+     * @param course
+     * @param privilegeName
      */
     public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course, String privilegeName) {
         verifyNotNull(instructor, "instructor");
@@ -205,12 +204,14 @@ public class GateKeeper {
         }
     }
 
-    /** Verify the instructor and course are not null, the instructor belongs to the course and
-     *  the instructor has the privilege specified by privilegeName for sectionName
-     *  @param instructor
-     *  @param course
-     *  @param sectionName
-     *  @param privilegeName
+    /** 
+     * Verify the instructor and course are not null, the instructor belongs to the course and
+     * the instructor has the privilege specified by privilegeName for sectionName
+     * 
+     * @param instructor
+     * @param course
+     * @param sectionName
+     * @param privilegeName
      */
     public void verifyAccessible(InstructorAttributes instructor, CourseAttributes course,
                                  String sectionName, String privilegeName) {
@@ -252,12 +253,14 @@ public class GateKeeper {
         }
     }
 
-    /** Verify the instructor and course are not null, the instructor belongs to the course and
-     *  the instructor has the privilege specified by privilegeName for feedbackSession
-     *  @param instructor
-     *  @param feedbacksession
-     *  @param creatorOnly
-     *  @param privilegeName
+    /**
+     * Verify the instructor and course are not null, the instructor belongs to the course and
+     * the instructor has the privilege specified by privilegeName for feedbackSession
+     *  
+     * @param instructor
+     * @param feedbacksession
+     * @param creatorOnly
+     * @param privilegeName
      */
     public void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbacksession,
                                  boolean creatorOnly, String privilegeName) {
@@ -311,9 +314,7 @@ public class GateKeeper {
         }
     }
 
-    /** These methods ensures that the nominal user specified can perform the
-     *  specified action on a given entity.
-     */
+    /** These methods ensures that the nominal user specified can perform the specified action on a given entity. */
     @SuppressWarnings("unused")
     private void ____ACCESS_control_per_entity_per_activity________________() {
     }
