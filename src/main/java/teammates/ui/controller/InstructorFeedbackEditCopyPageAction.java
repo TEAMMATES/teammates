@@ -27,7 +27,8 @@ public class InstructorFeedbackEditCopyPageAction extends Action {
         for (CourseAttributes course : courses) {
             InstructorAttributes instructor = logic.getInstructorForGoogleId(course.id, account.googleId);
             
-            boolean isAllowedToMakeSession = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+            boolean isAllowedToMakeSession =
+                    instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
             boolean isArchived = Logic.isCourseArchived(course.id, account.googleId);
 
             if (!isArchived && isAllowedToMakeSession) { 

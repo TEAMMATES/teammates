@@ -24,13 +24,14 @@ public class InstructorFeedbackEditSaveAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         
-        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID,courseId);
-        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
+        Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getFeedbackSession(feedbackSessionName, courseId),
-                false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                false,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);
         data.session = extractFeedbackSessionData();
@@ -42,11 +43,14 @@ public class InstructorFeedbackEditSaveAction extends Action {
         try {
             logic.updateFeedbackSession(data.session);
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
-            statusToAdmin = "Updated Feedback Session <span class=\"bold\">(" + data.session.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" + data.session.courseId + "]</span> created.<br>" +
-                    "<span class=\"bold\">From:</span> " + data.session.startTime + "<span class=\"bold\"> to</span> " + data.session.endTime + "<br>" +
+            statusToAdmin =
+                    "Updated Feedback Session <span class=\"bold\">(" + data.session.feedbackSessionName +
+                    ")</span> for Course <span class=\"bold\">[" + data.session.courseId + "]</span> created.<br>" +
+                    "<span class=\"bold\">From:</span> " + data.session.startTime +
+                    "<span class=\"bold\"> to</span> " + data.session.endTime + "<br>" +
                     "<span class=\"bold\">Session visible from:</span> " + data.session.sessionVisibleFromTime + "<br>" +
-                    "<span class=\"bold\">Results visible from:</span> " + data.session.resultsVisibleFromTime + "<br><br>" +
-                    "<span class=\"bold\">Instructions:</span> " + data.session.instructions;
+                    "<span class=\"bold\">Results visible from:</span> " + data.session.resultsVisibleFromTime +
+                    "<br><br>" + "<span class=\"bold\">Instructions:</span> " + data.session.instructions;
         } catch (InvalidParametersException e) {
             setStatusForException(e);
         }
@@ -63,6 +67,7 @@ public class InstructorFeedbackEditSaveAction extends Action {
         newSession.courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         newSession.feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         newSession.creatorEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_CREATOR);
+        
         newSession.startTime = TimeHelper.combineDateTime(
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE),
                 getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME));
@@ -83,6 +88,7 @@ public class InstructorFeedbackEditSaveAction extends Action {
         } catch (NumberFormatException nfe) {
             //do nothing
         }
+        
         newSession.feedbackSessionType = FeedbackSessionType.STANDARD;
         newSession.instructions = new Text(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS));
         

@@ -25,7 +25,9 @@ public class InstructorFeedbackEditPageAction extends Action {
         FeedbackSessionAttributes feedback = logic.getFeedbackSession(feedbackSessionName, courseId);
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId), 
-                feedback, false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                feedback,
+                false,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);
         data.session = feedback;
@@ -44,9 +46,9 @@ public class InstructorFeedbackEditPageAction extends Action {
         
         data.instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
-        statusToAdmin = "instructorFeedbackEdit Page Load<br>"
-                + "Editing information for Feedback Session <span class=\"bold\">["
-                + feedbackSessionName + "]</span>" + "in Course: <span class=\"bold\">[" + courseId + "]</span>";
+        statusToAdmin = "instructorFeedbackEdit Page Load<br>" +
+                "Editing information for Feedback Session <span class=\"bold\">[" + feedbackSessionName +
+                "]</span>" + "in Course: <span class=\"bold\">[" + courseId + "]</span>";
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT, data);
     }

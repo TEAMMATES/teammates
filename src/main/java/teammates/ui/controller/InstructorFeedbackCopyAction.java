@@ -31,25 +31,34 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
         
         new GateKeeper().verifyAccessible(
                 instructor, 
-                logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                logic.getCourse(courseId),
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
         
         try {
-            FeedbackSessionAttributes fs = logic.copyFeedbackSession(
-                    copiedFeedbackSessionName, copiedCourseId, feedbackSessionName, courseId, instructor.email);
+            FeedbackSessionAttributes fs = logic.copyFeedbackSession(copiedFeedbackSessionName,
+                                                                     copiedCourseId,
+                                                                     feedbackSessionName,
+                                                                     courseId,
+                                                                     instructor.email);
             data.newFeedbackSession = fs;
             
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
-            statusToAdmin = "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" + fs.courseId + "]</span> created.<br>" +
-                    "<span class=\"bold\">From:</span> " + fs.startTime + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>" +
+            statusToAdmin =
+                    "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> " +
+                    "for Course <span class=\"bold\">[" + fs.courseId + "]</span> created.<br>" +
+                    "<span class=\"bold\">From:</span> " + fs.startTime +
+                    "<span class=\"bold\"> to</span> " + fs.endTime + "<br>" +
                     "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>" +
                     "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>" +
                     "<span class=\"bold\">Instructions:</span> " + fs.instructions;
             
             //TODO: add a condition to include the status due to inconsistency problem of database 
             //      (similar to the one below)
-            return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(fs.courseId, fs.feedbackSessionName));
+            return createRedirectResult(
+                    new PageData(account).getInstructorFeedbackSessionEditLink(
+                            fs.courseId, fs.feedbackSessionName));
             
         } catch (EntityAlreadyExistsException e) {
             setStatusForException(e, Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
@@ -60,7 +69,8 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
         
         boolean omitArchived = true;
         data.instructors = loadCourseInstructorMap(omitArchived);
-        List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>(data.instructors.values());
+        List<InstructorAttributes> instructorList =
+                new ArrayList<InstructorAttributes>(data.instructors.values());
         data.courses = loadCoursesList(instructorList);
         data.existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
         
