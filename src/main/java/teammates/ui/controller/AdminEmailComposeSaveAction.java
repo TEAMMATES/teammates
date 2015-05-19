@@ -3,7 +3,6 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.AdminEmailAttributes;

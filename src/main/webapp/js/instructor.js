@@ -1,39 +1,36 @@
 /*
- * This Javascript file is included in all instructor pages. Functions here
+ * This JavaScript file is included in all instructor pages. Functions here
  * should be common to some/all instructor pages.
  */
 
-
-
-//Initial load-up
+// Initial load-up
 //-----------------------------------------------------------------------------
 
-var onLoadFunction = function () {
-    if(typeof doPageSpecificOnload !== 'undefined'){
+var onLoadFunction = function() {
+    if (typeof doPageSpecificOnload !== 'undefined') {
         doPageSpecificOnload();
     };
     
-    bindErrorImages(".profile-pic-icon-hover, .profile-pic-icon-click");
-    // bind the show picture onclick events
-    bindStudentPhotoLink(".profile-pic-icon-click > .student-profile-pic-view-link");
-    // bind the show picture onhover events
-    bindStudentPhotoHoverLink(".profile-pic-icon-hover");
+    bindErrorImages('.profile-pic-icon-hover, .profile-pic-icon-click');
     
+    // bind the show picture onclick events
+    bindStudentPhotoLink('.profile-pic-icon-click > .student-profile-pic-view-link');
+    
+    // bind the show picture onhover events
+    bindStudentPhotoHoverLink('.profile-pic-icon-hover');
 };
 
-if(window.addEventListener) {
-	window.addEventListener('load', onLoadFunction);
+if (window.addEventListener) {
+    window.addEventListener('load', onLoadFunction);
 } else {
-	window.attachEvent('onload', onLoadFunction);
+    window.attachEvent('onload', onLoadFunction);
 }
 
-
-$(function() { 
-    $("[data-toggle='tooltip']").tooltip({html: true, container: 'body'}); 
+$(document).ready(function() {
+    $('[data-toggle="tooltip"]').tooltip({html: true, container: 'body'});
 });
 
 //-----------------------------------------------------------------------------
-
 
 /**
  * Function that shows confirmation dialog for deleting a course
@@ -41,9 +38,9 @@ $(function() {
  * @returns
  */
 function toggleDeleteCourseConfirmation(courseID) {
-    return confirm("Are you sure you want to delete the course: " + courseID + "? " +
-            "This operation will delete all students and sessions in this course. " +
-            "All instructors of this course will not be able to access it hereafter as well.");
+    return confirm('Are you sure you want to delete the course: ' + courseID + '? ' +
+            'This operation will delete all students and sessions in this course. ' +
+            'All instructors of this course will not be able to access it hereafter as well.');
 }
 
 /**
@@ -53,7 +50,7 @@ function toggleDeleteCourseConfirmation(courseID) {
  * @returns
  */
 function toggleDeleteEvaluationConfirmation(courseID, name) {
-    return confirm("Are you sure you want to delete the evaluation " + name + " in " + courseID + "?");
+    return confirm('Are you sure you want to delete the evaluation ' + name + ' in ' + courseID + '?');
 }
 
 /**
@@ -63,7 +60,7 @@ function toggleDeleteEvaluationConfirmation(courseID, name) {
  * @returns
  */
 function toggleDeleteFeedbackSessionConfirmation(courseID, name) {
-    return confirm("Are you sure you want to delete the feedback session " + name + " in " + courseID + "?");
+    return confirm('Are you sure you want to delete the feedback session ' + name + ' in ' + courseID + '?');
 }
 
 /**
@@ -71,8 +68,13 @@ function toggleDeleteFeedbackSessionConfirmation(courseID, name) {
  * evaluation
  * @param name
  */
-function togglePublishEvaluation(name) {
-    return confirm("Are you sure you want to publish the session " + name + "?");
+function togglePublishEvaluation(name, isSendingPublishEmail) {
+    if (isSendingPublishEmail) {
+        return confirm('Are you sure you want to publish the responses for the session \"' + name + '\"?' +
+                   ' An email will be sent to students to inform them that the responses are ready for viewing.');
+    } else {
+        return confirm('Are you sure you want to publish the responses for the session \"' + name + '\"?');
+    }
 }
 
 /**
@@ -80,8 +82,8 @@ function togglePublishEvaluation(name) {
  * evaluation
  * @param name
  */
-function toggleUnpublishEvaluation(name){
-    return confirm("Are you sure you want to unpublish the session " + name + "?");
+function toggleUnpublishEvaluation(name) {
+    return confirm('Are you sure you want to unpublish the session ' + name + '?');
 }
 
 /**
@@ -91,11 +93,8 @@ function toggleUnpublishEvaluation(name){
  * @param evaluationName
  */
 function toggleRemindStudents(evaluationName) {
-    return confirm("Send e-mails to remind students who have not submitted their feedback for " + evaluationName + "?");
+    return confirm('Send e-mails to remind students who have not submitted their feedback for ' + evaluationName + '?');
 }
-
-
-
 
 /**
  * Checks whether a team's name is valid
@@ -104,7 +103,7 @@ function toggleRemindStudents(evaluationName) {
  * @returns {Boolean}
  */
 function isStudentTeamNameValid(teamName) {
-    return teamName.length<=TEAMNAME_MAX_LENGTH;
+    return teamName.length <= TEAMNAME_MAX_LENGTH;
 }
 
 /**
@@ -114,190 +113,246 @@ function isStudentTeamNameValid(teamName) {
  * @returns {Boolean}
  */
 function isStudentInputValid(editName, editTeamName, editEmail) {
-    if (editName == "" || editTeamName == "" || editEmail == "") {
-        setStatusMessage(DISPLAY_FIELDS_EMPTY,true);
+    if (editName === '' || editTeamName === '' || editEmail === '') {
+        setStatusMessage(DISPLAY_FIELDS_EMPTY, true);
         return false;
     } else if (!isNameValid(editName)) {
-        setStatusMessage(DISPLAY_NAME_INVALID,true);
+        setStatusMessage(DISPLAY_NAME_INVALID, true);
         return false;
     } else if (!isStudentTeamNameValid(editTeamName)) {
-        setStatusMessage(DISPLAY_STUDENT_TEAMNAME_INVALID,true);
+        setStatusMessage(DISPLAY_STUDENT_TEAMNAME_INVALID, true);
         return false;
-    } else if (!isEmailValid(editEmail)){
-        setStatusMessage(DISPLAY_EMAIL_INVALID,true);
+    } else if (!isEmailValid(editEmail)) {
+        setStatusMessage(DISPLAY_EMAIL_INVALID, true);
         return false;
     }
+    
     return true;
 }
 
+function setupFsCopyModal() {
+    $('#fsCopyModal').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var actionlink = button.data('actionlink');
+        var courseid = button.data('courseid');
+        var fsname = button.data('fsname');
+        
+        $.ajax({
+            type: 'GET',
+            url: actionlink,
+            beforeSend: function() {
+                $('#courseList').html("<img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
+            },
+            error: function() {
+                $('#courseList').html('Error retrieving course list.' + 
+                    'Please close the dialog window and try again.');
+            },
+            success: function(data) {
+                var htmlToAppend = "";
+                var coursesTable = data.courses;
+                
+                htmlToAppend += "<div class=\"form-group\">" +
+                "<label for=\"copiedfsname\" class=\"control-label\"> Name for copied sessions </label>" + 
+                "<input class=\"form-control\" id=\"copiedfsname\" type=\"text\" name=\"copiedfsname\" value=\"" + 
+                fsname + 
+                "\"></div>";
+                
+                for (var i = 0; i < coursesTable.length; i++) {
+                    htmlToAppend += "<div class=\"checkbox\">";
+                    htmlToAppend += "<label><input type=\"checkbox\" name=\"copiedcoursesid\"";
+                    if (String(coursesTable[i].id) === courseid) {
+                        htmlToAppend += "value=\"" + coursesTable[i].id + "\"> [" + "<span class=\"text-color-red\">" + coursesTable[i].id + "</span>" + "] : " + coursesTable[i].name;
+                        htmlToAppend += "<br><span class=\"text-color-red small\">{Session currently in this course}</span>";
+                    } else {
+                        htmlToAppend += "value=\"" + coursesTable[i].id + "\"> [" + coursesTable[i].id + "] : " + coursesTable[i].name;
+                    }
+                    htmlToAppend +=  "</label></div>";
+                }
+                htmlToAppend += "<input type=\"hidden\" name=\"courseid\" value=\"" + courseid + "\">";
+                htmlToAppend += "<input type=\"hidden\" name=\"fsname\" value=\"" + fsname + "\">";
+                
+                $('#courseList').html(htmlToAppend);
+            }
+        });
+    });
+}
 
 // Student Profile Picture
 //--------------------------------------------------------------------------
 
 /**
  * @param elements:
- * 		identifier that points to elements with
- * class: profile-pic-icon-click or profile-pic-icon-hover 
+ * identifier that points to elements with
+ * class: profile-pic-icon-click or profile-pic-icon-hover
  */
-function bindErrorImages(elements){
-	$(elements).children('img').on('error', function() {
-		if ($(this).attr('src') != "") {
-			$(this).attr("src","../images/profile_picture_default.png");
-		}
-	});
+function bindErrorImages(elements) {
+    $(elements).children('img').on('error', function() {
+        if ($(this).attr('src') !== '') {
+            $(this).attr('src', '../images/profile_picture_default.png');
+        }
+    });
 }
 
 /**
  * @param elements:
- * 		identifier that points to elements with
+ * identifier that points to elements with
  * class: student-profile-pic-view-link
  */
-function bindStudentPhotoLink(elements){
-	$(elements).on('click', function(event) {
-		if (!event) {
-			var event = window.event;
-		}
-		event.cancelBubble = true;
-		if (event.stopPropagation) {
-			event.stopPropagation();
-		} 
-		
-	    var actualLink = $(this).parent().attr('data-link');
-	    $(this).siblings('img').attr('src', actualLink)
-	    	.load(function() {
-	    		var actualLink = $(this).parent().attr('data-link');
-	    		var resolvedLink = $(this).attr('src');
-	            $(this)
-	            	.removeClass('hidden')
-	                .parent().attr('data-link', '')
-	                .popover({
-	                	html: true,
-	                    trigger: 'manual',
-	                    placement: 'top',
-	                    content: function () {
-	                    	return '<img class="profile-pic" src="' + resolvedLink + '" />';
-	                    }
-	                })
-	                .mouseenter(function() {
-	            		$(this).popover('show');
-	                	$(this).siblings('.popover').on('mouseleave', function() {
-	                		$(this).siblings('.profile-pic-icon-click').popover("hide");
-	                	});
-	                	$(this).mouseleave(function() {
-	            	    	// this is so that the user can hover over the 
-	            	    	// pop-over photo without hiding the photo
-	            	    	setTimeout(function(obj) {
-	            	    		if (!$(obj).siblings(".popover").is(":hover")) {
-	            	                $(obj).popover("hide");
-	            	            }
-	            	    	}, 200, this);
-	            	    });
-            		});
-	            updateHoverShowPictureEvents(actualLink, resolvedLink);
-	    	});
-	    $(this).remove();
-	});
+function bindStudentPhotoLink(elements) {
+    $(elements).on('click', function(event) {
+        if (!event) {
+            var event = window.event;
+        }
+        
+        event.cancelBubble = true;
+        
+        if (event.stopPropagation) {
+            event.stopPropagation();
+        }
+        
+        var actualLink = $(this).parent().attr('data-link');
+        
+        $(this).siblings('img').attr('src', actualLink).load(function() {
+            var actualLink = $(this).parent().attr('data-link');
+            var resolvedLink = $(this).attr('src');
+            
+            $(this).removeClass('hidden').
+                parent().attr('data-link', '').
+                popover({
+                    html: true,
+                    trigger: 'manual',
+                    placement: 'top',
+                    content: function() {
+                        return '<img class="profile-pic" src="' + resolvedLink + '">';
+                    }
+                }).
+                mouseenter(function() {
+                    $(this).popover('show');
+                    $(this).siblings('.popover').on('mouseleave', function() {
+                        $(this).siblings('.profile-pic-icon-click').popover('hide');
+                    });
+                    $(this).mouseleave(function() {
+                        // this is so that the user can hover over the
+                        // pop-over photo without hiding the photo
+                        setTimeout(function(obj) {
+                            if (!$(obj).siblings('.popover').is(':hover')) {
+                                $(obj).popover('hide');
+                            }
+                        }, 200, this);
+                    });
+                });
+            
+            updateHoverShowPictureEvents(actualLink, resolvedLink);
+        });
+        
+        $(this).remove();
+    });
 }
 
 /**
  * @param elements:
- * 		identifier that points to elements with
+ * identifier that points to elements with
  * class: profile-pic-icon-hover
  */
 function bindStudentPhotoHoverLink(elements) {
-	$(elements)
-	.mouseenter(function() {
-		$(this).popover('show');
-    	$(this).siblings('.popover').on('mouseleave', function() {
-    		$(this).siblings('.profile-pic-icon-hover').popover("hide");
-    	});
-	})
-	.mouseleave(function() {
-    	// this is so that the user can hover over the 
-    	// pop-over without accidentally hiding the 'view photo' link
-    	setTimeout(function(obj) {
-    		if ($(obj).siblings('.popover').find('.profile-pic').length != 0 
-    				|| !$(obj).siblings(".popover").is(":hover")) {
-                $(obj).popover("hide");
-            }
-    	}, 200, this);
+    $(elements).
+        mouseenter(function() {
+            $(this).popover('show');
+            $(this).siblings('.popover').on('mouseleave', function() {
+                $(this).siblings('.profile-pic-icon-hover').popover("hide");
+            });
+        }).
+        mouseleave(function() {
+            // this is so that the user can hover over the
+            // pop-over without accidentally hiding the 'view photo' link
+            setTimeout(function(obj) {
+                if ($(obj).siblings('.popover').find('.profile-pic').length !== 0 ||
+                    !$(obj).siblings('.popover').is(':hover')) {
+                    
+                    $(obj).popover('hide');
+                }
+            }, 200, this);
+        });
+    
+    // bind the default popover event for the
+    // show picture onhover events
+    $(elements).popover({
+        html: true,
+        trigger: 'manual',
+        placement: 'top',
+        content: function() {
+            return '<a class="cursor-pointer" onclick="' +
+                'loadProfilePictureForHoverEvent($(this).closest(\'.popover\').siblings(\'.profile-pic-icon-hover\'))">' +
+                'View Photo</a>';
+        }
     });
-	
-	// bind the default popover event for the
-	// show picture onhover events	
-	$(elements).popover({
-		html: true,
-	    trigger: 'manual',
-	    placement: 'top',
-	    content: function () {
-    		return '<a class="cursor-pointer" onclick="loadProfilePictureForHoverEvent($(this).closest(\'.popover\').siblings(\'.profile-pic-icon-hover\'))">'
-    					+ 'View Photo</a>';
-	    }});
 }
 
 /**
- * completes the loading cycle for showing profile picture 
- * for an onhover event
- * 
+ * completes the loading cycle for showing profile picture
+ * for a onhover event
  * @param link
  * @param resolvedLink
  */
 function loadProfilePictureForHoverEvent(obj) {
-	obj.children('img')[0].src = obj.attr('data-link');
-	// load the pictures in all similar links
-	obj.children('img').load(function() {
-		var actualLink = $(this).parent().attr('data-link');
-		var resolvedLink = $(this).attr('src');
+    obj.children('img')[0].src = obj.attr('data-link');
+    
+    // load the pictures in all similar links
+    obj.children('img').load(function() {
+        var actualLink = $(this).parent().attr('data-link');
+        var resolvedLink = $(this).attr('src');
 
-		updateHoverShowPictureEvents(actualLink, resolvedLink);
-		
-		// this is to show the picture immediately for the one 
-		// the user just clicked on
-		$(this).parent()
-			.popover('show')
-			// this is to handle the manual hide action of the popover
-			.siblings('.popover').on('mouseleave', function() {
-	    		$(this).siblings('.profile-pic-icon-hover').popover("hide");
-			});
-	});
+        updateHoverShowPictureEvents(actualLink, resolvedLink);
+        
+        // this is to show the picture immediately for the one
+        // the user just clicked on
+        $(this).parent().
+            popover('show').
+            // this is to handle the manual hide action of the popover
+            siblings('.popover').on('mouseleave', function() {
+                $(this).siblings('.profile-pic-icon-hover').popover('hide');
+            });
+    });
 }
 
 /**
  * updates all the student names that show profile picture
  * on hover with the resolved link after one instance of the name
  * has been loaded<br>
- * Helps to avoid clicking view photo when hovering over names of 
+ * Helps to avoid clicking view photo when hovering over names of
  * students whose picture has already been loaded elsewhere in the page
  * @param link
  * @param resolvedLink
  */
 function updateHoverShowPictureEvents(actualLink, resolvedLink) {
-	$(".profile-pic-icon-hover[data-link='" + actualLink + "']")
-	.attr('data-link', "")
-	.off( "mouseenter mouseleave" )
-	.popover('destroy')
-	.popover({
-		html: true,
-		trigger: 'manual',
-		placement: 'top',
-		content: function () {
-			return '<img class="profile-pic" src="' + resolvedLink + '" />';
-		}
-	})
-	.mouseenter(function() {
-		$(this).popover('show');
-    	$(this).siblings('.popover').on('mouseleave', function() {
-    		$(this).siblings('.profile-pic-icon-hover').popover("hide");
-    	});
-    	$(this).mouseleave(function() {
-	    	// this is so that the user can hover over the 
-	    	// pop-over photo without hiding the photo
-	    	setTimeout(function(obj) {
-	    		if (!$(obj).siblings(".popover").is(":hover")) {
-	                $(obj).popover("hide");
-	            }
-	    	}, 200, this);
-	    });
-	})
-	.children('img[src=""]').attr('src', resolvedLink);
+    $('.profile-pic-icon-hover[data-link="' + actualLink + '"]').
+        attr('data-link', '').
+        off('mouseenter mouseleave').
+        popover('destroy').
+        popover({
+            html: true,
+            trigger: 'manual',
+            placement: 'top',
+            content: function() {
+                return '<img class="profile-pic" src="' + resolvedLink + '">';
+            }
+        }).
+        mouseenter(function() {
+            $(this).popover('show');
+            $(this).siblings('.popover').on('mouseleave', function() {
+                $(this).siblings('.profile-pic-icon-hover').popover('hide');
+            });
+            $(this).mouseleave(function() {
+                // this is so that the user can hover over the
+                // pop-over photo without hiding the photo
+                setTimeout(function(obj) {
+                    if (!$(obj).siblings('.popover').is(':hover')) {
+                        $(obj).popover('hide');
+                    }
+                }, 200, this);
+            });
+        }).
+        children('img[src=""]').attr('src', resolvedLink);
 }
+
+//--------------------------------------------------------------------------

@@ -13,7 +13,6 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.controller.InstructorFeedbackEditCopyAction;
 import teammates.ui.controller.RedirectResult;
-import teammates.ui.controller.ShowPageResult;
 
 
 public class InstructorFeedbackEditCopyActionTest extends

@@ -68,12 +68,8 @@ public class SubmissionsAdjustmentTest extends
             assertTrue(paramMap.containsKey(ParamsNames.ENROLLMENT_DETAILS));
             assertNotNull(paramMap.get(ParamsNames.ENROLLMENT_DETAILS));
             
-            if (paramMap.containsKey(ParamsNames.EVALUATION_NAME)) {
-                assertNotNull(paramMap.get(ParamsNames.EVALUATION_NAME));
-            } else {
-                assertTrue(paramMap.containsKey(ParamsNames.FEEDBACK_SESSION_NAME));
-                assertNotNull(paramMap.get(ParamsNames.FEEDBACK_SESSION_NAME));
-            }
+            assertTrue(paramMap.containsKey(ParamsNames.FEEDBACK_SESSION_NAME));
+            assertNotNull(paramMap.get(ParamsNames.FEEDBACK_SESSION_NAME));
             
             SubmissionsAdjustmentTaskQueueCallback.taskCount++;
             return Const.StatusCodes.TASK_QUEUE_RESPONSE_OK;

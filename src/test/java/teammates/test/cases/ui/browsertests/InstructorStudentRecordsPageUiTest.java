@@ -4,7 +4,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.AssertJUnit.assertTrue;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -31,7 +30,6 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         printTestClassHeader();
         testDataNormal = loadDataBundle("/InstructorStudentRecordsPageUiTest.json");
         testDataQuestionType = loadDataBundle("/FeedbackSessionQuestionTypeTest.json");
-        testDataLinks = loadDataBundle("/InstructorEvalSubmissionEditPageUiTest.json");
         
         browser = BrowserPool.getBrowser();
     }
@@ -116,15 +114,6 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     }
     
     private void testLinks() throws Exception{
-        InstructorAttributes instructor = testDataLinks.instructors.get("CESubEditUiT.instructor");
-        StudentAttributes student = testDataLinks.students.get("Charlie");
-        removeAndRestoreTestDataOnServer(testDataLinks);
-        
-        instructorId = instructor.googleId;
-        courseId = instructor.courseId;
-        studentEmail = student.email;
-        
-        viewPage = getStudentRecordsPage();
         //TODO add link to a feedback session
     }
     

@@ -230,6 +230,7 @@ function bindEventsAfterAjax() {
     bindCopyButton();
     bindCopyEvents();
     linkAjaxForResponseRate();
+    setupFsCopyModal();
 }
 
 function bindUncommonSettingsEvents(){

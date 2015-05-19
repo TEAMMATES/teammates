@@ -25,6 +25,13 @@
         <input name="key" value="{*}" type="hidden">
         <input name="studentemail" value="drop.out@gmail.tmt" type="hidden">
     
+    
+
+
+
+
+        <div id="statusMessage" style="display: none;"></div>
+
     <div class="well well-plain" id="course1">
             <div class="panel-body">
                 <div class="form-horizontal">
@@ -63,13 +70,6 @@
                 </div>
             </div>
         </div>
-    
-
-
-
-
-    <div id="statusMessage" style="display: none;"></div>
-
     <br>
     
 
@@ -133,9 +133,9 @@
         
                 <br>
                 <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" style="text-align:right">
+                    <div class="col-sm-4 form-inline" style="text-align:right">
                         <label for="input">To:</label>
-                        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-0" style="max-width:125px">
+                        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-0" style="width:275px;max-width:275px">
                         <option value="" selected="selected"></option>
 <option value="SFSubmitUiT.alice.b@gmail.tmt">Alice Betsy</option>
 <option value="SFSubmitUiT.benny.c@gmail.tmt">Benny Charles</option>
@@ -146,16 +146,16 @@
 
                         </select>
                     </div>
-                    <div class="col-sm-10">
+                    <div class="col-sm-8">
                     <textarea rows="4" cols="100%" class="form-control" name="responsetext-2-0"></textarea>
                     </div>
                 </div>
         
                 <br>
                 <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" style="text-align:right">
+                    <div class="col-sm-4 form-inline" style="text-align:right">
                         <label for="input">To:</label>
-                        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-1" style="max-width:125px">
+                        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-1" style="width:275px;max-width:275px">
                         <option value="" selected="selected"></option>
 <option value="SFSubmitUiT.alice.b@gmail.tmt">Alice Betsy</option>
 <option value="SFSubmitUiT.benny.c@gmail.tmt">Benny Charles</option>
@@ -166,16 +166,16 @@
 
                         </select>
                     </div>
-                    <div class="col-sm-10">
+                    <div class="col-sm-8">
                     <textarea rows="4" cols="100%" class="form-control" name="responsetext-2-1"></textarea>
                     </div>
                 </div>
         
                 <br>
                 <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" style="text-align:right">
+                    <div class="col-sm-4 form-inline" style="text-align:right">
                         <label for="input">To:</label>
-                        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-2" style="max-width:125px">
+                        <select class="participantSelect middlealign newResponse form-control" name="responserecipient-2-2" style="width:275px;max-width:275px">
                         <option value="" selected="selected"></option>
 <option value="SFSubmitUiT.alice.b@gmail.tmt">Alice Betsy</option>
 <option value="SFSubmitUiT.benny.c@gmail.tmt">Benny Charles</option>
@@ -186,7 +186,7 @@
 
                         </select>
                     </div>
-                    <div class="col-sm-10">
+                    <div class="col-sm-8">
                     <textarea rows="4" cols="100%" class="form-control" name="responsetext-2-2"></textarea>
                     </div>
                 </div>
@@ -1326,7 +1326,8 @@
                     </div>
                     <div class="col-sm-10">
                     <div class="col-sm-3">
-	<select class="form-control" name="responsetext-20-0">
+	<select class="form-control color_neutral" name="responsetext-20-0">
+        <option class="color_neutral" value="-999" selected="selected"></option>        
 		<option class="color-positive" value="200">Equal share + 100%</option>
 <option class="color-positive" value="190">Equal share + 90%</option>
 <option class="color-positive" value="180">Equal share + 80%</option>
@@ -1337,7 +1338,7 @@
 <option class="color-positive" value="130">Equal share + 30%</option>
 <option class="color-positive" value="120">Equal share + 20%</option>
 <option class="color-positive" value="110">Equal share + 10%</option>
-<option class="color_neutral" value="100" selected="selected">Equal share</option>
+<option class="color_neutral" value="100">Equal share</option>
 <option class="color-negative" value="90">Equal share - 10%</option>
 <option class="color-negative" value="80">Equal share - 20%</option>
 <option class="color-negative" value="70">Equal share - 30%</option>
@@ -1369,7 +1370,8 @@
                     </div>
                     <div class="col-sm-10">
                     <div class="col-sm-3">
-	<select class="form-control" name="responsetext-20-1">
+	<select class="form-control color_neutral" name="responsetext-20-1">
+        <option class="color_neutral" value="-999" selected="selected"></option>        
 		<option class="color-positive" value="200">Equal share + 100%</option>
 <option class="color-positive" value="190">Equal share + 90%</option>
 <option class="color-positive" value="180">Equal share + 80%</option>
@@ -1380,7 +1382,7 @@
 <option class="color-positive" value="130">Equal share + 30%</option>
 <option class="color-positive" value="120">Equal share + 20%</option>
 <option class="color-positive" value="110">Equal share + 10%</option>
-<option class="color_neutral" value="100" selected="selected">Equal share</option>
+<option class="color_neutral" value="100">Equal share</option>
 <option class="color-negative" value="90">Equal share - 10%</option>
 <option class="color-negative" value="80">Equal share - 20%</option>
 <option class="color-negative" value="70">Equal share - 30%</option>
@@ -1412,7 +1414,8 @@
                     </div>
                     <div class="col-sm-10">
                     <div class="col-sm-3">
-	<select class="form-control" name="responsetext-20-2">
+	<select class="form-control color_neutral" name="responsetext-20-2">
+        <option class="color_neutral" value="-999" selected="selected"></option>        
 		<option class="color-positive" value="200">Equal share + 100%</option>
 <option class="color-positive" value="190">Equal share + 90%</option>
 <option class="color-positive" value="180">Equal share + 80%</option>
@@ -1423,7 +1426,7 @@
 <option class="color-positive" value="130">Equal share + 30%</option>
 <option class="color-positive" value="120">Equal share + 20%</option>
 <option class="color-positive" value="110">Equal share + 10%</option>
-<option class="color_neutral" value="100" selected="selected">Equal share</option>
+<option class="color_neutral" value="100">Equal share</option>
 <option class="color-negative" value="90">Equal share - 10%</option>
 <option class="color-negative" value="80">Equal share - 20%</option>
 <option class="color-negative" value="70">Equal share - 30%</option>
@@ -1455,7 +1458,8 @@
                     </div>
                     <div class="col-sm-10">
                     <div class="col-sm-3">
-	<select class="form-control" name="responsetext-20-3">
+	<select class="form-control color_neutral" name="responsetext-20-3">
+        <option class="color_neutral" value="-999" selected="selected"></option>        
 		<option class="color-positive" value="200">Equal share + 100%</option>
 <option class="color-positive" value="190">Equal share + 90%</option>
 <option class="color-positive" value="180">Equal share + 80%</option>
@@ -1466,7 +1470,7 @@
 <option class="color-positive" value="130">Equal share + 30%</option>
 <option class="color-positive" value="120">Equal share + 20%</option>
 <option class="color-positive" value="110">Equal share + 10%</option>
-<option class="color_neutral" value="100" selected="selected">Equal share</option>
+<option class="color_neutral" value="100">Equal share</option>
 <option class="color-negative" value="90">Equal share - 10%</option>
 <option class="color-negative" value="80">Equal share - 20%</option>
 <option class="color-negative" value="70">Equal share - 30%</option>

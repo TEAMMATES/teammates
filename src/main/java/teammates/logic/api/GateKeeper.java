@@ -1,7 +1,5 @@
 package teammates.logic.api;
 
-import java.util.List;
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;

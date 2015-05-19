@@ -428,9 +428,11 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         for(Entry<String, List<Integer>> entry : optionPoints.entrySet() ){
             String option;
             if(distributeToRecipients){
-                option = bundle.getNameForEmail(entry.getKey());;
+                String teamName = bundle.getTeamNameForEmail(entry.getKey());
+                String recipientName = bundle.getNameForEmail(entry.getKey());
+                option = Sanitizer.sanitizeForCsv(teamName) + "," + Sanitizer.sanitizeForCsv(recipientName);
             } else {
-                option = options.get(Integer.parseInt(entry.getKey()));
+                option = Sanitizer.sanitizeForCsv(options.get(Integer.parseInt(entry.getKey())));
             }
             
             List<Integer> points = entry.getValue();
@@ -440,7 +442,7 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
             
         }
         
-        csv += (distributeToRecipients? "Recipient":"Option") + ", Average Points" + Const.EOL; 
+        csv += (distributeToRecipients? "Team, Recipient":"Option") + ", Average Points" + Const.EOL; 
         csv += fragments + Const.EOL;
         
         return csv;

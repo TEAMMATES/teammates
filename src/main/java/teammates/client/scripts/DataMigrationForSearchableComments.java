@@ -11,7 +11,6 @@ import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.logic.api.Logic;
-import teammates.logic.core.InstructorsLogic;
 import teammates.storage.datastore.Datastore;
 import teammates.storage.entity.Comment;
 import teammates.storage.entity.FeedbackResponseComment;
