@@ -37,7 +37,6 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
     }
 
     private void testContent() throws Exception {
-        
         ______TS("content: no course");
         
         Url commentsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COMMENTS_PAGE)
