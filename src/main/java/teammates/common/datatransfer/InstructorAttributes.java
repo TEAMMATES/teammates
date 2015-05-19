@@ -50,8 +50,8 @@ public class InstructorAttributes extends EntityAttributes {
     @Deprecated
     public InstructorAttributes(String googleId, String courseId, String name, String email) {
         this(googleId, courseId, name, email,
-                Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, DEFAULT_DISPLAY_NAME,
-                new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
+             Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, DEFAULT_DISPLAY_NAME,
+             new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER));
     }
 
     /**
@@ -129,9 +129,11 @@ public class InstructorAttributes extends EntityAttributes {
         this.isArchived = instructor.getIsArchived();
         this.name = instructor.getName();
         this.email = instructor.getEmail();
+        
         if (instructor.getRegistrationKey() == null) {
             instructor.setGeneratedKeyIfNull();
         }
+        
         this.key = instructor.getRegistrationKey();
         
         if (instructor.getRole() == null) {
@@ -139,18 +141,22 @@ public class InstructorAttributes extends EntityAttributes {
         } else {
             this.role = instructor.getRole();
         }
+        
         this.isDisplayedToStudents = instructor.isDisplayedToStudents();
+        
         if (instructor.getDisplayedName() == null) {
             this.displayedName = DEFAULT_DISPLAY_NAME;
         } else {
             this.displayedName = instructor.getDisplayedName();
         }
+        
         if (instructor.getInstructorPrivilegesAsText() == null) {
             this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
             this.instructorPrivilegesAsText = this.getTextFromInstructorPrivileges();
         } else {
             this.instructorPrivilegesAsText = instructor.getInstructorPrivilegesAsText();
         }
+        
         this.privileges = this.getInstructorPrivilegesFromText();
     }
     
@@ -186,27 +192,35 @@ public class InstructorAttributes extends EntityAttributes {
         
         if (googleId != null) {
             error = validator.getInvalidityInfo(FieldType.GOOGLE_ID, googleId);
-            if(!error.isEmpty()) {
+            if (!error.isEmpty()) {
                 errors.add(error);
             }
         }
         
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
-        if(!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfo(FieldType.PERSON_NAME, name);
-        if(!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfo(FieldType.EMAIL, email);
-        if(!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         error = validator.getInvalidityInfo(FieldType.PERSON_NAME, displayedName);
-        if(!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
         
         return errors;
     }
     
-    public String toString(){
+    public String toString() {
         return gson.toJson(this, InstructorAttributes.class);
     }
  
@@ -236,16 +250,19 @@ public class InstructorAttributes extends EntityAttributes {
         this.name = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeName(this.name));
         this.email = Sanitizer.sanitizeEmail(this.email);
         this.courseId = Sanitizer.sanitizeTitle(this.courseId);
+        
         if (this.role == null) {
             this.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         } else {
             this.role = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeName(this.role));
         }
+        
         if (this.displayedName == null) {
             this.displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         } else {
             this.displayedName = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeName(this.displayedName));
         }
+        
         if (this.instructorPrivilegesAsText == null) {
             this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
             this.instructorPrivilegesAsText = this.getTextFromInstructorPrivileges();
@@ -279,11 +296,11 @@ public class InstructorAttributes extends EntityAttributes {
      * @return
      */
     public boolean isEqualToAnotherInstructor(InstructorAttributes instructor) {
-        if (gson.toJson(this).equals(gson.toJson(instructor))){
+        if (gson.toJson(this).equals(gson.toJson(instructor))) {
             return true;
         } else {
-            return !this.instructorPrivilegesAsText.equals(instructor.instructorPrivilegesAsText)
-                    && this.privileges.equals(instructor.privileges);
+            return !this.instructorPrivilegesAsText.equals(instructor.instructorPrivilegesAsText) && 
+                   this.privileges.equals(instructor.privileges);
         }
     }
 }
