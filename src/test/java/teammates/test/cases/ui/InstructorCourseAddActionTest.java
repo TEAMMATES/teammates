@@ -89,8 +89,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
                               Const.ParamsNames.COURSE_NAME, "ticac tpa1 name");
         pageResult = (ShowPageResult) addAction.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=true&user=idOfInstructor1OfCourse1", 
-                     pageResult.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSES + "?error=true&user=idOfInstructor1OfCourse1", pageResult.getDestinationWithParams());
         assertEquals(true, pageResult.isError);
         assertEquals(Const.StatusMessages.COURSE_EXISTS, pageResult.getStatusMessage());
         
@@ -117,7 +116,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         assertEquals(expectedDestination, pageResult.getDestinationWithParams());
         assertEquals(false, pageResult.isError);
         String expectedStatus = "The course has been added. Click <a href=\"/page/instructorCourseEnrollPage?courseid=ticac.tpa2.id&user=idOfInstructor1OfCourse1\">here</a> to add students to the course or " +
-                        "click <a href=\"/page/instructorCourseEditPage?courseid=ticac.tpa2.id&user=idOfInstructor1OfCourse1\">here</a> to add other instructors.<br>If you don't see the course in the list below, please refresh the page after a few moments.";
+                                "click <a href=\"/page/instructorCourseEditPage?courseid=ticac.tpa2.id&user=idOfInstructor1OfCourse1\">here</a> to add other instructors.<br>If you don't see the course in the list below, please refresh the page after a few moments.";
         assertEquals(expectedStatus, pageResult.getStatusMessage());
         
         pageData = (InstructorCoursesPageData) pageResult.data;
