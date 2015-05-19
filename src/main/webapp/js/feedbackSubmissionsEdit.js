@@ -47,9 +47,9 @@ $(document).ready(function() {
 
 // Looks for the question to be moderated (if it exists)
 function focusModeratedQuestion() {
-  $('html, body').animate({
-    scrollTop: $(".moderated-question").offset().top - $(".navbar").outerHeight(true)
-  }, 1000);
+    $('html, body').animate({
+        scrollTop: $('.moderated-question').offset().top - $('.navbar').outerHeight(true)
+    }, 1000);
 }
 
 // Prepare mcq questions for answering by user
