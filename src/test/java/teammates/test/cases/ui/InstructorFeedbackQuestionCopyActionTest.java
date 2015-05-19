@@ -31,7 +31,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testAccessControl() throws Exception{
+    public void testAccessControl() throws Exception {
         String[] params = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session",
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1"
