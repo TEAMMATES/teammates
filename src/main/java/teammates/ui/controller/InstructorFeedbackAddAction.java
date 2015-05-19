@@ -35,9 +35,10 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId); 
         
         new GateKeeper().verifyAccessible(
-                instructor, 
-                logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-                
+                instructor,
+                logic.getCourse(courseId),
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
 
         FeedbackSessionAttributes fs = extractFeedbackSessionData();
@@ -58,22 +59,30 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             logic.createFeedbackSession(fs);
             
             try {
-                createTemplateFeedbackQuestions(fs.courseId, fs.feedbackSessionName, fs.creatorEmail, feedbackSessionType);
+                createTemplateFeedbackQuestions(fs.courseId,
+                                                fs.feedbackSessionName,
+                                                fs.creatorEmail,
+                                                feedbackSessionType);
             } catch(Exception e){
                 //Failed to create feedback questions for specified template/feedback session type.
                 //TODO: let the user know an error has occurred? delete the feedback session?
             }
             
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADDED);
-            statusToAdmin = "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" + fs.courseId + "]</span> created.<br>" +
-                    "<span class=\"bold\">From:</span> " + fs.startTime + "<span class=\"bold\"> to</span> " + fs.endTime + "<br>" +
+            statusToAdmin =
+                    "New Feedback Session <span class=\"bold\">(" + fs.feedbackSessionName + ")</span> for Course " +
+                    "<span class=\"bold\">[" + fs.courseId + "]</span> created.<br>" +
+                    "<span class=\"bold\">From:</span> " + fs.startTime +
+                    "<span class=\"bold\"> to</span> " + fs.endTime + "<br>" +
                     "<span class=\"bold\">Session visible from:</span> " + fs.sessionVisibleFromTime + "<br>" +
                     "<span class=\"bold\">Results visible from:</span> " + fs.resultsVisibleFromTime + "<br><br>" +
                     "<span class=\"bold\">Instructions:</span> " + fs.instructions;
             
             //TODO: add a condition to include the status due to inconsistency problem of database 
             //      (similar to the one below)
-            return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(fs.courseId, fs.feedbackSessionName));
+            return createRedirectResult(
+                    new PageData(account).getInstructorFeedbackSessionEditLink(
+                            fs.courseId, fs.feedbackSessionName));
             
         } catch (EntityAlreadyExistsException e) {
             setStatusForException(e, Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
@@ -84,29 +93,36 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
 
         boolean omitArchived = true;
         data.instructors = loadCourseInstructorMap(omitArchived);
-        List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>(data.instructors.values());
+        List<InstructorAttributes> instructorList =
+                new ArrayList<InstructorAttributes>(data.instructors.values());
         data.courses = loadCoursesList(instructorList);
-        data.existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
+        List<FeedbackSessionAttributes> feedbackSessions =
+                loadFeedbackSessionsList(instructorList);
+        data.existingFeedbackSessions = feedbackSessions;
         
-        if (data.existingFeedbackSessions.isEmpty()) {
+        if (feedbackSessions.isEmpty()) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY);
         }
         
-        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
+        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(feedbackSessions);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
     
-    private void createTemplateFeedbackQuestions(String courseId,
-            String feedbackSessionName, String creatorEmail,
+    private void createTemplateFeedbackQuestions(
+            String courseId, String feedbackSessionName, String creatorEmail,
             String feedbackSessionType) throws InvalidParametersException {
         if (feedbackSessionType == null){
             return;
         }
         switch (feedbackSessionType) {
             case "TEAMEVALUATION":
-                List<FeedbackQuestionAttributes> questions = FeedbackSessionTemplates.getFeedbackSessionTemplateQuestions(
-                        FeedbackSessionTemplates.FEEDBACK_SESSION_TEAMEVALUATION, courseId, feedbackSessionName, creatorEmail);
+                List<FeedbackQuestionAttributes> questions =
+                        FeedbackSessionTemplates.getFeedbackSessionTemplateQuestions(
+                                FeedbackSessionTemplates.FEEDBACK_SESSION_TEAMEVALUATION,
+                                courseId,
+                                feedbackSessionName,
+                                creatorEmail);
                 int questionNumber = 1;
                 for (FeedbackQuestionAttributes fqa : questions){
                     logic.createFeedbackQuestionForTemplate(fqa, questionNumber);
@@ -142,8 +158,10 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         if (paramGracePeriod != null) {
             newSession.gracePeriod = Integer.parseInt(paramGracePeriod);
         }
+        
         newSession.sentOpenEmail = false;
         newSession.sentPublishedEmail = false;
+        
         newSession.feedbackSessionType = FeedbackSessionType.STANDARD;
         newSession.instructions = new Text(getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS));
         
@@ -183,11 +201,15 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
                 break;
         }
         
-        String[] sendReminderEmailsArray = getRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL);
-        List<String> sendReminderEmailsList = sendReminderEmailsArray == null ?
-                new ArrayList<String>() : Arrays.asList(sendReminderEmailsArray);
-        newSession.isClosingEmailEnabled = sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString());
-        newSession.isPublishedEmailEnabled = sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString());
+        String[] sendReminderEmailsArray =
+                getRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL);
+        List<String> sendReminderEmailsList =
+                sendReminderEmailsArray == null ? new ArrayList<String>()
+                                                : Arrays.asList(sendReminderEmailsArray);
+        newSession.isClosingEmailEnabled =
+                sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString());
+        newSession.isPublishedEmailEnabled =
+                sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString());
         
         return newSession;
     }
