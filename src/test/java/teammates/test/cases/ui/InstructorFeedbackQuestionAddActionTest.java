@@ -46,6 +46,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         ______TS("Typical case");
 
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        
         String[] params = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
@@ -142,6 +143,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         ______TS("Typical case");
 
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        
         String[] params = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
@@ -395,6 +397,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         ______TS("Typical case");
 
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        
         String[] params = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,

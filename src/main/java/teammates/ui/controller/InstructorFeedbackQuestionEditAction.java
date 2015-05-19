@@ -56,7 +56,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         }
         
         return createRedirectResult(new PageData(account).
-                                            getInstructorFeedbackSessionEditLink(courseId,feedbackSessionName));
+                                        getInstructorFeedbackSessionEditLink(courseId,feedbackSessionName));
     }
 
     private void deleteQuestion(FeedbackQuestionAttributes updatedQuestion) {
@@ -67,8 +67,8 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                         updatedQuestion.courseId + "]</span> deleted.<br>";
     }
 
-    private void editQuestion(FeedbackQuestionAttributes updatedQuestion) throws 
-            InvalidParametersException, EntityDoesNotExistException {
+    private void editQuestion(FeedbackQuestionAttributes updatedQuestion) throws InvalidParametersException, 
+                                                                                 EntityDoesNotExistException {
         String err = validateQuestionGiverRecipientVisibility(updatedQuestion);
         
         if (!err.isEmpty()) {
@@ -113,13 +113,12 @@ public class InstructorFeedbackQuestionEditAction extends Action {
      * @param feedbackQuestionAttributes
      * @return error message detailing the error, or an empty string if valid.
      */
-    public static String validateQuestionGiverRecipientVisibility(
-            FeedbackQuestionAttributes feedbackQuestionAttributes) {
+    public static String validateQuestionGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestionAttributes) {
         String errorMsg = "";
         
         FeedbackQuestionDetails questionDetails = null;
         Class<? extends FeedbackQuestionDetails> questionDetailsClass = feedbackQuestionAttributes.
-                                                                            questionType.getQuestionDetailsClass();
+                                                                        questionType.getQuestionDetailsClass();
         Constructor<? extends FeedbackQuestionDetails> questionDetailsClassConstructor;
         
         try {
@@ -176,7 +175,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         
         // Can be null
         String recipientType = HttpRequestHelper.getValueFromParamMap(
-                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE);
+                                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE);
         if (recipientType != null) {
             newQuestion.recipientType = FeedbackParticipantType.valueOf(recipientType);
         }
@@ -190,7 +189,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         
         // Can be null
         String nEntityTypes = HttpRequestHelper.getValueFromParamMap(
-                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
+                                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
         
         if (numberOfEntitiesIsUserDefined(newQuestion.recipientType, nEntityTypes)) {
             String nEntities;
@@ -231,7 +230,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
     
     private static boolean numberOfEntitiesIsUserDefined(FeedbackParticipantType recipientType, String nEntityTypes) {
         if (recipientType != FeedbackParticipantType.STUDENTS &&
-                recipientType != FeedbackParticipantType.TEAMS) {
+            recipientType != FeedbackParticipantType.TEAMS) {
             return false;
         }
         
