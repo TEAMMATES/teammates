@@ -829,12 +829,12 @@
                                         <td>
                                             <input class="visibilityCheckbox answerCheckbox<%= question.questionNumber %>"
                                             type="checkbox" value="<%= FeedbackParticipantType.STUDENTS %>" disabled="disabled"
-                                            <%= question.showRecipientNameTo.contains(FeedbackParticipantType.STUDENTS) ? "checked=\"checked\"" : "" %>>
+                                            <%= question.showResponsesTo.contains(FeedbackParticipantType.STUDENTS) ? "checked=\"checked\"" : "" %>>
                                         </td>
                                         <td>
                                             <input class="visibilityCheckbox giverCheckbox<%= question.questionNumber %>"
                                             type="checkbox" value="<%= FeedbackParticipantType.STUDENTS %>" disabled="disabled"
-                                            <%= question.showRecipientNameTo.contains(FeedbackParticipantType.STUDENTS) ? "checked=\"checked\"" : "" %>>
+                                            <%= question.showGiverNameTo.contains(FeedbackParticipantType.STUDENTS) ? "checked=\"checked\"" : "" %>>
                                         </td>
                                         <td>
                                             <input class="visibilityCheckbox recipientCheckbox<%= question.questionNumber %>"
@@ -851,12 +851,12 @@
                                         <td>
                                             <input class="visibilityCheckbox answerCheckbox<%= question.questionNumber %>"
                                                 type="checkbox" value="<%= FeedbackParticipantType.INSTRUCTORS %>" disabled="disabled"
-                                                <%= question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS) ? "checked=\"checked\"" : "" %>>
+                                                <%= question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS) ? "checked=\"checked\"" : "" %>>
                                         </td>
                                         <td>
                                             <input class="visibilityCheckbox giverCheckbox<%= question.questionNumber %>"
                                                 type="checkbox" value="<%= FeedbackParticipantType.INSTRUCTORS %>" disabled="disabled"
-                                                <%= question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS) ? "checked=\"checked\"" : "" %>>
+                                                <%= question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS) ? "checked=\"checked\"" : "" %>>
                                         </td>
                                         <td>
                                             <input class="visibilityCheckbox recipientCheckbox<%= question.questionNumber %>"
