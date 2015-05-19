@@ -315,13 +315,13 @@
                                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE %>"
                                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE %>"
                                             value="<%= TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) ? "" : TimeHelper.formatDate(data.session.sessionVisibleFromTime) %>"
-                                            <%= TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) ? "" : "disabled=\"disabled\"" %>>
+                                            <%= TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) ? "disabled=\"disabled\"" : "" %>>
                                     </div>
                                     <div class="col-md-4">
                                         <select class="form-control"
                                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME %>"
                                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME %>"
-                                            <%= TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) ? "" : "disabled=\"disabled\"" %>>
+                                            <%= TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) ? "disabled=\"disabled\"" : "" %>>
                                             <%
                                                 Date date = null;
                                                 if (!TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime)) {
