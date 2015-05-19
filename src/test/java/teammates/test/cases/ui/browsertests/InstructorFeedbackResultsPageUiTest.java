@@ -119,7 +119,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
     
     public void testSortAction(){
         
-        ______TS("test sort types");
+        ______TS("test sort by giver > recipient > question");
         
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByGiverRecipientQuestion();
@@ -141,6 +141,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestion.html");
         
+        ______TS("test sort by recipient > giver > question");
+        
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientGiverQuestion.html");
 
@@ -159,9 +161,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
         assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
         
+        ______TS("test sort by giver > question > recipient");
         
         resultsPage.displayByGiverQuestionRecipient();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverQuestionRecipient.html");
+        
+        ______TS("test sort by recipient > question > giver");
         
         resultsPage.displayByRecipientQuestionGiver();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientQuestionGiver.html");
@@ -169,18 +174,27 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         // Do not sort by team
         resultsPage.clickGroupByTeam();
         
+        ______TS("test order in giver > recipient > question team");
+        
         resultsPage.displayByGiverRecipientQuestion();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestionTeam.html");
 
+        ______TS("test order in recipient > giver > question team");
+        
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientGiverQuestionTeam.html");
+        
+        ______TS("test order in giver > question > recipient team");
         
         resultsPage.displayByGiverQuestionRecipient();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverQuestionRecipientTeam.html");
         
+        ______TS("test order in recipient > question > giver team");
+        
         resultsPage.displayByRecipientQuestionGiver();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientQuestionGiverTeam.html");
         
+        ______TS("test sort by question");
         
         //By question
         resultsPage.displayByQuestion();
