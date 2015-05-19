@@ -40,6 +40,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
 import teammates.logic.automated.EmailAction;
@@ -176,6 +177,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         session.sessionVisibleFromTime = TimeHelper.getDateOffsetToCurrentTime(-1);
         session.startTime = TimeHelper.getDateOffsetToCurrentTime(-1);
         session.endTime = TimeHelper.getDateOffsetToCurrentTime(1);
+        ThreadHelper.waitBriefly(); // this one is correctly used
         fsLogic.createFeedbackSession(session);
         
         sessionList = fsLogic
