@@ -14,7 +14,7 @@
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-        <title>TEAMMATES - Submit Feedback</title>
+        <title>TEAMMATES - Submit Feedback Question</title>
 
         <!-- Bootstrap core CSS -->
         <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -40,7 +40,7 @@
 
     <body>
         <%
-            if (!data.isPreview && !data.isHeaderHidden) {
+            if (!data.isHeaderHidden) {
         %>
                 <jsp:include page="<%= Const.ViewURIs.INSTRUCTOR_HEADER %>" />
         <%
@@ -84,9 +84,7 @@
         </div>
 
         <div id="frameBottom">
-            <% if (!data.isHeaderHidden) { %>
-                <jsp:include page="<%= Const.ViewURIs.FOOTER %>" />
-            <% } %>
+         
         </div>
     </body>
 </html>

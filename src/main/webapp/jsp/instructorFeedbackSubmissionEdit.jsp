@@ -40,7 +40,7 @@
 
     <body>
         <%
-            if (!data.isPreview && !data.isHeaderHidden) {
+            if (!data.isHeaderHidden) {
         %>
                 <jsp:include page="<%= Const.ViewURIs.INSTRUCTOR_HEADER %>" />
         <%

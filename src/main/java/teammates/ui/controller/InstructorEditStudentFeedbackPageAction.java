@@ -57,6 +57,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         
         data.isSessionOpenForSubmission = true;
         data.isModeration = true;
+        data.isHeaderHidden = true;
         data.studentToViewPageAs = studentUnderModeration;
         hideQuestionsWithAnonymousResponses(data.bundle);
 

@@ -17,7 +17,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>TEAMMATES - Submit Feedback</title>
+        <title>TEAMMATES - Submit Feedback Question</title>
 
         <!-- Bootstrap core CSS -->
         <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -43,7 +43,7 @@
 
     <body>
         <%
-            if (!data.isPreview && !data.isModeration && !data.isHeaderHidden) {
+            if (!data.isHeaderHidden) {
         %>
                 <jsp:include page="<%= Const.ViewURIs.STUDENT_HEADER %>" />
                 <jsp:include page="<%= Const.ViewURIs.STUDENT_MOTD %>" />
@@ -118,8 +118,7 @@
             </div>
         </div>
 
-        <% if (!data.isHeaderHidden) { %>
-                <jsp:include page="<%= Const.ViewURIs.FOOTER %>" />
-        <% } %>
+        
+        
     </body>
 </html>

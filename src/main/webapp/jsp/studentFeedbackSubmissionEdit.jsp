@@ -43,7 +43,7 @@
 
     <body>
         <%
-            if (!data.isPreview && !data.isModeration && !data.isHeaderHidden) {
+            if (!data.isHeaderHidden) {
         %>
                 <jsp:include page="<%= Const.ViewURIs.STUDENT_HEADER %>" />
                 <jsp:include page="<%= Const.ViewURIs.STUDENT_MOTD %>" />
