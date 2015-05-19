@@ -469,7 +469,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public void removeIrrelevantVisibilityOptions() {
         List<FeedbackParticipantType> optionsToRemove = new ArrayList<FeedbackParticipantType>();
 
-        switch(recipientType) {
+        switch (recipientType) {
             case NONE:
                 optionsToRemove.add(FeedbackParticipantType.RECEIVER);
                 optionsToRemove.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
@@ -481,7 +481,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
                 break;
         }
 
-        switch(giverType) {
+        switch (giverType) {
             case TEAMS:
                 optionsToRemove.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
                 break;
