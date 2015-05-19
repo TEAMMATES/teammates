@@ -134,9 +134,8 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcessMcq() throws Exception{
-        InstructorAttributes instructor1ofCourse1 =
-                dataBundle.instructors.get("instructor1OfCourse1");
+    public void testExecuteAndPostProcessMcq() throws Exception {
+        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
 
@@ -231,7 +230,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcessNumScale() throws Exception{
+    public void testExecuteAndPostProcessNumScale() throws Exception {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
@@ -239,6 +238,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         ______TS("Typical case");
 
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        
         String[] params = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
@@ -280,7 +280,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
     }
 
     @Test
-    public void testExecuteAndPostProcessConstSumOption() throws Exception{
+    public void testExecuteAndPostProcessConstSumOption() throws Exception {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
@@ -288,6 +288,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         ______TS("Typical case");
 
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
+        
         String[] params = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
