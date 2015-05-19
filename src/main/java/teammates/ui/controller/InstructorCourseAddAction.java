@@ -14,6 +14,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
+import teammates.logic.api.Logic;
 
 /**
  * Action: adding a course for an instructor
@@ -63,16 +64,15 @@ public class InstructorCourseAddAction extends Action {
     }
 
     private void createCourse(CourseAttributes course) {
-
         try {
             logic.createCourseAndInstructor(data.account.googleId, course.id,
                     course.name);
             String statusMessage = Const.StatusMessages.COURSE_ADDED.replace("${courseEnrollLink}",
                     data.getInstructorCourseEnrollLink(course.id))
-                    .replace("${courseEditLink}",data.getInstructorCourseEditLink(course.id));
+                    .replace("${courseEditLink}", data.getInstructorCourseEditLink(course.id));
             statusToUser.add(statusMessage);
             isError = false;
-
+            
         } catch (EntityAlreadyExistsException e) {
             setStatusForException(e, Const.StatusMessages.COURSE_EXISTS);
         } catch (InvalidParametersException e) {
@@ -93,7 +93,7 @@ public class InstructorCourseAddAction extends Action {
 
             InstructorAttributes curInstructor = logic.getInstructorForGoogleId(course.id, account.googleId);
 
-            if (logic.isCourseArchived(course.id, curInstructor.googleId)) {
+            if (Logic.isCourseArchived(course.id, curInstructor.googleId)) {
                 archivedCourses.add(course);
             }
         }
