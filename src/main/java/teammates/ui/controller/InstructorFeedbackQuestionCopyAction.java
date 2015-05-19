@@ -40,7 +40,8 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
                 statusToAdmin += "Created Feedback Question for Feedback Session:<span class=\"bold\">(" +
                                  feedbackQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
                                  feedbackQuestion.courseId + "]</span> created.<br>" +
-                                 "<span class=\"bold\">" + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName() +
+                                 "<span class=\"bold\">" +
+                                 feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName() +
                                  ":</span> " + feedbackQuestion.getQuestionDetails().questionText;
             }
 
@@ -56,6 +57,7 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
             isError = true;
         }
 
-        return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(courseId,feedbackSessionName));
+        return createRedirectResult(new PageData(account).
+                                            getInstructorFeedbackSessionEditLink(courseId,feedbackSessionName));
     }
 }

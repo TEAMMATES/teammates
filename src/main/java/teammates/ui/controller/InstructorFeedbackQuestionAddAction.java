@@ -31,7 +31,8 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                                           false,
                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
-        FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData(requestParameters, instructorDetailForCourse.email);
+        FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData(requestParameters,
+                                                                                  instructorDetailForCourse.email);
         List<String> questionDetailsErrors = feedbackQuestion.getQuestionDetails().validateQuestionDetails();
 
         if (!questionDetailsErrors.isEmpty()) {
@@ -51,7 +52,8 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                 statusToAdmin = "Created Feedback Question for Feedback Session:<span class=\"bold\">(" +
                                 feedbackQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
                                 feedbackQuestion.courseId + "]</span> created.<br>" +
-                                "<span class=\"bold\">" + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName() +
+                                "<span class=\"bold\">" +
+                                feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName() +
                                 ":</span> " + feedbackQuestion.getQuestionDetails().questionText;
             } catch (InvalidParametersException e) {
                 statusToUser.add(e.getMessage());
@@ -59,14 +61,16 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                 isError = true;
             }
         }
-        return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(courseId,feedbackSessionName));
+        return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(courseId,
+                                                                                               feedbackSessionName));
     }
 
     private String validateQuestionGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestion) {
         return InstructorFeedbackQuestionEditAction.validateQuestionGiverRecipientVisibility(feedbackQuestion);
     }
 
-    private static FeedbackQuestionAttributes extractFeedbackQuestionData(Map<String, String[]> requestParameters, String creatorEmail) {
+    private static FeedbackQuestionAttributes extractFeedbackQuestionData(Map<String, String[]> requestParameters,
+                                                                          String creatorEmail) {
         FeedbackQuestionAttributes newQuestion = new FeedbackQuestionAttributes();
 
         newQuestion.creatorEmail = creatorEmail;
@@ -74,29 +78,35 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         newQuestion.courseId = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull("Null course id", newQuestion.courseId);
 
-        newQuestion.feedbackSessionName = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        newQuestion.feedbackSessionName = HttpRequestHelper.getValueFromParamMap(
+                requestParameters, Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertNotNull("Null feedback session name", newQuestion.feedbackSessionName);
 
-        String feedbackQuestionGiverType = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE);
+        String feedbackQuestionGiverType = HttpRequestHelper.getValueFromParamMap(
+                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE);
         Assumption.assertNotNull("Null giver type", feedbackQuestionGiverType);
         newQuestion.giverType = FeedbackParticipantType.valueOf(feedbackQuestionGiverType);
 
-        String feedbackQuestionRecipientType = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE);
+        String feedbackQuestionRecipientType = HttpRequestHelper.getValueFromParamMap(
+                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE);
         Assumption.assertNotNull("Null recipient type", feedbackQuestionRecipientType);
         newQuestion.recipientType = FeedbackParticipantType.valueOf(feedbackQuestionRecipientType);
 
-        String feedbackQuestionNumber = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
+        String feedbackQuestionNumber = HttpRequestHelper.getValueFromParamMap(
+                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
         Assumption.assertNotNull("Null question number", feedbackQuestionNumber);
         newQuestion.questionNumber = Integer.parseInt(feedbackQuestionNumber);
         Assumption.assertTrue("Invalid question number", newQuestion.questionNumber >= 1);
 
-        String numberOfEntityTypes = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
+        String numberOfEntityTypes = HttpRequestHelper.getValueFromParamMap(
+                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
         Assumption.assertNotNull("Null number of entity types", numberOfEntityTypes);
 
         if (numberOfEntityTypes.equals("custom") &&
                 (newQuestion.recipientType == FeedbackParticipantType.STUDENTS ||
                  newQuestion.recipientType == FeedbackParticipantType.TEAMS)) {
-            String numberOfEntities = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
+            String numberOfEntities = HttpRequestHelper.getValueFromParamMap(
+                    requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
             Assumption.assertNotNull("Null number of entities for custom entity number", numberOfEntities);
 
             newQuestion.numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(numberOfEntities);
@@ -105,17 +115,22 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         }
 
         newQuestion.showResponsesTo = getParticipantListFromParams(
-                HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO));
         newQuestion.showGiverNameTo = getParticipantListFromParams(
-                HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO));
         newQuestion.showRecipientNameTo = getParticipantListFromParams(
-                HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO));
 
-        String questionType = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
+        String questionType = HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                                     Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
         Assumption.assertNotNull("Null question type", questionType);
         newQuestion.questionType = FeedbackQuestionType.valueOf(questionType);
 
-        FeedbackQuestionDetails questionDetails = FeedbackQuestionDetails.createQuestionDetails(requestParameters, newQuestion.questionType);
+        FeedbackQuestionDetails questionDetails = FeedbackQuestionDetails.createQuestionDetails(
+                requestParameters, newQuestion.questionType);
         newQuestion.setQuestionDetails(questionDetails);
 
         return newQuestion;
