@@ -270,8 +270,6 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         return getInvalidityInfo().isEmpty();
     }
 
-    // TODO: if both methods are similar, we can extract it to TimeHelper class.
-    // Copied from EvaluationsAttributes. To Unit Test.
     public boolean isClosingWithinTimeLimit(int hours) {
         Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         // Fix the time zone accordingly
