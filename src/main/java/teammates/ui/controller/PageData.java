@@ -193,9 +193,9 @@ public class PageData {
      * None is selected, since the selection should only be done in client side.
      */
     protected ArrayList<String> getTimeZoneOptionsAsHtml(double existingTimeZone) {
-        double[] options = new double[]{-12,-11,-10,-9,-8,-7,-6,-5,-4.5,-4,-3.5,
-                                        -3,-2,-1,0,1,2,3,3.5,4,4.5,5,5.5,5.75,6,
-                                        7,8,9,10,11,12,13};
+        double[] options = new double[] {-12, -11, -10, -9, -8, -7, -6, -5, -4.5, -4, -3.5,
+                                        -3, -2, -1, 0, 1, 2, 3, 3.5, 4, 4.5, 5, 5.5, 5.75, 6,
+                                        7, 8, 9, 10, 11, 12, 13};
         ArrayList<String> result = new ArrayList<String>();
         if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
             result.add("<option value=\"" + Const.INT_UNINITIALIZED + "\" selected=\"selected\"></option>");
@@ -214,7 +214,7 @@ public class PageData {
      */
     protected ArrayList<String> getGracePeriodOptionsAsHtml(int existingGracePeriod) {
         ArrayList<String> result = new ArrayList<String>();
-        for(int i=0; i<=30; i+=5) {
+        for(int i = 0; i <= 30; i += 5) {
             result.add("<option value=\"" + i + "\"" + (isGracePeriodToBeSelected(existingGracePeriod, i) ? " selected=\"selected\"" : "") 
                         + ">" + i + " mins</option>");
         }
@@ -265,7 +265,8 @@ public class PageData {
         link = addUserIdToUrl(link);
         if (isUnregistered) {
             link = Url.addParamToUrl(student.getRegistrationUrl(), 
-                    Const.ParamsNames.NEXT_URL, link);
+                                     Const.ParamsNames.NEXT_URL, 
+                                     link);
         }
         return link;
     }
@@ -839,7 +840,7 @@ public class PageData {
         if (isEditingExistingEvaluation) {
             Calendar cal = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
             cal.setTime(timeToShowAsSelected);
-            if (cal.get(Calendar.MINUTE)==0) {
+            if (cal.get(Calendar.MINUTE) == 0) {
                 if (cal.get(Calendar.HOUR_OF_DAY) == hourOfTheOption) {
                     return true;
                 }
@@ -867,8 +868,8 @@ public class PageData {
     }
 
     private static String formatAsString(double num) {
-        if ((int)num == num) {
-            return "" + (int)num;
+        if ((int) num == num) {
+            return "" + (int) num;
         } else {
             return "" + num;
         }
@@ -884,7 +885,7 @@ public class PageData {
     }
     
     protected boolean isResponseCommentVisibleTo(FeedbackQuestionAttributes qn,
-                                              FeedbackParticipantType viewerType) {
+                                                 FeedbackParticipantType viewerType) {
         if (viewerType == FeedbackParticipantType.GIVER) {
             return true;
         } else {
@@ -893,13 +894,13 @@ public class PageData {
     }
     
     protected boolean isResponseCommentGiverNameVisibleTo(FeedbackQuestionAttributes qn,
-                                                       FeedbackParticipantType viewerType) {
+                                                          FeedbackParticipantType viewerType) {
         return true;
     }
     
     protected boolean isResponseCommentVisibleTo(FeedbackResponseCommentAttributes frComment, 
-                                              FeedbackQuestionAttributes qn,
-                                              FeedbackParticipantType viewerType) {
+                                                 FeedbackQuestionAttributes qn,
+                                                 FeedbackParticipantType viewerType) {
         if (frComment.isVisibilityFollowingFeedbackQuestion && viewerType == FeedbackParticipantType.GIVER) {
             return true;
         } else if (frComment.isVisibilityFollowingFeedbackQuestion) {
@@ -910,8 +911,8 @@ public class PageData {
     }
     
     protected boolean isResponseCommentGiverNameVisibleTo(FeedbackResponseCommentAttributes frComment, 
-                                                       FeedbackQuestionAttributes qn,
-                                                       FeedbackParticipantType viewerType) {
+                                                          FeedbackQuestionAttributes qn,
+                                                          FeedbackParticipantType viewerType) {
         if (frComment.isVisibilityFollowingFeedbackQuestion) {
             return true;
         } else {
