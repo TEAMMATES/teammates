@@ -403,7 +403,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         this.courseId = Sanitizer.sanitizeForHtml(courseId);
         this.creatorEmail = Sanitizer.sanitizeForHtml(creatorEmail);
 
-        if (instructions != null){
+        if (instructions != null) {
             this.instructions = new Text(Sanitizer.sanitizeForHtml(instructions.getValue()));
         }
     }
