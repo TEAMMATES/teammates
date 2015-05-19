@@ -174,8 +174,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         ______TS("Failure case: non-existent student");
 
         expectedFilename = "/studentProfilePictureStudentDoesNotExist.html";
-        getProfilePicturePage(instructorId, invalidEmail, courseId)
-                .verifyIsEntityNotFoundErrorPage(expectedFilename);
+        getProfilePicturePage(instructorId, invalidEmail, courseId).verifyIsEntityNotFoundErrorPage(expectedFilename);
     }
 
     private StudentProfilePicturePage getProfilePicturePage(String instructorId, String email,
@@ -187,8 +186,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         return loginAdminToPage(browser, profileUrl, StudentProfilePicturePage.class);
     }
 
-    private StudentProfilePicturePage getProfilePicturePage(String studentId,
-                                                            String pictureKey) {
+    private StudentProfilePicturePage getProfilePicturePage(String studentId, String pictureKey) {
         Url profileUrl = createUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
                                    .withUserId(testData.accounts.get(studentId).googleId)
                                    .withParam(Const.ParamsNames.BLOB_KEY, pictureKey);
@@ -196,8 +194,7 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
     }
 
     private void verifyPictureIsPresent(String pictureKey) {
-        assertEquals(BackDoorServlet.RETURN_VALUE_TRUE,
-                     BackDoor.getWhetherPictureIsPresentInGcs(pictureKey));
+        assertEquals(BackDoorServlet.RETURN_VALUE_TRUE, BackDoor.getWhetherPictureIsPresentInGcs(pictureKey));
     }
 
     private StudentProfilePage getProfilePageForStudent(String studentId) {

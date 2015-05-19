@@ -119,9 +119,8 @@ public class StudentProfilePage extends AppPage {
         }
     }
 
-    public void editProfileThroughUi(String fileName, String shortName, String email,
-                                     String institute, String nationality, String gender,
-                                     String moreInfo) throws Exception {
+    public void editProfileThroughUi(String fileName, String shortName, String email, String institute,
+                                     String nationality, String gender, String moreInfo) throws Exception {
         if (!fileName.equals("")) {
             fillProfilePic(fileName);
         }
@@ -134,8 +133,8 @@ public class StudentProfilePage extends AppPage {
         submitEditedProfile();
     }
 
-    public void ensureProfileContains(String shortName, String email, String institute,
-                                      String nationality, String gender, String moreInfo) {
+    public void ensureProfileContains(String shortName, String email, String institute, String nationality,
+                                      String gender, String moreInfo) {
         assertEquals(shortName, shortNameBox.getAttribute("value"));
         assertEquals(email, emailBox.getAttribute("value"));
         assertEquals(institute, institutionBox.getAttribute("value"));
@@ -170,16 +169,15 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void verifyPhotoSize(int height, int width) throws Exception {
-        assertEquals(String.valueOf(height),
-                     browser.driver.findElement(By.id("pictureHeight")).getAttribute("value"));
-        assertEquals(String.valueOf(width),
-                     browser.driver.findElement(By.id("pictureWidth")).getAttribute("value"));
+        assertEquals(String.valueOf(height), browser.driver.findElement(By.id("pictureHeight"))
+                                                           .getAttribute("value"));
+        assertEquals(String.valueOf(width), browser.driver.findElement(By.id("pictureWidth"))
+                                                          .getAttribute("value"));
     }
 
     // TODO method unused
     public void verifyPictureIsVisible(int height) throws Exception {
-        assertEquals(height, Integer.parseInt(browser.driver
-                                                     .findElement(By.className("jcrop-holder"))
+        assertEquals(height, Integer.parseInt(browser.driver.findElement(By.className("jcrop-holder"))
                                                      .getCssValue("height")));
     }
 

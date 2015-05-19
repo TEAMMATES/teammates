@@ -73,8 +73,8 @@ public class StudentAttributes extends EntityAttributes {
 
     public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
 
-    public StudentAttributes(String id, String email, String name, String comments,
-                             String courseId, String team, String section) {
+    public StudentAttributes(String id, String email, String name, String comments, String courseId,
+                             String team, String section) {
         this(section, team, name, email, comments, courseId);
         this.googleId = Sanitizer.sanitizeGoogleId(id);
     }
@@ -83,8 +83,8 @@ public class StudentAttributes extends EntityAttributes {
 
     }
 
-    public StudentAttributes(String section, String team, String name,
-                             String email, String comment, String courseId) {
+    public StudentAttributes(String section, String team, String name, String email, String comment,
+                             String courseId) {
         this();
         this.section = Sanitizer.sanitizeTitle(section);
         this.team = Sanitizer.sanitizeTitle(team);
@@ -103,9 +103,8 @@ public class StudentAttributes extends EntityAttributes {
         this.lastName = student.getLastName();
         this.comments = Sanitizer.sanitizeTextField(student.getComments());
         this.team = Sanitizer.sanitizeTitle(student.getTeamName());
-        this.section = (student.getSectionName() == null)
-                     ? Const.DEFAULT_SECTION
-                     : Sanitizer.sanitizeTitle(student.getSectionName());
+        this.section = (student.getSectionName() == null) ? Const.DEFAULT_SECTION
+                                                          : Sanitizer.sanitizeTitle(student.getSectionName());
         this.googleId = (student.getGoogleId() == null) ? ""
                                                         : student.getGoogleId();
         Long keyAsLong = student.getRegistrationKey();

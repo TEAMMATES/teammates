@@ -104,8 +104,7 @@ public class StudentAttributesFactory {
             paramSection = Const.DEFAULT_SECTION;
         }
 
-        return new StudentAttributes(paramSection, paramTeam, paramName,
-                                     paramEmail, paramComment, courseId);
+        return new StudentAttributes(paramSection, paramTeam, paramName, paramEmail, paramComment, courseId);
     }
 
     private int locateColumnIndexes(String headerRow) throws EnrollException {

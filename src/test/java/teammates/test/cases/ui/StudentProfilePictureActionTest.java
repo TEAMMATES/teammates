@@ -95,8 +95,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
                 Const.ParamsNames.USER_ID, _account.googleId,
                 Const.ParamsNames.BLOB_KEY, _account.studentProfile.pictureKey
         };
-        _action = getAction(addUserIdToParams(_account.googleId,
-                                              submissionParams));
+        _action = getAction(addUserIdToParams(_account.googleId, submissionParams));
         _result = (ImageResult) _action.executeAndPostProcess();
 
         assertFalse(_result.isError);
@@ -111,8 +110,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
      * @throws Exception
      */
     public void testActionWithEmailAndCourse() throws Exception {
-        AccountAttributes instructor = _dataBundle.accounts
-                                                  .get("instructor1OfCourse1");
+        AccountAttributes instructor = _dataBundle.accounts.get("instructor1OfCourse1");
         gaeSimulation.loginAsInstructor("idOfInstructor1OfCourse1");
 
         testActionWithEmailAndCourseSuccessTypical(instructor);
@@ -127,10 +125,8 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         ______TS("Typical case: using email and course");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.STUDENT_EMAIL,
-                StringHelper.encrypt(_student.email),
-                Const.ParamsNames.COURSE_ID,
-                StringHelper.encrypt(_student.course)
+                Const.ParamsNames.STUDENT_EMAIL, StringHelper.encrypt(_student.email),
+                Const.ParamsNames.COURSE_ID, StringHelper.encrypt(_student.course)
         };
 
         _action = getAction(submissionParams);
@@ -146,10 +142,8 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         ______TS("Failure case: student does not exist");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.STUDENT_EMAIL,
-                StringHelper.encrypt("random-email"),
-                Const.ParamsNames.COURSE_ID,
-                StringHelper.encrypt(_student.course)
+                Const.ParamsNames.STUDENT_EMAIL, StringHelper.encrypt("random-email"),
+                Const.ParamsNames.COURSE_ID, StringHelper.encrypt(_student.course)
         };
 
         _action = getAction(submissionParams);
@@ -157,14 +151,11 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
             _action.executeAndPostProcess();
             signalFailureToDetectException("Entity Does not exist");
         } catch (EntityDoesNotExistException uae) {
-            assertEquals("student with " + _student.course + "/random-email",
-                         uae.getMessage());
+            assertEquals("student with " + _student.course + "/random-email", uae.getMessage());
         }
     }
 
-    protected void testActionWithEmailAndCourseForUnregStudent()
-            throws Exception {
-
+    protected void testActionWithEmailAndCourseForUnregStudent() throws Exception {
         InstructorAttributes unregCourseInstructor = createNewInstructorForUnregCourse();
         gaeSimulation.loginAsInstructor(unregCourseInstructor.googleId);
 
@@ -179,8 +170,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
             throws Exception {
         String course = _dataBundle.courses.get("unregisteredCourse").id;
         AccountsLogic.inst().createAccount(new AccountAttributes("unregInsId", "unregName", true,
-                                                                 "unregIns@unregcourse.com",
-                                                                 "unregInstitute"));
+                                                                 "unregIns@unregcourse.com", "unregInstitute"));
         InstructorAttributes instructor = new InstructorAttributes("unregInsId", course, "unregName",
                                                                    "unregIns@unregcourse.com");
         InstructorsLogic.inst().createInstructor(instructor);
@@ -193,10 +183,8 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         StudentAttributes student = _dataBundle.students.get("student2InUnregisteredCourse");
         Assumption.assertIsEmpty(student.googleId);
         String[] submissionParams = new String[] {
-                Const.ParamsNames.STUDENT_EMAIL,
-                StringHelper.encrypt(student.email),
-                Const.ParamsNames.COURSE_ID,
-                StringHelper.encrypt(student.course)
+                Const.ParamsNames.STUDENT_EMAIL, StringHelper.encrypt(student.email),
+                Const.ParamsNames.COURSE_ID, StringHelper.encrypt(student.course)
         };
 
         _action = getAction(submissionParams);
@@ -212,10 +200,8 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
         gaeSimulation.loginAsInstructor(unauthInstructor.googleId);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.STUDENT_EMAIL,
-                StringHelper.encrypt(_student.email),
-                Const.ParamsNames.COURSE_ID,
-                StringHelper.encrypt(_student.course)
+                Const.ParamsNames.STUDENT_EMAIL, StringHelper.encrypt(_student.email),
+                Const.ParamsNames.COURSE_ID, StringHelper.encrypt(_student.course)
         };
 
         _action = getAction(submissionParams);
@@ -223,8 +209,7 @@ public class StudentProfilePictureActionTest extends BaseActionTest {
             _action.executeAndPostProcess();
             signalFailureToDetectException("Unauthorised Access");
         } catch (UnauthorizedAccessException uae) {
-            assertEquals("User is not instructor of the course that student belongs to",
-                         uae.getMessage());
+            assertEquals("User is not instructor of the course that student belongs to", uae.getMessage());
         }
     }
 

@@ -27,14 +27,12 @@ public class StudentProfilePageActionTest extends BaseActionTest {
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        AccountAttributes student = dataBundle.accounts
-                                              .get("student1InCourse1");
+        AccountAttributes student = dataBundle.accounts.get("student1InCourse1");
         testActionSuccessTypical(student);
         testActionInMasquerade(student);
     }
 
-    private void testActionSuccessTypical(AccountAttributes student)
-            throws Exception {
+    private void testActionSuccessTypical(AccountAttributes student) throws Exception {
         gaeSimulation.loginAsStudent(student.googleId);
         ______TS("Typical case");
         String[] submissionParams = new String[] {};

@@ -80,9 +80,8 @@ public class StudentProfile {
      * @param moreInfo
      *            Miscellaneous information, including external profile
      */
-    public StudentProfile(String googleId, String shortName, String email,
-                          String institute, String nationality, String gender,
-                          Text moreInfo, BlobKey pictureKey) {
+    public StudentProfile(String googleId, String shortName, String email, String institute,
+                          String nationality, String gender, Text moreInfo, BlobKey pictureKey) {
         this.setGoogleId(googleId);
         this.setShortName(shortName);
         this.setEmail(email);

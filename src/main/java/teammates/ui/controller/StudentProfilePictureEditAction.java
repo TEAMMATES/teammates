@@ -55,8 +55,7 @@ public class StudentProfilePictureEditAction extends Action {
             // Happens when GCS Service is down
             isError = true;
             statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PIC_SERVICE_DOWN);
-            statusToAdmin = Const.ACTION_RESULT_FAILURE
-                          + " : Writing transformed image to file failed. Error: "
+            statusToAdmin = Const.ACTION_RESULT_FAILURE + " : Writing transformed image to file failed. Error: "
                           + e.getMessage();
         }
 
@@ -78,9 +77,9 @@ public class StudentProfilePictureEditAction extends Action {
         GcsFilename fileName = new GcsFilename(Config.GCS_BUCKETNAME, account.googleId);
 
         GcsService gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
-        GcsOutputChannel outputChannel =
-                gcsService.createOrReplace(fileName,
-                                           new GcsFileOptions.Builder().mimeType("image/png").build());
+        GcsOutputChannel outputChannel = gcsService.createOrReplace(fileName,
+                                                                    new GcsFileOptions.Builder()
+                                                                                      .mimeType("image/png").build());
 
         outputChannel.write(ByteBuffer.wrap(transformedImage));
         outputChannel.close();
@@ -105,35 +104,30 @@ public class StudentProfilePictureEditAction extends Action {
         } catch (RuntimeException re) {
             isError = true;
             statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PICTURE_EDIT_FAILED);
-            statusToAdmin = Const.ACTION_RESULT_FAILURE
-                          + " : Reading and transforming image failed."
+            statusToAdmin = Const.ACTION_RESULT_FAILURE + " : Reading and transforming image failed."
                           + re.getMessage();
         }
 
         return null;
     }
 
-    private Image getTransformedImage(Double leftX, Double topY,
-                                      Double rightX, Double bottomY) {
+    private Image getTransformedImage(Double leftX, Double topY, Double rightX, Double bottomY) {
         Assumption.assertNotNull(_blobKey);
 
         Image oldImage = ImagesServiceFactory.makeImageFromBlob(_blobKey);
-        CompositeTransform finalTransform = getCompositeTransformToApply(leftX, topY,
-                                                                         rightX, bottomY);
+        CompositeTransform finalTransform = getCompositeTransformToApply(leftX, topY, rightX, bottomY);
         OutputSettings settings = new OutputSettings(ImagesService.OutputEncoding.PNG);
 
-        return ImagesServiceFactory.getImagesService()
-                                   .applyTransform(finalTransform, oldImage, settings);
+        return ImagesServiceFactory.getImagesService().applyTransform(finalTransform, oldImage, settings);
     }
 
-    private CompositeTransform getCompositeTransformToApply(Double leftX, Double topY,
-                                                            Double rightX, Double bottomY) {
+    private CompositeTransform getCompositeTransformToApply(Double leftX, Double topY, Double rightX,
+                                                            Double bottomY) {
         Transform crop = ImagesServiceFactory.makeCrop(leftX, topY, rightX, bottomY);
         Transform resize = ImagesServiceFactory.makeResize(150, 150);
-        CompositeTransform finalTransform =
-                ImagesServiceFactory.makeCompositeTransform()
-                                    .concatenate(crop)
-                                    .concatenate(resize);
+        CompositeTransform finalTransform = ImagesServiceFactory.makeCompositeTransform()
+                                                                .concatenate(crop)
+                                                                .concatenate(resize);
         return finalTransform;
     }
 
@@ -145,21 +139,18 @@ public class StudentProfilePictureEditAction extends Action {
          || _rightXString.isEmpty() || _bottomYString.isEmpty()) {
             isError = true;
             statusToUser.add("Given crop locations were not valid. Please try again");
-            statusToAdmin = Const.ACTION_RESULT_FAILURE
-                          + " : One or more of the given coords were empty.";
+            statusToAdmin = Const.ACTION_RESULT_FAILURE + " : One or more of the given coords were empty.";
             return false;
         } else if (_heightString.isEmpty() || _widthString.isEmpty()) {
             isError = true;
             statusToUser.add("Given crop locations were not valid. Please try again");
-            statusToAdmin = Const.ACTION_RESULT_FAILURE
-                          + " : One or both of the image dimensions were empty.";
+            statusToAdmin = Const.ACTION_RESULT_FAILURE + " : One or both of the image dimensions were empty.";
             return false;
         } else if (Double.parseDouble(_widthString) == 0
                 || Double.parseDouble(_heightString) == 0) {
             isError = true;
             statusToUser.add("Given crop locations were not valid. Please try again");
-            statusToAdmin = Const.ACTION_RESULT_FAILURE
-                          + " : One or both of the image dimensions were zero.";
+            statusToAdmin = Const.ACTION_RESULT_FAILURE + " : One or both of the image dimensions were zero.";
             return false;
         }
         return true;
@@ -186,44 +177,38 @@ public class StudentProfilePictureEditAction extends Action {
     }
 
     private String getPictureWidth() {
-        Assumption.assertPostParamNotNull(
-                Const.ParamsNames.PROFILE_PICTURE_WIDTH,
-                getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_WIDTH));
+        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_WIDTH,
+                                          getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_WIDTH));
         return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_WIDTH);
     }
 
     private String getPictureHeight() {
-        Assumption.assertPostParamNotNull(
-                Const.ParamsNames.PROFILE_PICTURE_HEIGHT,
-                getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_HEIGHT));
+        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_HEIGHT,
+                                          getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_HEIGHT));
         return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_HEIGHT);
     }
 
     private String getBottomYString() {
-        Assumption.assertPostParamNotNull(
-                Const.ParamsNames.PROFILE_PICTURE_BOTTOMY,
-                getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_BOTTOMY));
+        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_BOTTOMY,
+                                          getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_BOTTOMY));
         return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_BOTTOMY);
     }
 
     private String getRightXString() {
-        Assumption.assertPostParamNotNull(
-                Const.ParamsNames.PROFILE_PICTURE_RIGHTX,
-                getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_RIGHTX));
+        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_RIGHTX,
+                                          getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_RIGHTX));
         return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_RIGHTX);
     }
 
     private String getTopYString() {
-        Assumption.assertPostParamNotNull(
-                Const.ParamsNames.PROFILE_PICTURE_TOPY, 
-                getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_TOPY));
+        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_TOPY, 
+                                          getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_TOPY));
         return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_TOPY);
     }
 
     private String getLeftXString() {
-        Assumption.assertPostParamNotNull(
-                Const.ParamsNames.PROFILE_PICTURE_LEFTX, 
-                getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_LEFTX));
+        Assumption.assertPostParamNotNull(Const.ParamsNames.PROFILE_PICTURE_LEFTX, 
+                                          getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_LEFTX));
         return getRequestParamValue(Const.ParamsNames.PROFILE_PICTURE_LEFTX);
     }
 

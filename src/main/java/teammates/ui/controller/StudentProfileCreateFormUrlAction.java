@@ -24,9 +24,8 @@ public class StudentProfileCreateFormUrlAction extends Action {
 
     private UploadOptions generateUploadOptions() {
         UploadOptions uploadOptions =
-                UploadOptions.Builder.withDefaults()
-                             .googleStorageBucketName(Config.GCS_BUCKETNAME)
-                             .maxUploadSizeBytes(Const.SystemParams.MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI);
+                UploadOptions.Builder.withDefaults().googleStorageBucketName(Config.GCS_BUCKETNAME)
+                                     .maxUploadSizeBytes(Const.SystemParams.MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI);
         return uploadOptions;
     }
 
@@ -48,10 +47,9 @@ public class StudentProfileCreateFormUrlAction extends Action {
 
     private String generateNewUploadUrl() {
         UploadOptions uploadOptions = generateUploadOptions();
-        String formPostUrl =
-                BlobstoreServiceFactory.getBlobstoreService()
-                                       .createUploadUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD,
-                                                        uploadOptions);
+        String formPostUrl = BlobstoreServiceFactory.getBlobstoreService()
+                                                    .createUploadUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD,
+                                                                     uploadOptions);
         statusToAdmin = "Created Url successfully: " + formPostUrl;
         return formPostUrl;
     }

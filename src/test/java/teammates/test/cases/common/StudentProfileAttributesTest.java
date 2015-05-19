@@ -64,8 +64,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         StudentProfileAttributes validProfile = createNewProfileAttributesFrom(profile);
 
         ______TS("Typical case: valid profile attributes");
-        assertTrue("'validProfile' indicated as invalid",
-                   validProfile.isValid());
+        assertTrue("'validProfile' indicated as invalid", validProfile.isValid());
         assertEquals(new ArrayList<String>(), validProfile.getInvalidityInfo());
     }
 
@@ -78,8 +77,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         validProfile.nationality = "";
         validProfile.institute = "";
 
-        assertTrue("'validProfile' indicated as invalid",
-                   validProfile.isValid());
+        assertTrue("'validProfile' indicated as invalid", validProfile.isValid());
         assertEquals(new ArrayList<String>(), validProfile.getInvalidityInfo());
     }
 
@@ -87,12 +85,10 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         StudentProfileAttributes invalidProfile = getInvalidStudentProfileAttributes();
 
         ______TS("Failure case: invalid profile attributes");
-        assertFalse("'invalidProfile' indicated as valid",
-                    invalidProfile.isValid());
+        assertFalse("'invalidProfile' indicated as valid", invalidProfile.isValid());
         List<String> expectedErrorMessages = generatedExpectedErrorMessages();
 
-        TestHelper.isSameContentIgnoreOrder(expectedErrorMessages,
-                                            invalidProfile.getInvalidityInfo());
+        TestHelper.isSameContentIgnoreOrder(expectedErrorMessages, invalidProfile.getInvalidityInfo());
     }
 
     @Test
@@ -136,8 +132,7 @@ public class StudentProfileAttributesTest extends BaseTestCase {
 
     @Test
     public void testToString() {
-        StudentProfileAttributes spa = new StudentProfileAttributes(
-                (StudentProfile) profile.toEntity());
+        StudentProfileAttributes spa = new StudentProfileAttributes((StudentProfile) profile.toEntity());
         profile.modifiedDate = spa.modifiedDate;
 
         // the toString must be unique to the values in the object
@@ -172,20 +167,15 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         List<String> expectedErrorMessages = new ArrayList<String>();
 
         // tests both the constructor and the invalidity info
-        expectedErrorMessages.add(String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE,
-                                                profile.googleId,
+        expectedErrorMessages.add(String.format(FieldValidator.GOOGLE_ID_ERROR_MESSAGE, profile.googleId,
                                                 FieldValidator.REASON_TOO_LONG));
-        expectedErrorMessages.add(String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE,
-                                                profile.shortName,
+        expectedErrorMessages.add(String.format(FieldValidator.PERSON_NAME_ERROR_MESSAGE, profile.shortName,
                                                 FieldValidator.REASON_CONTAINS_INVALID_CHAR));
-        expectedErrorMessages.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE,
-                                                profile.email,
+        expectedErrorMessages.add(String.format(FieldValidator.EMAIL_ERROR_MESSAGE, profile.email,
                                                 FieldValidator.REASON_INCORRECT_FORMAT));
-        expectedErrorMessages.add(String.format(FieldValidator.INSTITUTE_NAME_ERROR_MESSAGE,
-                                                profile.institute,
+        expectedErrorMessages.add(String.format(FieldValidator.INSTITUTE_NAME_ERROR_MESSAGE, profile.institute,
                                                 FieldValidator.REASON_TOO_LONG));
-        expectedErrorMessages.add(String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE,
-                                                profile.nationality,
+        expectedErrorMessages.add(String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE,profile.nationality,
                                                 FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR));
         expectedErrorMessages.add(String.format(FieldValidator.GENDER_ERROR_MESSAGE, profile.gender));
         return expectedErrorMessages;
@@ -195,15 +185,14 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         String googleId = StringHelper.generateStringOfLength(46);
         String shortName = "%%";
         String email = "invalid@email@com";
-        String institute = StringHelper
-                .generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
+        String institute = StringHelper.generateStringOfLength(FieldValidator.INSTITUTE_NAME_MAX_LENGTH + 1);
         String nationality = "$invalid nationality ";
         String gender = "invalidGender";
         String moreInfo = "Ooops no validation for this one...";
         String pictureKey = "";
 
-        return new StudentProfileAttributes(googleId, shortName, email, institute,
-                                            nationality, gender, moreInfo, pictureKey);
+        return new StudentProfileAttributes(googleId, shortName, email, institute, nationality, gender,
+                                            moreInfo, pictureKey);
     }
 
     private StudentProfileAttributes getStudentProfileAttributesToSanitize() {
@@ -216,8 +205,8 @@ public class StudentProfileAttributesTest extends BaseTestCase {
         String moreInfo = "<<script> alert('hi!'); </script>";
         String pictureKey = "testPictureKey";
 
-        return new StudentProfileAttributes(googleId, shortName, email, institute,
-                                            nationality, gender, moreInfo, pictureKey);
+        return new StudentProfileAttributes(googleId, shortName, email, institute, nationality, gender,
+                                            moreInfo, pictureKey);
     }
 
 }

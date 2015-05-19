@@ -84,8 +84,8 @@ public class Student {
      * @param courseId
      * @param teamName
      */
-    public Student(String email, String name, String googleId, String comments,
-                   String courseId, String teamName, String sectionName) {
+    public Student(String email, String name, String googleId, String comments, String courseId,
+                   String teamName, String sectionName) {
         this.setEmail(email);
         this.setName(name);
         this.setGoogleId(googleId);

@@ -30,9 +30,8 @@ public class StudentProfileAttributes extends EntityAttributes {
     public String pictureKey;
     public Date modifiedDate;
 
-    public StudentProfileAttributes(String googleId, String shortName, String email,
-                                    String institute, String nationality, String gender,
-                                    String moreInfo, String pictureKey) {
+    public StudentProfileAttributes(String googleId, String shortName, String email, String institute,
+                                    String nationality, String gender, String moreInfo, String pictureKey) {
         this.googleId = googleId;
         this.shortName = Sanitizer.sanitizeName(shortName);
         this.email = Sanitizer.sanitizeEmail(email);
@@ -88,8 +87,7 @@ public class StudentProfileAttributes extends EntityAttributes {
     }
 
     private boolean isMultipleFieldsEmpty() {
-        int numEmptyFields = StringHelper.countEmptyStrings(shortName, email, nationality,
-                                                            moreInfo, pictureKey);
+        int numEmptyFields = StringHelper.countEmptyStrings(shortName, email, nationality, moreInfo, pictureKey);
         return numEmptyFields > 1;
     }
 
@@ -153,9 +151,8 @@ public class StudentProfileAttributes extends EntityAttributes {
 
     @Override
     public Object toEntity() {
-        return new StudentProfile(googleId, shortName, email, institute,
-                                  nationality, gender, new Text(moreInfo),
-                                  new BlobKey(this.pictureKey));
+        return new StudentProfile(googleId, shortName, email, institute, nationality, gender,
+                                  new Text(moreInfo), new BlobKey(this.pictureKey));
     }
 
     @Override
