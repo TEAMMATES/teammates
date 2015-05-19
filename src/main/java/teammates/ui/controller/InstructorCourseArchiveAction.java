@@ -15,9 +15,10 @@ public class InstructorCourseArchiveAction extends Action {
         Assumption.assertNotNull(archiveStatus);
         boolean isArchive = Boolean.parseBoolean(archiveStatus);
         
+        new GateKeeper().verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToArchive, account.googleId),
+                                          logic.getCourse(idOfCourseToArchive));
+        
         try {
-            new GateKeeper().verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToArchive, account.googleId),
-                                              logic.getCourse(idOfCourseToArchive));
             
             // Set the archive status and status shown to user and admin
             logic.setArchiveStatusOfInstructor(account.googleId, idOfCourseToArchive, isArchive);
