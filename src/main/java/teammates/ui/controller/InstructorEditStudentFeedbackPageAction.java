@@ -43,7 +43,6 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         new GateKeeper().verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId),
                 logic.getFeedbackSession(feedbackSessionName, courseId),
                 false, studentUnderModeration.section, 
-                feedbackSessionName, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         
         FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, student);
