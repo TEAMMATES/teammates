@@ -51,7 +51,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
         verifyAssumptionFailure();
 
-        // TODO make sure IFAA does assertNotNull for required parameters then uncomment
+        // No need to test for this as InstructorFeedbackAddAction already assertNotNull using Assumption
         // verifyAssumptionFailure(Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId);
 
         ______TS("Typical case");
