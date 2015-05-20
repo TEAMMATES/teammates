@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -221,27 +222,31 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends Base
         } catch (IllegalArgumentException e) {
             ignoreExpectedException();
         }
-
-        // TODO: test/validate when response questionType does not match questionDetails questionType
-        /*
+        
         ______TS("edit answer - unsupported question type");
 
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), instructor.email, fr.recipientEmail));
-
-        submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, fs.courseId,
-                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId(),
-                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL, "1",
-                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", fr.recipientEmail,
-                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, FeedbackQuestionType.MCQ.toString(),//Submit mcq response for text question
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", "Qn Answer",
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID+"-1-0", fr.getId()
-        };
-        // TODO: this should fail but does not.
-        a = getAction(submissionParams);
-        r = (ShowPageResult) a.executeAndPostProcess();
-        */
+        
+        // Test omitted as similarity of Question Type is not currently being checked
+//        submissionParams = new String[]{
+//                Const.ParamsNames.COURSE_ID, fs.courseId,
+//                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+//                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
+//                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+//                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
+//                // Submit mcq response for text question
+//                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", FeedbackQuestionType.MCQ.toString(),
+//                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Qn Answer",
+//                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId()
+//        };
+//
+//        try {
+//            a = getAction(submissionParams);
+//            r = (ShowPageResult) a.executeAndPostProcess();
+//            signalFailureToDetectException();
+//        } catch (IllegalArgumentException e) {
+//            ignoreExpectedException();
+//        }
 
         ______TS("delete answer");
 
@@ -271,9 +276,9 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends Base
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fq.getId(),
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
-                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT+"-1-0", fr.recipientEmail,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", fq.questionType.toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT+"-1-0", ""
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", ""
         };
 
         a = getAction(submissionParams);
@@ -436,7 +441,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends Base
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
-                    Const.ParamsNames.COURSE_ID), e.getMessage());
+                                       Const.ParamsNames.COURSE_ID), e.getMessage());
         }
 
         ______TS("Unsuccessful case: test null feedback session name parameter");
@@ -457,7 +462,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends Base
             signalFailureToDetectException("Did not detect that parameters are null.");
         } catch (NullPostParameterException e) {
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
-                    Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
+                                       Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
         }
     }
 
