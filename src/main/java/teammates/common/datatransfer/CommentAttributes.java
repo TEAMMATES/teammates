@@ -100,7 +100,7 @@ public class CommentAttributes extends EntityAttributes
 
         if (recipients != null && recipientType != null) {
             switch (recipientType) {
-                case PERSON:
+                case PERSON :
                     for (String recipientId : recipients) {
                         error = validator.getInvalidityInfo(FieldType.EMAIL, recipientId);
                         if (!error.isEmpty()) {
@@ -108,7 +108,7 @@ public class CommentAttributes extends EntityAttributes
                         }
                     }
                     break;
-                case TEAM:
+                case TEAM :
                     for (String recipientId : recipients) {
                         error = validator.getInvalidityInfo(FieldType.TEAM_NAME, recipientId);
                         if (!error.isEmpty()) {
@@ -116,7 +116,7 @@ public class CommentAttributes extends EntityAttributes
                         }
                     }
                     break;
-                case SECTION:
+                case SECTION :
                     for (String recipientId : recipients) {
                         error = validator.getInvalidityInfo(FieldType.SECTION_NAME, recipientId);
                         if (!error.isEmpty()) {
@@ -124,7 +124,7 @@ public class CommentAttributes extends EntityAttributes
                         }
                     }
                     break;
-                case COURSE:
+                case COURSE :
                     for (String recipientId : recipients) {
                         error = validator.getInvalidityInfo(FieldType.COURSE_ID, recipientId);
                         if (!error.isEmpty()) {
@@ -132,7 +132,7 @@ public class CommentAttributes extends EntityAttributes
                         }
                     }
                     break;
-                default:// cases for NONE or null
+                default : // cases for NONE or null
                     break;
             }
         }
@@ -222,26 +222,26 @@ public class CommentAttributes extends EntityAttributes
     }
 
     private void sanitizeForVisibilityOptions() {
-        switch(recipientType){
-            case PERSON:
+        switch (recipientType) {
+            case PERSON :
                 removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.PERSON);
                 break;
-            case TEAM:
+            case TEAM :
                 removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.PERSON);
                 removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.TEAM);
                 break;
-            case SECTION:
+            case SECTION :
                 removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.PERSON);
                 removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.TEAM);
                 removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.SECTION);
                 break;
-            case COURSE:
+            case COURSE :
                 removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.PERSON);
                 removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.TEAM);
                 removeCommentRecipientTypeInVisibilityOptions(CommentParticipantType.SECTION);
                 removeCommentRecipientTypeIn(showRecipientNameTo, CommentParticipantType.COURSE);
                 break;
-            default:
+            default :
                 break;
         }
     }
