@@ -16,8 +16,10 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.NullPostParameterException;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
+import teammates.storage.api.FeedbackSessionsDb;
 import teammates.ui.controller.InstructorFeedbackQuestionSubmissionEditSaveAction;
 import teammates.ui.controller.ShowPageResult;
 
@@ -33,6 +35,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends Base
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
+        FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
 
@@ -331,6 +334,8 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends Base
 
         instructor = dataBundle.instructors.get("instructor1OfCourse1");
         fs = dataBundle.feedbackSessions.get("gracePeriodSession");
+        fs.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
+        fsDb.updateFeedbackSession(fs);
 
         fq = fqDb.getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 2);
 

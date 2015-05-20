@@ -393,11 +393,11 @@
             },
             "createdTime":"2013-03-20 11:59 PM UTC",
             "startTime":"2013-06-01 11:59 PM UTC",
-            "endTime":"2014-04-28 11:59 PM UTC",
+            "endTime":"2016-04-28 11:59 PM UTC",
             "sessionVisibleFromTime":"2013-03-20 11:59 PM UTC",
             "resultsVisibleFromTime":"2016-04-29 11:59 PM UTC",
             "timeZone":2.0,
-            "gracePeriod":1440000,
+            "gracePeriod":1440,
             "feedbackSessionType":"STANDARD",
             "sentOpenEmail":true,
             "sentPublishedEmail":false
