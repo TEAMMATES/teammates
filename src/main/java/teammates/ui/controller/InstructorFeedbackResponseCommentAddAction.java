@@ -40,10 +40,10 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         boolean isCreatorOnly = true;
         
         new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly, 
-                response.giverSection, feedbackSessionName,
+                response.giverSection, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly, 
-                response.recipientSection, feedbackSessionName,
+                response.recipientSection, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         
         InstructorFeedbackResponseCommentAjaxPageData data = 

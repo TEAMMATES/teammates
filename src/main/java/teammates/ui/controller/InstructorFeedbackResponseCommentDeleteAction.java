@@ -62,10 +62,10 @@ public class InstructorFeedbackResponseCommentDeleteAction extends Action {
             return ;
         }
         new GateKeeper().verifyAccessible(instructor, session, false, 
-                response.giverSection, feedbackSessionName,
+                response.giverSection, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         new GateKeeper().verifyAccessible(instructor, session, false, 
-                response.recipientSection, feedbackSessionName,
+                response.recipientSection, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
 
