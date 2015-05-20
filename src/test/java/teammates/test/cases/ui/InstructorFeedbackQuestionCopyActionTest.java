@@ -43,7 +43,6 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        // TODO: find a way to test status message from session
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         ______TS("Not enough parameters");
@@ -51,7 +50,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         gaeSimulation.loginAsInstructor(instructor1ofCourse1.googleId);
         verifyAssumptionFailure();
 
-        // No need to test for this as InstructorFeedbackAddAction already assertNotNull using Assumption
+        // This is commented out as InstructorFeedbackAddAction already assertNotNull using Assumption
         // verifyAssumptionFailure(Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId);
 
         ______TS("Typical case");
