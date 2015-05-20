@@ -107,22 +107,21 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
     private void adjustResponsesForRenamedTeam(ArrayList<StudentEnrollDetails> enrolmentList, String feedbackSessionName) {
         Logic logic = new Logic();
         
-        Set<String> modifiedStudents = new HashSet<String>();
-        Map<String, String> oldSectionTeamToNewSectionTeamMap = new HashMap<String, String>();
-        
-        // Initialise modifiedStudents, oldSectionTeamToNewSectionTeamMap and renamedTeams 
-        Set<String> renamedTeams = extractDataFromEnrollmentList(
-                enrolmentList, modifiedStudents, oldSectionTeamToNewSectionTeamMap);
+        // Initialise oldSectionTeamToNewSectionTeamMap, modifiedStudents
+        Map<String, String> oldSectionTeamToNewSectionTeamMap = extractOldTeamToNewTeamMapFromEnrollmentList(enrolmentList);
+        Set<String> modifiedStudents = getStudentsWithModifiedTeamOrSectionFromEnrollment(enrolmentList);
         
         // For every possible renamed team, check that all team members are in the enrollment
-        removeTeamsWithMembersMissingFromEnrollmentData(logic, modifiedStudents, renamedTeams);
+        // remove the teams that have team members missing from the enrollment data
+        removeTeamsWithMembersMissingFromEnrollmentData(logic, modifiedStudents, oldSectionTeamToNewSectionTeamMap);
 
-        for (String sectionTeamToRename : renamedTeams) {
+        for (Map.Entry<String, String> mapEntry : oldSectionTeamToNewSectionTeamMap.entrySet()) {
+            String sectionTeamToRename = mapEntry.getKey();
             String[] splitsectionTeamToRename = sectionTeamToRename.split("\\|");
             String oldSection = splitsectionTeamToRename[0];
             String oldTeam = splitsectionTeamToRename[1];
             
-            String newSectionTeam = oldSectionTeamToNewSectionTeamMap.get(sectionTeamToRename);
+            String newSectionTeam = mapEntry.getValue();
             
             String[] splitNewSectionTeam = newSectionTeam.split("\\|");
             String newSection = splitNewSectionTeam[0];
@@ -133,18 +132,13 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
     }
 
     /**
-     * Using the enrollment list, return the list of teams which are renamed.
-     * Updates the set of students who are modified by the enrollment.
-     * Updates the mapping from old section and team names to new section and team names.
+     * Using the enrollment list, return the mapping of old teams to new teams.
+     * If a team was not renamed (due to members going to different teams), 
+     * or an unmodified student in the enrollment list, it is not included in the map.
      * @param enrolmentList
-     * @param modifiedStudents
-     * @param oldSectionTeamToNewSectionTeamMap
-     * @return
      */
-    private Set<String> extractDataFromEnrollmentList(
-            ArrayList<StudentEnrollDetails> enrolmentList,
-            Set<String> modifiedStudents,
-            Map<String, String> oldSectionTeamToNewSectionTeamMap) {
+    private Map<String, String> extractOldTeamToNewTeamMapFromEnrollmentList(
+            ArrayList<StudentEnrollDetails> enrolmentList) {
         
         Map<String, Boolean> isGivenTeamRenamed = new HashMap<String, Boolean>();
         
@@ -157,47 +151,55 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
             
             if (details.updateStatus == UpdateStatus.UNMODIFIED || 
                 (!isTeamUpdated && !isSectionUpdated) ) {
-                // if someone from the same team is not modified, 
-                // or if the team and section is not modified,
+                // if someone from the same team is not modified, or if the team and section is not modified,
                 // then the team is not renamed
                 isGivenTeamRenamed.put(originalSectionTeam, false);
             } else {
-                modifiedStudents.add(details.email);
-                
                 if (!isGivenTeamRenamed.containsKey(originalSectionTeam)) {
                     isGivenTeamRenamed.put(originalSectionTeam, true);
                 }
             }
         }
         
-        Set<String> renamedTeams = new HashSet<String>();
-        for (Entry<String, Boolean> entry : isGivenTeamRenamed.entrySet()) {
-            String team = entry.getKey();
-            boolean isRenamed = entry.getValue();
-            
-            if (isRenamed) {
-                renamedTeams.add(team);
-            }
-        }
         
         // Obtains a mapping of old sectionTeam name to new sectionTeam name.
-        // This also removes teams where not the entire team moved to the same team
-        generateOldToNewTeamMappingWithConsistencyCheck(oldSectionTeamToNewSectionTeamMap, enrolmentList,
-                renamedTeams);
+        // This does not include teams where the entire team did not move to the same team
+        Map<String, String> oldSectionTeamToNewSectionTeamMap = generateOldToNewTeamMappingWithConsistencyCheck(enrolmentList, isGivenTeamRenamed);
         
-        return renamedTeams;
+        return oldSectionTeamToNewSectionTeamMap;
+    }
+    
+    
+    Set<String> getStudentsWithModifiedTeamOrSectionFromEnrollment(List<StudentEnrollDetails> enrolmentList) {
+        Set<String> modifiedStudents = new HashSet<String>();
+        
+        for (StudentEnrollDetails details : enrolmentList) {
+            boolean isTeamUpdated = (details.newTeam != null) && (details.oldTeam != null) 
+                                    && (!details.oldTeam.equals(details.newTeam));
+            boolean isSectionUpdated = (details.newSection != null) && (details.oldSection != null) 
+                                        && (!details.oldSection.equals(details.newSection));
+            
+            if (details.updateStatus == UpdateStatus.UNMODIFIED || 
+               (!isTeamUpdated && !isSectionUpdated) ) {
+                continue;
+            } 
+            
+            modifiedStudents.add(details.email);
+        }
+        
+        return modifiedStudents;
     }
 
     /**
-     * Updates renamedTeams by removing teams where not every member was modified
-     * in the enrollment
+     * Updates renamedTeams by removing teams where not every member was modified in the enrollment
      * @param logic
      * @param modifiedStudents
-     * @param renamedTeams
+     * @param oldToNewSectionTeamMapping
      */
     private void removeTeamsWithMembersMissingFromEnrollmentData(Logic logic,
-            Set<String> modifiedStudents, Set<String> renamedTeams) {
-        Set<String> sectionTeams = new HashSet<String>(renamedTeams);
+            Set<String> modifiedStudents, Map<String, String> oldToNewSectionTeamMapping) {
+        
+        Set<String> sectionTeams = new HashSet<String>(oldToNewSectionTeamMapping.keySet());
         for (String sectionTeam : sectionTeams) {
             String team = sectionTeam.split("\\|")[1];
             List<StudentAttributes> studentsInTeam = logic.getStudentsForTeam(team, courseId);
@@ -211,21 +213,31 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
             }
             
             if (!isAllStudentsModified) {
-                renamedTeams.remove(sectionTeam);
+                oldToNewSectionTeamMapping.keySet().remove(sectionTeam);
             }
         }
     }
 
     /**
      * Creates a map of old section Team name, to new section team name.
-     * If an old name maps to 2 different team names, it is removed from the 
-     * set of teams that are renamed.
+     * If an old name maps to 2 different team names, it is removed from the mapping
      * @param enrolmentList
      * @param oldTeamToNewTeamMap 
-     * @param renamedTeams Teams that are renamed.  
      */
-    private void generateOldToNewTeamMappingWithConsistencyCheck(Map<String, String> oldTeamToNewTeamMap,
-            ArrayList<StudentEnrollDetails> enrolmentList, Set<String> renamedTeams) {
+    private Map<String, String> generateOldToNewTeamMappingWithConsistencyCheck(ArrayList<StudentEnrollDetails> enrolmentList,
+            Map<String, Boolean> isGivenTeamRenamed) {
+        
+        Map<String, String> oldTeamToNewTeamMap = new HashMap<String, String>();
+        Set<String> renamedTeams = new HashSet<String>();
+        
+        for (Map.Entry<String, Boolean> entry : isGivenTeamRenamed.entrySet()) {
+            String team = entry.getKey();
+            Boolean isRenamed = entry.getValue();
+            if (isRenamed) {
+                renamedTeams.add(team);
+            }
+        }
+        
         for (StudentEnrollDetails details : enrolmentList) {
             String originalSectionTeam = constructOriginalSectionTeamStr(details);
             String newSectionTeam = details.newSection + "|" + details.newTeam;
@@ -238,6 +250,10 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
                 oldTeamToNewTeamMap.put(originalSectionTeam, newSectionTeam);
             }
         }
+        
+        oldTeamToNewTeamMap.keySet().retainAll(renamedTeams);
+        
+        return oldTeamToNewTeamMap;
     }
 
     /**
