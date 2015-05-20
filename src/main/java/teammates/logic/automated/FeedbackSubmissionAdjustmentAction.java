@@ -135,6 +135,7 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
      * Using the enrollment list, return the mapping of old teams to new teams.
      * If a team was not renamed (due to members going to different teams), 
      * or an unmodified student in the enrollment list, it is not included in the map.
+     * This does not consider cases where not every student in a team is included in the enrollment
      * @param enrolmentList
      */
     private Map<String, String> extractOldTeamToNewTeamMapFromEnrollmentList(
@@ -238,6 +239,9 @@ public class FeedbackSubmissionAdjustmentAction extends TaskQueueWorkerAction {
             }
         }
         
+        // Create the old team to new team mapping.
+        // If not every student in a team maps to the same new team,
+        // then the team is not renamed, and is not included in the mapping
         for (StudentEnrollDetails details : enrolmentList) {
             String originalSectionTeam = constructOriginalSectionTeamStr(details);
             String newSectionTeam = details.newSection + "|" + details.newTeam;

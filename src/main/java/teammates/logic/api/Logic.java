@@ -2196,6 +2196,10 @@ public class Logic {
         feedbackResponsesLogic.updateFeedbackResponse(feedbackResponse);
     }
     
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
     public void updateFeedbackResponsesForRenamingTeam(String courseId, String feedbackSessionName, 
                                                        String oldTeam, String oldSection, 
                                                        String newTeam, String newSection) {

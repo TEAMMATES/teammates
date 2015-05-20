@@ -561,6 +561,16 @@ public class FeedbackResponsesDb extends EntitiesDb {
         updateFeedbackResponseOptimized(newAttributes, fr);
     }
     
+    /**
+     * Updates the recipient of the responses in the feedback session which
+     * currently has the recipient  {@code oldRecipient}, to {@code newRecipient}
+     * @param courseId
+     * @param feedbackSessionName
+     * @param oldRecipient
+     * @param oldRecipientSection
+     * @param newRecipient
+     * @param newRecipientSection
+     */
     public void updateFeedbackResponsesRecipientForRecipient(String courseId, String feedbackSessionName, 
                                                              String oldRecipient, String oldRecipientSection, 
                                                              String newRecipient, String newRecipientSection) {
