@@ -133,16 +133,16 @@ public class StringHelper {
     public static String toString(List<String> strings, String delimiter) {
         String returnValue = "";
         
-        if (strings.size()==0) {
+        if (strings.size() == 0) {
             return returnValue;
         }
         
-        for (int i=0; i < strings.size()-1; i++) {
+        for (int i = 0; i < strings.size() - 1; i++) {
             String s = strings.get(i);
             returnValue += s + delimiter;
         }
         //append the last item
-        returnValue += strings.get(strings.size()-1);
+        returnValue += strings.get(strings.size() - 1);
         
         return returnValue;        
     }
@@ -241,7 +241,7 @@ public class StringHelper {
                                 .trim();           
             
         } else {         
-            lastName = fullName.substring(fullName.lastIndexOf(" ")+1).trim();
+            lastName = fullName.substring(fullName.lastIndexOf(" ") + 1).trim();
             firstName = fullName.replace(lastName, "").trim();
         }
         
