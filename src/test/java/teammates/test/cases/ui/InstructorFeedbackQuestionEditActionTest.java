@@ -884,7 +884,7 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "CONSTSUM",
                 Const.ParamsNames.FEEDBACK_QUESTION_TEXT, fqd.questionText + "(edited)",
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTS, Integer.toString(fqd.points),
-                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION, String.valueOf(!fqd.pointsPerOption),
+                Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION, String.valueOf(fqd.pointsPerOption),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, Integer.toString(fqd.numOfConstSumOptions),
                 Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS, String.valueOf(fqd.distributeToRecipients),
                 Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
@@ -895,6 +895,9 @@ public class InstructorFeedbackQuestionEditActionTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
         };
+
+        // Reverse it from true to false
+        modifyParamValue(editPointsParams, Const.ParamsNames.FEEDBACK_QUESTION_CONSTSUMPOINTSPEROPTION, "false");
 
         a = getAction(editPointsParams);
         r = (RedirectResult) a.executeAndPostProcess();
