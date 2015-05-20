@@ -207,13 +207,13 @@ function registerResponseCommentCheckboxEvent() {
         var _target = $(e.target);
         
         if (_target.prop("class").contains("answerCheckbox") && !_target.prop("checked")) {
-        	_target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
+            _target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
             _target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
         }
         if ((_target.prop("class").contains("giverCheckbox") || 
              _target.prop("class").contains("recipientCheckbox")) &&
              _target.prop("checked")) {
-        	_target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
+            _target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
         }
         
         table.find('.answerCheckbox:checked').each(function () {
@@ -249,7 +249,7 @@ function enableHoverToDisplayEditOptions() {
     $('.comments > .list-group-item').hover(function() {
         $("a[type='button']", this).show();
     }, function() {
-    	$("a[type='button']", this).hide();
+        $("a[type='button']", this).hide();
     });
 }
 
@@ -480,14 +480,14 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, sender) {
     var url = "/page/instructorFeedbackResponseCommentsLoad?user=" + user + "&courseid=" + courseId + "&fsname=" + fsNameForUrl + "&fsindex=" + fsIndx;
     $(sender).find('div[class^="placeholder-img-loading"]').html("<img src='/images/ajax-loader.gif'/>");
     panelBody.load(url, function( response, status, xhr ) {
-    	if (status == "success") {
-    		panelBody.removeClass('hidden');
-    		updateBadgeForPendingComments(panelBody.children(":first").text());
-    		panelBody.children(":first").remove();
-    		registerResponseCommentsEvent();
-    		registerCheckboxEventForVisibilityOptions();
-    		enableHoverToDisplayEditOptions();
-    		enableTooltip();
+        if (status == "success") {
+            panelBody.removeClass('hidden');
+            updateBadgeForPendingComments(panelBody.children(":first").text());
+            panelBody.children(":first").remove();
+            registerResponseCommentsEvent();
+            registerCheckboxEventForVisibilityOptions();
+            enableHoverToDisplayEditOptions();
+            enableTooltip();
       } else {
           panelBody.find('div[class^="placeholder-error-msg"]').removeClass('hidden');
           panelBody.removeClass('hidden');
