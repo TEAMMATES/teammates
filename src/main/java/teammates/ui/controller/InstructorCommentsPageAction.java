@@ -205,7 +205,7 @@ public class InstructorCommentsPageAction extends Action {
     }
 
     private List<FeedbackSessionAttributes> getFeedbackSessions() {
-            List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsForCourse(courseId);
+        List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsForCourse(courseId);
         return fsList;
     }
     
