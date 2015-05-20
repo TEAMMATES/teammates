@@ -66,9 +66,7 @@ public class InstructorCommentsPageAction extends Action {
         if (coursePaginationList.size() > 0) {
         //Load details of students and instructors once and pass it to callee methods
         //  (rather than loading them many times).
-            roster = new CourseRoster(
-                    logic.getStudentsForCourse(courseId),
-                    logic.getInstructorsForCourse(courseId));
+            roster = new CourseRoster(logic.getStudentsForCourse(courseId), logic.getInstructorsForCourse(courseId));
 
             //Prepare comments data
             giverEmailToCommentsMap = getGiverEmailToCommentsMap();
@@ -125,7 +123,9 @@ public class InstructorCommentsPageAction extends Action {
         java.util.Collections.sort(courses);
         for (int i = 0; i < courses.size(); i++) {
             CourseAttributes course = courses.get(i);
-            if (isDisplayArchivedCourse || !isCourseArchived(course, account.googleId) || course.id.equals(courseId)) {
+            if (isDisplayArchivedCourse 
+             || !isCourseArchived(course, account.googleId) 
+             || course.id.equals(courseId)) {
                 if (courseId == "") {
                     courseId = course.id;
                     instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
@@ -174,7 +174,7 @@ public class InstructorCommentsPageAction extends Action {
         for (CommentAttributes comment : comments) {
             boolean isCurrentInstructorGiver = comment.giverEmail.equals(instructor.email);
             String key = isCurrentInstructorGiver ? 
-                    InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST : comment.giverEmail;
+                         InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST : comment.giverEmail;
 
             List<CommentAttributes> commentList = giverEmailToCommentsMap.get(key);
             if (commentList == null) {
@@ -191,9 +191,12 @@ public class InstructorCommentsPageAction extends Action {
         return giverEmailToCommentsMap;
     }
 
-    private void updateCommentList(CommentAttributes comment, boolean isCurrentInstructorGiver, List<CommentAttributes> commentList) {
+    private void updateCommentList(CommentAttributes comment,
+                                   boolean isCurrentInstructorGiver,
+                                   List<CommentAttributes> commentList) {
         if (!isViewingDraft && !isCurrentInstructorGiver) { 
-            if (data.isInstructorAllowedForPrivilegeOnComment(comment, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
+            if (data.isInstructorAllowedForPrivilegeOnComment(comment,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
                 commentList.add(comment);
             }
         } else {
