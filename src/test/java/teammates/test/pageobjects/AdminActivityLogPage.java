@@ -2,6 +2,8 @@ package teammates.test.pageobjects;
 
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -30,14 +32,14 @@ public class AdminActivityLogPage extends AppPage {
         return hiddenInput.getAttribute("value");
     }
     
-    public void clickViewActionsButtonOfFirstEntry(){
-        
+    public void clickViewActionsButtonOfSecondEntry() {
         WebElement table = browser.driver.findElement(By.id("logsTable"));
+        List<WebElement> tableEntries = table.findElements(By.tagName("tr"));
         WebElement tableRow;
-        try {
-            tableRow = table.findElements(By.tagName("tr")).get(1);
-        } catch (IndexOutOfBoundsException onlyoneentry) {
-            tableRow = table.findElements(By.tagName("tr")).get(0);
+        if (tableEntries.size() == 1) {
+            tableRow = tableEntries.get(0);
+        } else {
+            tableRow = tableEntries.get(1);
         }
         WebElement element = tableRow.findElement(By.tagName("button"));
         element.click();

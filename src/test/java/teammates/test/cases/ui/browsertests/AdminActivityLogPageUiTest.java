@@ -49,7 +49,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         
         try {
             String expectedPersonInfo = logPage.getPersonInfoOfFirstEntry();      
-            logPage.clickViewActionsButtonOfFirstEntry();
+            logPage.clickViewActionsButtonOfSecondEntry();
             String actualPersonInfo = logPage.getFilterBoxString();
             assertEqualsIfQueryStringNotEmpty(expectedPersonInfo, actualPersonInfo);            
         } catch (NoSuchElementException emptylogs) {
