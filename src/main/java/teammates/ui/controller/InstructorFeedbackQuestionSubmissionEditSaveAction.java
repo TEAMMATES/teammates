@@ -61,6 +61,9 @@ public class InstructorFeedbackQuestionSubmissionEditSaveAction extends Feedback
 
     @Override
     protected boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes fs) {
+        System.out.println("open:" + fs.isOpened());
+        System.out.println("private:" + fs.isPrivateSession());
+        System.out.println("grace:" + fs.isInGracePeriod());
         return fs.isOpened() || fs.isPrivateSession() || fs.isInGracePeriod();
     }
 
