@@ -23,14 +23,13 @@ import teammates.storage.entity.Course;
  */
 public class CoursesDb extends EntitiesDb {
     
-    /* Explanation: Based on our policies for the storage component, this class
-     * does not handle cascading. It treats invalid values as an exception. 
-     * 
+    /* 
+     * Explanation: Based on our policies for the storage component, this class does not handle cascading. 
+     * It treats invalid values as an exception. 
      */
 
     public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update a Course that doesn't exist: ";
     
-    @SuppressWarnings("unused")
     private static final Logger log = Utils.getLogger();
     
     public void createCourses(Collection<CourseAttributes> coursesToAdd) throws InvalidParametersException{
@@ -41,15 +40,15 @@ public class CoursesDb extends EntitiesDb {
             try {
                 updateCourse(course);
             } catch (EntityDoesNotExistException e) {
-             // This situation is not tested as replicating such a situation is 
-             // difficult during testing
+                // This situation is not tested as replicating such a situation is 
+                // difficult during testing
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
             }
         }
     }
 
     /**
-     * Preconditions: <br>
+     * Preconditions:
      * * All parameters are non-null. 
      * @return Null if not found.
      */
@@ -87,14 +86,15 @@ public class CoursesDb extends EntitiesDb {
     }
 
     /**
-     * Updates the course.<br>
-     * Updates only course archive status.<br>
-     * Does not follow the 'keep existing' policy <br> 
-     * Preconditions: <br>
-     * * {@code courseToUpdate} is non-null. <br>
+     * Updates the course.
+     * Updates only course archive status.
+     * Does not follow the 'keep existing' policy 
+     * Preconditions:
+     * * {@code courseToUpdate} is non-null.
      * @throws InvalidParametersException, EntityDoesNotExistException
      */
-    public void updateCourse(CourseAttributes courseToUpdate) throws InvalidParametersException, EntityDoesNotExistException {
+    public void updateCourse(CourseAttributes courseToUpdate) throws InvalidParametersException, 
+                                                                     EntityDoesNotExistException {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseToUpdate);
         
@@ -118,10 +118,10 @@ public class CoursesDb extends EntitiesDb {
     
 
     /**
-     * Note: This is a non-cascade delete.<br>
-     *   <br> Fails silently if there is no such object.
-     * <br> Preconditions: 
-     * <br> * {@code courseId} is not null.
+     * Note: This is a non-cascade delete.
+     * Fails silently if there is no such object.
+     * Preconditions: 
+     * {@code courseId} is not null.
      */
     public void deleteCourse(String courseId) {
         
@@ -135,13 +135,11 @@ public class CoursesDb extends EntitiesDb {
     
     @Override
     protected Object getEntity(EntityAttributes attributes) {
-            
-        return getCourseEntity( ((CourseAttributes) attributes).id );
+        return getCourseEntity(((CourseAttributes) attributes).id);
     }
 
 
     private Course getCourseEntity(String courseId) {
-        
         Query q = getPM().newQuery(Course.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("ID == courseIdParam");
