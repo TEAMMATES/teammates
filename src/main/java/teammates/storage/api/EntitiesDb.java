@@ -23,7 +23,6 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.storage.datastore.Datastore;
-import teammates.storage.entity.FeedbackQuestion;
 import teammates.storage.search.SearchDocument;
 import teammates.storage.search.SearchManager;
 import teammates.storage.search.SearchQuery;

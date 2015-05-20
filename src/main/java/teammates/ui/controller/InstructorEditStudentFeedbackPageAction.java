@@ -3,8 +3,6 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.GsonBuilder;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -22,6 +20,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String moderatedStudentEmail = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT);
+        String moderatedQuestionNumber = getRequestParamValue("moderatedquestion");
 
         Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
                                                Const.ParamsNames.COURSE_ID), 
@@ -36,9 +35,9 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         StudentAttributes studentUnderModeration = logic.getStudentForEmail(courseId, moderatedStudentEmail); 
         
         if (studentUnderModeration == null) {
-            throw new EntityDoesNotExistException("Student Email "
-                    + moderatedStudentEmail + " does not exist in " + courseId
-                    + ".");
+            throw new EntityDoesNotExistException("Student Email " +
+                    moderatedStudentEmail + " does not exist in " + courseId +
+                    ".");
         }
         
         new GateKeeper().verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId),
@@ -46,7 +45,6 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
                 false, studentUnderModeration.section, 
                 feedbackSessionName, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        
         
         FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, student);
         
@@ -59,9 +57,13 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         data.isModeration = true;
         data.isHeaderHidden = true;
         data.studentToViewPageAs = studentUnderModeration;
+        
+        if (moderatedQuestionNumber != null) {
+          data.moderatedQuestion = moderatedQuestionNumber;
+        }
+        
         hideQuestionsWithAnonymousResponses(data.bundle);
 
-        
         statusToAdmin = "Moderating feedback session for student (" + studentUnderModeration.email + ")<br>" +
                 "Session Name: " + feedbackSessionName + "<br>" +
                 "Course ID: " + courseId;
@@ -81,14 +83,14 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
             boolean isRecipientVisibleToInstructor = question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
             boolean isResponseVisibleToInstructor = question.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
 
-            if (!isGiverVisibleToInstructor || !isRecipientVisibleToInstructor || !isResponseVisibleToInstructor) {
+            if (!isResponseVisibleToInstructor || !isGiverVisibleToInstructor || !isRecipientVisibleToInstructor) {
                 questionsToHide.add(question);
                 bundle.questionResponseBundle.put(question, new ArrayList<FeedbackResponseAttributes>());
             }
         }
         
         bundle.questionResponseBundle.keySet().removeAll(questionsToHide);
+        
         return !questionsToHide.isEmpty();
     }
-    
 }

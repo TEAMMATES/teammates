@@ -2,7 +2,6 @@ package teammates.client.scripts;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Scanner;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;

@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.StudentProfileCreateFormUrlAction;
