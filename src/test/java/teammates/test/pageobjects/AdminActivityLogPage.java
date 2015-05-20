@@ -33,7 +33,12 @@ public class AdminActivityLogPage extends AppPage {
     public void clickViewActionsButtonOfFirstEntry(){
         
         WebElement table = browser.driver.findElement(By.id("logsTable"));
-        WebElement tableRow = table.findElements(By.tagName("tr")).get(1);
+        WebElement tableRow;
+        try {
+            tableRow = table.findElements(By.tagName("tr")).get(1);
+        } catch (IndexOutOfBoundsException onlyoneentry) {
+            tableRow = table.findElements(By.tagName("tr")).get(0);
+        }
         WebElement element = tableRow.findElement(By.tagName("button"));
         element.click();
     }
