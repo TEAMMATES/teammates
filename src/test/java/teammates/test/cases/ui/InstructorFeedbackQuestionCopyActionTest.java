@@ -1,6 +1,7 @@
 package teammates.test.cases.ui;
 
 import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertTrue;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;

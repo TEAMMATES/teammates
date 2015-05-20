@@ -52,6 +52,8 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
                 isError = true;
             }
         } catch (InvalidParametersException e) {
+            // This part is not tested because GateKeeper handles if this happens, would be
+            // extremely difficult to replicate a situation whereby it gets past GateKeeper
             statusToUser.add(e.getMessage());
             statusToAdmin = e.getMessage();
             isError = true;
