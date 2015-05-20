@@ -670,8 +670,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         ______TS("Custom number of teams to give feedback to");
 
         params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
-        // TODO: Use refactor param method instead of doing it like this
-        params[7] = "TEAMS"; // change recipientType to TEAMS
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, "TEAMS");
 
         action = getAction(params);
         result = (RedirectResult) action.executeAndPostProcess();
@@ -696,8 +695,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         ______TS("Remnant custom number of entities when recipient is changed to non-student and non-team");
 
         params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
-        // TODO: Use refactor param method instead of doing it like this
-        params[7] = "INSTRUCTORS"; // change recipientType to INSTRUCTORS
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, "INSTRUCTORS");
 
         action = getAction(params);
         result = (RedirectResult) action.executeAndPostProcess();
@@ -722,13 +720,12 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         ______TS("Failure: Empty or null participant lists");
 
         params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
-        // TODO: Use refactor param method instead of doing it like this
-        params[21] = ""; // change showGiverTo to empty
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, "");
 
-        // TODO: Use refactor param method instead of doing it like this
-        // remove showRecipientTo
+        // Purposefully not using modifyParamVale because we're removing showRecipientTo
         params[22] = Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE;
         params[23] = "edit";
+        
         params = Arrays.copyOf(params, 24);
 
         action = getAction(params);
@@ -753,8 +750,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         ______TS("Failure: Invalid Parameter");
 
         params = createParamsForTypicalFeedbackQuestion(instructor1ofCourse1.courseId, fs.feedbackSessionName);
-        // TODO: Use refactor param method instead of doing it like this
-        params[5] = "NONE"; // Change giverType to NONE
+        modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, "NONE");
         action = getAction(params);
         result = (RedirectResult) action.executeAndPostProcess();
 

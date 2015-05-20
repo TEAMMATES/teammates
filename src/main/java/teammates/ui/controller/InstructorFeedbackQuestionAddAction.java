@@ -34,6 +34,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                                                                                   instructorDetailForCourse.email);
         List<String> questionDetailsErrors = feedbackQuestion.getQuestionDetails().validateQuestionDetails();
 
+        // if error is not empty not tested as extractFeedbackQuestionData method above uses Assumptions to cover it
         if (!questionDetailsErrors.isEmpty()) {
             statusToUser.addAll(questionDetailsErrors);
             isError = true;

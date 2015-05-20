@@ -44,7 +44,7 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         // TODO: find a way to test status message from session
-        InstructorAttributes instructor1ofCourse1 =dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         ______TS("Not enough parameters");
 
