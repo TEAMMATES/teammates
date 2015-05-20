@@ -1,4 +1,4 @@
-function isInCommentsPage(){
+function isInCommentsPage() {
 	return $(location).attr('href').indexOf('instructorCommentsPage') != -1;
 }
 
@@ -16,25 +16,25 @@ var addCommentHandler = function(e) {
     e.preventDefault();
     
     $.ajax({
-        type : 'POST',
-        url :   submitButton.attr('href') + "?" + formData,
-        beforeSend : function() {
+        type: 'POST',
+        url: submitButton.attr('href') + "?" + formData,
+        beforeSend: function() {
             formObject.find("textarea").prop("disabled", true);
             submitButton.html("<img src='/images/ajax-loader.gif'/>");
             submitButton.prop("disabled", true);
             cancelButton.prop("disabled", true);
         },
-        error : function() {
+        error: function() {
             formObject.find("textarea").prop("disabled", false);
             submitButton.prop("disabled", false);
             cancelButton.prop("disabled", false);
             setFormErrorMessage(submitButton, "Failed to save comment. Please try again.");
             submitButton.text("Add");
         },
-        success : function(data) {
-            setTimeout(function(){
+        success: function(data) {
+            setTimeout(function() {
                 if (!data.isError) {
-                    if(isInCommentsPage()){
+                    if(isInCommentsPage()) {
                     	panelHeading.click();
                     } else {
 	                    // Inject new comment row
@@ -45,7 +45,7 @@ var addCommentHandler = function(e) {
 	                    newCommentRow.find("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
 	                    registerResponseCommentCheckboxEvent();
 	                    newCommentRow.find("[data-toggle='tooltip']").tooltip({html: true});
-	                    
+
 	                    // Reset add comment form
 	                    formObject.find("textarea").prop("disabled", false);
 	                    formObject.find("textarea").val("");
@@ -64,7 +64,7 @@ var addCommentHandler = function(e) {
                     submitButton.prop("disabled", false);
                     cancelButton.prop("disabled", false);
                 }
-            },500);
+            }, 500);
         }
     });
 };
@@ -82,25 +82,25 @@ var editCommentHandler = function(e) {
     e.preventDefault();
     
     $.ajax({
-        type : 'POST',
-        url :   submitButton.attr('href') + "?" + formData,
-        beforeSend : function() {
+        type: 'POST',
+        url: submitButton.attr('href') + "?" + formData,
+        beforeSend: function() {
             formObject.find("textarea").prop("disabled", true);
             submitButton.html("<img src='/images/ajax-loader.gif'/>");
             submitButton.prop("disabled", true);
             cancelButton.prop("disabled", true);
         },
-        error : function() {
+        error: function() {
             formObject.find("textarea").prop("disabled", false);
             setFormErrorMessage(submitButton, "Failed to save changes. Please try again.");
             submitButton.text("Save");
             submitButton.prop("disabled", false);
             cancelButton.prop("disabled", false);
         },
-        success : function(data) {
-            setTimeout(function(){
+        success: function(data) {
+            setTimeout(function() {
                 if (!data.isError) {
-                    if(isInCommentsPage()){
+                    if(isInCommentsPage()) {
                         panelHeading.click();
                     } else {
 	                    // Update editted comment
@@ -125,7 +125,7 @@ var editCommentHandler = function(e) {
                     submitButton.prop("disabled", false);
                     cancelButton.prop("disabled", false);
                 }
-            },500);
+            }, 500);
         }
     });
 };
@@ -143,12 +143,12 @@ var deleteCommentHandler = function(e) {
     e.preventDefault();
     
     $.ajax({
-        type : 'POST',
-        url :   submitButton.attr('href') + "?" + formData,
-        beforeSend : function() {
+        type: 'POST',
+        url: submitButton.attr('href') + "?" + formData,
+        beforeSend: function() {
             submitButton.html("<img src='/images/ajax-loader.gif'/>");
         },
-        error : function() {
+        error: function() {
             if (editForm.is(':visible')) {
                 setFormErrorMessage(editForm.find("div > a"), "Failed to delete comment. Please try again.");
             } else if (frCommentList.parent().find("div.delete_error_msg").length == 0) {
@@ -156,17 +156,17 @@ var deleteCommentHandler = function(e) {
             }
             submitButton.html("<span class=\"glyphicon glyphicon-trash glyphicon-primary\"></span>");
         },
-        success : function(data) {
-            setTimeout(function(){
+        success: function(data) {
+            setTimeout(function() {
                 if (!data.isError) {
-                    if(isInCommentsPage()){
+                    if (isInCommentsPage()) {
                         panelHeading.click();
                     } else {
 	                    var numberOfItemInFrCommentList = deletedCommentRow.parent().children('li');
-	                    if(numberOfItemInFrCommentList.length <= 2){
+	                    if (numberOfItemInFrCommentList.length <= 2) {
 	                        deletedCommentRow.parent().hide();
 	                    }
-	                    if(frCommentList.find("li").length <= 1){
+	                    if (frCommentList.find("li").length <= 1) {
 	                        frCommentList.hide();
 	                    }
 	                    deletedCommentRow.remove();
@@ -180,25 +180,27 @@ var deleteCommentHandler = function(e) {
                     }
                     submitButton.html("<span class=\"glyphicon glyphicon-trash glyphicon-primary\"></span>");
                 }
-            },500);
+            }, 500);
         }
     });
 };
 
-function registerResponseCommentsEvent(){
+function registerResponseCommentsEvent() {
     $("form[class*='responseCommentAddForm'] > div > a[id^='button_save_comment_for_add']").click(addCommentHandler);
     $("form[class*='responseCommentEditForm'] > div > a[id^='button_save_comment_for_edit']").click(editCommentHandler);
     $("form[class*='responseCommentDeleteForm'] > a[id^='commentdelete']").click(deleteCommentHandler);
     
-    String.prototype.contains = function(substr) { return this.indexOf(substr) != -1; };
+    String.prototype.contains = function(substr) {
+    	return this.indexOf(substr) != -1;
+    };
     
     registerResponseCommentCheckboxEvent();
     
     $("div[id^=plainCommentText]").css("margin-left","15px");
 }
 
-function registerResponseCommentCheckboxEvent(){
-	$("input[type=checkbox]").click(function(e){
+function registerResponseCommentCheckboxEvent() {
+	$("input[type=checkbox]").click(function(e) {
 		var table = $(this).parent().parent().parent().parent();
 		var form = table.parent().parent().parent();
 		var visibilityOptions = [];
@@ -241,17 +243,17 @@ function updateVisibilityOptionsForResponseComment(formObject, data) {
     formObject.find("input[class*='giverCheckbox'][value='INSTRUCTORS']").prop("checked", (data.comment.showGiverNameTo.indexOf("INSTRUCTORS") !== -1));
 }
 
-function enableHoverToDisplayEditOptions(){
+function enableHoverToDisplayEditOptions() {
 	//show on hover for comment
 	  $('.comments > .list-group-item').hover(
-	     function(){
+	     function() {
 		  $("a[type='button']", this).show();
-	  }, function(){
+	  }, function() {
 		  $("a[type='button']", this).hide();
 	  });
 }
 
-function enableTooltip(){
+function enableTooltip() {
 	$(function() { 
 	    $("[data-toggle='tooltip']").tooltip({html: true, container: 'body'}); 
 	});
@@ -384,7 +386,7 @@ function removeFormErrorMessage(submitButton) {
     }
 }
 
-function setFormErrorMessage(submitButton, msg){
+function setFormErrorMessage(submitButton, msg) {
     if (submitButton.next().next().attr("id") == "errorMessage") {
         submitButton.next().next().text(msg);
     } else {
@@ -393,82 +395,82 @@ function setFormErrorMessage(submitButton, msg){
 }
 
 function showResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
-    var id = "-"+recipientIndex+"-"+giverIndex+"-"+qnIndx;
-    $("#responseCommentTable"+id).show();
-    if($("#responseCommentTable"+ id + " > li").length <= 1){
-    	$("#responseCommentTable"+id).css('margin-top', '15px');
+    var id = "-" + recipientIndex + "-" + giverIndex + "-" + qnIndx;
+    $("#responseCommentTable" + id).show();
+    if ($("#responseCommentTable" + id + " > li").length <= 1) {
+    	$("#responseCommentTable" + id).css('margin-top', '15px');
     }
-    $("#showResponseCommentAddForm"+id).show();
-    $("#responseCommentAddForm"+id).focus();
+    $("#showResponseCommentAddForm" + id).show();
+    $("#responseCommentAddForm" + id).focus();
 }
 
 function hideResponseCommentAddForm(recipientIndex, giverIndex, qnIndx) {
-    var id = "-"+recipientIndex+"-"+giverIndex+"-"+qnIndx;
-    if($("#responseCommentTable"+ id + " > li").length <= 1){
-    	$("#responseCommentTable"+id).css('margin-top', '0');
-    	$("#responseCommentTable"+id).hide();
+    var id = "-" + recipientIndex + "-" + giverIndex + "-" + qnIndx;
+    if ($("#responseCommentTable" + id + " > li").length <= 1) {
+    	$("#responseCommentTable" + id).css('margin-top', '0');
+    	$("#responseCommentTable" + id).hide();
     }
-    $("#showResponseCommentAddForm"+id).hide();
+    $("#showResponseCommentAddForm" + id).hide();
     removeFormErrorMessage($("#button_save_comment_for_add" + id));
 }
 
 function showResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex) {
 	var id;
-	if(giverIndex || qnIndex || commentIndex){
-		id = "-"+recipientIndex+"-"+giverIndex+"-"+qnIndex+"-"+commentIndex;
+	if (giverIndex || qnIndex || commentIndex) {
+		id = "-" + recipientIndex + "-" + giverIndex + "-" + qnIndex + "-" + commentIndex;
 	} else {
-		id = "-"+recipientIndex;
+		id = "-" + recipientIndex;
 	}
-	var commentBar = $("#plainCommentText"+id).parent().find("#commentBar"+id);
+	var commentBar = $("#plainCommentText" + id).parent().find("#commentBar" + id);
 	commentBar.hide();
-    $("#plainCommentText"+id).hide();
-    $("#responseCommentEditForm"+id+" > div > textarea").val($("#plainCommentText"+id).text());
-    $("#responseCommentEditForm"+id).show();
-    $("#responseCommentEditForm"+id+" > div > textarea").focus();
+    $("#plainCommentText" + id).hide();
+    $("#responseCommentEditForm" + id + " > div > textarea").val($("#plainCommentText" + id).text());
+    $("#responseCommentEditForm" + id).show();
+    $("#responseCommentEditForm" + id + " > div > textarea").focus();
 }
 
 function toggleVisibilityEditForm(sessionIdx, questionIdx, responseIdx, commentIndex) {
 	var id;
-	if(questionIdx || responseIdx || commentIndex){
-		if(commentIndex){
-			id = "-"+sessionIdx+"-"+questionIdx+"-"+responseIdx+"-"+commentIndex;
+	if (questionIdx || responseIdx || commentIndex) {
+		if (commentIndex) {
+			id = "-" + sessionIdx + "-" + questionIdx + "-" + responseIdx + "-" + commentIndex;
 		} else {
-			id = "-"+sessionIdx+"-"+questionIdx+"-"+responseIdx;
+			id = "-" + sessionIdx + "-" + questionIdx + "-" + responseIdx;
 		}
 	} else {
-		id = "-"+sessionIdx;
+		id = "-" + sessionIdx;
 	}
-	var visibilityEditForm = $("#visibility-options"+id);
-	if(visibilityEditForm.is(':visible')){
+	var visibilityEditForm = $("#visibility-options" + id);
+	if (visibilityEditForm.is(':visible')) {
 		visibilityEditForm.hide();
-		$("#frComment-visibility-options-trigger"+id).html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
+		$("#frComment-visibility-options-trigger" + id).html('<span class="glyphicon glyphicon-eye-close"></span> Show Visibility Options');
 		
 	} else {
 		visibilityEditForm.show();
-		$("#frComment-visibility-options-trigger"+id).html('<span class="glyphicon glyphicon-eye-close"></span> Hide Visibility Options');
+		$("#frComment-visibility-options-trigger" + id).html('<span class="glyphicon glyphicon-eye-close"></span> Hide Visibility Options');
 	}
 }
 
 function hideResponseCommentEditForm(recipientIndex, giverIndex, qnIndex, commentIndex) {
     var id;
-    if(giverIndex || qnIndex || commentIndex){
-    	id = "-"+recipientIndex+"-"+giverIndex+"-"+qnIndex+"-"+commentIndex;
+    if (giverIndex || qnIndex || commentIndex) {
+    	id = "-" + recipientIndex + "-" + giverIndex + "-" + qnIndex + "-" + commentIndex;
     } else {
-    	id = "-"+recipientIndex;
+    	id = "-" + recipientIndex;
     }
-    var commentBar = $("#plainCommentText"+id).parent().find("#commentBar"+id);
+    var commentBar = $("#plainCommentText" + id).parent().find("#commentBar" + id);
     commentBar.show();
-    $("#plainCommentText"+id).show();
-    $("#responseCommentEditForm"+id).hide();
+    $("#plainCommentText" + id).show();
+    $("#responseCommentEditForm" + id).hide();
     removeFormErrorMessage($("#button_save_comment_for_edit" + id));
 }
 
 function showNewlyAddedResponseCommentEditForm(addedIndex) {
-    $("#responseCommentRow-"+addedIndex).hide();
-    if ($("#responseCommentEditForm-"+addedIndex).prev().is(':visible')) {
-        $("#responseCommentEditForm-"+addedIndex).prev().remove();
+    $("#responseCommentRow-" + addedIndex).hide();
+    if ($("#responseCommentEditForm-" + addedIndex).prev().is(':visible')) {
+        $("#responseCommentEditForm-" + addedIndex).prev().remove();
     }
-    $("#responseCommentEditForm-"+addedIndex).show();
+    $("#responseCommentEditForm-" + addedIndex).show();
 }
 
 function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, sender) {
@@ -494,8 +496,8 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, sender) {
 	});
 }
 
-function updateBadgeForPendingComments(numberOfPendingComments){
-	if(numberOfPendingComments == 0) {
+function updateBadgeForPendingComments(numberOfPendingComments) {
+	if (numberOfPendingComments == 0) {
 		$('.badge').parent().parent().hide();
 	} else {
 		$('.badge').parent().parent().show();
@@ -504,8 +506,8 @@ function updateBadgeForPendingComments(numberOfPendingComments){
 	$('.badge').parent().attr('data-original-title', 'Send email notification to ' + numberOfPendingComments + ' recipient(s) of comments pending notification');
 }
 
-function registerCheckboxEventForVisibilityOptions(){
-	$("input[type=checkbox]").click(function(e){
+function registerCheckboxEventForVisibilityOptions() {
+	$("input[type=checkbox]").click(function(e) {
     	var table = $(this).parent().parent().parent().parent();
     	var form = table.parent().parent().parent();
     	var visibilityOptions = [];

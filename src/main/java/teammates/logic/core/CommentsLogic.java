@@ -49,8 +49,9 @@ public class CommentsLogic {
     private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
 
     public static CommentsLogic inst() {
-        if (instance == null)
+        if (instance == null) {
             instance = new CommentsLogic();
+        }
         return instance;
     }
     
@@ -80,9 +81,9 @@ public class CommentsLogic {
         verifyIsCoursePresent(courseId, "get");
         List<CommentAttributes> comments = commentsDb.getCommentsForReceiver(courseId, recipientType, receiverEmail);
         Iterator<CommentAttributes> iterator = comments.iterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             CommentAttributes c = iterator.next();
-            if(!c.giverEmail.equals(giverEmail)){
+            if (!c.giverEmail.equals(giverEmail)) {
                 iterator.remove();
             }
         }
@@ -101,13 +102,13 @@ public class CommentsLogic {
         return commentsDb.getCommentsForSendingState(courseId, sendingState);
     }
     
-    public void updateCommentsSendingState(String courseId, CommentSendingState oldState, CommentSendingState newState) throws EntityDoesNotExistException{
+    public void updateCommentsSendingState(String courseId, CommentSendingState oldState, CommentSendingState newState) throws EntityDoesNotExistException {
         verifyIsCoursePresent(courseId, "clear pending");
         commentsDb.updateComments(courseId, oldState, newState);
     }
     
     public CommentAttributes updateComment(CommentAttributes comment)
-            throws InvalidParametersException, EntityDoesNotExistException{
+            throws InvalidParametersException, EntityDoesNotExistException {
         verifyIsCoursePresent(comment.courseId, "update");
         
         return commentsDb.updateComment(comment);
@@ -158,11 +159,11 @@ public class CommentsLogic {
         this.deleteDocument(comment);
     }
     
-    public void deleteComment(CommentAttributes comment){
+    public void deleteComment(CommentAttributes comment) {
         commentsDb.deleteEntity(comment);
     }
     
-    public void deleteDocument(CommentAttributes comment){
+    public void deleteDocument(CommentAttributes comment) {
         commentsDb.deleteDocument(comment);
     }
     
@@ -175,11 +176,11 @@ public class CommentsLogic {
      * Create or update document for comment
      * @param comment
      */
-    public void putDocument(CommentAttributes comment){
+    public void putDocument(CommentAttributes comment) {
         commentsDb.putDocument(comment);
     }
     
-    public CommentSearchResultBundle searchComment(String queryString, String googleId, String cursorString){
+    public CommentSearchResultBundle searchComment(String queryString, String googleId, String cursorString) {
         return commentsDb.search(queryString, googleId, cursorString);
     }
     
@@ -191,9 +192,9 @@ public class CommentsLogic {
         }
     }
     
-    private void verifyIsInstructorOfCourse(String courseId, String email) throws EntityDoesNotExistException{
+    private void verifyIsInstructorOfCourse(String courseId, String email) throws EntityDoesNotExistException {
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, email);
-        if(instructor == null){
+        if (instructor == null) {
             throw new EntityDoesNotExistException(
                     "User " + email + " is not a registered instructor for course "+ courseId + ".");
         }
@@ -215,7 +216,7 @@ public class CommentsLogic {
         
         //When the given instructor is the comment giver, 
         List<CommentAttributes> comments = getCommentsForGiverAndStatus(instructor.courseId, instructor.email, CommentStatus.FINAL);
-        for(CommentAttributes c: comments){
+        for (CommentAttributes c : comments) {
             preventAppendingThisCommentAgain(commentsVisitedSet, c);
         }
         
@@ -231,7 +232,7 @@ public class CommentsLogic {
     private void removeNonVisibleCommentsForInstructor(
             List<CommentAttributes> commentsForInstructor,
             HashSet<String> commentsVisitedSet, List<CommentAttributes> comments) {
-        for(CommentAttributes c:commentsForInstructor){
+        for (CommentAttributes c : commentsForInstructor) {
             removeGiverAndRecipientNameByVisibilityOptions(c, CommentParticipantType.INSTRUCTOR);
             appendComments(c, comments, commentsVisitedSet);
         }
@@ -294,7 +295,7 @@ public class CommentsLogic {
     
     private List<String> getTeamsForSection(List<StudentAttributes> studentsInTheSameSection) {
         List<String> teams = new ArrayList<String>();
-        for(StudentAttributes stu : studentsInTheSameSection){
+        for (StudentAttributes stu : studentsInTheSameSection) {
             teams.add(stu.team);
         }
         return teams;
@@ -302,7 +303,7 @@ public class CommentsLogic {
 
     private List<String> getSectionStudentsEmails(List<StudentAttributes> studentsInTheSameSection) {
         List<String> sectionStudentsEmails = new ArrayList<String>();
-        for(StudentAttributes stu : studentsInTheSameSection){
+        for (StudentAttributes stu : studentsInTheSameSection) {
             sectionStudentsEmails.add(stu.email);
         }
         return sectionStudentsEmails;
@@ -310,7 +311,7 @@ public class CommentsLogic {
     
     private List<String> getTeammatesEmails(List<StudentAttributes> teammates) {
         List<String> teammatesEmails = new ArrayList<String>();
-        for(StudentAttributes teammate : teammates){
+        for (StudentAttributes teammate : teammates) {
             teammatesEmails.add(teammate.email);
         }
         return teammatesEmails;
@@ -323,9 +324,9 @@ public class CommentsLogic {
         removeNonVisibleCommentsForSection(commentsForCourse, student, teammates, 
                 sectionStudentsEmails, teamsInThisSection, commentsVisitedSet, comments);
         
-        for(CommentAttributes c: commentsForCourse){
-            if(c.courseId.equals(student.course)){
-                if(c.recipientType == CommentParticipantType.COURSE) {
+        for (CommentAttributes c : commentsForCourse) {
+            if (c.courseId.equals(student.course)) {
+                if (c.recipientType == CommentParticipantType.COURSE) {
                     removeGiverNameByVisibilityOptions(c, CommentParticipantType.COURSE);
                 } else {
                     removeGiverAndRecipientNameByVisibilityOptions(c, CommentParticipantType.COURSE);
@@ -341,29 +342,29 @@ public class CommentsLogic {
             List<String> teamsInThisSection, HashSet<String> commentsVisitedSet, List<CommentAttributes> comments) {
         removeNonVisibleCommentsForTeam(commentsForSection, student, teammatesEmails, commentsVisitedSet, comments);
         
-        for(CommentAttributes c:commentsForSection){
+        for (CommentAttributes c : commentsForSection) {
             //for teammates
-            if(c.recipientType == CommentParticipantType.PERSON
-                    && isCommentRecipientsWithinGroup(sectionStudentsEmails, c)){
-                if(c.showCommentTo.contains(CommentParticipantType.SECTION)){
+            if (c.recipientType == CommentParticipantType.PERSON
+                    && isCommentRecipientsWithinGroup(sectionStudentsEmails, c)) {
+                if (c.showCommentTo.contains(CommentParticipantType.SECTION)) {
                     removeGiverAndRecipientNameByVisibilityOptions(c, CommentParticipantType.SECTION);
                     appendComments(c, comments, commentsVisitedSet);
                 } else {
                     preventAppendingThisCommentAgain(commentsVisitedSet, c);
                 }
             //for team
-            } else if(c.recipientType == CommentParticipantType.TEAM 
-                    && isCommentRecipientsWithinGroup(teamsInThisSection, c)){
-                if(c.showCommentTo.contains(CommentParticipantType.SECTION)){
+            } else if (c.recipientType == CommentParticipantType.TEAM 
+                    && isCommentRecipientsWithinGroup(teamsInThisSection, c)) {
+                if (c.showCommentTo.contains(CommentParticipantType.SECTION)) {
                     removeGiverNameByVisibilityOptions(c, CommentParticipantType.SECTION);
                     appendComments(c, comments, commentsVisitedSet);
                 } else {
                     preventAppendingThisCommentAgain(commentsVisitedSet, c);
                 }
             //for section
-            } else if(c.recipientType == CommentParticipantType.SECTION 
-                    && c.recipients.contains(student.section)){
-                if(c.showCommentTo.contains(CommentParticipantType.SECTION)){
+            } else if (c.recipientType == CommentParticipantType.SECTION 
+                    && c.recipients.contains(student.section)) {
+                if (c.showCommentTo.contains(CommentParticipantType.SECTION)) {
                     removeGiverNameByVisibilityOptions(c, CommentParticipantType.SECTION);
                     appendComments(c, comments, commentsVisitedSet);
                 } else {
@@ -376,20 +377,20 @@ public class CommentsLogic {
     private void removeNonVisibleCommentsForTeam(List<CommentAttributes> commentsForTeam,
             StudentAttributes student, List<String> teammates, HashSet<String> commentsVisitedSet,
             List<CommentAttributes> comments) {
-        for(CommentAttributes c:commentsForTeam){
+        for (CommentAttributes c : commentsForTeam) {
             //for teammates
-            if(c.recipientType == CommentParticipantType.PERSON
-                    && isCommentRecipientsWithinGroup(teammates, c)){
-                if(c.showCommentTo.contains(CommentParticipantType.TEAM)){
+            if (c.recipientType == CommentParticipantType.PERSON
+                    && isCommentRecipientsWithinGroup(teammates, c)) {
+                if (c.showCommentTo.contains(CommentParticipantType.TEAM)) {
                     removeGiverAndRecipientNameByVisibilityOptions(c, CommentParticipantType.TEAM);
                     appendComments(c, comments, commentsVisitedSet);
                 } else {
                     preventAppendingThisCommentAgain(commentsVisitedSet, c);
                 }
             //for team
-            } else if(c.recipientType == CommentParticipantType.TEAM 
-                    && c.recipients.contains(student.team)){
-                if(c.showCommentTo.contains(CommentParticipantType.TEAM)){
+            } else if (c.recipientType == CommentParticipantType.TEAM 
+                    && c.recipients.contains(student.team)) {
+                if (c.showCommentTo.contains(CommentParticipantType.TEAM)) {
                     removeGiverNameByVisibilityOptions(c, CommentParticipantType.TEAM);
                     appendComments(c, comments, commentsVisitedSet);
                 } else {
@@ -400,9 +401,9 @@ public class CommentsLogic {
     }
 
     private void removeNonVisibleCommentsForStudent(List<CommentAttributes> commentsForStudent, HashSet<String> commentsVisitedSet,
-            List<CommentAttributes> comments){
-        for(CommentAttributes c:commentsForStudent){
-            if(c.showCommentTo.contains(CommentParticipantType.PERSON)){
+            List<CommentAttributes> comments) {
+        for (CommentAttributes c : commentsForStudent) {
+            if (c.showCommentTo.contains(CommentParticipantType.PERSON)) {
                 removeGiverNameByVisibilityOptions(c, CommentParticipantType.PERSON);
                 appendComments(c, comments, commentsVisitedSet);
             } else {
@@ -412,21 +413,21 @@ public class CommentsLogic {
     }
     
     private void removeGiverNameByVisibilityOptions(CommentAttributes c, CommentParticipantType viewerType) {
-        if (!c.showGiverNameTo.contains(viewerType)){
+        if (!c.showGiverNameTo.contains(viewerType)) {
             c.giverEmail = "Anonymous";
         }
     }
 
     private void removeGiverAndRecipientNameByVisibilityOptions(CommentAttributes c, CommentParticipantType viewerType) {
         removeGiverNameByVisibilityOptions(c, viewerType);
-        if(!c.showRecipientNameTo.contains(viewerType)){
+        if (!c.showRecipientNameTo.contains(viewerType)) {
             c.recipients = new HashSet<String>();
             c.recipients.add("Anonymous");
         }
     }
     
-    private void appendComments(CommentAttributes c, List<CommentAttributes> toThisCommentList, HashSet<String> commentsVisitedSet){
-        if(!commentsVisitedSet.contains(c.getCommentId().toString())){
+    private void appendComments(CommentAttributes c, List<CommentAttributes> toThisCommentList, HashSet<String> commentsVisitedSet) {
+        if (!commentsVisitedSet.contains(c.getCommentId().toString())) {
             toThisCommentList.add(c);
             preventAppendingThisCommentAgain(commentsVisitedSet, c);
         }
@@ -438,8 +439,8 @@ public class CommentsLogic {
     }
 
     private boolean isCommentRecipientsWithinGroup(List<String> group, CommentAttributes c) {
-        for(String recipient : c.recipients){
-            if(group.contains(recipient)){
+        for (String recipient : c.recipients) {
+            if (group.contains(recipient)) {
                 return true;
             }
         }
@@ -501,15 +502,15 @@ public class CommentsLogic {
             List<StudentAttributes> allStudents,
             Map<String, List<StudentAttributes>> teamStudentTable,
             Map<String, List<StudentAttributes>> sectionStudentTable) {
-        for(StudentAttributes student:allStudents){
+        for (StudentAttributes student : allStudents) {
             List<StudentAttributes> teammates = teamStudentTable.get(student.team);
-            if(teammates == null){
+            if (teammates == null) {
                 teammates = new ArrayList<StudentAttributes>();
                 teamStudentTable.put(student.team, teammates);
             }
             teammates.add(student);
             List<StudentAttributes> studentsInTheSameSection = sectionStudentTable.get(student.section);
-            if(studentsInTheSameSection == null){
+            if (studentsInTheSameSection == null) {
                 studentsInTheSameSection = new ArrayList<StudentAttributes>();
                 sectionStudentTable.put(student.section, studentsInTheSameSection);
             }
@@ -529,13 +530,13 @@ public class CommentsLogic {
         Map<String, FeedbackResponseAttributes> feedbackResponsesTable = new HashMap<String, FeedbackResponseAttributes>();
         Map<String, Set<String>> responseCommentsAddedTable = new HashMap<String, Set<String>>();
         
-        for(FeedbackResponseCommentAttributes frc:sendingResponseCommentsList){
+        for (FeedbackResponseCommentAttributes frc : sendingResponseCommentsList) {
             FeedbackQuestionAttributes relatedQuestion = getRelatedQuestion(
                     feedbackQuestionsTable, frc);
             FeedbackResponseAttributes relatedResponse = getRelatedResponse(
                     feedbackResponsesTable, frc);
             
-            if(relatedQuestion != null && relatedResponse != null){
+            if (relatedQuestion != null && relatedResponse != null) {
                 populateRecipientEmailsForGiver(roster, teamStudentTable,
                         recipientEmailsList, responseCommentsAddedTable, frc,
                         relatedQuestion, relatedResponse);
@@ -558,8 +559,8 @@ public class CommentsLogic {
             Map<String, Set<String>> responseCommentsAddedTable,
             FeedbackResponseCommentAttributes frc,
             FeedbackQuestionAttributes relatedQuestion) {
-        if(frc.isVisibleTo(FeedbackParticipantType.STUDENTS)){
-            for(StudentAttributes student : allStudents){
+        if (frc.isVisibleTo(FeedbackParticipantType.STUDENTS)) {
+            for (StudentAttributes student : allStudents) {
                 addRecipientEmailsToList(responseCommentsAddedTable,
                         recipientEmailsList, frc.getId().toString(), student.email);
             }
@@ -573,10 +574,10 @@ public class CommentsLogic {
             FeedbackResponseCommentAttributes frc,
             FeedbackQuestionAttributes relatedQuestion,
             FeedbackResponseAttributes relatedResponse) {
-        if(frc.isVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)){
+        if (frc.isVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {
             StudentAttributes studentOfThisEmail = 
                     roster.getStudentForEmail(relatedResponse.recipientEmail);
-            if(studentOfThisEmail != null){
+            if (studentOfThisEmail != null) {
                 addRecipientEmailsForTeam(teamStudentTable,
                         recipientEmailsList, responseCommentsAddedTable, frc.getId().toString(),
                         studentOfThisEmail.team);
@@ -595,9 +596,9 @@ public class CommentsLogic {
             FeedbackResponseCommentAttributes frc,
             FeedbackQuestionAttributes relatedQuestion,
             FeedbackResponseAttributes relatedResponse) {
-        if(frc.isVisibleTo(FeedbackParticipantType.RECEIVER)){
+        if (frc.isVisibleTo(FeedbackParticipantType.RECEIVER)) {
             //recipientEmail is email
-            if(roster.getStudentForEmail(relatedResponse.recipientEmail) != null){
+            if (roster.getStudentForEmail(relatedResponse.recipientEmail) != null) {
                 addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList, 
                         frc.getId().toString(), relatedResponse.recipientEmail);
             } else {
@@ -615,15 +616,17 @@ public class CommentsLogic {
             FeedbackQuestionAttributes relatedQuestion,
             FeedbackResponseAttributes relatedResponse) {
         StudentAttributes giver = roster.getStudentForEmail(relatedResponse.giverEmail);
-        if(giver == null) return;
+        if (giver == null) {
+            return;
+        }
         
-        if(frc.isVisibleTo(FeedbackParticipantType.GIVER)){
+        if (frc.isVisibleTo(FeedbackParticipantType.GIVER)) {
             addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList, 
                     frc.getId().toString(), relatedResponse.giverEmail);
         }
         
-        if(relatedQuestion.giverType == FeedbackParticipantType.TEAMS
-           || frc.isVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)){
+        if (relatedQuestion.giverType == FeedbackParticipantType.TEAMS
+           || frc.isVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
             addRecipientEmailsForTeam(teamStudentTable, recipientEmailsList,
                     responseCommentsAddedTable, frc.getId().toString(), giver.team);
         }
@@ -634,7 +637,7 @@ public class CommentsLogic {
             FeedbackResponseCommentAttributes frc) {
         FeedbackResponseAttributes relatedResponse = 
                 feedbackResponsesTable.get(frc.feedbackResponseId);
-        if(relatedResponse == null){
+        if (relatedResponse == null) {
             relatedResponse = frLogic.getFeedbackResponse(frc.feedbackResponseId);
             feedbackResponsesTable.put(frc.feedbackResponseId, relatedResponse);
         }
@@ -646,7 +649,7 @@ public class CommentsLogic {
             FeedbackResponseCommentAttributes frc) {
         FeedbackQuestionAttributes relatedQuestion = 
                 feedbackQuestionsTable.get(frc.feedbackQuestionId);
-        if(relatedQuestion == null){
+        if (relatedQuestion == null) {
             relatedQuestion = fqLogic.getFeedbackQuestion(frc.feedbackQuestionId);
             feedbackQuestionsTable.put(frc.feedbackQuestionId, relatedQuestion);
         }
@@ -664,7 +667,7 @@ public class CommentsLogic {
         
         Map<String, Set<String>> studentCommentsAddedTable = new HashMap<String, Set<String>>();
         
-        for(CommentAttributes pendingComment : sendingCommentsList){
+        for (CommentAttributes pendingComment : sendingCommentsList) {
             populateRecipientEmailsForPerson(recipientEmailList,
                     studentCommentsAddedTable, pendingComment);
             populateRecipientEmailsForTeam(recipientEmailList, roster,
@@ -681,8 +684,8 @@ public class CommentsLogic {
             List<StudentAttributes> allStudents,
             Map<String, Set<String>> studentCommentsAddedTable,
             CommentAttributes pendingComment) {
-        if(pendingComment.isVisibleTo(CommentParticipantType.COURSE)){
-            for(StudentAttributes student : allStudents){
+        if (pendingComment.isVisibleTo(CommentParticipantType.COURSE)) {
+            for (StudentAttributes student : allStudents) {
                 addRecipientEmailsToList(studentCommentsAddedTable,
                         recipientEmailList, pendingComment.getCommentId().toString(), student.email);
             }
@@ -695,27 +698,31 @@ public class CommentsLogic {
             Map<String, Set<String>> studentCommentsAddedTable,
             CommentAttributes pendingComment) {
         String commentId = pendingComment.getCommentId().toString();
-        if(pendingComment.isVisibleTo(CommentParticipantType.SECTION)){
+        if (pendingComment.isVisibleTo(CommentParticipantType.SECTION)) {
             if (pendingComment.recipientType == CommentParticipantType.PERSON) {
-                for(String recipientEmail : pendingComment.recipients){
+                for (String recipientEmail : pendingComment.recipients) {
                     StudentAttributes student = roster.getStudentForEmail(recipientEmail);
-                    if(student == null) continue;
+                    if (student == null) {
+                        continue;
+                    }
                     addRecipientEmailsForSection(sectionStudentTable,
                             recipientEmailList, studentCommentsAddedTable, 
                             commentId, student.section);
                 }
-            } else if (pendingComment.recipientType == CommentParticipantType.TEAM){
-                for(String team : pendingComment.recipients){
+            } else if (pendingComment.recipientType == CommentParticipantType.TEAM) {
+                for (String team : pendingComment.recipients) {
                     List<StudentAttributes> students = teamStudentTable.get(team);
-                    if(students == null) continue;
-                    for(StudentAttributes stu:students){
+                    if (students == null) {
+                        continue;
+                    }
+                    for (StudentAttributes stu : students) {
                         addRecipientEmailsForSection(sectionStudentTable,
                                 recipientEmailList, studentCommentsAddedTable, 
                                 commentId, stu.section);
                     }
                 }
-            } else if (pendingComment.recipientType == CommentParticipantType.SECTION){
-                for(String section : pendingComment.recipients){
+            } else if (pendingComment.recipientType == CommentParticipantType.SECTION) {
+                for (String section : pendingComment.recipients) {
                     addRecipientEmailsForSection(sectionStudentTable,
                             recipientEmailList, studentCommentsAddedTable, 
                             commentId, section);
@@ -723,23 +730,27 @@ public class CommentsLogic {
             }
         } else {//not visible to SECTION
             if (pendingComment.recipientType == CommentParticipantType.PERSON) {
-                for(String recipientEmail : pendingComment.recipients){
+                for (String recipientEmail : pendingComment.recipients) {
                     StudentAttributes student = roster.getStudentForEmail(recipientEmail);
-                    if(student == null) continue;
+                    if (student == null) {
+                        continue;
+                    }
                     preventAddRecipientEmailsForSection(teamStudentTable, studentCommentsAddedTable, 
                             commentId, student.section);
                 }
-            } else if (pendingComment.recipientType == CommentParticipantType.TEAM){
-                for(String team:pendingComment.recipients){
+            } else if (pendingComment.recipientType == CommentParticipantType.TEAM) {
+                for (String team : pendingComment.recipients) {
                     List<StudentAttributes> students = teamStudentTable.get(team);
-                    if(students == null) continue;
-                    for(StudentAttributes stu:students){
+                    if (students == null) {
+                        continue;
+                    }
+                    for (StudentAttributes stu : students) {
                         preventAddRecipientEmailsForSection(teamStudentTable, studentCommentsAddedTable, 
                                 commentId, stu.section);
                     }
                 }
-            } else if (pendingComment.recipientType == CommentParticipantType.SECTION){
-                for(String section:pendingComment.recipients){
+            } else if (pendingComment.recipientType == CommentParticipantType.SECTION) {
+                for (String section : pendingComment.recipients) {
                     preventAddRecipientEmailsForSection(teamStudentTable, studentCommentsAddedTable, 
                             commentId, section);
                 }
@@ -753,17 +764,19 @@ public class CommentsLogic {
             Map<String, Set<String>> studentCommentsAddedTable,
             CommentAttributes pendingComment) {
         String commentId = pendingComment.getCommentId().toString();
-        if(pendingComment.isVisibleTo(CommentParticipantType.TEAM)){
+        if (pendingComment.isVisibleTo(CommentParticipantType.TEAM)) {
             if (pendingComment.recipientType == CommentParticipantType.PERSON) {
-                for(String recipientEmail : pendingComment.recipients){
+                for (String recipientEmail : pendingComment.recipients) {
                     StudentAttributes student = roster.getStudentForEmail(recipientEmail);
-                    if(student == null) continue;
+                    if (student == null) {
+                        continue;
+                    }
                     addRecipientEmailsForTeam(teamStudentTable,
                             recipientEmailList, studentCommentsAddedTable, 
                             commentId, student.team);
                 }
-            } else if (pendingComment.recipientType == CommentParticipantType.TEAM){
-                for(String team : pendingComment.recipients){
+            } else if (pendingComment.recipientType == CommentParticipantType.TEAM) {
+                for (String team : pendingComment.recipients) {
                     addRecipientEmailsForTeam(teamStudentTable,
                             recipientEmailList, studentCommentsAddedTable, 
                             commentId, team);
@@ -771,14 +784,16 @@ public class CommentsLogic {
             }
         } else {//not visible to TEAM
             if (pendingComment.recipientType == CommentParticipantType.PERSON) {
-                for(String recipientEmail : pendingComment.recipients){
+                for (String recipientEmail : pendingComment.recipients) {
                     StudentAttributes student = roster.getStudentForEmail(recipientEmail);
-                    if(student == null) continue;
+                    if (student == null) {
+                        continue;
+                    }
                     preventAddRecipientEmailsForTeam(teamStudentTable, studentCommentsAddedTable, 
                             commentId, student.team);
                 }
-            } else if (pendingComment.recipientType == CommentParticipantType.TEAM){
-                for(String team:pendingComment.recipients){
+            } else if (pendingComment.recipientType == CommentParticipantType.TEAM) {
+                for (String team : pendingComment.recipients) {
                     preventAddRecipientEmailsForTeam(teamStudentTable, studentCommentsAddedTable, 
                             commentId, team);
                 }
@@ -791,13 +806,13 @@ public class CommentsLogic {
             Map<String, Set<String>> studentCommentsAddedTable,
             CommentAttributes pendingComment) {
         String commendId = pendingComment.getCommentId().toString();
-        if(pendingComment.isVisibleTo(CommentParticipantType.PERSON)){
-            for(String recipientEmail:pendingComment.recipients){
+        if (pendingComment.isVisibleTo(CommentParticipantType.PERSON)) {
+            for (String recipientEmail : pendingComment.recipients) {
                 addRecipientEmailsToList(studentCommentsAddedTable, recipientEmailList, 
                         commendId, recipientEmail);
             }
         } else {//not visible to PERSON
-            for(String recipientEmail:pendingComment.recipients){
+            for (String recipientEmail : pendingComment.recipients) {
                 preventAddRecipientEmailsToList(studentCommentsAddedTable, 
                         commendId, recipientEmail);
             }
@@ -810,11 +825,11 @@ public class CommentsLogic {
             String subKey, String key) {
         //prevent re-entry
         Set<String> commentIdsSet = isAddedTable.get(key);
-        if(commentIdsSet == null){
+        if (commentIdsSet == null) {
             commentIdsSet = new HashSet<String>();
             isAddedTable.put(key, commentIdsSet);
         }
-        if(!commentIdsSet.contains(subKey)){
+        if (!commentIdsSet.contains(subKey)) {
             commentIdsSet.add(subKey);
             targetTable.add(key);
         }
@@ -827,9 +842,11 @@ public class CommentsLogic {
             String commentId,
             String sectionName) {
         List<StudentAttributes> students = sectionStudentTable.get(sectionName);
-        if(students == null) return;
+        if (students == null) {
+            return;
+        }
         
-        for(StudentAttributes stu:students){
+        for(StudentAttributes stu : students) {
             addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList, 
                     commentId, stu.email);
         }
@@ -842,9 +859,11 @@ public class CommentsLogic {
             String commentId,
             String teamName) {
         List<StudentAttributes> students = teamStudentTable.get(teamName);
-        if(students == null) return;
+        if (students == null) {
+            return;
+        }
         
-        for(StudentAttributes stu:students){
+        for(StudentAttributes stu : students) {
             addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList, 
                     commentId, stu.email);
         }
@@ -852,9 +871,9 @@ public class CommentsLogic {
     
     private void preventAddRecipientEmailsToList(
             Map<String, Set<String>> isAddedTable,
-            String subKey, String key){
+            String subKey, String key) {
         Set<String> commentIdsSet = isAddedTable.get(key);
-        if(commentIdsSet == null){
+        if (commentIdsSet == null) {
             commentIdsSet = new HashSet<String>();
             isAddedTable.put(key, commentIdsSet);
         }
@@ -866,9 +885,11 @@ public class CommentsLogic {
             Map<String, Set<String>> isAddedTable,
             String commentId, String section) {
         List<StudentAttributes> students = sectionStudentTable.get(section);
-        if(students == null) return;
+        if (students == null) {
+            return;
+        }
         
-        for(StudentAttributes stu:students){
+        for (StudentAttributes stu : students) {
             preventAddRecipientEmailsToList(isAddedTable, 
                     commentId, stu.email);
         }
@@ -879,9 +900,11 @@ public class CommentsLogic {
             Map<String, Set<String>> isAddedTable,
             String commentId, String team) {
         List<StudentAttributes> teammates = teamStudentTable.get(team);
-        if(teammates == null) return;
+        if (teammates == null) {
+            return;
+        }
         
-        for(StudentAttributes teamMember:teammates){
+        for (StudentAttributes teamMember : teammates) {
             preventAddRecipientEmailsToList(isAddedTable, 
                     commentId, teamMember.email);
         }
