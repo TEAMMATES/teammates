@@ -1,5 +1,7 @@
 package teammates.common.datatransfer;
 
+import com.google.appengine.api.users.User;
+
 /**
  * Represents a user type.
  * <br> Contains user's Google ID and flags to indicate whether the user
@@ -23,5 +25,9 @@ public class UserType {
     
     public UserType(String googleId) {
         this.id = googleId;
+    }
+    
+    public UserType(User user) {
+        this.id = user.getNickname();
     }
 }
