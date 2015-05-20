@@ -379,7 +379,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
     
     public void verifyModerateResponseButtonBelongsTo(WebElement btn, String email) {
-        assertEquals(email, btn.findElement(By.xpath("input[4]")).getAttribute("value"));
+        assertEquals(email, btn.findElement(By.xpath("input[5]")).getAttribute("value"));
     }
     
     public WebElement getModerateResponseButtonInQuestionView(int qnNo, int responseNo) {
