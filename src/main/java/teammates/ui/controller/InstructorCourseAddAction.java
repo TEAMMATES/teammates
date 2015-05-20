@@ -38,15 +38,15 @@ public class InstructorCourseAddAction extends Action {
         createCourse(data.newCourse);
 
         /* Prepare data for the refreshed page after executing the adding action */
-        data.allCourses = new ArrayList<CourseDetailsBundle>(
-                logic.getCourseSummariesForInstructor(data.account.googleId)
-                     .values());
+        data.allCourses = new ArrayList<CourseDetailsBundle>(logic.getCourseSummariesForInstructor(
+                                                                    data.account.googleId).values());
         data.archivedCourses = extractArchivedCourses(data.allCourses);
         CourseDetailsBundle.sortDetailedCoursesByCourseId(data.allCourses);
         data.instructors = new HashMap<String, InstructorAttributes>();
         
         for (CourseDetailsBundle courseDetails : data.allCourses) {
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseDetails.course.id, account.googleId);
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseDetails.course.id, 
+                                                                             account.googleId);
             data.instructors.put(courseDetails.course.id, instructor);
         }
         if (isError) { // there is error in adding the course
@@ -64,11 +64,8 @@ public class InstructorCourseAddAction extends Action {
     }
 
     private void createCourse(CourseAttributes course) {
-
         try {
-            logic.createCourseAndInstructor(data.account.googleId, 
-                                            course.id,
-                                            course.name);
+            logic.createCourseAndInstructor(data.account.googleId, course.id, course.name);
             String statusMessage = Const.StatusMessages.COURSE_ADDED.replace("${courseEnrollLink}",
                     data.getInstructorCourseEnrollLink(course.id)).replace("${courseEditLink}",
                     data.getInstructorCourseEditLink(course.id));
