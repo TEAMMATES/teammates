@@ -15,8 +15,8 @@ import teammates.ui.controller.ShowPageResult;
 
 /**
  * Test case for adding a course for an instructor
- * This test case will not fully cover the path in checking archived courses.
- * This will be tested in UI testing
+ * This test case will fully cover the path in checking archived courses.
+ * This also will be tested in UI testing.
  */
 public class InstructorCourseAddActionTest extends BaseActionTest {
 
@@ -166,5 +166,4 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
     private Action getAction(String... parameters) throws Exception {
         return (Action) gaeSimulation.getActionObject(uri, parameters);
     }
-
 }
