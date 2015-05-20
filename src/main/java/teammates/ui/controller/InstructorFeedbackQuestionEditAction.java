@@ -47,11 +47,15 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                 
                 editQuestion(updatedQuestion);
             } else if (editType.equals("delete")) {
+                // branch not tested because if it's not edit or delete, Assumption.fail will cause test failure
                 deleteQuestion(updatedQuestion);
             } else {
+                // Assumption.fails are not tested
                 Assumption.fail("Invalid editType");
             }
         } catch (InvalidParametersException e) {
+            // This part is not tested because GateKeeper handles if this happens, would be
+            // extremely difficult to replicate a situation whereby it gets past GateKeeper
             setStatusForException(e);
         }
         
@@ -79,6 +83,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         if (updatedQuestion.questionNumber != 0) { // Question number was updated
             List<String> questionDetailsErrors = updatedQuestion.getQuestionDetails().validateQuestionDetails();
             
+            // if error is not empty not tested as extractFeedbackQuestionData method uses Assumptions to cover it
             if (!questionDetailsErrors.isEmpty()) {
                 statusToUser.addAll(questionDetailsErrors);
                 isError = true;
@@ -89,6 +94,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         } else {
             List<String> questionDetailsErrors = updatedQuestion.getQuestionDetails().validateQuestionDetails();
             
+            // if error is not empty not tested as extractFeedbackQuestionData method uses Assumptions to cover it
             if (!questionDetailsErrors.isEmpty()) {
                 statusToUser.addAll(questionDetailsErrors);
                 isError = true;
@@ -130,6 +136,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException |
                  InvocationTargetException | InstantiationException e) {
             e.printStackTrace();
+            // Assumption.fails are not tested
             Assumption.fail("Failed to instantiate Feedback*QuestionDetails instance for " + 
                             feedbackQuestionAttributes.questionType.toString() + " question type.");
         }
