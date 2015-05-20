@@ -904,18 +904,18 @@ public class CommentsLogic {
                                                   Map<String,
                                                   Set<String>> studentCommentsAddedTable,
                                                   CommentAttributes pendingComment) {
-        String commendId = pendingComment.getCommentId().toString();
+        String commentId = pendingComment.getCommentId().toString();
         if (pendingComment.isVisibleTo(CommentParticipantType.PERSON)) {
             for (String recipientEmail : pendingComment.recipients) {
                 addRecipientEmailsToList(studentCommentsAddedTable,
                                          recipientEmailList,
-                                         commendId,
+                                         commentId,
                                          recipientEmail);
             }
         } else {//not visible to PERSON
             for (String recipientEmail : pendingComment.recipients) {
                 preventAddRecipientEmailsToList(studentCommentsAddedTable, 
-                                                commendId,
+                                                commentId,
                                                 recipientEmail);
             }
         }
