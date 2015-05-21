@@ -20,7 +20,6 @@ import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.InstructorFeedbackQuestionSubmissionEditSaveAction;
 import teammates.ui.controller.RedirectResult;
-import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         BaseActionTest {
@@ -243,7 +242,7 @@ public class InstructorFeedbackQuestionSubmissionEditSaveActionTest extends
         };
         //TODO: this should fail but does not.
         a = getAction(submissionParams);
-        r = (ShowPageResult) a.executeAndPostProcess();
+        r = (RedirectResult) a.executeAndPostProcess();
         */
         
         ______TS("delete answer");
