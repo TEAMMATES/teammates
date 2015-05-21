@@ -14,31 +14,30 @@
       "email": "SHomeUiT.helper@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     },
-      "studentWithExistingProfile": {
-        "googleId": "{$test.student2}",
-        "name": "Benny C",
-        "isInstructor": false,
-        "email": "{$test.student2}@gmail.com",
-        "institute": "TEAMMATES Test Institute 7",
-        "studentProfile":{
-            "googleId":"{$test.student2}",
-            "shortName":"Ben",
-            "email":"i.m.benny@gmail.tmt",
-            "institute":"TEAMMATES Test Institute 4",
-            "nationality":"Singapore",
-            "gender":"male",
-            "moreInfo":"I am just another student :P"
-        }
-      },
-      "studentWithEmptyProfile": {
-       "googleId": "SHomeUiT.benny.c",
-       "name": "Benny Charles",
-       "isIntructor":false,
-       "email": "SHomeUiT.benny.c@gmail.tmt",
-       "institute": "TEAMMATES Test Institute 1"          
-      }  
+    "studentWithExistingProfile": {
+      "googleId": "{$test.student2}",
+      "name": "Benny C",
+      "isInstructor": false,
+      "email": "{$test.student2}@gmail.com",
+      "institute": "TEAMMATES Test Institute 7",
+      "studentProfile":{
+          "googleId":"{$test.student2}",
+          "shortName":"Ben",
+          "email":"i.m.benny@gmail.tmt",
+          "institute":"TEAMMATES Test Institute 4",
+          "nationality":"Singapore",
+          "gender":"male",
+          "moreInfo":"I am just another student :P"
+      }
+    },
+    "studentWithEmptyProfile": {
+     "googleId": "SHomeUiT.benny.c",
+     "name": "Benny Charles",
+     "isIntructor":false,
+     "email": "SHomeUiT.benny.c@gmail.tmt",
+     "institute": "TEAMMATES Test Institute 1"          
+    }  
   },
-
   "courses": {
     "SHomeUiT.CS2104": {
       "id": "SHomeUiT.CS2104",
@@ -46,7 +45,6 @@
       "isArchived": false
     }
   },
-  
   "instructors": {
     "SHomeUiT.instr.CS2104": {
       "googleId": "SHomeUiT.instr",
@@ -61,9 +59,7 @@
       "email": "SHomeUiT.helper@gmail.tmt",
       "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
     }
-    
   },
-  
   "students": {
     "studentWithExistingProfile": {
       "googleId": "{$test.student2}",

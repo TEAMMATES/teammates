@@ -51,8 +51,8 @@ public class StringHelper {
      * @param regexArray The regex repression array used for the matching
      */
     public static boolean isAnyMatching(String input, String[] regexArray) {
-        for(String regex : regexArray){
-            if(isMatching(input.trim().toLowerCase(), regex)){
+        for (String regex : regexArray) {
+            if (isMatching(input.trim().toLowerCase(), regex)) {
                 return true;
             }
         }   
@@ -69,13 +69,13 @@ public class StringHelper {
      * otherwise returns the original input. <br>
      * E.g., "12345678" truncated to length 6 returns "123..."
      */
-    public static String truncate(String inputString, int truncateLength){
-        if(!(inputString.length()>truncateLength)){
+    public static String truncate(String inputString, int truncateLength) {
+        if (!(inputString.length() > truncateLength)) {
             return inputString;
         }
         String result = inputString;
-        if(inputString.length()>truncateLength){
-            result = inputString.substring(0,truncateLength-3)+"...";
+        if (inputString.length() > truncateLength) {
+            result = inputString.substring(0, truncateLength - 3) + "...";
         }
         return result;
     }
@@ -96,8 +96,7 @@ public class StringHelper {
 
     public static String encrypt(String value) {
         try {
-            SecretKeySpec sks = new SecretKeySpec(
-                    hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
+            SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.ENCRYPT_MODE, sks, cipher.getParameters());
             byte[] encrypted = cipher.doFinal(value.getBytes());
@@ -109,8 +108,7 @@ public class StringHelper {
 
     public static String decrypt(String message) {
         try {
-            SecretKeySpec sks = new SecretKeySpec(
-                    hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
+            SecretKeySpec sks = new SecretKeySpec(hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
             Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.DECRYPT_MODE, sks);
             byte[] decrypted = cipher.doFinal(hexStringToByteArray(message));
@@ -135,16 +133,16 @@ public class StringHelper {
     public static String toString(List<String> strings, String delimiter) {
         String returnValue = "";
         
-        if(strings.size()==0){
+        if (strings.size() == 0) {
             return returnValue;
         }
         
-        for(int i=0; i < strings.size()-1; i++){
+        for (int i = 0; i < strings.size() - 1; i++) {
             String s = strings.get(i);
             returnValue += s + delimiter;
         }
         //append the last item
-        returnValue += strings.get(strings.size()-1);
+        returnValue += strings.get(strings.size() - 1);
         
         return returnValue;        
     }
@@ -157,22 +155,21 @@ public class StringHelper {
     public static String toUtcFormat(double hourOffsetTimeZone) {
         String utcFormatTimeZone = "UTC";
         if (hourOffsetTimeZone != 0) {
-            if ((int) hourOffsetTimeZone == hourOffsetTimeZone)
-                utcFormatTimeZone += String.format(" %+03d:00",
-                        (int) hourOffsetTimeZone);
-            else
+            if ((int) hourOffsetTimeZone == hourOffsetTimeZone) {
+                utcFormatTimeZone += String.format(" %+03d:00", (int) hourOffsetTimeZone);
+            } else {
                 utcFormatTimeZone += String.format(
-                        " %+03d:%02d",
-                        (int) hourOffsetTimeZone,
-                        (int) (Math.abs(hourOffsetTimeZone
-                                - (int) hourOffsetTimeZone) * 300 / 5));
+                                            " %+03d:%02d",
+                                            (int) hourOffsetTimeZone,
+                                            (int) (Math.abs(hourOffsetTimeZone - (int) hourOffsetTimeZone) * 300 / 5));
+            }
         }
 
         return utcFormatTimeZone;
     }
     
     //From: http://stackoverflow.com/questions/5864159/count-words-in-a-string-method
-    public static int countWords(String s){
+    public static int countWords(String s) {
         int wordCount = 0;
         boolean word = false;
         int endOfLine = s.length() - 1;
@@ -225,16 +222,16 @@ public class StringHelper {
      * @return split name array{0--> first name, 1--> last name, 2--> processed full name by removing "{}"}
      */
     
-    public static String[] splitName(String fullName){  
+    public static String[] splitName(String fullName) {  
         
-        if(fullName == null){
+        if (fullName == null) {
             return null;
         }
            
         String lastName;
         String firstName;
         
-        if(fullName.contains("{") && fullName.contains("}")){
+        if (fullName.contains("{") && fullName.contains("}")) {
             int startIndex = fullName.indexOf("{");
             int endIndex = fullName.indexOf("}");
             lastName = fullName.substring(startIndex + 1, endIndex);
@@ -244,7 +241,7 @@ public class StringHelper {
                                 .trim();           
             
         } else {         
-            lastName = fullName.substring(fullName.lastIndexOf(" ")+1).trim();
+            lastName = fullName.substring(fullName.lastIndexOf(" ") + 1).trim();
             firstName = fullName.replace(lastName, "").trim();
         }
         
@@ -261,8 +258,8 @@ public class StringHelper {
      * Example: " a   a  " --> "a a"
      * @return processed string, returns null if parameter is null
      */
-    public static String removeExtraSpace(String str){       
-        if(str == null){
+    public static String removeExtraSpace(String str) {       
+        if (str == null) {
             return null;
         }
         
@@ -301,9 +298,9 @@ public class StringHelper {
      * @param sanitized string 
      * @return recovered string  
      */
-    public static String recoverFromSanitizedText(String str){  
+    public static String recoverFromSanitizedText(String str) {  
         
-        if(str == null){
+        if (str == null) {
             return null;
         }
         
@@ -344,7 +341,7 @@ public class StringHelper {
             
             List<String> rowData = getTableData(lines[i]);
             
-            if(checkIfEmptyRow(rowData)){
+            if (checkIfEmptyRow(rowData)) {
                 continue;
             }
             
@@ -381,7 +378,7 @@ public class StringHelper {
         return buffer.toString();
     }
 
-    private static List<String> getTableData(String str){
+    private static List<String> getTableData(String str) {
         List<String> data = new ArrayList<String>();
         
         boolean inquote = false;
@@ -394,8 +391,8 @@ public class StringHelper {
                 continue;
             }
             
-            if(chars[i] == ','){    
-                if(inquote){
+            if (chars[i] == ',') {    
+                if (inquote) {
                     buffer.append(chars[i]);                   
                 } else {
                     data.add(buffer.toString());
@@ -412,10 +409,10 @@ public class StringHelper {
         return data;
     }
     
-    private static boolean checkIfEmptyRow(List<String> rowData){
+    private static boolean checkIfEmptyRow(List<String> rowData) {
            
-        for(String td : rowData){
-            if(!td.isEmpty()){
+        for (String td : rowData) {
+            if (!td.isEmpty()) {
                 return false;
             }
         }
@@ -451,10 +448,28 @@ public class StringHelper {
     /**
      * Trim the given string if it is not equals to null
      */
-    public static String trimIfNotNull(String untrimmedString){
-        if(untrimmedString != null){
+    public static String trimIfNotNull(String untrimmedString) {
+        if (untrimmedString != null) {
             return untrimmedString.trim();
         }
         return untrimmedString;
     }
+
+    /**
+     * Counts the number of empty strings passed as the argument. Null is
+     * considered an empty string, while whitespace is not.
+     * 
+     * @param String...
+     * @return number of empty strings passed
+     */
+    public static int countEmptyStrings(String... strings) {
+        int numOfEmptyStrings = 0;
+        for (String s : strings) {
+            if (s == null || s.isEmpty()) {
+                numOfEmptyStrings += 1;
+            }
+        }
+        return numOfEmptyStrings;
+    }
+
 }

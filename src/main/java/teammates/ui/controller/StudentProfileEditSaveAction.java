@@ -16,20 +16,18 @@ public class StudentProfileEditSaveAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-
         try {
             account.studentProfile = extractProfileData();
             logic.updateStudentProfile(account.studentProfile);
             statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_EDITED);
-            statusToAdmin = "Student Profile for <span class=\"bold\">(" + account.googleId + ")</span> edited.<br>" +
-                    account.studentProfile.toString();
+            statusToAdmin = "Student Profile for <span class=\"bold\">(" + account.googleId
+                          + ")</span> edited.<br>" + account.studentProfile.toString();
         } catch (InvalidParametersException ipe) {
             setStatusForException(ipe);
         }
-        
         return createRedirectResult(Const.ActionURIs.STUDENT_PROFILE_PAGE);
     }
-    
+
     private void validatePostParameters(StudentProfileAttributes studentProfile) {
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_SHORT_NAME, studentProfile.shortName);
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENT_EMAIL, studentProfile.email);
@@ -41,7 +39,7 @@ public class StudentProfileEditSaveAction extends Action {
 
     private StudentProfileAttributes extractProfileData() {
         StudentProfileAttributes editedProfile = new StudentProfileAttributes();
-        
+
         editedProfile.googleId = account.googleId;
         editedProfile.shortName = getRequestParamValue(Const.ParamsNames.STUDENT_SHORT_NAME);
         editedProfile.email = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_EMAIL);
@@ -50,15 +48,14 @@ public class StudentProfileEditSaveAction extends Action {
         editedProfile.gender = getRequestParamValue(Const.ParamsNames.STUDENT_GENDER);
         editedProfile.moreInfo = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_MOREINFO);
         editedProfile.pictureKey = "";
-        
+
         preprocessParameters(editedProfile);
-        validatePostParameters(editedProfile);        
+        validatePostParameters(editedProfile);
 
         return editedProfile;
     }
 
     private void preprocessParameters(StudentProfileAttributes studentProfile) {
-        
         studentProfile.shortName = StringHelper.trimIfNotNull(studentProfile.shortName);
         studentProfile.email = StringHelper.trimIfNotNull(studentProfile.email);
         studentProfile.gender = StringHelper.trimIfNotNull(studentProfile.gender);
@@ -66,4 +63,5 @@ public class StudentProfileEditSaveAction extends Action {
         studentProfile.institute = StringHelper.trimIfNotNull(studentProfile.institute);
         studentProfile.moreInfo = StringHelper.trimIfNotNull(studentProfile.moreInfo);
     }
+
 }
