@@ -163,7 +163,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends
             showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            assertEquals("Identifier "
+            assertEquals("An entity with the identifier "
                             + moderatedStudentEmail + " does not exist in " + courseId
                             + ".", 
                          edne.getMessage());
