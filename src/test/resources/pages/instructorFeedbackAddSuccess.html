@@ -83,8 +83,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label data-original-title="Enter the name of the feedback session e.g. Feedback Session 1." for="fsname" class="col-sm-2 control-label" title="" data-toggle="tooltip" data-placement="top">Session
-                                            name</label>
+                                        <label data-original-title="Enter the name of the feedback session e.g. Feedback Session 1." for="fsname" class="col-sm-2 control-label" title="" data-toggle="tooltip" data-placement="top">Session name</label>
                                         <div class="col-sm-10">
                                             <div class="form-control-static">
                                                 New Session
@@ -195,8 +194,7 @@
                                 <div data-original-title="Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline." class="col-md-2 border-left-gray" title="" data-toggle="tooltip" data-placement="top">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <label for="graceperiod" class="control-label">Grace
-                                                period</label>
+                                            <label for="graceperiod" class="control-label">Grace period</label>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -476,11 +474,11 @@
                         </div>
                     </div>
                     <div class="col-sm-2">
-                        <a id="button_openframe" class="btn btn-primary" value="Add New Question" onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)">&nbsp;&nbsp;&nbsp;Add New Question&nbsp;&nbsp;&nbsp;</a>
+                        <a id="button_openframe" class="btn btn-primary" onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)">&nbsp;&nbsp;&nbsp;Add New Question&nbsp;&nbsp;&nbsp;</a>
 
                     </div>
                     <div class="col-sm-2">
-                        <a id="button_copy" class="btn btn-primary" value="Copy Question">&nbsp;&nbsp;&nbsp;Copy Question&nbsp;&nbsp;&nbsp;</a>
+                        <a id="button_copy" class="btn btn-primary">&nbsp;&nbsp;&nbsp;Copy Question&nbsp;&nbsp;&nbsp;</a>
                     </div>
                     <div class="col-sm-2">
                         <a class="btn btn-primary" href="/page/instructorFeedbacksPage?user=CFeedbackUiT.instructor&amp;courseid=CFeedbackUiT.CS1101&amp;fsname=New Session">&nbsp;&nbsp;&nbsp;Done Editing&nbsp;&nbsp;&nbsp;</a>
@@ -1002,4 +1000,12 @@
                     </div>
                 </div>
             </div>
+            <input name="questionnum" type="hidden" value="1"/>
+            <input name="fsname" type="hidden" value="New Session"/>
+            <input name="courseid" type="hidden" value="CFeedbackUiT.CS1101"/>
+            <input name="showresponsesto" type="hidden" value="RECEIVER,INSTRUCTORS"/>
+            <input name="showgiverto" type="hidden" value="RECEIVER,INSTRUCTORS"/>
+            <input name="showrecipientto" type="hidden" value="RECEIVER,INSTRUCTORS"/>
+            <input name="user" type="hidden" value="CFeedbackUiT.instructor"/>
+            <input id="generatedOptions" name="generatedOptions" type="hidden" value="NONE"/>
             </form></div>

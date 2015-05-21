@@ -11,7 +11,6 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 
 public class FeedbackSessionTemplates {
     public static String FEEDBACK_SESSION_TEAMEVALUATION = FileHelper.readResourseFile("feedbackSessionTeamEvaluationTemplate.json");
-
     
     //TODO: Consider adding instructions for the feedback session into template?
     //TODO: Or simply use static strings here?
