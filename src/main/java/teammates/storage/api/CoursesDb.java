@@ -23,14 +23,13 @@ import teammates.storage.entity.Course;
  */
 public class CoursesDb extends EntitiesDb {
     
-    /* Explanation: Based on our policies for the storage component, this class
-     * does not handle cascading. It treats invalid values as an exception. 
-     * 
+    /* 
+     * Explanation: Based on our policies for the storage component, this class does not handle cascading. 
+     * It treats invalid values as an exception. 
      */
 
     public static final String ERROR_UPDATE_NON_EXISTENT_COURSE = "Trying to update a Course that doesn't exist: ";
     
-    @SuppressWarnings("unused")
     private static final Logger log = Utils.getLogger();
     
     public void createCourses(Collection<CourseAttributes> coursesToAdd) throws InvalidParametersException{
@@ -41,8 +40,8 @@ public class CoursesDb extends EntitiesDb {
             try {
                 updateCourse(course);
             } catch (EntityDoesNotExistException e) {
-             // This situation is not tested as replicating such a situation is 
-             // difficult during testing
+                // This situation is not tested as replicating such a situation is 
+                // difficult during testing
                 Assumption.fail("Entity found be already existing and not existing simultaneously");
             }
         }
@@ -91,10 +90,11 @@ public class CoursesDb extends EntitiesDb {
      * Updates only course archive status.<br>
      * Does not follow the 'keep existing' policy <br> 
      * Preconditions: <br>
-     * * {@code courseToUpdate} is non-null. <br>
+     * * {@code courseToUpdate} is non-null.<br>
      * @throws InvalidParametersException, EntityDoesNotExistException
      */
-    public void updateCourse(CourseAttributes courseToUpdate) throws InvalidParametersException, EntityDoesNotExistException {
+    public void updateCourse(CourseAttributes courseToUpdate) throws InvalidParametersException, 
+                                                                     EntityDoesNotExistException {
         
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseToUpdate);
         
@@ -135,13 +135,11 @@ public class CoursesDb extends EntitiesDb {
     
     @Override
     protected Object getEntity(EntityAttributes attributes) {
-            
-        return getCourseEntity( ((CourseAttributes) attributes).id );
+        return getCourseEntity(((CourseAttributes) attributes).id);
     }
 
 
     private Course getCourseEntity(String courseId) {
-        
         Query q = getPM().newQuery(Course.class);
         q.declareParameters("String courseIdParam");
         q.setFilter("ID == courseIdParam");
