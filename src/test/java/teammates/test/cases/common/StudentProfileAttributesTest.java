@@ -70,9 +70,9 @@ public class StudentProfileAttributesTest extends BaseTestCase {
                      + "\n  \"moreInfo\": \"moreInfo can have a lot more than this...\","
                      + "\n  \"pictureKey\": \"profile Pic Key\","
                      /*
-                      *  there's a strange bug here:
-                      *  if running full test suite getJsonString() returns +0000
-                      *  but if running the test alone getJsonString() returns +0800
+                      *  Be careful:
+                      *  This comparison will fail if the test is run without
+                      *  the VM argument -Duser.timezone=UTC.
                       */
                      + "\n  \"modifiedDate\": \"2015-05-21 8:34 AM +0000\"\n}",
                      spa.getJsonString());
