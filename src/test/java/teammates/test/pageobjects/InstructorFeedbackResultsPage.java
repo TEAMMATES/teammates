@@ -342,6 +342,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void hoverClickAndViewPhotoOnTableCell(int questionBodyIndex, int tableRow, int tableCol, String urlRegex) throws Exception {
         String idOfQuestionBody = "questionBody-" + questionBodyIndex;
 
+        // Execute JavaScript instead of using Selenium selectors to bypass bug regarding
+        // unix systems and current testing version of Selenium and Firefox
         JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         
         jsExecutor.executeScript("$(document.getElementById('" +  idOfQuestionBody + "')" +
