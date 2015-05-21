@@ -112,9 +112,8 @@ public class CommentsDb extends EntitiesDb {
             comment = getCommentEntity(commentToGet.getCommentId());
         }
         if (comment == null) {
-            comment = getCommentEntity(commentToGet.courseId, commentToGet.giverEmail,
-                                       commentToGet.recipientType, commentToGet.recipients,
-                                       commentToGet.createdAt);
+            comment = getCommentEntity(commentToGet.courseId, commentToGet.giverEmail, commentToGet.recipientType,
+                                       commentToGet.recipients, commentToGet.createdAt);
         }
         if (comment == null) {
             log.info("Trying to get non-existent Comment: " + commentToGet);
@@ -144,8 +143,7 @@ public class CommentsDb extends EntitiesDb {
      * Get comments for a giver email and the comment status
      */
     public List<CommentAttributes> getCommentsForGiverAndStatus(String courseId,
-                                                                String giverEmail,
-                                                                CommentStatus status) {
+            String giverEmail, CommentStatus status) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, status);
@@ -178,8 +176,7 @@ public class CommentsDb extends EntitiesDb {
      * Get comment for the receiver email
      */
     public List<CommentAttributes> getCommentsForReceiver(String courseId,
-                                                          CommentParticipantType recipientType,
-                                                          String receiverEmail) {
+            CommentParticipantType recipientType, String receiverEmail) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, recipientType);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, receiverEmail);
@@ -197,7 +194,7 @@ public class CommentsDb extends EntitiesDb {
      * Get comment for the viewer (who can see the comment) type
      */
     public List<CommentAttributes> getCommentsForCommentViewer(String courseId,
-                                                               CommentParticipantType commentViewerType) {
+            CommentParticipantType commentViewerType) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, commentViewerType);
         
@@ -322,8 +319,7 @@ public class CommentsDb extends EntitiesDb {
         // updateInstructorEmailAsRecipient(courseId, oldInstrEmail, updatedInstrEmail);
     }
     
-    private void updateInstructorEmailAsGiver(String courseId,
-                                              String oldInstrEmail,
+    private void updateInstructorEmailAsGiver(String courseId, String oldInstrEmail,
                                               String updatedInstrEmail) {
         List<Comment> giverComments = this.getCommentEntitiesForGiver(courseId, oldInstrEmail);
         
@@ -337,12 +333,9 @@ public class CommentsDb extends EntitiesDb {
     
     // for now, this method is not being used as instructor cannot be receiver
     @SuppressWarnings("unused")
-    private void updateInstructorEmailAsRecipient(String courseId,
-                                                  String oldInstrEmail,
-                                                  String updatedInstrEmail) {
+    private void updateInstructorEmailAsRecipient(String courseId, String oldInstrEmail, String updatedInstrEmail) {
         List<Comment> recipientComments = this.getCommentEntitiesForRecipients(courseId, 
-                                                                               CommentParticipantType.INSTRUCTOR,
-                                                                               oldInstrEmail);
+                                                       CommentParticipantType.INSTRUCTOR, oldInstrEmail);
         
         for (Comment recipientComment : recipientComments) {
             recipientComment.setGiverEmail(updatedInstrEmail);
@@ -368,8 +361,7 @@ public class CommentsDb extends EntitiesDb {
                                                String oldStudentEmail,
                                                String updatedStudentEmail) {
         List<Comment> recipientComments = this.getCommentEntitiesForRecipients(courseId, 
-                                                                               CommentParticipantType.PERSON,
-                                                                               oldStudentEmail);
+                                                       CommentParticipantType.PERSON, oldStudentEmail);
         
         for (Comment recipientComment : recipientComments) {
             recipientComment.getRecipients().remove(oldStudentEmail);
@@ -409,8 +401,7 @@ public class CommentsDb extends EntitiesDb {
         
         // student right now cannot be giver, so no need to&should not check for giver
         List<Comment> recipientComments = this.getCommentEntitiesForRecipients(courseId, 
-                                                                               CommentParticipantType.PERSON,
-                                                                               email);
+                                                       CommentParticipantType.PERSON, email);
         
         getPM().deletePersistentAll(recipientComments);
         
@@ -427,8 +418,7 @@ public class CommentsDb extends EntitiesDb {
         
         // student right now cannot be giver, so no need to&should not check for giver
         List<Comment> recipientComments = this.getCommentEntitiesForRecipients(courseId, 
-                                                                               CommentParticipantType.TEAM,
-                                                                               teamName);
+                                                       CommentParticipantType.TEAM, teamName);
         
         getPM().deletePersistentAll(recipientComments);
         getPM().flush();
@@ -444,8 +434,7 @@ public class CommentsDb extends EntitiesDb {
         
         // student right now cannot be giver, so no need to&should not check for giver
         List<Comment> recipientComments = this.getCommentEntitiesForRecipients(courseId, 
-                                                                               CommentParticipantType.SECTION,
-                                                                               sectionName);
+                                                       CommentParticipantType.SECTION, sectionName);
         
         getPM().deletePersistentAll(recipientComments);
         getPM().flush();
@@ -580,8 +569,7 @@ public class CommentsDb extends EntitiesDb {
         return getCommentsWithoutDeletedEntity(commentList);
     }
     
-    private List<Comment> getCommentEntitiesForGiverAndStatus(String courseId,
-                                                              String giverEmail,
+    private List<Comment> getCommentEntitiesForGiverAndStatus(String courseId, String giverEmail,
                                                               CommentStatus status) {
         Query q = getPM().newQuery(Comment.class);
         q.declareParameters("String courseIdParam, String giverEmailParam, String statusParam");
@@ -605,8 +593,7 @@ public class CommentsDb extends EntitiesDb {
     }
     
     private List<Comment> getCommentEntitiesForRecipients(String courseId,
-                                                          CommentParticipantType recipientType,
-                                                          String recipient) {
+            CommentParticipantType recipientType, String recipient) {
         Query q = getPM().newQuery(Comment.class);
         q.declareParameters("String courseIdParam, String recipientTypeParam, String receiverParam");
         q.setFilter("courseId == courseIdParam && recipientType == recipientTypeParam && recipients.contains(receiverParam)");
@@ -618,7 +605,7 @@ public class CommentsDb extends EntitiesDb {
     }
     
     private List<Comment> getCommentEntitiesForCommentViewer(String courseId,
-                                                             CommentParticipantType commentViewerType) {
+            CommentParticipantType commentViewerType) {
         Query q = getPM().newQuery(Comment.class);
         q.declareParameters("String courseIdParam, String commentViewerTypeParam");
         q.setFilter("courseId == courseIdParam "
@@ -635,9 +622,8 @@ public class CommentsDb extends EntitiesDb {
         if (commentToGet.getCommentId() != null) {
             return getCommentEntity(commentToGet.getCommentId());
         } else {
-            return getCommentEntity(commentToGet.courseId, commentToGet.giverEmail,
-                                    commentToGet.recipientType, commentToGet.recipients,
-                                    commentToGet.createdAt);
+            return getCommentEntity(commentToGet.courseId, commentToGet.giverEmail, commentToGet.recipientType,
+                                    commentToGet.recipients, commentToGet.createdAt);
         }
     }
     
@@ -656,9 +642,8 @@ public class CommentsDb extends EntitiesDb {
         return commentList.get(0);
     }
     
-    private Comment getCommentEntity(String courseId, String giverEmail,
-                                     CommentParticipantType recipientType, Set<String> recipients,
-                                     Date date) {
+    private Comment getCommentEntity(String courseId, String giverEmail, CommentParticipantType recipientType, 
+                                     Set<String> recipients, Date date) {
         String firstRecipient = recipients.iterator().next();
         List<Comment> commentList = getCommentEntitiesForRecipients(courseId, recipientType, firstRecipient);
         

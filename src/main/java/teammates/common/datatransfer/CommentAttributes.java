@@ -142,11 +142,8 @@ public class CommentAttributes extends EntityAttributes
     }
 
     public Comment toEntity() {
-        return new Comment(courseId, giverEmail, recipientType,
-                           recipients, status, sendingState,
-                           showCommentTo, showGiverNameTo, 
-                           showRecipientNameTo, commentText,
-                           createdAt, lastEditorEmail, lastEditedAt);
+        return new Comment(courseId, giverEmail, recipientType, recipients, status, sendingState, showCommentTo,
+                showGiverNameTo, showRecipientNameTo, commentText, createdAt, lastEditorEmail, lastEditedAt);
     }
     
     public Boolean isVisibleTo(CommentParticipantType targetViewer) {

@@ -356,11 +356,8 @@ public class CommentsLogic {
     }
     
     private void removeNonVisibleCommentsForSection(List<CommentAttributes> commentsForSection,
-                                                    StudentAttributes student, List<String> teammatesEmails,
-                                                    List<String> sectionStudentsEmails,
-                                                    List<String> teamsInThisSection,
-                                                    HashSet<String> commentsVisitedSet,
-                                                    List<CommentAttributes> comments) {
+            StudentAttributes student, List<String> teammatesEmails, List<String> sectionStudentsEmails,
+            List<String> teamsInThisSection, HashSet<String> commentsVisitedSet, List<CommentAttributes> comments) {
         removeNonVisibleCommentsForTeam(commentsForSection, student, teammatesEmails, commentsVisitedSet, comments);
         
         for (CommentAttributes c : commentsForSection) {
@@ -493,10 +490,8 @@ public class CommentsLogic {
     }
 
     private Set<String> populateRecipientEmails(String courseId, List<StudentAttributes> allStudents,
-                                                CourseRoster roster,
-                                                Map<String, List<StudentAttributes>> teamStudentTable,
-                                                Map<String, List<StudentAttributes>> sectionStudentTable)
-                                                throws EntityDoesNotExistException {
+            CourseRoster roster, Map<String, List<StudentAttributes>> teamStudentTable,
+            Map<String, List<StudentAttributes>> sectionStudentTable) throws EntityDoesNotExistException {
         Set<String> recipientEmailsList = new HashSet<String>();
         
         List<CommentAttributes> sendingCommentsList = commentsDb.getCommentsForSendingState(courseId,
@@ -551,25 +546,20 @@ public class CommentsLogic {
             
             if (relatedQuestion != null && relatedResponse != null) {
                 populateRecipientEmailsForGiver(roster, teamStudentTable, recipientEmailsList,
-                                                responseCommentsAddedTable, frc, relatedQuestion,
-                                                relatedResponse);
+                        responseCommentsAddedTable, frc, relatedQuestion, relatedResponse);
                 populateRecipientEmailsForReceiver(roster, teamStudentTable, recipientEmailsList,
-                                                   responseCommentsAddedTable, frc, relatedQuestion,
-                                                   relatedResponse);
+                        responseCommentsAddedTable, frc, relatedQuestion, relatedResponse);
                 populateRecipientEmailsForTeamMember(roster, teamStudentTable, recipientEmailsList,
-                                                     responseCommentsAddedTable, frc, relatedQuestion,
-                                                     relatedResponse);
-                populateRecipientEmailsForAllStudents(allStudents, recipientEmailsList, responseCommentsAddedTable,
-                                                      frc, relatedQuestion);
+                        responseCommentsAddedTable, frc, relatedQuestion, relatedResponse);
+                populateRecipientEmailsForAllStudents(allStudents, recipientEmailsList,
+                        responseCommentsAddedTable, frc, relatedQuestion);
             }
         }
     }
 
     private void populateRecipientEmailsForAllStudents(List<StudentAttributes> allStudents,
-                                                       Set<String> recipientEmailsList,
-                                                       Map<String, Set<String>> responseCommentsAddedTable,
-                                                       FeedbackResponseCommentAttributes frc,
-                                                       FeedbackQuestionAttributes relatedQuestion) {
+            Set<String> recipientEmailsList, Map<String, Set<String>> responseCommentsAddedTable,
+            FeedbackResponseCommentAttributes frc, FeedbackQuestionAttributes relatedQuestion) {
         if (frc.isVisibleTo(FeedbackParticipantType.STUDENTS)) {
             for (StudentAttributes student : allStudents) {
                 addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList,
@@ -579,12 +569,9 @@ public class CommentsLogic {
     }
 
     private void populateRecipientEmailsForTeamMember(CourseRoster roster,
-                                                      Map<String, List<StudentAttributes>> teamStudentTable,
-                                                      Set<String> recipientEmailsList,
-                                                      Map<String, Set<String>> responseCommentsAddedTable,
-                                                      FeedbackResponseCommentAttributes frc,
-                                                      FeedbackQuestionAttributes relatedQuestion,
-                                                      FeedbackResponseAttributes relatedResponse) {
+            Map<String, List<StudentAttributes>> teamStudentTable, Set<String> recipientEmailsList,
+            Map<String, Set<String>> responseCommentsAddedTable, FeedbackResponseCommentAttributes frc,
+            FeedbackQuestionAttributes relatedQuestion, FeedbackResponseAttributes relatedResponse) {
         if (frc.isVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {
             StudentAttributes studentOfThisEmail = roster.getStudentForEmail(relatedResponse.recipientEmail);
             if (studentOfThisEmail != null) {
@@ -598,12 +585,9 @@ public class CommentsLogic {
     }
 
     private void populateRecipientEmailsForReceiver(CourseRoster roster,
-                                                    Map<String, List<StudentAttributes>> teamStudentTable,
-                                                    Set<String> recipientEmailsList,
-                                                    Map<String, Set<String>> responseCommentsAddedTable,
-                                                    FeedbackResponseCommentAttributes frc,
-                                                    FeedbackQuestionAttributes relatedQuestion,
-                                                    FeedbackResponseAttributes relatedResponse) {
+            Map<String, List<StudentAttributes>> teamStudentTable, Set<String> recipientEmailsList,
+            Map<String, Set<String>> responseCommentsAddedTable, FeedbackResponseCommentAttributes frc,
+            FeedbackQuestionAttributes relatedQuestion, FeedbackResponseAttributes relatedResponse) {
         if (frc.isVisibleTo(FeedbackParticipantType.RECEIVER)) {
             //recipientEmail is email
             if (roster.getStudentForEmail(relatedResponse.recipientEmail) != null) {
@@ -618,12 +602,9 @@ public class CommentsLogic {
     }
 
     private void populateRecipientEmailsForGiver(CourseRoster roster,
-                                                 Map<String, List<StudentAttributes>> teamStudentTable,
-                                                 Set<String> recipientEmailsList,
-                                                 Map<String, Set<String>> responseCommentsAddedTable,
-                                                 FeedbackResponseCommentAttributes frc,
-                                                 FeedbackQuestionAttributes relatedQuestion,
-                                                 FeedbackResponseAttributes relatedResponse) {
+            Map<String, List<StudentAttributes>> teamStudentTable, Set<String> recipientEmailsList,
+            Map<String, Set<String>> responseCommentsAddedTable, FeedbackResponseCommentAttributes frc,
+            FeedbackQuestionAttributes relatedQuestion, FeedbackResponseAttributes relatedResponse) {
         StudentAttributes giver = roster.getStudentForEmail(relatedResponse.giverEmail);
         if (giver == null) {
             return;
@@ -642,8 +623,7 @@ public class CommentsLogic {
     }
 
     private FeedbackResponseAttributes getRelatedResponse(
-                Map<String, FeedbackResponseAttributes> feedbackResponsesTable,
-                FeedbackResponseCommentAttributes frc) {
+            Map<String, FeedbackResponseAttributes> feedbackResponsesTable, FeedbackResponseCommentAttributes frc) {
         FeedbackResponseAttributes relatedResponse = feedbackResponsesTable.get(frc.feedbackResponseId);
         if (relatedResponse == null) {
             relatedResponse = frLogic.getFeedbackResponse(frc.feedbackResponseId);
@@ -653,8 +633,7 @@ public class CommentsLogic {
     }
 
     private FeedbackQuestionAttributes getRelatedQuestion(
-                                    Map<String, FeedbackQuestionAttributes> feedbackQuestionsTable,
-                                    FeedbackResponseCommentAttributes frc) {
+            Map<String, FeedbackQuestionAttributes> feedbackQuestionsTable, FeedbackResponseCommentAttributes frc) {
         FeedbackQuestionAttributes relatedQuestion = feedbackQuestionsTable.get(frc.feedbackQuestionId);
         if (relatedQuestion == null) {
             relatedQuestion = fqLogic.getFeedbackQuestion(frc.feedbackQuestionId);
@@ -829,24 +808,21 @@ public class CommentsLogic {
     }
     
     private void addRecipientEmailsForSection(Map<String, List<StudentAttributes>> sectionStudentTable,
-                                              Set<String> recipientEmailsList,
-                                              Map<String, Set<String>> responseCommentsAddedTable,
-                                              String commentId, String sectionName) {
+            Set<String> recipientEmailsList, Map<String, Set<String>> responseCommentsAddedTable,
+            String commentId, String sectionName) {
         List<StudentAttributes> students = sectionStudentTable.get(sectionName);
         if (students == null) {
             return;
         }
         
         for(StudentAttributes stu : students) {
-            addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList, 
-                                     commentId, stu.email);
+            addRecipientEmailsToList(responseCommentsAddedTable, recipientEmailsList, commentId, stu.email);
         }
     }
     
     private void addRecipientEmailsForTeam(Map<String, List<StudentAttributes>> teamStudentTable,
-                                           Set<String> recipientEmailsList,
-                                           Map<String, Set<String>> responseCommentsAddedTable,
-                                           String commentId, String teamName) {
+            Set<String> recipientEmailsList, Map<String, Set<String>> responseCommentsAddedTable,
+            String commentId, String teamName) {
         List<StudentAttributes> students = teamStudentTable.get(teamName);
         if (students == null) {
             return;
@@ -868,8 +844,7 @@ public class CommentsLogic {
     }
     
     private void preventAddRecipientEmailsForSection(Map<String, List<StudentAttributes>> sectionStudentTable,
-                                                     Map<String, Set<String>> isAddedTable,
-                                                     String commentId, String section) {
+            Map<String, Set<String>> isAddedTable, String commentId, String section) {
         List<StudentAttributes> students = sectionStudentTable.get(section);
         if (students == null) {
             return;
@@ -882,8 +857,7 @@ public class CommentsLogic {
     }
     
     private void preventAddRecipientEmailsForTeam(Map<String, List<StudentAttributes>> teamStudentTable,
-                                                  Map<String, Set<String>> isAddedTable,
-                                                  String commentId, String team) {
+            Map<String, Set<String>> isAddedTable, String commentId, String team) {
         List<StudentAttributes> teammates = teamStudentTable.get(team);
         if (teammates == null) {
             return;
