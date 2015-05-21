@@ -88,8 +88,8 @@ public class CoursesDb extends EntitiesDb {
     /**
      * Updates the course.<br>
      * Updates only course archive status.<br>
-     * Does not follow the 'keep existing' policy <br>
-     * Preconditions:<br>
+     * Does not follow the 'keep existing' policy <br> 
+     * Preconditions: <br>
      * * {@code courseToUpdate} is non-null.<br>
      * @throws InvalidParametersException, EntityDoesNotExistException
      */
@@ -119,7 +119,7 @@ public class CoursesDb extends EntitiesDb {
 
     /**
      * Note: This is a non-cascade delete.<br>
-     *  <br> Fails silently if there is no such object.
+     *   <br> Fails silently if there is no such object.
      * <br> Preconditions: 
      * <br> * {@code courseId} is not null.
      */

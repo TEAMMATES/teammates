@@ -541,8 +541,8 @@ public class CoursesLogic {
     }
  
     /**
-     * Gets course details list for instructor.
-     * Omits archived courses if omitArchived == true
+     * Gets course details list for instructor.<br>
+     * Omits archived courses if omitArchived == true<br>
      * 
      * @param instructorId - Google Id of instructor
      * @return HashMap with courseId as key, and CourseDetailsBundle as value.
