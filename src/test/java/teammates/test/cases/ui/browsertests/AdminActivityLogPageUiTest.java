@@ -57,8 +57,12 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
              * This can happen if this test is run right after the server is started.
              * In this case, no view actions can be done.
              */
-        } catch (IndexOutOfBoundsException e) {
-            // trying to figure out how to replicate this
+        } catch (IndexOutOfBoundsException invisibletmtlogs) {
+            /*
+             * This can happen if all the log entries are from test accounts
+             * (i.e emails ending with .tmt) because they are invisible.
+             * In this case, no view actions can be done.
+             */
         }
     }
     
