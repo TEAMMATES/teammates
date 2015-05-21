@@ -11,15 +11,14 @@ import teammates.logic.api.GateKeeper;
 public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
         
     @Override
-    public ActionResult execute()
-            throws EntityDoesNotExistException {
+    public ActionResult execute() throws EntityDoesNotExistException {
 
         String idOfCourseToDelete = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(idOfCourseToDelete);
         
-        new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(idOfCourseToDelete, account.googleId), 
-                logic.getCourse(idOfCourseToDelete), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
+        new GateKeeper().verifyAccessible(logic.getInstructorForGoogleId(idOfCourseToDelete, account.googleId), 
+                                          logic.getCourse(idOfCourseToDelete), 
+                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
 
         /* Delete the course and setup status to be shown to user and admin */
         logic.deleteCourse(idOfCourseToDelete);
@@ -27,7 +26,7 @@ public class InstructorCourseDeleteAction extends InstructorCoursesPageAction {
         statusToUser.add(statusMessage);
         statusToAdmin = "Course deleted: " + idOfCourseToDelete;
 
-        if(isRedirectedToHomePage()){
+        if (isRedirectedToHomePage()) {
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         } else {
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE);
