@@ -498,9 +498,7 @@ public class CommentsLogic {
     public Set<String> getRecipientEmailsForSendingComments(String courseId) throws EntityDoesNotExistException {
         List<StudentAttributes> allStudents = new StudentsDb().getStudentsForCourse(courseId);
 
-        CourseRoster roster = new CourseRoster(
-                allStudents,
-                new InstructorsDb().getInstructorsForCourse(courseId));
+        CourseRoster roster = new CourseRoster(allStudents, new InstructorsDb().getInstructorsForCourse(courseId));
         
         Map<String, List<StudentAttributes>> teamStudentTable = new HashMap<String, List<StudentAttributes>>();
         Map<String, List<StudentAttributes>> sectionStudentTable = new HashMap<String, List<StudentAttributes>>();
@@ -1008,8 +1006,7 @@ public class CommentsLogic {
         }
         
         for (StudentAttributes teamMember : teammates) {
-            preventAddRecipientEmailsToList(isAddedTable, 
-                    commentId, teamMember.email);
+            preventAddRecipientEmailsToList(isAddedTable, commentId, teamMember.email);
         }
     }
 
