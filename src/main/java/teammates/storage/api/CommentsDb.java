@@ -112,10 +112,8 @@ public class CommentsDb extends EntitiesDb {
             comment = getCommentEntity(commentToGet.getCommentId());
         }
         if (comment == null) {
-            comment = getCommentEntity(commentToGet.courseId,
-                                       commentToGet.giverEmail,
-                                       commentToGet.recipientType,
-                                       commentToGet.recipients,
+            comment = getCommentEntity(commentToGet.courseId, commentToGet.giverEmail,
+                                       commentToGet.recipientType, commentToGet.recipients,
                                        commentToGet.createdAt);
         }
         if (comment == null) {
@@ -263,8 +261,8 @@ public class CommentsDb extends EntitiesDb {
      * Preconditions: 
      * <br> * {@code newAttributes} is not null and has valid data.
      */
-    public CommentAttributes updateComment(CommentAttributes newAttributes) throws InvalidParametersException,
-                                                                                   EntityDoesNotExistException {
+    public CommentAttributes updateComment(CommentAttributes newAttributes) 
+            throws InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT,  newAttributes);
         
         newAttributes.sanitizeForSaving();
@@ -637,10 +635,8 @@ public class CommentsDb extends EntitiesDb {
         if (commentToGet.getCommentId() != null) {
             return getCommentEntity(commentToGet.getCommentId());
         } else {
-            return getCommentEntity(commentToGet.courseId,
-                                    commentToGet.giverEmail,
-                                    commentToGet.recipientType,
-                                    commentToGet.recipients,
+            return getCommentEntity(commentToGet.courseId, commentToGet.giverEmail,
+                                    commentToGet.recipientType, commentToGet.recipients,
                                     commentToGet.createdAt);
         }
     }
@@ -660,10 +656,8 @@ public class CommentsDb extends EntitiesDb {
         return commentList.get(0);
     }
     
-    private Comment getCommentEntity(String courseId,
-                                     String giverEmail,
-                                     CommentParticipantType recipientType,
-                                     Set<String> recipients,
+    private Comment getCommentEntity(String courseId, String giverEmail,
+                                     CommentParticipantType recipientType, Set<String> recipients,
                                      Date date) {
         String firstRecipient = recipients.iterator().next();
         List<Comment> commentList = getCommentEntitiesForRecipients(courseId, recipientType, firstRecipient);
