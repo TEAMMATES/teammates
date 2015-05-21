@@ -13,24 +13,24 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.controller.InstructorEditStudentFeedbackPageAction;
-import teammates.ui.controller.InstructorFeedbackPreviewAsStudentAction;
 import teammates.ui.controller.ShowPageResult;
 
-public class InstructorEditStudentFeedbackPageActionTest extends
-        BaseActionTest {
-    private final DataBundle dataBundle = getTypicalDataBundle();
+public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest {
+    private static DataBundle dataBundle;
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
+        dataBundle = loadDataBundle("/InstructorEditStudentFeedbackPageTest.json");
+        removeAndRestoreDatastoreFromJson("/InstructorEditStudentFeedbackPageTest.json");
+        
         uri = Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE;
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
-        InstructorAttributes instructorHelper = dataBundle.instructors.get("helperOfCourse1");
+    public void testExecuteAndPostProcess() throws Exception {
+        InstructorAttributes instructor = dataBundle.instructors.get("IESFPTCourseinstr");
+        InstructorAttributes instructorHelper = dataBundle.instructors.get("IESFPTCoursehelper1");
         String idOfInstructor = instructor.googleId;
         String idOfInstructorHelper = instructorHelper.googleId;
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
@@ -43,7 +43,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends
         String courseId = student.course;
         String moderatedStudentEmail = student.email;
 
-        String[] submissionParams = new String[] {
+        String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
@@ -52,27 +52,41 @@ public class InstructorEditStudentFeedbackPageActionTest extends
         InstructorEditStudentFeedbackPageAction editPageAction = getAction(submissionParams);
         ShowPageResult showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT 
-                + "?error=false"
-                + "&user="+ idOfInstructor
-                , showPageResult.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT +
+                "?error=false" +
+                "&user=" + idOfInstructor,
+                showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
 
-        assertEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage"
-                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                + "Moderating feedback session for student (" + student.email + ")<br>"
-                + "Session Name: First feedback session<br>Course ID: idOfTypicalCourse1|||"
-                + "/page/instructorEditStudentFeedbackPage"
-                , editPageAction.getLogMessage());
+        assertEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage" +
+                "|||true|||Instructor|||IESFPTCourseinstr|||IESFPTCourseinstr|||IESFPTCourseintr@course1.tmt|||" +
+                "Moderating feedback session for student (" + student.email + ")<br>" +
+                "Session Name: First feedback session<br>Course ID: IESFPTCourse|||" +
+                "/page/instructorEditStudentFeedbackPage",
+                editPageAction.getLogMessage());
         
+        ______TS("success: another feedback");
         
-        ______TS("success case: closed session");
-
-        feedbackSessionName = "Closed Session";
+        feedbackSessionName = "Another feedback session";
         courseId = student.course;
         moderatedStudentEmail = student.email;
 
-        submissionParams = new String[] {
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
+        };
+
+        editPageAction = getAction(submissionParams);
+        showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
+        
+        ______TS("success case: closed session");
+
+        feedbackSessionName = "Closed feedback session";
+        courseId = student.course;
+        moderatedStudentEmail = student.email;
+
+        submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
@@ -81,23 +95,17 @@ public class InstructorEditStudentFeedbackPageActionTest extends
         editPageAction = getAction(submissionParams);
         showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT 
-                + "?error=false"
-                + "&user="+ idOfInstructor
-                , showPageResult.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT +
+                "?error=false" +
+                "&user="+ idOfInstructor,
+                showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
-
-        assertEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage"
-                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                + "Moderating feedback session for student (" + student.email + ")<br>"
-                + "Session Name: Closed Session<br>Course ID: idOfTypicalCourse1|||"
-                + "/page/instructorEditStudentFeedbackPage"
-                , editPageAction.getLogMessage());
         
+
         gaeSimulation.loginAsInstructor(idOfInstructor);
         ______TS("success case: moderate team");
 
-        feedbackSessionName = "Closed Session";
+        feedbackSessionName = "Closed feedback session";
         courseId = student.course;
         String moderatedStudentTeam = student.team;
 
@@ -123,16 +131,15 @@ public class InstructorEditStudentFeedbackPageActionTest extends
                 + "/page/instructorEditStudentFeedbackPage"
                 , editPageAction.getLogMessage());
         
-        
         gaeSimulation.loginAsInstructor(idOfInstructorHelper);
         
         ______TS("failure: does not have privilege");
         
         feedbackSessionName = "First feedback session";
-        courseId = "idOfTypicalCourse1";
+        courseId = "IESFPTCourse";
         moderatedStudentEmail = student.email;
         
-        submissionParams = new String[] {
+        submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
@@ -152,7 +159,7 @@ public class InstructorEditStudentFeedbackPageActionTest extends
         
         moderatedStudentEmail = "non-exIstentEmail@gsail.tmt";
 
-        submissionParams = new String[] {
+        submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail
@@ -167,10 +174,11 @@ public class InstructorEditStudentFeedbackPageActionTest extends
                             + moderatedStudentEmail + " does not exist in " + courseId
                             + ".", 
                          edne.getMessage());
+
         }
     }
             
-    private InstructorEditStudentFeedbackPageAction getAction(String... params) throws Exception{
+    private InstructorEditStudentFeedbackPageAction getAction(String... params) throws Exception {
         return (InstructorEditStudentFeedbackPageAction) gaeSimulation.getActionObject(uri, params);
     }
 }
