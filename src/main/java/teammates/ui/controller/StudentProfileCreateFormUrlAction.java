@@ -16,32 +16,30 @@ import teammates.common.util.Const;
 public class StudentProfileCreateFormUrlAction extends Action {
 
     @Override
-    protected ActionResult execute() throws EntityDoesNotExistException {     
-        
-        StudentProfileCreateFormUrlAjaxPageData data = 
+    protected ActionResult execute() throws EntityDoesNotExistException {
+        StudentProfileCreateFormUrlAjaxPageData data =
                 new StudentProfileCreateFormUrlAjaxPageData(account, getUploadUrl(), isError);
         return createAjaxResult("", data);
     }
 
     private UploadOptions generateUploadOptions() {
-        UploadOptions uploadOptions = UploadOptions.Builder.withDefaults()
-                .googleStorageBucketName(Config.GCS_BUCKETNAME)
-                .maxUploadSizeBytes(Const.SystemParams.MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI);
+        UploadOptions uploadOptions =
+                UploadOptions.Builder.withDefaults().googleStorageBucketName(Config.GCS_BUCKETNAME)
+                                     .maxUploadSizeBytes(Const.SystemParams.MAX_PROFILE_PIC_LIMIT_FOR_BLOBSTOREAPI);
         return uploadOptions;
     }
 
     private String getUploadUrl() {
         try {
             return generateNewUploadUrl();
-        } catch(BlobstoreFailureException e) {
+        } catch (BlobstoreFailureException e) {
             isError = true;
             statusToAdmin = "Failed to create profile picture upload-url: " + e.getMessage();
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             // This branch is not tested as this error can and should never occur
             isError = true;
-            log.severe(Const.ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD 
-                    + " was found to be illegal success path. Error: "
-                    + e.getMessage());
+            log.severe(Const.ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD
+                       + " was found to be illegal success path. Error: " + e.getMessage());
             statusToAdmin = "Failed to create profile picture upload-url: " + e.getMessage();
         }
         return "";
@@ -49,12 +47,9 @@ public class StudentProfileCreateFormUrlAction extends Action {
 
     private String generateNewUploadUrl() {
         UploadOptions uploadOptions = generateUploadOptions();
-        
-        String formPostUrl = 
-                BlobstoreServiceFactory
-                .getBlobstoreService()
-                .createUploadUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD, uploadOptions);
-        
+        String formPostUrl = BlobstoreServiceFactory.getBlobstoreService()
+                                                    .createUploadUrl(Const.ActionURIs.STUDENT_PROFILE_PICTURE_UPLOAD,
+                                                                     uploadOptions);
         statusToAdmin = "Created Url successfully: " + formPostUrl;
         return formPostUrl;
     }

@@ -15,7 +15,6 @@ public class StudentProfilePictureAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-
         ActionResult result = null;
         if (getRequestParamValue(Const.ParamsNames.BLOB_KEY) != null) {
             result = handleRequestWithBlobKey();
@@ -26,7 +25,6 @@ public class StudentProfilePictureAction extends Action {
         } else {
             Assumption.fail("expected blob-key, or student email with courseId");
         }
-        
         return result;
     }
 
@@ -36,23 +34,23 @@ public class StudentProfilePictureAction extends Action {
         return createImageResult(blobKey);
     }
 
-    private ActionResult handleRequestWithEmailAndCourse() throws EntityDoesNotExistException {
+    private ActionResult handleRequestWithEmailAndCourse()
+            throws EntityDoesNotExistException {
         String email = getStudentEmailFromRequest();
         String courseId = getCourseIdFromRequest();
         log.info("email: " + email + ", course: " + courseId);
-        
+
         StudentAttributes student = getStudentForGivenParameters(courseId, email);
         new GateKeeper().verifyAccessibleForCurrentUserAsInstructor(account, courseId, student.section);
-        
+
         return createImageResult(getPictureKeyForStudent(student));
     }
 
-    private StudentAttributes getStudentForGivenParameters(String courseId,
-            String email) throws EntityDoesNotExistException {
+    private StudentAttributes getStudentForGivenParameters(String courseId, String email)
+            throws EntityDoesNotExistException {
         StudentAttributes student = logic.getStudentForEmail(courseId, email);
         if (student == null) {
-            throw new EntityDoesNotExistException("student with " +
-                    courseId + "/" + email);
+            throw new EntityDoesNotExistException("student with " + courseId + "/" + email);
         }
         return student;
     }
@@ -83,13 +81,13 @@ public class StudentProfilePictureAction extends Action {
             // unregistered student, so ignore the picture request
         } else {
             StudentProfileAttributes profile = logic.getStudentProfile(student.googleId);
-            
-            //TODO: remove the null check once all legacy data has been ported over
+
+            // TODO: remove the null check once all legacy data has been ported
             if (profile != null) {
                 blobKey = profile.pictureKey;
             }
         }
         return blobKey;
     }
+
 }
- 
