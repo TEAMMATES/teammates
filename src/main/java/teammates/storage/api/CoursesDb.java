@@ -48,7 +48,7 @@ public class CoursesDb extends EntitiesDb {
     }
 
     /**
-     * Preconditions:
+     * Preconditions: <br>
      * * All parameters are non-null. 
      * @return Null if not found.
      */
@@ -86,11 +86,11 @@ public class CoursesDb extends EntitiesDb {
     }
 
     /**
-     * Updates the course.
-     * Updates only course archive status.
-     * Does not follow the 'keep existing' policy 
-     * Preconditions:
-     * * {@code courseToUpdate} is non-null.
+     * Updates the course.<br>
+     * Updates only course archive status.<br>
+     * Does not follow the 'keep existing' policy <br>
+     * Preconditions:<br>
+     * * {@code courseToUpdate} is non-null.<br>
      * @throws InvalidParametersException, EntityDoesNotExistException
      */
     public void updateCourse(CourseAttributes courseToUpdate) throws InvalidParametersException, 
@@ -118,10 +118,10 @@ public class CoursesDb extends EntitiesDb {
     
 
     /**
-     * Note: This is a non-cascade delete.
-     * Fails silently if there is no such object.
-     * Preconditions: 
-     * {@code courseId} is not null.
+     * Note: This is a non-cascade delete.<br>
+     *  <br> Fails silently if there is no such object.
+     * <br> Preconditions: 
+     * <br> * {@code courseId} is not null.
      */
     public void deleteCourse(String courseId) {
         
