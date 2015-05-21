@@ -40,19 +40,19 @@ public class StudentAttributes extends EntityAttributes {
 
         public static UpdateStatus enumRepresentation(int numericRepresentation) {
             switch (numericRepresentation) {
-            case 0 :
+            case 0:
                 return ERROR;
-            case 1 :
+            case 1:
                 return NEW;
-            case 2 :
+            case 2:
                 return MODIFIED;
-            case 3 :
+            case 3:
                 return UNMODIFIED;
-            case 4 :
+            case 4:
                 return NOT_IN_ENROLL_LIST;
-            case 5 :
+            case 5:
                 return UNKNOWN;
-            default :
+            default:
                 return UNKNOWN;
             }
         }
@@ -73,13 +73,14 @@ public class StudentAttributes extends EntityAttributes {
 
     public UpdateStatus updateStatus = UpdateStatus.UNKNOWN;
     
-    public StudentAttributes(String id, String email, String name, String comments, 
-                             String courseId, String team, String section) {
+    public StudentAttributes(String id, String email, String name, String comments,
+            String courseId, String team, String section) {
         this(section, team, name, email, comments, courseId);
         this.googleId = Sanitizer.sanitizeGoogleId(id);
     }
 
     public StudentAttributes() {
+        
     }
     
     public StudentAttributes(String section, String team, String name, String email, String comment, String courseId) {
@@ -102,11 +103,13 @@ public class StudentAttributes extends EntityAttributes {
         this.comments = Sanitizer.sanitizeTextField(student.getComments());
         this.team = Sanitizer.sanitizeTitle(student.getTeamName());
         this.section = ((student.getSectionName() == null) ? Const.DEFAULT_SECTION 
-                                                           : Sanitizer.sanitizeTitle(student.getSectionName()));
+                : Sanitizer.sanitizeTitle(student.getSectionName()));
         // TODO: Is this supposed to be null or "" ?? Find out and standardize.
-        this.googleId = ((student.getGoogleId() == null) ? "" : student.getGoogleId());
+        this.googleId = ((student.getGoogleId() == null) ? "" 
+                : student.getGoogleId());
         Long keyAsLong = student.getRegistrationKey();
-        this.key = (keyAsLong == null ? null : Student.getStringKeyForLongKey(keyAsLong));
+        this.key = (keyAsLong == null ? null : Student
+                .getStringKeyForLongKey(keyAsLong));
 
         // TODO: this is for backward compatibility with old system. Old system
         // considers "" as unregistered. It should be changed to consider
@@ -167,40 +170,26 @@ public class StudentAttributes extends EntityAttributes {
         
         if (isRegistered()) {
             error = validator.getInvalidityInfo(FieldType.GOOGLE_ID, googleId);
-            if (!error.isEmpty()) {    
-                errors.add(error);
-            }
+            if (!error.isEmpty()) {    errors.add(error);}
         }
         
-        error = validator.getInvalidityInfo(FieldType.COURSE_ID, course);
-        if (!error.isEmpty()) { 
-            errors.add(error); 
-        }
+        error= validator.getInvalidityInfo(FieldType.COURSE_ID, course);
+        if(!error.isEmpty()) { errors.add(error); }
         
-        error = validator.getInvalidityInfo(FieldType.EMAIL, email);
-        if (!error.isEmpty()) { 
-            errors.add(error); 
-        }
+        error= validator.getInvalidityInfo(FieldType.EMAIL, email);
+        if(!error.isEmpty()) { errors.add(error); }
         
-        error = validator.getInvalidityInfo(FieldType.TEAM_NAME, team);
-        if (!error.isEmpty()) { 
-            errors.add(error); 
-        }
+        error= validator.getInvalidityInfo(FieldType.TEAM_NAME, team);
+        if(!error.isEmpty()) { errors.add(error); }
         
-        error = validator.getInvalidityInfo(FieldType.SECTION_NAME, section);
-        if (!error.isEmpty()) { 
-            errors.add(error); 
-        }
+        error= validator.getInvalidityInfo(FieldType.SECTION_NAME, section);
+        if(!error.isEmpty()) { errors.add(error); }
         
-        error = validator.getInvalidityInfo(FieldType.STUDENT_ROLE_COMMENTS, comments);
-        if (!error.isEmpty()) { 
-            errors.add(error); 
-        }
+        error= validator.getInvalidityInfo(FieldType.STUDENT_ROLE_COMMENTS, comments);
+        if(!error.isEmpty()) { errors.add(error); }
         
-        error = validator.getInvalidityInfo(FieldType.PERSON_NAME, name);
-        if (!error.isEmpty()) { 
-            errors.add(error); 
-        }
+        error= validator.getInvalidityInfo(FieldType.PERSON_NAME, name);
+        if(!error.isEmpty()) { errors.add(error); }
         
         return errors;
     }
@@ -212,8 +201,8 @@ public class StudentAttributes extends EntityAttributes {
                 String sect2 = student2.section;
 
                 // If the section name is the same, reorder by team name
-                if (sect1.compareTo(sect2) == 0) {
-                    if (student1.team.compareTo(student2.team) == 0) {
+                if(sect1.compareTo(sect2) == 0){
+                    if(student1.team.compareTo(student2.team) == 0){
                         return student1.name.compareTo(student2.name);
                     } 
                     return student1.team.compareTo(student2.team);
@@ -230,7 +219,7 @@ public class StudentAttributes extends EntityAttributes {
                 String team2 = student2.team;
             
                 //If the team name is the same, reorder by student name
-                if (team1.compareTo(team2) == 0) {
+                if(team1.compareTo(team2) == 0){
                     return student1.name.compareTo(student2.name);
                 }
                 return team1.compareTo(team2);
@@ -242,31 +231,30 @@ public class StudentAttributes extends EntityAttributes {
         Collections.sort(students, new Comparator<StudentAttributes>() {
             public int compare(StudentAttributes student1, StudentAttributes student2) {
                 int result = student1.name.compareTo(student2.name);
-                if (result == 0) {
+                if (result == 0)
                     result = student1.email.compareTo(student2.email);
-                }
                 return result;
             }
         });
     }
     
     public void updateWithExistingRecord(StudentAttributes originalStudent) {
-        if (this.email == null) {
+        if(this.email == null){
             this.email = originalStudent.email;
         }
-        if (this.name == null) {
+        if(this.name == null){
             this.name = originalStudent.name;
         }
-        if (this.googleId == null) {
+        if(this.googleId == null){
             this.googleId = originalStudent.googleId;
         }
-        if (this.team == null) {
+        if(this.team == null){
             this.team = originalStudent.team;
         }
-        if (this.comments == null) {
+        if(this.comments == null){
             this.comments = originalStudent.comments;
         }
-        if (this.section == null) {
+        if(this.section == null){
             this.section = originalStudent.section;
         }
     }
