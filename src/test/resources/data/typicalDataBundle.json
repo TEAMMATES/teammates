@@ -100,6 +100,13 @@
             "isInstructor":false,
             "email":"student2InCourse1@gmail.tmt",
             "institute":"TEAMMATES Test Institute 1"
+        },
+        "student1InArchivedCourse":{
+            "googleId":"student1InCourse1",
+            "name":"Student in Archived Course",
+            "isInstructor":false,
+            "email":"student1InCourse1@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         }
     },
     "courses":{
@@ -456,6 +463,24 @@
             "sentOpenEmail":false,
             "sentPublishedEmail":false
         },
+        "archiveCourse.session1":{
+            "feedbackSessionName":"session not visible to students",
+            "courseId":"idOfArchivedCourse",
+            "creatorEmail":"instructor1@course1.tmt",
+            "instructions":{
+                "value":"Please please fill in the following questions."
+            },
+            "createdTime":"2013-01-20 11:00 PM UTC",
+            "startTime":"2013-02-20 11:00 PM UTC",
+            "endTime":"2016-04-28 11:00 PM UTC",
+            "sessionVisibleFromTime":"2013-02-20 11:00 PM UTC",
+            "resultsVisibleFromTime":"2016-04-29 11:00 PM UTC",
+            "timeZone":0,
+            "gracePeriod":5,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":false
+        },
         "session1InCourse2":{
             "feedbackSessionName":"Private feedback session",
             "courseId":"idOfTypicalCourse2",
@@ -745,6 +770,29 @@
             ]
             
         },
+        "qn1InSessionInArchivedCourse":{
+            "feedbackSessionName":"session not visible to students",
+            "courseId":"idOfArchivedCourse",
+            "creatorEmail":"instructor1@course1.tmt",
+            "questionMetaData":{
+                "value":"Give feedback to students"
+            },
+            "questionNumber":"1",
+            "questionType":"TEXT",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"STUDENTS",
+            "numberOfEntitiesToGiveFeedbackTo":4,
+            "showResponsesTo":[
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER"
+            ]
+            
+        },
         "qn1InSession1InCourse2":{
             "feedbackSessionName":"Private feedback session",
             "courseId":"idOfTypicalCourse2",
@@ -781,7 +829,7 @@
             "recipientType":"TEAMS",
             "numberOfEntitiesToGiveFeedbackTo":1,
             "showResponsesTo":[
-                
+                "RECEIVER"
             ],
             "showGiverNameTo":[
                 
@@ -1011,7 +1059,22 @@
             "giverSection":"None",
             "recipientSection":"None" 
             
+        },
+        "response1ForNVSQ1":{
+            "feedbackSessionName":"session not visible to students",
+            "courseId":"idOfArchivedCourse",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"instructorOfArchiveCourse@archiveCourse.tmt",
+            "recipientEmail":"student1InCourse1@gmail.tmt",
+            "responseMetaData":{
+                "value":"Response from instructor to student"
+            },
+            "giverSection":"None",
+            "recipientSection":"Section 1" 
+            
         }
+
     },
     "feedbackResponseComments":{
         "comment1FromT1C1ToR1Q1S1C1": {

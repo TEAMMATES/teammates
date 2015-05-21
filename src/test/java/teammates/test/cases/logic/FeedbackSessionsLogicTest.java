@@ -569,8 +569,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertTrue(actualSessions.size() == 3);
         
         // Course 2 only has an instructor session and a private session.
+        // The private session is not viewable to students,
+        // but the instructor session has questions where responses are visible
         actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "student1InCourse2@gmail.tmt");        
-        assertTrue(actualSessions.isEmpty());
+        assertEquals(1, actualSessions.size());
                 
         ______TS("Instructor viewing");
         
