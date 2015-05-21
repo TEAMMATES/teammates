@@ -454,4 +454,22 @@ public class StringHelper {
         }
         return untrimmedString;
     }
+
+    /**
+     * Counts the number of empty strings passed as the argument. Null is
+     * considered an empty string, while whitespace is not.
+     * 
+     * @param String...
+     * @return number of empty strings passed
+     */
+    public static int countEmptyStrings(String... strings) {
+        int numOfEmptyStrings = 0;
+        for (String s : strings) {
+            if (s == null || s.isEmpty()) {
+                numOfEmptyStrings += 1;
+            }
+        }
+        return numOfEmptyStrings;
+    }
+
 }

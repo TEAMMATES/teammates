@@ -13,51 +13,49 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 
 public class StudentProfilePage extends AppPage {
-    
-    @FindBy(id="studentPhoto")
+
+    @FindBy(id = "studentPhoto")
     protected WebElement profilePicBox;
-    
-    @FindBy(id="studentShortname")
+
+    @FindBy(id = "studentShortname")
     protected WebElement shortNameBox;
-    
-    @FindBy(id="studentEmail")
+
+    @FindBy(id = "studentEmail")
     protected WebElement emailBox;
-    
-    @FindBy(id="studentInstitution")
+
+    @FindBy(id = "studentInstitution")
     protected WebElement institutionBox;
-    
-    @FindBy(id="studentNationality")
+
+    @FindBy(id = "studentNationality")
     protected WebElement countryBox;
-    
-    @FindBy(id="genderMale")
+
+    @FindBy(id = "genderMale")
     protected WebElement genderMaleRadio;
-    
-    @FindBy(id="genderFemale")
+
+    @FindBy(id = "genderFemale")
     protected WebElement genderFemaleRadio;
-    
-    @FindBy(id="genderOther")
+
+    @FindBy(id = "genderOther")
     protected WebElement genderOtherRadio;
-    
-    @FindBy(id="studentMoreInfo")
+
+    @FindBy(id = "studentMoreInfo")
     protected WebElement moreInfoBox;
-    
-    @FindBy(id="studentPhotoUploader")
+
+    @FindBy(id = "studentPhotoUploader")
     protected WebElement uploadEditModal;
-    
-    @FindBy(id="uploadEditPhoto")
+
+    @FindBy(id = "uploadEditPhoto")
     protected WebElement uploadPopupButton;
-    
-    @FindBy(id="profileEditSubmit")
+
+    @FindBy(id = "profileEditSubmit")
     protected WebElement submitButton;
-    
-    @FindBy(id="profileUploadPictureSubmit")
+
+    @FindBy(id = "profileUploadPictureSubmit")
     protected WebElement uploadPictureSubmit;
-    
-    @FindBy(id="profileEditPictureSubmit")
+
+    @FindBy(id = "profileEditPictureSubmit")
     protected WebElement editPictureSubmit;
-    
-    
-    
+
     public StudentProfilePage(Browser browser) {
         super(browser);
     }
@@ -66,13 +64,13 @@ public class StudentProfilePage extends AppPage {
     protected boolean containsExpectedPageContents() {
         return getPageSource().contains("<h2>Student Profile</h2>");
     }
-    
+
     public StudentProfilePage submitEditedProfile() {
         submitButton.click();
         waitForPageToLoad();
         return changePageType(StudentProfilePage.class);
     }
-    
+
     public void fillProfilePic(String fileName) throws Exception {
         showPictureEditor();
         RemoteWebElement ele = (RemoteWebElement) browser.driver.findElement(By.id("studentPhoto"));
@@ -83,48 +81,45 @@ public class StudentProfilePage extends AppPage {
         uploadPopupButton.click();
         waitForElementToBecomeVisible("studentPhotoUploader");
     }
-    
+
     public void fillShortName(String shortName) {
         fillTextBox(shortNameBox, shortName);
     }
-    
+
     public void fillEmail(String studentEmail) {
         fillTextBox(emailBox, studentEmail);
     }
-    
+
     public void fillInstitution(String studentInstitution) {
         fillTextBox(institutionBox, studentInstitution);
     }
-    
+
     public void fillNationality(String studentNationality) {
         fillTextBox(countryBox, studentNationality);
     }
-    
+
     public void fillMoreInfo(String moreInfo) {
         fillTextBox(moreInfoBox, moreInfo);
     }
-    
+
     public void selectGender(String gender) throws Exception {
         switch (gender) {
-        case Const.GenderTypes.MALE:
-            genderMaleRadio.click();
-            break;
-        case Const.GenderTypes.FEMALE:
-            genderFemaleRadio.click();
-            break;
-        case Const.GenderTypes.OTHER:
-            genderOtherRadio.click();
-            break;
-        default:
-            throw new InvalidParametersException("Given gender " + gender + " is not valid!");
+            case Const.GenderTypes.MALE:
+                genderMaleRadio.click();
+                break;
+            case Const.GenderTypes.FEMALE:
+                genderFemaleRadio.click();
+                break;
+            case Const.GenderTypes.OTHER:
+                genderOtherRadio.click();
+                break;
+            default:
+                throw new InvalidParametersException("Given gender " + gender + " is not valid!");
         }
     }
-    
+
     public void editProfileThroughUi(String fileName, String shortName, String email, String institute,
-            String nationality, String gender, String moreInfo) throws Exception {
-        if (!fileName.equals("")) {
-            fillProfilePic(fileName);
-        }
+                                     String nationality, String gender, String moreInfo) throws Exception {
         fillShortName(shortName);
         fillEmail(email);
         fillInstitution(institute);
@@ -134,9 +129,8 @@ public class StudentProfilePage extends AppPage {
         submitEditedProfile();
     }
 
-    public void ensureProfileContains(String shortName, String email,
-            String institute, String nationality, String gender, String moreInfo) {
-        
+    public void ensureProfileContains(String shortName, String email, String institute, String nationality,
+                                      String gender, String moreInfo) {
         assertEquals(shortName, shortNameBox.getAttribute("value"));
         assertEquals(email, emailBox.getAttribute("value"));
         assertEquals(institute, institutionBox.getAttribute("value"));
@@ -146,18 +140,18 @@ public class StudentProfilePage extends AppPage {
     }
 
     private void ensureGenderIsSelectedAs(String gender) {
-        switch(gender) {
-        case Const.GenderTypes.MALE:
-            assertTrue(genderMaleRadio.isSelected());
-            break;
-        case Const.GenderTypes.FEMALE:
-            assertTrue(genderFemaleRadio.isSelected());
-            break;
-        case Const.GenderTypes.OTHER:
-            assertTrue(genderOtherRadio.isSelected());
-            break;
-        default:
-            Assumption.fail("unexpected gender value given");
+        switch (gender) {
+            case Const.GenderTypes.MALE:
+                assertTrue(genderMaleRadio.isSelected());
+                break;
+            case Const.GenderTypes.FEMALE:
+                assertTrue(genderFemaleRadio.isSelected());
+                break;
+            case Const.GenderTypes.OTHER:
+                assertTrue(genderOtherRadio.isSelected());
+                break;
+            default:
+                Assumption.fail("unexpected gender value given");
         }
     }
 
@@ -167,16 +161,20 @@ public class StudentProfilePage extends AppPage {
     }
 
     public void editProfilePhoto() {
-        editPictureSubmit.click();        
+        editPictureSubmit.click();
     }
 
     public void verifyPhotoSize(int height, int width) throws Exception {
-        assertEquals(String.valueOf(height), browser.driver.findElement(By.id("pictureHeight")).getAttribute("value"));
-        assertEquals(String.valueOf(width), browser.driver.findElement(By.id("pictureWidth")).getAttribute("value"));
-        
+        assertEquals(String.valueOf(height), browser.driver.findElement(By.id("pictureHeight"))
+                                                           .getAttribute("value"));
+        assertEquals(String.valueOf(width), browser.driver.findElement(By.id("pictureWidth"))
+                                                          .getAttribute("value"));
     }
-    
+
+    // TODO method unused
     public void verifyPictureIsVisible(int height) throws Exception {
-        assertEquals(height, Integer.parseInt(browser.driver.findElement(By.className("jcrop-holder")).getCssValue("height")));
+        assertEquals(height, Integer.parseInt(browser.driver.findElement(By.className("jcrop-holder"))
+                                                     .getCssValue("height")));
     }
+
 }
