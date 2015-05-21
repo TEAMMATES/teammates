@@ -44,12 +44,8 @@ public class CommentAttributes extends EntityAttributes
 
     }
 
-    public CommentAttributes(String courseId,
-                             String giverEmail,
-                             CommentParticipantType recipientType,
-                             Set<String> recipients,
-                             Date createdAt,
-                             Text commentText) {
+    public CommentAttributes(String courseId, String giverEmail, CommentParticipantType recipientType,
+                             Set<String> recipients, Date createdAt, Text commentText) {
         this.courseId = courseId;
         this.giverEmail = giverEmail;
         this.recipientType = recipientType != null ? recipientType : CommentParticipantType.PERSON;
@@ -146,19 +142,11 @@ public class CommentAttributes extends EntityAttributes
     }
 
     public Comment toEntity() {
-        return new Comment(courseId,
-                           giverEmail,
-                           recipientType,
-                           recipients,
-                           status,
-                           sendingState,
-                           showCommentTo, 
-                           showGiverNameTo, 
-                           showRecipientNameTo, 
-                           commentText,
-                           createdAt,
-                           lastEditorEmail,
-                           lastEditedAt);
+        return new Comment(courseId, giverEmail, recipientType,
+                           recipients, status, sendingState,
+                           showCommentTo, showGiverNameTo, 
+                           showRecipientNameTo, commentText,
+                           createdAt, lastEditorEmail, lastEditedAt);
     }
     
     public Boolean isVisibleTo(CommentParticipantType targetViewer) {
