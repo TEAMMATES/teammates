@@ -138,6 +138,7 @@ public class Student {
         return comments;
     }
 
+    // null comment setting are not tested
     public void setComments(String comments) {
         this.comments = (comments == null ? null : comments.trim());
     }
@@ -158,6 +159,7 @@ public class Student {
         return teamName;
     }
 
+    // null team name setting are not tested
     public void setTeamName(String teamName) {
         this.teamName = (teamName == null ? null : teamName.trim());
     }
