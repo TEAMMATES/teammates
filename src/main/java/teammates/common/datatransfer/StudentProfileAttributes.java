@@ -67,6 +67,7 @@ public class StudentProfileAttributes extends EntityAttributes {
         this.modifiedDate = null;
     }
 
+    // branch is not fully tested here: part of StudentCourseJoinAuthenticatedAction
     public String generateUpdateMessageForStudent() {
         if (isMultipleFieldsEmpty()) {
             return Const.StatusMessages.STUDENT_UPDATE_PROFILE;

@@ -114,16 +114,12 @@ public class StudentProfilePage extends AppPage {
                 genderOtherRadio.click();
                 break;
             default:
-                throw new InvalidParametersException("Given gender " + gender
-                                                     + " is not valid!");
+                throw new InvalidParametersException("Given gender " + gender + " is not valid!");
         }
     }
 
     public void editProfileThroughUi(String fileName, String shortName, String email, String institute,
                                      String nationality, String gender, String moreInfo) throws Exception {
-        if (!fileName.equals("")) {
-            fillProfilePic(fileName);
-        }
         fillShortName(shortName);
         fillEmail(email);
         fillInstitution(institute);

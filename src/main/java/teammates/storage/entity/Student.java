@@ -170,6 +170,7 @@ public class Student {
         this.sectionName = (sectionName == null ? null : sectionName.trim());
     }
 
+    // not tested as this is part of client script
     public boolean isRegistered() {
         // Null or "" => unregistered
         return ID != null && !ID.isEmpty();

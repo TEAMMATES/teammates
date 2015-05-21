@@ -7,6 +7,7 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +50,27 @@ public class StudentProfileAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testeGetIdentificationString() {
+    public void testGetBackupIdentifier() {
+        assertEquals("Student profile modified", profile.getBackupIdentifier());
+    }
+
+    @Test
+    public void testGetIdentificationString() {
         assertEquals(profile.googleId, profile.getIdentificationString());
+    }
+
+    @Test
+    public void testGetJsonString() throws Exception {
+        StudentProfileAttributes spa = new StudentProfileAttributes((StudentProfile) profile.toEntity());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        spa.modifiedDate = sdf.parse("2015-05-21 8:34:00");
+        assertEquals("{\n  \"googleId\": \"valid.googleId\",\n  \"shortName\": \"shor\","
+                     + "\n  \"email\": \"valid@email.com\",\n  \"institute\": \"institute\","
+                     + "\n  \"nationality\": \"nationality\",\n  \"gender\": \"female\","
+                     + "\n  \"moreInfo\": \"moreInfo can have a lot more than this...\","
+                     + "\n  \"pictureKey\": \"profile Pic Key\","
+                     + "\n  \"modifiedDate\": \"2015-05-21 8:34 AM +0800\"\n}",
+                     spa.getJsonString());
     }
 
     @Test

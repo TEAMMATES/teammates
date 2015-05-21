@@ -71,10 +71,21 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         ______TS("Typical case: no picture");
 
         profilePage.editProfileThroughUi("", "short.name", "e@email.tmt", "inst", "Usual Nationality",
-                                         "female", "this is enough!$%&*</>");
+                                         "male", "this is enough!$%&*</>");
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality",
-                                          "female", "this is enough!$%&*</>");
+                                          "male", "this is enough!$%&*</>");
         profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_EDITED);
+        
+        ______TS("Typical case: changing genders for complete coverage");
+
+        profilePage.editProfileThroughUi("", "short.name", "e@email.tmt", "inst", "Usual Nationality",
+                                         "other", "this is enough!$%&*</>");
+        profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality",
+                                          "other", "this is enough!$%&*</>");
+        profilePage.editProfileThroughUi("", "short.name", "e@email.tmt", "inst", "Usual Nationality",
+                                        "female", "this is enough!$%&*</>");
+        profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality",
+                                         "female", "this is enough!$%&*</>");
 
         ______TS("Failure case: invalid data");
 

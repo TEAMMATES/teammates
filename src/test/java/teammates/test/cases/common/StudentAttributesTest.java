@@ -302,6 +302,16 @@ public class StudentAttributesTest extends BaseTestCase {
         assertEquals(profilePicUrl, sd.getPublicProfilePictureUrl());
     }
 
+    @Test
+    public void testGetJsonString() {
+        StudentAttributes sd = new StudentAttributes("sect 1", "team 1", "name 1", "email@email.com",
+                                        "comment 1", "course1");
+        assertEquals("{\n  \"name\": \"name 1\",\n  \"lastName\": \"1\",\n  \"email\": \"email@email.com\","
+                     + "\n  \"course\": \"course1\",\n  \"comments\": \"comment 1\",\n  \"team\": \"team 1\","
+                     + "\n  \"section\": \"sect 1\",\n  \"updateStatus\": \"UNKNOWN\"\n}",
+                     sd.getJsonString());
+    }
+
     private Student generateTypicalStudentObject() {
         return new Student("email@email.com", "name 1", "googleId.1", "comment 1", "courseId1", "team 1", "sect 1");
     }
