@@ -7,14 +7,12 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
-public class InstructorFeedbackQuestionSubmissionEditSaveAction extends
-        FeedbackQuestionSubmissionEditSaveAction {
+public class InstructorFeedbackQuestionSubmissionEditSaveAction extends FeedbackQuestionSubmissionEditSaveAction {
     @Override
     protected void verifyAccesibleForSpecificUser() {
-        new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getFeedbackSession(feedbackSessionName, courseId),
-                false);
+        new GateKeeper().verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId),
+                                          logic.getFeedbackSession(feedbackSessionName, courseId),
+                                          false);
     }
 
     @Override
@@ -39,8 +37,8 @@ public class InstructorFeedbackQuestionSubmissionEditSaveAction extends
     protected String getUserEmailForCourse() {
         return logic.getInstructorForGoogleId(courseId, account.googleId).email;
     }
-    
-    @Override 
+
+    @Override
     protected String getUserSectionForCourse() {
         return Const.DEFAULT_SECTION;
     }
@@ -55,9 +53,9 @@ public class InstructorFeedbackQuestionSubmissionEditSaveAction extends
     @Override
     protected void setStatusToAdmin() {
         statusToAdmin = "Save question feedback and show instructor feedback question submission edit page<br>" +
-                "Question ID: " + feedbackQuestionId + "<br>" +
-                "Session Name: " + feedbackSessionName + "<br>" + 
-                "Course ID: " + courseId;
+                        "Question ID: " + feedbackQuestionId + "<br>" +
+                        "Session Name: " + feedbackSessionName + "<br>" +
+                        "Course ID: " + courseId;
     }
 
     @Override
