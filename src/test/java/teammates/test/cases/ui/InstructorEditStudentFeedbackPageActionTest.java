@@ -125,9 +125,9 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
         assertEquals("", showPageResult.getStatusMessage());
 
         assertEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage"
-                + "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                + "|||true|||Instructor|||IESFPTCourseinstr|||IESFPTCourseinstr|||IESFPTCourseintr@course1.tmt|||"
                 + "Moderating feedback session for student (" + student.email + ")<br>"
-                + "Session Name: Closed Session<br>Course ID: idOfTypicalCourse1|||"
+                + "Session Name: Closed feedback session<br>Course ID: IESFPTCourse|||"
                 + "/page/instructorEditStudentFeedbackPage"
                 , editPageAction.getLogMessage());
         
