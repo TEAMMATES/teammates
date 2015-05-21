@@ -101,12 +101,35 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
                 showPageResult.getDestinationWithParams());
         assertEquals("", showPageResult.getStatusMessage());
         
-        assertEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage" +
-                "|||true|||Instructor|||IESFPTCourseinstr|||IESFPTCourseinstr|||IESFPTCourseintr@course1.tmt|||" +
-                "Moderating feedback session for student (" + student.email + ")<br>" +
-                "Session Name: Closed feedback session<br>Course ID: IESFPTCourse|||" +
-                "/page/instructorEditStudentFeedbackPage",
-                editPageAction.getLogMessage());
+
+        gaeSimulation.loginAsInstructor(idOfInstructor);
+        ______TS("success case: moderate team");
+
+        feedbackSessionName = "Closed feedback session";
+        courseId = student.course;
+        String moderatedStudentTeam = student.team;
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentTeam
+        };
+
+        editPageAction = getAction(submissionParams);
+        showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
+
+        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT 
+                + "?error=false"
+                + "&user="+ idOfInstructor
+                , showPageResult.getDestinationWithParams());
+        assertEquals("", showPageResult.getStatusMessage());
+
+        assertEquals("TEAMMATESLOG|||instructorEditStudentFeedbackPage|||instructorEditStudentFeedbackPage"
+                + "|||true|||Instructor|||IESFPTCourseinstr|||IESFPTCourseinstr|||IESFPTCourseintr@course1.tmt|||"
+                + "Moderating feedback session for student (" + student.email + ")<br>"
+                + "Session Name: Closed feedback session<br>Course ID: IESFPTCourse|||"
+                + "/page/instructorEditStudentFeedbackPage"
+                , editPageAction.getLogMessage());
         
         gaeSimulation.loginAsInstructor(idOfInstructorHelper);
         
@@ -147,9 +170,11 @@ public class InstructorEditStudentFeedbackPageActionTest extends BaseActionTest 
             showPageResult = (ShowPageResult) editPageAction.executeAndPostProcess();
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            assertEquals("Student Email " +
-                    moderatedStudentEmail + " does not exist in " + courseId + ".",
-                    edne.getMessage());
+            assertEquals("An entity with the identifier "
+                            + moderatedStudentEmail + " does not exist in " + courseId
+                            + ".", 
+                         edne.getMessage());
+
         }
     }
             
