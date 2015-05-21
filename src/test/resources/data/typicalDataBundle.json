@@ -474,7 +474,7 @@
             "sentPublishedEmail":false
         },
         "archiveCourse.session1":{
-            "feedbackSessionName":"session not visible to students",
+            "feedbackSessionName":"session without student questions",
             "courseId":"idOfArchivedCourse",
             "creatorEmail":"instructor1@course1.tmt",
             "instructions":{
@@ -781,7 +781,7 @@
             
         },
         "qn1InSessionInArchivedCourse":{
-            "feedbackSessionName":"session not visible to students",
+            "feedbackSessionName":"session without student questions",
             "courseId":"idOfArchivedCourse",
             "creatorEmail":"instructor1@course1.tmt",
             "questionMetaData":{
@@ -1071,7 +1071,7 @@
             
         },
         "response1ForNVSQ1":{
-            "feedbackSessionName":"session not visible to students",
+            "feedbackSessionName":"session without student questions",
             "courseId":"idOfArchivedCourse",
             "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",

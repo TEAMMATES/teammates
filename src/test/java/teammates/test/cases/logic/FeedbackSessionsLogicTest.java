@@ -102,6 +102,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         testGetFeedbackSessionQuestionsForInstructor();
         testGetFeedbackSessionResultsForUser();
         testGetFeedbackSessionResultsSummaryAsCsv();
+        testIsFeedbackSessionViewableToStudents();
         
         testCreateAndDeleteFeedbackSession();       
         testCopyFeedbackSession();
@@ -113,6 +114,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         testIsFeedbackSessionCompletedByStudent();
         testIsFeedbackSessionCompletedByInstructor();
         testIsFeedbackSessionFullyCompletedByStudent();
+        
         
         testSendReminderForFeedbackSession();
         testSendReminderForFeedbackSessionParticularUsers();
@@ -611,7 +613,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
                 actualSessions.toString());
 
         
-        ______TS("Feedback session with questions for students but with visible responses are visible");
+        ______TS("Feedback session without questions for students but with visible responses are visible");
         actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfArchivedCourse", "student1InCourse1@gmail.tmt");
         AssertHelper.assertContains(dataBundle.feedbackSessions.get("archiveCourse.session1").toString(),
                 actualSessions.toString());
@@ -1703,6 +1705,27 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         }
     }
 
+    public void testIsFeedbackSessionViewableToStudents() throws EntityDoesNotExistException {
+        ______TS("Session with questions for students to answer");
+        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
+        assertTrue(fsLogic.isFeedbackSessionViewableToStudents(session));
+        
+        ______TS("Session without questions for students, but with visible responses");
+        session = dataBundle.feedbackSessions.get("archiveCourse.session1");
+        assertTrue(fsLogic.isFeedbackSessionViewableToStudents(session));
+       
+        session = dataBundle.feedbackSessions.get("session2InCourse2");
+        assertTrue(fsLogic.isFeedbackSessionViewableToStudents(session));
+       
+        ______TS("private session");
+        session = dataBundle.feedbackSessions.get("session1InCourse2");
+        assertFalse(fsLogic.isFeedbackSessionViewableToStudents(session));
+        
+        ______TS("empty session");
+        session = dataBundle.feedbackSessions.get("empty.session");
+        assertFalse(fsLogic.isFeedbackSessionViewableToStudents(session));
+    }
+    
     public void testUpdateFeedbackSession() throws Exception {
         
         
