@@ -314,23 +314,16 @@ function formatNumberBoxes() {
     disallowNonNumericEntries($('input.pointsBox'), false, false);
     
     // Binds onChange of recipientType to modify numEntityBox visibility
-    $('select[name=' + FEEDBACK_QUESTION_RECIPIENTTYPE + ']').each(function() {
+    var modifyVisibility = function() {
         var qnNumber = $(this).prop('id').split('-')[1];
         qnNumber = qnNumber || '';
         
         var value = $(this).val();
         
         formatNumberBox(value, qnNumber);
-        tallyCheckboxes(qnNumber);
-    }).change(function() {
-        var qnNumber = $(this).prop('id').split('-')[1];
-        qnNumber = qnNumber || '';
-        
-        var value = $(this).val();
-        
-        formatNumberBox(value, qnNumber);
-        tallyCheckboxes(qnNumber);
-    });
+    }
+    $('select[name=' + FEEDBACK_QUESTION_RECIPIENTTYPE + ']').each(modifyVisibility)
+                                                             .change(modifyVisibility);
     
 }
 
