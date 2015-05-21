@@ -1229,9 +1229,9 @@ public class Logic {
     
     
     /**
-     * Sends reminders to students who haven't submitted yet.
-     * Preconditions:
-     * * All parameters are non-null.
+     * Sends reminders to students who haven't submitted yet. <br>
+     * Preconditions: <br>
+     * * All parameters are non-null. <br>
      */
     public void sendReminderForFeedbackSession(String courseId, String feedbackSessionName) 
             throws EntityDoesNotExistException {
@@ -2156,7 +2156,7 @@ public class Logic {
     }
     
     /**
-     * Preconditions:
+     * Preconditions: <br>
      * * All parameters are non-null.
      */
     public void updateFeedbackResponse(FeedbackResponseAttributes feedbackResponse) 
@@ -2286,7 +2286,7 @@ public class Logic {
     }
     
     /**
-     * Preconditions:
+     * Preconditions: <br>
      * * All parameters are non-null.
      */
     public void updateFeedbackResponseCommentsSendingState(String courseId, 
@@ -2415,7 +2415,7 @@ public class Logic {
     
     /**
      * Currently giver is limited to instructors only
-     * Preconditions:
+     * Preconditions: <br>
      * * All parameters are non-null.
      * @return a list of comments from the giver.
      * @throws EntityDoesNotExistException when the course with given courseId doesn't exist
