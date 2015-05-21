@@ -72,7 +72,7 @@ function disableEditFS(){
  */
 function disableAllQuestions() {
     var numQuestions = $('.questionTable').length;
-    for (var i=0 ; i<numQuestions ; i++) {
+    for (var i = 0 ; i < numQuestions ; i++) {
         disableQuestion(i);
     }
 }
@@ -117,7 +117,7 @@ function toggleVisibilityOptions(elem){
     var $visibilityMessage = $elementParent.find('.visibilityMessage');
 
     //enable edit
-    $elementParent.find('[id*="questionedittext"]').click();
+    $elementParent.find('[id|="questionedittext"]').click();
 
     if ($options.is(':hidden')) {
         giverType = $elementParent.find('select[name="givertype"]');
@@ -518,7 +518,7 @@ function formatCheckBoxes() {
  */
 function copyOptions() {
     // If there is one or less questions, there's no need to copy.
-    if ($('div[class*="questionTable"]').size() < 2) {
+    if ($('div[class~="questionTable"]').size() < 2) {
         return;
     }
     
@@ -536,8 +536,8 @@ function copyOptions() {
     
     // Number of recipient setup
     formatNumberBox($(currRecipient).val(), '');
-    var $prevRadioButtons = $('table[class*="questionTable"]').eq(-2).find('input[name="numofrecipientstype"]');
-    var $currRadioButtons = $('table[class*="questionTable"]').last().find('input[name="numofrecipientstype"]');
+    var $prevRadioButtons = $('table[class~="questionTable"]').eq(-2).find('input[name="numofrecipientstype"]');
+    var $currRadioButtons = $('table[class~="questionTable"]').last().find('input[name="numofrecipientstype"]');
     
     $currRadioButtons.each(function (index){
         $(this).prop('checked', $prevRadioButtons.eq(index).prop('checked'));
@@ -610,7 +610,7 @@ function feedbackGiverUpdateVisibilityOptions(el){
  * Sets the correct initial question number from the value field
  */
 function formatQuestionNumbers(){
-    var $questions = $('div[class*="questionTable"]');
+    var $questions = $('div[class~="questionTable"]');
     
     $questions.each(function(index) {
         var $selector = $(this).find('.questionNumber');
