@@ -2312,6 +2312,17 @@ public class FeedbackSessionsLogic {
         
         return session.isVisible() && !questionsWithVisibleResponses.isEmpty();
     }
+    
+    public boolean isFeedbackSessionForStudentsToAnswer(
+                                    FeedbackSessionAttributes session)
+                                    throws EntityDoesNotExistException {
+        
+        List<FeedbackQuestionAttributes> questionsToAnswer =
+                fqLogic.getFeedbackQuestionsForStudents(
+                        session.feedbackSessionName, session.courseId);
+        
+        return session.isVisible() && !questionsToAnswer.isEmpty(); 
+    }
 
     private void normalizeMaximumResponseEntities(
             FeedbackQuestionAttributes question,
