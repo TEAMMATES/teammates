@@ -52,12 +52,12 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
             logPage.clickViewActionsButtonOfFirstEntry();
             String actualPersonInfo = logPage.getFilterBoxString();
             assertEqualsIfQueryStringNotEmpty(expectedPersonInfo, actualPersonInfo);            
-        } catch (NoSuchElementException emptylogs) {
+        } catch (NoSuchElementException exceptionFromEmptyLogs) {
             /*
              * This can happen if this test is run right after the server is started.
              * In this case, no view actions can be done.
              */
-        } catch (IndexOutOfBoundsException invisibletmtlogs) {
+        } catch (IndexOutOfBoundsException exceptionFromInvisibleTmtLogs) {
             /*
              * This can happen if all the log entries are from test accounts
              * (i.e emails ending with .tmt) because they are invisible.
