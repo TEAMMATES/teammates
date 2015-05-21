@@ -610,6 +610,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         AssertHelper.assertContains(dataBundle.feedbackSessions.get("session1InCourse2").toString(),
                 actualSessions.toString());
 
+        
+        ______TS("Feedback session with questions for students but with visible responses are visible");
+        actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfArchivedCourse", "student1InCourse1@gmail.tmt");
+        AssertHelper.assertContains(dataBundle.feedbackSessions.get("archiveCourse.session1").toString(),
+                actualSessions.toString());
     }
     
     public void testGetFeedbackSessionQuestionsForStudent() throws Exception {
