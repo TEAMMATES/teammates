@@ -18,9 +18,11 @@ public class FeedbackSessionTemplates {
     /** 
      * Get the list of questions for the specified feedback session template
      */
-    public static List<FeedbackQuestionAttributes> getFeedbackSessionTemplateQuestions(String template, String courseId, String feedbackSessionName, String creatorEmail) {
+    public static List<FeedbackQuestionAttributes> getFeedbackSessionTemplateQuestions(
+            String template, String courseId, String feedbackSessionName, String creatorEmail) {
         String jsonString = template;
-        List<FeedbackQuestionAttributes> questionAttributesList = new ArrayList<FeedbackQuestionAttributes>();
+        List<FeedbackQuestionAttributes> questionAttributesList =
+                new ArrayList<FeedbackQuestionAttributes>();
         
         //Replace placeholder
         jsonString = jsonString.replace("${courseId}", courseId);
@@ -28,7 +30,7 @@ public class FeedbackSessionTemplates {
         jsonString = jsonString.replace("${creatorEmail}", creatorEmail);
         
         Gson gson = Utils.getTeammatesGson();
-        Type listType = new TypeToken<ArrayList<FeedbackQuestionAttributes>>() {}.getType();
+        Type listType = new TypeToken<ArrayList<FeedbackQuestionAttributes>>(){}.getType();
         questionAttributesList = gson.fromJson(jsonString, listType);
         
         return questionAttributesList;

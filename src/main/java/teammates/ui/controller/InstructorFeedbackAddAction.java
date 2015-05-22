@@ -59,11 +59,9 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             logic.createFeedbackSession(fs);
             
             try {
-                createTemplateFeedbackQuestions(fs.courseId,
-                                                fs.feedbackSessionName,
-                                                fs.creatorEmail,
-                                                feedbackSessionType);
-            } catch(Exception e){
+                createTemplateFeedbackQuestions(fs.courseId, fs.feedbackSessionName,
+                                                fs.creatorEmail, feedbackSessionType);
+            } catch(InvalidParametersException e){
                 //Failed to create feedback questions for specified template/feedback session type.
                 //TODO: let the user know an error has occurred? delete the feedback session?
             }
@@ -109,9 +107,8 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
     
-    private void createTemplateFeedbackQuestions(
-            String courseId, String feedbackSessionName, String creatorEmail,
-            String feedbackSessionType) throws InvalidParametersException {
+    private void createTemplateFeedbackQuestions(String courseId, String feedbackSessionName,
+            String creatorEmail, String feedbackSessionType) throws InvalidParametersException {
         if (feedbackSessionType == null){
             return;
         }
@@ -120,9 +117,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
                 List<FeedbackQuestionAttributes> questions =
                         FeedbackSessionTemplates.getFeedbackSessionTemplateQuestions(
                                 FeedbackSessionTemplates.FEEDBACK_SESSION_TEAMEVALUATION,
-                                courseId,
-                                feedbackSessionName,
-                                creatorEmail);
+                                courseId, feedbackSessionName, creatorEmail);
                 int questionNumber = 1;
                 for (FeedbackQuestionAttributes fqa : questions){
                     logic.createFeedbackQuestionForTemplate(fqa, questionNumber);
