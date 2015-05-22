@@ -25,10 +25,8 @@ public class InstructorFeedbackQuestionAddAction extends Action {
         InstructorAttributes instructorDetailForCourse = logic.getInstructorForGoogleId(courseId, account.googleId);
 
         new GateKeeper().verifyAccessible(instructorDetailForCourse,
-                                          logic.getFeedbackSession(feedbackSessionName,
-                                                                   courseId),
-                                          false,
-                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                                          logic.getFeedbackSession(feedbackSessionName, courseId),
+                                          false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         FeedbackQuestionAttributes feedbackQuestion = extractFeedbackQuestionData(requestParameters,
                                                                                   instructorDetailForCourse.email);
@@ -49,12 +47,12 @@ public class InstructorFeedbackQuestionAddAction extends Action {
             try {
                 logic.createFeedbackQuestion(feedbackQuestion);
                 statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_ADDED);
-                statusToAdmin = "Created Feedback Question for Feedback Session:<span class=\"bold\">(" +
-                                feedbackQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
-                                feedbackQuestion.courseId + "]</span> created.<br>" +
-                                "<span class=\"bold\">" +
-                                feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName() +
-                                ":</span> " + feedbackQuestion.getQuestionDetails().questionText;
+                statusToAdmin = "Created Feedback Question for Feedback Session:<span class=\"bold\">("
+                                + feedbackQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
+                                + feedbackQuestion.courseId + "]</span> created.<br>"
+                                + "<span class=\"bold\">"
+                                + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName()
+                                + ":</span> " + feedbackQuestion.getQuestionDetails().questionText;
             } catch (InvalidParametersException e) {
                 statusToUser.add(e.getMessage());
                 statusToAdmin = e.getMessage();
@@ -102,9 +100,9 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                                         requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
         Assumption.assertNotNull("Null number of entity types", numberOfEntityTypes);
 
-        if (numberOfEntityTypes.equals("custom") &&
-           (newQuestion.recipientType == FeedbackParticipantType.STUDENTS ||
-            newQuestion.recipientType == FeedbackParticipantType.TEAMS)) {
+        if (numberOfEntityTypes.equals("custom")
+            && (newQuestion.recipientType == FeedbackParticipantType.STUDENTS
+                || newQuestion.recipientType == FeedbackParticipantType.TEAMS)) {
             String numberOfEntities = HttpRequestHelper.getValueFromParamMap(
                                         requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
             Assumption.assertNotNull("Null number of entities for custom entity number", numberOfEntities);

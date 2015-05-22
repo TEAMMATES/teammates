@@ -30,8 +30,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         
         new GateKeeper().verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId), 
                                           logic.getFeedbackSession(feedbackSessionName, courseId),
-                                          false, 
-                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                                          false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         String editType = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE);
         Assumption.assertNotNull("Null editType", editType);
@@ -59,16 +58,16 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             setStatusForException(e);
         }
         
-        return createRedirectResult(new PageData(account).
-                                        getInstructorFeedbackSessionEditLink(courseId,feedbackSessionName));
+        return createRedirectResult(new PageData(account)
+                                            .getInstructorFeedbackSessionEditLink(courseId,feedbackSessionName));
     }
 
     private void deleteQuestion(FeedbackQuestionAttributes updatedQuestion) {
         logic.deleteFeedbackQuestionWithResponseRateCheck(updatedQuestion.getId());
         statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_DELETED);
-        statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber +" for session:<span class=\"bold\">(" +
-                        updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
-                        updatedQuestion.courseId + "]</span> deleted.<br>";
+        statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber +" for session:<span class=\"bold\">("
+                        + updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
+                        + updatedQuestion.courseId + "]</span> deleted.<br>";
     }
 
     private void editQuestion(FeedbackQuestionAttributes updatedQuestion) throws InvalidParametersException, 
@@ -101,13 +100,13 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             } else {
                 logic.updateFeedbackQuestionWithResponseRateCheck(updatedQuestion);    
                 statusToUser.add(Const.StatusMessages.FEEDBACK_QUESTION_EDITED);
-                statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber + 
-                                " for session:<span class=\"bold\">(" +
-                                updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
-                                updatedQuestion.courseId + "]</span> edited.<br>" +
-                                "<span class=\"bold\">" + 
-                                updatedQuestion.getQuestionDetails().getQuestionTypeDisplayName() + ":</span> " +
-                                updatedQuestion.getQuestionDetails().questionText;
+                statusToAdmin = "Feedback Question "+ updatedQuestion.questionNumber 
+                                + " for session:<span class=\"bold\">("
+                                + updatedQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
+                                + updatedQuestion.courseId + "]</span> edited.<br>"
+                                + "<span class=\"bold\">" 
+                                + updatedQuestion.getQuestionDetails().getQuestionTypeDisplayName() + ":</span> "
+                                + updatedQuestion.getQuestionDetails().questionText;
             }
         }
     }
@@ -123,8 +122,8 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         String errorMsg = "";
         
         FeedbackQuestionDetails questionDetails = null;
-        Class<? extends FeedbackQuestionDetails> questionDetailsClass = feedbackQuestionAttributes.
-                                                                        questionType.getQuestionDetailsClass();
+        Class<? extends FeedbackQuestionDetails> questionDetailsClass = feedbackQuestionAttributes
+                                                                            .questionType.getQuestionDetailsClass();
         Constructor<? extends FeedbackQuestionDetails> questionDetailsClassConstructor;
         
         try {
@@ -133,12 +132,12 @@ public class InstructorFeedbackQuestionEditAction extends Action {
             Method m = questionDetailsClass.getMethod("validateGiverRecipientVisibility", 
                                                       FeedbackQuestionAttributes.class);
             errorMsg = (String) m.invoke(questionDetails, feedbackQuestionAttributes);
-        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException |
-                 InvocationTargetException | InstantiationException e) {
+        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
+                 | InvocationTargetException | InstantiationException e) {
             e.printStackTrace();
             // Assumption.fails are not tested
-            Assumption.fail("Failed to instantiate Feedback*QuestionDetails instance for " + 
-                            feedbackQuestionAttributes.questionType.toString() + " question type.");
+            Assumption.fail("Failed to instantiate Feedback*QuestionDetails instance for "
+                            + feedbackQuestionAttributes.questionType.toString() + " question type.");
         }
         
         return errorMsg;
@@ -236,8 +235,8 @@ public class InstructorFeedbackQuestionEditAction extends Action {
     }
     
     private static boolean numberOfEntitiesIsUserDefined(FeedbackParticipantType recipientType, String nEntityTypes) {
-        if (recipientType != FeedbackParticipantType.STUDENTS &&
-            recipientType != FeedbackParticipantType.TEAMS) {
+        if (recipientType != FeedbackParticipantType.STUDENTS
+            && recipientType != FeedbackParticipantType.TEAMS) {
             return false;
         }
         
@@ -251,9 +250,7 @@ public class InstructorFeedbackQuestionEditAction extends Action {
     private static List<FeedbackParticipantType> getParticipantListFromParams(String params) {
         List<FeedbackParticipantType> list = new ArrayList<FeedbackParticipantType>();
         
-        if (params.isEmpty()) {
-            return list;
-        }    
+        if (params.isEmpty()) { return list; }    
         
         String[] splitString = params.split(",");
         

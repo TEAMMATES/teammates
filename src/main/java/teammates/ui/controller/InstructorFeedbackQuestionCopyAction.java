@@ -17,8 +17,7 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
 
         new GateKeeper().verifyAccessible(instructorDetailForCourse,
                                           logic.getFeedbackSession(feedbackSessionName, courseId),
-                                          false,
-                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                                          false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
         String instructorEmail = instructorDetailForCourse.email;
 
@@ -37,12 +36,12 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
 
                 feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + index);
 
-                statusToAdmin += "Created Feedback Question for Feedback Session:<span class=\"bold\">(" +
-                                 feedbackQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">[" +
-                                 feedbackQuestion.courseId + "]</span> created.<br>" +
-                                 "<span class=\"bold\">" +
-                                 feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName() +
-                                 ":</span> " + feedbackQuestion.getQuestionDetails().questionText;
+                statusToAdmin += "Created Feedback Question for Feedback Session:<span class=\"bold\">("
+                                 + feedbackQuestion.feedbackSessionName + ")</span> for Course <span class=\"bold\">["
+                                 + feedbackQuestion.courseId + "]</span> created.<br>"
+                                 + "<span class=\"bold\">"
+                                 + feedbackQuestion.getQuestionDetails().getQuestionTypeDisplayName()
+                                 + ":</span> " + feedbackQuestion.getQuestionDetails().questionText;
             }
 
             if (index > 0) {
@@ -59,7 +58,7 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
             isError = true;
         }
 
-        return createRedirectResult(new PageData(account).
-                                        getInstructorFeedbackSessionEditLink(courseId,feedbackSessionName));
+        return createRedirectResult(new PageData(account)
+                                            .getInstructorFeedbackSessionEditLink(courseId, feedbackSessionName));
     }
 }
