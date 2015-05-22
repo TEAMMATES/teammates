@@ -5,10 +5,8 @@ public enum FeedbackParticipantType {
     // Strings represents: option shown in giver select box, option shown in recipient select box,
     // text displayed during feedback submission respectively.
     SELF(true, true, false, "Me (Session creator)", "Giver (Self feedback)", ""),
-    STUDENTS(true, true, true, "Students in this course", "Other students in the course",
-             "Other students in the course"),
-    INSTRUCTORS(true, true, true, "Instructors in this course", "Instructors in the course",
-                "Instructors in this course"),
+    STUDENTS(true, true, true, "Students in this course", "Other students in the course", "Other students in the course"),
+    INSTRUCTORS(true, true, true, "Instructors in this course", "Instructors in the course", "Instructors in this course"),
     TEAMS(true, true, false, "Teams in this course", "Other teams in the course", ""),
     OWN_TEAM(false, true, false, "", "Giver's team", "Your team"),
     OWN_TEAM_MEMBERS(false, true, true, "", "Giver's team members", "Your team members"),

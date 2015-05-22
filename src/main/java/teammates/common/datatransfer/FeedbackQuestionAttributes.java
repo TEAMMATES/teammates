@@ -34,7 +34,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public List<FeedbackParticipantType> showRecipientNameTo;
 
     public FeedbackQuestionAttributes() {
-
+        // TODO: check whether we should make this private and enforce non-instantiability via this method
     }
 
     public FeedbackQuestionAttributes(FeedbackQuestion fq) {
@@ -53,11 +53,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         this.showRecipientNameTo = fq.getShowRecipientNameTo();
     }
 
-    public FeedbackQuestionAttributes(String feedbackSessionName,
-                                      String courseId,
-                                      String creatorEmail,
-                                      Text questionMetaData,
-                                      int questionNumber,
+    public FeedbackQuestionAttributes(String feedbackSessionName, String courseId, String creatorEmail,
+                                      Text questionMetaData, int questionNumber,
                                       FeedbackQuestionType questionType,
                                       FeedbackParticipantType giverType,
                                       FeedbackParticipantType recipientType,
@@ -97,22 +94,22 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     @Override
     public String toString() {
-        return "FeedbackQuestionAttributes [feedbackSessionName=" +
-               feedbackSessionName + ", courseId=" + courseId +
-               ", creatorEmail=" + creatorEmail + ", questionText=" +
-               questionMetaData + ", questionNumber=" + questionNumber +
-               ", questionType=" + questionType + ", giverType=" + giverType +
-               ", recipientType=" + recipientType +
-               ", numberOfEntitiesToGiveFeedbackTo=" +
-               numberOfEntitiesToGiveFeedbackTo + ", showResponsesTo=" +
-               showResponsesTo + ", showGiverNameTo=" + showGiverNameTo +
-               ", showRecipientNameTo=" + showRecipientNameTo + "]";
+        return "FeedbackQuestionAttributes [feedbackSessionName="
+               + feedbackSessionName + ", courseId=" + courseId
+               + ", creatorEmail=" + creatorEmail + ", questionText="
+               + questionMetaData + ", questionNumber=" + questionNumber
+               + ", questionType=" + questionType + ", giverType=" + giverType
+               + ", recipientType=" + recipientType
+               + ", numberOfEntitiesToGiveFeedbackTo="
+               + numberOfEntitiesToGiveFeedbackTo + ", showResponsesTo="
+               + showResponsesTo + ", showGiverNameTo=" + showGiverNameTo
+               + ", showRecipientNameTo=" + showRecipientNameTo + "]";
     }
 
     @Override
     public String getIdentificationString() {
-        return this.questionNumber + ". " + this.questionMetaData.toString() + "/" +
-               this.feedbackSessionName + "/" + this.courseId;
+        return this.questionNumber + ". " + this.questionMetaData.toString() + "/"
+               + this.feedbackSessionName + "/" + this.courseId;
     }
 
     @Override
@@ -136,19 +133,13 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         String error;
 
         error = validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        if (!error.isEmpty()) { errors.add(error); }
 
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        if (!error.isEmpty()) { errors.add(error); }
 
         error = validator.getInvalidityInfo(FieldType.EMAIL, "creator's email", creatorEmail);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        if (!error.isEmpty()) { errors.add(error); }
 
         errors.addAll(validator.getValidityInfoForFeedbackParticipantType(giverType, recipientType));
 
@@ -168,8 +159,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
             String line = "";
 
             // Exceptional case: self feedback
-            if (participant == FeedbackParticipantType.RECEIVER &&
-                recipientType == FeedbackParticipantType.SELF) {
+            if (participant == FeedbackParticipantType.RECEIVER
+                && recipientType == FeedbackParticipantType.SELF) {
                 message.add("You can see your own feedback in the results page later on.");
                 continue;
             }
@@ -209,8 +200,8 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
                 }
 
             } else if (showRecipientNameTo.contains(participant) == true) {
-                if (participant != FeedbackParticipantType.RECEIVER &&
-                    recipientType != FeedbackParticipantType.NONE) {
+                if (participant != FeedbackParticipantType.RECEIVER
+                    && recipientType != FeedbackParticipantType.NONE) {
                     line += ", the name of the recipient";
                 }
 
@@ -238,20 +229,20 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
 
     public boolean isGiverAStudent() {
-        return (giverType == FeedbackParticipantType.SELF ||
-                giverType == FeedbackParticipantType.STUDENTS);
+        return (giverType == FeedbackParticipantType.SELF
+                || giverType == FeedbackParticipantType.STUDENTS);
     }
 
     public boolean isRecipientNameHidden() {
-        return (recipientType == FeedbackParticipantType.NONE ||
-                recipientType == FeedbackParticipantType.SELF);
+        return (recipientType == FeedbackParticipantType.NONE
+                || recipientType == FeedbackParticipantType.SELF);
     }
 
     public boolean isRecipientAStudent() {
-        return (recipientType == FeedbackParticipantType.SELF ||
-                recipientType == FeedbackParticipantType.STUDENTS ||
-                recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS ||
-                recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
+        return (recipientType == FeedbackParticipantType.SELF
+                || recipientType == FeedbackParticipantType.STUDENTS
+                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
+                || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
     }
 
     public boolean isResponseVisibleTo(FeedbackParticipantType userType) {
@@ -267,14 +258,14 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
      * @return
      */
     public boolean isChangesRequiresResponseDeletion(FeedbackQuestionAttributes newAttributes) {
-        if (newAttributes.giverType.equals(this.giverType) == false ||
-            newAttributes.recipientType.equals(this.recipientType) == false) {
+        if (newAttributes.giverType.equals(this.giverType) == false
+            || newAttributes.recipientType.equals(this.recipientType) == false) {
             return true;
         }
 
-        if (this.showResponsesTo.containsAll(newAttributes.showResponsesTo) == false ||
-            this.showGiverNameTo.containsAll(newAttributes.showGiverNameTo) == false ||
-            this.showRecipientNameTo.containsAll(newAttributes.showRecipientNameTo) == false) {
+        if (this.showResponsesTo.containsAll(newAttributes.showResponsesTo) == false
+            || this.showGiverNameTo.containsAll(newAttributes.showGiverNameTo) == false
+            || this.showRecipientNameTo.containsAll(newAttributes.showRecipientNameTo) == false) {
             return true;
         }
 
@@ -338,17 +329,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
+        if (this == obj) { return true; }
 
-        if (obj == null) {
-            return false;
-        }
+        if (obj == null) { return false; }
 
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
+        if (getClass() != obj.getClass()) { return false; }
 
         FeedbackQuestionAttributes other = (FeedbackQuestionAttributes) obj;
 

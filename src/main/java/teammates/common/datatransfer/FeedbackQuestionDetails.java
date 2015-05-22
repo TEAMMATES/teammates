@@ -25,8 +25,7 @@ public abstract class FeedbackQuestionDetails {
         this.questionType = questionType;
     }
 
-    protected FeedbackQuestionDetails(FeedbackQuestionType questionType,
-                                      String questionText) {
+    protected FeedbackQuestionDetails(FeedbackQuestionType questionType, String questionText) {
         this.questionType = questionType;
         this.questionText = questionText;
     }
@@ -62,11 +61,11 @@ public abstract class FeedbackQuestionDetails {
 
     /** Gets the header for detailed responses in csv format. Override in child classes if necessary. */
     public String getCsvDetailedResponsesHeader() {
-        return "Team" + "," + "Giver's Full Name" + "," +
-               "Giver's Last Name" + "," +"Giver's Email" + ","  +
-               "Recipient's Team" + "," + "Recipient's Full Name" + "," +
-               "Recipient's Last Name" + "," + "Recipient's Email" + ","  +
-               this.getCsvHeader() + Const.EOL;
+        return "Team" + "," + "Giver's Full Name" + ","
+               + "Giver's Last Name" + "," +"Giver's Email" + "," 
+               + "Recipient's Team" + "," + "Recipient's Full Name" + ","
+               + "Recipient's Last Name" + "," + "Recipient's Email" + "," 
+               + this.getCsvHeader() + Const.EOL;
     }
 
     public String getCsvDetailedResponsesRow(FeedbackSessionResultsBundle fsrBundle,
@@ -84,16 +83,16 @@ public abstract class FeedbackQuestionDetails {
         String recipientTeamName =fsrBundle.getTeamNameForEmail(feedbackResponseAttributes.recipientEmail);
         String recipientEmail = fsrBundle.getDisplayableEmailRecipient(feedbackResponseAttributes);
 
-        String detailedResponsesRow = Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName)) +
-                                      "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName)) +
-                                      "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName)) +
-                                      "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail)) +
-                                      "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName)) +
-                                      "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName)) +
-                                      "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName)) +
-                                      "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail)) +
-                                      "," + fsrBundle.getResponseAnswerCsv(feedbackResponseAttributes, question) +
-                                      Const.EOL;
+        String detailedResponsesRow = Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverTeamName))
+                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverFullName))
+                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverLastName))
+                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(giverEmail))
+                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientTeamName))
+                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientFullName))
+                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientLastName))
+                                      + "," + Sanitizer.sanitizeForCsv(StringHelper.removeExtraSpace(recipientEmail))
+                                      + "," + fsrBundle.getResponseAnswerCsv(feedbackResponseAttributes, question)
+                                      + Const.EOL;
 
         return detailedResponsesRow;
     }
@@ -117,7 +116,8 @@ public abstract class FeedbackQuestionDetails {
     /**
      * Validates the question details
      *
-     * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an empty list if question details are valid.
+     * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an 
+     * empty list if question details are valid.
      */
     public abstract List<String> validateQuestionDetails();
 
@@ -125,10 +125,10 @@ public abstract class FeedbackQuestionDetails {
      * Validates {@code List<FeedbackResponseAttributes>} for the question based on the current {@code Feedback*QuestionDetails}.
      *
      * @param responses - The {@code List<FeedbackResponseAttributes>} for the question to be validated
-     * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an empty list if question responses are valid.
+     * @return A {@code List<String>} of error messages (to show as status message to user) if any, or an 
+     * empty list if question responses are valid.
      */
-    public abstract List<String> validateResponseAttributes(List<FeedbackResponseAttributes> responses, 
-                                                            int numRecipients);
+    public abstract List<String> validateResponseAttributes(List<FeedbackResponseAttributes> responses, int numRecipients);
 
     /**
      * Validates if giverType and recipientType are valid for the question type.
@@ -151,12 +151,10 @@ public abstract class FeedbackQuestionDetails {
      * @param questionType
      * @return true to indicate success in extracting the details, false otherwise.
      */
-    public abstract boolean extractQuestionDetails(Map<String,
-                                                   String[]> requestParameters,
+    public abstract boolean extractQuestionDetails(Map<String, String[]> requestParameters,
                                                    FeedbackQuestionType questionType);
 
-    public static FeedbackQuestionDetails createQuestionDetails(Map<String,
-                                                                String[]> requestParameters,
+    public static FeedbackQuestionDetails createQuestionDetails(Map<String, String[]> requestParameters,
                                                                 FeedbackQuestionType questionType) {
         String questionText = HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                                      Const.ParamsNames.FEEDBACK_QUESTION_TEXT);
@@ -175,16 +173,16 @@ public abstract class FeedbackQuestionDetails {
     public String getNoResponseTextInHtml(String giverEmail, String recipientEmail,
                                           FeedbackSessionResultsBundle bundle,
                                           FeedbackQuestionAttributes question) {
-        return "<i>" +
-               Sanitizer.sanitizeForHtml(getNoResponseText(giverEmail, recipientEmail, bundle, question)) +
-               "</i>";
+        return "<i>"
+               + Sanitizer.sanitizeForHtml(getNoResponseText(giverEmail, recipientEmail, bundle, question))
+               + "</i>";
     }
 
     public boolean shouldShowNoResponseText(String giverEmail, String recipientEmail,
                                             FeedbackQuestionAttributes question) {
         // we do not show all possible responses
-        if (question.recipientType == FeedbackParticipantType.STUDENTS ||
-            question.recipientType == FeedbackParticipantType.TEAMS) {
+        if (question.recipientType == FeedbackParticipantType.STUDENTS
+            || question.recipientType == FeedbackParticipantType.TEAMS) {
             return false;
         }
 
@@ -215,9 +213,7 @@ public abstract class FeedbackQuestionDetails {
 
     /** Checks if the question has been skipped. */
     public boolean isQuestionSkipped(String[] answer) {
-        if (answer == null) {
-            return true;
-        }
+        if (answer == null) { return true; }
 
         boolean allAnswersEmpty = true;
 

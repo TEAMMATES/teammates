@@ -24,8 +24,8 @@ public enum FeedbackQuestionType {
         return getFeedbackQuestionDetailsInstance(null, null);
     }
 
-    public FeedbackQuestionDetails getFeedbackQuestionDetailsInstance(String questionText, Map<String,
-                                                                      String[]> requestParameters) {
+    public FeedbackQuestionDetails getFeedbackQuestionDetailsInstance(String questionText, 
+                                                                      Map<String,String[]> requestParameters) {
         FeedbackQuestionDetails feedbackQuestionDetails = null;
 
         switch (this) {
@@ -51,8 +51,8 @@ public enum FeedbackQuestionType {
                 feedbackQuestionDetails = new FeedbackRubricQuestionDetails();
                 break;
             default:
-                Assumption.fail("Failed to instantiate Feedback*QuestionDetails instance for " +
-                                this.toString() + " question type.");
+                Assumption.fail("Failed to instantiate Feedback*QuestionDetails instance for "
+                                + this.toString() + " question type.");
                 return null;
         }
 
@@ -96,8 +96,8 @@ public enum FeedbackQuestionType {
                 feedbackResponseDetails = new FeedbackRubricResponseDetails();
                 break;
             default:
-                Assumption.fail("Failed to instantiate Feedback*ResponseDetails instance for " +
-                                this.toString() + " question type.");
+                Assumption.fail("Failed to instantiate Feedback*ResponseDetails instance for "
+                                + this.toString() + " question type.");
                 return null;
         }
 
