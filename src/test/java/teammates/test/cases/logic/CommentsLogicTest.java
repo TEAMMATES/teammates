@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -123,7 +123,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         
         ______TS("success: get comment for receiver");
         
-        c.recipientType = CommentRecipientType.PERSON;
+        c.recipientType = CommentParticipantType.PERSON;
         List<CommentAttributes> comments = commentsLogic.getCommentsForReceiver(c.courseId, c.recipientType, c.recipients.iterator().next());
         for(CommentAttributes comment : comments){
             assertEquals(c.courseId, comment.courseId);
@@ -148,12 +148,12 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         
         //add visibility options for instructor
         c.status = CommentStatus.FINAL;
-        c.showCommentTo = new ArrayList<CommentRecipientType>();
-        c.showCommentTo.add(CommentRecipientType.INSTRUCTOR);
-        c.showGiverNameTo = new ArrayList<CommentRecipientType>();
-        c.showGiverNameTo.add(CommentRecipientType.INSTRUCTOR);
-        c.showRecipientNameTo = new ArrayList<CommentRecipientType>();
-        c.showRecipientNameTo.add(CommentRecipientType.INSTRUCTOR);
+        c.showCommentTo = new ArrayList<CommentParticipantType>();
+        c.showCommentTo.add(CommentParticipantType.INSTRUCTOR);
+        c.showGiverNameTo = new ArrayList<CommentParticipantType>();
+        c.showGiverNameTo.add(CommentParticipantType.INSTRUCTOR);
+        c.showRecipientNameTo = new ArrayList<CommentParticipantType>();
+        c.showRecipientNameTo.add(CommentParticipantType.INSTRUCTOR);
         commentsLogic.updateComment(c);
         
         InstructorAttributes giver = dataBundle.instructors.get("instructor1OfCourse1");
@@ -169,8 +169,8 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         verifyCommentsRecipientNameVisible(comments);
         
         //remove name visibility options for instructor
-        c.showGiverNameTo = new ArrayList<CommentRecipientType>();
-        c.showRecipientNameTo = new ArrayList<CommentRecipientType>();
+        c.showGiverNameTo = new ArrayList<CommentParticipantType>();
+        c.showRecipientNameTo = new ArrayList<CommentParticipantType>();
         commentsLogic.updateComment(c);
         
         comments = commentsLogic.getCommentsForInstructor(instructor);
@@ -179,7 +179,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         verifyCommentsRecipientNameHidden(comments);
         
         //remove all visibility options for instructor
-        c.showCommentTo = new ArrayList<CommentRecipientType>();
+        c.showCommentTo = new ArrayList<CommentParticipantType>();
         commentsLogic.updateComment(c);
         
         comments = commentsLogic.getCommentsForInstructor(instructor);
@@ -193,16 +193,16 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         comments = commentsLogic.getCommentsForStudent(student);
         for(CommentAttributes comment : comments){
-            comment.showCommentTo = new ArrayList<CommentRecipientType>();
-            comment.showGiverNameTo = new ArrayList<CommentRecipientType>();
-            comment.showRecipientNameTo = new ArrayList<CommentRecipientType>();
+            comment.showCommentTo = new ArrayList<CommentParticipantType>();
+            comment.showGiverNameTo = new ArrayList<CommentParticipantType>();
+            comment.showRecipientNameTo = new ArrayList<CommentParticipantType>();
             commentsLogic.updateComment(comment);
         }
         
-        c.showCommentTo = new ArrayList<CommentRecipientType>();
-        c.showCommentTo.add(CommentRecipientType.PERSON);
-        c.showGiverNameTo = new ArrayList<CommentRecipientType>();
-        c.showGiverNameTo.add(CommentRecipientType.PERSON);
+        c.showCommentTo = new ArrayList<CommentParticipantType>();
+        c.showCommentTo.add(CommentParticipantType.PERSON);
+        c.showGiverNameTo = new ArrayList<CommentParticipantType>();
+        c.showGiverNameTo.add(CommentParticipantType.PERSON);
         commentsLogic.updateComment(c);
 
         comments = commentsLogic.getCommentsForStudent(student);
@@ -211,7 +211,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         verifyCommentsRecipientNameVisible(comments);
         
         //remove name visibility options for person
-        c.showGiverNameTo = new ArrayList<CommentRecipientType>();
+        c.showGiverNameTo = new ArrayList<CommentParticipantType>();
         commentsLogic.updateComment(c);
 
         comments = commentsLogic.getCommentsForStudent(student);
@@ -220,15 +220,15 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         verifyCommentsRecipientNameVisible(comments);
         
         //remove all visibility options for person
-        c.showCommentTo = new ArrayList<CommentRecipientType>();
+        c.showCommentTo = new ArrayList<CommentParticipantType>();
         commentsLogic.updateComment(c);
 
         comments = commentsLogic.getCommentsForStudent(student);
         assertEquals(comments.size(), 0);
         
         //add visibility options for team
-        c.showCommentTo = new ArrayList<CommentRecipientType>();
-        c.showCommentTo.add(CommentRecipientType.TEAM);
+        c.showCommentTo = new ArrayList<CommentParticipantType>();
+        c.showCommentTo.add(CommentParticipantType.TEAM);
         commentsLogic.updateComment(c);
 
         comments = commentsLogic.getCommentsForStudent(student);
@@ -237,8 +237,8 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         verifyCommentsRecipientNameHidden(comments);
         
         //add visibility options for course
-        c.showCommentTo = new ArrayList<CommentRecipientType>();
-        c.showCommentTo.add(CommentRecipientType.COURSE);
+        c.showCommentTo = new ArrayList<CommentParticipantType>();
+        c.showCommentTo.add(CommentParticipantType.COURSE);
         commentsLogic.updateComment(c);
         
         comments = commentsLogic.getCommentsForStudent(student);
@@ -246,12 +246,12 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         verifyCommentsGiverNameHidden(comments);
         verifyCommentsRecipientNameHidden(comments);
         
-        c.showCommentTo = new ArrayList<CommentRecipientType>();
-        c.showCommentTo.add(CommentRecipientType.TEAM);
-        c.showGiverNameTo = new ArrayList<CommentRecipientType>();
-        c.showGiverNameTo.add(CommentRecipientType.TEAM);
-        c.showRecipientNameTo = new ArrayList<CommentRecipientType>();
-        c.showRecipientNameTo.add(CommentRecipientType.TEAM);
+        c.showCommentTo = new ArrayList<CommentParticipantType>();
+        c.showCommentTo.add(CommentParticipantType.TEAM);
+        c.showGiverNameTo = new ArrayList<CommentParticipantType>();
+        c.showGiverNameTo.add(CommentParticipantType.TEAM);
+        c.showRecipientNameTo = new ArrayList<CommentParticipantType>();
+        c.showRecipientNameTo.add(CommentParticipantType.TEAM);
         commentsLogic.updateComment(c);
         
         //for teammates to receive peer's comment
@@ -261,7 +261,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         verifyCommentsGiverNameVisible(comments);
         verifyCommentsRecipientNameVisible(comments);
         
-        c.recipientType = CommentRecipientType.TEAM;
+        c.recipientType = CommentParticipantType.TEAM;
         c.recipients = new HashSet<String>();
         c.recipients.add(student.team);
         commentsLogic.updateComment(c);
@@ -273,7 +273,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         verifyCommentsRecipientNameVisible(comments);
         
         //remove name visibility options for team
-        c.showGiverNameTo = new ArrayList<CommentRecipientType>();
+        c.showGiverNameTo = new ArrayList<CommentParticipantType>();
         commentsLogic.updateComment(c);
         
         comments = commentsLogic.getCommentsForStudent(student);
@@ -282,21 +282,21 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         verifyCommentsRecipientNameVisible(comments);
         
         //remove all visibility options for team
-        c.showCommentTo = new ArrayList<CommentRecipientType>();
+        c.showCommentTo = new ArrayList<CommentParticipantType>();
         commentsLogic.updateComment(c);
         
         comments = commentsLogic.getCommentsForStudent(student);
         assertEquals(comments.size(), 0);
         
         //add visibility options for course
-        c.recipientType = CommentRecipientType.COURSE;
+        c.recipientType = CommentParticipantType.COURSE;
         c.recipients = new HashSet<String>();
         c.recipients.add(student.course);
-        c.showCommentTo = new ArrayList<CommentRecipientType>();
-        c.showCommentTo.add(CommentRecipientType.COURSE);
-        c.showGiverNameTo = new ArrayList<CommentRecipientType>();
-        c.showGiverNameTo.add(CommentRecipientType.COURSE);
-        c.showRecipientNameTo = new ArrayList<CommentRecipientType>();
+        c.showCommentTo = new ArrayList<CommentParticipantType>();
+        c.showCommentTo.add(CommentParticipantType.COURSE);
+        c.showGiverNameTo = new ArrayList<CommentParticipantType>();
+        c.showGiverNameTo.add(CommentParticipantType.COURSE);
+        c.showRecipientNameTo = new ArrayList<CommentParticipantType>();
         commentsLogic.updateComment(c);
 
         comments = commentsLogic.getCommentsForStudent(student);
@@ -305,7 +305,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         verifyCommentsRecipientNameVisible(comments);
         
         //remove name visibility options for course
-        c.showGiverNameTo = new ArrayList<CommentRecipientType>();
+        c.showGiverNameTo = new ArrayList<CommentParticipantType>();
         commentsLogic.updateComment(c);
         
         comments = commentsLogic.getCommentsForStudent(student);
@@ -314,7 +314,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         verifyCommentsRecipientNameVisible(comments);
         
         //remove all visibility options for person
-        c.showCommentTo = new ArrayList<CommentRecipientType>();
+        c.showCommentTo = new ArrayList<CommentParticipantType>();
         commentsLogic.updateComment(c);
 
         comments = commentsLogic.getCommentsForStudent(student);
@@ -324,10 +324,10 @@ public class CommentsLogicTest extends BaseComponentTestCase {
     private void verifyCommentsGotForStudent(
             List<CommentAttributes> commentsForReceiver) {
         for(CommentAttributes comment : commentsForReceiver){
-            assertTrue(comment.showCommentTo.contains(CommentRecipientType.PERSON)
-                    || comment.showCommentTo.contains(CommentRecipientType.TEAM)
-                    || comment.showCommentTo.contains(CommentRecipientType.SECTION)
-                    || comment.showCommentTo.contains(CommentRecipientType.COURSE));
+            assertTrue(comment.showCommentTo.contains(CommentParticipantType.PERSON)
+                    || comment.showCommentTo.contains(CommentParticipantType.TEAM)
+                    || comment.showCommentTo.contains(CommentParticipantType.SECTION)
+                    || comment.showCommentTo.contains(CommentParticipantType.COURSE));
         }
     }
 
@@ -335,7 +335,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
             List<CommentAttributes> commentsForReceiver,
             InstructorAttributes instructor) {
         for(CommentAttributes comment : commentsForReceiver){
-            assertTrue(comment.showCommentTo.contains(CommentRecipientType.INSTRUCTOR)
+            assertTrue(comment.showCommentTo.contains(CommentParticipantType.INSTRUCTOR)
                     || comment.courseId.equals(instructor.courseId));
         }
     }
@@ -348,7 +348,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         CommentAttributes c = new CommentAttributes();
         c.courseId = "invalid course name";
         c.giverEmail = existingComment.giverEmail;
-        c.recipientType = CommentRecipientType.PERSON;
+        c.recipientType = CommentParticipantType.PERSON;
         c.recipients = existingComment.recipients;
         c.createdAt = existingComment.createdAt;
         c.commentText = existingComment.commentText;
@@ -368,7 +368,7 @@ public class CommentsLogicTest extends BaseComponentTestCase {
         commentsLogic.updateComment(c);
         TestHelper.verifyPresentInDatastore(c);
         
-        List<CommentAttributes> actual = commentsLogic.getCommentsForReceiver(c.courseId, CommentRecipientType.PERSON, c.recipients.iterator().next());
+        List<CommentAttributes> actual = commentsLogic.getCommentsForReceiver(c.courseId, CommentParticipantType.PERSON, c.recipients.iterator().next());
         assertEquals(1, actual.size());
         assertEquals(c.commentText, actual.get(0).commentText);
     }
