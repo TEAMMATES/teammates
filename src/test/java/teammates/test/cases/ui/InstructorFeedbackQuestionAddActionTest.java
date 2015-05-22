@@ -75,22 +75,22 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         InstructorFeedbackQuestionAddAction action = getAction(params);
         RedirectResult result = (RedirectResult) action.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId +
-                     "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
-        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd" +
-                                    "|||instructorFeedbackQuestionAdd|||true|||" +
-                                    "Instructor|||Instructor 1 of Course 1|||" +
-                                    "idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
-                                    "Created Feedback Question for Feedback Session:<span class=\"bold\">" +
-                                    "(First feedback session)</span> " +
-                                    "for Course <span class=\"bold\">[idOfTypicalCourse1]</span>" +
-                                    " created.<br><span class=\"bold\">Multiple-choice (multiple answers) " +
-                                    "question:</span> What do you like best about the class?" +
-                                    "|||/page/instructorFeedbackQuestionAdd";
+        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd"
+                                    + "|||instructorFeedbackQuestionAdd|||true|||"
+                                    + "Instructor|||Instructor 1 of Course 1|||"
+                                    + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                                    + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                                    + "(First feedback session)</span> "
+                                    + "for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
+                                    + " created.<br><span class=\"bold\">Multiple-choice (multiple answers) "
+                                    + "question:</span> What do you like best about the class?"
+                                    + "|||/page/instructorFeedbackQuestionAdd";
         assertEquals(expectedLogMessage, action.getLogMessage());
 
         ______TS("Generated options");
@@ -116,21 +116,21 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         action = getAction(params);
         result = (RedirectResult) action.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId +
-                     "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
-        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||" +
-                             "instructorFeedbackQuestionAdd|||true|||" +
-                             "Instructor|||Instructor 1 of Course 1|||" +
-                             "idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
-                             "Created Feedback Question for Feedback Session:<span class=\"bold\">" +
-                             "(First feedback session)</span> for Course " +
-                             "<span class=\"bold\">[idOfTypicalCourse1]</span>" +
-                             " created.<br><span class=\"bold\">Multiple-choice (multiple answers) question:</span> " +
-                             "Who do you like in the class?|||/page/instructorFeedbackQuestionAdd";
+        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                             + "instructorFeedbackQuestionAdd|||true|||"
+                             + "Instructor|||Instructor 1 of Course 1|||"
+                             + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                             + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                             + "(First feedback session)</span> for Course "
+                             + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                             + " created.<br><span class=\"bold\">Multiple-choice (multiple answers) question:</span> "
+                             + "Who do you like in the class?|||/page/instructorFeedbackQuestionAdd";
         assertEquals(expectedLogMessage, action.getLogMessage());
     }
 
@@ -172,22 +172,22 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         InstructorFeedbackQuestionAddAction action = getAction(params);
         RedirectResult result = (RedirectResult) action.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId +
-                     "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
-        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||" +
-                                    "instructorFeedbackQuestionAdd|||true|||" +
-                                    "Instructor|||Instructor 1 of Course 1|||" +
-                                    "idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
-                                    "Created Feedback Question for Feedback Session:<span class=\"bold\">" +
-                                    "(First feedback session)</span> for Course " +
-                                    "<span class=\"bold\">[idOfTypicalCourse1]</span>" +
-                                    " created.<br><span class=\"bold\">Multiple-choice (single answer) " +
-                                    "question:</span> What do you like best about the class?" +
-                                    "|||/page/instructorFeedbackQuestionAdd";
+        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                                    + "instructorFeedbackQuestionAdd|||true|||"
+                                    + "Instructor|||Instructor 1 of Course 1|||"
+                                    + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                                    + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                                    + "(First feedback session)</span> for Course "
+                                    + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                                    + " created.<br><span class=\"bold\">Multiple-choice (single answer) "
+                                    + "question:</span> What do you like best about the class?"
+                                    + "|||/page/instructorFeedbackQuestionAdd";
         assertEquals(expectedLogMessage, action.getLogMessage());
 
         ______TS("Generated options");
@@ -213,21 +213,21 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         action = getAction(params);
         result = (RedirectResult) action.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId +
-                     "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
-        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||" +
-                             "instructorFeedbackQuestionAdd|||true|||" +
-                             "Instructor|||Instructor 1 of Course 1|||" +
-                             "idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
-                             "Created Feedback Question for Feedback Session:<span class=\"bold\">" +
-                             "(First feedback session)</span> for Course " +
-                             "<span class=\"bold\">[idOfTypicalCourse1]</span>" +
-                             " created.<br><span class=\"bold\">Multiple-choice (single answer) question:</span> " +
-                             "Who do you like best in the class?|||/page/instructorFeedbackQuestionAdd";
+        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                             + "instructorFeedbackQuestionAdd|||true|||"
+                             + "Instructor|||Instructor 1 of Course 1|||"
+                             + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                             + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                             + "(First feedback session)</span> for Course "
+                             + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                             + " created.<br><span class=\"bold\">Multiple-choice (single answer) question:</span> "
+                             + "Who do you like best in the class?|||/page/instructorFeedbackQuestionAdd";
         assertEquals(expectedLogMessage, action.getLogMessage());
     }
 
@@ -263,21 +263,21 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         InstructorFeedbackQuestionAddAction action = getAction(params);
         RedirectResult result = (RedirectResult) action.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId +
-                     "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
-        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||" +
-                                    "instructorFeedbackQuestionAdd|||true|||" +
-                                    "Instructor|||Instructor 1 of Course 1|||" +
-                                    "idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
-                                    "Created Feedback Question for Feedback Session:<span class=\"bold\">" +
-                                    "(First feedback session)</span> for Course " +
-                                    "<span class=\"bold\">[idOfTypicalCourse1]</span>" +
-                                    " created.<br><span class=\"bold\">Numerical-scale question:</span> " +
-                                    "Rate the class?|||/page/instructorFeedbackQuestionAdd";
+        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                                    + "instructorFeedbackQuestionAdd|||true|||"
+                                    + "Instructor|||Instructor 1 of Course 1|||"
+                                    + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                                    + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                                    + "(First feedback session)</span> for Course "
+                                    + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                                    + " created.<br><span class=\"bold\">Numerical-scale question:</span> "
+                                    + "Rate the class?|||/page/instructorFeedbackQuestionAdd";
         assertEquals(expectedLogMessage, action.getLogMessage());
     }
 
@@ -317,22 +317,22 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         InstructorFeedbackQuestionAddAction action = getAction(params);
         RedirectResult result = (RedirectResult) action.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid="+ instructor1ofCourse1.courseId +
-                     "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid="+ instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
-        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||" +
-                                    "instructorFeedbackQuestionAdd|||true|||" +
-                                    "Instructor|||Instructor 1 of Course 1|||" +
-                                    "idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
-                                    "Created Feedback Question for Feedback Session:<span class=\"bold\">" +
-                                    "(First feedback session)</span> for Course " +
-                                    "<span class=\"bold\">[idOfTypicalCourse1]</span>" +
-                                    " created.<br><span class=\"bold\">Distribute points (among options) " +
-                                    "question:</span> Split points among the options." +
-                                    "|||/page/instructorFeedbackQuestionAdd";
+        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                                    + "instructorFeedbackQuestionAdd|||true|||"
+                                    + "Instructor|||Instructor 1 of Course 1|||"
+                                    + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                                    + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                                    + "(First feedback session)</span> for Course "
+                                    + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                                    + " created.<br><span class=\"bold\">Distribute points (among options) "
+                                    + "question:</span> Split points among the options."
+                                    + "|||/page/instructorFeedbackQuestionAdd";
         assertEquals(expectedLogMessage, action.getLogMessage());
     }
 
@@ -368,22 +368,22 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         InstructorFeedbackQuestionAddAction action = getAction(params);
         RedirectResult result = (RedirectResult) action.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId +
-                     "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
-        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||" +
-                                    "instructorFeedbackQuestionAdd|||true|||" +
-                                    "Instructor|||Instructor 1 of Course 1|||" +
-                                    "idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
-                                    "Created Feedback Question for Feedback Session:<span class=\"bold\">" +
-                                    "(First feedback session)</span> for Course " +
-                                    "<span class=\"bold\">[idOfTypicalCourse1]</span>" +
-                                    " created.<br><span class=\"bold\">Distribute points " +
-                                    "(among recipients) question:</span> Split points among students." +
-                                    "|||/page/instructorFeedbackQuestionAdd";
+        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                                    + "instructorFeedbackQuestionAdd|||true|||"
+                                    + "Instructor|||Instructor 1 of Course 1|||"
+                                    + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                                    + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                                    + "(First feedback session)</span> for Course "
+                                    + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                                    + " created.<br><span class=\"bold\">Distribute points "
+                                    + "(among recipients) question:</span> Split points among students." 
+                                    + "|||/page/instructorFeedbackQuestionAdd";
 
         assertEquals(expectedLogMessage, action.getLogMessage());
     }
@@ -419,20 +419,20 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         InstructorFeedbackQuestionAddAction action = getAction(params);
         RedirectResult result = (RedirectResult) action.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId +
-                     "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
                      result.getDestinationWithParams());
 
-        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||" +
-                                    "instructorFeedbackQuestionAdd|||true|||" +
-                                    "Instructor|||Instructor 1 of Course 1|||" +
-                                    "idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
-                                    "Created Feedback Question for Feedback Session:<span class=\"bold\">" +
-                                    "(First feedback session)</span> for Course " +
-                                    "<span class=\"bold\">[idOfTypicalCourse1]</span>" +
-                                    " created.<br><span class=\"bold\">Team contribution question:</span> " +
-                                    "How much has each team member including yourself, contributed to the project?" +
-                                    "|||/page/instructorFeedbackQuestionAdd";
+        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                                    + "instructorFeedbackQuestionAdd|||true|||"
+                                    + "Instructor|||Instructor 1 of Course 1|||"
+                                    + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                                    + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                                    + "(First feedback session)</span> for Course "
+                                    + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                                    + " created.<br><span class=\"bold\">Team contribution question:</span> "
+                                    + "How much has each team member including yourself, contributed to the project?"
+                                    + "|||/page/instructorFeedbackQuestionAdd";
         assertEquals(expectedLogMessage, action.getLogMessage());
 
         ______TS("Invalid giver case");
@@ -458,24 +458,24 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         action = getAction(params);
         result = (RedirectResult) action.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId +
-                     "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
                      result.getDestinationWithParams());
 
-        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||" +
-                             "instructorFeedbackQuestionAdd|||true|||" +
-                             "Instructor|||Instructor 1 of Course 1|||" +
-                             "idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
-                             "Created Feedback Question for Feedback Session:<span class=\"bold\">" +
-                             "(First feedback session)</span> for Course " +
-                             "<span class=\"bold\">[idOfTypicalCourse1]</span>" +
-                             " created.<br><span class=\"bold\">Team contribution question:</span> " +
-                             "How much has each team member including yourself, contributed to the project?" +
-                             "|||/page/instructorFeedbackQuestionAdd";
+        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                             + "instructorFeedbackQuestionAdd|||true|||"
+                             + "Instructor|||Instructor 1 of Course 1|||"
+                             + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                             + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                             + "(First feedback session)</span> for Course "
+                             + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                             + " created.<br><span class=\"bold\">Team contribution question:</span> "
+                             + "How much has each team member including yourself, contributed to the project?"
+                             + "|||/page/instructorFeedbackQuestionAdd";
         assertEquals(expectedLogMessage, action.getLogMessage());
 
-        assertEquals(FeedbackContributionQuestionDetails.ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH +
-                     "<br />" + Const.StatusMessages.FEEDBACK_QUESTION_ADDED,
+        assertEquals(FeedbackContributionQuestionDetails.ERROR_CONTRIB_QN_INVALID_FEEDBACK_PATH
+                     + "<br />" + Const.StatusMessages.FEEDBACK_QUESTION_ADDED,
                      result.getStatusMessage());
     }
 
@@ -518,20 +518,20 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         InstructorFeedbackQuestionAddAction action = getAction(params);
         RedirectResult result = (RedirectResult) action.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId +
-                     "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
                      result.getDestinationWithParams());
 
-        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||" +
-                                    "instructorFeedbackQuestionAdd|||true|||" +
-                                    "Instructor|||Instructor 1 of Course 1|||" +
-                                    "idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
-                                    "Created Feedback Question for Feedback Session:<span class=\"bold\">" +
-                                    "(First feedback session)</span> for Course " +
-                                    "<span class=\"bold\">[idOfTypicalCourse1]</span>" +
-                                    " created.<br><span class=\"bold\">Rubric question:</span> " +
-                                    "Please choose the most appropriate choices for the sub-questions below." +
-                                    "|||/page/instructorFeedbackQuestionAdd";
+        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                                    + "instructorFeedbackQuestionAdd|||true|||"
+                                    + "Instructor|||Instructor 1 of Course 1|||"
+                                    + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                                    + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                                    + "(First feedback session)</span> for Course "
+                                    + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                                    + " created.<br><span class=\"bold\">Rubric question:</span> "
+                                    + "Please choose the most appropriate choices for the sub-questions below."
+                                    + "|||/page/instructorFeedbackQuestionAdd";
         assertEquals(expectedLogMessage, action.getLogMessage());
     }
 
@@ -627,21 +627,21 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         InstructorFeedbackQuestionAddAction action = getAction(params);
         RedirectResult result = (RedirectResult) action.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId +
-                     "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
-        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||" +
-                                    "instructorFeedbackQuestionAdd|||true|||" +
-                                    "Instructor|||Instructor 1 of Course 1|||" +
-                                    "idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
-                                    "Created Feedback Question for Feedback Session:<span class=\"bold\">" +
-                                    "(First feedback session)</span> for Course " +
-                                    "<span class=\"bold\">[idOfTypicalCourse1]</span>" +
-                                    " created.<br><span class=\"bold\">Essay question:</span> " +
-                                    "question|||/page/instructorFeedbackQuestionAdd";
+        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                                    + "instructorFeedbackQuestionAdd|||true|||"
+                                    + "Instructor|||Instructor 1 of Course 1|||"
+                                    + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                                    + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                                    + "(First feedback session)</span> for Course "
+                                    + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                                    + " created.<br><span class=\"bold\">Essay question:</span> "
+                                    + "question|||/page/instructorFeedbackQuestionAdd";
         assertEquals(expectedLogMessage, action.getLogMessage());
 
         ______TS("Custom number of students to give feedback to");
@@ -650,21 +650,21 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         action = getAction(params);
         result = (RedirectResult) action.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId +
-                     "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
-        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||" +
-                             "instructorFeedbackQuestionAdd|||true|||" +
-                             "Instructor|||Instructor 1 of Course 1|||" +
-                             "idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
-                             "Created Feedback Question for Feedback Session:<span class=\"bold\">" +
-                             "(First feedback session)</span> for Course " +
-                             "<span class=\"bold\">[idOfTypicalCourse1]</span>" +
-                             " created.<br><span class=\"bold\">Essay question:</span> " +
-                             "question|||/page/instructorFeedbackQuestionAdd";
+        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                             + "instructorFeedbackQuestionAdd|||true|||"
+                             + "Instructor|||Instructor 1 of Course 1|||"
+                             + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                             + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                             + "(First feedback session)</span> for Course "
+                             + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                             + " created.<br><span class=\"bold\">Essay question:</span> "
+                             + "question|||/page/instructorFeedbackQuestionAdd";
         assertEquals(expectedLogMessage, action.getLogMessage());
 
         ______TS("Custom number of teams to give feedback to");
@@ -675,21 +675,21 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         action = getAction(params);
         result = (RedirectResult) action.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId +
-                     "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
-        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||" +
-                             "instructorFeedbackQuestionAdd|||true|||" +
-                             "Instructor|||Instructor 1 of Course 1|||" +
-                             "idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
-                             "Created Feedback Question for Feedback Session:<span class=\"bold\">" +
-                             "(First feedback session)</span> for Course " +
-                             "<span class=\"bold\">[idOfTypicalCourse1]</span>" +
-                             " created.<br><span class=\"bold\">Essay question:</span> " +
-                             "question|||/page/instructorFeedbackQuestionAdd";
+        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                             + "instructorFeedbackQuestionAdd|||true|||"
+                             + "Instructor|||Instructor 1 of Course 1|||"
+                             + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                             + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                             + "(First feedback session)</span> for Course "
+                             + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                             + " created.<br><span class=\"bold\">Essay question:</span> "
+                             + "question|||/page/instructorFeedbackQuestionAdd";
         assertEquals(expectedLogMessage, action.getLogMessage());
 
         ______TS("Remnant custom number of entities when recipient is changed to non-student and non-team");
@@ -700,21 +700,21 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         action = getAction(params);
         result = (RedirectResult) action.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId +
-                     "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
-        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||" +
-                             "instructorFeedbackQuestionAdd|||true|||" +
-                             "Instructor|||Instructor 1 of Course 1|||" +
-                             "idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
-                             "Created Feedback Question for Feedback Session:<span class=\"bold\">" +
-                             "(First feedback session)</span> for Course " +
-                             "<span class=\"bold\">[idOfTypicalCourse1]</span>" +
-                             " created.<br><span class=\"bold\">Essay question:</span> " +
-                             "question|||/page/instructorFeedbackQuestionAdd";
+        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                             + "instructorFeedbackQuestionAdd|||true|||"
+                             + "Instructor|||Instructor 1 of Course 1|||"
+                             + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                             + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                             + "(First feedback session)</span> for Course "
+                             + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                             + " created.<br><span class=\"bold\">Essay question:</span> "
+                             + "question|||/page/instructorFeedbackQuestionAdd";
         assertEquals(expectedLogMessage, action.getLogMessage());
 
         ______TS("Failure: Empty or null participant lists");
@@ -731,21 +731,21 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         action = getAction(params);
         result = (RedirectResult) action.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId +
-                     "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
-        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||" +
-                             "instructorFeedbackQuestionAdd|||true|||" +
-                             "Instructor|||Instructor 1 of Course 1|||" +
-                             "idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
-                             "Created Feedback Question for Feedback Session:<span class=\"bold\">" +
-                             "(First feedback session)</span> for Course " +
-                             "<span class=\"bold\">[idOfTypicalCourse1]</span>" +
-                             " created.<br><span class=\"bold\">Essay question:</span> " +
-                             "question|||/page/instructorFeedbackQuestionAdd";
+        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                             + "instructorFeedbackQuestionAdd|||true|||"
+                             + "Instructor|||Instructor 1 of Course 1|||"
+                             + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                             + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                             + "(First feedback session)</span> for Course "
+                             + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                             + " created.<br><span class=\"bold\">Essay question:</span> "
+                             + "question|||/page/instructorFeedbackQuestionAdd";
 
         ______TS("Failure: Invalid Parameter");
 
@@ -754,20 +754,18 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         action = getAction(params);
         result = (RedirectResult) action.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId +
-                     "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
                      result.getDestinationWithParams());
 
         assertEquals("NONE is not a valid feedback giver..", result.getStatusMessage());
 
-        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||" +
-                             "instructorFeedbackQuestionAdd|||true|||" +
-                             "Instructor|||Instructor 1 of Course 1|||" +
-                             "idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
-                             String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
-                                           "NONE",
-                                           FieldValidator.GIVER_TYPE_NAME) +
-                             "|||/page/instructorFeedbackQuestionAdd";
+        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                             + "instructorFeedbackQuestionAdd|||true|||"
+                             + "Instructor|||Instructor 1 of Course 1|||"
+                             + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                             + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, "NONE", FieldValidator.GIVER_TYPE_NAME)
+                             + "|||/page/instructorFeedbackQuestionAdd";
         assertEquals(expectedLogMessage, action.getLogMessage());
 
         ______TS("Masquerade mode");
@@ -780,21 +778,21 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         action = getAction(params);
         result = (RedirectResult) action.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId +
-                     "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
                      result.getDestinationWithParams());
 
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
 
-        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||" +
-                             "instructorFeedbackQuestionAdd|||true|||" +
-                             "Instructor(M)|||Instructor 1 of Course 1|||" +
-                             "idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
-                             "Created Feedback Question for Feedback Session:<span class=\"bold\">" +
-                             "(First feedback session)</span> for Course " +
-                             "<span class=\"bold\">[idOfTypicalCourse1]</span>" +
-                             " created.<br><span class=\"bold\">Essay question:</span> " +
-                             "question|||/page/instructorFeedbackQuestionAdd";
+        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                             + "instructorFeedbackQuestionAdd|||true|||"
+                             + "Instructor(M)|||Instructor 1 of Course 1|||"
+                             + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                             + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                             + "(First feedback session)</span> for Course "
+                             + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                             + " created.<br><span class=\"bold\">Essay question:</span> "
+                             + "question|||/page/instructorFeedbackQuestionAdd";
         assertEquals(expectedLogMessage, action.getLogMessage());
     }
 
