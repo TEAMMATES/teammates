@@ -50,15 +50,12 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         InstructorFeedbackResultsDownloadAction action = getAction(paramsNormal);
         FileDownloadResult result = (FileDownloadResult) action.executeAndPostProcess();
 
-        String expectedDestination = "filedownload?"
-                                   + "error=false"
-                                   + "&user=idOfInstructor1OfCourse1";
+        String expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
 
-        String expectedFileName = session.courseId + "_"
-                                + session.feedbackSessionName;
+        String expectedFileName = session.courseId + "_" + session.feedbackSessionName;
         assertEquals(expectedFileName, result.getFileName());
         verifyFileContentForSession1InCourse1(result.getFileContent(), session);
 
@@ -72,9 +69,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         action = getAction(paramsNormal);
         result = (FileDownloadResult) action.executeAndPostProcess();
 
-        expectedDestination = "filedownload?"
-                            + "error=false"
-                            + "&user=idOfInstructor1OfCourse1";
+        expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
@@ -90,9 +85,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         action = getAction(paramsNormalWithinSection);
         result = (FileDownloadResult) action.executeAndPostProcess();
 
-        expectedDestination = "filedownload?"
-                            + "error=false"
-                            + "&user=idOfInstructor1OfCourse1";
+        expectedDestination = "filedownload?" + "error=false" + "&user=idOfInstructor1OfCourse1";
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertFalse(result.isError);
 

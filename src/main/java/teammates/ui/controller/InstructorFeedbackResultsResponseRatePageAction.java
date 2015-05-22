@@ -27,8 +27,7 @@ public class InstructorFeedbackResultsResponseRatePageAction extends Action {
         data.responseStatus = logic.getFeedbackSessionResponseStatus(feedbackSessionName, courseId);
         data.responseStatus.getStudentsWhoDidNotRespondToAnyQuestion();
 
-        return createAjaxResult(
-                Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
+        return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
     }
 
 }

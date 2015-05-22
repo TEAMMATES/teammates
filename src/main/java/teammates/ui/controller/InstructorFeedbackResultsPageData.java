@@ -47,14 +47,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
         boolean hasPublish = !session.isWaitingToOpen() && !session.isPublished();
         boolean hasUnpublish = !session.isWaitingToOpen() && session.isPublished();
         String disabledStr = "disabled=\"disabled\"";
-        String disableUnpublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames
-                                                                                  .INSTRUCTOR_PERMISSION_MODIFY_SESSION)
-                                          ? ""
-                                          : disabledStr;
-        String disablePublishSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames
-                                                                                .INSTRUCTOR_PERMISSION_MODIFY_SESSION)
-                                        ? ""
-                                        : disabledStr;
+        String disableUnpublishSessionStr =
+                instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)
+                        ? "" : disabledStr;
+        String disablePublishSessionStr =
+                instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)
+                        ? "" : disabledStr;
         String result = "";
         if (hasUnpublish) {
             result = "<a class=\"btn btn-primary btn-block btn-tm-actions session-unpublish-for-test\""

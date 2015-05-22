@@ -215,13 +215,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
         ThreadHelper.waitFor(1500);
     }
 
-    public void verifyCommentRowContent(String commentRowIdSuffix,
-                                        String commentText, String giverName) {
+    public void verifyCommentRowContent(String commentRowIdSuffix, String commentText, String giverName) {
         WebDriverWait wait = new WebDriverWait(browser.driver, 30);
         WebElement commentRow;
         try {
-            commentRow = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("responseCommentRow"
-                                                                                      + commentRowIdSuffix)));
+            commentRow = wait.until(ExpectedConditions.presenceOfElementLocated(
+                                                               By.id("responseCommentRow" + commentRowIdSuffix)));
         } catch (TimeoutException e) {
             return;
         }
@@ -274,11 +273,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
         actions.moveToElement(photoCell).build().perform();
         waitForElementToAppear(By.cssSelector(".popover-content > img"));
 
-        AssertHelper.assertContainsRegex(urlRegex,
-                                         browser.driver.findElements(By.cssSelector(".popover-content > img"))
-                                                       .get(browser.driver.findElements(By.cssSelector(".popover-content > img"))
-                                                                                          .size() - 1)
-                                                       .getAttribute("src"));
+        List<WebElement> photos = browser.driver.findElements(By.cssSelector(".popover-content > img"));
+        AssertHelper.assertContainsRegex(urlRegex, photos.get(photos.size() - 1).getAttribute("src"));
 
         actions.moveByOffset(100, 100).click().build().perform();
     }
