@@ -36,6 +36,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
         startIndex = -1;
     }
 
+    /* 
+     * All the methods here are actually covered in jsp file but not captured by EclEmma.
+     */
+
     @Override
     public String getInstructorFeedbackSessionPublishAndUnpublishAction(FeedbackSessionAttributes session,
                                                                         boolean isHome,

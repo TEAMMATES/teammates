@@ -25,10 +25,6 @@ public class FeedbackSessionResponseStatus {
         return noResponse;
     }
 
-    @SuppressWarnings("unused")
-    private void ________________COMPARATORS_____________() {
-    }
-
     // Sorts by teamName > studentName
     public Comparator<String> compareByTeamNameStudentName = new Comparator<String>() {
 

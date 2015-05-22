@@ -123,21 +123,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
         this.fillTextBox(browser.driver.findElement(By.id("results-search-box")), s);
     }
 
-    public AppPage sortTableByGiver() {
-        sortTableGiverButton.click();
-        return this;
-    }
-
-    public AppPage sortTableByRecipient() {
-        sortTableRecipientButton.click();
-        return this;
-    }
-
-    public AppPage sortTableByAnswer() {
-        sortTableAnswerButton.click();
-        return this;
-    }
-
     public InstructorFeedbackEditPage clickEditLink() {
         WebElement button = browser.driver.findElement(By.linkText("[Edit]"));
         button.click();
@@ -273,12 +258,6 @@ public class InstructorFeedbackResultsPage extends AppPage {
     public void clickAjaxPanel(int index) {
         List<WebElement> ajaxPanels = browser.driver.findElements(By.cssSelector(".ajax_submit"));
         ajaxPanels.get(index).click();
-    }
-
-    public void clickCollapseSectionButton(int index) {
-        this.waitForElementPresence(By.id("collapse-panels-button-section-" + index), 10);
-        WebElement collapseButton = browser.driver.findElement(By.id("collapse-panels-button-section-" + index));
-        collapseButton.click();
     }
 
     public void clickViewPhotoLink(int panelBodyIndex, String urlRegex) throws Exception {

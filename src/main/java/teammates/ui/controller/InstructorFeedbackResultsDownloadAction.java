@@ -42,6 +42,7 @@ public class InstructorFeedbackResultsDownloadAction extends Action {
                               + " in Course " + courseId + " within " + section + " was downloaded";
             }
         } catch (ExceedingRangeException e) {
+            // not tested as the test file is not large enough to reach this catch block
             statusToUser.add("There are too many responses. Please download the feedback results by section");
             isError = true;
             RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE);
