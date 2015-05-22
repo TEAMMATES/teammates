@@ -35,6 +35,7 @@
                         <input class="button" id="btnSaveCourse" name="btnSaveCourse" style="display:none;" value="Save Changes" onclick="return verifyCourseData();" type="submit">
                     </div>
                 </div>
+                
                 <input name="user" value="InsCrsEdit.test" type="hidden">
             </form>
         </div>
@@ -523,7 +524,9 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">
                                 <input data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" name="instructorisdisplayed" value="true" checked="checked" data-toggle="tooltip" data-placement="top" title="" type="checkbox">
-                                Display to students as:</label>
+                                Display to students as:
+                            </label>
+                            
                             <div class="col-sm-9">
                                 <input data-original-title="Specify the role of this instructor in this course as shown to the students" class="form-control" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" data-toggle="tooltip" data-placement="top" title="" type="text">
                             </div>
@@ -547,8 +550,7 @@
                                 </a>
                                 <br>
                                 
-                                <input name="instructorrole" id="instructorroleforinstructor6" value="Observer" type="radio">&nbsp;Observer: Can only view information(students, submissions, comments etc.).
-                                &nbsp;Cannot edit/delete/submit anything.
+                                <input name="instructorrole" id="instructorroleforinstructor6" value="Observer" type="radio">&nbsp;Observer: Can only view information(students, submissions, comments etc.).&nbsp;Cannot edit/delete/submit anything.
                                 <a href="javascript:;" onclick="showInstructorRoleModal(<'Observer')">
                                     View Details
                                 </a>
@@ -634,8 +636,9 @@
                                                     </div>
                                  
                                                     <div class="col-sm-1">
-                                                    <a href="javascript:;" onclick="hideTuneSectionPermissionsDiv(6, 0)" class="pull-right">
-                                                        <span class="glyphicon glyphicon-trash"></span></a>
+                                                        <a href="javascript:;" onclick="hideTuneSectionPermissionsDiv(6, 0)" class="pull-right">
+                                                            <span class="glyphicon glyphicon-trash"></span>
+                                                        </a>
                                                     </div>
                                                 </div>
                                                 <br>
