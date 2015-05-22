@@ -450,7 +450,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.addFeedbackResponseComment("showResponseCommentAddForm-0-1-1", "successive action comment");
-        resultsPage.verifyCommentRowContent("-0", "successive action comment", "CFResultsUiT.instr@gmail.tmt");
+        resultsPage.verifyCommentRowContent("-0-1-1-2", "successive action comment", "CFResultsUiT.instr@gmail.tmt");
 
         resultsPage.editFeedbackResponseComment("-0-1-1-2", "edited successive action comment");
         resultsPage.verifyCommentRowContent("-0-1-1-2", "edited successive action comment", "CFResultsUiT.instr@gmail.tmt");
