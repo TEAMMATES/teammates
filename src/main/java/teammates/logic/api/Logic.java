@@ -1335,7 +1335,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void createFeedbackSession(FeedbackSessionAttributes feedbackSession) 
+    public void createFeedbackSession(FeedbackSessionAttributes feedbackSession)
             throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSession);
         feedbackSessionsLogic.createFeedbackSession(feedbackSession);
@@ -1717,8 +1717,8 @@ public class Logic {
      * * All parameters are non-null.
      * * questionNumber is > 0
      */
-    public FeedbackQuestionAttributes createFeedbackQuestionForTemplate(FeedbackQuestionAttributes feedbackQuestion, 
-                                                                        int questionNumber) 
+    public FeedbackQuestionAttributes createFeedbackQuestionForTemplate(
+            FeedbackQuestionAttributes feedbackQuestion, int questionNumber)
             throws InvalidParametersException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestion);
