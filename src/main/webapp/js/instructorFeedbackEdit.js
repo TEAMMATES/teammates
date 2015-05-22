@@ -72,7 +72,7 @@ function disableEditFS() {
  */
 function disableAllQuestions() {
     var numQuestions = $('.questionTable').length;
-    for (var i = 0 ; i < numQuestions ; i++) {
+    for (var i = 0; i < numQuestions; i++) {
         disableQuestion(i);
     }
 }
@@ -351,26 +351,20 @@ function formatNumberBox(value, qnNumber) {
  * @returns qnNumber
  */
 function tallyCheckboxes(qnNumber) {
-    // update hidden parameter FEEDBACK_QUESTION_SHOWRESPONSESTO
-    var checked = [];
-    $('.answerCheckbox' + qnNumber + ':checked').each(function() {
-        checked.push($(this).val());
-    });
-    $('[name=' + FEEDBACK_QUESTION_SHOWRESPONSESTO + ']').val(checked.toString());
+    // update hidden parameters (the values in checkboxTypes)
+    var checkboxTypes = {
+        '.answerCheckbox': FEEDBACK_QUESTION_SHOWRESPONSESTO,
+        '.giverCheckbox': FEEDBACK_QUESTION_SHOWGIVERTO,
+        '.recipientCheckbox': FEEDBACK_QUESTION_SHOWRECIPIENTTO
+    };
     
-    // update hidden parameter FEEDBACK_QUESTION_SHOWGIVERTO
-    checked = [];
-    $('.giverCheckbox' + qnNumber + ':checked').each(function () {
-         checked.push($(this).val());
-    });
-    $('[name=' + FEEDBACK_QUESTION_SHOWGIVERTO + ']').val(checked.toString());
-    
-    // update hidden parameter FEEDBACK_QUESTION_SHOWRECIPIENTTO
-    checked = [];
-    $('.recipientCheckbox' + qnNumber + ':checked').each(function () {
-         checked.push($(this).val());
-    });
-    $('[name=' + FEEDBACK_QUESTION_SHOWRECIPIENTTO + ']').val(checked.toString());
+    for (var checkboxType in checkboxTypes) {
+        var checked = [];
+        $(checkboxType + qnNumber + ':checked').each(function() {
+            checked.push($(this).val());
+        });
+        $('[name=' + checkboxTypes[checkboxType] + ']').val(checked.toString());
+    }
 }
 
 /**
@@ -489,20 +483,23 @@ function formatCheckBoxes() {
         // TODO: change class -> name?
         $('input[class*="answerCheckbox"]').change(function() {
             if (!$(this).is(':checked')) {
-                $(this).parent().parent().find('input[class*="giverCheckbox"]').prop('checked', false);
-                $(this).parent().parent().find('input[class*="recipientCheckbox"]').prop('checked', false);
+                $(this).parent().parent().find('input[class*="giverCheckbox"]')
+                                         .prop('checked', false);
+                $(this).parent().parent().find('input[class*="recipientCheckbox"]')
+                                         .prop('checked', false);
             }
         });
         $('input[class*="giverCheckbox"]').change(function() {
             if ($(this).is(':checked')) {
-                $query = $(this).parent().parent().find('input[class*="answerCheckbox"]');
-                $query.prop('checked', true);
-                $query.trigger('change');
+                $(this).parent().parent().find('input[class*="answerCheckbox"]')
+                                         .prop('checked', true)
+                                         .trigger('change');
             }
         });
         $('input[class*="recipientCheckbox"]').change(function() {
             if ($(this).is(':checked')) {
-                $(this).parent().parent().find('input[class*="answerCheckbox"]').prop('checked', true);
+                $(this).parent().parent().find('input[class*="answerCheckbox"]')
+                                         .prop('checked', true);
             }
         });
         $('input[name=receiverLeaderCheckbox]').change(function () {
@@ -524,18 +521,18 @@ function copyOptions() {
     
     // Feedback giver setup
     var $prevGiver = $('select[name="givertype"]').eq(-2);
-    var currGiver = $('select[name="givertype"]').last();
+    var $currGiver = $('select[name="givertype"]').last();
     
-    $(currGiver).val($prevGiver.val());
+    $currGiver.val($prevGiver.val());
     
     // Feedback recipient setup
     var $prevRecipient = $('select[name="recipienttype"]').eq(-2);
-    var currRecipient = $('select[name="recipienttype"]').last();
+    var $currRecipient = $('select[name="recipienttype"]').last();
     
-    currRecipient.val($prevRecipient.val());
+    $currRecipient.val($prevRecipient.val());
     
     // Number of recipient setup
-    formatNumberBox($(currRecipient).val(), '');
+    formatNumberBox($currRecipient.val(), '');
     var $prevRadioButtons = $('table[class~="questionTable"]').eq(-2).find('input[name="numofrecipientstype"]');
     var $currRadioButtons = $('table[class~="questionTable"]').last().find('input[name="numofrecipientstype"]');
     
@@ -555,55 +552,57 @@ function copyOptions() {
     $currTable.each(function(index) {
         $(this).prop('checked', $prevTable.eq(index).prop('checked'));
     });
-    feedbackGiverUpdateVisibilityOptions(currGiver);
-    feedbackRecipientUpdateVisibilityOptions(currRecipient);
+    feedbackGiverUpdateVisibilityOptions($currGiver);
+    feedbackRecipientUpdateVisibilityOptions($currRecipient);
 }
 
-function enableRow(el, row) {
-    var visibilityOptions = ($(el).closest('form').find('.visibilityOptions'));
-    var table = visibilityOptions.find('table');
-    var tdElements = $($(table).children().children()[row]).children();
+function enableRow(elem, row) {
+    var $visibilityOptions = $(elem).closest('form').find('.visibilityOptions');
+    var $table = $visibilityOptions.find('table');
+    var $tdElements = $($table.children().children()[row]).children();
     
-    if ($(tdElements).parent().prop('tagName') === 'tr') {
+    if ($tdElements.parent().prop('tagName') === 'tr') {
         return;
     }
-    $(tdElements).unwrap().wrapAll('<tr>');
+    $tdElements.unwrap().wrapAll('<tr>');
 }
 
-function disableRow(el, row) {
-    var visibilityOptions = ($(el).closest('form').find('.visibilityOptions'));
-    var table = visibilityOptions.find('table');
-    var tdElements = $($(table).children().children()[row]).children();
+function disableRow(elem, row) {
+    var $visibilityOptions = $(elem).closest('form').find('.visibilityOptions');
+    var $table = $visibilityOptions.find('table');
+    var $tdElements = $($table.children().children()[row]).children();
     
-    if ($(tdElements).parent().prop('tagName') === 'hide') {
+    if ($tdElements.parent().prop('tagName') === 'hide') {
         return; 
     }
-    $(tdElements).unwrap().wrapAll('<hide>');
-    $(tdElements).parent().hide();
+    $tdElements.unwrap().wrapAll('<hide>');
+    $tdElements.parent().hide();
 }
 
-function feedbackRecipientUpdateVisibilityOptions(el) {
-    if ($(el).val() === 'OWN_TEAM' || $(el).val() === 'TEAMS' ||
-            $(el).val() === 'INSTRUCTORS' || $(el).val() === 'OWN_TEAM_MEMBERS') {
-        enableRow(el, 1);
-        disableRow(el, 3);
+function feedbackRecipientUpdateVisibilityOptions(elem) {
+    elem = $(elem);
+    if (elem.val() === 'OWN_TEAM' || elem.val() === 'TEAMS' ||
+            elem.val() === 'INSTRUCTORS' || elem.val() === 'OWN_TEAM_MEMBERS') {
+        enableRow(elem, 1);
+        disableRow(elem, 3);
         return;
-    } else if($(el).val() === 'NONE') {
-        disableRow(el, 3);
-        disableRow(el, 1);
+    } else if(elem.val() === 'NONE') {
+        disableRow(elem, 3);
+        disableRow(elem, 1);
         return;
     }
     
-    enableRow(el, 1);
-    enableRow(el, 3);
+    enableRow(elem, 1);
+    enableRow(elem, 3);
 }
 
-function feedbackGiverUpdateVisibilityOptions(el) {
-    if ($(el).val() === 'INSTRUCTORS' || $(el).val() === 'TEAMS') {
-        disableRow(el, 2);
+function feedbackGiverUpdateVisibilityOptions(elem) {
+    elem = $(elem);
+    if (elem.val() === 'INSTRUCTORS' || elem.val() === 'TEAMS') {
+        disableRow(elem, 2);
         return;
     }
-    enableRow(el, 2);
+    enableRow(elem, 2);
 }
 
 /**
@@ -670,7 +669,7 @@ function bindCopyButton() {
         $('#copyTableModal >tbody>tr').each(function() {
             var input = $(this).children('input:first');
             
-            if (!input) {
+            if (!input.length) {
                 return true;
             }
             if ($(this).hasClass('row-selected')) {
@@ -709,11 +708,7 @@ function bindCopyEvents() {
 
         var $button = $('#button_copy_submit');
         
-        if (numRowsSelected <= 0) {
-            $button.prop('disabled', true);
-        } else {
-            $button.prop('disabled', false);
-        }
+        $button.prop('disabled', numRowsSelected <= 0);
 
         return false;
     });
@@ -724,15 +719,15 @@ function toggleVisibilityMessage(elem) {
     var $options = $elementParent.find('.visibilityOptions');
     var $visibilityMessage = $elementParent.find('.visibilityMessage');
 
-    var giverType = $elementParent.find('select[name="givertype"]');
-    var recipientType = $elementParent.find('select[name="recipienttype"]');
+    var $giverType = $elementParent.find('select[name="givertype"]');
+    var $recipientType = $elementParent.find('select[name="recipienttype"]');
 
     $options.hide();
     var $disabledInputs = $elementParent.find('input:disabled, select:disabled');
     $disabledInputs.prop('disabled', false);
 
-    feedbackGiverUpdateVisibilityOptions(giverType);
-    feedbackRecipientUpdateVisibilityOptions(recipientType);
+    feedbackGiverUpdateVisibilityOptions($giverType);
+    feedbackRecipientUpdateVisibilityOptions($recipientType);
 
     getVisibilityMessage(elem);
     $disabledInputs.prop('disabled', true);
@@ -747,8 +742,8 @@ var previousFormDataMap = {};
  * @param buttonElem
  */
 function getVisibilityMessage(buttonElem) {
-    var form = $(buttonElem).closest('form');
-    var qnNumber = $(form).find('[name=questionnum]').val();
+    var $form = $(buttonElem).closest('form');
+    var qnNumber = $form.find('[name=questionnum]').val();
     var newQnNumber = $('input[name=questionnum]').last().val();
     
     if (qnNumber === newQnNumber) {
@@ -757,18 +752,21 @@ function getVisibilityMessage(buttonElem) {
         tallyCheckboxes(qnNumber);
     }
     
-    var formData =  $(form[0]).serialize();
-
+    var formData = $form.serialize();
+    
+    var $formOptions = $form.find('.visibilityOptions');
+    var $formVisibility = $form.find('.visibilityMessage') 
+    
     if (previousFormDataMap[qnNumber] === formData) {
-        $(form).find('.visibilityOptions').hide();
-        $(form).find('.visibilityMessage').show();
+        $formOptions.hide();
+        $formVisibility.show();
         return;
     }
     // update stored form data
     previousFormDataMap[qnNumber] = formData;
 
     // empty current visibility message in the form
-    $(form).find('.visibilityMessage').html('');
+    $formVisibility.html('');
     
     var url = '/page/instructorFeedbackQuestionvisibilityMessage';
     $.ajax({
@@ -776,9 +774,6 @@ function getVisibilityMessage(buttonElem) {
         url: url,
         data: formData,
         success: function(data) {
-            var $formVisibility = $(form).find('.visibilityMessage');
-            var $formOptions = $(form).find('.visibilityOptions');
-            
             $formVisibility.html(formatVisibilityMessageHtml(data.visibilityMessage));
             $formVisibility.show();
             $formOptions.hide();
@@ -790,9 +785,9 @@ function getVisibilityMessage(buttonElem) {
 }
 
 function getVisibilityMessageIfPreviewIsActive(buttonElem) {
-    var form = $(buttonElem).closest('form');
+    var $form = $(buttonElem).closest('form');
     
-    if ($(form).find('.visibilityMessageButton').hasClass('active')) {
+    if ($form.find('.visibilityMessageButton').hasClass('active')) {
         getVisibilityMessage(buttonElem);    
     }         
 }
@@ -800,7 +795,7 @@ function getVisibilityMessageIfPreviewIsActive(buttonElem) {
 function formatVisibilityMessageHtml(visibilityMessage) {
     var htmlString = 'This is the visibility as seen by the feedback giver.';
     htmlString += '<ul class="background-color-warning">';
-    for (var i = 0 ; i < visibilityMessage.length ; i++) {
+    for (var i = 0; i < visibilityMessage.length; i++) {
         htmlString += '<li>' + visibilityMessage[i] + '</li>';
     }
     htmlString += '</ul>';
@@ -814,6 +809,13 @@ function formatVisibilityMessageHtml(visibilityMessage) {
  *  ===========================================================================
  */
 
+function getQuestionIdSuffix(questionNumber) {
+    var idSuffix = questionNumber > 0 ? ('-' + questionNumber) : '';
+    if (questionNumber === -1) {
+        idSuffix = '--1';
+    }
+    return idSuffix;
+}
 
 /**
  * ----------------------------------------------------------------------------
@@ -823,10 +825,7 @@ function formatVisibilityMessageHtml(visibilityMessage) {
 
 function addMcqOption(questionNumber) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = questionNumber > 0 ? ('-' + questionNumber) : '';
-    if (questionNumber === -1) {
-        idSuffix = '--1';
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
     
     var curNumberOfChoiceCreated =
             parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
@@ -857,11 +856,7 @@ function addMcqOption(questionNumber) {
 
 function removeMcqOption(index, questionNumber) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = questionNumber > 0 ? ('-' + questionNumber) : '';
-    
-    if (questionNumber === -1) {
-        idSuffix = '--1';
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
     
     var $thisRow = $('#mcqOptionRow-' + index + idSuffix);
     
@@ -880,16 +875,14 @@ function removeMcqOption(index, questionNumber) {
 }
 
 function toggleMcqGeneratedOptions(checkbox, questionNumber) {
-    var idSuffix = questionNumber > 0 ? ('-' + questionNumber) : '';
-    if (questionNumber === -1) {
-        idSuffix = '--1';
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
 
     if (checkbox.checked) {
-        $('#mcqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', true);
+        $('#mcqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', true)
         $('#mcqChoiceTable' + idSuffix).hide();
         $('#mcqGenerateForSelect' + idSuffix).prop('disabled', false);
-        $('#generatedOptions' + idSuffix).attr('value', $('#mcqGenerateForSelect' + idSuffix).prop('value'));
+        $('#generatedOptions' + idSuffix).attr('value',
+                                               $('#mcqGenerateForSelect' + idSuffix).prop('value'));
     } else {
         $('#mcqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', false);
         $('#mcqChoiceTable' + idSuffix).show();
@@ -899,12 +892,10 @@ function toggleMcqGeneratedOptions(checkbox, questionNumber) {
 }
 
 function changeMcqGenerateFor(questionNumber) {
-    var idSuffix = questionNumber > 0 ? ('-' + questionNumber) : '';
-    if (questionNumber === -1) {
-        idSuffix = '--1';
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
 
-    $('#generatedOptions' + idSuffix).attr('value', $('#mcqGenerateForSelect' + idSuffix).prop('value'));
+    $('#generatedOptions' + idSuffix).attr('value',
+                                           $('#mcqGenerateForSelect' + idSuffix).prop('value'));
 }
 
 /**
@@ -915,10 +906,7 @@ function changeMcqGenerateFor(questionNumber) {
 
 function addMsqOption(questionNumber) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = questionNumber > 0 ? ('-' + questionNumber) : '';
-    if (questionNumber === -1) {
-        idSuffix = '--1';
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
 
     var curNumberOfChoiceCreated =
             parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
@@ -950,11 +938,7 @@ function addMsqOption(questionNumber) {
 
 function removeMsqOption(index, questionNumber) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = questionNumber > 0 ? ('-' + questionNumber) : '';
-    
-    if (questionNumber === -1) {
-        idSuffix = '--1';
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
     
     var $thisRow = $('#msqOptionRow-' + index + idSuffix);
     
@@ -973,16 +957,14 @@ function removeMsqOption(index, questionNumber) {
 }
 
 function toggleMsqGeneratedOptions(checkbox, questionNumber) {
-    var idSuffix = questionNumber > 0 ? ('-' + questionNumber) : '';
-    if (questionNumber === -1) {
-        idSuffix = '--1';
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
 
     if (checkbox.checked) {
-        $('#msqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', true);
+        $('#msqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', true)
         $('#msqChoiceTable' + idSuffix).hide();
         $('#msqGenerateForSelect' + idSuffix).prop('disabled', false);
-        $('#generatedOptions' + idSuffix).attr('value', $('#msqGenerateForSelect' + idSuffix).prop('value'));
+        $('#generatedOptions' + idSuffix).attr('value',
+                                               $('#msqGenerateForSelect' + idSuffix).prop('value'));
     } else {
         $('#msqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', false);
         $('#msqChoiceTable' + idSuffix).show();
@@ -992,12 +974,10 @@ function toggleMsqGeneratedOptions(checkbox, questionNumber) {
 }
 
 function changeMsqGenerateFor(questionNumber) {
-    var idSuffix = questionNumber > 0 ? ('-' + questionNumber) : '';
-    if (questionNumber === -1) {
-        idSuffix = '--1';
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
 
-    $('#generatedOptions' + idSuffix).attr('value', $('#msqGenerateForSelect' + idSuffix).prop('value'));
+    $('#generatedOptions' + idSuffix).attr('value',
+                                           $('#msqGenerateForSelect' + idSuffix).prop('value'));
 }
 
 /**
@@ -1011,10 +991,7 @@ function roundToThreeDp(num) {
 }
 
 function updateNumScalePossibleValues(questionNumber) {
-    var idSuffix = questionNumber > 0 ? ('-' + questionNumber) : '';
-    if (questionNumber === -1) {
-        idSuffix = '--1';
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
     
     var min = parseInt($('#minScaleBox' + idSuffix).val());
     var max = parseInt($('#maxScaleBox' + idSuffix).val());
@@ -1031,19 +1008,15 @@ function updateNumScalePossibleValues(questionNumber) {
     }
     
     var $stepBox = $('#stepBox' + idSuffix);
-    $stepBox.val(step);
-    if (isNaN(step)) {
-        $stepBox.val('');        
-    }
+    $stepBox.val(isNaN(step) ? '' : step);
 
     var possibleValuesCount = Math.floor(roundToThreeDp((max - min) / step)) + 1;
-    var largestValueInRange = min + roundToThreeDp((possibleValuesCount - 1) * step);
-    var possibleValuesString = '';
+    var largestValueInRange = min + (possibleValuesCount - 1) * step;
     var $numScalePossibleValues = $('#numScalePossibleValues' + idSuffix);
     if (roundToThreeDp(largestValueInRange) != max) {
         $numScalePossibleValues.css('color', 'red');
-        possibleValuesString = '[The interval ' + min.toString() + ' - ' + max.toString() +
-                               ' is not divisible by the specified increment.]';
+        var possibleValuesString = '[The interval ' + min.toString() + ' - ' + max.toString() +
+                                   ' is not divisible by the specified increment.]';
 
         if (isNaN(min) || isNaN(max) || isNaN(step)) {
             possibleValuesString = '[Please enter valid numbers for all the options.]'
@@ -1053,22 +1026,25 @@ function updateNumScalePossibleValues(questionNumber) {
         return false;
     } else {
         $numScalePossibleValues.css('color', 'black');
-        possibleValuesString = '[Based on the above settings, acceptable responses are: ';
+        var possibleValuesString = '[Based on the above settings, acceptable responses are: ';
+        
+        // step is 3 d.p. at most, so round it after * 1000. 
         if (possibleValuesCount > 6) {
             possibleValuesString += min.toString() + ', ' +
-                                    (Math.round((min + step)*1000)/1000).toString() + ', ' +
-                                    (Math.round((min + 2*step)*1000)/1000).toString() + ', ..., ' +
-                                    (Math.round((max - 2*step)*1000)/1000).toString() + ', ' +
-                                    (Math.round((max - step)*1000)/1000).toString() + ', ' +
-                                    max.toString();        
+                                    (Math.round((min +     step) * 1000) / 1000).toString() + ', ' +
+                                    (Math.round((min + 2 * step) * 1000) / 1000).toString() + ', ..., ' +
+                                    (Math.round((max - 2 * step) * 1000) / 1000).toString() + ', ' +
+                                    (Math.round((max -     step) * 1000) / 1000).toString() + ', ' +
+                                    max.toString();       
         } else {
             possibleValuesString += min.toString();
             var cur = min + step;
             while ((max - cur) >= -1e-9) {
-                possibleValuesString += ', ' + (Math.round(cur*1000)/1000).toString();
+                possibleValuesString += ', ' + (Math.round(cur * 1000) / 1000).toString();
                 cur += step;
             }
         }
+        
         possibleValuesString += ']';
         $numScalePossibleValues.text(possibleValuesString);
         return true;
@@ -1082,10 +1058,8 @@ function updateNumScalePossibleValues(questionNumber) {
  */
 
 function updateConstSumPointsValue(questionNumber) {
-    var idSuffix = questionNumber > 0 ? ('-' + questionNumber) : '';
-    if (questionNumber === -1) {
-        idSuffix = '--1';
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
+    
     if ($('#' + FEEDBACK_QUESTION_CONSTSUMPOINTS + idSuffix).val() < 1) {
         $('#' + FEEDBACK_QUESTION_CONSTSUMPOINTS + idSuffix).val(1);
     }
@@ -1093,10 +1067,7 @@ function updateConstSumPointsValue(questionNumber) {
 
 function addConstSumOption(questionNumber) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = questionNumber > 0 ? ('-' + questionNumber) : '';
-    if (questionNumber === -1) {
-        idSuffix = '--1';
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
     
     var curNumberOfChoiceCreated = parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
         
@@ -1122,20 +1093,13 @@ function addConstSumOption(questionNumber) {
 }
 
 function hideConstSumOptionTable(questionNumber) {
-    var idSuffix = questionNumber > 0 ? ('-' + questionNumber) : '';
-    if (questionNumber === -1) {
-        idSuffix = '--1';
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
     $('#' + FEEDBACK_QUESTION_CONSTSUMOPTIONTABLE + idSuffix).hide();
 }
 
 function removeConstSumOption(index, questionNumber) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = questionNumber > 0 ? ('-' + questionNumber) : '';
-    
-    if (questionNumber === -1) {
-        idSuffix = '--1';
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
     var $thisRow = $('#constSumOptionRow-' + index + idSuffix);
     
     // count number of child rows the table have and - 1 because of add option button
@@ -1230,9 +1194,9 @@ function setContribQnVisibilityFormat(questionNumber) {
                          .filter('[class*="giverCheckbox"]')
                          .change(function() {
         if ($(this).is(':checked')) {
-            $query = $(this).parent().parent().find('input[class*="answerCheckbox"]');
-            $query.prop('checked',true);
-            $query.trigger('change');
+            $(this).parent().parent().find('input[class*="answerCheckbox"]')
+                                     .prop('checked',true)
+                                     .trigger('change');
         }
     });
     
@@ -1240,9 +1204,9 @@ function setContribQnVisibilityFormat(questionNumber) {
                          .filter('[class*="recipientCheckbox"]')
                          .change(function() {
         if ($(this).is(':checked')) {
-            $query = $(this).parent().parent().find('input[class*="answerCheckbox"]');
-            $query.prop('checked',true);
-            $query.trigger('change');
+            $(this).parent().parent().find('input[class*="answerCheckbox"]')
+                                     .prop('checked',true)
+                                     .trigger('change');
         }
     });
     
@@ -1280,10 +1244,7 @@ function fixContribQnGiverRecipient(questionNumber) {
 
 function addRubricRow(questionNumber) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = questionNumber > 0 ? ('-' + questionNumber) : '';
-    if (questionNumber === -1) {
-        idSuffix = '--1';
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
     
     var numberOfRows = parseInt($('#' + 'rubricNumRows' + idSuffix).val());
     var numberOfCols = parseInt($('#' + 'rubricNumCols' + idSuffix).val());
@@ -1311,8 +1272,8 @@ function addRubricRow(questionNumber) {
 
     var rubricRowBodyFragments = '';
     // Create numberOfCols of <td>'s 
-    for (var cols = 0; cols < numberOfCols ; cols++) {
-        if ($('.rubricCol' + idSuffix + '-' + cols).length === 0) {
+    for (var cols = 0; cols < numberOfCols; cols++) {
+        if (!$('.rubricCol' + idSuffix + '-' + cols).length) {
             continue;
         }
         var fragment = rubricRowFragmentTemplate;
@@ -1347,10 +1308,7 @@ function addRubricRow(questionNumber) {
 
 function addRubricCol(questionNumber) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = questionNumber > 0 ? ('-' + questionNumber) : '';
-    if (questionNumber === -1) {
-        idSuffix = '--1';
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
     
     var numberOfRows = parseInt($('#' + 'rubricNumRows' + idSuffix).val());
     var numberOfCols = parseInt($('#' + 'rubricNumCols' + idSuffix).val());
@@ -1389,8 +1347,8 @@ function addRubricCol(questionNumber) {
 
     var rubricRowBodyFragments = '';
     // Create numberOfRows of <td>'s
-    for (var rows = 0 ; rows < numberOfRows ; rows++) {
-        if ($('#rubricRow' + idSuffix + '-' + rows).length === 0) {
+    for (var rows = 0; rows < numberOfRows; rows++) {
+        if (!$('#rubricRow' + idSuffix + '-' + rows).length) {
             continue;
         }
         var fragment = rubricRowFragmentTemplate;
@@ -1417,11 +1375,7 @@ function addRubricCol(questionNumber) {
 
 function removeRubricRow(index, questionNumber) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = questionNumber > 0 ? ('-' + questionNumber) : '';
-    
-    if (questionNumber === -1) {
-        idSuffix = '--1';
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
     
     var $thisRow = $('#rubricRow' + idSuffix + '-' + index);
     
@@ -1446,11 +1400,7 @@ function removeRubricRow(index, questionNumber) {
 
 function removeRubricCol(index, questionNumber) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = questionNumber > 0 ? ('-' + questionNumber) : '';
-    
-    if (questionNumber === -1) {
-        idSuffix = '--1';
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
     
     var $thisCol = $('.rubricCol' + idSuffix + '-' + index);
     
@@ -1475,11 +1425,7 @@ function removeRubricCol(index, questionNumber) {
 
 function highlightRubricRow(index, questionNumber, highlight) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = questionNumber > 0 ? ('-' + questionNumber) : '';
-    
-    if (questionNumber === -1) {
-        idSuffix = '--1';
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
     
     var $rubricRow = $('#rubricRow' + idSuffix + '-' + index);
 
@@ -1493,11 +1439,7 @@ function highlightRubricRow(index, questionNumber, highlight) {
 
 function highlightRubricCol(index, questionNumber, highlight) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = questionNumber > 0 ? ('-' + questionNumber) : '';
-    
-    if (questionNumber === -1) {
-        idSuffix = '--1';
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
     
     var $rubricCol = $('.rubricCol' + idSuffix + '-' + index);
 
