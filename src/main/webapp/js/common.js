@@ -189,7 +189,7 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
             continue;
         }
         
-        var innerText = $RowList[i].cells[colIdx - 1].innerText;
+        var innerText = $.trim(jQuery($RowList[i].cells[colIdx - 1]).text());
         
         // Store rows together with the innerText to compare
         store.push([innerText, $RowList[i], i]);
