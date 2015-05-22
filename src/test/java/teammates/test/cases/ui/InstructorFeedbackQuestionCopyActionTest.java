@@ -56,12 +56,14 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         ______TS("Typical case");
 
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
-        FeedbackQuestionAttributes question1 = FeedbackQuestionsLogic.
-                                               inst().
-                                               getFeedbackQuestion(session1.feedbackSessionName, session1.courseId, 1);
-        FeedbackQuestionAttributes question2 = FeedbackQuestionsLogic.
-                                               inst().
-                                               getFeedbackQuestion(session1.feedbackSessionName, session1.courseId, 2);
+        FeedbackQuestionAttributes question1 = FeedbackQuestionsLogic
+                                                   .inst()
+                                                   .getFeedbackQuestion(session1.feedbackSessionName, 
+                                                                        session1.courseId, 1);
+        FeedbackQuestionAttributes question2 = FeedbackQuestionsLogic
+                                                   .inst()
+                                                   .getFeedbackQuestion(session1.feedbackSessionName, 
+                                                                        session1.courseId, 2);
 
         String[] params = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "Second feedback session",
@@ -73,25 +75,25 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         InstructorFeedbackQuestionCopyAction a = getAction(params);
         RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE+ "?courseid="+ instructor1ofCourse1.courseId +
-                     "&fsname=Second+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE+ "?courseid="+ instructor1ofCourse1.courseId
+                     + "&fsname=Second+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
                      rr.getDestinationWithParams());
 
-        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionCopy|||" +
-                                    "instructorFeedbackQuestionCopy|||true|||" +
-                                    "Instructor|||Instructor 1 of Course 1|||" +
-                                    "idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
-                                    "Created Feedback Question for Feedback Session:" +
-                                    "<span class=\"bold\">(Second feedback session)" +
-                                    "</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span> " +
-                                    "created.<br><span class=\"bold\">" +
-                                    "Essay question:</span> What is the best selling point of your product?" +
-                                    "Created Feedback Question for " +
-                                    "Feedback Session:<span class=\"bold\">(Second feedback session)</span> " +
-                                    "for Course <span class=\"bold\">" +
-                                    "[idOfTypicalCourse1]</span> created.<br>" +
-                                    "<span class=\"bold\">Essay question:</span> Rate 1 other student's " +
-                                    "product|||/page/instructorFeedbackQuestionCopy";
+        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionCopy|||"
+                                    + "instructorFeedbackQuestionCopy|||true|||"
+                                    + "Instructor|||Instructor 1 of Course 1|||"
+                                    + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                                    + "Created Feedback Question for Feedback Session:"
+                                    + "<span class=\"bold\">(Second feedback session)"
+                                    + "</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span> "
+                                    + "created.<br><span class=\"bold\">"
+                                    + "Essay question:</span> What is the best selling point of your product?"
+                                    + "Created Feedback Question for "
+                                    + "Feedback Session:<span class=\"bold\">(Second feedback session)</span> "
+                                    + "for Course <span class=\"bold\">"
+                                    + "[idOfTypicalCourse1]</span> created.<br>"
+                                    + "<span class=\"bold\">Essay question:</span> Rate 1 other student's "
+                                    + "product|||/page/instructorFeedbackQuestionCopy";
         assertEquals(expectedLogMessage, a.getLogMessage());
 
         ______TS("Error: Indicate no questions to be copied");
@@ -104,22 +106,23 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         a = getAction(params);
         rr = (RedirectResult) a.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId +
-                     "&fsname=Second+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=Second+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=true",
                      rr.getDestinationWithParams());
 
-        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionCopy|||" +
-                             "instructorFeedbackQuestionCopy|||true|||" +
-                             "Instructor|||Instructor 1 of Course 1|||" +
-                             "idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
-                             "|||/page/instructorFeedbackQuestionCopy";
+        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionCopy|||"
+                             + "instructorFeedbackQuestionCopy|||true|||"
+                             + "Instructor|||Instructor 1 of Course 1|||"
+                             + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                             + "|||/page/instructorFeedbackQuestionCopy";
         assertEquals(expectedLogMessage, a.getLogMessage());
 
         ______TS("Masquerade mode");
 
-        FeedbackQuestionAttributes question3 = FeedbackQuestionsLogic.
-                                               inst().
-                                               getFeedbackQuestion(session1.feedbackSessionName, session1.courseId, 3);
+        FeedbackQuestionAttributes question3 = FeedbackQuestionsLogic
+                                                   .inst()
+                                                   .getFeedbackQuestion(session1.feedbackSessionName, 
+                                                                        session1.courseId, 3);
         gaeSimulation.loginAsAdmin("admin.user");
 
         params = new String[]{
@@ -132,20 +135,20 @@ public class InstructorFeedbackQuestionCopyActionTest extends BaseActionTest {
         a = getAction(params);
         rr = (RedirectResult) a.executeAndPostProcess();
 
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId +
-                     "&fsname=Second+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=Second+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
                      rr.getDestinationWithParams());
 
-        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionCopy|||" +
-                             "instructorFeedbackQuestionCopy|||true|||" +
-                             "Instructor(M)|||Instructor 1 of Course 1|||" +
-                             "idOfInstructor1OfCourse1|||instr1@course1.tmt|||" +
-                             "Created Feedback Question for Feedback Session:" +
-                             "<span class=\"bold\">(Second feedback session)</span> " +
-                             "for Course <span class=\"bold\">[idOfTypicalCourse1]</span> " +
-                             "created.<br><span class=\"bold\">" +
-                             "Essay question:</span> My comments on the class|||" +
-                             "/page/instructorFeedbackQuestionCopy";
+        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionCopy|||"
+                             + "instructorFeedbackQuestionCopy|||true|||"
+                             + "Instructor(M)|||Instructor 1 of Course 1|||"
+                             + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                             + "Created Feedback Question for Feedback Session:"
+                             + "<span class=\"bold\">(Second feedback session)</span> "
+                             + "for Course <span class=\"bold\">[idOfTypicalCourse1]</span> "
+                             + "created.<br><span class=\"bold\">"
+                             + "Essay question:</span> My comments on the class|||"
+                             + "/page/instructorFeedbackQuestionCopy";
         assertEquals(expectedLogMessage, a.getLogMessage());
     }
 

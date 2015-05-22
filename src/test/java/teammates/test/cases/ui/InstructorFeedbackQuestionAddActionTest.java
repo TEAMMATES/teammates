@@ -722,7 +722,7 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
         params = createParamsForTypicalFeedbackQuestion(fs.courseId, fs.feedbackSessionName);
         modifyParamValue(params, Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, "");
 
-        // Purposefully not using modifyParamVale because we're removing showRecipientTo
+        // Purposely not using modifyParamVale because we're removing showRecipientTo
         params[22] = Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE;
         params[23] = "edit";
         
