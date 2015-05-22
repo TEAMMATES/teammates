@@ -12,6 +12,7 @@
                 Delete
             </a>
         </div>
+        
         <div class="panel-body fill-plain">
             <form action="/page/instructorCourseEditSave" method="post" id="formEditcourse" class="form form-horizontal">
                 <input name="courseid" value="InsCrsEdit.CS2104" type="hidden">
@@ -34,6 +35,7 @@
                         <input class="button" id="btnSaveCourse" name="btnSaveCourse" style="display:none;" value="Save Changes" onclick="return verifyCourseData();" type="submit">
                     </div>
                 </div>
+                
                 <input name="user" value="InsCrsEdit.test" type="hidden">
             </form>
         </div>
@@ -44,6 +46,7 @@
     <div id="statusMessage" class="alert alert-warning">
         The changes to the instructor has been updated.
     </div>
+    
     <script type="text/javascript">
         document.getElementById( 'statusMessage' ).scrollIntoView();
     </script>
@@ -66,9 +69,11 @@
                     <input name="courseeditmainindex" value="1" type="hidden">
                     <input name="user" value="InsCrsEdit.test" type="hidden">
                 </form>
+                
                 <a style="display: none;" data-original-title="Edit instructor details" href="javascript:;" id="instrEditLink1" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="">
                     <span class="glyphicon glyphicon-pencil"></span> Edit
                 </a>
+                
                 <a data-original-title="Delete the instructor from the course" href="/page/instructorCourseInstructorDelete?courseid=InsCrsEdit.CS2104&amp;instructoremail=new_email%40email.tmt&amp;user=InsCrsEdit.test" id="instrDeleteLink1" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="" onclick="return toggleDeleteInstructorConfirmation('InsCrsEdit.CS2104','new_email@email.tmt', false);">
                     <span class="glyphicon glyphicon-trash"></span> Delete
                 </a>
@@ -104,8 +109,8 @@
                 
                     <div class="form-group">
                         <label class="col-sm-3 control-label">
-                             <input data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" name="instructorisdisplayed" value="true" data-toggle="tooltip" data-placement="top" title="" type="checkbox">
-                             Display to students as:
+                            <input data-original-title="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course" name="instructorisdisplayed" value="true" data-toggle="tooltip" data-placement="top" title="" type="checkbox">
+                            Display to students as:
                         </label>
                         <div class="col-sm-9">
                             <input data-original-title="Specify the role of this instructor in this course as shown to the students" class="form-control" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" value="Instructor" data-toggle="tooltip" data-placement="top" title="" type="text">
@@ -130,33 +135,28 @@
                             </div>
                             <div class="col-sm-9">
                                 <input name="instructorrole" id="instructorroleforinstructor1" value="Co-owner" type="radio">
-                                &nbsp;Co-owner: Can do everything
-                                &nbsp;
+                                &nbsp;Co-owner: Can do everything&nbsp;
                                 <a href="javascript:;" onclick="showInstructorRoleModal('Co-owner')">
                                     View Details
                                 </a>
                                 <br>
                                 
                                 <input name="instructorrole" id="instructorroleforinstructor1" value="Manager" type="radio">
-                                &nbsp;Manager: Can do everything except for deleting the course
-                                &nbsp;
+                                &nbsp;Manager: Can do everything except for deleting the course&nbsp;
                                 <a href="javascript:;" onclick="showInstructorRoleModal('Manager')">
                                     View Details
                                 </a>
                                 <br>
                                 
                                 <input name="instructorrole" id="instructorroleforinstructor1" value="Observer" type="radio">
-                                &nbsp;Observer: Can only view information(students, submissions, comments etc.).
-                                &nbsp;Cannot edit/delete/submit anything.
-                                &nbsp;
+                                &nbsp;Observer: Can only view information(students, submissions, comments etc.).&nbsp;Cannot edit/delete/submit anything.&nbsp;
                                 <a href="javascript:;" onclick="showInstructorRoleModal('Observer')">
                                     View Details
                                 </a>
                                 <br>
                                 
                                 <input name="instructorrole" id="instructorroleforinstructor1" value="Tutor" type="radio">
-                                &nbsp;Tutor: Can view student details, give/view comments, submit/view responses for sessions
-                                &nbsp;
+                                &nbsp;Tutor: Can view student details, give/view comments, submit/view responses for sessions&nbsp;
                                 <a href="javascript:;" onclick="showInstructorRoleModal('Tutor')">
                                     View Details
                                 </a>
@@ -216,6 +216,7 @@
                                                     <div class="col-sm-2">
                                                         <p><strong>But in section(s)</strong></p>
                                                     </div>
+                                                    
                                                     <div class="col-sm-9">
                                                         <div class="col-sm-12">
                                                             <div class="col-sm-4">
@@ -266,6 +267,7 @@
                                                     <input name="canviewsessioninsectionsectiongroup0" value="true" checked="checked" type="checkbox"> Sessions: View Responses and Comments<br>
                                                     <input name="canmodifysessioncommentinsectionsectiongroup0" value="true" checked="checked" type="checkbox"> Sessions: Edit/Delete Responses/Comments by Others<br><br>
                                                 </div>
+                                                
                                                 <a href="javascript:;" onclick="hideTuneSessionnPermissionsDiv(1, 0)" id="toggleSessionLevelInSection0ForInstructor1" class="small col-sm-5">
                                                     Hide session-level permissions
                                                 </a>      
@@ -360,6 +362,7 @@
                                                     <input name="canviewsessioninsectionsectiongroup1" value="true" checked="checked" type="checkbox"> Sessions: View Responses and Comments<br>
                                                     <input name="canmodifysessioncommentinsectionsectiongroup1" value="true" checked="checked" type="checkbox"> Sessions: Edit/Delete Responses/Comments by Others<br><br>
                                                 </div>
+                                                
                                                 <a href="javascript:;" onclick="hideTuneSessionnPermissionsDiv(1, 1)" id="toggleSessionLevelInSection1ForInstructor1" class="small col-sm-5">
                                                     Hide session-level permissions
                                                 </a>      
@@ -402,6 +405,7 @@
                                                     <div class="col-sm-2">
                                                         <p><strong>But in section(s)</strong></p>
                                                     </div>
+                                                    
                                                     <div class="col-sm-9">
                                                         <div class="col-sm-12">
                                                             <div class="col-sm-4">
@@ -453,8 +457,8 @@
                                                     <input name="canviewsessioninsectionsectiongroup2" value="true" checked="checked" type="checkbox"> Sessions: View Responses and Comments<br>
                                                     <input name="canmodifysessioncommentinsectionsectiongroup2" value="true" type="checkbox"> Sessions: Edit/Delete Responses/Comments by Others<br><br>
                                                 </div>
+                                                
                                                 <a href="javascript:;" onclick="showTuneSessionnPermissionsDiv(1, 2)" id="toggleSessionLevelInSection2ForInstructor1" class="small col-sm-5">
-                                                     
                                                     Give different permissions for sessions in this section
                                                 </a>      
                                         
@@ -741,6 +745,7 @@
                             <input data-original-title="Specify the role of this instructor in this course as shown to the students" class="form-control" name="instructordisplayname" placeholder="E.g.Co-lecturer, Teaching Assistant" value="Instructor" data-toggle="tooltip" data-placement="top" title="" disabled="" type="text">
                         </div>
                     </div>
+                    
                     <div id="accessControlInfoForInstr4">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Access Level:</label>
@@ -914,8 +919,7 @@
                                 </a>
                                 <br>
                                 
-                                <input name="instructorrole" id="instructorroleforinstructor6" value="Observer" type="radio">&nbsp;Observer: Can only view information(students, submissions, comments etc.).
-                                &nbsp;Cannot edit/delete/submit anything.
+                                <input name="instructorrole" id="instructorroleforinstructor6" value="Observer" type="radio">&nbsp;Observer: Can only view information(students, submissions, comments etc.).&nbsp;Cannot edit/delete/submit anything.
                                 <a href="javascript:;" onclick="showInstructorRoleModal(<'Observer')">
                                     View Details
                                 </a>
@@ -1013,6 +1017,7 @@
                                                         <p><strong> the instructor can only,</strong></p>
                                                     </div>
                                                 </div>
+                                                
                                                 <input name="issectiongroup0set" value="false" type="hidden">
                                             </div>
                                             
@@ -1030,6 +1035,7 @@
                                                     <input name="canviewsessioninsectionsectiongroup0" value="true" type="checkbox"> Sessions: View Responses and Comments<br>
                                                     <input name="canmodifysessioncommentinsectionsectiongroup0" value="true" type="checkbox"> Sessions: Edit/Delete Responses/Comments by Others<br><br>
                                                 </div>
+                                                
                                                 <a href="javascript:;" onclick="showTuneSessionnPermissionsDiv(6, 0)" id="toggleSessionLevelInSection0ForInstructor6" class="small col-sm-5">Give different permissions for sessions in this section</a>      
                                             
                                                 <div id="tuneSessionPermissionsDiv0ForInstructor6" class="row" style="display: none;">
@@ -1103,6 +1109,7 @@
                                                         <p><strong> the instructor can only,</strong></p>
                                                     </div>
                                                 </div>
+                                                
                                                 <input name="issectiongroup1set" value="false" type="hidden">
                                             </div>
                                             
@@ -1120,6 +1127,7 @@
                                                     <input name="canviewsessioninsectionsectiongroup1" value="true" type="checkbox"> Sessions: View Responses and Comments<br>
                                                     <input name="canmodifysessioncommentinsectionsectiongroup1" value="true" type="checkbox"> Sessions: Edit/Delete Responses/Comments by Others<br><br>
                                                 </div>
+                                                
                                                 <a href="javascript:;" onclick="showTuneSessionnPermissionsDiv(6, 1)" id="toggleSessionLevelInSection1ForInstructor6" class="small col-sm-5">Give different permissions for sessions in this section</a>      
                                             
                                                 <div id="tuneSessionPermissionsDiv1ForInstructor6" class="row" style="display: none;">
@@ -1193,6 +1201,7 @@
                                                         <p><strong> the instructor can only,</strong></p>
                                                     </div>
                                                 </div>
+                                                
                                                 <input name="issectiongroup2set" value="false" type="hidden">
                                             </div>
                                             
