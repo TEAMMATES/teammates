@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
