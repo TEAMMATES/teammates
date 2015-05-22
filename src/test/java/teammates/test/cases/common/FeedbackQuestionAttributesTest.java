@@ -54,24 +54,17 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
         assertFalse(fq.isValid());
 
-        String errorMessage = String.format(FEEDBACK_SESSION_NAME_ERROR_MESSAGE, fq.creatorEmail, REASON_EMPTY) + EOL +
-                              String.format(COURSE_ID_ERROR_MESSAGE, fq.courseId, REASON_EMPTY) + EOL +
-                              String.format("Invalid creator's email: " + EMAIL_ERROR_MESSAGE,
-                                            fq.creatorEmail, REASON_EMPTY) + EOL +
-                              String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
-                                            fq.giverType.toString(), GIVER_TYPE_NAME) + EOL +
-                              String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
-                                            fq.recipientType.toString(), RECIPIENT_TYPE_NAME) + EOL +
-                              String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
-                                            fq.showGiverNameTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL +
-                              "Trying to show giver name to STUDENTS without showing response first." + EOL +
-                              String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
-                                            fq.showRecipientNameTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL +
-                              "Trying to show recipient name to STUDENTS without showing response first." + EOL +
-                              String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
-                                            fq.showResponsesTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL +
-                              String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
-                                            fq.showResponsesTo.get(1).toString(), VIEWER_TYPE_NAME);
+        String errorMessage = String.format(FEEDBACK_SESSION_NAME_ERROR_MESSAGE, fq.creatorEmail, REASON_EMPTY) + EOL
+                              + String.format(COURSE_ID_ERROR_MESSAGE, fq.courseId, REASON_EMPTY) + EOL
+                              + String.format("Invalid creator's email: " + EMAIL_ERROR_MESSAGE, fq.creatorEmail, REASON_EMPTY) + EOL
+                              + String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.giverType.toString(), GIVER_TYPE_NAME) + EOL
+                              + String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.recipientType.toString(), RECIPIENT_TYPE_NAME) + EOL
+                              + String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showGiverNameTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL
+                              + "Trying to show giver name to STUDENTS without showing response first." + EOL
+                              + String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showRecipientNameTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL
+                              + "Trying to show recipient name to STUDENTS without showing response first." + EOL
+                              + String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,fq.showResponsesTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL
+                              + String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(1).toString(), VIEWER_TYPE_NAME);
 
         assertEquals(errorMessage, StringHelper.toString(fq.getInvalidityInfo()));
 
@@ -83,19 +76,13 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
         assertFalse(fq.isValid());
 
-        errorMessage = String.format(PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
-                                     fq.recipientType.toDisplayRecipientName(),
-                                     fq.giverType.toDisplayGiverName()) + EOL +
-                       String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
-                                     fq.showGiverNameTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL +
-                       "Trying to show giver name to STUDENTS without showing response first." + EOL +
-                       String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
-                                     fq.showRecipientNameTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL +
-                       "Trying to show recipient name to STUDENTS without showing response first." + EOL +
-                       String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
-                                     fq.showResponsesTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL +
-                       String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
-                                     fq.showResponsesTo.get(1).toString(), VIEWER_TYPE_NAME);
+        errorMessage = String.format(PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE, fq.recipientType.toDisplayRecipientName(), fq.giverType.toDisplayGiverName()) + EOL
+                       + String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showGiverNameTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL
+                       + "Trying to show giver name to STUDENTS without showing response first." + EOL
+                       + String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showRecipientNameTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL
+                       + "Trying to show recipient name to STUDENTS without showing response first." + EOL
+                       + String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL
+                       + String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(1).toString(), VIEWER_TYPE_NAME);
 
         assertEquals(errorMessage, StringHelper.toString(fq.getInvalidityInfo()));
 
@@ -103,19 +90,13 @@ public class FeedbackQuestionAttributesTest extends BaseTestCase {
 
         assertFalse(fq.isValid());
 
-        errorMessage = String.format(PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
-                                     fq.recipientType.toDisplayRecipientName(),
-                                     fq.giverType.toDisplayGiverName()) + EOL +
-                       String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
-                                     fq.showGiverNameTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL +
-                       "Trying to show giver name to STUDENTS without showing response first." + EOL +
-                       String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
-                                     fq.showRecipientNameTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL +
-                       "Trying to show recipient name to STUDENTS without showing response first." + EOL +
-                       String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
-                                     fq.showResponsesTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL +
-                       String.format(PARTICIPANT_TYPE_ERROR_MESSAGE,
-                                     fq.showResponsesTo.get(1).toString(), VIEWER_TYPE_NAME);
+        errorMessage = String.format(PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE, fq.recipientType.toDisplayRecipientName(), fq.giverType.toDisplayGiverName()) + EOL
+                       + String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showGiverNameTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL
+                       + "Trying to show giver name to STUDENTS without showing response first." + EOL
+                       + String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showRecipientNameTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL
+                       + "Trying to show recipient name to STUDENTS without showing response first." + EOL
+                       + String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(0).toString(), VIEWER_TYPE_NAME) + EOL
+                       + String.format(PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(1).toString(), VIEWER_TYPE_NAME);
 
         assertEquals(errorMessage, StringHelper.toString(fq.getInvalidityInfo()));
 

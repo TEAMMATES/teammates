@@ -35,7 +35,6 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         turnLoggingUp(FeedbackQuestionsDb.class);
     }
 
-
     @Test
     public void testCreateDeleteFeedbackQuestion() throws InvalidParametersException, EntityAlreadyExistsException {
 
@@ -51,10 +50,8 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
             fqDb.createEntity(fqa);
             signalFailureToDetectException();
         } catch (EntityAlreadyExistsException e) {
-            AssertHelper.assertContains(String.format(FeedbackQuestionsDb.
-                                                      ERROR_CREATE_ENTITY_ALREADY_EXISTS,
-                                                      fqa.getEntityTypeAsString()) +
-                                                      fqa.getIdentificationString(),
+            AssertHelper.assertContains(String.format(FeedbackQuestionsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS,
+                                                      fqa.getEntityTypeAsString()) + fqa.getIdentificationString(),
                                                       e.getMessage());
         }
 
@@ -256,8 +253,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         FeedbackQuestionAttributes invalidFqa = getNewFeedbackQuestionAttributes();
         fqDb.deleteEntity(invalidFqa);
         fqDb.createEntity(invalidFqa);
-        invalidFqa.setId(fqDb.getFeedbackQuestion(invalidFqa.feedbackSessionName,
-                                                  invalidFqa.courseId,
+        invalidFqa.setId(fqDb.getFeedbackQuestion(invalidFqa.feedbackSessionName, invalidFqa.courseId,
                                                   invalidFqa.questionNumber).getId());
         invalidFqa.creatorEmail = "haha";
 
@@ -342,7 +338,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
     private int[] createNewQuestionsForDifferentRecipientTypes() throws Exception {
 
-        int[] num = new int[] {
+        int[] numberOfQuestionsToCreate = new int[] {
                 2,
                 3,
                 1,
@@ -351,35 +347,36 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         FeedbackQuestionAttributes fqa;
 
-        for (int i = 1; i <= num[0]; i++) {
+        for (int i = 1; i <= numberOfQuestionsToCreate[0]; i++) {
             fqa = getNewFeedbackQuestionAttributes();
             fqa.questionNumber = i;
             fqa.giverType = FeedbackParticipantType.INSTRUCTORS;
             fqDb.createEntity(fqa);
         }
 
-        for (int i = 1; i <= num[1]; i++) {
+        for (int i = 1; i <= numberOfQuestionsToCreate[1]; i++) {
             fqa = getNewFeedbackQuestionAttributes();
-            fqa.questionNumber = num[0] + i;
+            fqa.questionNumber = numberOfQuestionsToCreate[0] + i;
             fqa.giverType = FeedbackParticipantType.STUDENTS;
             fqDb.createEntity(fqa);
         }
 
-        for (int i = 1; i <= num[2]; i++) {
+        for (int i = 1; i <= numberOfQuestionsToCreate[2]; i++) {
             fqa = getNewFeedbackQuestionAttributes();
             fqa.giverType = FeedbackParticipantType.SELF;
-            fqa.questionNumber = num[0] + num[1] + i;
+            fqa.questionNumber = numberOfQuestionsToCreate[0] + numberOfQuestionsToCreate[1] + i;
             fqDb.createEntity(fqa);
         }
 
-        for (int i = 1; i <= num[3]; i++) {
+        for (int i = 1; i <= numberOfQuestionsToCreate[3]; i++) {
             fqa = getNewFeedbackQuestionAttributes();
             fqa.giverType = FeedbackParticipantType.TEAMS;
-            fqa.questionNumber = num[0] + num[1] + num[2] + i;
+            fqa.questionNumber = numberOfQuestionsToCreate[0] + numberOfQuestionsToCreate[1]
+                                 + numberOfQuestionsToCreate[2] + i;
             fqDb.createEntity(fqa);
         }
 
-        return num;
+        return numberOfQuestionsToCreate;
     }
 
     private void deleteFeedbackQuestions(int numToDelete) {
