@@ -249,17 +249,15 @@
                                         <div class="col-sm-9">
                                             <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
                                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>">
-                                            &nbsp;Co-owner: Can do everything
-                                            &nbsp;
+                                            &nbsp;Co-owner: Can do everything&nbsp;
                                             <a href="javascript:;" onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>')">
                                                 View Details
                                             </a>
                                             <br>
-
+                                            
                                             <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
                                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>">
-                                            &nbsp;Manager: Can do everything except for deleting the course
-                                            &nbsp;
+                                            &nbsp;Manager: Can do everything except for deleting the course&nbsp;
                                             <a href="javascript:;" onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>')">
                                                 View Details
                                             </a>
@@ -267,9 +265,7 @@
                                             
                                             <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
                                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>">
-                                            &nbsp;Observer: Can only view information(students, submissions, comments etc.).
-                                            &nbsp;Cannot edit/delete/submit anything.
-                                            &nbsp;
+                                            &nbsp;Observer: Can only view information(students, submissions, comments etc.).&nbsp;Cannot edit/delete/submit anything.&nbsp;
                                             <a href="javascript:;" onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>')">
                                                 View Details
                                             </a>
@@ -277,8 +273,7 @@
                                             
                                             <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=index%>"
                                                     value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>">
-                                            &nbsp;Tutor: Can view student details, give/view comments, submit/view responses for sessions
-                                            &nbsp;
+                                            &nbsp;Tutor: Can view student details, give/view comments, submit/view responses for sessions&nbsp;
                                             <a href="javascript:;" onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>')">
                                                 View Details
                                             </a>
@@ -412,7 +407,7 @@
                                                                                                     <% if (sectionIdx + k == j) { %>
                                                                                                         checked="checked"
                                                                                                     <% } %> >
-                                                                                            <%=data.sectionNames.get(sectionIdx)%>
+                                                                                            <%=data.sectionNames.get(sectionIdx + k)%>
                                                                                         </div>
                                                                                     <%  } %>
                                                                                 </div>
@@ -649,7 +644,7 @@
                             </div>
                         </div>
                         
-                        <div id="accessControlEditDivForInstr<%=data.instructorList.size()+1%>">
+                        <div id="accessControlEditDivForInstr<%=data.instructorList.size() + 1%>">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">
                                     <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_IS_DISPLAYED_TO_STUDENT%>" value="true" checked="checked"
@@ -670,7 +665,7 @@
                                 
                                 <div class="col-sm-9">
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
-                                            id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
+                                            id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size() + 1%>"
                                             value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER%>" 
                                             checked="checked">
                                     &nbsp;Co-owner: Can do everything
@@ -680,7 +675,7 @@
                                     <br>
                                     
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
-                                            id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
+                                            id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size() + 1%>"
                                             value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>" >
                                     &nbsp;Manager: Can do everything except for deleting the course
                                     <a href="javascript:;" onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER%>')">
@@ -689,17 +684,16 @@
                                     <br>
                                     
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
-                                            id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
+                                            id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size() + 1%>"
                                             value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>">
-                                    &nbsp;Observer: Can only view information(students, submissions, comments etc.).
-                                    &nbsp;Cannot edit/delete/submit anything.
+                                    &nbsp;Observer: Can only view information(students, submissions, comments etc.).&nbsp;Cannot edit/delete/submit anything.
                                     <a href="javascript:;" onclick="showInstructorRoleModal(<'<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER%>')">
                                         View Details
                                     </a>
                                     <br>
                                     
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
-                                            id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
+                                            id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size() + 1%>"
                                             value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>">
                                     &nbsp;Tutor: Can view student details, give/view comments, submit/view responses for sessions
                                     <a href="javascript:;" onclick="showInstructorRoleModal('<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR%>')">
@@ -708,7 +702,7 @@
                                     <br>
                                     
                                     <input type="radio" name="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>" 
-                                            id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size()+1%>"
+                                            id="<%=Const.ParamsNames.INSTRUCTOR_ROLE_NAME%>forinstructor<%=data.instructorList.size() + 1%>"
                                             value="<%=Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM%>">
                                     &nbsp;Custom: No access by default. Any access needs to be granted explicitly.
                                 </div>
@@ -791,15 +785,15 @@
                                                                 <div class="col-sm-9">
                                                                     <% for (int sectionIdx = 0; sectionIdx < data.sectionNames.size(); sectionIdx += 3) { %>
                                                                         <div class="col-sm-12">
-                                                                            <% for (int k = 0; (k < 3) && (sectionIdx + k < data.sectionNames.size(); k++) { %>
+                                                                            <% for (int k = 0; (k < 3) && (sectionIdx + k < data.sectionNames.size()); k++) { %>
                                                                                 <div class="col-sm-4">
                                                                                     <input type="checkbox" 
-                                                                                            name="<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j + Const.ParamsNames.INSTRUCTOR_SECTION + sectionIdx%>"
-                                                                                            value="<%=data.sectionNames.get(sectionIdx)%>"
-                                                                                            <% if (sectionIdx == j) { %>
+                                                                                            name="<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j + Const.ParamsNames.INSTRUCTOR_SECTION + (sectionIdx + k)%>"
+                                                                                            value="<%=data.sectionNames.get(sectionIdx + k)%>"
+                                                                                            <% if (sectionIdx + k == j) { %>
                                                                                                 checked="checked"
                                                                                             <% } %> >
-                                                                                    <%=data.sectionNames.get(sectionIdx)%>
+                                                                                    <%=data.sectionNames.get(sectionIdx + k)%>
                                                                                 </div>
                                                                             <% } %>
                                                                         </div>
@@ -849,7 +843,7 @@
                                                                     class="small col-sm-5">
                                                                 Give different permissions for sessions in this section
                                                             </a>      
-                                                            <div id="tuneSessionPermissionsDiv<%=j%>ForInstructor<%=data.instructorList.size()+1%>" class="row" style="display: none;">
+                                                            <div id="tuneSessionPermissionsDiv<%=j%>ForInstructor<%=data.instructorList.size() + 1%>" class="row" style="display: none;">
                                                                 <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + j%>sessionsset" value="false"/>
                                                                 <table class="table table-striped">
                                                                     <thead>
