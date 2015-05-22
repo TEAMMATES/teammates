@@ -16,13 +16,13 @@ public class InstructorFeedbackPreviewAsInstructorAction extends Action {
 
         Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
                                                Const.ParamsNames.COURSE_ID), 
-                                 courseId);
+                                               courseId);
         Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
                                                Const.ParamsNames.FEEDBACK_SESSION_NAME),
-                                 feedbackSessionName);
+                                               feedbackSessionName);
         Assumption.assertNotNull(String.format(Const.StatusMessages.NULL_POST_PARAMETER_MESSAGE, 
                                                Const.ParamsNames.PREVIEWAS),
-                                 previewInstructorEmail);
+                                               previewInstructorEmail);
 
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId), 
@@ -32,34 +32,36 @@ public class InstructorFeedbackPreviewAsInstructorAction extends Action {
         InstructorAttributes previewInstructor = logic.getInstructorForEmail(courseId, previewInstructorEmail);
         
         if (previewInstructor == null) {
-            throw new EntityDoesNotExistException("Instructor Email "
-                    + previewInstructorEmail + " does not exist in " + courseId
-                    + ".");
+            throw new EntityDoesNotExistException("Instructor Email " +
+                      previewInstructorEmail + " does not exist in " + courseId +
+                      ".");
         }
         
         FeedbackSubmissionEditPageData data = new FeedbackSubmissionEditPageData(account, student);
         
         data.bundle = logic.getFeedbackSessionQuestionsBundleForInstructor(
-                feedbackSessionName, courseId, previewInstructor.email);
+                feedbackSessionName, 
+                courseId, 
+                previewInstructor.email);
         
         // the following condition is not tested as typically the GateKeeper above handles
         // the case and it wont happen
         if (data.bundle == null) {
-            throw new EntityDoesNotExistException("Feedback session "
-                    + feedbackSessionName + " does not exist in " + courseId
-                    + ".");
+            throw new EntityDoesNotExistException("Feedback session " +
+                      feedbackSessionName + " does not exist in " + courseId +
+                      ".");
         }
         
         data.isSessionOpenForSubmission = true;
         data.isPreview = true;
+        data.isHeaderHidden = true;
         data.previewInstructor = previewInstructor;
         data.bundle.resetAllResponses();
         
         statusToAdmin = "Preview feedback session as instructor (" + previewInstructor.email + ")<br>" +
-                "Session Name: " + feedbackSessionName + "<br>" +
-                "Course ID: " + courseId;
+                        "Session Name: " + feedbackSessionName + "<br>" +
+                        "Course ID: " + courseId;
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, data);
     }
-
 }

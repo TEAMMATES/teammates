@@ -28,7 +28,6 @@
             "email":"IESFPTCoursehelper3@course1.tmt",
             "institute":"TEAMMATES Test Institute 1"
         },
-        
         "student1InIESFPTCourse":{
             "googleId":"student1InIESFPTCourse",
             "name":"Student 1 in course IESFPTCourse",
@@ -61,8 +60,6 @@
             "name":"IESFPTCourse",
             "isArchived":false
         }
-        
-        
     },
     "instructors":{
         "IESFPTCourseinstr":{
@@ -108,8 +105,6 @@
             "displayedName":"Instructor Helper 3",
             "instructorPrivilegesAsText":"{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {\n    \"Section 2\": {\n      \"canviewstudentinsection\": false,\n      \"cangivecommentinsection\": false,\n      \"cansubmitsessioninsection\": false,\n      \"canmodifysessioncommentinsection\": false,\n      \"canmodifycommentinsection\": false,\n      \"canviewsessioninsection\": true,\n      \"canviewcommentinsection\": false\n    }\n  },\n  \"sessionLevel\": {\n    \"Section 2\": {\n      \"First feedback session\": {\n        \"cansubmitsessioninsection\": false,\n        \"canmodifysessioncommentinsection\": true,\n        \"canviewsessioninsection\": true\n      }\n    }\n  }\n}"
         }
-
-
     },
     "students":{
         "student1InCourse1":{
@@ -187,8 +182,6 @@
             "sentOpenEmail":true,
             "sentPublishedEmail":false
         }
-        
-        
     },
     "feedbackQuestions":{
         "qn1InSession1InCourse1":{
@@ -212,7 +205,6 @@
             "showRecipientNameTo":[
                 "INSTRUCTORS"
             ]
-            
         },
         "qn2InSession1InCourse1":{
             "feedbackSessionName":"First feedback session",
@@ -237,7 +229,6 @@
                 "INSTRUCTORS",
                 "RECEIVER"
             ]
-            
         }, 
         "qn3InSession1InCourse1":{
             "feedbackSessionName":"First feedback session",
@@ -261,7 +252,6 @@
                 "INSTRUCTORS",
                 "RECEIVER"
             ]
-            
         },
         "qn4InSession1InCourse1":{
             "feedbackSessionName":"First feedback session",
@@ -285,7 +275,6 @@
             "showRecipientNameTo":[
                 "RECEIVER"
             ]
-            
         },
         "qn5InSession1InCourse1":{
             "feedbackSessionName":"First feedback session",
@@ -308,7 +297,6 @@
             "showRecipientNameTo":[
                 "RECEIVER"
             ]
-            
         },
         "qn1InSession2InCourse1":{
             "feedbackSessionName":"Another feedback session",
@@ -333,7 +321,6 @@
                 "INSTRUCTORS",
                 "RECEIVER"
             ]
-            
         },
         "qn1InClosedsession":{
             "feedbackSessionName":"Closed feedback session",
@@ -358,10 +345,7 @@
                 "INSTRUCTORS",
                 "RECEIVER"
             ]
-            
         }
-       
-        
     },
     "feedbackResponses":{
         "response1ForQ1":{
@@ -398,11 +382,36 @@
             "giverEmail":"student1InIESFPTCourse@gmail.tmt",
             "recipientEmail":"student1InIESFPTCourse@gmail.tmt",
             "responseMetaData":{
-                "value":"response that should not be seen by instructors"
+                "value":"response whereby giver should not be seen by instructors"
             },
             "giverSection":"Section 1",
             "recipientSection":"Section 1" 
-            
+        },
+        "response1ForQ4":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"IESFPTCourse",
+            "feedbackQuestionId":"4",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"student1InIESFPTCourse@gmail.tmt",
+            "recipientEmail":"student1InIESFPTCourse@gmail.tmt",
+            "responseMetaData":{
+                "value":"response whereby receipient should not be seen by instructors"
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 1" 
+        },
+        "response1ForQ5":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"IESFPTCourse",
+            "feedbackQuestionId":"5",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"student1InIESFPTCourse@gmail.tmt",
+            "recipientEmail":"student1InIESFPTCourse@gmail.tmt",
+            "responseMetaData":{
+                "value":"response with everything should not be seen by instructors"
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 1" 
         },
         "response1ForS2Q1":{
             "feedbackSessionName":"Another feedback session",
@@ -416,7 +425,6 @@
             },
             "giverSection":"Section 1",
             "recipientSection":"Section 1" 
-            
         },
         "response2ForS2Q1":{
             "feedbackSessionName":"Another feedback session",
@@ -430,7 +438,6 @@
             },
             "giverSection":"Section 2",
             "recipientSection":"Section 2" 
-            
         },
         "response1ForQ1InClosedSession":{
             "feedbackSessionName":"Closed feedback session",
@@ -444,11 +451,6 @@
             },
             "giverSection":"Section 1",
             "recipientSection":"Section 1" 
-            
         }
-        
-        
     }
- 
-  
 }

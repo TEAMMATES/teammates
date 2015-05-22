@@ -38,11 +38,9 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
     
     @Test
     public void testAll() throws Exception {
-        
         testEditResponse();
         testAddResponse();
         testDeleteResponse();
-
     }
     
     public void testEditResponse() {
@@ -58,9 +56,8 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
         submitPage = loginToInstructorEditStudentFeedbackPage("IESFPTCourseinstr", "student1InIESFPTCourse@gmail.tmt", "session1InIESFPTCourse");
         submitPage.verifyHtml("/InstructorEditStudentFeedbackPageOpen.html");
         
-        
         submitPage.fillResponseTextBox(1, 0, "Good design");
-        submitPage.clickSubmitButton();        
+        submitPage.clickSubmitButton();
         assertEquals(submitPage.getStatus(), Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
         
         fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);
@@ -73,8 +70,8 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
     }
     
     private void testAddResponse() {
-        
         ______TS("test new response");
+        
         submitPage.fillResponseTextBox(2, 0, "4");
         submitPage.clickSubmitButton();        
         assertEquals(submitPage.getStatus(), Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
@@ -91,13 +88,13 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
     
     private void testDeleteResponse() {
         ______TS("test delete response");
+        
         submitPage.fillResponseTextBox(2, 0, "");
         
         submitPage.fillResponseTextBox(1, 0, "");
         submitPage.clickSubmitButton(); 
               
         assertEquals(submitPage.getStatus(), Const.StatusMessages.FEEDBACK_RESPONSES_SAVED);
-        
         
         FeedbackQuestionAttributes fq = BackDoor.getFeedbackQuestion("IESFPTCourse", "First feedback session", 1);
         FeedbackResponseAttributes fr = BackDoor.getFeedbackResponse(fq.getId(),
@@ -109,16 +106,15 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
                                           "student1InIESFPTCourse@gmail.tmt",
                                           "student1InIESFPTCourse@gmail.tmt");  
         assertNull(fr);
-        
     }
     
     private FeedbackSubmitPage loginToInstructorEditStudentFeedbackPage(
             String instructorName, String moderatedStudentEmail, String fsName) {
-        Url editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE)
-                .withUserId(testData.instructors.get(instructorName).googleId)
-                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName)
-                .withParam(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail);
+        Url editUrl = createUrl(Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_PAGE).
+                withUserId(testData.instructors.get(instructorName).googleId).
+                withCourseId(testData.feedbackSessions.get(fsName).courseId).
+                withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName).
+                withParam(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT, moderatedStudentEmail);
         
         return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
     }
@@ -127,6 +123,4 @@ public class InstructorEditStudentFeedbackPageUiTest extends BaseUiTestCase {
     public static void classTearDown() throws Exception {
         BrowserPool.release(browser);
     }
-    
-    
 }
