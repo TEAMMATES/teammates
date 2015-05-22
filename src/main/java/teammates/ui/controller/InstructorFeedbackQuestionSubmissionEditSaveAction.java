@@ -1,20 +1,18 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.FeedbackQuestionBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
-public class InstructorFeedbackQuestionSubmissionEditSaveAction extends
-        FeedbackQuestionSubmissionEditSaveAction {
+public class InstructorFeedbackQuestionSubmissionEditSaveAction extends FeedbackQuestionSubmissionEditSaveAction {
     @Override
     protected void verifyAccesibleForSpecificUser() {
-        new GateKeeper().verifyAccessible(
-                logic.getInstructorForGoogleId(courseId, account.googleId),
-                logic.getFeedbackSession(feedbackSessionName, courseId),
-                false);
+        new GateKeeper().verifyAccessible(logic.getInstructorForGoogleId(courseId, account.googleId),
+                                          logic.getFeedbackSession(feedbackSessionName, courseId),
+                                          false);
     }
 
     @Override
@@ -39,25 +37,25 @@ public class InstructorFeedbackQuestionSubmissionEditSaveAction extends
     protected String getUserEmailForCourse() {
         return logic.getInstructorForGoogleId(courseId, account.googleId).email;
     }
-    
-    @Override 
+
+    @Override
     protected String getUserSectionForCourse() {
         return Const.DEFAULT_SECTION;
     }
 
     @Override
-    protected FeedbackQuestionBundle getDataBundle(
+    protected FeedbackSessionQuestionsBundle getDataBundle(
             String userEmailForCourse) throws EntityDoesNotExistException {
-        return logic.getFeedbackQuestionBundleForInstructor(
-                feedbackSessionName, courseId, feedbackQuestionId, userEmailForCourse);
+        return logic.getFeedbackSessionQuestionsBundleForInstructor(
+                feedbackSessionName, courseId, userEmailForCourse);
     }
 
     @Override
     protected void setStatusToAdmin() {
         statusToAdmin = "Save question feedback and show instructor feedback question submission edit page<br>" +
-                "Question ID: " + feedbackQuestionId + "<br>" +
-                "Session Name: " + feedbackSessionName + "<br>" + 
-                "Course ID: " + courseId;
+                        "Question ID: " + feedbackQuestionId + "<br>" +
+                        "Session Name: " + feedbackSessionName + "<br>" +
+                        "Course ID: " + courseId;
     }
 
     @Override
@@ -68,5 +66,17 @@ public class InstructorFeedbackQuestionSubmissionEditSaveAction extends
     @Override
     protected ShowPageResult createSpecificShowPageResult() {
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, data);
+    }
+
+    @Override
+    protected RedirectResult createSpecificRedirectResult() {
+        RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE);
+        result.responseParams.put(Const.ParamsNames.COURSE_ID, courseId);
+        result.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                feedbackSessionName);
+       
+        result.responseParams.put(Const.ParamsNames.FEEDBACK_QUESTION_ID,
+                feedbackQuestionId);
+        return result;
     }
 }

@@ -7,9 +7,7 @@
 <%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
 <%@ page import="teammates.ui.controller.InstructorCoursesPageData"%>
-<%
-    InstructorCoursesPageData data = (InstructorCoursesPageData)request.getAttribute("data");
-%>
+<% InstructorCoursesPageData data = (InstructorCoursesPageData)request.getAttribute("data");%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,8 +29,8 @@
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]--> 
 </head>
 
@@ -72,7 +70,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-3 col-sm-9"><input id="btnAddCourse" type="submit" class="btn btn-primary"
-                                onclick="return verifyCourseData();" value="Add Course" tabindex="3">
+                            onclick="return verifyCourseData();" value="Add Course" tabindex="3">
                         </div>
                     </div>
                 </form>
@@ -106,15 +104,16 @@
                     <th>
                         Total Unregistered
                     </th>
-                    <th class="align-center no-print">Action(s)</th>
+                    <th class="align-center no-print">
+                        Action(s)
+                    </th>
                 </tr>
             </thead>
-            <%
-                int idx = -1;
-                for(CourseDetailsBundle courseDetails: data.allCourses){
+            <%  int idx = -1;
+                for (CourseDetailsBundle courseDetails : data.allCourses) {
                     InstructorAttributes instructor = data.instructors.get(courseDetails.course.id);
                     if (!data.isCourseArchived(courseDetails.course.id, instructor.googleId)) {
-                        idx++;
+                        idx++; 
             %>
                 <tr>
                     <td id="courseid<%=idx%>"><%=sanitizeForHtml(courseDetails.course.id)%></td>
@@ -127,39 +126,45 @@
                         <a class="btn btn-default btn-xs t_course_enroll<%=idx%>"
                             href="<%=data.getInstructorCourseEnrollLink(courseDetails.course.id)%>"
                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_ENROLL%>"
-                            <% 
-                               if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
-                                   disabled="disabled"
+                            <% if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {%>
+                                disabled="disabled"
                             <% } %>
-                            >
-                            Enroll</a>
+                        >
+                            Enroll
+                        </a>
                         <a class="btn btn-default btn-xs t_course_view<%=idx%>"
                             href="<%=data.getInstructorCourseDetailsLink(courseDetails.course.id)%>"
-                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_DETAILS%>">
-                            View</a>
+                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_DETAILS%>"
+                        >
+                            View
+                        </a>
                         <a class="btn btn-default btn-xs t_course_edit<%=idx%>"
                             href="<%=data.getInstructorCourseEditLink(courseDetails.course.id)%>"
-                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_EDIT%>">
-                            Edit</a>
+                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_EDIT%>"
+                        >
+                            Edit
+                        </a>
                         <a class="btn btn-default btn-xs t_course_archive<%=idx%>"
                             href="<%=data.getInstructorCourseArchiveLink(courseDetails.course.id, true, false)%>"
-                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_ARCHIVE%>">
-                            Archive</a>
+                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_ARCHIVE%>"
+                        >
+                            Archive
+                        </a>
                         <a class="btn btn-default btn-xs t_course_delete<%=idx%>"
                             href="<%=data.getInstructorCourseDeleteLink(courseDetails.course.id,false)%>"
                             onclick="return toggleDeleteCourseConfirmation('<%=courseDetails.course.id%>');"
                             data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_DELETE%>"
-                            <% if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {%>
-                                   disabled="disabled"
+                            <% if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) { %>
+                                disabled="disabled"
                             <% } %>
-                            >
-                            Delete</a>
+                        >
+                            Delete
+                        </a>
                     </td>
                 </tr>
-            <%
-                    }
+            <%      }
                 }
-                if(idx==-1){ // Print empty row
+                if (idx == -1){ // Print empty row
             %>
                 <tr>
                     <td></td>
@@ -169,84 +174,70 @@
                     <td></td>
                     <td></td>
                 </tr>
-            <%
-                }
-            %>
+            <% } %>
         </table>
         <br>
         <br>
-        <%
-            if(idx==-1){
-        %>
+        <% if (idx == -1) { %>
             No records found. <br>
             <br>
-        <%
-            }
-        %>
+        <% } %>
         <br>
         <br>
         
-        <%
-            if (!data.archivedCourses.isEmpty()) {
-        %>
+        <% if (!data.archivedCourses.isEmpty()) { %>
         
-        <h2 class="text-muted">Archived courses</h2>
+            <h2 class="text-muted">Archived courses</h2>
         
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr class="fill-default">
-                    <th onclick="toggleSort(this,1);" id="button_sortid" class="button-sort-none">
-                        Course ID<span class="icon-sort unsorted"></span>
-                    </th>
-                    <th onclick="toggleSort(this,2);" id="button_sortid" class="button-sort-none">
-                        Course Name<span class="icon-sort unsorted"></span>
-                    </th>
-                    <th class="align-center no-print">Action(s)</th>
-                </tr>
-            </thead>
-            <%
-                for (CourseAttributes course: data.archivedCourses) { 
-                    idx++;
-            %>
-                <tr>
-                    <td id="courseid<%=idx%>"><%=sanitizeForHtml(course.id)%></td>
-                    <td id="coursename<%=idx%>"><%=sanitizeForHtml(course.name)%></td>
-                    <td class="align-center no-print">
-                        <a class="btn btn-default btn-xs" id="t_course_unarchive<%=idx%>"
-                            href="<%=data.getInstructorCourseArchiveLink(course.id, false, false)%>">
-                            Unarchive</a>
-                        <a class="btn btn-default btn-xs" id="t_course_delete<%=idx%>"
-                            href="<%=data.getInstructorCourseDeleteLink(course.id,false)%>"
-                            onclick="return toggleDeleteCourseConfirmation('<%=course.id%>');"
-                            data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_DELETE%>"
-                            <% InstructorAttributes instructor = data.instructors.get(course.id);
-                               if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {%>
-                                   disabled="disabled"
-                            <% } %>
-                            >
-                            Delete</a>
-                    </td>
-                </tr>
-            <%
-                }
-                if(idx==-1){ // Print empty row
-            %>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            <%
-                }
-            %>
-        </table>
-        <br>
-        <br>
-        <br>
-        <br>
-        <%
-            }
-        %>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr class="fill-default">
+                        <th onclick="toggleSort(this,1);" id="button_sortid" class="button-sort-none">
+                            Course ID<span class="icon-sort unsorted"></span>
+                        </th>
+                        <th onclick="toggleSort(this,2);" id="button_sortid" class="button-sort-none">
+                            Course Name<span class="icon-sort unsorted"></span>
+                        </th>
+                        <th class="align-center no-print">Action(s)</th>
+                    </tr>
+                </thead>
+                <%  for (CourseAttributes course : data.archivedCourses) { 
+                        idx++;
+                %>
+                    <tr>
+                        <td id="courseid<%=idx%>"><%=sanitizeForHtml(course.id)%></td>
+                        <td id="coursename<%=idx%>"><%=sanitizeForHtml(course.name)%></td>
+                        <td class="align-center no-print">
+                            <a class="btn btn-default btn-xs" id="t_course_unarchive<%=idx%>"
+                                href="<%=data.getInstructorCourseArchiveLink(course.id, false, false)%>">
+                                Unarchive</a>
+                            <a class="btn btn-default btn-xs" id="t_course_delete<%=idx%>"
+                                href="<%=data.getInstructorCourseDeleteLink(course.id,false)%>"
+                                onclick="return toggleDeleteCourseConfirmation('<%=course.id%>');"
+                                data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COURSE_DELETE%>"
+                                <%  InstructorAttributes instructor = data.instructors.get(course.id);
+                                    if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) { %>
+                                       disabled="disabled"
+                                <%  } %>
+                                >
+                                Delete</a>
+                        </td>
+                    </tr>
+                <%  }
+                    if (idx == -1) { // Print empty row
+                %>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                <% } %>
+            </table>
+            <br>
+            <br>
+            <br>
+            <br>
+        <% } %>
     </div>
 
     <div id="frameBottom">

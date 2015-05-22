@@ -24,17 +24,16 @@ public class InstructorCourseDetailsPageAction extends Action {
         Assumption.assertNotNull(courseId);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        new GateKeeper().verifyAccessible(
-                instructor, logic.getCourse(courseId));
+        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
         
         /* Setup page data for the "Course Details" page */
         InstructorCourseDetailsPageData data = new InstructorCourseDetailsPageData(account);
 
-        
-        if(isHtmlTableNeeded){
-            data.studentListHtmlTableAsString = StringHelper.csvToHtmlTable(logic.getCourseStudentListAsCsv(courseId, account.googleId));            
+        if (isHtmlTableNeeded) {
+            data.studentListHtmlTableAsString = StringHelper.csvToHtmlTable(
+                                                    logic.getCourseStudentListAsCsv(courseId, account.googleId));            
             statusToAdmin = "instructorCourseDetails Page Ajax Html table Load<br>" 
-                          + "Viewing Student List Table for Course <span class=\"bold\">[" + courseId + "]</span>";
+                            + "Viewing Student List Table for Course <span class=\"bold\">[" + courseId + "]</span>";
             return createAjaxResult(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS, data);
         } else {
             data.studentListHtmlTableAsString = "";
@@ -48,7 +47,7 @@ public class InstructorCourseDetailsPageAction extends Action {
         StudentAttributes.sortByNameAndThenByEmail(data.students);
         
         statusToAdmin = "instructorCourseDetails Page Load<br>" 
-                + "Viewing Course Details for Course <span class=\"bold\">[" + courseId + "]</span>";
+                        + "Viewing Course Details for Course <span class=\"bold\">[" + courseId + "]</span>";
         
         ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS, data);   
         return response;
