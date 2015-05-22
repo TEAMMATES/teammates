@@ -420,8 +420,10 @@ public class BackDoorTest extends BaseTestCase {
 
 
     private void verifyPresentInDatastore(StudentAttributes expectedStudent) {
-        String studentJsonString = BackDoor.getStudentAsJson(
-                expectedStudent.course, expectedStudent.email);
+        String studentJsonString = "null";
+        while (studentJsonString.equals("null")) {
+            studentJsonString = BackDoor.getStudentAsJson(expectedStudent.course, expectedStudent.email);
+        }
         StudentAttributes actualStudent = gson.fromJson(studentJsonString,
                 StudentAttributes.class);
         equalizeIrrelevantData(expectedStudent, actualStudent);
@@ -430,7 +432,10 @@ public class BackDoorTest extends BaseTestCase {
     }
 
     private void verifyPresentInDatastore(CourseAttributes expectedCourse) {
-        String courseJsonString = BackDoor.getCourseAsJson(expectedCourse.id);
+        String courseJsonString = "null";
+        while (courseJsonString.equals("null")) {
+            courseJsonString = BackDoor.getCourseAsJson(expectedCourse.id);
+        }
         CourseAttributes actualCourse = gson.fromJson(courseJsonString,
                 CourseAttributes.class);
         // Ignore time field as it is stamped at the time of creation in testing
@@ -439,7 +444,10 @@ public class BackDoorTest extends BaseTestCase {
     }
 
     private void verifyPresentInDatastore(InstructorAttributes expectedInstructor) {
-        String instructorJsonString = BackDoor.getInstructorAsJsonByEmail(expectedInstructor.email, expectedInstructor.courseId);
+        String instructorJsonString = "null";
+        while (instructorJsonString.equals("null")) {
+            instructorJsonString = BackDoor.getInstructorAsJsonByEmail(expectedInstructor.email, expectedInstructor.courseId);
+        }
         InstructorAttributes actualInstructor = gson.fromJson(instructorJsonString, InstructorAttributes.class);
         
         equalizeIrrelevantData(expectedInstructor, actualInstructor);
