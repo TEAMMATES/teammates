@@ -54,13 +54,12 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         InstructorFeedbackPublishAction publishAction = getAction(paramsNormal);
         RedirectResult result = (RedirectResult) publishAction.executeAndPostProcess();
         
-        String expectedDestination = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE +
-                                     "?error=false" +
-                                     "&user=idOfInstructor1OfCourse1";
+        String expectedDestination = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE
+                                     + "?error=false"
+                                     + "&user=idOfInstructor1OfCourse1";
         
         assertEquals(expectedDestination, result.getDestinationWithParams());
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED,
-                     result.getStatusMessage());
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED, result.getStatusMessage());
         assertFalse(result.isError);
         
         ______TS("Unsuccessful case 1: params with null course id");
@@ -98,9 +97,9 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         publishAction = getAction(paramsNormal);
         result = (RedirectResult) publishAction.executeAndPostProcess();
         
-        expectedDestination = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE +
-                              "?error=true" +
-                              "&user=idOfInstructor1OfCourse1";
+        expectedDestination = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE
+                              + "?error=true"
+                              + "&user=idOfInstructor1OfCourse1";
         
         assertEquals(expectedDestination, result.getDestinationWithParams());
         assertEquals("Session is already published.", result.getStatusMessage());

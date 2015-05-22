@@ -16,10 +16,9 @@ import teammates.storage.entity.Instructor;
  * The data transfer class for Instructor entities.
  */
 public class InstructorAttributes extends EntityAttributes {
-    
     private static Gson gson = Utils.getTeammatesGson();
     
-    //Note: be careful when changing these variables as their names are used in *.json files.
+    // Note: be careful when changing these variables as their names are used in *.json files.
     public String googleId;
     public String name;
     public String email;
@@ -29,6 +28,7 @@ public class InstructorAttributes extends EntityAttributes {
     public String role;
     public boolean isDisplayedToStudents;
     public String displayedName;
+    
     /**
      * The json representation of privileges, used for storing the 
      * instructorPrivilege content in instructor entity
@@ -66,7 +66,7 @@ public class InstructorAttributes extends EntityAttributes {
      * @param instructorPrivilegesAsText
      */
     public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
-            String displayedName, String instructorPrivilegesAsText) {        
+                                String displayedName, String instructorPrivilegesAsText) {        
         this.googleId = Sanitizer.sanitizeGoogleId(googleId);
         this.courseId = Sanitizer.sanitizeTitle(courseId);
         this.isArchived = false;
@@ -91,7 +91,7 @@ public class InstructorAttributes extends EntityAttributes {
      * @param privileges
      */
     public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
-            String displayedName, InstructorPrivileges privileges) {        
+                                String displayedName, InstructorPrivileges privileges) {        
         this.googleId = Sanitizer.sanitizeGoogleId(googleId);
         this.courseId = Sanitizer.sanitizeTitle(courseId);
         this.isArchived = false;
@@ -117,7 +117,7 @@ public class InstructorAttributes extends EntityAttributes {
      * @param privileges
      */
     public InstructorAttributes(String googleId, String courseId, String name, String email, String role,
-            boolean isDisplayedToStudents, String displayName, InstructorPrivileges privileges) {
+                                boolean isDisplayedToStudents, String displayName, InstructorPrivileges privileges) {
         this(googleId, courseId, name, email, role, displayName, privileges);
         this.isDisplayedToStudents = isDisplayedToStudents;
         this.isArchived = false;
@@ -162,7 +162,7 @@ public class InstructorAttributes extends EntityAttributes {
     
     @Deprecated
     public InstructorAttributes() {
-        
+        // To check during review, why not private it
     }
     
     public String getTextFromInstructorPrivileges() {
@@ -179,9 +179,11 @@ public class InstructorAttributes extends EntityAttributes {
 
     public Instructor toEntity() {
         if (key != null) {
-            return new Instructor(googleId, courseId, name, email, key, role, isDisplayedToStudents, displayedName, instructorPrivilegesAsText);
+            return new Instructor(googleId, courseId, name, email, key, role,
+                                  isDisplayedToStudents, displayedName, instructorPrivilegesAsText);
         } else {
-            return new Instructor(googleId, courseId, isArchived, name, email, role,isDisplayedToStudents, displayedName, instructorPrivilegesAsText);
+            return new Instructor(googleId, courseId, isArchived, name, email, role,
+                                  isDisplayedToStudents, displayedName, instructorPrivilegesAsText);
         }
     }
 
@@ -192,30 +194,20 @@ public class InstructorAttributes extends EntityAttributes {
         
         if (googleId != null) {
             error = validator.getInvalidityInfo(FieldType.GOOGLE_ID, googleId);
-            if (!error.isEmpty()) {
-                errors.add(error);
-            }
+            if (!error.isEmpty()) { errors.add(error); }
         }
         
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        if (!error.isEmpty()) { errors.add(error); }
         
         error = validator.getInvalidityInfo(FieldType.PERSON_NAME, name);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        if (!error.isEmpty()) { errors.add(error); }
         
         error = validator.getInvalidityInfo(FieldType.EMAIL, email);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        if (!error.isEmpty()) { errors.add(error); }
         
         error = validator.getInvalidityInfo(FieldType.PERSON_NAME, displayedName);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+        if (!error.isEmpty()) { errors.add(error); }
         
         return errors;
     }
@@ -299,8 +291,8 @@ public class InstructorAttributes extends EntityAttributes {
         if (gson.toJson(this).equals(gson.toJson(instructor))) {
             return true;
         } else {
-            return !this.instructorPrivilegesAsText.equals(instructor.instructorPrivilegesAsText) && 
-                   this.privileges.equals(instructor.privileges);
+            return !this.instructorPrivilegesAsText.equals(instructor.instructorPrivilegesAsText) 
+                   && this.privileges.equals(instructor.privileges);
         }
     }
 }

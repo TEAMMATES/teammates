@@ -22,23 +22,22 @@ public class InstructorFeedbackPublishAction extends InstructorFeedbacksPageActi
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         boolean isCreatorOnly = false;
         
-        new GateKeeper().verifyAccessible(instructor,
-                                          session,
-                                          isCreatorOnly,
+        new GateKeeper().verifyAccessible(instructor, session, isCreatorOnly,
                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         try {
             logic.publishFeedbackSession(feedbackSessionName, courseId);
             
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_PUBLISHED);
-            statusToAdmin = "Feedback Session <span class=\"bold\">(" + feedbackSessionName + ")</span> " +
-                            "for Course <span class=\"bold\">[" + courseId + "]</span> published.";
+            statusToAdmin = "Feedback Session <span class=\"bold\">(" + feedbackSessionName + ")</span> "
+                            + "for Course <span class=\"bold\">[" + courseId + "]</span> published.";
         } catch (InvalidParametersException e) {
             setStatusForException(e);
         }
         
-        nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE 
-                                  : nextUrl;
+        nextUrl = nextUrl == null 
+                ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE 
+                : nextUrl;
         
         return createRedirectResult(nextUrl);
     }
