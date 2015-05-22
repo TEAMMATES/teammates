@@ -52,6 +52,7 @@ public class InstructorFeedbackPreviewAsStudentAction extends Action {
         
         data.isSessionOpenForSubmission = true;
         data.isPreview = true;
+        data.isHeaderHidden = true;
         data.studentToViewPageAs = previewStudent;
         data.bundle.resetAllResponses();
 

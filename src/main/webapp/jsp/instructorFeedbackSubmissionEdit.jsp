@@ -40,11 +40,11 @@
 
     <body>
         <%
-            if (!data.isPreview) {
+            if (!data.isHeaderHidden) {
         %>
                 <jsp:include page="<%= Const.ViewURIs.INSTRUCTOR_HEADER %>" />
         <%
-            } else {
+            } else if (data.isPreview) {
         %>
             <nav class="navbar navbar-default navbar-fixed-top">
                 <h3 class="text-center">Previewing Session as Instructor <%= data.previewInstructor.name %> (<%= data.previewInstructor.email %>)</h3>

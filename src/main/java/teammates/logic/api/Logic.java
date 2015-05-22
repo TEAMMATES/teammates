@@ -1463,6 +1463,17 @@ public class Logic {
         return feedbackSessionsLogic.getFeedbackSessionQuestionsForInstructor(feedbackSessionName, courseId, userEmail);
     }
     
+    public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsBundleForInstructor(
+            String feedbackSessionName, String courseId, String questionId, String userEmail)
+                throws EntityDoesNotExistException{
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+        
+        return feedbackSessionsLogic.getFeedbackSessionQuestionsForInstructor(feedbackSessionName, courseId, questionId, userEmail);
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null. <br>
@@ -1480,6 +1491,17 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
         
         return feedbackSessionsLogic.getFeedbackSessionQuestionsForStudent(feedbackSessionName, courseId, userEmail);
+    }
+    
+    public FeedbackSessionQuestionsBundle getFeedbackSessionQuestionsBundleForStudent(
+            String feedbackSessionName, String courseId, String questionId, String userEmail)
+                throws EntityDoesNotExistException{
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
+        
+        return feedbackSessionsLogic.getFeedbackSessionQuestionsForStudent(feedbackSessionName, courseId, questionId, userEmail);
     }
 
     public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackSessionName, 
@@ -1501,44 +1523,6 @@ public class Logic {
         return feedbackQuestionsLogic.getFeedbackQuestion(feedbackQuestionId);
     }
     
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     * 
-     */
-    public FeedbackQuestionBundle getFeedbackQuestionBundleForInstructor(String feedbackSessionName,
-                                                                         String courseId, 
-                                                                         String feedbackQuestionId, 
-                                                                         String userEmail)
-            throws EntityDoesNotExistException {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestionId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
-        
-        return feedbackQuestionsLogic.getFeedbackQuestionBundleForInstructor(feedbackSessionName, courseId, feedbackQuestionId, userEmail);
-    }
-    
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null. <br>
-     * 
-     */
-    public FeedbackQuestionBundle getFeedbackQuestionBundleForStudent(String feedbackSessionName,
-                                                                      String courseId, 
-                                                                      String feedbackQuestionId, 
-                                                                      String userEmail)
-            throws EntityDoesNotExistException {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestionId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
-        
-        return feedbackQuestionsLogic.getFeedbackQuestionBundleForStudent(feedbackSessionName, 
-                                                                          courseId, 
-                                                                          feedbackQuestionId, 
-                                                                          userEmail);
-    }
     
     /**
      * Generates summary results (without comments) in CSV format. <br>

@@ -30,9 +30,9 @@ public class FeedbackQuestionSubmitPage extends AppPage {
         return isCorrectCourseId && isCorrectFeedbackSessionName && containsExpectedPageContents();
     }
 
-    public void fillResponseTextBox(int responseNumber, String text) {
+    public void fillResponseTextBox(int questionNumber, int responseNumber, String text) {
         WebElement element = browser.driver.findElement(
-                By.name(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-" + responseNumber));
+                By.name(Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + questionNumber + "-" + responseNumber));
         fillTextBox(element, text);
     }
     
