@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.SessionAttributes;
@@ -52,7 +52,7 @@ public class InstructorStudentRecordsPageAction extends Action {
         
         data.showCommentBox = showCommentBox;
         if(targetSessionName.isEmpty()){
-            data.comments = logic.getCommentsForReceiver(courseId, instructor.email, CommentRecipientType.PERSON, studentEmail);
+            data.comments = logic.getCommentsForReceiver(courseId, instructor.email, CommentParticipantType.PERSON, studentEmail);
         } else {
             data.comments = new ArrayList<CommentAttributes>();
         }

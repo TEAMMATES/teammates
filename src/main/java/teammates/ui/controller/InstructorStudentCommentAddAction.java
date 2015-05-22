@@ -9,7 +9,7 @@ import java.util.List;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.CourseAttributes;
@@ -91,13 +91,13 @@ public class InstructorStudentCommentAddAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         CourseAttributes course = logic.getCourse(courseId);
         String recipientType = getRequestParamValue(Const.ParamsNames.RECIPIENT_TYPE);
-        CommentRecipientType commentRecipientType = recipientType == null ? CommentRecipientType.PERSON : CommentRecipientType.valueOf(recipientType);
+        CommentParticipantType commentRecipientType = recipientType == null ? CommentParticipantType.PERSON : CommentParticipantType.valueOf(recipientType);
         String recipients = getRequestParamValue(Const.ParamsNames.RECIPIENTS);
-        if (commentRecipientType == CommentRecipientType.COURSE) {
+        if (commentRecipientType == CommentParticipantType.COURSE) {
             new GateKeeper().verifyAccessible(instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
-        } else if (commentRecipientType == CommentRecipientType.SECTION) {
+        } else if (commentRecipientType == CommentParticipantType.SECTION) {
             new GateKeeper().verifyAccessible(instructor, course, recipients, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
-        } else if (commentRecipientType == CommentRecipientType.TEAM) {
+        } else if (commentRecipientType == CommentParticipantType.TEAM) {
             List<StudentAttributes> students = logic.getStudentsForTeam(recipients, courseId);
             if (students.isEmpty()) { // considered as a serious bug in coding or user submitted corrupted data
                 Assumption.fail();
@@ -132,7 +132,7 @@ public class InstructorStudentCommentAddAction extends Action {
         
         comment.courseId = courseId;
         comment.giverEmail = instructorDetailForCourse.email;
-        comment.recipientType = recipientType == null ? CommentRecipientType.PERSON : CommentRecipientType.valueOf(recipientType);
+        comment.recipientType = recipientType == null ? CommentParticipantType.PERSON : CommentParticipantType.valueOf(recipientType);
         comment.recipients = new HashSet<String>();
         if(recipients != null && !recipients.isEmpty()){
             String[] recipientsArray = recipients.split(",");
@@ -144,27 +144,27 @@ public class InstructorStudentCommentAddAction extends Action {
         }
         comment.status = CommentStatus.FINAL;
         
-        comment.showCommentTo = new ArrayList<CommentRecipientType>();
+        comment.showCommentTo = new ArrayList<CommentParticipantType>();
         if(showCommentTo != null && !showCommentTo.isEmpty()){
             String[] showCommentToArray = showCommentTo.split(",");
             for(String sct : showCommentToArray){
-                comment.showCommentTo.add(CommentRecipientType.valueOf(sct.trim()));
+                comment.showCommentTo.add(CommentParticipantType.valueOf(sct.trim()));
             }
         }
         
-        comment.showGiverNameTo = new ArrayList<CommentRecipientType>();
+        comment.showGiverNameTo = new ArrayList<CommentParticipantType>();
         if(showGiverTo != null && !showGiverTo.isEmpty()){
             String[] showGiverToArray = showGiverTo.split(",");
             for(String sgt : showGiverToArray){
-                comment.showGiverNameTo.add(CommentRecipientType.valueOf(sgt.trim()));
+                comment.showGiverNameTo.add(CommentParticipantType.valueOf(sgt.trim()));
             }
         }
         
-        comment.showRecipientNameTo = new ArrayList<CommentRecipientType>();
+        comment.showRecipientNameTo = new ArrayList<CommentParticipantType>();
         if(showRecipientTo != null && !showRecipientTo.isEmpty()){
             String[] showRecipientToArray = showRecipientTo.split(",");
             for(String srt : showRecipientToArray){
-                comment.showRecipientNameTo.add(CommentRecipientType.valueOf(srt.trim()));
+                comment.showRecipientNameTo.add(CommentParticipantType.valueOf(srt.trim()));
             }
         }
         
@@ -180,10 +180,10 @@ public class InstructorStudentCommentAddAction extends Action {
 
     private boolean isCommentPublicToRecipient(CommentAttributes comment) {
         return comment.showCommentTo != null
-                && (comment.isVisibleTo(CommentRecipientType.PERSON)
-                    || comment.isVisibleTo(CommentRecipientType.TEAM)
-                    || comment.isVisibleTo(CommentRecipientType.SECTION)
-                    || comment.isVisibleTo(CommentRecipientType.COURSE));
+                && (comment.isVisibleTo(CommentParticipantType.PERSON)
+                    || comment.isVisibleTo(CommentParticipantType.TEAM)
+                    || comment.isVisibleTo(CommentParticipantType.SECTION)
+                    || comment.isVisibleTo(CommentParticipantType.COURSE));
     }
     
     public String getCourseStudentDetailsLink(String courseId, String studentEmail){

@@ -2,7 +2,7 @@
 <%@page import="java.util.Map"%>
 <%@page import="teammates.common.datatransfer.InstructorAttributes"%>
 <%@page import="teammates.common.datatransfer.CommentAttributes"%>
-<%@page import="teammates.common.datatransfer.CommentRecipientType"%>
+<%@page import="teammates.common.datatransfer.CommentParticipantType"%>
 <%@page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
@@ -110,7 +110,7 @@
                             </div>
                             <ul class="list-group comments">
                                 <%
-                                	CommentRecipientType recipientTypeForThisRecipient = CommentRecipientType.PERSON;//default value is PERSON
+                                	CommentParticipantType recipientTypeForThisRecipient = CommentParticipantType.PERSON;//default value is PERSON
                                                                     commentIdx++;
                                                                     recipientTypeForThisRecipient = comment.recipientType;
                                 %>

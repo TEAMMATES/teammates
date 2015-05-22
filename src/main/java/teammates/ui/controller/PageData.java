@@ -11,7 +11,7 @@ import java.util.TimeZone;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
@@ -776,9 +776,9 @@ public class PageData {
      */
     public String getTypeOfPeopleCanViewComment(CommentAttributes comment) {
         StringBuilder peopleCanView = new StringBuilder();
-        for (int i = 0; i < comment.showCommentTo.size(); i++) {
-            CommentRecipientType commentViewer = comment.showCommentTo.get(i);
-            if (i == comment.showCommentTo.size() - 1 && comment.showCommentTo.size() > 1) {
+        for(int i = 0; i < comment.showCommentTo.size(); i++){
+            CommentParticipantType commentViewer = comment.showCommentTo.get(i);
+            if(i == comment.showCommentTo.size() - 1 && comment.showCommentTo.size() > 1) {
                 peopleCanView.append("and ");
             }
             
@@ -787,21 +787,21 @@ public class PageData {
                 peopleCanView.append("recipient, ");
                 break;
             case TEAM :
-                if (comment.recipientType == CommentRecipientType.TEAM) {
+                if(comment.recipientType == CommentParticipantType.TEAM) {
                     peopleCanView.append("recipient team, ");
                 } else {
                     peopleCanView.append("recipient's team, ");
                 }
                 break;
             case SECTION :
-                if (comment.recipientType == CommentRecipientType.SECTION) {
+                if(comment.recipientType == CommentParticipantType.SECTION) {
                     peopleCanView.append("recipient section, ");
                 } else {
                     peopleCanView.append("recipient's section, ");
                 }
                 break;
             case COURSE :
-                if (comment.recipientType == CommentRecipientType.COURSE) {
+                if(comment.recipientType == CommentParticipantType.COURSE) {
                     peopleCanView.append("the whole class, ");
                 } else {
                     peopleCanView.append("other students in this course, ");
