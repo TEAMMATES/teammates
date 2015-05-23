@@ -162,7 +162,7 @@ public class InstructorAttributes extends EntityAttributes {
     
     @Deprecated
     public InstructorAttributes() {
-        // To check during review, why not private it
+
     }
     
     public String getTextFromInstructorPrivileges() {

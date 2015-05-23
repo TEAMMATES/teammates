@@ -97,8 +97,7 @@ public class InstructorFeedbackPublishActionTest extends BaseActionTest {
         publishAction = getAction(paramsNormal);
         result = (RedirectResult) publishAction.executeAndPostProcess();
         
-        expectedDestination = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE
-                              + "?error=true"
+        expectedDestination = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + "?error=true"
                               + "&user=idOfInstructor1OfCourse1";
         
         assertEquals(expectedDestination, result.getDestinationWithParams());
