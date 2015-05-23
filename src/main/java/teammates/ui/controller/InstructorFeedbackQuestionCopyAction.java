@@ -27,10 +27,8 @@ public class InstructorFeedbackQuestionCopyAction extends Action {
             statusToAdmin = "";
 
             while (feedbackQuestionId != null) {
-                FeedbackQuestionAttributes feedbackQuestion = logic.copyFeedbackQuestion(feedbackQuestionId,
-                                                                                         feedbackSessionName,
-                                                                                         courseId,
-                                                                                         instructorEmail);
+                FeedbackQuestionAttributes feedbackQuestion = 
+                        logic.copyFeedbackQuestion(feedbackQuestionId, feedbackSessionName, courseId, instructorEmail);
 
                 index++;
 

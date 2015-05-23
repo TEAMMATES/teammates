@@ -154,8 +154,9 @@ public class InstructorFeedbackQuestionEditAction extends Action {
                                                                       Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull("Null course id", newQuestion.courseId);
         
-        newQuestion.feedbackSessionName = HttpRequestHelper.getValueFromParamMap(
-                requestParameters, Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        newQuestion.feedbackSessionName = 
+                HttpRequestHelper.getValueFromParamMap(requestParameters, 
+                                                       Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertNotNull("Null feedback session name", newQuestion.feedbackSessionName);
         
         // TODO thoroughly investigate when and why these parameters can be null
@@ -180,22 +181,25 @@ public class InstructorFeedbackQuestionEditAction extends Action {
         }
         
         // Can be null
-        String recipientType = HttpRequestHelper.getValueFromParamMap(
-                                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE);
+        String recipientType = 
+                HttpRequestHelper.getValueFromParamMap(requestParameters, 
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE);
         if (recipientType != null) {
             newQuestion.recipientType = FeedbackParticipantType.valueOf(recipientType);
         }
 
-        String questionNumber = HttpRequestHelper.getValueFromParamMap(requestParameters,
-                                                                       Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
+        String questionNumber = 
+                HttpRequestHelper.getValueFromParamMap(requestParameters,
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
         Assumption.assertNotNull("Null question number", questionNumber);
         newQuestion.questionNumber = Integer.parseInt(questionNumber);
         // 0 for no change in question number.
         Assumption.assertTrue("Invalid question number", newQuestion.questionNumber >= 0);
         
         // Can be null
-        String nEntityTypes = HttpRequestHelper.getValueFromParamMap(
-                                requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
+        String nEntityTypes = 
+                HttpRequestHelper.getValueFromParamMap(requestParameters, 
+                                                       Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
         
         if (numberOfEntitiesIsUserDefined(newQuestion.recipientType, nEntityTypes)) {
             String nEntities;

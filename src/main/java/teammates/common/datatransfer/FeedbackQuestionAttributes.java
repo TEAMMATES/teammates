@@ -34,7 +34,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public List<FeedbackParticipantType> showRecipientNameTo;
 
     public FeedbackQuestionAttributes() {
-        // TODO: check whether we should make this private and enforce non-instantiability via this method
+        
     }
 
     public FeedbackQuestionAttributes(FeedbackQuestion fq) {
@@ -54,14 +54,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     }
 
     public FeedbackQuestionAttributes(String feedbackSessionName, String courseId, String creatorEmail,
-                                      Text questionMetaData, int questionNumber,
-                                      FeedbackQuestionType questionType,
-                                      FeedbackParticipantType giverType,
-                                      FeedbackParticipantType recipientType,
-                                      int numberOfEntitiesToGiveFeedbackTo,
-                                      List<FeedbackParticipantType> showResponsesTo,
-                                      List<FeedbackParticipantType> showGiverNameTo,
-                                      List<FeedbackParticipantType> showRecipientNameTo) {
+                   Text questionMetaData, int questionNumber, FeedbackQuestionType questionType,
+                   FeedbackParticipantType giverType, FeedbackParticipantType recipientType,
+                   int numberOfEntitiesToGiveFeedbackTo, List<FeedbackParticipantType> showResponsesTo,
+                   List<FeedbackParticipantType> showGiverNameTo,
+                   List<FeedbackParticipantType> showRecipientNameTo) {
         this.feedbackSessionName = Sanitizer.sanitizeTitle(feedbackSessionName);
         this.courseId = Sanitizer.sanitizeTitle(courseId);
         this.creatorEmail = Sanitizer.sanitizeGoogleId(creatorEmail);
@@ -290,39 +287,29 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((courseId == null) ? 0
-                                                      : courseId.hashCode());
+        result = prime * result + ((courseId == null) ? 0 : courseId.hashCode());
 
-        result = prime * result + ((creatorEmail == null) ? 0
-                                                          : creatorEmail.hashCode());
+        result = prime * result + ((creatorEmail == null) ? 0 : creatorEmail.hashCode());
 
-        result = prime * result + ((feedbackSessionName == null) ? 0
-                                                                 : feedbackSessionName.hashCode());
+        result = prime * result + ((feedbackSessionName == null) ? 0 : feedbackSessionName.hashCode());
 
-        result = prime * result + ((giverType == null) ? 0
-                                                       : giverType.hashCode());
+        result = prime * result + ((giverType == null) ? 0 : giverType.hashCode());
 
         result = prime * result + numberOfEntitiesToGiveFeedbackTo;
 
         result = prime * result + questionNumber;
 
-        result = prime * result + ((questionMetaData == null) ? 0
-                                                              : questionMetaData.hashCode());
+        result = prime * result + ((questionMetaData == null) ? 0 : questionMetaData.hashCode());
 
-        result = prime * result + ((questionType == null) ? 0
-                                                          : questionType.hashCode());
+        result = prime * result + ((questionType == null) ? 0 : questionType.hashCode());
 
-        result = prime * result + ((recipientType == null) ? 0
-                                                           : recipientType.hashCode());
+        result = prime * result + ((recipientType == null) ? 0 : recipientType.hashCode());
 
-        result = prime * result + ((showGiverNameTo == null) ? 0
-                                                             : showGiverNameTo.hashCode());
+        result = prime * result + ((showGiverNameTo == null) ? 0 : showGiverNameTo.hashCode());
 
-        result = prime * result + ((showRecipientNameTo == null) ? 0
-                                                                 : showRecipientNameTo.hashCode());
+        result = prime * result + ((showRecipientNameTo == null) ? 0 : showRecipientNameTo.hashCode());
 
-        result = prime * result + ((showResponsesTo == null) ? 0
-                                                             : showResponsesTo.hashCode());
+        result = prime * result + ((showResponsesTo == null) ? 0 : showResponsesTo.hashCode());
 
         return result;
     }
