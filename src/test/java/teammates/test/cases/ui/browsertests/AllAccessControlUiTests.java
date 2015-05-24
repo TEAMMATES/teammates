@@ -268,12 +268,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         verifyRedirectToNotAuthorized();
     }
 
-    private void verifyPageContains(String path, String targetText) {
-        printUrl(appUrl + path);
-        currentPage.navigateTo(createUrl(path));
-        AssertHelper.assertContainsRegex(targetText, currentPage.getPageSource());
-    }
-
     private void verifyRedirectToLogin(String path) {
         printUrl(appUrl + path);
         currentPage.navigateTo(createUrl(path));

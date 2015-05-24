@@ -320,10 +320,6 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         }
     }
     
-    private void verifyPictureIsPresent(String pictureKey) {
-        assertEquals(BackDoorServlet.RETURN_VALUE_TRUE, BackDoor.getWhetherPictureIsPresentInGcs(pictureKey));
-    }
-    
     private <T extends AppPage> T createNewPage(Browser browser, Class<T> typeOfPage) {
         Constructor<T> constructor;
         try {
