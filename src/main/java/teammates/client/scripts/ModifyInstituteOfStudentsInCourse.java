@@ -49,6 +49,7 @@ public class ModifyInstituteOfStudentsInCourse extends RemoteApiClient {
             e.printStackTrace();
         }
         
+        scanner.close();
     }
     
 }
