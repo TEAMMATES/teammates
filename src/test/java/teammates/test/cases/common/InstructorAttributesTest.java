@@ -24,6 +24,7 @@ public class InstructorAttributesTest extends BaseTestCase {
     
     @Test
     public void testConstructor() {
+        @SuppressWarnings("deprecation")
         InstructorAttributes instructor = new InstructorAttributes("valid.google.id", "valid-course-id", "valid name", "valid@email.com");
         String roleName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         String displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
@@ -76,6 +77,7 @@ public class InstructorAttributesTest extends BaseTestCase {
     
     @Test
     public void testIsRegistered() {
+        @SuppressWarnings("deprecation")
         InstructorAttributes instructor = new InstructorAttributes("valid.google.id", "valid-course-id", "valid name", "valid@email.com");       
         assertTrue(instructor.isRegistered());
         
@@ -102,7 +104,8 @@ public class InstructorAttributesTest extends BaseTestCase {
     
     @Test
     public void testGetInvalidityInfo() {
-        
+
+        @SuppressWarnings("deprecation")
         InstructorAttributes i = new InstructorAttributes("valid.google.id", "valid-course-id", "valid name", "valid@email.com");
         
         assertEquals(true, i.isValid());
