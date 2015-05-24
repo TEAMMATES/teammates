@@ -43,13 +43,13 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
 
     private static Browser browser;
     private static DataBundle testData;
-    private static String backDoorOperationStatus;
     private static AppPage currentPage;
     private static String link;
 
     private static InstructorAttributes otherInstructor;
 
     // both TEST_INSTRUCTOR and TEST_STUDENT are from this course
+    @SuppressWarnings("unused")
     private static CourseAttributes ownCourse;
     
     @BeforeClass
