@@ -296,7 +296,10 @@
                                         <label class="label-control">Session visible from </label>
                                     </div>
                                 </div>
-                                <div class="row radio">
+                                <div class="row radio"><%
+                                        boolean hasSessionVisibleDate =
+                                                !TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime);
+                                    %>
                                     <div class="col-md-2"
                                         title="<%= Const.Tooltips.FEEDBACK_SESSION_VISIBLEDATE %>"
                                         data-toggle="tooltip" data-placement="top">
@@ -307,24 +310,24 @@
                                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>"
                                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>_custom"
                                             value="<%= Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM %>"
-                                            <%= TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) ? "" : "checked=\"checked\"" %>>
+                                            <%= hasSessionVisibleDate ? "checked=\"checked\"" : "" %>>
                                     </div>
                                     <div class="col-md-5">
                                         <input class="form-control col-sm-2"
                                             type="text"
                                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE %>"
                                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE %>"
-                                            value="<%= TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) ? "" : TimeHelper.formatDate(data.session.sessionVisibleFromTime) %>"
-                                            <%= TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) ? "disabled=\"disabled\"" : "" %>>
+                                            value="<%= hasSessionVisibleDate ? TimeHelper.formatDate(data.session.sessionVisibleFromTime) : "" %>"
+                                            <%= hasSessionVisibleDate ? "" : "disabled=\"disabled\"" %>>
                                     </div>
                                     <div class="col-md-4">
                                         <select class="form-control"
                                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME %>"
                                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME %>"
-                                            <%= TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime) ? "disabled=\"disabled\"" : "" %>>
+                                            <%= hasSessionVisibleDate ? "" : "disabled=\"disabled\"" %>>
                                             <%
                                                 Date date = null;
-                                                if (!TimeHelper.isSpecialTime(data.session.sessionVisibleFromTime)) {
+                                                if (hasSessionVisibleDate) {
                                                     date = data.session.sessionVisibleFromTime;
                                                 }
                                                 for (String opt : data.getTimeOptionsAsHtml(date)) {
@@ -374,7 +377,10 @@
                                         <label class="label-control">Responses visible from</label>
                                     </div>
                                 </div>
-                                <div class="row radio">
+                                <div class="row radio"><%
+                                        boolean hasResultVisibleDate =
+                                                !TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime);
+                                    %>
                                     <div class="col-md-2"
                                         title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTSVISIBLECUSTOM %>"
                                         data-toggle="tooltip" data-placement="top">
@@ -385,14 +391,14 @@
                                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>"
                                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_custom"
                                             value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM %>"
-                                            <%= TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime) ? "" : "checked=\"checked\"" %>>
+                                            <%= hasResultVisibleDate ? "checked=\"checked\"" : "" %>>
                                     </div>
                                     <div class="col-md-5">
                                         <input class="form-control" type="text"
                                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE %>"
                                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE %>"
-                                            value="<%= TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime) ? "" : TimeHelper.formatDate(data.session.resultsVisibleFromTime) %>"
-                                            <%= TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime) ?  "disabled=\"disabled\"" : "" %>>
+                                            value="<%= hasResultVisibleDate ? TimeHelper.formatDate(data.session.resultsVisibleFromTime) : "" %>"
+                                            <%= hasResultVisibleDate ? "" : "disabled=\"disabled\"" %>>
                                     </div>
                                     <div class="col-md-4">
                                         <select class="form-control"
@@ -400,10 +406,12 @@
                                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_PUBLISHTIME %>"
                                             title="<%= Const.Tooltips.FEEDBACK_SESSION_PUBLISHDATE %>"
                                             data-toggle="tooltip" data-placement="top"
-                                            <%= TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime) ? "disabled=\"disabled\"" : "" %>>
+                                            <%= hasResultVisibleDate ? "" : "disabled=\"disabled\"" %>>
                                             <%
-                                                date = TimeHelper.isSpecialTime(data.session.resultsVisibleFromTime) ?
-                                                        null : data.session.resultsVisibleFromTime;
+                                                date = null;
+                                                if (hasResultVisibleDate) {
+                                                    date = data.session.resultsVisibleFromTime;   
+                                                }
                                                 for (String opt : data.getTimeOptionsAsHtml(date)) {
                                                     out.println(opt);
                                                 }
