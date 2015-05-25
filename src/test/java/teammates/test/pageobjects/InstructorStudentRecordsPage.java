@@ -3,7 +3,6 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.assertTrue;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -96,16 +95,6 @@ public class InstructorStudentRecordsPage extends AppPage {
 
     private WebElement getCommentSaveLink(int id) {
         return browser.driver.findElement(By.id("commentsave-" + id));
-    }
-
-    public void clickFeedbackSession(int id) throws Exception {
-        browser.driver.findElement(By.id("studentFeedback-" + id)).click();
-        waitForPageToLoad();
-        try {
-            waitForElementToAppear(By.xpath("//*[@id=\"target-feedback-" + id + "\"]/div[1]/div[1]"));
-        } catch (StaleElementReferenceException e) {
-            ;// do nothing
-        }
     }
 
 }

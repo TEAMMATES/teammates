@@ -1,6 +1,5 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
 import org.openqa.selenium.By;
@@ -98,38 +97,13 @@ public class InstructorStudentListPage extends AppPage {
         searchButton.click();
     }
 
-    public void setLiveSearchKey(String searchKey) {
-        searchBox.clear();
-        searchBox.sendKeys(searchKey);
-    }
-
     public void checkCourse(int courseIdx) {
         browser.driver.findElement(By.id("course_check-" + courseIdx)).click();
         waitForElementToDisappear(By.cssSelector("img[src='/images/ajax-preload.gif']"));
     }
 
-    public void clickSelectAll() {
-        selectAll.click();
-    }
-
-    public void clickCheckBoxOne() {
-        checkBoxOne.click();
-    }
-
-    public void clickShowEmail() {
-        showEmailLink.click();
-    }
-
     public void clickDisplayArchiveOptions() {
         displayArchiveOptions.click();
-    }
-
-    public void verifySearchKey(String searchKey) {
-        assertEquals(searchKey, searchBox.getAttribute("value"));
-    }
-
-    public boolean verifyIsHidden(String elementId) {
-        return !browser.driver.findElement(By.id(elementId)).isDisplayed();
     }
 
     public void verifyProfilePhotoIsDefault(String courseId, String studentName) {
