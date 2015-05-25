@@ -260,9 +260,7 @@ public class FeedbackQuestionsLogic {
         }
         
         return questions;
-    }
-    
-    
+    }    
 
     
     

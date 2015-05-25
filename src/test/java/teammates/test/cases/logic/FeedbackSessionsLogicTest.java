@@ -114,8 +114,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         testIsFeedbackSessionCompletedByStudent();
         testIsFeedbackSessionCompletedByInstructor();
         testIsFeedbackSessionFullyCompletedByStudent();
-        
-        
+                
         testSendReminderForFeedbackSession();
         testSendReminderForFeedbackSessionParticularUsers();
         testDeleteFeedbackSessionsForCourse();

@@ -726,8 +726,7 @@ public class FeedbackResponsesLogic {
         }
         
         return teamResponses;
-    }
-    
+    }    
 
     private List<FeedbackResponseAttributes> getViewableFeedbackResponsesForStudentForQuestion(
             FeedbackQuestionAttributes question, String studentEmail) {
