@@ -810,10 +810,11 @@ function formatVisibilityMessageHtml(visibilityMessage) {
  */
 
 function getQuestionIdSuffix(questionNumber) {
-    var idSuffix = questionNumber > 0 ? ('-' + questionNumber) : '';
-    if (questionNumber === -1) {
-        idSuffix = '--1';
-    }
+    var newQuestionNumber = -1;
+    var isValidQuestionNumber = questionNumber > 0 ||
+                                questionNumber === newQuestionNumber;
+    
+    var idSuffix = isValidQuestionNumber ? ('-' + questionNumber) : '';
     return idSuffix;
 }
 
