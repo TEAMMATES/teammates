@@ -10,7 +10,7 @@ import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.StudentProfileAttributes;
 
 public class InstructorStudentRecordsPageData extends PageData {
-    
+
     public String courseId;
     public InstructorAttributes currentInstructor;
     public StudentProfileAttributes studentProfile;
@@ -19,12 +19,13 @@ public class InstructorStudentRecordsPageData extends PageData {
     public List<SessionAttributes> sessions;
     public List<SessionResultsBundle> results;
     public String showCommentBox;
-    
+
     public InstructorStudentRecordsPageData(AccountAttributes account) {
         super(account);
     }
-    
-    public String removeBracketsForArrayString(String arrayString){
+
+    public String removeBracketsForArrayString(String arrayString) {
         return arrayString.substring(1, arrayString.length() - 1).trim();
     }
+
 }
