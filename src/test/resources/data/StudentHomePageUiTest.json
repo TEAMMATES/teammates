@@ -150,7 +150,7 @@
       "team": "Team 1"
     },
     "alice.tmms@SHomeUiT.CS4221": {
-      "googleId": "{$test.student1}";
+      "googleId": "{$test.student1}",
       "email": "{$test.student1}@gmail.com",
       "course": "SHomeUiT.CS4221",
       "name": "Amy Betsy",
