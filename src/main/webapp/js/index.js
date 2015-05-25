@@ -123,10 +123,15 @@ function formatNumber(number) {
     return number;
 }
 
-// looping through all the testimonials
+//looping through all the testimonials
 function loopTestimonials() {
-    var tc = document.getElementById("testimonialContainer");
+    var tc = document.getElementById('testimonialContainer');
+    
+    // intended null checking and early return, to prevent constant failures in JavaScript tests
+    if (tc === null && typeof tc === 'object') {
+        return;
+    }
+    
     tc.innerHTML = TESTIMONIALS[CURRENT_TESTIMONIAL];
     CURRENT_TESTIMONIAL = (CURRENT_TESTIMONIAL + 1) % TESTIMONIALS.length;
-
 }
