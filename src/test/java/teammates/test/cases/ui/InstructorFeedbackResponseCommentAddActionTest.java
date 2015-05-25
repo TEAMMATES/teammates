@@ -57,7 +57,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         
         verifyAssumptionFailure();
         
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response"
@@ -67,7 +67,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         
         ______TS("typical successful case for unpublished session");
         
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response",
@@ -88,7 +88,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         ______TS("typical successful case for published session");
         
         FeedbackSessionsLogic.inst().publishFeedbackSession(session.feedbackSessionName, session.courseId);
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response, published session",
@@ -107,7 +107,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         
         ______TS("Unsuccessful case: empty comment text");
         
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, session.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
