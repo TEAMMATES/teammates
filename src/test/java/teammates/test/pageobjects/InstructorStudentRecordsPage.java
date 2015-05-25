@@ -82,26 +82,6 @@ public class InstructorStudentRecordsPage extends AppPage {
         return display;
     }
 
-    private int getEvalRowId(String evalName) {
-        int evalCount = browser.driver.findElements(By.xpath("//div[contains(@class, 'student_eval')]")).size();
-        for (int i = 0; i < evalCount; i++) {
-            String evalNameInRow = getEvalNameInRow(i);
-            if (evalNameInRow.equals("Evaluation Name: " + evalName)) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    private String getEvalNameInRow(int rowId) {
-        String xpath = "//div[@id='studentEval-" + rowId + "']" + "//div//h2";
-        return browser.driver.findElement(By.xpath(xpath)).getText();
-    }
-
-    private WebElement getEvalEditLink(int rowId) {
-        return browser.driver.findElement(By.id("button_edit-" + rowId));
-    }
-
     private WebElement getCommentEditLink(int id) {
         return browser.driver.findElement(By.id("commentedit-" + id));
     }

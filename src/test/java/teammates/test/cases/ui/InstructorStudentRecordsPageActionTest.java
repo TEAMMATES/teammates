@@ -19,7 +19,6 @@ import teammates.common.util.Const;
 import teammates.logic.api.Logic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
-import teammates.test.driver.BackDoor;
 import teammates.ui.controller.InstructorStudentRecordsPageAction;
 import teammates.ui.controller.InstructorStudentRecordsPageData;
 import teammates.ui.controller.RedirectResult;
@@ -42,11 +41,6 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor3OfCourse1");
         StudentAttributes student = dataBundle.students.get("student2InCourse1");
         String instructorId = instructor.googleId;
-
-        System.out.println(":::");
-        System.out.println(instructorId);
-        String isInDatabase = BackDoor.getInstructorAsJsonByGoogleId(instructorId, instructor.courseId);
-        System.out.println(isInDatabase);
 
         gaeSimulation.loginAsInstructor(instructorId);
 
