@@ -10,8 +10,8 @@ var INSTRUCTOR_COURSE_EDIT_INSTRUCTOR_ACCESS_LEVEL_WHEN_LOADING_PAGE = [];
 function enableEditInstructor(event) {
 	var instructorNum = event.data.instructorIndex;
 	var totalInstructors = event.data.total;
-    for (var i=1; i<=totalInstructors; i++) {
-        if (i == instructorNum) {
+    for (var i = 1; i <= totalInstructors; i++) {
+        if (i === instructorNum) {
             enableFormEditInstructor(i);
         } else {
             disableFormEditInstructor(i);
@@ -49,7 +49,7 @@ function disableFormEditInstructor(number) {
 function showNewInstructorForm() {
     $("#panelAddInstructor").show();
     $("#btnShowNewInstructorForm").hide();
-    $('html, body').animate({scrollTop: $('#frameBodyWrapper')[0].scrollHeight}, 1000);
+    $('html, body').animate({scrollTop : $('#frameBodyWrapper')[0].scrollHeight}, 1000);
 }
 
 function hideNewInstructorForm() {
@@ -80,7 +80,7 @@ function showTuneSectionPermissionsDiv(instrNum, sectionNum) {
 	var numberOfSections = $("select#section" + sectionNum + "forinstructor" + instrNum + " option").length;
 	var numOfVisibleSections = $("#tunePermissionsDivForInstructor" + 1 + " div[id^='tuneSectionPermissionsDiv']").filter(":visible").length;
 	
-	if (numOfVisibleSections == numberOfSections) {
+	if (numOfVisibleSections === numberOfSections) {
 		$("#addSectionLevelForInstructor" + instrNum).hide();
 	}
 	$("#tuneSectionPermissionsDiv" + sectionNum + "ForInstructor" + instrNum + " input[name='issectiongroup" + sectionNum + "set']").attr("value", "true");
@@ -90,7 +90,7 @@ function showTuneSectionPermissionsDiv(instrNum, sectionNum) {
 function setAddSectionLevelLink(instrNum) {
 	var foundNewLink = false;
 	var allSectionSelects = $("#tunePermissionsDivForInstructor" + instrNum + " div[id^='tuneSectionPermissionsDiv']").find("input[type=hidden]").not("[name*='sessions']");
-	for (var idx=0;idx < allSectionSelects.length;idx++) {
+	for (var idx = 0; idx < allSectionSelects.length; idx++) {
 		var item = $(allSectionSelects[idx]);
 		if (item.attr("value") === "false") {
 			var sectionNumStr = item.attr("name").substring(14).slice(0, -3);
@@ -128,7 +128,7 @@ function hideTuneSessionnPermissionsDiv(instrNum, sectionNum) {
 }
 
 function checkTheRoleThatApplies(instrNum) {
-	var instrRole = $("#accessControlInfoForInstr"+instrNum+" div div p span").html();
+	var instrRole = $("#accessControlInfoForInstr" + instrNum + " div div p span").html();
 	$("input[id='instructorroleforinstructor" + instrNum + "']").filter("[value='" + instrRole + "']").prop("checked", true);
 	if (instrRole === "Custom") {
 		checkPrivilegesOfRoleForInstructor(instrNum, instrRole);
@@ -197,9 +197,8 @@ function checkPrivilegesOfTutorForInstructor(instrNum) {
 
 function checkPrivilegesOfCustomForInstructor(instrNum) {
 	var numOfInstr = $("form[id^='formEditInstructor']").length;
-	if (instrNum <= numOfInstr && 
-			(INSTRUCTOR_COURSE_EDIT_INSTRUCTOR_ACCESS_LEVEL_WHEN_LOADING_PAGE.length >= instrNum 
-					&& INSTRUCTOR_COURSE_EDIT_INSTRUCTOR_ACCESS_LEVEL_WHEN_LOADING_PAGE[instrNum-1] === "Custom")) {
+	if (instrNum <= numOfInstr && INSTRUCTOR_COURSE_EDIT_INSTRUCTOR_ACCESS_LEVEL_WHEN_LOADING_PAGE.length >= instrNum 
+			&& INSTRUCTOR_COURSE_EDIT_INSTRUCTOR_ACCESS_LEVEL_WHEN_LOADING_PAGE[instrNum-1] === "Custom") {
 		$("#tunePermissionsDivForInstructor" + 1 + " input[checked='checked']").prop("checked", true);
 		$("#tunePermissionsDivForInstructor" + 1 + " input[checked!='checked']").prop("checked", false);
 	} else {
@@ -301,10 +300,10 @@ function checkPrivilegesOfTutorForModal() {
 function toggleDeleteInstructorConfirmation(courseID, instructorName, isDeleteOwnself) {
     if (isDeleteOwnself) {
         return confirm("Are you sure you want to delete your instructor role from the course " + courseID + "? " +
-        "You will not be able to access the course anymore.");
+                    "You will not be able to access the course anymore.");
     } else {
         return confirm("Are you sure you want to delete the instructor " + instructorName + " from " + courseID + "? " +
-            "He/she will not be able to access the course anymore.");
+                    "He/she will not be able to access the course anymore.");
     }
 }
 
@@ -319,10 +318,10 @@ function bindChangingRole(index){
 
 $(function(){
 	var numOfInstr = $("form[id^='formEditInstructor']").length;
-	for (var i=0; i<numOfInstr;i++) {
-		var instrNum = i+1;
-		var instrRole = $("#accessControlInfoForInstr"+instrNum+" div div p span").html().trim();
+	for (var i = 0; i < numOfInstr; i++) {
+		var instrNum = i + 1;
+		var instrRole = $("#accessControlInfoForInstr" + instrNum + " div div p span").html().trim();
 		INSTRUCTOR_COURSE_EDIT_INSTRUCTOR_ACCESS_LEVEL_WHEN_LOADING_PAGE.push(instrRole);
-		checkTheRoleThatApplies(i+1);
+		checkTheRoleThatApplies(i + 1);
 	}
 });
