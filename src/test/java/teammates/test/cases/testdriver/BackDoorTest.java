@@ -169,6 +169,7 @@ public class BackDoorTest extends BaseTestCase {
         String courseId = "tmapitt.tcc.course";
         String name = "Tmapitt testInstr Name";
         String email = "tmapitt@tci.tmt";
+        @SuppressWarnings("deprecation")
         InstructorAttributes instructor = new InstructorAttributes(instructorId, courseId, name, email);
         
         // Make sure not already inside
@@ -199,6 +200,8 @@ public class BackDoorTest extends BaseTestCase {
 
     
 
+    @SuppressWarnings("deprecation")
+    // decrepated methods are used correctly
     @Test
     public void testGetCoursesByInstructorId() throws InvalidParametersException {
 

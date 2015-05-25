@@ -89,7 +89,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
         }
     }
-    
+
+    @SuppressWarnings("deprecation")
     @Test
     public void testGetStudent() throws InvalidParametersException, EntityDoesNotExistException {
         int currentNumberOfStudent = studentsDb.getAllStudents().size();
@@ -198,7 +199,8 @@ public class StudentsDbTest extends BaseComponentTestCase {
         StudentAttributes updatedStudent = studentsDb.getStudentForEmail(s.course, s.email);
         assertTrue(updatedStudent.isEnrollInfoSameAs(s));
     }
-    
+
+    @SuppressWarnings("deprecation")
     @Test
     public void testDeleteStudent() throws InvalidParametersException, EntityDoesNotExistException {
         StudentAttributes s = createNewStudent();
