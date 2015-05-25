@@ -72,6 +72,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                                                        instructor.email));
                 }
             } catch (ExceedingRangeException e) {
+                // not tested as the test file is not large enough to reach this catch block
                 data.sessionResultsHtmlTableAsString = "";
                 data.ajaxStatus = "There are too many responses. Please download the feedback results by section.";
             }

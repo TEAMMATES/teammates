@@ -37,7 +37,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     /* 
-     * All the methods here are actually covered in jsp file but not captured by EclEmma.
+     * The next three methods are not covered in action test, but covered in UI tests.
      */
 
     @Override
