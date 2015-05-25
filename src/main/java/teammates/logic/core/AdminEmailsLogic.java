@@ -23,6 +23,8 @@ public class AdminEmailsLogic {
     private static AdminEmailsLogic instance = null;
     private static final AdminEmailsDb adminEmailsDb = new AdminEmailsDb();
     
+    @SuppressWarnings("unused")
+    // it is used, just not in here, do not remove
     private static Logger log = Utils.getLogger();
     
     public static AdminEmailsLogic inst() {
