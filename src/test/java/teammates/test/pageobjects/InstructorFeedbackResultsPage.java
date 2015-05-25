@@ -222,7 +222,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
             commentRow = wait.until(ExpectedConditions.presenceOfElementLocated(
                                                                By.id("responseCommentRow" + commentRowIdSuffix)));
         } catch (TimeoutException e) {
-            return;
+            fail("Timeout!");
+            commentRow = null;
         }
         try {
             wait.until(ExpectedConditions.textToBePresentInElement(commentRow.findElement(By.id("plainCommentText"
