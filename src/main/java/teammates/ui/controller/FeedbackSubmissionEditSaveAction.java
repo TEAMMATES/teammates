@@ -92,6 +92,13 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             for (int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
                 FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, questionIndx, responseIndx, questionAttributes);
                 
+                qnId = response.feedbackQuestionId;
+                
+                if (response.getId() != null && !isValidExistingResponse(response)) {
+                    errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_INVALID_ID, questionIndx));
+                    continue;
+                }
+                
                 responsesRecipients.add(response.recipientEmail);
                 // if the answer is not empty but the recipient is empty
                 if (response.recipientEmail.isEmpty() && !response.responseMetaData.getValue().isEmpty()) {
@@ -106,10 +113,11 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                     response.giverSection = userSectionForCourse;
                     responsesForQuestion.add(response);
                 }
-                qnId = response.feedbackQuestionId;
             }
+                    
+            List<String> questionSpecificErrors = questionDetails.validateResponseAttributes(responsesForQuestion, data.bundle.recipientList.get(qnId).size());
+            errors.addAll(questionSpecificErrors);
             
-            errors.addAll(questionDetails.validateResponseAttributes(responsesForQuestion, data.bundle.recipientList.get(qnId).size()));            
             if (!emailSet.containsAll(responsesRecipients)) {
                 errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSE_INVALID_RECIPIENT, questionIndx));                
             }
@@ -136,6 +144,36 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         }
         
         return createSpecificRedirectResult();
+    }
+    
+    /**
+     * If the {@code response} is an existing response, check that 
+     * the questionId and responseId that it has  
+     * is in {@code data.bundle.questionResponseBundle}
+     * @param response  a response which has non-null id 
+     */
+    private boolean isValidExistingResponse(FeedbackResponseAttributes response) {
+       
+        String questionId = response.feedbackQuestionId;
+        FeedbackQuestionAttributes question = data.bundle.getQuestionAttributes(questionId);
+        
+        if (!data.bundle.questionResponseBundle.containsKey(question)) {
+            // question id is invalid
+            return false;
+        }
+        
+        List<FeedbackResponseAttributes> existingResponses = data.bundle.questionResponseBundle.get(question);
+        List<String> existingResponsesId = new ArrayList<String>();
+        for (FeedbackResponseAttributes existingResponse : existingResponses) {
+            existingResponsesId.add(existingResponse.getId());
+        }
+        
+        if (!existingResponsesId.contains(response.getId())) {
+            // response id is invalid
+            return false; 
+        }
+        
+        return true;
     }
 
     private void saveResponse(FeedbackResponseAttributes response)
