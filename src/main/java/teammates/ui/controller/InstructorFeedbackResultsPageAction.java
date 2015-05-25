@@ -134,6 +134,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         // Warning for section wise viewing in case of many responses.
         if (data.selectedSection.equals(ALL_SECTION_OPTION) && data.bundle.isComplete == false) {
+            // not tested because the test data is not large enough to make this happen
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING);
             isError = true;
         }
