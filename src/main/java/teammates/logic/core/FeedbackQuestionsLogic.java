@@ -195,7 +195,7 @@ public class FeedbackQuestionsLogic {
             throw new EntityDoesNotExistException(
                     "Trying to get questions for a feedback session that does not exist.");
         }
-
+        
         if (fsLogic.isCreatorOfSession(feedbackSessionName, courseId, userEmail)) {
             return getFeedbackQuestionsForCreatorInstructor(feedbackSessionName, courseId);
         }
@@ -203,17 +203,20 @@ public class FeedbackQuestionsLogic {
         List<FeedbackQuestionAttributes> questions =
                 new ArrayList<FeedbackQuestionAttributes>();
         
+        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
+        boolean isInstructor = instructor != null;
         
-        questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
-                        feedbackSessionName, courseId, INSTRUCTORS));
-        
+        if (isInstructor) {
+            questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
+                            feedbackSessionName, courseId, INSTRUCTORS));
+        }
         
         return questions;
     }
     
     /**
      * Gets a {@code List} of all questions for the list of questions that an
-     * instructor can view/submit
+     * instructor who is the creator of the course can view/submit
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForCreatorInstructor(
                                     String feedbackSessionName, String courseId) 
