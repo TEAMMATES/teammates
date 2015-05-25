@@ -189,7 +189,10 @@ function sortTable(oneOfTableCell, colIdx, comparator, ascending, row) {
             continue;
         }
         
-        var innerText = $RowList[i].cells[colIdx - 1].innerHTML;
+        // $.trim trims leading/trailing whitespaces
+        // jQuery(...).text() works like .innerText, but works in Firefox (.innerText does not)
+        // $RowList[i].cells[colIdx - 1] is where we get the table cell from
+        var innerText = $.trim(jQuery($RowList[i].cells[colIdx - 1]).text());
         
         // Store rows together with the innerText to compare
         store.push([innerText, $RowList[i], i]);

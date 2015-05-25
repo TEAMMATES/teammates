@@ -1596,7 +1596,7 @@
           "giverEmail":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
-              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 84}"
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 80}"
           },
           "giverSection":"Tutorial Group 2",
           "recipientSection":"Tutorial Group 2"
@@ -1609,7 +1609,7 @@
           "giverEmail":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
-              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 106}"
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
           },
           "giverSection":"Tutorial Group 2",
           "recipientSection":"Tutorial Group 2"
@@ -1622,7 +1622,7 @@
           "giverEmail":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
-              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 106}"
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
           },
           "giverSection":"Tutorial Group 2",
           "recipientSection":"Tutorial Group 2"
@@ -1635,7 +1635,7 @@
           "giverEmail":"charlie.d.tmms@gmail.tmt",
           "recipientEmail":"gene.h.tmms@gmail.tmt",
           "responseMetaData":{
-              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 106}"
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
           },
           "giverSection":"Tutorial Group 2",
           "recipientSection":"Tutorial Group 2"
@@ -1648,7 +1648,7 @@
           "giverEmail":"teammates.demo.instructor@demo.course",
           "recipientEmail":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
-              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 105}"
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
           },
           "giverSection":"Tutorial Group 2",
           "recipientSection":"Tutorial Group 2"
@@ -1674,7 +1674,7 @@
           "giverEmail":"teammates.demo.instructor@demo.course",
           "recipientEmail":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
-              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 108}"
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
           },
           "giverSection":"Tutorial Group 2",
           "recipientSection":"Tutorial Group 2"
@@ -1687,7 +1687,7 @@
           "giverEmail":"teammates.demo.instructor@demo.course",
           "recipientEmail":"gene.h.tmms@gmail.tmt",
           "responseMetaData":{
-              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 107}"
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
           },
           "giverSection":"Tutorial Group 2",
           "recipientSection":"Tutorial Group 2"
@@ -1700,7 +1700,7 @@
           "giverEmail":"francis.g.tmms@gmail.tmt",
           "recipientEmail":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
-              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 105}"
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
           },
           "giverSection":"Tutorial Group 2",
           "recipientSection":"Tutorial Group 2"
@@ -1739,7 +1739,7 @@
           "giverEmail":"francis.g.tmms@gmail.tmt",
           "recipientEmail":"gene.h.tmms@gmail.tmt",
           "responseMetaData":{
-              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 105}"
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
           },
           "giverSection":"Tutorial Group 2",
           "recipientSection":"Tutorial Group 2"
@@ -1752,7 +1752,7 @@
           "giverEmail":"gene.h.tmms@gmail.tmt",
           "recipientEmail":"gene.h.tmms@gmail.tmt",
           "responseMetaData":{
-              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 104}"
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 100}"
           },
           "giverSection":"Tutorial Group 2",
           "recipientSection":"Tutorial Group 2"
@@ -1765,7 +1765,7 @@
           "giverEmail":"gene.h.tmms@gmail.tmt",
           "recipientEmail":"charlie.d.tmms@gmail.tmt",
           "responseMetaData":{
-              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 82}"
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 80}"
           },
           "giverSection":"Tutorial Group 2",
           "recipientSection":"Tutorial Group 2"
@@ -1778,7 +1778,7 @@
           "giverEmail":"gene.h.tmms@gmail.tmt",
           "recipientEmail":"teammates.demo.instructor@demo.course",
           "responseMetaData":{
-              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 108}"
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
           },
           "giverSection":"Tutorial Group 2",
           "recipientSection":"Tutorial Group 2"
@@ -1791,7 +1791,7 @@
           "giverEmail":"gene.h.tmms@gmail.tmt",
           "recipientEmail":"francis.g.tmms@gmail.tmt",
           "responseMetaData":{
-              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 106}"
+              "value":"{\"questionType\" : \"CONTRIB\",\"answer\" : 110}"
           },
           "giverSection":"Tutorial Group 2",
           "recipientSection":"Tutorial Group 2"

@@ -248,6 +248,7 @@
             "googleId":"idOfInstructorOfArchivedCourse",
             "courseId":"idOfArchivedCourse",
             "name":"InstructorOfArchiveCourse name",
+            "isArchived":"true",
             "email":"instructorOfArchiveCourse@archiveCourse.tmt",
             "role":"Co-owner",
             "displayedName":"Instructor",

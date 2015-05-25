@@ -22,7 +22,7 @@ import org.testng.annotations.Test;
 import com.google.appengine.api.datastore.Text;
 
 import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentStatus;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -39,7 +39,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
     private String giverEmail = "CDT.giver@mail.com";
     private String recipient = "CDT.receiver@mail.com";
     private String commentText = "comment text";
-    private CommentRecipientType recipientType = CommentRecipientType.PERSON;
+    private CommentParticipantType recipientType = CommentParticipantType.PERSON;
     
     private CommentsDb commentsDb = new CommentsDb();
     
@@ -107,11 +107,11 @@ public class CommentsDbTest extends BaseComponentTestCase {
         compareComments(retrievedComment, anotherRetrievedComment);
         
         retrievedComment.status = CommentStatus.DRAFT;
-        retrievedComment.showCommentTo = new ArrayList<CommentRecipientType>();
-        retrievedComment.showCommentTo.add(CommentRecipientType.PERSON);
-        retrievedComment.showCommentTo.add(CommentRecipientType.TEAM);
-        retrievedComment.showCommentTo.add(CommentRecipientType.SECTION);
-        retrievedComment.showCommentTo.add(CommentRecipientType.COURSE);
+        retrievedComment.showCommentTo = new ArrayList<CommentParticipantType>();
+        retrievedComment.showCommentTo.add(CommentParticipantType.PERSON);
+        retrievedComment.showCommentTo.add(CommentParticipantType.TEAM);
+        retrievedComment.showCommentTo.add(CommentParticipantType.SECTION);
+        retrievedComment.showCommentTo.add(CommentParticipantType.COURSE);
         commentsDb.updateComment(retrievedComment);
         
         anotherRetrievedComment = commentsDb.
@@ -119,19 +119,19 @@ public class CommentsDbTest extends BaseComponentTestCase {
         compareComments(retrievedComment, anotherRetrievedComment);
         
         anotherRetrievedComment = commentsDb.
-                getCommentsForCommentViewer(retrievedComment.courseId, CommentRecipientType.PERSON).get(0);
+                getCommentsForCommentViewer(retrievedComment.courseId, CommentParticipantType.PERSON).get(0);
         compareComments(retrievedComment, anotherRetrievedComment);
         
         anotherRetrievedComment = commentsDb.
-                getCommentsForCommentViewer(retrievedComment.courseId, CommentRecipientType.TEAM).get(0);
+                getCommentsForCommentViewer(retrievedComment.courseId, CommentParticipantType.TEAM).get(0);
         compareComments(retrievedComment, anotherRetrievedComment);
         
         anotherRetrievedComment = commentsDb.
-                getCommentsForCommentViewer(retrievedComment.courseId, CommentRecipientType.SECTION).get(0);
+                getCommentsForCommentViewer(retrievedComment.courseId, CommentParticipantType.SECTION).get(0);
         compareComments(retrievedComment, anotherRetrievedComment);
         
         anotherRetrievedComment = commentsDb.
-                getCommentsForCommentViewer(retrievedComment.courseId, CommentRecipientType.COURSE).get(0);
+                getCommentsForCommentViewer(retrievedComment.courseId, CommentParticipantType.COURSE).get(0);
         compareComments(retrievedComment, anotherRetrievedComment);
         
         ______TS("non existant comment case");
@@ -261,12 +261,12 @@ public class CommentsDbTest extends BaseComponentTestCase {
         ______TS("success: update student email");
         
         // before update: 2 comments for this recipient email
-        assertEquals(2, commentsDb.getCommentsForReceiver(courseId1, CommentRecipientType.PERSON, recipientEmail1).size());
+        assertEquals(2, commentsDb.getCommentsForReceiver(courseId1, CommentParticipantType.PERSON, recipientEmail1).size());
         commentsDb.updateStudentEmail(courseId1, recipientEmail1, recipientEmail2);
         // after update: 2 comments for new giver email and others are not affected
-        assertEquals(0, commentsDb.getCommentsForReceiver(courseId1, CommentRecipientType.PERSON, recipientEmail1).size());
-        assertEquals(2, commentsDb.getCommentsForReceiver(courseId1, CommentRecipientType.PERSON, recipientEmail2).size());
-        assertEquals(1, commentsDb.getCommentsForReceiver(courseId2, CommentRecipientType.PERSON, recipientEmail1).size());
+        assertEquals(0, commentsDb.getCommentsForReceiver(courseId1, CommentParticipantType.PERSON, recipientEmail1).size());
+        assertEquals(2, commentsDb.getCommentsForReceiver(courseId1, CommentParticipantType.PERSON, recipientEmail2).size());
+        assertEquals(1, commentsDb.getCommentsForReceiver(courseId2, CommentParticipantType.PERSON, recipientEmail1).size());
         
         ______TS("failure: null input when updating instr email");
         
@@ -364,7 +364,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         commentsDb.createEntity(c);
         
         // course 1 team 1 and team2, instructor 3
-        recipientType = CommentRecipientType.TEAM;
+        recipientType = CommentParticipantType.TEAM;
         recipient = team1;
         giverEmail = instr3;
         c = createNewComment();
@@ -374,7 +374,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         commentsDb.createEntity(c);
         
         // course 1 section 1 and section 2, instructor 3
-        recipientType = CommentRecipientType.SECTION;
+        recipientType = CommentParticipantType.SECTION;
         recipient = section1;
         c = createNewComment();
         commentsDb.createEntity(c);
@@ -384,7 +384,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         
         // course2 instr3 and student3
         courseId = courseId2;
-        recipientType = CommentRecipientType.PERSON;
+        recipientType = CommentParticipantType.PERSON;
         recipient = student3;
         c = createNewComment();
         commentsDb.createEntity(c);
@@ -405,14 +405,14 @@ public class CommentsDbTest extends BaseComponentTestCase {
         ______TS("success: delete team comments");
         
         commentsDb.deleteCommentsForTeam(courseId1, team2);
-        assertEquals(0, commentsDb.getCommentsForReceiver(courseId1, CommentRecipientType.TEAM, team2).size());
-        assertEquals(1, commentsDb.getCommentsForReceiver(courseId1, CommentRecipientType.TEAM, team1).size());
+        assertEquals(0, commentsDb.getCommentsForReceiver(courseId1, CommentParticipantType.TEAM, team2).size());
+        assertEquals(1, commentsDb.getCommentsForReceiver(courseId1, CommentParticipantType.TEAM, team1).size());
         
         ______TS("success: delete section comments");
         
         commentsDb.deleteCommentsForSection(courseId1, section2);
-        assertEquals(0, commentsDb.getCommentsForReceiver(courseId1, CommentRecipientType.SECTION, section2).size());
-        assertEquals(1, commentsDb.getCommentsForReceiver(courseId1, CommentRecipientType.SECTION, section1).size());
+        assertEquals(0, commentsDb.getCommentsForReceiver(courseId1, CommentParticipantType.SECTION, section2).size());
+        assertEquals(1, commentsDb.getCommentsForReceiver(courseId1, CommentParticipantType.SECTION, section1).size());
         
         ______TS("success: delete course comments");
         
@@ -490,7 +490,7 @@ public class CommentsDbTest extends BaseComponentTestCase {
         courseId = "CDT.courseId";
         giverEmail = "CDT.giver@mail.com";
         recipient = "CDT.receiver@mail.com";
-        recipientType = CommentRecipientType.PERSON;
+        recipientType = CommentParticipantType.PERSON;
     }
     
     private void verifyExceptionThrownFromCreateEntity(CommentAttributes comment, String expectedMessage)

@@ -3,11 +3,8 @@ package teammates.common.exception;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-
-
 @SuppressWarnings("serial")
 public class TeammatesException extends Exception {
-
     public String errorCode;
 
     public TeammatesException() {
@@ -18,7 +15,7 @@ public class TeammatesException extends Exception {
         super(message);
     }
 
-    public TeammatesException(String errorcode,    String message) {
+    public TeammatesException(String errorcode, String message) {
         super(message);
         errorCode = errorcode;
     }
@@ -28,5 +25,4 @@ public class TeammatesException extends Exception {
         e.printStackTrace(new PrintWriter(sw));
         return "\n" + sw.toString();
     }
-
 }

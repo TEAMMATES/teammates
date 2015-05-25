@@ -341,17 +341,18 @@ public class InstructorFeedbackResultsPage extends AppPage {
     
     public void hoverClickAndViewPhotoOnTableCell(int questionBodyIndex, int tableRow, int tableCol, String urlRegex) throws Exception {
         String idOfQuestionBody = "questionBody-" + questionBodyIndex;
-        WebElement photoDiv = browser.driver.findElement(By.id(idOfQuestionBody))
-                                            .findElements(By.cssSelector(".dataTable tbody tr"))
-                                            .get(tableRow)
-                                            .findElements(By.cssSelector("td"))
-                                            .get(tableCol)
-                                            .findElement(By.className("profile-pic-icon-hover"));
-        Actions actions = new Actions(browser.driver);
-        actions.moveToElement(photoDiv).build().perform();      
+
+        // Execute JavaScript instead of using Selenium selectors to bypass bug regarding
+        // unix systems and current testing version of Selenium and Firefox
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        
+        jsExecutor.executeScript("$(document.getElementById('" +  idOfQuestionBody + "')" +
+                                           ".querySelectorAll('.dataTable tbody tr')['" + tableRow + "']" +
+                                           ".querySelectorAll('td')['" + tableCol + "']" +
+                                           ".getElementsByClassName('profile-pic-icon-hover')).mouseenter()");
+        
         waitForElementToAppear(By.cssSelector(".popover-content"));
         
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         jsExecutor.executeScript("document.getElementsByClassName('popover-content')[0]"
                 + ".getElementsByTagName('a')[0].click();");
         
@@ -379,7 +380,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
     
     public void verifyModerateResponseButtonBelongsTo(WebElement btn, String email) {
-        assertEquals(email, btn.findElement(By.xpath("input[4]")).getAttribute("value"));
+        assertEquals(email, btn.findElement(By.xpath("input[5]")).getAttribute("value"));
     }
     
     public WebElement getModerateResponseButtonInQuestionView(int qnNo, int responseNo) {

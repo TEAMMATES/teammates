@@ -25,8 +25,6 @@ import teammates.common.util.Utils;
 import teammates.storage.entity.AdminEmail;
 
 public class AdminEmailsDb extends EntitiesDb {
-    
-    @SuppressWarnings("unused")
     private static final Logger log = Utils.getLogger();
     
     public Date creatAdminEmail(AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException{

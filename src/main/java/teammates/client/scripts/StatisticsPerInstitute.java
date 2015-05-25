@@ -121,8 +121,7 @@ public class StatisticsPerInstitute extends RemoteApiClient {
         
         return isTestingData;
     }
-    
-    @SuppressWarnings("unchecked")
+
     private StatsBundle generateStatsPerInstitute(List<Student> allStudents, List<Instructor> allInstructors){
         HashMap<String, HashMap<Integer, HashSet<String>>> institutes = new HashMap<String, HashMap<Integer, HashSet<String>>>();
         
