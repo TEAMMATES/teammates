@@ -99,8 +99,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
      * This is because it uses Task Queues for scheduling and therefore has to be
      * tested in a separate class.
      */
-    
-    @SuppressWarnings("deprecation")
+
     public void testEnrollStudent() throws Exception {
 
         String instructorId = "instructorForEnrollTesting";

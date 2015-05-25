@@ -53,8 +53,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
         
         /**
          * Retrieve all students
-         */
-        @SuppressWarnings("deprecation") //This method is deprecated to prevent unintended usage. This is an intended usage       
+         */   
         List<StudentAttributes> students = StudentsLogic.inst().getAllStudents();
         Iterator<StudentAttributes> it = students.iterator();
         
