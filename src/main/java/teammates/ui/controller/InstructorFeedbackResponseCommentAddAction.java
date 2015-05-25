@@ -59,30 +59,29 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         }
         
         FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(courseId,
-            feedbackSessionName, feedbackQuestionId, instructor.email, feedbackResponseId, new Date(),
-            new Text(commentText), response.giverSection, response.recipientSection);
+                feedbackSessionName, feedbackQuestionId, instructor.email, feedbackResponseId, new Date(),
+                new Text(commentText), response.giverSection, response.recipientSection);
         
         //Set up visibility settings
         String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);
         String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO);
         feedbackResponseComment.showCommentTo = new ArrayList<FeedbackParticipantType>();
-        if(showCommentTo != null && !showCommentTo.isEmpty()){
+        if (showCommentTo != null && !showCommentTo.isEmpty()) {
             String[] showCommentToArray = showCommentTo.split(",");
-            for(String viewer:showCommentToArray){
+            for (String viewer : showCommentToArray) {
                 feedbackResponseComment.showCommentTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
             }
         }
         feedbackResponseComment.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
-        if(showGiverNameTo != null && !showGiverNameTo.isEmpty()){
+        if (showGiverNameTo != null && !showGiverNameTo.isEmpty()) {
             String[] showGiverNameToArray = showGiverNameTo.split(",");
-            for(String viewer:showGiverNameToArray){
+            for (String viewer : showGiverNameToArray) {
                 feedbackResponseComment.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
             }
         }
         
         //Set up sending state
-        if(isResponseCommentPublicToRecipient(feedbackResponseComment)
-                && session.isPublished()){
+        if (isResponseCommentPublicToRecipient(feedbackResponseComment) && session.isPublished()) {
             feedbackResponseComment.sendingState = CommentSendingState.PENDING;
         }
         
@@ -98,11 +97,11 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         
         if (!data.isError) {
             statusToAdmin += "InstructorFeedbackResponseCommentAddAction:<br>"
-                    + "Adding comment to response: " + feedbackResponseComment.feedbackResponseId + "<br>"
-                    + "in course/feedback session: " + feedbackResponseComment.courseId + "/" 
-                    + feedbackResponseComment.feedbackSessionName + "<br>"
-                    + "by: " + feedbackResponseComment.giverEmail + " at " + feedbackResponseComment.createdAt + "<br>"
-                    + "comment text: " + feedbackResponseComment.commentText.getValue();
+                           + "Adding comment to response: " + feedbackResponseComment.feedbackResponseId + "<br>"
+                           + "in course/feedback session: " + feedbackResponseComment.courseId + "/" 
+                           + feedbackResponseComment.feedbackSessionName + "<br>"
+                           + "by: " + feedbackResponseComment.giverEmail + " at " + feedbackResponseComment.createdAt + "<br>"
+                           + "comment text: " + feedbackResponseComment.commentText.getValue();
         }
         
         data.comment = createdComment;
@@ -112,9 +111,9 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
 
     private boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
         return (comment.isVisibleTo(FeedbackParticipantType.GIVER)
-                    || comment.isVisibleTo(FeedbackParticipantType.RECEIVER)
-                    || comment.isVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                    || comment.isVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                    || comment.isVisibleTo(FeedbackParticipantType.STUDENTS));
+             || comment.isVisibleTo(FeedbackParticipantType.RECEIVER)
+             || comment.isVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+             || comment.isVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+             || comment.isVisibleTo(FeedbackParticipantType.STUDENTS));
     }
 }
