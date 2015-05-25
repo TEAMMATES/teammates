@@ -1877,10 +1877,18 @@ public class FeedbackSessionsLogic {
                             instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
                         }
                         if (isVisibleResponse && instructor != null) {
-                            boolean isNotAllowedForInstructor = !(instructor.isAllowedForPrivilege(response.giverSection,
-                                    response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
-                                    || !(instructor.isAllowedForPrivilege(response.recipientSection,
-                                            response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                            boolean isGiverSectionRestricted 
+                                    = !(instructor.isAllowedForPrivilege(response.giverSection,
+                                                                         response.feedbackSessionName, 
+                                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                            // If instructors are not restricted to view the giver's section,
+                            // they are allowed to view responses to GENERAL, subject to visibility options
+                            boolean isRecipientSectionRestricted 
+                                    = !(response.recipientSection.equals(Const.DEFAULT_SECTION)) 
+                                   && !(instructor.isAllowedForPrivilege(response.recipientSection,
+                                                                         response.feedbackSessionName, 
+                                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                            boolean isNotAllowedForInstructor = isGiverSectionRestricted || isRecipientSectionRestricted;
                             if (isNotAllowedForInstructor) {
                                 isVisibleResponse = false;
                             }
@@ -2080,10 +2088,19 @@ public class FeedbackSessionsLogic {
             isVisibleResponse = true;
         }
         if (isVisibleResponse && instructor != null) {
-            boolean isNotAllowedForInstructor = !(instructor.isAllowedForPrivilege(response.giverSection,
-                    response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
-                    || !(instructor.isAllowedForPrivilege(response.recipientSection,
-                            response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+            boolean isGiverSectionRestricted 
+            = !(instructor.isAllowedForPrivilege(response.giverSection,
+                                                 response.feedbackSessionName, 
+                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+            // If instructors are not restricted to view the giver's section,
+            // they are allowed to view responses to GENERAL, subject to visibility options
+            boolean isRecipientSectionRestricted 
+                    = !(response.recipientSection.equals(Const.DEFAULT_SECTION)) 
+                   && !(instructor.isAllowedForPrivilege(response.recipientSection,
+                                                         response.feedbackSessionName, 
+                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+            
+            boolean isNotAllowedForInstructor = isGiverSectionRestricted || isRecipientSectionRestricted;
             if (isNotAllowedForInstructor) {
                 isVisibleResponse = false;
             }
