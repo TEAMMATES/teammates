@@ -325,7 +325,7 @@ public class BackDoorTest extends BaseTestCase {
         // Characters that are allowed in a URI but do not have a reserved
         // purpose are called unreserved. 
         // unreserved = ALPHA / DIGIT / "-" / "." / "_" / "~"
-        String pattern = "(\\w|-|~|.)*";
+        String pattern = "(\\w|-|~|\\.)*";
 
         String errorMessage = key + "[length=" + key.length() + "][reg="
                 + StringHelper.isMatching(key, pattern) + "] is not as expected";
