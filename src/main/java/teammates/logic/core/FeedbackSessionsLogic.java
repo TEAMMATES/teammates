@@ -1884,7 +1884,7 @@ public class FeedbackSessionsLogic {
                             // If instructors are not restricted to view the giver's section,
                             // they are allowed to view responses to GENERAL, subject to visibility options
                             boolean isRecipientSectionRestricted 
-                                    = !(response.recipientSection.equals(Const.DEFAULT_SECTION)) 
+                                    = !(question.recipientType == FeedbackParticipantType.NONE)
                                    && !(instructor.isAllowedForPrivilege(response.recipientSection,
                                                                          response.feedbackSessionName, 
                                                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
@@ -2095,7 +2095,7 @@ public class FeedbackSessionsLogic {
             // If instructors are not restricted to view the giver's section,
             // they are allowed to view responses to GENERAL, subject to visibility options
             boolean isRecipientSectionRestricted 
-                    = !(response.recipientSection.equals(Const.DEFAULT_SECTION)) 
+                    = !(relatedQuestion.recipientType == FeedbackParticipantType.NONE) 
                    && !(instructor.isAllowedForPrivilege(response.recipientSection,
                                                          response.feedbackSessionName, 
                                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
