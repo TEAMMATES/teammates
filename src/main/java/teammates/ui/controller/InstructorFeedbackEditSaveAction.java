@@ -44,13 +44,14 @@ public class InstructorFeedbackEditSaveAction extends Action {
             logic.updateFeedbackSession(data.session);
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
             statusToAdmin =
-                    "Updated Feedback Session <span class=\"bold\">(" + data.session.feedbackSessionName +
-                    ")</span> for Course <span class=\"bold\">[" + data.session.courseId + "]</span> created.<br>" +
-                    "<span class=\"bold\">From:</span> " + data.session.startTime +
-                    "<span class=\"bold\"> to</span> " + data.session.endTime + "<br>" +
-                    "<span class=\"bold\">Session visible from:</span> " + data.session.sessionVisibleFromTime + "<br>" +
-                    "<span class=\"bold\">Results visible from:</span> " + data.session.resultsVisibleFromTime +
-                    "<br><br>" + "<span class=\"bold\">Instructions:</span> " + data.session.instructions;
+                    "Updated Feedback Session "
+                    + "<span class=\"bold\">(" + data.session.feedbackSessionName + ")</span> for Course "
+                    + "<span class=\"bold\">[" + data.session.courseId + "]</span> created.<br>"
+                    + "<span class=\"bold\">From:</span> " + data.session.startTime
+                    + "<span class=\"bold\"> to</span> " + data.session.endTime
+                    + "<br><span class=\"bold\">Session visible from:</span> " + data.session.sessionVisibleFromTime
+                    + "<br><span class=\"bold\">Results visible from:</span> " + data.session.resultsVisibleFromTime
+                    + "<br><br><span class=\"bold\">Instructions:</span> " + data.session.instructions;
         } catch (InvalidParametersException e) {
             setStatusForException(e);
         }
@@ -132,8 +133,8 @@ public class InstructorFeedbackEditSaveAction extends Action {
         }
         
         String[] sendReminderEmailsArray = getRequestParamValues(Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL);
-        List<String> sendReminderEmailsList = sendReminderEmailsArray == null ?
-                new ArrayList<String>() : Arrays.asList(sendReminderEmailsArray);
+        List<String> sendReminderEmailsList = sendReminderEmailsArray == null ? new ArrayList<String>()
+                                                                              : Arrays.asList(sendReminderEmailsArray);
         newSession.isOpeningEmailEnabled = sendReminderEmailsList.contains(EmailType.FEEDBACK_OPENING.toString());
         newSession.isClosingEmailEnabled = sendReminderEmailsList.contains(EmailType.FEEDBACK_CLOSING.toString());
         newSession.isPublishedEmailEnabled = sendReminderEmailsList.contains(EmailType.FEEDBACK_PUBLISHED.toString());

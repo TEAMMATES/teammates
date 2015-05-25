@@ -46,9 +46,10 @@ public class InstructorFeedbackEditPageAction extends Action {
         
         data.instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
-        statusToAdmin = "instructorFeedbackEdit Page Load<br>" +
-                "Editing information for Feedback Session <span class=\"bold\">[" + feedbackSessionName +
-                "]</span>" + "in Course: <span class=\"bold\">[" + courseId + "]</span>";
+        statusToAdmin = "instructorFeedbackEdit Page Load<br>" 
+                        + "Editing information for Feedback Session "
+                        + "<span class=\"bold\">[" + feedbackSessionName + "]</span>"
+                        + "in Course: <span class=\"bold\">[" + courseId + "]</span>";
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT, data);
     }

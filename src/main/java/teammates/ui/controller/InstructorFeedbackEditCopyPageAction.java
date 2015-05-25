@@ -31,13 +31,13 @@ public class InstructorFeedbackEditCopyPageAction extends Action {
                     instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
             boolean isArchived = Logic.isCourseArchived(course.id, account.googleId);
 
-            if (!isArchived && isAllowedToMakeSession) { 
+            if (!isArchived && isAllowedToMakeSession) {
                 data.courses.add(course);
             }
         }
         
         CourseAttributes.sortByCreatedDate(data.courses);
-               
+        
         return createAjaxResult("", data);
     }
 
