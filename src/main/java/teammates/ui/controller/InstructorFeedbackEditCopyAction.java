@@ -50,9 +50,9 @@ public class InstructorFeedbackEditCopyAction extends Action {
                     filterConflictsInCourses(newFeedbackSessionName, coursesIdToCopyTo);
             
             if (!conflictCourses.isEmpty()) {
-                String errorToAdmin = "For measuring failure rate: user tried to copy session to multiple courses.";
-                errorToAdmin += "Name of Session: " + newFeedbackSessionName + "<br>"; 
-                errorToAdmin += "Copying to course(s) " + conflictCourses.toString() + " failed.";
+                String errorToAdmin = "For measuring failure rate: user tried to copy session to multiple courses."
+                                      + "Name of Session: " + newFeedbackSessionName + "<br>"
+                                      + "Copying to course(s) " + conflictCourses.toString() + " failed.";
                 log.severe(errorToAdmin);
                 
                 String commaSeparatedListOfCourses = StringHelper.toString(conflictCourses, ",");
@@ -101,12 +101,10 @@ public class InstructorFeedbackEditCopyAction extends Action {
             
         } catch (EntityAlreadyExistsException e) {
             setStatusForException(e, Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
-            return createRedirectToEditPageWithError(originalFeedbackSessionName,
-                                                     originalCourseId);
+            return createRedirectToEditPageWithError(originalFeedbackSessionName, originalCourseId);
         } catch (InvalidParametersException e) {
             setStatusForException(e);
-            return createRedirectToEditPageWithError(originalFeedbackSessionName,
-                                                     originalCourseId);
+            return createRedirectToEditPageWithError(originalFeedbackSessionName, originalCourseId);
         }
         
     }
