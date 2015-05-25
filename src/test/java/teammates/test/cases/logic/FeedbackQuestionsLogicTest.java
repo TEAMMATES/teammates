@@ -426,6 +426,13 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
         assertEquals(actualQuestions, expectedQuestions);
         
+        ______TS("Get questions for creator instructor, verifies that the two methods return the same questions");
+        expectedQuestions = new ArrayList<FeedbackQuestionAttributes>(actualQuestions);
+        actualQuestions = 
+                 fqLogic.getFeedbackQuestionsForCreatorInstructor("Instructor feedback session", "idOfTypicalCourse2");
+                            
+        assertEquals(actualQuestions, expectedQuestions);
+        
         ______TS("Get questions created for instructors not by the creating instructor");
         
         actualQuestions = 
