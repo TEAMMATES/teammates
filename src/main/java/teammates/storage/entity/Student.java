@@ -17,7 +17,6 @@ import com.google.gson.annotations.SerializedName;
  */
 @PersistenceCapable
 public class Student {
-
     // TODO: some of the serialized names are not correct.
 
     @PrimaryKey
@@ -41,7 +40,7 @@ public class Student {
 
     /**
      * The student's Course ID. References the primary key of the course.
-     * This shows the course the student is taking
+     * This shows the course the student is taking.
      */
     @Persistent
     @SerializedName("coursename")
@@ -51,7 +50,7 @@ public class Student {
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     @SerializedName("name")
     private String name = null;
-    
+
     @Persistent
     @Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
     @SerializedName("lastName")
@@ -85,8 +84,8 @@ public class Student {
      * @param courseId
      * @param teamName
      */
-    public Student(String email, String name, String googleId, String comments,
-            String courseId, String teamName, String sectionName) {
+    public Student(String email, String name, String googleId, String comments, String courseId,
+                   String teamName, String sectionName) {
         this.setEmail(email);
         this.setName(name);
         this.setGoogleId(googleId);
@@ -122,33 +121,30 @@ public class Student {
         this.name = processedFullName.trim();
         this.setLastName(StringHelper.splitName(name)[1]);
     }
-    
-    public void setLastName(String lastName){
+
+    public void setLastName(String lastName) {
         this.lastName = lastName.trim();
     }
-    
-    public String getLastName(){
-        //for legacy data
-        if(this.lastName == null){
+
+    public String getLastName() {
+        // for legacy data. do not remove even if not covered in test.
+        if (this.lastName == null) {
             this.lastName = StringHelper.splitName(this.name)[1];
         }
         return lastName;
     }
-    
+
     public String getComments() {
         return comments;
     }
 
+    // null comment setting are not tested
     public void setComments(String comments) {
         this.comments = (comments == null ? null : comments.trim());
     }
 
     public Long getRegistrationKey() {
         return registrationKey;
-    }
-
-    public void setRegistrationKey(Long registrationKey) {
-        this.registrationKey = registrationKey;
     }
 
     public String getCourseId() {
@@ -163,6 +159,7 @@ public class Student {
         return teamName;
     }
 
+    // null team name setting are not tested
     public void setTeamName(String teamName) {
         this.teamName = (teamName == null ? null : teamName.trim());
     }
@@ -175,13 +172,13 @@ public class Student {
         this.sectionName = (sectionName == null ? null : sectionName.trim());
     }
 
+    // not tested as this is part of client script
     public boolean isRegistered() {
         // Null or "" => unregistered
         return ID != null && !ID.isEmpty();
     }
 
     public static String getStringKeyForLongKey(long longKey) {
-        return KeyFactory.createKeyString(Student.class.getSimpleName(),
-                longKey);
+        return KeyFactory.createKeyString(Student.class.getSimpleName(), longKey);
     }
 }

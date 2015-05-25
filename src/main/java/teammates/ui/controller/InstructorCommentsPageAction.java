@@ -15,6 +15,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
+import teammates.logic.api.Logic;
 
 /**
  * Action: Showing the InstructorCommentsPage for an instructor
@@ -43,7 +44,7 @@ public class InstructorCommentsPageAction extends Action {
 
         verifyAccessible();
         
-        if(isDisplayArchivedCourseString != null){
+        if (isDisplayArchivedCourseString != null) {
             putDisplayArchivedOptionToSession();
         } else {
             getDisplayArchivedOptionFromSession();
@@ -62,12 +63,10 @@ public class InstructorCommentsPageAction extends Action {
         CourseRoster roster = null;
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new HashMap<String, List<CommentAttributes>>();
         List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<FeedbackSessionAttributes>();
-        if(coursePaginationList.size() > 0){
+        if (coursePaginationList.size() > 0) {
         //Load details of students and instructors once and pass it to callee methods
         //  (rather than loading them many times).
-            roster = new CourseRoster(
-                    logic.getStudentsForCourse(courseId),
-                    logic.getInstructorsForCourse(courseId));
+            roster = new CourseRoster(logic.getStudentsForCourse(courseId), logic.getInstructorsForCourse(courseId));
 
             //Prepare comments data
             giverEmailToCommentsMap = getGiverEmailToCommentsMap();
@@ -78,11 +77,11 @@ public class InstructorCommentsPageAction extends Action {
         data.comments = giverEmailToCommentsMap;
         data.roster = roster;
         data.feedbackSessions = feedbackSessions;
-        data.instructorEmail = instructor != null? instructor.email : "no-email";
+        data.instructorEmail = instructor != null ? instructor.email : "no-email";
         data.previousPageLink = previousPageLink;
         data.nextPageLink = nextPageLink;
         int numberOfPendingComments = 0;
-        if(!courseId.isEmpty()){
+        if (!courseId.isEmpty()) {
             numberOfPendingComments = logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size() 
                     + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
         }
@@ -97,7 +96,7 @@ public class InstructorCommentsPageAction extends Action {
 
     private void verifyAccessible() {
         isViewingDraft = courseId == null;
-        if(!isViewingDraft){//view by Course
+        if (!isViewingDraft) {//view by Course
             instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
             new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
         } else {//view by Draft
@@ -109,7 +108,7 @@ public class InstructorCommentsPageAction extends Action {
 
     private void getDisplayArchivedOptionFromSession() {
         Boolean isDisplayBooleanInSession = (Boolean) session.getAttribute(COMMENT_PAGE_DISPLAY_ARCHIVE_SESSION);
-        isDisplayArchivedCourse = isDisplayBooleanInSession != null? isDisplayBooleanInSession: false;
+        isDisplayArchivedCourse = isDisplayBooleanInSession != null ? isDisplayBooleanInSession : false;
     }
 
     private void putDisplayArchivedOptionToSession() {
@@ -122,16 +121,18 @@ public class InstructorCommentsPageAction extends Action {
         String courseName = "";
         List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
         java.util.Collections.sort(courses);
-        for(int i = 0; i < courses.size(); i++){
+        for (int i = 0; i < courses.size(); i++) {
             CourseAttributes course = courses.get(i);
-            if(isDisplayArchivedCourse || !isCourseArchived(course, account.googleId) || course.id.equals(courseId)){
-                if(courseId == ""){
+            if (isDisplayArchivedCourse 
+             || !isCourseArchived(course, account.googleId) 
+             || course.id.equals(courseId)) {
+                if (courseId == "") {
                     courseId = course.id;
                     instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
                 }
                 coursePaginationList.add(course.id);
             }
-            if(course.id.equals(courseId)){
+            if (course.id.equals(courseId)) {
                 courseName = course.id + " : " + course.name;
                 setPreviousPageLink(courses, i);
                 setNextPageLink(courses, i);
@@ -140,22 +141,20 @@ public class InstructorCommentsPageAction extends Action {
         return courseName;
     }
     
-    private void setPreviousPageLink(List<CourseAttributes> courses, int currentIndex){
-        for(int i = currentIndex - 1; i >= 0; i--){
+    private void setPreviousPageLink(List<CourseAttributes> courses, int currentIndex) {
+        for (int i = currentIndex - 1; i >= 0; i--) {
             CourseAttributes course = courses.get(i);
-            
-            if(isDisplayArchivedCourse || !isCourseArchived(course, account.googleId)){
+            if (isDisplayArchivedCourse || !isCourseArchived(course, account.googleId)) {
                 previousPageLink = new PageData(account).getInstructorCommentsLink() + "&courseid=" + course.id;
                 break;
             }
         }
     }
     
-    private void setNextPageLink(List<CourseAttributes> courses, int currentIndex){
-        for(int i = currentIndex + 1; i < courses.size(); i++){
+    private void setNextPageLink(List<CourseAttributes> courses, int currentIndex) {
+        for (int i = currentIndex + 1; i < courses.size(); i++) {
             CourseAttributes course = courses.get(i);
-            
-            if(isDisplayArchivedCourse || !isCourseArchived(course, account.googleId)){
+            if (isDisplayArchivedCourse || !isCourseArchived(course, account.googleId)) {
                 nextPageLink = new PageData(account).getInstructorCommentsLink() + "&courseid=" + course.id;
                 break;
             }
@@ -165,17 +164,17 @@ public class InstructorCommentsPageAction extends Action {
     private Map<String, List<CommentAttributes>> getGiverEmailToCommentsMap()
             throws EntityDoesNotExistException {
         List<CommentAttributes> comments;
-        if(isViewingDraft){//for comment drafts
+        if (isViewingDraft) {//for comment drafts
             comments = logic.getCommentDrafts(account.email);
         } else {//for normal comments
             comments = logic.getCommentsForInstructor(instructor);
         }
         //group data by recipients
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new TreeMap<String, List<CommentAttributes>>();
-        for(CommentAttributes comment : comments){
+        for (CommentAttributes comment : comments) {
             boolean isCurrentInstructorGiver = comment.giverEmail.equals(instructor.email);
-            String key = isCurrentInstructorGiver? 
-                    InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST: comment.giverEmail;
+            String key = isCurrentInstructorGiver ? 
+                         InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST : comment.giverEmail;
 
             List<CommentAttributes> commentList = giverEmailToCommentsMap.get(key);
             if (commentList == null) {
@@ -186,15 +185,18 @@ public class InstructorCommentsPageAction extends Action {
         }
         
         //sort comments by created date
-        for(List<CommentAttributes> commentList : giverEmailToCommentsMap.values()){
+        for (List<CommentAttributes> commentList : giverEmailToCommentsMap.values()) {
             java.util.Collections.sort(commentList);
         }
         return giverEmailToCommentsMap;
     }
 
-    private void updateCommentList(CommentAttributes comment, boolean isCurrentInstructorGiver, List<CommentAttributes> commentList) {
+    private void updateCommentList(CommentAttributes comment,
+                                   boolean isCurrentInstructorGiver,
+                                   List<CommentAttributes> commentList) {
         if (!isViewingDraft && !isCurrentInstructorGiver) { 
-            if (data.isInstructorAllowedForPrivilegeOnComment(comment, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
+            if (data.isInstructorAllowedForPrivilegeOnComment(comment,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
                 commentList.add(comment);
             }
         } else {
@@ -203,11 +205,11 @@ public class InstructorCommentsPageAction extends Action {
     }
 
     private List<FeedbackSessionAttributes> getFeedbackSessions() {
-            List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsForCourse(courseId);
+        List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsForCourse(courseId);
         return fsList;
     }
     
     private boolean isCourseArchived(CourseAttributes course, String googleId) {
-        return logic.isCourseArchived(course.id, googleId);
+        return Logic.isCourseArchived(course.id, googleId);
     }
 }

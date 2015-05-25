@@ -41,7 +41,20 @@ $(document).ready(function() {
     prepareRubricQuestions();
     
     prepareMCQQuestions();
+    
+    focusModeratedQuestion();
 });
+
+// Looks for the question to be moderated (if it exists)
+function focusModeratedQuestion() {
+    // must check for whether it exists before animating or
+    // else tooltips inside the bootstrapped page will break
+    if ($('.moderated-question').length > 0) {
+        $('html, body').animate({
+            scrollTop: $('.moderated-question').offset().top - $('.navbar').outerHeight(true)
+        }, 1000);
+    }
+}
 
 // Prepare mcq questions for answering by user
 function prepareMCQQuestions() {
