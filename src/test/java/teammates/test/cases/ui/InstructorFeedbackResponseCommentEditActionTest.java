@@ -49,8 +49,8 @@ public class InstructorFeedbackResponseCommentEditActionTest extends
         FeedbackResponseAttributes feedbackResponse = feedbackResponsesDb.getFeedbackResponse(feedbackQuestion.getId(),
                 giverEmail, receiverEmail);
         
-        FeedbackResponseCommentAttributes feedbackResponseComment = dataBundle.feedbackResponseComments
-                .get("comment1FromT1C1ToR1Q1S1C1");
+        FeedbackResponseCommentAttributes feedbackResponseComment =
+                dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");
         
         feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponse.getId(),
                 feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt);
@@ -63,7 +63,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends
         
         verifyAssumptionFailure();
         
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response",
@@ -74,7 +74,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends
         
         ______TS("Typical successful case for unpublished session");
         
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
@@ -95,14 +95,15 @@ public class InstructorFeedbackResponseCommentEditActionTest extends
         
         ______TS("Typical successful case for published session");
         
-        FeedbackSessionsLogic.inst()
-            .publishFeedbackSession(feedbackResponseComment.feedbackSessionName, feedbackResponseComment.courseId);
-        submissionParams = new String[]{
+        FeedbackSessionsLogic.inst().publishFeedbackSession(feedbackResponseComment.feedbackSessionName,
+                                                            feedbackResponseComment.courseId);
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
-                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText + " (Edited for published session)",
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, feedbackResponseComment.commentText 
+                                                                + " (Edited for published session)",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS"
         };
@@ -117,7 +118,7 @@ public class InstructorFeedbackResponseCommentEditActionTest extends
         
         ______TS("Unsuccessful case: empty comment text");
         
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
