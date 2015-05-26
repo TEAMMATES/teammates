@@ -92,6 +92,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             for (int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
                 FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, questionIndx, responseIndx, questionAttributes);
                 
+                if (response.feedbackQuestionType != questionAttributes.questionType) {
+                    errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_WRONG_QUESTION_TYPE, questionIndx));
+                }
+                
                 responsesRecipients.add(response.recipientEmail);
                 // if the answer is not empty but the recipient is empty
                 if (response.recipientEmail.isEmpty() && !response.responseMetaData.getValue().isEmpty()) {
