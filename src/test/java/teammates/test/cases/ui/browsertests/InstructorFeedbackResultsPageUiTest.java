@@ -277,6 +277,13 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.clickAjaxPanel(0);
 
         resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestionHelperView.html");
+        
+        ______TS("Typical case: ajax for view by question for helper2");
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.helper2",
+                                        "Open Session", true, "question");
+
+        resultsPage.clickAjaxPanel(0);
+        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestionHelperView2.html");
 
         ______TS("Typical case: ajax for view by giver > recipient > question");
 
