@@ -273,6 +273,7 @@ public class AddSectionsToLargeCourses extends RemoteApiClient {
         System.out.println("An error occurred, continue?");
         Scanner s = new Scanner(System.in);
         s.next();
+        s.close();
     }
     
 }

@@ -206,10 +206,7 @@ public class AdminEmailListGenerator extends RemoteApiClient {
         String q = "SELECT FROM " + Instructor.class.getName();
         List<Instructor> allInstructors = (List<Instructor>) pm.newQuery(q).execute();
         
-        int i = 0;
-        
         for(Instructor instructor : allInstructors){
-            i ++;
             if((instructor.getGoogleId() != null  && emailListConfig.instructorStatus == InstructorStatus.REG) ||
                (instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG) ||
                (emailListConfig.instructorStatus == InstructorStatus.ALL)){

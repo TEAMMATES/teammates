@@ -26,7 +26,7 @@ if (window.addEventListener) {
     window.attachEvent('onload', onLoadFunction);
 }
 
-$(document).ready(function() {
+$(document).on('ajaxComplete ready', function() {
     $('[data-toggle="tooltip"]').tooltip({html: true, container: 'body'});
 });
 

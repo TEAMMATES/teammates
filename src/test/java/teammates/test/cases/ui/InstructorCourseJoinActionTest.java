@@ -30,6 +30,7 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
     }
     
+    @SuppressWarnings("deprecation")
     @Test
     public void testExecuteAndPostProcess() throws Exception{
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");

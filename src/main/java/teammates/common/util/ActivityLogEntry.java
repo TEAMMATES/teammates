@@ -27,7 +27,8 @@ public class ActivityLogEntry {
     private String message;
     private String url;
     private Long timeTaken;
-    
+
+    @SuppressWarnings("unused")
     private String logInfoAsHtml;
     
     private String[] keyStringsToHighlight;

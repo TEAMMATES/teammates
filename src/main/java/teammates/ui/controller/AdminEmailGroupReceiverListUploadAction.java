@@ -164,6 +164,8 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
                    listOfList.add(newList);
                 }              
             }
+            
+            blobStream.close();
         }
         
         //log all email addresses retrieved from the txt file 
