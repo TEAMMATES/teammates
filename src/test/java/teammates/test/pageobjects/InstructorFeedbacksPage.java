@@ -6,7 +6,6 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -313,7 +312,6 @@ public class InstructorFeedbacksPage extends AppPage {
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
 
         dateInputElement.click();
-        browser.driver.manage().timeouts().implicitlyWait(200, TimeUnit.MILLISECONDS);
 
         dateInputElement.clear();
         dateInputElement.sendKeys(newValue.get(Calendar.DATE) + "/" + (newValue.get(Calendar.MONTH) + 1)
