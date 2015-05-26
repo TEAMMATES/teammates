@@ -204,9 +204,11 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     
     private HashSet<String> addInstructorEmailIntoSet(HashSet<String> instructorEmailSet){
         String q = "SELECT FROM " + Instructor.class.getName();
-        List<Instructor> allInstructors = (List<Instructor>) pm.newQuery(q).execute();
+        List<?> allInstructors = (List<?>) pm.newQuery(q).execute();
         
-        for(Instructor instructor : allInstructors){
+        for(Object object : allInstructors){
+            Instructor instructor = (Instructor) object;
+            // intended casting of ? to remove unchecked casting
             if((instructor.getGoogleId() != null  && emailListConfig.instructorStatus == InstructorStatus.REG) ||
                (instructor.getGoogleId() == null && emailListConfig.instructorStatus == InstructorStatus.UNREG) ||
                (emailListConfig.instructorStatus == InstructorStatus.ALL)){
@@ -223,9 +225,11 @@ public class AdminEmailListGenerator extends RemoteApiClient {
     
     private  HashSet<String> addStudentEmailIntoSet(HashSet<String> studentEmailSet){
         String q = "SELECT FROM " + Student.class.getName();
-        List<Student> allStudents = (List<Student>) pm.newQuery(q).execute();
+        List<?> allStudents = (List<?>) pm.newQuery(q).execute();
 
-        for(Student student : allStudents){
+        for(Object object : allStudents){
+            Student student = (Student) object;
+            // intended casting from ? due to unchecked casting
             if((student.isRegistered() && emailListConfig.studentStatus == StudentStatus.REG) ||
                (!student.isRegistered() && emailListConfig.studentStatus == StudentStatus.UNREG) ||
                (emailListConfig.studentStatus == StudentStatus.ALL)){

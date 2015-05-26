@@ -376,6 +376,7 @@
                                 %>
                                             <div class="panel panel-info">
                                                 <div class="panel-heading">
+                                                    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                     <strong>Question <%=teamResponseEntries.getKey().questionNumber%>: </strong><span class="text-preserve-space"><%=data.bundle.getQuestionText(teamResponseEntries.getKey().getId())%><%
                                                     	out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
                                                     %></span>
@@ -479,6 +480,7 @@
                                         List<String> possibleRecipientsForQuestion = data.bundle.getPossibleRecipients(question, giverEmail);
                 %>
                         <div class="panel panel-info">
+                            <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                             <div class="panel-heading">Question <%=question.questionNumber%>: <span class="text-preserve-space"><%
                                     out.print(InstructorFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText));
                                     out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "giver-"+giverIndex+"-question-"+questionIndex));%></span>
@@ -550,6 +552,7 @@
                                         %>
                                                 <td class="middlealign"><%=recipientName%></td>
                                                 <td class="middlealign"><%=recipientTeamName%></td>
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                 <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
                                             </tr>        
                                         <%
@@ -585,6 +588,7 @@
                                                     %>
                                                         <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(possibleRecipientWithNoResponse)%></td>
                                                         <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleRecipientWithNoResponse)%></td>
+                                                        <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                         <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(giverEmail, possibleRecipientWithNoResponse, data.bundle, question)%></td>
                                                         </tr>
                                                     <%
