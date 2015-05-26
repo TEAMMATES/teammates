@@ -552,7 +552,12 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     public void clickFsCopyButton(String courseId, String feedbackSessionName) {
-        WebElement fsCopyButton = browser.driver.findElement(By.id("button_fscopy" + "-" + courseId + "-" + feedbackSessionName));
+        By fsCopyButtonElement = By.id("button_fscopy" + "-" + courseId + "-" + feedbackSessionName);
+        
+        // give it some time to load as it is loaded via AJAX
+        waitForElementPresence(fsCopyButtonElement, 5);
+        
+        WebElement fsCopyButton = browser.driver.findElement(fsCopyButtonElement);
         
         fsCopyButton.click();
     }

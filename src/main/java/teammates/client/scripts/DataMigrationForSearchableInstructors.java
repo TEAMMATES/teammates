@@ -19,7 +19,6 @@ public class DataMigrationForSearchableInstructors extends RemoteApiClient {
 
     @Override
     protected void doOperation() {
-        // TODO Auto-generated method stub
         Datastore.initialize();
 
         List<InstructorAttributes> allInstructors = getAllInstructors();

@@ -233,13 +233,13 @@
 
 
 
-
-    <div id="statusMessage" class="alert alert-danger">
-        This session seems to have a large number of responses. It is recommended to view the results one section at at time.
-    </div>
-    <script type="text/javascript">
-        document.getElementById( 'statusMessage' ).scrollIntoView();
-    </script>
+        <div id="statusMessage" class="alert alert-danger">
+            This session seems to have a large number of responses. It is recommended to view the results one section at at time.
+        </div>
+        
+        <script type="text/javascript">
+            document.getElementById( 'statusMessage' ).scrollIntoView();
+        </script>
 
 <br>
 
@@ -324,7 +324,7 @@
                                 <div class="col-md-12">
                                     
                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" target="_blank"> 
-                                        <input class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" type="submit">
                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                         <input name="fsname" value="First Session" type="hidden">
                                         
@@ -342,7 +342,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space">Alice self feedback.</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,1)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -455,7 +455,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space">PowerSearch</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,2)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,2)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -568,7 +568,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space"><ul class="selectedOptionsList"><li>PowerSearch</li><li>GoodUI</li></ul></div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,3)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,3)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -681,7 +681,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space">Danny</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,4)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,4)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -794,7 +794,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space">Team 1</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,5)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,5)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -907,7 +907,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space"><ul class="selectedOptionsList"><li>Danny</li></ul></div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,6)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,6)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -1020,7 +1020,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space"><ul class="selectedOptionsList"><li>Team 1</li><li>Team 2</li></ul></div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,7)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,7)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -1132,7 +1132,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space">3.5</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,8)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,8)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -1223,7 +1223,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space"><ul><li>Grades: 45</li><li>Fun: 55</li></ul></div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,9)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,9)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -1313,7 +1313,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space">110</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,10)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,10)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -1414,7 +1414,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space"><span class="color-positive">Equal Share +11%</span><span>&nbsp;&nbsp;[Perceived Contribution: <span class="color_neutral">N/A</span>]</span></div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,11)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,11)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -1537,7 +1537,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space">3</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,12)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,1,12)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -1646,7 +1646,7 @@
                                 <div class="col-md-12">
                                     
                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" target="_blank"> 
-                                        <input class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" type="submit">
                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                         <input name="fsname" value="First Session" type="hidden">
                                         
@@ -1664,7 +1664,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space">Response to Alice from Dropout.</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,2,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(0,2,1)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -1834,7 +1834,7 @@
                                 <div class="col-md-12">
                                     
                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" target="_blank"> 
-                                        <input class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" type="submit">
                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                         <input name="fsname" value="First Session" type="hidden">
                                         
@@ -1852,7 +1852,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space">2 Response to Benny.</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,1,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,1,1)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -1975,7 +1975,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space">90</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,1,2)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,1,2)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -2076,7 +2076,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space"><span class="color_neutral">Equal Share</span></div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,1,3)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,1,3)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -2199,7 +2199,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space">4</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,1,4)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,1,4)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -2308,7 +2308,7 @@
                                 <div class="col-md-12">
                                     
                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" target="_blank"> 
-                                        <input class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" type="submit">
                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                         <input name="fsname" value="First Session" type="hidden">
                                         
@@ -2331,7 +2331,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space"></div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,2,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,2,1)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -2462,7 +2462,7 @@
                                 <div class="col-md-12">
                                     
                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" target="_blank"> 
-                                        <input class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" type="submit">
                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                         <input name="fsname" value="First Session" type="hidden">
                                         
@@ -2480,7 +2480,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space">Response to Benny from Dropout.</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,3,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,3,1)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -2650,7 +2650,7 @@
                                 <div class="col-md-12">
                                     
                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" target="_blank"> 
-                                        <input class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" type="submit">
                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                         <input name="fsname" value="First Session" type="hidden">
                                         
@@ -2672,7 +2672,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space">50</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(2,1,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(2,1,1)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -2792,7 +2792,7 @@
                                 <div class="col-md-12">
                                     
                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" target="_blank"> 
-                                        <input class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" type="submit">
                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                         <input name="fsname" value="First Session" type="hidden">
                                         
@@ -2810,7 +2810,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space">4 Response to Charlie.</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(2,2,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(2,2,1)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -2980,7 +2980,7 @@
                                 <div class="col-md-12">
                                     
                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" target="_blank"> 
-                                        <input class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" type="submit">
                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                         <input name="fsname" value="First Session" type="hidden">
                                         
@@ -3002,7 +3002,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space">150</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(3,1,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(3,1,1)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -3122,7 +3122,7 @@
                                 <div class="col-md-12">
                                     
                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" target="_blank"> 
-                                        <input class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" type="submit">
                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                         <input name="fsname" value="First Session" type="hidden">
                                         
@@ -3140,7 +3140,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space">1 Response to Danny.</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(3,2,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(3,2,1)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -3282,7 +3282,7 @@
                                 <div class="col-md-12">
                                     
                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" target="_blank"> 
-                                        <input class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" type="submit">
                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                         <input name="fsname" value="First Session" type="hidden">
                                         
@@ -3300,7 +3300,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space">Response to Danny from Dropout.</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(3,3,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(3,3,1)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -3470,7 +3470,7 @@
                                 <div class="col-md-12">
                                     
                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" target="_blank"> 
-                                        <input class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" type="submit">
                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                         <input name="fsname" value="First Session" type="hidden">
                                         
@@ -3488,7 +3488,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space">Response to Dropout.</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(4,1,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(4,1,1)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -3630,7 +3630,7 @@
                                 <div class="col-md-12">
                                     
                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" target="_blank"> 
-                                        <input class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" type="submit">
                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                         <input name="fsname" value="First Session" type="hidden">
                                         
@@ -3653,7 +3653,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space">PowerSearch</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(4,2,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(4,2,1)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -3766,7 +3766,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space">Team 2</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(4,2,2)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(4,2,2)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -3917,7 +3917,7 @@
                                 <div class="col-md-12">
                                     
                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" target="_blank"> 
-                                        <input class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" type="submit">
                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                         <input name="fsname" value="First Session" type="hidden">
                                         
@@ -3935,7 +3935,7 @@
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
                                                 <div class="pull-left text-preserve-space">Response from team 1 (by alice) to team 2.</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(5,1,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(5,1,1)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>

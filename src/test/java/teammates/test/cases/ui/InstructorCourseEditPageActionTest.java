@@ -30,7 +30,7 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
         String courseId = instructor1OfCourse1.courseId;
@@ -42,12 +42,13 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
 
         ______TS("Typical case: open the course edit page");
         String[] submissionParams = new String[]{
-                Const.ParamsNames.COURSE_ID, courseId
+            Const.ParamsNames.COURSE_ID, courseId
         };
         
         InstructorCourseEditPageAction editAction = getAction(submissionParams);
         ShowPageResult pageResult = getShowPageResult(editAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT+"?error=false&user=idOfInstructor1OfCourse1", pageResult.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT + "?error=false&user=idOfInstructor1OfCourse1", 
+                     pageResult.getDestinationWithParams());
         assertEquals(false, pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
@@ -56,8 +57,29 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         verifySameInstructorList(InstructorsLogic.inst().getInstructorsForCourse(courseId), data.instructorList);
         
         String expectedLogSegment = "instructorCourseEdit Page Load<br>"
-                + "Editing information for Course <span class=\"bold\">["
-                + courseId + "]</span>";
+                                    + "Editing information for Course <span class=\"bold\">[" + courseId + "]</span>";
+        AssertHelper.assertContains(expectedLogSegment, editAction.getLogMessage());
+        
+        ______TS("Typical case: open the course edit page with instructor's email");
+        submissionParams = new String[]{
+            Const.ParamsNames.COURSE_ID, courseId,
+            Const.ParamsNames.INSTRUCTOR_EMAIL, "instr1@course1.tmt",
+            Const.ParamsNames.COURSE_EDIT_MAIN_INDEX, "1"
+        };
+        
+        editAction = getAction(submissionParams);
+        pageResult = getShowPageResult(editAction);
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT + "?error=false&user=idOfInstructor1OfCourse1", 
+                     pageResult.getDestinationWithParams());
+        assertEquals(false, pageResult.isError);
+        assertEquals("", pageResult.getStatusMessage());
+        
+        data = (InstructorCourseEditPageData) pageResult.data;
+        assertEquals(CoursesLogic.inst().getCourse(courseId).toString(), data.course.toString());
+        assertEquals(1, data.instructorList.size());
+        
+        expectedLogSegment = "instructorCourseEdit Page Load<br>"
+                             + "Editing information for Course <span class=\"bold\">[" + courseId + "]</span>";
         AssertHelper.assertContains(expectedLogSegment, editAction.getLogMessage());
         
         ______TS("Masquerade mode");
@@ -69,13 +91,14 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin("admin.user");
         
         submissionParams = new String[]{
-                Const.ParamsNames.USER_ID, instructorId,
-                Const.ParamsNames.COURSE_ID, courseId
+            Const.ParamsNames.USER_ID, instructorId,
+            Const.ParamsNames.COURSE_ID, courseId
         };
         
         editAction = getAction(submissionParams);
         pageResult = getShowPageResult(editAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT+"?error=false&user=idOfInstructor4", pageResult.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT + "?error=false&user=idOfInstructor4", 
+                     pageResult.getDestinationWithParams());
         assertEquals(false, pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
@@ -84,8 +107,7 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         verifySameInstructorList(InstructorsLogic.inst().getInstructorsForCourse(courseId), data.instructorList);
         
         expectedLogSegment = "instructorCourseEdit Page Load<br>"
-                + "Editing information for Course <span class=\"bold\">["
-                + courseId + "]</span>";
+                             + "Editing information for Course <span class=\"bold\">[" + courseId + "]</span>";
         AssertHelper.assertContains(expectedLogSegment, editAction.getLogMessage());
         
         ______TS("Failure case: edit a non-existing course");
@@ -93,8 +115,8 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         CoursesLogic.inst().deleteCourseCascade(courseId);
         
         submissionParams = new String[]{
-                Const.ParamsNames.USER_ID, instructorId,
-                Const.ParamsNames.COURSE_ID, courseId
+            Const.ParamsNames.USER_ID, instructorId,
+            Const.ParamsNames.COURSE_ID, courseId
         };
             
         try {
@@ -111,9 +133,7 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         return (InstructorCourseEditPageAction) (gaeSimulation.getActionObject(uri, params));
     }
     
-    private void verifySameInstructorList(
-            List<InstructorAttributes> list1,
-            List<InstructorAttributes> list2) {
+    private void verifySameInstructorList(List<InstructorAttributes> list1, List<InstructorAttributes> list2) {
         
         assertEquals(list1.size(), list2.size());
         

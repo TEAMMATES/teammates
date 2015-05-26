@@ -64,7 +64,6 @@ public class FileHelper {
         try {
             encoded = Files.readAllBytes(Paths.get(path));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return new String(encoded, encoding);

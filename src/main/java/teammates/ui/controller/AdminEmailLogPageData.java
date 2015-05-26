@@ -25,7 +25,6 @@ public class AdminEmailLogPageData extends PageData {
     
     public AdminEmailLogPageData(AccountAttributes account) {
         super(account);
-        // TODO Auto-generated constructor stub
     }
     
     
