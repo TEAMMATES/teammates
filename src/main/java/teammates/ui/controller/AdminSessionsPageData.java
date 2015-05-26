@@ -49,6 +49,7 @@ public class AdminSessionsPageData extends PageData {
         return link;
     }
 
+    @SuppressWarnings("deprecation")
     public ArrayList<String> getHourOptionsAsHtml(Date date) {
         ArrayList<String> result = new ArrayList<String>();
         for (int i = 0; i <= 23; i++) {
@@ -59,6 +60,7 @@ public class AdminSessionsPageData extends PageData {
         return result;
     }
 
+    @SuppressWarnings("deprecation")
     public ArrayList<String> getMinuteOptionsAsHtml(Date date) {
         ArrayList<String> result = new ArrayList<String>();
         for (int i = 0; i <= 59; i++) {
