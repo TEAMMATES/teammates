@@ -85,6 +85,145 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         assertEquals("", result.getStatusMessage());
         assertEquals(CommentSendingState.SENT, data.comment.sendingState);
         
+        ______TS("typical successful case for unpublished session empty giver permissions");
+        
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, session.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Empty giver permissions",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
+                Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, ""
+        };
+        
+        action = getAction(submissionParams);
+        result = (AjaxResult) action.executeAndPostProcess();
+        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        assertFalse(data.isError);
+        assertEquals("", result.getStatusMessage());
+        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
+        
+        ______TS("typical successful case for unpublished session shown to various recipients");
+        
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, session.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Null comment permissions",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
+        };
+        
+        action = getAction(submissionParams);
+        result = (AjaxResult) action.executeAndPostProcess();
+        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        assertFalse(data.isError);
+        assertEquals("", result.getStatusMessage());
+        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
+        
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, session.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Empty comment permissions",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
+                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, ""
+        };
+        
+        action = getAction(submissionParams);
+        result = (AjaxResult) action.executeAndPostProcess();
+        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        assertFalse(data.isError);
+        assertEquals("", result.getStatusMessage());
+        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
+        
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, session.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment shown to giver",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
+                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER"
+        };
+        
+        action = getAction(submissionParams);
+        result = (AjaxResult) action.executeAndPostProcess();
+        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        assertFalse(data.isError);
+        assertEquals("", result.getStatusMessage());
+        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
+        
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, session.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment shown to receiver",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
+                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "RECEIVER"
+        };
+        
+        action = getAction(submissionParams);
+        result = (AjaxResult) action.executeAndPostProcess();
+        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        assertFalse(data.isError);
+        assertEquals("", result.getStatusMessage());
+        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
+        
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, session.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment shown to own team members",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
+                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "OWN_TEAM_MEMBERS"
+        };
+        
+        action = getAction(submissionParams);
+        result = (AjaxResult) action.executeAndPostProcess();
+        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        assertFalse(data.isError);
+        assertEquals("", result.getStatusMessage());
+        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
+        
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, session.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment shown to receiver team members",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
+                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "RECEIVER_TEAM_MEMBERS"
+        };
+        
+        action = getAction(submissionParams);
+        result = (AjaxResult) action.executeAndPostProcess();
+        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        assertFalse(data.isError);
+        assertEquals("", result.getStatusMessage());
+        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, session.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment shown to students",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
+                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "STUDENTS"
+        };
+        
+        action = getAction(submissionParams);
+        result = (AjaxResult) action.executeAndPostProcess();
+        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        assertFalse(data.isError);
+        assertEquals("", result.getStatusMessage());
+        assertEquals(CommentSendingState.SENT, data.comment.sendingState);
+        
         ______TS("typical successful case for published session");
         
         FeedbackSessionsLogic.inst().publishFeedbackSession(session.feedbackSessionName, session.courseId);
@@ -95,7 +234,8 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, question.getId(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, response.getId(),
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
-                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS"
+                Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO, "GIVER,INSTRUCTORS",
+                Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO, "GIVER,INSTRUCTORS"
         };
         
         action = getAction(submissionParams);
@@ -122,6 +262,8 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         assertTrue(data.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, data.errorMessage);
+        
+        
     }
     
     private InstructorFeedbackResponseCommentAddAction getAction(String... params) throws Exception {
