@@ -113,8 +113,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("fresh new page");
 
-        // Verify Html instead of main content to verify copy panel and preview
-        // panel
+        // Verify Html instead of main content to verify copy panel and preview panel
         feedbackEditPage.verifyHtml("/instructorFeedbackEditEmpty.html");
 
     }
@@ -132,12 +131,13 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.clickManualPublishTimeButton();
         feedbackEditPage.clickDefaultVisibleTimeButton();
+        
         feedbackEditPage.editFeedbackSession(editedSession.startTime, editedSession.endTime,
-                editedSession.instructions,
-                editedSession.gracePeriod);
+                editedSession.instructions, editedSession.gracePeriod);
+        
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
-        FeedbackSessionAttributes savedSession =
-                BackDoor.getFeedbackSession(editedSession.courseId, editedSession.feedbackSessionName);
+        FeedbackSessionAttributes savedSession = BackDoor.getFeedbackSession(
+                editedSession.courseId, editedSession.feedbackSessionName);
         assertEquals(editedSession.toString(), savedSession.toString());
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditSuccess.html");
 
@@ -150,11 +150,11 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 
         feedbackEditPage = getFeedbackEditPage();
-        feedbackEditPage.isElementSelected(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON + "_atvisible");
+        feedbackEditPage.isElementSelected(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON
+                                           + "_atvisible");
         //feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditPublished.html");
         // Restore defaults
         feedbackEditPage.clickEditSessionButton();
-        
 
         feedbackEditPage.clickEditUncommonSettingsButton();
         feedbackEditPage.clickDefaultPublishTimeButton();
@@ -173,8 +173,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("empty question text");
 
         feedbackEditPage.clickAddQuestionButton();
+        
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_TEXTINVALID, feedbackEditPage.getStatus());
 
+        
         ______TS("empty number of max respondants field");
 
         feedbackEditPage.fillQuestionBox("filled qn");
@@ -182,6 +184,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.fillNumOfEntitiesToGiveFeedbackToBox("");
         feedbackEditPage.clickCustomNumberOfRecipientsButton();
         feedbackEditPage.clickAddQuestionButton();
+        
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_NUMBEROFENTITIESINVALID, feedbackEditPage.getStatus());
 
     }
@@ -192,6 +195,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         feedbackEditPage.clickMaxNumberOfRecipientsButton();
         feedbackEditPage.clickAddQuestionButton();
+
         assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, feedbackEditPage.getStatus());
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1));
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionAddSuccess.html");
@@ -211,14 +215,18 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
         feedbackEditPage.selectGiverTypeForQuestion1("Teams in this course");        
         feedbackEditPage.selectRecipientTypeForQuestion1("Other teams in the course");
+        
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionEditToTeamToTeam.html");
 
+        
         ______TS("test visibility options of question 1");
         feedbackEditPage.clickquestionSaveForQuestion1();
         feedbackEditPage.clickVisibilityOptionsForQuestion1();
+        
         //TODO: use simple element checks instead of html checks after adding names to the checkboxes 
         //      in the edit page (follow todo in instructorsFeedbackEdit.js)
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackQuestionVisibilityOptions.html");
+        
         
         ______TS("test visibility preview of question 1");
         feedbackEditPage.clickVisibilityPreviewForQuestion1();
@@ -239,22 +247,20 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         ______TS("get individual question link");
 
         feedbackEditPage.clickGetLinkButton();
-        String questionId = BackDoor.getFeedbackQuestion(courseId,
-                feedbackSessionName, 1).getId();
+        String questionId = BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, 1).getId();
         
         String expectedUrl = TestProperties.inst().TEAMMATES_URL
-                + Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE
-                + "?courseid=" + courseId
-                + "&fsname=First%20Session"
-                + "&questionid=" + questionId;
+                             + Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE
+                             + "?courseid=" + courseId
+                             + "&fsname=First%20Session"
+                             + "&questionid=" + questionId;
 
         assertTrue(feedbackEditPage.isElementVisible("statusMessage"));
-        assertEquals(
-                "Link for question 1: " + expectedUrl,
-                feedbackEditPage.getStatus());
+        assertEquals("Link for question 1: " + expectedUrl, feedbackEditPage.getStatus());
         
         Url url = new Url(expectedUrl).withUserId(instructorId);
-        FeedbackQuestionSubmitPage questionPage = loginAdminToPage(browser, url, FeedbackQuestionSubmitPage.class);
+        FeedbackQuestionSubmitPage questionPage =
+                loginAdminToPage(browser, url, FeedbackQuestionSubmitPage.class);
         
         assertTrue(questionPage.isCorrectPage(courseId, feedbackSessionName));
         
@@ -267,14 +273,17 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
         feedbackEditPage.clickNewQuestionButton();
         
+        
         ______TS("MCQ: click and cancel 'cancel new question'");
         
         feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(-1));
         assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
         
+        
         ______TS("MCQ: click and confirm 'cancel new question'");
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getCancelQuestionLink(-1));
         assertFalse(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
+        
         
         ______TS("MCQ: click and cancel 'editing question'");
         
@@ -291,6 +300,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         feedbackEditPage.clickAndCancel(feedbackEditPage.getCancelQuestionLink(1));
         assertTrue(feedbackEditPage.checkCancelEditQuestionButtonVisibility(1));
+        
         
         ______TS("MCQ: click and confirm 'editing question'");
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getCancelQuestionLink(1));
@@ -348,6 +358,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteQuestionLink(qnNumber));
         assertNotNull(BackDoor.getFeedbackQuestion(courseId, feedbackSessionName, qnNumber));
 
+        
         ______TS("qn " + qnNumber + " delete then accept");
 
         feedbackEditPage.clickAndConfirm(feedbackEditPage.getDeleteQuestionLink(qnNumber));
@@ -377,6 +388,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.selectGiverToBeInstructors();
         feedbackEditPage.clickAddQuestionButton();
 
+        
         ______TS("preview as student");
 
         FeedbackSubmitPage previewPage;
@@ -384,6 +396,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         previewPage.verifyHtmlMainContent("/studentFeedbackSubmitPagePreview.html");
         previewPage.closeCurrentWindowAndSwitchToParentWindow();
 
+        
         ______TS("preview as instructor");
 
         previewPage.waitForElementPresence(By.id("button_preview_instructor"), 15);
@@ -397,15 +410,14 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         ______TS("Compare URLs");
         
-        String expectedRedirectUrl = TestProperties.inst().TEAMMATES_URL + 
-                Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + 
-                "?" + Const.ParamsNames.USER_ID +
-                "=" + instructorId + "&" + 
-                Const.ParamsNames.COURSE_ID + 
-                "=" + courseId + "&" +
-                Const.ParamsNames.FEEDBACK_SESSION_NAME +
-                "=" + feedbackSessionName.replaceAll(" ", "%20");
+        String expectedRedirectUrl = TestProperties.inst().TEAMMATES_URL
+                                     + Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE + "?"
+                                     + Const.ParamsNames.USER_ID + "=" + instructorId + "&"
+                                     + Const.ParamsNames.COURSE_ID + "=" + courseId + "&"
+                                     + Const.ParamsNames.FEEDBACK_SESSION_NAME + "="
+                                     + feedbackSessionName.replaceAll(" ", "%20");
         assertEquals(expectedRedirectUrl, feedbackPage.getPageUrl());
+        
         
         ______TS("Check for highlight on last modified row");
         
@@ -422,19 +434,20 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.clickAndCancel(feedbackEditPage.getDeleteSessionLink());
         assertNotNull(BackDoor.getFeedbackSession(courseId, feedbackSessionName));
 
+
         ______TS("session delete then accept");
 
         // check redirect to main feedback page
         InstructorFeedbacksPage feedbackPage = feedbackEditPage.deleteSession();
         AssertHelper.assertContains(Const.StatusMessages.FEEDBACK_SESSION_DELETED,
-                feedbackPage.getStatus());
+                                    feedbackPage.getStatus());
         assertNull(BackDoor.getFeedbackSession(courseId, feedbackSessionName));
     }
 
     public static void printTestClassHeader() {
         print("[============================="
-                + Thread.currentThread().getStackTrace()[2].getClassName()
-                + "=============================]");
+              + Thread.currentThread().getStackTrace()[2].getClassName()
+              + "=============================]");
     }
 
     protected static void print(String message) {
@@ -442,8 +455,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
     }
 
     private static InstructorFeedbackEditPage getFeedbackEditPage() {
-        Url feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE).
-                withUserId(instructorId).withCourseId(courseId).withSessionName(feedbackSessionName);
+        Url feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
+                                    .withUserId(instructorId)
+                                    .withCourseId(courseId)
+                                    .withSessionName(feedbackSessionName);
         return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
