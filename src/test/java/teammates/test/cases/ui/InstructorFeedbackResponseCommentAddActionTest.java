@@ -38,8 +38,7 @@ public class InstructorFeedbackResponseCommentAddActionTest extends
         FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
         FeedbackResponsesDb feedbackResponsesDb = new FeedbackResponsesDb();
 
-        FeedbackSessionAttributes session = dataBundle.feedbackSessions
-                .get("session1InCourse1");
+        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
         
         int questionNumber = 1;
         FeedbackQuestionAttributes question = feedbackQuestionsDb.getFeedbackQuestion(
