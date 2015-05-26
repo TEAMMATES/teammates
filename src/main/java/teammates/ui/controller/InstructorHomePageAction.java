@@ -13,13 +13,10 @@ import teammates.common.util.Const.StatusMessages;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorHomePageAction extends Action {
-    
     private InstructorHomePageData data;
     
-
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
-        
         if (!account.isInstructor && isPersistenceIssue()) {
             data = new InstructorHomePageData(account);
             ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME, data);
@@ -36,10 +33,11 @@ public class InstructorHomePageAction extends Action {
         }
         
         boolean omitArchived = true;
-        HashMap<String, CourseSummaryBundle> courses = logic.getCourseSummariesWithoutStatsForInstructor(account.googleId, omitArchived);
+        HashMap<String, CourseSummaryBundle> courses = logic.getCourseSummariesWithoutStatsForInstructor(
+                                        account.googleId, omitArchived);
         
-        
-        ArrayList<CourseSummaryBundle> courseList = new ArrayList<CourseSummaryBundle>(courses.values());
+        ArrayList<CourseSummaryBundle> courseList = new ArrayList<CourseSummaryBundle>(
+                                        courses.values());
         data.courses = courseList;
         
         switch (data.sortCriteria) {
@@ -59,15 +57,21 @@ public class InstructorHomePageAction extends Action {
         data.instructors = new HashMap<String, InstructorAttributes>();
         data.numberOfPendingComments = new HashMap<String, Integer>();
         
-        for(CourseSummaryBundle course: data.courses) {
+        for (CourseSummaryBundle course : data.courses) {
             String courseId = course.course.id;
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(
+                                            courseId, account.googleId);
             data.instructors.put(courseId, instructor);
-            int numberOfPendingCommentsForThisCourse = logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size() 
-                    + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
+            
+            int numberOfPendingCommentsForThisCourse = logic.getCommentsForSendingState(
+                                            courseId, CommentSendingState.PENDING).size() 
+                                            + logic.getFeedbackResponseCommentsForSendingState(
+                                            courseId, CommentSendingState.PENDING).size();
+            
             data.numberOfPendingComments.put(courseId, numberOfPendingCommentsForThisCourse);
             
-            FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(course.feedbackSessions);
+            FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(
+                                            course.feedbackSessions);
         }
         
         if (logic.isNewInstructor(account.googleId)) {
@@ -77,7 +81,5 @@ public class InstructorHomePageAction extends Action {
         
         ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME, data);
         return response;
-
-    }
-    
+    }    
 }
