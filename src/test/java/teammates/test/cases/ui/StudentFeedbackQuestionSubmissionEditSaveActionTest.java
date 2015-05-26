@@ -18,7 +18,6 @@ import teammates.common.util.Const;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.ui.controller.RedirectResult;
-import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentFeedbackQuestionSubmissionEditSaveAction;
 
 public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends

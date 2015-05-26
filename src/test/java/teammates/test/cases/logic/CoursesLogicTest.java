@@ -727,7 +727,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("student having multiple evaluations in multiple courses");
     
         CourseAttributes expectedCourse1 = dataBundle.courses.get("typicalCourse1");
-        CourseAttributes expectedCourse2 = dataBundle.courses.get("typicalCourse2");
         
         // This student is in both course 1 and 2
         StudentAttributes studentInBothCourses = dataBundle.students

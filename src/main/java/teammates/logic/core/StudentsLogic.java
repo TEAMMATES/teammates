@@ -54,6 +54,8 @@ public class StudentsLogic {
     private AccountsLogic accLogic = AccountsLogic.inst();
     private CommentsLogic commentsLogic = CommentsLogic.inst();
     
+    @SuppressWarnings("unused")
+    // it is used, just not in here, do not remove
     private static Logger log = Utils.getLogger();
     
     public static StudentsLogic inst() {
