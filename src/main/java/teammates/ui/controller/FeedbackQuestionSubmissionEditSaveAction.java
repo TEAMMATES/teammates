@@ -18,11 +18,6 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends FeedbackS
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_QUESTION_ID, feedbackQuestionId);
         
     }
-    
-    private void getPageData(String userEmailForCourse) throws EntityDoesNotExistException {
-        data = new FeedbackSubmissionEditPageData(account, student);
-        data.bundle = getDataBundle(userEmailForCourse);
-    }
 
     protected abstract void verifyAccesibleForSpecificUser();
 
