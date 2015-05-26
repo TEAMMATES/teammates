@@ -39,11 +39,9 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         Assumption.assertNotNull(response);
         boolean isCreatorOnly = true;
         
-        new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly, 
-                response.giverSection, 
+        new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly, response.giverSection, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-        new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly, 
-                response.recipientSection, 
+        new GateKeeper().verifyAccessible(instructor, session, !isCreatorOnly, response.recipientSection, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         
         InstructorFeedbackResponseCommentAjaxPageData data = 
