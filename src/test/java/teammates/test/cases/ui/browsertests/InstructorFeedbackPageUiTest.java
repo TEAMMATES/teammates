@@ -612,8 +612,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     public void testJScripts() throws ParseException{
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
         testSessionViewableTable();
-        
-        // TODO: check this method. it gives random failure!!!
         testDatePickerScripts();
     }
     

@@ -12,9 +12,11 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -306,29 +308,16 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     public void fillTimeValueForDatePickerTest (String timeId, Calendar newValue) throws ParseException {
-        
         browser.driver.findElement(By.id(timeId)).click();
-        browser.driver.manage().timeouts().implicitlyWait(200, TimeUnit.MILLISECONDS); 
+        browser.driver.manage().timeouts().implicitlyWait(200, TimeUnit.MILLISECONDS);
         
-        Calendar currentValue = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd yyyy");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));        
-        
-        String currentDateString = getValueOfDate(timeId);
-        int numberOfMonthsToMove = 0;
-        
-        if (currentDateString != null) {
-            currentValue.setTime(sdf.parse(currentDateString));
-        } else {
-            currentValue.setTime(new Date());
-        }
-        
-        numberOfMonthsToMove = 12*(newValue.get(Calendar.YEAR) - currentValue.get(Calendar.YEAR));
-        numberOfMonthsToMove += newValue.get(Calendar.MONTH) - currentValue.get(Calendar.MONTH);
-        
-        changeMonthInDatePickerBy(numberOfMonthsToMove);
-        selectDayInDatePicker(newValue.get(Calendar.DATE));
-        
+        browser.driver.findElement(By.id(timeId)).clear();
+        browser.driver.findElement(By.id(timeId)).sendKeys(newValue.get(Calendar.DATE)
+                                                           + "/" + (newValue.get(Calendar.MONTH) + 1)
+                                                           + "/" + newValue.get(Calendar.YEAR));
+
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        js.executeScript("$('.ui-datepicker-current-day').click();");
     }
     
     public void changeMonthInDatePickerBy(int numberOfMonths) {
