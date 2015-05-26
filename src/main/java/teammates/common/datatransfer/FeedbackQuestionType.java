@@ -30,30 +30,31 @@ public enum FeedbackQuestionType {
     public FeedbackQuestionDetails getFeedbackQuestionDetailsInstance(String questionText, Map<String, String[]> requestParameters) {
         FeedbackQuestionDetails feedbackQuestionDetails = null;
         switch (this) {
-        case TEXT:
-            feedbackQuestionDetails = new FeedbackTextQuestionDetails();
-            break;
-        case MCQ:
-            feedbackQuestionDetails = new FeedbackMcqQuestionDetails();
-            break;
-        case MSQ:
-            feedbackQuestionDetails = new FeedbackMsqQuestionDetails();
-            break;
-        case NUMSCALE:
-            feedbackQuestionDetails = new FeedbackNumericalScaleQuestionDetails();
-            break;
-        case CONSTSUM:
-            feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
-            break;
-        case CONTRIB:
-            feedbackQuestionDetails = new FeedbackContributionQuestionDetails();
-            break;
-        case RUBRIC:
-            feedbackQuestionDetails = new FeedbackRubricQuestionDetails();
-            break;
-        default:
-            Assumption.fail("Failed to instantiate Feedback*QuestionDetails instance for " + this.toString() + " question type.");
-            return null;
+            case TEXT:
+                feedbackQuestionDetails = new FeedbackTextQuestionDetails();
+                break;
+            case MCQ:
+                feedbackQuestionDetails = new FeedbackMcqQuestionDetails();
+                break;
+            case MSQ:
+                feedbackQuestionDetails = new FeedbackMsqQuestionDetails();
+                break;
+            case NUMSCALE:
+                feedbackQuestionDetails = new FeedbackNumericalScaleQuestionDetails();
+                break;
+            case CONSTSUM:
+                feedbackQuestionDetails = new FeedbackConstantSumQuestionDetails();
+                break;
+            case CONTRIB:
+                feedbackQuestionDetails = new FeedbackContributionQuestionDetails();
+                break;
+            case RUBRIC:
+                feedbackQuestionDetails = new FeedbackRubricQuestionDetails();
+                break;
+            default:
+                Assumption.fail("Failed to instantiate Feedback*QuestionDetails instance for "
+                                + this.toString() + " question type.");
+                return null;
         }
         if (questionText != null && requestParameters != null) {
             feedbackQuestionDetails.questionText = questionText;

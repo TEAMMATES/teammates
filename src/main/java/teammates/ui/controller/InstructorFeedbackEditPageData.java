@@ -35,8 +35,7 @@ public class InstructorFeedbackEditPageData extends PageData {
      * Used in instructorFeedbackEdit.jsp for selecting the participant type for a new question.
      * isGiver refers to the feedback path (!isGiver == feedback's target)
      */
-    public List<String> getParticipantOptions(
-            FeedbackQuestionAttributes question, boolean isGiver) {
+    public List<String> getParticipantOptions(FeedbackQuestionAttributes question, boolean isGiver) {
         List<String> result = new ArrayList<String>();
         for (FeedbackParticipantType option : FeedbackParticipantType.values()) {
             boolean isValidGiver = isGiver && option.isValidGiver();

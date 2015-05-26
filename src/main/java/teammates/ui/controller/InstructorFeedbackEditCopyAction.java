@@ -71,9 +71,10 @@ public class InstructorFeedbackEditCopyAction extends Action {
             for (String courseIdToCopyTo : coursesIdToCopyTo) {
                 InstructorAttributes instructorForCourse =
                         logic.getInstructorForGoogleId(courseIdToCopyTo, account.googleId);
-                gk.verifyAccessible(instructorForCourse,
-                                    logic.getCourse(courseIdToCopyTo),
-                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                gk.verifyAccessible(
+                        instructorForCourse,
+                        logic.getCourse(courseIdToCopyTo),
+                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
                 
                 fs = logic.copyFeedbackSession(newFeedbackSessionName, courseIdToCopyTo,
                         originalFeedbackSessionName, originalCourseId, instructor.email);
@@ -131,8 +132,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
         return courses;
     }    
     
-    private RedirectResult createRedirectToEditPageWithError(String feedbackSessionName,
-                                                             String courseId) {
+    private RedirectResult createRedirectToEditPageWithError(String feedbackSessionName, String courseId) {
         isError = true;
         
         RedirectResult redirectResult = createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE);

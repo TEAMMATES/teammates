@@ -244,7 +244,8 @@ public class FeedbackQuestionsDb extends EntitiesDb {
         return feedbackQuestionList.get(0);
     }
     
-    private List<FeedbackQuestion> getFeedbackQuestionEntitiesForSession(String feedbackSessionName, String courseId) {
+    private List<FeedbackQuestion> getFeedbackQuestionEntitiesForSession(
+            String feedbackSessionName, String courseId) {
         Query q = getPM().newQuery(FeedbackQuestion.class);
         q.declareParameters("String feedbackSessionNameParam, String courseIdParam");
         q.setFilter("feedbackSessionName == feedbackSessionNameParam && courseId == courseIdParam");
