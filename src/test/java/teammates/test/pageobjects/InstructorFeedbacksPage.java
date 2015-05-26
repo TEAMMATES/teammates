@@ -3,20 +3,16 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.fail;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -318,30 +314,6 @@ public class InstructorFeedbacksPage extends AppPage {
 
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
         js.executeScript("$('.ui-datepicker-current-day').click();");
-    }
-    
-    public void changeMonthInDatePickerBy(int numberOfMonths) {
-        if (numberOfMonths > 0) {
-            for (int i = 0 ; i < numberOfMonths ; i ++) {
-                browser.driver.findElement(By.id("ui-datepicker-div")).findElement(By.className("ui-datepicker-next")).click();
-            }
-        } else {
-            for (int i = 0 ; i > numberOfMonths ; i --) {
-                browser.driver.findElement(By.id("ui-datepicker-div")).findElement(By.className("ui-datepicker-prev")).click();
-            }
-        }
-    }
-    
-    public void selectDayInDatePicker (int day) {
-        WebElement dateWidget = browser.driver.findElement(By.id("ui-datepicker-div"));    
-        List<WebElement> columns = dateWidget.findElements(By.tagName("td"));  
-          
-        for (WebElement cell: columns){
-             if (cell.getText().equals(day+"")) {  
-             cell.click();  
-             break;  
-             }  
-        }  
     }
     
     public String getValueOfDate (String timeId) {
