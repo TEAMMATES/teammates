@@ -18,6 +18,7 @@ import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
+import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -756,6 +757,16 @@ public class StudentsLogic {
     private boolean isSectionChanged(String originalSection, String newSection) {
         return (newSection != null) && (originalSection != null)
                 && (!originalSection.equals(newSection));
+    }
+
+    public TeamDetailsBundle getTeamForStudent(StudentAttributes student) {
+        if (student != null) {
+            TeamDetailsBundle teamResult = new TeamDetailsBundle(); 
+            teamResult.name = student.team;
+            teamResult.students = getStudentsForTeam(student.team, student.course);
+            return teamResult;
+        }
+        return null;
     }
     
 }
