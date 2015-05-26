@@ -303,16 +303,22 @@ public class InstructorFeedbacksPage extends AppPage {
         }
     }
     
+    /** 
+     * This method contains an intended mix of Selenium and JavaScript to ensure that the test
+     * passes consistently, do not try to click on the datepicker element using Selenium as it will
+     * result in a test that passes or fail randomly.
+    */
     public void fillTimeValueForDatePickerTest (String timeId, Calendar newValue) throws ParseException {
-        browser.driver.findElement(By.id(timeId)).click();
-        browser.driver.manage().timeouts().implicitlyWait(200, TimeUnit.MILLISECONDS);
-        
-        browser.driver.findElement(By.id(timeId)).clear();
-        browser.driver.findElement(By.id(timeId)).sendKeys(newValue.get(Calendar.DATE)
-                                                           + "/" + (newValue.get(Calendar.MONTH) + 1)
-                                                           + "/" + newValue.get(Calendar.YEAR));
-
+        WebElement dateInputElement = browser.driver.findElement(By.id(timeId));
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+
+        dateInputElement.click();
+        browser.driver.manage().timeouts().implicitlyWait(200, TimeUnit.MILLISECONDS);
+
+        dateInputElement.clear();
+        dateInputElement.sendKeys(newValue.get(Calendar.DATE) + "/" + (newValue.get(Calendar.MONTH) + 1)
+                                  + "/" + newValue.get(Calendar.YEAR));
+
         js.executeScript("$('.ui-datepicker-current-day').click();");
     }
     
