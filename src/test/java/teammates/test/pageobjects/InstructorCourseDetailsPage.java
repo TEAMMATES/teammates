@@ -23,7 +23,7 @@ public class InstructorCourseDetailsPage extends AppPage {
     @FindBy (id = "button_remind")
     private WebElement remindAllButton;
 
-    public InstructorCourseDetailsPage(Browser browser){
+    public InstructorCourseDetailsPage(Browser browser) {
         super(browser);
     }
 
@@ -123,57 +123,74 @@ public class InstructorCourseDetailsPage extends AppPage {
     
     public InstructorCourseDetailsPage clickDeleteAndCancel(String studentName) {
         int rowId = getStudentRowId(studentName);
-        clickAndCancel(getDeleteLink(rowId));
+        if (rowId > -1) {
+            clickAndCancel(getDeleteLink(rowId));
+        }
         return this;
     }
     
     public InstructorCourseDetailsPage clickDeleteAndConfirm(String studentName) {
         int rowId = getStudentRowId(studentName);
-        clickAndConfirm(getDeleteLink(rowId));
+        if (rowId > -1) {
+            clickAndConfirm(getDeleteLink(rowId));
+        }
         return this;
     }
     
     private WebElement getViewLink(int studentNum) {
-        return browser.driver.findElement(By.cssSelector("#student" + studentNum + " > td.align-center.no-print > a:nth-child(1)"));
+        return browser.driver.findElement(By.cssSelector("#student" + studentNum + " > td.align-center.no-print"
+                                                         + " > a:nth-child(1)"));
     }
     
     private WebElement getEditLink(int studentNum) {
-        return browser.driver.findElement(By.cssSelector("#student" + studentNum + " > td.align-center.no-print > a:nth-child(2)"));
+        return browser.driver.findElement(By.cssSelector("#student" + studentNum + " > td.align-center.no-print"
+                                                          + " > a:nth-child(2)"));
     }
     
     private WebElement getRemindLink(int studentNum) {
-        return browser.driver.findElement(By.cssSelector("#student" + studentNum + " > td.align-center.no-print > a:nth-child(3)"));
+        return browser.driver.findElement(By.cssSelector("#student" + studentNum + " > td.align-center.no-print "
+                                                          + "> a:nth-child(3)"));
     }
     
     private WebElement getDeleteLink(int studentNum) {
-        WebElement thirdLink = browser.driver.findElement(By.cssSelector("#student" + studentNum + " > td.align-center.no-print > a:nth-child(3)"));
-        if (thirdLink.getText().equals(" Delete")) {
+        WebElement thirdLink = browser.driver.findElement(By.cssSelector("#student" + studentNum 
+                                                                         + " > td.align-center.no-print"
+                                                                         + " > a:nth-child(3)"));
+        
+        if (thirdLink.getText().equals("Delete")) {
             return thirdLink;
         } else {
-            return browser.driver.findElement(By.cssSelector("#student" + studentNum + " > td.align-center.no-print > a:nth-child(4)"));
+            return browser.driver.findElement(By.cssSelector("#student" + studentNum + " > td.align-center.no-print"
+                                                             + " > a:nth-child(4)"));
         }
     }
     
     private WebElement getAllRecordsLink(int studentNum) {
-        WebElement thirdLink = browser.driver.findElement(By.cssSelector("#student" + studentNum + " > td.align-center.no-print > a:nth-child(4)"));
-        if (thirdLink.getText().equals(" All Records")) {
+        WebElement thirdLink = browser.driver.findElement(By.cssSelector("#student" + studentNum 
+                                                                         + " > td.align-center.no-print"
+                                                                         + " > a:nth-child(4)"));
+        
+        if (thirdLink.getText().equals("All Records")) {
             return thirdLink;
         } else {
-            return browser.driver.findElement(By.cssSelector("#student" + studentNum + " > td.align-center.no-print > a:nth-child(5)"));
+            return browser.driver.findElement(By.cssSelector("#student" + studentNum + " > td.align-center.no-print"
+                                                             + " > a:nth-child(5)"));
         }
     }
     
     private WebElement getAddCommentDropDownLink(int studentNum) {
-        return browser.driver.findElement(By.cssSelector("#student" + studentNum + " > td.align-center.no-print > div.btn-group > a.dropdown-toggle"));
+        return browser.driver.findElement(By.cssSelector("#student" + studentNum + " > td.align-center.no-print"
+                                                         + " > div.btn-group" + " > a.dropdown-toggle"));
     }
     
     private WebElement getAddCommentToStudentLink(int studentNum) {
-        return browser.driver.findElement(By.cssSelector("#student" + studentNum + " > td.align-center.no-print > div.btn-group > ul.dropdown-menu > li:nth-child(1) > a"));
+        return browser.driver.findElement(By.cssSelector("#student" + studentNum + " > td.align-center.no-print"
+                                                         + " > div.btn-group > ul.dropdown-menu > li:nth-child(1)"
+                                                         + " > a"));
     }
     
     private int getStudentRowId(String studentName) {
-        int studentCount = browser.driver.findElements(By.className("student_row"))
-                .size();
+        int studentCount = browser.driver.findElements(By.className("student_row")).size();
         for (int i = 0; i < studentCount; i++) {
             String studentNameInRow = getStudentNameInRow(i);
             if (studentNameInRow.equals(studentName)) {
@@ -184,8 +201,8 @@ public class InstructorCourseDetailsPage extends AppPage {
     }
 
     private String getStudentNameInRow(int studentNum) {
-        String xpath = "//tr[@class='student_row' and @id='student"
-                + studentNum    + "']//td[@id='" + Const.ParamsNames.STUDENT_NAME + "']";
+        String xpath = "//tr[@class='student_row' and @id='student" + studentNum + "']//td[@id='" 
+                       + Const.ParamsNames.STUDENT_NAME + "']";
         return browser.driver.findElement(By.xpath(xpath)).getText();
     }
 

@@ -46,7 +46,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
     }
     
     @Test 
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         testConent();
         testCommentToWholeCourse();
         testTableSort();
@@ -56,15 +56,16 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         testDeleteAction();
     }
 
-    public void testConent() throws Exception{
+    public void testConent() throws Exception {
         
         ______TS("content: no students");
         
         instructorId = testData.instructors.get("CCDetailsUiT.instrForEmptyCourse").googleId;
         courseId = testData.courses.get("CCDetailsUiT.CourseWithoutStudents").id;
         detailsPage = getCourseDetailsPage();
+        detailsPage.verifyIsCorrectPage(courseId);
         detailsPage.verifyHtml("/InstructorCourseDetailsEmptyCourse.html");
-
+        
         ______TS("content: multiple students with sections");
         
         instructorId = testData.instructors.get("CCDetailsUiT.instr2").googleId;
@@ -120,7 +121,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         detailsPage.sortByTeam().verifyTablePattern(1, 0, patternString);
     }
     
-    public void testLinks(){
+    public void testLinks() {
         
         ______TS("link: view");
         
@@ -142,6 +143,11 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         studentAllRecordsPage.verifyIsCorrectPage(charlie.email);
         detailsPage = studentAllRecordsPage.goToPreviousPage(InstructorCourseDetailsPage.class);
         
+        studentAllRecordsPage = detailsPage.clickAllRecordsLink(alice.name);
+        studentAllRecordsPage.verifyIsCorrectPage(alice.email);
+        detailsPage = studentAllRecordsPage.goToPreviousPage(InstructorCourseDetailsPage.class);
+        
+        
         ______TS("link: add comment");
         
         StudentAttributes aliceBetsy = testData.students.get("CCDetailsUiT.alice.tmms@CCDetailsUiT.CS2104");
@@ -152,8 +158,8 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         ______TS("link: download student list");
         
         Url studentListDownloadUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD)
-            .withUserId("CCDetailsUiT.instr")
-            .withCourseId("CCDetailsUiT.CS2104");
+                                        .withUserId("CCDetailsUiT.instr")
+                                        .withCourseId("CCDetailsUiT.CS2104");
         
         detailsPage.verifyDownloadLink(studentListDownloadUrl);
     }
@@ -190,8 +196,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 
         ______TS("action: remind all");
 
-        //TODO: also check for click and cancel
-        
+        detailsPage.clickRemindAllAndCancel();
         detailsPage.clickRemindAllAndConfirm();
         
         if (isEmailEnabled) {
@@ -202,7 +207,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         }
     }
 
-    public void testDeleteAction() throws Exception{
+    public void testDeleteAction() throws Exception {
         
         ______TS("action: delete");
         
@@ -215,13 +220,28 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
 
         //Use {$test.student1} etc. 
         detailsPage.clickDeleteAndConfirm(studentName)
-            .verifyHtmlMainContent("/instructorCourseDetailsStudentDeleteSuccessful.html");
+                        .verifyHtmlMainContent("/instructorCourseDetailsStudentDeleteSuccessful.html");
+        
+        detailsPage.clickDeleteAndCancel(studentName);
+        assertTrue(BackDoor.getStudent(courseId, studentEmail) == null);
+
+        detailsPage.clickDeleteAndConfirm(studentName);
+        assertTrue(BackDoor.getStudent(courseId, studentEmail) == null);
+
+        
+        studentName = testData.students.get("danny.tmms@CCDetailsUiT.CS2104").name;
+        studentEmail = testData.students.get("danny.tmms@CCDetailsUiT.CS2104").email;
+        courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
+        
+        detailsPage.clickDeleteAndCancel(studentName);
+        assertNotNull(BackDoor.getStudent(courseId, studentEmail));
+        
     }
     
     private InstructorCourseDetailsPage getCourseDetailsPage() {
         Url detailsPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
-                .withUserId(instructorId)
-                .withCourseId(courseId);
+                                .withUserId(instructorId)
+                                .withCourseId(courseId);
 
         return loginAdminToPage(browser, detailsPageUrl, InstructorCourseDetailsPage.class);
     }
@@ -230,8 +250,7 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         String keyToSend = StringHelper.encrypt(BackDoor.getKeyForStudent(courseId, studentEmail));
     
         ThreadHelper.waitFor(5000); //TODO: replace this with a more efficient check
-        String keyReceivedInEmail = EmailAccount.getRegistrationKeyFromGmail(
-                studentEmail, studentPassword, courseId);
+        String keyReceivedInEmail = EmailAccount.getRegistrationKeyFromGmail(studentEmail, studentPassword, courseId);
         return (keyToSend.equals(keyReceivedInEmail));
     }
 
