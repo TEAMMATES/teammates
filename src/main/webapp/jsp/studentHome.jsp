@@ -30,7 +30,7 @@
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-      <![endif]-->
+    <![endif]-->
     <jsp:include page="../enableJS.jsp"></jsp:include>
 </head>
 
@@ -53,13 +53,15 @@
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <strong>
-                [<%=courseDetails.course.id%>] : <%=PageData.sanitizeForHtml(courseDetails.course.name)%>
+                    [<%=courseDetails.course.id%>] : <%=PageData.sanitizeForHtml(
+                            courseDetails.course.name)%>
                 </strong>
                 <span class="pull-right">
                     <a class="btn btn-primary btn-xs"
-                        href="<%=data.getStudentCourseDetailsLink(courseDetails.course.id)%>"
-                        data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.STUDENT_COURSE_DETAILS%>"
-                        >View Team</a>
+                       href="<%=data.getStudentCourseDetailsLink(courseDetails.course.id)%>"
+                       data-toggle="tooltip" data-placement="top" 
+                       title="<%=Const.Tooltips.STUDENT_COURSE_DETAILS%>"
+                       >View Team</a>
                 </span>
             </div>
             
@@ -67,49 +69,59 @@
             <%
                 if (courseDetails.feedbackSessions.size() > 0) {
             %>
-                        <thead>
-                            <tr>
-                                <th>Session Name</th>
-                                <th>Deadline</th>
-                                <th>Status</th>
-                                <th class="studentHomeActions">Action(s)</th>
-                            </tr>
-                        </thead>
-                    <%
+                <thead>
+                    <tr>
+                        <th>Session Name</th>
+                        <th>Deadline</th>
+                        <th>Status</th>
+                        <th class="studentHomeActions">Action(s)</th>
+                    </tr>
+                </thead>
+                <%
+                            
+                    for (FeedbackSessionDetailsBundle fsd : courseDetails.feedbackSessions) {
+                        sessionIdx++;
+                %>
+                    <tr class="home_evaluations_row" id="evaluation<%=sessionIdx%>">
+                        <td>
+                            <%=PageData.sanitizeForHtml(fsd.feedbackSession.feedbackSessionName)%>
+                        </td>
                         
-                            for (FeedbackSessionDetailsBundle fsd : courseDetails.feedbackSessions) {
-                                sessionIdx++;
-                        %>
-                                <tr class="home_evaluations_row" id="evaluation<%=sessionIdx%>">
-                                    <td><%=PageData.sanitizeForHtml(fsd.feedbackSession.feedbackSessionName)%></td>
-                                    <td><%=TimeHelper.formatTime(fsd.feedbackSession.endTime)%></td>
-                                    <td><span data-toggle="tooltip" data-placement="top" 
-                                            title="<%=data.getStudentHoverMessageForSession(fsd.feedbackSession)%>">
-                                            <%=data.getStudentStatusForSession(fsd.feedbackSession)%>
-                                        </span>
-                                    </td>
-                                    <td class="studentHomeActions"><%=data.getStudentFeedbackSessionActions(fsd.feedbackSession,sessionIdx)%>
-                                    </td>
-                                </tr>
-                        <%
-                            }
-                        } else {
-                    %>
-                            <tr>
-                                <th class="align-center bold color_white">
-                                    Currently, there are no open evaluation/feedback sessions in this course. When a session is open for submission you will be notified.
-                                </th>
-                            </tr>
-                    <%
-                        }
-                    %>
+                        <td>
+                            <%=TimeHelper.formatTime(fsd.feedbackSession.endTime)%>
+                        </td>
+                        
+                        <td>
+                            <span data-toggle="tooltip" data-placement="top" 
+                                  title="<%=data.getStudentHoverMessageForSession(
+                                          fsd.feedbackSession)%>">
+                                <%=data.getStudentStatusForSession(fsd.feedbackSession)%>
+                            </span>
+                        </td>
+                        
+                        <td class="studentHomeActions">
+                            <%=data.getStudentFeedbackSessionActions(fsd.feedbackSession,sessionIdx)%>
+                        </td>
+                    </tr>
+            <%
+                    }
+                } else {
+            %>
+                    <tr>
+                        <th class="align-center bold color_white">
+                            Currently, there are no open evaluation/feedback sessions in this course. When a session is open for submission you will be notified.
+                        </th>
+                    </tr>
+            <%
+                }
+            %>
             </table>
         </div>
         <br>
         <br>
         <%
-            out.flush();
-                        }
+                out.flush();
+            }
         %>
     </div>
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
