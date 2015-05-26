@@ -21,8 +21,7 @@ import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackResponseCommentAjaxPageData;
 import teammates.ui.controller.InstructorFeedbackResponseCommentDeleteAction;
 
-public class InstructorFeedbackResponseCommentDeleteActionTest extends
-        BaseActionTest {
+public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
 
@@ -62,7 +61,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends
         
         verifyAssumptionFailure();
         
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response",
@@ -73,7 +72,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends
         
         ______TS("Typical successful case");
         
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
