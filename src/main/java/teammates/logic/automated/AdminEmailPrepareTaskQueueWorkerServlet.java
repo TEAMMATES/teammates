@@ -195,6 +195,8 @@ public class AdminEmailPrepareTaskQueueWorkerServlet extends WorkerServlet {
                    listOfList.add(newList);
                 }              
             }
+            
+            blobStream.close();
         }
         
         return listOfList;
