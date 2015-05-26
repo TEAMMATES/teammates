@@ -4,7 +4,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,9 +22,6 @@ import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
-import teammates.common.util.Utils;
-import teammates.logic.backdoor.BackDoorLogic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
@@ -731,7 +727,6 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("student having multiple evaluations in multiple courses");
     
         CourseAttributes expectedCourse1 = dataBundle.courses.get("typicalCourse1");
-        CourseAttributes expectedCourse2 = dataBundle.courses.get("typicalCourse2");
         
         // This student is in both course 1 and 2
         StudentAttributes studentInBothCourses = dataBundle.students

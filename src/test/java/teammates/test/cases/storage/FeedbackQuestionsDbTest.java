@@ -12,8 +12,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -22,16 +20,13 @@ import teammates.common.datatransfer.FeedbackTextQuestionDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.storage.api.CoursesDb;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.driver.AssertHelper;
 import teammates.test.util.TestHelper;
 
 public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
-    
     private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
 
     @BeforeClass
@@ -39,270 +34,275 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         printTestClassHeader();
         turnLoggingUp(FeedbackQuestionsDb.class);
     }
-    
-    
+
     @Test
-    public void testCreateDeleteFeedbackQuestion() 
-            throws InvalidParametersException, EntityAlreadyExistsException {    
-        
+    public void testCreateDeleteFeedbackQuestion() throws InvalidParametersException, EntityAlreadyExistsException {
+
         ______TS("standard success case");
-        
+
         FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
         fqDb.createEntity(fqa);
         TestHelper.verifyPresentInDatastore(fqa, true);
-      
+
         ______TS("duplicate - with same id.");
 
         try {
             fqDb.createEntity(fqa);
             signalFailureToDetectException();
         } catch (EntityAlreadyExistsException e) {
-            AssertHelper.assertContains(String.format(FeedbackQuestionsDb.
-                    ERROR_CREATE_ENTITY_ALREADY_EXISTS, fqa.getEntityTypeAsString())
-                    + fqa.getIdentificationString(), e.getMessage());
+            AssertHelper.assertContains(String.format(FeedbackQuestionsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS,
+                                                      fqa.getEntityTypeAsString()) + fqa.getIdentificationString(),
+                                                      e.getMessage());
         }
-        
+
         ______TS("delete - with id specified");
+
         fqDb.deleteEntity(fqa);
         TestHelper.verifyAbsentInDatastore(fqa);
-        
+
         ______TS("null params");
-        
+
         try {
             fqDb.createEntity(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
-        
+
         ______TS("invalid params");
-        
+
         try {
-            fqa.creatorEmail = "haha";            
+            fqa.creatorEmail = "haha";
             fqDb.createEntity(fqa);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains("Invalid creator's email", e.getLocalizedMessage());
         }
-        
     }
-    
+
     @Test
     public void testGetFeedbackQuestions() throws Exception {
-        
         FeedbackQuestionAttributes expected = getNewFeedbackQuestionAttributes();
         fqDb.createEntity(expected);
-        
-        ______TS("standard success case");    
-        
-        FeedbackQuestionAttributes actual =
-                fqDb.getFeedbackQuestion(expected.feedbackSessionName, expected.courseId, expected.questionNumber);
-        
+
+        ______TS("standard success case");
+
+        FeedbackQuestionAttributes actual = fqDb.getFeedbackQuestion(expected.feedbackSessionName,
+                                                                     expected.courseId,
+                                                                     expected.questionNumber);
+
         assertEquals(expected.toString(), actual.toString());
-        
+
         ______TS("non-existant question");
-        
-        assertNull(fqDb.getFeedbackQuestion( "Non-existant feedback session", "non-existent-course", 1));
-        
+
+        assertNull(fqDb.getFeedbackQuestion("Non-existant feedback session", "non-existent-course", 1));
+
         ______TS("null fsName");
-        
+
         try {
             fqDb.getFeedbackQuestion(null, expected.courseId, 1);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
-        
+
         ______TS("null courseId");
-        
+
         try {
             fqDb.getFeedbackQuestion(expected.feedbackSessionName, null, 1);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
-        
+
         ______TS("get by id");
-        
+
         assertEquals(expected.toString(), actual.toString());
-        
+
         ______TS("get non-existent question by id");
-        
+
         actual = fqDb.getFeedbackQuestion("non-existent id");
-        
+
         assertNull(actual);
-        
+
         fqDb.deleteEntity(expected);
-        
     }
-    
+
     @Test
     public void testGetFeedbackQuestionsForSession() throws Exception {
-        
+
         ______TS("standard success case");
-        
+
         int numToCreate = 3;
-        
+
         List<FeedbackQuestionAttributes> expected = createFeedbackQuestions(numToCreate);
-        
-        List<FeedbackQuestionAttributes> questions = 
-                fqDb.getFeedbackQuestionsForSession(expected.get(0).feedbackSessionName ,expected.get(0).courseId);
-        
+
+        List<FeedbackQuestionAttributes> questions = fqDb.getFeedbackQuestionsForSession(expected.get(0).
+                                                                                         feedbackSessionName,
+                                                                                         expected.get(0).courseId);
+
         for (int i = 0; i < numToCreate; i++) {
             expected.get(i).setId(questions.get(i).getId());
         }
-        
+
         assertEquals(questions.size(),numToCreate);
         assertTrue(TestHelper.isSameContentIgnoreOrder(expected, questions));
-        
+
         ______TS("null params");
-        
+
         try {
             fqDb.getFeedbackQuestionsForSession(null, expected.get(0).courseId);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
-        
+
         try {
             fqDb.getFeedbackQuestionsForSession(expected.get(0).feedbackSessionName, null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
-        
+
         ______TS("non-existent session");
-        
+
         assertTrue(fqDb.getFeedbackQuestionsForSession("non-existent session", expected.get(0).courseId).isEmpty());
-            
+
         ______TS("no questions in session");
-        
+
         assertTrue(fqDb.getFeedbackQuestionsForSession("Empty session", expected.get(0).courseId).isEmpty());
-        
+
         deleteFeedbackQuestions(numToCreate);
-        
     }
 
     @Test
     public void testGetFeedbackQuestionsForGiverType() throws Exception {
-        
         FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
         int[] numOfQuestions = createNewQuestionsForDifferentRecipientTypes();
-        
+
         ______TS("standard success case");
-        
-        List<FeedbackQuestionAttributes> questions = 
-                fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName,
-                        "testCourse", FeedbackParticipantType.INSTRUCTORS);
+
+        List<FeedbackQuestionAttributes> questions = fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName,
+                                                                                           "testCourse",
+                                                                                           FeedbackParticipantType.
+                                                                                           INSTRUCTORS);
         assertEquals(questions.size(),numOfQuestions[0]);
-        
+
         questions = fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName,
-                        fqa.courseId, FeedbackParticipantType.STUDENTS);
+                                                          fqa.courseId, FeedbackParticipantType.STUDENTS);
         assertEquals(questions.size(),numOfQuestions[1]);
-        
+
         questions = fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName,
-                        fqa.courseId, FeedbackParticipantType.SELF);
+                                                          fqa.courseId, FeedbackParticipantType.SELF);
         assertEquals(questions.size(),numOfQuestions[2]);
-        
+
         questions = fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName,
-                fqa.courseId, FeedbackParticipantType.TEAMS);
-        assertEquals(questions.size(),numOfQuestions[3]);        
-        
+                                                          fqa.courseId, FeedbackParticipantType.TEAMS);
+        assertEquals(questions.size(),numOfQuestions[3]);
+
         ______TS("null params");
-        
+
         try {
             fqDb.getFeedbackQuestionsForGiverType(null, fqa.courseId, FeedbackParticipantType.STUDENTS);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
-        
+
         try {
             fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName, null, FeedbackParticipantType.STUDENTS);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
-        
+
         try {
             fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName, fqa.courseId, null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
-        
+
         ______TS("non-existant session");
-        
-        assertTrue(fqDb.getFeedbackQuestionsForGiverType("non-existant session", fqa.courseId, FeedbackParticipantType.STUDENTS).isEmpty());
-            
+
+        assertTrue(fqDb.getFeedbackQuestionsForGiverType("non-existant session", fqa.courseId,
+                                                         FeedbackParticipantType.STUDENTS).isEmpty());
+
         ______TS("no questions in session");
-        
-        assertTrue(fqDb.getFeedbackQuestionsForGiverType("Empty session", fqa.courseId, FeedbackParticipantType.STUDENTS).isEmpty());    
-        
+
+        assertTrue(fqDb.getFeedbackQuestionsForGiverType("Empty session", fqa.courseId,
+                                                         FeedbackParticipantType.STUDENTS).isEmpty());
+
         deleteFeedbackQuestions(numOfQuestions[0] + numOfQuestions[1] + numOfQuestions[2] + numOfQuestions[3]);
     }
-
 
     @Test
     public void testUpdateFeedbackQuestion() throws Exception {
 
         ______TS("null params");
-        
+
         try {
             fqDb.updateFeedbackQuestion(null);
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, e.getLocalizedMessage());
         }
-        
+
         ______TS("invalid feedback question attributes");
-        
+
         FeedbackQuestionAttributes invalidFqa = getNewFeedbackQuestionAttributes();
         fqDb.deleteEntity(invalidFqa);
         fqDb.createEntity(invalidFqa);
-        invalidFqa.setId(fqDb.getFeedbackQuestion(invalidFqa.feedbackSessionName, invalidFqa.courseId, invalidFqa.questionNumber).getId());
+        invalidFqa.setId(fqDb.getFeedbackQuestion(invalidFqa.feedbackSessionName, invalidFqa.courseId,
+                                                  invalidFqa.questionNumber).getId());
         invalidFqa.creatorEmail = "haha";
+
         try {
             fqDb.updateFeedbackQuestion(invalidFqa);
             signalFailureToDetectException();
         } catch (InvalidParametersException e) {
             AssertHelper.assertContains("Invalid creator's email", e.getLocalizedMessage());
         }
-        
+
         ______TS("feedback session does not exist");
-        
+
         FeedbackQuestionAttributes nonexistantFq = getNewFeedbackQuestionAttributes();
         nonexistantFq.setId("non-existent fq id");
+
         try {
             fqDb.updateFeedbackQuestion(nonexistantFq);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains(FeedbackQuestionsDb.ERROR_UPDATE_NON_EXISTENT, e.getLocalizedMessage());
         }
-        
+
         ______TS("standard success case");
-        
+
         FeedbackQuestionAttributes modifiedQuestion = getNewFeedbackQuestionAttributes();
         fqDb.deleteEntity(modifiedQuestion);
         fqDb.createEntity(modifiedQuestion);
         TestHelper.verifyPresentInDatastore(modifiedQuestion, true);
-        
-        modifiedQuestion = fqDb.getFeedbackQuestion(modifiedQuestion.feedbackSessionName, modifiedQuestion.courseId, modifiedQuestion.questionNumber);
+
+        modifiedQuestion = fqDb.getFeedbackQuestion(modifiedQuestion.feedbackSessionName,
+                                                    modifiedQuestion.courseId,
+                                                    modifiedQuestion.questionNumber);
         FeedbackQuestionDetails fqd = modifiedQuestion.getQuestionDetails();
         fqd.questionText = "New question text!";
         modifiedQuestion.setQuestionDetails(fqd);
         fqDb.updateFeedbackQuestion(modifiedQuestion);
-        
+
         TestHelper.verifyPresentInDatastore(modifiedQuestion);
-        modifiedQuestion = fqDb.getFeedbackQuestion(modifiedQuestion.feedbackSessionName, modifiedQuestion.courseId, modifiedQuestion.questionNumber);
+        modifiedQuestion = fqDb.getFeedbackQuestion(modifiedQuestion.feedbackSessionName,
+                                                    modifiedQuestion.courseId,
+                                                    modifiedQuestion.questionNumber);
         assertEquals("New question text!", modifiedQuestion.getQuestionDetails().questionText);
-        
-        fqDb.deleteEntity(modifiedQuestion);        
+
+        fqDb.deleteEntity(modifiedQuestion);
     }
-    
+
     private FeedbackQuestionAttributes getNewFeedbackQuestionAttributes() {
         FeedbackQuestionAttributes fqa = new FeedbackQuestionAttributes();
-       
+
         fqa.courseId = "testCourse";
         fqa.creatorEmail = "instructor@email.com";
         fqa.feedbackSessionName = "testFeedbackSession";
@@ -310,81 +310,90 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         fqa.recipientType = FeedbackParticipantType.SELF;
         fqa.numberOfEntitiesToGiveFeedbackTo = 1;
         fqa.questionNumber = 1;
-        
+
         FeedbackTextQuestionDetails questionDetails = new FeedbackTextQuestionDetails("Question text.");
         fqa.questionType = FeedbackQuestionType.TEXT;
         fqa.setQuestionDetails(questionDetails);
-        
+
         fqa.showGiverNameTo =  new ArrayList<FeedbackParticipantType>();
         fqa.showRecipientNameTo = new ArrayList<FeedbackParticipantType>();
         fqa.showResponsesTo = new ArrayList<FeedbackParticipantType>();
-        
+
         return fqa;
     }
-    
+
     private List<FeedbackQuestionAttributes> createFeedbackQuestions(int num) throws Exception {
         FeedbackQuestionAttributes fqa;
         List<FeedbackQuestionAttributes> returnVal = new ArrayList<FeedbackQuestionAttributes>();
-        
-        for (int i = 1; i<=num ; i++) {
+
+        for (int i = 1; i <= num; i++) {
             fqa = getNewFeedbackQuestionAttributes();
             fqa.questionNumber = i;
             fqDb.createEntity(fqa);
             returnVal.add(fqa);
         }
-        
+
         return returnVal;
     }
-    
+
     private int[] createNewQuestionsForDifferentRecipientTypes() throws Exception {
-        
-        int[] num = new int[] {2 ,3 ,1 ,2};
+
+        int[] numberOfQuestionsToCreate = new int[] {
+                2,
+                3,
+                1,
+                2
+        };
+
         FeedbackQuestionAttributes fqa;
-        
-        for (int i = 1; i<=num[0] ; i++) {
+
+        for (int i = 1; i <= numberOfQuestionsToCreate[0]; i++) {
             fqa = getNewFeedbackQuestionAttributes();
             fqa.questionNumber = i;
             fqa.giverType = FeedbackParticipantType.INSTRUCTORS;
             fqDb.createEntity(fqa);
         }
-        for (int i = 1; i<=num[1] ; i++) {
+
+        for (int i = 1; i <= numberOfQuestionsToCreate[1]; i++) {
             fqa = getNewFeedbackQuestionAttributes();
-            fqa.questionNumber = num[0] + i;
+            fqa.questionNumber = numberOfQuestionsToCreate[0] + i;
             fqa.giverType = FeedbackParticipantType.STUDENTS;
             fqDb.createEntity(fqa);
         }
-        for (int i = 1; i<=num[2] ; i++) {
+
+        for (int i = 1; i <= numberOfQuestionsToCreate[2]; i++) {
             fqa = getNewFeedbackQuestionAttributes();
             fqa.giverType = FeedbackParticipantType.SELF;
-            fqa.questionNumber = num[0] + num[1] + i;
+            fqa.questionNumber = numberOfQuestionsToCreate[0] + numberOfQuestionsToCreate[1] + i;
             fqDb.createEntity(fqa);
         }
-        for (int i = 1; i<=num[3] ; i++) {
+
+        for (int i = 1; i <= numberOfQuestionsToCreate[3]; i++) {
             fqa = getNewFeedbackQuestionAttributes();
             fqa.giverType = FeedbackParticipantType.TEAMS;
-            fqa.questionNumber = num[0] + num[1] + num[2] + i;
+            fqa.questionNumber = numberOfQuestionsToCreate[0] + numberOfQuestionsToCreate[1]
+                                 + numberOfQuestionsToCreate[2] + i;
             fqDb.createEntity(fqa);
         }
-        
-        return num;
+
+        return numberOfQuestionsToCreate;
     }
-    
+
     private void deleteFeedbackQuestions(int numToDelete) {
         FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
-        for (int i = 1; i<=numToDelete ; i++) {
+        for (int i = 1; i <= numToDelete; i++) {
             fqa.questionNumber = i;
             fqDb.deleteEntity(fqa);
         }
     }
-    
+
     @AfterMethod
     public void caseTearDown() throws Exception {
         turnLoggingDown(FeedbackQuestionsDb.class);
     }
-    
+
     @AfterClass
     public static void classTearDown() throws Exception {
         printTestClassFooter();
     }
-    
 }

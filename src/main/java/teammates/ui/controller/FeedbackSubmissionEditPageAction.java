@@ -18,13 +18,13 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         
-        if(!isSpecificUserJoinedCourse()){
+        if (!isSpecificUserJoinedCourse()) {
             return createPleaseJoinCourseResponse(courseId);
         }
         
-        
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
-        if(feedbackSession == null) {
+        
+        if (feedbackSession == null) {
             statusToUser.add("The feedback session has been deleted and is no longer accessible.");
                        
             return createSpecificRedirectResult();

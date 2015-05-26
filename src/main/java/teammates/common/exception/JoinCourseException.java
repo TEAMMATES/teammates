@@ -1,8 +1,7 @@
 package teammates.common.exception;
 
 @SuppressWarnings("serial")
-public class JoinCourseException extends TeammatesException{
-
+public class JoinCourseException extends TeammatesException {
     public JoinCourseException() {
         super();
     }
@@ -14,6 +13,4 @@ public class JoinCourseException extends TeammatesException{
     public JoinCourseException(String message) {
         super(message);
     }
-    
-
 }

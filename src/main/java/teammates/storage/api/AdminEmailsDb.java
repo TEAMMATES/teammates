@@ -23,11 +23,8 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
 import teammates.storage.entity.AdminEmail;
-import teammates.storage.entity.FeedbackQuestion;
 
 public class AdminEmailsDb extends EntitiesDb {
-    
-    @SuppressWarnings("unused")
     private static final Logger log = Utils.getLogger();
     
     public Date creatAdminEmail(AdminEmailAttributes adminEmailToAdd) throws InvalidParametersException{

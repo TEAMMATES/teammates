@@ -118,7 +118,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Empty Session");
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageEmpty.html");
-        
     }
     
     private void testSubmitAction() {
@@ -216,7 +215,7 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNotNull(BackDoor.getFeedbackResponse(fqContrib.getId(),
                                                     "SFSubmitUiT.alice.b@gmail.tmt",
                                                     "SFSubmitUiT.alice.b@gmail.tmt"));
-        assertNotNull(BackDoor.getFeedbackResponse(fqContrib.getId(),
+        assertNull(BackDoor.getFeedbackResponse(fqContrib.getId(),
                                                     "SFSubmitUiT.alice.b@gmail.tmt",
                                                     "SFSubmitUiT.benny.c@gmail.tmt"));
 
@@ -297,7 +296,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                                                 "SFSubmitUiT.alice.b@gmail.tmt",
                                                 "Team 3"));
         
-        
         submitPage.clickSubmitButton();
         
         //check new response
@@ -321,8 +319,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertTrue(frMsq.contains("Algo"));
         assertFalse(frMsq.contains("Design"));
         
-        FeedbackNumericalScaleResponseDetails frNumscale = (FeedbackNumericalScaleResponseDetails) BackDoor
-                                                           .getFeedbackResponse(fqNumscale.getId(),
+        FeedbackNumericalScaleResponseDetails frNumscale = (FeedbackNumericalScaleResponseDetails) BackDoor.
+                                                            getFeedbackResponse(fqNumscale.getId(),
                                                                                 "SFSubmitUiT.alice.b@gmail.tmt",
                                                                                 "SFSubmitUiT.alice.b@gmail.tmt").getResponseDetails();
         assertEquals("5", frNumscale.getAnswerString());
@@ -344,7 +342,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
                         "SFSubmitUiT.alice.b@gmail.tmt",
                         "Team 3").getResponseDetails();
         assertEquals("110", frConstSum2_2.getAnswerString());
-        
         
         FeedbackContributionResponseDetails frContrib = 
                 (FeedbackContributionResponseDetails) BackDoor.getFeedbackResponse(fqContrib.getId(),
@@ -440,15 +437,13 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         assertNotNull(BackDoor.getFeedbackResponse(fqContrib.getId(),
                          "SFSubmitUiT.alice.b@gmail.tmt",
                          "SFSubmitUiT.benny.c@gmail.tmt"));
-
     }
     
-    
-    private void testInputValidation() throws Exception{
+    private void testInputValidation() throws Exception {
         
         ______TS("Test InputValidation lower than Min value");
-        //this should not give any error since the value will be automatically adjusted before the form is submitted
-        //adjusted value should be 1
+        // this should not give any error since the value will be automatically adjusted before the form is submitted
+        // adjusted value should be 1
         submitPage.logout();
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.fillResponseTextBox(14, 0, "");
@@ -466,8 +461,8 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         ______TS("Test InputValidation Over Max value");
         
-        //this should not give any error since the value will be automatically adjusted before the form is submitted
-        //adjusted value should be 5 
+        // this should not give any error since the value will be automatically adjusted before the form is submitted
+        // adjusted value should be 5 
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.fillResponseTextBox(14, 0, "50000");
         submitPage.clickSubmitButton();        
@@ -481,12 +476,10 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         assertEquals("5",frNumscale.getResponseDetails().getAnswerString());
         
-
-        
         ______TS("Test InputValidation extreme negative value");
-        /*Attention: in safari, negative sign "-" can be input so the result will be adjusted to 1          
-         *           However, in firefox, the sign "-" can not be typed into the text box so no negative 
-         *           value can be input
+        /* Attention: in safari or chrome, negative sign "-" can be input so the result will be adjusted to 1          
+         *            However, in firefox, the sign "-" can not be typed into the text box so no negative 
+         *            value can be input
          */
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.fillResponseTextBox(14, 0, "-99999");
@@ -501,7 +494,6 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         assertEquals("5",frNumscale.getResponseDetails().getAnswerString());
         
-     
         ______TS("write response without specifying recipient");
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         
@@ -510,14 +502,10 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         submitPage.clickSubmitButton();
         assertEquals("You did not specify a recipient for your response in question(s) 2.", 
                      submitPage.getStatus());
-        
     }
     
     
-    private void testModifyData() throws EnrollException{
-        
-        //TODO: This should be tested at Logic level instead?
-        
+    private void testModifyData() throws EnrollException {
         ______TS("modify data");
         
         // Next, we edit some student data to cover editing of students
@@ -545,26 +533,25 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Open Session");
         submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageModified.html");
-
     }
     
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(StudentAttributes s, String fsDataId) {
             
-        String submitUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                .withCourseId(s.course)
-                .withStudentEmail(s.email)
-                .withSessionName(testData.feedbackSessions.get(fsDataId).feedbackSessionName)
-                .withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email))
-                .toString();
+        String submitUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE).
+                withCourseId(s.course).
+                withStudentEmail(s.email).
+                withSessionName(testData.feedbackSessions.get(fsDataId).feedbackSessionName).
+                withRegistrationKey(BackDoor.getKeyForStudent(s.course, s.email)).
+                toString();
         browser.driver.get(submitUrl);
         return AppPage.getNewPageInstance(browser, FeedbackSubmitPage.class);
     }
 
     private FeedbackSubmitPage loginToStudentFeedbackSubmitPage(String studentName, String fsName) {
-        Url editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
-                .withUserId(testData.students.get(studentName).googleId)
-                .withCourseId(testData.feedbackSessions.get(fsName).courseId)
-                .withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
+        Url editUrl = createUrl(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE).
+                withUserId(testData.students.get(studentName).googleId).
+                withCourseId(testData.feedbackSessions.get(fsName).courseId).
+                withSessionName(testData.feedbackSessions.get(fsName).feedbackSessionName);
   
         return loginAdminToPage(browser, editUrl, FeedbackSubmitPage.class);
     }
@@ -581,5 +568,4 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
     public static void classTearDown() throws Exception {
         BrowserPool.release(browser);
     }
-
 }

@@ -14,7 +14,6 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.logic.api.GateKeeper;
 
-
 public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionEditSaveAction {
     
     StudentAttributes moderatedStudent;
@@ -27,9 +26,7 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
         new GateKeeper().verifyAccessible(instructor,
                 session,
                 false, moderatedStudent.section, 
-                session.feedbackSessionName, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        
     }
     
     @Override
@@ -48,17 +45,20 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
         int numOfQuestionsToGet = data.bundle.questionResponseBundle.size();
+        
         for (int questionIndx = 1; questionIndx <= numOfQuestionsToGet; questionIndx++) {
             String questionId = HttpRequestHelper.getValueFromParamMap(
                     requestParameters, 
                     Const.ParamsNames.FEEDBACK_QUESTION_ID + "-" + questionIndx);
+            
             if (questionId == null) {
                 // we do not throw an error if the question was not present on the page for instructors to edit
                 continue;
             }
+            
             FeedbackQuestionAttributes questionAttributes = data.bundle.getQuestionAttributes(questionId);
             
-            if (questionAttributes == null){
+            if (questionAttributes == null) {
                 statusToUser.add("The feedback session or questions may have changed while you were submitting. Please check your responses to make sure they are saved correctly.");
                 isError = true;
                 log.warning("Question not found. (deleted or invalid id passed?) id: "+ questionId + " index: " + questionIndx);
@@ -69,14 +69,12 @@ public class InstructorEditStudentFeedbackSaveAction extends FeedbackSubmissionE
             boolean isRecipientVisibleToInstructors = questionAttributes.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
             boolean isResponseVisibleToInstructors = questionAttributes.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
             
-            
-            if (!isGiverVisibleToInstructors || !isRecipientVisibleToInstructors || !isResponseVisibleToInstructors) {
+            if (!isResponseVisibleToInstructors || !isGiverVisibleToInstructors || !isRecipientVisibleToInstructors) {
                 isError = true;
                 throw new UnauthorizedAccessException(
                         "Feedback session [" + feedbackSessionName + 
                         "] question [" + questionAttributes.getId() + "] is not accessible to instructor ["+ instructor.email + "]");
             }
-            
         }
     }
     

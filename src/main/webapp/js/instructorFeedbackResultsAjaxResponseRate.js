@@ -1,30 +1,29 @@
-function getAppendedResponseRateData(data){
+function getAppendedResponseRateData(data) {
     console.log(data);
     var appendedResponseStatus = $(data).find('#responseStatus').html();
     $(data).remove();
-   
     return appendedResponseStatus;
 }
 
-$(document).ready(function(){
+$(document).ready(function() {
     var responseRateRequest = function(e) {
         var panelHeading = $(this);
         var displayIcon = $(this).children('.display-icon');
-        var formObject = $(this).children("form");
+        var formObject = $(this).children('form');
         var panelCollapse = $(this).parent().children('.panel-collapse');
         var formData = formObject.serialize();
         e.preventDefault();
         $.ajax({
-            type : 'POST',
-            url : 	$(formObject[0]).attr('action') + "?" + formData,
-            beforeSend : function() {
-                displayIcon.html("<img height='25' width='25' src='/images/ajax-preload.gif'/>")
-                //submitButton.html("<img src='/images/ajax-loader.gif'/>");
+            type: 'POST',
+            url: $(formObject[0]).attr('action') + '?' + formData,
+            beforeSend: function() {
+                displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">')
+                // submitButton.html('<img src="/images/ajax-loader.gif">');
             },
-            error : function() {
+            error: function() {
                 console.log('Error');
             },
-            success : function(data) {
+            success: function(data) {
                 $(panelCollapse[0]).html(getAppendedResponseRateData(data));
                 $(panelHeading).removeClass('ajax_response_rate_submit');
                 $(panelHeading).off('click');
@@ -34,5 +33,5 @@ $(document).ready(function(){
             }
         });
     };
-    $(".ajax_response_rate_submit").click(responseRateRequest);
+    $('.ajax_response_rate_submit').click(responseRateRequest);
 });

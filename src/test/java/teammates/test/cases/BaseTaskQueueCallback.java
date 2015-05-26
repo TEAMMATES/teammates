@@ -1,6 +1,5 @@
 package teammates.test.cases;
 
-import static org.testng.AssertJUnit.assertEquals;
 import java.util.Map;
 
 import teammates.common.util.ThreadHelper;

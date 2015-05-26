@@ -1,4 +1,4 @@
-<%@page import="teammates.common.datatransfer.CommentRecipientType"%>
+<%@page import="teammates.common.datatransfer.CommentParticipantType"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -78,6 +78,7 @@
                             </div>
                             <div class="modal-body">
                                 <br>
+                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                 <p class="text-preserve-space height-fixed-md"><%=data.studentProfile.moreInfo.isEmpty() ? 
                                                     "<i class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.moreInfo%></p>
                             </div>
@@ -195,10 +196,10 @@
                     <label style="margin-right: 24px;">Recipient:
                     </label> 
                     <select id="comment_recipient_select" class="form-control">
-                        <option value="<%=CommentRecipientType.PERSON%>" selected><%=sanitizeForHtml(data.student.name)%></option>
-                        <option value="<%=CommentRecipientType.TEAM%>"><%=sanitizeForHtml(data.student.team)%></option>
+                        <option value="<%=CommentParticipantType.PERSON%>" selected><%=sanitizeForHtml(data.student.name)%></option>
+                        <option value="<%=CommentParticipantType.TEAM%>"><%=sanitizeForHtml(data.student.team)%></option>
                         <% if (data.hasSection && !data.student.section.equals("None")) {%>
-                        <option value="<%=CommentRecipientType.SECTION%>"><%=sanitizeForHtml(data.student.section)%></option>
+                        <option value="<%=CommentParticipantType.SECTION%>"><%=sanitizeForHtml(data.student.section)%></option>
                         <% } %>
                     </select>
                     <a id="visibility-options-trigger"
@@ -234,16 +235,16 @@
                                 <td><input
                                     class="visibilityCheckbox answerCheckbox centered"
                                     name="receiverLeaderCheckbox"
-                                    type="checkbox" value="<%=CommentRecipientType.PERSON%>">
+                                    type="checkbox" value="<%=CommentParticipantType.PERSON%>">
                                 </td>
                                 <td><input
                                     class="visibilityCheckbox giverCheckbox"
-                                    type="checkbox" value="<%=CommentRecipientType.PERSON%>">
+                                    type="checkbox" value="<%=CommentParticipantType.PERSON%>">
                                 </td>
                                 <td><input
                                     class="visibilityCheckbox recipientCheckbox"
                                     name="receiverFollowerCheckbox"
-                                    type="checkbox" value="<%=CommentRecipientType.PERSON%>"
+                                    type="checkbox" value="<%=CommentParticipantType.PERSON%>"
                                     disabled="disabled"></td>
                             </tr>
                             <tr id="recipient-team">
@@ -256,17 +257,17 @@
                                 <td><input
                                     class="visibilityCheckbox answerCheckbox"
                                     type="checkbox"
-                                    value="<%=CommentRecipientType.TEAM%>">
+                                    value="<%=CommentParticipantType.TEAM%>">
                                 </td>
                                 <td><input
                                     class="visibilityCheckbox giverCheckbox"
                                     type="checkbox"
-                                    value="<%=CommentRecipientType.TEAM%>">
+                                    value="<%=CommentParticipantType.TEAM%>">
                                 </td>
                                 <td><input
                                     class="visibilityCheckbox recipientCheckbox"
                                     type="checkbox"
-                                    value="<%=CommentRecipientType.TEAM%>">
+                                    value="<%=CommentParticipantType.TEAM%>">
                                 </td>
                             </tr>
                             <% if(data.hasSection){ %>
@@ -280,17 +281,17 @@
                                 <td><input
                                     class="visibilityCheckbox answerCheckbox"
                                     type="checkbox"
-                                    value="<%=CommentRecipientType.SECTION%>">
+                                    value="<%=CommentParticipantType.SECTION%>">
                                 </td>
                                 <td><input
                                     class="visibilityCheckbox giverCheckbox"
                                     type="checkbox"
-                                    value="<%=CommentRecipientType.SECTION%>">
+                                    value="<%=CommentParticipantType.SECTION%>">
                                 </td>
                                 <td><input
                                     class="visibilityCheckbox recipientCheckbox"
                                     type="checkbox"
-                                    value="<%=CommentRecipientType.SECTION%>">
+                                    value="<%=CommentParticipantType.SECTION%>">
                                 </td>
                             </tr>
                             <% } %>
@@ -303,15 +304,15 @@
                                 </td>
                                 <td><input
                                     class="visibilityCheckbox answerCheckbox"
-                                    type="checkbox" value="<%=CommentRecipientType.COURSE%>">
+                                    type="checkbox" value="<%=CommentParticipantType.COURSE%>">
                                 </td>
                                 <td><input
                                     class="visibilityCheckbox giverCheckbox"
-                                    type="checkbox" value="<%=CommentRecipientType.COURSE%>">
+                                    type="checkbox" value="<%=CommentParticipantType.COURSE%>">
                                 </td>
                                 <td><input
                                     class="visibilityCheckbox recipientCheckbox"
-                                    type="checkbox" value="<%=CommentRecipientType.COURSE%>">
+                                    type="checkbox" value="<%=CommentParticipantType.COURSE%>">
                                 </td>
                             </tr>
                             <tr>
@@ -323,15 +324,15 @@
                                 </td>
                                 <td><input
                                     class="visibilityCheckbox answerCheckbox"
-                                    type="checkbox" value="<%=CommentRecipientType.INSTRUCTOR%>">
+                                    type="checkbox" value="<%=CommentParticipantType.INSTRUCTOR%>">
                                 </td>
                                 <td><input
                                     class="visibilityCheckbox giverCheckbox"
-                                    type="checkbox" value="<%=CommentRecipientType.INSTRUCTOR%>">
+                                    type="checkbox" value="<%=CommentParticipantType.INSTRUCTOR%>">
                                 </td>
                                 <td><input
                                     class="visibilityCheckbox recipientCheckbox"
-                                    type="checkbox" value="<%=CommentRecipientType.INSTRUCTOR%>">
+                                    type="checkbox" value="<%=CommentParticipantType.INSTRUCTOR%>">
                                 </td>
                             </tr>
                         </tbody>
@@ -346,7 +347,7 @@
                         id="button_cancel_comment" value="Cancel">
                     <input type="hidden" name=<%=Const.ParamsNames.COURSE_ID%> value="<%=data.student.course%>">
                     <input type="hidden" name=<%=Const.ParamsNames.STUDENT_EMAIL%> value="<%=data.student.email%>">
-                    <input type="hidden" name=<%=Const.ParamsNames.RECIPIENT_TYPE%> value="<%=CommentRecipientType.PERSON%>">
+                    <input type="hidden" name=<%=Const.ParamsNames.RECIPIENT_TYPE%> value="<%=CommentParticipantType.PERSON%>">
                     <input type="hidden" name=<%=Const.ParamsNames.RECIPIENTS%> value="<%=data.student.email%>">
                     <input type="hidden" name=<%=Const.ParamsNames.COMMENTS_SHOWCOMMENTSTO%> value="">
                     <input type="hidden" name=<%=Const.ParamsNames.COMMENTS_SHOWGIVERTO%> value="">
@@ -365,7 +366,8 @@
                             <div class="panel-body">
                                 <span data-toggle="modal" data-target="#studentProfileMoreInfo" 
                                       class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
-                                <h5>More Info </h5>                                    
+                                <h5>More Info </h5>
+                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->                                    
                                 <p class="text-preserve-space height-fixed-md"><%=data.studentProfile.moreInfo.isEmpty() ? 
                                         "<i class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.moreInfo%></p>
                             </div>

@@ -6,13 +6,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.SessionAttributes;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -53,7 +52,7 @@ public class InstructorStudentRecordsPageAction extends Action {
         
         data.showCommentBox = showCommentBox;
         if(targetSessionName.isEmpty()){
-            data.comments = logic.getCommentsForReceiver(courseId, instructor.email, CommentRecipientType.PERSON, studentEmail);
+            data.comments = logic.getCommentsForReceiver(courseId, instructor.email, CommentParticipantType.PERSON, studentEmail);
         } else {
             data.comments = new ArrayList<CommentAttributes>();
         }

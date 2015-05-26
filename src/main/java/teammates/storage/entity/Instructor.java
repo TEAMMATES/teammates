@@ -24,8 +24,7 @@ public class Instructor {
     private String id;
 
     /**
-     * The Google id of the instructor, used as the foreign key to locate the
-     * Account object.
+     * The Google id of the instructor, used as the foreign key to locate the Account object.
      */
     @Persistent
     private String googleId;
@@ -66,8 +65,9 @@ public class Instructor {
     @Persistent
     private Text instructorPrivilegesAsText;
     
-    public Instructor(String instructorGoogleId, String courseId, Boolean isArchived, String instructorName, String instructorEmail,
-            String role, boolean isDisplayedToStudents, String displayedName, String instructorPrivilegesAsText) {
+    public Instructor(String instructorGoogleId, String courseId, Boolean isArchived, String instructorName, 
+                      String instructorEmail, String role, boolean isDisplayedToStudents, String displayedName, 
+                      String instructorPrivilegesAsText) {
         this.setGoogleId(instructorGoogleId);
         this.setCourseId(courseId);
         this.setIsArchived(isArchived);
@@ -86,7 +86,8 @@ public class Instructor {
      * Constructor used for testing purpose only.
      */
     public Instructor(String instructorGoogleId, String courseId, String instructorName, String instructorEmail, 
-            String key, String role, boolean isDisplayedToStudents, String displayedName, String instructorPrivilegesAsText) {
+                      String key, String role, boolean isDisplayedToStudents, String displayedName, 
+                      String instructorPrivilegesAsText) {
         this.setGoogleId(instructorGoogleId);
         this.setCourseId(courseId);
         this.setName(instructorName);

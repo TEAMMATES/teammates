@@ -9,16 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
-import teammates.logic.core.CoursesLogic;
-import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.StudentsLogic;
 import com.google.appengine.api.search.Document;
-import com.google.appengine.api.search.Field;
 import com.google.appengine.api.search.GetRequest;
 import com.google.appengine.api.search.Index;
 import com.google.appengine.api.search.IndexSpec;
@@ -58,8 +53,7 @@ public class AdminSearchTaskServlet extends HttpServlet {
         
         /**
          * Retrieve all students
-         */
-        @SuppressWarnings("deprecation") //This method is deprecated to prevent unintended usage. This is an intended usage       
+         */   
         List<StudentAttributes> students = StudentsLogic.inst().getAllStudents();
         Iterator<StudentAttributes> it = students.iterator();
         

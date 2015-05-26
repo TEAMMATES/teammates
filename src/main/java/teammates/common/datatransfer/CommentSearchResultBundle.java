@@ -56,14 +56,14 @@ public class CommentSearchResultBundle extends BaseCommentSearchResultBundle {
             boolean isGiver = giverEmailList.contains(comment.giverEmail);
             String giverAsKey = comment.giverEmail + comment.courseId;
             
-            if(!isGiver && !comment.showGiverNameTo.contains(CommentRecipientType.INSTRUCTOR)){
+            if(!isGiver && !comment.showGiverNameTo.contains(CommentParticipantType.INSTRUCTOR)){
                 giverAsKey = "Anonymous" + comment.courseId;
                 giverName = "Anonymous" + " (" + comment.courseId + ")";
             } else {
                 giverName = extractContentFromQuotedString(giverName) + " (" + comment.courseId + ")";
             }
             
-            if(!isGiver && !comment.showRecipientNameTo.contains(CommentRecipientType.INSTRUCTOR)){
+            if(!isGiver && !comment.showRecipientNameTo.contains(CommentParticipantType.INSTRUCTOR)){
                 recipientName = "Anonymous";
             } else {
                 recipientName = extractContentFromQuotedString(recipientName);

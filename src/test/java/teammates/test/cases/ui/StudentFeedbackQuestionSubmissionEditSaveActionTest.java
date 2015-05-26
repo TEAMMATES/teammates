@@ -7,7 +7,6 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -18,7 +17,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
-import teammates.ui.controller.ShowPageResult;
+import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentFeedbackQuestionSubmissionEditSaveAction;
 
 public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends
@@ -64,8 +63,6 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends
                 Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
                 session1InCourse1.feedbackSessionName,
-                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1",
-                feedbackQuestion.getId()
         };
         verifyAssumptionFailure(submissionParams);
 
@@ -118,9 +115,9 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends
 
         StudentFeedbackQuestionSubmissionEditSaveAction saveAction =
                 getAction(submissionParams);
-        ShowPageResult pageResult = getShowPageResult(saveAction);
+        RedirectResult pageResult = (RedirectResult) saveAction.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT,
+        assertEquals(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE,
                 pageResult.destination);
         assertFalse(pageResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
@@ -150,9 +147,9 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends
         };
 
         saveAction = getAction(submissionParams);
-        pageResult = getShowPageResult(saveAction);
+        pageResult = (RedirectResult)saveAction.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT,
+        assertEquals(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE,
                 pageResult.destination);
         assertFalse(pageResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
@@ -178,9 +175,9 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends
         };
 
         saveAction = getAction(submissionParams);
-        pageResult = getShowPageResult(saveAction);
+        pageResult = (RedirectResult)saveAction.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT,
+        assertEquals(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE,
                 pageResult.destination);
         assertFalse(pageResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
@@ -207,9 +204,9 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends
         };
 
         saveAction = getAction(submissionParams);
-        pageResult = getShowPageResult(saveAction);
+        pageResult = (RedirectResult)saveAction.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT,
+        assertEquals(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE,
                 pageResult.destination);
         assertFalse(pageResult.isError);
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
@@ -249,9 +246,9 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends
         };
 
         saveAction = getAction(submissionParams);
-        pageResult = getShowPageResult(saveAction);
+        pageResult = (RedirectResult)saveAction.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT,
+        assertEquals(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE,
                 pageResult.destination);
         assertTrue(pageResult.isError);
         assertNull(feedbackResponsesDb.getFeedbackResponse(

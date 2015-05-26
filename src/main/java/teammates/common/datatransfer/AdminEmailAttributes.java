@@ -15,7 +15,6 @@ import teammates.common.util.Utils;
 import teammates.storage.entity.AdminEmail;
 
 import com.google.appengine.api.datastore.Text;
-import com.google.apphosting.api.DatastorePb.Cost;
 
 public class AdminEmailAttributes extends EntityAttributes {
     

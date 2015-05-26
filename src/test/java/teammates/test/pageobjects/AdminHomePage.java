@@ -1,13 +1,9 @@
 package teammates.test.pageobjects;
 
-import static org.testng.AssertJUnit.assertTrue;
-
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.util.ThreadHelper;
 
 public class AdminHomePage extends AppPage {
     

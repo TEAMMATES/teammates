@@ -13,16 +13,12 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.FeedbackSessionType;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.util.TestHelper;
-import teammates.ui.controller.Action;
-import teammates.ui.controller.ActionResult;
-import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentFeedbackResultsPageAction;
 import teammates.ui.controller.StudentFeedbackResultsPageData;
@@ -94,6 +90,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         StudentFeedbackResultsPageAction pageAction = getAction(submissionParams);
 
         try {
+            @SuppressWarnings("unused")
             ShowPageResult pageResult = getShowPageResult(pageAction);
         } catch (UnauthorizedAccessException exception) {
             assertEquals("This feedback session is not yet visible.",
@@ -111,6 +108,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         pageAction = getAction(submissionParams);
 
         try {
+            @SuppressWarnings("unused")
             ShowPageResult pageResult = getShowPageResult(pageAction);
         } catch (UnauthorizedAccessException exception) {
             assertEquals(

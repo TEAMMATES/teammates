@@ -32,7 +32,6 @@ import teammates.storage.entity.StudentProfile;
  * 
  */
 public class AccountsDb extends EntitiesDb {
-    @SuppressWarnings("unused")
     private static final Logger log = Utils.getLogger();
     
     /**

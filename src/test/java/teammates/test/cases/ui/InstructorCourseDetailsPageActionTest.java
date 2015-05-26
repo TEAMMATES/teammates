@@ -3,12 +3,12 @@ package teammates.test.cases.ui;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorCourseDetailsPageAction;
 import teammates.ui.controller.InstructorCourseDetailsPageData;
 import teammates.ui.controller.ShowPageResult;
@@ -39,11 +39,12 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         InstructorCourseDetailsPageAction pageAction = getAction(submissionParams);
         ShowPageResult pageResult = getShowPageResult(pageAction);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS+"?error=false&user=idOfInstructor1OfCourse1", pageResult.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS + "?error=false&user=idOfInstructor1OfCourse1", 
+                     pageResult.getDestinationWithParams());
         assertEquals(false, pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
-        InstructorCourseDetailsPageData pageData = (InstructorCourseDetailsPageData)pageResult.data;
+        InstructorCourseDetailsPageData pageData = (InstructorCourseDetailsPageData) pageResult.data;
         assertEquals(4, pageData.instructors.size());
 
         assertEquals("idOfTypicalCourse1", pageData.courseDetails.course.id);
@@ -53,10 +54,11 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         assertEquals(0, pageData.courseDetails.stats.unregisteredTotal);
         assertEquals(0, pageData.courseDetails.feedbackSessions.size());
 
-        String expectedLogMessage = "TEAMMATESLOG|||instructorCourseDetailsPage|||instructorCourseDetailsPage|||"
-        + "true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-        + "instructorCourseDetails Page Load<br>Viewing Course Details for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
-        + "|||/page/instructorCourseDetailsPage";
+        String expectedLogMessage = "TEAMMATESLOG|||instructorCourseDetailsPage|||instructorCourseDetailsPage|||true"
+                                    + "|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1"
+                                    + "|||instr1@course1.tmt|||instructorCourseDetails Page Load<br>Viewing Course "
+                                    + "Details for Course <span class=\"bold\">[idOfTypicalCourse1]</span>"
+                                    + "|||/page/instructorCourseDetailsPage";
         assertEquals(expectedLogMessage, pageAction.getLogMessage());
         
         ______TS("Masquerade mode, Course with no student");
@@ -68,11 +70,12 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         pageAction = getAction(addUserIdToParams(instructor4.googleId, submissionParams));
         pageResult = getShowPageResult(pageAction);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS+"?error=false&user=idOfInstructor4", pageResult.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS + "?error=false&user=idOfInstructor4", 
+                     pageResult.getDestinationWithParams());
         assertEquals(false, pageResult.isError);
         assertEquals("", pageResult.getStatusMessage());
         
-        pageData = (InstructorCourseDetailsPageData)pageResult.data;
+        pageData = (InstructorCourseDetailsPageData) pageResult.data;
         assertEquals(1, pageData.instructors.size());
 
         assertEquals("idOfCourseNoEvals", pageData.courseDetails.course.id);
@@ -82,14 +85,93 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         assertEquals(0, pageData.courseDetails.stats.unregisteredTotal);
         assertEquals(0, pageData.courseDetails.feedbackSessions.size());
 
-        expectedLogMessage = "TEAMMATESLOG|||instructorCourseDetailsPage|||instructorCourseDetailsPage|||"
-        + "true|||Instructor(M)|||Instructor 4 of CourseNoEvals|||idOfInstructor4|||instr4@coursenoevals.tmt|||"
-        + "instructorCourseDetails Page Load<br>Viewing Course Details for Course <span class=\"bold\">[idOfCourseNoEvals]</span>|||"
-        + "/page/instructorCourseDetailsPage";
+        expectedLogMessage = "TEAMMATESLOG|||instructorCourseDetailsPage|||instructorCourseDetailsPage|||true|||"
+                             + "Instructor(M)|||Instructor 4 of CourseNoEvals|||idOfInstructor4|||"
+                             + "instr4@coursenoevals.tmt|||instructorCourseDetails Page Load<br>Viewing Course "
+                             + "Details for Course <span class=\"bold\">[idOfCourseNoEvals]</span>|||"
+                             + "/page/instructorCourseDetailsPage";
         assertEquals(expectedLogMessage, pageAction.getLogMessage());
+        
+        ______TS("HTML Table needed");
+        instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
+        
+        submissionParams = new String[]{
+            Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+            Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED, "true"
+        };
+        pageAction = getAction(submissionParams);
+        AjaxResult ajaxResult = this.getAjaxResult(pageAction);
+
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS + "?error=false&user=idOfInstructor1OfCourse1", 
+                     ajaxResult.getDestinationWithParams());
+        assertEquals(false, pageResult.isError);
+        assertEquals("", ajaxResult.getStatusMessage());
+        
+        pageData = (InstructorCourseDetailsPageData) ajaxResult.data;
+
+        assertEquals("<table class=\"table table-bordered table-striped table-condensed\">\n"
+                         + "<tr>"
+                             + "<td>Course ID</td>\n"
+                             + "<td>idOfTypicalCourse1</td>\n"
+                         + "</tr>"
+                         + "<tr>"
+                             + "<td>Course Name</td>\n"
+                             + "<td>Typical Course 1 with 2 Evals</td>\n"
+                         + "</tr>"
+                         + "<tr>"
+                             + "<td>Section</td>\n"
+                             + "<td>Team</td>\n"
+                             + "<td>Full Name</td>\n"
+                             + "<td>Last Name</td>\n"
+                             + "<td>Status</td>\n"
+                             + "<td>Email</td>\n"
+                         + "</tr>"
+                         + "<tr>"
+                             + "<td>Section 1</td>\n"
+                             + "<td>Team 1.1</td>\n"
+                             + "<td>student1 In Course1</td>\n"
+                             + "<td>Course1</td>\n"
+                             + "<td>Joined</td>\n"
+                             + "<td>student1InCourse1@gmail.tmt</td>\n"
+                         + "</tr>"
+                         + "<tr>"
+                             + "<td>Section 1</td>\n"
+                             + "<td>Team 1.1</td>\n"
+                             + "<td>student2 In Course1</td>\n"
+                             + "<td>Course1</td>\n"
+                             + "<td>Joined</td>\n"
+                             + "<td>student2InCourse1@gmail.tmt</td>\n"
+                         + "</tr>"
+                         + "<tr>"
+                             + "<td>Section 1</td>\n"
+                             + "<td>Team 1.1</td>\n"
+                             + "<td>student3 In Course1</td>\n"
+                             + "<td>Course1</td>\n"
+                             + "<td>Joined</td>\n"
+                             + "<td>student3InCourse1@gmail.tmt</td>\n"
+                         + "</tr>"
+                         + "<tr>"
+                             + "<td>Section 1</td>\n"
+                             + "<td>Team 1.1</td>\n"
+                             + "<td>student4 In Course1</td>\n"
+                             + "<td>Course1</td>\n"
+                             + "<td>Joined</td>\n"
+                             + "<td>student4InCourse1@gmail.tmt</td>\n"
+                         + "</tr>"
+                         + "<tr>"
+                             + "<td>Section 2</td>\n"
+                             + "<td>Team 1.2</td>\n"
+                             + "<td>student5 In Course1</td>\n"
+                             + "<td>Course1</td>\n"
+                             + "<td>Joined</td>\n"
+                             + "<td>student5InCourse1@gmail.tmt</td>\n"
+                         + "</tr>"
+                     + "</table>", 
+                     pageData.studentListHtmlTableAsString);
     }
 
-    private InstructorCourseDetailsPageAction getAction(String... params) throws Exception{
+    private InstructorCourseDetailsPageAction getAction(String... params) throws Exception {
             return (InstructorCourseDetailsPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

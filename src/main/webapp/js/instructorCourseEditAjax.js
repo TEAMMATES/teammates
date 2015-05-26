@@ -12,8 +12,8 @@ function editFormRequest(e){
 
 	$.ajax({
 		type : 'POST',
-        cache: false,
-        url :   $(form).attr('action') + "?" + formData,
+        cache : false,
+        url : $(form).attr('action') + "?" + formData,
         beforeSend : function() {
         	displayIcon.html("<img height='25' width='25' src='/images/ajax-preload.gif'/>");
         },

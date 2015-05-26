@@ -124,6 +124,7 @@
             %>
                 <div class="panel panel-default">
                     <div class="panel-heading">
+                        <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                         <h4>Question <%=qnIndx%>: <span class="text-preserve-space"><%=StudentFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText)%><%=questionDetails.getQuestionAdditionalInfoHtml(qnIndx, "")%></span></h4>
                         <%=
                             questionDetails.getQuestionResultStatisticsHtml(questionWithResponses
@@ -196,6 +197,7 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                     <td class="text-preserve-space"><%=singleResponse.getResponseDetails().getAnswerHtml(questionDetails)%></td>
                                 </tr>
                             <%

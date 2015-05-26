@@ -20,7 +20,6 @@ import teammates.logic.api.Logic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.BackDoor;
-import teammates.test.util.TestHelper;
 import teammates.ui.controller.InstructorStudentRecordsPageAction;
 import teammates.ui.controller.InstructorStudentRecordsPageData;
 import teammates.ui.controller.RedirectResult;

@@ -1,13 +1,7 @@
 package teammates.ui.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
-import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.datatransfer.UserType;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Const;
 
 public class StudentAuthenticateAction extends Action {
     

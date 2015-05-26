@@ -357,6 +357,7 @@
                                 %>
                                             <div class="panel panel-info">
                                                 <div class="panel-heading">
+                                                    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                     <strong>Question <%=teamResponseEntries.getKey().questionNumber%>: </strong><span class="text-preserve-space"><%=data.bundle.getQuestionText(teamResponseEntries.getKey().getId())%><%
                                                         out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
                                                     %></span>
@@ -437,6 +438,7 @@
                         List<FeedbackResponseAttributes> responseEntries = responsesForRecipientForQuestion.getValue();
                 %>
                         <div class="panel panel-info">
+                            <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                             <div class="panel-heading">Question <%=question.questionNumber%>: <span class="text-preserve-space"><%
                                     out.print(InstructorFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText));
                                     out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "recipient-"+recipientIndex+"-question-"+questionIndex));%></span>
@@ -512,6 +514,7 @@
                                         %>
                                                 <td class="middlealign"><%=giverName%></td>
                                                 <td class="middlealign"><%=giverTeamName%></td>
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                 <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
                                                 <td>
                                                     <% 
@@ -526,6 +529,7 @@
                                                         <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                                         <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                         <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                        <input type="hidden" name="moderatedquestion" value="<%= question.questionNumber %>">
                                                         <% if (responseEntry.giverEmail.matches(Const.REGEXP_TEAM)) { %>
                                                         <input type="hidden" name="moderatedstudent" value="<%= responseEntry.giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
                                                         <% } else { %>
@@ -567,6 +571,7 @@
                                         %>        
                                                         <td class="middlealign color_neutral"><%=data.bundle.getFullNameFromRoster(possibleGiverWithNoResponse)%></td>
                                                         <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleGiverWithNoResponse)%></td>
+                                                        <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                         <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(possibleGiverWithNoResponse, targetEmail, data.bundle, question)%> </td>
                                                         <td>
                                                             <% 
@@ -579,6 +584,7 @@
                                                                 <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                                                 <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                                 <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                                <input type="hidden" name="moderatedquestion" value="<%= question.questionNumber %>">
                                                                 <% if (possibleGiverWithNoResponse.matches(Const.REGEXP_TEAM)) { %>
                                                                 <input type="hidden" name="moderatedstudent" value="<%= possibleGiverWithNoResponse.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
                                                                 <% } else { %>

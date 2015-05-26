@@ -25,7 +25,6 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     public boolean isArchived;
     
     public CourseAttributes() {
-
     }
 
     public CourseAttributes(String courseId, String name) {
@@ -60,10 +59,14 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
         String error;
         
         error= validator.getInvalidityInfo(FieldType.COURSE_ID, id);
-        if(!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) { 
+            errors.add(error); 
+        }
         
         error= validator.getInvalidityInfo(FieldType.COURSE_NAME, name);
-        if(!error.isEmpty()) { errors.add(error); }
+        if (!error.isEmpty()) { 
+            errors.add(error); 
+        }
         
         return errors;
     }
@@ -73,7 +76,8 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     }
 
     public String toString() {
-        return "["+CourseAttributes.class.getSimpleName() +"] id: " + id +" name: "+ name + " isArchived: " + isArchived;
+        return "[" + CourseAttributes.class.getSimpleName() + "] id: " + id + " name: " + name + " isArchived: " 
+               + isArchived;
     }
 
     @Override

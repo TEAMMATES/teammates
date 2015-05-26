@@ -676,7 +676,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             if(isValidRange && isMultipleOf10) {
                 validAnswer = true;
             }
-            if(frd.getAnswer() == Const.POINTS_NOT_SURE){
+            if (frd.getAnswer() == Const.POINTS_NOT_SURE || frd.getAnswer() == Const.POINTS_NOT_SUBMITTED) {
                 validAnswer = true;
             }
             if(validAnswer == false){
@@ -777,10 +777,14 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      * Returns the options for contribution share in a team. 
      */
     private String getContributionOptionsHtml(int points){
-        String result = "";
-        if(points==Const.POINTS_NOT_SUBMITTED || points==Const.INT_UNINITIALIZED ){
-            points=Const.POINTS_EQUAL_SHARE;
+        if (points == Const.INT_UNINITIALIZED) {
+            points = Const.POINTS_NOT_SUBMITTED;
         }
+        String result = "<option class=\""
+                + getContributionOptionsColor(Const.POINTS_NOT_SUBMITTED)
+                + "\" value=\"" + Const.POINTS_NOT_SUBMITTED + "\""
+                + (points == Const.POINTS_NOT_SUBMITTED ? " selected=\"selected\"" : "") + ">"
+                + convertToEqualShareFormat(Const.POINTS_NOT_SUBMITTED) + "</option>";
         for(int i=200; i>=0; i-=10){
             result += "<option "+
                         "class=\"" + getContributionOptionsColor(i) + "\" " +
@@ -803,8 +807,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      * Return the CSS color of different point
      */
     private String getContributionOptionsColor(int points){
-        if(points == Const.POINTS_NOT_SURE || points == Const.POINTS_EQUAL_SHARE){
-            // Not sure, Equal Share
+        if (points == Const.POINTS_NOT_SURE
+                || points == Const.POINTS_EQUAL_SHARE
+                || points == Const.POINTS_NOT_SUBMITTED) {
+            // Not sure, Equal Share, Not Submitted
             return "color_neutral";
         } else if ( points < Const.POINTS_EQUAL_SHARE){
             // Negative share
@@ -831,6 +837,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             return "0%"; // Do none
         else if(i == Const.POINTS_NOT_SURE)
             return "Not Sure";
+        else if (i == Const.POINTS_NOT_SUBMITTED)
+            return "";
         else
             return "";
     }
@@ -841,8 +849,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      * @return points in text form "Equal Share..." with html formatting for colors.
      */
     public static String convertToEqualShareFormatHtml(int i) {
-        if(i==Const.POINTS_NOT_SUBMITTED || i==Const.INT_UNINITIALIZED)
+        if(i==Const.INT_UNINITIALIZED)
             return "<span class=\"color_neutral\">N/A</span>";
+        else if (i == Const.POINTS_NOT_SUBMITTED)
+            return "<span class=\"color_neutral\"></span>";
         else if(i==Const.POINTS_NOT_SURE)
             return "<span class=\"color-negative\">Not Sure</span>";
         else if(i==0)
@@ -856,6 +866,17 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         else
             return "";
     }
-    
+
+    public boolean isQuestionSkipped(String[] answer) {
+        if (answer == null) {
+            return true;
+        }
+        for (String ans : answer) {
+            if (!ans.trim().isEmpty() && Integer.parseInt(ans) != Const.POINTS_NOT_SUBMITTED) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 }

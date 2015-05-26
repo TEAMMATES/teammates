@@ -4,7 +4,6 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -31,6 +30,7 @@ public class InstructorCourseJoinActionTest extends BaseActionTest {
         uri = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN;
     }
     
+    @SuppressWarnings("deprecation")
     @Test
     public void testExecuteAndPostProcess() throws Exception{
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");

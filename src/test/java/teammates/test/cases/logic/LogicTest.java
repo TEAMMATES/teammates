@@ -2,9 +2,6 @@ package teammates.test.cases.logic;
 
 import static org.testng.AssertJUnit.assertEquals;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -16,7 +13,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.logic.api.Logic;
 import teammates.test.cases.BaseComponentTestCase;
-import teammates.test.util.TestHelper;
 
 public class LogicTest extends BaseComponentTestCase {
 

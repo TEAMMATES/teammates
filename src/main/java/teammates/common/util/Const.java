@@ -809,7 +809,6 @@ public class Const {
         public static final String STATUS_MESSAGE_WITHOUT_FOCUS = "/jsp/statusMessageWithoutFocusingToStatus.jsp";
         public static final String EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp";
         public static final String FEEDBACK_SUBMISSION_EDIT = "/jsp/feedbackSubmissionEdit.jsp";
-        public static final String FEEDBACK_QUESTION_SUBMISSION_EDIT = "/jsp/feedbackQuestionSubmissionEdit.jsp"; 
         
         public static final String ADMIN_EMAIL_FILE_UPLOAD = "/jsp/adminEmailFileUpload.jsp"; 
     }
@@ -1179,6 +1178,7 @@ public class Const {
     //Used for Feedback CONTRIBUTION question
     public static final String EQUAL_SHARE = "Equal Share";
     public static final String NOT_SURE = "Not Sure";
+    public static final String NOT_SUBMITTED = "";
     public static final List<String> FEEDBACK_CONTRIBUTION_OPTIONS = Arrays.asList(
             "0%",
             EQUAL_SHARE+ " - 90%",
@@ -1201,7 +1201,8 @@ public class Const {
             EQUAL_SHARE+ " + 80%",
             EQUAL_SHARE+ " + 90%",
             EQUAL_SHARE+ " + 100%",
-            NOT_SURE);
+            NOT_SURE,
+            NOT_SUBMITTED);
     
     
     public static enum AdminEmailPageState{COMPOSE, SENT, TRASH, DRAFT};

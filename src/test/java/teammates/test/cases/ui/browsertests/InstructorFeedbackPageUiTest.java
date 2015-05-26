@@ -15,6 +15,7 @@ import java.util.TimeZone;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -53,9 +54,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     @BeforeClass
     public static void classSetup() throws Exception {
         printTestClassHeader();
-        testData = loadDataBundle("/InstructorFeedbackPageUiTest.json");
-        removeAndRestoreTestDataOnServer(testData);
-        idOfInstructorWithSessions = testData.accounts.get("instructorWithSessions").googleId;
         
         newSession = new FeedbackSessionAttributes();
         newSession.courseId = "CFeedbackUiT.CS1101";
@@ -79,28 +77,50 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         browser = BrowserPool.getBrowser();
     }
     
+    @BeforeMethod
+    public void refreshTestData() {
+        testData = loadDataBundle("/InstructorFeedbackPageUiTest.json");
+        removeAndRestoreTestDataOnServer(testData);
+        idOfInstructorWithSessions = testData.accounts.get("instructorWithSessions").googleId;
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);        
+    }
+
     @Test
-    public void allTests() throws Exception{
-        testCopyFromAction();
-        testCopyToAction();
-        testContent();
-        testAddAction();
-        testDeleteAction();
-        testRemindActions();
-        testPublishAction();
-        testUnpublishAction();
-        
+    public void testLinks() throws Exception {
         testResponseRateLink();
         testViewResultsLink();
         testEditLink();
         testSubmitLink();
+    }
+
+    @Test
+    public void testMiscellaneous() throws Exception {
         testValidationReload();
-        
         testJScripts();
     }
-    
-    public void testContent() throws Exception{
-        
+
+    @Test
+    public void testCopyActions() throws Exception {
+        testCopyFromAction();
+        testCopyToAction();
+    }
+
+    @Test
+    public void testAddDeleteActions() throws Exception {
+        testAddAction();
+        testDeleteAction();
+    }
+
+    @Test
+    public void testRemindPublishActions() throws Exception {
+        testRemindActions();
+        testPublishAction();
+        testUnpublishAction();
+    }
+
+    @Test
+    public void testContent() throws Exception {
+
         ______TS("no courses");
         
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
@@ -125,18 +145,18 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyHtmlAjax("/instructorFeedbackAllSessionTypes.html");
 
         feedbackPage.sortByName()
-            .verifyTablePattern(0, 1,"Awaiting Session{*}First Session{*}Manual Session{*}New Session (Copied){*}Open Session{*}Private Session");
+            .verifyTablePattern(0, 1,"Awaiting Session{*}First Session{*}Manual Session{*}Open Session{*}Private Session");
         feedbackPage.sortByName()
-            .verifyTablePattern(0, 1,"Private Session{*}Open Session{*}New Session (Copied){*}Manual Session{*}First Session{*}Awaiting Session");
+            .verifyTablePattern(0, 1,"Private Session{*}Open Session{*}Manual Session{*}First Session{*}Awaiting Session");
         
         ______TS("sort by course id");
         
         feedbackPage.sortById()
-            .verifyTablePattern(0, 0,"CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101"
+            .verifyTablePattern(0, 0,"CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101"
                     + "{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104");
         feedbackPage.sortById()
             .verifyTablePattern(0, 0,"CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104{*}CFeedbackUiT.CS2104"
-                    + "{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101");
+                    + "{*}CFeedbackUiT.CS1101{*}CFeedbackUiT.CS1101");
     
     }
     
@@ -420,9 +440,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     
     public void testCopyFromAction() throws Exception{
         
-        ______TS("Success case: copy successfully a previous session");
-        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
-        
+        ______TS("Success case: copy successfully a previous session");        
         feedbackPage.copyFeedbackSession("New Session (Copied)", newSession.courseId);
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
         // Check that we are redirected to the edit page.
@@ -500,10 +518,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
         
         feedbackPage.goToPreviousPage(InstructorFeedbacksPage.class);
-        
-        // Clean up
-        feedbackPage.clickAndConfirm(feedbackPage.getDeleteLink(courseId, "New name!"));
-        feedbackPage.clickAndConfirm(feedbackPage.getDeleteLink("CFeedbackUiT.CS2104", "New name!"));
     }
 
     public void testDeleteAction() throws Exception{
@@ -708,12 +722,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackPage.clickViewResponseLink("CFeedbackUiT.CS2104", "Private Session");
         feedbackPage.verifyResponseValue("0 / 0", "CFeedbackUiT.CS2104","Private Session");
         
-        ______TS("test response rate");
-        //Already displayed
-        assertEquals("0 / 2", feedbackPage.getResponseValue("CFeedbackUiT.CS1101", "Allow Early Viewing Session"));
-        
-        // Failure case tested in HomePageUiTest
-        
+        ______TS("test response rate already displayed");
+        assertEquals("0 / 0", feedbackPage.getResponseValue("CFeedbackUiT.CS1101", "Open Session"));
     }
 
     public void testViewResultsLink() {
@@ -847,7 +857,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         BrowserPool.release(browser);
     }
 
-    private InstructorFeedbacksPage getFeedbackPageForInstructor(String instructorId) {
+    private static InstructorFeedbacksPage getFeedbackPageForInstructor(String instructorId) {
         Url feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withUserId(instructorId);        
         InstructorFeedbacksPage page = loginAdminToPage(browser, feedbackPageLink, InstructorFeedbacksPage.class);
         page.waitForElementPresence(By.id("table-sessions"), 5);

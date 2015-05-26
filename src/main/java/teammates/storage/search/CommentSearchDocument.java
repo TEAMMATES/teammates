@@ -3,7 +3,7 @@ package teammates.storage.search;
 import java.util.List;
 
 import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CommentRecipientType;
+import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 
@@ -91,13 +91,12 @@ public class CommentSearchDocument extends BaseCommentSearchDocument {
                 .prepareCommonSearchableTextBuilder(comment, delim);
         searchableTextBuilder.append(recipientsBuilder.toString());
         
-        Builder docBuilder = super
-                .prepareCommonDocumentPart(comment, comment.giverEmail,
-                        searchableTextBuilder,
-                        comment.isVisibleTo(CommentRecipientType.INSTRUCTOR)
-                                .toString(),
-                        Const.SearchDocumentField.COMMENT_ATTRIBUTE,
-                        Const.SearchDocumentField.COMMENT_GIVER_NAME);
+        Builder docBuilder = super.prepareCommonDocumentPart(comment, comment.giverEmail,
+                                                             searchableTextBuilder,
+                                                             comment.isVisibleTo(CommentParticipantType.INSTRUCTOR)
+                                                                    .toString(),
+                                                             Const.SearchDocumentField.COMMENT_ATTRIBUTE,
+                                                             Const.SearchDocumentField.COMMENT_GIVER_NAME);
         Document doc = docBuilder
             //attribute field is used to convert a doc back to attribute
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.COMMENT_RECIPIENT_NAME).setText(

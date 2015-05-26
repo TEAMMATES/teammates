@@ -6,7 +6,6 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;

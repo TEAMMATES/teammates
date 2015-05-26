@@ -90,6 +90,7 @@
                     </div>
                     <strong>Question <%=question.questionNumber%>: </strong>
                     <div class="inline panel-heading-text">
+                        <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                         <span class="text-preserve-space"><%=data.bundle.getQuestionText(question.getId())%><%
                         	FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
                                                 out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
@@ -204,6 +205,7 @@
                                                                     <%}%>             
                                                                 </td>
                                                                 <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
+                                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                                 <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(prevGiver, possibleReceiver, data.bundle, question)%></td>
                                                                 <td>
                                                                     <% 
@@ -217,6 +219,7 @@
                                                                         <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                                                         <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                                         <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                                        <input type="hidden" name="moderatedquestion" value="<%= question.questionNumber%>">
                                                                         <% if (responseEntry.giverEmail.matches(Const.REGEXP_TEAM)) { %>
                                                                         <input type="hidden" name="moderatedstudent" value="<%= responseEntry.giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
                                                                         <% } else { %>
@@ -266,6 +269,7 @@
                                                     <%}%>                                                   
                                                 </td>
                                                 <td class="middlealign"><%=recipientTeamName%></td>
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                 <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
                                                 <td>
                                                     <% 
@@ -279,6 +283,7 @@
                                                         <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                                         <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                         <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                        <input type="hidden" name="moderatedquestion" value="<%= question.questionNumber%>">
                                                         <% if (responseEntry.giverEmail.matches(Const.REGEXP_TEAM)) { %>
                                                         <input type="hidden" name="moderatedstudent" value="<%= responseEntry.giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
                                                         <% } else { %>
@@ -329,6 +334,7 @@
                                                                 <%}%>                                                                 
                                                             </td>
                                                             <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
+                                                            <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                             <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(prevGiver, possibleReceiver, data.bundle, question)%></td>
                                                             <td>
                                                                 <% 
@@ -341,6 +347,7 @@
                                                                     <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                                                     <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                                     <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                                    <input type="hidden" name="moderatedquestion" value="<%= question.questionNumber%>">
                                                                     <% if (prevGiver.matches(Const.REGEXP_TEAM)) { %>
                                                                     <input type="hidden" name="moderatedstudent" value="<%= prevGiver.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
                                                                     <% } else { %>
@@ -397,6 +404,7 @@
                                                                   <%}%>                                                                   
                                                               </td>
                                                               <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
+                                                              <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                               <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(possibleGiver, possibleReceiver, data.bundle, question)%></td>
                                                               <td>
                                                                 <% 
@@ -409,6 +417,7 @@
                                                                     <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
                                                                     <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                                     <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
+                                                                    <input type="hidden" name="moderatedquestion" value="<%= question.questionNumber%>">
                                                                     <% if (possibleGiver.matches(Const.REGEXP_TEAM)) { %>
                                                                     <input type="hidden" name="moderatedstudent" value="<%= possibleGiver.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
                                                                     <% } else { %>

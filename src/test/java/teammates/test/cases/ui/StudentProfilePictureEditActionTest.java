@@ -7,28 +7,27 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentProfilePictureEditAction;
 
 public class StudentProfilePictureEditActionTest extends BaseActionTest {
-    
+
     private final DataBundle dataBundle = getTypicalDataBundle();
-    
+
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
     }
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        
+
         AccountAttributes student = dataBundle.accounts.get("student2InCourse1");
         gaeSimulation.loginAsStudent(student.googleId);
-        
+
         testActionForEmptyLeftX(student);
         testActionForEmptyRightY(student);
         testActionForEmptyTopY(student);
@@ -40,184 +39,178 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         testActionForNonExistentBlobKey(student);
     }
 
-    private void testActionForEmptyLeftX(AccountAttributes student)
-            throws Exception {
-        ______TS("empty parameter - leftx");
+    private void testActionForEmptyLeftX(AccountAttributes student) throws Exception {
+        ______TS("Failure case: empty parameter - leftx");
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
         String[] submissionParams = createValidParamsForProfilePictureEdit();
         submissionParams[1] = "";
-        
+
         StudentProfilePictureEditAction action = getAction(submissionParams);
         RedirectResult result = (RedirectResult) action.executeAndPostProcess();
-        
+
         String expectedLogMessage = getExpectedLogMessageEmptyCoords(student);
-        
+
         assertEquals(expectedLogMessage, action.getLogMessage());
         assertEquals(expectedUrl, result.getDestinationWithParams());
     }
 
     private void testActionForEmptyRightY(AccountAttributes student) throws Exception {
         String[] submissionParams;
-        ______TS("empty parameter - rightx");
+        ______TS("Failure case: empty parameter - rightx");
         String expectedLogMessage = getExpectedLogMessageEmptyCoords(student);
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
-        
+
         submissionParams = createValidParamsForProfilePictureEdit();
         submissionParams[3] = "";
-        
+
         StudentProfilePictureEditAction action = getAction(submissionParams);
         RedirectResult result = (RedirectResult) action.executeAndPostProcess();
-        
+
         assertEquals(expectedLogMessage, action.getLogMessage());
         assertEquals(expectedUrl, result.getDestinationWithParams());
     }
 
     private void testActionForEmptyTopY(AccountAttributes student) throws Exception {
-        ______TS("empty parameter - topy");
+        ______TS("Failure case: empty parameter - topy");
         String expectedLogMessage = getExpectedLogMessageEmptyCoords(student);
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
-        
+
         String[] submissionParams = createValidParamsForProfilePictureEdit();
         submissionParams[5] = "";
-        
+
         StudentProfilePictureEditAction action = getAction(submissionParams);
         RedirectResult result = (RedirectResult) action.executeAndPostProcess();
-        
+
         assertEquals(expectedLogMessage, action.getLogMessage());
         assertEquals(expectedUrl, result.getDestinationWithParams());
     }
 
     private void testActionForEmptyBottomY(AccountAttributes student) throws Exception {
-        ______TS("empty parameter - bottomy");
+        ______TS("Failure case: empty parameter - bottomy");
         String expectedLogMessage = getExpectedLogMessageEmptyCoords(student);
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
-        
+
         String[] submissionParams = createValidParamsForProfilePictureEdit();
         submissionParams[7] = "";
-        
+
         StudentProfilePictureEditAction action = getAction(submissionParams);
         RedirectResult result = (RedirectResult) action.executeAndPostProcess();
-        
+
         assertEquals(expectedLogMessage, action.getLogMessage());
         assertEquals(expectedUrl, result.getDestinationWithParams());
     }
 
     private void testActionForEmptyHeight(AccountAttributes student) throws Exception {
-        ______TS("empty parameter - height");
+        ______TS("Failure case: empty parameter - height");
         String expectedLogMessage = getExpectedLogMessageEmptyDimensions(student);
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
-        
+
         String[] submissionParams = createValidParamsForProfilePictureEdit();
         submissionParams[9] = "";
-        
+
         StudentProfilePictureEditAction action = getAction(submissionParams);
         RedirectResult result = (RedirectResult) action.executeAndPostProcess();
-        
+
         assertEquals(expectedLogMessage, action.getLogMessage());
         assertEquals(expectedUrl, result.getDestinationWithParams());
     }
 
     private void testActionForEmptyWidth(AccountAttributes student) throws Exception {
-        ______TS("empty parameter - width");
+        ______TS("Failure case: empty parameter - width");
         String expectedLogMessage = getExpectedLogMessageEmptyDimensions(student);
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
-        
+
         String[] submissionParams = createValidParamsForProfilePictureEdit();
         submissionParams[11] = "";
-        
+
         StudentProfilePictureEditAction action = getAction(submissionParams);
         RedirectResult result = (RedirectResult) action.executeAndPostProcess();
-        
+
         assertEquals(expectedLogMessage, action.getLogMessage());
         assertEquals(expectedUrl, result.getDestinationWithParams());
     }
 
-    private void testActionForZeroHeight(AccountAttributes student)
-            throws Exception {
-        ______TS("zero height");
+    private void testActionForZeroHeight(AccountAttributes student) throws Exception {
+        ______TS("Failure case: zero height");
         String expectedLogMessage = getExpectedLogMessageZeroDimensions(student);
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
-        
+
         String[] submissionParams = createValidParamsForProfilePictureEdit();
         submissionParams[9] = "0";
-        
+
         StudentProfilePictureEditAction action = getAction(submissionParams);
         RedirectResult result = (RedirectResult) action.executeAndPostProcess();
-        
+
         assertEquals(expectedLogMessage, action.getLogMessage());
         assertEquals(expectedUrl, result.getDestinationWithParams());
     }
 
-    private void testActionForZeroWidth(AccountAttributes student)
-            throws Exception {
-        ______TS("zero width");
+    private void testActionForZeroWidth(AccountAttributes student) throws Exception {
+        ______TS("Failure case: zero width");
         String expectedLogMessage = getExpectedLogMessageZeroDimensions(student);
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
-        
+
         String[] submissionParams = createValidParamsForProfilePictureEdit();
         submissionParams[11] = "0";
-        
+
         StudentProfilePictureEditAction action = getAction(submissionParams);
         RedirectResult result = (RedirectResult) action.executeAndPostProcess();
-        
+
         assertEquals(expectedLogMessage, action.getLogMessage());
         assertEquals(expectedUrl, result.getDestinationWithParams());
     }
 
-    private void testActionForNonExistentBlobKey(AccountAttributes student)
-            throws Exception {
-        
-        ______TS("non-existent blobKey");
+    private void testActionForNonExistentBlobKey(AccountAttributes student) throws Exception {
+        ______TS("Failure case: non-existent blobKey");
         String expectedUrl = Const.ActionURIs.STUDENT_PROFILE_PAGE + "?error=true&user=" + student.googleId;
         String[] submissionParams = createValidParamsForProfilePictureEdit();
-        
+
         StudentProfilePictureEditAction action = getAction(submissionParams);
         RedirectResult result = (RedirectResult) action.executeAndPostProcess();
-        
+
         String expectedLogMessage = getExpectedLogMessageNonExistentBlob(student);
-        
+
         assertEquals(expectedLogMessage, action.getLogMessage());
         assertEquals(expectedUrl, result.getDestinationWithParams());
     }
 
-    private String getExpectedLogMessageNonExistentBlob(
-            AccountAttributes student) {
+    private String getExpectedLogMessageNonExistentBlob(AccountAttributes student) {
         String expectedLogMessage;
         expectedLogMessage = "TEAMMATESLOG|||studentProfilePictureEdit|||"
-                + "studentProfilePictureEdit|||true|||Student|||Student in two courses|||"
-                + student.googleId + "|||student2InCourse1@gmail.tmt|||"
-                + "Servlet Action Failure : Reading and transforming image failed.Could not read blob."
-                + "|||" + Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
+                           + "studentProfilePictureEdit|||true|||Student|||Student in two courses|||"
+                           + student.googleId + "|||student2InCourse1@gmail.tmt|||"
+                           + "Servlet Action Failure : Reading and transforming image failed.Could not read blob."
+                           + "|||" + Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
         return expectedLogMessage;
     }
 
     private String getExpectedLogMessageZeroDimensions(AccountAttributes student) {
         String expectedLogMessage = "TEAMMATESLOG|||studentProfilePictureEdit|||"
-                + "studentProfilePictureEdit|||true|||Student|||Student in two courses|||" 
-                + student.googleId + "|||" + student.email + "|||"
-                + "Servlet Action Failure : One or both of the image dimensions were zero."
-                + "|||" + Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
+                                  + "studentProfilePictureEdit|||true|||Student|||Student in two courses|||"
+                                  + student.googleId + "|||" + student.email + "|||"
+                                  + "Servlet Action Failure : One or both of the image dimensions were zero."
+                                  + "|||" + Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
         return expectedLogMessage;
     }
 
     private String getExpectedLogMessageEmptyDimensions(AccountAttributes student) {
         String expectedLogMessage = "TEAMMATESLOG|||studentProfilePictureEdit|||"
-                + "studentProfilePictureEdit|||true|||Student|||Student in two courses|||" 
-                + student.googleId + "|||" + student.email + "|||"
-                + "Servlet Action Failure : One or both of the image dimensions were empty."
-                + "|||" + Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
+                                  + "studentProfilePictureEdit|||true|||Student|||Student in two courses|||"
+                                  + student.googleId + "|||" + student.email + "|||"
+                                  + "Servlet Action Failure : One or both of the image dimensions were empty."
+                                  + "|||" + Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
         return expectedLogMessage;
     }
 
     private String getExpectedLogMessageEmptyCoords(AccountAttributes student) {
         String expectedLogMessage = "TEAMMATESLOG|||studentProfilePictureEdit|||"
-                + "studentProfilePictureEdit|||true|||Student|||Student in two courses|||" 
-                + student.googleId + "|||" + student.email + "|||"
-                + "Servlet Action Failure : One or more of the given coords were empty."
-                + "|||" + Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
+                                  + "studentProfilePictureEdit|||true|||Student|||Student in two courses|||"
+                                  + student.googleId + "|||" + student.email + "|||"
+                                  + "Servlet Action Failure : One or more of the given coords were empty."
+                                  + "|||" + Const.ActionURIs.STUDENT_PROFILE_PICTURE_EDIT;
         return expectedLogMessage;
     }
-    
+
     private String[] createValidParamsForProfilePictureEdit() {
         return new String[] {
                 Const.ParamsNames.PROFILE_PICTURE_LEFTX, "0",
@@ -230,7 +223,8 @@ public class StudentProfilePictureEditActionTest extends BaseActionTest {
         };
     }
 
-    private StudentProfilePictureEditAction getAction(String... params) throws Exception{
-            return (StudentProfilePictureEditAction) (gaeSimulation.getActionObject(uri, params));
+    private StudentProfilePictureEditAction getAction(String... params) throws Exception {
+        return (StudentProfilePictureEditAction) (gaeSimulation.getActionObject(uri, params));
     }
+
 }

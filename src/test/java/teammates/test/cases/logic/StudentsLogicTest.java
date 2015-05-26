@@ -3,8 +3,6 @@ package teammates.test.cases.logic;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
-import static teammates.common.util.FieldValidator.EMAIL_ERROR_MESSAGE;
-import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -29,7 +27,6 @@ import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EnrollException;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
@@ -102,8 +99,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
      * This is because it uses Task Queues for scheduling and therefore has to be
      * tested in a separate class.
      */
-    
-    @SuppressWarnings("deprecation")
+
     public void testEnrollStudent() throws Exception {
 
         String instructorId = "instructorForEnrollTesting";

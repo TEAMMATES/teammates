@@ -321,6 +321,7 @@ public class InstructorsLogic {
         
     }
     
+    @SuppressWarnings("deprecation")
     public String sendJoinLinkToNewInstructor(InstructorAttributes instructor, String shortName, String institute) 
            throws EntityDoesNotExistException {
         

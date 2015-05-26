@@ -5,14 +5,12 @@ import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertEquals;
 
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.RedirectResult;

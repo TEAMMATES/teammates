@@ -7,7 +7,6 @@ import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.SessionAttributes;
 import teammates.common.datatransfer.SessionResultsBundle;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 
 public class InstructorStudentRecordsPageData extends PageData {

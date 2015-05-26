@@ -88,7 +88,7 @@ public abstract class ActionResult {
     private String appendParameters(String url, Map<String,String> params){
         String returnValue = url;
         for (String key : params.keySet()) {
-            returnValue = Url.addParamToUrl(returnValue,    key, params.get(key));
+            returnValue = Url.addParamToUrl(returnValue, key, params.get(key));
         }
         return returnValue;
     }

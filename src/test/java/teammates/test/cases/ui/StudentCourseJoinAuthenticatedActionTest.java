@@ -15,7 +15,6 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
-import teammates.storage.api.ProfilesDb;
 import teammates.storage.api.StudentsDb;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentCourseJoinAuthenticatedAction;

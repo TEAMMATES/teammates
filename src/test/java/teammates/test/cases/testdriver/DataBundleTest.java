@@ -8,7 +8,6 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.util.TimeHelper;
 import teammates.test.cases.BaseTestCase;
 
 public class DataBundleTest extends BaseTestCase {

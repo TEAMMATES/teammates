@@ -13,9 +13,6 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.StringHelper;
 import teammates.logic.core.AdminEmailsLogic;
-
-import com.google.appengine.api.datastore.Text;
-
 import teammates.logic.core.Emails;
 
 /**

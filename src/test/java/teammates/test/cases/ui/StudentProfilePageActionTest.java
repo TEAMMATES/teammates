@@ -17,32 +17,33 @@ import teammates.ui.controller.StudentProfilePageAction;
 public class StudentProfilePageActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
-    
+
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.STUDENT_PROFILE_PAGE;
     }
-    
+
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-        AccountAttributes student = dataBundle.accounts.get("student1InCourse1");        
+        AccountAttributes student = dataBundle.accounts.get("student1InCourse1");
         testActionSuccessTypical(student);
         testActionInMasquerade(student);
     }
 
     private void testActionSuccessTypical(AccountAttributes student) throws Exception {
         gaeSimulation.loginAsStudent(student.googleId);
-        ______TS("typical success");
-        String[] submissionParams = new String[]{};
+        ______TS("Typical case");
+        String[] submissionParams = new String[] {};
         StudentProfilePageAction action = getAction(submissionParams);
         ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
-        
-        AssertHelper.assertContains("/jsp/studentProfilePage.jsp?error=false&user="+student.googleId, result.getDestinationWithParams());
+
+        AssertHelper.assertContains("/jsp/studentProfilePage.jsp?error=false&user="
+                                    + student.googleId, result.getDestinationWithParams());
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
-        
+
         verifyAccountsAreSame(student, result);
         verifyLogMessage(student, action, false);
     }
@@ -50,27 +51,30 @@ public class StudentProfilePageActionTest extends BaseActionTest {
     private void testActionInMasquerade(AccountAttributes student)
             throws Exception {
         gaeSimulation.loginAsAdmin("admin.user");
-        ______TS("masquerade mode");        
-        String[] submissionParams = new String[]{
+        ______TS("Typical case: masquerade mode");
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.STUDENT_PROFILE_PHOTOEDIT, "false",
                 Const.ParamsNames.USER_ID, student.googleId
         };
-        
-        StudentProfilePageAction action = getAction(addUserIdToParams(student.googleId, submissionParams));
+
+        StudentProfilePageAction action = getAction(addUserIdToParams(
+                student.googleId, submissionParams));
         ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
-        
-        AssertHelper.assertContains(Const.ViewURIs.STUDENT_PROFILE_PAGE + "?error=false&user="+student.googleId, result.getDestinationWithParams());
+
+        AssertHelper.assertContains(Const.ViewURIs.STUDENT_PROFILE_PAGE
+                                    + "?error=false&user=" + student.googleId,
+                                    result.getDestinationWithParams());
         assertFalse(result.isError);
         assertEquals("", result.getStatusMessage());
-        
+
         verifyAccountsAreSame(student, result);
         verifyLogMessage(student, action, true);
     }
-    
-    
-    //-------------------------------------------------------------------------------------------------------
-    //-------------------------------------- Helper Functions -----------------------------------------------
-    //-------------------------------------------------------------------------------------------------------
+
+    // -------------------------------------------------------------------------------------------------------
+    // -------------------------------------- Helper Functions
+    // -----------------------------------------------
+    // -------------------------------------------------------------------------------------------------------
 
     private void verifyAccountsAreSame(AccountAttributes student,
             ShowPageResult result) {
@@ -82,14 +86,17 @@ public class StudentProfilePageActionTest extends BaseActionTest {
 
     private void verifyLogMessage(AccountAttributes student,
             StudentProfilePageAction action, boolean isMasquerade) {
-        String expectedLogMessage = "TEAMMATESLOG|||studentProfilePage|||studentProfilePage" +
-                "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||"+ student.name +"|||" + student.googleId + "|||" + student.email +
-                "|||studentProfile Page Load <br> Profile: " + student.studentProfile.toString() + "|||/page/studentProfilePage" ;
+        String expectedLogMessage = "TEAMMATESLOG|||studentProfilePage|||studentProfilePage"
+                                  + "|||true|||Student" + (isMasquerade ? "(M)" : "") + "|||"
+                                  + student.name + "|||" + student.googleId + "|||" + student.email
+                                  + "|||studentProfile Page Load <br> Profile: "
+                                  + student.studentProfile.toString() + "|||/page/studentProfilePage";
         assertEquals(expectedLogMessage, action.getLogMessage());
     }
 
-    private StudentProfilePageAction getAction(String... params) throws Exception {
-            return (StudentProfilePageAction) (gaeSimulation.getActionObject(uri, params));
+    private StudentProfilePageAction getAction(String... params)
+            throws Exception {
+        return (StudentProfilePageAction) (gaeSimulation.getActionObject(uri, params));
     }
 
 }

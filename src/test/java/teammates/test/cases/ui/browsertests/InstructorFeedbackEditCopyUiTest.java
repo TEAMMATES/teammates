@@ -12,7 +12,6 @@ import teammates.common.util.Url;
 import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
-import teammates.test.util.Priority;
 
 
 public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {

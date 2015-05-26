@@ -2,10 +2,8 @@ package teammates.test.cases.ui;
 
 import static org.testng.AssertJUnit.assertEquals;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.ui.controller.Action;
 import teammates.ui.controller.AdminHomePageData;

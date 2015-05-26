@@ -1,7 +1,6 @@
 package teammates.test.cases;
 
 import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 
 import teammates.test.driver.GaeSimulation;

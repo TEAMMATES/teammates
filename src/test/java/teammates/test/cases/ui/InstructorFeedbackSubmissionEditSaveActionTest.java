@@ -28,7 +28,6 @@ import teammates.ui.controller.ActionResult;
 import teammates.ui.controller.InstructorFeedbackSubmissionEditSaveAction;
 import teammates.ui.controller.RedirectResult;
 
-
 public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTest {
 
     private static final DataBundle dataBundle = loadDataBundle("/InstructorFeedbackSubmissionEditSaveActionTest.json");
@@ -46,14 +45,16 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
-        //TODO Test error states (catch-blocks and isError == true states)
+    public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor1InCourse1 = dataBundle.instructors.get("instructor1InCourse1");
         gaeSimulation.loginAsInstructor(instructor1InCourse1.googleId);
+        
         ______TS("Unsuccessful case: test empty feedback session name parameter");
+        
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, dataBundle.feedbackResponses.get("response1ForQ1S1C1").courseId
         };
+        
         InstructorFeedbackSubmissionEditSaveAction a;
         RedirectResult r;
         
@@ -65,9 +66,9 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
                     Const.ParamsNames.FEEDBACK_SESSION_NAME), e.getMessage());
         }
-                
         
         ______TS("Unsuccessful case: test empty course id parameter");
+        
         submissionParams = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, dataBundle.feedbackResponses.get("response1ForQ1S1C1").feedbackSessionName
         };
@@ -80,8 +81,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
             assertEquals(String.format(Const.StatusCodes.NULL_POST_PARAMETER, 
                     Const.ParamsNames.COURSE_ID), e.getMessage());
         }
-        
-        
+
         ______TS("Successful case: edit existing answer");
         
         FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
@@ -134,7 +134,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=instructor1InCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError + "&user=instructor1InCourse1",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
                 
@@ -155,7 +155,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=instructor1InCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError + "&user=instructor1InCourse1",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -176,7 +176,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=instructor1InCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError + "&user=instructor1InCourse1",
                         r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -205,7 +205,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=instructor1InCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError + "&user=instructor1InCourse1",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -226,7 +226,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=instructor1InCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError + "&user=instructor1InCourse1",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -255,11 +255,12 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=instructor1InCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError + "&user=instructor1InCourse1",
                         r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
         ______TS("Unsuccessful case: modified recipient to invalid recipient");
+        
         submissionParams = new String[]{
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
@@ -275,7 +276,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         r = (RedirectResult) a.executeAndPostProcess();
         
         assertTrue(r.isError);
-        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=instructor1InCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError + "&user=instructor1InCourse1",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, "invalid_recipient_email"));
         
@@ -310,7 +311,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError + "&user=FSQTT.idOfInstructor1OfCourse1",
                         r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -331,12 +332,11 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError + "&user=FSQTT.idOfInstructor1OfCourse1",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
         ______TS("Successful case: msq: typical case");
-        
         
         fq = fqDb.getFeedbackQuestion("MSQ Session", "FSQTT.idOfTypicalCourse1", 2);
         assertNotNull("Feedback question not found in database", fq);
@@ -364,7 +364,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError + "&user=FSQTT.idOfInstructor1OfCourse1",
                         r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -385,12 +385,11 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError + "&user=FSQTT.idOfInstructor1OfCourse1",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
         ______TS("Successful case: numerical scale: typical case");
-        
         
         fq = fqDb.getFeedbackQuestion("NUMSCALE Session", "FSQTT.idOfTypicalCourse1", 2);
         assertNotNull("Feedback question not found in database", fq);
@@ -423,7 +422,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError + "&user=FSQTT.idOfInstructor1OfCourse1",
                         r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -448,12 +447,11 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError + "&user=FSQTT.idOfInstructor1OfCourse1",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
         ______TS("Successful case: const sum: typical case");
-        
         
         fq = fqDb.getFeedbackQuestion("CONSTSUM Session", "FSQTT.idOfTypicalCourse1", 2);
         assertNotNull("Feedback question not found in database", fq);
@@ -494,7 +492,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
         assertFalse(r.isError);
-        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError + "&user=FSQTT.idOfInstructor1OfCourse1",
                         r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
@@ -516,22 +514,17 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertFalse(r.isError);
         assertEquals("All responses submitted succesfully!", r.getStatusMessage());
-        assertEquals("/page/instructorHomePage?error=" + r.isError +"&user=FSQTT.idOfInstructor1OfCourse1",
+        assertEquals("/page/instructorHomePage?error=" + r.isError + "&user=FSQTT.idOfInstructor1OfCourse1",
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
-        
         ______TS("Successful case: contrib qn: typical case");
         
-        //No tests since contrib qn can only be answered by students to own team members including self.
-        
-        
-        
-        
+        // No tests since contrib qn can only be answered by students to own team members including self.
     }
     
     @Test
-    public void testGracePeriodExecuteAndPostProcess() throws Exception{
+    public void testGracePeriodExecuteAndPostProcess() throws Exception {
         FeedbackSessionsDb feedbackSessionDb = new FeedbackSessionsDb();
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("Grace Period Session");
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1InCourse1");
@@ -540,7 +533,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName
-                };
+        };
         
         ______TS("opened");
         
@@ -554,7 +547,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         ActionResult r = a.executeAndPostProcess();
         
         assertEquals(
-                Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?error=false&user=instructor1InCourse1", 
+                Const.ActionURIs.INSTRUCTOR_HOME_PAGE + "?error=false&user=instructor1InCourse1", 
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
                 r.getStatusMessage());
@@ -571,7 +564,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         a = getAction(submissionParams);
         r = a.executeAndPostProcess();
         assertEquals(
-                Const.ActionURIs.INSTRUCTOR_HOME_PAGE+"?error=false&user=instructor1InCourse1", 
+                Const.ActionURIs.INSTRUCTOR_HOME_PAGE + "?error=false&user=instructor1InCourse1", 
                 r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED,
                 r.getStatusMessage());
@@ -590,10 +583,9 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         
         assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN,
                 r.getStatusMessage());
-        
     }
     
-    private InstructorFeedbackSubmissionEditSaveAction getAction(String... params) throws Exception{
+    private InstructorFeedbackSubmissionEditSaveAction getAction(String... params) throws Exception {
         return (InstructorFeedbackSubmissionEditSaveAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

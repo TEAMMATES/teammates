@@ -24,7 +24,6 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorCourseEnrollPage;
 import teammates.test.util.Priority;
-import teammates.test.util.TestHelper;
 
 /**
  * Covers Ui aspect of submission adjustment for evaluations and feedbacks
@@ -59,7 +58,6 @@ public class InstructorSubmissionAdjustmentUiTest extends BaseUiTestCase {
         loadEnrollmentPage();
         
         ______TS("typical case: enroll new student to existing course");
-        String evaluationName = "evaluation1 In Course1";
         StudentAttributes newStudent = new StudentAttributes();
         newStudent.section = "None";
         newStudent.team = "Team 1.1";

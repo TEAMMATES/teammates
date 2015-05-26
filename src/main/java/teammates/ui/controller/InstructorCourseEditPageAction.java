@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -10,7 +9,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -35,7 +33,7 @@ public class InstructorCourseEditPageAction extends Action {
         /* Setup page data for 'Edit' page of a course for an instructor */
         InstructorCourseEditPageData data = new InstructorCourseEditPageData(account);
         data.course = courseToEdit;
-        if(instructorEmail == null) {
+        if (instructorEmail == null) {
             data.instructorList = logic.getInstructorsForCourse(courseId);
             data.isAccessControlDisplayed = false;   
         } else {
@@ -55,8 +53,7 @@ public class InstructorCourseEditPageAction extends Action {
         }
         
         statusToAdmin = "instructorCourseEdit Page Load<br>"
-                + "Editing information for Course <span class=\"bold\">["
-                + courseId + "]</span>";
+                        + "Editing information for Course <span class=\"bold\">[" + courseId + "]</span>";
         
         ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_EDIT, data);
         return response;

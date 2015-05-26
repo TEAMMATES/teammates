@@ -4,7 +4,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static org.testng.AssertJUnit.assertTrue;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -20,7 +19,7 @@ import teammates.test.pageobjects.InstructorStudentRecordsPage;
 public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     private static Browser browser;
     private static InstructorStudentRecordsPage viewPage;
-    private static DataBundle testDataNormal, testDataQuestionType, testDataLinks;
+    private static DataBundle testDataNormal, testDataQuestionType;
     
     private static String instructorId;
     private static String courseId;
