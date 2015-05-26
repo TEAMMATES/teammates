@@ -94,8 +94,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         List<InstructorAttributes> instructorList =
                 new ArrayList<InstructorAttributes>(data.instructors.values());
         data.courses = loadCoursesList(instructorList);
-        List<FeedbackSessionAttributes> feedbackSessions =
-                loadFeedbackSessionsList(instructorList);
+        List<FeedbackSessionAttributes> feedbackSessions = loadFeedbackSessionsList(instructorList);
         data.existingFeedbackSessions = feedbackSessions;
         
         if (feedbackSessions.isEmpty()) {
@@ -109,7 +108,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
     
     private void createTemplateFeedbackQuestions(String courseId, String feedbackSessionName,
             String creatorEmail, String feedbackSessionType) throws InvalidParametersException {
-        if (feedbackSessionType == null){
+        if (feedbackSessionType == null) {
             return;
         }
         

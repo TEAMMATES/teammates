@@ -24,8 +24,8 @@ public class InstructorFeedbackDeleteAction extends Action {
         
         logic.deleteFeedbackSession(feedbackSessionName, courseId);
         statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_DELETED);
-        statusToAdmin = "Feedback Session <span class=\"bold\">[" + feedbackSessionName + "]</span>" +
-                " from Course: <span class=\"bold\">[" + courseId + " deleted.";
+        statusToAdmin = "Feedback Session <span class=\"bold\">[" + feedbackSessionName + "]</span> "
+                        + "from Course: <span class=\"bold\">[" + courseId + " deleted.";
         
         return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
     }
