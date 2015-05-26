@@ -19,7 +19,6 @@ import teammates.ui.controller.InstructorHomePageData;
 import teammates.ui.controller.ShowPageResult;
 
 public class InstructorHomePageActionTest extends BaseActionTest {
-
     private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
@@ -45,7 +44,8 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         
         ______TS("instructor with no courses, right after registration (ie no persistence issue)");
         
-        gaeSimulation.loginAsInstructor(dataBundle.accounts.get("instructorWithoutCourses").googleId);
+        gaeSimulation.loginAsInstructor(dataBundle.accounts.get("instructorWithoutCourses")
+                                        .googleId);
         a = getAction(submissionParams);
         r = getShowPageResult(a);
         AssertHelper.assertContainsRegex("/jsp/instructorHome.jsp?"
@@ -53,12 +53,14 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         assertEquals(false, r.isError);
         assertEquals(Const.StatusMessages.HINT_FOR_NEW_INSTRUCTOR, r.getStatusMessage());
         
-        InstructorHomePageData data = (InstructorHomePageData)r.data;
+        InstructorHomePageData data = (InstructorHomePageData) r.data;
         assertEquals(0, data.courses.size());
         
-        String expectedLogMessage = "TEAMMATESLOG|||instructorHomePage|||instructorHomePage|||true" +
-                "|||Instructor|||Instructor Without Courses|||instructorWithoutCourses" +
-                "|||iwc@yahoo.tmt|||instructorHome Page Load<br>Total Courses: 0|||/page/instructorHomePage" ;
+        String expectedLogMessage = "TEAMMATESLOG|||instructorHomePage|||instructorHomePage"
+                                     + "|||true|||Instructor|||Instructor Without Courses"
+                                     + "|||instructorWithoutCourses|||iwc@yahoo.tmt"
+                                     + "|||instructorHome Page Load<br>Total Courses: 0"
+                                     + "|||/page/instructorHomePage" ;
         assertEquals(expectedLogMessage, a.getLogMessage());
         
         submissionParams = new String[]{};
@@ -77,7 +79,8 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         Logic logic = new Logic();
         String newCourseIdForSorting = "idOfTypicalCourse"; // should be 1st if sort by course id
         String newCourseNameForSorting = "Typical Course 3"; //should be 3rd if sort by course name 
-        logic.createCourseAndInstructor(instructorWithMultipleCourses, newCourseIdForSorting, newCourseNameForSorting);
+        logic.createCourseAndInstructor(instructorWithMultipleCourses, newCourseIdForSorting, 
+                                        newCourseNameForSorting);
         
         a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
         r = getShowPageResult(a);
@@ -99,9 +102,11 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         assertEquals(expectedCourse3IdAfterSortByCourseId, actualCourse3AfterSortByCourseId.id);
         assertEquals(Const.SORT_BY_COURSE_ID, data.sortCriteria);
         
-        expectedLogMessage = "TEAMMATESLOG|||instructorHomePage|||instructorHomePage|||true" +
-                "|||Instructor(M)|||Instructor 3 of Course 1 and 2|||idOfInstructor3" +
-                "|||instr3@course1n2.tmt|||instructorHome Page Load<br>Total Courses: 3|||/page/instructorHomePage" ;
+        expectedLogMessage = "TEAMMATESLOG|||instructorHomePage|||instructorHomePage|||true"
+                              + "|||Instructor(M)|||Instructor 3 of Course 1 and 2"
+                              + "|||idOfInstructor3|||instr3@course1n2.tmt"
+                              + "|||instructorHome Page Load<br>Total Courses: 3"
+                              + "|||/page/instructorHomePage" ;
         assertEquals(expectedLogMessage, a.getLogMessage());
         
         
@@ -114,7 +119,8 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
         r = getShowPageResult(a);
         
-        assertEquals("/jsp/instructorHome.jsp?error=false&user="+instructorWithMultipleCourses, r.getDestinationWithParams());
+        assertEquals("/jsp/instructorHome.jsp?error=false&user="+instructorWithMultipleCourses, 
+                                        r.getDestinationWithParams());
         assertEquals(false, r.isError);
         assertEquals("",r.getStatusMessage());
         
@@ -151,7 +157,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
     }
     
     private InstructorHomePageAction getAction(String... params) throws Exception{
-            return (InstructorHomePageAction) (gaeSimulation.getActionObject(uri, params));
+            return (InstructorHomePageAction)(gaeSimulation.getActionObject(uri, params));
     }
     
 }
