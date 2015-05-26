@@ -29,18 +29,21 @@ import teammates.logic.api.GateKeeper;
  *         that was just uploaded.
  */
 public class StudentProfilePictureUploadAction extends Action {
-    // This class is not tested in ActionTests as it is difficult to 
-    // reproduce the upload action done by Google Blobstore API without 
-    // the server running. This class is covered in UiTests
+    /*
+     * This class is not tested in ActionTests as it is difficult to
+     * reproduce the upload action done by Google Blobstore API
+     * without the server running.
+     * This class is covered in UiTests.
+     */
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         new GateKeeper().verifyLoggedInUserPrivileges();
-        
+
         String pictureKey = "";
         BlobKey blobKey = new BlobKey("");
         BlobInfo blobInfo = null;
         RedirectResult r = createRedirectResult(Const.ActionURIs.STUDENT_PROFILE_PAGE);
-        
+
         try {
             blobInfo = extractProfilePictureKey();
             if (!isError) {
@@ -55,35 +58,36 @@ public class StudentProfilePictureUploadAction extends Action {
             updateStatusesForBlobstoreFailure();
             isError = true;
         } catch (Exception e) {
-            // this is for other exceptions like EntityNotFound, IllegalState, etc 
-            // that occur rarely and are handled higher up.
-            
+            /*
+             * This is for other exceptions like EntityNotFound, IllegalState, etc
+             * that occur rarely and are handled higher up.
+             */
             deletePicture(new BlobKey(pictureKey));
             statusToUser.clear();
             throw e;
         }
-        
+
         return r;
     }
 
     private String renameFileToGoogleId(BlobInfo blobInfo) throws IOException {
         Assumption.assertNotNull(blobInfo);
-        
+
         BlobKey blobKey = blobInfo.getBlobKey();
         InputStream blobStream = new BlobstoreInputStream(blobKey);
         byte[] imageData = new byte[(int) blobInfo.getSize()];
         blobStream.read(imageData);
         blobStream.close();
-        
+
         String newKey = uploadFileToGcs(imageData);
         deletePicture(blobKey);
         return newKey;
     }
-    
+
     /**
-     * Uploads the given image data to the cloud storage into a file
-     * with the user's googleId as the name. Returns a blobKey that can be used to 
-     * identify the file
+     * Uploads the given image data to the cloud storage into a file with
+     * the user's googleId as the name.
+     * Returns a blobKey that can be used to identify the file.
      * 
      * @param fileName
      * @param transformedImage
@@ -91,49 +95,50 @@ public class StudentProfilePictureUploadAction extends Action {
      * @throws IOException
      * TODO: use the function 'writeDataToGcs' in GoogleCloudStorageHelper to achieve this 
      */
-    private String uploadFileToGcs(byte[] transformedImage)
-            throws IOException {
-        
+    private String uploadFileToGcs(byte[] transformedImage) throws IOException {
         GcsFilename fileName = new GcsFilename(Config.GCS_BUCKETNAME, account.googleId);
-        
         GcsService gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
-        GcsOutputChannel outputChannel =
-                gcsService.createOrReplace(fileName, new GcsFileOptions.Builder().mimeType("image/png").build());
-        
+        GcsOutputChannel outputChannel = gcsService.createOrReplace(fileName, new GcsFileOptions.Builder()
+                                                                                                .mimeType("image/png")
+                                                                                                .build());
+
         outputChannel.write(ByteBuffer.wrap(transformedImage));
         outputChannel.close();
-        
+
         return BlobstoreServiceFactory.getBlobstoreService()
-                .createGsBlobKey("/gs/"+Config.GCS_BUCKETNAME + "/" + account.googleId).getKeyString();
+                                      .createGsBlobKey("/gs/" + Config.GCS_BUCKETNAME + "/" + account.googleId)
+                                      .getKeyString();
     }
 
     private BlobInfo extractProfilePictureKey() {
         try {
-            Map<String, List<BlobInfo>> blobsMap = BlobstoreServiceFactory.getBlobstoreService().getBlobInfos(request);
+            Map<String, List<BlobInfo>> blobsMap = BlobstoreServiceFactory.getBlobstoreService()
+                                                                          .getBlobInfos(request);
             List<BlobInfo> blobs = blobsMap.get(Const.ParamsNames.STUDENT_PROFILE_PHOTO);
-            
-            if(blobs != null && blobs.size() > 0) {
+            if (blobs != null && blobs.size() > 0) {
                 BlobInfo profilePic = blobs.get(0);
                 return validateProfilePicture(profilePic);
-            } else{
+            } else {
                 statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_NO_PICTURE_GIVEN);
                 isError = true;
                 return null;
             }
         } catch (IllegalStateException e) {
-            // this means the action was called directly (and not via BlobStore API callback)
-            // simply redirect to ProfilePage
+            /*
+             * This means the action was called directly (and not via BlobStore API callback).
+             * Simply redirect to ProfilePage.
+             */
             return null;
         }
     }
 
-    private BlobInfo validateProfilePicture (BlobInfo profilePic) {
+    private BlobInfo validateProfilePicture(BlobInfo profilePic) {
         if (profilePic.getSize() > Const.SystemParams.MAX_PROFILE_PIC_SIZE) {
             deletePicture(profilePic.getBlobKey());
             isError = true;
             statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
             return null;
-        } else if(!profilePic.getContentType().contains("image/")) {
+        } else if (!profilePic.getContentType().contains("image/")) {
             deletePicture(profilePic.getBlobKey());
             isError = true;
             statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE);
@@ -141,29 +146,27 @@ public class StudentProfilePictureUploadAction extends Action {
         } else {
             return profilePic;
         }
-        
     }
-    
+
     private void deletePicture(BlobKey blobKey) {
-        if (blobKey == new BlobKey("")) return;
-        
+        if (blobKey == new BlobKey("")) {
+            return;
+        }
         try {
             logic.deletePicture(blobKey);
         } catch (BlobstoreFailureException bfe) {
-            statusToAdmin = Const.ACTION_RESULT_FAILURE 
-                    + " : Unable to delete profile picture (possible unused picture with key: "
-                    + blobKey.getKeyString()
-                    + " || Error Message: "
-                    + bfe.getMessage() + Const.EOL;
+            statusToAdmin = Const.ACTION_RESULT_FAILURE
+                          + " : Unable to delete profile picture (possible unused picture with key: "
+                          + blobKey.getKeyString() + " || Error Message: "
+                          + bfe.getMessage() + Const.EOL;
         }
     }
 
     private void updateStatusesForBlobstoreFailure() {
-        statusToAdmin += Const.ACTION_RESULT_FAILURE 
-                + " : Could not delete profile picture for account ("
-                + account.googleId 
-                + ")" + Const.EOL;
+        statusToAdmin += Const.ACTION_RESULT_FAILURE + " : Could not delete profile picture for account ("
+                       + account.googleId + ")" + Const.EOL;
         statusToUser.clear();
         statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_PIC_SERVICE_DOWN);
     }
+
 }

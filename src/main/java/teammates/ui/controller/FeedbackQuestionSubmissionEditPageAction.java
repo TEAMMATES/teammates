@@ -1,7 +1,7 @@
 package teammates.ui.controller;
 
-import teammates.common.datatransfer.FeedbackQuestionBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -10,7 +10,7 @@ public abstract class FeedbackQuestionSubmissionEditPageAction extends Action {
     protected String courseId;
     protected String feedbackSessionName;
     protected String feedbackQuestionId;
-    protected FeedbackQuestionSubmissionEditPageData data;
+    protected FeedbackSubmissionEditPageData data;
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
@@ -30,7 +30,9 @@ public abstract class FeedbackQuestionSubmissionEditPageAction extends Action {
         verifyAccesibleForSpecificUser();
         
         String userEmailForCourse = getUserEmailForCourse();        
-        data = new FeedbackQuestionSubmissionEditPageData(account, student);
+        data = new FeedbackSubmissionEditPageData(account, student);
+        data.isShowRealQuestionNumber = true;
+        data.isHeaderHidden = true;
         data.bundle = getDataBundle(userEmailForCourse);
         data.isSessionOpenForSubmission = isSessionOpenForSpecificUser(data.bundle.feedbackSession);
         
@@ -49,7 +51,7 @@ public abstract class FeedbackQuestionSubmissionEditPageAction extends Action {
     
     protected abstract String getUserEmailForCourse();
 
-    protected abstract FeedbackQuestionBundle getDataBundle(String userEmailForCourse) throws EntityDoesNotExistException;
+    protected abstract FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse) throws EntityDoesNotExistException;
     
     protected abstract boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes fs);
     

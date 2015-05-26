@@ -265,12 +265,6 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         return GoogleCloudStorageHelper.writeFileToGcs(googleId, "src/test/resources/images/not_a_picture.txt", "");
     }
 
-    private String uploadUpdatePictureForProfile(String googleId)
-            throws IOException {
-        // we upload a small text file as the actual file does not matter here
-        return GoogleCloudStorageHelper.writeFileToGcs(googleId, "src/test/resources/images/not_a_picture.txt", "1");
-    }
-
     private AccountAttributes createNewAccount() throws Exception {
         AccountAttributes a = new AccountAttributes();
         a.googleId = "valid.googleId";

@@ -192,6 +192,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
         WebElement minScaleBox = browser.driver.findElement(By.id("minScaleBox" + idSuffix));
         fillTextBox(minScaleBox, Integer.toString(minScale));
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("$(arguments[0]).change();", minScaleBox);
     }
     
     public void fillMaxNumScaleBox(int maxScale, int qnNumber) {
@@ -212,6 +214,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
         WebElement minScaleBox = browser.driver.findElement(By.id("minScaleBox" + idSuffix));
         fillTextBox(minScaleBox, minScale);
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("$(arguments[0]).change();", minScaleBox);
     }
     
     public void fillMaxNumScaleBox(String maxScale, int qnNumber) {
@@ -252,6 +256,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
         WebElement stepBox = browser.driver.findElement(By.id("stepBox" + idSuffix));
         fillTextBox(stepBox, step);
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
+        jsExecutor.executeScript("$(arguments[0]).change();", stepBox);
     }
     
     public String getNumScalePossibleValuesString(int qnNumber) {
@@ -373,7 +379,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void waitForModalToLoad() {
-        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME), 1);
+        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME), 5);
     }
     
     public void fillCopyToOtherCoursesForm(String newName) {

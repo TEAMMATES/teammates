@@ -81,6 +81,7 @@
 %>
 <%
     int qnIndx = 1;
+
     String divClassType;
     List<FeedbackQuestionAttributes> questions = data.bundle.getSortedQuestions();
 
@@ -88,6 +89,8 @@
         int numOfResponseBoxes = question.numberOfEntitiesToGiveFeedbackTo;
         int maxResponsesPossible = data.bundle.recipientList.get(question.getId()).size();
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
+        // Compare strings instead of ints to avoid integer conversion complications.
+        String questionNumberString = String.valueOf(question.questionNumber);
 
         if (numOfResponseBoxes == Const.MAX_POSSIBLE_RECIPIENTS ||
                 numOfResponseBoxes > maxResponsesPossible) {
@@ -111,8 +114,8 @@
         <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_ID %>-<%= Integer.toString(qnIndx) %>" value="<%= question.getId() %>">
         <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL %>-<%= Integer.toString(qnIndx) %>" value="<%= numOfResponseBoxes %>">
         <div class="form-horizontal">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Question <%= qnIndx %>:
+            <div class="panel panel-primary<%= questionNumberString.equals(data.moderatedQuestion) ? " moderated-question" : "" %>">
+                <div class="panel-heading">Question <%= data.isShowRealQuestionNumber ? question.questionNumber : qnIndx %>:
                     <br>
                     <span class="text-preserve-space">
                         <%= sanitizeForHtml(questionDetails.questionText) %>

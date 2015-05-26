@@ -19,7 +19,6 @@ public class DataMigrationForSearchableStudents extends RemoteApiClient {
 
     @Override
     protected void doOperation() {
-        // TODO Auto-generated method stub
         Datastore.initialize();
 
         List<StudentAttributes> allStudents = getAllStudents();

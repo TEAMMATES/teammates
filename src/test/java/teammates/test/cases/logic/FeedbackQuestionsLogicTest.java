@@ -17,12 +17,10 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackQuestionBundle;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.logic.core.AccountsLogic;
@@ -52,7 +50,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         testGetFeedbackQuestionsForTeam();
         testIsQuestionHasResponses();
         testIsQuestionAnswered();
-        testGetFeedbackQuestionBundle();
         testUpdateQuestionNumber();
         testAddQuestion();
         testCopyQuestion();
@@ -577,10 +574,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
     }  
     
-    public void testGetFeedbackQuestionBundle() throws Exception {
-        testGetFeedbackQuestionBundleForInstructor();
-        testGetFeedbackQuestionBundleForStudent();
-    }
     
 
     public void testAddQuestionNoIntegrityCheck() throws InvalidParametersException, EntityDoesNotExistException {
@@ -606,108 +599,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         
     }
     
-    private void testGetFeedbackQuestionBundleForInstructor() throws Exception{
-        ______TS("typical success case");
-        
-        FeedbackQuestionBundle fqBundle = null;
-        FeedbackQuestionAttributes fqa = getQuestionFromDatastore("qn3InSession1InCourse1");
-        
-        fqBundle = fqLogic.getFeedbackQuestionBundleForInstructor(
-                        "First feedback session", "idOfTypicalCourse1",
-                        fqa.getId(), "instructor1@course1.tmt");
-        
-        assertEquals(fqBundle.feedbackSession.courseId,"idOfTypicalCourse1");
-        assertEquals(fqBundle.feedbackSession.feedbackSessionName,"First feedback session");
-        assertEquals(fqBundle.question.questionNumber, 3);
-        assertEquals(fqBundle.recipientList.size(), 1);
-        assertEquals(fqBundle.responseList.size(), 1);
-        
-        ______TS("non-existent feedback session");
-        
-        try {
-            fqBundle = fqLogic.getFeedbackQuestionBundleForInstructor(
-                        "non-existent feedback session", "idOfTypicalCourse1",
-                        fqa.getId(), "instructor1@course1.tmt");
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            assertEquals(e.getMessage(),"Trying to get a feedback session that does not exist.");
-        }
-        
-        ______TS("non-existent feedback question");
-        
-        try {
-            fqBundle = fqLogic.getFeedbackQuestionBundleForInstructor(
-                        "First feedback session", "idOfTypicalCourse1",
-                        "non-existent fq id", "instructor1@course1.tmt");
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            assertEquals(e.getMessage(),"Trying to get a feedback question that does not exist.");
-        }
-        
-        ______TS("question not meant for user");
-        
-        fqa = getQuestionFromDatastore("qn1InSession1InCourse1");
-        
-        try {
-            fqBundle = fqLogic.getFeedbackQuestionBundleForInstructor(
-                        "First feedback session", "idOfTypicalCourse1",
-                        fqa.getId(), "instructor1@course1.tmt");
-            signalFailureToDetectException();
-       } catch (UnauthorizedAccessException e) {
-            assertEquals(e.getMessage(),"Trying to access a question not meant for the user.");
-        }
-    }
-    
-    private void testGetFeedbackQuestionBundleForStudent() throws Exception{
-        ______TS("typical success case");
-        
-        FeedbackQuestionAttributes fqa = getQuestionFromDatastore("qn1InSession1InCourse1");
-        
-        FeedbackQuestionBundle fqBundle = fqLogic.getFeedbackQuestionBundleForStudent(
-                        "First feedback session", "idOfTypicalCourse1",
-                        fqa.getId(), "student1InCourse1@gmail.tmt");
-        
-        assertEquals(fqBundle.feedbackSession.courseId,"idOfTypicalCourse1");
-        assertEquals(fqBundle.feedbackSession.feedbackSessionName,"First feedback session");
-        assertEquals(fqBundle.question.questionNumber, 1);
-        assertEquals(fqBundle.recipientList.size(), 1);
-        assertEquals(fqBundle.responseList.size(), 1);
-        
-        ______TS("non-existent feedback session");
-        
-        try {
-            fqBundle = fqLogic.getFeedbackQuestionBundleForStudent(
-                        "non-existent feedback session", "idOfTypicalCourse1",
-                        fqa.getId(), "student1InCourse1@gmail.tmt");
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            assertEquals(e.getMessage(),"Trying to get a feedback session that does not exist.");
-        }
-        
-        ______TS("non-existent feedback question");
-        
-        try {
-            fqBundle = fqLogic.getFeedbackQuestionBundleForStudent(
-                        "First feedback session", "idOfTypicalCourse1",
-                        "non-existent fq id", "student1InCourse1@gmail.tmt");
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException e) {
-            assertEquals(e.getMessage(),"Trying to get a feedback question that does not exist.");
-        }
-        
-        ______TS("question not meant for user");
-        
-        fqa = getQuestionFromDatastore("qn3InSession1InCourse1");
-        
-        try {
-            fqBundle = fqLogic.getFeedbackQuestionBundleForStudent(
-                        "First feedback session", "idOfTypicalCourse1",
-                        fqa.getId(), "student1InCourse1@gmail.tmt");
-            signalFailureToDetectException();
-        } catch (UnauthorizedAccessException e) {
-            assertEquals(e.getMessage(),"Trying to access a question not meant for the user.");
-        }
-    }
         
     private FeedbackQuestionAttributes getQuestionFromDatastore(String questionKey) {
         FeedbackQuestionAttributes question;

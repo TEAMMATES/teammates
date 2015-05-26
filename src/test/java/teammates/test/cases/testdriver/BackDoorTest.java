@@ -169,6 +169,7 @@ public class BackDoorTest extends BaseTestCase {
         String courseId = "tmapitt.tcc.course";
         String name = "Tmapitt testInstr Name";
         String email = "tmapitt@tci.tmt";
+        @SuppressWarnings("deprecation")
         InstructorAttributes instructor = new InstructorAttributes(instructorId, courseId, name, email);
         
         // Make sure not already inside
@@ -199,6 +200,8 @@ public class BackDoorTest extends BaseTestCase {
 
     
 
+    @SuppressWarnings("deprecation")
+    // decrepated methods are used correctly
     @Test
     public void testGetCoursesByInstructorId() throws InvalidParametersException {
 
@@ -307,7 +310,10 @@ public class BackDoorTest extends BaseTestCase {
 
         StudentAttributes student = new StudentAttributes("sect1", "t1", "name of tgsr student", "tgsr@gmail.tmt", "", "course1");
         BackDoor.createStudent(student);
-        String key = BackDoor.getKeyForStudent(student.course, student.email); 
+        String key = "[BACKDOOR_STATUS_FAILURE]";
+        while (key.startsWith("[BACKDOOR_STATUS_FAILURE]")) {
+            key = BackDoor.getKeyForStudent(student.course, student.email);
+        }
 
         // The following is the google app engine description about generating
         // keys.
@@ -319,7 +325,7 @@ public class BackDoorTest extends BaseTestCase {
         // Characters that are allowed in a URI but do not have a reserved
         // purpose are called unreserved. 
         // unreserved = ALPHA / DIGIT / "-" / "." / "_" / "~"
-        String pattern = "(\\w|-|~|.)*";
+        String pattern = "(\\w|-|~|\\.)*";
 
         String errorMessage = key + "[length=" + key.length() + "][reg="
                 + StringHelper.isMatching(key, pattern) + "] is not as expected";
@@ -420,8 +426,10 @@ public class BackDoorTest extends BaseTestCase {
 
 
     private void verifyPresentInDatastore(StudentAttributes expectedStudent) {
-        String studentJsonString = BackDoor.getStudentAsJson(
-                expectedStudent.course, expectedStudent.email);
+        String studentJsonString = "null";
+        while (studentJsonString.equals("null")) {
+            studentJsonString = BackDoor.getStudentAsJson(expectedStudent.course, expectedStudent.email);
+        }
         StudentAttributes actualStudent = gson.fromJson(studentJsonString,
                 StudentAttributes.class);
         equalizeIrrelevantData(expectedStudent, actualStudent);
@@ -430,7 +438,10 @@ public class BackDoorTest extends BaseTestCase {
     }
 
     private void verifyPresentInDatastore(CourseAttributes expectedCourse) {
-        String courseJsonString = BackDoor.getCourseAsJson(expectedCourse.id);
+        String courseJsonString = "null";
+        while (courseJsonString.equals("null")) {
+            courseJsonString = BackDoor.getCourseAsJson(expectedCourse.id);
+        }
         CourseAttributes actualCourse = gson.fromJson(courseJsonString,
                 CourseAttributes.class);
         // Ignore time field as it is stamped at the time of creation in testing
@@ -439,7 +450,10 @@ public class BackDoorTest extends BaseTestCase {
     }
 
     private void verifyPresentInDatastore(InstructorAttributes expectedInstructor) {
-        String instructorJsonString = BackDoor.getInstructorAsJsonByEmail(expectedInstructor.email, expectedInstructor.courseId);
+        String instructorJsonString = "null";
+        while (instructorJsonString.equals("null")) {
+            instructorJsonString = BackDoor.getInstructorAsJsonByEmail(expectedInstructor.email, expectedInstructor.courseId);
+        }
         InstructorAttributes actualInstructor = gson.fromJson(instructorJsonString, InstructorAttributes.class);
         
         equalizeIrrelevantData(expectedInstructor, actualInstructor);

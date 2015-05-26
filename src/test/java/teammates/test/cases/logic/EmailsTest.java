@@ -105,7 +105,8 @@ public class EmailsTest extends BaseComponentTestCase {
         s.name = "Student Name";
         s.key = "skxxxxxxxxxks";
         s.email = "student@email.tmt";
-        
+
+        @SuppressWarnings("deprecation")
         InstructorAttributes i = new InstructorAttributes("googleId1", "courseId2", "name", "instructr@email.tmt");
 
         ______TS("generic template, student yet to join");
@@ -320,9 +321,11 @@ public class EmailsTest extends BaseComponentTestCase {
         
         StudentAttributes s3 = new StudentAttributes();
         s3.email = "student3InCourse1@gmail.tmt";
-        
+
+        @SuppressWarnings("deprecation")
         InstructorAttributes i1 = new InstructorAttributes("googleId", "courseId1", "name", "instructor1@course1.tmt");
-        
+
+        @SuppressWarnings("deprecation")
         InstructorAttributes i2 = new InstructorAttributes("googleId", "courseId1", "name", "instructor2@course1.tmt");
         
         ______TS("feedback session opening emails");

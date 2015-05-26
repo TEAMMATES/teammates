@@ -17,14 +17,14 @@ public class StudentProfilePicturePage extends AppPage {
     protected boolean containsExpectedPageContents() {
         return true;
     }
-    
+
     public void verifyHasPicture() {
         assertEquals(Sanitizer.sanitizeForHtml(browser.driver.findElement(By.tagName("img")).getAttribute("src")),
-                Sanitizer.sanitizeForHtml(browser.driver.getCurrentUrl()));
+                     Sanitizer.sanitizeForHtml(browser.driver.getCurrentUrl()));
     }
-    
+
     public void verifyIsErrorPage(String expectedFilename) {
-        if(TestProperties.inst().isDevServer()) {
+        if (TestProperties.inst().isDevServer()) {
             verifyHtmlPart(By.id("frameBodyWrapper"), expectedFilename);
         } else {
             assertEquals("", browser.driver.findElement(By.tagName("body")).getText());
@@ -37,7 +37,6 @@ public class StudentProfilePicturePage extends AppPage {
 
     public void verifyIsEntityNotFoundErrorPage(String expectedFilename) {
         verifyHtmlPart(By.id("frameBodyWrapper"), expectedFilename);
-        
     }
 
 }
