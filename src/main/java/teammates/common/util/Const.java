@@ -1002,6 +1002,12 @@ public class Const {
                 + " after sometime.";
         public static final String INSTRUCTOR_NO_COURSE_AND_STUDENTS = "There are no course or students information to be displayed";
         public static final String INSTRUCTOR_NO_STUDENT_RECORDS = "No records were found for this student";
+        public static final String INSTRUCTOR_SEARCH_NO_RESULTS = "No results found.";
+        public static final String INSTRUCTOR_SEARCH_TIPS = "Search Tips:<br>"
+                                                            + "<ul>"
+                                                            + "<li>Put more keywords to search for more precise results.</li>"
+                                                            + "<li>Put quotation marks around words <b>\"[any word]\"</b> to search for an exact phrase in an exact order.</li>"
+                                                            + "</ul>";
         
         public static final String COMMENT_ADDED = "New comment has been added";
         public static final String COMMENT_EDITED = "Comment edited";
