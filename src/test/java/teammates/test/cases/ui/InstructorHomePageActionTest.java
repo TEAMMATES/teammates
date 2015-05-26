@@ -85,7 +85,8 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
         r = getShowPageResult(a);
         
-        assertEquals("/jsp/instructorHome.jsp?error=false&user="+instructorWithMultipleCourses, r.getDestinationWithParams());
+        assertEquals("/jsp/instructorHome.jsp?error=false&user="+instructorWithMultipleCourses, 
+                                        r.getDestinationWithParams());
         assertEquals(false, r.isError);
         assertEquals("",r.getStatusMessage());
         
@@ -151,6 +152,33 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         } catch(RuntimeException e) {
             assertNotNull(e);
         }
+        
+        ______TS("instructor with multiple courses, sort by creation date, masquerade mode");
+        
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_SORTING_CRITERIA, Const.SORT_BY_COURSE_CREATION_DATE
+        };
+        
+        a = getAction(addUserIdToParams(instructorWithMultipleCourses, submissionParams));
+        r = getShowPageResult(a);
+        
+        assertEquals("/jsp/instructorHome.jsp?error=false&user="+instructorWithMultipleCourses, 
+                                        r.getDestinationWithParams());
+        assertEquals(false, r.isError);
+        assertEquals("",r.getStatusMessage());
+        
+        data = (InstructorHomePageData)r.data;
+        assertEquals(3, data.courses.size());
+        String expectedCourse1IdAfterSortByCourseCreationDate = "idOfTypicalCourse";
+        String expectedCourse2IdAfterSortByCourseCreationDate = "idOfTypicalCourse2";
+        String expectedCourse3IdAfterSortByCourseCreationDate = "idOfTypicalCourse1";
+        CourseAttributes actualCourse1AfterSortByCourseCreationDate = data.courses.get(0).course;
+        CourseAttributes actualCourse2AfterSortByCourseCreationDate = data.courses.get(1).course;
+        CourseAttributes actualCourse3AfterSortByCourseCreationDate = data.courses.get(2).course;
+        assertEquals(expectedCourse1IdAfterSortByCourseCreationDate, actualCourse1AfterSortByCourseCreationDate.id);
+        assertEquals(expectedCourse2IdAfterSortByCourseCreationDate, actualCourse2AfterSortByCourseCreationDate.id);
+        assertEquals(expectedCourse3IdAfterSortByCourseCreationDate, actualCourse3AfterSortByCourseCreationDate.id);
+        assertEquals(Const.SORT_BY_COURSE_CREATION_DATE, data.sortCriteria);
         
         // delete the new course
         CoursesLogic.inst().deleteCourseCascade(newCourseIdForSorting);
