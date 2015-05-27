@@ -123,17 +123,13 @@ public class InstructorCourseDetailsPage extends AppPage {
     
     public InstructorCourseDetailsPage clickDeleteAndCancel(String studentName) {
         int rowId = getStudentRowId(studentName);
-        if (rowId > -1) {
-            clickAndCancel(getDeleteLink(rowId));
-        }
+        clickAndCancel(getDeleteLink(rowId));
         return this;
     }
     
     public InstructorCourseDetailsPage clickDeleteAndConfirm(String studentName) {
         int rowId = getStudentRowId(studentName);
-        if (rowId > -1) {
-            clickAndConfirm(getDeleteLink(rowId));
-        }
+        clickAndConfirm(getDeleteLink(rowId));
         return this;
     }
     

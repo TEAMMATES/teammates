@@ -222,13 +222,6 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         detailsPage.clickDeleteAndConfirm(studentName)
                         .verifyHtmlMainContent("/instructorCourseDetailsStudentDeleteSuccessful.html");
         
-        detailsPage.clickDeleteAndCancel(studentName);
-        assertTrue(BackDoor.getStudent(courseId, studentEmail) == null);
-
-        detailsPage.clickDeleteAndConfirm(studentName);
-        assertTrue(BackDoor.getStudent(courseId, studentEmail) == null);
-
-        
         studentName = testData.students.get("danny.tmms@CCDetailsUiT.CS2104").name;
         studentEmail = testData.students.get("danny.tmms@CCDetailsUiT.CS2104").email;
         courseId = testData.courses.get("CCDetailsUiT.CS2104").id;
