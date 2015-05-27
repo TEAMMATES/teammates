@@ -759,7 +759,7 @@ public class StudentsLogic {
                 && (!originalSection.equals(newSection));
     }
 
-    public TeamDetailsBundle getTeamForStudent(StudentAttributes student) {
+    public TeamDetailsBundle getTeamDetailsForStudent(StudentAttributes student) {
         if (student != null) {
             TeamDetailsBundle teamResult = new TeamDetailsBundle(); 
             teamResult.name = student.team;

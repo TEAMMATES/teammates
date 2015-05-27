@@ -1080,9 +1080,9 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public TeamDetailsBundle getTeamForStudent(StudentAttributes student) throws EntityDoesNotExistException {
+    public TeamDetailsBundle getTeamDetailsForStudent(StudentAttributes student) throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
-        return studentsLogic.getTeamForStudent(student);
+        return studentsLogic.getTeamDetailsForStudent(student);
     }
 
     /**
