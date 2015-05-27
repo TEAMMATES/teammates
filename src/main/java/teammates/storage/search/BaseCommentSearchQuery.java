@@ -26,9 +26,8 @@ public abstract class BaseCommentSearchQuery extends SearchQuery {
         setTextFilter(Const.SearchDocumentField.SEARCHABLE_TEXT, queryString);
     }
 
-    protected StringBuilder prepareVisibilityQueryString(String googleId) {
-        List<InstructorAttributes> instructorRoles = InstructorsLogic.inst()
-                .getInstructorsForGoogleId(googleId);
+    protected void prepareVisibilityQueryString(String googleId) {
+        List<InstructorAttributes> instructorRoles = InstructorsLogic.inst().getInstructorsForGoogleId(googleId);
         StringBuilder courseIdLimit = new StringBuilder("(");
         String delim = "";
         for (InstructorAttributes ins : instructorRoles) {
@@ -36,7 +35,10 @@ public abstract class BaseCommentSearchQuery extends SearchQuery {
             delim = OR;
         }
         courseIdLimit.append(")");
-        return courseIdLimit;
+        finishVisibilityQueryString(courseIdLimit, instructorRoles);
     }
+    
+    protected abstract void finishVisibilityQueryString(StringBuilder sb,
+                                                        List<InstructorAttributes> instructorRoles);
 
 }
