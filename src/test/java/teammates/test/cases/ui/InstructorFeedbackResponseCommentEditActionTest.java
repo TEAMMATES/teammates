@@ -23,8 +23,7 @@ import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackResponseCommentAjaxPageData;
 import teammates.ui.controller.InstructorFeedbackResponseCommentEditAction;
 
-public class InstructorFeedbackResponseCommentEditActionTest extends
-        BaseActionTest {
+public class InstructorFeedbackResponseCommentEditActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
@@ -46,8 +45,8 @@ public class InstructorFeedbackResponseCommentEditActionTest extends
         
         String giverEmail = "student1InCourse1@gmail.tmt";
         String receiverEmail = "student1InCourse1@gmail.tmt";
-        FeedbackResponseAttributes feedbackResponse = feedbackResponsesDb.getFeedbackResponse(feedbackQuestion.getId(),
-                giverEmail, receiverEmail);
+        FeedbackResponseAttributes feedbackResponse = 
+                feedbackResponsesDb.getFeedbackResponse(feedbackQuestion.getId(), giverEmail, receiverEmail);
         
         FeedbackResponseCommentAttributes feedbackResponseComment =
                 dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");
