@@ -151,9 +151,6 @@ public class AdminActivityLogPageAction extends Action {
         double curVersionAsDouble = Double.parseDouble(currentVersion);
         recentVersions.add(currentVersion.replace(".", "-"));
         
-        //preceding versions
-        String[] preVer = { null, null, null };
-        
         //go back for three preceding versions
         //subtract from double form of current version id
         //Eg. current version is 4.01 --> 4.00, 3.99, 3.98  --> 4-00, 3-99, 3-98

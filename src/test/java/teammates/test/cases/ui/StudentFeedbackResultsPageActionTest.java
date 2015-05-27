@@ -90,6 +90,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         StudentFeedbackResultsPageAction pageAction = getAction(submissionParams);
 
         try {
+            @SuppressWarnings("unused")
             ShowPageResult pageResult = getShowPageResult(pageAction);
         } catch (UnauthorizedAccessException exception) {
             assertEquals("This feedback session is not yet visible.",
@@ -107,6 +108,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         pageAction = getAction(submissionParams);
 
         try {
+            @SuppressWarnings("unused")
             ShowPageResult pageResult = getShowPageResult(pageAction);
         } catch (UnauthorizedAccessException exception) {
             assertEquals(

@@ -60,6 +60,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Instructions:</label>
                     <div class="col-sm-10">
+                        <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                         <p class="form-control-static text-preserve-space"><%= sanitizeForHtml(data.bundle.feedbackSession.instructions.getValue()) %></p>
                     </div>
                 </div>
@@ -117,9 +118,8 @@
             <div class="panel panel-primary<%= questionNumberString.equals(data.moderatedQuestion) ? " moderated-question" : "" %>">
                 <div class="panel-heading">Question <%= data.isShowRealQuestionNumber ? question.questionNumber : qnIndx %>:
                     <br>
-                    <span class="text-preserve-space">
-                        <%= sanitizeForHtml(questionDetails.questionText) %>
-                    </span>
+                    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                    <span class="text-preserve-space"><%= sanitizeForHtml(questionDetails.questionText) %></span>
                 </div>
                 <div class="panel-body">
                     <p class="text-muted">Only the following persons can see your responses: </p>
