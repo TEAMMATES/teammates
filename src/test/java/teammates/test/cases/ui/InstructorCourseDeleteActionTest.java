@@ -27,7 +27,7 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.googleId;
 
@@ -84,6 +84,30 @@ public class InstructorCourseDeleteActionTest extends BaseActionTest {
                              + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                              + "Course deleted: icdct.tpa.id1|||/page/instructorCourseDelete";
         assertEquals(expectedLogMessage, deleteAction.getLogMessage());
+        
+        ______TS("Masquerade mode, delete last course, no next URL, redirect to Courses page");
+        CoursesLogic.inst().createCourseAndInstructor(instructorId, "icdct.tpa.id2", "New course");
+        submissionParams = new String[]{
+            Const.ParamsNames.COURSE_ID, "icdct.tpa.id2",
+        };
+        deleteAction = getAction(addUserIdToParams(instructorId, submissionParams));
+        redirectResult = getRedirectResult(deleteAction);
+        
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1", 
+                     redirectResult.getDestinationWithParams());
+        assertEquals(false, redirectResult.isError);
+        assertEquals("The course icdct.tpa.id2 has been deleted.", redirectResult.getStatusMessage());
+        
+        courseList = CoursesLogic.inst().getCoursesForInstructor(instructorId);
+        assertEquals(0, courseList.size());
+        
+        expectedLogMessage = "TEAMMATESLOG|||instructorCourseDelete|||instructorCourseDelete|||true|||Instructor(M)|||"
+                             + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                             + "Course deleted: icdct.tpa.id2|||/page/instructorCourseDelete";
+        assertEquals(expectedLogMessage, deleteAction.getLogMessage());
+        
+        
+        
     }
     
     private InstructorCourseDeleteAction getAction(String... params) throws Exception{
