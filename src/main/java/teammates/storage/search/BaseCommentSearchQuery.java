@@ -14,13 +14,12 @@ public abstract class BaseCommentSearchQuery extends SearchQuery {
     public BaseCommentSearchQuery(String googleId, String queryString,
             String cursorString) {
         Cursor cursor = cursorString.isEmpty()
-                ? Cursor.newBuilder().build()
-                : Cursor.newBuilder().build(cursorString);
-
+                      ? Cursor.newBuilder().build()
+                      : Cursor.newBuilder().build(cursorString);
         QueryOptions options = QueryOptions.newBuilder()
-                .setLimit(20)
-                .setCursor(cursor)
-                .build();
+                                           .setLimit(20)
+                                           .setCursor(cursor)
+                                           .build();
         setOptions(options);
         prepareVisibilityQueryString(googleId);
         setTextFilter(Const.SearchDocumentField.SEARCHABLE_TEXT, queryString);

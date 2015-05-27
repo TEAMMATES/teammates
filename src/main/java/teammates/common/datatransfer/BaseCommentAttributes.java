@@ -27,8 +27,7 @@ public abstract class BaseCommentAttributes extends EntityAttributes implements
 
     }
 
-    public BaseCommentAttributes(String courseId, String giverEmail,
-            Date createdAt, Text commentText) {
+    public BaseCommentAttributes(String courseId, String giverEmail, Date createdAt, Text commentText) {
         this.courseId = courseId;
         this.giverEmail = giverEmail;
         this.commentText = commentText;
@@ -83,11 +82,8 @@ public abstract class BaseCommentAttributes extends EntityAttributes implements
         this.giverEmail = Sanitizer.sanitizeForHtml(giverEmail);
     }
 
-    protected String getEditedAtText(Boolean isGiverAnonymous,
-            String displayGiverAs,
-            String displayTimeAs) {
-        if (this.lastEditedAt != null
-                && (!this.lastEditedAt.equals(this.createdAt))) {
+    protected String getEditedAtText(Boolean isGiverAnonymous, String displayGiverAs, String displayTimeAs) {
+        if (this.lastEditedAt != null && (!this.lastEditedAt.equals(this.createdAt))) {
             return "(last edited " +
                     (isGiverAnonymous ? "" : "by " + displayGiverAs + " ") +
                     "at " + displayTimeAs + ")";
@@ -98,13 +94,13 @@ public abstract class BaseCommentAttributes extends EntityAttributes implements
 
     public String getEditedAtTextForInstructor(Boolean isGiverAnonymous) {
         return getEditedAtText(isGiverAnonymous, this.lastEditorEmail,
-                TimeHelper.formatTime(this.lastEditedAt));
+                               TimeHelper.formatTime(this.lastEditedAt));
     }
 
     public String getEditedAtTextForStudent(Boolean isGiverAnonymous,
-            String displayGiverAs) {
+                                    String displayGiverAs) {
         return getEditedAtText(isGiverAnonymous, displayGiverAs,
-                TimeHelper.formatDate(this.lastEditedAt));
+                               TimeHelper.formatDate(this.lastEditedAt));
     }
 
 }
