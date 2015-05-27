@@ -1075,6 +1075,15 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return coursesLogic.getTeamsForCourse(courseId);
     }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public TeamDetailsBundle getTeamDetailsForStudent(StudentAttributes student) throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
+        return studentsLogic.getTeamDetailsForStudent(student);
+    }
 
     /**
      * Preconditions: <br>
@@ -2485,6 +2494,7 @@ public class Logic {
      * @return the list of all adminEmails in the database.
      * <br> Empty List if no admin email found 
      */
+    @SuppressWarnings("deprecation")
     public List<AdminEmailAttributes> getAllAdminEmails() {
         return adminEmailsLogic.getAllAdminEmails();
     }

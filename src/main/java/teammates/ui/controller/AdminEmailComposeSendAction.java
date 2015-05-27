@@ -223,6 +223,8 @@ public class AdminEmailComposeSendAction extends Action {
                    listOfList.add(newList);
                 }              
             }
+            
+            blobStream.close();
         }
         
         

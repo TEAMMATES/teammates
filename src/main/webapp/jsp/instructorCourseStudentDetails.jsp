@@ -78,6 +78,7 @@
                             </div>
                             <div class="modal-body">
                                 <br>
+                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                 <p class="text-preserve-space height-fixed-md"><%=data.studentProfile.moreInfo.isEmpty() ? 
                                                     "<i class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.moreInfo%></p>
                             </div>
@@ -365,7 +366,8 @@
                             <div class="panel-body">
                                 <span data-toggle="modal" data-target="#studentProfileMoreInfo" 
                                       class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
-                                <h5>More Info </h5>                                    
+                                <h5>More Info </h5>
+                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->                                    
                                 <p class="text-preserve-space height-fixed-md"><%=data.studentProfile.moreInfo.isEmpty() ? 
                                         "<i class='text-muted'>" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.moreInfo%></p>
                             </div>
