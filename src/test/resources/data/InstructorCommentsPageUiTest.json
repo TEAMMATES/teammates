@@ -84,6 +84,7 @@
         "typicalCourse1":{
             "id":"comments.idOfTypicalCourse1",
             "name":"Typical Course 1 with 2 Evals",
+            "createdAt": "2012-04-01 11:59 PM UTC",
             "isArchived":false
         },
         "sampleCourse":{
@@ -99,6 +100,7 @@
         "archivedCourse":{
             "id":"comments.idOfArchivedCourse",
             "name":"Archived Course",
+            "createdAt": "2012-04-01 11:58 PM UTC",
             "isArchived":true
         }
     },
