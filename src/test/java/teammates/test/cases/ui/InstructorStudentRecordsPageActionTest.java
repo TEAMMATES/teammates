@@ -113,6 +113,43 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
                                   + "Student Profile: " + expectedProfile.toString()
                                   + "|||/page/instructorStudentRecordsPage";
         assertEquals(expectedLogMessage, a.getLogMessage());
+        
+        ______TS("Typical case: specific session name");
+        
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor.courseId,
+                Const.ParamsNames.STUDENT_EMAIL, student.email,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First feedback session"
+        };
+
+        a = getAction(submissionParams);
+        r = getShowPageResult(a);
+
+        assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS + "?error=false&user=idOfInstructor3",
+                     r.getDestinationWithParams());
+        assertEquals(false, r.isError);
+        assertEquals("", r.getStatusMessage());
+        
+        ______TS("Typical case: instructor cannot view sections");
+
+        instructor = dataBundle.instructors.get("helperOfCourse1");
+        gaeSimulation.loginAsInstructor(instructor.googleId);
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor.courseId,
+                Const.ParamsNames.STUDENT_EMAIL, student.email
+        };
+
+        a = getAction(submissionParams);
+        r = getShowPageResult(a);
+
+        assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS + "?error=false&user=idOfHelperOfCourse1",
+                     r.getDestinationWithParams());
+        assertEquals(false, r.isError);
+        assertEquals("Normally, we would show the student’s profile here. "
+                         + "However, you do not have access to view this student's profile<br />"
+                         + "No records were found for this student",
+                     r.getStatusMessage());
 
         ______TS("Typical case: student has no records, no profiles");
 

@@ -61,6 +61,7 @@ public class InstructorStudentRecordsPageAction extends Action {
         while (iterator.hasNext()) {
             CommentAttributes c = iterator.next();
             if (!c.giverEmail.equals(instructor.email)) {
+                // not covered as this won't happen unless there's error in logic layer
                 iterator.remove();
             }
         }
@@ -117,8 +118,7 @@ public class InstructorStudentRecordsPageAction extends Action {
 
     }
 
-    private void filterFeedbackSessions(String courseId,
-            List<FeedbackSessionAttributes> feedbacks) {
+    private void filterFeedbackSessions(String courseId, List<FeedbackSessionAttributes> feedbacks) {
         Iterator<FeedbackSessionAttributes> iterFs = feedbacks.iterator();
         while (iterFs.hasNext()) {
             FeedbackSessionAttributes tempFs = iterFs.next();
@@ -137,12 +137,14 @@ public class InstructorStudentRecordsPageAction extends Action {
 
         if (data.student.googleId.isEmpty()) {
             if (!hasExistingStatus) {
+                // not covered as status should have been added prior to reaching this branch
                 statusToUser.add(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS);
             }
         } else if (!data.currentInstructor
                         .isAllowedForPrivilege(data.student.section,
                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
             if (!hasExistingStatus) {
+                // not covered as status should have been added prior to reaching this branch
                 statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR);
             }
         } else {
