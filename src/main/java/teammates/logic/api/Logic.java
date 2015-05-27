@@ -1075,6 +1075,15 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return coursesLogic.getTeamsForCourse(courseId);
     }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public TeamDetailsBundle getTeamDetailsForStudent(StudentAttributes student) throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
+        return studentsLogic.getTeamDetailsForStudent(student);
+    }
 
     /**
      * Preconditions: <br>
