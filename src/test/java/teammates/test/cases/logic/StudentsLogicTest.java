@@ -111,7 +111,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         String courseId = "idOfTypicalCourse1";
         String googleId = "student1InCourse1";
         StudentAttributes student = StudentsLogic.inst().getStudentForCourseIdAndGoogleId(courseId, googleId);
-        TeamDetailsBundle team = StudentsLogic.inst().getTeamForStudent(student);
+        TeamDetailsBundle team = StudentsLogic.inst().getTeamDetailsForStudent(student);
         
         assertEquals("Team 1.1", team.name);
         assertTrue(team.students != null);
@@ -121,7 +121,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         courseId = "idOfTypicalCourse1";
         googleId = "idOfNonExistingStudent";
         student = StudentsLogic.inst().getStudentForCourseIdAndGoogleId(courseId, googleId);
-        team = StudentsLogic.inst().getTeamForStudent(student);
+        team = StudentsLogic.inst().getTeamDetailsForStudent(student);
         
         assertEquals(null, team);
 
