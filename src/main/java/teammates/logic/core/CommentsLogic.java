@@ -186,7 +186,7 @@ public class CommentsLogic {
     }
     
     public CommentSearchResultBundle searchComment(String queryString, String googleId, String cursorString) {
-        return commentsDb.search(queryString, googleId, cursorString);
+        return (CommentSearchResultBundle) commentsDb.search(queryString, googleId, cursorString);
     }
     
     private void verifyIsCoursePresent(String courseId, String action) throws EntityDoesNotExistException {

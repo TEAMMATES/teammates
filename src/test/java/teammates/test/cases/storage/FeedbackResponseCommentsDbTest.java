@@ -22,7 +22,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.storage.api.EntitiesDb;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.util.TestHelper;
@@ -183,7 +182,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
             frcDb.updateFeedbackResponseComment(frcaExpected);
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException edne) {
-            assertEquals(EntitiesDb.ERROR_UPDATE_NON_EXISTENT + frcaExpected.toString(), 
+            assertEquals(FeedbackResponseCommentsDb.ERROR_UPDATE_NON_EXISTENT + frcaExpected.toString(), 
                     edne.getMessage());
         }
         
