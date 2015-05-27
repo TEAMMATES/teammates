@@ -94,7 +94,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                 
                 qnId = response.feedbackQuestionId;
                 
-                if (response.getId() != null && !isValidExistingResponse(response)) {
+                boolean isExistingResponse = response.getId() != null; 
+                // test that if editing an existing response, that the edited response's id
+                // came from the original set of existing responses loaded on the submission page
+                if (isExistingResponse && !isExistingResponseValid(response)) {
                     errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_INVALID_ID, questionIndx));
                     continue;
                 }
@@ -152,7 +155,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
      * is in {@code data.bundle.questionResponseBundle}
      * @param response  a response which has non-null id 
      */
-    private boolean isValidExistingResponse(FeedbackResponseAttributes response) {
+    private boolean isExistingResponseValid(FeedbackResponseAttributes response) {
        
         String questionId = response.feedbackQuestionId;
         FeedbackQuestionAttributes question = data.bundle.getQuestionAttributes(questionId);
