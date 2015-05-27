@@ -2418,6 +2418,11 @@ public class FeedbackSessionsLogic {
         return session.isVisible() && !questionsWithVisibleResponses.isEmpty();
     }
     
+    /**
+     * Returns true if there are any questions for students to answer.
+     * @param session
+     * @throws EntityDoesNotExistException
+     */
     public boolean isFeedbackSessionForStudentsToAnswer(
                                     FeedbackSessionAttributes session)
                                     throws EntityDoesNotExistException {
