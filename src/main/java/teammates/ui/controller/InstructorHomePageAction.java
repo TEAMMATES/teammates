@@ -61,10 +61,14 @@ public class InstructorHomePageAction extends Action {
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
             data.instructors.put(courseId, instructor);
             
-            int numberOfPendingCommentsForThisCourse = logic.getCommentsForSendingState(
-                                            courseId, CommentSendingState.PENDING).size() 
-                                            + logic.getFeedbackResponseCommentsForSendingState(
-                                            courseId, CommentSendingState.PENDING).size();
+            int numberOfCommentsForSendingState = logic.getCommentsForSendingState(
+                                                      courseId, CommentSendingState.PENDING).size();
+            
+            int numberOfFeedbackResponseCommentsForSendingState = logic.getFeedbackResponseCommentsForSendingState(
+                                                                      courseId, CommentSendingState.PENDING).size();
+            
+            int numberOfPendingCommentsForThisCourse = numberOfCommentsForSendingState
+                                                       + numberOfFeedbackResponseCommentsForSendingState;
             
             data.numberOfPendingComments.put(courseId, numberOfPendingCommentsForThisCourse);
             
