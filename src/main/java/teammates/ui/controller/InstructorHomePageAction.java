@@ -34,10 +34,9 @@ public class InstructorHomePageAction extends Action {
         
         boolean omitArchived = true;
         HashMap<String, CourseSummaryBundle> courses = logic.getCourseSummariesWithoutStatsForInstructor(
-                                        account.googleId, omitArchived);
+                                                           account.googleId, omitArchived);
         
-        ArrayList<CourseSummaryBundle> courseList = new ArrayList<CourseSummaryBundle>(
-                                        courses.values());
+        ArrayList<CourseSummaryBundle> courseList = new ArrayList<CourseSummaryBundle>(courses.values());
         data.courses = courseList;
         
         switch (data.sortCriteria) {
@@ -59,8 +58,7 @@ public class InstructorHomePageAction extends Action {
         
         for (CourseSummaryBundle course : data.courses) {
             String courseId = course.course.id;
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(
-                                            courseId, account.googleId);
+            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
             data.instructors.put(courseId, instructor);
             
             int numberOfPendingCommentsForThisCourse = logic.getCommentsForSendingState(
@@ -70,8 +68,7 @@ public class InstructorHomePageAction extends Action {
             
             data.numberOfPendingComments.put(courseId, numberOfPendingCommentsForThisCourse);
             
-            FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(
-                                            course.feedbackSessions);
+            FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(course.feedbackSessions);
         }
         
         if (logic.isNewInstructor(account.googleId)) {
