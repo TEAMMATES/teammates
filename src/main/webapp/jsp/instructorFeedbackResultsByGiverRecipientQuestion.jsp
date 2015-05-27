@@ -476,12 +476,14 @@
                             FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
                     %>
                     <div class="panel panel-info">
+                                        <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                         <div class="panel-heading">Question <%=question.questionNumber%>: <span class="text-preserve-space"><%
                                                 out.print(InstructorFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText));
                                                 out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "giver-"+giverIndex+"-recipient-"+recipientIndex));
                                         %></span></div>
                                         <div class="panel-body">
                                             <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                 <div class="pull-left text-preserve-space"><%=data.bundle.getResponseAnswerHtml(singleResponse, question)%></div>
                                                 <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" 
                                                     onclick="showResponseCommentAddForm(<%=recipientIndex%>,<%=giverIndex%>,<%=qnIndx%>)"

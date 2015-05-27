@@ -3,12 +3,9 @@ package teammates.test.pageobjects;
 import static org.testng.AssertJUnit.fail;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -305,54 +302,22 @@ public class InstructorFeedbacksPage extends AppPage {
         }
     }
     
+    /** 
+     * This method contains an intended mix of Selenium and JavaScript to ensure that the test
+     * passes consistently, do not try to click on the datepicker element using Selenium as it will
+     * result in a test that passes or fail randomly.
+    */
     public void fillTimeValueForDatePickerTest (String timeId, Calendar newValue) throws ParseException {
-        
-        browser.driver.findElement(By.id(timeId)).click();
-        browser.driver.manage().timeouts().implicitlyWait(200, TimeUnit.MILLISECONDS); 
-        
-        Calendar currentValue = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd yyyy");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));        
-        
-        String currentDateString = getValueOfDate(timeId);
-        int numberOfMonthsToMove = 0;
-        
-        if (currentDateString != null) {
-            currentValue.setTime(sdf.parse(currentDateString));
-        } else {
-            currentValue.setTime(new Date());
-        }
-        
-        numberOfMonthsToMove = 12*(newValue.get(Calendar.YEAR) - currentValue.get(Calendar.YEAR));
-        numberOfMonthsToMove += newValue.get(Calendar.MONTH) - currentValue.get(Calendar.MONTH);
-        
-        changeMonthInDatePickerBy(numberOfMonthsToMove);
-        selectDayInDatePicker(newValue.get(Calendar.DATE));
-        
-    }
-    
-    public void changeMonthInDatePickerBy(int numberOfMonths) {
-        if (numberOfMonths > 0) {
-            for (int i = 0 ; i < numberOfMonths ; i ++) {
-                browser.driver.findElement(By.id("ui-datepicker-div")).findElement(By.className("ui-datepicker-next")).click();
-            }
-        } else {
-            for (int i = 0 ; i > numberOfMonths ; i --) {
-                browser.driver.findElement(By.id("ui-datepicker-div")).findElement(By.className("ui-datepicker-prev")).click();
-            }
-        }
-    }
-    
-    public void selectDayInDatePicker (int day) {
-        WebElement dateWidget = browser.driver.findElement(By.id("ui-datepicker-div"));    
-        List<WebElement> columns = dateWidget.findElements(By.tagName("td"));  
-          
-        for (WebElement cell: columns){
-             if (cell.getText().equals(day+"")) {  
-             cell.click();  
-             break;  
-             }  
-        }  
+        WebElement dateInputElement = browser.driver.findElement(By.id(timeId));
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+
+        dateInputElement.click();
+
+        dateInputElement.clear();
+        dateInputElement.sendKeys(newValue.get(Calendar.DATE) + "/" + (newValue.get(Calendar.MONTH) + 1)
+                                  + "/" + newValue.get(Calendar.YEAR));
+
+        js.executeScript("$('.ui-datepicker-current-day').click();");
     }
     
     public String getValueOfDate (String timeId) {
