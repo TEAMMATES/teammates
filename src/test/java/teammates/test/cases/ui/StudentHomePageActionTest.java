@@ -22,7 +22,6 @@ import teammates.ui.controller.StudentHomePageData;
 // Priority added due to conflict between StudentHomePageActionTest and StudentCommentsPageActionTest
 @Priority(-2)
 public class StudentHomePageActionTest extends BaseActionTest {
-
     private final DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
@@ -46,25 +45,28 @@ public class StudentHomePageActionTest extends BaseActionTest {
         gaeSimulation.loginUser(unregUserId);
         StudentHomePageAction a = getAction(submissionParams);
         ShowPageResult r = getShowPageResult(a);
-        AssertHelper.assertContainsRegex("/jsp/studentHome.jsp?error=false&user=unreg.user", r.getDestinationWithParams());
+        AssertHelper.assertContainsRegex("/jsp/studentHome.jsp?error=false&user=unreg.user", 
+                                        r.getDestinationWithParams());
         assertEquals(false, r.isError);
-        AssertHelper.assertContainsRegex("Welcome stranger :-){*}use the new Gmail address.",r.getStatusMessage());
+        AssertHelper.assertContainsRegex("Welcome stranger :-){*}use the new Gmail address.",
+                                        r.getStatusMessage());
         
-        StudentHomePageData data = (StudentHomePageData)r.data;
+        StudentHomePageData data = (StudentHomePageData) r.data;
         assertEquals(0, data.courses.size());
         
-        String expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage" +
-                "|||true|||Unregistered|||null|||unreg.user|||null" +
-                "|||Servlet Action Failure :Student with Google ID unreg.user does not exist|||/page/studentHomePage" ;
+        String expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage" 
+                                    + "|||true|||Unregistered|||null|||unreg.user|||null" 
+                                    + "|||Servlet Action Failure :Student with Google ID "
+                                    + "unreg.user does not exist|||/page/studentHomePage" ;
         assertEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("registered student with no courses");
         
-        //Note: this can happen only if the course was deleted after the student joined it.
+        // Note: this can happen only if the course was deleted after the student joined it.
         // The 'welcome stranger' response is not really appropriate for this situation, but 
-        //   we keep it because the situation is rare and not worth extra coding.
+        // we keep it because the situation is rare and not worth extra coding.
         
-        //create a student account without courses
+        // Create a student account without courses
         AccountAttributes studentWithoutCourses = new AccountAttributes();
         studentWithoutCourses.googleId = "googleId.without.courses";
         studentWithoutCourses.name = "Student Without Courses";
@@ -80,16 +82,21 @@ public class StudentHomePageActionTest extends BaseActionTest {
         gaeSimulation.loginUser(studentWithoutCourses.googleId);
         a = getAction(submissionParams);
         r = getShowPageResult(a);
-        AssertHelper.assertContainsRegex("/jsp/studentHome.jsp?error=false&user="+studentWithoutCourses.googleId, r.getDestinationWithParams());
+        AssertHelper.assertContainsRegex("/jsp/studentHome.jsp?error=false&user="
+                                          + studentWithoutCourses.googleId, 
+                                          r.getDestinationWithParams());
         assertEquals(false, r.isError);
-        AssertHelper.assertContainsRegex("Welcome stranger :-){*}use the new Gmail address.",r.getStatusMessage());
+        AssertHelper.assertContainsRegex("Welcome stranger :-){*}use the new Gmail address.",
+                                          r.getStatusMessage());
         
-        data = (StudentHomePageData)r.data;
+        data = (StudentHomePageData) r.data;
         assertEquals(0, data.courses.size());
         
-        expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage|||true" +
-                "|||Unregistered|||Student Without Courses|||googleId.without.courses" +
-                "|||googleId.without.courses@email.tmt|||Servlet Action Failure :Student with Google ID googleId.without.courses does not exist|||/page/studentHomePage" ;
+        expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage|||true" 
+                             + "|||Unregistered|||Student Without Courses|||googleId.without.courses"
+                             + "|||googleId.without.courses@email.tmt|||Servlet Action Failure "
+                             + ":Student with Google ID googleId.without.courses does not exist"
+                             + "|||/page/studentHomePage" ;
         assertEquals(expectedLogMessage, a.getLogMessage());
         
         
@@ -98,26 +105,30 @@ public class StudentHomePageActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin(adminUserId);
         studentId = dataBundle.students.get("student2InCourse2").googleId;
         
-        //access page in masquerade mode
+        // Access page in masquerade mode
         a = getAction(addUserIdToParams(studentId, submissionParams));
         r = getShowPageResult(a);
         
-        assertEquals("/jsp/studentHome.jsp?error=false&user="+studentId, r.getDestinationWithParams());
+        assertEquals("/jsp/studentHome.jsp?error=false&user=" + studentId, 
+                                        r.getDestinationWithParams());
         assertEquals(false, r.isError);
-        assertEquals("",r.getStatusMessage());
+        assertEquals("", r.getStatusMessage());
         
-        data = (StudentHomePageData)r.data;
+        data = (StudentHomePageData) r.data;
         assertEquals(2, data.courses.size());
         
         
-        expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage|||true" +
-                "|||Student(M)|||Student in two courses|||student2InCourse1|||student2InCourse1@gmail.tmt" +
-                "|||studentHome Page Load<br>Total courses: 2|||/page/studentHomePage" ;
+        expectedLogMessage = "TEAMMATESLOG|||studentHomePage|||studentHomePage|||true"
+                             + "|||Student(M)|||Student in two courses|||student2InCourse1"
+                             + "|||student2InCourse1@gmail.tmt"
+                             + "|||studentHome Page Load<br>Total courses: 2"
+                             + "|||/page/studentHomePage" ;
         assertEquals(expectedLogMessage, a.getLogMessage());
         
         
         ______TS("New student with no existing course, course join affected by eventual consistency");
-        submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "idOfTypicalCourse1"};
+        submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_COURSE, 
+                                        "idOfTypicalCourse1"};
         studentId = "newStudent";
         gaeSimulation.loginUser(studentId);
         a = getAction(submissionParams);
@@ -128,40 +139,42 @@ public class StudentHomePageActionTest extends BaseActionTest {
         
         
         ______TS("Registered student with existing courses, course join affected by eventual consistency");
-        submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "idOfTypicalCourse2"};
+        submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_COURSE, 
+                                        "idOfTypicalCourse2"};
         student1InCourse1 = dataBundle.students.get("student1InCourse1");
         studentId = student1InCourse1.googleId;
         gaeSimulation.loginUser(studentId);
         a = getAction(submissionParams);
         r = getShowPageResult(a);
-        data = (StudentHomePageData)r.data;
+        data = (StudentHomePageData) r.data;
         assertEquals(2, data.courses.size());
         assertEquals("idOfTypicalCourse2", data.courses.get(1).course.id);
         
         
         ______TS("Just joined course, course join not affected by eventual consistency and appears in list");
-        submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_COURSE, "idOfTypicalCourse1"};
+        submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_COURSE, 
+                                        "idOfTypicalCourse1"};
         student1InCourse1 = dataBundle.students.get("student1InCourse1");
         studentId = student1InCourse1.googleId;
         gaeSimulation.loginUser(studentId);
         a = getAction(submissionParams);
         r = getShowPageResult(a);
-        data = (StudentHomePageData)r.data;
+        data = (StudentHomePageData) r.data;
         assertEquals(1, data.courses.size());
         
         
         ______TS("Evaluation submission affected by eventual consistency");
-        submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_EVALUATION, "idOfTypicalCourse1evaluation2 In Course1"};
+        submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_EVALUATION, 
+                                        "idOfTypicalCourse1evaluation2 In Course1"};
         student1InCourse1 = dataBundle.students.get("student1InCourse1");
         studentId = student1InCourse1.googleId;
         gaeSimulation.loginUser(studentId);
         a = getAction(submissionParams);
         r = getShowPageResult(a);
-        data = (StudentHomePageData)r.data;
+        data = (StudentHomePageData) r.data;
         
-        // delete additional sessions that were created
+        // Delete additional sessions that were created
         CoursesLogic.inst().deleteCourseCascade("typicalCourse2");
-        
     }
 
     private StudentHomePageAction getAction(String... params) throws Exception{
