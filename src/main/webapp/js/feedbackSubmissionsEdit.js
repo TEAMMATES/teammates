@@ -449,9 +449,7 @@ function formatRecipientLists() {
                 selectedOption = sanitizeForJs(selectedOption);
                 $('select[name|=' + FEEDBACK_RESPONSE_RECIPIENT + '-' + questionNumber + ']').
                     not(this).
-                    // leave this in double quotes and single within
-                    // TODO: Find out what is causing this to fail when it's double quotes on
-                    // the inside
+                    // leave this in double quotes and single within, will fail otherwise
                     find("option[value='" + selectedOption + "']").
                     hide();
             }
@@ -467,9 +465,7 @@ function formatRecipientLists() {
         if (lastSelectedOption !== '') {
             $('select[name|=' + FEEDBACK_RESPONSE_RECIPIENT + '-' + questionNumber + ']').
                 not(this).
-                // leave this in double quotes and single within
-                // TODO: Find out what is causing this to fail when it's double quotes on
-                // the inside
+                // leave this in double quotes and single within, will fail otherwise
                 find("option[value='" + lastSelectedOption + "']").
                 show();
         }
@@ -478,9 +474,7 @@ function formatRecipientLists() {
             curSelectedOption = sanitizeForJs(curSelectedOption);
             $('select[name|=' + FEEDBACK_RESPONSE_RECIPIENT + '-' + questionNumber + ']').
                 not(this).
-                // leave this in double quotes and single within
-                // TODO: Find out what is causing this to fail when it's double quotes on
-                // the inside
+                // leave this in double quotes and single within, will fail otherwise
                 find("option[value='" + curSelectedOption + "']").
                 hide();
         }
