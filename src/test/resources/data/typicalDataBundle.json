@@ -100,6 +100,13 @@
             "isInstructor":false,
             "email":"student2InCourse1@gmail.tmt",
             "institute":"TEAMMATES Test Institute 1"
+        },
+        "student1InArchivedCourse":{
+            "googleId":"student1InArchivedCourse",
+            "name":"Student in Archived Course",
+            "isInstructor":false,
+            "email":"student1InCourse1@gmail.tmt",
+            "institute":"TEAMMATES Test Institute 1"
         }
     },
     "courses":{
@@ -346,6 +353,16 @@
             "comments":"",
             "course":"idOfUnregisteredCourse",
             "key":"regKey2ForStuNotYetJoinCourse"
+        },
+        "student1InArchivedCourse": {
+            "email":"student1InArchivedCourse@gmail.tmt",
+            "name":"student1 In Course1",
+            "googleId":"student1InArchivedCourse",
+            "comments":"",
+            "team":"Team 2.1",
+            "section":"None",
+            "comments":"",
+            "course":"idOfArchivedCourse"
         }
     },
     "feedbackSessions":{
@@ -455,6 +472,24 @@
             "gracePeriod":5,
             "feedbackSessionType":"STANDARD",
             "sentOpenEmail":false,
+            "sentPublishedEmail":false
+        },
+        "archiveCourse.session1":{
+            "feedbackSessionName":"session without student questions",
+            "courseId":"idOfArchivedCourse",
+            "creatorEmail":"instructor1@course1.tmt",
+            "instructions":{
+                "value":"Please please fill in the following questions."
+            },
+            "createdTime":"2013-01-20 11:00 PM UTC",
+            "startTime":"2013-02-20 11:00 PM UTC",
+            "endTime":"2016-04-28 11:00 PM UTC",
+            "sessionVisibleFromTime":"2013-02-20 11:00 PM UTC",
+            "resultsVisibleFromTime":"2016-04-29 11:00 PM UTC",
+            "timeZone":0,
+            "gracePeriod":5,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
             "sentPublishedEmail":false
         },
         "session1InCourse2":{
@@ -746,6 +781,29 @@
             ]
             
         },
+        "qn1InSessionInArchivedCourse":{
+            "feedbackSessionName":"session without student questions",
+            "courseId":"idOfArchivedCourse",
+            "creatorEmail":"instructor1@course1.tmt",
+            "questionMetaData":{
+                "value":"Give feedback to students"
+            },
+            "questionNumber":"1",
+            "questionType":"TEXT",
+            "giverType":"INSTRUCTORS",
+            "recipientType":"STUDENTS",
+            "numberOfEntitiesToGiveFeedbackTo":4,
+            "showResponsesTo":[
+                "RECEIVER"
+            ],
+            "showGiverNameTo":[
+                "RECEIVER"
+            ],
+            "showRecipientNameTo":[
+                "RECEIVER"
+            ]
+            
+        },
         "qn1InSession1InCourse2":{
             "feedbackSessionName":"Private feedback session",
             "courseId":"idOfTypicalCourse2",
@@ -782,7 +840,7 @@
             "recipientType":"TEAMS",
             "numberOfEntitiesToGiveFeedbackTo":1,
             "showResponsesTo":[
-                
+                "RECEIVER"
             ],
             "showGiverNameTo":[
                 
@@ -1012,7 +1070,22 @@
             "giverSection":"None",
             "recipientSection":"None" 
             
+        },
+        "response1ForNVSQ1":{
+            "feedbackSessionName":"session without student questions",
+            "courseId":"idOfArchivedCourse",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"instructorOfArchiveCourse@archiveCourse.tmt",
+            "recipientEmail":"student1InArchivedCourse@gmail.tmt",
+            "responseMetaData":{
+                "value":"Response from instructor to student"
+            },
+            "giverSection":"None",
+            "recipientSection":"Section 1" 
+            
         }
+
     },
     "feedbackResponseComments":{
         "comment1FromT1C1ToR1Q1S1C1": {

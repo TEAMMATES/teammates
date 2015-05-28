@@ -1843,21 +1843,6 @@ public class Logic {
         return feedbackQuestionsLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
     }
     
-    /**
-     * Gets all questions for a feedback session that a user can respond to.<br>
-     * Returns an empty list if they are no such questions for the session.
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForUser(String feedbackSessionName, 
-                                                                        String courseId, String userEmail) 
-            throws EntityDoesNotExistException {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
-        
-        return feedbackQuestionsLogic.getFeedbackQuestionsForInstructor(feedbackSessionName, courseId, userEmail);
-    }
     
     /**
      * Gets the response rate status for a session
