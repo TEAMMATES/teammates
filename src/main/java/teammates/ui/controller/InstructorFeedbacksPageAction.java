@@ -33,7 +33,7 @@ public class InstructorFeedbacksPageAction extends Action {
         }
 
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
-        data.isUsingAjax = isUsingAjax != null;
+        data.isUsingAjax = (isUsingAjax != null);
         data.courseIdForNewSession = courseIdForNewSession;
         data.feedbackSessionNameForSessionList = feedbackSessionNameForSessionList;
         // This indicates that an empty form to be shown (except possibly the course value filled in)
@@ -48,10 +48,10 @@ public class InstructorFeedbacksPageAction extends Action {
         
         if (data.courses.isEmpty()) {
             statusToUser.add(Const.StatusMessages.COURSE_EMPTY_IN_EVALUATION
-                             .replace("${user}", "?user="+account.googleId));
+                             .replace("${user}", "?user=" + account.googleId));
         }
         
-        if(data.courses.isEmpty() || !data.isUsingAjax) {
+        if (data.courses.isEmpty() || !data.isUsingAjax) {
             data.existingFeedbackSessions = new ArrayList<FeedbackSessionAttributes>();
         } else {
             data.existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
