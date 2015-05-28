@@ -76,12 +76,11 @@ public class InstructorSearchPageAction extends Action {
             for (InstructorAttributes instructor : instructors) {
                 instructorEmails.add(instructor.email);
             }
-            totalResultsSize = filterCommentSearchResults(
-                                            commentSearchResults, totalResultsSize, instructors, instructorEmails);
+            totalResultsSize = filterCommentSearchResults(commentSearchResults, totalResultsSize, instructors, instructorEmails);
             totalResultsSize = filterFeedbackResponseCommentResults(frCommentSearchResults, instructors, totalResultsSize);
             removeQuestionsAndResponsesWithoutComments(frCommentSearchResults);
             
-            if(totalResultsSize == 0){
+            if (totalResultsSize == 0) {
                 statusToUser.add(Const.StatusMessages.INSTRUCTOR_SEARCH_NO_RESULTS);
             }
         } else {
