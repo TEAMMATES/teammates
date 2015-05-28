@@ -44,12 +44,11 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         
         ______TS("instructor with no courses, right after registration (ie no persistence issue)");
         
-        gaeSimulation.loginAsInstructor(dataBundle.accounts.get("instructorWithoutCourses")
-                                        .googleId);
+        gaeSimulation.loginAsInstructor(dataBundle.accounts.get("instructorWithoutCourses").googleId);
         a = getAction(submissionParams);
         r = getShowPageResult(a);
-        AssertHelper.assertContainsRegex("/jsp/instructorHome.jsp?"
-                + "error=false&user=instructorWithoutCourses", r.getDestinationWithParams());
+        AssertHelper.assertContainsRegex("/jsp/instructorHome.jsp?" + "error=false&user=instructorWithoutCourses",
+                                         r.getDestinationWithParams());
         assertEquals(false, r.isError);
         assertEquals(Const.StatusMessages.HINT_FOR_NEW_INSTRUCTOR, r.getStatusMessage());
         
@@ -121,7 +120,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         r = getShowPageResult(a);
         
         assertEquals("/jsp/instructorHome.jsp?error=false&user="+instructorWithMultipleCourses, 
-                                        r.getDestinationWithParams());
+                     r.getDestinationWithParams());
         assertEquals(false, r.isError);
         assertEquals("",r.getStatusMessage());
         
@@ -163,7 +162,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         r = getShowPageResult(a);
         
         assertEquals("/jsp/instructorHome.jsp?error=false&user="+instructorWithMultipleCourses, 
-                                        r.getDestinationWithParams());
+                     r.getDestinationWithParams());
         assertEquals(false, r.isError);
         assertEquals("",r.getStatusMessage());
         
