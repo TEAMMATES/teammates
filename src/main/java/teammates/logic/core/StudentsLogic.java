@@ -764,6 +764,7 @@ public class StudentsLogic {
             TeamDetailsBundle teamResult = new TeamDetailsBundle(); 
             teamResult.name = student.team;
             teamResult.students = getStudentsForTeam(student.team, student.course);
+            StudentAttributes.sortByNameAndThenByEmail(teamResult.students);
             return teamResult;
         }
         return null;
