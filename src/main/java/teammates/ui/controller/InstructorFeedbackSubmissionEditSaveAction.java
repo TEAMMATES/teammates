@@ -15,7 +15,8 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         boolean creatorOnly = false;
-        new GateKeeper().verifyAccessible(instructor, session, creatorOnly, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+        new GateKeeper().verifyAccessible(instructor, session, creatorOnly,
+                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
     }
 
     @Override
