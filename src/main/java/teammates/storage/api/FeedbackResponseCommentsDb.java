@@ -595,7 +595,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     private Collection<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForSessionInSection(
                                                         String courseId, String feedbackSessionName, String section) {
 
-        Map<String, FeedbackResponseComment> FeedbackResponseCommentList =
+        Map<String, FeedbackResponseComment> feedbackResponseCommentList =
                 new HashMap<String, FeedbackResponseComment>();
 
         Query q = getPM().newQuery(FeedbackResponseComment.class);
@@ -608,7 +608,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
                 (List<FeedbackResponseComment>) q.execute(courseId, feedbackSessionName, section);
         for (FeedbackResponseComment responseComment : firstQueryResponseComments) {
             if (!JDOHelper.isDeleted(responseComment)) {
-                FeedbackResponseCommentList.put(
+                feedbackResponseCommentList.put(
                         String.valueOf(responseComment.getFeedbackResponseCommentId()), responseComment);
             }
         }
@@ -621,11 +621,11 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
                 (List<FeedbackResponseComment>) q.execute(courseId, feedbackSessionName, section);
         for (FeedbackResponseComment responseComment : secondQueryResponseComments) {
             if (!JDOHelper.isDeleted(responseComment)) {
-                FeedbackResponseCommentList.put(
+                feedbackResponseCommentList.put(
                         String.valueOf(responseComment.getFeedbackResponseCommentId()), responseComment);
             }
         }
         
-        return FeedbackResponseCommentList.values();
+        return feedbackResponseCommentList.values();
     }
 }
