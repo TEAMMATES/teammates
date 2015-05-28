@@ -114,22 +114,16 @@ public class InstructorSearchPageAction extends Action {
             
             while (fr.hasNext()) {
                 FeedbackResponseAttributes response = fr.next();
-                FeedbackQuestionAttributes relatedQuestion = getRelatedQuestionOfResponse(frCommentSearchResults, response);
                 InstructorAttributes instructor = this.getInstructorForCourseId(response.courseId, instructors);
                 
-                boolean isVisibleResponse = true;
-                boolean needCheckPrivilege = relatedQuestion == null 
-                                              || !(relatedQuestion.recipientType == FeedbackParticipantType.NONE 
-                                                   || relatedQuestion.recipientType == FeedbackParticipantType.INSTRUCTORS 
-                                                   || relatedQuestion.recipientType == FeedbackParticipantType.STUDENTS);
-                
+                boolean isVisibleResponse = true;               
                 boolean isNotAllowedForInstructor = instructor == null 
                                                     || !(instructor.isAllowedForPrivilege(response.giverSection, response.feedbackSessionName, 
                                                                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
                                                     || !(instructor.isAllowedForPrivilege(response.recipientSection, response.feedbackSessionName, 
                                                                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
                 
-                if (needCheckPrivilege && isNotAllowedForInstructor) {
+                if (isNotAllowedForInstructor) {
                     isVisibleResponse = false;
                 }
                 if (!isVisibleResponse) {
