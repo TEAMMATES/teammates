@@ -34,7 +34,7 @@ public class InstructorHomePageAction extends Action {
         
         boolean omitArchived = true;
         HashMap<String, CourseSummaryBundle> courses = logic.getCourseSummariesWithoutStatsForInstructor(
-                                                           account.googleId, omitArchived);
+                                                                 account.googleId, omitArchived);
         
         ArrayList<CourseSummaryBundle> courseList = new ArrayList<CourseSummaryBundle>(courses.values());
         data.courses = courseList;
@@ -62,10 +62,10 @@ public class InstructorHomePageAction extends Action {
             data.instructors.put(courseId, instructor);
             
             int numberOfCommentsForSendingState = logic.getCommentsForSendingState(
-                                                      courseId, CommentSendingState.PENDING).size();
+                                                            courseId, CommentSendingState.PENDING).size();
             
             int numberOfFeedbackResponseCommentsForSendingState = logic.getFeedbackResponseCommentsForSendingState(
-                                                                      courseId, CommentSendingState.PENDING).size();
+                                                                            courseId, CommentSendingState.PENDING).size();
             
             int numberOfPendingCommentsForThisCourse = numberOfCommentsForSendingState
                                                        + numberOfFeedbackResponseCommentsForSendingState;
