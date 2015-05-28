@@ -95,7 +95,7 @@ public class FeedbackResponseCommentsLogic {
     }
 
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSessionInSection(String courseId,
-            String feedbackSessionName, String section) {
+                                                           String feedbackSessionName, String section) {
         if (section == null) {
             return getFeedbackResponseCommentForSession(courseId, feedbackSessionName);
         } else {
@@ -120,22 +120,22 @@ public class FeedbackResponseCommentsLogic {
     }
 
     public FeedbackResponseCommentAttributes updateFeedbackResponseComment(
-            FeedbackResponseCommentAttributes feedbackResponseComment)
-            throws InvalidParametersException, EntityDoesNotExistException {
+                                                     FeedbackResponseCommentAttributes feedbackResponseComment)
+                                                     throws InvalidParametersException, EntityDoesNotExistException {
         return frcDb.updateFeedbackResponseComment(feedbackResponseComment);    
     }
     
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(
-            String courseId, CommentSendingState state) 
-            throws EntityDoesNotExistException{
+                                                           String courseId, CommentSendingState state) 
+                                                           throws EntityDoesNotExistException {
         verifyIsCoursePresent(courseId);
         
         List<FeedbackResponseCommentAttributes> frcList = new ArrayList<FeedbackResponseCommentAttributes>();
         List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
-        for (FeedbackSessionAttributes fs : feedbackSessions){
+        for (FeedbackSessionAttributes fs : feedbackSessions) {
             if (fs.isPublished()) {
-                frcList.addAll(frcDb.getFeedbackResponseCommentsForSendingState(courseId, fs.feedbackSessionName, 
-                                                                                state));
+                frcList.addAll(
+                        frcDb.getFeedbackResponseCommentsForSendingState(courseId, fs.feedbackSessionName, state));
             }
         }
         return frcList;
@@ -147,7 +147,7 @@ public class FeedbackResponseCommentsLogic {
         verifyIsCoursePresent(courseId);
         
         List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
-        for (FeedbackSessionAttributes fs:feedbackSessions) {
+        for (FeedbackSessionAttributes fs : feedbackSessions) {
             if (fs.isPublished()) {
                 frcDb.updateFeedbackResponseComments(courseId, fs.feedbackSessionName, oldState, newState);    
             }
@@ -167,8 +167,8 @@ public class FeedbackResponseCommentsLogic {
         return frcDb.getFeedbackResponseCommentForGiver(courseId, giverEmail);
     }
     
-    public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(
-            String queryString, String googleId, String cursorString) {
+    public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(String queryString,
+                                                             String googleId, String cursorString) {
         return frcDb.search(queryString, googleId, cursorString);
     }
     
@@ -258,25 +258,49 @@ public class FeedbackResponseCommentsLogic {
                 true : relatedComment.isVisibleTo(FeedbackParticipantType.GIVER);
         
         boolean isVisibleResponseComment = false;
-        if ((role == Role.INSTRUCTOR && isResponseCommentVisibleTo(relatedQuestion, relatedComment, FeedbackParticipantType.INSTRUCTORS))
-                || (response.recipientEmail.equals(userEmail) 
-                        && isResponseCommentVisibleTo(relatedQuestion, relatedComment, FeedbackParticipantType.RECEIVER))
-                || (response.giverEmail.equals(userEmail) && isVisibleToGiver)
-                || (relatedComment.giverEmail.equals(userEmail))
-                || (role == Role.STUDENT && isResponseCommentVisibleTo(relatedQuestion, relatedComment, FeedbackParticipantType.STUDENTS))) {
-            isVisibleResponseComment = true;
-        } else if (role == Role.STUDENT 
+        
+        
+        boolean userIsInstructor = role == Role.INSTRUCTOR;
+        boolean userIsStudent = role == Role.STUDENT;
+        
+        boolean userIsInstructorAndRelatedResponseCommentIsVisibleToInstructors =
+                userIsInstructor && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
+                                                               FeedbackParticipantType.INSTRUCTORS);
+        boolean userIsResponseRecipientAndRelatedResponseCommentIsVisibleToRecipients =
+                response.recipientEmail.equals(userEmail) && isResponseCommentVisibleTo(relatedQuestion,
+                                                                     relatedComment, FeedbackParticipantType.RECEIVER);
+        boolean userIsResponseGiverAndRelatedResponseCommentIsVisibleToGivers =
+                response.giverEmail.equals(userEmail) && isVisibleToGiver;
+        boolean userIsRelatedResponseCommentGiver = relatedComment.giverEmail.equals(userEmail);
+        boolean userIsStudentAndRelatedResponseCommentIsVisibleToStudents =
+                userIsStudent && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
+                                                            FeedbackParticipantType.STUDENTS);
+        
+        boolean userIsInResponseRecipientTeamAndRelatedResponseCommentIsVisibleToRecipients = 
+                userIsStudent 
                 && ((relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
-                        && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
-                                                      FeedbackParticipantType.RECEIVER))
-                        && response.recipientEmail.equals(student.team))
-                    || ((relatedQuestion.giverType == FeedbackParticipantType.TEAMS
-                        || isResponseCommentVisibleTo(relatedQuestion, relatedComment,
-                                                      FeedbackParticipantType.OWN_TEAM_MEMBERS))
-                            && studentsEmailInTeam.contains(response.giverEmail))
-                    || (isResponseCommentVisibleTo(relatedQuestion, relatedComment,
-                                                   FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                            && studentsEmailInTeam.contains(response.recipientEmail))) {
+                    && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
+                                                  FeedbackParticipantType.RECEIVER))
+                && response.recipientEmail.equals(student.team));
+        boolean userIsInResponseGiverTeamAndRelatedResponseCommentIsVisibleToGiversTeamMembers =
+                (relatedQuestion.giverType == FeedbackParticipantType.TEAMS
+                || isResponseCommentVisibleTo(relatedQuestion, relatedComment,
+                                              FeedbackParticipantType.OWN_TEAM_MEMBERS))
+                && studentsEmailInTeam.contains(response.giverEmail);
+        boolean userIsInResponseRecipientTeamAndRelatedResponseCommentIsVisibleToRecipientsTeamMembers =
+                isResponseCommentVisibleTo(relatedQuestion, relatedComment,
+                                           FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                && studentsEmailInTeam.contains(response.recipientEmail);
+        
+        if (userIsInstructorAndRelatedResponseCommentIsVisibleToInstructors
+                || userIsResponseRecipientAndRelatedResponseCommentIsVisibleToRecipients
+                || userIsResponseGiverAndRelatedResponseCommentIsVisibleToGivers
+                || userIsRelatedResponseCommentGiver
+                || userIsStudentAndRelatedResponseCommentIsVisibleToStudents) {
+            isVisibleResponseComment = true;
+        } else if (userIsInResponseRecipientTeamAndRelatedResponseCommentIsVisibleToRecipients
+                || userIsInResponseGiverTeamAndRelatedResponseCommentIsVisibleToGiversTeamMembers
+                || userIsInResponseRecipientTeamAndRelatedResponseCommentIsVisibleToRecipientsTeamMembers) {
             isVisibleResponseComment = true;
         }
         return isVisibleResponseComment;
