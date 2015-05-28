@@ -346,6 +346,10 @@ public class FeedbackResponsesLogic {
         return false;
     }
     
+    /**
+     * Return true if the responses of the question are visible to students
+     * @param question
+     */
     public boolean isResponseOfFeedbackQuestionVisibleToStudent(FeedbackQuestionAttributes question) {
         if (question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
             return true;
@@ -357,16 +361,16 @@ public class FeedbackResponsesLogic {
                 || (question.recipientType.equals(FeedbackParticipantType.GIVER)  
                     && question.giverType.equals(FeedbackParticipantType.STUDENTS)); 
                                         
-        if (isStudentRecipientType &&
-            question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+        if (isStudentRecipientType
+            && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
             return true;
         }
-        if (question.recipientType.isTeam() &&
-            question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+        if (question.recipientType.isTeam() 
+            && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
             return true;
         }
         if (question.giverType == FeedbackParticipantType.TEAMS 
-         || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
+            || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
             return true;
         }
         if (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {
