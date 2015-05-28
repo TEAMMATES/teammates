@@ -122,12 +122,6 @@ public class InstructorFeedbacksPage extends AppPage {
     public void selectSessionType(String visibleText){
         selectDropdownByVisibleValue(fsType, visibleText);
     }
-    
-    public AppPage sortByDeadline() {
-        sortByNameIcon.click();
-        waitForPageToLoad();
-        return this;
-    }
 
     public AppPage sortByName() {
         sortByNameIcon.click();
@@ -139,10 +133,6 @@ public class InstructorFeedbacksPage extends AppPage {
         sortByIdIcon.click();
         waitForPageToLoad();
         return this;
-    }
-
-    public void fillSessionName(String name) {
-        fillTextBox(fsNameTextBox, name);
     }
 
     public void clickSubmitButton(){
