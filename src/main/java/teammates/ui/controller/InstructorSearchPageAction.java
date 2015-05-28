@@ -67,19 +67,18 @@ public class InstructorSearchPageAction extends Action {
                 studentSearchResults = logic.searchStudents(searchKey, account.googleId, "");
             }
             
-            totalResultsSize = commentSearchResults.getResultSize() 
-                               + frCommentSearchResults.getResultSize() 
+            totalResultsSize = commentSearchResults.getResultSize() + frCommentSearchResults.getResultSize() 
                                + studentSearchResults.getResultSize();
             
             List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId);
             Set<String> instructorEmails = new HashSet<String>();
+            
             for (InstructorAttributes instructor : instructors) {
                 instructorEmails.add(instructor.email);
             }
-            totalResultsSize = filterCommentSearchResults(commentSearchResults,
-                    totalResultsSize, instructors, instructorEmails);
-            totalResultsSize = filterFeedbackResponseCommentResults(frCommentSearchResults,
-                    instructors, totalResultsSize);
+            totalResultsSize = filterCommentSearchResults(
+                                            commentSearchResults, totalResultsSize, instructors, instructorEmails);
+            totalResultsSize = filterFeedbackResponseCommentResults(frCommentSearchResults, instructors, totalResultsSize);
             removeQuestionsAndResponsesWithoutComments(frCommentSearchResults);
             
             if(totalResultsSize == 0){
@@ -116,20 +115,20 @@ public class InstructorSearchPageAction extends Action {
             
             while (fr.hasNext()) {
                 FeedbackResponseAttributes response = fr.next();
-                FeedbackQuestionAttributes relatedQuestion = getRelatedQuestionOfResponse(
-                                                frCommentSearchResults, response);
-                InstructorAttributes instructor = this.getInstructorForCourseId(
-                                                response.courseId, instructors);
+                FeedbackQuestionAttributes relatedQuestion = getRelatedQuestionOfResponse(frCommentSearchResults, response);
+                InstructorAttributes instructor = this.getInstructorForCourseId(response.courseId, instructors);
                 
                 boolean isVisibleResponse = true;
-                boolean needCheckPrivilege = relatedQuestion == null || !(relatedQuestion.recipientType == FeedbackParticipantType.NONE 
-                                             || relatedQuestion.recipientType == FeedbackParticipantType.INSTRUCTORS 
-                                             || relatedQuestion.recipientType == FeedbackParticipantType.STUDENTS);
+                boolean needCheckPrivilege = relatedQuestion == null 
+                                              || !(relatedQuestion.recipientType == FeedbackParticipantType.NONE 
+                                                   || relatedQuestion.recipientType == FeedbackParticipantType.INSTRUCTORS 
+                                                   || relatedQuestion.recipientType == FeedbackParticipantType.STUDENTS);
                 
-                boolean isNotAllowedForInstructor = instructor == null || !(instructor.isAllowedForPrivilege(response.giverSection,
-                        response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
-                        || !(instructor.isAllowedForPrivilege(response.recipientSection,
-                                response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                boolean isNotAllowedForInstructor = instructor == null 
+                                                    || !(instructor.isAllowedForPrivilege(response.giverSection, response.feedbackSessionName, 
+                                                                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
+                                                    || !(instructor.isAllowedForPrivilege(response.recipientSection, response.feedbackSessionName, 
+                                                                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
                 
                 if (needCheckPrivilege && isNotAllowedForInstructor) {
                     isVisibleResponse = false;
@@ -147,8 +146,7 @@ public class InstructorSearchPageAction extends Action {
     }
     
     private FeedbackQuestionAttributes getRelatedQuestionOfResponse(FeedbackResponseCommentSearchResultBundle frCommentSearchResults, 
-            FeedbackResponseAttributes fra) {
-        
+                                                                        FeedbackResponseAttributes fra) {      
         List<FeedbackQuestionAttributes> fqs = frCommentSearchResults.questions.get(fra.feedbackSessionName);
         for (FeedbackQuestionAttributes fq : fqs) {
             if (fq.getId().equals(fra.feedbackQuestionId)) {
@@ -173,11 +171,8 @@ public class InstructorSearchPageAction extends Action {
         }
     }
 
-    private int filterCommentSearchResults(
-            CommentSearchResultBundle commentSearchResults,
-            int totalResultsSize, List<InstructorAttributes> instructors,
-            Set<String> instructorEmails) {
-        
+    private int filterCommentSearchResults(CommentSearchResultBundle commentSearchResults, int totalResultsSize, 
+                                               List<InstructorAttributes> instructors, Set<String> instructorEmails) {        
         Iterator<Entry<String, List<CommentAttributes>>> iter = commentSearchResults.giverCommentTable.entrySet().iterator();
         while (iter.hasNext()) {
             List<CommentAttributes> commentList = iter.next().getValue();
@@ -200,8 +195,8 @@ public class InstructorSearchPageAction extends Action {
         return null;
     }
 
-    private boolean isInstructorAllowedToViewComment(
-            CommentAttributes commentAttributes, Set<String> instructorEmails, List<InstructorAttributes> instructors) {
+    private boolean isInstructorAllowedToViewComment(CommentAttributes commentAttributes, Set<String> instructorEmails, 
+                                                         List<InstructorAttributes> instructors) {
         if (instructorEmails.contains(commentAttributes.giverEmail)) {
             return true;
         }
