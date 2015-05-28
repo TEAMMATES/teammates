@@ -85,7 +85,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         r = getShowPageResult(a);
         
         assertEquals("/jsp/instructorHome.jsp?error=false&user="+instructorWithMultipleCourses, 
-                                        r.getDestinationWithParams());
+                      r.getDestinationWithParams());
         assertEquals(false, r.isError);
         assertEquals("",r.getStatusMessage());
         
