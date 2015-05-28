@@ -41,30 +41,27 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
     }
     
     @Test
-    public void testInstructorCourseEnrollPage() throws Exception{
+    public void testInstructorCourseEnrollPage() throws Exception {
         testContent();
         testSampleLink();
         testEnrollAction();
     }
 
     private void testContent() {
-        
         ______TS("typical enroll page");
         
         enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
-        .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
-        .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
+                        .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
+                        .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
         
         enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
         enrollPage.verifyHtmlMainContent("/InstructorCourseEnrollPage.html");
     }
 
     private void testSampleLink() throws Exception {
-        
         ______TS("link for the sample spreadsheet");
         String expectedShaHexForWindows = "98df8d0e8285a8192ed88183380947ca1c36ca68";
         String expectedShaHexForUnix = "e02099ef19b16a5d30e8d09e6d22f179fa123272";
-
         
         try{
             enrollPage.verifyDownloadableFile(enrollPage.getSpreadsheetLink(), expectedShaHexForWindows);
@@ -74,7 +71,8 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
     }
 
     private void testEnrollAction() throws Exception {
-        /* We test both empty and non-empty courses because the generated
+        /* 
+         * We test both empty and non-empty courses because the generated
          * enroll result page is slightly different for the two cases.
          */
         
@@ -83,8 +81,8 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         ______TS("enroll action: existent course, enroll lines with section field");
 
         enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
-            .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
-            .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
+                        .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
+                        .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
 
         enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
 
@@ -108,9 +106,11 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         
         // Ensure students were actually enrolled
         Url coursesPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
-            .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
-            .withCourseId(courseId);
-        InstructorCoursesDetailsPage detailsPage = loginAdminToPage(browser, coursesPageUrl, InstructorCoursesDetailsPage.class);
+                                .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
+                                .withCourseId(courseId);
+        InstructorCoursesDetailsPage detailsPage = loginAdminToPage(browser, coursesPageUrl, 
+                                                                    InstructorCoursesDetailsPage.class);
+        
         assertEquals(6, detailsPage.getStudentCountForCourse("CCEnrollUiT.CS2104"));
 
         ______TS("enroll action: empty course, enroll lines with header containing empty columns, no sections");
@@ -121,8 +121,8 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         BackDoor.createInstructor(testData.instructors.get("CCEnrollUiT.teammates.test"));
         
         enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
-            .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
-            .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
+                        .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
+                        .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
         
         enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
         
@@ -143,16 +143,16 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         
         // Ensure students were actually enrolled
         coursesPageUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
-            .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
-            .withCourseId(courseId);
+                            .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
+                            .withCourseId(courseId);
         detailsPage = loginAdminToPage(browser, coursesPageUrl, InstructorCoursesDetailsPage.class);
         assertEquals(3, detailsPage.getStudentCountForCourse("CCEnrollUiT.CS2104"));
 
         ______TS("enroll action: fail to enroll as a team cannot be in 2 different sections");
 
         enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
-            .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
-            .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
+                        .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
+                        .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
         
         enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
 
@@ -160,8 +160,10 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         enrollString += "Different Section | Team 1 | Alice Betsy | alice.b.tmms@gmail.tmt |\n";
 
         enrollPage.enrollUnsuccessfully(enrollString);
-        enrollPage.verifyStatus("The team \"Team 1\" is in multiple sections. The team ID should be unique across the entire course and a team cannot be spread across multiple sections."
-                + "\nPlease use the enroll page to edit multiple students");
+        enrollPage.verifyStatus("The team \"Team 1\" is in multiple sections. "
+                                + "The team ID should be unique across the entire course and a team cannot "
+                                + "be spread across multiple sections."
+                                + "\nPlease use the enroll page to edit multiple students");
 
         ______TS("enroll action: fail to enroll due to invalid header");
 
@@ -175,12 +177,11 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         enrollPage.enrollUnsuccessfully(enrollString);
         enrollPage.verifyStatus("The following required column names are missing in the header row: Team");
 
-
         ______TS("enroll action: fail to enroll as there is no input");
 
         enrollUrl = createUrl(Const.ActionURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
-            .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
-            .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
+                        .withUserId(testData.instructors.get("CCEnrollUiT.teammates.test").googleId)
+                        .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
         
         enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
         
@@ -208,7 +209,7 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
     }
 
     @AfterClass
-        public static void classTearDown() throws Exception {
-            BrowserPool.release(browser);
-        }
+    public static void classTearDown() throws Exception {
+        BrowserPool.release(browser);
+    }
 }
