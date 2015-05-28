@@ -235,7 +235,7 @@ function bindEventsAfterAjax() {
 }
 
 function bindUncommonSettingsEvents() {
-    $('#editUncommonSettingsButton').click(uncommonSettingsButtonClick);
+    $('#editUncommonSettingsButton').click(showUncommonPanels);
 }
 
 function updateUncommonSettingsInfo() {
@@ -245,14 +245,6 @@ function updateUncommonSettingsInfo() {
                '24 hrs before session closes and when results are published.';
 
     $('#uncommonSettingsInfoText').html(info);
-}
-
-function uncommonSettingsButtonClick() {
-    var button = $('#editUncommonSettingsButton');
-    var button_edit = $(button).attr('data-edit');
-    if ($(button).text() == button_edit) {
-        showUncommonPanels();
-    }
 }
 
 function isDefaultSetting() {

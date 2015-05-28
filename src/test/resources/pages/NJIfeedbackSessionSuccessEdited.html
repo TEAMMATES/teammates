@@ -83,8 +83,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label data-original-title="Enter the name of the feedback session e.g. Feedback Session 1." for="fsname" class="col-sm-2 control-label" title="" data-toggle="tooltip" data-placement="top">Session
-                                            name</label>
+                                        <label data-original-title="Enter the name of the feedback session e.g. Feedback Session 1." for="fsname" class="col-sm-2 control-label" title="" data-toggle="tooltip" data-placement="top">Session name</label>
                                         <div class="col-sm-10">
                                             <div class="form-control-static">
                                                 Second team feedback session
@@ -195,8 +194,7 @@
                                 <div data-original-title="Please select the amount of time that the system will continue accepting <br />submissions after the specified deadline." class="col-md-2 border-left-gray" title="" data-toggle="tooltip" data-placement="top">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <label for="graceperiod" class="control-label">Grace
-                                                period</label>
+                                            <label for="graceperiod" class="control-label">Grace period</label>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -464,8 +462,7 @@
 <option value="5">5</option>
 
                             </select>
-                            &nbsp;
-                            Team contribution question
+                            &nbsp;Team contribution question
                         </span>
                         <span class="pull-right">
                             <a data-original-title="Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time." class="btn btn-primary btn-xs" id="questiongetlink-1" data-toggle="tooltip" data-placement="top" title="" onclick="getQuestionLink(1)">Get Link</a>
@@ -708,8 +705,7 @@
 <option value="5">5</option>
 
                             </select>
-                            &nbsp;
-                            Essay question
+                            &nbsp;Essay question
                         </span>
                         <span class="pull-right">
                             <a data-original-title="Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time." class="btn btn-primary btn-xs" id="questiongetlink-2" data-toggle="tooltip" data-placement="top" title="" onclick="getQuestionLink(2)">Get Link</a>
@@ -944,8 +940,7 @@
 <option value="5">5</option>
 
                             </select>
-                            &nbsp;
-                            Essay question
+                            &nbsp;Essay question
                         </span>
                         <span class="pull-right">
                             <a data-original-title="Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time." class="btn btn-primary btn-xs" id="questiongetlink-3" data-toggle="tooltip" data-placement="top" title="" onclick="getQuestionLink(3)">Get Link</a>
@@ -1174,8 +1169,7 @@
 <option value="5">5</option>
 
                             </select>
-                            &nbsp;
-                            Essay question
+                            &nbsp;Essay question
                         </span>
                         <span class="pull-right">
                             <a data-original-title="Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time." class="btn btn-primary btn-xs" id="questiongetlink-4" data-toggle="tooltip" data-placement="top" title="" onclick="getQuestionLink(4)">Get Link</a>
@@ -1404,8 +1398,7 @@
 <option value="5">5</option>
 
                             </select>
-                            &nbsp;
-                            Essay question
+                            &nbsp;Essay question
                         </span>
                         <span class="pull-right">
                             <a data-original-title="Get a submission link to this particular question. Useful if you want students to answer individual questions separately or at different points in time." class="btn btn-primary btn-xs" id="questiongetlink-5" data-toggle="tooltip" data-placement="top" title="" onclick="getQuestionLink(5)">Get Link</a>
@@ -1646,11 +1639,11 @@
                         </div>
                     </div>
                     <div class="col-sm-2">
-                        <a id="button_openframe" class="btn btn-primary" value="Add New Question" onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)">&nbsp;&nbsp;&nbsp;Add New Question&nbsp;&nbsp;&nbsp;</a>
+                        <a id="button_openframe" class="btn btn-primary" onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)">&nbsp;&nbsp;&nbsp;Add New Question&nbsp;&nbsp;&nbsp;</a>
 
                     </div>
                     <div class="col-sm-2">
-                        <a id="button_copy" class="btn btn-primary" value="Copy Question">&nbsp;&nbsp;&nbsp;Copy Question&nbsp;&nbsp;&nbsp;</a>
+                        <a id="button_copy" class="btn btn-primary">&nbsp;&nbsp;&nbsp;Copy Question&nbsp;&nbsp;&nbsp;</a>
                     </div>
                     <div class="col-sm-2">
                         <a class="btn btn-primary" href="/page/instructorFeedbacksPage?user={$test.instructor}&amp;courseid=AHPUiT.instr1.gma-demo&amp;fsname=Second team feedback session">&nbsp;&nbsp;&nbsp;Done Editing&nbsp;&nbsp;&nbsp;</a>
@@ -2177,4 +2170,12 @@
                     </div>
                 </div>
             </div>
+            <input name="questionnum" type="hidden" value="6"/>
+            <input name="fsname" type="hidden" value="Second team feedback session"/>
+            <input name="courseid" type="hidden" value="AHPUiT.instr1.gma-demo"/>
+            <input name="showresponsesto" type="hidden" value="RECEIVER,INSTRUCTORS"/>
+            <input name="showgiverto" type="hidden" value="RECEIVER,INSTRUCTORS"/>
+            <input name="showrecipientto" type="hidden" value="RECEIVER,INSTRUCTORS"/>
+            <input name="user" type="hidden" value="teammates.coord"/>
+            <input id="generatedOptions" name="generatedOptions" type="hidden" value="NONE"/>
             </form></div>

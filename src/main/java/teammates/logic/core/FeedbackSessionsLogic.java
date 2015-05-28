@@ -105,12 +105,10 @@ public class FeedbackSessionsLogic {
         return fsDb.getFeedbackSessionsForCourse(courseId);
     }
 
-    public FeedbackSessionAttributes copyFeedbackSession(
-            String newFeedbackSessionName, String newCourseId, String feedbackSessionName,
-            String courseId, String instructorEmail)
+    public FeedbackSessionAttributes copyFeedbackSession(String newFeedbackSessionName,
+            String newCourseId, String feedbackSessionName, String courseId, String instructorEmail)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        FeedbackSessionAttributes copiedFeedbackSession = getFeedbackSession(
-                feedbackSessionName, courseId);
+        FeedbackSessionAttributes copiedFeedbackSession = getFeedbackSession(feedbackSessionName, courseId);
         copiedFeedbackSession.creatorEmail = instructorEmail;
         copiedFeedbackSession.feedbackSessionName = newFeedbackSessionName;
         copiedFeedbackSession.courseId = newCourseId;
@@ -119,11 +117,12 @@ public class FeedbackSessionsLogic {
         copiedFeedbackSession.respondingStudentList = new HashSet<String>();
         fsDb.createEntity(copiedFeedbackSession);
         
-        List<FeedbackQuestionAttributes> feedbackQuestions = fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        for(FeedbackQuestionAttributes question : feedbackQuestions){
+        List<FeedbackQuestionAttributes> feedbackQuestions =
+                fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+        for (FeedbackQuestionAttributes question : feedbackQuestions){
             question.courseId = newCourseId;
             question.feedbackSessionName = newFeedbackSessionName;
-            question.creatorEmail =instructorEmail;
+            question.creatorEmail = instructorEmail;
             fqLogic.createFeedbackQuestionNoIntegrityCheck(question, question.questionNumber);
         }
         
