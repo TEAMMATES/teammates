@@ -893,6 +893,15 @@ function toggleMcqGeneratedOptions(checkbox, questionNumber) {
     }
 }
 
+function toggleOtherOption(checkbox,questionNumber) {
+	idOfQuestion = '#form_editquestion-' + questionNumber;
+	idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
+	 
+	if($(idOfQuestion).attr('editStatus') == "hasResponses") {
+		$(idOfQuestion).attr('editStatus', "mustDeleteResponses");
+	}
+}
+
 function changeMcqGenerateFor(questionNumber) {
     var idSuffix = getQuestionIdSuffix(questionNumber);
 

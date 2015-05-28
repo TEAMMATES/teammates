@@ -29,6 +29,26 @@ $(document).ready(function() {
         $(this).after('<span> ' + $(this).find('option:selected').html() + '</span>');
     });
     
+    $("input[type='radio']").change(function() {
+    	idOfOtherOptionText = "otherOptionText" + $(this).attr("name").substr($(this).attr("name").search("-"));
+    	idOfOtherOptionFlag = "otherOptionFlag" + $(this).attr("name").substr($(this).attr("name").search("-"));
+    
+	    if($(this).attr('data-text-id') == "otherOptionText") {
+	    	// Other option is selected by the student
+	    	$('#'+idOfOtherOptionText).removeAttr('disabled');
+	    	$('#'+idOfOtherOptionFlag).val("1");
+	    } else {
+	    	// Any option except the other option is selected
+	    	$('#'+idOfOtherOptionText).attr('disabled','disabled');
+	    	$('#'+idOfOtherOptionFlag).val("0");
+	    }
+    });
+    	           
+    $("input[id^='otherOptionText']").keyup(function () {
+    idOfOtherOptionRadioButton = $(this).attr('id').replace('Text','');
+    $('#'+idOfOtherOptionRadioButton).val($(this).val());
+    });
+    
     disallowNonNumericEntries($('input[type=number]'), true, true);
     $('input.pointsBox').off('keydown');
     disallowNonNumericEntries($('input.pointsBox'), false, false);
