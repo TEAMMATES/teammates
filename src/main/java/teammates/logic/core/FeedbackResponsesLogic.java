@@ -351,11 +351,11 @@ public class FeedbackResponsesLogic {
             return true;
         }
         boolean isStudentRecipientType = 
-                question.recipientType.equals(FeedbackParticipantType.STUDENTS) ||
-                question.recipientType.equals(FeedbackParticipantType.OWN_TEAM_MEMBERS) ||
-                question.recipientType.equals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF) ||
-                (question.recipientType.equals(FeedbackParticipantType.GIVER) && 
-                 question.giverType.equals(FeedbackParticipantType.STUDENTS)); 
+                   question.recipientType.equals(FeedbackParticipantType.STUDENTS)
+                || question.recipientType.equals(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                || question.recipientType.equals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)
+                || (question.recipientType.equals(FeedbackParticipantType.GIVER)  
+                    && question.giverType.equals(FeedbackParticipantType.STUDENTS)); 
                                         
         if (isStudentRecipientType &&
             question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
@@ -365,8 +365,8 @@ public class FeedbackResponsesLogic {
             question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
             return true;
         }
-        if (question.giverType == FeedbackParticipantType.TEAMS ||
-            question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
+        if (question.giverType == FeedbackParticipantType.TEAMS 
+         || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
             return true;
         }
         if (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {
