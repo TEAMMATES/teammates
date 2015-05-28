@@ -31,7 +31,9 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
 
         try {
             sectionsInCourse = logic.getSectionNamesForCourse(instructor.courseId);
-        } catch(EntityDoesNotExistException e) {
+        } catch (EntityDoesNotExistException e) {
+            // This part is not tested because it is not normally reproducible, it will already be
+            // redirected the moment something does not exist but we can still catch it for safety purposes
             sectionsInCourse = new ArrayList<String>();
         }
         

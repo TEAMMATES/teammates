@@ -78,7 +78,7 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
                                        Const.ParamsNames.COURSE_ID), e.getMessage());
         }
 
-        ______TS("null session");
+        ______TS("Test feedback session that does not exist");
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, session.courseId,
