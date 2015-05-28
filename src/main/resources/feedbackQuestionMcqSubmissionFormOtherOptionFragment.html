@@ -1,0 +1,15 @@
+<tr>
+    <td>
+        <label>
+            <input type="radio"
+                   name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${qnIdx}-${responseIdx}"
+                   ${disabled} ${checked} value="${mcqChoiceValue}"> Other
+        </label>
+ 
+        <input type="text" name="otherOptionText-${qnIdx}-${responseIdx}" id="otherOptionText-${qnIdx}-${responseIdx}" 
+               ${text-disabled} value="${mcqChoiceValue}">
+ 
+        <input type="hidden" name="otherOptionFlag-${qnIdx}-${responseIdx}" id="otherOptionFlag-${qnIdx}-${responseIdx}" 
+               value="${mcqOtherOptionFlagValue}">
+     </td>
+ </tr>

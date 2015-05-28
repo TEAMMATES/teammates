@@ -10,6 +10,14 @@
                         <span class="glyphicon glyphicon-plus">
                         </span> add more options
                     </a>
+                    
+                    <div class="control-label">
+                        <label>
+                            <input type="checkbox" disabled="disabled" id="mcqOtherOption-${questionNumber}" 
+                                   ${checkedOtherOption} onchange="toggleOtherOption(this, ${questionNumber})">
+                                Add 'Other' option (Allows respondents to type in their own answer)
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
