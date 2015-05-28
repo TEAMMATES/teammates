@@ -20,7 +20,7 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         boolean creatorOnly = false;
         new GateKeeper().verifyAccessible(instructor, session, creatorOnly);
-        boolean shouldEnableSubmit = 
+        boolean shouldEnableSubmit =
                   instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         List<String> sectionsInCourse;
 
@@ -43,7 +43,7 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
         if (!shouldEnableSubmit) {
             throw new UnauthorizedAccessException(
                             "Feedback session [" + session.feedbackSessionName
-                            + "] is not accessible to instructor ["+ instructor.email + "] for this purpose");
+                            + "] is not accessible to instructor [" + instructor.email + "] for this purpose");
         }
     }
 
@@ -90,9 +90,7 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
 
     @Override
     protected boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes session) {
-        return session.isOpened()
-               || session.isPrivateSession()
-               || session.isInGracePeriod();
+        return session.isOpened() || session.isPrivateSession() || session.isInGracePeriod();
     }
 
     @Override
