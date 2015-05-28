@@ -195,24 +195,48 @@ public class FeedbackQuestionsLogic {
             throw new EntityDoesNotExistException(
                     "Trying to get questions for a feedback session that does not exist.");
         }
+        
+        if (fsLogic.isCreatorOfSession(feedbackSessionName, courseId, userEmail)) {
+            return getFeedbackQuestionsForCreatorInstructor(feedbackSessionName, courseId);
+        }
+        
+        List<FeedbackQuestionAttributes> questions =
+                new ArrayList<FeedbackQuestionAttributes>();
+        
+        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
+        boolean isInstructor = instructor != null;
+        
+        if (isInstructor) {
+            questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
+                            feedbackSessionName, courseId, INSTRUCTORS));
+        }
+        
+        return questions;
+    }
+    
+    /**
+     * Gets a {@code List} of all questions for the list of questions that an
+     * instructor who is the creator of the course can view/submit
+     */
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForCreatorInstructor(
+                                    String feedbackSessionName, String courseId) 
+                    throws EntityDoesNotExistException {
+        
+        if (fsLogic.getFeedbackSession(feedbackSessionName, courseId) == null) {
+            throw new EntityDoesNotExistException(
+                    "Trying to get questions for a feedback session that does not exist.");
+        }
 
         List<FeedbackQuestionAttributes> questions =
                 new ArrayList<FeedbackQuestionAttributes>();
         
-        // Return instructor questions if instructor.
-        InstructorAttributes instructor = 
-                instructorsLogic.getInstructorForEmail(courseId, userEmail);
+        questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
+                                       feedbackSessionName, courseId, INSTRUCTORS));
         
-        if (instructor != null) {
-            questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
-                        feedbackSessionName, courseId, INSTRUCTORS));
-        }
+        // Return all self (creator) questions
+        questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSessionName,
+                courseId, SELF));
         
-        // Return all self (creator) questions if creator.
-        if (fsLogic.isCreatorOfSession(feedbackSessionName, courseId, userEmail)) {
-            questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSessionName,
-                    courseId, SELF));
-        }
         
         return questions;
     }
@@ -236,7 +260,7 @@ public class FeedbackQuestionsLogic {
         }
         
         return questions;
-    }
+    }    
 
     
     

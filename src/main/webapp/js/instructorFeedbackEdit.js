@@ -397,7 +397,10 @@ function showNewQuestionFrame(type){
     enableNewQuestion();
     $('#addNewQuestionTable').hide();
     $('#empty_message').hide();
-    $('html, body').animate({scrollTop: $('#frameBodyWrapper')[0].scrollHeight}, 1000);
+    var headerOffset = $('div.navbar-fixed-top').height();
+    $('html, body').animate({
+        scrollTop: $('#questionTableNew').offset().top - headerOffset
+    }, 1000);
     $('#questionTableNew').find('.visibilityOptions').hide();
     getVisibilityMessage($('#questionTableNew').find('.visibilityMessageButton'));
 }

@@ -1075,6 +1075,15 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return coursesLogic.getTeamsForCourse(courseId);
     }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public TeamDetailsBundle getTeamDetailsForStudent(StudentAttributes student) throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, student);
+        return studentsLogic.getTeamDetailsForStudent(student);
+    }
 
     /**
      * Preconditions: <br>
@@ -1834,21 +1843,6 @@ public class Logic {
         return feedbackQuestionsLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
     }
     
-    /**
-     * Gets all questions for a feedback session that a user can respond to.<br>
-     * Returns an empty list if they are no such questions for the session.
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     */
-    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForUser(String feedbackSessionName, 
-                                                                        String courseId, String userEmail) 
-            throws EntityDoesNotExistException {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, userEmail);
-        
-        return feedbackQuestionsLogic.getFeedbackQuestionsForInstructor(feedbackSessionName, courseId, userEmail);
-    }
     
     /**
      * Gets the response rate status for a session
@@ -2500,6 +2494,7 @@ public class Logic {
      * @return the list of all adminEmails in the database.
      * <br> Empty List if no admin email found 
      */
+    @SuppressWarnings("deprecation")
     public List<AdminEmailAttributes> getAllAdminEmails() {
         return adminEmailsLogic.getAllAdminEmails();
     }
