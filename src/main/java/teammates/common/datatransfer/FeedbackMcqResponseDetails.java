@@ -45,4 +45,8 @@ public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
     public String getAnswerCsv(FeedbackQuestionDetails questionDetails) {
         return Sanitizer.sanitizeForCsv(getAnswerString());
     }
+    
+    public Boolean isOtherOptionAnswer() {
+        return isOther;
+    }
 }

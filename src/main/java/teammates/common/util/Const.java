@@ -367,6 +367,8 @@ public class Const {
         public static final String FEEDBACK_QUESTION_TYPE = "questiontype";
         public static final String FEEDBACK_QUESTION_NUMBEROFCHOICECREATED = "noofchoicecreated";
         public static final String FEEDBACK_QUESTION_MCQCHOICE = "mcqOption";
+        public static final String FEEDBACK_QUESTION_MCQOTHEROPTION = "mcqotheroption";
+        public static final String FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG = "otherOptionFlag";
         public static final String FEEDBACK_QUESTION_MSQCHOICE = "msqOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMOPTION = "constSumOption";
         public static final String FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS = "constSumToRecipients";
