@@ -1,14 +1,10 @@
 package teammates.ui.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
@@ -19,32 +15,7 @@ public class InstructorFeedbackSubmissionEditSaveAction extends FeedbackSubmissi
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         boolean creatorOnly = false;
-        new GateKeeper().verifyAccessible(instructor, session, creatorOnly);
-        boolean shouldEnableSubmit =
-                  instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-        List<String> sectionsInCourse;
-
-        try {
-            sectionsInCourse = logic.getSectionNamesForCourse(instructor.courseId);
-        } catch(EntityDoesNotExistException e) {
-            sectionsInCourse = new ArrayList<String>();
-        }
-
-        for (String section : sectionsInCourse) {
-            if (instructor.isAllowedForPrivilege(
-                               section, session.feedbackSessionName, 
-                               Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
-                shouldEnableSubmit = true;
-                break;
-            }
-        }
-
-        // TODO: refactor this to gate keeper
-        if (!shouldEnableSubmit) {
-            throw new UnauthorizedAccessException(
-                            "Feedback session [" + session.feedbackSessionName
-                            + "] is not accessible to instructor [" + instructor.email + "] for this purpose");
-        }
+        new GateKeeper().verifyAccessible(instructor, session, creatorOnly, Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
     }
 
     @Override
