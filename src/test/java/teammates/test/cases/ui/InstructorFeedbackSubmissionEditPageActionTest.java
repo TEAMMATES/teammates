@@ -10,6 +10,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.NullPostParameterException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.controller.InstructorFeedbackSubmissionEditPageAction;
 import teammates.ui.controller.RedirectResult;
@@ -78,7 +79,30 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
                                        Const.ParamsNames.COURSE_ID), e.getMessage());
         }
 
+        ______TS("Test insufficient authorization");
+
+        instructor = dataBundle.instructors.get("helperOfCourse1");
+        gaeSimulation.loginAsInstructor(instructor.googleId);
+        
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, session.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName,
+                Const.ParamsNames.USER_ID, instructor.googleId
+        };
+
+        try {
+            a = getAction(submissionParams);
+            r = (ShowPageResult) a.executeAndPostProcess();
+            signalFailureToDetectException("Did not detect insufficient authorization.");
+        } catch (UnauthorizedAccessException e) {
+            assertEquals("Feedback session [First feedback session] is not accessible to instructor "
+                         + "[helper@course1.tmt] for this purpose", e.getMessage());
+        }
+
         ______TS("Test feedback session that does not exist");
+
+        instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        gaeSimulation.loginAsInstructor(instructor.googleId);
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, session.courseId,
