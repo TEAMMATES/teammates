@@ -1007,10 +1007,6 @@ public class FeedbackSessionsLogic {
         }
         
         
-        // TODO: consider removing the code below as it is costly.
-        // feedback sessions with no questions for students are also
-        // not visible to the students due to isFeedbackSessionViewableToStudents.
-        
         List<FeedbackQuestionAttributes> allQuestions =
                 fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName,
                         courseId);
@@ -1877,14 +1873,19 @@ public class FeedbackSessionsLogic {
                             instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
                         }
                         if (isVisibleResponse && instructor != null) {
-                            boolean needCheckPrivilege = !(question.recipientType == FeedbackParticipantType.NONE ||
-                                    question.recipientType == FeedbackParticipantType.INSTRUCTORS ||
-                                            question.recipientType == FeedbackParticipantType.STUDENTS);
-                            boolean isNotAllowedForInstructor = !(instructor.isAllowedForPrivilege(response.giverSection,
-                                    response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
-                                    || !(instructor.isAllowedForPrivilege(response.recipientSection,
-                                            response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-                            if (needCheckPrivilege && isNotAllowedForInstructor) {
+                            boolean isGiverSectionRestricted 
+                                    = !(instructor.isAllowedForPrivilege(response.giverSection,
+                                                                         response.feedbackSessionName, 
+                                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                            // If instructors are not restricted to view the giver's section,
+                            // they are allowed to view responses to GENERAL, subject to visibility options
+                            boolean isRecipientSectionRestricted 
+                                    = !(question.recipientType == FeedbackParticipantType.NONE)
+                                   && !(instructor.isAllowedForPrivilege(response.recipientSection,
+                                                                         response.feedbackSessionName, 
+                                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                            boolean isNotAllowedForInstructor = isGiverSectionRestricted || isRecipientSectionRestricted;
+                            if (isNotAllowedForInstructor) {
                                 isVisibleResponse = false;
                             }
                         }
@@ -2083,14 +2084,20 @@ public class FeedbackSessionsLogic {
             isVisibleResponse = true;
         }
         if (isVisibleResponse && instructor != null) {
-            boolean needCheckPrivilege = !(relatedQuestion.recipientType == FeedbackParticipantType.NONE ||
-                    relatedQuestion.recipientType == FeedbackParticipantType.INSTRUCTORS ||
-                            relatedQuestion.recipientType == FeedbackParticipantType.STUDENTS);
-            boolean isNotAllowedForInstructor = !(instructor.isAllowedForPrivilege(response.giverSection,
-                    response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
-                    || !(instructor.isAllowedForPrivilege(response.recipientSection,
-                            response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-            if (needCheckPrivilege && isNotAllowedForInstructor) {
+            boolean isGiverSectionRestricted 
+            = !(instructor.isAllowedForPrivilege(response.giverSection,
+                                                 response.feedbackSessionName, 
+                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+            // If instructors are not restricted to view the giver's section,
+            // they are allowed to view responses to GENERAL, subject to visibility options
+            boolean isRecipientSectionRestricted 
+                    = !(relatedQuestion.recipientType == FeedbackParticipantType.NONE) 
+                   && !(instructor.isAllowedForPrivilege(response.recipientSection,
+                                                         response.feedbackSessionName, 
+                                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+            
+            boolean isNotAllowedForInstructor = isGiverSectionRestricted || isRecipientSectionRestricted;
+            if (isNotAllowedForInstructor) {
                 isVisibleResponse = false;
             }
         }
@@ -2386,14 +2393,45 @@ public class FeedbackSessionsLogic {
     public boolean isFeedbackSessionViewableToStudents(
             FeedbackSessionAttributes session)
             throws EntityDoesNotExistException {
-        // Allow students to view if there are questions for them
-        // TODO this is a bug. For example if instructors have feedback for the
-        // class
-        List<FeedbackQuestionAttributes> questions =
+        // Allow students to view the feedback session if there are questions for them
+        List<FeedbackQuestionAttributes> questionsToAnswer =
                 fqLogic.getFeedbackQuestionsForStudents(
                         session.feedbackSessionName, session.courseId);
-
-        return (session.isVisible() && !questions.isEmpty()) ? true : false;
+        
+        if (session.isVisible() && !questionsToAnswer.isEmpty()) {
+            return true;
+        }
+        
+        // Allow students to view the feedback session 
+        // if there are any questions for instructors to answer
+        // where the responses of the questions are visible to the students
+        List<FeedbackQuestionAttributes> questionsWithVisibleResponses = new ArrayList<FeedbackQuestionAttributes>();
+        List<FeedbackQuestionAttributes> questionsForInstructors =
+                                        fqLogic.getFeedbackQuestionsForCreatorInstructor(session.feedbackSessionName, 
+                                                                                         session.courseId);
+        for (FeedbackQuestionAttributes question : questionsForInstructors) {
+            if (frLogic.isResponseOfFeedbackQuestionVisibleToStudent(question)) {
+                questionsWithVisibleResponses.add(question);
+            }
+        }
+        
+        return session.isVisible() && !questionsWithVisibleResponses.isEmpty();
+    }
+    
+    /**
+     * Returns true if there are any questions for students to answer.
+     * @param session
+     * @throws EntityDoesNotExistException
+     */
+    public boolean isFeedbackSessionForStudentsToAnswer(
+                                    FeedbackSessionAttributes session)
+                                    throws EntityDoesNotExistException {
+        
+        List<FeedbackQuestionAttributes> questionsToAnswer =
+                fqLogic.getFeedbackQuestionsForStudents(
+                        session.feedbackSessionName, session.courseId);
+        
+        return session.isVisible() && !questionsToAnswer.isEmpty(); 
     }
 
     private void normalizeMaximumResponseEntities(

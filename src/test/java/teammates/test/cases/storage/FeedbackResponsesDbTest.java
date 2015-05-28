@@ -161,7 +161,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         ______TS("standard success case");
         
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestion(fras.get("response1ForQ1S1C1").feedbackQuestionId);
-        assertEquals(6, responses.size());
+        assertEquals(7, responses.size());
         
         ______TS("null params");
         
@@ -186,7 +186,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         
         List<FeedbackResponseAttributes> responses = frDb.getFeedbackResponsesForQuestionInSection(questionId, "Section 1");
         
-        assertEquals(2, responses.size());
+        assertEquals(3, responses.size());
 
         ______TS("No responses as they are filtered out");
 

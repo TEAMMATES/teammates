@@ -90,6 +90,7 @@
                     </div>
                     <strong>Question <%=question.questionNumber%>: </strong>
                     <div class="inline panel-heading-text">
+                        <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                         <span class="text-preserve-space"><%=data.bundle.getQuestionText(question.getId())%><%
                         	FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
                                                 out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
@@ -204,6 +205,7 @@
                                                                     <%}%>             
                                                                 </td>
                                                                 <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
+                                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                                 <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(prevGiver, possibleReceiver, data.bundle, question)%></td>
                                                                 <td>
                                                                     <% 
@@ -267,6 +269,7 @@
                                                     <%}%>                                                   
                                                 </td>
                                                 <td class="middlealign"><%=recipientTeamName%></td>
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                 <td class="text-preserve-space"><%=data.bundle.getResponseAnswerHtml(responseEntry, question)%></td>
                                                 <td>
                                                     <% 
@@ -331,6 +334,7 @@
                                                                 <%}%>                                                                 
                                                             </td>
                                                             <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
+                                                            <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                             <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(prevGiver, possibleReceiver, data.bundle, question)%></td>
                                                             <td>
                                                                 <% 
@@ -400,6 +404,7 @@
                                                                   <%}%>                                                                   
                                                               </td>
                                                               <td class="middlealign color_neutral"><%=data.bundle.getTeamNameFromRoster(possibleReceiver)%></td>
+                                                              <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                               <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(possibleGiver, possibleReceiver, data.bundle, question)%></td>
                                                               <td>
                                                                 <% 
