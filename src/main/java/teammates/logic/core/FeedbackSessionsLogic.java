@@ -95,8 +95,7 @@ public class FeedbackSessionsLogic {
     /**
      * This method returns a single feedback session. Returns null if not found.
      */
-    public FeedbackSessionAttributes getFeedbackSession(
-            String feedbackSessionName, String courseId) {
+    public FeedbackSessionAttributes getFeedbackSession(String feedbackSessionName, String courseId) {
         return fsDb.getFeedbackSession(courseId, feedbackSessionName);
     }
 
@@ -1542,12 +1541,10 @@ public class FeedbackSessionsLogic {
      * This method deletes a specific feedback session, and all it's question
      * and responses
      */
-    public void deleteFeedbackSessionCascade(String feedbackSessionName,
-            String courseId) {
+    public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
 
         try {
-            fqLogic.deleteFeedbackQuestionsForSession(feedbackSessionName,
-                    courseId);
+            fqLogic.deleteFeedbackQuestionsForSession(feedbackSessionName, courseId);
         } catch (EntityDoesNotExistException e) {
             // Silently fail if session does not exist
         }
