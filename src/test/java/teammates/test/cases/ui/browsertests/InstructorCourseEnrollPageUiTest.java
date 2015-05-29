@@ -94,8 +94,10 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         // A student with no comment
         enrollString += "Section 3 | Team 3 |Frank Galoe | frank.g.tmms@gmail.tmt |\n";
         // A new student with name containing accented characters
-        enrollString += "Section 1 | Team 1|José Gómez | jose.gomez.tmns@gmail.tmt | This student name contains accented characters\n";
-
+        enrollString += "Section 1 | Team 1 | José Gómez | jose.gomez.tmns@gmail.tmt | This student name contains accented characters\n";
+        // Unmodified student
+        enrollString += "Section 2 | Team 2 | Danny Engrid | danny.e.tmms@gmail.tmt | This student's name is Danny Engrid\n";
+        
         InstructorCourseEnrollResultPage resultsPage = enrollPage.enroll(enrollString);
         resultsPage.verifyHtmlMainContent("/InstructorCourseEnrollPageResult.html");
 
