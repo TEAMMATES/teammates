@@ -127,7 +127,7 @@ public class Emails {
                 .getInstructorsForCourse(session.courseId);
         List<StudentAttributes> students;
         
-        if (fsLogic.isFeedbackSessionViewableToStudents(session)) {
+        if (fsLogic.isFeedbackSessionForStudentsToAnswer(session)) {
             students = studentsLogic.getStudentsForCourse(session.courseId);
         } else {
             students = new ArrayList<StudentAttributes>();
@@ -191,7 +191,7 @@ public class Emails {
                 .getInstructorsForCourse(session.courseId);
         List<StudentAttributes> students = new ArrayList<StudentAttributes>();
 
-        if (fsLogic.isFeedbackSessionViewableToStudents(session) == true) {
+        if (fsLogic.isFeedbackSessionForStudentsToAnswer(session)) {
             List<StudentAttributes> allStudents = studentsLogic.
                     getStudentsForCourse(session.courseId);
 

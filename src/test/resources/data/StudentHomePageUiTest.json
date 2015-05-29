@@ -31,6 +31,10 @@
       "id": "SHomeUiT.CS4215",
       "name": "Programming Language Implementation",
       "isArchived": false
+    },
+    "SHomeUiT.CS4221": {
+      "id": "SHomeUiT.CS4221",
+      "name": "Database Design"
     }
   },
   
@@ -56,6 +60,15 @@
     "SHomeUiT.instr.CS4215": {
       "googleId": "SHomeUiT.instr",
       "courseId": "SHomeUiT.CS4215",
+      "name": "Teammates Test",
+      "email": "SHomeUiT.instr@gmail.tmt",
+      "role":"Co-owner",
+      "displayedName":"Co-owner",
+      "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+    },
+    "SHomeUiT.instr.CS4221": {
+      "googleId": "SHomeUiT.instr",
+      "courseId": "SHomeUiT.CS4221",
       "name": "Teammates Test",
       "email": "SHomeUiT.instr@gmail.tmt",
       "role":"Co-owner",
@@ -132,6 +145,14 @@
       "googleId": "{$test.student1}",
       "email": "{$test.student1}@gmail.com",
       "course": "SHomeUiT.CS4215",
+      "name": "Amy Betsy",
+      "comments": "This student's name is Amy Betsy",
+      "team": "Team 1"
+    },
+    "alice.tmms@SHomeUiT.CS4221": {
+      "googleId": "{$test.student1}",
+      "email": "{$test.student1}@gmail.com",
+      "course": "SHomeUiT.CS4221",
       "name": "Amy Betsy",
       "comments": "This student's name is Amy Betsy",
       "team": "Team 1"
@@ -234,6 +255,22 @@
       "feedbackSessionType" : "PRIVATE",
       "sentOpenEmail" : true,
       "sentPublishedEmail" : false
+    },
+    "SHomeUiT.CS4221:Session with no Student Questions": {
+      "feedbackSessionName" : "Session without Student Questions",
+      "courseId" : "SHomeUiT.CS4221",
+      "creatorEmail": "SHomeUiT.instr@gmail.tmt",
+      "instructions": {"value" : "Please please fill in the following questions."},
+      "createdTime" : "2012-03-20 11:59 PM UTC",
+      "startTime" : "2012-04-01 11:59 PM UTC",
+      "endTime" : "2035-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime" : "2012-03-28 11:59 PM UTC",
+      "resultsVisibleFromTime" : "2012-05-01 11:59 PM UTC",
+      "timeZone" : 8.0,
+      "gracePeriod": 0,
+      "feedbackSessionType" : "STANDARD",
+      "sentOpenEmail" : true,
+      "sentPublishedEmail" : false
     }
   },
   
@@ -307,6 +344,20 @@
         "showResponsesTo" : [ "INSTRUCTORS", "RECEIVER" ],
         "showGiverNameTo" : [ "INSTRUCTORS" ],
         "showRecipientNameTo" : [ "INSTRUCTORS", "RECEIVER" ]
+    },
+    "SHomeUiT.CS4221:Feedback Session without Student Questions:Q1": {
+        "feedbackSessionName" : "Session without Student Questions",
+        "courseId" : "SHomeUiT.CS4221",
+        "creatorEmail" : "SHomeUiT.instr@gmail.tmt",
+        "questionMetaData" : {"value" : "This is a session without questions for students"},
+        "questionNumber" : "1",
+        "questionType" : "TEXT",
+        "giverType" : "INSTRUCTORS",
+        "recipientType" : "INSTRUCTORS",
+        "numberOfEntitiesToGiveFeedbackTo" : 5,
+        "showResponsesTo" : [ "INSTRUCTORS", "RECEIVER", "STUDENTS" ],
+        "showGiverNameTo" : [ "INSTRUCTORS" ],
+        "showRecipientNameTo" : [ "INSTRUCTORS", "RECEIVER", "STUDENTS"]
     }
    }
 }
