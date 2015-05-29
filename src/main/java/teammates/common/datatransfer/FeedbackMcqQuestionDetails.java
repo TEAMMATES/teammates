@@ -199,48 +199,48 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         List<String> optionList = new ArrayList<String>();;
 
         switch(generateOptionsFor){
-        case NONE:
-            optionList = mcqChoices;
-            break;
-        case STUDENTS:
-            List<StudentAttributes> studentList = 
-                    StudentsLogic.inst().getStudentsForCourse(courseId);
-
-            for (StudentAttributes student : studentList) {
-                optionList.add(student.name + " (" + student.team + ")");
-            }
-            
-            Collections.sort(optionList);
-            break;
-        case TEAMS:
-            try {
-                List<TeamDetailsBundle> teamList = 
-                        CoursesLogic.inst().getTeamsForCourse(courseId);
-                
-                for (TeamDetailsBundle team : teamList) {
-                    optionList.add(team.name);
+            case NONE:
+                optionList = mcqChoices;
+                break;
+            case STUDENTS:
+                List<StudentAttributes> studentList = 
+                        StudentsLogic.inst().getStudentsForCourse(courseId);
+    
+                for (StudentAttributes student : studentList) {
+                    optionList.add(student.name + " (" + student.team + ")");
                 }
                 
                 Collections.sort(optionList);
-            } catch (EntityDoesNotExistException e) {
-                Assumption.fail("Course disappeared");
-            }
-            break;
-        case INSTRUCTORS:
-            List<InstructorAttributes> instructorList =
-                    InstructorsLogic.inst().getInstructorsForCourse(
-                            courseId);
-
-            for (InstructorAttributes instructor : instructorList) {
-                optionList.add(instructor.name);
-            }
-
-            Collections.sort(optionList);
-            break;
-        default:
-            Assumption
-                    .fail("Trying to generate options for neither students, teams nor instructors");
-            break;
+                break;
+            case TEAMS:
+                try {
+                    List<TeamDetailsBundle> teamList = 
+                            CoursesLogic.inst().getTeamsForCourse(courseId);
+                    
+                    for (TeamDetailsBundle team : teamList) {
+                        optionList.add(team.name);
+                    }
+                    
+                    Collections.sort(optionList);
+                } catch (EntityDoesNotExistException e) {
+                    Assumption.fail("Course disappeared");
+                }
+                break;
+            case INSTRUCTORS:
+                List<InstructorAttributes> instructorList =
+                        InstructorsLogic.inst().getInstructorsForCourse(
+                                courseId);
+    
+                for (InstructorAttributes instructor : instructorList) {
+                    optionList.add(instructor.name);
+                }
+    
+                Collections.sort(optionList);
+                break;
+            default:
+                Assumption
+                        .fail("Trying to generate options for neither students, teams nor instructors");
+                break;
         }
 
         return optionList;
