@@ -179,11 +179,10 @@ public class FeedbackResponsesDb extends EntitiesDb {
         
         List<FeedbackResponse> frList =
                 getFeedbackResponseEntitiesForQuestionWithinRange(feedbackQuestionId, range);
-        List<FeedbackResponseAttributes> fraList =
-                new ArrayList<FeedbackResponseAttributes>();
+        List<FeedbackResponseAttributes> fraList = new ArrayList<FeedbackResponseAttributes>();
         
         for (FeedbackResponse fr : frList) {
-                fraList.add(new FeedbackResponseAttributes(fr));
+            fraList.add(new FeedbackResponseAttributes(fr));
         }
         
         return fraList;   

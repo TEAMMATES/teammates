@@ -1,8 +1,8 @@
-$(document).ready(function(){
-    if($("#button_sortstudentsection").length){
-        toggleSort($("#button_sortstudentsection"),1);
+$(document).ready(function() {
+    if ($("#button_sortstudentsection").length) {
+        toggleSort($("#button_sortstudentsection"), 1);
     } else {
-        toggleSort($("#button_sortstudentteam"),1);
+        toggleSort($("#button_sortstudentteam"), 1);
     }
     
     //auto select the html table when modal is shown
@@ -30,7 +30,7 @@ function submitFormAjax() {
             content.html("<button class=\"btn btn-info\" onclick=\"submitFormAjax()\"> retry</button>");     	
         },
         success : function(data) {
-            setTimeout(function(){
+            setTimeout(function() {
                 if (!data.isError) {
                 	var table = data.studentListHtmlTableAsString;                	             	
                 	content.html("<small>" + table + "</small>");
@@ -38,10 +38,8 @@ function submitFormAjax() {
                     ajaxStatus.html(data.errorMessage);
                     content.html("<button class=\"btn btn-info\" onclick=\"submitFormAjax()\"> retry</button>");   
                 }
-            	               
                 $("#statusMessage").html(data.statusForAjax);
-
-            },500);
+            }, 500);
         }
     });
 }
@@ -55,9 +53,9 @@ function submitFormAjax() {
  * @param email
  */
 function toggleSendRegistrationKey(courseID, email) {
-    return confirm("Usually, there is no need to use this feature because TEAMMATES " +
-            "sends an automatic invite to students at the opening time of each" +
-            " session. Send a join request anyway?");
+    return confirm("Usually, there is no need to use this feature because TEAMMATES " 
+                   + "sends an automatic invite to students at the opening time of each" 
+                   + " session. Send a join request anyway?");
 }
 
 /**
@@ -66,10 +64,10 @@ function toggleSendRegistrationKey(courseID, email) {
  * @param courseID
  */
 function toggleSendRegistrationKeysConfirmation(courseID) {
-    return confirm("Usually, there is no need to use this feature because TEAMMATES" +
-            " sends an automatic invite to students at the opening time of" +
-            " each session. Send a join request to all yet-to-join students in " +
-            courseID + " anyway?");
+    return confirm("Usually, there is no need to use this feature because TEAMMATES" 
+                   + " sends an automatic invite to students at the opening time of" 
+                   + " each session. Send a join request to all yet-to-join students in " 
+                   + courseID + " anyway?");
 }
 
 /**
@@ -79,8 +77,7 @@ function toggleSendRegistrationKeysConfirmation(courseID) {
  * @returns
  */
 function toggleDeleteStudentConfirmation(courseId, studentName) {
-    return confirm("Are you sure you want to remove " + studentName + " from " +
-            "the course " + courseId + "?");
+    return confirm("Are you sure you want to remove " + studentName + " from the course " + courseId + "?");
 }
 
 /**

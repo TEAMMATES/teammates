@@ -2,6 +2,7 @@ package teammates.common.datatransfer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ import com.google.gson.Gson;
  */
 public class CommentSearchResultBundle extends SearchResultBundle {
     
-    public Map<String, List<CommentAttributes>> giverCommentTable = new HashMap<String, List<CommentAttributes>>();
+    public Map<String, List<CommentAttributes>> giverCommentTable = new TreeMap<String, List<CommentAttributes>>();
     public Map<String, String> giverTable = new HashMap<String, String>();
     public Map<String, String> recipientTable = new HashMap<String, String>();
     public Cursor cursor = null;
