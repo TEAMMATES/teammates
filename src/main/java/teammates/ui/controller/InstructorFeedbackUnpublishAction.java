@@ -9,31 +9,27 @@ import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackUnpublishAction extends InstructorFeedbacksPageAction {
-    
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String nextUrl = getRequestParamValue(Const.ParamsNames.NEXT_URL);
 
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
         Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
-        
+
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         boolean isCreatorOnly = false;
-        
+
         new GateKeeper().verifyAccessible(
                 instructor, session, isCreatorOnly, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-        
+
         try {
             logic.unpublishFeedbackSession(feedbackSessionName, courseId);
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_UNPUBLISHED);
-            statusToAdmin = "Feedback Session <span class=\"bold\">("
-                    + feedbackSessionName + ")</span> " +
-                    "for Course <span class=\"bold\">[" + courseId
-                    + "]</span> unpublished.";
+            statusToAdmin = "Feedback Session <span class=\"bold\">(" + feedbackSessionName + ")</span> "
+                            + "for Course <span class=\"bold\">[" + courseId + "]</span> unpublished.";
         } catch (InvalidParametersException e) {
             setStatusForException(e);
         }
@@ -41,5 +37,4 @@ public class InstructorFeedbackUnpublishAction extends InstructorFeedbacksPageAc
         nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE : nextUrl;
         return createRedirectResult(nextUrl);
     }
-    
 }
