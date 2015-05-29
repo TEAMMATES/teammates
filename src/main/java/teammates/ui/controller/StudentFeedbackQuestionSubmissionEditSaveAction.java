@@ -61,11 +61,6 @@ public class StudentFeedbackQuestionSubmissionEditSaveAction extends FeedbackQue
         return fs.isOpened() || fs.isInGracePeriod();
     }
 
-    @Override
-    protected ShowPageResult createSpecificShowPageResult() {
-        return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT, data);
-    }
-    
     protected StudentAttributes getStudent() {
         if (student != null) {
             // Not covered in tests as it is not easily producible but acts as a safety net

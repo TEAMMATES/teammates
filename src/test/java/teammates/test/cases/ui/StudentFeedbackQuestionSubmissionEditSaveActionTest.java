@@ -272,6 +272,9 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
         ______TS("Grace Period");
 
         StudentAttributes student4InCourse1 = dataBundle.students.get("student4InCourse1");
+
+        gaeSimulation.loginAsStudent(student4InCourse1.googleId);
+
         FeedbackSessionAttributes gracePeriodSession = dataBundle.feedbackSessions.get("gracePeriodSession");
         
         gracePeriodSession.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
