@@ -1,6 +1,5 @@
 package teammates.test.pageobjects;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -433,10 +432,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         browser.driver.findElement(By.className("visibilityOptionsLabel")).click();
     }
     
-    public void clickVisibilityOptionsForQuestion2(){
-        browser.driver.findElements(By.className("visibilityOptionsLabel")).get(1).click();
-    }
-    
     public void clickAddQuestionButton(){
         addNewQuestionButton.click();
         waitForPageToLoad();
@@ -558,16 +553,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         openNewQuestionButton.click();
     }
     
-    /**
-     * Empties the input box for the given {@code field}.
-     * @param field : the ID of the field to clear.
-     */
-    public void clearField(String field){
-        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        js.executeScript("$('#" + field
-                + "')[0].value='';");
-    }
-    
     public void selectGiverToBeStudents() {
         selectDropdownByVisibleValue(giverDropdown, "Students in this course");
     }
@@ -582,19 +567,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void selectRecipientsToBeNobodySpecific() {
         selectDropdownByVisibleValue(recipientDropdown, "Nobody specific (For general class feedback)");
-    }
-    
-    public ArrayList<String> allContentsOfRowsInQuestionTableNewParticipateTable() {
-        WebElement questionTableNew = browser.driver.findElement(By.id("questionTableNew"));
-        List<WebElement> tablesInQuestionTable = questionTableNew.findElements(By.tagName("table"));
-        WebElement participateTable = tablesInQuestionTable.get(tablesInQuestionTable.size() - 1);
-        List<WebElement> rowsInTable = participateTable.findElements(By.tagName("tr"));
-        ArrayList<String> htmlsOfRows = new ArrayList<String>();
-        for (WebElement e : rowsInTable) {
-            htmlsOfRows.add(e.getText());
-        }
-        
-        return htmlsOfRows;
     }
     
     public void editFeedbackSession(
