@@ -447,23 +447,23 @@ public class InstructorFeedbackEditPage extends AppPage {
      * {@code False} if not.
      */
     public boolean verifyEditSessionBoxIsEnabled() {
-        boolean isEditSessionEnabled = fsSaveLink.isDisplayed() && timezoneDropDown.isEnabled();
-        isEditSessionEnabled &= neverSessionVisibleTimeButton.isEnabled();
-        isEditSessionEnabled &= defaultSessionVisibleTimeButton.isEnabled();
-        isEditSessionEnabled &= customSessionVisibleTimeButton.isEnabled();
+        boolean isEditSessionEnabled = fsSaveLink.isDisplayed() && timezoneDropDown.isEnabled()
+                                       && neverSessionVisibleTimeButton.isEnabled()
+                                       && defaultSessionVisibleTimeButton.isEnabled()
+                                       && customSessionVisibleTimeButton.isEnabled()
+                                       // ...&&...
+                                       && closingSessionEmailReminderButton.isEnabled()
+                                       && publishedSessionEmailReminderButton.isEnabled();
         
-        isEditSessionEnabled &= closingSessionEmailReminderButton.isEnabled();
-        isEditSessionEnabled &= publishedSessionEmailReminderButton.isEnabled();
-        
-        if (!neverSessionVisibleTimeButton.isSelected()) {
-            isEditSessionEnabled &= gracePeriodDropdown.isEnabled();
-            isEditSessionEnabled &= startDateBox.isEnabled() && startTimeDropdown.isEnabled();
-            isEditSessionEnabled &= endDateBox.isEnabled() && endTimeDropdown.isEnabled();
-            
-            isEditSessionEnabled &= defaultResultsVisibleTimeButton.isEnabled();
-            isEditSessionEnabled &= customResultsVisibleTimeButton.isEnabled();
-            isEditSessionEnabled &= manualResultsVisibleTimeButton.isEnabled();
-            isEditSessionEnabled &= neverResultsVisibleTimeButton.isEnabled();
+        if (isEditSessionEnabled && !neverSessionVisibleTimeButton.isSelected()) {
+            isEditSessionEnabled = gracePeriodDropdown.isEnabled()
+                                   && startDateBox.isEnabled() && startTimeDropdown.isEnabled()
+                                   && endDateBox.isEnabled() && endTimeDropdown.isEnabled()
+                                   // ...&&...
+                                   && defaultResultsVisibleTimeButton.isEnabled()
+                                   && customResultsVisibleTimeButton.isEnabled()
+                                   && manualResultsVisibleTimeButton.isEnabled()
+                                   && neverResultsVisibleTimeButton.isEnabled();
         }
         
         return isEditSessionEnabled;
