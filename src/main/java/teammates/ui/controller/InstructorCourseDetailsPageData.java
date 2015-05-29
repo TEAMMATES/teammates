@@ -24,46 +24,45 @@ public class InstructorCourseDetailsPageData extends PageData {
     public List<InstructorAttributes> instructors;
     public String studentListHtmlTableAsString;
     
-    
-    public String getInstructorCourseRemindLink(){
+    public String getInstructorCourseRemindLink() {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_REMIND;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseDetails.course.id);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseDetails.course.id);
         link = addUserIdToUrl(link);
         return link;
     }
     
     
-    public String getCourseStudentDetailsLink(StudentAttributes student){
+    public String getCourseStudentDetailsLink(StudentAttributes student) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseDetails.course.id);
-        link = Url.addParamToUrl(link,Const.ParamsNames.STUDENT_EMAIL,student.email);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseDetails.course.id);
+        link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, student.email);
         link = addUserIdToUrl(link);
         return link;
     }
     
     
-    public String getCourseStudentEditLink(StudentAttributes student){
+    public String getCourseStudentEditLink(StudentAttributes student) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseDetails.course.id);
-        link = Url.addParamToUrl(link,Const.ParamsNames.STUDENT_EMAIL,student.email);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseDetails.course.id);
+        link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, student.email);
         link = addUserIdToUrl(link);
         return link;
     }
     
     
-    public String getCourseStudentRemindLink(StudentAttributes student){
+    public String getCourseStudentRemindLink(StudentAttributes student) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_REMIND;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseDetails.course.id);
-        link = Url.addParamToUrl(link,Const.ParamsNames.STUDENT_EMAIL,student.email);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseDetails.course.id);
+        link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, student.email);
         link = addUserIdToUrl(link);
         return link;
     }
     
     
-    public String getCourseStudentDeleteLink(StudentAttributes student){
+    public String getCourseStudentDeleteLink(StudentAttributes student) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseDetails.course.id);
-        link = Url.addParamToUrl(link,Const.ParamsNames.STUDENT_EMAIL,student.email);
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseDetails.course.id);
+        link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, student.email);
         link = addUserIdToUrl(link);
         return link;
     }
@@ -71,8 +70,7 @@ public class InstructorCourseDetailsPageData extends PageData {
     public String getStudentRecordsLink(StudentAttributes student) {
         String link = Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, student.course);
-        link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL,
-                student.email);
+        link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, student.email);
         link = addUserIdToUrl(link);
         return link;
     }
