@@ -266,6 +266,7 @@ function getQuestionTypeNumbers(qnType) {
 
 function updateConstSumMessages() {
     var constSumQuestionNums = getQuestionTypeNumbers('CONSTSUM');
+
     for (var i = 0; i < constSumQuestionNums.length; i++) {
         var qnNum = constSumQuestionNums[i];
         updateConstSumMessageQn(qnNum);
@@ -431,7 +432,7 @@ function formatRecipientLists() {
                     .not(this)
                     // leave this in double quotes and single within, will fail otherwise
                     .find("option[value='" + selectedOption + "']")
-                    .hide();
+                        .hide();
             }
         }
 
@@ -447,7 +448,7 @@ function formatRecipientLists() {
                 .not(this)
                 // leave this in double quotes and single within, will fail otherwise
                 .find("option[value='" + lastSelectedOption + "']")
-                .show();
+                    .show();
         }
 
         if (curSelectedOption !== '') {
@@ -456,7 +457,7 @@ function formatRecipientLists() {
                 .not(this)
                 // leave this in double quotes and single within, will fail otherwise
                 .find("option[value='" + curSelectedOption + "']")
-                .hide();
+                    .hide();
         }
 
         // Save new data
