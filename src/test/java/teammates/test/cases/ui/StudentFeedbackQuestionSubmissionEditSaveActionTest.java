@@ -15,8 +15,10 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackQuestionsDb;
 import teammates.storage.api.FeedbackResponsesDb;
+import teammates.storage.api.FeedbackSessionsDb;
 import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.StudentFeedbackQuestionSubmissionEditSaveAction;
 
@@ -32,6 +34,8 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
+        FeedbackSessionsDb feedbackSessionDb = new FeedbackSessionsDb();
+
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
 
@@ -139,7 +143,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
         };
 
         saveAction = getAction(submissionParams);
-        pageResult = (RedirectResult)saveAction.executeAndPostProcess();
+        pageResult = (RedirectResult) saveAction.executeAndPostProcess();
 
         assertEquals(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, pageResult.destination);
         assertFalse(pageResult.isError);
@@ -165,7 +169,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
         };
 
         saveAction = getAction(submissionParams);
-        pageResult = (RedirectResult)saveAction.executeAndPostProcess();
+        pageResult = (RedirectResult) saveAction.executeAndPostProcess();
 
         assertEquals(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, pageResult.destination);
         assertFalse(pageResult.isError);
@@ -192,7 +196,7 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
         };
 
         saveAction = getAction(submissionParams);
-        pageResult = (RedirectResult)saveAction.executeAndPostProcess();
+        pageResult = (RedirectResult) saveAction.executeAndPostProcess();
 
         assertEquals(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, pageResult.destination);
         assertFalse(pageResult.isError);
@@ -212,7 +216,6 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
                 .getFeedbackResponse(feedbackQuestion.getId(), student1InCourse1.email, feedbackResponse.recipientEmail);
         assertEquals("new response", feedbackResponse.getResponseDetails().getAnswerString());
 
-
         ______TS("invalid feedback recipient");
 
         submissionParams = new String[]{
@@ -230,13 +233,79 @@ public class StudentFeedbackQuestionSubmissionEditSaveActionTest extends BaseAct
         };
 
         saveAction = getAction(submissionParams);
-        pageResult = (RedirectResult)saveAction.executeAndPostProcess();
+        pageResult = (RedirectResult) saveAction.executeAndPostProcess();
 
         assertEquals(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, pageResult.destination);
         assertTrue(pageResult.isError);
         assertNull(feedbackResponsesDb
                        .getFeedbackResponse(feedbackQuestion.getId(), student1InCourse1.email,
                                             "invalid response recipient"));
+
+        ______TS("Closed Session");
+        
+        session1InCourse1.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
+        feedbackSessionDb.updateFeedbackSession(session1InCourse1);
+
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, feedbackResponse.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                session1InCourse1.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1",
+                feedbackQuestion.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0",
+                feedbackResponse.recipientEmail,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1",
+                feedbackQuestion.questionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Qn Answer",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0",
+                feedbackResponse.getId()
+        };
+
+        saveAction = getAction(submissionParams);
+        pageResult = (RedirectResult) saveAction.executeAndPostProcess();
+
+        assertEquals(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, pageResult.destination);
+        assertTrue(pageResult.isError);
+        assertEquals(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN, pageResult.getStatusMessage());
+
+        ______TS("Grace Period");
+
+        StudentAttributes student4InCourse1 = dataBundle.students.get("student4InCourse1");
+        FeedbackSessionAttributes gracePeriodSession = dataBundle.feedbackSessions.get("gracePeriodSession");
+        
+        gracePeriodSession.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
+        feedbackSessionDb.updateFeedbackSession(gracePeriodSession);
+
+        feedbackQuestion = feedbackQuestionsDb
+                .getFeedbackQuestion(gracePeriodSession.feedbackSessionName, gracePeriodSession.courseId, 1);
+
+        feedbackResponse = feedbackResponsesDb
+                .getFeedbackResponse(feedbackQuestion.getId(), student4InCourse1.email, 
+                                     "Team 1.2");
+
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, feedbackResponse.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME,
+                gracePeriodSession.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1",
+                feedbackQuestion.getId(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0",
+                feedbackResponse.recipientEmail,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1",
+                feedbackQuestion.questionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", "Qn Answer",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0",
+                feedbackResponse.getId()
+        };
+
+        saveAction = getAction(submissionParams);
+        pageResult = (RedirectResult) saveAction.executeAndPostProcess();
+
+        assertEquals(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE, pageResult.destination);
+        assertFalse(pageResult.isError);
+        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSES_SAVED, pageResult.getStatusMessage());
     }
 
     private StudentFeedbackQuestionSubmissionEditSaveAction getAction(String... params) throws Exception {

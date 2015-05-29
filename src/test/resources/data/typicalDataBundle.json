@@ -976,7 +976,7 @@
         "response1GracePeriodFeedback":{
             "feedbackSessionName":"Grace Period Session",
             "courseId":"idOfTypicalCourse1",
-            "feedbackQuestionId":"2",
+            "feedbackQuestionId":"1",
             "feedbackQuestionType":"TEXT",
             "giverEmail":"student4InCourse1@gmail.tmt",
             "recipientEmail":"Team 1.2",
