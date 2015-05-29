@@ -33,7 +33,7 @@ $(document).ready(function() {
     	idOfOtherOptionText = "otherOptionText" + $(this).attr("name").substr($(this).attr("name").search("-"));
     	idOfOtherOptionFlag = "otherOptionFlag" + $(this).attr("name").substr($(this).attr("name").search("-"));
     
-	    if($(this).attr('data-text-id') == "otherOptionText") {
+	    if($(this).data('text') == "otherOptionText") {
 	    	// Other option is selected by the student
 	    	$('#'+idOfOtherOptionText).removeAttr('disabled');
 	    	$('#'+idOfOtherOptionFlag).val("1");
