@@ -49,4 +49,8 @@ public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
     public Boolean isOtherOptionAnswer() {
         return isOther;
     }
+    
+    public String getOtherFieldContent() {
+        return otherFieldContent;
+    }
 }
