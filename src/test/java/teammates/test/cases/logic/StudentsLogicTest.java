@@ -7,7 +7,6 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.mail.internet.MimeMessage;
 
 import org.testng.annotations.AfterClass;
@@ -26,6 +25,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributesFactory;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentProfileAttributes;
+import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -80,6 +80,8 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         testIsStudentInTeam();
         testIsStudentsInSameTeam();
         
+        testGetTeamForStudent();
+        
         testEnrollStudent();
         testAdjustFeedbackResponseForEnrollments();
 
@@ -91,7 +93,10 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         testEnrollStudents();
         
         testSendRegistrationInviteForCourse();
+        
         testDeleteStudent();
+        
+        
     }
 
     /*
@@ -99,6 +104,28 @@ public class StudentsLogicTest extends BaseComponentTestCase{
      * This is because it uses Task Queues for scheduling and therefore has to be
      * tested in a separate class.
      */
+
+    public void testGetTeamForStudent() {
+        ______TS("Typical case: get team of existing student");
+        
+        String courseId = "idOfTypicalCourse1";
+        String googleId = "student1InCourse1";
+        StudentAttributes student = StudentsLogic.inst().getStudentForCourseIdAndGoogleId(courseId, googleId);
+        TeamDetailsBundle team = StudentsLogic.inst().getTeamDetailsForStudent(student);
+        
+        assertEquals("Team 1.1", team.name);
+        assertTrue(team.students != null);
+        assertEquals(4, team.students.size());
+        
+        ______TS("Typical case: get team of non-existing student");
+        courseId = "idOfTypicalCourse1";
+        googleId = "idOfNonExistingStudent";
+        student = StudentsLogic.inst().getStudentForCourseIdAndGoogleId(courseId, googleId);
+        team = StudentsLogic.inst().getTeamDetailsForStudent(student);
+        
+        assertEquals(null, team);
+
+    }
 
     public void testEnrollStudent() throws Exception {
 

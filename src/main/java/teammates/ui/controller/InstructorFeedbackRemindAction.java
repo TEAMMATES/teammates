@@ -8,7 +8,6 @@ public class InstructorFeedbackRemindAction extends InstructorFeedbacksPageActio
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         
@@ -21,8 +20,8 @@ public class InstructorFeedbackRemindAction extends InstructorFeedbacksPageActio
         
         statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_REMINDERSSENT);
         statusToAdmin = "Email sent out to all students who have not completed " +
-                "Feedback Session <span class=\"bold\">(" + feedbackSessionName + ")</span> " +
-                "of Course <span class=\"bold\">[" + courseId + "]</span>";
+                        "Feedback Session <span class=\"bold\">(" + feedbackSessionName + 
+                        ")</span> " + "of Course <span class=\"bold\">[" + courseId + "]</span>";
         
         return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
     }
