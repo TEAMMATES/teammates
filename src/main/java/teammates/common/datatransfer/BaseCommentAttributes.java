@@ -12,8 +12,7 @@ import teammates.common.util.FieldValidator.FieldType;
 
 import com.google.appengine.api.datastore.Text;
 
-public abstract class BaseCommentAttributes extends EntityAttributes implements
-        Comparable<BaseCommentAttributes> {
+public abstract class BaseCommentAttributes extends EntityAttributes implements Comparable<BaseCommentAttributes> {
 
     public String courseId;
     public String giverEmail;
@@ -93,14 +92,11 @@ public abstract class BaseCommentAttributes extends EntityAttributes implements
     }
 
     public String getEditedAtTextForInstructor(Boolean isGiverAnonymous) {
-        return getEditedAtText(isGiverAnonymous, this.lastEditorEmail,
-                               TimeHelper.formatTime(this.lastEditedAt));
+        return getEditedAtText(isGiverAnonymous, this.lastEditorEmail, TimeHelper.formatTime(this.lastEditedAt));
     }
 
-    public String getEditedAtTextForStudent(Boolean isGiverAnonymous,
-                                    String displayGiverAs) {
-        return getEditedAtText(isGiverAnonymous, displayGiverAs,
-                               TimeHelper.formatDate(this.lastEditedAt));
+    public String getEditedAtTextForStudent(Boolean isGiverAnonymous, String displayGiverAs) {
+        return getEditedAtText(isGiverAnonymous, displayGiverAs, TimeHelper.formatDate(this.lastEditedAt));
     }
 
 }

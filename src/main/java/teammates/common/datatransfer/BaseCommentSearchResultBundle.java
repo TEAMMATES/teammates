@@ -12,9 +12,9 @@ public abstract class BaseCommentSearchResultBundle extends SearchResultBundle {
     public BaseCommentSearchResultBundle() {
 
     }
-    
+
     public abstract BaseCommentSearchResultBundle fromResults(Results<ScoredDocument> results, String googleId);
-    
+
     public int getResultSize() {
         return numberOfResults;
     }

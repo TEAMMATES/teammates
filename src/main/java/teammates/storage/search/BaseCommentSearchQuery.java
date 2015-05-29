@@ -11,8 +11,7 @@ import com.google.appengine.api.search.QueryOptions;
 
 public abstract class BaseCommentSearchQuery extends SearchQuery {
 
-    public BaseCommentSearchQuery(String googleId, String queryString,
-            String cursorString) {
+    public BaseCommentSearchQuery(String googleId, String queryString, String cursorString) {
         Cursor cursor = cursorString.isEmpty()
                       ? Cursor.newBuilder().build()
                       : Cursor.newBuilder().build(cursorString);
@@ -36,7 +35,7 @@ public abstract class BaseCommentSearchQuery extends SearchQuery {
         courseIdLimit.append(")");
         finishVisibilityQueryString(courseIdLimit, instructorRoles);
     }
-    
+
     protected abstract void finishVisibilityQueryString(StringBuilder sb,
                                                         List<InstructorAttributes> instructorRoles);
 

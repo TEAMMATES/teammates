@@ -49,8 +49,7 @@ public abstract class BaseCommentSearchDocument extends SearchDocument {
         searchableTextBuilder.append(comment.courseId).append(delim);
         searchableTextBuilder.append(course != null ? course.name : "").append(delim);
         searchableTextBuilder.append(comment.giverEmail).append(delim);
-        searchableTextBuilder.append(giverAsInstructor != null ? giverAsInstructor.name : "")
-                             .append(delim);
+        searchableTextBuilder.append(giverAsInstructor != null ? giverAsInstructor.name : "").append(delim);
         searchableTextBuilder.append(comment.commentText.getValue()).append(delim);
         return searchableTextBuilder;
     }

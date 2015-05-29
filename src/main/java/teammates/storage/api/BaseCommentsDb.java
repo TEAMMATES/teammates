@@ -25,9 +25,11 @@ import teammates.storage.entity.BaseComment;
 import teammates.storage.entity.Comment;
 
 public abstract class BaseCommentsDb extends EntitiesDb {
-    
+
     public abstract String getUpdateError();
+
     public abstract String getReadError();
+
     private static final Logger log = Utils.getLogger();
 
     /**
@@ -35,7 +37,8 @@ public abstract class BaseCommentsDb extends EntitiesDb {
      * @param commentsToAdd
      * @throws InvalidParametersException
      */
-    public void createComments(Collection<? extends BaseCommentAttributes> commentsToAdd) throws InvalidParametersException {
+    public void createComments(Collection<? extends BaseCommentAttributes> commentsToAdd)
+                throws InvalidParametersException {
         List<EntityAttributes> commentsToUpdate = createEntities(commentsToAdd);
         for (EntityAttributes entity : commentsToUpdate) {
             BaseCommentAttributes bca = (BaseCommentAttributes) entity;
@@ -88,7 +91,6 @@ public abstract class BaseCommentsDb extends EntitiesDb {
     /**
      * Get comment for comment's id.<br>
      * Precondition: all parameters are non-null.
-     * 
      * @return null if not found.
      */
     public BaseCommentAttributes getComment(Long commentId) {
@@ -134,7 +136,6 @@ public abstract class BaseCommentsDb extends EntitiesDb {
 
     /**
      * Remove search document for the given comment
-     * 
      * @param commentToDelete
      */
     public void deleteDocument(BaseCommentAttributes commentToDelete) {
@@ -200,7 +201,6 @@ public abstract class BaseCommentsDb extends EntitiesDb {
     /**
      * Get comments for a giver email.<br>
      * Precondition: all parameters are non-null.
-     * 
      * @return Null if not found.
      */
     public List<? extends BaseCommentAttributes> getCommentsForGiver(String courseId, String giverEmail) {
