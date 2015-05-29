@@ -167,10 +167,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         return isCorrectCourseId && isCorrectFeedbackSessionName && containsExpectedPageContents();
     }
     
-    public void fillInstructionsBox(String instructions) {
-        fillTextBox(instructionsTextBox, instructions);
-    }
-    
     public void fillQuestionBox(String qnText) {
         fillTextBox(questionTextBox, qnText);
     }
@@ -321,14 +317,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void clickEditUncommonSettingsButton() {
         uncommonSettingsButton.click();
-    }
-    
-    public void clickCustomVisibleTimeButton() {
-        customSessionVisibleTimeButton.click();
-    }
-
-    public void clickCustomPublishTimeButton() {
-        customResultsVisibleTimeButton.click();
     }
     
     public void clickDefaultVisibleTimeButton() {
@@ -552,10 +540,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void selectRecipientsToBeStudents() {
         selectDropdownByVisibleValue(recipientDropdown, "Other students in the course");
-    }
-    
-    public void selectRecipientsToBeNobodySpecific() {
-        selectDropdownByVisibleValue(recipientDropdown, "Nobody specific (For general class feedback)");
     }
     
     public void editFeedbackSession(Date startTime, Date endTime, Text instructions, int gracePeriod) {
