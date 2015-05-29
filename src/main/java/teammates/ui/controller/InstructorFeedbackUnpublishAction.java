@@ -35,6 +35,7 @@ public class InstructorFeedbackUnpublishAction extends InstructorFeedbacksPageAc
         }
 
         nextUrl = nextUrl == null ? Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE : nextUrl;
+
         return createRedirectResult(nextUrl);
     }
 }
