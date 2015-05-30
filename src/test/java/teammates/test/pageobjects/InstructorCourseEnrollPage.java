@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-
 public class InstructorCourseEnrollPage extends AppPage {
     
     @FindBy(id = "spreadsheet_download")
@@ -25,8 +24,8 @@ public class InstructorCourseEnrollPage extends AppPage {
         return getPageSource().contains("<h1>Enroll Students for");
     }
 
-    public InstructorCourseEnrollPage verifyIsCorrectPage(String courseId){
-        getPageSource().contains("Enroll Students for "+courseId);
+    public InstructorCourseEnrollPage verifyIsCorrectPage(String courseId) {
+        getPageSource().contains("Enroll Students for " + courseId);
         return this;
     }
 
@@ -40,8 +39,10 @@ public class InstructorCourseEnrollPage extends AppPage {
 
     public String getSpreadsheetLink() {
         String link = spreadsheetLink.getAttribute("href");
-        if (!link.startsWith("http"))
+        if (!link.startsWith("http")) {
             return link;
+        }
+        
         String[] tokens = link.split("/");
         String result = "";
         for (int i = 3; i < tokens.length; i++) {
@@ -63,5 +64,4 @@ public class InstructorCourseEnrollPage extends AppPage {
         waitForPageToLoad();
         return this;
     }
-
 }
