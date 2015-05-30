@@ -118,6 +118,25 @@ public class InstructorCourseArchiveActionTest extends BaseActionTest {
         expectedLogSegment = "Course unarchived: " + courseId;
         AssertHelper.assertContains(expectedLogSegment, unarchiveAction.getLogMessage());
         
+        ______TS("Rare case: unarchive an active course, no next URL, redirect to Courses page");
+        
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ARCHIVE_STATUS, "false",
+        };
+        
+        unarchiveAction = getAction(submissionParams);
+        redirectResult = getRedirectResult(unarchiveAction);
+        
+        assertEquals(Const.ActionURIs.INSTRUCTOR_COURSES_PAGE + "?error=false&user=idOfInstructor1OfCourse1", 
+                     redirectResult.getDestinationWithParams());
+        assertEquals(false, redirectResult.isError);
+        assertEquals(String.format(Const.StatusMessages.COURSE_UNARCHIVED, courseId), 
+                     redirectResult.getStatusMessage());
+        
+        expectedLogSegment = "Course unarchived: " + courseId;
+        AssertHelper.assertContains(expectedLogSegment, unarchiveAction.getLogMessage());
+        
         ______TS("Masquerade mode: archive course, redirect to Courses page");
         
         gaeSimulation.loginAsAdmin("admin.user");
