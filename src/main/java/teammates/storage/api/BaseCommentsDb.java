@@ -57,8 +57,8 @@ public abstract class BaseCommentsDb extends EntitiesDb {
      * @throws InvalidParametersException 
      * @throws EntityDoesNotExistException 
      */
-    protected BaseCommentAttributes updateComment(BaseCommentAttributes newAttributes)
-                                    throws EntityDoesNotExistException, InvalidParametersException {
+    public BaseCommentAttributes updateComment(BaseCommentAttributes newAttributes)
+                                 throws EntityDoesNotExistException, InvalidParametersException {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
         newAttributes.sanitizeForSaving();
         if (!newAttributes.isValid()) {
@@ -183,6 +183,8 @@ public abstract class BaseCommentsDb extends EntitiesDb {
 
     protected abstract BaseCommentSearchResultBundle getNewSearchResultBundle();
 
+    public abstract void updateInstructorEmail(String courseId, String oldInstrEmail, String updatedInstrEmail);
+
     public void updateGiverEmailOfComment(String courseId, String oldEmail, String updatedEmail) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, oldEmail);
@@ -253,6 +255,17 @@ public abstract class BaseCommentsDb extends EntitiesDb {
         getPM().flush();
     }
 
+    /*
+     * Delete comments given by certain instructor
+     */
+    public void deleteCommentsForInstructorEmail(String courseId, String instructorEmail) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, instructorEmail);
+        List<? extends BaseComment> giverComments = getCommentEntitiesForGiver(courseId, instructorEmail);
+        getPM().deletePersistentAll(giverComments);
+        getPM().flush();
+    }
+
     protected abstract List<? extends BaseComment> getCommentEntitiesForCourse(String courseIds);
 
     protected BaseComment getEntity(EntityAttributes attributes) {
@@ -304,6 +317,9 @@ public abstract class BaseCommentsDb extends EntitiesDb {
         return getAttributesListFromEntitiesList(entities);
     }
 
+    @Deprecated
+    public abstract List<? extends BaseCommentAttributes> getAllComments();
+
     protected List<? extends BaseComment> getCommentsWithoutDeletedEntity(List<? extends BaseComment> bcList) {
         List<BaseComment> resultList = new ArrayList<BaseComment>();
         for (BaseComment frc : bcList) {
@@ -313,5 +329,7 @@ public abstract class BaseCommentsDb extends EntitiesDb {
         }
         return resultList;
     }
+    
+    public abstract void putDocument(BaseCommentAttributes bca);
 
 }

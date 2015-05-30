@@ -227,6 +227,10 @@ public class FeedbackResponseCommentsDb extends BaseCommentsDb {
         return frc;
     }
     
+    public void updateInstructorEmail(String courseId, String oldInstrEmail, String updatedInstrEmail) {
+        updateGiverEmailOfFeedbackResponseComments(courseId, oldInstrEmail, updatedInstrEmail);
+    }
+    
     /*
      * Update giver email (normally an instructor email) with the new one
      */
@@ -251,8 +255,9 @@ public class FeedbackResponseCommentsDb extends BaseCommentsDb {
     /*
      * Create or update search document for the given comment
      */
-    public void putDocument(FeedbackResponseCommentAttributes comment){
-        putDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, new FeedbackResponseCommentSearchDocument(comment));
+    public void putDocument(BaseCommentAttributes comment){
+        putDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT,
+                    new FeedbackResponseCommentSearchDocument((FeedbackResponseCommentAttributes) comment));
     }
     
     protected Results<ScoredDocument> getSearchResult(String googleId, String queryString, String cursorString) {
@@ -265,8 +270,13 @@ public class FeedbackResponseCommentsDb extends BaseCommentsDb {
     }
     
     @Deprecated
-    @SuppressWarnings("unchecked")
     public List<FeedbackResponseCommentAttributes> getAllFeedbackResponseComments() {
+        return getAllComments();
+    }
+    
+    @Deprecated
+    @SuppressWarnings("unchecked")
+    public List<FeedbackResponseCommentAttributes> getAllComments() {
         return (List<FeedbackResponseCommentAttributes>) super.getAllComments(FeedbackResponseComment.class.getName());
     }
     

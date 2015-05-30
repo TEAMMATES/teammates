@@ -2184,7 +2184,8 @@ public class Logic {
     }
     
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForGiver(String courseId, 
-                                                                                      String giverEmail) {
+                                                                                      String giverEmail) 
+                                                   throws EntityDoesNotExistException {
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(giverEmail);
         

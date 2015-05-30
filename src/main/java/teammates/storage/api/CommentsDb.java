@@ -225,23 +225,13 @@ public class CommentsDb extends BaseCommentsDb {
         getPM().close();
     }
     
-    /*
-     * Delete comments given by certain instructor
-     */
     public void deleteCommentsByInstructorEmail(String courseId, String email) {
-        
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
-        
-        List<Comment> giverComments = this.getCommentEntitiesForGiver(courseId, email);
+        super.deleteCommentsForInstructorEmail(courseId, email);
         // for now, this list is empty
+        // need to modify methods if below is implemented to be non-empty
 //        List<Comment> recipientComments = this.getCommentEntitiesForRecipients(courseId, 
 //                CommentRecipientType.INSTRUCTOR, email);
 //        getPM().deletePersistentAll(recipientComments);
-        
-        getPM().deletePersistentAll(giverComments);
-        
-        getPM().flush();
     }
     
     /*
@@ -296,8 +286,8 @@ public class CommentsDb extends BaseCommentsDb {
     /*
      * Create or update search document for the given comment
      */
-    public void putDocument(CommentAttributes comment) {
-        putDocument(Const.SearchIndex.COMMENT, new CommentSearchDocument(comment));
+    public void putDocument(BaseCommentAttributes comment) {
+        putDocument(Const.SearchIndex.COMMENT, new CommentSearchDocument((CommentAttributes) comment));
     }
     
     protected Results<ScoredDocument> getSearchResult(String googleId, String queryString, String cursorString) {
