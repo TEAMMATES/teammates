@@ -14,6 +14,18 @@ $(document).ready(function() {
         validationStatus &= validateConstSumQuestions();
         validationStatus &= validateAllAnswersHaveRecipient();
         
+        //$(this).val($('#otherOptionText' + indexSuffix).val());
+        var mcqQuestionNums = getQuestionTypeNumbers('MCQ');
+        
+        for (var i = 0; i < mcqQuestionNums.length; i++) {
+            var qnNum = mcqQuestionNums[i];
+            var numResponses = $('[name="questionresponsetotal-' + qnNum + '"]').val();
+
+            for (var j = 0; j < numResponses; j++) {
+            	$('[data-text="otherOptionText"][name="responsetext-' + qnNum + '-' + j + '"]')
+            	     .val($('#otherOptionText-' + qnNum + '-' + j).val());
+            }
+        }
         if (!validationStatus) {
             return false;
         }
@@ -101,10 +113,28 @@ function prepareMCQQuestions() {
             radioButtons[id].click(function(event) {
                 var val = $(this).val();
                 var name = $(this).attr('name');
-                
+                var indexSuffix = name.substring(name.indexOf("-"));
+          
                 // toggle the radio button checked state
                 $(this).attr('checked',
                              (radioStates[name][val] = !radioStates[name][val]));
+                
+                // If the radio button corresponding to 'Other' is clicked
+                if ($(this).data('text') == "otherOptionText") {
+                	if ($(this).is(':checked')) {
+                		$('#otherOptionText' + indexSuffix).removeAttr("disabled"); // enable textbox
+                		$('#mcqIsOtherOptionAnswer' + indexSuffix).val("1");               		
+                	} else {              		
+                		$('#otherOptionText' + indexSuffix).attr("disabled", "disabled"); // disable textbox
+                		$('#mcqIsOtherOptionAnswer' + indexSuffix).val("0");
+                	}               	
+                } else { // Predefined option is selected
+                	// If other option is enabled for the question
+                	if ($('#mcqIsOtherOptionAnswer' + indexSuffix).length > 0) {
+                		$('#otherOptionText' + indexSuffix).attr("disabled", "disabled"); // disable textbox
+                		$('#mcqIsOtherOptionAnswer' + indexSuffix).val("0");
+                	}
+                }
 
                 // set other radio buttons' states to false
                 $.each(radioButtons[name], function(index, radio) {
