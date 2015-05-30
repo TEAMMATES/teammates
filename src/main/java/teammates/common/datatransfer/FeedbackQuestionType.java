@@ -104,6 +104,7 @@ public enum FeedbackQuestionType {
         try {
             feedbackResponseDetails.extractResponseDetails(this, questionDetails, answer);
         } catch (Exception e) {
+            e.printStackTrace();
             Utils.getLogger().warning("Failed to extract response details.\n" + e.toString());
             return null;
         }

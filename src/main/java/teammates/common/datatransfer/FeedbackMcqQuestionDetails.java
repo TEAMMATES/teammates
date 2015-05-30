@@ -98,6 +98,10 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         return Const.FeedbackQuestionTypeNames.MCQ;
     }
     
+    public boolean getOtherEnabled() {
+        return otherEnabled;
+    }
+    
     @Override
     public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackMcqQuestionDetails newMcqDetails = (FeedbackMcqQuestionDetails) newDetails;
@@ -150,8 +154,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             "${text-disabled}", (sessionIsOpen && isOtherSelected) ? "" : "disabled=\"disabled\"",
                             "${checked}", isOtherSelected ? "checked=\"checked\"" : "",
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                            "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}", Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
                             "${mcqChoiceValue}", Sanitizer.sanitizeForHtml(existingMcqResponse.getOtherFieldContent()),
-                            "${mcqOtherOptionFlagValue}", isOtherSelected ? "1" : "0");
+                            "${mcqOtherOptionAnswer}", isOtherSelected ? "1" : "0");
             optionListHtml.append(otherOptionFragment + Const.EOL);
         } 
         String html = FeedbackQuestionFormTemplates.populateTemplate(
@@ -191,8 +196,9 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
                             "${text-disabled}", "disabled=\"disabled\"",
                             "${checked}", "",
                             "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                            "${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}", Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER,
                             "${mcqChoiceValue}", "",
-                            "${otherOptionFlagValue}", "0");
+                            "${mcqOtherOptionAnswer}", "0");
             optionListHtml.append(otherOptionFragment + Const.EOL);
         } 
         

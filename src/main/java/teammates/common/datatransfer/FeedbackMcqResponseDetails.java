@@ -18,6 +18,12 @@ public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
     public void extractResponseDetails(FeedbackQuestionType questionType,
             FeedbackQuestionDetails questionDetails, String[] answer) {
         // TODO: check and set isOther accordingly when it is implemented.
+        if (answer[1] == null) {
+            isOther = false;
+        } else {
+            isOther = answer[1].equals("1");
+        }
+        
         if(isOther){
             this.answer = "Other";
             this.otherFieldContent = answer[0];

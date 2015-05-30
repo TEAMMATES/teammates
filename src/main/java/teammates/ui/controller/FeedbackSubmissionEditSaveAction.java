@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -165,6 +166,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     private FeedbackResponseAttributes extractFeedbackResponseData(
             Map<String, String[]> requestParameters, int questionIndx, int responseIndx,
             FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        
         FeedbackQuestionDetails questionDetails = feedbackQuestionAttributes.getQuestionDetails();
         FeedbackResponseAttributes response = new FeedbackResponseAttributes();
         
@@ -214,18 +216,46 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         
         // This field can be null if the question is skipped
         String[] answer = HttpRequestHelper.getValuesFromParamMap(
-                requestParameters, 
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + questionIndx + "-" + responseIndx);
+                                               requestParameters, 
+                                               Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + questionIndx + "-" + responseIndx);
         
-        if (!questionDetails.isQuestionSkipped(answer)) {
-            FeedbackResponseDetails responseDetails = 
-                    FeedbackResponseDetails.createResponseDetails(
-                            answer,
-                            questionDetails.questionType,
-                            questionDetails);
-            response.setResponseDetails(responseDetails);
+        String isOtherOptionAnswer = HttpRequestHelper.getValueFromParamMap(
+                                                                     requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER 
+                                                                                        + "-" + questionIndx + "-" + responseIndx);    
+        
+        if (questionDetails.getQuestionTypeDisplayName().equals(Const.FeedbackQuestionTypeNames.MCQ)) {
+            if (answer != null) {
+                String[] answerWithOtherOptionFlag = new String[answer.length + 1];
+                
+                answerWithOtherOptionFlag[0] = answer[0]; // answer given by the student
+                answerWithOtherOptionFlag[1] = isOtherOptionAnswer; // "1" (other is selected) or "0" (other is not selected)
+                
+                System.out.println(Arrays.toString(answerWithOtherOptionFlag));
+                if (!questionDetails.isQuestionSkipped(answer)) {
+                    FeedbackResponseDetails responseDetails = 
+                            FeedbackResponseDetails.createResponseDetails(
+                                    answerWithOtherOptionFlag,
+                                    questionDetails.questionType,
+                                    questionDetails);
+                    response.setResponseDetails(responseDetails);
+                } else {
+                    System.out.println("here");
+                    response.responseMetaData = new Text("");
+                }
+            } else {
+                response.responseMetaData = new Text("");
+            }
         } else {
-            response.responseMetaData = new Text("");
+            if (!questionDetails.isQuestionSkipped(answer)) {
+                FeedbackResponseDetails responseDetails = 
+                        FeedbackResponseDetails.createResponseDetails(
+                                answer,
+                                questionDetails.questionType,
+                                questionDetails);
+                response.setResponseDetails(responseDetails);
+            } else {
+                response.responseMetaData = new Text("");
+            }
         }
         
         return response;

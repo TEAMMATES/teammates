@@ -9,7 +9,8 @@
         <input type="text" name="otherOptionText-${qnIdx}-${responseIdx}" id="otherOptionText-${qnIdx}-${responseIdx}" 
                ${text-disabled} value="${mcqChoiceValue}">
  
-        <input type="hidden" name="otherOptionFlag-${qnIdx}-${responseIdx}" id="otherOptionFlag-${qnIdx}-${responseIdx}" 
-               value="${mcqOtherOptionFlagValue}">
+        <input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}-${qnIdx}-${responseIdx}" 
+               id="${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}-${qnIdx}-${responseIdx}" 
+               value="${mcqOtherOptionAnswer}">
      </td>
  </tr>
