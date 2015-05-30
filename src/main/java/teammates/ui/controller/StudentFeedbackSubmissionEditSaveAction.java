@@ -9,12 +9,9 @@ import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
 public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionEditSaveAction {
-    
     @Override
     protected void verifyAccesibleForSpecificUser() {
-        new GateKeeper().verifyAccessible(
-                getStudent(),
-                logic.getFeedbackSession(feedbackSessionName, courseId));
+        new GateKeeper().verifyAccessible(getStudent(), logic.getFeedbackSession(feedbackSessionName, courseId));
     }
 
     @Override
@@ -39,24 +36,22 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
     protected String getUserEmailForCourse() {
         return getStudent().email;
     }
-    
-    @Override 
+
+    @Override
     protected String getUserSectionForCourse() {
         return getStudent().section;
     }
 
     @Override
-    protected FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse)
-            throws EntityDoesNotExistException {
-        return logic.getFeedbackSessionQuestionsBundleForStudent(
-                feedbackSessionName, courseId, userEmailForCourse);
+    protected FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse) throws EntityDoesNotExistException {
+        return logic.getFeedbackSessionQuestionsBundleForStudent(feedbackSessionName, courseId,
+                                                                 userEmailForCourse);
     }
 
     @Override
     protected void setStatusToAdmin() {
-        statusToAdmin = "Show student feedback edit result page<br>" +
-                "Session Name: " + feedbackSessionName + "<br>" +
-                "Course ID: " + courseId;
+        statusToAdmin = "Show student feedback edit result page<br>" + "Session Name: "
+                        + feedbackSessionName + "<br>" + "Course ID: " + courseId;
     }
 
     @Override
@@ -66,21 +61,21 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
 
     @Override
     protected RedirectResult createSpecificRedirectResult() {
-        
-        if(!isRegisteredStudent()){
+        if(!isRegisteredStudent()) {
             // Always remains at student feedback submission edit page if user is unregistered
             // Link given to unregistered student already contains course id & session name
-            return createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE); 
-        }else if(isError){
+            return createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);
+        } else if (isError) {
             // Return to student feedback submission edit page if there is an error and user is registered
-            RedirectResult result =  createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);
-            
+            RedirectResult result = createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE);
+
             // Provide course id and session name for the redirected page
             result.responseParams.put(Const.ParamsNames.COURSE_ID, student.course);
             result.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                    getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME));
+                                      getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME));
+
             return result;
-        }else {           
+        } else {
             // Return to student home page if there is no error and user is registered
             return  createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
        }
@@ -90,11 +85,11 @@ public class StudentFeedbackSubmissionEditSaveAction extends FeedbackSubmissionE
         if (student == null) {
             student = logic.getStudentForGoogleId(courseId, account.googleId);
         }
-        
+
         return student;
     }
-    
-    protected boolean isRegisteredStudent(){
+
+    protected boolean isRegisteredStudent() {
         // a registered student must have an associated google Id
         return (student != null) && (student.googleId != null)  && (!student.googleId.isEmpty());
     }
