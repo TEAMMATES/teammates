@@ -25,13 +25,10 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
             return isJoinedCourse(courseId, account.googleId);
         }
     }
-    
+
     @Override
     protected void verifyAccesibleForSpecificUser() {
-        
-        new GateKeeper().verifyAccessible(
-                getStudent(), 
-                logic.getFeedbackSession(feedbackSessionName, courseId));
+        new GateKeeper().verifyAccessible(getStudent(), logic.getFeedbackSession(feedbackSessionName, courseId));
     }
 
     @Override
@@ -44,18 +41,18 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
     }
 
     @Override
-    protected FeedbackSessionQuestionsBundle getDataBundle(
-            String userEmailForCourse) throws EntityDoesNotExistException {
-        FeedbackSessionQuestionsBundle questionsBundle = logic.getFeedbackSessionQuestionsBundleForStudent(
-                feedbackSessionName, courseId, userEmailForCourse);
+    protected FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse) throws EntityDoesNotExistException {
+        FeedbackSessionQuestionsBundle questionsBundle =
+                logic.getFeedbackSessionQuestionsBundleForStudent(feedbackSessionName, courseId,
+                                                                  userEmailForCourse);
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
         HashSet<String> notDisplayedInstructorEmails = new HashSet<String>();
-        
+
         // TODO: test the following 2 methods
         extractNotDisplayedInstrutorEmails(instructors, notDisplayedInstructorEmails);
-        
+
         filterSessionQuestionBundle(questionsBundle, notDisplayedInstructorEmails);
-        
+
         return questionsBundle;
     }
 
@@ -75,14 +72,18 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
             if (question.recipientType == FeedbackParticipantType.INSTRUCTORS) {
                 Map<String, String> recipients = questionsBundle.recipientList.get(question.getId());
                 List<FeedbackResponseAttributes> responses = questionsBundle.questionResponseBundle.get(question);
+
                 for (String instrEmail : notDisplayedInstructorEmails) {
                     if (recipients.containsKey(instrEmail)) {
                         recipients.remove(instrEmail);
                     }
+
                     // remove the response if response stored already
                     Iterator<FeedbackResponseAttributes> iterResponse = responses.iterator();
+
                     while (iterResponse.hasNext()) {
                         FeedbackResponseAttributes response = iterResponse.next();
+
                         if (response.recipientEmail.equals(instrEmail)) {
                             iterResponse.remove();
                         }
@@ -91,7 +92,7 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
             }
         }
     }
-    
+
     @Override
     protected boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes session) {
         return session.isOpened();
@@ -99,16 +100,15 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
 
     @Override
     protected void setStatusToAdmin() {
-        statusToAdmin = "Show student feedback submission edit page<br>" +
-                "Session Name: " + feedbackSessionName + "<br>" + 
-                "Course ID: " + courseId;
+        statusToAdmin = "Show student feedback submission edit page<br>" + "Session Name: "
+                        + feedbackSessionName + "<br>" + "Course ID: " + courseId;
     }
 
     @Override
     protected ShowPageResult createSpecificShowPageResult() {
         return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, data);
     }
-    
+
     @Override
     protected RedirectResult createSpecificRedirectResult() throws EntityDoesNotExistException {
         if (isRegisteredStudent()) {
@@ -117,15 +117,15 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
             throw new EntityDoesNotExistException("unregistered student trying to access non-existent session");
         }
     }
-    
+
     protected StudentAttributes getStudent() {
         if (student == null) {
             student = logic.getStudentForGoogleId(courseId, account.googleId);
         }
-        
+
         return student;
     }
-    
+
     protected boolean isRegisteredStudent(){
         return account.isUserRegistered();
     }
