@@ -116,6 +116,10 @@ public class InstructorCourseEnrollSaveAction extends Action {
             lists[student.updateStatus.numericRepresentation].add(student);
         }
         
+        for (int i = 0; i < StudentAttributes.UpdateStatus.STATUS_COUNT; i++) {
+            StudentAttributes.sortByNameAndThenByEmail(lists[i]);
+        }
+        
         return lists;
     }
 
