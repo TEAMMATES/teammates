@@ -1,5 +1,5 @@
 //TODO: Move constants from Common.js into appropriate files if not shared.
-var SELECT_OPTION_UNINITIALISED = -9999;
+var SELECT_OPTION_UNINITIALISED = "-9999";
 
 /**
  * Check whether the feedback question input is valid
