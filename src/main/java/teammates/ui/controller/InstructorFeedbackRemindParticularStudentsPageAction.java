@@ -13,15 +13,13 @@ public class InstructorFeedbackRemindParticularStudentsPageAction extends Action
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
+        
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertNotNull(feedbackSessionName);
         
         FeedbackSessionAttributes fsa = logic.getFeedbackSession(feedbackSessionName, courseId);
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);        
-        new GateKeeper().verifyAccessible(
-                instructor, 
-                fsa,
-                false);
+        new GateKeeper().verifyAccessible(instructor, fsa, false);
         
         InstructorFeedbackRemindParticularStudentsPageData data = new InstructorFeedbackRemindParticularStudentsPageData(account);
         data.responseStatus = logic.getFeedbackSessionResponseStatus(feedbackSessionName, courseId);

@@ -14,7 +14,7 @@ import teammates.ui.controller.InstructorStudentListAjaxPageAction;
 import teammates.ui.controller.InstructorStudentListAjaxPageData;
 
 public class InstructorStudentListAjaxPageActionTest extends BaseActionTest {
-    
+
     private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
@@ -33,29 +33,30 @@ public class InstructorStudentListAjaxPageActionTest extends BaseActionTest {
         ______TS("Unsuccessful case: not enough parameters");
 
         verifyAssumptionFailure();
-        
-        String[] submissionParams = new String[]{
+
+        String[] submissionParams = new String[] {
+
         };
-        
+
         verifyAssumptionFailure(submissionParams);
-        
+
         ______TS("typical successful case");
-        
-        submissionParams = new String[]{
+
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
         };
-        
+
         InstructorStudentListAjaxPageAction action = getAction(submissionParams);
         AjaxResult result = (AjaxResult) action.executeAndPostProcess();
-        InstructorStudentListAjaxPageData data = 
-                (InstructorStudentListAjaxPageData) result.data;
+        InstructorStudentListAjaxPageData data = (InstructorStudentListAjaxPageData) result.data;
         assertEquals(2, data.courseSectionDetails.size());
         assertTrue(data.hasSection);
         assertEquals(5, data.emailPhotoUrlMapping.values().size());
         assertEquals(instructor.courseId, data.course.id);
     }
-    
+
     private InstructorStudentListAjaxPageAction getAction(String... params) throws Exception {
         return (InstructorStudentListAjaxPageAction) (gaeSimulation.getActionObject(uri, params));
     }
+
 }

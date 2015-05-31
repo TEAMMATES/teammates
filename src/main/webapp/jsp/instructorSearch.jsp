@@ -50,7 +50,7 @@
 <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+<![endif]-->
 </head>
 <body>
     <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
@@ -64,35 +64,38 @@
             <div>
                 <form method="get" action="<%=data.getInstructorSearchLink()%>" name="search_form">
                     <div class="well well-plain">
-                    <div class="form-group">
-                        <div class="input-group">
-                            <input type="text" name="searchkey" value="<%=InstructorSearchPageData.sanitizeForHtml(data.searchKey)%>" title="Search for comment" placeholder="Your search keyword" class="form-control" id="searchBox">
-                            <span class="input-group-btn">
-                                <button class="btn btn-primary" type="submit" value="Search" id="buttonSearch">Search</button>
-                            </span>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" name="searchkey" value="<%=InstructorSearchPageData.sanitizeForHtml(data.searchKey)%>" 
+                                       title="Search for comment" placeholder="Your search keyword" class="form-control" id="searchBox">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" type="submit" value="Search" id="buttonSearch">Search</button>
+                                </span>
+                            </div>
+                            <input type="hidden" name="user" value="<%=data.account.googleId%>">
                         </div>
-                        <input type="hidden" name="user" value="<%=data.account.googleId%>">
-                    </div>
-                    <div class="form-group">
-                        <ul class="list-inline">
-                            <li>
-                                <span data-toggle="tooltip" title="Tick the checkboxes to limit your search to certain categories" class="glyphicon glyphicon-info-sign"></span>
-                            </li>
-                            <li>
-                                <input id="comments-for-student-check" type="checkbox" name="<%=Const.ParamsNames.SEARCH_COMMENTS_FOR_STUDENTS%>" value="true" <%=data.isSearchCommentForStudents?"checked":""%>>
-                                <label for="comments-for-student-check">Comments for students</label>
-                            </li>
-                            <li>
-                                <input id="comments-for-responses-check" type="checkbox" name="<%=Const.ParamsNames.SEARCH_COMMENTS_FOR_RESPONSES%>" value="true" <%=data.isSearchCommentForResponses?"checked":""%>>
-                                <label for="comments-for-responses-check">Comments for responses</label>
-                            </li>
-                            <li>
-                                <input id="students-check" type="checkbox" name="<%=Const.ParamsNames.SEARCH_STUDENTS%>" value="true" <%=data.isSearchForStudents || 
-                                (!data.isSearchCommentForStudents && !data.isSearchCommentForResponses)?"checked":""%>>
-                                <label for="students-check">Students</label>
-                            </li>
-                        </ul>
-                    </div>
+                        <div class="form-group">
+                            <ul class="list-inline">
+                                <li>
+                                    <span data-toggle="tooltip" title="Tick the checkboxes to limit your search to certain categories" class="glyphicon glyphicon-info-sign"></span>
+                                </li>
+                                <li>
+                                    <input id="comments-for-student-check" type="checkbox" name="<%=Const.ParamsNames.SEARCH_COMMENTS_FOR_STUDENTS%>" 
+                                           value="true" <%=data.isSearchCommentForStudents?"checked":""%>>
+                                    <label for="comments-for-student-check">Comments for students</label>
+                                </li>
+                                <li>
+                                    <input id="comments-for-responses-check" type="checkbox" name="<%=Const.ParamsNames.SEARCH_COMMENTS_FOR_RESPONSES%>" 
+                                           value="true" <%=data.isSearchCommentForResponses?"checked":""%>>
+                                    <label for="comments-for-responses-check">Comments for responses</label>
+                                </li>
+                                <li>
+                                    <input id="students-check" type="checkbox" name="<%=Const.ParamsNames.SEARCH_STUDENTS%>" value="true" 
+                                           <%=data.isSearchForStudents || (!data.isSearchCommentForStudents && !data.isSearchCommentForResponses)?"checked":""%>>
+                                    <label for="students-check">Students</label>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -119,8 +122,7 @@
                                     commentIdx++;
                             %>
                             <li class="list-group-item list-group-item-warning"
-                                class="form_comment"
-                                id="form_commentedit-<%=commentIdx%>">
+                                class="form_comment" id="form_commentedit-<%=commentIdx%>">
                                 <div id="commentBar-<%=commentIdx%>">
                                     <span class="text-muted">To <b><%=recipientDisplay%></b> on
                                         <%=TimeHelper.formatTime(comment.createdAt)%></span>
@@ -142,7 +144,7 @@
             </div>
             <% } %>
 
-            <% if(data.feedbackResponseCommentSearchResultBundle.getResultSize() != 0) { %>
+            <% if (data.feedbackResponseCommentSearchResultBundle.getResultSize() != 0) { %>
             <br>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -153,50 +155,63 @@
                     Set<String> emailList = data.feedbackResponseCommentSearchResultBundle.instructorEmails;
                     
                     Iterator iter = data.feedbackResponseCommentSearchResultBundle.questions.entrySet().iterator();
+                    
                     while(iter.hasNext()) {
                         Entry entry = (Entry) iter.next();
                         String fsName = (String) entry.getKey();
                         List<FeedbackQuestionAttributes> questionList = data.feedbackResponseCommentSearchResultBundle.questions.get(fsName);
-                        for(int i = questionList.size() - 1; i >= 0; i--) {
+                        
+                        for (int i = questionList.size() - 1; i >= 0; i--) {
                                 FeedbackQuestionAttributes question = questionList.get(i);
-                                List<FeedbackResponseAttributes> responseList = data.feedbackResponseCommentSearchResultBundle.responses.get(question.getId());
-                                for(int j = responseList.size() - 1; j >= 0; j--){
+                                List<FeedbackResponseAttributes> responseList = data.feedbackResponseCommentSearchResultBundle
+                                                                                       .responses.get(question.getId());
+                                
+                                for (int j = responseList.size() - 1; j >= 0; j--){
                                     FeedbackResponseAttributes feedbackResponse = responseList.get(j);
-                                    List<FeedbackResponseCommentAttributes> commentList = data.feedbackResponseCommentSearchResultBundle.comments.get(feedbackResponse.getId());
-                                    for(int k = commentList.size() - 1;  k >= 0; k--){
+                                    List<FeedbackResponseCommentAttributes> commentList = data.feedbackResponseCommentSearchResultBundle
+                                                                                            .comments.get(feedbackResponse.getId());
+                                    
+                                    for (int k = commentList.size() - 1;  k >= 0; k--) {
                                         FeedbackResponseCommentAttributes comment = commentList.get(k);
-                                        if(emailList.contains(comment.giverEmail)){
+                                        
+                                        if (emailList.contains(comment.giverEmail)) {
                                             continue;
                                         }
+                                        
                                         boolean isVisibilityFollowingFeedbackQuestion = comment.isVisibilityFollowingFeedbackQuestion;
-                                        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion? true: comment.isVisibleTo(FeedbackParticipantType.GIVER);
-                                        if(isVisibleToGiver && emailList.contains(feedbackResponse.giverEmail)){
+                                        boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion? true : 
+                                            comment.isVisibleTo(FeedbackParticipantType.GIVER);
+                                        
+                                        if (isVisibleToGiver && emailList.contains(feedbackResponse.giverEmail)) {
                                             continue;
                                         }
+                                        
                                         boolean isVisibleToReceiver = isVisibilityFollowingFeedbackQuestion? 
                                                     question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER): 
                                                         comment.isVisibleTo(FeedbackParticipantType.RECEIVER);
+                                        
                                         if(isVisibleToReceiver && emailList.contains(feedbackResponse.recipientEmail)){
                                             continue;
                                         }
+                                        
                                         boolean isVisibleToInstructor = isVisibilityFollowingFeedbackQuestion? 
                                                     question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS): 
                                                         comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
-                                        if(isVisibleToInstructor){
+                                                    
+                                        if (isVisibleToInstructor) {
                                             continue;
                                         }
-
                                         commentList.remove(k);
-                                    }
-                                    if(commentList.size() == 0){
+                                    }                                   
+                                    if (commentList.size() == 0) {
                                         responseList.remove(j);
                                     }
-                                }
-                                if(responseList.size() == 0){
+                                }                             
+                                if (responseList.size() == 0) {
                                     questionList.remove(i);
                                 }
-                            }
-                        if(questionList.size() == 0){
+                            }                        
+                        if (questionList.size() == 0) {
                             iter.remove();
                         }
                     }
@@ -233,40 +248,41 @@
                                             String recipientName = data.feedbackResponseCommentSearchResultBundle.responseRecipientTable.get(responseEntry.getId());
                                     %>
                                     <tr>
-                                        <td><b>From:</b> <%=giverName%>
+                                        <td>
+                                            <b>From:</b> <%=giverName%>
                                             <b>To:</b> <%=recipientName%>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Response:
-                                        </strong><%=responseEntry.getResponseDetails().getAnswerHtml(question.getQuestionDetails())%>
+                                        <td>
+                                            <strong>Response:</strong>
+                                            <%=responseEntry.getResponseDetails().getAnswerHtml(question.getQuestionDetails())%>
                                         </td>
                                     </tr>
                                     <tr class="active">
-                                        <td>Comment(s):
-                                        </td>
+                                        <td>Comment(s):</td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <%
-                                                List<FeedbackResponseCommentAttributes> frcList = data.feedbackResponseCommentSearchResultBundle.comments.get(responseEntry.getId());
+                                                List<FeedbackResponseCommentAttributes> frcList = data.feedbackResponseCommentSearchResultBundle
+                                                                                                          .comments.get(responseEntry.getId());
                                             %>
-                                            <ul
-                                                class="list-group comments"
+                                            <ul class="list-group comments"
                                                 id="responseCommentTable-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>"
                                                 style="<%=frcList != null && frcList.size() > 0 ? "" : "display:none"%>">
                                                 <%
                                                     int responseCommentIndex = 0;
-                                                                for (FeedbackResponseCommentAttributes frc : frcList) {//FeedbackResponseComments loop starts
-                                                                    responseCommentIndex++;
-                                                                    String frCommentGiver = data.feedbackResponseCommentSearchResultBundle.commentGiverTable.get(frc.getId().toString());
+                                                    for (FeedbackResponseCommentAttributes frc : frcList) {//FeedbackResponseComments loop starts
+                                                        responseCommentIndex++;
+                                                        String frCommentGiver = data.feedbackResponseCommentSearchResultBundle
+                                                                                         .commentGiverTable.get(frc.getId().toString());
                                                 %>
-                                                <li
-                                                    class="list-group-item list-group-item-warning"
+                                                <li class="list-group-item list-group-item-warning"
                                                     id="responseCommentRow-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
-                                                    <div
-                                                        id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
-                                                        <span class="text-muted">From:
+                                                    <div id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
+                                                        <span class="text-muted">
+                                                            From:
                                                             <b><%=frCommentGiver%></b>
                                                             on <%=TimeHelper.formatTime(frc.createdAt)%>
                                                         </span>
@@ -276,8 +292,9 @@
                                                             <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
                                                         </a>
                                                     </div> <!-- frComment Content -->
-                                                    <div
-                                                        id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>"><%=frc.commentText.getValue()%></div>
+                                                    <div id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
+                                                        <%=frc.commentText.getValue()%>
+                                                    </div>
                                                 </li>
                                                 <%
                                                     }//FeedbackResponseComments loop ends
@@ -303,50 +320,50 @@
                 </div>
                 <% } %>
 
-            <% if(data.studentSearchResultBundle.getResultSize() != 0) { %>
+            <% if (data.studentSearchResultBundle.getResultSize() != 0) { %>
             <br>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <strong>Students</strong>
-                    </div>
-                    <div class="panel-body">
+               <div class="panel panel-primary">
+                   <div class="panel-heading">
+                       <strong>Students</strong>
+                   </div>
+                   <div class="panel-body">
 
-                <%
-                    String currentCourse = null;
-                    int studentIdx = 0;
-                    int courseIdx = -1;
-                    for (StudentAttributes student : data.studentSearchResultBundle.studentList) {
-                        studentIdx++;
-                        if(currentCourse != null && !currentCourse.equals(student.course)){
-                %>                  
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                <%
-                        }
-                        if(currentCourse == null || (currentCourse != null && !currentCourse.equals(student.course))){
-                            courseIdx++;
-                            studentIdx = 0;
-                            currentCourse = student.course;
-                %>
-                            <div class="panel panel-info">
-                                <div class="panel-heading">
-                                    <strong>[<%=currentCourse%>]</strong>
-                                </div>
-                                <div class="panel-body padding-0">
-                                    <table class="table table-responsive table-striped table-bordered margin-0">
-                                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                                            <tr>
-                                                <th>Photo</th>
-                                                <th id="button_sortsection-<%=courseIdx%>" class="button-sort-none" onclick="toggleSort(this, 1)">Section <span class="icon-sort unsorted"></th>
-                                                <th id="button_sortteam-<%=courseIdx%>" class="button-sort-none" onclick="toggleSort(this, 2)">Team <span class="icon-sort unsorted"></th>
-                                                <th id="button_sortname-<%=courseIdx%>" class="button-sort-none" onclick="toggleSort(this, 3)">Student Name <span class="icon-sort unsorted"></th>
-                                                <th id="button_sortemail-<%=courseIdx%>" class="button-sort-none" onclick="toggleSort(this, 4)">Email <span class="icon-sort unsorted"></th>
-                                                <th>Action(s)</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+               <%
+                   String currentCourse = null;
+                   int studentIdx = 0;
+                   int courseIdx = -1;
+                   for (StudentAttributes student : data.studentSearchResultBundle.studentList) {
+                       studentIdx++;
+                       if (currentCourse != null && !currentCourse.equals(student.course)) {
+               %>                  
+                               </tbody>
+                           </table>
+                       </div>
+                   </div>
+               <%
+                       }
+                       if (currentCourse == null || (currentCourse != null && !currentCourse.equals(student.course))) {
+                           courseIdx++;
+                           studentIdx = 0;
+                           currentCourse = student.course;
+               %>
+                           <div class="panel panel-info">
+                               <div class="panel-heading">
+                                   <strong>[<%=currentCourse%>]</strong>
+                               </div>
+                               <div class="panel-body padding-0">
+                                   <table class="table table-responsive table-striped table-bordered margin-0">
+                                       <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                                           <tr>
+                                               <th>Photo</th>
+                                               <th id="button_sortsection-<%=courseIdx%>" class="button-sort-none" onclick="toggleSort(this, 1)">Section <span class="icon-sort unsorted"></th>
+                                               <th id="button_sortteam-<%=courseIdx%>" class="button-sort-none" onclick="toggleSort(this, 2)">Team <span class="icon-sort unsorted"></th>
+                                               <th id="button_sortname-<%=courseIdx%>" class="button-sort-none" onclick="toggleSort(this, 3)">Student Name <span class="icon-sort unsorted"></th>
+                                               <th id="button_sortemail-<%=courseIdx%>" class="button-sort-none" onclick="toggleSort(this, 4)">Email <span class="icon-sort unsorted"></th>
+                                               <th>Action(s)</th>
+                                           </tr>
+                                       </thead>
+                                       <tbody>
                 <%
                         }
                 %>
@@ -376,7 +393,8 @@
                                     title="<%=Const.Tooltips.COURSE_STUDENT_DETAILS%>"
                                     data-toggle="tooltip" data-placement="top"
                                     <% InstructorAttributes instructor = data.studentSearchResultBundle.instructors.get(student.course);
-                                       if (!instructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {%>
+                                       if (!instructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
+                                    %>
                                        disabled="disabled"
                                     <% } %>
                                     > View
@@ -417,19 +435,28 @@
                                         <% } %>
                                         > Add Comment
                                     </a>
-                                  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
-                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student.course, student)
-                                        +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=student"%>">
-                                        Comment on <%=PageData.sanitizeForHtml(student.name)%></a></li>
-                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student.course, student)
-                                        +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=team"%>">
-                                        Comment on <%=PageData.sanitizeForHtml(student.team)%></a></li>
-                                    <% if(!student.section.equals(Const.DEFAULT_SECTION)) { %>
-                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student.course, student)
-                                        +"&"+Const.ParamsNames.SHOW_COMMENT_BOX+"=section"%>">
-                                        Comment on <%=PageData.sanitizeForHtml(student.section)%></a></li>
-                                    <% } %>
-                                  </ul>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
+                                        <li role="presentation">
+                                            <a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student.course, student)
+                                                                                      +"&"+ Const.ParamsNames.SHOW_COMMENT_BOX+"=student"%>">
+                                                Comment on <%=PageData.sanitizeForHtml(student.name)%>
+                                            </a>
+                                        </li>
+                                        <li role="presentation">
+                                            <a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student.course, student)
+                                                                                      +"&"+ Const.ParamsNames.SHOW_COMMENT_BOX+"=team"%>">
+                                                Comment on <%=PageData.sanitizeForHtml(student.team)%>
+                                            </a>
+                                        </li>
+                                        <% if (!student.section.equals(Const.DEFAULT_SECTION)) { %>
+                                               <li role="presentation">
+                                                   <a role="menuitem" tabindex="-1" href="<%=data.getCourseStudentDetailsLink(student.course, student)
+                                                                                             +"&"+ Const.ParamsNames.SHOW_COMMENT_BOX+"=section"%>">
+                                                       Comment on <%=PageData.sanitizeForHtml(student.section)%>
+                                                   </a>
+                                               </li>
+                                        <% } %>
+                                    </ul>
                                 </div>
                             </td>
                         </tr>                           
@@ -442,7 +469,7 @@
                             </div>
                         </div>
                     </div>
-                <% } %>
+             <% } %>
         </div>
     </div>
 

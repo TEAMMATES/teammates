@@ -20,22 +20,24 @@ public class InstructorFeedbackEditPageAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull(courseId);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        Assumption.assertNotNull(feedbackSessionName);       
+        Assumption.assertNotNull(feedbackSessionName);
         
         FeedbackSessionAttributes feedback = logic.getFeedbackSession(feedbackSessionName, courseId);
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId), 
-                feedback, false, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                feedback,
+                false,
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
-        InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);       
+        InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);
         data.session = feedback;
         data.questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         data.copiableQuestions = logic.getCopiableFeedbackQuestionsForInstructor(account.googleId);
-        for(FeedbackQuestionAttributes question : data.questions) {            
-            data.questionHasResponses.put(question.getId(),
-                    logic.isQuestionHasResponses(question.getId()));
+        for (FeedbackQuestionAttributes question : data.questions) {
+            boolean hasResponse = logic.isQuestionHasResponses(question.getId());
+            data.questionHasResponses.put(question.getId(), hasResponse);
         }
-
+        
         data.studentList = logic.getStudentsForCourse(courseId);
         Collections.sort(data.studentList, new StudentComparator());
         
@@ -44,13 +46,14 @@ public class InstructorFeedbackEditPageAction extends Action {
         
         data.instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
-        statusToAdmin = "instructorFeedbackEdit Page Load<br>"
-                + "Editing information for Feedback Session <span class=\"bold\">["
-                + feedbackSessionName + "]</span>" + "in Course: <span class=\"bold\">[" + courseId + "]</span>";
+        statusToAdmin = "instructorFeedbackEdit Page Load<br>" 
+                        + "Editing information for Feedback Session "
+                        + "<span class=\"bold\">[" + feedbackSessionName + "]</span>"
+                        + "in Course: <span class=\"bold\">[" + courseId + "]</span>";
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT, data);
     }
-
+    
     private class StudentComparator implements Comparator<StudentAttributes> {
         @Override
         public int compare(StudentAttributes s1, StudentAttributes s2) {
@@ -58,7 +61,7 @@ public class InstructorFeedbackEditPageAction extends Action {
                 return s1.name.compareToIgnoreCase(s2.name);
             }
             return s1.team.compareToIgnoreCase(s2.team);
-        }    
+        }
     }
     
     private class InstructorComparator implements Comparator<InstructorAttributes> {
