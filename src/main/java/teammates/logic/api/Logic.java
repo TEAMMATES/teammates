@@ -1344,7 +1344,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void createFeedbackSession(FeedbackSessionAttributes feedbackSession) 
+    public void createFeedbackSession(FeedbackSessionAttributes feedbackSession)
             throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSession);
         feedbackSessionsLogic.createFeedbackSession(feedbackSession);
@@ -1355,11 +1355,11 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackSessionAttributes copyFeedbackSession(String copiedFeedbackSessionName, 
-                                                         String copiedCourseId, 
+                                                         String copiedCourseId,
                                                          String feedbackSessionName, 
-                                                         String courseId, 
-                                                         String instructorEmail) throws EntityAlreadyExistsException, 
-                                                                                        InvalidParametersException, 
+                                                         String courseId,
+                                                         String instructorEmail) throws EntityAlreadyExistsException,
+                                                                                        InvalidParametersException,
                                                                                         EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, copiedFeedbackSessionName);
@@ -1368,7 +1368,8 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorEmail);
 
-        return feedbackSessionsLogic.copyFeedbackSession(copiedFeedbackSessionName, copiedCourseId, feedbackSessionName, courseId, instructorEmail);
+        return feedbackSessionsLogic.copyFeedbackSession(copiedFeedbackSessionName,
+                copiedCourseId, feedbackSessionName, courseId, instructorEmail);
     }
     
     /**
@@ -1726,8 +1727,8 @@ public class Logic {
      * * All parameters are non-null.
      * * questionNumber is > 0
      */
-    public FeedbackQuestionAttributes createFeedbackQuestionForTemplate(FeedbackQuestionAttributes feedbackQuestion, 
-                                                                        int questionNumber) 
+    public FeedbackQuestionAttributes createFeedbackQuestionForTemplate(
+            FeedbackQuestionAttributes feedbackQuestion, int questionNumber)
             throws InvalidParametersException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestion);
@@ -1822,7 +1823,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public List<FeedbackQuestionAttributes> getCopiableFeedbackQuestionsForInstructor(String googleId) 
+    public List<FeedbackQuestionAttributes> getCopiableFeedbackQuestionsForInstructor(String googleId)
             throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         return feedbackQuestionsLogic.getCopiableFeedbackQuestionsForInstructor(googleId);

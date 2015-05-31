@@ -66,7 +66,6 @@ public class AccountAttributes extends EntityAttributes {
     }
     
     public List<String> getInvalidityInfo() {
-        
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
         String error;

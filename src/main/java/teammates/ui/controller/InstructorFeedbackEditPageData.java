@@ -30,22 +30,37 @@ public class InstructorFeedbackEditPageData extends PageData {
         questionHasResponses = new HashMap<String, Boolean>();
     }
     
-    public List<String> getParticipantOptions(
-            FeedbackQuestionAttributes question, boolean isGiver){
+    /**
+     * Returns a list of HTML options for selecting participant type.
+     * Used in instructorFeedbackEdit.jsp for selecting the participant type for a new question.
+     * isGiver refers to the feedback path (!isGiver == feedback's target)
+     */
+    public List<String> getParticipantOptions(FeedbackQuestionAttributes question, boolean isGiver) {
         List<String> result = new ArrayList<String>();
-        for(FeedbackParticipantType option : FeedbackParticipantType.values()) {
-            if(isGiver && option.isValidGiver()) {
-                result.add("<option value=\""+option.toString()+"\""
-                        +(question!=null && question.giverType==option
-                                ? " selected=\"selected\"" : "")
-                        +">"+option.toDisplayGiverName()+"</option>");
-            } else if(!isGiver && option.isValidRecipient()) {
-                result.add("<option value=\""+option.toString()+"\""
-                        +(question!=null && question.recipientType==option
-                                ? " selected=\"selected\"" : "")
-                        +">"+option.toDisplayRecipientName()+"</option>");
+        for (FeedbackParticipantType option : FeedbackParticipantType.values()) {
+            boolean isValidGiver = isGiver && option.isValidGiver();
+            boolean isValidRecipient = !isGiver && option.isValidRecipient();
+            
+            if (isValidGiver || isValidRecipient) {
+                String optionStr = "<option value=\"%s\"%s>%s</option>";
+                String participantName = isValidGiver ? option.toDisplayGiverName()
+                                                      : option.toDisplayRecipientName();
+                
+                String selected = "";
+                // for existing questions
+                if (question != null) {
+                    boolean isGiverType = isValidGiver && question.giverType == option;
+                    boolean isRecipientType = isValidRecipient && question.recipientType == option;
+                    
+                    if (isGiverType || isRecipientType) {
+                        selected = " selected=\"selected\"";
+                    }
+                }
+                
+                optionStr = String.format(optionStr, option.toString(), selected, participantName);
+                result.add(optionStr);
             }
-        }        
+        }
         return result;
     }
     
@@ -63,23 +78,25 @@ public class InstructorFeedbackEditPageData extends PageData {
     
     /**
      * Get all question specific edit forms
-     * Used in instructorFeedbackEdit.jsp for new question 
+     * Used in instructorFeedbackEdit.jsp for new question
      * @return
      */
     public String getNewQuestionSpecificEditFormHtml() {
         String newQuestionSpecificEditForms = "";
-        for (FeedbackQuestionType feedbackQuestionType : FeedbackQuestionType.values()) {
-            newQuestionSpecificEditForms += feedbackQuestionType.getFeedbackQuestionDetailsInstance().getNewQuestionSpecificEditFormHtml();
+        for (FeedbackQuestionType type : FeedbackQuestionType.values()) {
+            newQuestionSpecificEditForms +=
+                    type.getFeedbackQuestionDetailsInstance().getNewQuestionSpecificEditFormHtml();
         }
         return newQuestionSpecificEditForms;
     }
     
-    public ArrayList<String> getTimeZoneOptionsAsHtml(){
-        return getTimeZoneOptionsAsHtml(session == null? Const.DOUBLE_UNINITIALIZED : session.timeZone);
+    public ArrayList<String> getTimeZoneOptionsAsHtml() {
+        return getTimeZoneOptionsAsHtml(session == null ? Const.DOUBLE_UNINITIALIZED
+                                                        : session.timeZone);
     }
     
-    
-    public ArrayList<String> getGracePeriodOptionsAsHtml(){
-        return getGracePeriodOptionsAsHtml(session == null ? Const.INT_UNINITIALIZED : session.gracePeriod);
+    public ArrayList<String> getGracePeriodOptionsAsHtml() {
+        return getGracePeriodOptionsAsHtml(session == null ? Const.INT_UNINITIALIZED
+                                                           : session.gracePeriod);
     }
 }
