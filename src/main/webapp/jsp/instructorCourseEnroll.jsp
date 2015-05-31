@@ -144,18 +144,10 @@
                         
                         <div id="moreInfoEnrollWOSpreadSheetEg">
                             <samp>
-                                <span class="enrollLines"><b>Section   |   Team   |   Name   |   Email   |   Comments</b></span>
-                                <br>
-                                
-                                <span class="enrollLines">Tut Group 1   |   Team 1   |   Tom Jacobs  |  tom@email.com</span>
-                                <br>
-                                
-                                <span class="enrollLines">Tut Group 1   |   Team 1  |   Jean Wong   |   jean@email.com   |   Exchange Student</span>
-                                <br>
-                                
-                                <span class="enrollLines">Tut Group 1   |   Team 2   |   Jack Wayne  |  jack@email.com</span>
-                                <br>
-                                
+                                <span class="enrollLines"><b>Section   |   Team   |   Name   |   Email   |   Comments</b></span><br>
+                                <span class="enrollLines">Tut Group 1   |   Team 1   |   Tom Jacobs  |  tom@email.com</span><br>
+                                <span class="enrollLines">Tut Group 1   |   Team 1  |   Jean Wong   |   jean@email.com   |   Exchange Student</span><br>
+                                <span class="enrollLines">Tut Group 1   |   Team 2   |   Jack Wayne  |  jack@email.com</span><br>
                                 <span class="enrollLines">Tut Group 2   |   Team 3   |   Thora Parker  |  thora@email.com</span>
                             </samp>
                         </div>
