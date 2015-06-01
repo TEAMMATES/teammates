@@ -1,4 +1,4 @@
-// This function is called to toggle the visibility of additional question information for the specified question.
+// Toggle the visibility of additional question information for the specified question.
 function toggleAdditionalQuestionInfo(identifier) {
     var $questionButton = $('#questionAdditionalInfoButton-' + identifier);
 
