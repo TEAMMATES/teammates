@@ -14,18 +14,8 @@ $(document).ready(function() {
         validationStatus &= validateConstSumQuestions();
         validationStatus &= validateAllAnswersHaveRecipient();
         
-        //$(this).val($('#otherOptionText' + indexSuffix).val());
-        var mcqQuestionNums = getQuestionTypeNumbers('MCQ');
+        updateMcqOtherOptionField();
         
-        for (var i = 0; i < mcqQuestionNums.length; i++) {
-            var qnNum = mcqQuestionNums[i];
-            var numResponses = $('[name="questionresponsetotal-' + qnNum + '"]').val();
-
-            for (var j = 0; j < numResponses; j++) {
-            	$('[data-text="otherOptionText"][name="responsetext-' + qnNum + '-' + j + '"]')
-            	     .val($('#otherOptionText-' + qnNum + '-' + j).val());
-            }
-        }
         if (!validationStatus) {
             return false;
         }
@@ -76,6 +66,21 @@ $(document).ready(function() {
     
     focusModeratedQuestion();
 });
+
+// Saves the value in the other option textbox for MCQ questions
+function updateMcqOtherOptionField() {
+	var mcqQuestionNums = getQuestionTypeNumbers('MCQ');
+    
+    for (var i = 0; i < mcqQuestionNums.length; i++) {
+        var qnNum = mcqQuestionNums[i];
+        var numResponses = $('[name="questionresponsetotal-' + qnNum + '"]').val();
+
+        for (var j = 0; j < numResponses; j++) {
+        	$('[data-text="otherOptionText"][name="responsetext-' + qnNum + '-' + j + '"]')
+        	     .val($('#otherOptionText-' + qnNum + '-' + j).val());
+        }
+    }
+}
 
 // Looks for the question to be moderated (if it exists)
 function focusModeratedQuestion() {
