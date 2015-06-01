@@ -17,14 +17,12 @@ public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
     @Override
     public void extractResponseDetails(FeedbackQuestionType questionType,
             FeedbackQuestionDetails questionDetails, String[] answer) {
-        // TODO: check and set isOther accordingly when it is implemented.
-        if (answer[1] == null) {
-            isOther = false;
-        } else {
-            isOther = answer[1].equals("1");
-        }
+
+        // answer[0] contains the answer given by the student
+        // answer[1] is "1" if "other" is selected by the student, "0" if "other" is not selected, null if "other" is disabled by the instructor 
+        isOther = (answer.length < 2 || answer[1] == null) ? false : answer[1].equals("1");
         
-        if(isOther){
+        if (isOther) {
             this.answer = "Other";
             this.otherFieldContent = answer[0];
         } else {
