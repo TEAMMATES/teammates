@@ -30,3 +30,6 @@ testrunner/*
 src/test/current testng.xml
 src/main/webapp/WEB-INF/classes/*.js
 *.exe
+.metadata
+.project
+.gitignore

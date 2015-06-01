@@ -1,7 +1,6 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -260,7 +259,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
                                                requestParameters, 
                                                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + questionIndx + "-" + responseIndx);
         
-        String isOtherOptionAnswer = HttpRequestHelper.getValueFromParamMap(
+        /*String isOtherOptionAnswer = HttpRequestHelper.getValueFromParamMap(
                                                                      requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER 
                                                                                         + "-" + questionIndx + "-" + responseIndx);    
         
@@ -297,6 +296,17 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             } else {
                 response.responseMetaData = new Text("");
             }
+        }*/
+        
+        if (!questionDetails.isQuestionSkipped(answer)) {
+            FeedbackResponseDetails responseDetails = 
+                    FeedbackResponseDetails.createResponseDetails(
+                            answer,
+                            questionDetails.questionType,
+                            questionDetails);
+            response.setResponseDetails(responseDetails);
+        } else {
+            response.responseMetaData = new Text("");
         }
         
         return response;

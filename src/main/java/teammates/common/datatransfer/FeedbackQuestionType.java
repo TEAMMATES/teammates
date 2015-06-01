@@ -3,6 +3,8 @@ package teammates.common.datatransfer;
 import java.util.Map;
 
 import teammates.common.util.Assumption;
+import teammates.common.util.Const;
+import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
 
 public enum FeedbackQuestionType {
@@ -111,6 +113,72 @@ public enum FeedbackQuestionType {
 
         return feedbackResponseDetails;
     }
+    
+    /**
+     * Returns an instance of a corresponding Feedback*ResponseDetails class
+     *
+     * @return FeedbackResponseDetails
+     */
+    public FeedbackResponseDetails getFeedbackResponseDetailsInstance(FeedbackQuestionDetails questionDetails,
+                                                                      String[] answer, Map<String, String[]> requestParameters,
+                                                                      int questionIndx, int responseIndx) {
+        FeedbackResponseDetails feedbackResponseDetails = null;
+
+        switch (this) {
+            case TEXT:
+                feedbackResponseDetails = new FeedbackTextResponseDetails();
+                break;
+            case MCQ:
+                feedbackResponseDetails = new FeedbackMcqResponseDetails();
+                answer = appendOtherOptionFlagToAnswer(answer, requestParameters, questionIndx, responseIndx);
+                break;
+            case MSQ:
+                feedbackResponseDetails = new FeedbackMsqResponseDetails();
+                break;
+            case NUMSCALE:
+                feedbackResponseDetails = new FeedbackNumericalScaleResponseDetails();
+                break;
+            case CONSTSUM:
+                feedbackResponseDetails = new FeedbackConstantSumResponseDetails();
+                break;
+            case CONTRIB:
+                feedbackResponseDetails = new FeedbackContributionResponseDetails();
+                break;
+            case RUBRIC:
+                feedbackResponseDetails = new FeedbackRubricResponseDetails();
+                break;
+            default:
+                Assumption.fail("Failed to instantiate Feedback*ResponseDetails instance for "
+                                + this.toString() + " question type.");
+                return null;
+        }
+
+        try {
+            feedbackResponseDetails.extractResponseDetails(this, questionDetails, answer);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Utils.getLogger().warning("Failed to extract response details.\n" + e.toString());
+            return null;
+        }
+
+        return feedbackResponseDetails;
+    }
+
+    private String[] appendOtherOptionFlagToAnswer(String[] answer, Map<String, String[]> requestParameters,
+                                    int questionIndx, int responseIndx) {
+        String isOtherOptionAnswer = HttpRequestHelper.getValueFromParamMap(
+                                        requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER 
+                                                           + "-" + questionIndx + "-" + responseIndx);
+        if (answer != null) {
+            String[] answerWithOtherOptionFlag = new String[answer.length + 1];
+            
+            answerWithOtherOptionFlag[0] = answer[0]; // answer given by the student
+            answerWithOtherOptionFlag[1] = isOtherOptionAnswer; // "1" (other is selected) or "0" (other is not selected)
+            answer = answerWithOtherOptionFlag;
+        }
+        return answer;
+    }
+
 
     private final Class<? extends FeedbackQuestionDetails> questionDetailsClass;
     private final Class<? extends FeedbackResponseDetails> responseDetailsClass;
