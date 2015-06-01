@@ -58,7 +58,8 @@ public abstract class FeedbackResponseDetails {
      * @param feedbackSessionResultsBundle
      * @return
      */
-    public String getAnswerCsv(FeedbackResponseAttributes response, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
+    public String getAnswerCsv(FeedbackResponseAttributes response, FeedbackQuestionAttributes question, 
+                                    FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
         return getAnswerCsv(question.getQuestionDetails());
     }
     
@@ -79,8 +80,7 @@ public abstract class FeedbackResponseDetails {
             Map<String, String[]> requestParameters, int questionIndx, int responseIndx) {
                                 
         FeedbackResponseDetails responseDetails = questionType.getFeedbackResponseDetailsInstance(
-                                                                   questionDetails, answer, requestParameters, questionIndx, responseIndx);
-                                
+                                                                   questionDetails, answer, requestParameters, questionIndx, responseIndx);                              
         return responseDetails;
     }
 }
