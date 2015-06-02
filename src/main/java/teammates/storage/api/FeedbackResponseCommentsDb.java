@@ -3,7 +3,9 @@ package teammates.storage.api;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.jdo.JDOHelper;
@@ -432,7 +434,7 @@ public class FeedbackResponseCommentsDb extends BaseCommentsDb {
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForSessionInSection(
             String courseId, String feedbackSessionName, String section) {
 
-        List<FeedbackResponseComment> FeedbackResponseCommentList = new ArrayList<FeedbackResponseComment>();
+        Map<String, FeedbackResponseComment> FeedbackResponseCommentList = new HashMap<String, FeedbackResponseComment>();
 
         Query q = getPM().newQuery(FeedbackResponseComment.class);
         q.declareParameters("String courseIdParam, String feedbackSessionNameParam, String sectionParam");
@@ -444,7 +446,7 @@ public class FeedbackResponseCommentsDb extends BaseCommentsDb {
             (List<FeedbackResponseComment>) q.execute(courseId, feedbackSessionName, section);
         for(FeedbackResponseComment responseComment : firstQueryResponseComments){
             if(!JDOHelper.isDeleted(responseComment)){
-                FeedbackResponseCommentList.add(responseComment);
+                FeedbackResponseCommentList.put(String.valueOf(responseComment.getFeedbackResponseCommentId()), responseComment);
             }
         }
         
@@ -456,10 +458,14 @@ public class FeedbackResponseCommentsDb extends BaseCommentsDb {
             (List<FeedbackResponseComment>) q.execute(courseId, feedbackSessionName, section);
         for(FeedbackResponseComment responseComment : secondQueryResponseComments){
             if(!JDOHelper.isDeleted(responseComment)){
-                FeedbackResponseCommentList.add(responseComment);
+                FeedbackResponseCommentList.put(String.valueOf(responseComment.getFeedbackResponseCommentId()), responseComment);
             }
         }
-        
-        return FeedbackResponseCommentList;
+        List<FeedbackResponseComment> resultAsList = new ArrayList<FeedbackResponseComment>();
+        for (FeedbackResponseComment frc: FeedbackResponseCommentList.values()) {
+            resultAsList.add(frc);
+        }
+
+        return resultAsList;
     }
 }
