@@ -59,6 +59,10 @@ public class CommentAttributes extends BaseCommentAttributes {
         this.lastEditedAt = comment.getLastEditedAt() != null ? comment.getLastEditedAt() : comment.getCreatedAt();
     }
 
+    /**
+     * @deprecated defined in abstract class, use getCommentId() instead
+     */
+    @Deprecated
     public Long getId() {
         return getCommentId();
     }

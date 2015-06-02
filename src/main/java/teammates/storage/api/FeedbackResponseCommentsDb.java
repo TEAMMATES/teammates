@@ -151,6 +151,10 @@ public class FeedbackResponseCommentsDb extends BaseCommentsDb {
         super.deleteCommentsForCourses(courseIds);
     }
 
+    /**
+     * @deprecated defined in abstract class, use getFeedbackResponseCommentEntitiesForCourses(...) instead
+     */
+    @Deprecated
     protected List<FeedbackResponseComment> getCommentEntitiesForCourses(List<String> courseIds) {
         return getFeedbackResponseCommentEntitiesForCourses(courseIds);
     }
@@ -266,14 +270,17 @@ public class FeedbackResponseCommentsDb extends BaseCommentsDb {
     }
     
     @Deprecated
+    @SuppressWarnings("unchecked")
     public List<FeedbackResponseCommentAttributes> getAllFeedbackResponseComments() {
-        return getAllComments();
+        return (List<FeedbackResponseCommentAttributes>) super.getAllComments(FeedbackResponseComment.class.getName());
     }
     
+    /**
+     * @deprecated defined in abstract class, use getAllFeedbackResponseComments() instead
+     */
     @Deprecated
-    @SuppressWarnings("unchecked")
     public List<FeedbackResponseCommentAttributes> getAllComments() {
-        return (List<FeedbackResponseCommentAttributes>) super.getAllComments(FeedbackResponseComment.class.getName());
+        return getAllFeedbackResponseComments();
     }
     
     @SuppressWarnings("unchecked")
@@ -306,6 +313,10 @@ public class FeedbackResponseCommentsDb extends BaseCommentsDb {
         return null;
     }
     
+    /**
+     * @deprecated defined in abstract class, use getFeedbackResponseCommentEntityForGiver(...) instead
+     */
+    @Deprecated
     protected List<FeedbackResponseComment> getCommentEntitiesForGiver(String courseId, String giverEmail) {
         return getFeedbackResponseCommentEntityForGiver(courseId, giverEmail);
     }
@@ -322,6 +333,10 @@ public class FeedbackResponseCommentsDb extends BaseCommentsDb {
         return getCommentsWithoutDeletedEntity(feedbackResponseCommentList);
     }
     
+    /**
+     * @deprecated defined in abstract class, use getFeedbackResponseCommentEntityForSendingState(...) instead
+     */
+    @Deprecated
     protected List<FeedbackResponseComment> getCommentEntitiesForSendingState(String courseId, String sessionName,
                                                                               CommentSendingState state) {
         return getFeedbackResponseCommentEntityForSendingState(courseId, sessionName, state);
@@ -340,6 +355,10 @@ public class FeedbackResponseCommentsDb extends BaseCommentsDb {
         return getCommentsWithoutDeletedEntity(feedbackResponseCommentList);
     }
     
+    /**
+     * @deprecated defined in abstract class, use getFeedbackResponseCommentEntity(...) instead
+     */
+    @Deprecated
     protected FeedbackResponseComment getCommentEntity(Long feedbackResponseCommentId) {
         return getFeedbackResponseCommentEntity(feedbackResponseCommentId);
     }
@@ -408,6 +427,10 @@ public class FeedbackResponseCommentsDb extends BaseCommentsDb {
         return getCommentsWithoutDeletedEntity(feedbackResponseCommentList);
     }
     
+    /**
+     * @deprecated defined in abstract class, use getFeedbackResponseCommentEntitiesForCourse(...) instead
+     */
+    @Deprecated
     protected List<FeedbackResponseComment> getCommentEntitiesForCourse(String courseId) {
         return getFeedbackResponseCommentEntitiesForCourse(courseId);
     }
