@@ -240,9 +240,6 @@ public class FeedbackResponseCommentsDb extends BaseCommentsDb {
         super.updateGiverEmailOfComment(courseId, oldEmail, updatedEmail);
     }
     
-    /*
-     * Get response comments for a sending state (SENT|SENDING|PENDING)
-     */
     @SuppressWarnings("unchecked")
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(String courseId, String sessionName,
             CommentSendingState state){
@@ -254,9 +251,6 @@ public class FeedbackResponseCommentsDb extends BaseCommentsDb {
         super.updateComments(courseId, feedbackSessionName, oldState, newState);
     }
     
-    /*
-     * Create or update search document for the given comment
-     */
     public void putDocument(BaseCommentAttributes comment){
         putDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT,
                     new FeedbackResponseCommentSearchDocument((FeedbackResponseCommentAttributes) comment));

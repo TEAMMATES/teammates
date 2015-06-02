@@ -136,9 +136,6 @@ public class CommentsDb extends BaseCommentsDb {
         return (List<CommentAttributes>) super.getCommentsForSendingState(courseId, PARAM_NOT_USED_BY_COMMENT, state);
     }
     
-    /*
-     * Get comments for a course
-     */
     @SuppressWarnings("unchecked")
     public List<CommentAttributes> getCommentsForCourse(String courseId) {
         return (List<CommentAttributes>) super.getCommentsForCourse(courseId);
@@ -285,9 +282,6 @@ public class CommentsDb extends BaseCommentsDb {
         getPM().flush();
     }
     
-    /*
-     * Create or update search document for the given comment
-     */
     public void putDocument(BaseCommentAttributes comment) {
         putDocument(Const.SearchIndex.COMMENT, new CommentSearchDocument((CommentAttributes) comment));
     }

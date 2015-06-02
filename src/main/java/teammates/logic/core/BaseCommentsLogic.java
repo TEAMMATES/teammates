@@ -30,12 +30,12 @@ public abstract class BaseCommentsLogic {
         return getDb().createEntity(comment);
     }
 
-    protected BaseCommentAttributes getComment(Long commentId) {
+    public BaseCommentAttributes getComment(Long commentId) {
         return getDb().getComment(commentId);
     }
 
-    protected List<? extends BaseCommentAttributes> getCommentsForGiver(String courseId, String giverEmail)
-                                                    throws EntityDoesNotExistException {
+    public List<? extends BaseCommentAttributes> getCommentsForGiver(String courseId, String giverEmail)
+                                                 throws EntityDoesNotExistException {
         verifyIsCoursePresent(courseId, "get");
         return getDb().getCommentsForGiver(courseId, giverEmail);
     }
@@ -82,8 +82,8 @@ public abstract class BaseCommentsLogic {
      * Remove document for the given comment
      * @param commentToDelete
      */
-    public void deleteDocument(BaseCommentAttributes commentToDelete) {
-        getDb().deleteDocument(commentToDelete);
+    public void deleteDocument(BaseCommentAttributes comment) {
+        getDb().deleteDocument(comment);
     }
 
     public void deleteComment(BaseCommentAttributes comment) {

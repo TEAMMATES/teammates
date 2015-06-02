@@ -226,8 +226,8 @@ public abstract class BaseCommentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, sessionName);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, state);
-        List<? extends BaseComment> frcList = getCommentEntitiesForSendingState(courseId, sessionName, state);
-        return getAttributesListFromEntitiesList(frcList);
+        List<? extends BaseComment> bcList = getCommentEntitiesForSendingState(courseId, sessionName, state);
+        return getAttributesListFromEntitiesList(bcList);
     }
 
     protected abstract List<? extends BaseComment> getCommentEntitiesForSendingState(String courseId, String sessionName,
@@ -255,7 +255,7 @@ public abstract class BaseCommentsDb extends EntitiesDb {
         getPM().flush();
     }
 
-    /*
+    /**
      * Delete comments given by certain instructor
      */
     public void deleteCommentsForInstructorEmail(String courseId, String instructorEmail) {
@@ -301,8 +301,8 @@ public abstract class BaseCommentsDb extends EntitiesDb {
      */
     public List<? extends BaseCommentAttributes> getCommentsForCourse(String courseId) {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        List<? extends BaseComment> comments = getCommentEntitiesForCourse(courseId);
-        return getAttributesListFromEntitiesList(comments);
+        List<? extends BaseComment> bcList = getCommentEntitiesForCourse(courseId);
+        return getAttributesListFromEntitiesList(bcList);
     }
 
     /**
@@ -312,24 +312,30 @@ public abstract class BaseCommentsDb extends EntitiesDb {
     public List<? extends BaseCommentAttributes> getAllComments(String className) {
         String query = "select from " + className;
         @SuppressWarnings("unchecked")
-        List<? extends BaseComment> commentList = (List<Comment>) getPM().newQuery(query).execute();
-        List<? extends BaseComment> entities = getCommentsWithoutDeletedEntity(commentList);
-        return getAttributesListFromEntitiesList(entities);
+        List<? extends BaseComment> bcList = (List<Comment>) getPM().newQuery(query).execute();
+        List<? extends BaseComment> updatedBcList = getCommentsWithoutDeletedEntity(bcList);
+        return getAttributesListFromEntitiesList(updatedBcList);
     }
 
+    /**
+     * @deprecated Not scalable. Don't use unless in admin features.
+     */
     @Deprecated
     public abstract List<? extends BaseCommentAttributes> getAllComments();
 
     protected List<? extends BaseComment> getCommentsWithoutDeletedEntity(List<? extends BaseComment> bcList) {
         List<BaseComment> resultList = new ArrayList<BaseComment>();
-        for (BaseComment frc : bcList) {
-            if (!JDOHelper.isDeleted(frc)) {
-                resultList.add(frc);
+        for (BaseComment bc : bcList) {
+            if (!JDOHelper.isDeleted(bc)) {
+                resultList.add(bc);
             }
         }
         return resultList;
     }
-    
+
+    /**
+     * Create or update search document for the given comment
+     */
     public abstract void putDocument(BaseCommentAttributes bca);
 
 }

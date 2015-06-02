@@ -53,8 +53,6 @@ public class FeedbackResponseCommentsLogic extends BaseCommentsLogic {
     public FeedbackResponseCommentAttributes createFeedbackResponseComment(
             FeedbackResponseCommentAttributes frComment)
             throws InvalidParametersException, EntityDoesNotExistException {
-        verifyIsCoursePresent(frComment.courseId, "create");
-        verifyIsInstructorOfCourse(frComment.courseId, frComment.giverEmail);
         verifyIsFeedbackSessionOfCourse(frComment.courseId, frComment.feedbackSessionName);
         
         try{
