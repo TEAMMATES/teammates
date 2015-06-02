@@ -20,12 +20,13 @@ import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentFeedbackSubmissionEditPageAction;
 
 public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest {
-    private final DataBundle dataBundle = getTypicalDataBundle();
+    private static DataBundle dataBundle;
 
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        dataBundle = loadDataBundle("/StudentFeedbackSubmissionEditPageActionTest.json");
+        removeAndRestoreDatastoreFromJson("/StudentFeedbackSubmissionEditPageActionTest.json");
         uri = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
     }
 
