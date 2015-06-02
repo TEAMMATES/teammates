@@ -95,6 +95,21 @@ public class FeedbackMcqQuestionUiTest extends FeedbackQuestionUiTest {
         assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-0--1"));
         feedbackEditPage.clickAddQuestionButton();
         assertEquals("Too little choices for Multiple-choice (single answer) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
+        
+        ______TS("remove when 1 left and select Add Other Option");
+
+        feedbackEditPage.selectNewQuestionType("Multiple-choice (single answer) question");
+        feedbackEditPage.clickNewQuestionButton();
+        feedbackEditPage.fillQuestionBox("Test question text");
+        assertTrue(feedbackEditPage.verifyNewMcqQuestionFormIsDisplayed());
+
+        feedbackEditPage.clickRemoveMcqOptionLink(1, -1);
+        assertEquals(false, feedbackEditPage.isElementPresent("mcqOptionRow-1--1"));
+        assertEquals(true, feedbackEditPage.isElementPresent("mcqOptionRow-0--1"));
+        
+        feedbackEditPage.selectAddOtherOptionCheckboxForNewQuestion();
+        feedbackEditPage.clickAddQuestionButton();
+        assertEquals("Too little choices for Multiple-choice (single answer) question. Minimum number of options is: 2.", feedbackEditPage.getStatus());
     }
 
     public void testCustomizeOptions() {
