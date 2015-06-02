@@ -125,6 +125,8 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
 
     protected StudentAttributes getStudent() {
         if (student == null) {
+            // branch of student != null is not covered since student is not set elsewhere, but this
+            // helps to speed up the process of 'getting' a student so we should leave it here
             student = logic.getStudentForGoogleId(courseId, account.googleId);
         }
 
