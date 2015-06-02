@@ -77,6 +77,9 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
 
                 for (String instrEmail : notDisplayedInstructorEmails) {
                     if (recipients.containsKey(instrEmail)) {
+                        // not contains branch not covered, can't think of a situation whereby that will
+                        // happen but it acts as a safety net in case it happens on a rare occasion and not
+                        // cause the program to crash
                         recipients.remove(instrEmail);
                     }
 

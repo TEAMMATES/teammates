@@ -14,11 +14,18 @@
             "email":"instr2@course1.tmt",
             "institute":"TEAMMATES Test Institute 1"
         },
-        "helperOfCourse1":{
-            "googleId":"idOfHelperOfCourse1",
-            "name":"Helper of Course 1",
+        "helper1OfCourse1":{
+            "googleId":"idOfHelper1OfCourse1",
+            "name":"Helper1 of Course 1",
             "isInstructor":true,
-            "email":"helper@course1.tmt",
+            "email":"helper1@course1.tmt",
+            "institute":"TEAMMATES Test Institute 1"
+        },
+        "helper2OfCourse1":{
+            "googleId":"idOfHelper2OfCourse1",
+            "name":"Helper2 of Course 1",
+            "isInstructor":true,
+            "email":"helper2@course1.tmt",
             "institute":"TEAMMATES Test Institute 1"
         },
         "instructor1OfCourse2":{
@@ -162,11 +169,21 @@
             "displayedName":"Manager",
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
-        "helperOfCourse1":{
-            "googleId":"idOfHelperOfCourse1",
+        "helper1OfCourse1":{
+            "googleId":"idOfHelper1OfCourse1",
             "courseId":"idOfTypicalCourse1",
-            "name":"Helper Course1",
-            "email":"helper@course1.tmt",
+            "name":"Helper1 Course1",
+            "email":"helper1@course1.tmt",
+            "role":"Helper",
+            "isDisplayedToStudents":false,
+            "displayedName":"Helper",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": false,\n    \"cangivecommentinsection\": false,\n    \"cansubmitsessioninsection\": false,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": false,\n    \"canmodifycourse\": false,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": false,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": false,\n    \"canmodifyinstructor\": false\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        },
+        "helper2OfCourse1":{
+            "googleId":"idOfHelper2OfCourse1",
+            "courseId":"idOfTypicalCourse1",
+            "name":"Helper2 Course1",
+            "email":"helper2@course1.tmt",
             "role":"Helper",
             "isDisplayedToStudents":false,
             "displayedName":"Helper",
@@ -654,7 +671,7 @@
             "questionType":"TEXT",
             "giverType":"STUDENTS",
             "recipientType":"INSTRUCTORS",
-            "numberOfEntitiesToGiveFeedbackTo":3,
+            "numberOfEntitiesToGiveFeedbackTo":4,
             "showResponsesTo":[
                 "RECEIVER",
                 "OWN_TEAM_MEMBERS",
@@ -917,6 +934,32 @@
             "recipientEmail":"student1InCourse1@gmail.tmt",
             "responseMetaData":{
                 "value":"Student 1 self feedback."
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 1" 
+        },
+        "response1ForQ5S1C1":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"idOfTypicalCourse1",
+            "feedbackQuestionId":"5",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"student1InCourse1@gmail.tmt",
+            "recipientEmail":"helper1@course1.tmt",
+            "responseMetaData":{
+                "value":"All of you rocks!"
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 1" 
+        },
+        "response2ForQ5S1C1":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"idOfTypicalCourse1",
+            "feedbackQuestionId":"5",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"student1InCourse1@gmail.tmt",
+            "recipientEmail":"helper2@course1.tmt",
+            "responseMetaData":{
+                "value":"All of you rocks!"
             },
             "giverSection":"Section 1",
             "recipientSection":"Section 1" 
