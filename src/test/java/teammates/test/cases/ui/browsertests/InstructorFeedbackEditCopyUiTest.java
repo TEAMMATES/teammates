@@ -55,7 +55,8 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         
         feedbackEditPage.clickFsCopySubmitButton();
         
-        String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS, feedbackSessionName, testData.courses.get("course").id);
+        String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS,
+                                     feedbackSessionName, testData.courses.get("course").id);
         feedbackEditPage.verifyStatus(error);
         
         feedbackEditPage.verifyHtml("/instructorFeedbackEditCopyFail.html");
@@ -68,7 +69,11 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         
         feedbackEditPage.clickFsCopySubmitButton();
         
-        feedbackEditPage.verifyStatus("\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as feedback session name because it contains invalid characters. All feedback session name must start with an alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).");
+        feedbackEditPage.verifyStatus(
+                "\"Invalid name | for feedback session\" is not acceptable to TEAMMATES as "
+                + "feedback session name because it contains invalid characters. "
+                + "All feedback session name must start with an alphanumeric character, "
+                + "and cannot contain any vertical bar (|) or percent sign (%).");
         
         
         ______TS("Successful case");
@@ -92,8 +97,10 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
     }
 
     private InstructorFeedbackEditPage getFeedbackEditPage() {
-        Url feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE).
-                withUserId(instructorId).withCourseId(courseId).withSessionName(feedbackSessionName);
+        Url feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
+                                             .withUserId(instructorId)
+                                             .withCourseId(courseId)
+                                             .withSessionName(feedbackSessionName);
         return loginAdminToPage(browser, feedbackPageLink, InstructorFeedbackEditPage.class);
     }
 
