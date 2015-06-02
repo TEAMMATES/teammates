@@ -7,7 +7,7 @@
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.testng.remote.RemoteTestNG"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="teammates"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-DfailedTests=&quot;testStudentAccessControlInOrder,classSetup,testHelpLink,testStudentLogin,testInstructorAccessControlInOrder,testInstructorCourseAddPage,testInstructorHomePage,testDataBundle,testSetup,testPersistenceAndDeletion,testInstructorEvalPage&quot;  -D-Xss2m"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-DfailedTests=&quot;testStudentAccessControlInOrder,classSetup,testHelpLink,testStudentLogin,testInstructorAccessControlInOrder,testInstructorCourseAddPage,testInstructorHomePage,testDataBundle,testSetup,testPersistenceAndDeletion,testInstructorEvalPage&quot;  -D-Xss2m -Duser.timezone=UTC"/>
 <mapAttribute key="org.testng.eclipse.ALL_CLASS_METHODS"/>
 <listAttribute key="org.testng.eclipse.CLASS_TEST_LIST"/>
 <listAttribute key="org.testng.eclipse.GROUP_LIST"/>
