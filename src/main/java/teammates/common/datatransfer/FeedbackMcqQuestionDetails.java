@@ -334,7 +334,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         }
         if (otherEnabled) {
             String optionFragment = 
-                    FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,"${mcqChoiceValue}", "Others;");
+                    FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,"${mcqChoiceValue}", "Others");
             optionListHtml.append(optionFragment);
         }
         optionListHtml.append("</ul>");
