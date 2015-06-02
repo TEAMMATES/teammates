@@ -145,11 +145,11 @@ public class FeedbackResponseComment implements BaseComment {
         this.feedbackQuestionId = feedbackQuestionId;
     }
     
-    public Boolean getIsVisibilityFollowingFeedbackQuestion(){
+    public Boolean getIsVisibilityFollowingFeedbackQuestion() {
         return this.isVisibilityFollowingFeedbackQuestion;
     }
     
-    public void setIsVisibilityFollowingFeedbackQuestion(Boolean isVisibilityFollowingFeedbackQuestion){
+    public void setIsVisibilityFollowingFeedbackQuestion(Boolean isVisibilityFollowingFeedbackQuestion) {
         this.isVisibilityFollowingFeedbackQuestion = isVisibilityFollowingFeedbackQuestion;
     }
 
@@ -170,19 +170,19 @@ public class FeedbackResponseComment implements BaseComment {
         return feedbackResponseId;
     }
     
-    public void setShowCommentTo(List<FeedbackParticipantType> showCommentTo){
+    public void setShowCommentTo(List<FeedbackParticipantType> showCommentTo) {
         this.showCommentTo = showCommentTo;
     }
     
-    public List<FeedbackParticipantType> getShowCommentTo(){
+    public List<FeedbackParticipantType> getShowCommentTo() {
         return showCommentTo;
     }
     
-    public void setShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo){
+    public void setShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
         this.showGiverNameTo = showGiverNameTo;
     }
     
-    public List<FeedbackParticipantType> getShowGiverNameTo(){
+    public List<FeedbackParticipantType> getShowGiverNameTo() {
         return showGiverNameTo;
     }
 
@@ -202,7 +202,7 @@ public class FeedbackResponseComment implements BaseComment {
         return sendingState;
     }
     
-    public void setSendingState(CommentSendingState sendingState){
+    public void setSendingState(CommentSendingState sendingState) {
         this.sendingState = sendingState;
     }
     
@@ -245,5 +245,4 @@ public class FeedbackResponseComment implements BaseComment {
     public void setLastEditedAt(Date lastEditedAt) {
         this.lastEditedAt = lastEditedAt;
     }
-
 }

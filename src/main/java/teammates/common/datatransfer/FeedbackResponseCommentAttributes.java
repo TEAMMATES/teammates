@@ -32,7 +32,7 @@ public class FeedbackResponseCommentAttributes extends BaseCommentAttributes {
     public List<FeedbackParticipantType> showGiverNameTo;
     public boolean isVisibilityFollowingFeedbackQuestion = false;
 
-    public FeedbackResponseCommentAttributes(){
+    public FeedbackResponseCommentAttributes() {
         this.feedbackResponseCommentId = null;
         this.courseId = null;
         this.feedbackSessionName = null;
@@ -49,17 +49,15 @@ public class FeedbackResponseCommentAttributes extends BaseCommentAttributes {
         this.lastEditedAt = null;
     }
     
-    public FeedbackResponseCommentAttributes(String courseId,
-            String feedbackSessionName, String feedbackQuestionId,
-            String giverEmail, String feedbackResponseId, Date createdAt,
-            Text commentText) {
-        this(courseId, feedbackSessionName, feedbackQuestionId, giverEmail, feedbackResponseId, createdAt, commentText, "None", "None");
+    public FeedbackResponseCommentAttributes(String courseId, String feedbackSessionName, String feedbackQuestionId,
+            String giverEmail, String feedbackResponseId, Date createdAt, Text commentText) {
+        this(courseId, feedbackSessionName, feedbackQuestionId, giverEmail, 
+                feedbackResponseId, createdAt, commentText, "None", "None");
     }
 
-    public FeedbackResponseCommentAttributes(String courseId,
-            String feedbackSessionName, String feedbackQuestionId,
-            String giverEmail, String feedbackResponseId, Date createdAt,
-            Text commentText, String giverSection, String receiverSection) {
+    public FeedbackResponseCommentAttributes(String courseId, String feedbackSessionName, String feedbackQuestionId,
+                                             String giverEmail, String feedbackResponseId, Date createdAt,
+                                             Text commentText, String giverSection, String receiverSection) {
         super(courseId, giverEmail, createdAt, commentText);
         this.feedbackSessionName = feedbackSessionName;
         this.feedbackQuestionId = feedbackQuestionId;
@@ -76,13 +74,14 @@ public class FeedbackResponseCommentAttributes extends BaseCommentAttributes {
         this.feedbackSessionName = comment.getFeedbackSessionName();
         this.feedbackQuestionId = comment.getFeedbackQuestionId();
         this.feedbackResponseId = comment.getFeedbackResponseId();
-        this.sendingState = comment.getSendingState() != null? comment.getSendingState() : CommentSendingState.SENT;
+        this.sendingState = comment.getSendingState() != null ? comment.getSendingState() : CommentSendingState.SENT;
         this.giverSection = comment.getGiverSection() != null ? comment.getGiverSection() : "None";
         this.receiverSection = comment.getReceiverSection() != null ? comment.getReceiverSection() : "None";
-        this.lastEditorEmail = comment.getLastEditorEmail() != null ? comment.getLastEditorEmail() : comment.getGiverEmail();
+        this.lastEditorEmail = comment.getLastEditorEmail() != null ?
+                comment.getLastEditorEmail() : comment.getGiverEmail();
         this.lastEditedAt = comment.getLastEditedAt() != null ? comment.getLastEditedAt() : comment.getCreatedAt();
-        if(comment.getIsVisibilityFollowingFeedbackQuestion() != null
-                && !comment.getIsVisibilityFollowingFeedbackQuestion()){
+        if (comment.getIsVisibilityFollowingFeedbackQuestion() != null
+                && !comment.getIsVisibilityFollowingFeedbackQuestion()) {
             this.showCommentTo = comment.getShowCommentTo();
             this.showGiverNameTo = comment.getShowGiverNameTo();
         } else {
@@ -113,19 +112,21 @@ public class FeedbackResponseCommentAttributes extends BaseCommentAttributes {
         List<String> errors = super.getInvalidityInfo();
         FieldValidator validator = new FieldValidator();
         String error = validator.getInvalidityInfo(FieldType.FEEDBACK_SESSION_NAME, feedbackSessionName);
-        if(!error.isEmpty()) { errors.add(error); }
-        
-        //TODO: handle the new attributes showCommentTo and showGiverNameTo
-        
+        if (!error.isEmpty()) {
+            errors.add(error);
+        }
+
+        // TODO: handle the new attributes showCommentTo and showGiverNameTo
+
         return errors;
     }
 
     @Override
     public FeedbackResponseComment toEntity() {
-        return new FeedbackResponseComment(courseId, feedbackSessionName,
-                feedbackQuestionId, giverEmail, feedbackResponseId, sendingState, createdAt,
-                commentText, giverSection, receiverSection, showCommentTo, showGiverNameTo,
-                lastEditorEmail, lastEditedAt);
+        return new FeedbackResponseComment(courseId, feedbackSessionName, feedbackQuestionId, giverEmail,
+                                           feedbackResponseId, sendingState, createdAt, commentText,
+                                           giverSection, receiverSection, showCommentTo, showGiverNameTo,
+                                           lastEditorEmail, lastEditedAt);
     }
 
     @Override
@@ -145,7 +146,7 @@ public class FeedbackResponseCommentAttributes extends BaseCommentAttributes {
         this.feedbackSessionName = Sanitizer.sanitizeForHtml(feedbackSessionName);
         this.feedbackQuestionId = Sanitizer.sanitizeForHtml(feedbackQuestionId);
         this.feedbackResponseId = Sanitizer.sanitizeForHtml(feedbackResponseId);
-        if(commentText != null){
+        if (commentText != null) {
             //replacing "\n" with "\n<br>" here is to make comment text support displaying breakline
             String sanitizedText = Sanitizer.sanitizeForHtml(commentText.getValue()).replace("\n", "\n<br>");
             this.commentText = new Text(sanitizedText);
@@ -170,15 +171,14 @@ public class FeedbackResponseCommentAttributes extends BaseCommentAttributes {
     
     public static void sortFeedbackResponseCommentsByCreationTime(List<FeedbackResponseCommentAttributes> frcs) {
         Collections.sort(frcs, new Comparator<FeedbackResponseCommentAttributes>() {
-           public int compare(FeedbackResponseCommentAttributes frc1, FeedbackResponseCommentAttributes frc2) {
-               return frc1.createdAt.compareTo(frc2.createdAt);
-           }
+            public int compare(FeedbackResponseCommentAttributes frc1, FeedbackResponseCommentAttributes frc2) {
+                return frc1.createdAt.compareTo(frc2.createdAt);
+            }
         });
     }
     
     public String getEditedAtTextForSessionsView(Boolean isGiverAnonymous) {
-        return getEditedAtText(isGiverAnonymous, this.lastEditorEmail,
-                this.lastEditedAt.toString());        
+        return getEditedAtText(isGiverAnonymous, this.lastEditorEmail, this.lastEditedAt.toString());        
     }
 
 }
