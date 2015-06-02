@@ -237,6 +237,60 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
          */
 
     }
+    
+    @Test
+    public void testVisibilityOptions() {
+        ______TS("test sort by giver > recipient > question for second session");
+        
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Unpublished Session");
+        resultsPage.displayByGiverRecipientQuestion();
+        
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionGiverRecipientQuestion.html");
+
+        ______TS("test sort by recipient > giver > question for second session");
+
+        resultsPage.displayByRecipientGiverQuestion();
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionRecipientGiverQuestion.html");
+
+        ______TS("test sort by giver > question > recipient for second session");
+
+        resultsPage.displayByGiverQuestionRecipient();
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionGiverQuestionRecipient.html");
+
+        ______TS("test sort by recipient > question > giver for second session");
+
+        resultsPage.displayByRecipientQuestionGiver();
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionRecipientQuestionGiver.html");
+
+        // Do not sort by team
+        resultsPage.clickGroupByTeam();
+
+        ______TS("test order in giver > recipient > question team for second session");
+
+        resultsPage.displayByGiverRecipientQuestion();
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionGiverRecipientQuestionTeam.html");
+
+        ______TS("test order in recipient > giver > question team for second session");
+        
+        resultsPage.displayByRecipientGiverQuestion();
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionRecipientGiverQuestionTeam.html");
+
+        ______TS("test order in giver > question > recipient team for second session");
+
+        resultsPage.displayByGiverQuestionRecipient();
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionGiverQuestionRecipientTeam.html");
+
+        ______TS("test order in recipient > question > giver team for second session");
+
+        resultsPage.displayByRecipientQuestionGiver();
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionRecipientQuestionGiverTeam.html");
+
+        ______TS("test sort by question for second session");
+        resultsPage.displayByQuestion();
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionQuestion.html");
+        
+        
+    }
 
     @Test
     public void testViewPhotoAndAjaxForLargeScaledSession() throws Exception {
