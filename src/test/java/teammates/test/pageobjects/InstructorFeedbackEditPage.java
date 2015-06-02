@@ -314,10 +314,6 @@ public class InstructorFeedbackEditPage extends AppPage {
         maxNumOfRecipients.click();
     }
     
-    public void selectAddOtherOptionCheckboxForNewQuestion() {
-        addOtherOptionCheckboxForNewQuestion.click();
-    }
-    
     public void clickCustomNumberOfRecipientsButton() {
         customNumOfRecipients.click();
     }
@@ -352,6 +348,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void clickCopySubmitButton() {
         copySubmitButton.click();
+    }
+    
+    public void clickAddOtherOptionCheckboxForNewQuestion() {
+        addOtherOptionCheckboxForNewQuestion.click();
     }
     
     public void waitForModalToLoad() {
