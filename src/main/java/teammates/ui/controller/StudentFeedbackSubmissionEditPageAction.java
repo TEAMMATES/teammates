@@ -36,6 +36,9 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
         if (student != null) {
             return student.email;
         } else {
+            // Not covered as this shouldn't happen since verifyAccesibleForSpecific user is always
+            // called before this, calling getStudent() and making student not null in any case
+            // This still acts as a safety net, however, and should stay
             return getStudent().email;
         }
     }
@@ -48,7 +51,6 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
         HashSet<String> notDisplayedInstructorEmails = new HashSet<String>();
 
-        // TODO: test the following 2 methods
         extractNotDisplayedInstrutorEmails(instructors, notDisplayedInstructorEmails);
 
         filterSessionQuestionBundle(questionsBundle, notDisplayedInstructorEmails);
