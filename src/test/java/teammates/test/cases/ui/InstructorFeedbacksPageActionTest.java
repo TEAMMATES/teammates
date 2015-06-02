@@ -42,9 +42,10 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         CoursesLogic.inst().createCourseAndInstructor(instructorId, "new-course", "New course");
         gaeSimulation.loginAsInstructor(instructorId);
         InstructorFeedbacksPageAction a = getAction(submissionParams);
-        ShowPageResult r = (ShowPageResult)a.executeAndPostProcess();
+        ShowPageResult r = (ShowPageResult) a.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACKS+"?error=false&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACKS + "?error=false&user=idOfInstructor1OfCourse1",
+                     r.getDestinationWithParams());
         assertEquals(false, r.isError);
         assertEquals("", r.getStatusMessage());
         
@@ -55,9 +56,10 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         assertEquals(null, pageData.newFeedbackSession);
         assertEquals(null, pageData.courseIdForNewSession);
         
-        String expectedLogMessage = "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage" +
-                "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
-                "|||instr1@course1.tmt|||Number of feedback sessions: 6|||/page/instructorFeedbacksPage";
+        String expectedLogMessage =
+                "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage|||"
+                + "true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
+                + "instr1@course1.tmt|||Number of feedback sessions: 6|||/page/instructorFeedbacksPage";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
         
@@ -65,16 +67,14 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         
         FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourse(instructor1ofCourse1.courseId);
         
-        submissionParams = new String[]{Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId, 
-                Const.ParamsNames.IS_USING_AJAX, "true"};
+        submissionParams = new String[]{Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId,
+                                        Const.ParamsNames.IS_USING_AJAX, "true"};
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         r = (ShowPageResult) a.executeAndPostProcess();
         
-        assertEquals(
-                Const.ViewURIs.INSTRUCTOR_FEEDBACKS+"?error=false&user=idOfInstructor1OfCourse1", 
-                r.getDestinationWithParams());
-        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EMPTY, 
-                r.getStatusMessage());
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACKS + "?error=false&user=idOfInstructor1OfCourse1", 
+                     r.getDestinationWithParams());
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EMPTY, r.getStatusMessage());
         assertEquals(false, r.isError);
         
         pageData = (InstructorFeedbacksPageData) r.data;
@@ -84,9 +84,10 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         assertEquals(null, pageData.newFeedbackSession);
         assertEquals(instructor1ofCourse1.courseId, pageData.courseIdForNewSession);
         
-        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage" +
-                "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
-                "|||instr1@course1.tmt|||Number of feedback sessions: 0|||/page/instructorFeedbacksPage";
+        expectedLogMessage =
+                "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage|||"
+                + "true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
+                + "instr1@course1.tmt|||Number of feedback sessions: 0|||/page/instructorFeedbacksPage";
         assertEquals(expectedLogMessage, a.getLogMessage());
         
         ______TS("Masquerade mode, 0 courses");
@@ -100,10 +101,12 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         a = getAction(addUserIdToParams(instructorId, submissionParams));
         r = (ShowPageResult) a.executeAndPostProcess();
         
-        assertEquals(
-                Const.ViewURIs.INSTRUCTOR_FEEDBACKS+"?error=false&user=idOfInstructor1OfCourse1", 
-                r.getDestinationWithParams());
-        assertEquals("You have not created any courses yet, or you have no active courses. Go <a href=\"/page/instructorCoursesPage?user=idOfInstructor1OfCourse1\">here</a> to create or unarchive a course.", r.getStatusMessage());
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACKS + "?error=false&user=idOfInstructor1OfCourse1",
+                     r.getDestinationWithParams());
+        assertEquals("You have not created any courses yet, or you have no active courses. "
+                     + "Go <a href=\"/page/instructorCoursesPage?user=idOfInstructor1OfCourse1\">here</a> "
+                     + "to create or unarchive a course.",
+                     r.getStatusMessage());
         assertEquals(false, r.isError);
         
         pageData = (InstructorFeedbacksPageData) r.data;
@@ -112,9 +115,10 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         assertEquals(0, pageData.existingFeedbackSessions.size());
         assertEquals(null, pageData.newFeedbackSession);
         
-        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage" +
-                "|||true|||Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
-                "|||instr1@course1.tmt|||Number of feedback sessions: 0|||/page/instructorFeedbacksPage";
+        expectedLogMessage =
+                "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage|||true|||"
+                + "Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
+                + "instr1@course1.tmt|||Number of feedback sessions: 0|||/page/instructorFeedbacksPage";
         assertEquals(expectedLogMessage, a.getLogMessage());
     }
     

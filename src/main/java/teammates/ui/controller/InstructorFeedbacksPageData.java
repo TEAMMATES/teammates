@@ -27,18 +27,14 @@ public class InstructorFeedbacksPageData extends PageData {
     public static final int MAX_CLOSED_SESSION_STATS = 5;
 
     public ArrayList<String> getTimeZoneOptionsAsHtml(){
-        return getTimeZoneOptionsAsHtml(
-                newFeedbackSession == null
-                    ? Const.DOUBLE_UNINITIALIZED
-                    : newFeedbackSession.timeZone);
+        return getTimeZoneOptionsAsHtml(newFeedbackSession == null ? Const.DOUBLE_UNINITIALIZED
+                                                                   : newFeedbackSession.timeZone);
     }
 
 
     public ArrayList<String> getGracePeriodOptionsAsHtml(){
-        return getGracePeriodOptionsAsHtml(
-                newFeedbackSession == null
-                    ? Const.INT_UNINITIALIZED
-                    : newFeedbackSession.gracePeriod);
+        return getGracePeriodOptionsAsHtml(newFeedbackSession == null ? Const.INT_UNINITIALIZED
+                                                                      : newFeedbackSession.gracePeriod);
     }
 
     public ArrayList<String> getCourseIdOptions() {
@@ -48,27 +44,28 @@ public class InstructorFeedbacksPageData extends PageData {
 
             // True if this is a submission of the filled 'new session' form
             // for this course:
-            boolean isFilledFormForSessionInThisCourse = (newFeedbackSession != null)
-                    && course.id.equals(newFeedbackSession.courseId);
+            boolean isFilledFormForSessionInThisCourse =
+                    newFeedbackSession != null && course.id.equals(newFeedbackSession.courseId);
 
             // True if this is for displaying an empty form for creating a
             // session for this course:
-            boolean isEmptyFormForSessionInThisCourse = (courseIdForNewSession != null)
-                    && course.id.equals(courseIdForNewSession);
+            boolean isEmptyFormForSessionInThisCourse =
+                    courseIdForNewSession != null && course.id.equals(courseIdForNewSession);
 
-            String selectedAttribute = isFilledFormForSessionInThisCourse
-                    || isEmptyFormForSessionInThisCourse ? " selected=\"selected\""
-                    : "";
-
+            String selectedAttribute = "";
+            if (isFilledFormForSessionInThisCourse || isEmptyFormForSessionInThisCourse) {
+                selectedAttribute = " selected=\"selected\"";
+            }
+            
             if (instructors.get(course.id).isAllowedForPrivilege(
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
-                result.add("<option value=\"" + course.id + "\""
-                        + selectedAttribute + ">" + course.id + "</option>");
+                result.add("<option value=\"" + course.id + "\"" + selectedAttribute + ">"
+                           + course.id + "</option>");
             }
         }
         
         // Add option if there are no active courses
-        if (result.size() == 0) {
+        if (result.isEmpty()) {
             result.add("<option value=\"\" selected=\"selected\">" + "No active courses!" + "</option>");
         }
         

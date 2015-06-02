@@ -76,8 +76,8 @@ public class FeedbackQuestionsLogic {
      * @param questionNumber
      * @throws InvalidParametersException
      */
-    public FeedbackQuestionAttributes createFeedbackQuestionNoIntegrityCheck(FeedbackQuestionAttributes fqa, int questionNumber)
-            throws InvalidParametersException {
+    public FeedbackQuestionAttributes createFeedbackQuestionNoIntegrityCheck(
+            FeedbackQuestionAttributes fqa, int questionNumber) throws InvalidParametersException {
         fqa.questionNumber = questionNumber;
         fqa.removeIrrelevantVisibilityOptions();
         FeedbackQuestionAttributes newFqa = fqDb.createFeedbackQuestionWithoutExistenceCheck(fqa);
@@ -142,16 +142,16 @@ public class FeedbackQuestionsLogic {
     /**
      *  Gets a {@link List} of every FeedbackQuestion that the instructor can copy
      */
-    public List<FeedbackQuestionAttributes> getCopiableFeedbackQuestionsForInstructor(
-            String googleId)
+    public List<FeedbackQuestionAttributes> getCopiableFeedbackQuestionsForInstructor(String googleId)
             throws EntityDoesNotExistException {
         
         List<FeedbackQuestionAttributes> copiableQuestions = new ArrayList<FeedbackQuestionAttributes>();
         List<CourseAttributes> courses = coursesLogic.getCoursesForInstructor(googleId);
-        for(CourseAttributes course : courses) {
+        for (CourseAttributes course : courses) {
             List<FeedbackSessionAttributes> sessions = fsLogic.getFeedbackSessionsForCourse(course.id);
-            for(FeedbackSessionAttributes session : sessions) {
-                List<FeedbackQuestionAttributes> questions = getFeedbackQuestionsForSession(session.feedbackSessionName, course.id);
+            for (FeedbackSessionAttributes session : sessions) {
+                List<FeedbackQuestionAttributes> questions =
+                        getFeedbackQuestionsForSession(session.feedbackSessionName, course.id);
                 copiableQuestions.addAll(questions);
             }
         }
@@ -171,7 +171,10 @@ public class FeedbackQuestionsLogic {
                 FeedbackQuestionDetails q1Details = q1.getQuestionDetails();
                 FeedbackQuestionDetails q2Details = q2.getQuestionDetails();
                 
-                order = q1Details.getQuestionTypeDisplayName().compareTo(q2Details.getQuestionTypeDisplayName());
+                String q1DisplayName = q1Details.getQuestionTypeDisplayName();
+                String q2DisplayName = q2Details.getQuestionTypeDisplayName();
+                
+                order = q1DisplayName.compareTo(q2DisplayName);
                 if(order != 0){
                     return order;
                 }
@@ -195,24 +198,48 @@ public class FeedbackQuestionsLogic {
             throw new EntityDoesNotExistException(
                     "Trying to get questions for a feedback session that does not exist.");
         }
+        
+        if (fsLogic.isCreatorOfSession(feedbackSessionName, courseId, userEmail)) {
+            return getFeedbackQuestionsForCreatorInstructor(feedbackSessionName, courseId);
+        }
+        
+        List<FeedbackQuestionAttributes> questions =
+                new ArrayList<FeedbackQuestionAttributes>();
+        
+        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
+        boolean isInstructor = instructor != null;
+        
+        if (isInstructor) {
+            questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
+                            feedbackSessionName, courseId, INSTRUCTORS));
+        }
+        
+        return questions;
+    }
+    
+    /**
+     * Gets a {@code List} of all questions for the list of questions that an
+     * instructor who is the creator of the course can view/submit
+     */
+    public List<FeedbackQuestionAttributes> getFeedbackQuestionsForCreatorInstructor(
+                                    String feedbackSessionName, String courseId) 
+                    throws EntityDoesNotExistException {
+        
+        if (fsLogic.getFeedbackSession(feedbackSessionName, courseId) == null) {
+            throw new EntityDoesNotExistException(
+                    "Trying to get questions for a feedback session that does not exist.");
+        }
 
         List<FeedbackQuestionAttributes> questions =
                 new ArrayList<FeedbackQuestionAttributes>();
         
-        // Return instructor questions if instructor.
-        InstructorAttributes instructor = 
-                instructorsLogic.getInstructorForEmail(courseId, userEmail);
+        questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
+                                       feedbackSessionName, courseId, INSTRUCTORS));
         
-        if (instructor != null) {
-            questions.addAll(fqDb.getFeedbackQuestionsForGiverType(
-                        feedbackSessionName, courseId, INSTRUCTORS));
-        }
+        // Return all self (creator) questions
+        questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSessionName,
+                courseId, SELF));
         
-        // Return all self (creator) questions if creator.
-        if (fsLogic.isCreatorOfSession(feedbackSessionName, courseId, userEmail)) {
-            questions.addAll(fqDb.getFeedbackQuestionsForGiverType(feedbackSessionName,
-                    courseId, SELF));
-        }
         
         return questions;
     }
@@ -236,7 +263,7 @@ public class FeedbackQuestionsLogic {
         }
         
         return questions;
-    }
+    }    
 
     
     
@@ -401,7 +428,8 @@ public class FeedbackQuestionsLogic {
     }
     
     public boolean isQuestionHasResponses(String feedbackQuestionId) {
-        return (frLogic.getFeedbackResponsesForQuestionWithinRange(feedbackQuestionId, 1).isEmpty() == false);
+        return !frLogic.getFeedbackResponsesForQuestionWithinRange(feedbackQuestionId, 1)
+                       .isEmpty();
     }
     
     public boolean isQuestionAnsweredByUser(FeedbackQuestionAttributes question, String email) 

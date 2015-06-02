@@ -47,8 +47,7 @@ public class InstructorFeedbackEditCopyPageActionTest extends
         
         assertFalse(r.isError);
 
-        InstructorFeedbackEditCopyPageData pageData = 
-                (InstructorFeedbackEditCopyPageData) r.data;
+        InstructorFeedbackEditCopyPageData pageData = (InstructorFeedbackEditCopyPageData) r.data;
         assertEquals(4, pageData.courses.size());
  
         
@@ -68,11 +67,7 @@ public class InstructorFeedbackEditCopyPageActionTest extends
         
     }
     
-    private InstructorFeedbackEditCopyPageAction getAction(String... params)
-            throws Exception {
-
-        return (InstructorFeedbackEditCopyPageAction) (gaeSimulation
-                .getActionObject(uri, params));
-
+    private InstructorFeedbackEditCopyPageAction getAction(String... params) throws Exception {
+        return (InstructorFeedbackEditCopyPageAction) gaeSimulation.getActionObject(uri, params);
     }
 }
