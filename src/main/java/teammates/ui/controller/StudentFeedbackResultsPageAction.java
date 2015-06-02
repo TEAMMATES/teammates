@@ -12,7 +12,7 @@ public class StudentFeedbackResultsPageAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
-        if (courseId==null || feedbackSessionName == null) {
+        if (courseId == null || feedbackSessionName == null) {
             return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
         }
 
@@ -29,6 +29,8 @@ public class StudentFeedbackResultsPageAction extends Action {
         data.bundle = logic.getFeedbackSessionResultsForStudent(feedbackSessionName, courseId, data.student.email);
 
         if (data.bundle == null) {
+            // not covered because GateKeeper will detect this as unauthorized exception, but we can
+            // leave this here as a safety net on the off cases that GateKeeper fails to catch the Exception
             throw new EntityDoesNotExistException("Feedback session " + feedbackSessionName
                                                   + " does not exist in " + courseId + ".");
         }
