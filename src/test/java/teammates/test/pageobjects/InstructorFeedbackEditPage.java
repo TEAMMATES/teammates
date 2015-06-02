@@ -436,18 +436,19 @@ public class InstructorFeedbackEditPage extends AppPage {
      */
     public boolean verifyEditSessionBoxIsEnabled() {
         boolean isEditSessionEnabled = fsSaveLink.isDisplayed() && timezoneDropDown.isEnabled()
+                                       // && "Session visible from" radio buttons
                                        && neverSessionVisibleTimeButton.isEnabled()
                                        && defaultSessionVisibleTimeButton.isEnabled()
                                        && customSessionVisibleTimeButton.isEnabled()
-                                       // ...&&...
+                                       // && "Send emails for" checkboxes
                                        && closingSessionEmailReminderButton.isEnabled()
                                        && publishedSessionEmailReminderButton.isEnabled();
         
         if (isEditSessionEnabled && !neverSessionVisibleTimeButton.isSelected()) {
-            isEditSessionEnabled = gracePeriodDropdown.isEnabled()
+            isEditSessionEnabled = gracePeriodDropdown.isEnabled() // && Submission times inputs
                                    && startDateBox.isEnabled() && startTimeDropdown.isEnabled()
                                    && endDateBox.isEnabled() && endTimeDropdown.isEnabled()
-                                   // ...&&...
+                                   // && "Responses visible from" radio buttons
                                    && defaultResultsVisibleTimeButton.isEnabled()
                                    && customResultsVisibleTimeButton.isEnabled()
                                    && manualResultsVisibleTimeButton.isEnabled()
