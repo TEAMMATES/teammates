@@ -7,7 +7,7 @@ import java.util.List;
 import teammates.common.util.Const;
 
 /**
- * Represents details of an evaluation. 
+ * Represents details of a feedback session 
  * Contains:
  * <br> * The basic info of the feedback session (as a {@link FeedbackSessionAttributes} object).
  * <br> * Feedback response statistics (as a {@link FeedbackSessionStats} object).
