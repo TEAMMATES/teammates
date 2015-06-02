@@ -23,7 +23,9 @@ import com.google.gson.Gson;
  * The SearchDocument object that defines how we store {@link Document} for response comments
  */
 public class FeedbackResponseCommentSearchDocument extends BaseCommentSearchDocument {
-    
+
+    private static final int DOCUMENT_SIZE_LIMIT = 25;
+
     private FeedbackResponseCommentAttributes comment;
     private FeedbackResponseAttributes relatedResponse;
     private String responseGiverName;
@@ -111,7 +113,7 @@ public class FeedbackResponseCommentSearchDocument extends BaseCommentSearchDocu
     public Document toDocument(){
         
         //populate related Students/Instructors information
-        StringBuilder relatedPeopleBuilder = super.populateRelatedStudentsInformation(25);
+        StringBuilder relatedPeopleBuilder = super.populateRelatedStudentsInformation(DOCUMENT_SIZE_LIMIT);
         
         String delim = ",";
         int counter = 0;

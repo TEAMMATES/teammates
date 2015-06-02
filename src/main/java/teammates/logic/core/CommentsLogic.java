@@ -36,6 +36,8 @@ import teammates.storage.api.StudentsDb;
 public class CommentsLogic extends BaseCommentsLogic {
     
     private static CommentsLogic instance;
+    
+    private static final String PARAM_NOT_USED_BY_COMMENT = "PLACEHOLDER";
 
     @SuppressWarnings("unused") //used by test
     private static final Logger log = Utils.getLogger();
@@ -103,12 +105,13 @@ public class CommentsLogic extends BaseCommentsLogic {
     @SuppressWarnings("unchecked")
     public List<CommentAttributes> getCommentsForSendingState(String courseId, CommentSendingState sendingState)
            throws EntityDoesNotExistException {
-        return (List<CommentAttributes>) super.getCommentsForSendingState(courseId, "PLACEHOLDER", sendingState);
+        return (List<CommentAttributes>) super.getCommentsForSendingState(courseId, PARAM_NOT_USED_BY_COMMENT,
+                                                                          sendingState);
     }
     
     public void updateCommentsSendingState(String courseId, CommentSendingState oldState, CommentSendingState newState)
            throws EntityDoesNotExistException {
-        super.updateCommentsSendingState(courseId, "PLACEHOLDER", oldState, newState);
+        super.updateCommentsSendingState(courseId, PARAM_NOT_USED_BY_COMMENT, oldState, newState);
     }
     
     public CommentAttributes updateComment(BaseCommentAttributes comment)

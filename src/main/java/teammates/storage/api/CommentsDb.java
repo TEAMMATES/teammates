@@ -46,6 +46,8 @@ public class CommentsDb extends BaseCommentsDb {
     }
     private static final Logger log = Utils.getLogger();
 
+    private static final String PARAM_NOT_USED_BY_COMMENT = "PLACEHOLDER";
+
     public CommentAttributes createEntity(EntityAttributes entityToAdd) throws InvalidParametersException, EntityAlreadyExistsException {
         return (CommentAttributes) super.createEntity(entityToAdd);
     }
@@ -131,7 +133,7 @@ public class CommentsDb extends BaseCommentsDb {
     
     @SuppressWarnings("unchecked")
     public List<CommentAttributes> getCommentsForSendingState(String courseId, CommentSendingState state) {
-        return (List<CommentAttributes>) super.getCommentsForSendingState(courseId, "PLACEHOLDER", state);
+        return (List<CommentAttributes>) super.getCommentsForSendingState(courseId, PARAM_NOT_USED_BY_COMMENT, state);
     }
     
     /*
@@ -143,7 +145,7 @@ public class CommentsDb extends BaseCommentsDb {
     }
     
     public void updateComments(String courseId, CommentSendingState oldState, CommentSendingState newState) {
-        super.updateComments(courseId, "PLACEHOLDER", oldState, newState);
+        super.updateComments(courseId, PARAM_NOT_USED_BY_COMMENT, oldState, newState);
     }
 
     public CommentAttributes updateComment(BaseCommentAttributes newBaseAttributes) 

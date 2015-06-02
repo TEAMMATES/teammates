@@ -19,6 +19,7 @@ public class CommentSearchDocument extends BaseCommentSearchDocument {
     
     private CommentAttributes comment;
     private StringBuilder commentRecipientNameBuilder = new StringBuilder("");
+    private static final int DOCUMENT_SIZE_LIMIT = 50;
     
     public CommentSearchDocument(CommentAttributes comment){
         this.comment = comment;
@@ -80,7 +81,7 @@ public class CommentSearchDocument extends BaseCommentSearchDocument {
     public Document toDocument() {
         
         //populate recipients information
-        StringBuilder recipientsBuilder = super.populateRelatedStudentsInformation(50);
+        StringBuilder recipientsBuilder = super.populateRelatedStudentsInformation(DOCUMENT_SIZE_LIMIT);
         String delim = ",";
         
         //produce searchableText for this comment document:
