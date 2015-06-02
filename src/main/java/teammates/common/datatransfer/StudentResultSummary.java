@@ -3,7 +3,7 @@ package teammates.common.datatransfer;
 import teammates.common.util.Const;
 
 /**
- * Represents the contribution ratings for the student for a given evaluation.
+ * Represents the contribution ratings for the student for a given contribution question.
  * <br> Contains claimed and perceived values to be shown to the student and the instructor.
  */
 public class StudentResultSummary {

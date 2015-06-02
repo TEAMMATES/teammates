@@ -22,7 +22,7 @@ public class InstructorHomePageData extends PageData {
     public static final int MAX_CLOSED_SESSION_STATS = 3;
     
     public String getInstructorEvaluationLinkForCourse(String courseID) {
-        String link = super.getInstructorEvaluationLink();
+        String link = super.getInstructorFeedbacksPageLink();
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
         return link;
     }
