@@ -92,6 +92,23 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
                                        Const.ParamsNames.COURSE_ID), e.getMessage());
         }
 
+        ______TS("typical success case for registered student");
+
+        submissionParams = new String[]{
+                Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.feedbackSessionName,
+                Const.ParamsNames.USER_ID, student1InCourse1.googleId
+        };
+
+        pageAction = getAction(submissionParams);
+        ShowPageResult pageResult = getShowPageResult(pageAction);
+
+        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT + "?error=false&"
+                     + Const.ParamsNames.USER_ID + "=" + student1InCourse1.googleId,
+                     pageResult.getDestinationWithParams());
+        assertFalse(pageResult.isError);
+        assertEquals("", pageResult.getStatusMessage());
+
         ______TS("feedbacksession deleted");
 
         FeedbackSessionsDb feedbackSessionsDb = new FeedbackSessionsDb();
@@ -137,7 +154,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
 
         stDb.deleteStudent("idOfTypicalCourse1", "unreg@stud.ent");
 
-        ______TS("typical success case");
+        ______TS("typical success case for unregistered student");
 
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
         removeAndRestoreTypicalDataInDatastore();
@@ -151,7 +168,7 @@ public class StudentFeedbackSubmissionEditPageActionTest extends BaseActionTest 
         };
 
         pageAction = getAction(params);
-        ShowPageResult pageResult = getShowPageResult(pageAction);
+        pageResult = getShowPageResult(pageAction);
 
         assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT + "?error=false&"
                      + Const.ParamsNames.USER_ID + "=" + student1InCourse1.googleId,
