@@ -20,16 +20,17 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE;
     }
     
     @Test
     public void testExecuteAndPostProcess() throws Exception{
-        InstructorAttributes instructor1ofCourse1 =
-                dataBundle.instructors.get("instructor1OfCourse1");
-        FeedbackSessionAttributes session = 
-                dataBundle.feedbackSessions.get("session1InCourse1");
+        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
+        
+        String expectedString = "";
+        
         
         ______TS("Not enough parameters");
         
@@ -39,38 +40,38 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         //verifyAssumptionFailure(Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId,
         //                        Const.ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName);
         
+        
         ______TS("success: Typical case");
         
-        String[] params =
-                createParamsForTypicalFeedbackSession(
-                        instructor1ofCourse1.courseId, session.feedbackSessionName);
+        String[] params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
+                                                                session.feedbackSessionName);
         
         InstructorFeedbackEditSaveAction a = getAction(params);
         RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(
-                Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
-                        + "?courseid="
-                        + instructor1ofCourse1.courseId
-                        + "&fsname=First+feedback+session"
-                        + "&user="
-                        + instructor1ofCourse1.googleId
-                        + "&error=false",
-                rr.getDestinationWithParams());
+        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+                         + "?courseid=" + instructor1ofCourse1.courseId
+                         + "&fsname=First+feedback+session"
+                         + "&user=" + instructor1ofCourse1.googleId
+                         + "&error=false";
+        assertEquals(expectedString, rr.getDestinationWithParams());
         
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, rr.getStatusMessage());
         
-        String expectedLogMessage =
+        expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditSave|||instructorFeedbackEditSave|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
-                + "instr1@course1.tmt|||Updated Feedback Session <span class=\"bold\">"
-                + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]"
-                + "</span> created.<br><span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012"
-                + "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br><span class=\"bold\">"
-                + "Session visible from:</span> Sun Jan 01 00:00:00 UTC 2012<br><span class=\"bold\">"
-                + "Results visible from:</span> Mon Jun 22 00:00:00 UTC 1970<br><br><span class=\"bold\">"
-                + "Instructions:</span> <Text: instructions>|||/page/instructorFeedbackEditSave";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+                + "instr1@course1.tmt|||Updated Feedback Session "
+                + "<span class=\"bold\">(First feedback session)</span> for Course "
+                + "<span class=\"bold\">[idOfTypicalCourse1]</span> created.<br>"
+                + "<span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012"
+                + "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br>"
+                + "<span class=\"bold\">Session visible from:</span> Sun Jan 01 00:00:00 UTC 2012<br>"
+                + "<span class=\"bold\">Results visible from:</span> Mon Jun 22 00:00:00 UTC 1970<br><br>"
+                + "<span class=\"bold\">Instructions:</span> "
+                + "<Text: instructions>|||/page/instructorFeedbackEditSave";
+        assertEquals(expectedString, a.getLogMessage());
+        
         
         ______TS("failure: invalid parameters");
         
@@ -79,23 +80,22 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         a = getAction(params);
         rr = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(
-                Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
-                        + "?courseid="
-                        + instructor1ofCourse1.courseId
-                        + "&fsname=First+feedback+session"
-                        + "&user="
-                        + instructor1ofCourse1.googleId
-                        + "&error=true",
-                rr.getDestinationWithParams());
+        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+                         + "?courseid=" + instructor1ofCourse1.courseId
+                         + "&fsname=First+feedback+session"
+                         + "&user=" + instructor1ofCourse1.googleId
+                         + "&error=true";
+        assertEquals(expectedString, rr.getDestinationWithParams());
         
-        assertEquals("The start time for this feedback session cannot be"
-                     + " earlier than the time when the session will be visible.", rr.getStatusMessage());
+        expectedString = "The start time for this feedback session cannot be "
+                         + "earlier than the time when the session will be visible.";
+        assertEquals(expectedString, rr.getStatusMessage());
+        
         
         ______TS("success: Timzone with offset, 'never' show session, 'custom' show results");
         
-        params = createParamsForTypicalFeedbackSession(
-                        instructor1ofCourse1.courseId, session.feedbackSessionName);
+        params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
+                                                       session.feedbackSessionName);
         params[25] = "5.75";
         params[13] = Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_NEVER;
         params[19] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER;
@@ -105,34 +105,34 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         a = getAction(params);
         rr = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(
-                Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
-                        + "?courseid="
-                        + instructor1ofCourse1.courseId
-                        + "&fsname=First+feedback+session"
-                        + "&user="
-                        + instructor1ofCourse1.googleId
-                        + "&error=false",
-                rr.getDestinationWithParams());
+        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+                         + "?courseid=" + instructor1ofCourse1.courseId
+                         + "&fsname=First+feedback+session"
+                         + "&user=" + instructor1ofCourse1.googleId
+                         + "&error=false";
+        assertEquals(expectedString, rr.getDestinationWithParams());
         
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, rr.getStatusMessage());
         
-        expectedLogMessage =
+        expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditSave|||instructorFeedbackEditSave|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
-                + "instr1@course1.tmt|||Updated Feedback Session <span class=\"bold\">"
-                + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]"
-                + "</span> created.<br><span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012"
-                + "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br><span class=\"bold\">"
-                + "Session visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br><span class=\"bold\">"
-                + "Results visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br><br><span class=\"bold\">"
-                + "Instructions:</span> <Text: instructions>|||/page/instructorFeedbackEditSave";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+                + "instr1@course1.tmt|||Updated Feedback Session "
+                + "<span class=\"bold\">(First feedback session)</span> for Course "
+                + "<span class=\"bold\">[idOfTypicalCourse1]</span> created.<br>"
+                + "<span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012"
+                + "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br>"
+                + "<span class=\"bold\">Session visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br>"
+                + "<span class=\"bold\">Results visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br><br>"
+                + "<span class=\"bold\">Instructions:</span> "
+                + "<Text: instructions>|||/page/instructorFeedbackEditSave";
+        assertEquals(expectedString, a.getLogMessage());
+        
         
         ______TS("success: atopen session visible time, custom results visible time, null timezone, null grace period");
         
         params = createParamsCombinationForFeedbackSession(
-                instructor1ofCourse1.courseId, session.feedbackSessionName, 1);
+                         instructor1ofCourse1.courseId, session.feedbackSessionName, 1);
         
         //remove grace period (first) and then time zone
         params = ArrayUtils.remove(params, 26);
@@ -143,36 +143,36 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         a = getAction(params);
         rr = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(
-                Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
-                        + "?courseid="
-                        + instructor1ofCourse1.courseId
-                        + "&fsname=First+feedback+session"
-                        + "&user="
-                        + instructor1ofCourse1.googleId
-                        + "&error=false",
-                rr.getDestinationWithParams());
+        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+                         + "?courseid=" + instructor1ofCourse1.courseId
+                         + "&fsname=First+feedback+session"
+                         + "&user=" + instructor1ofCourse1.googleId
+                         + "&error=false";
+        assertEquals(expectedString, rr.getDestinationWithParams());
         
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, rr.getStatusMessage());
         
-        expectedLogMessage =
+        expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditSave|||instructorFeedbackEditSave|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
-                + "instr1@course1.tmt|||Updated Feedback Session <span class=\"bold\">"
-                + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]"
-                + "</span> created.<br><span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012"
-                + "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br><span class=\"bold\">"
-                + "Session visible from:</span> Thu Dec 31 00:00:00 UTC 1970<br><span class=\"bold\">"
-                + "Results visible from:</span> Thu May 08 02:00:00 UTC 2014<br><br><span class=\"bold\">"
-                + "Instructions:</span> <Text: instructions>|||/page/instructorFeedbackEditSave";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+                + "instr1@course1.tmt|||Updated Feedback Session "
+                + "<span class=\"bold\">(First feedback session)</span> for Course "
+                + "<span class=\"bold\">[idOfTypicalCourse1]</span> created.<br>"
+                + "<span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012"
+                + "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br>"
+                + "<span class=\"bold\">Session visible from:</span> Thu Dec 31 00:00:00 UTC 1970<br>"
+                + "<span class=\"bold\">Results visible from:</span> Thu May 08 02:00:00 UTC 2014<br><br>"
+                + "<span class=\"bold\">Instructions:</span> "
+                + "<Text: instructions>|||/page/instructorFeedbackEditSave";
+        assertEquals(expectedString, a.getLogMessage());
+        
         
         ______TS("success: Masquerade mode, never release results, invalid timezone and graceperiod");
         
         gaeSimulation.loginAsAdmin("admin.user");
 
-        params = createParamsForTypicalFeedbackSession(
-                instructor1ofCourse1.courseId, session.feedbackSessionName);
+        params = createParamsForTypicalFeedbackSession(instructor1ofCourse1.courseId,
+                                                       session.feedbackSessionName);
         params[19] = Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER;
         params[25] = " ";
         params[27] = "12dsf";
@@ -182,29 +182,28 @@ public class InstructorFeedbackEditSaveActionTest extends BaseActionTest {
         a = getAction(params);
         rr = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(
-                Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
-                        + "?courseid="
-                        + instructor1ofCourse1.courseId
-                        + "&fsname=First+feedback+session"
-                        + "&user="
-                        + instructor1ofCourse1.googleId
-                        + "&error=false",
-                rr.getDestinationWithParams());
+        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+                         + "?courseid=" + instructor1ofCourse1.courseId
+                         + "&fsname=First+feedback+session"
+                         + "&user=" + instructor1ofCourse1.googleId
+                         + "&error=false";
+        assertEquals(expectedString, rr.getDestinationWithParams());
         
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_EDITED, rr.getStatusMessage());
         
-        expectedLogMessage =
+        expectedString =
                 "TEAMMATESLOG|||instructorFeedbackEditSave|||instructorFeedbackEditSave|||true|||"
                 + "Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
-                + "instr1@course1.tmt|||Updated Feedback Session <span class=\"bold\">"
-                + "(First feedback session)</span> for Course <span class=\"bold\">[idOfTypicalCourse1]"
-                + "</span> created.<br><span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012"
-                + "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br><span class=\"bold\">"
-                + "Session visible from:</span> Sun Jan 01 00:00:00 UTC 2012<br><span class=\"bold\">"
-                + "Results visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br><br><span class=\"bold\">"
-                + "Instructions:</span> <Text: instructions>|||/page/instructorFeedbackEditSave";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+                + "instr1@course1.tmt|||Updated Feedback Session "
+                + "<span class=\"bold\">(First feedback session)</span> for Course "
+                + "<span class=\"bold\">[idOfTypicalCourse1]</span> created.<br>"
+                + "<span class=\"bold\">From:</span> Wed Feb 01 00:00:00 UTC 2012"
+                + "<span class=\"bold\"> to</span> Thu Jan 01 00:00:00 UTC 2015<br>"
+                + "<span class=\"bold\">Session visible from:</span> Sun Jan 01 00:00:00 UTC 2012<br>"
+                + "<span class=\"bold\">Results visible from:</span> Fri Nov 27 00:00:00 UTC 1970<br><br>"
+                + "<span class=\"bold\">Instructions:</span> "
+                + "<Text: instructions>|||/page/instructorFeedbackEditSave";
+        assertEquals(expectedString, a.getLogMessage());
     }
     
     private InstructorFeedbackEditSaveAction getAction (String... params) throws Exception {

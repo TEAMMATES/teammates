@@ -29,24 +29,24 @@ public class InstructorSearchPageAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         new GateKeeper().verifyInstructorPrivileges(account);
         String searchKey = getRequestParamValue(Const.ParamsNames.SEARCH_KEY);
-        if(searchKey == null){
+        if (searchKey == null) {
             searchKey = "";
         }
         
         int numberOfSearchOptions = 0;
 
         boolean isSearchForStudents = getRequestParamAsBoolean(Const.ParamsNames.SEARCH_STUDENTS);
-        if(isSearchForStudents){
+        if (isSearchForStudents) {
             numberOfSearchOptions++;
         }
 
         boolean isSearchCommentForStudents = getRequestParamAsBoolean(Const.ParamsNames.SEARCH_COMMENTS_FOR_STUDENTS);
-        if(isSearchCommentForStudents){
+        if (isSearchCommentForStudents) {
             numberOfSearchOptions++;
         }
         
         boolean isSearchCommentForResponses = getRequestParamAsBoolean(Const.ParamsNames.SEARCH_COMMENTS_FOR_RESPONSES);
-        if(isSearchCommentForResponses){
+        if (isSearchCommentForResponses) {
             numberOfSearchOptions++;
         }
         
@@ -55,42 +55,37 @@ public class InstructorSearchPageAction extends Action {
         StudentSearchResultBundle studentSearchResults = new StudentSearchResultBundle();
         int totalResultsSize = 0;
         
-        if(!searchKey.isEmpty() && numberOfSearchOptions != 0){
+        if (!searchKey.isEmpty() && numberOfSearchOptions != 0) {
             //Start searching
-            if(isSearchCommentForStudents){
+            if (isSearchCommentForStudents) {
                 commentSearchResults = logic.searchComment(searchKey, account.googleId, "");
             }
-            if(isSearchCommentForResponses){
+            if (isSearchCommentForResponses) {
                 frCommentSearchResults = logic.searchFeedbackResponseComments(searchKey, account.googleId, "");
             }
-            if(isSearchForStudents){
+            if (isSearchForStudents) {
                 studentSearchResults = logic.searchStudents(searchKey, account.googleId, "");
             }
             
-            totalResultsSize = commentSearchResults.getResultSize() + frCommentSearchResults.getResultSize() + studentSearchResults.getResultSize();
+            totalResultsSize = commentSearchResults.getResultSize() + frCommentSearchResults.getResultSize() 
+                               + studentSearchResults.getResultSize();
             
             List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId);
             Set<String> instructorEmails = new HashSet<String>();
+            
             for (InstructorAttributes instructor : instructors) {
                 instructorEmails.add(instructor.email);
             }
-            totalResultsSize = filterCommentSearchResults(commentSearchResults,
-                    totalResultsSize, instructors, instructorEmails);
-            totalResultsSize = filterFeedbackResponseCommentResults(frCommentSearchResults,
-                    instructors, totalResultsSize);
+            totalResultsSize = filterCommentSearchResults(commentSearchResults, totalResultsSize, instructors, instructorEmails);
+            totalResultsSize = filterFeedbackResponseCommentResults(frCommentSearchResults, instructors, totalResultsSize);
             removeQuestionsAndResponsesWithoutComments(frCommentSearchResults);
             
-            if(totalResultsSize == 0){
-                //TODO: put this status msg into Const
-                statusToUser.add("No results found.");
+            if (totalResultsSize == 0) {
+                statusToUser.add(Const.StatusMessages.INSTRUCTOR_SEARCH_NO_RESULTS);
             }
         } else {
             //display search tips and tutorials
-            statusToUser.add("Search Tips:<br>"
-                    + "<ul>"
-                    + "<li>Put more keywords to search for more precise results.</li>"
-                    + "<li>Put quotation marks around words <b>\"[any word]\"</b> to search for an exact phrase in an exact order.</li>"
-                    + "</ul>");
+            statusToUser.add(Const.StatusMessages.INSTRUCTOR_SEARCH_TIPS);
         }
         
         InstructorSearchPageData data = new InstructorSearchPageData(account);
@@ -110,23 +105,25 @@ public class InstructorSearchPageAction extends Action {
     private int filterFeedbackResponseCommentResults(
             FeedbackResponseCommentSearchResultBundle frCommentSearchResults,
             List<InstructorAttributes> instructors, int totalResultsSize) {
+        
         Iterator<Entry<String, List<FeedbackResponseAttributes>>> iterFr = frCommentSearchResults.responses.entrySet().iterator();
+        
         while (iterFr.hasNext()) {
             List<FeedbackResponseAttributes> frs = iterFr.next().getValue();
             Iterator<FeedbackResponseAttributes> fr = frs.iterator();
+            
             while (fr.hasNext()) {
                 FeedbackResponseAttributes response = fr.next();
-                FeedbackQuestionAttributes relatedQuestion = getRelatedQuestionOfResponse(frCommentSearchResults, response);
                 InstructorAttributes instructor = this.getInstructorForCourseId(response.courseId, instructors);
-                boolean isVisibleResponse = true;
-                boolean needCheckPrivilege = relatedQuestion == null || !(relatedQuestion.recipientType == FeedbackParticipantType.NONE ||
-                        relatedQuestion.recipientType == FeedbackParticipantType.INSTRUCTORS ||
-                                relatedQuestion.recipientType == FeedbackParticipantType.STUDENTS);
-                boolean isNotAllowedForInstructor = instructor == null || !(instructor.isAllowedForPrivilege(response.giverSection,
-                        response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
-                        || !(instructor.isAllowedForPrivilege(response.recipientSection,
-                                response.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
-                if (needCheckPrivilege && isNotAllowedForInstructor) {
+                
+                boolean isVisibleResponse = true;               
+                boolean isNotAllowedForInstructor = instructor == null 
+                                                    || !(instructor.isAllowedForPrivilege(response.giverSection, response.feedbackSessionName, 
+                                                                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))
+                                                    || !(instructor.isAllowedForPrivilege(response.recipientSection, response.feedbackSessionName, 
+                                                                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                
+                if (isNotAllowedForInstructor) {
                     isVisibleResponse = false;
                 }
                 if (!isVisibleResponse) {
@@ -137,13 +134,12 @@ public class InstructorSearchPageAction extends Action {
                     fr.remove();
                 }
             }
-        }
-        
+        }   
         return totalResultsSize;
     }
     
     private FeedbackQuestionAttributes getRelatedQuestionOfResponse(FeedbackResponseCommentSearchResultBundle frCommentSearchResults, 
-            FeedbackResponseAttributes fra) {
+                                                                        FeedbackResponseAttributes fra) {      
         List<FeedbackQuestionAttributes> fqs = frCommentSearchResults.questions.get(fra.feedbackSessionName);
         for (FeedbackQuestionAttributes fq : fqs) {
             if (fq.getId().equals(fra.feedbackQuestionId)) {
@@ -155,8 +151,10 @@ public class InstructorSearchPageAction extends Action {
     
     private void removeQuestionsAndResponsesWithoutComments(FeedbackResponseCommentSearchResultBundle frCommentSearchResults) {
         Iterator<Entry<String, List<FeedbackQuestionAttributes>>> fqsIter = frCommentSearchResults.questions.entrySet().iterator();
+        
         while (fqsIter.hasNext()) {
             Iterator<FeedbackQuestionAttributes> fqIter = fqsIter.next().getValue().iterator();
+            
             while (fqIter.hasNext()) {
                 FeedbackQuestionAttributes fq = fqIter.next();
                 if (frCommentSearchResults.responses.get(fq.getId()).isEmpty()) {
@@ -166,10 +164,8 @@ public class InstructorSearchPageAction extends Action {
         }
     }
 
-    private int filterCommentSearchResults(
-            CommentSearchResultBundle commentSearchResults,
-            int totalResultsSize, List<InstructorAttributes> instructors,
-            Set<String> instructorEmails) {
+    private int filterCommentSearchResults(CommentSearchResultBundle commentSearchResults, int totalResultsSize, 
+                                               List<InstructorAttributes> instructors, Set<String> instructorEmails) {        
         Iterator<Entry<String, List<CommentAttributes>>> iter = commentSearchResults.giverCommentTable.entrySet().iterator();
         while (iter.hasNext()) {
             List<CommentAttributes> commentList = iter.next().getValue();
@@ -192,8 +188,8 @@ public class InstructorSearchPageAction extends Action {
         return null;
     }
 
-    private boolean isInstructorAllowedToViewComment(
-            CommentAttributes commentAttributes, Set<String> instructorEmails, List<InstructorAttributes> instructors) {
+    private boolean isInstructorAllowedToViewComment(CommentAttributes commentAttributes, Set<String> instructorEmails, 
+                                                         List<InstructorAttributes> instructors) {
         if (instructorEmails.contains(commentAttributes.giverEmail)) {
             return true;
         }
@@ -202,6 +198,7 @@ public class InstructorSearchPageAction extends Action {
                 boolean isForSection = true;
                 String section = "None";
                 String recipient = "";
+                
                 if (commentAttributes.recipients.size() == 0) {
                     // prevent error--however, this should never happen unless there is corruption of data
                     return false;
@@ -217,7 +214,8 @@ public class InstructorSearchPageAction extends Action {
                         logic.deleteComment(commentAttributes);
                         return false;
                     }
-                    section = student.section;
+                    
+                    section = student.section;              
                 } else if (commentAttributes.recipientType == CommentParticipantType.TEAM) {
                     List<StudentAttributes> studentsInTeam = logic.getStudentsForTeam(recipient, commentAttributes.courseId);
                     if (studentsInTeam.isEmpty()) {
@@ -225,20 +223,21 @@ public class InstructorSearchPageAction extends Action {
                         logic.deleteComment(commentAttributes);
                         return false;
                     }
+                    
                     section = studentsInTeam.get(0).section;
                 } else if (commentAttributes.recipientType == CommentParticipantType.SECTION) {
                     section = recipient;
                 } else if (commentAttributes.recipientType == CommentParticipantType.COURSE) {
                     isForSection = false;
                 }
+                
                 if (isForSection) {
                     return instructor.isAllowedForPrivilege(section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
                 } else {
                     return instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
                 }
             }
-        }
-        
+        }      
         return false;
     }
 }

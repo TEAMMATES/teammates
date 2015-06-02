@@ -169,8 +169,7 @@ public abstract class EntitiesDb {
     public Object createEntityWithoutExistenceCheck(EntityAttributes entityToAdd) 
             throws InvalidParametersException {
         
-        Assumption.assertNotNull(
-                Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToAdd);
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entityToAdd);
         
         entityToAdd.sanitizeForSaving();
         
@@ -183,7 +182,7 @@ public abstract class EntitiesDb {
         getPM().flush();
 
         // Wait for the operation to persist
-        if(Config.PERSISTENCE_CHECK_DURATION > 0){
+        if (Config.PERSISTENCE_CHECK_DURATION > 0) {
             int elapsedTime = 0;
             Object entityCheck = getEntity(entityToAdd);
             while ((entityCheck == null)
@@ -197,8 +196,8 @@ public abstract class EntitiesDb {
             }
             if (elapsedTime >= Config.PERSISTENCE_CHECK_DURATION) {
                 log.info("Operation did not persist in time: create"
-                        + entityToAdd.getEntityTypeAsString() + "->"
-                        + entityToAdd.getIdentificationString());
+                         + entityToAdd.getEntityTypeAsString() + "->"
+                         + entityToAdd.getIdentificationString());
             }
         }
         log.info(entityToAdd.getBackupIdentifier());

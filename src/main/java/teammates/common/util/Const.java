@@ -942,6 +942,7 @@ public class Const {
         
         public static final String FEEDBACK_RESPONSES_SAVED = "All responses submitted succesfully!";
         public static final String FEEDBACK_RESPONSES_MISSING_RECIPIENT = "You did not specify a recipient for your response in question %s.";
+        public static final String FEEDBACK_RESPONSES_INVALID_ID = "You are modifying an invalid response in question %s";
         
         public static final String FEEDBACK_RESPONSE_COMMENT_EMPTY = "Comment cannot be empty";
         public static final String FEEDBACK_RESPONSE_COMMENT_ADDED = "Your comment has been saved successfully";
@@ -1002,6 +1003,12 @@ public class Const {
                 + " after sometime.";
         public static final String INSTRUCTOR_NO_COURSE_AND_STUDENTS = "There are no course or students information to be displayed";
         public static final String INSTRUCTOR_NO_STUDENT_RECORDS = "No records were found for this student";
+        public static final String INSTRUCTOR_SEARCH_NO_RESULTS = "No results found.";
+        public static final String INSTRUCTOR_SEARCH_TIPS = "Search Tips:<br>"
+                                                            + "<ul>"
+                                                            + "<li>Put more keywords to search for more precise results.</li>"
+                                                            + "<li>Put quotation marks around words <b>\"[any word]\"</b> to search for an exact phrase in an exact order.</li>"
+                                                            + "</ul>";
         
         public static final String COMMENT_ADDED = "New comment has been added";
         public static final String COMMENT_EDITED = "Comment edited";

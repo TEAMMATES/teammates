@@ -87,6 +87,7 @@ public class InstructorHomePage extends AppPage {
     public InstructorFeedbacksPage clickCourseAddEvaluationLink(String courseId) {
         getCourseLinkInRow("course-add-eval-for-test", getCourseRowId(courseId)).click();
         waitForPageToLoad();
+        ThreadHelper.waitBriefly();
         return changePageType(InstructorFeedbacksPage.class);
     }
     

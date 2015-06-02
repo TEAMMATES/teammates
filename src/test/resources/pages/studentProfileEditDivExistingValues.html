@@ -1,74 +1,74 @@
 <div id="editProfileDiv" class="well well-plain well-narrow well-sm-wide">
-    <h3 id="studentName">
-        <strong>Benny C</strong>
-    </h3>
-    <br>
-    <div class="form-group row">
-        <div data-original-title="Upload a profile picture" class="col-xs-6 col-sm-5 col-md-3 cursor-pointer" title="" data-toggle="tooltip" data-placement="top">
-            <img id="profilePic" src="/images/profile_picture_default.png" class="profile-pic" data-toggle="modal" data-target="#studentPhotoUploader" data-edit="false">
-        </div>
-        <div class="">
-            <button id="uploadEditPhoto" class="btn btn-primary" type="button" data-toggle="modal" data-target="#studentPhotoUploader">
-                Upload/Edit Photo
-            </button>
-        </div>
-    </div>
-    <form class="form center-block" role="form" method="post" action="/page/studentProfileEditSave">
-        <div data-original-title="This is the name you prefer to be called by" class="form-group" title="" data-toggle="tooltip" data-placement="top">
-            <label for="studentNickname">
-                The name you prefer to be called by Instructors
-            </label>
-            <input id="studentShortname" name="studentshortname" class="form-control" data-actual-value="Ben" value="Ben" placeholder="How the instructor should call you" type="text">
-        </div>
-        <div data-original-title="This is a long term contact email" class="form-group" title="" data-toggle="tooltip" data-placement="top">
-            <label for="studentEmail">
-                Long term contact email <em class="font-weight-normal emphasis text-muted small">- only visible to your instructors</em>
-            </label>
-            <input id="studentEmail" name="studentprofileemail" class="form-control" data-actual-value="i.m.benny@gmail.tmt" value="i.m.benny@gmail.tmt" placeholder="Contact Email (for your instructors to contact you beyond graduation)" type="email">
-        </div>
-        <div data-original-title="This is the institution that you represent" class="form-group" title="" data-toggle="tooltip" data-placement="top">
-            <label for="studentInstitution">
-                Institution
-            </label>
-            <input id="studentInstitution" name="studentprofileinstitute" class="form-control" data-actual-value="TEAMMATES Test Institute 4" value="TEAMMATES Test Institute 4" placeholder="Your Institution" type="text">
-        </div>
-        <div data-original-title="This is your nationality" class="form-group" title="" data-toggle="tooltip" data-placement="top">
-            <label for="studentNationality">
-                Nationality
-            </label>
-            <input id="studentNationality" name="studentnationality" class="form-control" data-actual-value="Singapore" value="Singapore" placeholder="Nationality" type="text">
-        </div>
-        <div class="form-group">
-            <label for="studentGender">Gender</label>
-            <div id="studentGender">
-                <label for="genderMale" class="radio-inline">
-                    <input id="genderMale" name="studentgender" class="radio" value="male" checked="checked" type="radio"> Male
-                </label>
-                <label for="genderFemale" class="radio-inline">
-                    <input id="genderFemale" name="studentgender" class="radio" value="female" type="radio"> Female
-                </label>
-                <label class="radio-inline" for="genderOther">
-                    <input id="genderOther" name="studentgender" class="radio" value="other" type="radio"> Not Specified
-                </label>
+            <h3 id="studentName">
+                <strong>Benny C</strong>
+            </h3>
+            <br>
+            <div class="form-group row">
+                <div data-original-title="Upload a profile picture" class="col-xs-6 col-sm-5 col-md-3 cursor-pointer" title="" data-toggle="tooltip" data-placement="top">
+                    <img id="profilePic" src="/images/profile_picture_default.png" class="profile-pic" data-toggle="modal" data-target="#studentPhotoUploader" data-edit="false">
+                </div>
+                <div class="">
+                    <button id="uploadEditPhoto" class="btn btn-primary" type="button" data-toggle="modal" data-target="#studentPhotoUploader">
+                        Upload/Edit Photo
+                    </button>
+                </div>
             </div>
-
+            <form class="form center-block" role="form" method="post" action="/page/studentProfileEditSave">
+                <div data-original-title="This is the name you prefer to be called by" class="form-group" title="" data-toggle="tooltip" data-placement="top">
+                    <label for="studentNickname">
+                        The name you prefer to be called by Instructors
+                    </label>
+                    <input id="studentShortname" name="studentshortname" class="form-control" data-actual-value="Ben" value="Ben" placeholder="How the instructor should call you" type="text">
+                </div>
+                <div data-original-title="This is a long term contact email" class="form-group" title="" data-toggle="tooltip" data-placement="top">
+                    <label for="studentEmail">
+                        Long term contact email <em class="font-weight-normal emphasis text-muted small">- only visible to your instructors</em>
+                    </label>
+                    <input id="studentEmail" name="studentprofileemail" class="form-control" data-actual-value="i.m.benny@gmail.tmt" value="i.m.benny@gmail.tmt" placeholder="Contact Email (for your instructors to contact you beyond graduation)" type="email">
+                </div>
+                <div data-original-title="This is the institution that you represent" class="form-group" title="" data-toggle="tooltip" data-placement="top">
+                    <label for="studentInstitution">
+                        Institution
+                    </label>
+                    <input id="studentInstitution" name="studentprofileinstitute" class="form-control" data-actual-value="TEAMMATES Test Institute 4" value="TEAMMATES Test Institute 4" placeholder="Your Institution" type="text">
+                </div>
+                <div data-original-title="This is your nationality" class="form-group" title="" data-toggle="tooltip" data-placement="top">
+                    <label for="studentNationality">
+                        Nationality
+                    </label>
+                    <input id="studentNationality" name="studentnationality" class="form-control" data-actual-value="Singapore" value="Singapore" placeholder="Nationality" type="text">
+                </div>
+                <div class="form-group">
+                    <label for="studentGender">
+                        Gender
+                    </label>
+                    <div id="studentGender">
+                        <label for="genderMale" class="radio-inline">
+                            <input id="genderMale" name="studentgender" class="radio" value="male" checked="checked" type="radio"> Male
+                        </label>
+                        <label for="genderFemale" class="radio-inline">
+                            <input id="genderFemale" name="studentgender" class="radio" value="female" type="radio"> Female
+                        </label>
+                        <label class="radio-inline" for="genderOther">
+                            <input id="genderOther" name="studentgender" class="radio" value="other" type="radio"> Not Specified
+                        </label>
+                    </div>
+                </div>
+                <div data-original-title="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc." class="form-group" title="" data-toggle="tooltip" data-placement="top">
+                    <label for="studentNationality">
+                        More info about yourself
+                    </label>
+                    <textarea id="studentMoreInfo" name="studentprofilemoreinfo" rows="4" class="form-control" placeholder="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc.">                        I am just another student :P
+                    </textarea>
+                </div>
+                <br>
+                <button type="submit" id="profileEditSubmit" class="btn btn-primary center-block">
+                    Save Profile
+                </button>
+                <br>
+                <p class="text-muted text-color-disclaimer">
+                    <i>* This profile will be visible to all your Instructors and Coursemates</i>
+                </p>
+                <input name="user" value="{$test.student2}" type="hidden">
+            </form>
         </div>
-        <div data-original-title="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc." class="form-group" title="" data-toggle="tooltip" data-placement="top">
-            <label for="studentNationality">
-                More info about yourself
-            </label>
-            <textarea id="studentMoreInfo" name="studentprofilemoreinfo" rows="4" class="form-control" placeholder="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc.">
-                I am just another student :P
-            </textarea>
-        </div>
-        <br>
-        <button type="submit" id="profileEditSubmit" class="btn btn-primary center-block">
-            Save Profile
-        </button>
-        <br>
-        <p class="text-muted text-color-disclaimer">
-            <i>* This profile will be visible to all your Instructors and Coursemates</i>
-        </p>
-        <input name="user" value="{$test.student2}" type="hidden">
-    </form>
-</div>
