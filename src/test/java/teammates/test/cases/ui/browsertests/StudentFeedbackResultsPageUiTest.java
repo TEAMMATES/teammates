@@ -21,7 +21,6 @@ import teammates.test.pageobjects.StudentFeedbackResultsPage;
  * SUT: {@link StudentFeedbackResultsPage}.
  */
 public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
-
     private static DataBundle testData;
     private static Browser browser;
     private StudentFeedbackResultsPage resultsPage;
@@ -46,18 +45,17 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("standard session results");
         
         resultsPage = loginToStudentFeedbackResultsPage("Alice", "Open Session");
-        resultsPage.verifyHtml("/studentFeedbackResultsPageOpen.html");
+        resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageOpen.html");
         
         ______TS("team-to-team session results");
-        // TODO: change all but one verifyHtml to verifyHtmlMainContent
         
         resultsPage = loginToStudentFeedbackResultsPage("Benny", "Open Session");
-        resultsPage.verifyHtml("/studentFeedbackResultsPageTeamToTeam.html");
+        resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageTeamToTeam.html");
         
         ______TS("MCQ session results");
         
         resultsPage = loginToStudentFeedbackResultsPage("Alice", "MCQ Session");
-        resultsPage.verifyHtml("/studentFeedbackResultsPageMCQ.html");
+        resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageMCQ.html");
         
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(4,""));
         assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(4,""));
@@ -74,7 +72,7 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("MSQ session results");
         
         resultsPage = loginToStudentFeedbackResultsPage("Alice", "MSQ Session");
-        resultsPage.verifyHtml("/studentFeedbackResultsPageMSQ.html");
+        resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageMSQ.html");
         
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(4,""));
         assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(4,""));
@@ -91,25 +89,25 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("NUMSCALE session results");
         
         resultsPage = loginToStudentFeedbackResultsPage("Alice", "NUMSCALE Session");
-        resultsPage.verifyHtml("/studentFeedbackResultsPageNUMSCALE.html");
+        resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageNUMSCALE.html");
         
         ______TS("CONSTSUM session results");
         
         resultsPage = loginToStudentFeedbackResultsPage("Alice", "CONSTSUM Session");
-        resultsPage.verifyHtml("/studentFeedbackResultsPageCONSTSUM.html");
+        resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageCONSTSUM.html");
         
 
         ______TS("CONTRIB session results");
         
         resultsPage = loginToStudentFeedbackResultsPage("Alice", "CONTRIB Session");
-        resultsPage.verifyHtml("/studentFeedbackResultsPageCONTRIB.html");
+        resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageCONTRIB.html");
         
         ______TS("unreg student");
         // should automatically logout.
         // Open Session
         StudentAttributes unreg = testData.students.get("DropOut");
         resultsPage = loginToStudentFeedbackResultsPage(unreg, "Open Session");
-        resultsPage.verifyHtml("/unregisteredStudentFeedbackResultsPageOpen.html");
+        resultsPage.verifyHtmlMainContent("/unregisteredStudentFeedbackResultsPageOpen.html");
         
         // Mcq Session
         resultsPage = loginToStudentFeedbackResultsPage(unreg, "MCQ Session");
