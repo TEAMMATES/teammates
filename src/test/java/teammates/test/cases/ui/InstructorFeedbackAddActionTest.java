@@ -43,7 +43,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         ______TS("Typical case");
         
         String[] params = createParamsCombinationForFeedbackSession(
-                instructor1ofCourse1.courseId, "ifaat tca fs", 0);
+                                  instructor1ofCourse1.courseId, "ifaat tca fs", 0);
         
         InstructorFeedbackAddAction a = getAction(params);
         RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
@@ -74,7 +74,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         ______TS("Error: try to add the same session again");
         
         params = createParamsCombinationForFeedbackSession(
-                instructor1ofCourse1.courseId, "ifaat tca fs", 0);
+                         instructor1ofCourse1.courseId, "ifaat tca fs", 0);
         a = getAction(params);
         ShowPageResult pr = (ShowPageResult) a.executeAndPostProcess();
         expectedString = Const.ViewURIs.INSTRUCTOR_FEEDBACKS
@@ -88,7 +88,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         ______TS("Error: Invalid parameter (invalid sesssion name, > 38 characters)");
         
         params = createParamsCombinationForFeedbackSession(
-                instructor1ofCourse1.courseId, "123456789012345678901234567890123456789", 0);
+                         instructor1ofCourse1.courseId, "123456789012345678901234567890123456789", 0);
         a = getAction(params);
         pr = (ShowPageResult) a.executeAndPostProcess();
         expectedString = Const.ViewURIs.INSTRUCTOR_FEEDBACKS
@@ -110,7 +110,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         ______TS("Add course with trailing space");
         
         params = createParamsCombinationForFeedbackSession(
-                instructor1ofCourse1.courseId, "Course with trailing space ", 1);
+                         instructor1ofCourse1.courseId, "Course with trailing space ", 1);
         
         a = getAction(params);
         rr = (RedirectResult) a.executeAndPostProcess();
@@ -141,7 +141,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         ______TS("timezone with minute offset");
         
         params = createParamsCombinationForFeedbackSession(
-                instructor1ofCourse1.courseId, "Course with minute offset timezone", 2);
+                         instructor1ofCourse1.courseId, "Course with minute offset timezone", 2);
         params[25] = "5.5";
         
         a = getAction(params);
@@ -176,7 +176,7 @@ public class InstructorFeedbackAddActionTest extends BaseActionTest {
         gaeSimulation.loginAsAdmin("admin.user");
 
         params = createParamsCombinationForFeedbackSession(
-                instructor1ofCourse1.courseId, "masquerade session", 3);
+                         instructor1ofCourse1.courseId, "masquerade session", 3);
         params = addUserIdToParams(instructor1ofCourse1.googleId, params);
         
         a = getAction(params);

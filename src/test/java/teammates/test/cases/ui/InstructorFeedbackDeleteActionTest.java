@@ -46,8 +46,7 @@ public class InstructorFeedbackDeleteActionTest extends BaseActionTest {
         
         assertNull(fsDb.getFeedbackSession(fs.courseId, fs.feedbackSessionName));
         assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE
-                     + "?error=false"
-                     + "&user=idOfInstructor1OfCourse1", 
+                         + "?error=false&user=idOfInstructor1OfCourse1", 
                      r.getDestinationWithParams());
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_DELETED, r.getStatusMessage());
         assertEquals(false, r.isError);
