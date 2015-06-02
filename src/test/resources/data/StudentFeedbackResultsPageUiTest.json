@@ -1463,7 +1463,7 @@
             "courseId":"SFResultsUiT.CS2104",
             "feedbackQuestionId":"5",
             "feedbackQuestionType":"NUMSCALE",
-            "giverEmail":"SFResultsUiT.charlie.d@gmail.tmt",
+            "giverEmail":"SFResultsUiT.emily.f@gmail.tmt",
             "recipientEmail":"Team 1",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"NUMSCALE\", \"answer\" : 4.0}"

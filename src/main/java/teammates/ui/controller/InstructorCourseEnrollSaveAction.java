@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -28,8 +29,8 @@ public class InstructorCourseEnrollSaveAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, studentsInfo);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        new GateKeeper().verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
+        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId), 
+                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         
         /* Process enrollment list and setup data for page result */
         try {
@@ -39,13 +40,13 @@ public class InstructorCourseEnrollSaveAction extends Action {
             pageData.hasSection = hasSections(pageData.students);
             pageData.enrollStudents = studentsInfo;
             statusToAdmin = "Students Enrolled in Course <span class=\"bold\">[" 
-                    + courseId + "]:</span><br>" + (studentsInfo).replace("\n", "<br>");
+                            + courseId + "]:</span><br>" + (studentsInfo).replace("\n", "<br>");
 
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL_RESULT, pageData);
             
         } catch (EnrollException | InvalidParametersException e) {
             setStatusForException(e);
-            statusToAdmin += "<br>Enrollment string entered by user:<br>" + (studentsInfo).replace("\n", "<br>");
+            statusToAdmin += "<br>Enrollment string entered by user:<br>" + studentsInfo.replace("\n", "<br>");
             
             InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account);
             pageData.courseId = courseId;
@@ -54,9 +55,10 @@ public class InstructorCourseEnrollSaveAction extends Action {
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
         } catch (EntityAlreadyExistsException e) {
             setStatusForException(e);
-            statusToUser.add("The enrollment failed, possibly because some students were re-enrolled before the previous "
-                    + "enrollment action was still being processed by TEAMMATES database servers. "
-                    + "Please try again after about 10 minutes. If the problem persists, please contact TEAMMATES support");
+            statusToUser.add("The enrollment failed, possibly because some students were re-enrolled before "
+                             + "the previous enrollment action was still being processed by TEAMMATES database "
+                             + "servers. Please try again after about 10 minutes. If the problem persists, "
+                             + "please contact TEAMMATES support");
             
             InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account);
             pageData.courseId = courseId;
@@ -68,9 +70,9 @@ public class InstructorCourseEnrollSaveAction extends Action {
     }
 
     private boolean hasSections(List<StudentAttributes>[] students){
-        for(List<StudentAttributes> studentList: students){
+        for(List<StudentAttributes> studentList : students){
             for(StudentAttributes student : studentList){
-                if(!student.section.equals(Const.DEFAULT_SECTION)){
+                if (!student.section.equals(Const.DEFAULT_SECTION)) {
                     return true;
                 }
             }
@@ -95,33 +97,25 @@ public class InstructorCourseEnrollSaveAction extends Action {
      * Separate the StudentData objects in the list into different categories based
      * on their updateStatus. Each category is put into a separate list.<br>
      * 
-     * Precondition:<br>
-     * * The list of StudentData objects passed in as argument has to be sorted in
-     * ascending order of their updateStatus first
-     * 
      * @return An array of lists of StudentData objects in which each list contains
      * student with the same updateStatus
      */
     @SuppressWarnings("unchecked")
     private List<StudentAttributes>[] separateStudents(List<StudentAttributes> students) {
     
-        List<StudentAttributes>[] lists = new List[StudentAttributes.UpdateStatus.STATUS_COUNT];
-        int prevIdx = 0;
-        int nextIdx = 0;
-        int id = 0;
+        ArrayList<StudentAttributes>[] lists = new ArrayList[StudentAttributes.UpdateStatus.STATUS_COUNT];
+        for (int i = 0; i < StudentAttributes.UpdateStatus.STATUS_COUNT; i++) {
+            lists[i] = new ArrayList<StudentAttributes>();
+        }
+        
         for (StudentAttributes student : students) {
-            while (student.updateStatus.numericRepresentation > id) {
-                lists[id++] = students.subList(prevIdx, nextIdx);
-                StudentAttributes.sortByNameAndThenByEmail(lists[id - 1]);
-                prevIdx = nextIdx;
-            }
-            nextIdx++;
+            lists[student.updateStatus.numericRepresentation].add(student);
         }
-        while (id < StudentAttributes.UpdateStatus.STATUS_COUNT) {
-            lists[id++] = students.subList(prevIdx, nextIdx);
-            StudentAttributes.sortByNameAndThenByEmail(lists[id - 1]);
-            prevIdx = nextIdx;
+        
+        for (int i = 0; i < StudentAttributes.UpdateStatus.STATUS_COUNT; i++) {
+            StudentAttributes.sortByNameAndThenByEmail(lists[i]);
         }
+        
         return lists;
     }
 

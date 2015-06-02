@@ -495,6 +495,7 @@ public class InstructorFeedbackSubmissionEditSaveActionTest extends BaseActionTe
         assertEquals("/page/instructorHomePage?error=" + r.isError + "&user=FSQTT.idOfInstructor1OfCourse1",
                         r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+        assertNotNull(frDb.getFeedbackResponse(fq.getId(), fr2.giverEmail, fr2.recipientEmail));
         
         ______TS("Successful case: const sum: question skipped");
         
