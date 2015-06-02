@@ -1,18 +1,11 @@
 package teammates.client.scripts;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 
 import javax.jdo.PersistenceManager;
-import javax.jdo.Query;
-
 import teammates.client.remoteapi.RemoteApiClient;
-import teammates.common.datatransfer.CommentParticipantType;
-import teammates.common.datatransfer.CommentStatus;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -20,7 +13,6 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.logic.core.StudentsLogic;
 import teammates.storage.datastore.Datastore;
-import teammates.storage.entity.Comment;
 
 public class DataMigrationForSanitizedData extends RemoteApiClient {
 
@@ -51,22 +43,23 @@ public class DataMigrationForSanitizedData extends RemoteApiClient {
         return false;
     }
     
-    private void fixSanitization(String s) {
+    private String fixSanitization(String s) {
         if (isSanitizedString(s)) {
-            s = StringHelper.recoverFromSanitizedText(s);
+            return StringHelper.recoverFromSanitizedText(s);
         }
+        return s;
     }
     
     private void fixSanitizedDataForStudent(StudentAttributes student) {
-        fixSanitization(student.comments);
-        fixSanitization(student.course);
-        fixSanitization(student.email);
-        fixSanitization(student.googleId);
-        fixSanitization(student.key);
-        fixSanitization(student.lastName);
-        fixSanitization(student.name);
-        fixSanitization(student.section);
-        fixSanitization(student.team);
+        student.comments = fixSanitization(student.comments);
+        student.course = fixSanitization(student.course);
+        student.email = fixSanitization(student.email);
+        student.googleId = fixSanitization(student.googleId);
+        student.key = fixSanitization(student.key);
+        student.lastName = fixSanitization(student.lastName);
+        student.name = fixSanitization(student.name);
+        student.section = fixSanitization(student.section);
+        student.team = fixSanitization(student.team);
         
         try {
             StudentsLogic.inst().updateStudentCascade(student.email, student);
@@ -79,14 +72,12 @@ public class DataMigrationForSanitizedData extends RemoteApiClient {
             e.printStackTrace();
         }
         
-        getPM().close();
     }
 
     protected PersistenceManager getPM() {
         return Datastore.getPersistenceManager();
     }
 
-    @SuppressWarnings("deprecation")
     protected List<StudentAttributes> getAllStudents() {
         StudentsLogic studentsLogic = StudentsLogic.inst();
         return studentsLogic.getAllStudents();

@@ -19,7 +19,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Utils;
