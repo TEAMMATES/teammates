@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackNumericalScaleQuestionDetails;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -554,6 +555,28 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, "invalid recipient"));
         
+
+        ______TS("Unsuccessful case: modified question type to another type");
+        // Response is supposed to be CONTRIB, but submit as RUBRIC
+        assertEquals(fq.questionType, FeedbackQuestionType.CONTRIB);
+        submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, fr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", fr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", fr.recipientEmail,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", "RUBRIC",
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", ""
+        };
+        
+        a = getAction(submissionParams);
+        r = (RedirectResult) a.executeAndPostProcess();
+
+        assertTrue(r.isError);  
+        assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1&courseid=FSQTT.idOfTypicalCourse1&fsname=CONTRIB+Session",
+                                r.getDestinationWithParams());
+        assertEquals(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_WRONG_QUESTION_TYPE, "1"), r.getStatusMessage());
+        assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
         
         ______TS("Unsuccessful case: try to delete response not belonging to the student");
         
@@ -568,7 +591,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         otherFr = frDb.getFeedbackResponse(fq.getId(), otherFr.giverEmail, otherFr.recipientEmail); //necessary to get the correct responseId
         assertNotNull("Feedback response not found in database", fr);
         
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", otherFr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, otherFr.feedbackSessionName,
@@ -583,6 +606,7 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
         r = (RedirectResult) a.executeAndPostProcess();
         
         assertTrue(r.isError);        
+
         assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1&courseid=FSQTT.idOfTypicalCourse1&fsname=MCQ+Session",
                         r.getDestinationWithParams());
         assertNotNull(frDb.getFeedbackResponse(fq.getId(), otherFr.giverEmail, otherFr.recipientEmail));
