@@ -30,36 +30,37 @@
 
 
 
-    <div id="statusMessage" class="alert alert-warning">
-        The course CHomeUiT.CS2104 has been deleted.
-    </div>
-    <script type="text/javascript">
-        document.getElementById( 'statusMessage' ).scrollIntoView();
-    </script>
+        <div id="statusMessage" class="alert alert-warning">
+            The course CHomeUiT.CS2104 has been deleted.
+        </div>
+        
+        <script type="text/javascript">
+            document.getElementById( 'statusMessage' ).scrollIntoView();
+        </script>
 
             
             <div class="modal fade" id="remindModal" tabindex="-1" role="dialog" aria-labelledby="remindModal" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <form method="post" name="form_remind_list" role="form" action="/page/instructorFeedbackRemindParticularStudents">
-                    <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                      <h4 class="modal-title">
-                        Remind Particular Students
-                        <small>(Select the student(s) you want to remind)</small>
-                      </h4>
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form method="post" name="form_remind_list" role="form" action="/page/instructorFeedbackRemindParticularStudents"> 
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title">
+                                    Remind Particular Students
+                                    <small>(Select the student(s) you want to remind)</small>
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div id="studentList" class="form-group"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <input class="btn btn-primary" value="Remind" type="submit">
+                                <input name="user" value="CHomeUiT.instructor.tmms" type="hidden">
+                            </div>
+                        </form>
                     </div>
-                    <div class="modal-body">
-                      <div id="studentList" class="form-group"></div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                      <input class="btn btn-primary" value="Remind" type="submit">
-                      <input name="user" value="CHomeUiT.instructor.tmms" type="hidden">
-                    </div>
-                  </form>
                 </div>
-              </div>
             </div>
             
             

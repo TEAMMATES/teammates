@@ -205,10 +205,14 @@ public class InstructorCommentsPage extends AppPage {
         if(idNumber == 4){
             WebElement commentRow = browser.driver.findElement(By.id("responseCommentEditForm-" + commentTableIdSuffix));
             waitForPageToLoad();
+            By errorSpan = By.cssSelector(".col-sm-offset-5 > span");
+            waitForElementPresence(errorSpan, 5);
             assertEquals(errorMessage, commentRow.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("span")).getText());
         } else if(idNumber == 3){
             WebElement commentRow = browser.driver.findElement(By.id("showResponseCommentAddForm-" + commentTableIdSuffix));
             waitForPageToLoad();
+            By errorSpan = By.cssSelector(".col-sm-offset-5 > span");
+            waitForElementPresence(errorSpan, 5);
             assertEquals(errorMessage, commentRow.findElement(By.className("col-sm-offset-5")).findElement(By.tagName("span")).getText());
         }
     }

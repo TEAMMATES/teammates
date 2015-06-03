@@ -38,7 +38,7 @@
         <script type="text/javascript" src="/js/jquery-minified.js"></script>
         <script type="text/javascript" src="/js/date.js"></script>
         
-            <script type="text/javascript" src="/js/common.js"></script>
+        <script type="text/javascript" src="/js/common.js"></script>
         <script type="text/javascript"  src="/bootstrap/js/bootstrap.min.js"></script>
         
         <script type="text/javascript" src="/js/instructor.js"></script>
@@ -63,17 +63,19 @@
                         <h1>Instructor Home</h1>
                     </div>
                     <div class="col-md-5 instructor-header-bar">
-                        <form method="get" action="<%=data.getInstructorSearchLink()%>" name="search_form">
+                        <form method="get" action="<%=data.getInstructorSearchLink()%>" 
+                              name="search_form">
                             <div class="input-group">
                                 <input type="text" id="searchbox"
-                                            title="<%=Const.Tooltips.SEARCH_STUDENT%>"
-                                            name="<%=Const.ParamsNames.SEARCH_KEY%>"
-                                            class="form-control"
-                                            data-toggle="tooltip"
-                                            data-placement="top"
-                                            placeholder="Student Name">
+                                       title="<%=Const.Tooltips.SEARCH_STUDENT%>"
+                                       name="<%=Const.ParamsNames.SEARCH_KEY%>"
+                                       class="form-control"
+                                       data-toggle="tooltip"
+                                       data-placement="top"
+                                       placeholder="Student Name">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default" type="submit" value="Search" id="buttonSearch">Search</button>
+                                    <button class="btn btn-default" type="submit" 
+                                            value="Search" id="buttonSearch">Search</button>
                                 </span> 
                             </div>
                             <input type="hidden" name="<%=Const.ParamsNames.SEARCH_STUDENTS%>" value="true">
@@ -83,36 +85,41 @@
                         </form>
                     </div>
                     <div class="col-md-2 instructor-header-bar">
-                        <a class="btn btn-primary btn-md" href="<%=data.getInstructorCourseLink() %>" id="addNewCourse">Add New Course </a>
+                        <a class="btn btn-primary btn-md" href="<%=data.getInstructorCourseLink()%>" 
+                        id="addNewCourse">Add New Course </a>
                     </div>
                 </div>
             </div>
             <br>
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
             
-            <div class="modal fade" id="remindModal" tabindex="-1" role="dialog" aria-labelledby="remindModal" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <form method="post" name="form_remind_list" role="form"
-                        action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS%>">
-                    <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                      <h4 class="modal-title">
-                        Remind Particular Students
-                        <small>(Select the student(s) you want to remind)</small>
-                      </h4>
+            <div class="modal fade" id="remindModal" tabindex="-1" role="dialog" 
+                 aria-labelledby="remindModal" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form method="post" name="form_remind_list" role="form"
+                              action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_REMIND_PARTICULAR_STUDENTS%>"> 
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" 
+                                        aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">
+                                    Remind Particular Students
+                                    <small>(Select the student(s) you want to remind)</small>
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div id="studentList" class="form-group"></div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" 
+                                        data-dismiss="modal">Cancel</button>
+                                <input type="submit" class="btn btn-primary" value="Remind">
+                                <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" 
+                                       value="<%=data.account.googleId%>">
+                            </div>
+                        </form>
                     </div>
-                    <div class="modal-body">
-                      <div id="studentList" class="form-group"></div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                      <input type="submit" class="btn btn-primary" value="Remind">
-                      <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-                    </div>
-                  </form>
                 </div>
-              </div>
             </div>
             
             <% if (data.account.isInstructor) { %>
@@ -124,15 +131,18 @@
                         </div>
                         <div class="col-md-9">
                             <div class="btn-group pull-right" data-toggle="buttons">
-                                <label class="btn btn-default <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_ID) ? "active" : "" %>" name="sortby" data="id" id="sortById">
+                                <label class="btn btn-default <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_ID) ? "active" : "" %>" 
+                                       name="sortby" data="id" id="sortById">
                                     <input type="radio">
                                     Course ID
                                 </label>
-                                <label class="btn btn-default <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_NAME) ? "active" : "" %>" name="sortby" data="name" id="sortByName">
+                                <label class="btn btn-default <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_NAME) ? "active" : "" %>" 
+                                       name="sortby" data="name" id="sortByName">
                                     <input type="radio" name="sortby" value="name" >
                                     Course Name
                                 </label>
-                                <label class="btn btn-default <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_CREATION_DATE) ? "active" : "" %>" name="sortby" data="createdAt" id="sortByDate">
+                                <label class="btn btn-default <%= data.sortCriteria.equals(Const.SORT_BY_COURSE_CREATION_DATE) ? "active" : "" %>" 
+                                       name="sortby" data="createdAt" id="sortByDate">
                                     <input type="radio">
                                     Creation Date
                                 </label>
@@ -179,8 +189,8 @@
                                             title="<%=Const.Tooltips.COURSE_EDIT%>" data-toggle="tooltip" data-placement="top"> Edit</a>
                                             
                                          <a class="btn btn-primary btn-xs btn-tm-actions course-add-eval-for-test"
-                                            href="<%=data.getInstructorEvaluationLinkForCourse(courseDetails.course.id)%>"
-                                            title="<%=Const.Tooltips.COURSE_ADD_EVALUATION%>" data-toggle="tooltip" data-placement="top"
+                                            href="<%=data.getInstructorFeedbacksPageLinkForCourse(courseDetails.course.id)%>"
+                                            title="<%=Const.Tooltips.COURSE_ADD_FEEDBACKSESSION%>" data-toggle="tooltip" data-placement="top"
                                             <% if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {%>
                                                 disabled="disabled"
                                             <% } %>
@@ -226,22 +236,26 @@
                                                 Session Name<span class="icon-sort unsorted"></span></th>
                                             <th>Status</th>
                                             <th>
-                                                <span title="<%=Const.Tooltips.FEEDBACK_SESSION_RESPONSE_RATE%>" data-toggle="tooltip" data-placement="top">Response Rate</span>
+                                                <span title="<%=Const.Tooltips.FEEDBACK_SESSION_RESPONSE_RATE%>" 
+                                                      data-toggle="tooltip" data-placement="top">Response Rate</span>
                                             </th>
                                             <th class="no-print">Action(s)</th>
                                         </tr>
                                     </thead>
                             <%
                                 int displayFeedbackStatsCount = 0;
-                                Map<String, List<String>> courseIdSectionNamesMap = data.getCourseIdSectionNamesMap(courseDetails.feedbackSessions);
-                                for(FeedbackSessionAttributes fdb: courseDetails.feedbackSessions) {
+                                Map<String, List<String>> courseIdSectionNamesMap = data.getCourseIdSectionNamesMap(
+                                                                                    courseDetails.feedbackSessions);
+                                for(FeedbackSessionAttributes fdb : courseDetails.feedbackSessions) {
                                     sessionIdx++;
                             %>
                                     <tr id="session<%=sessionIdx%>">
                                         <td><%=PageData
-                                                .sanitizeForHtml(fdb.feedbackSessionName)%></td>
+                                                .sanitizeForHtml(fdb.feedbackSessionName)%>
+                                        </td>
                                         <td>
-                                            <span title="<%=PageData.getInstructorHoverMessageForFeedbackSession(fdb)%>" data-toggle="tooltip" data-placement="top">
+                                            <span title="<%=PageData.getInstructorHoverMessageForFeedbackSession(fdb)%>" 
+                                                  data-toggle="tooltip" data-placement="top">
                                                 <%=PageData.getInstructorStatusForFeedbackSession(fdb)%>
                                             </span>
                                         </td>
@@ -254,7 +268,10 @@
                                             }%>">
                                             <a oncontextmenu="return false;" href="<%=data.getFeedbackSessionStatsLink(fdb.courseId, fdb.feedbackSessionName)%>">Show</a>
                                         </td>
-                                        <td class="no-print"><%=data.getInstructorFeedbackSessionActions(fdb, false, instructor, courseIdSectionNamesMap.get(fdb.courseId))%></td>
+                                        <td class="no-print">
+                                            <%=data.getInstructorFeedbackSessionActions(fdb, false, 
+                                                    instructor, courseIdSectionNamesMap.get(fdb.courseId))%>
+                                        </td>
                                     </tr>
                             <%
                                 }
@@ -271,7 +288,8 @@
             }
         %>
         </div>
-        <div class="modal fade" id="fsCopyModal" tabindex="-1" role="dialog" aria-labelledby="fsCopyModal" aria-hidden="true">
+        <div class="modal fade" id="fsCopyModal" tabindex="-1" role="dialog" 
+             aria-labelledby="fsCopyModal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form method="post" name="form_copy_list" role="form"

@@ -292,17 +292,19 @@
 
 
 
-    <div class="alert alert-warning" id="statusMessage">
-        You have not received any new feedback but you may review your own submissions below.
-    </div>
-    <script type="text/javascript">
-        document.getElementById( 'statusMessage' ).scrollIntoView();
-    </script>
+        <div class="alert alert-warning" id="statusMessage">
+            You have not received any new feedback but you may review your own submissions below.
+        </div>
+        
+        <script type="text/javascript">
+            document.getElementById( 'statusMessage' ).scrollIntoView();
+        </script>
 
             <br />
             
                 <div class="panel panel-default">
                     <div class="panel-heading">
+                        <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                         <h4>Question 1: <span class="text-preserve-space">Rate the contribution by yourself and your team members. <span style=" white-space: normal;">
     <a data-less="[less]" data-more="[more]" onclick="toggleAdditionalQuestionInfo('1-')" class="color_gray" id="questionAdditionalInfoButton-1-" href="javascript:;">[more]</a>
     <br />
@@ -335,8 +337,8 @@
 </ul>
 <br />
 <h4>How are these results used in grading?</h4>
-TEAMMATES does not calculate grades. It is up to the instructors to use evaluation results in any way they want. 
-However, TEAMMATES recommend that evaluation results are used only as flags to identify teams with contribution imbalances. 
+TEAMMATES does not calculate grades. It is up to the instructors to use contribution question results in any way they want. 
+However, TEAMMATES recommend that contribution question results are used only as flags to identify teams with contribution imbalances. 
 Once identified, the instructor is recommended to investigate further before taking action.
 <br /><br />
 <h4>How are the contribution numbers calculated?</h4>

@@ -95,7 +95,7 @@
             "email":"instructor2@course1.tmt",
             "role":"Co-owner",
             "displayedName":"Co-owner",
-            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": false,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": false,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": false,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         },
         "instructor1OfCourse2":{
             "googleId":"FSQTT.idOfInstructor1OfCourse2",
@@ -819,7 +819,7 @@
             "courseId":"FSQTT.idOfTypicalCourse1",
             "feedbackQuestionId":"2",
             "feedbackQuestionType":"CONSTSUM",
-            "giverEmail":"instructor2@course1.tmt",
+            "giverEmail":"instructor1@course1.tmt",
             "recipientEmail":"Team 1.2",
             "responseMetaData":{
                 "value":"{\"questionType\" : \"CONSTSUM\",\"answers\" : [20]}"

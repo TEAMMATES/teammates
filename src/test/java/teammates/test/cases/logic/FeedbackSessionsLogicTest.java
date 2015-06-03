@@ -102,6 +102,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         testGetFeedbackSessionQuestionsForInstructor();
         testGetFeedbackSessionResultsForUser();
         testGetFeedbackSessionResultsSummaryAsCsv();
+        testIsFeedbackSessionViewableToStudents();
         
         testCreateAndDeleteFeedbackSession();       
         testCopyFeedbackSession();
@@ -113,7 +114,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         testIsFeedbackSessionCompletedByStudent();
         testIsFeedbackSessionCompletedByInstructor();
         testIsFeedbackSessionFullyCompletedByStudent();
-        
+                
         testSendReminderForFeedbackSession();
         testSendReminderForFeedbackSessionParticularUsers();
         testDeleteFeedbackSessionsForCourse();
@@ -569,8 +570,10 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertTrue(actualSessions.size() == 3);
         
         // Course 2 only has an instructor session and a private session.
+        // The private session is not viewable to students,
+        // but the instructor session has questions where responses are visible
         actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfTypicalCourse2", "student1InCourse2@gmail.tmt");        
-        assertTrue(actualSessions.isEmpty());
+        assertEquals(1, actualSessions.size());
                 
         ______TS("Instructor viewing");
         
@@ -608,6 +611,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         AssertHelper.assertContains(dataBundle.feedbackSessions.get("session1InCourse2").toString(),
                 actualSessions.toString());
 
+        
+        ______TS("Feedback session without questions for students but with visible responses are visible");
+        actualSessions = fsLogic.getFeedbackSessionsForUserInCourse("idOfArchivedCourse", "student1InCourse1@gmail.tmt");
+        AssertHelper.assertContains(dataBundle.feedbackSessions.get("archiveCourse.session1").toString(),
+                actualSessions.toString());
     }
     
     public void testGetFeedbackSessionQuestionsForStudent() throws Exception {
@@ -1500,7 +1508,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         assertEquals(exportLines[27], "");
         assertEquals(exportLines[28], "Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback");
         assertEquals(exportLines[29], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"\",\"Team 1.1\",\"Team 1.1\",\"-\",80");
-        assertEquals(exportLines[30], "\"Instructors\",\"Instructor2 Course1\",\"Instructor2 Course1\",\"instructor2@course1.tmt\",\"\",\"Team 1.2\",\"Team 1.2\",\"-\",20");
+        assertEquals(exportLines[30], "\"Instructors\",\"Instructor1 Course1\",\"Instructor1 Course1\",\"instructor1@course1.tmt\",\"\",\"Team 1.2\",\"Team 1.2\",\"-\",20");
         assertEquals(exportLines[31], "");
         assertEquals(exportLines[32], "");
         assertEquals(exportLines[33], "Question 3,\"How much has each student worked?\"");
@@ -1529,7 +1537,8 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
                 session.feedbackSessionName, session.courseId, instructor.email);
         
         exportLines = export.split(Const.EOL);
-        assertEquals(36, exportLines.length);
+        System.out.println(export);
+        assertEquals(22, exportLines.length);
         assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
         assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
         
@@ -1696,6 +1705,27 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         }
     }
 
+    public void testIsFeedbackSessionViewableToStudents() throws EntityDoesNotExistException {
+        ______TS("Session with questions for students to answer");
+        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
+        assertTrue(fsLogic.isFeedbackSessionViewableToStudents(session));
+        
+        ______TS("Session without questions for students, but with visible responses");
+        session = dataBundle.feedbackSessions.get("archiveCourse.session1");
+        assertTrue(fsLogic.isFeedbackSessionViewableToStudents(session));
+       
+        session = dataBundle.feedbackSessions.get("session2InCourse2");
+        assertTrue(fsLogic.isFeedbackSessionViewableToStudents(session));
+       
+        ______TS("private session");
+        session = dataBundle.feedbackSessions.get("session1InCourse2");
+        assertFalse(fsLogic.isFeedbackSessionViewableToStudents(session));
+        
+        ______TS("empty session");
+        session = dataBundle.feedbackSessions.get("empty.session");
+        assertFalse(fsLogic.isFeedbackSessionViewableToStudents(session));
+    }
+    
     public void testUpdateFeedbackSession() throws Exception {
         
         

@@ -6,6 +6,9 @@ import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -552,10 +555,11 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                         r.getDestinationWithParams());
         assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, "invalid recipient"));
         
+
         ______TS("Unsuccessful case: modified question type to another type");
         // Response is supposed to be CONTRIB, but submit as RUBRIC
         assertEquals(fq.questionType, FeedbackQuestionType.CONTRIB);
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", fr.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fr.feedbackSessionName,
@@ -565,15 +569,45 @@ public class StudentFeedbackSubmissionEditSaveActionTest extends BaseActionTest 
                 Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", "RUBRIC",
                 Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", ""
         };
+
+        assertTrue(r.isError);  
+        assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1&courseid=FSQTT.idOfTypicalCourse1&fsname=CONTRIB+Session",
+                                r.getDestinationWithParams());
+        assertEquals(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_WRONG_QUESTION_TYPE, "1"), r.getStatusMessage());
+        assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+        
+        ______TS("Unsuccessful case: try to delete response not belonging to the student");
+        
+        fq = fqDb.getFeedbackQuestion("MCQ Session", "FSQTT.idOfTypicalCourse1", 1);
+        assertNotNull("Feedback question not found in database", fq);
+        
+        FeedbackResponseAttributes otherFr = dataBundle.feedbackResponses.get("response2ForQ1S1C1");
+        List<FeedbackResponseAttributes> responsesToAdd = new ArrayList<FeedbackResponseAttributes>();
+        responsesToAdd.add(fr);
+        frDb.createFeedbackResponses(responsesToAdd);
+        
+        otherFr = frDb.getFeedbackResponse(fq.getId(), otherFr.giverEmail, otherFr.recipientEmail); //necessary to get the correct responseId
+        assertNotNull("Feedback response not found in database", fr);
+        
+        submissionParams = new String[] {
+                Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL + "-1", "1",
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID + "-1-0", otherFr.getId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, otherFr.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, otherFr.courseId,
+                Const.ParamsNames.FEEDBACK_QUESTION_ID + "-1", otherFr.feedbackQuestionId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT + "-1-0", otherFr.recipientEmail,
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE + "-1", otherFr.feedbackQuestionType.toString(),
+                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-1-0", ""
+        };
         
         a = getAction(submissionParams);
         r = (RedirectResult) a.executeAndPostProcess();
         
         assertTrue(r.isError);        
-        assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1&courseid=FSQTT.idOfTypicalCourse1&fsname=CONTRIB+Session",
+
+        assertEquals("/page/studentFeedbackSubmissionEditPage?error=true&user=FSQTT.student1InCourse1&courseid=FSQTT.idOfTypicalCourse1&fsname=MCQ+Session",
                         r.getDestinationWithParams());
-        assertEquals(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_WRONG_QUESTION_TYPE, "1"), r.getStatusMessage());
-        assertNull(frDb.getFeedbackResponse(fq.getId(), fr.giverEmail, fr.recipientEmail));
+        assertNotNull(frDb.getFeedbackResponse(fq.getId(), otherFr.giverEmail, otherFr.recipientEmail));
         
         gaeSimulation.logoutUser();
         

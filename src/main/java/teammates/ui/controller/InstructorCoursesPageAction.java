@@ -12,6 +12,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
 import teammates.logic.api.GateKeeper;
+import teammates.logic.api.Logic;
 
 /**
  * Action: loading of the 'Courses' page for an instructor.
@@ -77,7 +78,7 @@ public class InstructorCoursesPageAction extends Action {
             
             InstructorAttributes curInstructor = logic.getInstructorForGoogleId(course.id, account.googleId);
 
-            if (logic.isCourseArchived(course.id, curInstructor.googleId)) {
+            if (Logic.isCourseArchived(course.id, curInstructor.googleId)) {
                 archivedCourses.add(course);
             }
         }

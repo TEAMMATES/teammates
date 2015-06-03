@@ -20,7 +20,6 @@ public class InstructorFeedbackEditCopyPageAction extends Action {
         
         InstructorFeedbackEditCopyPageData data = new InstructorFeedbackEditCopyPageData(account);
         data.courses = new ArrayList<CourseAttributes>();
-                
         
         List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
         
@@ -28,16 +27,17 @@ public class InstructorFeedbackEditCopyPageAction extends Action {
         for (CourseAttributes course : courses) {
             InstructorAttributes instructor = logic.getInstructorForGoogleId(course.id, account.googleId);
             
-            boolean isAllowedToMakeSession = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+            boolean isAllowedToMakeSession =
+                    instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
             boolean isArchived = Logic.isCourseArchived(course.id, account.googleId);
 
-            if (!isArchived && isAllowedToMakeSession) { 
+            if (!isArchived && isAllowedToMakeSession) {
                 data.courses.add(course);
             }
         }
         
         CourseAttributes.sortByCreatedDate(data.courses);
-               
+        
         return createAjaxResult("", data);
     }
 

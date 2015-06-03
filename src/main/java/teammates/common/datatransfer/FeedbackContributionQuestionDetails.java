@@ -186,7 +186,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         Map<String, int[][]> teamSubmissionArray = getTeamSubmissionArray(
                 teamNames, teamMembersEmail, teamResponses);
         
-        //Each team's eval results.
+        //Each team's contribution question results.
         Map<String, TeamEvalResult> teamResults = getTeamResults(teamNames, teamSubmissionArray, teamMembersEmail);
         
         String html = "";
@@ -311,8 +311,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 "${contribFragments}", contribFragments,
                 "${Const.Tooltips.CLAIMED}", Sanitizer.sanitizeForHtml(Const.Tooltips.CLAIMED),
                 "${Const.Tooltips.PERCEIVED}", Const.Tooltips.PERCEIVED,
-                "${Const.Tooltips.EVALUATION_POINTS_RECEIVED}", Const.Tooltips.FEEDBACK_CONTRIBUTION_POINTS_RECEIVED,
-                "${Const.Tooltips.EVALUATION_DIFF}", Const.Tooltips.FEEDBACK_CONTRIBUTION_DIFF);
+                "${Const.Tooltips.FEEDBACK_CONTRIBUTION_POINTS_RECEIVED}", Const.Tooltips.FEEDBACK_CONTRIBUTION_POINTS_RECEIVED,
+                "${Const.Tooltips.FEEDBACK_CONTRIBUTION_DIFF}", Const.Tooltips.FEEDBACK_CONTRIBUTION_DIFF);
 
         
         return html;

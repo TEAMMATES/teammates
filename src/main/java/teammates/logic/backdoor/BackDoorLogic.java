@@ -167,7 +167,7 @@ public class BackDoorLogic extends Logic {
         commentsDb.createComments(comments.values());
         
         // any Db can be used to commit the changes. 
-        // Eval is used as it is already used in the file
+        // accountsDb is used as it is already used in the file
         accountsDb.commitOutstandingChanges();
 
         
