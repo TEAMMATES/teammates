@@ -45,8 +45,8 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
     @Test
     public void testExecuteAndPostProcess() throws Exception{
         //TODO: find a way to test status message from session
-        InstructorAttributes instructor1ofCourse1 =
-                dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
+        String expectedString = "";
         
         ______TS("Not enough parameters");
         
@@ -54,6 +54,7 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         verifyAssumptionFailure();
         //TODO make sure IFAA does assertNotNull for required parameters then uncomment
         //verifyAssumptionFailure(Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId);
+        
         
         ______TS("Typical case");
         
@@ -67,26 +68,27 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         InstructorFeedbackCopyAction a = getAction(params);
         RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(
-                Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
-                        + "?courseid="
-                        + instructor1ofCourse1.courseId
-                        + "&fsname=Copied+Session"
-                        + "&user="
-                        + instructor1ofCourse1.googleId
-                        + "&error=false",
-                rr.getDestinationWithParams());
+        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+                         + "?courseid=" + instructor1ofCourse1.courseId
+                         + "&fsname=Copied+Session"
+                         + "&user=" + instructor1ofCourse1.googleId
+                         + "&error=false";
+        assertEquals(expectedString, rr.getDestinationWithParams());
         
-        String expectedLogMessage =
+        expectedString =
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||"
-               + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-               + "New Feedback Session <span class=\"bold\">(Copied Session)</span> for Course <span class=\"bold\">"
-               + "[idOfTypicalCourse1]</span> created.<br><span class=\"bold\">From:</span> Sun Apr 01 23:59:00 UTC 2012"
-               + "<span class=\"bold\"> to</span> Sun Apr 30 23:59:00 UTC 2017<br><span class=\"bold\">Session visible "
-               + "from:</span> Wed Mar 28 23:59:00 UTC 2012<br><span class=\"bold\">Results visible from:</span> Mon May 01 "
-               + "23:59:00 UTC 2017<br><br><span class=\"bold\">Instructions:</span> <Text: Please please fill in the following "
-               + "questions.>|||/page/instructorFeedbackCopy";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+                + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
+                + "instr1@course1.tmt|||New Feedback Session "
+                + "<span class=\"bold\">(Copied Session)</span> for Course "
+                + "<span class=\"bold\">[idOfTypicalCourse1]</span> created.<br>"
+                + "<span class=\"bold\">From:</span> Sun Apr 01 23:59:00 UTC 2012"
+                + "<span class=\"bold\"> to</span> Sun Apr 30 23:59:00 UTC 2017<br>"
+                + "<span class=\"bold\">Session visible from:</span> Wed Mar 28 23:59:00 UTC 2012<br>"
+                + "<span class=\"bold\">Results visible from:</span> Mon May 01 23:59:00 UTC 2017<br><br>"
+                + "<span class=\"bold\">Instructions:</span> "
+                + "<Text: Please please fill in the following questions.>|||/page/instructorFeedbackCopy";
+        assertEquals(expectedString, a.getLogMessage());
+        
         
         ______TS("Error: Trying to copy with existing feedback session name");
         
@@ -100,16 +102,16 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         a = getAction(params);
         ShowPageResult pageResult = (ShowPageResult) a.executeAndPostProcess();
         
-        assertEquals(
-                "/jsp/instructorFeedbacks.jsp?error=true&user=idOfInstructor1OfCourse1",
-                pageResult.getDestinationWithParams());
+        assertEquals("/jsp/instructorFeedbacks.jsp?error=true&user=idOfInstructor1OfCourse1",
+                     pageResult.getDestinationWithParams());
         
-        expectedLogMessage =
+        expectedString =
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||"
                 + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
-                + "Trying to create a Feedback Session that exists: Second feedback session/idOfTypicalCourse1|||"
+                + "Servlet Action Failure : Trying to create a Feedback Session that exists: Second feedback session/idOfTypicalCourse1|||"
                 + "/page/instructorFeedbackCopy";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        assertEquals(expectedString, a.getLogMessage());
+        
         
         ______TS("Error: Trying to copy with invalid feedback session name");
         
@@ -123,17 +125,17 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         a = getAction(params);
         pageResult = (ShowPageResult) a.executeAndPostProcess();
         
-        assertEquals(
-                "/jsp/instructorFeedbacks.jsp?error=true&user=idOfInstructor1OfCourse1",
-                pageResult.getDestinationWithParams());
+        assertEquals("/jsp/instructorFeedbacks.jsp?error=true&user=idOfInstructor1OfCourse1",
+                     pageResult.getDestinationWithParams());
         
-        expectedLogMessage =
+        expectedString =
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||Instructor|||"
                 + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
                 + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name because it is empty."
                 + " The value of feedback session name should be no longer than 38 characters. It should not be empty.|||"
                 + "/page/instructorFeedbackCopy";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        assertEquals(expectedString, a.getLogMessage());
+        
         
         ______TS("Masquerade mode");
         gaeSimulation.loginAsAdmin("admin.user");
@@ -149,26 +151,26 @@ public class InstructorFeedbackCopyActionTest extends BaseActionTest {
         a = getAction(params);
         rr = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(
-                Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
-                        + "?courseid="
-                        + instructor1ofCourse1.courseId
-                        + "&fsname=Second+copied+feedback+session"
-                        + "&user="
-                        + instructor1ofCourse1.googleId
-                        + "&error=false",
-                rr.getDestinationWithParams());
+        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+                         + "?courseid=" + instructor1ofCourse1.courseId
+                         + "&fsname=Second+copied+feedback+session"
+                         + "&user=" + instructor1ofCourse1.googleId
+                         + "&error=false";
+        assertEquals(expectedString, rr.getDestinationWithParams());
         
-        expectedLogMessage =
+        expectedString =
                 "TEAMMATESLOG|||instructorFeedbackCopy|||instructorFeedbackCopy|||true|||"
                 + "Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
-                + "instr1@course1.tmt|||New Feedback Session <span class=\"bold\">(Second copied feedback session)"
-                + "</span> for Course <span class=\"bold\">[idOfTypicalCourse1]</span> created.<br><span class=\"bold\">"
-                + "From:</span> Sat Jun 01 23:59:00 UTC 2013<span class=\"bold\"> to</span> Thu Apr 28 23:59:00 UTC 2016<br>"
-                + "<span class=\"bold\">Session visible from:</span> Wed Mar 20 23:59:00 UTC 2013<br><span class=\"bold\">"
-                + "Results visible from:</span> Fri Apr 29 23:59:00 UTC 2016<br><br><span class=\"bold\">Instructions:</span>"
-                + " <Text: Please please fill in the following questions.>|||/page/instructorFeedbackCopy";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+                + "instr1@course1.tmt|||New Feedback Session "
+                + "<span class=\"bold\">(Second copied feedback session)</span> for Course "
+                + "<span class=\"bold\">[idOfTypicalCourse1]</span> created.<br>"
+                + "<span class=\"bold\">From:</span> Sat Jun 01 23:59:00 UTC 2013"
+                + "<span class=\"bold\"> to</span> Thu Apr 28 23:59:00 UTC 2016<br>"
+                + "<span class=\"bold\">Session visible from:</span> Wed Mar 20 23:59:00 UTC 2013<br>"
+                + "<span class=\"bold\">Results visible from:</span> Fri Apr 29 23:59:00 UTC 2016<br><br>"
+                + "<span class=\"bold\">Instructions:</span> "
+                + "<Text: Please please fill in the following questions.>|||/page/instructorFeedbackCopy";
+        assertEquals(expectedString, a.getLogMessage());
     }
     
     private InstructorFeedbackCopyAction getAction (String... params) throws Exception {

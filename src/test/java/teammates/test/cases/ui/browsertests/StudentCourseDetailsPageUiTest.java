@@ -36,7 +36,6 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
         verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.alice", "/studentCourseDetailsWithTeammatesHTML.html");
 
         //without teammates 
-        
         verifyContent("SCDetailsUiT.CS2104", "SCDetailsUiT.charlie", "/studentCourseDetailsWithoutTeammatesHTML.html");
         
         ______TS("links, inputValidation, actions");
@@ -46,13 +45,11 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
     }
 
     private void verifyContent(String courseObjectId, String studentObjectId, String filePath) {
-        
         Url detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE)
-            .withUserId(testData.students.get(studentObjectId).googleId)
-            .withCourseId(testData.courses.get(courseObjectId).id);
+                                .withUserId(testData.students.get(studentObjectId).googleId)
+                                .withCourseId(testData.courses.get(courseObjectId).id);
         
-        loginAdminToPage(browser, detailsPageUrl, StudentCourseDetailsPage.class)
-            .verifyHtmlMainContent(filePath);
+        loginAdminToPage(browser, detailsPageUrl, StudentCourseDetailsPage.class).verifyHtmlMainContent(filePath);
     }
 
     @AfterClass

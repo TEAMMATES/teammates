@@ -15,21 +15,17 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
-public class StudentHomePageAction extends Action {
-    
+public class StudentHomePageAction extends Action { 
     private StudentHomePageData data;
-    
 
     @Override
-    public ActionResult execute() throws EntityDoesNotExistException {
-        
+    public ActionResult execute() throws EntityDoesNotExistException { 
         new GateKeeper().verifyLoggedInUserPrivileges();
         
         data = new StudentHomePageData(account);
-        String recentlyJoinedCourseId = getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);
+        String recentlyJoinedCourseId = getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);        
         
-        
-        try{
+        try {
             data.courses = logic.getCourseDetailsListForStudent(account.googleId);
     
             data.sessionSubmissionStatusMap = generateFeedbackSessionSubmissionStatusMap(data.courses, account.googleId);
@@ -38,17 +34,17 @@ public class StudentHomePageAction extends Action {
             statusToAdmin = "studentHome Page Load<br>" + "Total courses: " + data.courses.size();
             
             boolean isDataConsistent = checkEventualConsistency(recentlyJoinedCourseId);
-            if(!isDataConsistent) {
+            if (!isDataConsistent) {
                 addPlaceholderCourse(recentlyJoinedCourseId, account.googleId);
                 data.setEventualConsistencyCourse(recentlyJoinedCourseId);
             }
             
-            for(CourseDetailsBundle course: data.courses){
+            for(CourseDetailsBundle course: data.courses) {
                 FeedbackSessionDetailsBundle.sortFeedbackSessionsByCreationTime(course.feedbackSessions);
             }
             
-        } catch (EntityDoesNotExistException e){
-            if(recentlyJoinedCourseId != null) {
+        } catch (EntityDoesNotExistException e) {
+            if (recentlyJoinedCourseId != null) {
                 addPlaceholderCourse(recentlyJoinedCourseId, account.googleId);
             } else {
                 statusToUser.add(Const.StatusMessages.STUDENT_FIRST_TIME);
@@ -59,27 +55,22 @@ public class StudentHomePageAction extends Action {
         ShowPageResult response = createShowPageResult(Const.ViewURIs.STUDENT_HOME, data);
         
         return response;
-
     }
     
-
     private Map<String, Boolean> generateFeedbackSessionSubmissionStatusMap(
             List<CourseDetailsBundle> courses, String googleId) {
         Map<String, Boolean> returnValue = new HashMap<String, Boolean>();
-
         
-        for(CourseDetailsBundle c: courses){
-            for(FeedbackSessionDetailsBundle fsb: c.feedbackSessions){
+        for(CourseDetailsBundle c : courses) {
+            for(FeedbackSessionDetailsBundle fsb : c.feedbackSessions) {
                 FeedbackSessionAttributes f = fsb.feedbackSession;
-                returnValue.put(f.courseId+"%"+f.feedbackSessionName, getStudentStatusForSession(f, googleId));
+                returnValue.put(f.courseId + "%" + f.feedbackSessionName, getStudentStatusForSession(f, googleId));
             }
         }
         return returnValue;
     }
 
-    
     private boolean getStudentStatusForSession(FeedbackSessionAttributes fs, String googleId){
-        
         StudentAttributes student = logic.getStudentForGoogleId(fs.courseId, googleId);
         Assumption.assertNotNull(student);
 
@@ -89,7 +80,8 @@ public class StudentHomePageAction extends Action {
             return logic.hasStudentSubmittedFeedback(
                     fs.courseId, fs.feedbackSessionName, studentEmail);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            Assumption.fail("Parameters are expected to be valid at this point :" + TeammatesException.toStringWithStackTrace(e));
+            Assumption.fail("Parameters are expected to be valid at this point :"
+                             + TeammatesException.toStringWithStackTrace(e));
             return false;
         }
     }
@@ -97,7 +89,7 @@ public class StudentHomePageAction extends Action {
     private boolean checkEventualConsistency(String recentlyJoinedCourseId) {
         boolean isDataConsistent = false;
         
-        if(recentlyJoinedCourseId == null) {
+        if (recentlyJoinedCourseId == null) {
             isDataConsistent = true;
         } else {
             for(CourseDetailsBundle currentCourse : data.courses) {
@@ -127,8 +119,7 @@ public class StudentHomePageAction extends Action {
             showEventualConsistencyMessage(courseId);
             statusToAdmin = Const.ACTION_RESULT_FAILURE + " :" + e.getMessage();
         } 
-    }
-    
+    } 
     
     private void addPlaceholderFeedbackSessions(CourseDetailsBundle course) {
         for(FeedbackSessionDetailsBundle fsb: course.feedbackSessions){
