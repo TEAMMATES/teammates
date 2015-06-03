@@ -56,8 +56,6 @@ public class Emails {
     public static final String SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT = "TEAMMATES: Welcome to TEAMMATES!";
             
     public static enum EmailType {
-        EVAL_CLOSING,
-        EVAL_OPENING,
         FEEDBACK_CLOSING,
         FEEDBACK_OPENING,
         FEEDBACK_PUBLISHED,

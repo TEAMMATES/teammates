@@ -887,7 +887,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
                         FieldValidator.REASON_EMPTY,
                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                        FieldValidator.EVALUATION_NAME_MAX_LENGTH,
+                        FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH,
                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME),
                      feedbackPage.getStatus());
         assertTrue(feedbackPage.verifyVisible(By.id("timeFramePanel")));

@@ -267,11 +267,8 @@ public abstract class Action {
     protected boolean isPersistenceIssue() {
         String persistenceCheckString1 = 
                 getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);
-        String persistenceCheckString2 = 
-                getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_EVALUATION);
         
-        return persistenceCheckString1 != null ||
-               persistenceCheckString2 != null;
+        return persistenceCheckString1 != null;
     }
 
     private boolean isPageNotCourseJoinRelated() {
