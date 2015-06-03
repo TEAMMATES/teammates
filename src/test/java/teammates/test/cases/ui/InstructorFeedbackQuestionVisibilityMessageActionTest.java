@@ -17,14 +17,14 @@ import teammates.ui.controller.ActionResult;
 
 public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
-    
+
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
         removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_VISIBILITY_MESSAGE;
     }
-    
+
     @Test
     public void testExecuteAndPostProcess() throws Exception {
         String instructor1OfCourse1 = dataBundle.instructors.get("instructor1OfCourse1").googleId;
@@ -35,7 +35,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         FeedbackQuestionAttributes fq = FeedbackQuestionsLogic
                                             .inst()
                                             .getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
-        
+
         ______TS("Typical Case - max -> constructed params");
 
         String[] typicalParams = new String[]{
@@ -56,14 +56,14 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
 
         InstructorFeedbackQuestionVisibilityMessageAction a = getAction(typicalParams);
         ActionResult r = (ActionResult) a.executeAndPostProcess();
-        
+
         assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION + "?error=false"
                      + "&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
         assertEquals("", r.getStatusMessage());
         assertFalse(r.isError);
-        
+
         ______TS("Custom Case Students - constructed params");
-        
+
         String[] customParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
@@ -88,12 +88,12 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
                      + "&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
         assertEquals("", r.getStatusMessage());
         assertFalse(r.isError);
-        
+
         ______TS("Custom Case Teams - data bundle params");
 
         fs = dataBundle.feedbackSessions.get("session2InCourse1");
         fq = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
-        
+
         customParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
@@ -118,12 +118,12 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
                      + "&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
         assertEquals("", r.getStatusMessage());
         assertFalse(r.isError);
-        
+
         ______TS("Custom Case Instructor - data bundle params");
 
         fs = dataBundle.feedbackSessions.get("gracePeriodSession");
         fq = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
-        
+
         customParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
@@ -148,7 +148,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
                      + "&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
         assertEquals("", r.getStatusMessage());
         assertFalse(r.isError);
-        
+
         ______TS("Private case, empty participant list - data bundle params");
 
         String instructor1OfCourse2 = dataBundle.instructors.get("instructor1OfCourse2").googleId;
@@ -158,7 +158,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
 
         fs = dataBundle.feedbackSessions.get("session1InCourse2");
         fq = FeedbackQuestionsLogic.inst().getFeedbackQuestion(fs.feedbackSessionName, fs.courseId, 1);
-        
+
         String[] privateParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
@@ -183,9 +183,9 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
                      + "&user=idOfInstructor1OfCourse2", r.getDestinationWithParams());
         assertEquals("", r.getStatusMessage());
         assertFalse(r.isError);
-        
+
         ______TS("Private case, null participant list - constructed params");
-        
+
         privateParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
