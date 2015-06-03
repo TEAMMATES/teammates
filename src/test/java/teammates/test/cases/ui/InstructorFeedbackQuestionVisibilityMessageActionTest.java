@@ -1,5 +1,8 @@
 package teammates.test.cases.ui;
 
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
+
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -35,7 +38,7 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         
         ______TS("Typical Case");
 
-        String[] submissionParams = new String[]{
+        String[] typicalParams = new String[]{
                 Const.ParamsNames.COURSE_ID, fs.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
@@ -51,8 +54,40 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
         };
 
-        InstructorFeedbackQuestionVisibilityMessageAction a = getAction(submissionParams);
+        InstructorFeedbackQuestionVisibilityMessageAction a = getAction(typicalParams);
         ActionResult r = (ActionResult) a.executeAndPostProcess();
+        
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION + "?error=false"
+                     + "&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
+        assertEquals("", r.getStatusMessage());
+        assertFalse(r.isError);
+        
+        ______TS("Custom Case");
+        
+        String[] customParams = {
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "1",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "TEXT",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "question",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getId()
+        };
+
+        a = getAction(customParams);
+        r = (ActionResult) a.executeAndPostProcess();
+
+        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION + "?error=false"
+                     + "&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
+        assertEquals("", r.getStatusMessage());
+        assertFalse(r.isError);
     }
 
     private InstructorFeedbackQuestionVisibilityMessageAction getAction(String... params) throws Exception {
