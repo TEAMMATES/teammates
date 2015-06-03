@@ -30,9 +30,8 @@ public class InstructorFeedbackResponseCommentDeleteAction extends Action {
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
         
-        verifyAccessibleForInstructorToFeedbackResponseComment(
-                feedbackSessionName, feedbackResponseCommentId, instructor,
-                session, response);
+        verifyAccessibleForInstructorToFeedbackResponseComment(feedbackSessionName, feedbackResponseCommentId,
+                                                               instructor, session, response);
         
         FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes();
         feedbackResponseComment.setId(Long.parseLong(feedbackResponseCommentId));
@@ -50,22 +49,20 @@ public class InstructorFeedbackResponseCommentDeleteAction extends Action {
         return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
     }
     
-    private void verifyAccessibleForInstructorToFeedbackResponseComment(
-            String feedbackSessionName, String feedbackResponseCommentId,
-            InstructorAttributes instructor, FeedbackSessionAttributes session,
-            FeedbackResponseAttributes response) {
-        FeedbackResponseCommentAttributes frc = logic.getFeedbackResponseComment(Long.parseLong(feedbackResponseCommentId));
+    private void verifyAccessibleForInstructorToFeedbackResponseComment(String feedbackSessionName,
+            String feedbackResponseCommentId, InstructorAttributes instructor,
+            FeedbackSessionAttributes session, FeedbackResponseAttributes response) {
+        FeedbackResponseCommentAttributes frc =
+                logic.getFeedbackResponseComment(Long.parseLong(feedbackResponseCommentId));
         if (frc == null) {
-            return ;
+            return;
         }
         if (instructor != null && frc.giverEmail.equals(instructor.email)) { // giver, allowed by default
-            return ;
+            return;
         }
-        new GateKeeper().verifyAccessible(instructor, session, false, 
-                response.giverSection, 
+        new GateKeeper().verifyAccessible(instructor, session, false, response.giverSection, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        new GateKeeper().verifyAccessible(instructor, session, false, 
-                response.recipientSection, 
+        new GateKeeper().verifyAccessible(instructor, session, false, response.recipientSection, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
 

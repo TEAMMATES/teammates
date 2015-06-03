@@ -118,7 +118,7 @@ public class AdminInstructorAccountAddAction extends Action {
                 helper.instructorName);
         // replace course
         jsonString = jsonString.replaceAll("demo.course", courseId);
-        // update evaluation time
+        // update feedback session time
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         c.set(Calendar.AM_PM, Calendar.PM);
         c.set(Calendar.HOUR, 11);

@@ -24,10 +24,10 @@
                             <input name="searchcommentforresponses" value="false" type="hidden">
                             <input name="user" value="{$test.instructor}" type="hidden">
                         </form>
-                     </div>
-                 </div>
-             </div>
-             <br>
+                    </div>
+                </div>
+            </div>
+            <br>
             <h2>Filter Students</h2>
             <div id="moreOptionsDiv" class="well well-plain">
                 <div class="row">
@@ -51,14 +51,14 @@
                             </div>
                             <br>
                             
-                                <div class="checkbox"><input id="course_check-0" type="checkbox">
-                                    <label for="course_check-0">
-                                    [AHPUiT.instr1.gma-demo] : Sample Course 101
-                                    </label>
-                                </div>
+                                        <div class="checkbox">
+                                            <input id="course_check-0" type="checkbox">
+                                            <label for="course_check-0">
+                                                [AHPUiT.instr1.gma-demo] : Sample Course 101
+                                            </label>
+                                        </div>
                             
                         </div>
-                         
                         <div class="col-sm-3">
                             <div class="text-color-primary">
                                 <strong>Sections</strong>
@@ -70,10 +70,8 @@
                             </div>
                             <br>
                             <div id="sectionChoices">
-                     
                             </div>
                         </div>
-                          
                         <div class="col-sm-3">
                             <div class="text-color-primary">
                                 <strong>Teams</strong>
@@ -85,10 +83,8 @@
                             </div>
                             <br>
                             <div id="teamChoices">
-
                             </div>
                         </div>
-                        
                         <div class="col-sm-3">
                             <div class="text-color-primary">
                                 <strong>Emails</strong>
@@ -100,52 +96,43 @@
                             </div>
                             <br>
                             <div id="emails">
-                                
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
-    
             
 
 
 
 
-    <div id="statusMessage" style="display: none;"></div>
+        <div id="statusMessage" style="display: none;"></div>
 
             
+                <br>
+                <div class="text-muted">
+                    Click on the panels below to expand
+                </div>
+                <br>
             
-            
-            <br>
-            <div class="text-muted">
-                Click on the panels below to expand
-            </div>
-            <br>
-            
-            
-            
-            
-
-            <div class="panel panel-info">
-                <div style="cursor: pointer;" id="panelHeading-0" data-target="#panelBodyCollapse-0" class="panel-heading ajax_submit">
-                    <form style="display:none;" id="seeMore-0" class="seeMoreForm-0" action="/page/instructorStudentListAjaxPage">
-                        <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
-                        <input name="user" value="{$test.instructor}" type="hidden">
-                        <input id="numStudents-0" value="9" type="hidden">
-                    </form>
-                    <a data-original-title="Enroll student into the course" class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test" id="enroll-0" href="/page/instructorCourseEnrollPage?courseid=AHPUiT.instr1.gma-demo&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">
-                                    <span class="glyphicon glyphicon-list"></span> Enroll
-                    </a>
-                    <div class="display-icon pull-right">
+                    <div class="panel panel-info">
+                        <div style="cursor: pointer;" id="panelHeading-0" data-target="#panelBodyCollapse-0" class="panel-heading ajax_submit">
+                            <form style="display:none;" id="seeMore-0" class="seeMoreForm-0" action="/page/instructorStudentListAjaxPage">
+                                <input name="courseid" value="AHPUiT.instr1.gma-demo" type="hidden">
+                                <input name="user" value="{$test.instructor}" type="hidden">
+                                <input id="numStudents-0" value="9" type="hidden">
+                            </form>
+                            <a data-original-title="Enroll student into the course" class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test" id="enroll-0" href="/page/instructorCourseEnrollPage?courseid=AHPUiT.instr1.gma-demo&amp;user={$test.instructor}" title="" data-toggle="tooltip" data-placement="top">
+                                <span class="glyphicon glyphicon-list"></span> Enroll
+                            </a>
+                            <div class="display-icon pull-right">
+                            </div>
+                            <strong>[AHPUiT.instr1.gma-demo] : </strong>Sample Course 101
+                        </div>
+                        <div id="panelBodyCollapse-0" class="panel-collapse collapse">
+                            <div class="panel-body padding-0">
+                            </div>
+                        </div>
                     </div>
-                    <strong>[AHPUiT.instr1.gma-demo] : </strong>Sample Course 101
-                </div>
-                <div id="panelBodyCollapse-0" class="panel-collapse collapse">
-                <div class="panel-body padding-0">    
-            
-                </div>
-                </div>
-            </div>
-            
+                    
         </div>

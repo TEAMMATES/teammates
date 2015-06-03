@@ -238,14 +238,12 @@ public class FeedbackSessionsLogic {
     }
     
     public List<FeedbackSessionAttributes> getFeedbackSessionsListForInstructor(
-            List<InstructorAttributes> instructorList)
-            throws EntityDoesNotExistException {
+            List<InstructorAttributes> instructorList) throws EntityDoesNotExistException {
 
         List<FeedbackSessionAttributes> fsList = new ArrayList<FeedbackSessionAttributes>();
         
         for (InstructorAttributes instructor : instructorList) {
-            fsList.addAll(getFeedbackSessionsListForCourse(instructor.courseId,
-                    instructor.email));
+            fsList.addAll(getFeedbackSessionsListForCourse(instructor.courseId, instructor.email));
         }
 
         return fsList;
@@ -2193,16 +2191,15 @@ public class FeedbackSessionsLogic {
     }
 
     private List<FeedbackSessionAttributes> getFeedbackSessionsListForCourse(
-            String courseId, String instructorEmail)
-            throws EntityDoesNotExistException {
+            String courseId, String instructorEmail) throws EntityDoesNotExistException {
         
         List<FeedbackSessionAttributes> fsInCourseWithoutPrivate = new ArrayList<FeedbackSessionAttributes>(); 
-        List<FeedbackSessionAttributes> fsInCourse =
-                fsDb.getFeedbackSessionsForCourse(courseId);
+        List<FeedbackSessionAttributes> fsInCourse = fsDb.getFeedbackSessionsForCourse(courseId);
         
         for (FeedbackSessionAttributes fsa : fsInCourse) {
-            if ((fsa.isPrivateSession() && !fsa.isCreator(instructorEmail)) == false)
+            if (!fsa.isPrivateSession() || fsa.isCreator(instructorEmail)) {
                 fsInCourseWithoutPrivate.add(fsa);
+            }
         }
 
         return fsInCourseWithoutPrivate;
