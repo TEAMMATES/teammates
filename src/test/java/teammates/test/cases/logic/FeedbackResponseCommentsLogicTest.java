@@ -3,6 +3,7 @@ package teammates.test.cases.logic;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
@@ -109,6 +110,8 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
     @Test
     public void testGetFeedbackResponseComments() throws Exception {
         FeedbackResponseCommentAttributes frComment = new FeedbackResponseCommentAttributes();
+        List<FeedbackResponseCommentAttributes> expectedFrComments = 
+                new ArrayList<FeedbackResponseCommentAttributes>();
         this.restoreFrCommentFromDataBundle(frComment, "comment1FromT1C1ToR1Q1S1C1");
         
         ______TS("fail: invalid parameters");
@@ -126,7 +129,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
                 frcLogic.getFeedbackResponseCommentForSession(
                                  frComment.courseId, frComment.feedbackSessionName);
         FeedbackResponseCommentAttributes actualFrComment = actualFrComments.get(0);
-        
+
         assertEquals(frComment.courseId, actualFrComment.courseId);
         assertEquals(frComment.giverEmail, actualFrComment.giverEmail);
         assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
@@ -158,15 +161,29 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         assertEquals(frComment.giverEmail, actualFrComment.giverEmail);
         assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
         
-        ______TS("Typical successful case for feedback session in section");
+        ______TS("Typical successful case for giver");
         
-        actualFrComments = frcLogic.getFeedbackResponseCommentForSessionInSection(
-                                            frComment.courseId, frComment.feedbackSessionName, null);
-        actualFrComment = actualFrComments.get(0);
+        actualFrComments = frcLogic.getFeedbackResponseCommentsForGiver(
+                                            frComment.courseId, frComment.giverEmail);
+        FeedbackResponseCommentAttributes tempFrComment = new FeedbackResponseCommentAttributes();
+        this.restoreFrCommentFromDataBundle(tempFrComment, "comment1FromT1C1ToR1Q1S1C1");
+        expectedFrComments.add(tempFrComment);
+        tempFrComment = new FeedbackResponseCommentAttributes();
+        this.restoreFrCommentFromDataBundle(tempFrComment, "comment1FromT1C1ToR1Q2S1C1");
+        expectedFrComments.add(tempFrComment);
+        tempFrComment = new FeedbackResponseCommentAttributes();
+        this.restoreFrCommentFromDataBundle(tempFrComment, "comment1FromT1C1ToR1Q3S1C1");
+        expectedFrComments.add(tempFrComment);
         
-        assertEquals(frComment.courseId, actualFrComment.courseId);
-        assertEquals(frComment.giverEmail, actualFrComment.giverEmail);
-        assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
+        assertEquals(expectedFrComments.size(), actualFrComments.size());
+        
+        for (int i = 0; i < expectedFrComments.size(); i++) {
+            assertEquals(expectedFrComments.get(i).courseId, actualFrComments.get(i).courseId);
+            assertEquals(expectedFrComments.get(i).giverEmail, actualFrComments.get(i).giverEmail);
+            assertEquals(expectedFrComments.get(i).feedbackSessionName, 
+                         actualFrComments.get(i).feedbackSessionName);
+        }
+        
     }
     
     @Test
@@ -241,6 +258,16 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         
         frcLogic.deleteFeedbackResponseComment(actualFrComment);
         TestHelper.verifyAbsentInDatastore(actualFrComment);
+        
+
+        ______TS("typical success case for response");
+        
+        FeedbackResponseCommentAttributes anotherFrComment = new FeedbackResponseCommentAttributes();
+        restoreFrCommentFromDataBundle(anotherFrComment, "comment1FromT1C1ToR1Q2S1C1");
+        TestHelper.verifyPresentInDatastore(anotherFrComment);
+        frcLogic.deleteFeedbackResponseCommentsForResponse(anotherFrComment.feedbackResponseId);
+        TestHelper.verifyAbsentInDatastore(anotherFrComment);
+        
     }
     
     private void verifyExceptionThrownFromCreateFrComment(
