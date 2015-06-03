@@ -1,6 +1,5 @@
 package teammates.test.cases.ui;
 
-import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 
 import org.testng.annotations.BeforeClass;
@@ -57,9 +56,6 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         InstructorFeedbackQuestionVisibilityMessageAction a = getAction(typicalParams);
         ActionResult r = (ActionResult) a.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION + "?error=false"
-                     + "&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
-        assertEquals("", r.getStatusMessage());
         assertFalse(r.isError);
 
         ______TS("Custom Case Students - constructed params");
@@ -84,9 +80,6 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         a = getAction(customParams);
         r = (ActionResult) a.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION + "?error=false"
-                     + "&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
-        assertEquals("", r.getStatusMessage());
         assertFalse(r.isError);
 
         ______TS("Custom Case Teams - data bundle params");
@@ -114,9 +107,6 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         a = getAction(customParams);
         r = (ActionResult) a.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION + "?error=false"
-                     + "&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
-        assertEquals("", r.getStatusMessage());
         assertFalse(r.isError);
 
         ______TS("Custom Case Instructor - data bundle params");
@@ -144,9 +134,6 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         a = getAction(customParams);
         r = (ActionResult) a.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION + "?error=false"
-                     + "&user=idOfInstructor1OfCourse1", r.getDestinationWithParams());
-        assertEquals("", r.getStatusMessage());
         assertFalse(r.isError);
 
         ______TS("Private case, empty participant list - data bundle params");
@@ -179,9 +166,6 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         a = getAction(privateParams);
         r = (ActionResult) a.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION + "?error=false"
-                     + "&user=idOfInstructor1OfCourse2", r.getDestinationWithParams());
-        assertEquals("", r.getStatusMessage());
         assertFalse(r.isError);
 
         ______TS("Private case, null participant list - constructed params");
@@ -206,9 +190,6 @@ public class InstructorFeedbackQuestionVisibilityMessageActionTest extends BaseA
         a = getAction(privateParams);
         r = (ActionResult) a.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION + "?error=false"
-                     + "&user=idOfInstructor1OfCourse2", r.getDestinationWithParams());
-        assertEquals("", r.getStatusMessage());
         assertFalse(r.isError);
     }
 
