@@ -35,25 +35,32 @@ public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
         String feedbackQuestionGiverType =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE);
+
         Assumption.assertNotNull("Null giver type", feedbackQuestionGiverType);
+
         newQuestion.giverType = FeedbackParticipantType.valueOf(feedbackQuestionGiverType);
 
         String feedbackQuestionRecipientType =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE);
+
         Assumption.assertNotNull("Null recipient type", feedbackQuestionRecipientType);
+
         newQuestion.recipientType = FeedbackParticipantType.valueOf(feedbackQuestionRecipientType);
 
         String numberOfEntityTypes =
                 HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                        Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE);
+
         Assumption.assertNotNull("Null number of entity types", numberOfEntityTypes);
+
         if (numberOfEntityTypes.equals("custom")
             && (newQuestion.recipientType == FeedbackParticipantType.STUDENTS
                 || newQuestion.recipientType == FeedbackParticipantType.TEAMS)) {
             String numberOfEntities =
                     HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                            Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES);
+
             Assumption.assertNotNull("Null number of entities for custom entity number", numberOfEntities);
 
             newQuestion.numberOfEntitiesToGiveFeedbackTo = Integer.parseInt(numberOfEntities);
@@ -73,10 +80,12 @@ public class InstructorFeedbackQuestionVisibilityMessageAction extends Action {
 
         String questionType = HttpRequestHelper.getValueFromParamMap(requestParameters,
                                                                      Const.ParamsNames.FEEDBACK_QUESTION_TYPE);
-        Assumption.assertNotNull("Null question type", questionType);
-        newQuestion.questionType = FeedbackQuestionType.valueOf(questionType);
 
+        Assumption.assertNotNull("Null question type", questionType);
+   
+        newQuestion.questionType = FeedbackQuestionType.valueOf(questionType);
         newQuestion.removeIrrelevantVisibilityOptions();
+
         return newQuestion;
     }
 
