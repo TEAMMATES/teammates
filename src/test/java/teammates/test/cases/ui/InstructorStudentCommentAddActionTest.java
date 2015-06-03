@@ -33,7 +33,8 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         gaeSimulation.loginAsInstructor(instructorId);
         
         ______TS("Unsuccessful case: test empty course id parameter");
-        String[] submissionParams = new String[]{
+        
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, student.email,
                 Const.ParamsNames.COMMENT_TEXT, "A typical comment to be added"
         };
@@ -51,7 +52,8 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         }
        
         ______TS("Unsuccessful case: test empty student email parameter");
-        submissionParams = new String[]{
+        
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.COMMENT_TEXT, "A typical comment to be added"
         };
@@ -66,7 +68,8 @@ public class InstructorStudentCommentAddActionTest extends BaseActionTest {
         }
         
         ______TS("Unsuccessful case: test empty comment text parameter");
-        submissionParams = new String[]{
+        
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, student.email
         };
