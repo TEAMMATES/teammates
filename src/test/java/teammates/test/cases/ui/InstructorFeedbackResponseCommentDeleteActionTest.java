@@ -21,8 +21,7 @@ import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackResponseCommentAjaxPageData;
 import teammates.ui.controller.InstructorFeedbackResponseCommentDeleteAction;
 
-public class InstructorFeedbackResponseCommentDeleteActionTest extends
-        BaseActionTest {
+public class InstructorFeedbackResponseCommentDeleteActionTest extends BaseActionTest {
 
     private final DataBundle dataBundle = getTypicalDataBundle();
 
@@ -62,7 +61,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends
         
         verifyAssumptionFailure();
         
-        String[] submissionParams = new String[]{
+        String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "Comment to first response",
@@ -73,7 +72,7 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends
         
         ______TS("Typical successful case");
         
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
@@ -87,6 +86,60 @@ public class InstructorFeedbackResponseCommentDeleteActionTest extends
         
         InstructorFeedbackResponseCommentAjaxPageData data = 
                 (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        
+        assertFalse(data.isError);
+        assertNull(feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
+                feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt));
+        assertEquals("", result.getStatusMessage());
+        
+        ______TS("Non-existent feedback response comment");
+        
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, "123123123123123", // non-existent feedback response comment id
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
+        };
+        
+        action = getAction(submissionParams);
+        result = (AjaxResult) action.executeAndPostProcess();
+        
+        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
+        
+        assertFalse(data.isError);
+        assertNull(feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,
+                feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt));
+        assertEquals("", result.getStatusMessage());
+        
+        ______TS("Instructor is not feedback response comment giver");
+        
+        gaeSimulation.loginAsInstructor("idOfInstructor2OfCourse1");
+        
+        questionNumber = 2;
+        feedbackQuestion = feedbackQuestionsDb.getFeedbackQuestion(
+                "First feedback session", "idOfTypicalCourse1", questionNumber);
+        
+        giverEmail = "student2InCourse1@gmail.tmt";
+        feedbackResponse = feedbackResponsesDb.getFeedbackResponse(feedbackQuestion.getId(), giverEmail,
+                                                                   receiverEmail);
+        feedbackResponseComment = dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
+        feedbackResponseComment = feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponse.getId(),
+                feedbackResponseComment.giverEmail, feedbackResponseComment.createdAt);
+        assertNotNull("response comment not found", feedbackResponseComment);
+
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, feedbackResponseComment.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackResponseComment.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, feedbackResponseComment.feedbackResponseId,
+                Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, feedbackResponseComment.getId().toString(),
+                Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient"
+        };
+        
+        action = getAction(submissionParams);
+        result = (AjaxResult) action.executeAndPostProcess();
+        
+        data = (InstructorFeedbackResponseCommentAjaxPageData) result.data;
         
         assertFalse(data.isError);
         assertNull(feedbackResponseCommentsDb.getFeedbackResponseComment(feedbackResponseComment.feedbackResponseId,

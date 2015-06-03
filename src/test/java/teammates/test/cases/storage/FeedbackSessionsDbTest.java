@@ -192,7 +192,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         
         List<FeedbackSessionAttributes> fsaList = fsDb.getNonPrivateFeedbackSessions();
         
-        assertEquals(7, fsaList.size());
+        assertEquals(8, fsaList.size());
         for(FeedbackSessionAttributes fsa : fsaList){
             assertFalse(fsa.isPrivateSession());
         }
@@ -218,7 +218,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsWithUnsentPublishedEmail();
         
-        assertEquals(7, fsaList.size());
+        assertEquals(8, fsaList.size());
         for(FeedbackSessionAttributes fsa : fsaList){
             assertFalse(fsa.sentPublishedEmail);
         }

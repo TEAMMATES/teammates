@@ -14,7 +14,7 @@ import teammates.logic.api.GateKeeper;
 public class InstructorCourseDetailsPageAction extends Action {
 
     @Override
-    public ActionResult execute() throws EntityDoesNotExistException{
+    public ActionResult execute() throws EntityDoesNotExistException {
         
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         
@@ -31,9 +31,11 @@ public class InstructorCourseDetailsPageAction extends Action {
 
         if (isHtmlTableNeeded) {
             data.studentListHtmlTableAsString = StringHelper.csvToHtmlTable(
-                                                    logic.getCourseStudentListAsCsv(courseId, account.googleId));            
+                                                    logic.getCourseStudentListAsCsv(courseId, account.googleId));
+            
             statusToAdmin = "instructorCourseDetails Page Ajax Html table Load<br>" 
                             + "Viewing Student List Table for Course <span class=\"bold\">[" + courseId + "]</span>";
+            
             return createAjaxResult(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS, data);
         } else {
             data.studentListHtmlTableAsString = "";

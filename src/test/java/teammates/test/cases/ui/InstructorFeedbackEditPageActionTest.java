@@ -20,7 +20,7 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-		removeAndRestoreTypicalDataInDatastore();
+        removeAndRestoreTypicalDataInDatastore();
         uri = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE;
     }
     
@@ -30,7 +30,7 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
         gaeSimulation.loginAsInstructor(instructor1OfCourse1.googleId);
         
         // declare all variables to be used
-        String expectedLogMessage = "";
+        String expectedString = "";
         FeedbackSessionAttributes feedbackSessionAttributes;
         String[] submissionParams;
         InstructorFeedbackEditPageAction instructorFeedbackEditPageAction;
@@ -48,27 +48,25 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
         instructorFeedbackEditPageAction = getAction(submissionParams);
         showPageResult = (ShowPageResult) instructorFeedbackEditPageAction.executeAndPostProcess();
         
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT
-                + "?error=false"
-                + "&user="
-                + instructor1OfCourse1.googleId,
-                showPageResult.getDestinationWithParams());
+        expectedString = Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT
+                         + "?error=false&user=" + instructor1OfCourse1.googleId; 
+        assertEquals(expectedString, showPageResult.getDestinationWithParams());
         
         assertEquals("", showPageResult.getStatusMessage());
         
-        expectedLogMessage = 
-                "TEAMMATESLOG|||instructorFeedbackEditPage|||instructorFeedbackEditPage|||true|||" +
-                "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||" +
-                "instr1@course1.tmt|||instructorFeedbackEdit Page Load<br>Editing information for Feedback Session" +
-                " <span class=\"bold\">[" + feedbackSessionAttributes.feedbackSessionName + "]</span>" +
-                "in Course: <span class=\"bold\">[idOfTypicalCourse1]</span>" +
-                "|||/page/instructorFeedbackEditPage";
-        
-        assertEquals(expectedLogMessage, instructorFeedbackEditPageAction.getLogMessage());
+        expectedString = 
+                "TEAMMATESLOG|||instructorFeedbackEditPage|||instructorFeedbackEditPage|||true|||"
+                + "Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||"
+                + "instr1@course1.tmt|||instructorFeedbackEdit "
+                + "Page Load<br>Editing information for Feedback Session "
+                + "<span class=\"bold\">[" + feedbackSessionAttributes.feedbackSessionName + "]</span>"
+                + "in Course: <span class=\"bold\">[idOfTypicalCourse1]</span>"
+                + "|||/page/instructorFeedbackEditPage";
+        assertEquals(expectedString, instructorFeedbackEditPageAction.getLogMessage());
         
         ______TS("failure 1: non-existent feedback session");
         
-        submissionParams = new String[]{
+        submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "randomName for Session123"
         };
@@ -79,7 +77,7 @@ public class InstructorFeedbackEditPageActionTest extends BaseActionTest {
             signalFailureToDetectException();
         } catch(UnauthorizedAccessException uae) {
             assertEquals("Trying to access system using a non-existent feedback session entity",
-                    uae.getMessage());
+                         uae.getMessage());
         }
     }
     

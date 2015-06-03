@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.util.Sanitizer"%>
 <%@ page import="teammates.ui.controller.PageData"%>
 <%@ page import="teammates.ui.controller.InstructorCourseJoinConfirmationPageData"%>
 <%
@@ -65,7 +66,7 @@
                             ref = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
                                     + "?key=" + data.regkey + "&"
                                     + Const.ParamsNames.INSTRUCTOR_INSTITUTION + "="
-                                    + data.institute;
+                                    + Sanitizer.sanitizeForUri(data.institute);
                         }
                     %>
                     <a href="<%=ref%>" id="button_confirm"
