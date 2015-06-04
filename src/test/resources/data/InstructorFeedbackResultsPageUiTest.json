@@ -330,7 +330,8 @@
             "recipientType":"OWN_TEAM_MEMBERS",
             "numberOfEntitiesToGiveFeedbackTo":-100,
             "showResponsesTo":[
-                "RECEIVER"
+                "RECEIVER",
+                "INSTRUCTORS"
             ],
             "showGiverNameTo":[
                 "RECEIVER"
@@ -461,14 +462,14 @@
                 "INSTRUCTORS"
             ]
         },
-        "qn11InSession1":{
-            "feedbackSessionName":"First Session",
+        "qn2InSession2":{
+            "feedbackSessionName":"Second Session",
             "courseId":"CFResultsUiT.CS2104",
             "creatorEmail":"CFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"MSQ\",\"questionText\":\"Who are your teammates?\",\"generateOptionsFor\":\"STUDENTS\",\"otherEnabled\":false}"
             },
-            "questionNumber":"11",
+            "questionNumber":"2",
             "questionType":"MSQ",
             "giverType":"STUDENTS",
             "recipientType":"SELF",
@@ -486,14 +487,14 @@
                 "INSTRUCTORS"
             ]
         },
-        "qn12InSession1":{
-            "feedbackSessionName":"First Session",
+        "qn3InSession2":{
+            "feedbackSessionName":"Second Session",
             "courseId":"CFResultsUiT.CS2104",
             "creatorEmail":"CFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionType\":\"MSQ\",\"questionText\":\"Which teams do you like?\",\"generateOptionsFor\":\"TEAMS\",\"otherEnabled\":false}"
             },
-            "questionNumber":"12",
+            "questionNumber":"3",
             "questionType":"MSQ",
             "giverType":"STUDENTS",
             "recipientType":"SELF",
@@ -511,14 +512,14 @@
                 "INSTRUCTORS"
             ]
         },
-        "qn13InSession1":{
-            "feedbackSessionName":"First Session",
+        "qn4InSession2":{
+            "feedbackSessionName":"Second Session",
             "courseId":"CFResultsUiT.CS2104",
             "creatorEmail":"CFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionText\":\"Rate our product.\", \"questionType\":\"NUMSCALE\", \"minScale\" : 1, \"maxScale\" : 5,\"step\" : 0.5}"
             },
-            "questionNumber":"13",
+            "questionNumber":"4",
             "questionType":"NUMSCALE",
             "giverType":"STUDENTS",
             "recipientType":"SELF",
@@ -534,8 +535,8 @@
             ]
             
         },
-        "qn14InSession1": {
-            "feedbackSessionName": "First Session",
+        "qn5InSession2": {
+            "feedbackSessionName": "Second Session",
             "courseId": "CFResultsUiT.CS2104",
             "creatorEmail": "CFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
@@ -544,7 +545,7 @@
                             \"constSumOptions\" : [\"Grades\", \"Fun\"],\"distributeToRecipients\" : false,
                             \"pointsPerOption\" : false, \"points\" : 100}"
             },
-            "questionNumber": 14,
+            "questionNumber": 5,
             "questionType": "CONSTSUM",
             "giverType": "STUDENTS",
             "recipientType": "SELF",
@@ -562,8 +563,8 @@
                 "INSTRUCTORS"
             ]
         },
-        "qn15InSession1": {
-            "feedbackSessionName": "First Session",
+        "qn6InSession2": {
+            "feedbackSessionName": "Second Session",
             "courseId": "CFResultsUiT.CS2104",
             "creatorEmail": "CFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
@@ -572,7 +573,7 @@
                             \"constSumOptions\" : [],\"distributeToRecipients\" : true,
                             \"pointsPerOption\" : true, \"points\" : 100}"
             },
-            "questionNumber": 15,
+            "questionNumber": 6,
             "questionType": "CONSTSUM",
             "giverType": "STUDENTS",
             "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
@@ -590,15 +591,15 @@
                 "INSTRUCTORS"
             ]
         },
-        "qn16InSession1": {
-            "feedbackSessionName": "First Session",
+        "qn7InSession2": {
+            "feedbackSessionName": "Second Session",
             "courseId": "CFResultsUiT.CS2104",
             "creatorEmail": "CFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                   "value":"{\"questionText\":\"Rate the contribution of yourself and your team members towards the latest project.\",
                             \"questionType\":\"CONTRIB\"}"
             },
-            "questionNumber": 16,
+            "questionNumber": 7,
             "questionType": "CONTRIB",
             "giverType": "STUDENTS",
             "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
@@ -617,14 +618,14 @@
                 "INSTRUCTORS"
             ]
         },
-        "qn17InSession1":{
-            "feedbackSessionName":"First Session",
+        "qn8InSession2":{
+            "feedbackSessionName":"Second Session",
             "courseId":"CFResultsUiT.CS2104",
             "creatorEmail":"CFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionText\":\"Rate you and your team members work.\", \"questionType\":\"NUMSCALE\", \"minScale\" : 1, \"maxScale\" : 5,\"step\" : 0.5}"
             },
-            "questionNumber":"17",
+            "questionNumber":"8",
             "questionType":"NUMSCALE",
             "giverType":"STUDENTS",
             "recipientType":"OWN_TEAM_MEMBERS_INCLUDING_SELF",
@@ -636,18 +637,17 @@
                 "INSTRUCTORS"
             ],
             "showRecipientNameTo":[
-                "INSTRUCTORS"
             ]
             
         },
-        "qn18InSession1":{
-            "feedbackSessionName":"First Session",
+        "qn9InSession2":{
+            "feedbackSessionName":"Second Session",
             "courseId":"CFResultsUiT.CS2104",
             "creatorEmail":"CFResultsUiT.instr@gmail.tmt",
             "questionMetaData":{
                 "value":"{\"questionText\":\"Rate the class\", \"questionType\":\"NUMSCALE\", \"minScale\" : -5, \"maxScale\" : 5,\"step\" : 0.25}"
             },
-            "questionNumber":"18",
+            "questionNumber":"9",
             "questionType":"NUMSCALE",
             "giverType":"STUDENTS",
             "recipientType":"NONE",
@@ -656,7 +656,7 @@
                 "INSTRUCTORS"
             ],
             "showGiverNameTo":[
-                "INSTRUCTORS"
+                
             ],
             "showRecipientNameTo":[
                 "INSTRUCTORS"
@@ -680,7 +680,6 @@
                 "RECEIVER"
             ],
             "showGiverNameTo":[
-                "RECEIVER"
             ],
             "showRecipientNameTo":[
                 "RECEIVER"
@@ -899,9 +898,9 @@
             
         },
         "response11":{
-            "feedbackSessionName":"First Session",
+            "feedbackSessionName":"Second Session",
             "courseId":"CFResultsUiT.CS2104",
-            "feedbackQuestionId":"11",
+            "feedbackQuestionId":"2",
             "feedbackQuestionType":"MSQ",
             "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
             "recipientEmail":"CFResultsUiT.alice.b@gmail.tmt",
@@ -912,9 +911,9 @@
             "recipientSection":"Section A"
         },
         "response12":{
-            "feedbackSessionName":"First Session",
+            "feedbackSessionName":"Second Session",
             "courseId":"CFResultsUiT.CS2104",
-            "feedbackQuestionId":"12",
+            "feedbackQuestionId":"3",
             "feedbackQuestionType":"MSQ",
             "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
             "recipientEmail":"CFResultsUiT.alice.b@gmail.tmt",
@@ -925,9 +924,9 @@
             "recipientSection":"Section A"
         },
         "response13":{
-            "feedbackSessionName":"First Session",
+            "feedbackSessionName":"Second Session",
             "courseId":"CFResultsUiT.CS2104",
-            "feedbackQuestionId":"13",
+            "feedbackQuestionId":"4",
             "feedbackQuestionType":"NUMSCALE",
             "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
             "recipientEmail":"CFResultsUiT.alice.b@gmail.tmt",
@@ -964,9 +963,9 @@
             "recipientSection":"Section A"
         },
         "response16":{
-            "feedbackSessionName":"First Session",
+            "feedbackSessionName":"Second Session",
             "courseId":"CFResultsUiT.CS2104",
-            "feedbackQuestionId":"14",
+            "feedbackQuestionId":"5",
             "feedbackQuestionType":"CONSTSUM",
             "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
             "recipientEmail":"CFResultsUiT.alice.b@gmail.tmt",
@@ -977,9 +976,9 @@
             "recipientSection":"Section A"
         },
         "response17.1":{
-            "feedbackSessionName":"First Session",
+            "feedbackSessionName":"Second Session",
             "courseId":"CFResultsUiT.CS2104",
-            "feedbackQuestionId":"15",
+            "feedbackQuestionId":"6",
             "feedbackQuestionType":"CONSTSUM",
             "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
             "recipientEmail":"CFResultsUiT.alice.b@gmail.tmt",
@@ -990,9 +989,9 @@
             "recipientSection":"Section A"
         },
         "response17.2":{
-            "feedbackSessionName":"First Session",
+            "feedbackSessionName":"Second Session",
             "courseId":"CFResultsUiT.CS2104",
-            "feedbackQuestionId":"15",
+            "feedbackQuestionId":"6",
             "feedbackQuestionType":"CONSTSUM",
             "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
             "recipientEmail":"CFResultsUiT.benny.c@gmail.tmt",
@@ -1003,9 +1002,9 @@
             "recipientSection":"Section A"
         },
         "response17.3":{
-            "feedbackSessionName":"First Session",
+            "feedbackSessionName":"Second Session",
             "courseId":"CFResultsUiT.CS2104",
-            "feedbackQuestionId":"15",
+            "feedbackQuestionId":"6",
             "feedbackQuestionType":"CONSTSUM",
             "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
             "recipientEmail":"CFResultsUiT.charlie.d@gmail.tmt",
@@ -1016,9 +1015,9 @@
             "recipientSection":"Section A"
         },
         "response17.4":{
-            "feedbackSessionName":"First Session",
+            "feedbackSessionName":"Second Session",
             "courseId":"CFResultsUiT.CS2104",
-            "feedbackQuestionId":"15",
+            "feedbackQuestionId":"6",
             "feedbackQuestionType":"CONSTSUM",
             "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
             "recipientEmail":"CFResultsUiT.danny.e@gmail.tmt",
@@ -1029,9 +1028,9 @@
             "recipientSection":"Section A"
         },
         "FS.Q1.Alice.1":{
-            "feedbackSessionName":"First Session",
+            "feedbackSessionName":"Second Session",
             "courseId":"CFResultsUiT.CS2104",
-            "feedbackQuestionId":"16",
+            "feedbackQuestionId":"7",
             "feedbackQuestionType":"CONTRIB",
             "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
             "recipientEmail":"CFResultsUiT.alice.b@gmail.tmt",
@@ -1042,9 +1041,9 @@
             "recipientSection":"Section A"
         },
         "FS.Q1.Alice.2":{
-            "feedbackSessionName":"First Session",
+            "feedbackSessionName":"Second Session",
             "courseId":"CFResultsUiT.CS2104",
-            "feedbackQuestionId":"16",
+            "feedbackQuestionId":"7",
             "feedbackQuestionType":"CONTRIB",
             "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
             "recipientEmail":"CFResultsUiT.benny.c@gmail.tmt",
@@ -1055,9 +1054,9 @@
             "recipientSection":"Section A"
         },
         "response17":{
-            "feedbackSessionName":"First Session",
+            "feedbackSessionName":"Second Session",
             "courseId":"CFResultsUiT.CS2104",
-            "feedbackQuestionId":"17",
+            "feedbackQuestionId":"8",
             "feedbackQuestionType":"NUMSCALE",
             "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
             "recipientEmail":"CFResultsUiT.alice.b@gmail.tmt",
@@ -1068,9 +1067,9 @@
             "recipientSection":"Section A"
         },
         "response18":{
-            "feedbackSessionName":"First Session",
+            "feedbackSessionName":"Second Session",
             "courseId":"CFResultsUiT.CS2104",
-            "feedbackQuestionId":"17",
+            "feedbackQuestionId":"8",
             "feedbackQuestionType":"NUMSCALE",
             "giverEmail":"CFResultsUiT.alice.b@gmail.tmt",
             "recipientEmail":"CFResultsUiT.benny.c@gmail.tmt",
@@ -1081,9 +1080,9 @@
             "recipientSection":"Section A"
         },
         "response19":{
-            "feedbackSessionName":"First Session",
+            "feedbackSessionName":"Second Session",
             "courseId":"CFResultsUiT.CS2104",
-            "feedbackQuestionId":"18",
+            "feedbackQuestionId":"9",
             "feedbackQuestionType":"NUMSCALE",
             "giverEmail":"CFResultsUiT.benny.c@gmail.tmt",
             "recipientEmail":"%GENERAL%",
