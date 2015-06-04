@@ -8,14 +8,10 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
-public class StudentFeedbackQuestionSubmissionEditSaveAction extends
-        FeedbackQuestionSubmissionEditSaveAction {
-
+public class StudentFeedbackQuestionSubmissionEditSaveAction extends FeedbackQuestionSubmissionEditSaveAction {
     @Override
     protected void verifyAccesibleForSpecificUser() {
-        new GateKeeper().verifyAccessible(
-                getStudent(),
-                logic.getFeedbackSession(feedbackSessionName, courseId));
+        new GateKeeper().verifyAccessible(getStudent(), logic.getFeedbackSession(feedbackSessionName, courseId));
     }
 
     @Override
@@ -47,18 +43,17 @@ public class StudentFeedbackQuestionSubmissionEditSaveAction extends
     }
 
     @Override
-    protected FeedbackSessionQuestionsBundle getDataBundle(
-            String userEmailForCourse) throws EntityDoesNotExistException {
+    protected FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse) throws EntityDoesNotExistException {
         return logic.getFeedbackSessionQuestionsBundleForStudent(
                 feedbackSessionName, courseId, feedbackQuestionId, userEmailForCourse);
     }
 
     @Override
     protected void setStatusToAdmin() {
-        statusToAdmin = "Save question feedback and show student feedback question submission edit page<br>" +
-                "Question ID: " + feedbackQuestionId + "<br>" +
-                "Session Name: " + feedbackSessionName + "<br>" + 
-                "Course ID: " + courseId;
+        statusToAdmin = "Save question feedback and show student feedback question submission edit page<br>"
+                        + "Question ID: " + feedbackQuestionId + "<br>"
+                        + "Session Name: " + feedbackSessionName + "<br>" 
+                        + "Course ID: " + courseId;
     }
 
     @Override
@@ -66,13 +61,9 @@ public class StudentFeedbackQuestionSubmissionEditSaveAction extends
         return fs.isOpened() || fs.isInGracePeriod();
     }
 
-    @Override
-    protected ShowPageResult createSpecificShowPageResult() {
-        return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT, data);
-    }
-    
     protected StudentAttributes getStudent() {
         if (student != null) {
+            // Not covered in tests as it is not easily producible but acts as a safety net
             return student;
         } else {
             return logic.getStudentForGoogleId(courseId, account.googleId);
@@ -83,12 +74,9 @@ public class StudentFeedbackQuestionSubmissionEditSaveAction extends
     protected RedirectResult createSpecificRedirectResult() {
         RedirectResult result = createRedirectResult(Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE);
         result.responseParams.put(Const.ParamsNames.COURSE_ID, getStudent().course);
-        result.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME,
-                feedbackSessionName);
-       
-        result.responseParams.put(Const.ParamsNames.FEEDBACK_QUESTION_ID,
-                feedbackQuestionId);
+        result.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
+        result.responseParams.put(Const.ParamsNames.FEEDBACK_QUESTION_ID, feedbackQuestionId);
+
         return result;
     }
-
 }
