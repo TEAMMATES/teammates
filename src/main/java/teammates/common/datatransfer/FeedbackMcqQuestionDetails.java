@@ -378,12 +378,26 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             answerFrequency.put(option, 0);
         }
         
+        if (otherEnabled) {
+            answerFrequency.put("Other", 0);
+        }
+        
         for (FeedbackResponseAttributes response : responses) {
             String answerString = response.getResponseDetails().getAnswerString();
-            if (!answerFrequency.containsKey(answerString)) {
-                answerFrequency.put(answerString, 1);
+            Boolean isOtherOptionAnswer = ((FeedbackMcqResponseDetails) (response.getResponseDetails())).isOtherOptionAnswer();
+            
+            if (isOtherOptionAnswer) {
+                if (!answerFrequency.containsKey("Other")) {
+                    answerFrequency.put("Other", 1);
+                } else {
+                    answerFrequency.put("Other", answerFrequency.get("Other")+1);
+                }
             } else {
-                answerFrequency.put(answerString, answerFrequency.get(answerString)+1);
+                if (!answerFrequency.containsKey(answerString)) {
+                    answerFrequency.put(answerString, 1);
+                } else {
+                    answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
+                }
             }
         }
         
@@ -420,13 +434,26 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
             answerFrequency.put(option, 0);
         }
         
+        if (otherEnabled) {
+            answerFrequency.put("Other", 0);
+        }
+        
         for (FeedbackResponseAttributes response : responses) {
             String answerString = response.getResponseDetails().getAnswerString();
+            Boolean isOtherOptionAnswer = ((FeedbackMcqResponseDetails) (response.getResponseDetails())).isOtherOptionAnswer();
             
-            if (!answerFrequency.containsKey(answerString)) {
-                answerFrequency.put(answerString, 1);
+            if (isOtherOptionAnswer) {
+                if (!answerFrequency.containsKey("Other")) {
+                    answerFrequency.put("Other", 1);
+                } else {
+                    answerFrequency.put("Other", answerFrequency.get("Other")+1);
+                }
             } else {
-                answerFrequency.put(answerString, answerFrequency.get(answerString)+1);
+                if (!answerFrequency.containsKey(answerString)) {
+                    answerFrequency.put(answerString, 1);
+                } else {
+                    answerFrequency.put(answerString, answerFrequency.get(answerString) + 1);
+                }
             }
         }
         

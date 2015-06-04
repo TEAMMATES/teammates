@@ -120,8 +120,7 @@ function prepareMCQQuestions() {
                 var indexSuffix = name.substring(name.indexOf("-"));
           
                 // toggle the radio button checked state
-                $(this).attr('checked',
-                             (radioStates[name][val] = !radioStates[name][val]));
+                $(this).attr('checked', (radioStates[name][val] = !radioStates[name][val]));
                 
                 // If the radio button corresponding to 'Other' is clicked
                 if ($(this).data('text') == "otherOptionText") {
@@ -139,8 +138,6 @@ function prepareMCQQuestions() {
                 		$('#mcqIsOtherOptionAnswer' + indexSuffix).val("0");
                 	}
                 }
-
-                $(this).attr('checked', (radioStates[name][val] = !radioStates[name][val]));
 
                 $.each(radioButtons[name], function(index, radio) {
                     if (radio.value !== val) {
