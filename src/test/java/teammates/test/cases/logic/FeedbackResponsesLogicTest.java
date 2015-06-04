@@ -451,10 +451,6 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
     }
     
-    private void assertNotEqual(String recipientEmail, String team) {
-        // TODO Auto-generated method stub
-        
-    }
 
     public void testDeleteFeedbackResponsesForStudent() throws Exception {    
         
