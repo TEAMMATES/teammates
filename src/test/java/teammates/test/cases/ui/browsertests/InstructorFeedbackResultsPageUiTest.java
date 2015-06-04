@@ -125,12 +125,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
         assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
-
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(10, "giver-1-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(10, "giver-1-recipient-1"));
-
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(7, "giver-5-recipient-4"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(7, "giver-5-recipient-4"));
         
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestion.html");
 
@@ -144,10 +138,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
         assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
-
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(10, "giver-1-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(10, "giver-1-recipient-1"));
-
 
         ______TS("test sort by giver > question > recipient");
 
@@ -193,12 +183,6 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(7, ""));
         assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(7, ""));
         assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(7, ""));
-
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(9, ""));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(9, ""));
-
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(10, ""));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(10, ""));
 
         ______TS("Typical case: test in-table sort");
 
