@@ -11,6 +11,7 @@ import org.openqa.selenium.support.FindBy;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 
 public class StudentProfilePage extends AppPage {
 
@@ -158,6 +159,10 @@ public class StudentProfilePage extends AppPage {
     public void uploadPicture() {
         uploadPictureSubmit.click();
         browser.selenium.waitForPageToLoad("10000");
+        
+        // Intended compounded explicit wait due to .click()'s inconsistency in triggering selenium's
+        // waitForPageToLoad. Do not remove, can cause a higher rate of random failure in this test.
+        ThreadHelper.waitFor(1000);
     }
 
     public void editProfilePhoto() {
