@@ -441,7 +441,6 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         fq.showRecipientNameTo.add(FeedbackParticipantType.RECEIVER);
         fq.showResponsesTo.add(FeedbackParticipantType.STUDENTS);
         fr.recipientEmail = "Team 1.1";
-        assertNotEqual(fr.recipientEmail, student5.team);
         assertFalse(frLogic.isNameVisibleTo(fq, fr, student5.email, UserType.Role.STUDENT, false, roster));
         
         
