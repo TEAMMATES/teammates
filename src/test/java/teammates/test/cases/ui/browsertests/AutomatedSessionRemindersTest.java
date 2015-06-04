@@ -50,21 +50,6 @@ public class AutomatedSessionRemindersTest extends BaseUiTestCase {
      */
     
     @Test
-    public void testEvaluationOpeningReminders(){
-        Url openingRemindersUrl = new Url(
-                TestProperties.inst().TEAMMATES_URL+ 
-                Const.ActionURIs.AUTOMATED_EVAL_OPENING_REMINDERS);
-        loginAdminToPage(browser, openingRemindersUrl, GenericAppPage.class);
-    }
-    
-    @Test
-    public void testEvaluationClosingReminders(){
-        Url closingRemindersUrl = new Url(TestProperties.inst().TEAMMATES_URL+
-                Const.ActionURIs.AUTOMATED_EVAL_CLOSING_REMINDERS);
-        loginAdminToPage(browser, closingRemindersUrl, GenericAppPage.class);
-    }
-    
-    @Test
     public void testFeedbackSessionOpeningReminders(){
         Url openingRemindersUrl = new Url(
                 TestProperties.inst().TEAMMATES_URL+ 

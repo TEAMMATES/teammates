@@ -33,12 +33,13 @@
 
 
 
-    <div id="statusMessage" class="alert alert-warning">
-        The course AHPUiT.instr1.gma-demo has been unarchived.
-    </div>
-    <script type="text/javascript">
-        document.getElementById( 'statusMessage' ).scrollIntoView();
-    </script>
+        <div id="statusMessage" class="alert alert-warning">
+            The course AHPUiT.instr1.gma-demo has been unarchived.
+        </div>
+        
+        <script type="text/javascript">
+            document.getElementById( 'statusMessage' ).scrollIntoView();
+        </script>
 
         <br>
         
@@ -65,7 +66,9 @@
                     <th>
                         Total Unregistered
                     </th>
-                    <th class="align-center no-print">Action(s)</th>
+                    <th class="align-center no-print">
+                        Action(s)
+                    </th>
                 </tr>
             </thead>
             
@@ -80,15 +83,20 @@
                     <td class="align-center">1</td>
                     <td class="align-center no-print">
                         <a data-original-title="Enroll student into the course" class="btn btn-default btn-xs t_course_enroll0" href="/page/instructorCourseEnrollPage?courseid=AHPUiT.instr1.gma-demo&amp;user={$test.instructor}" data-toggle="tooltip" data-placement="top" title="">
-                            Enroll</a>
+                            Enroll
+                        </a>
                         <a data-original-title="View, edit and send invitation emails to the students in the course" class="btn btn-default btn-xs t_course_view0" href="/page/instructorCourseDetailsPage?courseid=AHPUiT.instr1.gma-demo&amp;user={$test.instructor}" data-toggle="tooltip" data-placement="top" title="">
-                            View</a>
+                            View
+                        </a>
                         <a data-original-title="Edit Course information and instructor list" class="btn btn-default btn-xs t_course_edit0" href="/page/instructorCourseEditPage?courseid=AHPUiT.instr1.gma-demo&amp;user={$test.instructor}" data-toggle="tooltip" data-placement="top" title="">
-                            Edit</a>
+                            Edit
+                        </a>
                         <a data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" class="btn btn-default btn-xs t_course_archive0" href="/page/instructorCourseArchive?courseid=AHPUiT.instr1.gma-demo&amp;archive=true&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user={$test.instructor}" data-toggle="tooltip" data-placement="top" title="">
-                            Archive</a>
+                            Archive
+                        </a>
                         <a data-original-title="Delete the course and its corresponding students and sessions" class="btn btn-default btn-xs t_course_delete0" href="/page/instructorCourseDelete?courseid=AHPUiT.instr1.gma-demo&amp;next=%2Fpage%2FinstructorCoursesPage&amp;user={$test.instructor}" onclick="return toggleDeleteCourseConfirmation('AHPUiT.instr1.gma-demo');" data-toggle="tooltip" data-placement="top" title="">
-                            Delete</a>
+                            Delete
+                        </a>
                     </td>
                 </tr></tbody></table>
         <br>

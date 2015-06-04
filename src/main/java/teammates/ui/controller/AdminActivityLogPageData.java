@@ -44,8 +44,7 @@ public class AdminActivityLogPageData extends PageData {
     /**
      * this array stores the requests to be excluded from being shown in admin activity logs page
      */
-    public static String[] excludedLogRequestURIs = {Const.ActionURIs.INSTRUCTOR_EVAL_STATS_PAGE,
-                                                      Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE,                                                      
+    public static String[] excludedLogRequestURIs = { Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE,                                                      
                                                       //this servlet name is set in CompileLogsServlet
                                                       Const.AutomatedActionNames.AUTOMATED_LOG_COMILATION};
     

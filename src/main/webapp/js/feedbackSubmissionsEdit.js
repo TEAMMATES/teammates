@@ -1,16 +1,15 @@
-jQuery.fn.reverse = [].reverse;
+jQuery.fn.reverse = Array.prototype.reverse;
 
 var FEEDBACK_RESPONSE_RECIPIENT = 'responserecipient';
 var FEEDBACK_RESPONSE_TEXT = 'responsetext';
 var FEEDBACK_MISSING_RECIPIENT = 'You did not specify a recipient for your response in question(s)';
 
-// On body load event
 $(document).ready(function() {
-    // Bind submission event
-    $('form[name="form_submit_response"],form[name="form_student_submit_response"]').submit(function() {
+    $('form[name="form_submit_response"], form[name="form_student_submit_response"]').submit(function() {
         formatRubricQuestions();
-        
+
         var validationStatus = true;
+
         validationStatus &= validateConstSumQuestions();
         validationStatus &= validateAllAnswersHaveRecipient();
         
@@ -19,16 +18,15 @@ $(document).ready(function() {
         if (!validationStatus) {
             return false;
         }
-        
+
         reenableFieldsForSubmission();
     });
-    
-    // Format recipient dropdown lists
+
     formatRecipientLists();
-    
+
     // Replace hidden dropdowns with text
     $('select.participantSelect:hidden').each(function() {
-        $(this).after('<span> ' + $(this).find('option:selected').html() + '</span>');
+        $(this).after('<span>' + $(this).find('option:selected').html() + '</span>');
     });
     
     $("input[type='radio']").change(function() {
@@ -52,18 +50,23 @@ $(document).ready(function() {
     });
     
     disallowNonNumericEntries($('input[type=number]'), true, true);
+
     $('input.pointsBox').off('keydown');
+
     disallowNonNumericEntries($('input.pointsBox'), false, false);
 
     prepareContribQuestions();
+
     prepareMSQQuestions();
+
     prepareConstSumQuestions();
+
     updateConstSumMessages();
 
     prepareRubricQuestions();
-    
+
     prepareMCQQuestions();
-    
+
     focusModeratedQuestion();
 });
 
@@ -84,8 +87,6 @@ function updateMcqOtherOptionField() {
 
 // Looks for the question to be moderated (if it exists)
 function focusModeratedQuestion() {
-    // must check for whether it exists before animating or
-    // else tooltips inside the bootstrapped page will break
     if ($('.moderated-question').length > 0) {
         $('html, body').animate({
             scrollTop: $('.moderated-question').offset().top - $('.navbar').outerHeight(true)
@@ -93,14 +94,12 @@ function focusModeratedQuestion() {
     }
 }
 
-// Prepare mcq questions for answering by user
 function prepareMCQQuestions() {
-    // Get index of mcq question
     var mcqQuestionNums = getQuestionTypeNumbers('MCQ');
 
     var radioButtons = {};
     var radioStates = {};
-    
+
     for (var i = 0; i < mcqQuestionNums.length; i++) {
         var qnNum = mcqQuestionNums[i];
         var numResponses = $('[name="questionresponsetotal-' + qnNum + '"]').val();
@@ -141,36 +140,35 @@ function prepareMCQQuestions() {
                 	}
                 }
 
-                // set other radio buttons' states to false
+                $(this).attr('checked', (radioStates[name][val] = !radioStates[name][val]));
+
                 $.each(radioButtons[name], function(index, radio) {
                     if (radio.value !== val) {
                         radioStates[name][radio.value] = false;
                     }
                 });
-                
+
                 event.stopImmediatePropagation();
             });
         }
     }
 }
 
-// Prepare contrib questions for answering by user
 function prepareContribQuestions() {
-    // Get index of contribution questions
     var contribQuestionNums = getQuestionTypeNumbers('CONTRIB');
-    
+
     for (var i = 0; i < contribQuestionNums.length; i++) {
         var qnNum = contribQuestionNums[i];
-        
+
         // Get number of options for the specified question number of contribution question type
         var optionNums = $('[name^="responsetext-' + qnNum + '"]').length;
+
         for (var k = 0; k < optionNums; k++) {
             var $dropdown = $('[name="responsetext-' + qnNum + '-' + k + '"]');
-            
+
             // Set initial color
             $dropdown.addClass($dropdown[0].options[$dropdown[0].selectedIndex].className);
 
-            // Bind on change event
             $dropdown.on('change', function() {
                 $(this).removeClass('color_neutral');
                 $(this).removeClass('color-positive');
@@ -181,20 +179,19 @@ function prepareContribQuestions() {
     }
 }
 
-// Prepare MSQ questions 
 function prepareMSQQuestions() {
     // Get index of MSQ questions
     var msqQuestionNums = getQuestionTypeNumbers('MSQ');
-    
+
     for (var i = 0; i < msqQuestionNums.length; i++) {
         var qnNum = msqQuestionNums[i];
-        
+
         var noneOfTheAboveOption = $('input[name^="responsetext-' + qnNum + '"][value=""]');
 
         // reset other options when "none of the above" is clicked
         noneOfTheAboveOption.click(function() {
             var $options = $(this).closest('table').find('input[name^="responsetext-"][value!=""]');
-            
+
             $options.each(function() {
                 $(this).prop('checked', false);
             });
@@ -202,55 +199,50 @@ function prepareMSQQuestions() {
 
         // reset "none of the above" if any option is clicked
         var $options = $('input[name^="responsetext-' + qnNum + '"][value!=""]');
-        
+
         $options.click(function() {
             var noneOfTheAboveOption = $(this).closest('table').find('input[name^="responsetext-"][value=""]');
             noneOfTheAboveOption.prop('checked', false);
         });
-        
+
     }
 }
 
-// Prepare rubric questions for answering by user
+/**
+ * Prepares rubric questions by setting cells to highlight on hover, highlight when checked
+ * and bind the cells click to click radio buttons
+ */
 function prepareRubricQuestions() {
-    // Set cell to highlight on hover
-    // Set cell to highlight when checked
-    // Bind cell click to click radio
-    
     var $rubricRadioInputs = $('[name^="rubricChoice-"]');
-    
+
     for (var i = 0; i < $rubricRadioInputs.length; i++) {
         var $parentCell = $($rubricRadioInputs[i]).parent();
-        // Bind hover events
+
         $parentCell.hover(function() {
-                // Mouse enter
                 $(this).addClass('cell-hover');
             }, function() {
-                // Mouse leave
                 $(this).removeClass('cell-hover');
             }
         );
 
-        // Bind click
         $parentCell.click(function(event) {
-                var $radioInput = $(this).find('[name^="rubricChoice-"]');
+            var $radioInput = $(this).find('[name^="rubricChoice-"]');
 
-                // If input is disabled, do not check.
-                if ($radioInput.prop('disabled')) {
-                    return;
-                }
+            if ($radioInput.prop('disabled')) {
+                return;
+            }
 
-                // trigger checkbox manually if cell is clicked.
-                if (event.target === this) {
-                    $radioInput.prop('checked', !$radioInput.prop('checked'));
-                    $radioInput.trigger('change');
-                }
-            });
+            if (event.target === this) {
+                $radioInput.prop('checked', !$radioInput.prop('checked'));
+                $radioInput.trigger('change');
+            }
+        });
 
         // Bind refresh highlights on check
         $($rubricRadioInputs[i]).on('change', function() {
                 // Update all radio inputs in the same row.
                 var $rowRadioInputs = $(this).closest('tr').find('[name^="rubricChoice-"]');
+
                 for (var j = 0; j < $rowRadioInputs.length; j++) {
                     updateRubricCellSelectedColor($rowRadioInputs[j]);
                 }
@@ -261,7 +253,7 @@ function prepareRubricQuestions() {
             updateRubricCellSelectedColor($rubricRadioInputs[j]);
         }
     }
-    
+
 }
 
 /**
@@ -277,7 +269,6 @@ function updateRubricCellSelectedColor(radioInput) {
     }
 }
 
-// Format rubric question for form submission
 function formatRubricQuestions() {
     var rubricQuestionNums = getQuestionTypeNumbers('RUBRIC');
     for (var i = 0; i < rubricQuestionNums.length; i++) {
@@ -289,7 +280,7 @@ function formatRubricQuestions() {
             var responsetext = [];
 
             var $responses = $('[name^="rubricChoice-' + qnNum + '-' + j + '-"]:checked');
-            
+
             for (var k = 0; k < $responses.length; k++) {
                 responsetext.push($($responses[k]).val());
             }
@@ -299,20 +290,18 @@ function formatRubricQuestions() {
     }
 }
 
-// Prepare constant sum questions for answering by user
 function prepareConstSumQuestions() {
     var constSumQuestionNums = getQuestionTypeNumbers('CONSTSUM');
 
     for (var i = 0; i < constSumQuestionNums.length; i++) {
         var qnNum = constSumQuestionNums[i];
-        
-        // const sum to recipients
-        if (!$('#response_submit_button').is(':disabled') ||
-            $(document).find('.navbar').text().indexOf('Preview') !== -1) {
+
+        if (!$('#response_submit_button').is(':disabled')
+            || $(document).find('.navbar').text().indexOf('Preview') !== -1) {
             if ($('#constSumToRecipients-' + qnNum).val() === 'true') {
                 var numResponses = $('[name="questionresponsetotal-' + qnNum + '"]').val();
                 numResponses = parseInt(numResponses);
-                
+
                 $('#constSumInfo-' + qnNum + '-' + (numResponses - 1)).show();
             }
         } else {
@@ -325,32 +314,31 @@ function getQuestionTypeNumbers(qnType) {
     var questions = $('input[name^="questiontype-"]').filter(function(index) {
         return $(this).val() === qnType;
     });
-    
+
     var questionNums = [];
-    
+
     for (var i = 0; i < questions.length; i++) {
         questionNums[i] = questions[i].name.substring('questiontype-'.length, questions[i].name.length);
     }
-    
+
     return questionNums;
 }
 
-// Updates all const sum messages
 function updateConstSumMessages() {
     var constSumQuestionNums = getQuestionTypeNumbers('CONSTSUM');
+
     for (var i = 0; i < constSumQuestionNums.length; i++) {
         var qnNum = constSumQuestionNums[i];
         updateConstSumMessageQn(qnNum);
     }
 }
 
-// updates const sum message for one question
 function updateConstSumMessageQn(qnNum) {
+    var numOptions = 0;
     var points = parseInt($('#constSumPoints-' + qnNum).val());
+    var numRecipients = parseInt($('[name="questionresponsetotal-' + qnNum + '"]').val());
     var distributeToRecipients = $('#constSumToRecipients-' + qnNum).val() === 'true' ? true : false;
     var pointsPerOption = $('#constSumPointsPerOption-' + qnNum).val() === 'true' ? true : false;
-    var numOptions = 0;
-    var numRecipients = parseInt($('[name="questionresponsetotal-' + qnNum + '"]').val());
     var forceUnevenDistribution = $('#constSumUnevenDistribution-' + qnNum).val() === 'true' ? true : false;
 
     if (distributeToRecipients) {
@@ -362,16 +350,16 @@ function updateConstSumMessageQn(qnNum) {
     if (pointsPerOption) {
         points *= numOptions;
     }
-    
+
     var sum = 0;
+    var remainingPoints = points;
+    var allUnique = true;
     var allNotNumbers = true;
     var answerSet = {};
-    var allUnique = true;
-    var remainingPoints = points;
-    
+
     function checkAndDisplayMessage(messageElement) {
         var message = '';
-        
+
         if (allNotNumbers) {
             message = 'Please distribute ' + points + ' points among the above ' + (distributeToRecipients ? 'recipients.' : 'options.');
             messageElement.addClass('text-color-blue');
@@ -395,43 +383,43 @@ function updateConstSumMessageQn(qnNum) {
             messageElement.removeClass('text-color-green');
             messageElement.removeClass('text-color-blue');
         }
-        
+
         if (!allNotNumbers && forceUnevenDistribution && !allUnique) {
             message += ' The same amount of points should not be given multiple times.';
             messageElement.addClass('text-color-red');
             messageElement.removeClass('text-color-green');
-        } 
-        
+        }
+
         messageElement.text(message);
     }
-    
+
     function updateSumBasedOn(pointsAllocated) {
         if (!isNumber(pointsAllocated)) {
             pointsAllocated = 0;
         } else {
             allNotNumbers = false;
         }
-        
+
         sum += pointsAllocated;
-        
+
         if (pointsAllocated in answerSet) {
             allUnique = false;
         }
-        
+
         answerSet[pointsAllocated] = true;
     }
 
     if (distributeToRecipients) {
         var $constSumMessageElement = $('#constSumMessage-' + qnNum + '-' + (numOptions - 1));
-        
+
         for (var i = 0; i < numOptions; i++) {
             var pointsAllocated = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + i + '-0').val());
-            
+
             updateSumBasedOn(pointsAllocated);
         }
-        
+
         remainingPoints = points - sum;
-        
+
         checkAndDisplayMessage($constSumMessageElement);
     } else {
         for (var j = 0; j < numRecipients; j++) {
@@ -440,17 +428,17 @@ function updateConstSumMessageQn(qnNum) {
             answerSet = {};
             allUnique = true;
             remainingPoints = points;
-            
+
             var $constSumMessageElement = $('#constSumMessage-' + qnNum + '-' + j);
-            
+
             for (var i = 0; i < numOptions; i++) {
                 var pointsAllocated = parseInt($('#' + FEEDBACK_RESPONSE_TEXT + '-' + qnNum + '-' + j + '-' + i).val());
-                
+
                 updateSumBasedOn(pointsAllocated);
             }
-            
+
             remainingPoints = points - sum;
-            
+
             checkAndDisplayMessage($constSumMessageElement);
         }
     }
@@ -464,10 +452,10 @@ function validateConstSumQuestions() {
         var constSumQuestionNums = getQuestionTypeNumbers('CONSTSUM');
         var statusMessage = 'Please fix the error(s) for distribution question(s)';
         var errorCount = 0;
-        
+
         for (var i = 0; i < constSumQuestionNums.length; i++) {
             var qnNum = constSumQuestionNums[i];
-            
+
             // indicate the question number where the errors are located at
             if ($('p[id^="constSumMessage-' + qnNum + '-"].text-color-red').length > 0) {
                 statusMessage += (errorCount === 0) ? '' : ',';
@@ -479,19 +467,17 @@ function validateConstSumQuestions() {
 
         statusMessage += '. ';
         statusMessage += 'To skip a distribution question, leave the boxes blank.';
-        
+
         setStatusMessage(statusMessage, true);
         return false;
     }
-    
+
     return true;
 }
 
 /**
- * Removes already selected options for recipients
- * from other select dropdowns within the same question.
- * Binds further changes to show/hide options such that duplicates
- * cannot be selected.
+ * Removes already selected options for recipients from other select dropdowns within the same question.
+ * Binds further changes to show/hide options such that duplicates cannot be selected.
  */
 function formatRecipientLists() {
     $('select.participantSelect').each(function() {
@@ -499,19 +485,17 @@ function formatRecipientLists() {
             // Remove options from existing responses
             var questionNumber = $(this).attr('name').split('-')[1];
             var selectedOption = $(this).find('option:selected').val();
-            
+
             if (selectedOption !== '') {
                 selectedOption = sanitizeForJs(selectedOption);
-                $('select[name|=' + FEEDBACK_RESPONSE_RECIPIENT + '-' + questionNumber + ']').
-                    not(this).
-                    // leave this in double quotes and single within
-                    // TODO: Find out what is causing this to fail when it's double quotes on
-                    // the inside
-                    find("option[value='" + selectedOption + "']").
-                    hide();
+                $('select[name|=' + FEEDBACK_RESPONSE_RECIPIENT + '-' + questionNumber + ']')
+                    .not(this)
+                    // leave this in double quotes and single within, will fail otherwise
+                    .find("option[value='" + selectedOption + "']")
+                        .hide();
             }
         }
-        
+
         // Save initial data.
         $(this).data('previouslySelected', $(this).val());
     }).change(function() {
@@ -520,34 +504,30 @@ function formatRecipientLists() {
         var curSelectedOption = $(this).find('option:selected').val();
 
         if (lastSelectedOption !== '') {
-            $('select[name|=' + FEEDBACK_RESPONSE_RECIPIENT + '-' + questionNumber + ']').
-                not(this).
-                // leave this in double quotes and single within
-                // TODO: Find out what is causing this to fail when it's double quotes on
-                // the inside
-                find("option[value='" + lastSelectedOption + "']").
-                show();
+            $('select[name|=' + FEEDBACK_RESPONSE_RECIPIENT + '-' + questionNumber + ']')
+                .not(this)
+                // leave this in double quotes and single within, will fail otherwise
+                .find("option[value='" + lastSelectedOption + "']")
+                    .show();
         }
-        
+
         if (curSelectedOption !== '') {
             curSelectedOption = sanitizeForJs(curSelectedOption);
-            $('select[name|=' + FEEDBACK_RESPONSE_RECIPIENT + '-' + questionNumber + ']').
-                not(this).
-                // leave this in double quotes and single within
-                // TODO: Find out what is causing this to fail when it's double quotes on
-                // the inside
-                find("option[value='" + curSelectedOption + "']").
-                hide();
+            $('select[name|=' + FEEDBACK_RESPONSE_RECIPIENT + '-' + questionNumber + ']')
+                .not(this)
+                // leave this in double quotes and single within, will fail otherwise
+                .find("option[value='" + curSelectedOption + "']")
+                    .hide();
         }
-        
+
         // Save new data
         $(this).data('previouslySelected', $(this).val());
     });
-    
+
     // Auto-select first valid option.
     $('select.participantSelect.newResponse').each(function() {
         var firstUnhidden = '';
-        
+
         // select the first valid recipient if the dropdown is hidden from the user,
         // otherwise, leave it as ""
         if (this.style.display === 'none') {
@@ -571,7 +551,7 @@ function validateNumScaleAnswer(qnIdx, responseIdx) {
     var min = parseInt($answerBox.attr('min'));
     var max = parseInt($answerBox.attr('max'));
     var answer = parseInt($answerBox.val());
-    
+
     if (answer < min) {
         $answerBox.val($answerBox.attr('min'));
     } else if (answer > max) {
@@ -581,7 +561,7 @@ function validateNumScaleAnswer(qnIdx, responseIdx) {
 
 function isAnswerBlank(question, response) {
     var $answer = $('[name=responsetext-' + question + '-' + response + ']');
-    
+
     if ($answer.attr('type') === 'radio' || $answer.attr('type') === 'checkbox') {
         // for question types that involve checking boxes such as MSQ, MCQ
         return !$answer.is(':checked');
@@ -599,7 +579,7 @@ function validateAllAnswersHaveRecipient() {
     var isAllAnswersToMissingRecipientEmpty = true;
     var statusMessage = FEEDBACK_MISSING_RECIPIENT ;
     var errorCount = 0;
-    
+
     // for every response without a recipient, check that the response is empty
     for (var i = 0; i < blankRecipients.length; i++) {
         var recipient = blankRecipients[i];
@@ -614,7 +594,7 @@ function validateAllAnswersHaveRecipient() {
             statusMessage += ' ';
             statusMessage += question;
             errorCount++;
-            
+
             isAllAnswersToMissingRecipientEmpty = false;
         }
     }

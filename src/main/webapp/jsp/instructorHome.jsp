@@ -189,8 +189,8 @@
                                             title="<%=Const.Tooltips.COURSE_EDIT%>" data-toggle="tooltip" data-placement="top"> Edit</a>
                                             
                                          <a class="btn btn-primary btn-xs btn-tm-actions course-add-eval-for-test"
-                                            href="<%=data.getInstructorEvaluationLinkForCourse(courseDetails.course.id)%>"
-                                            title="<%=Const.Tooltips.COURSE_ADD_EVALUATION%>" data-toggle="tooltip" data-placement="top"
+                                            href="<%=data.getInstructorFeedbacksPageLinkForCourse(courseDetails.course.id)%>"
+                                            title="<%=Const.Tooltips.COURSE_ADD_FEEDBACKSESSION%>" data-toggle="tooltip" data-placement="top"
                                             <% if (!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {%>
                                                 disabled="disabled"
                                             <% } %>

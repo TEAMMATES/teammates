@@ -410,8 +410,7 @@ public class PageData {
         return link;
     }
     
-    public String getInstructorEvaluationLink() {
-        //String link = Const.ActionURIs.INSTRUCTOR_EVALS_PAGE;
+    public String getInstructorFeedbacksPageLink() {
         String link = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
         link = addUserIdToUrl(link);
         return link;
@@ -869,8 +868,8 @@ public class PageData {
 
     
     private boolean isTimeToBeSelected(Date timeToShowAsSelected, int hourOfTheOption) {
-        boolean isEditingExistingEvaluation = (timeToShowAsSelected!=null);
-        if (isEditingExistingEvaluation) {
+        boolean isEditingExistingFeedbackSession = (timeToShowAsSelected!=null);
+        if (isEditingExistingFeedbackSession) {
             Calendar cal = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
             cal.setTime(timeToShowAsSelected);
             if (cal.get(Calendar.MINUTE) == 0) {
