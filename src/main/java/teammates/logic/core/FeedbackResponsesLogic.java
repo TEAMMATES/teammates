@@ -311,6 +311,7 @@ public class FeedbackResponsesLogic {
                             response.recipientEmail)) {
                         return true;
                     }
+                    break;
                     // Response to individual
                 } else if (response.recipientEmail.equals(userEmail)) {
                     return true;
@@ -324,6 +325,7 @@ public class FeedbackResponsesLogic {
                             response.recipientEmail)) {
                         return true;
                     }
+                    break;
                     // Response to individual
                 } else if (roster.isStudentsInSameTeam(response.recipientEmail,
                         userEmail)) {
