@@ -463,16 +463,12 @@ public class CoursesLogic {
             throw new EntityDoesNotExistException("Student with Google ID " + googleId + " does not exist");
         }
         
-        ArrayList<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
-
+        List<String> courses = new ArrayList<String>();
         for (StudentAttributes s : studentDataList) {
-            CourseAttributes course = coursesDb.getCourse(s.course);
-            if (course == null) {
-                log.warning("Course was deleted but the Student still exists :" + Const.EOL + s.toString());
-            } else {
-                courseList.add(course);
-            }
+            courses.add(s.course);
         }
+        List<CourseAttributes> courseList = coursesDb.getCourses(courses);
+        
         return courseList;
     }
 
