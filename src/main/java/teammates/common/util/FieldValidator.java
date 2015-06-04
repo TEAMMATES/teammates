@@ -22,8 +22,6 @@ public class FieldValidator {
         COURSE_NAME, 
         NATIONALITY, 
         EMAIL, 
-        EVALUATION_INSTRUCTIONS, 
-        EVALUATION_NAME, 
         FEEDBACK_SESSION_NAME, 
         GENDER, 
         /** This can be a Google username e.g. david.lo 
@@ -41,7 +39,6 @@ public class FieldValidator {
         END_TIME,
         SESSION_VISIBLE_TIME,
         RESULTS_VISIBLE_TIME,
-        EVALUATION_TIME_FRAME,
         FEEDBACK_SESSION_TIME_FRAME,
         FEEDBACK_QUESTION_TEXT,
         ADMIN_EMAIL_RECEIVER,
@@ -200,45 +197,13 @@ public class FieldValidator {
 
     /*
      * =======================================================================
-     * Field: Evaluation grace period
-     * Allowed: 0,5,10,15,20,30.
-     */
-    
-    /*
-     * =======================================================================
-     * Field: Evaluation instructions
-     */
-    private static final String EVALUATION_INSTRUCTIONS_FIELD_NAME = "instructions for an evaluation";
-    
-    /*
-     * =======================================================================
-     * Field: Evaluation name
-     * Unique: within the course
-     * TODO: make case insensitive
-     */
-    private static final String EVALUATION_NAME_FIELD_NAME = "an evaluation name";
-    public static final int EVALUATION_NAME_MAX_LENGTH = 38; //TODO: increase this
-    public static final String EVALUATION_NAME_ERROR_MESSAGE = 
-            "\"%s\" is not acceptable to TEAMMATES as "+EVALUATION_NAME_FIELD_NAME+" because it %s. " +
-                    "The value of "+EVALUATION_NAME_FIELD_NAME+" should be no longer than "+
-                    EVALUATION_NAME_MAX_LENGTH+" characters. It should not be empty.";
-    /*
-     * =======================================================================
-     * Field: Evaluation status (Derived field)
-     * Allowed: AWAITING, OPEN, CLOSED, PUBLISHED.
-     */
-    
-    /*
-     * =======================================================================
-     * Field: Evaluation start/end times
+     * Field: Feedback session start/end times
      * Start time should be before end time.
      * Only 1 hour increments allowed.
      * TODO: allow smaller increments.
      */
     public static final String START_TIME_FIELD_NAME = "start time";
     public static final String END_TIME_FIELD_NAME = "end time";
-    public static final String EVALUATION_START_TIME_ERROR_MESSAGE = "Evaluation cannot be activated before start time";
-    public static final String EVALUATION_END_TIME_ERROR_MESSAGE = "Evaluation cannot be published before end time";
     
     /*
      * =======================================================================
@@ -350,8 +315,6 @@ public class FieldValidator {
     // ////////////////////////////////////////////////////////////////////////
     // ///////////////////End of field type info //////////////////////////////
     // ////////////////////////////////////////////////////////////////////////
-    
-    public static final String EVALUATION_NAME = "evaluation";
     
     public static final String SESSION_VISIBLE_TIME_FIELD_NAME = "time when the session will be visible";
     public static final String RESULTS_VISIBLE_TIME_FIELD_NAME = "time when the results will be visible";
@@ -487,14 +450,6 @@ public class FieldValidator {
             returnValue = getValidityInfoForAllowedName(
                     COURSE_NAME_FIELD_NAME, COURSE_NAME_MAX_LENGTH, (String)value);
             break;
-        case EVALUATION_NAME:
-            returnValue = getValidityInfoForAllowedName(
-                    EVALUATION_NAME_FIELD_NAME, EVALUATION_NAME_MAX_LENGTH, (String)value);
-            break;
-        case EVALUATION_INSTRUCTIONS:
-            returnValue = getValidityInfoForNonNullField(
-                    EVALUATION_INSTRUCTIONS_FIELD_NAME, value);
-            break;
         case FEEDBACK_SESSION_NAME:
             returnValue = getValidityInfoForFeedbackSessionName(value);
             break;
@@ -606,7 +561,7 @@ public class FieldValidator {
     }
     
     /**
-     * Checks if the given name (including person name, institute name, course name, evaluation/feedback and team name)
+     * Checks if the given name (including person name, institute name, course name, feedback session and team name)
      * is a non-null non-empty string no longer than the specified length {@code maxLength}, 
      * and also does not contain any invalid characters (| or %).
      * 
@@ -687,9 +642,6 @@ public class FieldValidator {
         String mainFieldName, earlierFieldName, laterFieldName;
         
         switch (mainFieldType) {
-        case EVALUATION_TIME_FRAME:
-            mainFieldName = EVALUATION_NAME;
-            break;
         case FEEDBACK_SESSION_TIME_FRAME:
             mainFieldName = FEEDBACK_SESSION_NAME; 
             break;
@@ -735,22 +687,6 @@ public class FieldValidator {
             return String.format(TIME_FRAME_ERROR_MESSAGE, laterFieldName, mainFieldName, earlierFieldName);
         }
         
-        return "";
-    }
-
-    public String getValidityInfoForEvalStartTime(Date startTime, double timeZone,
-            boolean activated) {
-        if (isCurrentTimeInUsersTimezoneEarlierThan(startTime, timeZone) && activated) {
-            return EVALUATION_START_TIME_ERROR_MESSAGE;
-        }
-        return "";
-    }
-
-    public String getValidityInfoForEvalEndTime(Date endTime, double timeZone,
-            boolean published) {
-        if (isCurrentTimeInUsersTimezoneEarlierThan(endTime, timeZone) && published) {
-            return EVALUATION_END_TIME_ERROR_MESSAGE;
-        }
         return "";
     }
     
@@ -856,11 +792,6 @@ public class FieldValidator {
         return (value == null) ? String.format(NON_NULL_FIELD_ERROR_MESSAGE, fieldName) : "";
     }
     
-    private boolean isCurrentTimeInUsersTimezoneEarlierThan(Date time, double timeZone) {
-        Date nowInUserTimeZone = TimeHelper.convertToUserTimeZone(
-                Calendar.getInstance(TimeZone.getTimeZone("UTC")), timeZone).getTime();
-        return nowInUserTimeZone.before(time);
-    }
 
     private String getInvalidInfoForGoogleId(String value) {
         

@@ -79,19 +79,13 @@ public class StudentsLogic {
     
     public void createStudentCascade(StudentAttributes studentData, boolean hasDocument) 
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        
-        createStudentCascadeWithSubmissionAdjustmentScheduled(studentData, hasDocument);
+        studentsDb.createStudent(studentData, hasDocument);
         
         if (!coursesLogic.isCoursePresent(studentData.course)) {
             throw new EntityDoesNotExistException(
                     "Course does not exist [" + studentData.course + "]");
         }
         
-    }
-    
-    public void createStudentCascadeWithSubmissionAdjustmentScheduled(StudentAttributes studentData, boolean hasDocument) 
-            throws InvalidParametersException, EntityAlreadyExistsException {    
-        studentsDb.createStudent(studentData, hasDocument);
     }
 
     @SuppressWarnings("deprecation")
@@ -679,7 +673,7 @@ public class StudentsLogic {
                 enrollmentDetails.oldSection = originalStudentAttributes.section;
             }
         } else {
-            createStudentCascadeWithSubmissionAdjustmentScheduled(validStudentAttributes, hasDocument);
+            createStudentCascade(validStudentAttributes, hasDocument);
             enrollmentDetails.updateStatus = UpdateStatus.NEW;
         }
 

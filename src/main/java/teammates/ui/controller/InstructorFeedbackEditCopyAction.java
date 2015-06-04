@@ -101,6 +101,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE);
             
         } catch (EntityAlreadyExistsException e) {
+            // If conflicts are checked above, this will only occur via race condition
             setStatusForException(e, Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
             return createRedirectToEditPageWithError(originalFeedbackSessionName, originalCourseId);
         } catch (InvalidParametersException e) {

@@ -42,7 +42,7 @@ public class StudentHomePageData extends PageData {
     }
     
     /**
-     * @param submissionStatus Submission status of a student for a particular evaluation. 
+     * @param submissionStatus Submission status of a student for a particular feedback session. 
      * 
      * @return The hover message to explain evaluation submission status.
      */
