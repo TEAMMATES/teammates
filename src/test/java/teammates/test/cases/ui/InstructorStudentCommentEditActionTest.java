@@ -45,21 +45,21 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
         verifyAssumptionFailure();
         
         //null courseId
-        String[] invalidParams = new String[]{
+        String[] invalidParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, student.email
         };
         
         verifyAssumptionFailure(invalidParams);
         
         //null studentemail
-        invalidParams = new String[]{
+        invalidParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId
         };
         
         verifyAssumptionFailure(invalidParams);
         
         //null comment text
-        invalidParams = new String[]{
+        invalidParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.STUDENT_EMAIL, student.email
         };
@@ -68,11 +68,13 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
         
 
         ______TS("Typical case, edit comment successful");
-        List<CommentAttributes> comments = backDoorLogic.getCommentsForReceiver(instructor.courseId, CommentParticipantType.PERSON, student.email);
+        List<CommentAttributes> comments =
+                backDoorLogic.getCommentsForReceiver(
+                                      instructor.courseId, CommentParticipantType.PERSON, student.email);
         Iterator<CommentAttributes> iterator = comments.iterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             CommentAttributes commentAttributes = iterator.next();
-            if(!commentAttributes.giverEmail.equals(instructor.email)){
+            if (!commentAttributes.giverEmail.equals(instructor.email)) {
                 iterator.remove();
             }
         }

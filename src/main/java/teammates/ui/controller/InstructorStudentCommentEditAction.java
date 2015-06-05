@@ -45,7 +45,7 @@ public class InstructorStudentCommentEditAction extends Action {
         String editType = getRequestParamValue(Const.ParamsNames.COMMENT_EDITTYPE);
         
         try {
-            if(editType.equals("edit")){
+            if (editType.equals("edit")) {
                 CommentAttributes updatedComment = logic.updateComment(comment);
                 //TODO: move putDocument to task queue
                 logic.putDocument(updatedComment);
@@ -55,7 +55,7 @@ public class InstructorStudentCommentEditAction extends Action {
                         comment.recipients + ")</span> for Course <span class=\"bold\">[" +
                         comment.courseId + "]</span><br>" +
                         "<span class=\"bold\">Comment:</span> " + comment.commentText;
-            } else if(editType.equals("delete")){
+            } else if (editType.equals("delete")) {
                 logic.deleteDocument(comment);
                 logic.deleteComment(comment);
                 statusToUser.add(Const.StatusMessages.COMMENT_DELETED);
@@ -71,8 +71,11 @@ public class InstructorStudentCommentEditAction extends Action {
             isError = true;
         }
         
-        return !isFromCommentPage? createRedirectResult(new PageData(account).getInstructorStudentRecordsLink(courseId,studentEmail)):
-            createRedirectResult((new PageData(account).getInstructorCommentsLink()) + "&" + Const.ParamsNames.COURSE_ID + "=" + courseId);
+        return !isFromCommentPage ? 
+               createRedirectResult(new PageData(account).getInstructorStudentRecordsLink(courseId,studentEmail)):
+               createRedirectResult(
+                       (new PageData(account).getInstructorCommentsLink()) + "&" 
+                     + Const.ParamsNames.COURSE_ID + "=" + courseId);
     }
 
     private void verifyAccessibleByInstructor(String courseId, String commentId) {
@@ -91,23 +94,27 @@ public class InstructorStudentCommentEditAction extends Action {
         CommentParticipantType commentRecipientType = commentInDb.recipientType;
         String recipients = commentInDb.recipients.iterator().next();
         if (commentRecipientType == CommentParticipantType.COURSE) {
-            new GateKeeper().verifyAccessible(instructor, course, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
+            new GateKeeper().verifyAccessible(instructor, course,
+                                              Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
         } else if (commentRecipientType == CommentParticipantType.SECTION) {
-            new GateKeeper().verifyAccessible(instructor, course, recipients, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
+            new GateKeeper().verifyAccessible(instructor, course, recipients,
+                                              Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
         } else if (commentRecipientType == CommentParticipantType.TEAM) {
             List<StudentAttributes> students = logic.getStudentsForTeam(recipients, courseId);
 
             if (students.isEmpty()) { // considered as a serious bug in coding or user submitted corrupted data
                 Assumption.fail();
             } else {
-                new GateKeeper().verifyAccessible(instructor, course, students.get(0).section, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
+                new GateKeeper().verifyAccessible(instructor, course, students.get(0).section,
+                                                  Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
             }
         } else { // TODO: modify this after comment for instructor is enabled
             StudentAttributes student = logic.getStudentForEmail(courseId, recipients);
             if (student == null) { // considered as a serious bug in coding or user submitted corrupted data
                 Assumption.fail();
             } else {
-                new GateKeeper().verifyAccessible(instructor, course, student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
+                new GateKeeper().verifyAccessible(instructor, course, student.section,
+                                                  Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
             }
         }
     }
@@ -131,22 +138,23 @@ public class InstructorStudentCommentEditAction extends Action {
         Text commentText = new Text(commentTextString);
         
         InstructorAttributes instructorDetailForCourse = logic.getInstructorForGoogleId(courseId, account.googleId);
-        Assumption.assertNotNull("Account trying to update comment is not an instructor of the course", instructorDetailForCourse);
+        Assumption.assertNotNull("Account trying to update comment is not an instructor of the course",
+                                 instructorDetailForCourse);
         
         comment.setCommentId(Long.valueOf(commentId));
         comment.courseId = courseId;
         comment.giverEmail = instructorDetailForCourse.email; 
-        if(recipientType != null){
+        if (recipientType != null) {
             comment.recipientType = CommentParticipantType.valueOf(recipientType);
         } else {
             comment.recipientType = null;
         }
         
-        if(recipients != null){
+        if (recipients != null) {
             comment.recipients = new HashSet<String>();
-            if(recipients != null && !recipients.isEmpty()){
+            if (recipients != null && !recipients.isEmpty()) {
                 String[] recipientsArray = recipients.split(",");
-                for(String recipient : recipientsArray){
+                for (String recipient : recipientsArray) {
                     comment.recipients.add(recipient.trim());
                 }
             } else {
@@ -156,30 +164,30 @@ public class InstructorStudentCommentEditAction extends Action {
         comment.status = CommentStatus.FINAL;
         
         comment.showCommentTo = new ArrayList<CommentParticipantType>();
-        if(showCommentTo != null && !showCommentTo.isEmpty()){
+        if (showCommentTo != null && !showCommentTo.isEmpty()) {
             String[] showCommentToArray = showCommentTo.split(",");
-            for(String sct : showCommentToArray){
+            for (String sct : showCommentToArray) {
                 comment.showCommentTo.add(CommentParticipantType.valueOf(sct.trim()));
             }
         }
         
         comment.showGiverNameTo = new ArrayList<CommentParticipantType>();
-        if(showGiverTo != null && !showGiverTo.isEmpty()){
+        if (showGiverTo != null && !showGiverTo.isEmpty()) {
             String[] showGiverToArray = showGiverTo.split(",");
-            for(String sgt : showGiverToArray){
+            for (String sgt : showGiverToArray) {
                 comment.showGiverNameTo.add(CommentParticipantType.valueOf(sgt.trim()));
             }
         }
         
         comment.showRecipientNameTo = new ArrayList<CommentParticipantType>();
-        if(showRecipientTo != null && !showRecipientTo.isEmpty()){
+        if (showRecipientTo != null && !showRecipientTo.isEmpty()) {
             String[] showRecipientToArray = showRecipientTo.split(",");
-            for(String srt : showRecipientToArray){
+            for (String srt : showRecipientToArray) {
                 comment.showRecipientNameTo.add(CommentParticipantType.valueOf(srt.trim()));
             }
         }
         //if a comment is public to recipient (except Instructor), it's a pending comment
-        if(isCommentPublicToRecipient(comment)){
+        if (isCommentPublicToRecipient(comment)) {
             comment.sendingState = CommentSendingState.PENDING;
         }
         comment.commentText = commentText;
