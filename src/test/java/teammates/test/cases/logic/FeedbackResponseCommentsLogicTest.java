@@ -210,7 +210,9 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
     
 
     @Test
-    public void testDeleteFeedbackResponseCommentFromCourse() throws Exception{
+    public void testDeleteFeedbackResponseCommentFromCourse() throws Exception {
+        
+        ______TS("typical case");
         String courseId = "idOfTypicalCourse1";
         
         List<FeedbackResponseCommentAttributes> frcList 
