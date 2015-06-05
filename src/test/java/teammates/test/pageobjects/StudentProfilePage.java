@@ -170,4 +170,5 @@ public class StudentProfilePage extends AppPage {
         assertEquals(String.valueOf(width), browser.driver.findElement(By.id("pictureWidth"))
                                                           .getAttribute("value"));
     }
+
 }
