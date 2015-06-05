@@ -411,9 +411,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
             fail("Feedback session was deleted, but only feedback questions are deleted");
             e.printStackTrace();
         }
-        assertNotNull(fqLogic.getFeedbackQuestion("Private feedback session", courseId, 1));
-        assertNotNull(fqLogic.getFeedbackQuestion("Instructor feedback session", courseId, 1));
-        
+     
         fqLogic.deleteFeedbackQuestionsForCourse(courseId);
         deletedQuestion = getQuestionFromDatastore("qn1InSession2InCourse2");
         assertNull(deletedQuestion);
@@ -428,8 +426,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
             e.printStackTrace();
         }
         
-        assertNull(fqLogic.getFeedbackQuestion("Private feedback session", courseId, 1));
-        assertNull(fqLogic.getFeedbackQuestion("Instructor feedback session", courseId, 1));
         
         // test that questions in other courses are unaffected
         assertNotNull(getQuestionFromDatastore("qn1InSessionInArchivedCourse"));
