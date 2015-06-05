@@ -56,6 +56,8 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         testUpdateQuestion();
         testDeleteQuestion();
         testAddQuestionNoIntegrityCheck();
+        
+        testDeleteQuestionsForCourse();
     }
     
     public void testGetRecipientsForQuestion() throws Exception {
@@ -390,6 +392,48 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         fqLogic.deleteFeedbackQuestionCascade("non-existent-question-id");
         //No error should be thrown.
         
+    }
+    
+    public void testDeleteQuestionsForCourse() {
+        ______TS("standard case");
+        
+        // test that questions are deleted
+        String courseId = "idOfTypicalCourse2";
+        FeedbackQuestionAttributes deletedQuestion = getQuestionFromDatastore("qn1InSession2InCourse2");
+        assertNotNull(deletedQuestion);
+        
+        try {
+            List<FeedbackQuestionAttributes> questions = fqLogic.getFeedbackQuestionsForSession("Instructor feedback session", courseId);
+            assertNotEquals(0, questions.size());
+            questions = fqLogic.getFeedbackQuestionsForSession("Private feedback session", courseId);
+            assertNotEquals(0, questions.size());
+        } catch (EntityDoesNotExistException e) {
+            fail("Feedback session was deleted, but only feedback questions are deleted");
+            e.printStackTrace();
+        }
+        assertNotNull(fqLogic.getFeedbackQuestion("Private feedback session", courseId, 1));
+        assertNotNull(fqLogic.getFeedbackQuestion("Instructor feedback session", courseId, 1));
+        
+        fqLogic.deleteFeedbackQuestionsForCourse(courseId);
+        deletedQuestion = getQuestionFromDatastore("qn1InSession2InCourse2");
+        assertNull(deletedQuestion);
+        
+        try {
+            List<FeedbackQuestionAttributes> questions = fqLogic.getFeedbackQuestionsForSession("Instructor feedback session", courseId);
+            assertEquals(0, questions.size());
+            questions = fqLogic.getFeedbackQuestionsForSession("Private feedback session", courseId);
+            assertEquals(0, questions.size());
+        } catch (EntityDoesNotExistException e) {
+            fail("Feedback session was deleted, but only feedback questions are deleted");
+            e.printStackTrace();
+        }
+        
+        assertNull(fqLogic.getFeedbackQuestion("Private feedback session", courseId, 1));
+        assertNull(fqLogic.getFeedbackQuestion("Instructor feedback session", courseId, 1));
+        
+        // test that questions in other courses are unaffected
+        assertNotNull(getQuestionFromDatastore("qn1InSessionInArchivedCourse"));
+        assertNotNull(getQuestionFromDatastore("qn1InSession4InCourse1"));
     }
 
     

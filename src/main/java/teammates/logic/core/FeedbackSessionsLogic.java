@@ -1528,7 +1528,7 @@ public class FeedbackSessionsLogic {
 
     public void deleteFeedbackSessionsForCourse(String courseId) {
         frLogic.deleteFeedbackResponsesForCourse(courseId);
-        fqLogic.deleteFeedbackQuestionForCourse(courseId);
+        fqLogic.deleteFeedbackQuestionsForCourse(courseId);
         
         List<FeedbackSessionAttributes> fsList = getFeedbackSessionsForCourse(courseId);
         fsDb.deleteEntities(fsList);

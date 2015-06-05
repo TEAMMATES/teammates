@@ -658,7 +658,7 @@ public class FeedbackQuestionsLogic {
         
     }
     
-    public void deleteFeedbackQuestionForCourse(String courseId) {
+    public void deleteFeedbackQuestionsForCourse(String courseId) {
         fqDb.deleteFeedbackQuestionsForCourse(courseId);
     }
     
