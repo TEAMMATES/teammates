@@ -1527,6 +1527,7 @@ public class FeedbackSessionsLogic {
     }
 
     public void deleteFeedbackSessionsForCourse(String courseId) {
+        frcLogic.deleteFeedbackResponseCommentsForCourse(courseId);
         frLogic.deleteFeedbackResponsesForCourse(courseId);
         fqLogic.deleteFeedbackQuestionsForCourse(courseId);
         

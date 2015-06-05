@@ -1,11 +1,13 @@
 package teammates.test.cases.logic;
 
+import static org.testng.Assert.assertNotEquals;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.google.appengine.api.datastore.Text;
@@ -35,6 +37,10 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
     public void setupClass() throws Exception {
         printTestClassHeader();
         turnLoggingUp(FeedbackResponseCommentsLogic.class);
+    }
+    
+    @BeforeMethod
+    public void refreshTestData() throws Exception {
         removeAndRestoreTypicalDataInDatastore();
     }
     
@@ -200,6 +206,21 @@ public class FeedbackResponseCommentsLogicTest extends BaseComponentTestCase {
         
         frcLogic.deleteFeedbackResponseComment(actualFrComment);
         TestHelper.verifyAbsentInDatastore(actualFrComment);
+    }
+    
+
+    @Test
+    public void testDeleteFeedbackResponseCommentFromCourse() throws Exception{
+        String courseId = "idOfTypicalCourse1";
+        
+        List<FeedbackResponseCommentAttributes> frcList 
+            = frcLogic.getFeedbackResponseCommentForSession(courseId, "First feedback session");
+        assertNotEquals(0, frcList.size());
+        
+        frcLogic.deleteFeedbackResponseCommentsForCourse(courseId);
+        
+        frcList = frcLogic.getFeedbackResponseCommentForSession(courseId, "First feedback session");
+        assertEquals(0, frcList.size());
     }
     
     private void verifyExceptionThrownFromCreateFrComment(
