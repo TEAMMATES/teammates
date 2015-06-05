@@ -176,4 +176,27 @@ public class StudentProfilePage extends AppPage {
                                                           .getAttribute("value"));
     }
 
+    public void verifyStatusWithRetry(String expectedStatus, int numberOfTries) {
+        int tryNumber = 0;
+
+        while (tryNumber < numberOfTries) {
+            /**
+             *  We must wait for the next page's status message to be visible if the previous check
+             *  checked against the status message before the page has loaded
+             */
+            if (!statusMessage.isDisplayed()) {
+                this.waitForElementVisible(statusMessage);
+            }
+
+            if (expectedStatus.equals(this.getStatus())) {
+                break;
+            }
+
+            tryNumber++;
+
+            ThreadHelper.waitFor(1000);
+        }
+
+        assertEquals(expectedStatus, this.getStatus());
+    }
 }
