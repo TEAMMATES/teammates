@@ -89,7 +89,7 @@ public class Const {
         public static final String COURSE_EDIT = "Edit Course information and instructor list";
         public static final String COURSE_DELETE = "Delete the course and its corresponding students and sessions";
         public static final String COURSE_ARCHIVE = "Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)";
-        public static final String COURSE_ADD_EVALUATION = "Add a feedback session for the course";
+        public static final String COURSE_ADD_FEEDBACKSESSION = "Add a feedback session for the course";
         public static final String CLAIMED = "This is the student's own estimation of his/her contributions";
         public static final String PERCEIVED = "This is the average of what other team members think this student contributed";
         public static final String PERCEIVED_CLAIMED = "Difference between claimed and perceived contribution points";
@@ -464,7 +464,6 @@ public class Const {
         //Email parameters
         public static final String EMAIL_RECEIVER = "user";
         public static final String EMAIL_COURSE = "course";
-        public static final String EMAIL_EVAL = "evaluation";
         public static final String EMAIL_FEEDBACK = "feedback";
         public static final String EMAIL_TYPE = "type";
         public static final String EMAIL_IS_STUDENT = "isStudent";
@@ -480,7 +479,6 @@ public class Const {
         
         //Submission parameters for Task Queue
         public static final String SUBMISSION_COURSE = "course";
-        public static final String SUBMISSION_EVAL = "evaluation";
         public static final String SUBMISSION_FEEDBACK = "feedback";
         public static final String SUBMISSION_REMIND_USERLIST = "usersToRemind";
         
@@ -491,7 +489,6 @@ public class Const {
         
         //Parameters for checking persistence of data during Eventual Consistency
         public static final String CHECK_PERSISTENCE_COURSE = "persistencecourse";
-        public static final String CHECK_PERSISTENCE_EVALUATION = "persistenceevalaution";
         
         public static final String PROFILE_PICTURE_LEFTX = "cropboxleftx";
         public static final String PROFILE_PICTURE_TOPY = "cropboxtopy";
@@ -567,21 +564,6 @@ public class Const {
         public static final String INSTRUCTOR_COURSE_INSTRUCTOR_DELETE = "/page/instructorCourseInstructorDelete";
         public static final String INSTRUCTOR_COURSE_JOIN = "/page/instructorCourseJoin";
         public static final String INSTRUCTOR_COURSE_JOIN_AUTHENTICATED = "/page/instructorCourseJoinAuthenticated";
-        public static final String INSTRUCTOR_EVALS_PAGE = "/page/instructorEvalsPage";
-        public static final String INSTRUCTOR_EVAL_ADD = "/page/instructorEvalAdd";
-        public static final String INSTRUCTOR_EVAL_DELETE = "/page/instructorEvalDelete";
-        public static final String INSTRUCTOR_EVAL_EDIT_PAGE = "/page/instructorEvalEditPage";
-        public static final String INSTRUCTOR_EVAL_EDIT_SAVE = "/page/instructorEvalEditSave";
-        public static final String INSTRUCTOR_EVAL_PREVIEW = "/page/instructorEvalPreview";
-        public static final String INSTRUCTOR_EVAL_RESULTS_PAGE = "/page/instructorEvalResultsPage";
-        public static final String INSTRUCTOR_EVAL_STATS_PAGE = "/page/instructorEvalStatsPage";
-        public static final String INSTRUCTOR_EVAL_SUBMISSION_PAGE = "/page/instructorEvalSubmissionPage";
-        public static final String INSTRUCTOR_EVAL_SUBMISSION_EDIT = "/page/instructorEvalSubmissionEdit";
-        public static final String INSTRUCTOR_EVAL_SUBMISSION_EDIT_SAVE = "/page/instructorEvalSubmissionEditSave";
-        public static final String INSTRUCTOR_EVAL_REMIND = "/page/instructorEvalRemind";
-        public static final String INSTRUCTOR_EVAL_PUBLISH = "/page/instructorEvalPublish";
-        public static final String INSTRUCTOR_EVAL_UNPUBLISH = "/page/instructorEvalUnpublish";
-        public static final String INSTRUCTOR_EVAL_RESULTS_DOWNLOAD = "/page/instructorEvalResultsDownload";
         public static final String INSTRUCTOR_SEARCH_PAGE = "/page/instructorSearchPage";
         public static final String INSTRUCTOR_STUDENT_LIST_PAGE = "/page/instructorStudentListPage";
         public static final String INSTRUCTOR_STUDENT_LIST_AJAX_PAGE = "/page/instructorStudentListAjaxPage"; 
@@ -638,9 +620,6 @@ public class Const {
         public static final String STUDENT_COURSE_JOIN_AUTHENTICATED = "/page/studentCourseJoinAuthenticated";
         public static final String STUDENT_COMMENTS_PAGE = "/page/studentCommentsPage";
         public static final String STUDENT_COURSE_DETAILS_PAGE = "/page/studentCourseDetailsPage";
-        public static final String STUDENT_EVAL_SUBMISSION_EDIT_PAGE = "/page/studentEvalSubmissionEditPage";
-        public static final String STUDENT_EVAL_SUBMISSION_EDIT_SAVE = "/page/studentEvalSubmissionEditSave";
-        public static final String STUDENT_EVAL_RESULTS_PAGE = "/page/studentEvalResultsPage";
         
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE = "/page/studentFeedbackSubmissionEditPage";
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE = "/page/studentFeedbackSubmissionEditSave";
@@ -683,8 +662,6 @@ public class Const {
         public static final String ADMIN_STUDENT_GOOGLE_ID_RESET = "/admin/adminStudentGoogleIdReset";
 
         
-        public static final String AUTOMATED_EVAL_OPENING_REMINDERS = "/evaluationopeningreminders";
-        public static final String AUTOMATED_EVAL_CLOSING_REMINDERS = "/evaluationclosingreminders";        
         public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "/feedbackSessionOpeningReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "/feedbackSessionClosingReminders";
         public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "/feedbackSessionPublishedReminders";
@@ -697,12 +674,8 @@ public class Const {
         public static final String ADMIN_EMAIL_WORKER = "/adminEmailWorker";
         public static final String ADMIN_EMAIL_PREPARE_TASK_QUEUE_WORKER = "/adminEmailPrepareTaskQueueWorker";
         public static final String SUBMISSION_WORKER = "/submissionWorker";
-        public static final String EVAL_SUBMISSION_ADJUSTMENT_WORKER = 
-                                    "/evalSubmissionAdjustmentWorker";
         public static final String FEEDBACK_SUBMISSION_ADJUSTMENT_WORKER = 
                                     "/feedbackSubmissionAdjustmentWorker";
-        public static final String EVAL_PUBLISH_EMAIL_WORKER = "/evalPublishEmailWorker";
-        public static final String EVAL_REMIND_EMAIL_WORKER = "/evalRemindEmailWorker";
         public static final String FEEDBACK_REMIND_EMAIL_WORKER = "/feedbackRemindEmailWorker";
         public static final String FEEDBACK_REMIND_EMAIL_PARTICULAR_USERS_WORKER = 
                                     "/feedbackRemindEmailParticularUsersWorker";
@@ -712,14 +685,10 @@ public class Const {
     public class AutomatedActionNames{
         //real servlet names to be logged for automated actions, not for url pattern recognition
         public static final String AUTOMATED_LOG_COMILATION = "logCompilation";
-        public static final String AUTOMATED_EVAL_CLOSING_MAIL_ACTION = "evaluationClosingMailAction";
-        public static final String AUTOMATED_EVAL_OPENING_MAIL_ACTION = "evaluationOpeningMailAction";
         public static final String AUTOMATED_FEEDBACKSESSION_CLOSING_MAIL_ACTION = "feedbackSessionClosingMailAction";
         public static final String AUTOMATED_FEEDBACKSESSION_OPENING_MAIL_ACTION = "feedbackSessionOpeningMailAction";
         public static final String AUTOMATED_FEEDBACKSESSION_PUBLISHED_MAIL_ACTION = "feedbackSessionPublishedMailAction";
         public static final String AUTOMATED_PENDING_COMMENT_CLEARED_MAIL_ACTION = "PendingCommentClearedMailAction";
-        public static final String AUTOMATED_EVAL_OPENING_REMINDERS = "evaluationOpeningReminders";
-        public static final String AUTOMATED_EVAL_CLOSING_REMINDERS = "evaluationclosingreminders";        
         public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS = "feedbackSessionOpeningReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSING_REMINDERS = "feedbackSessionClosingReminders";
         public static final String AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS = "feedbackSessionPublishedReminders";
@@ -744,12 +713,6 @@ public class Const {
         public static final String INSTRUCTOR_COURSE_ENROLL = "/jsp/instructorCourseEnroll.jsp"; 
         public static final String INSTRUCTOR_COURSE_ENROLL_RESULT = "/jsp/instructorCourseEnrollResult.jsp";
         public static final String INSTRUCTOR_COURSE_JOIN_CONFIRMATION = "/jsp/instructorCourseJoinConfirmation.jsp";
-        public static final String INSTRUCTOR_EVALS = "/jsp/instructorEvals.jsp"; 
-        public static final String INSTRUCTOR_EVAL_EDIT = "/jsp/instructorEvalEdit.jsp"; 
-        public static final String INSTRUCTOR_EVAL_RESULTS = "/jsp/instructorEvalResults.jsp"; 
-        public static final String INSTRUCTOR_EVAL_STATS = "/jsp/instructorEvalStats.jsp";
-        public static final String INSTRUCTOR_EVAL_SUBMISSION = "/jsp/instructorEvalSubmission.jsp"; 
-        public static final String INSTRUCTOR_EVAL_SUBMISSION_EDIT = "/jsp/instructorEvalSubmissionEdit.jsp"; 
         public static final String INSTRUCTOR_FEEDBACKS = "/jsp/instructorFeedbacks.jsp";
         public static final String INSTRUCTOR_FEEDBACK_EDIT = "/jsp/instructorFeedbackEdit.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_TOP = "/jsp/instructorFeedbackResultsTop.jsp";
@@ -770,8 +733,6 @@ public class Const {
         public static final String STUDENT_COURSE_JOIN_CONFIRMATION = "/jsp/studentCourseJoinConfirmation.jsp";
         public static final String STUDENT_COURSE_DETAILS = "/jsp/studentCourseDetails.jsp"; 
         public static final String STUDENT_COMMENTS = "/jsp/studentComments.jsp"; 
-        public static final String STUDENT_EVAL_SUBMISSION_EDIT = "/jsp/studentEvalEdit.jsp"; 
-        public static final String STUDENT_EVAL_RESULTS = "/jsp/studentEvalResults.jsp"; 
         public static final String STUDENT_FEEDBACK_SUBMISSION_EDIT = "/jsp/studentFeedbackSubmissionEdit.jsp"; 
         public static final String STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT = "/jsp/studentFeedbackQuestionSubmissionEdit.jsp"; 
         public static final String STUDENT_FEEDBACK_RESULTS = "/jsp/studentFeedbackResults.jsp";
@@ -807,7 +768,6 @@ public class Const {
         public static final String FOOTER = "/jsp/footer.jsp"; 
         public static final String STATUS_MESSAGE = "/jsp/statusMessage.jsp";
         public static final String STATUS_MESSAGE_WITHOUT_FOCUS = "/jsp/statusMessageWithoutFocusingToStatus.jsp";
-        public static final String EVAL_SUBMISSION_EDIT = "/jsp/evalSubmissionEdit.jsp";
         public static final String FEEDBACK_SUBMISSION_EDIT = "/jsp/feedbackSubmissionEdit.jsp";
         
         public static final String ADMIN_EMAIL_FILE_UPLOAD = "/jsp/adminEmailFileUpload.jsp"; 
@@ -851,7 +811,7 @@ public class Const {
         public static final String COURSE_UNARCHIVED = "The course %s has been unarchived.";
         public static final String COURSE_DELETED = "The course %s has been deleted.";
         public static final String COURSE_EMPTY = "You have not created any courses yet. Use the form above to create a course.";
-        public static final String COURSE_EMPTY_IN_EVALUATION = "You have not created any courses yet, or you have no active courses. Go <a href=\""
+        public static final String COURSE_EMPTY_IN_INSTRUCTOR_FEEDBACKS = "You have not created any courses yet, or you have no active courses. Go <a href=\""
                 + ActionURIs.INSTRUCTOR_COURSES_PAGE + "${user}\">here</a> to create or unarchive a course.";
         public static final String COURSE_REMINDER_SENT_TO = "An email has been sent to ";
         public static final String COURSE_REMINDERS_SENT = "Emails have been sent to unregistered students.";
@@ -898,26 +858,6 @@ public class Const {
         public static final String STUDENT_PROFILE_PIC_SERVICE_DOWN = "We were unable to upload your picture at this time. "
                 + "Please try again after some time";
         
-        public static final String EVALUATION_ADDED = "The evaluation has been added. If you don't see that evaluation in the list below, please refresh the page after a few moments.";
-        public static final String EVALUATION_DELETED = "The evaluation has been deleted.";
-        public static final String EVALUATION_EDITED = "The evaluation has been edited.";
-        public static final String EVALUATION_INFORMEDSTUDENTSOFCHANGES = "E-mails have been sent out to inform the students of the changes to the evaluation.";
-        public static final String EVALUATION_PUBLISHED = "The evaluation has been published. Please allow up to 1 hour for all the notification emails to be sent out.";
-        public static final String EVALUATION_UNPUBLISHED = "The evaluation has been unpublished.";
-        public static final String EVALUATION_REMINDERSSENT = "Reminder e-mails have been sent out to those students. Please allow up to 1 hour for all the notification emails to be sent out.";
-        public static final String EVALUATION_RESULTSEDITED = "The particular evaluation results have been edited.";
-        public static final String EVALUATION_EMPTY = "You have not created any sessions yet. Use the form above to create a session.";
-        public static final String EVALUATION_NOT_OPEN = "This evaluation is not open at this time. You are not allowed to edit your submission.";
-        public static final String EVALUATION_EXISTS = "An evaluation by this name already exists under this course";
-        public static final String EVALUATION_REQUEST_EXPIRED = "<div style=\"text-align:left;\">"
-                + "The request we received seems to be incomplete. "
-                + "This may be due to reloading a page from a submission activity you did earlier. "
-                + "If you typed your input in the previous page, you can try to click the 'Back' button of your Browser to take a copy of what you typed. "
-                + "If you wish to submit now, please re-login and try to submit again. "
-                + "If your second attempt to submit did not work either, please email us at "
-                + "<a href='mailto:teammates@comp.nus.edu.sg?subject=Evaluation Request Expired&body=System Message: Evaluation submission failed possibly due to missing parameters.'>teammates@comp.nus.edu.sg</a>."
-                + "</div>";
-        
         public static final String FEEDBACK_SESSION_ADDED = "The feedback session has been added. Click the \"Add New Question\" button below to begin adding questions for the feedback session.";
         public static final String FEEDBACK_SESSION_ADD_DB_INCONSISTENCY = "If you do not see existing feedback sessions in the list below, please refresh the page after a few moments";
         public static final String FEEDBACK_SESSION_COPIED = "The feedback session has been copied. Please modify settings/questions as necessary.";
@@ -942,6 +882,8 @@ public class Const {
         
         public static final String FEEDBACK_RESPONSES_SAVED = "All responses submitted succesfully!";
         public static final String FEEDBACK_RESPONSES_MISSING_RECIPIENT = "You did not specify a recipient for your response in question %s.";
+        public static final String FEEDBACK_RESPONSES_WRONG_QUESTION_TYPE = "Incorrect question type for response in question %s.";
+        public static final String FEEDBACK_RESPONSES_INVALID_ID = "You are modifying an invalid response in question %s";
         
         public static final String FEEDBACK_RESPONSE_COMMENT_EMPTY = "Comment cannot be empty";
         public static final String FEEDBACK_RESPONSE_COMMENT_ADDED = "Your comment has been saved successfully";
@@ -987,10 +929,6 @@ public class Const {
         public static final String COURSE_TEAMNAME_INVALID = "Team name should contain less than " + FieldValidator.COURSE_TEAMNAME_MAX_LENGTH
                 + " characters.";
         
-        public static final String EVALUATION_NAMEINVALID = "Please use only alphabets, numbers and whitespace in evaluation name.";
-        public static final String EVALUATION_NAME_LENGTHINVALID = "Evaluation name should not exceed 38 characters.";
-        public static final String EVALUATION_SCHEDULEINVALID = "The evaluation schedule (start/deadline) is not valid.<br />"
-                + "The start time should be in the future, and the deadline should be after start time.";
         public static final String FIELDS_EMPTY = "Please fill in all the relevant fields.";
     
         public static final String INSTRUCTOR_STATUS_DELETED = "The Instructor status has been deleted";
@@ -1029,12 +967,10 @@ public class Const {
         public static final String STUDENT_UPDATE_PROFILE_NATIONALITY = "Meanwhile, you can provide your nationality <a href=\"" + Const.ActionURIs.STUDENT_PROFILE_PAGE + "\">here</a>.";
         
         // Messages that are templates only
-        /** Template String. Parameters: Student's name, Evaluation name, Course ID */
+        /** Template String. Parameters: Student's name, Course ID */
         public static final String STUDENT_COURSE_JOIN_SUCCESSFUL = "You have been successfully added to the course %s.";
-        public static final String INSTRUCTOR_EVALUATION_SUBMISSION_RECEIVED = "You have edited %s's submission for evaluation %s in course %s successfully.<br />"
-                + "The change will not be reflected here until you <span class='color_red bold'>REFRESH</span> the page.";
-        /** Template String. Parameters: Evaluation name, Course ID */
-        public static final String STUDENT_EVALUATION_SUBMISSION_RECEIVED = "Your submission for %s in course %s has been saved successfully";
+        
+        /** Template String. Parameters:  Course ID */
         public static final String STUDENT_PROFILE_NOT_A_PICTURE = "The file that you have uploaded is not a picture. "
                 + "Please upload a picture (usually it ends with .jpg or .png)";
         public static final String STUDENT_PROFILE_NO_PICTURE_GIVEN = "Please specify a file to be uploaded.";

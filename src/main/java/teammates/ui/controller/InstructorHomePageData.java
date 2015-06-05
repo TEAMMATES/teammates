@@ -21,8 +21,8 @@ public class InstructorHomePageData extends PageData {
     public HashMap<String, Integer> numberOfPendingComments;
     public static final int MAX_CLOSED_SESSION_STATS = 3;
     
-    public String getInstructorEvaluationLinkForCourse(String courseID) {
-        String link = super.getInstructorEvaluationLink();
+    public String getInstructorFeedbacksPageLinkForCourse(String courseID) {
+        String link = super.getInstructorFeedbacksPageLink();
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
         return link;
     }

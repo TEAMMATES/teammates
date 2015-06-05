@@ -163,16 +163,6 @@ public class StudentHomePageActionTest extends BaseActionTest {
         assertEquals(1, data.courses.size());
         
         
-        ______TS("Evaluation submission affected by eventual consistency");
-        submissionParams = new String[]{Const.ParamsNames.CHECK_PERSISTENCE_EVALUATION, 
-                                        "idOfTypicalCourse1evaluation2 In Course1"};
-        student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        studentId = student1InCourse1.googleId;
-        gaeSimulation.loginUser(studentId);
-        a = getAction(submissionParams);
-        r = getShowPageResult(a);
-        data = (StudentHomePageData) r.data;
-        
         // Delete additional sessions that were created
         CoursesLogic.inst().deleteCourseCascade("typicalCourse2");
     }

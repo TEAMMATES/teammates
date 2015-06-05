@@ -34,6 +34,4 @@ public abstract class FeedbackQuestionSubmissionEditSaveAction extends FeedbackS
     protected abstract void setStatusToAdmin();
     
     protected abstract boolean isSessionOpenForSpecificUser(FeedbackSessionAttributes fs);
-        
-    protected abstract ShowPageResult createSpecificShowPageResult();
 }

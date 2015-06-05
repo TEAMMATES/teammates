@@ -348,6 +348,11 @@ public class InstructorFeedbacksPage extends AppPage {
         return timezoneDropdown.getAttribute("value");
     }
     
+    public String getClientTimeZone() {
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        return (String) js.executeScript("return (-(new Date()).getTimezoneOffset() / 60).toString()");
+    }
+    
     public void addFeedbackSession(String feedbackSessionName, String courseId, Date startTime,
             Date endTime, Date visibleTime, Date publishTime, Text instructions, int gracePeriod) {
         

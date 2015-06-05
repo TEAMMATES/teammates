@@ -629,6 +629,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     
     public void testJScripts() throws ParseException{
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
+        testDefaultTimeZone();
         testSessionViewableTable();
         testDatePickerScripts();
     }
@@ -739,7 +740,13 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertEquals(sdf.format(cal.getTime()),
                      feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
         
-        
+    }
+    
+    public void testDefaultTimeZone() {
+        // Uses JavaScript to get client timezone as it is not affected by VM arguments.
+        // This test is accurate only if the client is not in the default selected timezone.
+        // If the client is, this test will always pass.
+        assertEquals(feedbackPage.getClientTimeZone(), feedbackPage.getTimeZone());
     }
     
     public void testResponseRateLink(){
@@ -880,7 +887,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
                         FieldValidator.REASON_EMPTY,
                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME,
-                        FieldValidator.EVALUATION_NAME_MAX_LENGTH,
+                        FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH,
                         FieldValidator.FEEDBACK_SESSION_NAME_FIELD_NAME),
                      feedbackPage.getStatus());
         assertTrue(feedbackPage.verifyVisible(By.id("timeFramePanel")));

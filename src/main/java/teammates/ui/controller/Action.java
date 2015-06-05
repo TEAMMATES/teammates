@@ -267,11 +267,8 @@ public abstract class Action {
     protected boolean isPersistenceIssue() {
         String persistenceCheckString1 = 
                 getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);
-        String persistenceCheckString2 = 
-                getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_EVALUATION);
         
-        return persistenceCheckString1 != null ||
-               persistenceCheckString2 != null;
+        return persistenceCheckString1 != null;
     }
 
     private boolean isPageNotCourseJoinRelated() {
@@ -434,8 +431,9 @@ public abstract class Action {
                                   statusToUser);
     }
     
+    //TODO: Replace this with a overloaded constructor in AjaxResult?
     /**
-     * Generates a {@link ShowPageResult} with the information in this object.
+     * Generates a {@link AjaxResult} with the information in this object.
      */
     public AjaxResult createAjaxResult(String destination, PageData pageData) {
         return new AjaxResult(destination, 

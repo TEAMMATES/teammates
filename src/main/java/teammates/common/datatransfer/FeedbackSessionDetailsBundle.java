@@ -7,7 +7,7 @@ import java.util.List;
 import teammates.common.util.Const;
 
 /**
- * Represents details of an evaluation. 
+ * Represents details of a feedback session 
  * Contains:
  * <br> * The basic info of the feedback session (as a {@link FeedbackSessionAttributes} object).
  * <br> * Feedback response statistics (as a {@link FeedbackSessionStats} object).
@@ -28,10 +28,10 @@ public class FeedbackSessionDetailsBundle {
      * (ascending). The sort by CourseID part is to cater the case when this
      * method is called with combined feedback sessions from many courses
      * 
-     * @param evals
+     * @param sessions
      */
-    public static void sortFeedbackSessionsByCreationTime(List<FeedbackSessionDetailsBundle> evals) {
-        Collections.sort(evals, new Comparator<FeedbackSessionDetailsBundle>() {
+    public static void sortFeedbackSessionsByCreationTime(List<FeedbackSessionDetailsBundle> sessions) {
+        Collections.sort(sessions, new Comparator<FeedbackSessionDetailsBundle>() {
             public int compare(FeedbackSessionDetailsBundle fsd1, FeedbackSessionDetailsBundle fsd2) {
                 FeedbackSessionAttributes session1 = fsd1.feedbackSession;
                 FeedbackSessionAttributes session2 = fsd2.feedbackSession;

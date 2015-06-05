@@ -120,21 +120,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByGiverRecipientQuestion();
 
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9, "giver-1-recipient-1"));
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(9, "giver-1-recipient-1"));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(9, "giver-1-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(9, "giver-1-recipient-1"));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9, "giver-1-recipient-1"));
-
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(10, "giver-1-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(10, "giver-1-recipient-1"));
-
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(11, "giver-1-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(11, "giver-1-recipient-1"));
-
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(12,"giver-1-recipient-1"));
-
+        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
+        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
+        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
+        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
+        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
+        
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortGiverRecipientQuestion.html");
 
         ______TS("test sort by recipient > giver > question");
@@ -142,20 +133,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortRecipientGiverQuestion.html");
 
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9, "giver-1-recipient-1"));
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(9, "giver-1-recipient-1"));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(9, "giver-1-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(9, "giver-1-recipient-1"));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9, "giver-1-recipient-1"));
-
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(10, "giver-1-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(10, "giver-1-recipient-1"));
-
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(11, "giver-1-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(11, "giver-1-recipient-1"));
-
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(12, "giver-1-recipient-1"));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(12, "giver-1-recipient-1"));
+        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
+        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
+        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
+        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(8, "giver-1-recipient-1"));
+        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(8, "giver-1-recipient-1"));
 
         ______TS("test sort by giver > question > recipient");
 
@@ -196,20 +178,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByQuestion();
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortQuestion.html");
 
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9, ""));
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(9, ""));
-        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(9, ""));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(9, ""));
-        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(9, ""));
-
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(10, ""));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(10, ""));
-
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(11, ""));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(11, ""));
-
-        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(12, ""));
-        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(12, ""));
+        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(7, ""));
+        assertEquals(true, resultsPage.clickQuestionAdditionalInfoButton(7, ""));
+        assertEquals("[less]", resultsPage.getQuestionAdditionalInfoButtonText(7, ""));
+        assertEquals(false, resultsPage.clickQuestionAdditionalInfoButton(7, ""));
+        assertEquals("[more]", resultsPage.getQuestionAdditionalInfoButtonText(7, ""));
 
         ______TS("Typical case: test in-table sort");
 
@@ -247,6 +220,60 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
                 "Team 1{*}Team 1");
          */
 
+    }
+    
+    @Test
+    public void testVisibilityOptions() {
+        ______TS("test sort by giver > recipient > question for second session");
+        
+        resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Unpublished Session");
+        resultsPage.displayByGiverRecipientQuestion();
+        
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionGiverRecipientQuestion.html");
+
+        ______TS("test sort by recipient > giver > question for second session");
+
+        resultsPage.displayByRecipientGiverQuestion();
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionRecipientGiverQuestion.html");
+
+        ______TS("test sort by giver > question > recipient for second session");
+
+        resultsPage.displayByGiverQuestionRecipient();
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionGiverQuestionRecipient.html");
+
+        ______TS("test sort by recipient > question > giver for second session");
+
+        resultsPage.displayByRecipientQuestionGiver();
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionRecipientQuestionGiver.html");
+
+        // Do not sort by team
+        resultsPage.clickGroupByTeam();
+
+        ______TS("test order in giver > recipient > question team for second session");
+
+        resultsPage.displayByGiverRecipientQuestion();
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionGiverRecipientQuestionTeam.html");
+
+        ______TS("test order in recipient > giver > question team for second session");
+        
+        resultsPage.displayByRecipientGiverQuestion();
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionRecipientGiverQuestionTeam.html");
+
+        ______TS("test order in giver > question > recipient team for second session");
+
+        resultsPage.displayByGiverQuestionRecipient();
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionGiverQuestionRecipientTeam.html");
+
+        ______TS("test order in recipient > question > giver team for second session");
+
+        resultsPage.displayByRecipientQuestionGiver();
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionRecipientQuestionGiverTeam.html");
+
+        ______TS("test sort by question for second session");
+        resultsPage.displayByQuestion();
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsSortSecondSessionQuestion.html");
+        
+        
     }
 
     @Test
@@ -461,7 +488,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         resultsPage.editFeedbackResponseComment("-0-1-1-2", "edited successive action comment");
         resultsPage.verifyCommentRowContent("-0-1-1-2", "edited successive action comment", "CFResultsUiT.instr@gmail.tmt");
-        resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-0-1-1-1", 2);
+        resultsPage.clickVisibilityOptionForResponseCommentAndSave("responseCommentRow-0-1-1-1", 1);
 
         resultsPage.deleteFeedbackResponseComment("-0-1-1-2");
         resultsPage.verifyRowMissing("-0-1-1-2");
@@ -470,6 +497,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByRecipientGiverQuestion();
         resultsPage.verifyCommentRowContent("-0-1-1-1", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
         resultsPage.verifyRowMissing("-0-1-1-2");
+        // change the timestamps in line 365 and 781 to {*}
         resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsDeleteComment.html");
 
     }
