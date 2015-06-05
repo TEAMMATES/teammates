@@ -407,7 +407,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
             questions = fqLogic.getFeedbackQuestionsForSession("Private feedback session", courseId);
             assertNotEquals(0, questions.size());
         } catch (EntityDoesNotExistException e) {
-            fail("Feedback session was deleted, but only feedback questions are deleted");
+            fail("Feedback session was deleted");
             e.printStackTrace();
         }
      
@@ -421,7 +421,7 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
             questions = fqLogic.getFeedbackQuestionsForSession("Private feedback session", courseId);
             assertEquals(0, questions.size());
         } catch (EntityDoesNotExistException e) {
-            fail("Feedback session was deleted, but only feedback questions are deleted");
+            fail("Feedback session was deleted, but only feedback questions are supposed to be deleted");
             e.printStackTrace();
         }
         
