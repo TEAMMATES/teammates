@@ -11,7 +11,6 @@ import org.openqa.selenium.support.FindBy;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
 
 public class StudentProfilePage extends AppPage {
 
@@ -159,10 +158,6 @@ public class StudentProfilePage extends AppPage {
     public void uploadPicture() {
         uploadPictureSubmit.click();
         browser.selenium.waitForPageToLoad("10000");
-        
-        // Intended compounded explicit wait due to .click()'s inconsistency in triggering selenium's
-        // waitForPageToLoad. Do not remove, can cause a higher rate of random failure in this test.
-        ThreadHelper.waitFor(1000);
     }
 
     public void editProfilePhoto() {
@@ -174,29 +169,5 @@ public class StudentProfilePage extends AppPage {
                                                            .getAttribute("value"));
         assertEquals(String.valueOf(width), browser.driver.findElement(By.id("pictureWidth"))
                                                           .getAttribute("value"));
-    }
-
-    public void verifyStatusWithRetry(String expectedStatus, int numberOfTries) {
-        int tryNumber = 0;
-
-        while (tryNumber < numberOfTries) {
-            /**
-             *  We must wait for the next page's status message to be visible if the previous check
-             *  checked against the status message before the page has loaded
-             */
-            if (!statusMessage.isDisplayed()) {
-                this.waitForElementVisible(statusMessage);
-            }
-
-            if (expectedStatus.equals(this.getStatus())) {
-                break;
-            }
-
-            tryNumber++;
-
-            ThreadHelper.waitFor(1000);
-        }
-
-        assertEquals(expectedStatus, this.getStatus());
     }
 }
