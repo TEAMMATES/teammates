@@ -501,12 +501,13 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         // test that responses are deleted
         String courseId = "idOfTypicalCourse1";
         assertNotEquals(0, frLogic.getFeedbackResponsesForSession("First feedback session", courseId).size());
-        assertNotEquals(0, frLogic.getFeedbackResponsesForSession("Second feedback session", courseId).size());
-        
+        assertNotEquals(0, frLogic.getFeedbackResponsesForSession("Grace Period Session", courseId).size());
+        assertNotEquals(0, frLogic.getFeedbackResponsesForSession("Closed Session", courseId).size());
         frLogic.deleteFeedbackResponsesForCourse(courseId);
         
         assertEquals(0, frLogic.getFeedbackResponsesForSession("First feedback session", courseId).size());
-        assertEquals(0, frLogic.getFeedbackResponsesForSession("Second feedback session", courseId).size());
+        assertEquals(0, frLogic.getFeedbackResponsesForSession("Grace Period Session", courseId).size());
+        assertEquals(0, frLogic.getFeedbackResponsesForSession("Closed Session", courseId).size());
         
         // test that responses from other courses are unaffected
         String otherCourse = "idOfTypicalCourse2";
