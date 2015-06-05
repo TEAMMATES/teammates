@@ -961,10 +961,10 @@ public abstract class AppPage {
      * 
      * @return The app page itself for method chaining flexibility
      */
-    public AppPage verifyStatusWithRetry(String expectedStatus, int numberOfTries) {
-        int tryNumber = 0;
+    public AppPage verifyStatusWithRetry(String expectedStatus, int maxRetryCount) {
+        int currentRetryCount = 0;
 
-        while (tryNumber < numberOfTries) {
+        while (currentRetryCount < maxRetryCount) {
             if (!statusMessage.isDisplayed()) {
                 this.waitForElementVisible(statusMessage);
             }
@@ -973,7 +973,7 @@ public abstract class AppPage {
                 break;
             }
 
-            tryNumber++;
+            currentRetryCount++;
 
             ThreadHelper.waitFor(1000);
         }
