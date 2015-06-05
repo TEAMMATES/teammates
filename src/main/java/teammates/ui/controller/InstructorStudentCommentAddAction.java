@@ -190,8 +190,7 @@ public class InstructorStudentCommentAddAction extends Action {
     }
 
     private boolean isCommentPublicToRecipient(CommentAttributes comment) {
-        return comment.showCommentTo != null
-                && (comment.isVisibleTo(CommentParticipantType.PERSON)
+        return (comment.isVisibleTo(CommentParticipantType.PERSON)
                     || comment.isVisibleTo(CommentParticipantType.TEAM)
                     || comment.isVisibleTo(CommentParticipantType.SECTION)
                     || comment.isVisibleTo(CommentParticipantType.COURSE));
