@@ -555,7 +555,6 @@ public class CoursesLogic {
                 getCourseSummariesForInstructor(instructorId, omitArchived);
         
         // TODO: remove need for lower level functions to make repeated db calls
-        // getEvaluationsDetailsForInstructor
         // getFeedbackSessionDetailsForInstructor
         // The above functions make repeated calls to get InstructorAttributes
         List<FeedbackSessionDetailsBundle> feedbackSessionList = 

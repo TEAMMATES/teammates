@@ -95,8 +95,7 @@ public class FeedbackSessionsLogic {
     /**
      * This method returns a single feedback session. Returns null if not found.
      */
-    public FeedbackSessionAttributes getFeedbackSession(
-            String feedbackSessionName, String courseId) {
+    public FeedbackSessionAttributes getFeedbackSession(String feedbackSessionName, String courseId) {
         return fsDb.getFeedbackSession(courseId, feedbackSessionName);
     }
 
@@ -105,12 +104,10 @@ public class FeedbackSessionsLogic {
         return fsDb.getFeedbackSessionsForCourse(courseId);
     }
 
-    public FeedbackSessionAttributes copyFeedbackSession(
-            String newFeedbackSessionName, String newCourseId, String feedbackSessionName,
-            String courseId, String instructorEmail)
+    public FeedbackSessionAttributes copyFeedbackSession(String newFeedbackSessionName,
+            String newCourseId, String feedbackSessionName, String courseId, String instructorEmail)
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        FeedbackSessionAttributes copiedFeedbackSession = getFeedbackSession(
-                feedbackSessionName, courseId);
+        FeedbackSessionAttributes copiedFeedbackSession = getFeedbackSession(feedbackSessionName, courseId);
         copiedFeedbackSession.creatorEmail = instructorEmail;
         copiedFeedbackSession.feedbackSessionName = newFeedbackSessionName;
         copiedFeedbackSession.courseId = newCourseId;
@@ -119,11 +116,12 @@ public class FeedbackSessionsLogic {
         copiedFeedbackSession.respondingStudentList = new HashSet<String>();
         fsDb.createEntity(copiedFeedbackSession);
         
-        List<FeedbackQuestionAttributes> feedbackQuestions = fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        for(FeedbackQuestionAttributes question : feedbackQuestions){
+        List<FeedbackQuestionAttributes> feedbackQuestions =
+                fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+        for (FeedbackQuestionAttributes question : feedbackQuestions){
             question.courseId = newCourseId;
             question.feedbackSessionName = newFeedbackSessionName;
-            question.creatorEmail =instructorEmail;
+            question.creatorEmail = instructorEmail;
             fqLogic.createFeedbackQuestionNoIntegrityCheck(question, question.questionNumber);
         }
         
@@ -240,14 +238,12 @@ public class FeedbackSessionsLogic {
     }
     
     public List<FeedbackSessionAttributes> getFeedbackSessionsListForInstructor(
-            List<InstructorAttributes> instructorList)
-            throws EntityDoesNotExistException {
+            List<InstructorAttributes> instructorList) throws EntityDoesNotExistException {
 
         List<FeedbackSessionAttributes> fsList = new ArrayList<FeedbackSessionAttributes>();
         
         for (InstructorAttributes instructor : instructorList) {
-            fsList.addAll(getFeedbackSessionsListForCourse(instructor.courseId,
-                    instructor.email));
+            fsList.addAll(getFeedbackSessionsListForCourse(instructor.courseId, instructor.email));
         }
 
         return fsList;
@@ -1543,12 +1539,10 @@ public class FeedbackSessionsLogic {
      * This method deletes a specific feedback session, and all it's question
      * and responses
      */
-    public void deleteFeedbackSessionCascade(String feedbackSessionName,
-            String courseId) {
+    public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
 
         try {
-            fqLogic.deleteFeedbackQuestionsForSession(feedbackSessionName,
-                    courseId);
+            fqLogic.deleteFeedbackQuestionsForSession(feedbackSessionName, courseId);
         } catch (EntityDoesNotExistException e) {
             // Silently fail if session does not exist
         }
@@ -2197,16 +2191,15 @@ public class FeedbackSessionsLogic {
     }
 
     private List<FeedbackSessionAttributes> getFeedbackSessionsListForCourse(
-            String courseId, String instructorEmail)
-            throws EntityDoesNotExistException {
+            String courseId, String instructorEmail) throws EntityDoesNotExistException {
         
         List<FeedbackSessionAttributes> fsInCourseWithoutPrivate = new ArrayList<FeedbackSessionAttributes>(); 
-        List<FeedbackSessionAttributes> fsInCourse =
-                fsDb.getFeedbackSessionsForCourse(courseId);
+        List<FeedbackSessionAttributes> fsInCourse = fsDb.getFeedbackSessionsForCourse(courseId);
         
         for (FeedbackSessionAttributes fsa : fsInCourse) {
-            if ((fsa.isPrivateSession() && !fsa.isCreator(instructorEmail)) == false)
+            if (!fsa.isPrivateSession() || fsa.isCreator(instructorEmail)) {
                 fsInCourseWithoutPrivate.add(fsa);
+            }
         }
 
         return fsInCourseWithoutPrivate;

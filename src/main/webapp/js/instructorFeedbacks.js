@@ -1,5 +1,5 @@
 //TODO: Move constants from Common.js into appropriate files if not shared.
-var SELECT_OPTION_UNINITIALISED = -9999;
+var TIMEZONE_SELECT_UNINITIALISED = '-9999';
 
 /**
  * Check whether the feedback question input is valid
@@ -83,20 +83,20 @@ function selectDefaultTimeOptions() {
     var currentTime = (parseInt(hours) + 1) % 24;
     var timeZone = -now.getTimezoneOffset() / 60;
 
-    if (!isTimeZoneUnintialized()) {
+    if (!isTimeZoneIntialized()) {
         $('#' + FEEDBACK_SESSION_STARTTIME).val(currentTime);
         $('#' + FEEDBACK_SESSION_TIMEZONE).val(timeZone);
     }
 
-    var uninitializedOpt = $('#timezone > option[value=\'' + SELECT_OPTION_UNINITIALISED + '\']');
-    if (uninitializedOpt) {
-        uninitializedOpt.remove();
+    var uninitializedTimeZone = $('#timezone > option[value=\'' + TIMEZONE_SELECT_UNINITIALISED + '\']');
+    if (uninitializedTimeZone) {
+        uninitializedTimeZone.remove();
     }
 }
 
 
-function isTimeZoneUnintialized() {
-    return $('#timezone').val() !== SELECT_OPTION_UNINITIALISED;
+function isTimeZoneIntialized() {
+    return $('#timezone').val() !== TIMEZONE_SELECT_UNINITIALISED;
 }
 
 
@@ -235,7 +235,7 @@ function bindEventsAfterAjax() {
 }
 
 function bindUncommonSettingsEvents() {
-    $('#editUncommonSettingsButton').click(uncommonSettingsButtonClick);
+    $('#editUncommonSettingsButton').click(showUncommonPanels);
 }
 
 function updateUncommonSettingsInfo() {
@@ -245,14 +245,6 @@ function updateUncommonSettingsInfo() {
                '24 hrs before session closes and when results are published.';
 
     $('#uncommonSettingsInfoText').html(info);
-}
-
-function uncommonSettingsButtonClick() {
-    var button = $('#editUncommonSettingsButton');
-    var button_edit = $(button).attr('data-edit');
-    if ($(button).text() == button_edit) {
-        showUncommonPanels();
-    }
 }
 
 function isDefaultSetting() {

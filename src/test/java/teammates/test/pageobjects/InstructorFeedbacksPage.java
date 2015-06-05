@@ -122,12 +122,6 @@ public class InstructorFeedbacksPage extends AppPage {
     public void selectSessionType(String visibleText){
         selectDropdownByVisibleValue(fsType, visibleText);
     }
-    
-    public AppPage sortByDeadline() {
-        sortByNameIcon.click();
-        waitForPageToLoad();
-        return this;
-    }
 
     public AppPage sortByName() {
         sortByNameIcon.click();
@@ -139,10 +133,6 @@ public class InstructorFeedbacksPage extends AppPage {
         sortByIdIcon.click();
         waitForPageToLoad();
         return this;
-    }
-
-    public void fillSessionName(String name) {
-        fillTextBox(fsNameTextBox, name);
     }
 
     public void clickSubmitButton(){
@@ -222,12 +212,12 @@ public class InstructorFeedbacksPage extends AppPage {
         
         fillTextBox(fsNameTextBox, feedbackSessionName);
         
-        String timeZoneString = "" + timeZone;      
+        String timeZoneString = "" + timeZone;
 
         double fractionalPart = timeZone % 1;
         
-        if(fractionalPart == 0.0){
-            timeZoneString = "" + (int)timeZone;
+        if (fractionalPart == 0.0){
+            timeZoneString = "" + (int) timeZone;
         }
         
         selectDropdownByActualValue(timezoneDropdown, timeZoneString);
@@ -269,7 +259,9 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     public void clickCopyTableAtRow(int rowIndex) {
-        WebElement row = browser.driver.findElement(By.id("copyTableModal")).findElements(By.tagName("tr")).get(rowIndex + 1);
+        WebElement row = browser.driver.findElement(By.id("copyTableModal"))
+                                       .findElements(By.tagName("tr"))
+                                       .get(rowIndex + 1);
         row.click();
     }
     
@@ -295,10 +287,9 @@ public class InstructorFeedbacksPage extends AppPage {
     
     public void fillTimeValueIfNotNull(String timeId, Date timeValue, WebElement timeDropdown, JavascriptExecutor js) {
         if (timeValue != null) {
-            js.executeScript("$('#" + timeId
-                    + "')[0].value='" + TimeHelper.formatDate(timeValue) + "';");
+            js.executeScript("$('#" + timeId + "')[0].value='" + TimeHelper.formatDate(timeValue) + "';");
             selectDropdownByVisibleValue(timeDropdown,
-                    TimeHelper.convertToDisplayValueInTimeDropDown(timeValue));
+                                         TimeHelper.convertToDisplayValueInTimeDropDown(timeValue));
         }
     }
     
@@ -322,20 +313,23 @@ public class InstructorFeedbacksPage extends AppPage {
     
     public String getValueOfDate (String timeId) {
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        return (String) js.executeScript("return $('#"+timeId+"').datepicker('getDate') == null ? "
-                +"null : $('#"+timeId+"').datepicker('getDate').toDateString();");
+        return (String) js.executeScript("return $('#" + timeId + "').datepicker('getDate') == null ? "
+                                         + "null : "
+                                         + "$('#" + timeId + "').datepicker('getDate').toDateString();");
     }
     
     public String getMinDateOf (String timeId) {
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        return (String) js.executeScript("return $('#"+timeId+"').datepicker('option', 'minDate') == null ? "
-                +"null : $('#"+timeId+"').datepicker('option', 'minDate').toDateString();");
+        return (String) js.executeScript("return $('#" + timeId + "').datepicker('option', 'minDate') == null ? "
+                                         + "null : "
+                                         + "$('#" + timeId + "').datepicker('option', 'minDate').toDateString();");
     }
     
     public String getMaxDateOf (String timeId) {
         JavascriptExecutor js = (JavascriptExecutor) browser.driver;
-        return (String) js.executeScript("return $('#"+timeId+"').datepicker('option', 'maxDate') == null ? "
-                +"null : $('#"+timeId+"').datepicker('option', 'maxDate').toDateString();");
+        return (String) js.executeScript("return $('#" + timeId + "').datepicker('option', 'maxDate') == null ? "
+                                         + "null : "
+                                         + "$('#" + timeId + "').datepicker('option', 'maxDate').toDateString();");
     }
     
     public String getSessionType() {
@@ -354,38 +348,41 @@ public class InstructorFeedbacksPage extends AppPage {
         return timezoneDropdown.getAttribute("value");
     }
     
-    public void addFeedbackSession(
-            String feedbackSessionName,
-            String courseId,
-            Date startTime,
-            Date endTime,
-            Date visibleTime,
-            Date publishTime,
-            Text instructions,
-            int gracePeriod) {
+    public String getClientTimeZone() {
+        JavascriptExecutor js = (JavascriptExecutor) browser.driver;
+        return (String) js.executeScript("return (-(new Date()).getTimezoneOffset() / 60).toString()");
+    }
+    
+    public void addFeedbackSession(String feedbackSessionName, String courseId, Date startTime,
+            Date endTime, Date visibleTime, Date publishTime, Text instructions, int gracePeriod) {
         
-        addFeedbackSessionWithTimeZone(feedbackSessionName, courseId, 
-                startTime, endTime, 
-                visibleTime, publishTime, 
-                instructions, gracePeriod, 
-                8.0);
+        addFeedbackSessionWithTimeZone(feedbackSessionName, courseId, startTime, endTime,
+                visibleTime, publishTime, instructions, gracePeriod, 8.0);
     }
 
     public WebElement getViewResponseLink(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
-        return browser.driver.findElement(By.xpath("//tbody/tr["+(int)(sessionRowId+1)+"]/td[contains(@class,'session-response-for-test')]/a"));
+        return browser.driver.findElement(
+                By.xpath("//tbody/tr[" + (int) (sessionRowId + 1)
+                + "]/td[contains(@class,'session-response-for-test')]/a"));
     }
     
     public String getResponseValue(String courseId, String sessionName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
-        return browser.driver.findElement(By.xpath("//tbody/tr["+(int)(sessionRowId+1)+"]/td[contains(@class,'session-response-for-test')]")).getText();
+        return browser.driver.findElement(
+                By.xpath("//tbody/tr[" + (int) (sessionRowId + 1)
+                + "]/td[contains(@class,'session-response-for-test')]")).getText();
     }
     
     public void verifyResponseValue(String responseRate, String courseId, String sessionName){
         int sessionRowId = getFeedbackSessionRowId(courseId, sessionName);
         WebDriverWait wait = new WebDriverWait(browser.driver, 10);
         try {
-            wait.until(ExpectedConditions.textToBePresentInElement(browser.driver.findElement(By.xpath("//tbody/tr["+(int)(sessionRowId+1)+"]/td[contains(@class,'session-response-for-test')]")), responseRate));
+            wait.until(ExpectedConditions.textToBePresentInElement(
+                    browser.driver.findElement(
+                            By.xpath("//tbody/tr[" + (int) (sessionRowId + 1)
+                            + "]/td[contains(@class,'session-response-for-test')]")),
+                            responseRate));
         } catch (TimeoutException e){
             fail("Not expected message");
         }
@@ -460,22 +457,28 @@ public class InstructorFeedbacksPage extends AppPage {
     public InstructorFeedbackResultsPage loadViewResultsLink (String courseId, String fsName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
         String className = "session-view-for-test";
-        return goToLinkInRow(By.xpath("//tbody/tr["+(int)(sessionRowId+1)+"]//a[contains(@class,'"+className+"')]")
-                            ,InstructorFeedbackResultsPage.class);
+        return goToLinkInRow(
+                By.xpath("//tbody/tr[" + (int) (sessionRowId + 1)
+                + "]//a[contains(@class,'" + className + "')]"),
+                InstructorFeedbackResultsPage.class);
     }
     
     public FeedbackSubmitPage loadSubmitLink (String courseId, String fsName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
         String className = "session-submit-for-test";
-        return goToLinkInRow(By.xpath("//tbody/tr["+(int)(sessionRowId+1)+"]//a[contains(@class,'"+className+"')]")
-                            ,FeedbackSubmitPage.class);
+        return goToLinkInRow(
+                By.xpath("//tbody/tr[" + (int) (sessionRowId + 1)
+                + "]//a[contains(@class,'" + className + "')]"),
+                FeedbackSubmitPage.class);
     }
     
     public InstructorFeedbackEditPage loadEditLink (String courseId, String fsName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
         String className = "session-edit-for-test";
-        return goToLinkInRow(By.xpath("//tbody/tr["+(int)(sessionRowId+1)+"]//a[contains(@class,'"+className+"')]")
-                            ,InstructorFeedbackEditPage.class);
+        return goToLinkInRow(
+                By.xpath("//tbody/tr[" + (int) (sessionRowId + 1)
+                + "]//a[contains(@class,'" + className + "')]"),
+                InstructorFeedbackEditPage.class);
     }
     
     public String getPageUrl() {
@@ -483,7 +486,9 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     private WebElement getLinkAtTableRow(String className, int rowIndex) {
-        return browser.driver.findElement(By.xpath("//table[contains(@id,'table-sessions')]//tbody/tr["+(int)(rowIndex+1)+"]//a[contains(@class,'"+className+"')]"));
+        return browser.driver.findElement(
+                By.xpath("//table[contains(@id,'table-sessions')]//tbody/tr["
+                + (int) (rowIndex + 1)+ "]//a[contains(@class,'" + className + "')]"));
     }
 
     private int getFeedbackSessionRowId(String courseId, String sessionName) {
@@ -539,13 +544,15 @@ public class InstructorFeedbacksPage extends AppPage {
     
     public void fillCopyToOtherCoursesForm(String newName) {
         WebElement fsCopyModal = browser.driver.findElement(By.id("fsCopyModal"));
-        List<WebElement> coursesCheckBoxes = fsCopyModal.findElements(By.name(Const.ParamsNames.COPIED_COURSES_ID));
+        List<WebElement> coursesCheckBoxes =
+                fsCopyModal.findElements(By.name(Const.ParamsNames.COPIED_COURSES_ID));
         
         for (WebElement e : coursesCheckBoxes) {
             markCheckBoxAsChecked(e);
         }
         
-        WebElement fsNameInput = fsCopyModal.findElement(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
+        WebElement fsNameInput =
+                fsCopyModal.findElement(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
         
         fillTextBox(fsNameInput, newName);
     }

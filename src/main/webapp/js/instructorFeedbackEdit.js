@@ -2,7 +2,7 @@
 /**
  * This function is called on edit page load.
  */
-function readyFeedbackEditPage(){
+function readyFeedbackEditPage() {
     // Disable all questions
     disableAllQuestions();
 
@@ -19,23 +19,23 @@ function readyFeedbackEditPage(){
     
     // Bind submit actions
     $('form[id|=form_editquestion]').submit(function(event) {
-        if($(this).attr('editStatus') === "mustDeleteResponses") {
-            if (confirm("Editing these fields will result in all existing responses for" +
-                    " this question to be deleted. Are you sure you want to continue?") === false) {
+        if ($(this).attr('editStatus') === 'mustDeleteResponses') {
+            if (!confirm('Editing these fields will result in all existing responses for' +
+                         ' this question to be deleted. Are you sure you want to continue?')) {
                 event.stopImmediatePropagation();
                 return false;
             }
         }
     });
     $('form.form_question').submit(function() {
-        return checkFeedbackQuestion(this);		
+        return checkFeedbackQuestion(this);        
     });
 
     // Bind destructive changes
-    $('form[id|=form_editquestion]').find(":input").not('.nonDestructive').change(function() {
+    $('form[id|=form_editquestion]').find(':input').not('.nonDestructive').change(function() {
         var editStatus = $(this).parents('form').attr('editStatus');
-        if(editStatus === "hasResponses") {
-            $(this).parents('form').attr('editStatus', "mustDeleteResponses");
+        if(editStatus === 'hasResponses') {
+            $(this).parents('form').attr('editStatus', 'mustDeleteResponses');
         }
     });
     
@@ -58,21 +58,21 @@ function readyFeedbackEditPage(){
 /**
  * Disables the editing of feedback session details.
  */
-function disableEditFS(){	
+function disableEditFS() {    
     // Save then disable fields
-    getCustomDateTimeFields().each(function(){
+    getCustomDateTimeFields().each(function() {
         $(this).data('last', $(this).prop('disabled'));
     });
-    $('#form_editfeedbacksession').
-        find("text,input,button,textarea,select").prop('disabled', true);
+    $('#form_editfeedbacksession').find('text,input,button,textarea,select')
+                                  .prop('disabled', true);
 }
 
 /**
  * Disables all questions
  */
 function disableAllQuestions() {
-    var numQuestions = $(".questionTable").length;
-    for (var i=0 ; i<numQuestions ; i++) {
+    var numQuestions = $('.questionTable').length;
+    for (var i = 0; i < numQuestions; i++) {
         disableQuestion(i);
     }
 }
@@ -80,51 +80,48 @@ function disableAllQuestions() {
 /**
  * Enables the editing of feedback session details.
  */
-function enableEditFS(){
+function enableEditFS() {
     var $customDateTimeFields = getCustomDateTimeFields();
 
-    $($customDateTimeFields).each(function() {
-        $(this).prop('disabled',
-                $(this).data('last'));
+    $customDateTimeFields.each(function() {
+        $(this).prop('disabled', $(this).data('last'));
     });
     
     // instructors should not be able to prevent Session Opening reminder from getting sent
     // as students without accounts need to receive the session opening email to respond
-    var $sessionOpeningReminder = $("#sendreminderemail_open");
+    var $sessionOpeningReminder = $('#sendreminderemail_open');
     
-    $('#form_editfeedbacksession').
-        find("text,input,button,textarea,select").
-        not($customDateTimeFields).
-        not($sessionOpeningReminder).
-        not('.disabled').
-        prop('disabled', false);
+    $('#form_editfeedbacksession').find('text,input,button,textarea,select')
+                                  .not($customDateTimeFields)
+                                  .not($sessionOpeningReminder)
+                                  .not('.disabled')
+                                  .prop('disabled', false);
     $('#fsEditLink').hide();
     $('#fsSaveLink').show();
     $('#button_submit_edit').show();
 }
 
-function getCustomDateTimeFields(){
-    return $('#'+FEEDBACK_SESSION_PUBLISHDATE).
-                add('#'+FEEDBACK_SESSION_PUBLISHTIME).
-                add('#'+FEEDBACK_SESSION_VISIBLEDATE).
-                add('#'+FEEDBACK_SESSION_VISIBLETIME);
+function getCustomDateTimeFields() {
+    return $('#' + FEEDBACK_SESSION_PUBLISHDATE).add('#' + FEEDBACK_SESSION_PUBLISHTIME)
+                                                .add('#' + FEEDBACK_SESSION_VISIBLEDATE)
+                                                .add('#' + FEEDBACK_SESSION_VISIBLETIME);
 }
 
 /**
  * Hides or show visibility checkboxes frame
  * @param elem is the anchor link being clicked on.
  */
-function toggleVisibilityOptions(elem){
+function toggleVisibilityOptions(elem) {
     var $elementParent = $(elem).closest('form');
     var $options = $elementParent.find('.visibilityOptions');
     var $visibilityMessage = $elementParent.find('.visibilityMessage');
 
     //enable edit
-    $elementParent.find('[id*="questionedittext"]').click();
+    $elementParent.find('[id|="questionedittext"]').click();
 
     if ($options.is(':hidden')) {
-        giverType = $elementParent.find("select[name='givertype']");
-        recipientType = $elementParent.find("select[name='recipienttype']");
+        giverType = $elementParent.find('select[name="givertype"]');
+        recipientType = $elementParent.find('select[name="recipienttype"]');
         $options.show();
         $visibilityMessage.hide();
         feedbackGiverUpdateVisibilityOptions(giverType);
@@ -141,14 +138,14 @@ function toggleVisibilityOptions(elem){
  * @param number
  */
 function enableEdit(qnNumber, maxQuestions) {
-    var i = 1;
-    while (i < maxQuestions+1) {
+    var i = maxQuestions;
+    while (i) {
         if (qnNumber === i) {
             enableQuestion(i);
         } else {
             disableQuestion(i);
         }
-        i++;
+        i--;
     }
     
     return false;
@@ -162,10 +159,11 @@ function enableEdit(qnNumber, maxQuestions) {
 function enableQuestion(number) {
     var $currentQuestionTable = $('#questionTable' + number);
     
-    $currentQuestionTable.find('text,button,textarea,select,input').
-        not('[name="receiverFollowerCheckbox"]').
-        not('.disabled_radio').
-        removeAttr("disabled", "disabled");
+    $currentQuestionTable.find('text,button,textarea,select,input')
+                         .not('[name="receiverFollowerCheckbox"]')
+                         .not('.disabled_radio')
+                         .removeAttr('disabled', 'disabled');
+    
     $currentQuestionTable.find('.removeOptionLink').show();
     $currentQuestionTable.find('.addOptionLink').show();
 
@@ -174,52 +172,52 @@ function enableQuestion(number) {
     $currentQuestionTable.find('.rubricRemoveChoiceLink-' + number).show();
     $currentQuestionTable.find('.rubricRemoveSubQuestionLink-' + number).show();
     
-    if ($("#generateOptionsCheckbox-" + number).prop("checked")) {
-        $("#mcqChoiceTable-" + number).hide();
-        $("#msqChoiceTable-" + number).hide();
-        $("#mcqGenerateForSelect-" + number).prop("disabled", false);
-        $("#msqGenerateForSelect-" + number).prop("disabled", false);
+    if ($('#generateOptionsCheckbox-' + number).prop('checked')) {
+        $('#mcqChoiceTable-' + number).hide();
+        $('#msqChoiceTable-' + number).hide();
+        $('#mcqGenerateForSelect-' + number).prop('disabled', false);
+        $('#msqGenerateForSelect-' + number).prop('disabled', false);
     } else {
-        $("#mcqChoiceTable-" + number).show();
-        $("#msqChoiceTable-" + number).show();
-        $("#mcqGenerateForSelect-" + number).prop("disabled", true);
-        $("#msqGenerateForSelect-" + number).prop("disabled", true);
+        $('#mcqChoiceTable-' + number).show();
+        $('#msqChoiceTable-' + number).show();
+        $('#mcqGenerateForSelect-' + number).prop('disabled', true);
+        $('#msqGenerateForSelect-' + number).prop('disabled', true);
     }
     
-    if ($("#constSumToRecipients-" + number).val() === "true") {
-        $("#constSumOptionTable-" + number).hide();
-        $("#constSumOption_Option-" + number).hide();
+    if ($('#constSumToRecipients-' + number).val() === 'true') {
+        $('#constSumOptionTable-' + number).hide();
+        $('#constSumOption_Option-' + number).hide();
     } else {
-        $("#constSumOptionTable-" + number).show();
-        $("#constSumOption_Recipient-" + number).hide();
+        $('#constSumOptionTable-' + number).show();
+        $('#constSumOption_Recipient-' + number).hide();
     }
     
-    $("#constSumOption_distributeUnevenly-" + number).prop("disabled", false);
+    $('#constSumOption_distributeUnevenly-' + number).prop('disabled', false);
     
     if ($('#questionTable' + number).parent().find('input[name="questiontype"]').val() === 'CONTRIB') {
         fixContribQnGiverRecipient(number);
         setContribQnVisibilityFormat(number);
     }
     
-    $('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).hide();
-    $('#'+FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).show();
-    $('#'+FEEDBACK_QUESTION_CANCELEDIT+'-'+number).show();
-    $('#'+'button_question_submit-'+number).show();
-    $('#'+FEEDBACK_QUESTION_EDITTYPE+'-'+number).value="edit";
+    $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + number).hide();
+    $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + number).show();
+    $('#' + FEEDBACK_QUESTION_CANCELEDIT+'-' + number).show();
+    $('#' + 'button_question_submit-' + number).show();
+    $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + number).val('edit');
     // $('#questionTable'+number).find('.visibilityOptionsLabel').click();
 }
 
 function enableNewQuestion() {
-    var newQnSuffix = "New";
-    var number = "-1";
+    var newQnSuffix = 'New';
+    var number = '-1';
     
     var $currentQuestionTableSuffix = $('#questionTable' + newQnSuffix);
     var $currentQuestionTableNumber = $('#questionTable' + number);
     
-    $currentQuestionTableSuffix.find('text,button,textarea,select,input').
-        not('[name="receiverFollowerCheckbox"]').
-        not('.disabled_radio').
-        removeAttr("disabled", "disabled");
+    $currentQuestionTableSuffix.find('text,button,textarea,select,input')
+                               .not('[name="receiverFollowerCheckbox"]')
+                               .not('.disabled_radio')
+                               .removeAttr('disabled', 'disabled');
     $currentQuestionTableSuffix.find('.removeOptionLink').show();
     $currentQuestionTableSuffix.find('.addOptionLink').show();
 
@@ -229,22 +227,22 @@ function enableNewQuestion() {
     $currentQuestionTableNumber.find('.rubricRemoveSubQuestionLink-' + number).show();
 
 
-    if ($("#generateOptionsCheckbox-"+number).prop("checked")) {
-        $("#mcqChoiceTable-"+number).hide();
-        $("#msqChoiceTable-"+number).hide();
-        $("#mcqGenerateForSelect-"+number).prop("disabled", false);
-        $("#msqGenerateForSelect-"+number).prop("disabled", false);
+    if ($('#generateOptionsCheckbox-' + number).prop('checked')) {
+        $('#mcqChoiceTable-' + number).hide();
+        $('#msqChoiceTable-' + number).hide();
+        $('#mcqGenerateForSelect-' + number).prop('disabled', false);
+        $('#msqGenerateForSelect-' + number).prop('disabled', false);
     } else {
-        $("#mcqChoiceTable-"+number).show();
-        $("#msqChoiceTable-"+number).show();
-        $("#mcqGenerateForSelect-"+number).prop("disabled", true);
-        $("#msqGenerateForSelect-"+number).prop("disabled", true);
+        $('#mcqChoiceTable-' + number).show();
+        $('#msqChoiceTable-' + number).show();
+        $('#mcqGenerateForSelect-' + number).prop('disabled', true);
+        $('#msqGenerateForSelect-' + number).prop('disabled', true);
     }       
     
-    $('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).hide();
-    $('#'+FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).show();
-    $('#'+'button_question_submit-'+number).show();
-    $('#'+FEEDBACK_QUESTION_EDITTYPE+'-'+number).value="edit";
+    $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + number).hide();
+    $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + number).show();
+    $('#' + 'button_question_submit-' + number).show();
+    $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + number).val('edit');
     // $('#questionTable'+number).find('.visibilityOptionsLabel').click();
 }
 
@@ -256,20 +254,20 @@ function enableNewQuestion() {
 function disableQuestion(number) {
     var $currentQuestionTable = $('#questionTable' + number);
 
-    $currentQuestionTable.find('text,button,textarea,select,input').attr("disabled", "disabled");
+    $currentQuestionTable.find('text,button,textarea,select,input').attr('disabled', 'disabled');
     
     $currentQuestionTable.find('#mcqAddOptionLink').hide();
     $currentQuestionTable.find('#msqAddOptionLink').hide();
     $currentQuestionTable.find('.removeOptionLink').hide();
 
-    $currentQuestionTable.find('#rubricAddChoiceLink-'+number).hide();
-    $currentQuestionTable.find('#rubricAddSubQuestionLink-'+number).hide();
-    $currentQuestionTable.find('.rubricRemoveChoiceLink-'+number).hide();
-    $currentQuestionTable.find('.rubricRemoveSubQuestionLink-'+number).hide();
+    $currentQuestionTable.find('#rubricAddChoiceLink-' + number).hide();
+    $currentQuestionTable.find('#rubricAddSubQuestionLink-' + number).hide();
+    $currentQuestionTable.find('.rubricRemoveChoiceLink-' + number).hide();
+    $currentQuestionTable.find('.rubricRemoveSubQuestionLink-' + number).hide();
 
-    $('#'+FEEDBACK_QUESTION_EDITTEXT+'-'+number).show();
-    $('#'+FEEDBACK_QUESTION_SAVECHANGESTEXT+'-'+number).hide();
-    $('#'+'button_question_submit-'+number).hide();
+    $('#' + FEEDBACK_QUESTION_EDITTEXT + '-' + number).show();
+    $('#' + FEEDBACK_QUESTION_SAVECHANGESTEXT + '-' + number).hide();
+    $('#' + 'button_question_submit-' + number).hide();
 }
 
 /**
@@ -281,9 +279,9 @@ function deleteQuestion(number) {
     if (number === -1) {
         location.reload();
         return false;
-    } else if (confirm("Are you sure you want to delete this question?")) {
-        document.getElementById(FEEDBACK_QUESTION_EDITTYPE+'-'+number).value="delete"; 
-        document.getElementById('form_editquestion-'+number).submit();
+    } else if (confirm('Are you sure you want to delete this question?')) {
+        $('#' + FEEDBACK_QUESTION_EDITTYPE + '-' + number).val('delete'); 
+        $('#form_editquestion-' + number).submit();
         return true;
     } else {
         return false;
@@ -294,19 +292,16 @@ function deleteQuestion(number) {
  * Allows users to cancel editing questions
  */
 function cancelEdit(number) {
-    if (number === -1) {
-        if (confirm('Are you sure you want to cancel adding this question?')) {
-            location.reload();
-        }
-    } else {
-        if (confirm('Are you sure you want to cancel your changes?')) {
-            location.reload();
-        }
+    var confirmationMsg = number === -1 ?
+            'Are you sure you want to cancel adding this question?' :
+            'Are you sure you want to cancel your changes?';
+    if (confirm(confirmationMsg)) {
+        location.reload();
     }
 }
 
 /**
- * Formats all questions to hide the "Number of Recipients Box" 
+ * Formats all questions to hide the 'Number of Recipients Box' 
  * when participant type is not STUDENTS OR TEAMS, and show
  * it when it is. Formats the label for the number box to fit
  * the selection as well.
@@ -319,19 +314,16 @@ function formatNumberBoxes() {
     disallowNonNumericEntries($('input.pointsBox'), false, false);
     
     // Binds onChange of recipientType to modify numEntityBox visibility
-    $("select[name="+FEEDBACK_QUESTION_RECIPIENTTYPE+"]").each(function() {
-        var qnNumber = $(this).prop("id").split('-')[1];
-        if(qnNumber === undefined) qnNumber = '';
+    var modifyVisibility = function() {
+        var qnNumber = $(this).prop('id').split('-')[1];
+        qnNumber = qnNumber || '';
+        
         var value = $(this).val();
+        
         formatNumberBox(value, qnNumber);
-        tallyCheckboxes(qnNumber);
-    }).change(function() {
-        var qnNumber = $(this).prop("id").split('-')[1];
-        if(qnNumber === undefined) qnNumber = '';
-        var value = $(this).val();
-        formatNumberBox(value, qnNumber);
-        tallyCheckboxes(qnNumber);
-    });
+    }
+    $('select[name=' + FEEDBACK_QUESTION_RECIPIENTTYPE + ']').each(modifyVisibility)
+                                                             .change(modifyVisibility);
     
 }
 
@@ -341,18 +333,13 @@ function formatNumberBoxes() {
  * @param value, qnNumber
  */
 function formatNumberBox(value, qnNumber) {
-    if (value === "STUDENTS" || value === "TEAMS") {
-        $("div.numberOfEntitiesElements"+qnNumber).show();
+    if (value === 'STUDENTS' || value === 'TEAMS') {
+        $('div.numberOfEntitiesElements' + qnNumber).show();
         
-        var $span = $("span#" + FEEDBACK_QUESTION_NUMBEROFENTITIES + "_text_inner-" + qnNumber);
-        
-        if (value === "STUDENTS") {
-            $span.html("students");
-        } else {
-            $span.html("teams");
-        }
+        var $span = $('span#' + FEEDBACK_QUESTION_NUMBEROFENTITIES + '_text_inner-' + qnNumber);
+        $span.html(value === 'STUDENTS' ? 'students' : 'teams');
     } else {
-        $("div.numberOfEntitiesElements"+qnNumber).hide();
+        $('div.numberOfEntitiesElements' + qnNumber).hide();
     }
     
     tallyCheckboxes(qnNumber);
@@ -363,38 +350,32 @@ function formatNumberBox(value, qnNumber) {
  * into the appropriate feedback question parameters.
  * @returns qnNumber
  */
-function tallyCheckboxes(qnNumber){
-	
-	// update hidden parameter FEEDBACK_QUESTION_SHOWRESPONSESTO
-	var checked = [];
-	$('.answerCheckbox'+qnNumber+':checked').each(function() {
-        checked.push($(this).val());
-    });
-    $("[name="+FEEDBACK_QUESTION_SHOWRESPONSESTO+"]").val(checked.toString());
+function tallyCheckboxes(qnNumber) {
+    // update hidden parameters (the values in checkboxTypes)
+    var checkboxTypes = {
+        '.answerCheckbox': FEEDBACK_QUESTION_SHOWRESPONSESTO,
+        '.giverCheckbox': FEEDBACK_QUESTION_SHOWGIVERTO,
+        '.recipientCheckbox': FEEDBACK_QUESTION_SHOWRECIPIENTTO
+    };
     
-    // update hidden parameter FEEDBACK_QUESTION_SHOWGIVERTO
-    checked = [];
-    $('.giverCheckbox'+qnNumber+":checked").each(function () {
-         checked.push($(this).val());
-    });
-    $("[name="+FEEDBACK_QUESTION_SHOWGIVERTO+"]").val(checked.toString());
-    
-    // update hidden parameter FEEDBACK_QUESTION_SHOWRECIPIENTTO
-    checked = [];
-    $('.recipientCheckbox'+qnNumber+':checked').each(function () {
-         checked.push($(this).val());
-    });
-    $("[name="+FEEDBACK_QUESTION_SHOWRECIPIENTTO+"]").val(checked.toString());
+    for (var checkboxType in checkboxTypes) {
+        var checked = [];
+        $(checkboxType + qnNumber + ':checked').each(function() {
+            checked.push($(this).val());
+        });
+        $('[name=' + checkboxTypes[checkboxType] + ']').val(checked.toString());
+    }
 }
 
 /**
  * Shows the new question div frame and scrolls to it
  */
-function showNewQuestionFrame(type){
+function showNewQuestionFrame(type) {
     copyOptions();
     prepareQuestionForm(type);
     $('#questionTableNew').show();
     enableNewQuestion();
+    
     $('#addNewQuestionTable').hide();
     $('#empty_message').hide();
     var headerOffset = $('div.navbar-fixed-top').height();
@@ -415,66 +396,81 @@ function hideAllNewQuestionForms() {
 }
 
 function prepareQuestionForm(type) {
-    switch(type){
-    case "TEXT":
-        $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_TEXT);
-        hideAllNewQuestionForms();
-        break;
-    case "MCQ":
-        $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+"--1").val(2);
-        $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_MCQ);
-        hideAllNewQuestionForms();
-        $('#mcqForm').show();
-        break;
-    case "MSQ":
-        $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+"--1").val(2);
-        $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_MSQ);
-        hideAllNewQuestionForms();
-        $('#msqForm').show();
-        break;
-    case "NUMSCALE":
-        $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_NUMSCALE);
-        hideAllNewQuestionForms();
-        $('#numScaleForm').show();
-        $('#'+FEEDBACK_QUESTION_TEXT).attr("placeholder","e.g. Rate the class from 1 (very bad) to 5 (excellent)");
-        break;
-    case "CONSTSUM_OPTION":
-        $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+"--1").val(2);
-        $("#"+FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS+"--1").val("false");
-        $("#constSumOption_Recipient"+"--1").hide();
-        $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
-        hideAllNewQuestionForms();
-        $('#constSumForm').show();
-        $('#questionTypeChoice').find('option').prop('disabled', false);
-        $('#questionTypeChoice').val('CONSTSUM');
-        break;
-    case "CONSTSUM_RECIPIENT":
-        $("#"+FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS+"--1").val("true");
-        $("#constSumOption_Option"+"--1").hide();
-        hideConstSumOptionTable(-1);
-        $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
-        hideAllNewQuestionForms();
-        $('#constSumForm').show();
-        $('#questionTypeChoice').find('option').prop('disabled', false);
-        $('#questionTypeChoice').val('CONSTSUM');
-        var optionText = $("#constSum_labelText-" + "-1").text();
-        $("#constSum_labelText-"+"-1").text(optionText.replace("option", "recipient"));
-        var tooltipText = $("#constSum_tooltipText-" + "-1").attr("data-original-title");
-        $("#constSum_tooltipText-" + "-1").attr("data-original-title", tooltipText.replace("option", "recipient"));
-        break;
-    case "CONTRIB":
-        $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_CONTRIB);
-        hideAllNewQuestionForms();
-        $('#contribForm').show();
-        fixContribQnGiverRecipient();
-        setDefaultContribQnVisibility();
-        setContribQnVisibilityFormat();
-        break;
-    case "RUBRIC":
-        $("#questionTypeHeader").append(FEEDBACK_QUESTION_TYPENAME_RUBRIC);
-        hideAllNewQuestionForms();
-        $('#rubricForm').show();
-        break;
+    switch(type) {
+        case 'TEXT':
+            $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_TEXT);
+            
+            hideAllNewQuestionForms();
+            break;
+        case 'MCQ':
+            $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '--1').val(2);
+            $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_MCQ);
+            
+            hideAllNewQuestionForms();
+            
+            $('#mcqForm').show();
+            break;
+        case 'MSQ':
+            $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '--1').val(2);
+            $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_MSQ);
+            
+            hideAllNewQuestionForms();
+            
+            $('#msqForm').show();
+            break;
+        case 'NUMSCALE':
+            $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_NUMSCALE);
+            
+            hideAllNewQuestionForms();
+            
+            $('#numScaleForm').show();
+            $('#' + FEEDBACK_QUESTION_TEXT).attr('placeholder', 'e.g. Rate the class from 1 (very bad) to 5 (excellent)');
+            break;
+        case 'CONSTSUM_OPTION':
+            $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + '--1').val(2);
+            $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '--1').val('false');
+            $('#constSumOption_Recipient' + '--1').hide();
+            $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_OPTION);
+            
+            hideAllNewQuestionForms();
+            
+            $('#constSumForm').show();
+            $('#questionTypeChoice').find('option').prop('disabled', false);
+            $('#questionTypeChoice').val('CONSTSUM');
+            break;
+        case 'CONSTSUM_RECIPIENT':
+            $('#' + FEEDBACK_QUESTION_CONSTSUMTORECIPIENTS + '--1').val('true');
+            $('#constSumOption_Option' + '--1').hide();
+            hideConstSumOptionTable(-1);
+            $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_CONSTSUM_RECIPIENT);
+            
+            hideAllNewQuestionForms();
+            
+            $('#constSumForm').show();
+            $('#questionTypeChoice').find('option').prop('disabled', false);
+            $('#questionTypeChoice').val('CONSTSUM');
+            var optionText = $('#constSum_labelText-' + '-1').text();
+            $('#constSum_labelText-' + '-1').text(optionText.replace('option', 'recipient'));
+            var tooltipText = $('#constSum_tooltipText-' + '-1').attr('data-original-title');
+            $('#constSum_tooltipText-' + '-1').attr('data-original-title', tooltipText.replace('option', 'recipient'));
+            break;
+        case 'CONTRIB':
+            $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_CONTRIB);
+            
+            hideAllNewQuestionForms();
+            
+            $('#contribForm').show();
+            fixContribQnGiverRecipient();
+            setDefaultContribQnVisibility();
+            setContribQnVisibilityFormat();
+            break;
+        case 'RUBRIC':
+            $('#questionTypeHeader').append(FEEDBACK_QUESTION_TYPENAME_RUBRIC);
+            
+            hideAllNewQuestionForms();
+            
+            $('#rubricForm').show();
+            break;
     }
 }
 
@@ -486,190 +482,195 @@ function prepareQuestionForm(type) {
 function formatCheckBoxes() {
     $(document).ready(function() {
         // TODO: change class -> name?
-        $("input[class*='answerCheckbox']").change(function() {
-            if ($(this).prop('checked') === false) {
-                $(this).parent().parent().find("input[class*='giverCheckbox']").prop('checked',false);
-                $(this).parent().parent().find("input[class*='recipientCheckbox']").prop('checked',false);
+        $('input[class*="answerCheckbox"]').change(function() {
+            if (!$(this).is(':checked')) {
+                $(this).parent().parent().find('input[class*="giverCheckbox"]')
+                                         .prop('checked', false);
+                $(this).parent().parent().find('input[class*="recipientCheckbox"]')
+                                         .prop('checked', false);
             }
         });
-        $("input[class*='giverCheckbox']").change(function() {
+        $('input[class*="giverCheckbox"]').change(function() {
             if ($(this).is(':checked')) {
-                $query = $(this).parent().parent().find("input[class*='answerCheckbox']");
-                $query.prop('checked',true);
-                $query.trigger('change');
+                $(this).parent().parent().find('input[class*="answerCheckbox"]')
+                                         .prop('checked', true)
+                                         .trigger('change');
             }
         });
-        $("input[class*='recipientCheckbox']").change(function() {
+        $('input[class*="recipientCheckbox"]').change(function() {
             if ($(this).is(':checked')) {
-                $(this).parent().parent().find("input[class*='answerCheckbox']").prop('checked',true);
+                $(this).parent().parent().find('input[class*="answerCheckbox"]')
+                                         .prop('checked', true);
             }
         });
-        $("input[name=receiverLeaderCheckbox]").change(function (){
-            $(this).parent().parent().find("input[name=receiverFollowerCheckbox]").
-                                    prop('checked', $(this).prop('checked'));
+        $('input[name=receiverLeaderCheckbox]').change(function () {
+            $(this).parent().parent().find('input[name=receiverFollowerCheckbox]')
+                                     .prop('checked', $(this).prop('checked'));
         });
     });
 }
 
 /**
- * Copy options(Feedback giver, recipient, and all check boxes 
+ * Copy options (Feedback giver, recipient, and all check boxes) 
  * from the previous question
  */
 function copyOptions() {
-    //There's no need to previous question to copy options from.
-    if ($("div[class*='questionTable']").size() < 2) {
+    // If there is one or less questions, there's no need to copy.
+    if ($('div[class~="questionTable"]').size() < 2) {
         return;
     }
     
-    //FEEDBACK GIVER SETUP
-    var $prevGiver = $("select[name='givertype']").eq(-2);
-    var currGiver = $("select[name='givertype']").last();
+    // Feedback giver setup
+    var $prevGiver = $('select[name="givertype"]').eq(-2);
+    var $currGiver = $('select[name="givertype"]').last();
     
-    $(currGiver).val($prevGiver.val());
+    $currGiver.val($prevGiver.val());
     
-    //FEEDBACK RECIPIENT SETUP
-    var $prevRecipient = $("select[name='recipienttype']").eq(-2);
-    var currRecipient = $("select[name='recipienttype']").last();
+    // Feedback recipient setup
+    var $prevRecipient = $('select[name="recipienttype"]').eq(-2);
+    var $currRecipient = $('select[name="recipienttype"]').last();
     
-    $(currRecipient).val($prevRecipient.val());
+    $currRecipient.val($prevRecipient.val());
     
-    //NUMBER OF RECIPIENT SETUP
-    formatNumberBox($(currRecipient).val(), '');
-    var $prevRadioButtons = $("table[class*='questionTable']").eq(-2).find("input[name='numofrecipientstype']");
-    var $currRadioButtons = $("table[class*='questionTable']").last().find("input[name='numofrecipientstype']");
+    // Number of recipient setup
+    formatNumberBox($currRecipient.val(), '');
+    var $prevRadioButtons = $('table[class~="questionTable"]').eq(-2).find('input[name="numofrecipientstype"]');
+    var $currRadioButtons = $('table[class~="questionTable"]').last().find('input[name="numofrecipientstype"]');
     
-    $currRadioButtons.each(function (index){
+    $currRadioButtons.each(function (index) {
         $(this).prop('checked', $prevRadioButtons.eq(index).prop('checked'));
     });
     
-    var $prevNumOfRecipients = $("input[name='numofrecipients']").eq(-2);
-    var $currNumOfRecipients = $("input[name='numofrecipients']").last();
+    var $prevNumOfRecipients = $('input[name="numofrecipients"]').eq(-2);
+    var $currNumOfRecipients = $('input[name="numofrecipients"]').last();
     
     $currNumOfRecipients.val($prevNumOfRecipients.val());
     
-    //CHECK BOXES SETUP
-    var $prevTable = $(".dataTable").eq(-2).find('.visibilityCheckbox');
-    var $currTable = $(".dataTable").last().find('.visibilityCheckbox');
+    // Check boxes setup
+    var $prevTable = $('.dataTable').eq(-2).find('.visibilityCheckbox');
+    var $currTable = $('.dataTable').last().find('.visibilityCheckbox');
     
     $currTable.each(function(index) {
         $(this).prop('checked', $prevTable.eq(index).prop('checked'));
     });
-    feedbackGiverUpdateVisibilityOptions(currGiver);
-    feedbackRecipientUpdateVisibilityOptions(currRecipient);
+    feedbackGiverUpdateVisibilityOptions($currGiver);
+    feedbackRecipientUpdateVisibilityOptions($currRecipient);
 }
 
-function enableRow(el,row) {
-    var visibilityOptions = ($(el).closest('form').find('.visibilityOptions'));
-    var table = visibilityOptions.find('table');
-    var tdElements = $($(table).children().children()[row]).children();
+function enableRow(elem, row) {
+    var $visibilityOptions = $(elem).closest('form').find('.visibilityOptions');
+    var $table = $visibilityOptions.find('table');
+    var $tdElements = $($table.children().children()[row]).children();
     
-    if ($(tdElements).parent().prop("tagName") === "tr") {
+    if ($tdElements.parent().prop('tagName') === 'tr') {
         return;
     }
-    $(tdElements).unwrap().wrapAll("<tr>");
+    $tdElements.unwrap().wrapAll('<tr>');
 }
 
-function disableRow(el,row) {
-    var visibilityOptions = ($(el).closest('form').find('.visibilityOptions'));
-    var table = visibilityOptions.find('table');
-    var tdElements = $($(table).children().children()[row]).children();
+function disableRow(elem, row) {
+    var $visibilityOptions = $(elem).closest('form').find('.visibilityOptions');
+    var $table = $visibilityOptions.find('table');
+    var $tdElements = $($table.children().children()[row]).children();
     
-    if ($(tdElements).parent().prop("tagName") === "hide") {
+    if ($tdElements.parent().prop('tagName') === 'hide') {
         return; 
     }
-    $(tdElements).unwrap().wrapAll("<hide>");
-    $(tdElements).parent().hide();
+    $tdElements.unwrap().wrapAll('<hide>');
+    $tdElements.parent().hide();
 }
 
-function feedbackRecipientUpdateVisibilityOptions(el) {
-    if ($(el).val() === "OWN_TEAM" || $(el).val() === "TEAMS" || $(el).val() === "INSTRUCTORS" || $(el).val() === "OWN_TEAM_MEMBERS") {
-        enableRow(el, 1);
-        disableRow(el, 3);
+function feedbackRecipientUpdateVisibilityOptions(elem) {
+    elem = $(elem);
+    if (elem.val() === 'OWN_TEAM' || elem.val() === 'TEAMS' ||
+            elem.val() === 'INSTRUCTORS' || elem.val() === 'OWN_TEAM_MEMBERS') {
+        enableRow(elem, 1);
+        disableRow(elem, 3);
         return;
-    } else if($(el).val() === "NONE") {
-        disableRow(el, 3);
-        disableRow(el, 1);
+    } else if(elem.val() === 'NONE') {
+        disableRow(elem, 3);
+        disableRow(elem, 1);
         return;
     }
     
-    enableRow(el, 1);
-    enableRow(el, 3);
+    enableRow(elem, 1);
+    enableRow(elem, 3);
 }
 
-function feedbackGiverUpdateVisibilityOptions(el){
-    if ($(el).val() === "INSTRUCTORS" || $(el).val() === "TEAMS") {
-        disableRow(el, 2);
+function feedbackGiverUpdateVisibilityOptions(elem) {
+    elem = $(elem);
+    if (elem.val() === 'INSTRUCTORS' || elem.val() === 'TEAMS') {
+        disableRow(elem, 2);
         return;
     }
-    enableRow(el, 2);
+    enableRow(elem, 2);
 }
 
 /**
  * Sets the correct initial question number from the value field
  */
-function formatQuestionNumbers(){
-    var $questions = $("div[class*='questionTable']");
+function formatQuestionNumbers() {
+    var $questions = $('div[class~="questionTable"]');
     
     $questions.each(function(index) {
         var $selector = $(this).find('.questionNumber');
-        $selector.val(index+1);
-        if (index !== $questions.size()-1) {
+        $selector.val(index + 1);
+        if (index !== $questions.size() - 1) {
             $selector.prop('disabled', true);
         }
     });
 }
 
 function getQuestionLink(qnNumber) {
-    var courseid = $("input[name='courseid']").val();
-    var fsname = encodeURIComponent($("input[name='fsname']").val());
+    var courseid = $('input[name="courseid"]').val();
+    var fsname = encodeURIComponent($('input[name="fsname"]').val());
     
-    var questionId = $("#form_editquestion-" + qnNumber)
-                        .find("input[name='questionid']").val();
+    var questionId = $('#form_editquestion-' + qnNumber).find('input[name="questionid"]').val();
     
-    var giverType = $("#givertype-" + qnNumber).val();
+    var giverType = $('#givertype-' + qnNumber).val();
     
-    var actionUrl = (giverType === "STUDENTS" || giverType === "TEAMS") 
-                        ? "/page/studentFeedbackQuestionSubmissionEditPage"
-                        : "/page/instructorFeedbackQuestionSubmissionEditPage";
+    var actionUrl = giverType === 'STUDENTS' || giverType === 'TEAMS' ?
+                    '/page/studentFeedbackQuestionSubmissionEditPage' :
+                    '/page/instructorFeedbackQuestionSubmissionEditPage';
     
-    var questionLink =  window.location.protocol + "//" 
-                        + window.location.host + actionUrl
-                        + "?courseid=" + courseid 
-                        + "&fsname=" + fsname 
-                        + "&questionid=" + questionId;
+    var questionLink =  window.location.protocol + '//' +
+                        window.location.host + actionUrl +
+                        '?courseid=' + courseid +
+                        '&fsname=' + fsname +
+                        '&questionid=' + questionId;
     
-    setStatusMessage("Link for question " + qnNumber + ": " + questionLink, false);
+    setStatusMessage('Link for question ' + qnNumber + ': ' + questionLink, false);
 }
 
 function toParameterFormat(str) {
-    return str.replace(/\s/g,"+");
+    return str.replace(/\s/g,'+');
 }
 
 function bindCopyButton() {
     $('#button_copy').on('click', function(e) {
         e.preventDefault();
         
-        var questionRows = $("#copyTableModal >tbody>tr");
-        if (questionRows.length === 0) {
+        var questionRows = $('#copyTableModal >tbody>tr');
+        if (!questionRows.length) {
             setStatusMessage(FEEDBACK_QUESTION_COPY_INVALID, true);
         } else {
-            setStatusMessage("", false);
+            setStatusMessage('', false);
             $('#copyModal').modal('show');
         }
        
         return false;
     });
 
-    $('#button_copy_submit').on('click', function(e){
+    $('#button_copy_submit').on('click', function(e) {
         e.preventDefault();
 
         var index = 0;
         var hasRowSelected = false;
 
-        $('#copyTableModal >tbody>tr').each(function(){
+        $('#copyTableModal >tbody>tr').each(function() {
             var input = $(this).children('input:first');
             
-            if (typeof input === 'undefined') {
+            if (!input.length) {
                 return true;
             }
             if ($(this).hasClass('row-selected')) {
@@ -708,11 +709,7 @@ function bindCopyEvents() {
 
         var $button = $('#button_copy_submit');
         
-        if (numRowsSelected <= 0) {
-            $button.prop('disabled', true);
-        } else {
-            $button.prop('disabled', false);
-        }
+        $button.prop('disabled', numRowsSelected <= 0);
 
         return false;
     });
@@ -723,15 +720,15 @@ function toggleVisibilityMessage(elem) {
     var $options = $elementParent.find('.visibilityOptions');
     var $visibilityMessage = $elementParent.find('.visibilityMessage');
 
-    var giverType = $elementParent.find("select[name='givertype']");
-    var recipientType = $elementParent.find("select[name='recipienttype']");
+    var $giverType = $elementParent.find('select[name="givertype"]');
+    var $recipientType = $elementParent.find('select[name="recipienttype"]');
 
     $options.hide();
     var $disabledInputs = $elementParent.find('input:disabled, select:disabled');
     $disabledInputs.prop('disabled', false);
 
-    feedbackGiverUpdateVisibilityOptions(giverType);
-    feedbackRecipientUpdateVisibilityOptions(recipientType);
+    feedbackGiverUpdateVisibilityOptions($giverType);
+    feedbackRecipientUpdateVisibilityOptions($recipientType);
 
     getVisibilityMessage(elem);
     $disabledInputs.prop('disabled', true);
@@ -746,8 +743,8 @@ var previousFormDataMap = {};
  * @param buttonElem
  */
 function getVisibilityMessage(buttonElem) {
-    var form = $(buttonElem).closest("form");
-    var qnNumber = $(form).find("[name=questionnum]").val();
+    var $form = $(buttonElem).closest('form');
+    var qnNumber = $form.find('[name=questionnum]').val();
     var newQnNumber = $('input[name=questionnum]').last().val();
     
     if (qnNumber === newQnNumber) {
@@ -756,53 +753,53 @@ function getVisibilityMessage(buttonElem) {
         tallyCheckboxes(qnNumber);
     }
     
-    var formData =  $(form[0]).serialize();
-
+    var formData = $form.serialize();
+    
+    var $formOptions = $form.find('.visibilityOptions');
+    var $formVisibility = $form.find('.visibilityMessage') 
+    
     if (previousFormDataMap[qnNumber] === formData) {
-        $(form).find('.visibilityOptions').hide();
-        $(form).find('.visibilityMessage').show();
+        $formOptions.hide();
+        $formVisibility.show();
         return;
     }
     // update stored form data
     previousFormDataMap[qnNumber] = formData;
 
     // empty current visibility message in the form
-    $(form).find('.visibilityMessage').html("");
+    $formVisibility.html('');
     
-    var url = "/page/instructorFeedbackQuestionvisibilityMessage";
+    var url = '/page/instructorFeedbackQuestionvisibilityMessage';
     $.ajax({
-    	type: "POST",
-    	url: url,
-    	data: formData,
-    	success: function(data) {
-    	    var $formVisibility = $(form).find('.visibilityMessage');
-    	    var $formOptions = $(form).find('.visibilityOptions');
-    	    
-    	    $formVisibility.html(formatVisibilityMessageHtml(data.visibilityMessage));
-    	    $formOptions.hide();
-    	    $formVisibility.show();
-    	},
-    	error: function(jqXHR, textStatus, errorThrown) {
-    		console.log('AJAX request failed');
-    	}
+        type: 'POST',
+        url: url,
+        data: formData,
+        success: function(data) {
+            $formVisibility.html(formatVisibilityMessageHtml(data.visibilityMessage));
+            $formVisibility.show();
+            $formOptions.hide();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('AJAX request failed');
+        }
     });    
 }
 
 function getVisibilityMessageIfPreviewIsActive(buttonElem) {
-	var form = $(buttonElem).closest("form");
-	
-    if ($(form).find('.visibilityMessageButton').hasClass('active')) {
-    	getVisibilityMessage(buttonElem);	
+    var $form = $(buttonElem).closest('form');
+    
+    if ($form.find('.visibilityMessageButton').hasClass('active')) {
+        getVisibilityMessage(buttonElem);    
     }         
 }
 
-function formatVisibilityMessageHtml(visibilityMessage){
-    var htmlString = "This is the visibility as seen by the feedback giver.";
-    htmlString += "<ul class='background-color-warning'>";
-    for (var i=0 ; i<visibilityMessage.length ; i++) {
-        htmlString += "<li>" + visibilityMessage[i] + "</li>";
+function formatVisibilityMessageHtml(visibilityMessage) {
+    var htmlString = 'This is the visibility as seen by the feedback giver.';
+    htmlString += '<ul class="background-color-warning">';
+    for (var i = 0; i < visibilityMessage.length; i++) {
+        htmlString += '<li>' + visibilityMessage[i] + '</li>';
     }
-    htmlString += "</ul>";
+    htmlString += '</ul>';
     return htmlString;
 }
 
@@ -813,6 +810,14 @@ function formatVisibilityMessageHtml(visibilityMessage){
  *  ===========================================================================
  */
 
+function getQuestionIdSuffix(questionNumber) {
+    var newQuestionNumber = -1;
+    var isValidQuestionNumber = questionNumber > 0 ||
+                                questionNumber === newQuestionNumber;
+    
+    var idSuffix = isValidQuestionNumber ? ('-' + questionNumber) : '';
+    return idSuffix;
+}
 
 /**
  * ----------------------------------------------------------------------------
@@ -822,13 +827,11 @@ function formatVisibilityMessageHtml(visibilityMessage){
 
 function addMcqOption(questionNumber) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    if (questionNumber === -1) {
-        idSuffix = "--1";
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
     
-    var curNumberOfChoiceCreated = parseInt($("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val());
-        
+    var curNumberOfChoiceCreated =
+            parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
+    
     $(    "<div id=\"mcqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
         +   "<div class=\"input-group\">"
         +       "<span class=\"input-group-addon\">"
@@ -844,67 +847,57 @@ function addMcqOption(questionNumber) {
         +       "</span>"
         +   "</div>"
         + "</div>"
-    ).insertBefore($("#mcqAddOptionRow" + idSuffix));
+    ).insertBefore($('#mcqAddOptionRow' + idSuffix));
 
-    $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val(curNumberOfChoiceCreated+1);
+    $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val(curNumberOfChoiceCreated + 1);
     
-    if ($(idOfQuestion).attr('editStatus') === "hasResponses") {
-        $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
+    if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
+        $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
     }
 }
 
 function removeMcqOption(index, questionNumber) {
-	var idOfQuestion = '#form_editquestion-' + questionNumber;
-	var idSuffix = (questionNumber > 0) ? ('-' + questionNumber) : '';
-	
-	if (questionNumber === -1) {
-		idSuffix = '--1';
-	}
-	
-	var $thisRow = $('#mcqOptionRow-' + index + idSuffix);
-	
-	// count number of child rows the table have and - 1 because of add option button
-	var numberOfOptions = $thisRow.parent().children('div').length - 1;
-	
-	if (numberOfOptions <= 1) {
-		$thisRow.find('input').val('');
-	} else {
-		$thisRow.remove();
-	
-		if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
-			$(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
-		}
-	}
+    var idOfQuestion = '#form_editquestion-' + questionNumber;
+    var idSuffix = getQuestionIdSuffix(questionNumber);
+    
+    var $thisRow = $('#mcqOptionRow-' + index + idSuffix);
+    
+    // count number of child rows the table have and - 1 because of add option button
+    var numberOfOptions = $thisRow.parent().children('div').length - 1;
+    
+    if (numberOfOptions <= 1) {
+        $thisRow.find('input').val('');
+    } else {
+        $thisRow.remove();
+        
+        if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
+            $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+        }
+    }
 }
 
 function toggleMcqGeneratedOptions(checkbox, questionNumber) {
-    var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    if (questionNumber === -1) {
-        idSuffix = "--1";
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
 
     if (checkbox.checked) {
-        $("#mcqChoiceTable"+idSuffix).find("input[type=text]").prop('disabled', true);
-        $("#mcqChoiceTable"+idSuffix).hide();
-        $("#mcqGenerateForSelect"+idSuffix).prop("disabled", false);
-        $("#generatedOptions"+idSuffix).attr("value", 
-                $("#mcqGenerateForSelect"+idSuffix).prop("value"));
+        $('#mcqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', true)
+        $('#mcqChoiceTable' + idSuffix).hide();
+        $('#mcqGenerateForSelect' + idSuffix).prop('disabled', false);
+        $('#generatedOptions' + idSuffix).attr('value',
+                                               $('#mcqGenerateForSelect' + idSuffix).prop('value'));
     } else {
-        $("#mcqChoiceTable"+idSuffix).find("input[type=text]").prop("disabled", false);
-        $("#mcqChoiceTable"+idSuffix).show();
-        $("#mcqGenerateForSelect"+idSuffix).prop("disabled", true);
-        $("#generatedOptions"+idSuffix).attr("value", "NONE");
+        $('#mcqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', false);
+        $('#mcqChoiceTable' + idSuffix).show();
+        $('#mcqGenerateForSelect' + idSuffix).prop('disabled', true);
+        $('#generatedOptions' + idSuffix).attr('value', 'NONE');
     }
 }
 
 function changeMcqGenerateFor(questionNumber) {
-    var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    if (questionNumber === -1) {
-        idSuffix = "--1";
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
 
-    $("#generatedOptions"+idSuffix).attr("value", 
-            $("#mcqGenerateForSelect"+idSuffix).prop("value"));
+    $('#generatedOptions' + idSuffix).attr('value',
+                                           $('#mcqGenerateForSelect' + idSuffix).prop('value'));
 }
 
 /**
@@ -915,12 +908,10 @@ function changeMcqGenerateFor(questionNumber) {
 
 function addMsqOption(questionNumber) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    if (questionNumber === -1) {
-        idSuffix = "--1";
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
 
-    var curNumberOfChoiceCreated = parseInt($("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val());
+    var curNumberOfChoiceCreated =
+            parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
         
     $(   "<div id=\"msqOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
         +   "<div class=\"input-group\">"
@@ -936,69 +927,59 @@ function addMsqOption(questionNumber) {
         +           "</button>"
         +       "</span>"
         +   "</div>"
-        + "</div>"
-    ).insertBefore($("#msqAddOptionRow" + idSuffix));
+        + '</div>'
+    ).insertBefore($('#msqAddOptionRow' + idSuffix));
 
-    $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val(curNumberOfChoiceCreated+1);
+    $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val(curNumberOfChoiceCreated + 1);
     
-    if ($(idOfQuestion).attr('editStatus') === "hasResponses") {
-        $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
+    if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
+        $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
     }
 }
 
 
 function removeMsqOption(index, questionNumber) {
-	var idOfQuestion = '#form_editquestion-' + questionNumber;
-	var idSuffix = (questionNumber > 0) ? ('-' + questionNumber) : '';
-	
-	if (questionNumber === -1) {
-		idSuffix = '--1';
-	}
-	
-	var $thisRow = $('#msqOptionRow-' + index + idSuffix);
-	
-	// count number of child rows the table have and - 1 because of add option button
-	var numberOfOptions = $thisRow.parent().children('div').length - 1;
-	
-	if (numberOfOptions <= 1) {
-		$thisRow.find('input').val('');
-	} else {
-		$thisRow.remove();
-	
-		if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
-			$(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
-		}
-	}
+    var idOfQuestion = '#form_editquestion-' + questionNumber;
+    var idSuffix = getQuestionIdSuffix(questionNumber);
+    
+    var $thisRow = $('#msqOptionRow-' + index + idSuffix);
+    
+    // count number of child rows the table have and - 1 because of add option button
+    var numberOfOptions = $thisRow.parent().children('div').length - 1;
+    
+    if (numberOfOptions <= 1) {
+        $thisRow.find('input').val('');
+    } else {
+        $thisRow.remove();
+    
+        if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
+            $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+        }
+    }
 }
 
 function toggleMsqGeneratedOptions(checkbox, questionNumber) {
-    var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    if (questionNumber === -1) {
-        idSuffix = "--1";
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
 
     if (checkbox.checked) {
-        $("#msqChoiceTable"+idSuffix).find("input[type=text]").prop('disabled', true);
-        $("#msqChoiceTable"+idSuffix).hide();
-        $("#msqGenerateForSelect"+idSuffix).prop("disabled", false);
-        $("#generatedOptions"+idSuffix).attr("value",
-                $("#msqGenerateForSelect"+idSuffix).prop("value"));
+        $('#msqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', true)
+        $('#msqChoiceTable' + idSuffix).hide();
+        $('#msqGenerateForSelect' + idSuffix).prop('disabled', false);
+        $('#generatedOptions' + idSuffix).attr('value',
+                                               $('#msqGenerateForSelect' + idSuffix).prop('value'));
     } else {
-        $("#msqChoiceTable"+idSuffix).find("input[type=text]").prop("disabled", false);
-        $("#msqChoiceTable"+idSuffix).show();
-        $("#msqGenerateForSelect"+idSuffix).prop("disabled", true);
-        $("#generatedOptions"+idSuffix).attr("value", "NONE");
+        $('#msqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', false);
+        $('#msqChoiceTable' + idSuffix).show();
+        $('#msqGenerateForSelect' + idSuffix).prop('disabled', true);
+        $('#generatedOptions' + idSuffix).attr('value', 'NONE');
     }
 }
 
 function changeMsqGenerateFor(questionNumber) {
-    var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    if (questionNumber === -1) {
-        idSuffix = "--1";
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
 
-    $("#generatedOptions"+idSuffix).attr("value", 
-            $("#msqGenerateForSelect"+idSuffix).prop("value"));
+    $('#generatedOptions' + idSuffix).attr('value',
+                                           $('#msqGenerateForSelect' + idSuffix).prop('value'));
 }
 
 /**
@@ -1012,18 +993,15 @@ function roundToThreeDp(num) {
 }
 
 function updateNumScalePossibleValues(questionNumber) {
-    var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    if (questionNumber === -1) {
-        idSuffix = "--1";
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
     
-    var min = parseInt($("#minScaleBox"+idSuffix).val());
-    var max = parseInt($("#maxScaleBox"+idSuffix).val());
-    var step = parseFloat($("#stepBox"+idSuffix).val());
+    var min = parseInt($('#minScaleBox' + idSuffix).val());
+    var max = parseInt($('#maxScaleBox' + idSuffix).val());
+    var step = parseFloat($('#stepBox' + idSuffix).val());
     
     if (max <= min) {
         max = min + 1;
-        $("#maxScaleBox"+idSuffix).val(max);
+        $('#maxScaleBox' + idSuffix).val(max);
     }
     
     step = roundToThreeDp(step);
@@ -1031,45 +1009,45 @@ function updateNumScalePossibleValues(questionNumber) {
         step = 0.001;
     }
     
-    var $stepBox = $("#stepBox" + idSuffix);
-    $stepBox.val(step);        
-    if (isNaN(step)) {
-        $stepBox.val("");        
-    }
+    var $stepBox = $('#stepBox' + idSuffix);
+    $stepBox.val(isNaN(step) ? '' : step);
 
     var possibleValuesCount = Math.floor(roundToThreeDp((max - min) / step)) + 1;
-    var largestValueInRange = min + roundToThreeDp((possibleValuesCount - 1) * step);
-    var possibleValuesString = "";
-    var $numScalePossibleValues = $("#numScalePossibleValues" + idSuffix);
+    var largestValueInRange = min + (possibleValuesCount - 1) * step;
+    var $numScalePossibleValues = $('#numScalePossibleValues' + idSuffix);
     if (roundToThreeDp(largestValueInRange) != max) {
-        $numScalePossibleValues.css("color","red");
-        possibleValuesString = "[The interval " + min.toString() + " - " + max.toString() + " is not divisible by the specified increment.]";
+        $numScalePossibleValues.css('color', 'red');
+        var possibleValuesString = '[The interval ' + min.toString() + ' - ' + max.toString() +
+                                   ' is not divisible by the specified increment.]';
 
-        if (min.toString() === "NaN" || max.toString() === "NaN" || step.toString() === "NaN") {
-            possibleValuesString = "[Please enter valid numbers for all the options.]"
+        if (isNaN(min) || isNaN(max) || isNaN(step)) {
+            possibleValuesString = '[Please enter valid numbers for all the options.]'
         }
 
         $numScalePossibleValues.text(possibleValuesString);
         return false;
     } else {
-        $numScalePossibleValues.css("color","black");
-        possibleValuesString = "[Based on the above settings, acceptable responses are: ";
+        $numScalePossibleValues.css('color', 'black');
+        var possibleValuesString = '[Based on the above settings, acceptable responses are: ';
+        
+        // step is 3 d.p. at most, so round it after * 1000. 
         if (possibleValuesCount > 6) {
-            possibleValuesString += min.toString() + ", "
-                                    + (Math.round((min + step)*1000)/1000).toString() + ", "
-                                    + (Math.round((min + 2*step)*1000)/1000).toString() + ", ..., "
-                                    + (Math.round((max - 2*step)*1000)/1000).toString() + ", "
-                                    + (Math.round((max - step)*1000)/1000).toString() + ", "
-                                    + max.toString();		
+            possibleValuesString += min.toString() + ', ' +
+                                    (Math.round((min +     step) * 1000) / 1000).toString() + ', ' +
+                                    (Math.round((min + 2 * step) * 1000) / 1000).toString() + ', ..., ' +
+                                    (Math.round((max - 2 * step) * 1000) / 1000).toString() + ', ' +
+                                    (Math.round((max -     step) * 1000) / 1000).toString() + ', ' +
+                                    max.toString();       
         } else {
             possibleValuesString += min.toString();
             var cur = min + step;
             while ((max - cur) >= -1e-9) {
-                possibleValuesString += ", " + (Math.round(cur*1000)/1000).toString();
+                possibleValuesString += ', ' + (Math.round(cur * 1000) / 1000).toString();
                 cur += step;
             }
         }
-        possibleValuesString += "]";
+        
+        possibleValuesString += ']';
         $numScalePossibleValues.text(possibleValuesString);
         return true;
     }
@@ -1081,24 +1059,19 @@ function updateNumScalePossibleValues(questionNumber) {
  * ----------------------------------------------------------------------------
  */
 
-function updateConstSumPointsValue(questionNumber){
-    var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    if (questionNumber === -1) {
-        idSuffix = "--1";
-    }
-    if ($("#"+FEEDBACK_QUESTION_CONSTSUMPOINTS+idSuffix).val() < 1) {
-        $("#"+FEEDBACK_QUESTION_CONSTSUMPOINTS+idSuffix).val(1);
+function updateConstSumPointsValue(questionNumber) {
+    var idSuffix = getQuestionIdSuffix(questionNumber);
+    
+    if ($('#' + FEEDBACK_QUESTION_CONSTSUMPOINTS + idSuffix).val() < 1) {
+        $('#' + FEEDBACK_QUESTION_CONSTSUMPOINTS + idSuffix).val(1);
     }
 }
 
 function addConstSumOption(questionNumber) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    if (questionNumber === -1) {
-        idSuffix = "--1";
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
     
-    var curNumberOfChoiceCreated = parseInt($("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val());
+    var curNumberOfChoiceCreated = parseInt($('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val());
         
     $(    "<div id=\"constSumOptionRow-"+curNumberOfChoiceCreated+idSuffix+"\">"
         +   "<div class=\"input-group\">"
@@ -1111,31 +1084,24 @@ function addConstSumOption(questionNumber) {
         +           "</button>"
         +       "</span>"
         +   "</div>"
-        + "</div>"
-    ).insertBefore($("#constSumAddOptionRow" + idSuffix));
+        + '</div>'
+    ).insertBefore($('#constSumAddOptionRow' + idSuffix));
 
-    $("#"+FEEDBACK_QUESTION_NUMBEROFCHOICECREATED+idSuffix).val(curNumberOfChoiceCreated+1);
+    $('#' + FEEDBACK_QUESTION_NUMBEROFCHOICECREATED + idSuffix).val(curNumberOfChoiceCreated + 1);
     
-    if ($(idOfQuestion).attr('editStatus') === "hasResponses") {
-        $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
+    if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
+        $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
     }
 }
 
-function hideConstSumOptionTable(questionNumber){
-    var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    if (questionNumber === -1) {
-        idSuffix = "--1";
-    }
-    $("#"+FEEDBACK_QUESTION_CONSTSUMOPTIONTABLE+idSuffix).hide();
+function hideConstSumOptionTable(questionNumber) {
+    var idSuffix = getQuestionIdSuffix(questionNumber);
+    $('#' + FEEDBACK_QUESTION_CONSTSUMOPTIONTABLE + idSuffix).hide();
 }
 
 function removeConstSumOption(index, questionNumber) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    
-    if (questionNumber === -1) {
-        idSuffix = "--1";
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
     var $thisRow = $('#constSumOptionRow-' + index + idSuffix);
     
     // count number of child rows the table have and - 1 because of add option button
@@ -1160,30 +1126,30 @@ function removeConstSumOption(index, questionNumber) {
  */
 
 function setDefaultContribQnVisibility(questionNumber) {
-    var idSuffix = questionNumber ? (questionNumber) : "New";
-    var idSuffix2 = questionNumber ? questionNumber : "";
+    var idSuffix = questionNumber ? questionNumber : 'New';
+    var idSuffix2 = questionNumber ? questionNumber : '';
     
     $currentQuestionTable = $('#questionTable' + idSuffix);
 
     $currentQuestionTable.find('input.visibilityCheckbox').prop('checked', false);
     //All except STUDENTS can see answer
     $currentQuestionTable.find('input.visibilityCheckbox')
-                         .filter('[class*="answerCheckbox'+idSuffix2+'"]')
+                         .filter('[class*="answerCheckbox' + idSuffix2 + '"]')
                          .not('[value="STUDENTS"]').prop('checked', true);
     //Only instructor can see giver
     $currentQuestionTable.find('input.visibilityCheckbox')
-                         .filter('[class*="giverCheckbox'+idSuffix2+'"]')
+                         .filter('[class*="giverCheckbox' + idSuffix2 + '"]')
                          .filter('[value="INSTRUCTORS"]').prop('checked', true);
     //Recipient and instructor can see recipient
     $currentQuestionTable.find('input.visibilityCheckbox')
-                         .filter('[class*="recipientCheckbox'+idSuffix2+'"]')
+                         .filter('[class*="recipientCheckbox' + idSuffix2 + '"]')
                          .filter('[value="INSTRUCTORS"],[value="RECEIVER"]').prop('checked', true);
 
 }
 
 function setContribQnVisibilityFormat(questionNumber) {
-    var idSuffix = questionNumber ? (questionNumber) : "New";
-    var idSuffix2 = questionNumber ? questionNumber : "";
+    var idSuffix = questionNumber ? questionNumber : 'New';
+    var idSuffix2 = questionNumber ? questionNumber : '';
 
     $currentQuestionTable = $('#questionTable' + idSuffix);
 
@@ -1191,58 +1157,74 @@ function setContribQnVisibilityFormat(questionNumber) {
 
     $currentQuestionTable.find('input.visibilityCheckbox').off('change');
     
-    $currentQuestionTable.find('input.visibilityCheckbox').filter("[class*='answerCheckbox']").change(function() {
-        if ($(this).prop('checked') === false) {
-            if ($(this).val() === 'RECEIVER' || $(this).val() === 'OWN_TEAM_MEMBERS' || $(this).val() === 'RECEIVER_TEAM_MEMBERS') {
+    $currentQuestionTable.find('input.visibilityCheckbox')
+                         .filter('[class*="answerCheckbox"]')
+                         .change(function() {
+        if (!$(this).prop('checked')) {
+            if ($(this).val() === 'RECEIVER' || $(this).val() === 'OWN_TEAM_MEMBERS' ||
+                                                $(this).val() === 'RECEIVER_TEAM_MEMBERS') {
                 $currentQuestionTable.find('input.visibilityCheckbox')
-                                            .filter("input[class*='giverCheckbox'],input[class*='recipientCheckbox']")
-                                            .filter("[value='RECEIVER'],[value='OWN_TEAM_MEMBERS'],[value='RECEIVER_TEAM_MEMBERS']")
-                                            .prop('checked', false);
+                                     .filter('input[class*="giverCheckbox"],input[class*="recipientCheckbox"]')
+                                     .filter('[value="RECEIVER"],[value="OWN_TEAM_MEMBERS"],[value="RECEIVER_TEAM_MEMBERS"]')
+                                     .prop('checked', false);
             } else {
-                $(this).parent().parent().find("input[class*='giverCheckbox']").prop('checked',false);
-                $(this).parent().parent().find("input[class*='recipientCheckbox']").prop('checked',false);
+                $(this).parent().parent().find('input[class*="giverCheckbox"]')
+                                         .prop('checked',false);
+                $(this).parent().parent().find('input[class*="recipientCheckbox"]')
+                                         .prop('checked',false);
             }
             
         }
         
-        if ($(this).val() === 'RECEIVER' || $(this).val() === 'OWN_TEAM_MEMBERS' || $(this).val() === 'RECEIVER_TEAM_MEMBERS') {
+        if ($(this).val() === 'RECEIVER' || $(this).val() === 'OWN_TEAM_MEMBERS' ||
+                                            $(this).val() === 'RECEIVER_TEAM_MEMBERS') {
             $currentQuestionTable.find('input.visibilityCheckbox')
-                                        .filter("input[name=receiverFollowerCheckbox]")
-                                        .prop('checked', $(this).prop('checked'));
+                                 .filter('input[name=receiverFollowerCheckbox]')
+                                 .prop('checked', $(this).prop('checked'));
         }
         
-        if ($(this).val() === "RECEIVER" || $(this).val() === "OWN_TEAM_MEMBERS" || $(this).val() === "RECEIVER_TEAM_MEMBERS") {
+        if ($(this).val() === 'RECEIVER' || $(this).val() === 'OWN_TEAM_MEMBERS' ||
+                                            $(this).val() === 'RECEIVER_TEAM_MEMBERS') {
             $currentQuestionTable.find('input.visibilityCheckbox')
-                                        .filter("[class*='answerCheckbox']")
-                                        .filter("[value='RECEIVER'],[value='OWN_TEAM_MEMBERS'],[value='RECEIVER_TEAM_MEMBERS']")
-                                        .prop('checked',$(this).prop('checked'));
+                                 .filter('[class*="answerCheckbox"]')
+                                 .filter('[value="RECEIVER"],[value="OWN_TEAM_MEMBERS"],[value="RECEIVER_TEAM_MEMBERS"]')
+                                 .prop('checked', $(this).prop('checked'));
         }
     });
-    $currentQuestionTable.find('input.visibilityCheckbox').filter("[class*='giverCheckbox']").change(function() {
+    
+    $currentQuestionTable.find('input.visibilityCheckbox')
+                         .filter('[class*="giverCheckbox"]')
+                         .change(function() {
         if ($(this).is(':checked')) {
-            $query = $(this).parent().parent().find("input[class*='answerCheckbox']");
-            $query.prop('checked',true);
-            $query.trigger('change');
+            $(this).parent().parent().find('input[class*="answerCheckbox"]')
+                                     .prop('checked',true)
+                                     .trigger('change');
         }
     });
-    $currentQuestionTable.find('input.visibilityCheckbox').filter("[class*='recipientCheckbox']").change(function() {
+    
+    $currentQuestionTable.find('input.visibilityCheckbox')
+                         .filter('[class*="recipientCheckbox"]')
+                         .change(function() {
         if ($(this).is(':checked')) {
-            $query = $(this).parent().parent().find("input[class*='answerCheckbox']");
-            $query.prop('checked',true);
-            $query.trigger('change');
+            $(this).parent().parent().find('input[class*="answerCheckbox"]')
+                                     .prop('checked',true)
+                                     .trigger('change');
         }
     });
-    $currentQuestionTable.find('input.visibilityCheckbox').filter("[name=receiverLeaderCheckbox]").change(function (){
-        $(this).parent().parent().find("input[name=receiverFollowerCheckbox]").
-                                prop('checked', $(this).prop('checked'));
+    
+    $currentQuestionTable.find('input.visibilityCheckbox')
+                         .filter('[name=receiverLeaderCheckbox]')
+                         .change(function () {
+        $(this).parent().parent().find('input[name=receiverFollowerCheckbox]')
+                                 .prop('checked', $(this).prop('checked'));
     });
 
 }
 
-function fixContribQnGiverRecipient(questionNumber){
-    var idSuffix = questionNumber ? ("-" + questionNumber) : "";
+function fixContribQnGiverRecipient(questionNumber) {
+    var idSuffix = questionNumber ? ('-' + questionNumber) : '';
     var $giverType = $('#givertype' + idSuffix);
-    var $recipientType = $('#recipienttype'+idSuffix);
+    var $recipientType = $('#recipienttype' + idSuffix);
 
     //Fix giver->recipient to be STUDENT->OWN_TEAM_MEMBERS_INCLUDING_SELF
     $giverType.find('option').not('[value="STUDENTS"]').hide();
@@ -1264,13 +1246,10 @@ function fixContribQnGiverRecipient(questionNumber){
 
 function addRubricRow(questionNumber) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    if (questionNumber === -1){
-        idSuffix = "--1";
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
     
-    var numberOfRows = parseInt($("#"+"rubricNumRows"+idSuffix).val());
-    var numberOfCols = parseInt($("#"+"rubricNumCols"+idSuffix).val());
+    var numberOfRows = parseInt($('#' + 'rubricNumRows' + idSuffix).val());
+    var numberOfCols = parseInt($('#' + 'rubricNumCols' + idSuffix).val());
 
     var newRowNumber = numberOfRows + 1;
 
@@ -1293,51 +1272,48 @@ function addRubricRow(questionNumber) {
       +   "<textarea class=\"form-control\" rows=\"3\" id=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${qnIndex}-${row}-${col}\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}\">${description}</textarea>"
       + "</td>";
 
-    var rubricRowBodyFragments = "";
+    var rubricRowBodyFragments = '';
     // Create numberOfCols of <td>'s 
-    for (var cols=0 ; cols<numberOfCols ; cols++) {
-        if ($('.rubricCol'+idSuffix+'-'+cols).length === 0) {
+    for (var cols = 0; cols < numberOfCols; cols++) {
+        if (!$('.rubricCol' + idSuffix + '-' + cols).length) {
             continue;
         }
         var fragment = rubricRowFragmentTemplate;
-        fragment = replaceAll(fragment, "${qnIndex}", questionNumber);
-        fragment = replaceAll(fragment, "${row}", newRowNumber-1);
-        fragment = replaceAll(fragment, "${col}", cols);
-        fragment = replaceAll(fragment, "${description}", "");
-        fragment = replaceAll(fragment, "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}", "rubricDesc");
+        fragment = replaceAll(fragment, '${qnIndex}', questionNumber);
+        fragment = replaceAll(fragment, '${row}', newRowNumber - 1);
+        fragment = replaceAll(fragment, '${col}', cols);
+        fragment = replaceAll(fragment, '${description}', '');
+        fragment = replaceAll(fragment, '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}', 'rubricDesc');
         rubricRowBodyFragments += fragment;
     }
 
     
     // Create new rubric row
     var newRubricRow = rubricRowTemplate;
-    newRubricRow = replaceAll(newRubricRow, "${qnIndex}", questionNumber);
-    newRubricRow = replaceAll(newRubricRow, "${row}", newRowNumber-1);
-    newRubricRow = replaceAll(newRubricRow, "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}", "rubricSubQn");
-    newRubricRow = replaceAll(newRubricRow, "${subQuestion}", "");
-    newRubricRow = replaceAll(newRubricRow, "${rubricRowBodyFragments}", rubricRowBodyFragments);
+    newRubricRow = replaceAll(newRubricRow, '${qnIndex}', questionNumber);
+    newRubricRow = replaceAll(newRubricRow, '${row}', newRowNumber - 1);
+    newRubricRow = replaceAll(newRubricRow, '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICSUBQUESTION}', 'rubricSubQn');
+    newRubricRow = replaceAll(newRubricRow, '${subQuestion}', '');
+    newRubricRow = replaceAll(newRubricRow, '${rubricRowBodyFragments}', rubricRowBodyFragments);
 
     // Row to insert new row after
-    var lastRow = $('#rubricEditTable'+idSuffix+' tr:last');
+    var lastRow = $('#rubricEditTable' + idSuffix + ' tr:last');
     $(newRubricRow).insertAfter(lastRow);
 
     // Increment
-    $("#"+"rubricNumRows"+idSuffix).val(newRowNumber);
+    $('#' + 'rubricNumRows' + idSuffix).val(newRowNumber);
     
-    if ($(idOfQuestion).attr('editStatus') === "hasResponses") {
-        $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
+    if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
+        $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
     }
 }
 
 function addRubricCol(questionNumber) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    if (questionNumber === -1) {
-        idSuffix = "--1";
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
     
-    var numberOfRows = parseInt($("#"+"rubricNumRows"+idSuffix).val());
-    var numberOfCols = parseInt($("#"+"rubricNumCols"+idSuffix).val());
+    var numberOfRows = parseInt($('#' + 'rubricNumRows' + idSuffix).val());
+    var numberOfCols = parseInt($('#' + 'rubricNumCols' + idSuffix).val());
     
     var newColNumber = numberOfCols + 1;
 
@@ -1354,122 +1330,104 @@ function addRubricCol(questionNumber) {
       + "</th>";
 
     var rubricHeaderFragment = rubricHeaderFragmentTemplate;
-    rubricHeaderFragment = replaceAll(rubricHeaderFragment, "${qnIndex}", questionNumber);
-    rubricHeaderFragment = replaceAll(rubricHeaderFragment, "${col}", newColNumber-1);
-    rubricHeaderFragment = replaceAll(rubricHeaderFragment, "${rubricChoiceValue}", "");
-    rubricHeaderFragment = replaceAll(rubricHeaderFragment, "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}", "rubricChoice");
+    rubricHeaderFragment = replaceAll(rubricHeaderFragment, '${qnIndex}', questionNumber);
+    rubricHeaderFragment = replaceAll(rubricHeaderFragment, '${col}', newColNumber - 1);
+    rubricHeaderFragment = replaceAll(rubricHeaderFragment, '${rubricChoiceValue}', '');
+    rubricHeaderFragment = replaceAll(rubricHeaderFragment,
+                                      '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICCHOICE}',
+                                      'rubricChoice');
 
     // Insert after last <th>
-    var lastTh = $('#rubricEditTable'+idSuffix+' th:last');
+    var lastTh = $('#rubricEditTable' + idSuffix + ' th:last');
     $(rubricHeaderFragment).insertAfter(lastTh);
 
     // Insert body <td>'s
     var rubricRowFragmentTemplate =
-        "<td class=\"align-center rubricCol-${qnIndex}-${col}\">"
-      +   "<textarea class=\"form-control\" rows=\"3\" id=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${qnIndex}-${row}-${col}\" name=\"${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}\">${description}</textarea>"
-      + "</td>";
+        '<td class=\'align-center rubricCol-${qnIndex}-${col}\'>'
+      +   '<textarea class=\'form-control\' rows=\'3\' id=\'${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${qnIndex}-${row}-${col}\' name=\'${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}-${row}-${col}\'>${description}</textarea>'
+      + '</td>';
 
-    var rubricRowBodyFragments = "";
+    var rubricRowBodyFragments = '';
     // Create numberOfRows of <td>'s
-    for (var rows=0 ; rows<numberOfRows ; rows++) {
-        if ($('#rubricRow'+idSuffix+'-'+rows).length === 0) {
+    for (var rows = 0; rows < numberOfRows; rows++) {
+        if (!$('#rubricRow' + idSuffix + '-' + rows).length) {
             continue;
         }
         var fragment = rubricRowFragmentTemplate;
-        fragment = replaceAll(fragment, "${qnIndex}", questionNumber);
-        fragment = replaceAll(fragment, "${row}", rows);
-        fragment = replaceAll(fragment, "${col}", newColNumber-1);
-        fragment = replaceAll(fragment, "${description}", "");
-        fragment = replaceAll(fragment, "${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}", "rubricDesc");
+        fragment = replaceAll(fragment, '${qnIndex}', questionNumber);
+        fragment = replaceAll(fragment, '${row}', rows);
+        fragment = replaceAll(fragment, '${col}', newColNumber-1);
+        fragment = replaceAll(fragment, '${description}', '');
+        fragment = replaceAll(fragment,
+                              '${Const.ParamsNames.FEEDBACK_QUESTION_RUBRICDESCRIPTION}',
+                              'rubricDesc');
         
         // Insert after previous <td>
-        var lastTd = $('#rubricRow'+idSuffix+'-'+rows+' td:last');
+        var lastTd = $('#rubricRow' + idSuffix + '-' + rows + ' td:last');
         $(fragment).insertAfter(lastTd);
     }
 
     // Increment
-    $("#"+"rubricNumCols"+idSuffix).val(newColNumber);
+    $('#' + 'rubricNumCols' + idSuffix).val(newColNumber);
     
-    if ($(idOfQuestion).attr('editStatus') === "hasResponses") {
-        $(idOfQuestion).attr('editStatus', "mustDeleteResponses");
+    if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
+        $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
     }
 }
 
 function removeRubricRow(index, questionNumber) {
-	var idOfQuestion = '#form_editquestion-' + questionNumber;
-	var idSuffix = (questionNumber > 0) ? ('-' + questionNumber) : '';
-	
-	if (questionNumber === -1) {
-		idSuffix = '--1';
-	}
-	
-	var $thisRow = $('#rubricRow' + idSuffix + '-' + index);
-	
-	// count number of table rows from table body
-	var numberOfRows = $thisRow.parent().children('tr').length;
-	
-	if (numberOfRows <= 1) {
-		if (!confirm('Are you sure you want to clear the row?')) {
-			return;
-		}
-	} else {
-		if (!confirm('Are you sure you want to delete the row?')) {
-			return;
-		}
-	}
-	
-	if (numberOfRows <= 1) {
-		$thisRow.find('textarea').val('');
-	} else {
-		$thisRow.remove();
-	
-		if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
-			$(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
-		}
-	}
+    var idOfQuestion = '#form_editquestion-' + questionNumber;
+    var idSuffix = getQuestionIdSuffix(questionNumber);
+    
+    var $thisRow = $('#rubricRow' + idSuffix + '-' + index);
+    
+    // count number of table rows from table body
+    var numberOfRows = $thisRow.parent().children('tr').length;
+    
+    var delStr = numberOfRows <= 1 ? 'clear' : 'delete';
+    if (!confirm('Are you sure you want to ' + delStr + ' the row?')) {
+        return
+    }
+    
+    if (numberOfRows <= 1) {
+        $thisRow.find('textarea').val('');
+    } else {
+        $thisRow.remove();
+    
+        if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
+            $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+        }
+    }
 }
 
 function removeRubricCol(index, questionNumber) {
-	var idOfQuestion = '#form_editquestion-' + questionNumber;
-	var idSuffix = (questionNumber > 0) ? ('-' + questionNumber) : '';
-	
-	if (questionNumber === -1) {
-		idSuffix = '--1';
-	}
-	
-	var $thisCol = $('.rubricCol' + idSuffix + '-' + index);
-	
-	// count number of table rows from table body
-	var numberOfCols = $thisCol.not('align-center').parent().children('th').length - 1;
-	
-	if (numberOfCols <= 1) {
-		if (!confirm('Are you sure you want to clear the column?')) {
-			return;
-		}
-	} else {
-		if (!confirm('Are you sure you want to delete the column?')) {
-			return;
-		}
-	}
-	
-	if (numberOfCols <= 1) {
-		$thisCol.find('input, textarea').val('');
-	} else {
-		$thisCol.remove();
-	
-		if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
-			$(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
-		}
-	}
+    var idOfQuestion = '#form_editquestion-' + questionNumber;
+    var idSuffix = getQuestionIdSuffix(questionNumber);
+    
+    var $thisCol = $('.rubricCol' + idSuffix + '-' + index);
+    
+    // count number of table rows from table body
+    var numberOfCols = $thisCol.not('align-center').parent().children('th').length - 1;
+    
+    var delStr = numberOfCols <= 1 ? 'clear' : 'delete';
+    if (!confirm('Are you sure you want to ' + delStr + ' the column?')) {
+        return
+    }
+    
+    if (numberOfCols <= 1) {
+        $thisCol.find('input, textarea').val('');
+    } else {
+        $thisCol.remove();
+    
+        if ($(idOfQuestion).attr('editStatus') === 'hasResponses') {
+            $(idOfQuestion).attr('editStatus', 'mustDeleteResponses');
+        }
+    }
 }
 
 function highlightRubricRow(index, questionNumber, highlight) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    
-    if (questionNumber === -1){
-        idSuffix = "--1";
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
     
     var $rubricRow = $('#rubricRow' + idSuffix + '-' + index);
 
@@ -1483,11 +1441,7 @@ function highlightRubricRow(index, questionNumber, highlight) {
 
 function highlightRubricCol(index, questionNumber, highlight) {
     var idOfQuestion = '#form_editquestion-' + questionNumber;
-    var idSuffix = (questionNumber > 0) ? ("-" + questionNumber) : "";
-    
-    if (questionNumber === -1) {
-        idSuffix = "--1";
-    }
+    var idSuffix = getQuestionIdSuffix(questionNumber);
     
     var $rubricCol = $('.rubricCol' + idSuffix + '-' + index);
 

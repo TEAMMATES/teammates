@@ -9,7 +9,7 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 
 /**
- * This class represents an evaluation result for a given team.
+ * This class represents an feedback contribution question result for a given team.
  * It exposes the result via some public variables.
  */
 public class TeamEvalResult {

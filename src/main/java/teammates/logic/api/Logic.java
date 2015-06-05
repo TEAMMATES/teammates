@@ -685,7 +685,7 @@ public class Logic {
     
     
     /**
-     * Returns a detailed version of course data, including evaluation data. <br>
+     * Returns a detailed version of course data. <br>
      * Preconditions: <br>
      * * All parameters are non-null.
      */
@@ -787,7 +787,7 @@ public class Logic {
      * * All parameters are non-null.
      * 
      * @return Details of courses the student is in. CourseData objects
-     *         returned contain details of evaluations too (except the ones
+     *         returned contain details of feedback sessions too (except the ones
      *         still AWAITING).
      */
     public List<CourseDetailsBundle> getCourseDetailsListForStudent(String googleId)
@@ -874,7 +874,7 @@ public class Logic {
     
     /**
      * Deletes the course and all data related to the course 
-     * (instructors, students, evaluations, feedback sessions).
+     * (instructors, students, feedback sessions).
      * Fails silently if no such account. <br>
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -889,7 +889,7 @@ public class Logic {
     }
 
     /**
-     * Creates a student and adjust existing evaluations to accommodate the new student. <br> 
+     * Creates a student. <br> 
      * Preconditions: <br>
      * * All parameters are non-null.
      */
@@ -1344,7 +1344,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public void createFeedbackSession(FeedbackSessionAttributes feedbackSession) 
+    public void createFeedbackSession(FeedbackSessionAttributes feedbackSession)
             throws EntityAlreadyExistsException, InvalidParametersException, EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSession);
         feedbackSessionsLogic.createFeedbackSession(feedbackSession);
@@ -1355,11 +1355,11 @@ public class Logic {
      * * All parameters are non-null.
      */
     public FeedbackSessionAttributes copyFeedbackSession(String copiedFeedbackSessionName, 
-                                                         String copiedCourseId, 
+                                                         String copiedCourseId,
                                                          String feedbackSessionName, 
-                                                         String courseId, 
-                                                         String instructorEmail) throws EntityAlreadyExistsException, 
-                                                                                        InvalidParametersException, 
+                                                         String courseId,
+                                                         String instructorEmail) throws EntityAlreadyExistsException,
+                                                                                        InvalidParametersException,
                                                                                         EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, copiedFeedbackSessionName);
@@ -1368,7 +1368,8 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorEmail);
 
-        return feedbackSessionsLogic.copyFeedbackSession(copiedFeedbackSessionName, copiedCourseId, feedbackSessionName, courseId, instructorEmail);
+        return feedbackSessionsLogic.copyFeedbackSession(copiedFeedbackSessionName,
+                copiedCourseId, feedbackSessionName, courseId, instructorEmail);
     }
     
     /**
@@ -1659,11 +1660,11 @@ public class Logic {
     }
     
     /**
-     * Publishes the evaluation and send email alerts to students.
+     * Publishes the feedback session and send email alerts to students.
      * Preconditions: <br>
      * * All parameters are non-null. <br>
      * @throws InvalidParametersException
-     *             if the evaluation is not ready to be published.
+     *             if the feedback session is not ready to be published.
      * @throws EntityDoesNotExistException
      */
     public void publishFeedbackSession(String feedbackSessionName, String courseId) throws EntityDoesNotExistException, 
@@ -1679,7 +1680,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null. <br>
      * @throws InvalidParametersException
-     *             if the evaluation is not ready to be unpublished.
+     *             if the feedback session is not ready to be unpublished.
      */
     public void unpublishFeedbackSession(String feedbackSessionName, String courseId) 
             throws EntityDoesNotExistException, InvalidParametersException {
@@ -1726,8 +1727,8 @@ public class Logic {
      * * All parameters are non-null.
      * * questionNumber is > 0
      */
-    public FeedbackQuestionAttributes createFeedbackQuestionForTemplate(FeedbackQuestionAttributes feedbackQuestion, 
-                                                                        int questionNumber) 
+    public FeedbackQuestionAttributes createFeedbackQuestionForTemplate(
+            FeedbackQuestionAttributes feedbackQuestion, int questionNumber)
             throws InvalidParametersException {
 
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackQuestion);
@@ -1822,7 +1823,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public List<FeedbackQuestionAttributes> getCopiableFeedbackQuestionsForInstructor(String googleId) 
+    public List<FeedbackQuestionAttributes> getCopiableFeedbackQuestionsForInstructor(String googleId)
             throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
         return feedbackQuestionsLogic.getCopiableFeedbackQuestionsForInstructor(googleId);

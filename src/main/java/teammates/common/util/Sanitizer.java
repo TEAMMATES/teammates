@@ -1,9 +1,12 @@
 package teammates.common.util;
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
 
 import com.google.appengine.api.datastore.Text;
@@ -115,6 +118,14 @@ public class Sanitizer {
                 //To ensure when apply sanitizeForHtml for multiple times, the string's still fine
                 //Regex meaning: replace '&' with safe encoding, but not the one that is safe already
                 .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");
+    }
+    
+    public static String sanitizeForUri(String uri) {
+        try {
+            return URLEncoder.encode(uri, "UTF-8");
+        } catch (UnsupportedEncodingException wonthappen) {
+            return uri;
+        }
     }
     
     public static String sanitizeForRichText(String richText) {

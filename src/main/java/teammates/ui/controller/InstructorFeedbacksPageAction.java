@@ -17,22 +17,23 @@ public class InstructorFeedbacksPageAction extends Action {
     
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        //This can be null. Non-null value indicates the page is being loaded 
-        //   to add a feedback to the specified course
+        // This can be null. Non-null value indicates the page is being loaded 
+        // to add a feedback to the specified course
         String courseIdForNewSession = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionNameForSessionList = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String isUsingAjax = getRequestParamValue(Const.ParamsNames.IS_USING_AJAX);
         
         new GateKeeper().verifyInstructorPrivileges(account);
                 
-        if (courseIdForNewSession!=null) {
+        if (courseIdForNewSession != null) {
             new GateKeeper().verifyAccessible(
                     logic.getInstructorForGoogleId(courseIdForNewSession, account.googleId), 
-                    logic.getCourse(courseIdForNewSession), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                    logic.getCourse(courseIdForNewSession),
+                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         }
 
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
-        data.isUsingAjax = (isUsingAjax == null) ? false : true;
+        data.isUsingAjax = (isUsingAjax != null);
         data.courseIdForNewSession = courseIdForNewSession;
         data.feedbackSessionNameForSessionList = feedbackSessionNameForSessionList;
         // This indicates that an empty form to be shown (except possibly the course value filled in)
@@ -41,36 +42,38 @@ public class InstructorFeedbacksPageAction extends Action {
         // HashMap with courseId as key and InstructorAttributes as value
         data.instructors = loadCourseInstructorMap(omitArchived);
         
-        List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>(data.instructors.values());
+        List<InstructorAttributes> instructorList =
+                new ArrayList<InstructorAttributes>(data.instructors.values());
         data.courses = loadCoursesList(instructorList);
         
-        if (data.courses.size() == 0) {
-            statusToUser.add(Const.StatusMessages.COURSE_EMPTY_IN_EVALUATION.replace("${user}", "?user="+account.googleId));
+        if (data.courses.isEmpty()) {
+            statusToUser.add(Const.StatusMessages.COURSE_EMPTY_IN_INSTRUCTOR_FEEDBACKS
+                             .replace("${user}", "?user=" + account.googleId));
         }
         
-        if(data.courses.size() == 0 ||!data.isUsingAjax) {
+        if (data.courses.isEmpty() || !data.isUsingAjax) {
             data.existingFeedbackSessions = new ArrayList<FeedbackSessionAttributes>();
         } else {
-            
             data.existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
             if (data.existingFeedbackSessions.isEmpty()) {
-                statusToUser.add(Const.StatusMessages.EVALUATION_EMPTY);
+                statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EMPTY);
             }
         }            
         
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
         
-        statusToAdmin = "Number of feedback sessions: "+data.existingFeedbackSessions.size();
+        statusToAdmin = "Number of feedback sessions: " + data.existingFeedbackSessions.size();
         
         data.getCourseIdOptions();
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
     
-    protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(List<InstructorAttributes> instructorList)
-            throws EntityDoesNotExistException {
+    protected List<FeedbackSessionAttributes> loadFeedbackSessionsList(
+            List<InstructorAttributes> instructorList) throws EntityDoesNotExistException {
         
-        List<FeedbackSessionAttributes> sessions =  logic.getFeedbackSessionsListForInstructor(instructorList);
+        List<FeedbackSessionAttributes> sessions =
+                logic.getFeedbackSessionsListForInstructor(instructorList);
         return sessions;
     }
 

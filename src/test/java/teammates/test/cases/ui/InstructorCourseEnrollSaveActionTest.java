@@ -32,7 +32,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         String enrollString = "";
         String[] submissionParams = new String[]{};
         
@@ -44,13 +44,13 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
 
         ______TS("Typical case: add and edit students for non-empty course");        
         
-        enrollString = "Section | Team | Name | Email | Comment";
+        enrollString = "Section | Team | Name | Email | Comment" + Const.EOL;
         // A new student
-        enrollString += Const.EOL + "Section 3 \t Team 1\tJean Wong\tjean@email.tmt\tExchange student";
+        enrollString += "Section 3 \t Team 1\tJean Wong\tjean@email.tmt\tExchange student" + Const.EOL;
         // A student to be modified
-        enrollString += Const.EOL + "Section 2 \t Team 1.3\tstudent1 In Course1\tstudent1InCourse1@gmail.tmt\tNew comment added";
+        enrollString += "Section 2 \t Team 1.3\tstudent1 In Course1\tstudent1InCourse1@gmail.tmt\tNew comment added" + Const.EOL;
         // An existing student with no modification
-        enrollString += Const.EOL + "Section 1 \t Team 1.1\tstudent2 In Course1\tstudent2InCourse1@gmail.tmt\t";
+        enrollString += "Section 1 \t Team 1.1\tstudent2 In Course1\tstudent2InCourse1@gmail.tmt\t";
         
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
@@ -82,13 +82,13 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         unmodifiedStudent.updateStatus = StudentAttributes.UpdateStatus.UNMODIFIED;
         verifyStudentEnrollmentStatus(unmodifiedStudent, pageData.students);
         
-        String expectedLogSegment = "Students Enrolled in Course <span class=\"bold\">[" 
-                + courseId + "]:</span><br>" + enrollString.replace("\n", "<br>"); 
+        String expectedLogSegment = "Students Enrolled in Course <span class=\"bold\">[" + courseId + "]"
+                                    + ":</span><br>" + enrollString.replace("\n", "<br>"); 
         AssertHelper.assertContains(expectedLogSegment, enrollAction.getLogMessage());
         
         ______TS("Masquerade mode, enrollment into empty course");
         
-        if (CoursesLogic.inst().isCoursePresent("new-course")){
+        if (CoursesLogic.inst().isCoursePresent("new-course")) {
             CoursesLogic.inst().deleteCourseCascade("new-course");
         }
                     
@@ -99,7 +99,7 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         
         String headerRow = "Name\tEmail\tTeam\tComment";
         String studentsInfo = "Jean Wong\tjean@email.tmt\tTeam 1\tExchange student"
-                            + Const.EOL + "James Tan\tjames@email.tmt\tTeam 2\t";
+                              + Const.EOL + "James Tan\tjames@email.tmt\tTeam 2\t";
         enrollString = headerRow + Const.EOL +  studentsInfo;
         
         submissionParams = new String[]{
@@ -118,16 +118,18 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
         assertEquals(courseId, pageData.courseId);
 
-        StudentAttributes student1 = new StudentAttributes("jean", "jean@email.tmt", "Jean Wong", "Exchange student", courseId, "Team 1","None");
+        StudentAttributes student1 = new StudentAttributes("jean", "jean@email.tmt", "Jean Wong", 
+                                                           "Exchange student", courseId, "Team 1","None");
         student1.updateStatus = StudentAttributes.UpdateStatus.NEW;
         verifyStudentEnrollmentStatus(student1, pageData.students);
         
-        StudentAttributes student2 = new StudentAttributes("james", "james@email.tmt", "James Tan", "", courseId, "Team 2","None");
+        StudentAttributes student2 = new StudentAttributes("james", "james@email.tmt", "James Tan", "", 
+                                                           courseId, "Team 2","None");
         student2.updateStatus = StudentAttributes.UpdateStatus.NEW;
         verifyStudentEnrollmentStatus(student2, pageData.students);
         
-        expectedLogSegment = "Students Enrolled in Course <span class=\"bold\">[" 
-                + courseId + "]:</span><br>" + enrollString.replace("\n", "<br>"); 
+        expectedLogSegment = "Students Enrolled in Course <span class=\"bold\">[" + courseId + "]:</span>"
+                             + "<br>" + enrollString.replace("\n", "<br>"); 
         AssertHelper.assertContains(expectedLogSegment, enrollAction.getLogMessage());
         
         ______TS("Failure case: enrollment failed due to invalid lines");
@@ -148,13 +150,33 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         pageResult = getShowPageResult(enrollAction);
         assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageResult.destination);
         assertEquals(true, pageResult.isError);
-        String expectedStatusMessage = "<p><span class=\"bold\">Problem in line : <span class=\"invalidLine\">"
-                            + studentWithoutEnoughParam + "</span></span><br><span class=\"problemDetail\">&bull; "
-                            + StudentAttributesFactory.ERROR_ENROLL_LINE_TOOFEWPARTS + "</span></p>" +
-                            "<br>" + "<p><span class=\"bold\">Problem in line : <span class=\"invalidLine\">"
-                            + studentWithInvalidEmail + "</span></span><br><span class=\"problemDetail\">&bull; "
-                            + "\"invalid.email.tmt\" is not acceptable to TEAMMATES as an email because it is not in the correct format. An email address contains some text followed by one '@' sign followed by some more text. It cannot be longer than 45 characters. It cannot be empty and it cannot have spaces."
-                            + "</span></p>";
+        String expectedStatusMessage = "<p>"
+                                            + "<span class=\"bold\">Problem in line : "
+                                                + "<span class=\"invalidLine\">"
+                                                    + studentWithoutEnoughParam 
+                                                + "</span>"
+                                            + "</span>"
+                                            + "<br>"
+                                            + "<span class=\"problemDetail\">&bull; " 
+                                                + StudentAttributesFactory.ERROR_ENROLL_LINE_TOOFEWPARTS 
+                                            + "</span>"
+                                        + "</p>" 
+                                        + "<br>" 
+                                        + "<p>"
+                                            + "<span class=\"bold\">Problem in line : "
+                                                + "<span class=\"invalidLine\">" 
+                                                    + studentWithInvalidEmail 
+                                                + "</span>"
+                                            + "</span>"
+                                            + "<br>"
+                                            + "<span class=\"problemDetail\">&bull; "
+                                                + "\"invalid.email.tmt\" is not acceptable to TEAMMATES as "
+                                                + "an email because it is not in the correct format. An "
+                                                + "email address contains some text followed by one '@' sign"
+                                                + " followed by some more text. It cannot be longer than 45 "
+                                                + "characters. It cannot be empty and it cannot have spaces."
+                                            + "</span>"
+                                        + "</p>";
         assertEquals(expectedStatusMessage, pageResult.getStatusMessage());
         
         InstructorCourseEnrollPageData enrollPageData = (InstructorCourseEnrollPageData) pageResult.data;
@@ -172,12 +194,8 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         //can enroll, if within the size limit
         StringBuilder enrollStringBuilder = new StringBuilder("Section\tTeam\tName\tEmail");
         for(int i = 0; i < sizeLimitBoundary; i++) {
-            enrollStringBuilder
-                .append(Const.EOL)
-                .append("section" + i 
-                        + "\tteam" + i 
-                        + "\tname" + i 
-                        + "\temail" + i + "@nonexistemail.nonexist");
+            enrollStringBuilder.append(Const.EOL).append("section" + i + "\tteam" + i + "\tname" + i 
+                                                         + "\temail" + i + "@nonexistemail.nonexist");
         }
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
@@ -189,12 +207,9 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         assertEquals("", pageResult.getStatusMessage());
         
         //fail to enroll, if exceed the range
-        enrollStringBuilder
-            .append(Const.EOL)
-            .append("section" + sizeLimitBoundary 
-                    + "\tteam" + sizeLimitBoundary 
-                    + "\tname" + sizeLimitBoundary 
-                    + "\temail" + sizeLimitBoundary + "@nonexistemail.nonexist");
+        enrollStringBuilder.append(Const.EOL).append("section" + sizeLimitBoundary + "\tteam" + sizeLimitBoundary 
+                                                     + "\tname" + sizeLimitBoundary + "\temail" + sizeLimitBoundary 
+                                                     + "@nonexistemail.nonexist");
         submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, enrollStringBuilder.toString()
@@ -216,7 +231,8 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         enrollAction = getAction(submissionParams);
         
         pageResult = getShowPageResult(enrollAction);
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL +"?error=true&user=idOfInstructor1OfCourse1", pageResult.getDestinationWithParams());
+        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL +"?error=true&user=idOfInstructor1OfCourse1", 
+                     pageResult.getDestinationWithParams());
         assertEquals(true, pageResult.isError);
         assertEquals(Const.StatusMessages.ENROLL_LINE_EMPTY, pageResult.getStatusMessage());
         
