@@ -80,9 +80,9 @@ function getAppendedData(data, courseIdx) {
     var appendedHtml = '';
     var sortIdx = 2;
     if (data.courseSectionDetails.length > 0) {
-        appendedHtml += '<table class="table table-responsive table-striped table-bordered margin-0">';
-        appendedHtml += '<thead class="background-color-medium-gray text-color-gray font-weight-normal">';
-        appendedHtml += '<tr id="resultsHeader-' + courseIdx + '"><th>Photo</th>';
+        appendedHtml += '<table class="table table-responsive table-striped table-bordered margin-0">\n';
+        appendedHtml += '<thead class="background-color-medium-gray text-color-gray font-weight-normal">\n';
+        appendedHtml += '<tr id="resultsHeader-' + courseIdx + '">\n<th>Photo</th>\n';
         if (data.hasSection) { 
             appendedHtml += '<th id="button_sortsection-' + courseIdx + '" class="button-sort-none" onclick="toggleSort(this,' + (sortIdx++) + ')">';
             appendedHtml += 'Section <span class="icon-sort unsorted"></span></th>';
@@ -90,15 +90,15 @@ function getAppendedData(data, courseIdx) {
             appendedHtml += '<th id="button_sortsection-' + courseIdx + '" class="button-sort-none hidden" onclick="toggleSort(this,' + (sortIdx++) + ')">';
             appendedHtml += 'Section <span class="icon-sort unsorted"></span></th>';
         }
-        appendedHtml += '<th id="button_sortteam-' + courseIdx + '" class="button-sort-none" onclick="toggleSort(this,' + (sortIdx++) + ')">';
+        appendedHtml += '\n<th id="button_sortteam-' + courseIdx + '" class="button-sort-none" onclick="toggleSort(this,' + (sortIdx++) + ')">';
         appendedHtml += 'Team <span class="icon-sort unsorted"></span></th>';
-        appendedHtml += '<th id="button_sortstudentname-' + courseIdx + '" class="button-sort-none" onclick="toggleSort(this,' + (sortIdx++) + ')">';
+        appendedHtml += '\n<th id="button_sortstudentname-' + courseIdx + '" class="button-sort-none" onclick="toggleSort(this,' + (sortIdx++) + ')">';
         appendedHtml += 'Student Name <span class="icon-sort unsorted"></span></th>';
-        appendedHtml += '<th id="button_sortemail-' + courseIdx + '" class="button-sort-none" onclick="toggleSort(this,' + (sortIdx++) + ')">';
-        appendedHtml += 'Email <span class="icon-sort unsorted"></span></th><th>Action(s)</th></tr>';
+        appendedHtml += '\n<th id="button_sortemail-' + courseIdx + '" class="button-sort-none" onclick="toggleSort(this,' + (sortIdx++) + ')">';
+        appendedHtml += 'Email <span class="icon-sort unsorted"></span></th>\n<th>Action(s)</th>\n</tr>\n';
 
-        appendedHtml += '<tr id="searchNoResults-' + courseIdx + '" class="hidden"><th class="align-center color_white bold">Cannot find students in this course</th>';
-        appendedHtml += '</tr></thead>';
+        appendedHtml += '<tr id="searchNoResults-' + courseIdx + '" class="hidden">\n<th class="align-center color_white bold">Cannot find students in this course</th>\n';
+        appendedHtml += '</tr>\n</thead>\n';
 
         var sectionIdx = -1;
         var teamIdx = -1;
@@ -107,40 +107,40 @@ function getAppendedData(data, courseIdx) {
             sectionIdx++;
             var section = data.courseSectionDetails[i];
             var appendedSection = '';
-            appendedSection += '<div class="checkbox"><input id="section_check-' + courseIdx + '-' + sectionIdx + '" type="checkbox" checked="checked" class="section_check">';
+            appendedSection += '<div class="checkbox">\n<input id="section_check-' + courseIdx + '-' + sectionIdx + '" type="checkbox" checked="checked" class="section_check">\n';
             appendedSection += '<label for="section_check-' + courseIdx + '-' + sectionIdx + '">';
-            appendedSection += '[' + data.course.id + '] : ' + sanitizeForHtml(section.name) + '</label></div>';
+            appendedSection += '[' + data.course.id + '] : ' + sanitizeForHtml(section.name) + '</label>\n</div>\n';
             $("#sectionChoices").append(appendedSection);
             
             for(var j = 0; j < section.teams.length; j++) {
                 teamIdx++;
                 var team = section.teams[j];
                 var appendedTeam = '';
-                appendedTeam += '<div class="checkbox"><input id="team_check-' + courseIdx + '-' + sectionIdx + '-' + teamIdx + '" type="checkbox" checked="checked" class="team_check">';
+                appendedTeam += '<div class="checkbox">\n<input id="team_check-' + courseIdx + '-' + sectionIdx + '-' + teamIdx + '" type="checkbox" checked="checked" class="team_check">\n';
                 appendedTeam += '<label for="team_check-' + courseIdx + '-' + sectionIdx + '-' + teamIdx + '">';
-                appendedTeam += '[' + data.course.id + '] : ' + sanitizeForHtml(team.name) + '</label></div>';
+                appendedTeam += '[' + data.course.id + '] : ' + sanitizeForHtml(team.name) + '</label>\n</div>\n';
                 $('#teamChoices').append(appendedTeam);
 
                 for(var k = 0; k < team.students.length; k++) {
                     studentIdx++;
                     var student = team.students[k];
-                    var appendedEmail = '<div id="student_email-c' + courseIdx + '.' + studentIdx + '">' + student.email + '</div>';
+                    var appendedEmail = '<div id="student_email-c' + courseIdx + '.' + studentIdx + '">\n' + student.email + '\n</div>\n';
                     $('#emails').append(appendedEmail);
 
-                    appendedHtml += '<tr id="student-c' + courseIdx + '.' + studentIdx + '">';
-                    appendedHtml += '<td id="studentphoto-c' + courseIdx + '.' + studentIdx + '">';
-                    appendedHtml += '<div class="profile-pic-icon-click align-center" data-link="' + data.emailPhotoUrlMapping[student.email] + '">';
+                    appendedHtml += '<tr id="student-c' + courseIdx + '.' + studentIdx + '">\n';
+                    appendedHtml += '<td id="studentphoto-c' + courseIdx + '.' + studentIdx + '">\n';
+                    appendedHtml += '<div class="profile-pic-icon-click align-center" data-link="' + data.emailPhotoUrlMapping[student.email] + '">\n';
                     appendedHtml += '<a class="student-profile-pic-view-link btn-link">'
-                                       + 'View Photo</a><img src="" alt="No Image Given" class="hidden"></div></td>';
+                                       + 'View Photo</a><img src="" alt="No Image Given" class="hidden">\n</div>\n</td>\n';
                     if (data.hasSection) { 
-                        appendedHtml += '<td id="studentsection-c' + courseIdx + '.' + sectionIdx + '">' + sanitizeForHtml(section.name) + '</td>';
+                        appendedHtml += '<td id="studentsection-c' + courseIdx + '.' + sectionIdx + '">' + sanitizeForHtml(section.name) + '</td>\n';
                     } else {
-                        appendedHtml += '<td id="studentsection-c' + courseIdx + '.' + sectionIdx + '" class="hidden">' + sanitizeForHtml(section.name) + '</td>';
+                        appendedHtml += '<td id="studentsection-c' + courseIdx + '.' + sectionIdx + '" class="hidden">' + sanitizeForHtml(section.name) + '</td>\n';
                     }
-                    appendedHtml += '<td id="studentteam-c' + courseIdx + '.' + sectionIdx + '.' + teamIdx + '">' + sanitizeForHtml(team.name) + '</td>';
-                    appendedHtml += '<td id="studentname-c' + courseIdx + '.' + studentIdx + '">' + sanitizeForHtml(student.name) + '</td>';
-                    appendedHtml += '<td id="studentemail-c' + courseIdx + '.' + studentIdx + '">' + sanitizeForHtml(student.email) + '</td>';
-                    appendedHtml += '<td class="no-print align-center">';
+                    appendedHtml += '<td id="studentteam-c' + courseIdx + '.' + sectionIdx + '.' + teamIdx + '">' + sanitizeForHtml(team.name) + '</td>\n';
+                    appendedHtml += '<td id="studentname-c' + courseIdx + '.' + studentIdx + '">' + sanitizeForHtml(student.name) + '</td>\n';
+                    appendedHtml += '<td id="studentemail-c' + courseIdx + '.' + studentIdx + '">' + sanitizeForHtml(student.email) + '</td>\n';
+                    appendedHtml += '<td class="no-print align-center">\n';
                     appendedHtml += '<a class="btn btn-default btn-xs student-view-for-test"'
                                         + 'href="' + getCourseStudentDetailsLink(student, data.account.googleId) + '"'
                                         + 'title="View the details of the student" target="_blank" data-toggle="tooltip" data-placement="top"';
@@ -149,7 +149,7 @@ function getAppendedData(data, courseIdx) {
                     }
                     appendedHtml += '> View</a>&nbsp;';
 
-                    appendedHtml += '<a class="btn btn-default btn-xs student-edit-for-test"'
+                    appendedHtml += '\n<a class="btn btn-default btn-xs student-edit-for-test"'
                                      + 'href="' + getCourseStudentEditLink(student, data.account.googleId) + '"'
                                      + 'title="' + COURSE_STUDENT_EDIT + '" target="_blank" data-toggle="tooltip" data-placement="top"';
                     if (!data.sectionPrivileges[section.name]['canmodifystudent']) {
@@ -157,7 +157,7 @@ function getAppendedData(data, courseIdx) {
                     }
                     appendedHtml += '> Edit</a>&nbsp;';
 
-                    appendedHtml += '<a class="btn btn-default btn-xs student-delete-for-test"'
+                    appendedHtml += '\n<a class="btn btn-default btn-xs student-delete-for-test"'
                                      + 'href="' + getCourseStudentDeleteLink(student, data.account.googleId) + '"'
                                      + 'onclick="return toggleDeleteStudentConfirmation(\'' + sanitizeForJs(student.course) + '\',\'' + sanitizeForJs(student.name) + '\')"';
                                      + 'title="' + COURSE_STUDENT_DELETE + '" data-toggle="tooltip" data-placement="top"';
@@ -166,37 +166,37 @@ function getAppendedData(data, courseIdx) {
                     }
                     appendedHtml += '> Delete</a>&nbsp;';
                                     
-                    appendedHtml += '<a class="btn btn-default btn-xs student-records-for-test"'
+                    appendedHtml += '\n<a class="btn btn-default btn-xs student-records-for-test"'
                                      + 'href="' + getStudentRecordsLink(student, data.account.googleId) + '"'
                                      + 'title="' + COURSE_STUDENT_RECORDS + '" target="_blank" data-toggle="tooltip" data-placement="top"> All Records</a>&nbsp;';
-                    appendedHtml += '<div class="dropdown inline"><a class="btn btn-default btn-xs dropdown-toggle"' 
+                    appendedHtml += '\n<div class="dropdown inline">\n<a class="btn btn-default btn-xs dropdown-toggle"' 
                                        + ' href="javascript:;" data-toggle="dropdown"';
                     if (!data.sectionPrivileges[section.name]['cangivecommentinsection']) {
                         appendedHtml += 'disabled="disabled"';
                     }
-                    appendedHtml += '> Add Comment</a>';
-                    appendedHtml += '<ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">';
-                    appendedHtml += '<li role="presentation"><a target="_blank" role="menuitem" tabindex="-1" href="' + getCourseStudentDetailsLink(student, data.account.googleId) 
+                    appendedHtml += '> Add Comment</a>\n';
+                    appendedHtml += '<ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">\n';
+                    appendedHtml += '<li role="presentation">\n<a target="_blank" role="menuitem" tabindex="-1" href="' + getCourseStudentDetailsLink(student, data.account.googleId) 
                                             +"&addComment=student" + '">';
-                    appendedHtml += 'Comment on ' + sanitizeForHtml(student.name) + '</a></li>';
-                    appendedHtml += '<li role="presentation"><a target="_blank" role="menuitem" tabindex="-1" href="' + getCourseStudentDetailsLink(student, data.account.googleId) 
+                    appendedHtml += 'Comment on ' + sanitizeForHtml(student.name) + '</a>\n</li>\n';
+                    appendedHtml += '<li role="presentation">\n<a target="_blank" role="menuitem" tabindex="-1" href="' + getCourseStudentDetailsLink(student, data.account.googleId) 
                                             + "&addComment=team" + '">';
-                    appendedHtml += 'Comment on ' + sanitizeForHtml(team.name) + '</a></li>';
+                    appendedHtml += 'Comment on ' + sanitizeForHtml(team.name) + '</a>\n</li>\n';
                     if (data.hasSection) { 
-                        appendedHtml += '<li role="presentation"><a target="_blank" role="menuitem" tabindex="-1" href="' + getCourseStudentDetailsLink(student, data.account.googleId) 
+                        appendedHtml += '<li role="presentation">\n<a target="_blank" role="menuitem" tabindex="-1" href="' + getCourseStudentDetailsLink(student, data.account.googleId) 
                                             +"&addComment=section" + '">';
-                        appendedHtml += 'Comment on ' + sanitizeForHtml(section.name) + '</a></li>';
+                        appendedHtml += 'Comment on ' + sanitizeForHtml(section.name) + '</a>\n</li>\n';
                     } 
-                    appendedHtml += '</ul></div></td></tr>';
+                    appendedHtml += '</ul>\n</div>\n</td>\n</tr>\n';
                 }
             }
         }
-        appendedHtml += '</table>';
+        appendedHtml += '</table>\n';
     } else {
-        appendedHtml += '<table class="table table-responsive table-striped table-bordered margin-0">';
-        appendedHtml += '<thead class="background-color-medium-gray text-color-gray font-weight-normal">';
-        appendedHtml += '<tr><th class="align-center color_white bold">There are no students in this course</th>';
-        appendedHtml += '</tr></thead></table>';
+        appendedHtml += '<table class="table table-responsive table-striped table-bordered margin-0">\n';
+        appendedHtml += '<thead class="background-color-medium-gray text-color-gray font-weight-normal">\n';
+        appendedHtml += '<tr>\n<th class="align-center color_white bold">There are no students in this course</th>\n';
+        appendedHtml += '</tr>\n</thead>\n</table>\n';
     }
     return appendedHtml;
 }
