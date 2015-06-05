@@ -674,7 +674,12 @@ public class FeedbackResponsesLogic {
             this.deleteFeedbackResponseAndCascade(response);
         }
     }
-    
+
+    /**
+     * Deletes all feedback responses in every feedback session in 
+     * the specified course. This is a non-cascade delete and the 
+     * feedback response comments are not deleted, and should be handled. 
+     */
     public void deleteFeedbackResponsesForCourse(String courseId) {
         frDb.deleteFeedbackResponsesForCourse(courseId);
     }
