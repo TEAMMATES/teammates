@@ -64,11 +64,6 @@ public class InstructorFeedbackQuestionSubmissionEditSaveAction extends Feedback
     }
 
     @Override
-    protected ShowPageResult createSpecificShowPageResult() {
-        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT, data);
-    }
-
-    @Override
     protected RedirectResult createSpecificRedirectResult() {
         RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_PAGE);
         result.responseParams.put(Const.ParamsNames.COURSE_ID, courseId);
