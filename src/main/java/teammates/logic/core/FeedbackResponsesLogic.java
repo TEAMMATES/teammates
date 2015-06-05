@@ -674,6 +674,10 @@ public class FeedbackResponsesLogic {
             this.deleteFeedbackResponseAndCascade(response);
         }
     }
+    
+    public void deleteFeedbackResponsesForCourse(String courseId) {
+        frDb.deleteFeedbackResponsesForCourse(courseId);
+    }
 
     /**
      * Adds {@link FeedbackResponseAttributes} in {@code newResponses} that are

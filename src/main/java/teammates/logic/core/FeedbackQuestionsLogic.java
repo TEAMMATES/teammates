@@ -658,6 +658,10 @@ public class FeedbackQuestionsLogic {
         
     }
     
+    public void deleteFeedbackQuestionForCourse(String courseId) {
+        fqDb.deleteFeedbackQuestionsForCourse(courseId);
+    }
+    
     /**
      * Deletes a question.<br> Question is identified by it's question number, and
      * the feedback session name and course ID of the question.<br>

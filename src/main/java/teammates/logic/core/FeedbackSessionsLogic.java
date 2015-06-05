@@ -1527,12 +1527,11 @@ public class FeedbackSessionsLogic {
     }
 
     public void deleteFeedbackSessionsForCourse(String courseId) {
-        List<FeedbackSessionAttributes> sessionsToDelete =
-                fsDb.getFeedbackSessionsForCourse(courseId);
-
-        for (FeedbackSessionAttributes session : sessionsToDelete) {
-            deleteFeedbackSessionCascade(session.feedbackSessionName, session.courseId);
-        }
+        frLogic.deleteFeedbackResponsesForCourse(courseId);
+        fqLogic.deleteFeedbackQuestionForCourse(courseId);
+        
+        List<FeedbackSessionAttributes> fsList = getFeedbackSessionsForCourse(courseId);
+        fsDb.deleteEntities(fsList);
     }
 
     /**
