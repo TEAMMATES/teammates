@@ -393,42 +393,6 @@
                     function(response, status, xml) {
                         $('[data-toggle="tooltip"]').tooltip({html: true}); 
                     });
-                $('#instructorCourseEvalPage').load('<%=Const.ActionURIs.INSTRUCTOR_EVALS_PAGE%>?user=teammates.test #frameBodyWrapper',
-                    function(response, status, xml) {
-                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
-                    });
-                $('#instructorCourseEvalEditPage').load('<%=Const.ActionURIs.INSTRUCTOR_EVAL_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper',
-                    function(response, status, xml) {
-                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
-                    });
-                $('#instructorCourseEvalPreviewPage').load('<%=Const.ActionURIs.INSTRUCTOR_EVAL_PREVIEW%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper',
-                    function(response, status, xml) {
-                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
-                    });
-                $('#instructorCourseEvalResultsPage1').load('<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper',
-                    function(response, status, xml) {
-                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
-                    });
-                $('#instructorCourseEvalResultsPage2').load('<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper', 
-                    function(response, status, xml){
-                        $('#instructorCourseEvalResultsPage2').find('#instructorEvaluationSummaryTable').hide();
-                        $('#instructorCourseEvalResultsPage2').find('#instructorEvaluationDetailedReviewerTable').show();
-                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
-                    });
-                $('#instructorCourseEvalResultsPage3').load('<%=Const.ActionURIs.INSTRUCTOR_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper', 
-                    function(response, status, xml){
-                        $('#instructorCourseEvalResultsPage3').find('#instructorEvaluationSummaryTable').hide();
-                        $('#instructorCourseEvalResultsPage3').find('#instructorEvaluationDetailedRevieweeTable').show();
-                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
-                    });
-                $('#instructorCourseEvalSubmissionViewPage').load('<%=Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=teammates.test%40gmail.com #frameBodyWrapper',
-                    function(response, status, xml) {
-                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
-                    });        
-                $('#instructorCourseEvalSubmissionEditPage').load('<%=Const.ActionURIs.INSTRUCTOR_EVAL_SUBMISSION_EDIT%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval&studentemail=charlie.d.tmms%40gmail.com #frameBodyWrapper',
-                    function(response, status, xml) {
-                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
-                    });
                 $('#instructorFeedbackPage').load('<%=Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE%>?user=teammates.test #frameBodyWrapper',
                     function(response, status, xml) {
                         $('[data-toggle="tooltip"]').tooltip({html: true}); 
@@ -517,14 +481,7 @@
                     function(response, status, xml) {
                         $('[data-toggle="tooltip"]').tooltip({html: true}); 
                     });
-                $('#studentEvalEditPage').load('<%=Const.ActionURIs.STUDENT_EVAL_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=First+Eval #frameBodyWrapper',
-                    function(response, status, xml) {
-                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
-                    });
-                $('#studentEvalResultsPage').load('<%=Const.ActionURIs.STUDENT_EVAL_RESULTS_PAGE%>?user=teammates.test&courseid=CS2104&evaluationname=Second+Eval #frameBodyWrapper',
-                    function(response, status, xml) {
-                        $('[data-toggle="tooltip"]').tooltip({html: true}); 
-                    });
+     
                 $('#studentFeedbackSubmitPage').load('<%=Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE%>?user=teammates.test&courseid=CS2104&fsname=First+feedback+session #frameBodyWrapper',
                     function(response, status, xml) {
                         $('[data-toggle="tooltip"]').tooltip({html: true});

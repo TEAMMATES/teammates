@@ -90,6 +90,11 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         ______TS("add new instructor link");
         assertEquals(true, courseEditPage.clickShowNewInstructorFormButton());
+        
+        assertEquals(true, courseEditPage.clickOnAccessLevelViewDetails("Co-owner"));
+        assertEquals(true, courseEditPage.clickOnAccessLevelViewDetails("Manager"));
+        assertEquals(true, courseEditPage.clickOnAccessLevelViewDetails("Observer"));
+        assertEquals(true, courseEditPage.clickOnAccessLevelViewDetails("Tutor"));
     }
 
     private void testInputValidation() {

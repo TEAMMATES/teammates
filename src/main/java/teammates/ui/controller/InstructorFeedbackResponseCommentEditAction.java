@@ -37,9 +37,8 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
         
-        verifyAccessibleForInstructorToFeedbackResponseComment(
-                feedbackSessionName, feedbackResponseCommentId, instructor,
-                session, response);
+        verifyAccessibleForInstructorToFeedbackResponseComment(feedbackSessionName, feedbackResponseCommentId,
+                                                               instructor, session, response);
         
         InstructorFeedbackResponseCommentAjaxPageData data = 
                 new InstructorFeedbackResponseCommentAjaxPageData(account);
@@ -62,27 +61,27 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         String showCommentTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO);
         String showGiverNameTo = getRequestParamValue(Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO);
         feedbackResponseComment.showCommentTo = new ArrayList<FeedbackParticipantType>();
-        if(showCommentTo != null && !showCommentTo.isEmpty()){
+        if (showCommentTo != null && !showCommentTo.isEmpty()) {
             String[] showCommentToArray = showCommentTo.split(",");
-            for(String viewer:showCommentToArray){
+            for (String viewer : showCommentToArray) {
                 feedbackResponseComment.showCommentTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
             }
         }
         feedbackResponseComment.showGiverNameTo = new ArrayList<FeedbackParticipantType>();
-        if(showGiverNameTo != null && !showGiverNameTo.isEmpty()){
+        if (showGiverNameTo != null && !showGiverNameTo.isEmpty()) {
             String[] showGiverNameToArray = showGiverNameTo.split(",");
-            for(String viewer:showGiverNameToArray){
+            for (String viewer : showGiverNameToArray) {
                 feedbackResponseComment.showGiverNameTo.add(FeedbackParticipantType.valueOf(viewer.trim()));
             }
         }
         //Edit sending state
-        if(isResponseCommentPublicToRecipient(feedbackResponseComment)
-                && session.isPublished()){
+        if (isResponseCommentPublicToRecipient(feedbackResponseComment) && session.isPublished()) {
             feedbackResponseComment.sendingState = CommentSendingState.PENDING;
         }
         
         try {
-            FeedbackResponseCommentAttributes updatedComment = logic.updateFeedbackResponseComment(feedbackResponseComment);
+            FeedbackResponseCommentAttributes updatedComment = 
+                    logic.updateFeedbackResponseComment(feedbackResponseComment);
             //TODO: move putDocument to task queue
             logic.putDocument(updatedComment);
         } catch (InvalidParametersException e) {
@@ -93,10 +92,11 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
         
         if (!data.isError) {
             statusToAdmin += "InstructorFeedbackResponseCommentEditAction:<br>"
-                    + "Editing feedback response comment: " + feedbackResponseComment.getId() + "<br>"
-                    + "in course/feedback session: " + feedbackResponseComment.courseId + "/" + feedbackResponseComment.feedbackSessionName + "<br>"
-                    + "by: " + feedbackResponseComment.giverEmail + "<br>"
-                    + "comment text: " + feedbackResponseComment.commentText.getValue();
+                           + "Editing feedback response comment: " + feedbackResponseComment.getId() + "<br>"
+                           + "in course/feedback session: " + feedbackResponseComment.courseId + "/" 
+                           + feedbackResponseComment.feedbackSessionName + "<br>"
+                           + "by: " + feedbackResponseComment.giverEmail + "<br>"
+                           + "comment text: " + feedbackResponseComment.commentText.getValue();
         }
         
         data.comment = feedbackResponseComment;
@@ -112,22 +112,20 @@ public class InstructorFeedbackResponseCommentEditAction extends Action {
                     || comment.isVisibleTo(FeedbackParticipantType.STUDENTS));
     }
     
-    private void verifyAccessibleForInstructorToFeedbackResponseComment(
-            String feedbackSessionName, String feedbackResponseCommentId,
-            InstructorAttributes instructor, FeedbackSessionAttributes session,
-            FeedbackResponseAttributes response) {
-        FeedbackResponseCommentAttributes frc = logic.getFeedbackResponseComment(Long.parseLong(feedbackResponseCommentId));
+    private void verifyAccessibleForInstructorToFeedbackResponseComment(String feedbackSessionName,
+            String feedbackResponseCommentId, InstructorAttributes instructor,
+            FeedbackSessionAttributes session, FeedbackResponseAttributes response) {
+        FeedbackResponseCommentAttributes frc =
+                logic.getFeedbackResponseComment(Long.parseLong(feedbackResponseCommentId));
         if (frc == null) {
             Assumption.fail("FeedbackResponseComment should not be null");
         }
         if (instructor != null && frc.giverEmail.equals(instructor.email)) { // giver, allowed by default
             return ;
         }
-        new GateKeeper().verifyAccessible(instructor, session, false, 
-                response.giverSection, 
+        new GateKeeper().verifyAccessible(instructor, session, false, response.giverSection, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        new GateKeeper().verifyAccessible(instructor, session, false, 
-                response.recipientSection, 
+        new GateKeeper().verifyAccessible(instructor, session, false, response.recipientSection, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
     }
 }

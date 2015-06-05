@@ -47,7 +47,7 @@ public class InstructorFeedbacksPageAction extends Action {
         data.courses = loadCoursesList(instructorList);
         
         if (data.courses.isEmpty()) {
-            statusToUser.add(Const.StatusMessages.COURSE_EMPTY_IN_EVALUATION
+            statusToUser.add(Const.StatusMessages.COURSE_EMPTY_IN_INSTRUCTOR_FEEDBACKS
                              .replace("${user}", "?user=" + account.googleId));
         }
         
@@ -56,7 +56,7 @@ public class InstructorFeedbacksPageAction extends Action {
         } else {
             data.existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
             if (data.existingFeedbackSessions.isEmpty()) {
-                statusToUser.add(Const.StatusMessages.EVALUATION_EMPTY);
+                statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EMPTY);
             }
         }            
         

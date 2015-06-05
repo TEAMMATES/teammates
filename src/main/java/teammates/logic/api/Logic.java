@@ -685,7 +685,7 @@ public class Logic {
     
     
     /**
-     * Returns a detailed version of course data, including evaluation data. <br>
+     * Returns a detailed version of course data. <br>
      * Preconditions: <br>
      * * All parameters are non-null.
      */
@@ -787,7 +787,7 @@ public class Logic {
      * * All parameters are non-null.
      * 
      * @return Details of courses the student is in. CourseData objects
-     *         returned contain details of evaluations too (except the ones
+     *         returned contain details of feedback sessions too (except the ones
      *         still AWAITING).
      */
     public List<CourseDetailsBundle> getCourseDetailsListForStudent(String googleId)
@@ -874,7 +874,7 @@ public class Logic {
     
     /**
      * Deletes the course and all data related to the course 
-     * (instructors, students, evaluations, feedback sessions).
+     * (instructors, students, feedback sessions).
      * Fails silently if no such account. <br>
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -889,7 +889,7 @@ public class Logic {
     }
 
     /**
-     * Creates a student and adjust existing evaluations to accommodate the new student. <br> 
+     * Creates a student. <br> 
      * Preconditions: <br>
      * * All parameters are non-null.
      */
@@ -1660,11 +1660,11 @@ public class Logic {
     }
     
     /**
-     * Publishes the evaluation and send email alerts to students.
+     * Publishes the feedback session and send email alerts to students.
      * Preconditions: <br>
      * * All parameters are non-null. <br>
      * @throws InvalidParametersException
-     *             if the evaluation is not ready to be published.
+     *             if the feedback session is not ready to be published.
      * @throws EntityDoesNotExistException
      */
     public void publishFeedbackSession(String feedbackSessionName, String courseId) throws EntityDoesNotExistException, 
@@ -1680,7 +1680,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null. <br>
      * @throws InvalidParametersException
-     *             if the evaluation is not ready to be unpublished.
+     *             if the feedback session is not ready to be unpublished.
      */
     public void unpublishFeedbackSession(String feedbackSessionName, String courseId) 
             throws EntityDoesNotExistException, InvalidParametersException {
