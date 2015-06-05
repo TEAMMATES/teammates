@@ -80,7 +80,7 @@ function getAppendedData(data, courseIdx) {
     var appendedHtml = '';
     var sortIdx = 2;
     if (data.courseSectionDetails.length > 0) {
-        appendedHtml += '<table class="table table-responsive table-striped table-bordered margin-0">\n';
+        appendedHtml += '\n<table class="table table-responsive table-striped table-bordered margin-0">\n';
         appendedHtml += '<thead class="background-color-medium-gray text-color-gray font-weight-normal">\n';
         appendedHtml += '<tr id="resultsHeader-' + courseIdx + '">\n<th>Photo</th>\n';
         if (data.hasSection) { 
@@ -193,7 +193,7 @@ function getAppendedData(data, courseIdx) {
         }
         appendedHtml += '</table>\n';
     } else {
-        appendedHtml += '<table class="table table-responsive table-striped table-bordered margin-0">\n';
+        appendedHtml += '\n<table class="table table-responsive table-striped table-bordered margin-0">\n';
         appendedHtml += '<thead class="background-color-medium-gray text-color-gray font-weight-normal">\n';
         appendedHtml += '<tr>\n<th class="align-center color_white bold">There are no students in this course</th>\n';
         appendedHtml += '</tr>\n</thead>\n</table>\n';
