@@ -56,7 +56,6 @@ public class FeedbackQuestionsLogicTest extends BaseComponentTestCase {
         testUpdateQuestion();
         testDeleteQuestion();
         testAddQuestionNoIntegrityCheck();
-        
         testDeleteQuestionsForCourse();
     }
     

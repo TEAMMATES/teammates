@@ -62,7 +62,6 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         testUpdateFeedbackResponsesForChangingEmail();
         testDeleteFeedbackResponsesForStudent();
         testSpecialCharactersInTeamName();
-        
         testDeleteFeedbackResponsesForCourse();
     }
 
