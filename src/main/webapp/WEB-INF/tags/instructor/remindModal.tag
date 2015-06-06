@@ -1,5 +1,4 @@
 <%@ tag description="instructorHome / instructorFeedbacks - Remind modal" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 <div class="modal fade" id="remindModal" tabindex="-1" role="dialog" 
      aria-labelledby="remindModal" aria-hidden="true">

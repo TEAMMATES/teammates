@@ -32,4 +32,5 @@
             </c:if>
         </ti:homeCoursePanel>
     </c:forEach>
+    <ti:copyModal />
 </ti:instructorPage>
