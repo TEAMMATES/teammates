@@ -55,6 +55,10 @@ public class PageData {
         this.student = student;
     }
     
+    public AccountAttributes getAccount() {
+        return account;
+    }
+
     @SuppressWarnings("unused")
     private void _________general_util_methods() {
     //========================================================================    
