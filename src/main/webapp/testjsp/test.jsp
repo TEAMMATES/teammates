@@ -13,11 +13,11 @@
         </div>
     </div>
     <br />
+    <t:statusMessage />
+    <ti:remindModal />
     <div class="row">
         <ti:homeSort />
     </div>
-    <br />
-    <t:statusMessage />
     <br />
     <c:forEach items="${data.courseTables}" var="courseTable" varStatus="i">
         <ti:homeCoursePanel courseTable="${courseTable}" index="${i.index}">
