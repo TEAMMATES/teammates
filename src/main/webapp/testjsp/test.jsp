@@ -15,9 +15,11 @@
     <br />
     <t:statusMessage />
     <ti:remindModal />
-    <div class="row">
-        <ti:homeSort />
-    </div>
+    <c:if test="${data.unarchivedCoursesCount > 1}">
+        <div class="row">
+            <ti:homeSort />
+        </div>
+    </c:if>
     <br />
     <c:forEach items="${data.courseTables}" var="courseTable" varStatus="i">
         <ti:homeCoursePanel courseTable="${courseTable}" index="${i.index}">

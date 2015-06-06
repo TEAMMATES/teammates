@@ -42,9 +42,17 @@ public class InstructorHomePageData extends PageData {
     public void setSortCriteria(String sortCriteria) {
         this.sortCriteria = sortCriteria;
     }
-
-    public List<CourseSummaryBundle> getCourses() {
-        return courses;
+    
+    public int getUnarchivedCoursesCount() {
+        int unarchivedCoursesCount = 0;
+        for (CourseSummaryBundle courseDetails : courses) {
+            InstructorAttributes instructor = instructors.get(courseDetails.course.id);
+            boolean notArchived = instructor.isArchived == null || !instructor.isArchived;
+            if (notArchived) {
+                unarchivedCoursesCount++;
+            }
+        }
+        return unarchivedCoursesCount;
     }
     
     public List<CourseTable> getCourseTables() {
