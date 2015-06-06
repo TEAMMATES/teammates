@@ -13,7 +13,6 @@
 <script type="text/javascript" src="/js/common.js"></script>
 <script type="text/javascript"  src="/bootstrap/js/bootstrap.min.js"></script>
 
-<jsp:include page="../enableJS.jsp"></jsp:include>
 <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>

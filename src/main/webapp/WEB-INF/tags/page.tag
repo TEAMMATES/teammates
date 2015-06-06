@@ -10,6 +10,7 @@
     <title>${pageTitle}</title>
     <t:includes />
     <jsp:invoke fragment="headerJs" />
+    <t:enableJS />
 </head>
 <body>
     <jsp:invoke fragment="navBar" />
