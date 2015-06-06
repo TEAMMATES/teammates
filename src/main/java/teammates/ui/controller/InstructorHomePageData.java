@@ -14,7 +14,7 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.ui.template.CourseTable;
-import teammates.ui.template.CourseTableLink;
+import teammates.ui.template.ElementTag;
 import teammates.ui.template.CourseTableSessionRow;
 
 public class InstructorHomePageData extends PageData {
@@ -71,47 +71,47 @@ public class InstructorHomePageData extends PageData {
                                createSessionRows(courseDetails.feedbackSessions, instructor, courseId));
     }
     
-    private CourseTableLink createButton(String text, String href, String tooltip) {
-        return new CourseTableLink(text, "href", href, "title", tooltip);
+    private ElementTag createButton(String text, String href, String tooltip) {
+        return new ElementTag(text, "href", href, "title", tooltip);
     }
     
-    private void addAttributeIf(boolean shouldAdd, CourseTableLink button, String key, String value) {
+    private void addAttributeIf(boolean shouldAdd, ElementTag button, String key, String value) {
         if (shouldAdd) {
-            button.getAttributes().put(key, value);
+            button.setAttribute(key, value);
         }
     }
     
-    private List<CourseTableLink> createCourseTableLinks(InstructorAttributes instructor, String courseId) {
+    private List<ElementTag> createCourseTableLinks(InstructorAttributes instructor, String courseId) {
         String disabled = "disabled";
         
-        CourseTableLink enroll = createButton("Enroll",
-                                              getInstructorCourseEnrollLink(courseId),
-                                              Const.Tooltips.COURSE_ENROLL);
+        ElementTag enroll = createButton("Enroll",
+                                         getInstructorCourseEnrollLink(courseId),
+                                         Const.Tooltips.COURSE_ENROLL);
         addAttributeIf(!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT),
                        enroll, disabled, disabled);
         
-        CourseTableLink view = createButton("View",
-                                            getInstructorCourseDetailsLink(courseId),
-                                            Const.Tooltips.COURSE_DETAILS);
+        ElementTag view = createButton("View",
+                                       getInstructorCourseDetailsLink(courseId),
+                                       Const.Tooltips.COURSE_DETAILS);
         
-        CourseTableLink edit = createButton("Edit",
-                                            getInstructorCourseEditLink(courseId),
-                                            Const.Tooltips.COURSE_EDIT);
+        ElementTag edit = createButton("Edit",
+                                       getInstructorCourseEditLink(courseId),
+                                       Const.Tooltips.COURSE_EDIT);
         
-        CourseTableLink add = createButton("Add Session",
-                                           getInstructorFeedbacksPageLinkForCourse(courseId),
-                                           Const.Tooltips.COURSE_ADD_FEEDBACKSESSION);
+        ElementTag add = createButton("Add Session",
+                                      getInstructorFeedbacksPageLinkForCourse(courseId),
+                                      Const.Tooltips.COURSE_ADD_FEEDBACKSESSION);
         addAttributeIf(!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION),
                        add, disabled, disabled);
         
-        CourseTableLink archive = createButton("Archive",
-                                               getInstructorCourseArchiveLink(courseId, true, true),
-                                               Const.Tooltips.COURSE_ARCHIVE);
+        ElementTag archive = createButton("Archive",
+                                          getInstructorCourseArchiveLink(courseId, true, true),
+                                          Const.Tooltips.COURSE_ARCHIVE);
         addAttributeIf(true, archive, "onclick", "return toggleArchiveCourseConfirmation('" + courseId + "')");
         
-        CourseTableLink delete = createButton("Delete",
-                                              getInstructorCourseDeleteLink(courseId, true),
-                                              Const.Tooltips.COURSE_DELETE);
+        ElementTag delete = createButton("Delete",
+                                         getInstructorCourseDeleteLink(courseId, true),
+                                         Const.Tooltips.COURSE_DELETE);
         addAttributeIf(!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE),
                        delete, disabled, disabled);
         addAttributeIf(true, delete, "onclick", "return toggleDeleteCourseConfirmation('" + courseId + "')");
@@ -124,7 +124,7 @@ public class InstructorHomePageData extends PageData {
                                     + "<span class=\"glyphicon glyphicon-comment\"></span>"
                                     + "<span class=\"glyphicon glyphicon-arrow-right\"></span>"
                                     + "<span class=\"glyphicon glyphicon-envelope\"></span>";
-            CourseTableLink pending = createButton(
+            ElementTag pending = createButton(
                     pendingGraphic,
                     getInstructorClearPendingCommentsLink(courseId),
                     "Send email notification to recipients of " + numberOfPendingCommentsForThisCourse

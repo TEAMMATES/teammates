@@ -7,10 +7,10 @@ import teammates.common.datatransfer.CourseAttributes;
 public class CourseTable {
     private String courseId;
     private String courseName;
-    private List<CourseTableLink> buttons;
+    private List<ElementTag> buttons;
     private List<CourseTableSessionRow> rows;
     
-    public CourseTable(CourseAttributes course, List<CourseTableLink> buttons, List<CourseTableSessionRow> rows) {
+    public CourseTable(CourseAttributes course, List<ElementTag> buttons, List<CourseTableSessionRow> rows) {
         this.courseId = course.id;
         this.courseName = course.name;
         this.buttons = buttons;
@@ -25,7 +25,7 @@ public class CourseTable {
         return courseName;
     }
     
-    public List<CourseTableLink> getButtons() {
+    public List<ElementTag> getButtons() {
         return buttons;
     }
     

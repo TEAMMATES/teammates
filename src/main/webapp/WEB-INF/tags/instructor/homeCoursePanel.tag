@@ -16,7 +16,7 @@
                     <c:forEach items="${courseTable.buttons}" var="button">
                         <a class="btn btn-primary btn-xs btn-tm-actions" data-toggle="tooltip" data-placement="top"
                            <c:forEach items="${button.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach>>
-                            ${button.text}
+                            ${button.content}
                         </a>
                     </c:forEach>
                 </span>
