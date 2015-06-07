@@ -26,7 +26,7 @@
             <c:if test="${not empty courseTable.rows}">
                 <ti:homeCourseTable>
                     <c:forEach items="${courseTable.rows}" var="sessionRow" varStatus="j">
-                        <ti:homeCourseRow sessionRow="${sessionRow}" index="${j.index}" />
+                        <ti:homeCourseSessionRow sessionRow="${sessionRow}" index="${j.index}" />
                     </c:forEach>
                 </ti:homeCourseTable>
             </c:if>

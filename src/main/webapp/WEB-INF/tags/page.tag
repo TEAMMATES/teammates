@@ -15,9 +15,9 @@
 <body>
     <jsp:invoke fragment="navBar" />
     <div id="frameBodyWrapper" class="container theme-showcase">
-        <t:header title="${bodyTitle}" />
+        <t:bodyHeader title="${bodyTitle}" />
         <jsp:doBody />
     </div>
-    <t:footer version="tempVal"/>
+    <t:bodyFooter version="tempVal"/>
 </body>
 </html>

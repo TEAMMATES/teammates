@@ -6,7 +6,7 @@
 <%@ attribute name="bodyTitle" required="true" %>
 <t:page pageTitle="${pageTitle}" bodyTitle="${bodyTitle}">
     <jsp:attribute name="navBar">
-        <ti:nav />
+        <ti:navBar />
     </jsp:attribute>
     <jsp:attribute name="headerJs">
         <script type="text/javascript" src="/js/instructor.js"></script>
