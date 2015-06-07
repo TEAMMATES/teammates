@@ -244,7 +244,7 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
     TestNG is a Java test automation framework.
 * **QUnit** [version 1.10.0]
     QUnit is a JavaScript unit test suite.
-* **NekoHtml** [version 1.9.21]
+* **NekoHtml** [version 1.9.22]
     NekoHTML is a simple HTML scanner and tag balancer that enables application programmers to parse HTML documents and access the information using standard XML interfaces.
     NekoHTML is included in the Selenium libraries.
     Usage: During UI testing, for doing a logical comparison of the pages generated against expected pages.
