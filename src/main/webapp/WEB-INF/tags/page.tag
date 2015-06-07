@@ -1,9 +1,9 @@
 <%@ tag description="Generic TEAMMATES Page" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
-<%@ attribute name="pageTitle" %>
+<%@ attribute name="pageTitle" required="true" %>
 <%@ attribute name="jsIncludes" fragment="true" %>
-<%@ attribute name="navBar" fragment="true" %>
-<%@ attribute name="bodyTitle" %>
+<%@ attribute name="navBar" required="true" fragment="true" %>
+<%@ attribute name="bodyTitle" required="true" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,6 +28,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    
     <t:enableJS />
 </head>
 <body>
