@@ -152,7 +152,7 @@ public class InstructorStudentCommentEditAction extends Action {
         
         if (recipients != null) {
             comment.recipients = new HashSet<String>();
-            if (recipients != null && !recipients.isEmpty()) {
+            if (!recipients.isEmpty()) {
                 String[] recipientsArray = recipients.split(",");
                 for (String recipient : recipientsArray) {
                     comment.recipients.add(recipient.trim());
