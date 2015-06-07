@@ -283,17 +283,28 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
     }
     
     public void testArchiveCourseAction() throws Exception {
-        
-        ______TS("archive course action");
-        
         String courseIdForCS1101 = testData.courses.get("CHomeUiT.CS1101").id;
+
+        ______TS("archive course action: click and cancel");
         
-        homePage.clickArchiveCourseLink(courseIdForCS1101);
+        homePage.clickArchiveCourseLinkAndCancel(courseIdForCS1101);
+
+        InstructorAttributes instructor = BackDoor.getInstructorByGoogleId("CHomeUiT.instructor.tmms", courseIdForCS1101);
+        InstructorAttributes helper = BackDoor.getInstructorByGoogleId("CHomeUiT.instructor.tmms.helper", courseIdForCS1101);
+
+        assertFalse(instructor.isArchived);
+        assertFalse(helper.isArchived == null || !helper.isArchived);
+
+        assertFalse(BackDoor.getCourse(courseIdForCS1101).isArchived);
+        
+        ______TS("archive course action: click and confirm");
+        
+        homePage.clickArchiveCourseLinkAndConfirm(courseIdForCS1101);
         
         // archiving should only modify the isArchived status on the instructor
-        InstructorAttributes instructor = BackDoor.getInstructorByGoogleId("CHomeUiT.instructor.tmms", courseIdForCS1101);
+        instructor = BackDoor.getInstructorByGoogleId("CHomeUiT.instructor.tmms", courseIdForCS1101);
+        helper = BackDoor.getInstructorByGoogleId("CHomeUiT.instructor.tmms.helper", courseIdForCS1101);
         assertTrue(instructor.isArchived);
-        InstructorAttributes helper = BackDoor.getInstructorByGoogleId("CHomeUiT.instructor.tmms.helper", courseIdForCS1101);
         assertTrue(helper.isArchived == null || !helper.isArchived);
         
         // the course's isArchived status should not be modified
@@ -315,7 +326,7 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         testData = loadDataBundle("/InstructorHomePageUiTest3.json");
         removeAndRestoreTestDataOnServer(testData);
         loginAsCommonInstructor();
-        homePage.clickArchiveCourseLink(courseIdForCS1101);
+        homePage.clickArchiveCourseLinkAndConfirm(courseIdForCS1101);
         homePage.clickHomeTab();
     }
     
