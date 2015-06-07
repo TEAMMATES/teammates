@@ -85,7 +85,6 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
         feedbackEditPage.waitForElementPresence(By.id("table-sessions"), 5);
-        ThreadHelper.waitFor(1000); // wait for sessions' response rate to load
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditCopySuccess.html");
         
     }
