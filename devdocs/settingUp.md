@@ -91,18 +91,7 @@ Important: When a version is specified, please install that version instead of t
 1. TEAMMATES automated testing requires Firefox (works on Windows and OS-X) 
     or Chrome (Windows only). The default browser used for testing is Firefox 
     because it is faster than Chrome and it can be run in the background.
-    If you plan to use Firefox for testing TEAMMATES, 
-   downgrade to Firefox 21.0 from [here](https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/)
-   {The web driver we use may not work with the latest Firefox.} <br>
-   To install Firefox 21.0 while keeping the latest Firefox for
-   regular use, grab Firefox 21.0 from the above link, and choose `custom 
-   setup` during install, in which you will be able to specify a different path 
-   for this version e.g. `C:\Program Files\Mozilla Firefox 21`) in a later step.<br>
-   Remember to disable auto-updates in Firefox. `Options → Advanced tab → Update`<br>
-   After that, you need to specify which version of the Firefox
-   should be used for testing, by modifying the `test.firefox.path` property 
-   (note the double slashes).<br>
-   e.g. `test.firefox.path=C:\\Program Files\\Mozilla Firefox 21\\firefox.exe`
+    Firefox 38.0.5 (latest release as at 7th June 2015) is supported.
    
 2. Before running the test suite, both the server and the test environment 
    should be using the UTC time zone. Here is the procedure.
@@ -245,7 +234,7 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
 
 ####Tools used in testing
 
-* **Selenium** [version 2.41.0]
+* **Selenium** [version 2.46.0]
     Selenium automates browsers. We use it for automating our UI tests.
     We require Selenium standalone server, Chrome driver, IE driver, and Java language bindings.
 * **JavaMail** [version 1.4.5]
@@ -255,7 +244,7 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
     TestNG is a Java test automation framework.
 * **QUnit** [version 1.10.0]
     QUnit is a JavaScript unit test suite.
-* **NekoHtml** [version 1.9.16]
+* **NekoHtml** [version 1.9.21]
     NekoHTML is a simple HTML scanner and tag balancer that enables application programmers to parse HTML documents and access the information using standard XML interfaces.
     NekoHTML is included in the Selenium libraries.
     Usage: During UI testing, for doing a logical comparison of the pages generated against expected pages.
