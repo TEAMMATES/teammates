@@ -1,7 +1,7 @@
 <%@ tag description="Generic TEAMMATES Page" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ attribute name="pageTitle" %>
-<%@ attribute name="headerJs" fragment="true" %>
+<%@ attribute name="jsIncludes" fragment="true" %>
 <%@ attribute name="navBar" fragment="true" %>
 <%@ attribute name="bodyTitle" %>
 <!DOCTYPE html>
@@ -22,11 +22,12 @@
     <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript"  src="/bootstrap/js/bootstrap.min.js"></script>
     
+    <jsp:invoke fragment="jsIncludes" />
+    
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <jsp:invoke fragment="headerJs" />
     <t:enableJS />
 </head>
 <body>

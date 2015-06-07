@@ -3,16 +3,14 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ attribute name="pageTitle" required="true" %>
+<%@ attribute name="jsIncludes" %>
 <%@ attribute name="bodyTitle" required="true" %>
 <t:page pageTitle="${pageTitle}" bodyTitle="${bodyTitle}">
+    <jsp:attribute name="jsIncludes">
+        ${jsIncludes}
+    </jsp:attribute>
     <jsp:attribute name="navBar">
         <ti:navBar />
-    </jsp:attribute>
-    <jsp:attribute name="headerJs">
-        <script type="text/javascript" src="/js/instructor.js"></script>
-        <script type="text/javascript" src="/js/instructorHome.js"></script>
-        <script type="text/javascript" src="/js/ajaxResponseRate.js"></script>
-        <script type="text/javascript" src="/js/instructorFeedbackAjaxRemindModal.js"></script>
     </jsp:attribute>
     <jsp:body>
         <jsp:doBody />
