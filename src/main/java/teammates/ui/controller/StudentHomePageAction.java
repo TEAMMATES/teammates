@@ -26,9 +26,14 @@ public class StudentHomePageAction extends Action {
         String recentlyJoinedCourseId = getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);        
         
         try {
-            data.courses = logic.getCourseDetailsListForStudent(account.googleId);
-    
-            data.sessionSubmissionStatusMap = generateFeedbackSessionSubmissionStatusMap(data.courses, account.googleId);
+            Map<String, StudentAttributes> courseToStudentAttributesMap = new HashMap<String, StudentAttributes>();
+            data.courses = logic.getCourseDetailsListForStudent(account.googleId, courseToStudentAttributesMap);
+            /*
+             * courseToAttributesMap is used to keep the query results in the form of
+             * course ID -> StudentAttributes mapping so that they can be re-used.
+             */
+            data.sessionSubmissionStatusMap = generateFeedbackSessionSubmissionStatusMap(data.courses, account.googleId,
+                                                                                         courseToStudentAttributesMap);
             CourseDetailsBundle.sortDetailedCourses(data.courses);
             
             statusToAdmin = "studentHome Page Load<br>" + "Total courses: " + data.courses.size();
@@ -58,20 +63,23 @@ public class StudentHomePageAction extends Action {
     }
     
     private Map<String, Boolean> generateFeedbackSessionSubmissionStatusMap(
-            List<CourseDetailsBundle> courses, String googleId) {
+            List<CourseDetailsBundle> courses, String googleId,
+            Map<String, StudentAttributes> courseToStudentAttributesMap) {
         Map<String, Boolean> returnValue = new HashMap<String, Boolean>();
         
         for(CourseDetailsBundle c : courses) {
             for(FeedbackSessionDetailsBundle fsb : c.feedbackSessions) {
                 FeedbackSessionAttributes f = fsb.feedbackSession;
-                returnValue.put(f.courseId + "%" + f.feedbackSessionName, getStudentStatusForSession(f, googleId));
+                returnValue.put(f.courseId + "%" + f.feedbackSessionName,
+                                getStudentStatusForSession(f, googleId, courseToStudentAttributesMap));
             }
         }
         return returnValue;
     }
 
-    private boolean getStudentStatusForSession(FeedbackSessionAttributes fs, String googleId){
-        StudentAttributes student = logic.getStudentForGoogleId(fs.courseId, googleId);
+    private boolean getStudentStatusForSession(FeedbackSessionAttributes fs, String googleId,
+                                               Map<String, StudentAttributes> courseToStudentAttributesMap) {
+        StudentAttributes student = courseToStudentAttributesMap.get(fs.courseId);
         Assumption.assertNotNull(student);
 
         String studentEmail = student.email;
