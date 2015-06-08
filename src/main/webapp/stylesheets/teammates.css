@@ -137,20 +137,31 @@ h2 {
    color: white;
    float: left;
    list-style-type: none;
-   padding-left: 20px;
-   padding-right: 20px;
+}
+
+#navbar li:hover {
+    background: white;
+    color: black;    
+
+    
 }
 
 #navbar li a {
-    color: white;
+
     font-weight: bold;
     text-decoration: none;
+    padding: 20px;
+    color: white;
+    overflow: hidden;
+
 }
 
 #navbar li a:hover {
-    color: white;
+    color: black;
     font-weight: bold;
-    text-decoration: underline;
+    text-decoration: none;
+    background: white;
+    transition: 0.2s;
 }
 
 .current {
@@ -159,6 +170,8 @@ h2 {
    background-repeat:no-repeat;
    background-position:center;
    overflow: hidden;
+   padding-right: 20px;
+   padding-left: 20px;
 }
 
 .bold {
@@ -166,19 +179,26 @@ h2 {
 }
 
 #loginHolder input{
-    color: #00FF00;
+       color: white;
        font-weight: bold;
        border-style: none;
        background-color: black;
        cursor: pointer;
+       padding-bottom: 10px;
+       padding-top: 10px;
+       font-size: 14px;
+}
+
+#loginHolder input:hover{
+    color: #00FF00;
+    transition: 0.2s; 
 }
 
 #loginHolder form{
     width: 120px;
     display: inline;
     border-left: 1px dotted white;
-    padding: 5px 0px;
-    margin: 15px 0px;
+    margin-top: 10px;
     padding-left: 5px;
 }
 
