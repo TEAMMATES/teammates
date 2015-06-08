@@ -59,7 +59,7 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
                                      feedbackSessionName, testData.courses.get("course").id);
         feedbackEditPage.verifyStatus(error);
         
-        feedbackEditPage.verifyHtml("/instructorFeedbackEditCopyFail.html");
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditCopyFail.html");
         
         
         ______TS("Copying fails due to fs with invalid name");
@@ -85,8 +85,7 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
         feedbackEditPage.waitForElementPresence(By.id("table-sessions"), 5);
-        ThreadHelper.waitFor(1000); // wait for sessions' response rate to load
-        feedbackEditPage.verifyHtml("/instructorFeedbackEditCopySuccess.html");
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditCopySuccess.html");
         
     }
 

@@ -166,7 +166,7 @@ public class AdminHomePageUiTest extends BaseUiTestCase{
         
         ______TS("new instructor can archive sample course");
         instructorHomePage = feedbacksPage.goToPreviousPage(InstructorHomePage.class);
-        instructorHomePage.clickArchiveCourseLink(demoCourseId);
+        instructorHomePage.clickArchiveCourseLinkAndConfirm(demoCourseId);
         instructorHomePage.verifyHtmlMainContent("/NJIHomePageSampleCourseArchived.html");
         
         ______TS("new instructor can unarchive sample course");
