@@ -1,0 +1,114 @@
+{
+    "accounts":{
+        "instructor":{
+            "googleId":"idOfInstructorForSAT",
+            "name":"Instructor 1",
+            "isInstructor":true,
+            "email":"instrOfSAT@course2.tmt",
+            "institute":"TEAMMATES Test Institute 1"
+        }
+        
+    },
+    "courses":{
+        "course1":{
+            "id":"idOfCourse1ForSAT",
+            "name":"SAT course"
+        }
+        
+    },
+    "instructors":{
+        "instructor1OfCourse1":{
+            "googleId":"idOfInstructorForSAT",
+            "courseId":"idOfCourse1ForSAT",
+            "name":"Instructor1 SAT",
+            "email":"instructorSAT1@course1.tmt",
+            "role":"Co-owner",
+            "isDisplayedToStudents":true,
+            "displayedName":"Instructor",
+            "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
+        }
+        
+    },
+    "students":{
+        "student1InCourse1":{
+            "email":"student1InSatCourse1@gmail.tmt",
+            "name":"student1 In Course1",
+            "team":"Team 1.1",
+            "section":"Section 1",
+            "googleId":"student1InSATCourse",
+            "course":"idOfCourse1ForSAT",
+            "comments": "comment for student"
+        },
+        "student2InCourse1":{
+            "email":"student2InSatCourse1@gmail.tmt",
+            "name":"student2 In Course1",
+            "team":"Team 1.1",
+            "section":"Section 1",
+            "googleId":"student1InSATCourse",
+            "course":"idOfCourse1ForSAT",
+            "comments": "comment for student 2"
+        }
+    },
+    "feedbackSessions":{
+        "session1InCourse1":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"idOfCourse1ForSAT",
+            "creatorEmail":"instructorSAT1@course1.tmt",
+            "instructions":{
+                "value":"Please please fill in the following questions."
+            },
+            "createdTime":"2012-03-20 11:59 PM UTC",
+            "startTime":"2012-04-01 11:59 PM UTC",
+            "endTime":"2017-04-30 11:59 PM UTC",
+            "sessionVisibleFromTime":"2012-03-28 11:59 PM UTC",
+            "resultsVisibleFromTime":"2017-05-01 11:59 PM UTC",
+            "timeZone":2.0,
+            "gracePeriod":10,
+            "feedbackSessionType":"STANDARD",
+            "sentOpenEmail":true,
+            "sentPublishedEmail":false
+        }
+    },
+    "feedbackQuestions":{
+        "qn1InSession1InCourse1":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"idOfCourse1ForSAT",
+            "creatorEmail":"instructorSAT1@course1.tmt",
+            "questionMetaData":{
+                "value":"What is the best part of your team?"
+            },
+            "questionNumber":"1",
+            "questionType":"TEXT",
+            "giverType":"STUDENTS",
+            "recipientType":"OWN_TEAM",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+            
+        }
+        
+    },
+    "feedbackResponses":{
+        "response1ForQ1":{
+            "feedbackSessionName":"First feedback session",
+            "courseId":"idOfCourse1ForSAT",
+            "feedbackQuestionId":"1",
+            "feedbackQuestionType":"TEXT",
+            "giverEmail":"student1InSatCourse1@gmail.tmt",
+            "recipientEmail":"Team 1.1",
+            "responseMetaData":{
+                "value":"Student 1 self feedback."
+            },
+            "giverSection":"Section 1",
+            "recipientSection":"Section 1" 
+        }
+    }
+    
+}

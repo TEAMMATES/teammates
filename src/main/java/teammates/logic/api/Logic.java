@@ -2148,6 +2148,26 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
+    public void updateFeedbackResponsesForRenamingTeam(String courseId, String feedbackSessionName, 
+                                                       String oldTeam, String oldSection, 
+                                                       String newTeam, String newSection) {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, oldTeam);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, oldSection);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, newTeam);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, newSection);
+        
+        feedbackResponsesLogic.updateFeedbackResponsesForRenamingTeam(courseId, feedbackSessionName,
+                                                                      oldTeam, oldSection,
+                                                                      newTeam, newSection);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
     public void deleteFeedbackResponse(FeedbackResponseAttributes feedbackResponse) {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackResponse);
         feedbackResponsesLogic.deleteFeedbackResponseAndCascade(feedbackResponse);

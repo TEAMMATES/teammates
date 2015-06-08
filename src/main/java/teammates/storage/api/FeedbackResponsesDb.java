@@ -561,6 +561,37 @@ public class FeedbackResponsesDb extends EntitiesDb {
     }
     
     /**
+     * Updates the recipient of the responses in the feedback session which
+     * currently has the recipient  {@code oldRecipient}, to {@code newRecipient}
+     * @param courseId
+     * @param feedbackSessionName
+     * @param oldRecipient
+     * @param oldRecipientSection
+     * @param newRecipient
+     * @param newRecipientSection
+     */
+    public void updateFeedbackResponsesRecipientForRecipient(String courseId, String feedbackSessionName, 
+                                                             String oldRecipient, String oldRecipientSection, 
+                                                             String newRecipient, String newRecipientSection) {
+        List<FeedbackResponse> responseEntities = getFeedbackResponseEntitiesForReceiverForFeedbackSession(courseId, feedbackSessionName, oldRecipient);
+        
+        updateFeedbackResponsesRecipient(responseEntities, newRecipient, newRecipientSection);
+    }
+    
+    private void updateFeedbackResponsesRecipient(List<FeedbackResponse> responseEntities, String newRecipient, String newRecipientSection) {
+        Assumption.assertNotNull(
+                Const.StatusCodes.DBLEVEL_NULL_INPUT, 
+                responseEntities);
+        
+        for (FeedbackResponse fr : responseEntities) {
+            fr.setRecipientEmail(newRecipient);
+            fr.setRecipientSection(newRecipientSection);
+        }
+        
+        getPM().close();
+    }
+    
+    /**
      * Optimized to take in FeedbackResponse entity if available, to prevent reading the entity again.
      * Updates the feedback response identified by {@code newAttributes.getId()} 
      * For the remaining parameters, the existing value is preserved 
@@ -982,6 +1013,20 @@ public class FeedbackResponsesDb extends EntitiesDb {
         @SuppressWarnings("unchecked")
         List<FeedbackResponse> FeedbackResponseList =
             (List<FeedbackResponse>) q.execute(courseId, receiver);
+        
+        return FeedbackResponseList;
+    }
+    
+    private List<FeedbackResponse> getFeedbackResponseEntitiesForReceiverForFeedbackSession(
+            String courseId, String feedbackSessionName, String receiver) {
+
+        Query q = getPM().newQuery(FeedbackResponse.class);
+        q.declareParameters("String courseIdParam, String feedbackSessionNameParam, String receiverParam");
+        q.setFilter("courseId == courseIdParam && feedbackSessionName == feedbackSessionNameParam && receiver == receiverParam");
+        
+        @SuppressWarnings("unchecked")
+        List<FeedbackResponse> FeedbackResponseList =
+            (List<FeedbackResponse>) q.execute(courseId, feedbackSessionName, receiver);
         
         return FeedbackResponseList;
     }

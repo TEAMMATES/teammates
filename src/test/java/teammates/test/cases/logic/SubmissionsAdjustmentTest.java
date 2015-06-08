@@ -21,18 +21,22 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
 import teammates.common.util.Const.ParamsNames;
+import teammates.logic.api.Logic;
 import teammates.logic.automated.FeedbackSubmissionAdjustmentAction;
+import teammates.logic.backdoor.BackDoorLogic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.FeedbackQuestionsLogic;
@@ -41,6 +45,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.StudentsLogic;
 import teammates.test.cases.BaseComponentUsingTaskQueueTestCase;
 import teammates.test.cases.BaseTaskQueueCallback;
+import teammates.test.driver.BackDoor;
 import teammates.test.util.TestHelper;
 
 public class SubmissionsAdjustmentTest extends
@@ -52,6 +57,7 @@ public class SubmissionsAdjustmentTest extends
     protected static AccountsLogic accountsLogic = AccountsLogic.inst();
     protected static CoursesLogic coursesLogic = CoursesLogic.inst();
     private static DataBundle dataBundle = getTypicalDataBundle();
+    private static DataBundle dataBundle2;
     
     
     @SuppressWarnings("serial")
@@ -84,6 +90,9 @@ public class SubmissionsAdjustmentTest extends
                 SubmissionsAdjustmentTaskQueueCallback.class);
         gaeSimulation.resetDatastore();
         removeAndRestoreTypicalDataInDatastore();
+        
+        dataBundle2 = loadDataBundle("/FeedbackSubmissionAdjustmentTest.json");
+        removeAndRestoreDatastoreFromJson("/FeedbackSubmissionAdjustmentTest.json");
     }
     
     @AfterClass
@@ -283,6 +292,170 @@ public class SubmissionsAdjustmentTest extends
         int numberOfNewResponses = getAllResponsesForStudentForSession
                 (student, session.feedbackSessionName).size();
         assertEquals(0, numberOfNewResponses);        
+        
+        
+        ______TS("Test that moving a team causes the responses to be updated");
+        student = dataBundle2.students.get("student1InCourse1");
+        StudentAttributes otherStudent = dataBundle2.students.get("student2InCourse1");
+        session = dataBundle2.feedbackSessions.get("session1InCourse1");
+        
+        FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+        List<FeedbackResponseAttributes> responses = frLogic.getFeedbackResponsesFromGiverForCourse(student.course, student.email);
+        assertNotNull(responses);
+        
+        List<FeedbackResponseAttributes> responsesToTeam = new ArrayList<FeedbackResponseAttributes>();
+        for (FeedbackResponseAttributes response : responses) {
+            if (response.recipientEmail.equals(student.team)) {
+                responsesToTeam.add(response);
+            }
+        }
+        responsesToTeam = getResponsesFromGiverToTeamAndSection(student, frLogic, student.team, student.section);
+        assertEquals(1, responsesToTeam.size());
+        
+        String originalTeam = student.team;
+        String renamedTeam = student.team + "_renamed";
+        student.team = renamedTeam;
+        otherStudent.team = renamedTeam;
+        
+        enrollList = new ArrayList<StudentEnrollDetails>();
+        enrollDetails = new StudentEnrollDetails
+                (UpdateStatus.MODIFIED, student.course, student.email, originalTeam, renamedTeam, student.section, student.section);
+        enrollList.add(enrollDetails);
+        StudentEnrollDetails enrollDetails2 = new StudentEnrollDetails
+                (UpdateStatus.MODIFIED, otherStudent.course, otherStudent.email, originalTeam, renamedTeam, otherStudent.section, otherStudent.section);
+        enrollList.add(enrollDetails2);
+        gsonBuilder = Utils.getTeammatesGson();
+        enrollString = gsonBuilder.toJson(enrollList);
+
+        paramMap = prepareParamMapForEnrollment(session, student, enrollString);
+        
+        studentsLogic.updateStudentCascadeWithSubmissionAdjustmentScheduled(student.email, student, false);
+        updateStudentAndAdjustResponses(otherStudent, paramMap);
+        
+        responsesToTeam = getResponsesFromGiverToTeamAndSection(student, frLogic, renamedTeam, student.section);
+        assertEquals(1, responsesToTeam.size());
+        
+        ______TS("Test that if only one student moves, the response to the team does not change");
+        
+        // rename from renamedTeam to originalTeam
+        student.team = originalTeam;
+        
+        enrollList = new ArrayList<StudentEnrollDetails>();
+        enrollDetails = new StudentEnrollDetails
+                (UpdateStatus.MODIFIED, student.course, student.email, renamedTeam, originalTeam, student.section, student.section);
+        enrollList.add(enrollDetails);
+        enrollString = gsonBuilder.toJson(enrollList);
+
+        paramMap = prepareParamMapForEnrollment(session, student, enrollString);
+        updateStudentAndAdjustResponses(student, paramMap);
+        
+        
+        responsesToTeam = getResponsesFromGiverToTeamAndSection(student, frLogic, student.team, student.section);
+        assertEquals(0, responsesToTeam.size());
+        
+        ______TS("Move the other student to the team, response should move");
+        // rename from renamedTeam to originalTeam
+        otherStudent.team = originalTeam;
+        
+        enrollList = new ArrayList<StudentEnrollDetails>();
+        enrollDetails = new StudentEnrollDetails
+                (UpdateStatus.MODIFIED, otherStudent.course, otherStudent.email, renamedTeam, originalTeam, student.section, student.section);
+        enrollList.add(enrollDetails);
+        enrollString = gsonBuilder.toJson(enrollList);
+
+        paramMap = prepareParamMapForEnrollment(session, student, enrollString);
+        updateStudentAndAdjustResponses(otherStudent, paramMap);
+        
+        responsesToTeam = getResponsesFromGiverToTeamAndSection(student, frLogic, originalTeam, student.section);
+        assertEquals(1, responsesToTeam.size());
+
+        ______TS("Test that a change in section causes response to move");
+        String originalSection = student.section;
+        String renamedSection = student.section + "_renamed";
+        student.section = renamedSection;
+        otherStudent.section = renamedSection;
+        
+        enrollList = new ArrayList<StudentEnrollDetails>();
+        enrollDetails = new StudentEnrollDetails
+                (UpdateStatus.MODIFIED, student.course, student.email, student.team, student.team, originalSection, student.section);
+        enrollList.add(enrollDetails);
+        enrollDetails2 = new StudentEnrollDetails
+                (UpdateStatus.MODIFIED, otherStudent.course, otherStudent.email, otherStudent.team, otherStudent.team, originalSection, otherStudent.section);
+        enrollList.add(enrollDetails2);
+        enrollString = gsonBuilder.toJson(enrollList);
+        
+        // Prepare parameter map
+        paramMap = prepareParamMapForEnrollment(session, student, enrollString);
+        updateStudentAndAdjustResponses(student, paramMap);
+        
+        responsesToTeam = getResponsesFromGiverToTeamAndSection(student,
+                frLogic, originalTeam, student.section);
+        assertEquals(1, responsesToTeam.size());
+        
+        ______TS("Test that if the team is move into 2 different teams, the responses does not move");
+        
+        String renamedTeam2 = originalTeam + "_renamed2";
+        
+        student.team = renamedTeam2;
+        otherStudent.team = renamedTeam;
+        
+        enrollList = new ArrayList<StudentEnrollDetails>();
+        enrollDetails = new StudentEnrollDetails
+                (UpdateStatus.MODIFIED, student.course, student.email, originalTeam, renamedTeam, student.section, student.section);
+        enrollList.add(enrollDetails);
+        enrollDetails2 = new StudentEnrollDetails
+                (UpdateStatus.MODIFIED, otherStudent.course, otherStudent.email, originalTeam, renamedTeam2, student.section, student.section);
+        enrollList.add(enrollDetails2);
+        enrollString = gsonBuilder.toJson(enrollList);
+
+        paramMap = prepareParamMapForEnrollment(session, student, enrollString);
+        updateStudentAndAdjustResponses(student, paramMap);
+        
+        responsesToTeam = getResponsesFromGiverToTeamAndSection(student,
+                frLogic, originalTeam, student.section);
+        assertEquals(1, responsesToTeam.size());
+        
+    }
+
+    private List<FeedbackResponseAttributes> getResponsesFromGiverToTeamAndSection(
+            StudentAttributes student, FeedbackResponsesLogic frLogic,
+            String team, String section) {
+        
+        List<FeedbackResponseAttributes> responses;
+        
+        responses = frLogic.getFeedbackResponsesFromGiverForCourse(student.course, student.email);
+        assertNotNull(responses);
+        
+        List<FeedbackResponseAttributes> responsesToTeam = new ArrayList<FeedbackResponseAttributes>();
+        for (FeedbackResponseAttributes response : responses) {
+            if (response.recipientEmail.equals(team) && 
+                response.recipientSection.equals(section)) {
+                
+                responsesToTeam.add(response);
+            }
+        }
+        
+        return responsesToTeam;
+    }
+
+    private void updateStudentAndAdjustResponses(StudentAttributes student,
+            HashMap<String, String> paramMap)
+            throws EntityDoesNotExistException, InvalidParametersException {
+        FeedbackSubmissionAdjustmentAction responseAdjustmentAction;
+        studentsLogic.updateStudentCascadeWithSubmissionAdjustmentScheduled(student.email, student, false);
+        responseAdjustmentAction = new FeedbackSubmissionAdjustmentAction(paramMap);
+        assertTrue(responseAdjustmentAction.execute());
+    }
+
+    private HashMap<String, String> prepareParamMapForEnrollment(
+            FeedbackSessionAttributes session, StudentAttributes student,
+            String enrollString) {
+        HashMap<String, String> paramMap;
+        paramMap = new HashMap<String,String>();
+        paramMap.put(ParamsNames.COURSE_ID, student.course);
+        paramMap.put(ParamsNames.FEEDBACK_SESSION_NAME, session.feedbackSessionName);
+        paramMap.put(ParamsNames.ENROLLMENT_DETAILS, enrollString);
+        return paramMap;
     }
 
     private List<FeedbackResponseAttributes> getAllTeamResponsesForStudent(StudentAttributes student) {
