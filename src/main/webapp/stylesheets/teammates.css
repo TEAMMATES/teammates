@@ -137,20 +137,31 @@ h2 {
    color: white;
    float: left;
    list-style-type: none;
-   padding-left: 20px;
-   padding-right: 20px;
+}
+
+#navbar li:hover {
+    background: white;
+    color: black;    
+    transition: 0.3s;
+    
 }
 
 #navbar li a {
-    color: white;
+
     font-weight: bold;
     text-decoration: none;
+    padding: 20px;
+    color: white;
+    overflow: hidden;
+
 }
 
 #navbar li a:hover {
-    color: white;
+    color: black;
     font-weight: bold;
-    text-decoration: underline;
+    text-decoration: none;
+    background: white;
+    transition: 0.3s;
 }
 
 .current {
@@ -159,6 +170,8 @@ h2 {
    background-repeat:no-repeat;
    background-position:center;
    overflow: hidden;
+   padding-right: 20px;
+   padding-left: 20px;
 }
 
 .bold {
