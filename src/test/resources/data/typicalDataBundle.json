@@ -113,11 +113,13 @@
         "typicalCourse1":{
             "id":"idOfTypicalCourse1",
             "name":"Typical Course 1 with 2 Evals",
+            "createdAt": "2012-04-01 11:58 PM UTC",
             "isArchived":false
         },
         "typicalCourse2":{
             "id":"idOfTypicalCourse2",
             "name":"Typical Course 2 with 1 Evals",
+            "createdAt": "2012-04-01 11:59 PM UTC",
             "isArchived":false
         },
         "courseNoEvals":{

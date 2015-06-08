@@ -168,11 +168,11 @@
                                             data-toggle="tooltip"
                                             data-placement="top">Instructions</label>
                                         <div class="col-sm-10">
+                                            <!-- Do not add whitespace between the opening and closing tags-->
                                             <textarea class="form-control"
                                                 rows="4" cols="100%"
                                                 name="<%= Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS %>"
-                                                id="<%= Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS %>"><%= InstructorFeedbacksPageData.sanitizeForHtml(data.session.instructions.getValue()) %>
-                                            </textarea>
+                                                id="<%= Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS %>"><%= InstructorFeedbacksPageData.sanitizeForHtml(data.session.instructions.getValue()) %></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -639,14 +639,14 @@
                     <div class="panel-body">
                         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
                             <div>
+                                <!-- Do not add whitespace between the opening and closing tags-->
                                 <textarea class="form-control textvalue nonDestructive" rows="5"
                                     name="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_QUESTION_TEXT %>-<%= question.questionNumber %>"
                                     data-toggle="tooltip" data-placement="top"
                                     title="<%= Const.Tooltips.FEEDBACK_QUESTION_INPUT_INSTRUCTIONS %>"
                                     tabindex="9"
-                                    disabled="disabled"><%= InstructorFeedbackEditPageData.sanitizeForHtml(questionDetails.questionText) %>
-                                </textarea>
+                                    disabled="disabled"><%= InstructorFeedbackEditPageData.sanitizeForHtml(questionDetails.questionText) %></textarea>
                             </div>
                             <%= questionDetails.getQuestionSpecificEditFormHtml(question.questionNumber) %>
                         </div>
