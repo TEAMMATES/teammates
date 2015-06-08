@@ -4,6 +4,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Data model for a HTML element tag (e.g. &lt;a attr1="value1" attr2="value2"&gt;content&lt;/a&gt;).
+ * Contains <i>attributes</i> mapped to their respective values.
+ * Can also contain the content between opening and closing tags.
+ * If <i>content</i> is set to null, it represents a self-closing tag.
+ */
 public class ElementTag {
     private String content;
     private Map<String, String> attributes;

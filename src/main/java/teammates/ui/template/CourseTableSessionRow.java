@@ -8,6 +8,15 @@ public class CourseTableSessionRow {
     private String recent;
     private String actions;
     
+    /**
+     * Constructs a session row for a course table.
+     * @param name name of the session
+     * @param tooltip tooltip displayed when hovering over status
+     * @param status status of the session
+     * @param href link for the session under response rate
+     * @param recent if the session is considered recent (calculate response rate on load if true)
+     * @param actions possible actions to do on the session, a block of HTML representing the formatted actions
+     */
     public CourseTableSessionRow(String name, String tooltip, String status, String href, String recent, String actions) {
         this.name = name;
         this.tooltip = tooltip;
