@@ -2,10 +2,11 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -18,33 +19,40 @@ import teammates.ui.template.ElementTag;
 import teammates.ui.template.CourseTableSessionRow;
 
 public class InstructorHomePageData extends PageData {
+
+    private static final int MAX_CLOSED_SESSION_STATS = 3;
+
+    private int unarchivedCoursesCount;
+    private List<CourseTable> courseTables;
+    private String sortCriteria;
+
     
     public InstructorHomePageData(AccountAttributes account) {
         super(account);
     }
     
-    public HashMap<String, InstructorAttributes> instructors;
-    public List<CourseSummaryBundle> courses;
-    public String sortCriteria;
-    public HashMap<String, Integer> numberOfPendingComments;
-    public static final int MAX_CLOSED_SESSION_STATS = 3;
-    
-    public String getInstructorFeedbacksPageLinkForCourse(String courseID) {
-        String link = super.getInstructorFeedbacksPageLink();
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
-        return link;
+    public void init(List<CourseSummaryBundle> courseList, String sortCriteria,
+            Map<String,InstructorAttributes> instructors, Map<String,Integer> numberOfPendingComments) {
+        this.sortCriteria = sortCriteria;
+        setUnarchivedCoursesCount(courseList, instructors);
+        setCourseTables(courseList, instructors, numberOfPendingComments);
     }
     
     public String getSortCriteria() {
         return sortCriteria;
     }
-
-    public void setSortCriteria(String sortCriteria) {
-        this.sortCriteria = sortCriteria;
-    }
     
     public int getUnarchivedCoursesCount() {
-        int unarchivedCoursesCount = 0;
+        return unarchivedCoursesCount;
+    }
+    
+    public List<CourseTable> getCourseTables() {
+        return courseTables;
+    }
+    
+    private void setUnarchivedCoursesCount(List<CourseSummaryBundle> courses,
+                                           Map<String, InstructorAttributes> instructors) {
+        unarchivedCoursesCount = 0;
         for (CourseSummaryBundle courseDetails : courses) {
             InstructorAttributes instructor = instructors.get(courseDetails.course.id);
             boolean notArchived = instructor.isArchived == null || !instructor.isArchived;
@@ -52,23 +60,27 @@ public class InstructorHomePageData extends PageData {
                 unarchivedCoursesCount++;
             }
         }
-        return unarchivedCoursesCount;
     }
     
-    public List<CourseTable> getCourseTables() {
-        List<CourseTable> courseTables = new ArrayList<CourseTable>(); 
+    private void setCourseTables(List<CourseSummaryBundle> courses,
+                                 Map<String, InstructorAttributes> instructors,
+                                 Map<String, Integer> numberOfPendingComments) {
+        courseTables = new ArrayList<CourseTable>(); 
         for (CourseSummaryBundle courseDetails : courses) {
-            courseTables.add(createCourseTable(courseDetails));
+            String courseId = courseDetails.course.id;
+            InstructorAttributes instructor = instructors.get(courseId);
+            int pendingComments = numberOfPendingComments.get(courseId);
+            courseTables.add(createCourseTable(
+                    courseDetails.course, instructor, courseDetails.feedbackSessions, pendingComments));
         }
-        return courseTables;
     }
     
-    public CourseTable createCourseTable(CourseSummaryBundle courseDetails) {
-        String courseId = courseDetails.course.id;
-        InstructorAttributes instructor = instructors.get(courseId);
-        return new CourseTable(courseDetails.course,
-                               createCourseTableLinks(instructor, courseId),
-                               createSessionRows(courseDetails.feedbackSessions, instructor, courseId));
+    private CourseTable createCourseTable(CourseAttributes course, InstructorAttributes instructor,
+            List<FeedbackSessionAttributes> feedbackSessions, int pendingCommentsCount) {
+        String courseId = course.id;
+        return new CourseTable(course,
+                               createCourseTableLinks(instructor, courseId, pendingCommentsCount),
+                               createSessionRows(feedbackSessions, instructor, courseId));
     }
     
     private ElementTag createButton(String text, String href, String tooltip) {
@@ -81,7 +93,14 @@ public class InstructorHomePageData extends PageData {
         }
     }
     
-    private List<ElementTag> createCourseTableLinks(InstructorAttributes instructor, String courseId) {
+    private String getInstructorFeedbacksPageLinkForCourse(String courseID) {
+        String link = super.getInstructorFeedbacksPageLink();
+        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
+        return link;
+    }
+    
+    private List<ElementTag> createCourseTableLinks(InstructorAttributes instructor, String courseId,
+            int pendingCommentsForThisCourseCount) {
         String disabled = "disabled";
         
         ElementTag enroll = createButton("Enroll",
@@ -116,19 +135,18 @@ public class InstructorHomePageData extends PageData {
                        delete, disabled, disabled);
         addAttributeIf(true, delete, "onclick", "return toggleDeleteCourseConfirmation('" + courseId + "')");
         
-        int numberOfPendingCommentsForThisCourse = numberOfPendingComments.get(courseId);
-        if (numberOfPendingCommentsForThisCourse <= 0) {
+        if (pendingCommentsForThisCourseCount <= 0) {
             return Arrays.asList(enroll, view, edit,add, archive, delete);
         } else {
-            String pendingGraphic = "<span class=\"badge\">" + numberOfPendingCommentsForThisCourse + "</span>"
+            String pendingGraphic = "<span class=\"badge\">" + pendingCommentsForThisCourseCount + "</span>"
                                     + "<span class=\"glyphicon glyphicon-comment\"></span>"
                                     + "<span class=\"glyphicon glyphicon-arrow-right\"></span>"
                                     + "<span class=\"glyphicon glyphicon-envelope\"></span>";
             ElementTag pending = createButton(
                     pendingGraphic,
                     getInstructorClearPendingCommentsLink(courseId),
-                    "Send email notification to recipients of " + numberOfPendingCommentsForThisCourse
-                        + " pending " + (numberOfPendingCommentsForThisCourse > 1 ? "comments" : "comment"));
+                    "Send email notification to recipients of " + pendingCommentsForThisCourseCount
+                        + " pending " + (pendingCommentsForThisCourseCount > 1 ? "comments" : "comment"));
     
             return Arrays.asList(enroll, view, edit,add, archive, pending, delete);
         }
@@ -156,8 +174,8 @@ public class InstructorHomePageData extends PageData {
             
             String actions = "";
             try {
-                actions = getInstructorFeedbackSessionActions(session, false, instructor,
-                        getCourseIdSectionNamesMap(sessions).get(courseId));
+                actions = getInstructorFeedbackSessionActions(session, true, instructor,
+                                                getCourseIdSectionNamesMap(sessions).get(courseId));
             } catch (EntityDoesNotExistException e) {
                 // nothing
             }
