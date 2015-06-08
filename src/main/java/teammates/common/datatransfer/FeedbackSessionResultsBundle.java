@@ -686,13 +686,26 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     }
 
     
-    public List<String> getPossibleAndActualReceivers(FeedbackQuestionAttributes fqa, String giver) {
+    public List<String> getPossibleAndActualReceivers(FeedbackQuestionAttributes fqa, String giver, 
+                                    Map<String, Map<String, FeedbackResponseAttributes>> giverToRecipientMap) {
         
         List<String> possibleRecipients = fqa.giverType.isTeam() ? 
                                         getPossibleRecipients(fqa, getFullNameFromRoster(giver)) :
                                         getPossibleRecipients(fqa, giver);
         Set<String> possibleRecipientSet = new TreeSet<String>(possibleRecipients);
-        List<String> 
+        
+        Set<String> actualRecipients = new HashSet<String>();
+        for (Map<String, FeedbackResponseAttributes> recipientResponseMap : giverToRecipientMap.values() ) {
+            actualRecipients.addAll(recipientResponseMap.keySet());
+        }
+        
+        Set<String> result = new HashSet<String>();
+        result.addAll(possibleRecipientSet); result.addAll(actualRecipients);
+        
+        List<String> resultList = new ArrayList<String>(result);
+        Collections.sort(resultList);
+        
+        return resultList;
     }
     
     public List<String> getPossibleRecipients(FeedbackQuestionAttributes fqa) {

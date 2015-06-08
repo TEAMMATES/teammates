@@ -167,15 +167,9 @@
                             }
 
                             for (String giver : possibleGivers) {
-                                List<String> possibleReceivers = question.giverType.isTeam() ? 
-                                                                 data.bundle.getPossibleRecipients(question, data.bundle.getFullNameFromRoster(giver)) :
-                                                                 data.bundle.getPossibleRecipients(question, giver);
-
-                                if (data.bundle.actualRecipientsForGiver.containsKey(giver)) {
-                                    possibleReceivers.addAll(data.bundle.actualRecipientsForGiver.get(giver));
-                                }
+                                List<String> recipientsForGiver = data.bundle.getPossibleAndActualReceivers(question, giver, responseBundle.get(questionId));
  
-                                for (String recipient : possibleReceivers) {
+                                for (String recipient : recipientsForGiver) {
                                     //initialise parameters used for modifying appearance
                                     String rowCssClass = "";
                                     String cellCssClass = "";
@@ -222,7 +216,7 @@
                                         cellCssClass = "class=\"middlealign color_neutral\"";
 
                                         // show 'missing' responses if both giver and recipient are anonymous to instructors in general
-                                        if (data.bundle.isBothGiverAndReceiverVisibleToInstructor(question)) {
+                                        if (data.bundle.isBothGiverAndReceiverVisibleToInstructor(question) && questionDetails.shouldShowNoResponseText(giver, recipient, question)) {
 
                                             isShowingMissingResponseRow = true;
 
