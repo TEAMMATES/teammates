@@ -27,20 +27,6 @@
                 <div id="dhtmltooltip">
                 <div class="alert alert-warning"><h4>Please remember to log in</h4></div>
             </div>
-            
-            <div class="intro">
-                <h1>Introduction</h1>
-                <table class="table table-striped">
-                    <tr>
-                        <td>
-                            <p>This page lists all of the pages which make up the TEAMMATES app. It is used for manually 
-                               inspecting the TEAMMATES UI for visual defects. To load this page, you will need to run the test 
-                               <strong>MashupPageUiTest.java</strong>.</p>                
-                        </td>
-                    </tr>
-                </table>          
-             </div>
-             
                 <h1>Table Of Contents</h1>
                 <table class="table table-striped">
                 <tbody>
