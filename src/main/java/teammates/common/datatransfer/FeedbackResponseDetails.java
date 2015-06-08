@@ -63,17 +63,6 @@ public abstract class FeedbackResponseDetails {
         return getAnswerCsv(question.getQuestionDetails());
     }
     
-
-    
-    public static FeedbackResponseDetails createResponseDetails(
-            String[] answer, FeedbackQuestionType questionType,
-            FeedbackQuestionDetails questionDetails) {
-        
-        FeedbackResponseDetails responseDetails = questionType.getFeedbackResponseDetailsInstance(questionDetails, answer);
-        
-        return responseDetails;
-    }
-    
     public static FeedbackResponseDetails createResponseDetails(
             String[] answer, FeedbackQuestionType questionType,
             FeedbackQuestionDetails questionDetails,
