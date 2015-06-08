@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
 import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -145,12 +144,13 @@ public class StudentAttributes extends EntityAttributes {
     }
 
     public boolean isEnrollInfoSameAs(StudentAttributes otherStudent) {
-        return (otherStudent != null) && otherStudent.email.equals(this.email)
+        return (otherStudent != null) 
+                && otherStudent.email.equals(this.email)
                 && otherStudent.course.equals(this.course)
-                && otherStudent.name.equals(this.name)
-                && otherStudent.comments.equals(this.comments)
-                && otherStudent.team.equals(this.team)
-                && otherStudent.section.equals(this.section);
+                && StringHelper.recoverFromSanitizedText(otherStudent.name).equals(this.name)
+                && StringHelper.recoverFromSanitizedText(otherStudent.comments).equals(this.comments)
+                && StringHelper.recoverFromSanitizedText(otherStudent.team).equals(this.team)
+                && StringHelper.recoverFromSanitizedText(otherStudent.section).equals(this.section);
     }
 
     public List<String> getInvalidityInfo() {

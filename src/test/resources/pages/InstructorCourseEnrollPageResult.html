@@ -1,162 +1,238 @@
-<div class="container" id="frameBodyWrapper">
-        <div id="headerOperation">
-            <h1>Enrollment Results for CCEnrollUiT.CS2104</h1>
-        </div>
-
-        <div class="alert alert-success">
-        <form name="goBack" action="/page/instructorCourseEnrollPage?courseid=CCEnrollUiT.CS2104&amp;user=CCEnrollUiT.teammates.test" method="post" role="form"> 
-            Enrollment Successful. Summary given below. Click <a id="edit_enroll" href="javascript:document.forms['goBack'].submit()">here</a> to do further changes to the student list.
-            
-        <input name="courseid" value="CCEnrollUiT.CS2104" type="hidden">
-        <input name="enrollstudents" value="Section | Team | Name | Email | Comments
+   <div class="container" id="frameBodyWrapper">
+      <div id="headerOperation">
+         <h1>
+            Enrollment Results for CCEnrollUiT.CS2104
+         </h1>
+      </div>
+      <div class="alert alert-success">
+         <form action="&#x2f;page&#x2f;instructorCourseEnrollPage?courseid=CCEnrollUiT.CS2104&amp;user=CCEnrollUiT.teammates.test" method="post" name="goBack" role="form">
+            Enrollment Successful. Summary given below. Click
+            <a href="javascript:document.forms[&#39;goBack&#39;].submit()" id="edit_enroll">
+               here
+            </a>
+            to do further changes to the student list.
+            <input name="courseid" type="hidden" value="CCEnrollUiT.CS2104"/>
+                        <input name="enrollstudents" type="hidden" value="Section | Team | Name | Email | Comments
 Section 1| Team 4 | Alice Betsy | alice.b.tmms@gmail.tmt | This comment has been changed
 Section 2| Team 2 | Benny Charles| benny.c.tmms@gmail.tmt |
 Section 3 | Team 3 |Frank Galoe | frank.g.tmms@gmail.tmt |
-Section 1 | Team 1|José Gómez | jose.gomez.tmns@gmail.tmt | This student name contains accented characters
-" type="hidden">
-        </form>
-        </div>
-        
-        
-            
-        
-              
-                
-                <div class="panel panel-primary">
-                
-                <div class="panel-heading">
-                2 student(s) added:
-                </div>
-                <table class="table table-striped table-bordered">
-                <tbody><tr> 
-                    
-                        <th>Section</th>
-                    
-                    <th>Team</th>
-                    <th>Student Name</th>
-                    <th>E-mail address</th>
-                    <th>Comments</th>
-                </tr>
-                
-                    <tr>
-                        
-                            <td>Section 3</td>
-                        
-                        <td>Team 3</td>
-                        <td>Frank Galoe</td>
-                        <td>frank.g.tmms@gmail.tmt</td>
-                        <td></td>
-                    </tr>
-                
-                    <tr>
-                        
-                            <td>Section 1</td>
-                        
-                        <td>Team 1</td>
-                        <td>José Gómez</td>
-                        <td>jose.gomez.tmns@gmail.tmt</td>
-                        <td>This student name contains accented characters</td>
-                    </tr>
-                
-                </tbody></table>
-                </div>
-                <br>
-                <br>
-            
-        
-              
-                
-                <div class="panel panel-warning">
-                
-                <div class="panel-heading">
-                2 student(s) modified:
-                </div>
-                <table class="table table-striped table-bordered">
-                <tbody><tr> 
-                    
-                        <th>Section</th>
-                    
-                    <th>Team</th>
-                    <th>Student Name</th>
-                    <th>E-mail address</th>
-                    <th>Comments</th>
-                </tr>
-                
-                    <tr>
-                        
-                            <td>Section 1</td>
-                        
-                        <td>Team 4</td>
-                        <td>Alice Betsy</td>
-                        <td>alice.b.tmms@gmail.tmt</td>
-                        <td>This comment has been changed</td>
-                    </tr>
-                
-                    <tr>
-                        
-                            <td>Section 2</td>
-                        
-                        <td>Team 2</td>
-                        <td>Benny Charles</td>
-                        <td>benny.c.tmms@gmail.tmt</td>
-                        <td></td>
-                    </tr>
-                
-                </tbody></table>
-                </div>
-                <br>
-                <br>
-            
-        
-            
-        
-              
-                
-                <div class="panel panel-default">
-                
-                <div class="panel-heading">
-                2 student(s) remain unmodified:
-                </div>
-                <table class="table table-striped table-bordered">
-                <tbody><tr> 
-                    
-                        <th>Section</th>
-                    
-                    <th>Team</th>
-                    <th>Student Name</th>
-                    <th>E-mail address</th>
-                    <th>Comments</th>
-                </tr>
-                
-                    <tr>
-                        
-                            <td>Section 2</td>
-                        
-                        <td>Team 2</td>
-                        <td>Charlie Davis</td>
-                        <td>charlie.d.tmms@gmail.tmt</td>
-                        <td>This student's name is Charlie Davis</td>
-                    </tr>
-                
-                    <tr>
-                        
-                            <td>Section 2</td>
-                        
-                        <td>Team 2</td>
-                        <td>Danny Engrid</td>
-                        <td>danny.e.tmms@gmail.tmt</td>
-                        <td>This student's name is Danny Engrid</td>
-                    </tr>
-                
-                </tbody></table>
-                </div>
-                <br>
-                <br>
-            
-        
-            
-        
-        
-        <div id="instructorCourseEnrollmentButtons">
-        </div>
-    </div>
+Section 1 | Team 1 | José Gómez | jose.gomez.tmns@gmail.tmt | This student name contains accented characters
+Section 2 | Team 2 | Danny Engrid | danny.e.tmms@gmail.tmt | This student&#39;s name is Danny Engrid
+"/>
+                     </form>
+      </div>
+      <div class="panel panel-primary">
+         <div class="panel-heading">
+            2 student(s) added:
+         </div>
+         <table class="table table-striped table-bordered">
+            <tbody>
+               <tr>
+                  <th>
+                     Section
+                  </th>
+                  <th>
+                     Team
+                  </th>
+                  <th>
+                     Student Name
+                  </th>
+                  <th>
+                     E-mail address
+                  </th>
+                  <th>
+                     Comments
+                  </th>
+               </tr>
+               <tr>
+                  <td>
+                     Section 3
+                  </td>
+                  <td>
+                     Team 3
+                  </td>
+                  <td>
+                     Frank Galoe
+                  </td>
+                  <td>
+                     frank.g.tmms@gmail.tmt
+                  </td>
+                  <td>
+                  </td>
+               </tr>
+               <tr>
+                  <td>
+                     Section 1
+                  </td>
+                  <td>
+                     Team 1
+                  </td>
+                  <td>
+                     José Gómez
+                  </td>
+                  <td>
+                     jose.gomez.tmns@gmail.tmt
+                  </td>
+                  <td>
+                     This student name contains accented characters
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <br/>
+            <br/>
+            <div class="panel panel-warning">
+         <div class="panel-heading">
+            2 student(s) modified:
+         </div>
+         <table class="table table-striped table-bordered">
+            <tbody>
+               <tr>
+                  <th>
+                     Section
+                  </th>
+                  <th>
+                     Team
+                  </th>
+                  <th>
+                     Student Name
+                  </th>
+                  <th>
+                     E-mail address
+                  </th>
+                  <th>
+                     Comments
+                  </th>
+               </tr>
+               <tr>
+                  <td>
+                     Section 1
+                  </td>
+                  <td>
+                     Team 4
+                  </td>
+                  <td>
+                     Alice Betsy
+                  </td>
+                  <td>
+                     alice.b.tmms@gmail.tmt
+                  </td>
+                  <td>
+                     This comment has been changed
+                  </td>
+               </tr>
+               <tr>
+                  <td>
+                     Section 2
+                  </td>
+                  <td>
+                     Team 2
+                  </td>
+                  <td>
+                     Benny Charles
+                  </td>
+                  <td>
+                     benny.c.tmms@gmail.tmt
+                  </td>
+                  <td>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <br/>
+            <br/>
+            <div class="panel panel-info">
+         <div class="panel-heading">
+            1 student(s) updated with no changes:
+         </div>
+         <table class="table table-striped table-bordered">
+            <tbody>
+               <tr>
+                  <th>
+                     Section
+                  </th>
+                  <th>
+                     Team
+                  </th>
+                  <th>
+                     Student Name
+                  </th>
+                  <th>
+                     E-mail address
+                  </th>
+                  <th>
+                     Comments
+                  </th>
+               </tr>
+               <tr>
+                  <td>
+                     Section 2
+                  </td>
+                  <td>
+                     Team 2
+                  </td>
+                  <td>
+                     Danny Engrid
+                  </td>
+                  <td>
+                     danny.e.tmms@gmail.tmt
+                  </td>
+                  <td>
+                     This student&#39;s name is Danny Engrid
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <br/>
+            <br/>
+            <div class="panel panel-default">
+         <div class="panel-heading">
+            1 student(s) remain unmodified:
+         </div>
+         <table class="table table-striped table-bordered">
+            <tbody>
+               <tr>
+                  <th>
+                     Section
+                  </th>
+                  <th>
+                     Team
+                  </th>
+                  <th>
+                     Student Name
+                  </th>
+                  <th>
+                     E-mail address
+                  </th>
+                  <th>
+                     Comments
+                  </th>
+               </tr>
+               <tr>
+                  <td>
+                     Section 2
+                  </td>
+                  <td>
+                     Team 2
+                  </td>
+                  <td>
+                     Charlie Davis
+                  </td>
+                  <td>
+                     charlie.d.tmms@gmail.tmt
+                  </td>
+                  <td>
+                     This student&#39;s name is Charlie Davis
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <br/>
+            <br/>
+            <div id="instructorCourseEnrollmentButtons">
+      </div>
+   </div>

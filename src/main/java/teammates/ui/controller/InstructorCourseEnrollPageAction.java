@@ -18,8 +18,8 @@ public class InstructorCourseEnrollPageAction extends Action {
         Assumption.assertNotNull(courseId);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-        new GateKeeper().verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
+        new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId), 
+                                          Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         
         /* Setup page data for 'Enroll' page of a course */
         InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account);
@@ -27,7 +27,7 @@ public class InstructorCourseEnrollPageAction extends Action {
         pageData.enrollStudents = studentsInfo;
 
         statusToAdmin = "instructorCourseEnroll Page Load<br>"
-                + "Enrollment for Course <span class=\"bold\">[" + courseId + "]</span>"; 
+                        + "Enrollment for Course <span class=\"bold\">[" + courseId + "]</span>"; 
         
         ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
         return response;
