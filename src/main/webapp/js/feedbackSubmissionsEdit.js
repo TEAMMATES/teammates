@@ -30,18 +30,18 @@ $(document).ready(function() {
     });
     
     $("input[type='radio']").change(function() {
-    	idOfOtherOptionText = "otherOptionText" + $(this).attr("name").substr($(this).attr("name").search("-"));
-    	idOfOtherOptionFlag = "otherOptionFlag" + $(this).attr("name").substr($(this).attr("name").search("-"));
+        idOfOtherOptionText = "otherOptionText" + $(this).attr("name").substr($(this).attr("name").search("-"));
+        idOfOtherOptionFlag = "otherOptionFlag" + $(this).attr("name").substr($(this).attr("name").search("-"));
     
-	    if($(this).data('text') == "otherOptionText") {
-	    	// Other option is selected by the student
-	    	$('#'+idOfOtherOptionText).removeAttr('disabled');
-	    	$('#'+idOfOtherOptionFlag).val("1");
-	    } else {
-	    	// Any option except the other option is selected
-	    	$('#'+idOfOtherOptionText).attr('disabled','disabled');
-	    	$('#'+idOfOtherOptionFlag).val("0");
-	    }
+        if ($(this).data('text') === "otherOptionText") {
+            // Other option is selected by the student
+            $('#'+idOfOtherOptionText).removeAttr('disabled');
+            $('#'+idOfOtherOptionFlag).val("1");
+        } else {
+            // Any option except the other option is selected
+            $('#'+idOfOtherOptionText).attr('disabled','disabled');
+            $('#'+idOfOtherOptionFlag).val("0");
+        }
     });
     	           
     $("input[id^='otherOptionText']").keyup(function () {
