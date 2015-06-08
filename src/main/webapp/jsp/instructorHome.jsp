@@ -30,11 +30,7 @@
     <c:forEach items="${data.courseTables}" var="courseTable" varStatus="i">
         <ti:homeCoursePanel courseTable="${courseTable}" index="${i.index}">
             <c:if test="${not empty courseTable.rows}">
-                <ti:homeCourseTable>
-                    <c:forEach items="${courseTable.rows}" var="sessionRow" varStatus="j">
-                        <ti:homeCourseSessionRow sessionRow="${sessionRow}" index="${j.index}" />
-                    </c:forEach>
-                </ti:homeCourseTable>
+                <ti:homeCourseTable sessionRows="${courseTable.rows}" />
             </c:if>
         </ti:homeCoursePanel>
     </c:forEach>
