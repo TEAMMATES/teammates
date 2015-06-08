@@ -17,9 +17,7 @@ import teammates.ui.controller.RedirectResult;
 import teammates.ui.controller.ShowPageResult;
 import teammates.ui.controller.StudentFeedbackQuestionSubmissionEditPageAction;
 
-public class StudentFeedbackQuestionSubmissionEditPageActionTest extends
-        BaseActionTest {
-
+public class StudentFeedbackQuestionSubmissionEditPageActionTest extends BaseActionTest {
     private final DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeClass
@@ -31,17 +29,12 @@ public class StudentFeedbackQuestionSubmissionEditPageActionTest extends
 
     @Test
     public void testExecuteAndPostProcess() throws Exception {
-
-        StudentAttributes student1InCourse1 = dataBundle.students
-                .get("student1InCourse1");
-        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions
-                .get("session1InCourse1");
+        StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
+        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
 
         FeedbackQuestionsDb feedbackQuestionsDb = new FeedbackQuestionsDb();
         FeedbackQuestionAttributes feedbackQuestion = feedbackQuestionsDb
-                .getFeedbackQuestion(
-                        session1InCourse1.feedbackSessionName,
-                        session1InCourse1.courseId, 1);
+                .getFeedbackQuestion(session1InCourse1.feedbackSessionName, session1InCourse1.courseId, 1);
 
         gaeSimulation.loginAsStudent(student1InCourse1.googleId);
 
@@ -49,31 +42,34 @@ public class StudentFeedbackQuestionSubmissionEditPageActionTest extends
 
         verifyAssumptionFailure();
 
-        String[] submissionParams = new String[] {
+        String[] submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
                 session1InCourse1.feedbackSessionName
         };
+
         verifyAssumptionFailure(submissionParams);
 
-        submissionParams = new String[] {
+        submissionParams = new String[]{
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
                 session1InCourse1.feedbackSessionName,
                 Const.ParamsNames.FEEDBACK_QUESTION_ID,
                 feedbackQuestion.getId()
         };
+
         verifyAssumptionFailure(submissionParams);
 
-        submissionParams = new String[] {
+        submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
                 Const.ParamsNames.FEEDBACK_QUESTION_ID,
                 feedbackQuestion.getId()
         };
+
         verifyAssumptionFailure(submissionParams);
 
         ______TS("redirect unregistered user to home ");
 
-        submissionParams = new String[] {
+        submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
                 session1InCourse1.feedbackSessionName,
@@ -87,10 +83,8 @@ public class StudentFeedbackQuestionSubmissionEditPageActionTest extends
         RedirectResult redirectResult = getRedirectResult(pageAction);
 
         assertTrue(redirectResult.isError);
-        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE,
-                redirectResult.destination);
-        assertEquals("You are not registered in the course idOfTypicalCourse1",
-                redirectResult.getStatusMessage());
+        assertEquals(Const.ActionURIs.STUDENT_HOME_PAGE, redirectResult.destination);
+        assertEquals("You are not registered in the course idOfTypicalCourse1", redirectResult.getStatusMessage());
 
         gaeSimulation.logoutUser();
 
@@ -101,19 +95,17 @@ public class StudentFeedbackQuestionSubmissionEditPageActionTest extends
         pageAction = getAction(submissionParams);
         ShowPageResult pageResult = getShowPageResult(pageAction);
 
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT,
-                pageResult.destination);
+        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT, pageResult.destination);
         assertFalse(pageResult.isError);
 
         ______TS("masquerade mode");
 
         gaeSimulation.loginAsAdmin("admin.user");
 
-        feedbackQuestion = feedbackQuestionsDb.getFeedbackQuestion(
-                session1InCourse1.feedbackSessionName,
-                session1InCourse1.courseId, 1);
+        feedbackQuestion = feedbackQuestionsDb
+                .getFeedbackQuestion(session1InCourse1.feedbackSessionName, session1InCourse1.courseId, 1);
 
-        submissionParams = new String[] {
+        submissionParams = new String[]{
                 Const.ParamsNames.COURSE_ID, session1InCourse1.courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME,
                 session1InCourse1.feedbackSessionName,
@@ -125,15 +117,11 @@ public class StudentFeedbackQuestionSubmissionEditPageActionTest extends
         pageAction = getAction(submissionParams);
         pageResult = getShowPageResult(pageAction);
 
-        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT,
-                pageResult.destination);
+        assertEquals(Const.ViewURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT, pageResult.destination);
         assertFalse(pageResult.isError);
-
     }
 
-    private StudentFeedbackQuestionSubmissionEditPageAction getAction(
-            String... params) throws Exception {
-        return (StudentFeedbackQuestionSubmissionEditPageAction) (gaeSimulation
-                .getActionObject(uri, params));
+    private StudentFeedbackQuestionSubmissionEditPageAction getAction(String... params) throws Exception {
+        return (StudentFeedbackQuestionSubmissionEditPageAction) (gaeSimulation.getActionObject(uri, params));
     }
 }

@@ -176,9 +176,8 @@
                     <label for="studentNationality">
                         More info about yourself
                     </label>
-                    <textarea id="studentMoreInfo"  name="<%= Const.ParamsNames.STUDENT_PROFILE_MOREINFO %>" rows="4" class="form-control" placeholder="<%= Const.Tooltips.STUDENT_PROFILE_MOREINFO %>">
-                        <%= data.account.studentProfile.moreInfo == null ? "" : data.account.studentProfile.moreInfo %>
-                    </textarea>
+                    <!-- Do not add whitespace between the opening and closing tags-->
+                    <textarea id="studentMoreInfo"  name="<%= Const.ParamsNames.STUDENT_PROFILE_MOREINFO %>" rows="4" class="form-control" placeholder="<%= Const.Tooltips.STUDENT_PROFILE_MOREINFO %>"><%= data.account.studentProfile.moreInfo == null ? "" : data.account.studentProfile.moreInfo %></textarea>
                 </div>
                 <br>
                 <button type="submit" id="profileEditSubmit" class="btn btn-primary center-block">

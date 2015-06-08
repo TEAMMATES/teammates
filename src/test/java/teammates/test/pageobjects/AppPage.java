@@ -949,6 +949,41 @@ public abstract class AppPage {
     }
 
     /**
+     * Verifies the status message in the page is same as the one specified, retrying up till numberOfTries
+     * times. This can be used when status message test results in inconsistency due to timing issues
+     * or inconsistency in Selenium's API such as .click() which may or may not result in detecting a page
+     * load depending on things such as browser type and how an event is triggered.
+     * 
+     * Note that we must wait for the next page's status message to be visible on every try within the while
+     * loop. This is because the previous check might have checked early and have not waited for the page
+     * load to finish. From that, it is possible to create a situation whereby the page has now loaded
+     * on the next try (after 1000ms) and the status message is still loading and still not displayed.
+     * 
+     * @return The app page itself for method chaining flexibility
+     */
+    public AppPage verifyStatusWithRetry(String expectedStatus, int maxRetryCount) {
+        int currentRetryCount = 0;
+
+        while (currentRetryCount < maxRetryCount) {
+            if (!statusMessage.isDisplayed()) {
+                this.waitForElementVisible(statusMessage);
+            }
+
+            if (expectedStatus.equals(this.getStatus())) {
+                break;
+            }
+
+            currentRetryCount++;
+
+            ThreadHelper.waitFor(1000);
+        }
+
+        assertEquals(expectedStatus, this.getStatus());
+
+        return this;
+    }
+
+    /**
      * As of now, this simply verifies that the link is not broken. It does
      * not verify whether the file content is as expected. To be improved.
      */

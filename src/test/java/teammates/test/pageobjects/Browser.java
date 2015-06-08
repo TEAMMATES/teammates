@@ -58,7 +58,7 @@ public class Browser {
         if (TestProperties.inst().BROWSER.equals("htmlunit")) {
             System.out.println("Using HTMLUnit.");
 
-            HtmlUnitDriver htmlUnitDriver = new HtmlUnitDriver(BrowserVersion.FIREFOX_17);
+            HtmlUnitDriver htmlUnitDriver = new HtmlUnitDriver(BrowserVersion.FIREFOX_38);
             htmlUnitDriver.setJavascriptEnabled(true);
             return htmlUnitDriver;
 

@@ -34,8 +34,8 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         int fsindex = 0;
         try {
             fsindex = Integer.parseInt(fsindexString);
-        } catch(NumberFormatException e) {
-            Assumption.fail("Invalid request parameter value for feedback session index: "+fsindexString);
+        } catch (NumberFormatException e) {
+            Assumption.fail("Invalid request parameter value for feedback session index: " + fsindexString);
         }
         Assumption.assertNotNull(fsname);
         
@@ -43,9 +43,8 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         
         new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
         
-        CourseRoster roster = new CourseRoster(
-                logic.getStudentsForCourse(courseId),
-                logic.getInstructorsForCourse(courseId));
+        CourseRoster roster = new CourseRoster(logic.getStudentsForCourse(courseId),
+                                               logic.getInstructorsForCourse(courseId));
         
         data = new InstructorFeedbackResponseCommentsLoadPageData(account);
         data.feedbackResultBundles = getFeedbackResultBundles(courseId, fsname, roster);
@@ -60,14 +59,15 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
 
     private Map<String, FeedbackSessionResultsBundle> getFeedbackResultBundles(String courseId, String fsname,
             CourseRoster roster) throws EntityDoesNotExistException {
-        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = new HashMap<String, FeedbackSessionResultsBundle>();
+        Map<String, FeedbackSessionResultsBundle> feedbackResultBundles =
+                new HashMap<String, FeedbackSessionResultsBundle>();
         FeedbackSessionResultsBundle bundle = 
                 logic.getFeedbackSessionResultsForInstructor(
                         fsname, courseId, instructor.email, roster, !IS_INCLUDE_RESPONSE_STATUS);
-        if(bundle != null){
+        if (bundle != null) {
             removeQuestionsAndResponsesIfNotAllowed(bundle);
             removeQuestionsAndResponsesWithoutFeedbackResponseComment(bundle);
-            if(bundle.questions.size() != 0){
+            if (bundle.questions.size() != 0) {
                 feedbackResultBundles.put(fsname, bundle);
             }
         }
@@ -78,28 +78,35 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         Iterator<FeedbackResponseAttributes> iter = bundle.responses.iterator();
         while (iter.hasNext()) {
             FeedbackResponseAttributes fdr = iter.next();
-            if (!(instructor != null &&
-                    instructor.isAllowedForPrivilege(fdr.giverSection, 
-                            fdr.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)
-                    && instructor.isAllowedForPrivilege(fdr.recipientSection, 
-                            fdr.feedbackSessionName, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS))) {
+            boolean canInstructorViewSessionInGiverSection = 
+                    instructor.isAllowedForPrivilege(fdr.giverSection, fdr.feedbackSessionName,
+                                       Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
+            boolean canInstructorViewSessionInRecipientSection =
+                    instructor.isAllowedForPrivilege(fdr.recipientSection, fdr.feedbackSessionName,
+                                       Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
+            
+            boolean instructorHasSessionViewingPrivileges = (canInstructorViewSessionInGiverSection
+                                                                    && canInstructorViewSessionInRecipientSection);
+            if (!instructorHasSessionViewingPrivileges) {
                 iter.remove();
             }
         }
     }
 
     private void removeQuestionsAndResponsesWithoutFeedbackResponseComment(FeedbackSessionResultsBundle bundle) {
-        List<FeedbackResponseAttributes> responsesWithFeedbackResponseComment = new ArrayList<FeedbackResponseAttributes>();
-        for(FeedbackResponseAttributes fr: bundle.responses){
+        List<FeedbackResponseAttributes> responsesWithFeedbackResponseComment =
+                new ArrayList<FeedbackResponseAttributes>();
+        for (FeedbackResponseAttributes fr : bundle.responses) {
             List<FeedbackResponseCommentAttributes> frComment = bundle.responseComments.get(fr.getId());
-            if(frComment != null && frComment.size() != 0){
+            if (frComment != null && frComment.size() != 0) {
                 responsesWithFeedbackResponseComment.add(fr);
             }
         }
-        Map<String, FeedbackQuestionAttributes> questionsWithFeedbackResponseComment = new HashMap<String, FeedbackQuestionAttributes>();
-        for(FeedbackResponseAttributes fr: responsesWithFeedbackResponseComment){
+        Map<String, FeedbackQuestionAttributes> questionsWithFeedbackResponseComment =
+                new HashMap<String, FeedbackQuestionAttributes>();
+        for (FeedbackResponseAttributes fr: responsesWithFeedbackResponseComment) {
             FeedbackQuestionAttributes qn = bundle.questions.get(fr.feedbackQuestionId);
-            if(questionsWithFeedbackResponseComment.get(qn.getId()) == null){
+            if (questionsWithFeedbackResponseComment.get(qn.getId()) == null) {
                 questionsWithFeedbackResponseComment.put(qn.getId(), qn);
             }
         }
