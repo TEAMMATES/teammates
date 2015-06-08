@@ -15,7 +15,7 @@
 	<classpathentry kind="lib" path="src/test/resources/lib/appengine/appengine-api.jar"/>
 	<classpathentry kind="lib" path="src/test/resources/lib/appengine/appengine-api-stubs.jar"/>
 	<classpathentry kind="lib" path="src/test/resources/lib/appengine/appengine-api-labs.jar"/>
-	<classpathentry kind="lib" path="src/test/resources/lib/selenium/selenium-server-standalone-2.41.0.jar" sourcepath="src/test/resources/lib/selenium/selenium-java-2.41.0-srcs.jar"/>
+	<classpathentry kind="lib" path="src/test/resources/lib/selenium/selenium-server-standalone-2.46.0.jar" sourcepath="src/test/resources/lib/selenium/selenium-java-2.46.0-srcs.jar"/>
 	<classpathentry kind="lib" path="src/test/resources/lib/httpunit/httpunit.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/appengine-gcs-client-0.3.13.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/guava-15.0.jar"/>
