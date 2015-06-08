@@ -34,6 +34,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     public Map<String, Set<String>> rosterTeamNameMembersTable = null;
     public Map<String, Set<String>> rosterSectionTeamNameTable = null;
     
+    // Givers of responses of the question specified
     public Map<String, Set<String>> actualGiversForQuestion = null;
     // Recipients of existing responses by the specified giver
     public Map<String, Set<String>> actualRecipientsForGiverForQuestion = null;
@@ -116,7 +117,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         this.rosterTeamNameMembersTable = getTeamNameToEmailsTableFromRoster(roster);
         this.rosterSectionTeamNameTable = getSectionToTeamNamesFromRoster(roster);
     }
-
+    
+    
+    
     /**
      * Hides response names/emails and teams that are not visible to the current user.
      * Replaces the giver/recipient email in responses to an email with two "@@"s
@@ -157,6 +160,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
     }
     
+    /**
+     * Populates {@code actualGiversForQuestion}, which is a mapping of questionId to givers.
+     */
     public void constructTablesForActualGiversForQuestionFromResponses() {
         actualGiversForQuestion = new HashMap<String, Set<String>>();
         for (FeedbackResponseAttributes response : this.responses) {
@@ -173,12 +179,12 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             }
  
             if (actualGiversForQuestion.containsKey(questionId)) {
-                Set<String> anonymousGivers = actualGiversForQuestion.get(questionId);
-                anonymousGivers.add(giverIdentifier);
+                Set<String> actualGivers = actualGiversForQuestion.get(questionId);
+                actualGivers.add(giverIdentifier);
             } else {
-                Set<String> anonymousGivers = new HashSet<String>();
-                anonymousGivers.add(giverIdentifier);
-                actualGiversForQuestion.put(questionId, anonymousGivers);
+                Set<String> actualGivers = new HashSet<String>();
+                actualGivers.add(giverIdentifier);
+                actualGiversForQuestion.put(questionId, actualGivers);
             }
             
         }

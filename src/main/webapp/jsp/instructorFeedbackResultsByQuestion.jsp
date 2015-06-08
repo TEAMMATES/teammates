@@ -61,8 +61,6 @@
             <%
                 // map of (questionId > giverEmail > recipientEmail) > response
                 Map<String, Map<String, Map<String, FeedbackResponseAttributes>>> responseBundle = data.bundle.getResponseBundle();
-                data.bundle.constructTablesForActualGiversForQuestionFromResponses();
-                data.bundle.constructTablesForActualRecipientsForGiversFromResponses();
 
             	int questionIndex = -1;
                 List<String> questionIds = data.bundle.getQuestionIdsSortedByQuestionNumber();

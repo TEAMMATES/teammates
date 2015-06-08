@@ -142,6 +142,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         switch (data.sortType) {
             case "question":
+                prepareDataBundleForQuestionView(data);
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
             case "recipient-giver-question":
@@ -161,6 +162,11 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
         }
+    }
+
+    private void prepareDataBundleForQuestionView(InstructorFeedbackResultsPageData data) {
+        data.bundle.constructTablesForActualGiversForQuestionFromResponses();
+        data.bundle.constructTablesForActualRecipientsForGiversFromResponses();
     }
 
 }
