@@ -685,6 +685,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return possibleGivers;
     }
 
+    public List<String> getPossibleAndActualGivers(FeedbackQuestionAttributes fqa) {
+        Set<String> possibleGiversSet = getPossibleGivers(fqa);
+        if (actualGiversForQuestion.containsKey(fqa.getId())) {
+            possibleGiversSet.addAll(actualGiversForQuestion.get(fqa.getId()));
+        }
+        
+        List<String> possibleGivers = new ArrayList<String>(possibleGiversSet);
+        
+        Collections.sort(possibleGivers, compareByParticipantName);
+        return possibleGivers;
+    }
     
     public List<String> getPossibleAndActualReceivers(FeedbackQuestionAttributes fqa, String giver, 
                                     Map<String, Map<String, FeedbackResponseAttributes>> giverToRecipientMap) {
@@ -695,15 +706,17 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         Set<String> possibleRecipientSet = new TreeSet<String>(possibleRecipients);
         
         Set<String> actualRecipients = new HashSet<String>();
-        for (Map<String, FeedbackResponseAttributes> recipientResponseMap : giverToRecipientMap.values() ) {
-            actualRecipients.addAll(recipientResponseMap.keySet());
+        if (giverToRecipientMap.containsKey(giver)) {
+            for (String actualRecipient : giverToRecipientMap.get(giver).keySet() ) {
+                actualRecipients.add(actualRecipient);
+            }
         }
         
         Set<String> result = new HashSet<String>();
         result.addAll(possibleRecipientSet); result.addAll(actualRecipients);
         
         List<String> resultList = new ArrayList<String>(result);
-        Collections.sort(resultList);
+        Collections.sort(resultList, compareByParticipantName);
         
         return resultList;
     }
@@ -2184,6 +2197,23 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             String t2 = getTeamNameForEmail(o2.giverEmail).equals("") ? getNameForEmail(o2.giverEmail)
                                                                       : getTeamNameForEmail(o2.giverEmail);
             return t1.compareTo(t2);
+        }
+    };
+    
+    
+    public final Comparator<String> compareByParticipantName =
+            new Comparator<String>() {
+        @Override
+        public int compare(String participantIdentifier1, String participantIdentifier2) {
+            String participantName1 = emailNameTable.containsKey(participantIdentifier1) ? 
+                                      getNameForEmail(participantIdentifier1) :
+                                      getNameFromRoster(participantIdentifier1, true);
+                                      
+            String participantName2 = emailNameTable.containsKey(participantIdentifier2) ? 
+                                      getNameForEmail(participantIdentifier2) :
+                                      getNameFromRoster(participantIdentifier2, true);
+            
+            return compareByNames(participantName1, participantName2);
         }
     };
 

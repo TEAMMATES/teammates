@@ -161,10 +161,7 @@
                                 <tbody>
                             <%
 
-                            Set<String> possibleGivers = data.bundle.getPossibleGivers(question);
-                            if (data.bundle.actualGiversForQuestion.containsKey(questionId)) {
-                                possibleGivers.addAll(data.bundle.actualGiversForQuestion.get(questionId));
-                            }
+                            List<String> possibleGivers = data.bundle.getPossibleAndActualGivers(question);
 
                             for (String giver : possibleGivers) {
                                 List<String> recipientsForGiver = data.bundle.getPossibleAndActualReceivers(question, giver, responseBundle.get(questionId));
