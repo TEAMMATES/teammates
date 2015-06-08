@@ -14,7 +14,7 @@
             <div class="col-md-6">
                 <span class="pull-right">
                     <c:forEach items="${courseTable.buttons}" var="button">
-                        <a class="btn btn-primary btn-xs btn-tm-actions" data-toggle="tooltip" data-placement="top"
+                        <a data-toggle="tooltip" data-placement="top"
                            <c:forEach items="${button.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach>>
                             ${button.content}
                         </a>

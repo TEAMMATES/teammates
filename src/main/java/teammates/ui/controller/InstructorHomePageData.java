@@ -83,8 +83,8 @@ public class InstructorHomePageData extends PageData {
                                createSessionRows(feedbackSessions, instructor, courseId));
     }
     
-    private ElementTag createButton(String text, String href, String tooltip) {
-        return new ElementTag(text, "href", href, "title", tooltip);
+    private ElementTag createButton(String text, String className, String href, String tooltip) {
+        return new ElementTag(text, "class", className, "href", href, "title", tooltip);
     }
     
     private void addAttributeIf(boolean shouldAdd, ElementTag button, String key, String value) {
@@ -102,33 +102,40 @@ public class InstructorHomePageData extends PageData {
     private List<ElementTag> createCourseTableLinks(InstructorAttributes instructor, String courseId,
             int pendingCommentsForThisCourseCount) {
         String disabled = "disabled";
+        String className = "btn btn-primary btn-xs btn-tm-actions course-";
         
         ElementTag enroll = createButton("Enroll",
+                                         className + "enroll-for-test",
                                          getInstructorCourseEnrollLink(courseId),
                                          Const.Tooltips.COURSE_ENROLL);
         addAttributeIf(!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT),
                        enroll, disabled, disabled);
         
         ElementTag view = createButton("View",
+                                       className + "view-for-test",
                                        getInstructorCourseDetailsLink(courseId),
                                        Const.Tooltips.COURSE_DETAILS);
         
         ElementTag edit = createButton("Edit",
+                                       className + "edit-for-test",
                                        getInstructorCourseEditLink(courseId),
                                        Const.Tooltips.COURSE_EDIT);
         
         ElementTag add = createButton("Add Session",
+                                      className + "add-eval-for-test",
                                       getInstructorFeedbacksPageLinkForCourse(courseId),
                                       Const.Tooltips.COURSE_ADD_FEEDBACKSESSION);
         addAttributeIf(!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION),
                        add, disabled, disabled);
         
         ElementTag archive = createButton("Archive",
+                                          className + "archive-for-test",
                                           getInstructorCourseArchiveLink(courseId, true, true),
                                           Const.Tooltips.COURSE_ARCHIVE);
         addAttributeIf(true, archive, "onclick", "return toggleArchiveCourseConfirmation('" + courseId + "')");
         
         ElementTag delete = createButton("Delete",
+                                         className + "delete-for-test",
                                          getInstructorCourseDeleteLink(courseId, true),
                                          Const.Tooltips.COURSE_DELETE);
         addAttributeIf(!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE),
@@ -144,6 +151,7 @@ public class InstructorHomePageData extends PageData {
                                     + "<span class=\"glyphicon glyphicon-envelope\"></span>";
             ElementTag pending = createButton(
                     pendingGraphic,
+                    className + "notify-pending-comments-for-test",
                     getInstructorClearPendingCommentsLink(courseId),
                     "Send email notification to recipients of " + pendingCommentsForThisCourseCount
                         + " pending " + (pendingCommentsForThisCourseCount > 1 ? "comments" : "comment"));
