@@ -271,7 +271,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
     }
 
-    public String getAnonEmail(FeedbackParticipantType type, String name) {
+    private String getAnonEmail(FeedbackParticipantType type, String name) {
         String anonName = getAnonName(type, name);
         return anonName + "@@" + anonName + ".com";
     }
@@ -427,8 +427,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     
     
     /**
-     * Get the displayable section name from an email.
+     * Get the displayable section name from an email. 
      * If the email is not an email of someone in the class roster, an empty string is returned.
+     * 
+     * If a team is passed in, "" is returned 
      * 
      * If the email of an instructor or "%GENERAL%" is passed in, "Not in a section" is returned.
      * @param participantIdentifier
@@ -679,22 +681,22 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return possibleGivers;
     }
 
-    public Set<String> getPossibleGivers(FeedbackQuestionAttributes fqa) {
+    public List<String> getPossibleGivers(FeedbackQuestionAttributes fqa) {
         FeedbackParticipantType giverType = fqa.giverType;
-        Set<String> possibleGivers = new TreeSet<String>();
+        List<String> possibleGivers = new ArrayList<String>();
 
         switch (giverType) {
             case STUDENTS:
-                possibleGivers = new TreeSet<String>(getSortedListOfStudentEmails());
+                possibleGivers = getSortedListOfStudentEmails();
                 break;
             case INSTRUCTORS:
-                possibleGivers = new TreeSet<String>(getSortedListOfInstructorEmails());
+                possibleGivers = getSortedListOfInstructorEmails();
                 break;
             case TEAMS:
-                possibleGivers = new TreeSet<String>(getSortedListOfTeams());
+                possibleGivers = getSortedListOfTeams();
                 break;
             case SELF:
-                possibleGivers = new TreeSet<String>();
+                possibleGivers = new ArrayList<String>();
                 possibleGivers.add(fqa.creatorEmail);
                 break;
             default:
@@ -705,8 +707,13 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return possibleGivers;
     }
 
+    /**
+     * For a given question, returns a list of participantIdentifiers (student emails, instructor emails,
+     *  or team name) that have given responses for it, or are able to give responses for it.
+     * @param fqa
+     */
     public List<String> getPossibleAndActualGivers(FeedbackQuestionAttributes fqa) {
-        Set<String> possibleGiversSet = getPossibleGivers(fqa);
+        Set<String> possibleGiversSet = new HashSet<String>(getPossibleGivers(fqa));
         if (actualGiversForQuestion.containsKey(fqa.getId())) {
             possibleGiversSet.addAll(actualGiversForQuestion.get(fqa.getId()));
         }
@@ -717,6 +724,12 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return possibleGivers;
     }
     
+    /**
+     * For a given question and giver identifier, 
+     * returns a list of participantIdentifiers (student emails, instructor emails,
+     *  or team name) that have received responses for it, or are able to receive responses for it.
+     * @param fqa
+     */
     public List<String> getPossibleAndActualReceivers(FeedbackQuestionAttributes fqa, String giver, 
                                     Map<String, Map<String, FeedbackResponseAttributes>> giverToRecipientMap) {
         
@@ -1675,6 +1688,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return sectionToTeam;
     }
     
+    /**
+     * Returns a map where questionId > giverIdentifier > recipientIdentifier returns the 
+     * response.
+     */
     public Map<String, Map<String, Map<String, FeedbackResponseAttributes>>> getResponseBundle() {
         Map<String, Map<String, Map<String, FeedbackResponseAttributes > > > result = new LinkedHashMap<String, Map<String, Map<String, FeedbackResponseAttributes>>>();
         
