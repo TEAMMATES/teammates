@@ -727,7 +727,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
         
         Set<String> result = new HashSet<String>();
-        result.addAll(possibleRecipientSet); result.addAll(actualRecipients);
+        result.addAll(possibleRecipientSet); 
+        result.addAll(actualRecipients);
         
         List<String> resultList = new ArrayList<String>(result);
         Collections.sort(resultList, compareByParticipantName);

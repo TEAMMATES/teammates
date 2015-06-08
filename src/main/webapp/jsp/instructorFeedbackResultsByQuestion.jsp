@@ -166,7 +166,6 @@
                             for (String giver : possibleGivers) {
                                 
                                 List<String> recipientsForGiver = data.bundle.getPossibleAndActualReceivers(question, giver, responseBundle.get(questionId));
- 
                                 for (String recipient : recipientsForGiver) {
                                     if (!data.selectedSection.equals("All") 
                                             && !data.bundle.isParticipantInSection(giver, data.selectedSection) 
@@ -201,8 +200,8 @@
                                     if (isRecipientAnonymous && !isCurrentUserResponseGiver) {
                                         FeedbackParticipantType participantType = question.recipientType;
                                         recipientDisplayableIdentifier = participantType.isTeam() ? 
-                                                                         giver:
-                                                                         data.bundle.getAnonEmail(participantType, data.bundle.getFullNameFromRoster(giver));
+                                                                         recipient:
+                                                                         data.bundle.getAnonEmail(participantType, data.bundle.getFullNameFromRoster(recipient));
                                     } else {
                                         recipientDisplayableIdentifier = recipient;
                                     }
@@ -212,7 +211,6 @@
                                                               && responseBundle.get(questionId).containsKey(giverDisplayableIdentifier) 
                                                               && responseBundle.get(questionId).get(giverDisplayableIdentifier).
                                                                                            containsKey(recipientDisplayableIdentifier);
-
                                     if (!isResponseExist) {
                                         // set parameters for displaying 'missing' response row
                                         rowCssClass = "pending_response_row";
