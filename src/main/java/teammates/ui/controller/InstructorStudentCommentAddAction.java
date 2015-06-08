@@ -63,9 +63,9 @@ public class InstructorStudentCommentAddAction extends Action {
             
             statusToUser.add(Const.StatusMessages.COMMENT_ADDED);
             statusToAdmin = "Created Comment for Student:<span class=\"bold\">("
-                    + comment.recipients + ")</span> for Course <span class=\"bold\">["
-                    + comment.courseId + "]</span><br>"
-                    + "<span class=\"bold\">Comment:</span> " + comment.commentText;
+                            + comment.recipients + ")</span> for Course <span class=\"bold\">["
+                            + comment.courseId + "]</span><br>"
+                            + "<span class=\"bold\">Comment:</span> " + comment.commentText;
         } catch (EntityAlreadyExistsException e) {  // this exception should not be thrown normally unless 
                                                     // GAE creates duplicate commentId
             Assumption.fail("Creating a duplicate comment should not be possible "
