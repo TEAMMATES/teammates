@@ -87,6 +87,7 @@ public class InstructorHomePage extends AppPage {
     public InstructorFeedbacksPage clickCourseAddEvaluationLink(String courseId) {
         getCourseLinkInRow("course-add-eval-for-test", getCourseRowId(courseId)).click();
         waitForPageToLoad();
+        ThreadHelper.waitBriefly();
         return changePageType(InstructorFeedbacksPage.class);
     }
     
@@ -260,9 +261,15 @@ public class InstructorHomePage extends AppPage {
     public WebElement getDeleteCourseLink(String courseId){
         return getCourseLinkInRow("course-delete-for-test", getCourseRowId(courseId));
     }
-    
-    public InstructorHomePage clickArchiveCourseLink(String courseId){
-        getCourseLinkInRow("course-archive-for-test", getCourseRowId(courseId)).click();
+
+    public InstructorHomePage clickArchiveCourseLinkAndConfirm(String courseId) {
+        clickAndConfirm(getCourseLinkInRow("course-archive-for-test", getCourseRowId(courseId)));
+        waitForPageToLoad();
+        return this;
+    }
+
+    public InstructorHomePage clickArchiveCourseLinkAndCancel(String courseId) {
+        clickAndCancel(getCourseLinkInRow("course-archive-for-test", getCourseRowId(courseId)));
         waitForPageToLoad();
         return this;
     }

@@ -283,9 +283,16 @@ public class FeedbackResponsesLogic {
                 isGiverName ? question.showGiverNameTo
                         : question.showRecipientNameTo;
         
-        //Giver can always see giver and recipient.(because he answered.)
-        if(response.giverEmail.equals(userEmail)){
-            return true;
+        // Early return if user is giver
+        if (question.giverType != FeedbackParticipantType.TEAMS) {
+            if (response.giverEmail.equals(userEmail)) {
+                return true;
+            }
+        } else {
+            // if response is given by team, then anyone in the team can see the response
+            if (roster.isStudentsInSameTeam(response.giverEmail, userEmail)) {
+                return true;
+            }
         }
         
         for (FeedbackParticipantType type : showNameTo) {
@@ -311,6 +318,7 @@ public class FeedbackResponsesLogic {
                             response.recipientEmail)) {
                         return true;
                     }
+                    break;
                     // Response to individual
                 } else if (response.recipientEmail.equals(userEmail)) {
                     return true;
@@ -324,6 +332,7 @@ public class FeedbackResponsesLogic {
                             response.recipientEmail)) {
                         return true;
                     }
+                    break;
                     // Response to individual
                 } else if (roster.isStudentsInSameTeam(response.recipientEmail,
                         userEmail)) {
@@ -343,6 +352,40 @@ public class FeedbackResponsesLogic {
                 break;
             }
         }
+        return false;
+    }
+    
+    /**
+     * Return true if the responses of the question are visible to students
+     * @param question
+     */
+    public boolean isResponseOfFeedbackQuestionVisibleToStudent(FeedbackQuestionAttributes question) {
+        if (question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
+            return true;
+        }
+        boolean isStudentRecipientType = 
+                   question.recipientType.equals(FeedbackParticipantType.STUDENTS)
+                || question.recipientType.equals(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                || question.recipientType.equals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)
+                || (question.recipientType.equals(FeedbackParticipantType.GIVER)  
+                    && question.giverType.equals(FeedbackParticipantType.STUDENTS)); 
+                                        
+        if (isStudentRecipientType
+            && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+            return true;
+        }
+        if (question.recipientType.isTeam() 
+            && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+            return true;
+        }
+        if (question.giverType == FeedbackParticipantType.TEAMS 
+            || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
+            return true;
+        }
+        if (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {
+            return true;
+        }
+        
         return false;
     }
 
@@ -696,7 +739,7 @@ public class FeedbackResponsesLogic {
         }
         
         return teamResponses;
-    }
+    }    
 
     private List<FeedbackResponseAttributes> getViewableFeedbackResponsesForStudentForQuestion(
             FeedbackQuestionAttributes question, String studentEmail) {

@@ -12,6 +12,7 @@ import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissionEditPageAction {
+
     @Override
     protected boolean isSpecificUserJoinedCourse() {
         // Instructor is always already joined
@@ -24,25 +25,30 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
         boolean creatorOnly = false;
         new GateKeeper().verifyAccessible(instructor, session, creatorOnly);
-        boolean shouldEnableSubmit = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+        boolean shouldEnableSubmit = 
+                    instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
         List<String> sectionsInCourse;
+
         try {
             sectionsInCourse = logic.getSectionNamesForCourse(instructor.courseId);
-        } catch(EntityDoesNotExistException e) {
+        } catch (EntityDoesNotExistException e) {
+            // This part is not tested because it is not normally reproducible, it will already be
+            // redirected the moment something does not exist but we can still catch it for safety purposes
             sectionsInCourse = new ArrayList<String>();
         }
+        
         for (String section : sectionsInCourse) {
             if (instructor.isAllowedForPrivilege(section, session.feedbackSessionName, 
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
+                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
                 shouldEnableSubmit = true;
                 break;
             }
         }
-        // TODO: refactor this to gate keeper
+        
         if (!shouldEnableSubmit) {
-            throw new UnauthorizedAccessException(
-                    "Feedback session [" + session.feedbackSessionName + 
-                    "] is not accessible to instructor ["+ instructor.email + "] for this purpose");
+            throw new UnauthorizedAccessException("Feedback session [" + session.feedbackSessionName
+                                                  + "] is not accessible to instructor ["
+                                                  + instructor.email + "] for this purpose");
         }
     }
 
@@ -52,10 +58,9 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
     }
 
     @Override
-    protected FeedbackSessionQuestionsBundle getDataBundle(
-            String userEmailForCourse) throws EntityDoesNotExistException {
+    protected FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse) throws EntityDoesNotExistException {
         return logic.getFeedbackSessionQuestionsBundleForInstructor(
-                feedbackSessionName, courseId, userEmailForCourse);
+                             feedbackSessionName, courseId, userEmailForCourse);
     }
     
     @Override
@@ -65,9 +70,9 @@ public class InstructorFeedbackSubmissionEditPageAction extends FeedbackSubmissi
 
     @Override
     protected void setStatusToAdmin() {
-        statusToAdmin = "Show instructor feedback submission edit page<br>" +
-                "Session Name: " + feedbackSessionName + "<br>" + 
-                "Course ID: " + courseId;
+        statusToAdmin = "Show instructor feedback submission edit page<br>"
+                        + "Session Name: " + feedbackSessionName + "<br>"
+                        + "Course ID: " + courseId;
     }
 
     @Override

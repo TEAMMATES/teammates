@@ -11,6 +11,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
+import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.test.driver.BackDoor;
 import teammates.test.driver.TestProperties;
@@ -62,7 +63,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         String courseName = testData.courses.get("SCJConfirmationUiT.CS2104").name;
         String studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2104").email;
         joinLink = new Url(joinActionUrl)
-                        .withRegistrationKey(BackDoor.getKeyForStudent(courseId, studentEmail))
+                        .withRegistrationKey(getKeyFromBackDoor(courseId, studentEmail))
                         .withCourseId(courseId)
                         .withStudentEmail(studentEmail)
                         .toString();
@@ -84,7 +85,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         courseName = testData.courses.get("SCJConfirmationUiT.CS2103").name;
         studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2103").email;
         joinLink = Url.addParamToUrl(joinActionUrl,Const.ParamsNames.REGKEY,
-                BackDoor.getKeyForStudent(courseId, studentEmail));
+                                     getKeyFromBackDoor(courseId, studentEmail));
         
         browser.driver.get(joinLink);
         confirmationPage = createNewPage(browser, StudentCourseJoinConfirmationPage.class);
@@ -150,7 +151,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         String courseName = testData.courses.get("SCJConfirmationUiT.CS2104").name;
         String studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2104").email;
         joinLink = Url.addParamToUrl(joinActionUrl,Const.ParamsNames.REGKEY,
-                                     BackDoor.getKeyForStudent(courseId, studentEmail));
+                                     getKeyFromBackDoor(courseId, studentEmail));
         
         browser.driver.get(joinLink);
         studentHomePage = createCorrectLoginPageType(browser.driver.getPageSource())
@@ -169,7 +170,7 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         courseName = testData.courses.get("SCJConfirmationUiT.CS2103").name;
         studentEmail = testData.students.get("alice.tmms@SCJConfirmationUiT.CS2103").email;
         joinLink = Url.addParamToUrl(joinActionUrl,Const.ParamsNames.REGKEY,
-                BackDoor.getKeyForStudent(courseId, studentEmail));
+                                     getKeyFromBackDoor(courseId, studentEmail));
         
         browser.driver.get(joinLink);
         confirmationPage = createNewPage(browser, StudentCourseJoinConfirmationPage.class);
@@ -233,4 +234,17 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
             throw new RuntimeException(e);
         }
     }
+
+    // continuously ask BackDoor to get the key until a legit key is returned
+    private String getKeyFromBackDoor(String courseId, String studentEmail) {
+        int NUMBER_OF_REMAINING_RETRIES = 10;
+        String key = "[BACKDOOR_STATUS_FAILURE]";
+        while (key.startsWith("[BACKDOOR_STATUS_FAILURE]") && NUMBER_OF_REMAINING_RETRIES > 0) {
+            key = BackDoor.getKeyForStudent(courseId, studentEmail);
+            NUMBER_OF_REMAINING_RETRIES--;
+            ThreadHelper.waitFor(100);
+        }
+        return key;
+    }
+
 }

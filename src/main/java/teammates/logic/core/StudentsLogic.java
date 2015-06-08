@@ -18,6 +18,7 @@ import teammates.common.datatransfer.StudentEnrollDetails;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
+import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -78,19 +79,13 @@ public class StudentsLogic {
     
     public void createStudentCascade(StudentAttributes studentData, boolean hasDocument) 
             throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        
-        createStudentCascadeWithSubmissionAdjustmentScheduled(studentData, hasDocument);
+        studentsDb.createStudent(studentData, hasDocument);
         
         if (!coursesLogic.isCoursePresent(studentData.course)) {
             throw new EntityDoesNotExistException(
                     "Course does not exist [" + studentData.course + "]");
         }
         
-    }
-    
-    public void createStudentCascadeWithSubmissionAdjustmentScheduled(StudentAttributes studentData, boolean hasDocument) 
-            throws InvalidParametersException, EntityAlreadyExistsException {    
-        studentsDb.createStudent(studentData, hasDocument);
     }
 
     @SuppressWarnings("deprecation")
@@ -678,7 +673,7 @@ public class StudentsLogic {
                 enrollmentDetails.oldSection = originalStudentAttributes.section;
             }
         } else {
-            createStudentCascadeWithSubmissionAdjustmentScheduled(validStudentAttributes, hasDocument);
+            createStudentCascade(validStudentAttributes, hasDocument);
             enrollmentDetails.updateStatus = UpdateStatus.NEW;
         }
 
@@ -756,6 +751,17 @@ public class StudentsLogic {
     private boolean isSectionChanged(String originalSection, String newSection) {
         return (newSection != null) && (originalSection != null)
                 && (!originalSection.equals(newSection));
+    }
+
+    public TeamDetailsBundle getTeamDetailsForStudent(StudentAttributes student) {
+        if (student != null) {
+            TeamDetailsBundle teamResult = new TeamDetailsBundle(); 
+            teamResult.name = student.team;
+            teamResult.students = getStudentsForTeam(student.team, student.course);
+            StudentAttributes.sortByNameAndThenByEmail(teamResult.students);
+            return teamResult;
+        }
+        return null;
     }
     
 }

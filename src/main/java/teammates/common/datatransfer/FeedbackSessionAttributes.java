@@ -242,9 +242,9 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         long deadlineMillis = deadline.getTimeInMillis();
         long differenceBetweenDeadlineAndNow = (deadlineMillis - nowMillis) / (60 * 60 * 1000);
 
-        // If now and start are almost similar, it means the evaluation
+        // If now and start are almost similar, it means the feedback session
         // is open for only 24 hours.
-        // Hence we do not send a reminder e-mail for the evaluation.
+        // Hence we do not send a reminder e-mail for feedback session.
         return now.after(start)
                && (differenceBetweenDeadlineAndNow >= hours - 1
                && differenceBetweenDeadlineAndNow < hours);
@@ -387,35 +387,23 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      * (ascending). The sort by CourseID part is to cater the case when this
      * method is called with combined feedback sessions from many courses
      *
-     * @param evals
+     * @param sessions
      */
-    public static void sortFeedbackSessionsByCreationTime(List<FeedbackSessionAttributes> evals) {
-        Collections.sort(evals, new Comparator<FeedbackSessionAttributes>() {
-            public int compare(FeedbackSessionAttributes fsd1, FeedbackSessionAttributes fsd2) {
-                FeedbackSessionAttributes session1 = fsd1;
-                FeedbackSessionAttributes session2 = fsd2;
-                int result = 0;
+    public static void sortFeedbackSessionsByCreationTime(List<FeedbackSessionAttributes> sessions) {
+        Collections.sort(sessions, new Comparator<FeedbackSessionAttributes>() {
+            public int compare(FeedbackSessionAttributes session1, FeedbackSessionAttributes session2) {
+                int result = session1.courseId.compareTo(session2.courseId);
 
                 if (result == 0) {
-                    result = session1.courseId.compareTo(session2.courseId);
+                    result = session1.createdTime.compareTo(session2.createdTime);
                 }
 
                 if (result == 0) {
-                    result = session1.createdTime.after(session2.createdTime) ? 1
-                           : (session1.createdTime.before(session2.createdTime) ? -1
-                                                                                : 0);
+                    result = session1.endTime.compareTo(session2.endTime);
                 }
 
                 if (result == 0) {
-                    result = session1.endTime.after(session2.endTime) ? 1
-                           : (session1.endTime.before(session2.endTime) ? -1
-                                                                        : 0);
-                }
-
-                if (result == 0) {
-                    result = session1.startTime.after(session2.startTime) ? 1
-                           : (session1.startTime.before(session2.startTime) ? -1
-                                                                            : 0);
+                    result = session1.startTime.compareTo(session2.startTime);
                 }
 
                 if (result == 0) {
@@ -433,41 +421,28 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      * (ascending). The sort by CourseID part is to cater the case when this
      * method is called with combined feedback sessions from many courses
      *
-     * @param evals
+     * @param sessions
      */
-    public static void sortFeedbackSessionsByCreationTimeDescending(List<FeedbackSessionAttributes> evals) {
-        Collections.sort(evals, new Comparator<FeedbackSessionAttributes>() {
-            public int compare(FeedbackSessionAttributes fsd1, FeedbackSessionAttributes fsd2) {
-                FeedbackSessionAttributes session1 = fsd1;
-                FeedbackSessionAttributes session2 = fsd2;
-                int result = 0;
-
+    public static void sortFeedbackSessionsByCreationTimeDescending(List<FeedbackSessionAttributes> sessions) {
+        Collections.sort(sessions, new Comparator<FeedbackSessionAttributes>() {
+            public int compare(FeedbackSessionAttributes session1, FeedbackSessionAttributes session2) {
+                int result = session2.createdTime.compareTo(session1.createdTime);
                 if (result == 0) {
-                    result = session1.createdTime.after(session2.createdTime) ? -1
-                           : (session1.createdTime.before(session2.createdTime) ? 1
-                                                                                : 0);
-                }
-
-                if (result == 0) {
-                    if (session1.endTime == null && session2.endTime != null) {
-                        result = -1;
-                    } else if (session1.endTime != null && session2.endTime == null) {
-                        result = 1;
-                    } else if (session1.endTime == null && session2.endTime == null) {
-                        result = 0;
+                    if (session1.endTime != null && session2.endTime != null) {
+                        result = session2.endTime.compareTo(session1.endTime);
                     } else {
-                        result = session1.endTime.after(session2.endTime) ? -1
-                               : (session1.endTime.before(session2.endTime) ? 1
-                                                                            : 0);
+                        if (session1.endTime == null) {
+                            --result;
+                        }
+                        if (session2.endTime == null) {
+                            ++result;
+                        }
                     }
                 }
 
                 if (result == 0) {
-                    result = session1.startTime.after(session2.startTime) ? -1
-                           : (session1.startTime.before(session2.startTime) ? 1
-                                                                            : 0);
+                    result = session2.startTime.compareTo(session1.startTime);
                 }
-
                 if (result == 0) {
                     result = session1.courseId.compareTo(session2.courseId);
                 }
@@ -475,7 +450,7 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
                 if (result == 0) {
                     result = session1.feedbackSessionName.compareTo(session2.feedbackSessionName);
                 }
-
+                
                 return result;
             }
         });

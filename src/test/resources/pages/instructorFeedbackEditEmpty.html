@@ -341,8 +341,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label data-placement="top" data-toggle="tooltip" title="" class="col-sm-2 control-label" for="fsname" data-original-title="Enter the name of the feedback session e.g. Feedback Session 1.">Session
-                                            name</label>
+                                        <label data-placement="top" data-toggle="tooltip" title="" class="col-sm-2 control-label" for="fsname" data-original-title="Enter the name of the feedback session e.g. Feedback Session 1.">Session name</label>
                                         <div class="col-sm-10">
                                             <div class="form-control-static">
                                                 First Session
@@ -357,6 +356,7 @@
                                         <div class="form-group">
                                             <label data-placement="top" data-toggle="tooltip" title="" class="col-sm-2 control-label" for="instructions" data-original-title="Enter instructions for this feedback session. e.g. Avoid comments which are too critical.&lt;br /&gt; It will be displayed at the top of the page when users respond to the session.">Instructions</label>
                                             <div class="col-sm-10">
+                                                <!-- Do not add whitespace between the opening and closing tags-->
                                                 <textarea id="instructions" name="instructions" cols="100%" rows="4" class="form-control" disabled="disabled">Instructions for first session</textarea>
                                             </div>
                                         </div>
@@ -453,8 +453,7 @@
                                 <div data-placement="top" data-toggle="tooltip" title="" class="col-md-2 border-left-gray" data-original-title="Please select the amount of time that the system will continue accepting &lt;br /&gt;submissions after the specified deadline.">
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <label class="control-label" for="graceperiod">Grace
-                                                period</label>
+                                            <label class="control-label" for="graceperiod">Grace period</label>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -729,11 +728,11 @@
                         </div>
                     </div>
                     <div class="col-sm-2">
-                        <a onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)" value="Add New Question" class="btn btn-primary" id="button_openframe">   Add New Question   </a>
+                        <a onclick="showNewQuestionFrame(document.getElementById('questionTypeChoice').value)" class="btn btn-primary" id="button_openframe">   Add New Question   </a>
 
                     </div>
                     <div class="col-sm-2">
-                        <a value="Copy Question" class="btn btn-primary" id="button_copy">   Copy Question   </a>
+                        <a class="btn btn-primary" id="button_copy">   Copy Question   </a>
                     </div>
                     <div class="col-sm-2">
                         <a href="/page/instructorFeedbacksPage?user=CFeedbackEditUiT.instructor&amp;courseid=CFeedbackEditUiT.CS2104&amp;fsname=First%20Session" class="btn btn-primary">   Done Editing   </a>
@@ -1255,7 +1254,7 @@
                     </div>
                 </div>
             </div>
-            </form></div>
+            
             <input type="hidden" value="1" name="questionnum" />
             <input type="hidden" value="First Session" name="fsname" />
             <input type="hidden" value="CFeedbackEditUiT.CS2104" name="courseid" />
@@ -1264,6 +1263,7 @@
             <input type="hidden" name="showrecipientto" value="RECEIVER,INSTRUCTORS" />
             <input type="hidden" value="CFeedbackEditUiT.instructor" name="user" />
             <input type="hidden" value="NONE" name="generatedOptions" id="generatedOptions" />
+            </form></div>
         
 
         <!-- Modal -->
