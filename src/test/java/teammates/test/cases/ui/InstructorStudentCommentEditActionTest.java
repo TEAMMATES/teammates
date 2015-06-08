@@ -505,8 +505,8 @@ public class InstructorStudentCommentEditActionTest extends BaseActionTest {
         };
         
         try {
-        a = getAction(submissionParams);
-        r = getRedirectResult(a);
+            a = getAction(submissionParams);
+            r = getRedirectResult(a);
         } catch (AssertionError e) {
             assertEquals("Comment or instructor cannot be null for editing comment", e.getMessage());
         }
