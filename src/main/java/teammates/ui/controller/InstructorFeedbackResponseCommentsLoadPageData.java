@@ -11,15 +11,15 @@ import teammates.common.datatransfer.InstructorAttributes;
 
 public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
 
-    public Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = new HashMap<String, FeedbackSessionResultsBundle>();
+    public Map<String, FeedbackSessionResultsBundle> feedbackResultBundles =
+            new HashMap<String, FeedbackSessionResultsBundle>();
     public InstructorAttributes currentInstructor = null;
     public String instructorEmail = "";
     public CourseRoster roster = null;
     public int numberOfPendingComments = 0;
     public int feedbackSessionIndex = 0;
     
-    public InstructorFeedbackResponseCommentsLoadPageData(
-            AccountAttributes account) {
+    public InstructorFeedbackResponseCommentsLoadPageData(AccountAttributes account) {
         super(account);
     }
 

@@ -271,24 +271,25 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                  + ".getElementsByTagName('a')[0].click();");
         Actions actions = new Actions(browser.driver);
 
-        actions.moveToElement(photoCell).build().perform();
+        actions.moveToElement(photoCell).perform();
         waitForElementToAppear(By.cssSelector(".popover-content > img"));
 
         List<WebElement> photos = browser.driver.findElements(By.cssSelector(".popover-content > img"));
         AssertHelper.assertContainsRegex(urlRegex, photos.get(photos.size() - 1).getAttribute("src"));
 
-        actions.moveByOffset(100, 100).click().build().perform();
+        actions.moveByOffset(100, 100).click().perform();
     }
 
     public void hoverClickAndViewStudentPhotoOnHeading(int panelHeadingIndex, String urlRegex) throws Exception {
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         String idOfPanelHeading = "panelHeading-" + panelHeadingIndex;
         WebElement photoDiv = browser.driver.findElement(By.id(idOfPanelHeading))
                                             .findElement(By.className("profile-pic-icon-hover"));
+        jsExecutor.executeScript("arguments[0].scrollIntoView(true);", photoDiv);
         Actions actions = new Actions(browser.driver);
-        actions.moveToElement(photoDiv).build().perform();
+        actions.moveToElement(photoDiv).perform();
         waitForElementToAppear(By.cssSelector(".popover-content"));
 
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) browser.driver;
         jsExecutor.executeScript("document.getElementsByClassName('popover-content')[0]"
                                  + ".getElementsByTagName('a')[0].click();");
 
@@ -309,7 +310,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                              .findElements(By.className("profile-pic-icon-hover"))
                                              .get(0);
         Actions actions = new Actions(browser.driver);
-        actions.moveToElement(photoLink).build().perform();
+        actions.moveToElement(photoLink).perform();
 
         waitForElementToAppear(By.cssSelector(".popover-content > img"));
         ThreadHelper.waitFor(500);
