@@ -126,7 +126,6 @@
                                 continue; // skip to next question
                             }
                         %>
-                            
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered dataTable margin-0">
                                 <thead class="background-color-medium-gray text-color-gray font-weight-normal">
@@ -158,11 +157,9 @@
                                 </thead>
                                 <tbody>
                             <%
-
                             List<String> possibleGivers = data.bundle.getPossibleAndActualGivers(question);
 
                             for (String giver : possibleGivers) {
-                                
                                 List<String> recipientsForGiver = data.bundle.getPossibleAndActualReceivers(question, giver, responseBundle.get(questionId));
                                 for (String recipient : recipientsForGiver) {
                                     if (!data.selectedSection.equals("All") 
@@ -180,59 +177,38 @@
                                     String recipientName, recipientTeamName;
                                     Boolean isGiverVisible = data.bundle.isGiverVisibleToInstructor(question);
 
-                                    String giverDisplayableIdentifier;
-                                    String recipientDisplayableIdentifier;
-
                                     FeedbackResponseAttributes responseForQuestionGiverRecipient = null;
-                                    boolean isGiverAnonymous = !data.bundle.isGiverVisibleToInstructor(question);
-                                    boolean isCurrentUserResponseGiver = data.instructor.email.equals(giver);
-                                    if (isGiverAnonymous && !isCurrentUserResponseGiver) {
-                                        FeedbackParticipantType participantType = question.giverType;
-                                        giverDisplayableIdentifier = participantType.isTeam() ? 
-                                                                     giver:
-                                                                     data.bundle.getAnonEmail(participantType, data.bundle.getFullNameFromRoster(giver));
-                                    } else {
-                                        giverDisplayableIdentifier = giver;
-                                    }
-                                    boolean isRecipientAnonymous = !data.bundle.isRecipientVisibleToInstructor(question);
-                                    if (isRecipientAnonymous && !isCurrentUserResponseGiver) {
-                                        FeedbackParticipantType participantType = question.recipientType;
-                                        recipientDisplayableIdentifier = participantType.isTeam() ? 
-                                                                         recipient:
-                                                                         data.bundle.getAnonEmail(participantType, data.bundle.getFullNameFromRoster(recipient));
-                                    } else {
-                                        recipientDisplayableIdentifier = recipient;
-                                    }
 
                                     // obtain response from responseBundle
                                     boolean isResponseExist = responseBundle.containsKey(questionId) 
-                                                              && responseBundle.get(questionId).containsKey(giverDisplayableIdentifier) 
-                                                              && responseBundle.get(questionId).get(giverDisplayableIdentifier).
-                                                                                           containsKey(recipientDisplayableIdentifier);
+                                                              && responseBundle.get(questionId).containsKey(giver) 
+                                                              && responseBundle.get(questionId).get(giver).
+                                                                                           containsKey(recipient);
                                     if (!isResponseExist) {
                                         // set parameters for displaying 'missing' response row
                                         rowCssClass = "pending_response_row";
                                         cellCssClass = "class=\"middlealign color_neutral\"";
 
                                         // show 'missing' responses if both giver and recipient are anonymous to instructors in general
-                                        if (data.bundle.isBothGiverAndReceiverVisibleToInstructor(question) && questionDetails.shouldShowNoResponseText(giver, recipient, question)) {
+                                        if (data.bundle.isBothGiverAndReceiverVisibleToInstructor(question) 
+                                            && questionDetails.shouldShowNoResponseText(giver, recipient, question)) {
 
                                             isShowingMissingResponseRow = true;
 
                                             // prepare data for 'missing' response row
-                                            giverName = data.bundle.isGiverVisibleToInstructor(question) ? 
-                                                        data.bundle.getFullNameFromRoster(giverDisplayableIdentifier) :
-                                                        data.bundle.getNameForEmail( giverDisplayableIdentifier);
-                                            giverTeamName = data.bundle.isGiverVisibleToInstructor(question) ?
-                                                            data.bundle.getTeamNameFromRoster(giverDisplayableIdentifier) :
-                                                            data.bundle.getTeamNameForEmail(giverDisplayableIdentifier);
+                                            giverName = isGiverVisible ? 
+                                                        data.bundle.getFullNameFromRoster(giver) :
+                                                        data.bundle.getNameForEmail( giver);
+                                            giverTeamName = isGiverVisible ?
+                                                            data.bundle.getTeamNameFromRoster(giver) :
+                                                            data.bundle.getTeamNameForEmail(giver);
 
                                             recipientName = data.bundle.isRecipientVisibleToInstructor(question) ? 
-                                                            data.bundle.getFullNameFromRoster(recipientDisplayableIdentifier) :
-                                                            data.bundle.getNameForEmail(recipientDisplayableIdentifier);
+                                                            data.bundle.getFullNameFromRoster(recipient) :
+                                                            data.bundle.getNameForEmail(recipient);
                                             recipientTeamName = data.bundle.isRecipientVisibleToInstructor(question) ? 
-                                                                data.bundle.getTeamNameFromRoster(recipientDisplayableIdentifier) :
-                                                                data.bundle.getTeamNameForEmail(recipientDisplayableIdentifier);
+                                                                data.bundle.getTeamNameFromRoster(recipient) :
+                                                                data.bundle.getTeamNameForEmail(recipient);
 
                                         } else {
                                             // skip to next recipient
@@ -245,8 +221,8 @@
 
                                         // get response and prepare data for displaying response
                                         responseForQuestionGiverRecipient = responseBundle.get(questionId).
-                                                                            get(giverDisplayableIdentifier).
-                                                                            get(recipientDisplayableIdentifier);
+                                                                            get(giver).
+                                                                            get(recipient);
 
                                         giverName = data.bundle.getGiverNameForResponse(question, responseForQuestionGiverRecipient);
                                         giverTeamName = data.bundle.getTeamNameForEmail(responseForQuestionGiverRecipient.giverEmail);
@@ -255,13 +231,12 @@
                                         recipientTeamName = data.bundle.getTeamNameForEmail(responseForQuestionGiverRecipient.recipientEmail);
                                     }
         
-
                                     // display contents of 1 response
                             %>
                                     <tr <%= rowCssClass.isEmpty() ? "" : "class=\"pending_response_row\"" %> >
                                         <td <%= cellCssClass %> >
                                             <%if (question.isGiverAStudent()) {%>
-                                            <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(giverDisplayableIdentifier)%>">
+                                            <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(giver)%>">
                                                 <%=giverName%>
                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                             </div>             
@@ -272,7 +247,7 @@
                                         <td <%= cellCssClass %>><%=giverTeamName%></td>
                                         <td <%= cellCssClass %>>
                                             <%if (question.isRecipientAStudent()) {%>
-                                            <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(recipientDisplayableIdentifier)%>">
+                                            <div class="profile-pic-icon-hover" data-link="<%=data.getProfilePictureLink(recipient)%>">
                                                 <%=recipientName%>
                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                             </div>   
@@ -285,7 +260,7 @@
                                             if (isShowingMissingResponseRow) {
                                         %>
                                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(giverDisplayableIdentifier, recipientDisplayableIdentifier, data.bundle, question)%></td>
+                                                <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(giver, recipient, data.bundle, question)%></td>
                                         <%
                                             }  else {
                                         %>
@@ -300,7 +275,7 @@
                                                 // determine if 'moderate' button should be shown
                                                 boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(
                                                                                                 data.bundle.getSectionFromRoster(
-                                                                                                                giverDisplayableIdentifier), 
+                                                                                                                giver), 
                                                                                                 data.feedbackSessionName, 
                                                                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
                                                 String disabledAttribute = (!isAllowedToModerate) ? "disabled=\"disabled\"" : "";
@@ -311,10 +286,10 @@
                                                         <input type="hidden" name="courseid" value="<%=data.courseId %>">
                                                         <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
                                                         <input type="hidden" name="moderatedquestion" value="<%= question.questionNumber%>">
-                                                        <% if (giverDisplayableIdentifier.matches(Const.REGEXP_TEAM)) { %>
-                                                               <input type="hidden" name="moderatedstudent" value="<%= giverDisplayableIdentifier.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
+                                                        <% if (giver.matches(Const.REGEXP_TEAM)) { %>
+                                                               <input type="hidden" name="moderatedstudent" value="<%= giver.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
                                                         <% } else { %>
-                                                               <input type="hidden" name="moderatedstudent" value="<%= giverDisplayableIdentifier%>">
+                                                               <input type="hidden" name="moderatedstudent" value="<%= giver%>">
                                                         <% } %>
                                                     </form>
                                             <%  }  %>
@@ -341,7 +316,6 @@
             </div>    
         </div>
     </div>
-
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
 </html>
