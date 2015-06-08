@@ -37,6 +37,6 @@
         <t:bodyHeader title="${bodyTitle}" />
         <jsp:doBody />
     </div>
-    <t:bodyFooter version="tempVal"/>
+    <t:bodyFooter />
 </body>
 </html>

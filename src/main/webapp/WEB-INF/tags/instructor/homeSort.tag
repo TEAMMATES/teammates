@@ -1,9 +1,9 @@
 <%@ tag description="instructorHome - Course sorting buttons" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
-<c:set var="byCourse" value="<%=Const.SORT_BY_COURSE_ID %>" />
-<c:set var="byName" value="<%=Const.SORT_BY_COURSE_NAME %>" />
-<c:set var="byCreationDate" value="<%=Const.SORT_BY_COURSE_CREATION_DATE %>" />
+<c:set var="byCourse" value="<%= Const.SORT_BY_COURSE_ID %>" />
+<c:set var="byName" value="<%= Const.SORT_BY_COURSE_NAME %>" />
+<c:set var="byCreationDate" value="<%= Const.SORT_BY_COURSE_CREATION_DATE %>" />
 <div class="col-md-5 pull-right">
     <div class="row">
         <div class="col-md-3 btn-group">
