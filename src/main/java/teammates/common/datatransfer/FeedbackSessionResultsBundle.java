@@ -407,6 +407,19 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
     }
 
+    public boolean isParticipantInSection(String participantIdentifier, String section) {
+        String personSection = getSectionFromRoster(participantIdentifier);
+        
+        if (personSection.equals(section)) {
+            return true;
+        }
+        
+        // identifier might be a team, which will not be identified using the roster
+        Set<String> teamsInSection = getTeamsInSectionFromRoster(section);
+        return teamsInSection.contains(participantIdentifier);
+    }
+    
+    
     /**
      * Get the displayable section name from an email.
      * If the email is not an email of someone in the class roster, an empty string is returned.
@@ -428,6 +441,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             return "";
         }
     }
+    
 
     /**
      * Get the emails of the students given a teamName,

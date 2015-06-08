@@ -164,6 +164,9 @@
                             List<String> possibleGivers = data.bundle.getPossibleAndActualGivers(question);
 
                             for (String giver : possibleGivers) {
+                                if (!data.selectedSection.equals("All") && !data.bundle.isParticipantInSection(giver, data.selectedSection)) {
+                                    continue;
+                                }
                                 List<String> recipientsForGiver = data.bundle.getPossibleAndActualReceivers(question, giver, responseBundle.get(questionId));
  
                                 for (String recipient : recipientsForGiver) {
