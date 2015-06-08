@@ -78,16 +78,16 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         Iterator<FeedbackResponseAttributes> iter = bundle.responses.iterator();
         while (iter.hasNext()) {
             FeedbackResponseAttributes fdr = iter.next();
-            boolean instructorCanViewSessionInGiverSection = 
+            boolean canInstructorViewSessionInGiverSection = 
                     instructor.isAllowedForPrivilege(fdr.giverSection, fdr.feedbackSessionName,
                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
-            boolean instructorCanViewSessionInRecipientSection =
+            boolean canInstructorViewSessionInRecipientSection =
                     instructor.isAllowedForPrivilege(fdr.recipientSection, fdr.feedbackSessionName,
                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
             
-            boolean instructorDoesNotHaveSessionViewingPrivileges = !(instructorCanViewSessionInGiverSection
-                                                                    && instructorCanViewSessionInRecipientSection);
-            if (instructorDoesNotHaveSessionViewingPrivileges) {
+            boolean instructorHasSessionViewingPrivileges = (canInstructorViewSessionInGiverSection
+                                                                    && canInstructorViewSessionInRecipientSection);
+            if (!instructorHasSessionViewingPrivileges) {
                 iter.remove();
             }
         }
