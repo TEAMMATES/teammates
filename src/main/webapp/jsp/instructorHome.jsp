@@ -21,18 +21,20 @@
     <br />
     <t:statusMessage />
     <ti:remindModal />
-    <c:if test="${data.unarchivedCoursesCount > 1}">
-        <div class="row">
-            <ti:homeSort />
-        </div>
+    <c:if test="${data.account.instructor}">
+        <c:if test="${data.unarchivedCoursesCount > 1}">
+            <div class="row">
+                <ti:homeSort />
+            </div>
+        </c:if>
+        <br />
+        <c:forEach items="${data.courseTables}" var="courseTable" varStatus="i">
+            <ti:homeCoursePanel courseTable="${courseTable}" index="${i.index}">
+                <c:if test="${not empty courseTable.rows}">
+                    <ti:homeCourseTable sessionRows="${courseTable.rows}" />
+                </c:if>
+            </ti:homeCoursePanel>
+        </c:forEach>
+        <ti:copyModal />
     </c:if>
-    <br />
-    <c:forEach items="${data.courseTables}" var="courseTable" varStatus="i">
-        <ti:homeCoursePanel courseTable="${courseTable}" index="${i.index}">
-            <c:if test="${not empty courseTable.rows}">
-                <ti:homeCourseTable sessionRows="${courseTable.rows}" />
-            </c:if>
-        </ti:homeCoursePanel>
-    </c:forEach>
-    <ti:copyModal />
 </ti:instructorPage>

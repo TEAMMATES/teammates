@@ -1,4 +1,5 @@
 <%@ tag description="Generic TEAMMATES Page" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ attribute name="pageTitle" required="true" %>
 <%@ attribute name="jsIncludes" fragment="true" %>
@@ -37,6 +38,8 @@
         <t:bodyHeader title="${bodyTitle}" />
         <jsp:doBody />
     </div>
-    <t:bodyFooter />
+    <c:if test="{data.account.instructor}">
+        <t:bodyFooter />
+    </c:if>
 </body>
 </html>

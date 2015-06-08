@@ -67,6 +67,10 @@ public class AccountAttributes extends EntityAttributes {
         this.studentProfile.googleId = this.googleId;        
     }
     
+    public boolean isInstructor() {
+        return isInstructor;
+    }
+    
     public String getGoogleId() {
         return googleId;
     }
