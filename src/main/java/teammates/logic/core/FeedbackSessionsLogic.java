@@ -987,12 +987,9 @@ public class FeedbackSessionsLogic {
         return !allQuestions.isEmpty();
     }
 
-    public boolean isFeedbackSessionCompletedByStudent(
-            String feedbackSessionName,
-            String courseId, String userEmail)
-            throws EntityDoesNotExistException {
-
-        FeedbackSessionAttributes  fsa = this.getFeedbackSession(feedbackSessionName, courseId);
+    public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa,
+                                                       String userEmail)
+                   throws EntityDoesNotExistException {
         if (fsa == null) {
             throw new EntityDoesNotExistException(
                     "Trying to check a feedback session that does not exist.");
@@ -1002,12 +999,21 @@ public class FeedbackSessionsLogic {
             return true;
         }
         
-        
+        String feedbackSessionName = fsa.feedbackSessionName;
+        String courseId = fsa.courseId;
         List<FeedbackQuestionAttributes> allQuestions =
-                fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName,
-                        courseId);
+                fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName, courseId);
         // if there is no question for students, session is complete
         return allQuestions.isEmpty();
+    }
+
+    public boolean isFeedbackSessionCompletedByStudent(
+            String feedbackSessionName,
+            String courseId, String userEmail)
+            throws EntityDoesNotExistException {
+
+        FeedbackSessionAttributes  fsa = this.getFeedbackSession(feedbackSessionName, courseId);
+        return isFeedbackSessionCompletedByStudent(fsa, userEmail);
     }
 
     public boolean isFeedbackSessionCompletedByInstructor(
@@ -1380,9 +1386,7 @@ public class FeedbackSessionsLogic {
         // Filter out students who have submitted the feedback session
         List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
         for (StudentAttributes student : studentList) {
-            if (!isFeedbackSessionCompletedByStudent(
-                    session.feedbackSessionName, session.courseId,
-                    student.email)) {
+            if (!isFeedbackSessionCompletedByStudent(session, student.email)) {
                 studentsToRemindList.add(student);
             }
         }
