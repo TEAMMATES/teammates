@@ -147,8 +147,9 @@ public class FeedbackSessionsLogic {
         List<FeedbackSessionAttributes> sessions =
                 getFeedbackSessionsForCourse(courseId);
         List<FeedbackSessionAttributes> viewableSessions = new ArrayList<FeedbackSessionAttributes>();
+        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
         for (FeedbackSessionAttributes session : sessions) {
-            if (isFeedbackSessionViewableTo(session, userEmail)) {
+            if (isFeedbackSessionViewableTo(session, userEmail, instructor)) {
                 viewableSessions.add(session);
             }
         }
@@ -2359,7 +2360,8 @@ public class FeedbackSessionsLogic {
      */
     private boolean isFeedbackSessionViewableTo(
             FeedbackSessionAttributes session,
-            String userEmail) throws EntityDoesNotExistException {
+            String userEmail,
+            InstructorAttributes instructorOfCourse) throws EntityDoesNotExistException {
 
         if (session == null) {
             throw new EntityDoesNotExistException(
@@ -2372,11 +2374,8 @@ public class FeedbackSessionsLogic {
         }
 
         // Allow all instructors to view always
-        InstructorAttributes instructor = instructorsLogic.
-                getInstructorForEmail(session.courseId, userEmail);
-        if (instructor != null) {
-            return instructorsLogic.isEmailOfInstructorOfCourse(
-                    instructor.email, session.courseId);
+        if (instructorOfCourse != null) {
+            return true;
         }
 
         // Allow viewing if session is viewable to students
