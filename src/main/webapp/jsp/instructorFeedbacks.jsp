@@ -672,9 +672,9 @@
                             for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {
                                 sessionIdx++;
                                 boolean isSelectedSession = data.feedbackSessionNameForSessionList != null &&
-                                        data.feedbackSessionNameForSessionList.equals(data.feedbackSessionNameForSessionList);
+                                        fdb.feedbackSessionName.equals(data.feedbackSessionNameForSessionList);
                                 boolean isSelectedCourse = data.courseIdForNewSession != null &&
-                                        data.courseIdForNewSession.equals(data.courseIdForNewSession);
+                                        fdb.courseId.equals(data.courseIdForNewSession);
                                 if (isSelectedSession && isSelectedCourse) {
                                     tableHighlight = " warning";
                                 } else {
