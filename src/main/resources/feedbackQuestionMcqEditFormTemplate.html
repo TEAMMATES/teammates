@@ -10,6 +10,15 @@
                         <span class="glyphicon glyphicon-plus">
                         </span> add more options
                     </a>
+                    
+                    <div class="control-label">
+                        <label>
+                            <input type="checkbox" name="${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}"
+                                   id="${Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG}-${questionNumber}"
+                                   ${checkedOtherOptionEnabled} onchange="toggleMcqOtherOptionEnabled(this, ${questionNumber})">
+                                Add 'Other' option (Allows respondents to type in their own answer)
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -19,11 +28,12 @@
             value="${numOfMcqChoices}">
     </div>
     <div class="col-sm-6">
-        <label class="control-label col-sm-8"><input type="checkbox" 
-            disabled="disabled"
-            id="generateOptionsCheckbox-${questionNumber}"
-            ${checkedGeneratedOptions}
-            onchange="toggleMcqGeneratedOptions(this,${questionNumber})">Or, generate options from the list of all </label>
+        <label class="control-label col-sm-8">
+            <input type="checkbox" disabled="disabled" id="generateOptionsCheckbox-${questionNumber}"
+                   ${checkedGeneratedOptions} onchange="toggleMcqGeneratedOptions(this,${questionNumber})">
+                Or, generate options from the list of all 
+        </label>
+        
         <div class="col-sm-4">
             <select class="form-control" id="mcqGenerateForSelect-${questionNumber}" 
                 onchange="changeMcqGenerateFor(${questionNumber})"
@@ -34,9 +44,9 @@
             </select>
         </div>
         <input type="hidden" 
-            id="${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}-${questionNumber}"
-            name="${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}" 
-            value="${generateOptionsForValue}"> 
+               id="${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}-${questionNumber}"
+               name="${Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS}" 
+               value="${generateOptionsForValue}"> 
     </div>
     <br>
 </div>

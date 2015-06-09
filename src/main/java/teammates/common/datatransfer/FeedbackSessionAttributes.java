@@ -242,9 +242,9 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         long deadlineMillis = deadline.getTimeInMillis();
         long differenceBetweenDeadlineAndNow = (deadlineMillis - nowMillis) / (60 * 60 * 1000);
 
-        // If now and start are almost similar, it means the evaluation
+        // If now and start are almost similar, it means the feedback session
         // is open for only 24 hours.
-        // Hence we do not send a reminder e-mail for the evaluation.
+        // Hence we do not send a reminder e-mail for feedback session.
         return now.after(start)
                && (differenceBetweenDeadlineAndNow >= hours - 1
                && differenceBetweenDeadlineAndNow < hours);
@@ -387,10 +387,10 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      * (ascending). The sort by CourseID part is to cater the case when this
      * method is called with combined feedback sessions from many courses
      *
-     * @param evals
+     * @param sessions
      */
-    public static void sortFeedbackSessionsByCreationTime(List<FeedbackSessionAttributes> evals) {
-        Collections.sort(evals, new Comparator<FeedbackSessionAttributes>() {
+    public static void sortFeedbackSessionsByCreationTime(List<FeedbackSessionAttributes> sessions) {
+        Collections.sort(sessions, new Comparator<FeedbackSessionAttributes>() {
             public int compare(FeedbackSessionAttributes session1, FeedbackSessionAttributes session2) {
                 int result = session1.courseId.compareTo(session2.courseId);
 
@@ -421,10 +421,10 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
      * (ascending). The sort by CourseID part is to cater the case when this
      * method is called with combined feedback sessions from many courses
      *
-     * @param evals
+     * @param sessions
      */
-    public static void sortFeedbackSessionsByCreationTimeDescending(List<FeedbackSessionAttributes> evals) {
-        Collections.sort(evals, new Comparator<FeedbackSessionAttributes>() {
+    public static void sortFeedbackSessionsByCreationTimeDescending(List<FeedbackSessionAttributes> sessions) {
+        Collections.sort(sessions, new Comparator<FeedbackSessionAttributes>() {
             public int compare(FeedbackSessionAttributes session1, FeedbackSessionAttributes session2) {
                 int result = session2.createdTime.compareTo(session1.createdTime);
                 if (result == 0) {

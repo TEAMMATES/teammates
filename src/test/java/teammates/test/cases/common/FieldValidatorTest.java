@@ -312,17 +312,6 @@ public class FieldValidatorTest extends BaseTestCase{
     }
 
     @Test
-    public void testGetValidityInfo_EVALUATION_NAME() {
-        
-        //See NOTE 1.
-        runGenericTestCasesForCappedSizeStringTypeField(
-                FieldType.EVALUATION_NAME, 
-                EVALUATION_NAME_MAX_LENGTH, 
-                EVALUATION_NAME_ERROR_MESSAGE, 
-                false);
-    }
-    
-    @Test
     public void testGetValidityInfo_STUDENT_ROLE_COMMENTS() {
         
         //See NOTE 1.

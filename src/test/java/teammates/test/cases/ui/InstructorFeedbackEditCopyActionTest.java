@@ -29,7 +29,7 @@ public class InstructorFeedbackEditCopyActionTest extends
     }
     
     @Test
-    public void testExecuteAndPostProcess() throws Exception{
+    public void testExecuteAndPostProcess() throws Exception {
         InstructorAttributes instructor = dataBundle.instructors.get("teammates.test.instructor2");
         String instructorId = instructor.googleId;
         
@@ -38,13 +38,15 @@ public class InstructorFeedbackEditCopyActionTest extends
         
         gaeSimulation.loginAsInstructor(instructorId);
         
+        String expectedString = "";
+
         
         ______TS("Failure case: No parameters");
         verifyAssumptionFailure();
 
         
         ______TS("Failure case: Courses not passed in");
-        String[] params = new String[]{
+        String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name"
@@ -53,21 +55,18 @@ public class InstructorFeedbackEditCopyActionTest extends
         InstructorFeedbackEditCopyAction a = getAction(params);
         RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(
-                Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
-                        + "?error=true"
-                        + "&user="
-                        + instructor.googleId
-                        + "&courseid="
-                        + instructor.courseId
-                        + "&fsname=First+Session",
-                rr.getDestinationWithParams());
+        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+                         + "?error=true"
+                         + "&user=" + instructor.googleId
+                         + "&courseid=" + instructor.courseId
+                         + "&fsname=First+Session";
+        assertEquals(expectedString, rr.getDestinationWithParams());
         
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED, rr.getStatusMessage());
 
         
         ______TS("Failure case: copying from course with insufficient permission");
-        params = new String[]{
+        params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, "FeedbackEditCopy.CS2107",
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
@@ -80,13 +79,14 @@ public class InstructorFeedbackEditCopyActionTest extends
             rr = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException();
         } catch(UnauthorizedAccessException uae) {
-            assertEquals("Course [FeedbackEditCopy.CS2107] is not accessible to instructor [tmms.instr@course.tmt] for privilege [canmodifysession]",
-                    uae.getMessage());
+            expectedString = "Course [FeedbackEditCopy.CS2107] is not accessible to instructor "
+                             + "[tmms.instr@course.tmt] for privilege [canmodifysession]"; 
+            assertEquals(expectedString, uae.getMessage());
         }
         
         
         ______TS("Failure case: copying to course with insufficient permission");
-        params = new String[]{
+        params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, course.id,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
@@ -99,13 +99,14 @@ public class InstructorFeedbackEditCopyActionTest extends
             rr = (RedirectResult) a.executeAndPostProcess();
             signalFailureToDetectException();
         } catch(UnauthorizedAccessException uae) {
-            assertEquals("Course [FeedbackEditCopy.CS2107] is not accessible to instructor [tmms.instr@course.tmt] for privilege [canmodifysession]",
-                    uae.getMessage());
+            expectedString = "Course [FeedbackEditCopy.CS2107] is not accessible to instructor "
+                             + "[tmms.instr@course.tmt] for privilege [canmodifysession]"; 
+            assertEquals(expectedString, uae.getMessage());
         }
         
         
         ______TS("Failure case: copying non-existing fs");
-        params = new String[]{
+        params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "non.existing.fs",
                 Const.ParamsNames.COURSE_ID, course.id,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
@@ -119,11 +120,11 @@ public class InstructorFeedbackEditCopyActionTest extends
             signalFailureToDetectException();
         } catch(UnauthorizedAccessException uae) {
             assertEquals("Trying to access system using a non-existent feedback session entity",
-                    uae.getMessage());
+                         uae.getMessage());
         }
 
         ______TS("Failure case: copying to non-existing course");
-        params = new String[]{
+        params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, course.id,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
@@ -137,14 +138,14 @@ public class InstructorFeedbackEditCopyActionTest extends
             signalFailureToDetectException();
         } catch(UnauthorizedAccessException uae) {
             assertEquals("Trying to access system using a non-existent instructor entity",
-                    uae.getMessage());
+                         uae.getMessage());
         }
         
         
         ______TS("Failure case: course already has feedback session with same name");
         
         CourseAttributes course6 = dataBundle.courses.get("course6");
-        params = new String[]{
+        params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
                 Const.ParamsNames.COURSE_ID, course.id,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "First Session",
@@ -155,21 +156,21 @@ public class InstructorFeedbackEditCopyActionTest extends
         a = getAction(params);
         rr = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
-                        + "?error=true"
-                        + "&user="
-                        + instructor.googleId
-                        + "&courseid="
-                        + instructor.courseId
-                        + "&fsname=First+Session",
-                rr.getDestinationWithParams());
+        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+                         + "?error=true"
+                         + "&user=" + instructor.googleId
+                         + "&courseid=" + instructor.courseId
+                         + "&fsname=First+Session";
+        assertEquals(expectedString, rr.getDestinationWithParams());
         
-        assertEquals("A feedback session with the name \"First Session\" already exists in the following course(s): FeedbackEditCopy.CS2104.", rr.getStatusMessage());
+        expectedString = "A feedback session with the name \"First Session\" already exists in "
+                         + "the following course(s): FeedbackEditCopy.CS2104."; 
+        assertEquals(expectedString, rr.getStatusMessage());
         
         
         ______TS("Failure case: empty name");
         
-        params = new String[]{
+        params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
                 Const.ParamsNames.COURSE_ID, course.id,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "",
@@ -180,23 +181,25 @@ public class InstructorFeedbackEditCopyActionTest extends
         a = getAction(params);
         rr = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
-                        + "?error=true"
-                        + "&user="
-                        + instructor.googleId
-                        + "&courseid="
-                        + instructor.courseId
-                        + "&fsname=First+Session",
-                rr.getDestinationWithParams());
+        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+                         + "?error=true"
+                         + "&user=" + instructor.googleId
+                         + "&courseid=" + instructor.courseId
+                         + "&fsname=First+Session"; 
+        assertEquals(expectedString, rr.getDestinationWithParams());
         
-        assertEquals("\"\" is not acceptable to TEAMMATES as feedback session name because it is empty. The value of feedback session name should be no longer than 38 characters. It should not be empty.", rr.getStatusMessage());
+        expectedString = "\"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
+                         + "The value of feedback session name should be no longer than 38 characters. "
+                         + "It should not be empty.";
+        assertEquals(expectedString, rr.getStatusMessage());
         
-        String expectedLogMessage =
-                "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||Instructor|||Instructor 2|||" + 
-                "FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||Servlet Action Failure : \"\" is not acceptable to TEAMMATES " +
-                "as feedback session name because it is empty. The value of feedback session name should be no longer than 38 characters. " +
-                "It should not be empty.|||/page/instructorFeedbackEditCopy";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        expectedString =
+                "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
+                + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
+                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
+                + "The value of feedback session name should be no longer than 38 characters. "
+                + "It should not be empty.|||/page/instructorFeedbackEditCopy";
+        assertEquals(expectedString, a.getLogMessage());
         
         
         ______TS("Successful case");
@@ -214,36 +217,29 @@ public class InstructorFeedbackEditCopyActionTest extends
         a = getAction(params);
         rr = (RedirectResult) a.executeAndPostProcess();
         
-        assertEquals(
-                Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE
-                        + "?error=false"
-                        + "&user="
-                        + instructor.googleId,
-                rr.getDestinationWithParams());
+        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE
+                         + "?error=false&user=" + instructor.googleId;
+        assertEquals(expectedString, rr.getDestinationWithParams());
         
         assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPIED, rr.getStatusMessage());
         
-        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||" +
-                             "true|||Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||" +
-                             "tmms.instr@gmail.tmt|||Copying to multiple feedback sessions.<br>" +
-                             "New Feedback Session <span class=\"bold\">(Session with valid name)</span> " +
-                             "for Courses: <br>FeedbackEditCopy.CS2103R,FeedbackEditCopy.CS2102<br>" + 
-                             "<span class=\"bold\">From:</span> Sun Apr 01 23:59:00 UTC 2012<span class=\"bold\"> " +
-                             "to</span> Sat Apr 30 23:59:00 UTC 2016<br><span class=\"bold\">Session visible from:</span> " +
-                             "Sun Apr 01 23:59:00 UTC 2012<br><span class=\"bold\">Results visible from:</span> " +
-                             "Sun May 01 23:59:00 UTC 2016<br><br><span class=\"bold\">Instructions:</span> " +
-                             "<Text: Instructions for first session><br>Copied from <span class=\"bold\">(First Session)</span> " +
-                             "for Course <span class=\"bold\">[FeedbackEditCopy.CS2104]</span> created.<br>|||" + 
-                             "/page/instructorFeedbackEditCopy";
-        assertEquals(expectedLogMessage, a.getLogMessage());
+        expectedString = "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||"
+                         + "true|||Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||"
+                         + "tmms.instr@gmail.tmt|||Copying to multiple feedback sessions.<br>"
+                         + "New Feedback Session <span class=\"bold\">(Session with valid name)</span> "
+                         + "for Courses: <br>FeedbackEditCopy.CS2103R,FeedbackEditCopy.CS2102<br>"
+                         + "<span class=\"bold\">From:</span> Sun Apr 01 23:59:00 UTC 2012<span class=\"bold\"> "
+                         + "to</span> Sat Apr 30 23:59:00 UTC 2016<br><span class=\"bold\">Session visible from:</span> "
+                         + "Sun Apr 01 23:59:00 UTC 2012<br><span class=\"bold\">Results visible from:</span> "
+                         + "Sun May 01 23:59:00 UTC 2016<br><br><span class=\"bold\">Instructions:</span> "
+                         + "<Text: Instructions for first session><br>Copied from <span class=\"bold\">(First Session)</span> "
+                         + "for Course <span class=\"bold\">[FeedbackEditCopy.CS2104]</span> created.<br>|||"
+                         + "/page/instructorFeedbackEditCopy";
+        assertEquals(expectedString, a.getLogMessage());
         
     }
     
-    private InstructorFeedbackEditCopyAction getAction(String... params)
-            throws Exception {
-
-        return (InstructorFeedbackEditCopyAction) (gaeSimulation
-                .getActionObject(uri, params));
-
+    private InstructorFeedbackEditCopyAction getAction(String... params) throws Exception {
+        return (InstructorFeedbackEditCopyAction) gaeSimulation.getActionObject(uri, params);
     }
 }
