@@ -182,7 +182,7 @@ public class InstructorHomePageData extends PageData {
             
             String actions = "";
             try {
-                actions = getInstructorFeedbackSessionActions(session, true, instructor,
+                actions = getInstructorFeedbackSessionActions(session, false, instructor,
                                                 getCourseIdSectionNamesMap(sessions).get(courseId));
             } catch (EntityDoesNotExistException e) {
                 // nothing
