@@ -1,0 +1,16 @@
+<tr>
+    <td>
+        <label>
+            <input type="radio"
+                   name="${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}-${qnIdx}-${responseIdx}"
+                   ${disabled} ${checked} value="${mcqChoiceValue}" data-text="otherOptionText"> Other
+        </label>
+ 
+        <input type="text" name="otherOptionText-${qnIdx}-${responseIdx}" id="otherOptionText-${qnIdx}-${responseIdx}" 
+               ${text-disabled} value="${mcqChoiceValue}">
+ 
+        <input type="hidden" name="${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}-${qnIdx}-${responseIdx}" 
+               id="${Const.ParamsNames.FEEDBACK_QUESTION_MCQ_ISOTHEROPTIONANSWER}-${qnIdx}-${responseIdx}" 
+               value="${mcqOtherOptionAnswer}">
+     </td>
+ </tr>

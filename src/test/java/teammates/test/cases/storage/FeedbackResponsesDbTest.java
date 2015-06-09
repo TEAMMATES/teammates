@@ -721,10 +721,15 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         modifiedResponse = frDb.getFeedbackResponse(modifiedResponse.feedbackQuestionId, 
                 modifiedResponse.giverEmail, modifiedResponse.recipientEmail);
         FeedbackResponseDetails frd = modifiedResponse.getResponseDetails();
+        
+        HashMap<String, String[]> requestParameters = new HashMap<String, String[]>();
+        requestParameters.put("questiontype-1", new String[] { "TEXT" });
+        requestParameters.put("responsetext-1-0", new String[] { "New answer text!" });
+        
         String answer[] = {"New answer text!"};
         frd = frd.createResponseDetails(
                     answer, FeedbackQuestionType.TEXT,
-                    null);
+                    null, requestParameters, 1, 0);
         modifiedResponse.setResponseDetails(frd);
         frDb.updateFeedbackResponse(modifiedResponse);
         
