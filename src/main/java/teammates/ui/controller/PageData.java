@@ -58,6 +58,10 @@ public class PageData {
     public AccountAttributes getAccount() {
         return account;
     }
+    
+    public boolean isUnregisteredStudent() {
+        return account.googleId == null || (student != null && !student.isRegistered());
+    }
 
     @SuppressWarnings("unused")
     private void _________general_util_methods() {
@@ -273,6 +277,14 @@ public class PageData {
             return Const.STUDENT_COURSE_STATUS_JOINED;
         }
     }
+    
+    /**
+     * @return The relative path to the student home page.
+     * Defaults to whether the student is unregistered.
+     */
+    public String getStudentHomeLink() {
+        return getStudentHomeLink(isUnregisteredStudent());
+    }
 
     /**
      * @return The relative path to the student home page. 
@@ -288,6 +300,14 @@ public class PageData {
     }
     
     /**
+     * @return The relative path to the student profile page.
+     * Defaults to whether the student is unregistered.
+     */
+    public String getStudentProfileLink() {
+        return getStudentProfileLink(isUnregisteredStudent());
+    }
+    
+    /**
      * @return The relative path to the student profile page. 
      * The user Id is encoded in the url as a parameter.
      */
@@ -298,6 +318,14 @@ public class PageData {
             link = Url.addParamToUrl(student.getRegistrationUrl(), Const.ParamsNames.NEXT_URL, link);
         }
         return link;
+    }
+    
+    /**
+     * @return The relative path to the student comments page.
+     * Defaults to whether the student is unregistered.
+     */
+    public String getStudentCommentsLink() {
+        return getStudentCommentsLink(isUnregisteredStudent());
     }
     
     /**
