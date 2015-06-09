@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.CourseAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -44,8 +45,18 @@ public class InstructorFeedbacksPageAction extends Action {
                 new ArrayList<InstructorAttributes>(instructors.values());
         List<CourseAttributes> courses = loadCoursesList(instructorList);
         
-        data.init(courses, courseIdForNewSession,
-                  instructors, null, null);
+        List<FeedbackSessionAttributes> existingFeedbackSessions;
+        if (courses.isEmpty() || !data.isUsingAjax) {
+            existingFeedbackSessions = new ArrayList<FeedbackSessionAttributes>();
+        } else {
+            existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
+            if (existingFeedbackSessions.isEmpty()) {
+                statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EMPTY);
+            }
+        }
+        
+        data.init(courses, courseIdForNewSession, existingFeedbackSessions,
+                  instructors, null, null, feedbackSessionNameForSessionList);
         
         if (courses.isEmpty()) {
             statusToUser.add(Const.StatusMessages.COURSE_EMPTY_IN_INSTRUCTOR_FEEDBACKS

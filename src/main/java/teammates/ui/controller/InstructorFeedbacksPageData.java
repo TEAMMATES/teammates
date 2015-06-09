@@ -9,14 +9,21 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.ui.template.CourseTableSessionRow;
 import teammates.ui.template.ElementTag;
+import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.FeedbackSessionsList;
 import teammates.ui.template.FeedbackSessionsNewForm;
 
 public class InstructorFeedbacksPageData extends PageData {
 
+    
+    public static final int MAX_CLOSED_SESSION_STATS = 5;
+    
+    
     public InstructorFeedbacksPageData(AccountAttributes account) {
         super(account);
     }
@@ -26,6 +33,11 @@ public class InstructorFeedbacksPageData extends PageData {
     // if true -> loads the sessions table, else load the form
     public boolean isUsingAjax;
     
+    public boolean isUsingAjax() {
+        return isUsingAjax;
+    }
+
+
     public FeedbackSessionsList fsList;
     
     public FeedbackSessionsList getFsList() {
@@ -39,9 +51,11 @@ public class InstructorFeedbacksPageData extends PageData {
         return newForm;
     }
 
-    public void init(List<CourseAttributes> courses, String courseIdForNewSession,
+    public void init(List<CourseAttributes> courses, String courseIdForNewSession, 
+                     List<FeedbackSessionAttributes> existingFeedbackSessions,
                      HashMap<String, InstructorAttributes> instructors,
-                     FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType) {
+                     FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType, 
+                     String feedbackSessionNameForSessionList) {
         
         List<String> courseIds = new ArrayList<String>();
         for (CourseAttributes course : courses) {
@@ -57,7 +71,7 @@ public class InstructorFeedbacksPageData extends PageData {
         
         newForm.coursesSelectField = getCourseIdOptions(courses,  courseIdForNewSession, 
                                                         instructors, newFeedbackSession);
-        System.out.println(newForm.coursesSelectField);
+        
         newForm.timezoneSelectField = getTimeZoneOptionsAsHtml();
         newForm.fsStartDate = newFeedbackSession == null ?
                               TimeHelper.formatDate(TimeHelper.getNextHour()) :
@@ -129,7 +143,60 @@ public class InstructorFeedbacksPageData extends PageData {
                                      "checked=\"checked\"" : "";
                                 
         newForm.submitButtonDisabledAttribute = courses.isEmpty() ? " disabled=\"disabled\"" : "";
+        
+        
+        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(existingFeedbackSessions);
+        
+        List<FeedbackSessionRow> existingFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(existingFeedbackSessions,
+                                        instructors, courseIdForNewSession, feedbackSessionNameForSessionList);
+        fsList = new FeedbackSessionsList(existingFeedbackSessionsRow);
+        
+        
     }
+    
+    List<FeedbackSessionRow> convertFeedbackSessionAttributesToSessionRows(List<FeedbackSessionAttributes> sessions, 
+                                    HashMap<String, InstructorAttributes> instructors, String feedbackSessionNameForSessionList, String courseIdForNewSession) {
+        
+        List<FeedbackSessionRow> rows = new ArrayList<FeedbackSessionRow>();
+        int displayedStatsCount = 0;
+        
+        for (FeedbackSessionAttributes session : sessions) {
+            String courseId = session.courseId;
+            String name = PageData.sanitizeForHtml(session.feedbackSessionName);
+            String tooltip = PageData.getInstructorHoverMessageForFeedbackSession(session);
+            String status = PageData.getInstructorStatusForFeedbackSession(session);
+            String href = getFeedbackSessionStatsLink(session.courseId, session.feedbackSessionName);
+            
+            String recent = "";
+            if (session.isOpened() || session.isWaitingToOpen()) {
+                recent = " recent";
+            } else if (displayedStatsCount < InstructorFeedbacksPageData.MAX_CLOSED_SESSION_STATS
+                       && !TimeHelper.isOlderThanAYear(session.createdTime)) {
+                recent = " recent";
+                ++displayedStatsCount;
+            }
+            
+            String actions = "";
+            try {
+                actions = getInstructorFeedbackSessionActions(session, false, instructors.get(courseId),
+                                                getCourseIdSectionNamesMap(sessions).get(courseId));
+            } catch (EntityDoesNotExistException e) {
+                // nothing
+            }
+            
+            ElementTag elementAttributes ;
+            if (session.courseId.equals(courseIdForNewSession) && session.feedbackSessionName.equals(feedbackSessionNameForSessionList)) {
+                elementAttributes = new ElementTag("class", "sessionsRow");
+            } else {
+                elementAttributes = new ElementTag("class", "sessionsRow warning");
+            }
+            
+            rows.add(new FeedbackSessionRow(name, tooltip, status, href, recent, actions, elementAttributes));
+        }
+        
+        return rows;
+    }
+    
 
     public ArrayList<ElementTag> getTimeZoneOptionsAsHtml(){
         return getTimeZoneOptionsAsElementTags(newForm.defaultFeedbackSession == null ? 
