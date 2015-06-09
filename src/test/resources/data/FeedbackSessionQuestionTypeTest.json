@@ -377,6 +377,29 @@
                 "INSTRUCTORS"
             ]
         },
+        "qn3InSession1InCourse1":{
+            "feedbackSessionName":"MCQ Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "creatorEmail":"instructor1@course1.tmt",
+            "questionMetaData":{
+                "value":"{\"questionText\":\"What can be improved for this class?\", \"questionType\":\"MCQ\", \"numOfMcqChoices\" : 2, \"mcqChoices\" : [\"Content\", \"Teaching style\"],\"otherEnabled\" : true}"
+            },
+            "questionNumber":"3",
+            "questionType":"MCQ",
+            "giverType":"STUDENTS",
+            "recipientType":"SELF",
+            "numberOfEntitiesToGiveFeedbackTo":1,
+            "showResponsesTo":[
+                "INSTRUCTORS"
+            ],
+            "showGiverNameTo":[
+                "INSTRUCTORS"
+            ],
+            "showRecipientNameTo":[
+                "INSTRUCTORS"
+            ]
+            
+        },
         "qn1InSession2InCourse1":{
             "feedbackSessionName":"MSQ Session",
             "courseId":"FSQTT.idOfTypicalCourse1",
@@ -663,6 +686,18 @@
             "responseMetaData":{
                 "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"It's perfect\", \"otherFieldContent\" : \"\"}"
             }
+        },
+        "response1ForQ3S1C1":{
+            "feedbackSessionName":"MCQ Session",
+            "courseId":"FSQTT.idOfTypicalCourse1",
+            "feedbackQuestionId":"3",
+            "feedbackQuestionType":"MCQ",
+            "giverEmail":"student1InCourse1@gmail.tmt",
+            "recipientEmail":"student1InCourse1@gmail.tmt",
+            "responseMetaData":{
+                "value":"{\"questionType\" : \"MCQ\", \"answer\" : \"Other\", \"otherFieldContent\" : \"Lecture notes\", \"isOther\" : true}"
+            }
+            
         },
         "response1ForQ1S2C1":{
             "feedbackSessionName":"MSQ Session",
