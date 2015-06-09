@@ -42,7 +42,7 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
                                                                      feedbackSessionName,
                                                                      courseId,
                                                                      instructor.email);
-            data.newFeedbackSession = fs;
+            data.newForm.defaultFeedbackSession = fs;
             
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
             statusToAdmin =
@@ -67,11 +67,11 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
         }
         // isError == true if an exception occurred above
         
-        boolean omitArchived = true;
-        data.instructors = loadCourseInstructorMap(omitArchived);
+        /*boolean omitArchived = true;
+        instructors = loadCourseInstructorMap(omitArchived);
         List<InstructorAttributes> instructorList =
                 new ArrayList<InstructorAttributes>(data.instructors.values());
-        data.courses = loadCoursesList(instructorList);
+        courses = loadCoursesList(instructorList);
         data.existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
         
         if (data.existingFeedbackSessions.isEmpty()) {
@@ -79,7 +79,7 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
         }
         
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
-        
+        */
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
 

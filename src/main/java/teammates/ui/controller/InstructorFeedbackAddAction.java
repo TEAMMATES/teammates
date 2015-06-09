@@ -3,8 +3,10 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionType;
@@ -50,10 +52,10 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         // without accounts need to receive the email to be able to respond
         fs.isOpeningEmailEnabled = true;
         
-        data.newFeedbackSession = fs;
+        //data.newFeedbackSession = fs;
         
         String feedbackSessionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TYPE);
-        data.feedbackSessionType = feedbackSessionType;
+       // data.feedbackSessionType = feedbackSessionType;
         
         try {
             logic.createFeedbackSession(fs);
@@ -88,21 +90,22 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             setStatusForException(e);
         }
         // isError == true if an exception occurred above
-
+/*
         boolean omitArchived = true;
-        data.instructors = loadCourseInstructorMap(omitArchived);
-        List<InstructorAttributes> instructorList =
-                new ArrayList<InstructorAttributes>(data.instructors.values());
-        data.courses = loadCoursesList(instructorList);
+        HashMap<String, InstructorAttributes> instructors = loadCourseInstructorMap(omitArchived);
+        ArrayList<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>(instructors.values());
+        List<CourseAttributes> courses = loadCoursesList(instructorList);
         List<FeedbackSessionAttributes> feedbackSessions = loadFeedbackSessionsList(instructorList);
-        data.existingFeedbackSessions = feedbackSessions;
+        //data.existingFeedbackSessions = feedbackSessions;
         
         if (feedbackSessions.isEmpty()) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY);
         }
         
-        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(feedbackSessions);
+        data.init(courses, courseIdForNewSession, instructors, newFeedbackSession);
         
+        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(feedbackSessions);
+     */   
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
     
