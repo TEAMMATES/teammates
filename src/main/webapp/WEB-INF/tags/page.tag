@@ -38,7 +38,7 @@
         <t:bodyHeader title="${bodyTitle}" />
         <jsp:doBody />
     </div>
-    <c:if test="{data.account.instructor}">
+    <c:if test="${not empty data.account.institute}">
         <t:bodyFooter />
     </c:if>
 </body>
