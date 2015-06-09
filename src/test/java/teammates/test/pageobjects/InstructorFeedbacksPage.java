@@ -454,6 +454,11 @@ public class InstructorFeedbacksPage extends AppPage {
         return browser.driver.findElement(locator).isDisplayed();
     }
     
+    public boolean verifyHasClass(By locator, String className) {
+        return browser.driver.findElement(locator).getAttribute("class").contains(className);
+    }
+    
+    
     public InstructorFeedbackResultsPage loadViewResultsLink (String courseId, String fsName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
         String className = "session-view-for-test";
