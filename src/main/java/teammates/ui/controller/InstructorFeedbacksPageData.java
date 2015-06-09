@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackSessionsList;
 import teammates.ui.template.FeedbackSessionsNewForm;
@@ -39,7 +41,76 @@ public class InstructorFeedbacksPageData extends PageData {
         
         newForm.coursesSelectField = getCourseIdOptions(courses, 
                                         courseIdForNewSession, instructors, newFeedbackSession);
+        newForm.timezoneSelectField = getTimeZoneOptionsAsHtml();
+        newForm.fsStartDate = newFeedbackSession == null ?
+                              TimeHelper.formatDate(TimeHelper.getNextHour()) :
+                              TimeHelper.formatDate(newFeedbackSession.startTime);
         
+        Date date;
+        date = newFeedbackSession == null ?
+               null : newFeedbackSession.startTime;
+        newForm.fsStartTimeOptions = getTimeOptionsAsElementTags(date);
+        
+        newForm.fsEndDate = newFeedbackSession == null ?
+                            "" : 
+                            TimeHelper.formatDate(newFeedbackSession.endTime);
+        date = newFeedbackSession == null ?
+               null : newFeedbackSession.endTime;
+        newForm.fsEndTimeOptions = getTimeOptionsAsElementTags(date);
+        
+        
+        boolean hasSessionVisibleDate = newFeedbackSession != null &&
+                                        !TimeHelper.isSpecialTime(newFeedbackSession.sessionVisibleFromTime);
+        newForm.sessionVisibleDateButtonCheckedAttribute = hasSessionVisibleDate ? "checked=\"checked\"" : "";
+        newForm.sessionVisibleDateValue = hasSessionVisibleDate ? 
+                                   TimeHelper.formatDate(newFeedbackSession.sessionVisibleFromTime) :
+                                   "";
+        newForm.sessionVisibleDateDisabledAttribute = hasSessionVisibleDate ? "" : "disabled=\"disabled\"";
+        
+        date = null;
+        if (hasSessionVisibleDate) {
+            date = newFeedbackSession.sessionVisibleFromTime;   
+        }
+        newForm.sessionVisibleTimeOptions = getTimeOptionsAsElementTags(date);
+        
+        newForm.sessionVisibleAtOpenCheckedAttribute = (newFeedbackSession == null ||
+                                            Const.TIME_REPRESENTS_FOLLOW_OPENING
+                                            .equals(newFeedbackSession.sessionVisibleFromTime)) ? 
+                                        "checked=\"checked\"" : "";
+        
+        newForm.sessionVisiblePrivateCheckedAttribute = (newFeedbackSession != null &&
+                                            Const.TIME_REPRESENTS_NEVER
+                                            .equals(newFeedbackSession.sessionVisibleFromTime)) ?
+                                        "checked=\"checked\"" : "";
+                        
+        boolean hasResultVisibleDate = newFeedbackSession != null &&
+                                        !TimeHelper.isSpecialTime(newFeedbackSession.resultsVisibleFromTime);
+        newForm.responseVisibleDateCheckedAttribute = hasResultVisibleDate ? "checked=\"checked\"" : "";
+        newForm.responseVisibleDateValue = hasResultVisibleDate ?
+                                        TimeHelper.formatDate(newFeedbackSession.resultsVisibleFromTime) : "";
+        newForm.responseVisibleDisabledAttribute = hasResultVisibleDate ? "" : "disabled=\"disabled\"";
+        
+        date = null;
+        if (hasResultVisibleDate) {
+            date = newFeedbackSession.resultsVisibleFromTime;   
+        }
+        newForm.responseVisibleTimeOptions = getTimeOptionsAsElementTags(date);
+        
+        newForm.responseVisibleImmediatelyCheckedAttribute = (newFeedbackSession != null &&
+                                                                Const.TIME_REPRESENTS_FOLLOW_VISIBLE
+                                                                .equals(newFeedbackSession.resultsVisibleFromTime)) ?
+                                                                        "checked=\"checked\"" : 
+                                                                        "";
+        newForm.responseVisiblePublishManuallyCheckedAttribute = (newFeedbackSession == null ||
+                                        Const.TIME_REPRESENTS_LATER.equals(newFeedbackSession.resultsVisibleFromTime) ||
+                                        Const.TIME_REPRESENTS_NOW.equals(newFeedbackSession.resultsVisibleFromTime)) ?
+                                                   "checked=\"checked\"" : "";
+        newForm.responseVisibleNeverCheckedAttribute = (newFeedbackSession != null &&
+                                        Const.TIME_REPRESENTS_NEVER
+                                                .equals(newFeedbackSession.resultsVisibleFromTime)) ?
+                                     "checked=\"checked\"" : "";
+                                
+        newForm.submitButtonDisabledAttribute = courses.isEmpty() ? " disabled=\"disabled\"" : "";
     }
 
     public ArrayList<ElementTag> getTimeZoneOptionsAsHtml(){
@@ -53,6 +124,12 @@ public class InstructorFeedbacksPageData extends PageData {
         return getGracePeriodOptionsAsHtml(newForm.defaultFeedbackSession == null ? 
                                            Const.INT_UNINITIALIZED : 
                                            newForm.defaultFeedbackSession.gracePeriod);
+    }
+    
+    public ArrayList<ElementTag> getGracePeriodOptionsAsElementTags() {
+        return getGracePeriodOptionsAsElementTags(newForm.defaultFeedbackSession == null ? 
+                                                  Const.INT_UNINITIALIZED : 
+                                                  newForm.defaultFeedbackSession.gracePeriod);
     }
 
     public ArrayList<ElementTag> getCourseIdOptions(List<CourseAttributes> courses, String  courseIdForNewSession,

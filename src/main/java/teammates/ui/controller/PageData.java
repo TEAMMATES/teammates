@@ -250,6 +250,16 @@ public class PageData {
         return result;
     }
     
+    protected ArrayList<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
+        ArrayList<ElementTag> result = new ArrayList<ElementTag>();
+        for(int i = 0; i <= 30; i += 5) {
+            ElementTag option = createOption(String.valueOf(i), String.valueOf(i), 
+                                            (isGracePeriodToBeSelected(existingGracePeriod, i)));
+            result.add(option);
+        }
+        return result;
+    }
+    
     /**
      * Returns the time options as HTML code.
      * By default the selected one is the last one.
@@ -261,6 +271,16 @@ public class PageData {
             result.add("<option value=\"" + i + "\"" +
                        (isTimeToBeSelected(timeToShowAsSelected, i) ? " selected=\"selected\"" : "") + ">" 
                        + String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)) + "</option>");
+        }
+        return result;
+    }
+    
+    public ArrayList<ElementTag> getTimeOptionsAsElementTags(Date timeToShowAsSelected) {
+        ArrayList<ElementTag> result = new ArrayList<ElementTag>();
+        for(int i = 1; i <= 24; i++) {
+            ElementTag option = createOption(String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)), 
+                                             String.valueOf(i), (isTimeToBeSelected(timeToShowAsSelected, i)));
+            result.add(option);
         }
         return result;
     }
