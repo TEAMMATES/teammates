@@ -70,9 +70,7 @@ public class CoursesDb extends EntitiesDb {
         List<Course> courses = getCourseEntities(courseIds);
         List<CourseAttributes> courseAttributes = new ArrayList<CourseAttributes>();
         for (Course c: courses) {
-            if (c != null) {
-                courseAttributes.add(new CourseAttributes(c));
-            }
+            courseAttributes.add(new CourseAttributes(c));
         }
         return courseAttributes;
     }
