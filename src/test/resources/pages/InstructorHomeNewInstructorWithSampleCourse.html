@@ -1,133 +1,159 @@
 <div id="frameBodyWrapper" class="container theme-showcase">
-            <div id="topOfPage"></div>
-            <div class="inner-container">
-                <div class="row">
-                    <div class="col-md-5">
-                        <h1>Instructor Home</h1>
-                    </div>
-                    <div class="col-md-5 instructor-header-bar">
-                        <form method="get" action="/page/instructorSearchPage?user=CHomeUiT.instructor.tmms" name="search_form">
-                            <div class="input-group">
-                                <input data-original-title="Search for student's name" id="searchbox" title="" name="searchkey" class="form-control" data-toggle="tooltip" data-placement="top" placeholder="Student Name" type="text">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="submit" value="Search" id="buttonSearch">Search</button>
-                                </span> 
-                            </div>
-                            <input name="searchstudents" value="true" type="hidden">
-                            <input name="searchcommentforstudents" value="false" type="hidden">
-                            <input name="searchcommentforresponses" value="false" type="hidden">
-                            <input name="user" value="CHomeUiT.instructor.tmms" type="hidden">
-                        </form>
-                    </div>
-                    <div class="col-md-2 instructor-header-bar">
-                        <a class="btn btn-primary btn-md" href="/page/instructorCoursesPage?user=CHomeUiT.instructor.tmms" id="addNewCourse">Add New Course </a>
-                    </div>
-                </div>
-            </div>
-            <br>
+        
+
+<div id="topOfPage"></div>
+<div class="inner-container">
+    <div class="row">
+        <h1>Instructor Home</h1>
+    </div>
+</div>
+        
+        
+    <div class="row">
+        <div class="col-md-2 pull-right">
+            <a class="btn btn-primary btn-md" href="/page/instructorCoursesPage?user=CHomeUiT.instructor.tmms" id="addNewCourse">Add New Course</a>
+        </div>
+        <div class="col-md-6 pull-right">
             
 
 
+<form method="get" action="/page/instructorSearchPage?user=CHomeUiT.instructor.tmms" name="search_form">
+    <div class="input-group">
+        <input data-original-title="Search for student's name" id="searchbox" title="" name="searchkey" class="form-control" data-toggle="tooltip" data-placement="top" placeholder="Student Name" type="text">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="submit" value="Search" id="buttonSearch">
+                Search
+            </button>
+        </span> 
+    </div>
+    <input name="searchstudents" value="true" type="hidden">
+    <input name="searchcommentforstudents" value="false" type="hidden">
+    <input name="searchcommentforresponses" value="false" type="hidden">
+    <input name="user" value="CHomeUiT.instructor.tmms" type="hidden">
+</form>
+        </div>
+    </div>
+    <br>
+    
 
 
+
+
+
+    
         <div id="statusMessage" class="alert alert-warning">
             New to TEAMMATES? You may wish to have a look at our <a href="/instructorHelp.html#gs" target="_blank">Getting Started Guide</a>.<br>A video tour is also available in our <a href="/index.html" target="_blank">home page</a>.
         </div>
-        
         <script type="text/javascript">
-            document.getElementById( 'statusMessage' ).scrollIntoView();
+            document.getElementById('statusMessage').scrollIntoView();
         </script>
+    
+    
 
-            
-            <div class="modal fade" id="remindModal" tabindex="-1" role="dialog" aria-labelledby="remindModal" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form method="post" name="form_remind_list" role="form" action="/page/instructorFeedbackRemindParticularStudents"> 
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title">
-                                    Remind Particular Students
-                                    <small>(Select the student(s) you want to remind)</small>
-                                </h4>
-                            </div>
-                            <div class="modal-body">
-                                <div id="studentList" class="form-group"></div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                <input class="btn btn-primary" value="Remind" type="submit">
-                                <input name="user" value="CHomeUiT.instructor.tmms" type="hidden">
-                            </div>
-                        </form>
-                    </div>
+    
+
+<div class="modal fade" id="remindModal" tabindex="-1" role="dialog" aria-labelledby="remindModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" name="form_remind_list" role="form" action="/page/instructorFeedbackRemindParticularStudents"> 
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">
+                        Remind Particular Students
+                        <small>(Select the student(s) you want to remind)</small>
+                    </h4>
                 </div>
-            </div>
-            
-            
-            <div class="row hidden">
-                <div class="col-md-5 pull-right">
-                    <div class="row">
-                        <div class="col-md-3 btn-group">
-                            <h5 class="pull-right"><strong> Sort By: </strong></h5>
-                        </div>
-                        <div class="col-md-9">
-                            <div class="btn-group pull-right" data-toggle="buttons">
-                                <label class="btn btn-default " name="sortby" data="id" id="sortById">
-                                    <input type="radio">
-                                    Course ID
-                                </label>
-                                <label class="btn btn-default " name="sortby" data="name" id="sortByName">
-                                    <input name="sortby" value="name" type="radio">
-                                    Course Name
-                                </label>
-                                <label class="btn btn-default active" name="sortby" data="createdAt" id="sortByDate">
-                                    <input type="radio">
-                                    Creation Date
-                                </label>
-                            </div>
-                        </div>
-                    </div>
+                <div class="modal-body">
+                    <div id="studentList" class="form-group"></div>
                 </div>
-            </div>
-            <br>
-        
-                    <div class="panel panel-primary" id="course0">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <strong>
-                                        [newIns.wit-demo] :
-                                        Sample Course 101
-                                    </strong>
-                                </div>
-                                <div class="col-md-6">
-                                    <span class="pull-right">
-                                         <a data-original-title="Enroll student into the course" class="btn btn-primary btn-xs btn-tm-actions course-enroll-for-test" href="/page/instructorCourseEnrollPage?courseid=newIns.wit-demo&amp;user=CHomeUiT.instructor.tmms" title="" data-toggle="tooltip" data-placement="top"> Enroll</a>
-                                             
-                                         <a data-original-title="View, edit and send invitation emails to the students in the course" class="btn btn-primary btn-xs btn-tm-actions course-view-for-test" href="/page/instructorCourseDetailsPage?courseid=newIns.wit-demo&amp;user=CHomeUiT.instructor.tmms" title="" data-toggle="tooltip" data-placement="top"> View</a> 
-                                            
-                                         <a data-original-title="Edit Course information and instructor list" class="btn btn-primary btn-xs btn-tm-actions course-edit-for-test" href="/page/instructorCourseEditPage?courseid=newIns.wit-demo&amp;user=CHomeUiT.instructor.tmms" title="" data-toggle="tooltip" data-placement="top"> Edit</a>
-                                            
-                                         <a data-original-title="Add a feedback session for the course" class="btn btn-primary btn-xs btn-tm-actions course-add-eval-for-test" href="/page/instructorFeedbacksPage?user=CHomeUiT.instructor.tmms&amp;courseid=newIns.wit-demo" title="" data-toggle="tooltip" data-placement="top"> Add Session</a>
-                                         
-                                         <a data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" class="btn btn-primary btn-xs btn-tm-actions course-archive-for-test" href="/page/instructorCourseArchive?courseid=newIns.wit-demo&amp;archive=true&amp;next=%2Fpage%2FinstructorHomePage&amp;user=CHomeUiT.instructor.tmms" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleArchiveCourseConfirmation('newIns.wit-demo')">Archive</a>
-                                            
-                                        
-                                        <a data-original-title="Send email notification to recipients of 0 pending comment" class="btn btn-primary btn-xs btn-tm-actions course-notify-pending-comments-for-test
-                                            hidden" href="/page/instructorStudentCommentClearPending?courseid=newIns.wit-demo&amp;user=CHomeUiT.instructor.tmms" title="" data-toggle="tooltip" data-placement="top">
-                                            <span class="badge">0</span>
-                                            <span class="glyphicon glyphicon-comment"></span>
-                                            <span class="glyphicon glyphicon-arrow-right"></span>
-                                            <span class="glyphicon glyphicon-envelope"></span>
-                                        </a>
-                                            
-                                         <a data-original-title="Delete the course and its corresponding students and sessions" class="btn btn-primary btn-xs btn-tm-actions course-delete-for-test" href="/page/instructorCourseDelete?courseid=newIns.wit-demo&amp;next=%2Fpage%2FinstructorHomePage&amp;user=CHomeUiT.instructor.tmms" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleDeleteCourseConfirmation('newIns.wit-demo')"> Delete</a>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    <br>
-        
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <input class="btn btn-primary" value="Remind" type="submit">
+                    <input name="user" value="CHomeUiT.instructor.tmms" type="hidden">
+                </div>
+            </form>
         </div>
+    </div>
+</div>
+    
+        
+        <br>
+        
+            
+
+
+
+
+<div class="panel panel-primary" id="course0">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-md-6">
+                <strong>
+                    [newIns.wit-demo] : Sample Course 101
+                </strong>
+            </div>
+            <div class="col-md-6">
+                <span class="pull-right">
+                    
+                        <a data-original-title="Enroll student into the course" data-toggle="tooltip" data-placement="top" title="" class="btn btn-primary btn-xs btn-tm-actions course-enroll-for-test" href="/page/instructorCourseEnrollPage?courseid=newIns.wit-demo&amp;user=CHomeUiT.instructor.tmms">
+                            Enroll
+                        </a>
+                    
+                        <a data-original-title="View, edit and send invitation emails to the students in the course" data-toggle="tooltip" data-placement="top" title="" class="btn btn-primary btn-xs btn-tm-actions course-view-for-test" href="/page/instructorCourseDetailsPage?courseid=newIns.wit-demo&amp;user=CHomeUiT.instructor.tmms">
+                            View
+                        </a>
+                    
+                        <a data-original-title="Edit Course information and instructor list" data-toggle="tooltip" data-placement="top" title="" class="btn btn-primary btn-xs btn-tm-actions course-edit-for-test" href="/page/instructorCourseEditPage?courseid=newIns.wit-demo&amp;user=CHomeUiT.instructor.tmms">
+                            Edit
+                        </a>
+                    
+                        <a data-original-title="Add a feedback session for the course" data-toggle="tooltip" data-placement="top" title="" class="btn btn-primary btn-xs btn-tm-actions course-add-eval-for-test" href="/page/instructorFeedbacksPage?user=CHomeUiT.instructor.tmms&amp;courseid=newIns.wit-demo">
+                            Add Session
+                        </a>
+                    
+                        <a data-original-title="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" data-toggle="tooltip" data-placement="top" title="" onclick="return toggleArchiveCourseConfirmation('newIns.wit-demo')" class="btn btn-primary btn-xs btn-tm-actions course-archive-for-test" href="/page/instructorCourseArchive?courseid=newIns.wit-demo&amp;archive=true&amp;next=%2Fpage%2FinstructorHomePage&amp;user=CHomeUiT.instructor.tmms">
+                            Archive
+                        </a>
+                    
+                        <a data-original-title="Delete the course and its corresponding students and sessions" data-toggle="tooltip" data-placement="top" title="" onclick="return toggleDeleteCourseConfirmation('newIns.wit-demo')" class="btn btn-primary btn-xs btn-tm-actions course-delete-for-test" href="/page/instructorCourseDelete?courseid=newIns.wit-demo&amp;next=%2Fpage%2FinstructorHomePage&amp;user=CHomeUiT.instructor.tmms">
+                            Delete
+                        </a>
+                    
+                </span>
+            </div>
+        </div>
+    </div>
+    
+                
+            
+</div>
+        
+        
+
+<div class="modal fade" id="fsCopyModal" tabindex="-1" role="dialog" aria-labelledby="fsCopyModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" name="form_copy_list" role="form" action="/page/instructorFeedbackEditCopy">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">
+                        Copy this feedback session to other courses <br>
+                        <small>(Select the course(s) you want to copy this feedback session to)</small>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div id="courseList" class="form-group"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <input class="btn btn-primary" id="fscopy_submit" value="Copy" type="submit">
+                    <input name="user" value="CHomeUiT.instructor.tmms" type="hidden">
+               </div>
+            </form>
+        </div>
+    </div>
+</div>
+    
+
+    
+    </div>
