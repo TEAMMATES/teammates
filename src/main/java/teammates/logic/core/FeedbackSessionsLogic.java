@@ -147,10 +147,12 @@ public class FeedbackSessionsLogic {
         List<FeedbackSessionAttributes> sessions =
                 getFeedbackSessionsForCourse(courseId);
         List<FeedbackSessionAttributes> viewableSessions = new ArrayList<FeedbackSessionAttributes>();
-        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
-        for (FeedbackSessionAttributes session : sessions) {
-            if (isFeedbackSessionViewableTo(session, userEmail, instructor)) {
-                viewableSessions.add(session);
+        if (!sessions.isEmpty()) {
+            InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
+            for (FeedbackSessionAttributes session : sessions) {
+                if (isFeedbackSessionViewableTo(session, userEmail, instructor)) {
+                    viewableSessions.add(session);
+                }
             }
         }
 
