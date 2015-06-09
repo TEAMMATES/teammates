@@ -207,7 +207,23 @@ public class PageData {
      * Returns the timezone options as HTML code.
      * None is selected, since the selection should only be done in client side.
      */
-    protected ArrayList<ElementTag> getTimeZoneOptionsAsHtml(double existingTimeZone) {
+    protected ArrayList<String> getTimeZoneOptionsAsHtml(double existingTimeZone) {
+        double[] options = new double[] {-12, -11, -10, -9, -8, -7, -6, -5, -4.5, -4, -3.5, -3, -2, -1, 0, 1, 2, 3, 
+                                        3.5, 4, 4.5, 5, 5.5, 5.75, 6, 7, 8, 9, 10, 11, 12, 13};
+       ArrayList<String> result = new ArrayList<String>();
+       if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
+           result.add("<option value=\"" + Const.INT_UNINITIALIZED + "\" selected=\"selected\"></option>");
+       }
+       for (int i = 0; i < options.length; i++) {
+           String utcFormatOption = StringHelper.toUtcFormat(options[i]);      
+           result.add("<option value=\"" + formatAsString(options[i]) + "\"" 
+                      + (existingTimeZone == options[i] ? " selected=\"selected\"" : "") + ">" + "(" + utcFormatOption 
+                      + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(options[i])) + "</option>");
+       }
+       return result;
+    }
+    
+    protected ArrayList<ElementTag> getTimeZoneOptionsAsElementTags(double existingTimeZone) {
         double[] options = new double[] {-12, -11, -10, -9, -8, -7, -6, -5, -4.5, -4, -3.5, -3, -2, -1, 0, 1, 2, 3, 
                                          3.5, 4, 4.5, 5, 5.5, 5.75, 6, 7, 8, 9, 10, 11, 12, 13};
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
@@ -253,7 +269,7 @@ public class PageData {
     protected ArrayList<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
         for(int i = 0; i <= 30; i += 5) {
-            ElementTag option = createOption(String.valueOf(i), String.valueOf(i), 
+            ElementTag option = createOption(String.valueOf(i) + " mins", String.valueOf(i), 
                                             (isGracePeriodToBeSelected(existingGracePeriod, i)));
             result.add(option);
         }

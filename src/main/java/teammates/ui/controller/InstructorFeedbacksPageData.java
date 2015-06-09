@@ -27,20 +27,37 @@ public class InstructorFeedbacksPageData extends PageData {
     public boolean isUsingAjax;
     
     public FeedbackSessionsList fsList;
+    
+    public FeedbackSessionsList getFsList() {
+        return fsList;
+    }
+
+
     public FeedbackSessionsNewForm newForm;
     
-    
-    public void init(List<CourseAttributes> courses, String  courseIdForNewSession,
-                                    HashMap<String, InstructorAttributes> instructors,
-                                    FeedbackSessionAttributes newFeedbackSession) {
+    public FeedbackSessionsNewForm getNewForm() {
+        return newForm;
+    }
+
+    public void init(List<CourseAttributes> courses, String courseIdForNewSession,
+                     HashMap<String, InstructorAttributes> instructors,
+                     FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType) {
+        
+        List<String> courseIds = new ArrayList<String>();
+        for (CourseAttributes course : courses) {
+            courseIds.add(course.id);
+        }
+        newForm = new FeedbackSessionsNewForm(courseIdForNewSession, feedbackSessionType, 
+                                              newFeedbackSession, courseIds);
         
         if (courses.isEmpty()) {
             newForm.formClasses = "form-group has-error";
-            newForm.courseFieldClasses = "form-group has-error";
+            newForm.courseFieldClasses = "form-control text-color-red";
         }
         
-        newForm.coursesSelectField = getCourseIdOptions(courses, 
-                                        courseIdForNewSession, instructors, newFeedbackSession);
+        newForm.coursesSelectField = getCourseIdOptions(courses,  courseIdForNewSession, 
+                                                        instructors, newFeedbackSession);
+        System.out.println(newForm.coursesSelectField);
         newForm.timezoneSelectField = getTimeZoneOptionsAsHtml();
         newForm.fsStartDate = newFeedbackSession == null ?
                               TimeHelper.formatDate(TimeHelper.getNextHour()) :
@@ -58,6 +75,7 @@ public class InstructorFeedbacksPageData extends PageData {
                null : newFeedbackSession.endTime;
         newForm.fsEndTimeOptions = getTimeOptionsAsElementTags(date);
         
+        newForm.gracePeriodOptions = getGracePeriodOptionsAsElementTags();
         
         boolean hasSessionVisibleDate = newFeedbackSession != null &&
                                         !TimeHelper.isSpecialTime(newFeedbackSession.sessionVisibleFromTime);
@@ -114,9 +132,9 @@ public class InstructorFeedbacksPageData extends PageData {
     }
 
     public ArrayList<ElementTag> getTimeZoneOptionsAsHtml(){
-        return getTimeZoneOptionsAsHtml(newForm.defaultFeedbackSession == null ? 
-                                        Const.DOUBLE_UNINITIALIZED : 
-                                        newForm.defaultFeedbackSession.timeZone);
+        return getTimeZoneOptionsAsElementTags(newForm.defaultFeedbackSession == null ? 
+                                               Const.DOUBLE_UNINITIALIZED : 
+                                               newForm.defaultFeedbackSession.timeZone);
     }
 
 
@@ -149,7 +167,8 @@ public class InstructorFeedbacksPageData extends PageData {
             boolean isEmptyFormForSessionInThisCourse =
                     courseIdForNewSession != null && course.id.equals(courseIdForNewSession);
             
-            if (instructors.get(course).isAllowedForPrivilege(
+
+            if (instructors.get(course.id).isAllowedForPrivilege(
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
                 ElementTag option = createOption(course.id, course.id,  
                                                 (isFilledFormForSessionInThisCourse || isEmptyFormForSessionInThisCourse));

@@ -13,7 +13,7 @@
     <t:statusMessage />
 
 
-    <ti:feedbackSessionsNewForm courseToSelect="${data.courseIdForNewSession}" feedbackSessionType="${data.feedbackSessionType}" newFeedbackSession="${data.newFeedbackSession}" courses="${data.courses}"/>
+    <ti:feedbackSessionsNewForm newForm="${ data.newForm }"/>
 
 
 </ti:instructorPage>

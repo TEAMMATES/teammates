@@ -34,24 +34,25 @@ public class InstructorFeedbacksPageAction extends Action {
 
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
         data.isUsingAjax = (isUsingAjax != null);
-        data.courseIdForNewSession = courseIdForNewSession;
-        data.feedbackSessionNameForSessionList = feedbackSessionNameForSessionList;
-        // This indicates that an empty form to be shown (except possibly the course value filled in)
-        data.newFeedbackSession = null;
+        
+        
         boolean omitArchived = true; // TODO: implement as a request parameter
         // HashMap with courseId as key and InstructorAttributes as value
-        data.instructors = loadCourseInstructorMap(omitArchived);
+        HashMap<String, InstructorAttributes> instructors = loadCourseInstructorMap(omitArchived);
         
         List<InstructorAttributes> instructorList =
-                new ArrayList<InstructorAttributes>(data.instructors.values());
-        data.courses = loadCoursesList(instructorList);
+                new ArrayList<InstructorAttributes>(instructors.values());
+        List<CourseAttributes> courses = loadCoursesList(instructorList);
         
-        if (data.courses.isEmpty()) {
+        data.init(courses, courseIdForNewSession,
+                  instructors, null, null);
+        
+        if (courses.isEmpty()) {
             statusToUser.add(Const.StatusMessages.COURSE_EMPTY_IN_INSTRUCTOR_FEEDBACKS
                              .replace("${user}", "?user=" + account.googleId));
         }
         
-        if (data.courses.isEmpty() || !data.isUsingAjax) {
+        /*if (courses.isEmpty() || !data.isUsingAjax) {
             data.existingFeedbackSessions = new ArrayList<FeedbackSessionAttributes>();
         } else {
             data.existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
@@ -61,10 +62,10 @@ public class InstructorFeedbacksPageAction extends Action {
         }            
         
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
+        */
+        //statusToAdmin = "Number of feedback sessions: " + data.existingFeedbackSessions.size();
         
-        statusToAdmin = "Number of feedback sessions: " + data.existingFeedbackSessions.size();
         
-        data.getCourseIdOptions();
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
