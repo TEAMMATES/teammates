@@ -454,7 +454,7 @@ public class InstructorFeedbacksPage extends AppPage {
         return browser.driver.findElement(locator).isDisplayed();
     }
     
-    public boolean verifyHasClass(By locator, String className) {
+    public boolean isContainingCssClass(By locator, String className) {
         return browser.driver.findElement(locator).getAttribute("class").contains(className);
     }
     

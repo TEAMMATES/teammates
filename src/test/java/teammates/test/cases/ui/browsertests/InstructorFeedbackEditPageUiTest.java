@@ -423,8 +423,8 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         String idOfModifiedSession = "session0";
         String idOfModifiedSession2 = "session1";
-        assertTrue(feedbackPage.verifyHasClass(By.id(idOfModifiedSession), "warning"));
-        assertFalse(feedbackPage.verifyHasClass(By.id(idOfModifiedSession2), "warning"));
+        assertTrue(feedbackPage.isContainingCssClass(By.id(idOfModifiedSession), "warning"));
+        assertFalse(feedbackPage.isContainingCssClass(By.id(idOfModifiedSession2), "warning"));
         
         // restore feedbackeditpage
         feedbackEditPage = getFeedbackEditPage();
