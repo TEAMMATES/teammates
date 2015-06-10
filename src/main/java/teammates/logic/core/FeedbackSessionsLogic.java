@@ -2358,8 +2358,7 @@ public class FeedbackSessionsLogic {
     }
 
     /**
-     * This method returns a list of feedback sessions which are relevant for a
-     * user.
+     * Checks whether the feedback session is viewable to the specified user.
      */
     private boolean isFeedbackSessionViewableTo(
             FeedbackSessionAttributes session,
