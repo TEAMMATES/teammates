@@ -55,6 +55,7 @@ public class InstructorFeedbacksPageAction extends Action {
             }
         }
         
+
         data.init(courses, courseIdForNewSession, existingFeedbackSessions,
                   instructors, null, null, feedbackSessionNameForSessionList);
         
@@ -62,20 +63,6 @@ public class InstructorFeedbacksPageAction extends Action {
             statusToUser.add(Const.StatusMessages.COURSE_EMPTY_IN_INSTRUCTOR_FEEDBACKS
                              .replace("${user}", "?user=" + account.googleId));
         }
-        
-        /*if (courses.isEmpty() || !data.isUsingAjax) {
-            data.existingFeedbackSessions = new ArrayList<FeedbackSessionAttributes>();
-        } else {
-            data.existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
-            if (data.existingFeedbackSessions.isEmpty()) {
-                statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EMPTY);
-            }
-        }            
-        
-        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
-        */
-        //statusToAdmin = "Number of feedback sessions: " + data.existingFeedbackSessions.size();
-        
         
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);

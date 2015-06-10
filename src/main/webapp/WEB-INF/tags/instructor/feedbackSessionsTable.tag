@@ -31,11 +31,14 @@
             <c:when test="${not empty fsList.existingFeedbackSessions}">
                 <c:forEach items="${fsList.existingFeedbackSessions}" var="sessionRow" varStatus="i">
                      <tr id="session${i.index}"
-                     <c:forEach items="${newForm.coursesSelectField}" var="option">
-                        <c:forEach items="${option.attributes}" var="attr"
-                        > ${attr.key}="${attr.value}"</c:forEach> >${option.content}
-                     </c:forEach> 
                      
+                        <c:forEach items="${sessionRow.rowAttributes.attributes}" var="attr"
+                        > ${attr.key}="${attr.value}"</c:forEach>  >
+                     
+                     
+                        <td>
+                            ${sessionRow.courseId}
+                        </td>
                         <td>
                             ${sessionRow.name}
                         </td>

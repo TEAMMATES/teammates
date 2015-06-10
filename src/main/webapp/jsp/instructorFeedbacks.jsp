@@ -4,7 +4,13 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <c:set var="jsIncludes">
+        <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
+        
+        <script type="text/javascript" src="/js/date.js"></script>
+        <script type="text/javascript" src="/js/datepicker.js"></script>
+        <script type="text/javascript" src="/js/instructor.js"></script>
         <script type="text/javascript" src="/js/ajaxResponseRate.js"></script>
+        <script type="text/javascript" src="/js/instructorFeedbackAjaxRemindModal.js"></script>
         <script type="text/javascript" src="/js/instructorFeedbacksAjax.js"></script>
         <script type="text/javascript" src="/js/instructorFeedbacks.js"></script>
         <script type="text/javascript" src="/js/instructorFeedbackAjaxRemindModal.js"></script>
@@ -21,11 +27,12 @@
     
         <c:if test="${ data.usingAjax }"> 
     
-            <ti:feedbackSessionsTable fsList = "${ data.fsList }"/>
+            <ti:feedbackSessionsTable fsList = "${ data.fsList }" />
         </c:if>
     </div>
 
     <ti:remindModal />
+    <ti:copyFromModal fsList="${ data.fsList }" newForm="${ data.newForm }" />
     <ti:copyModal />
     
 </ti:instructorPage>

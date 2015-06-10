@@ -29,11 +29,14 @@ public class FeedbackSessionRow {
      * @param actions possible actions to do on the session, a block of HTML representing the formatted actions
      */
     public FeedbackSessionRow(String courseId, String name, String tooltip, String status, 
-                                  String href, String actions, ElementTag attributes) {
+                                  String href, String recent, String actions, ElementTag attributes) {
         this.courseId = courseId;
         this.name = name;
+        this.tooltip = tooltip;
+        this.href = href;
         this.status = status;
         this.actions = actions;
+        this.recent = recent;
         this.rowAttributes = attributes;
     }
     

@@ -61,6 +61,23 @@ public class InstructorFeedbacksPageData extends PageData {
         for (CourseAttributes course : courses) {
             courseIds.add(course.id);
         }
+        
+        buildNewForm(courses, courseIdForNewSession, instructors, newFeedbackSession, feedbackSessionType,
+                                        courseIds, feedbackSessionNameForSessionList);
+        
+        
+        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(existingFeedbackSessions);
+        
+        List<FeedbackSessionRow> existingFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(existingFeedbackSessions,
+                                        instructors, feedbackSessionNameForSessionList, courseIdForNewSession);
+        fsList = new FeedbackSessionsList(existingFeedbackSessionsRow);
+        
+    }
+
+    private void buildNewForm(List<CourseAttributes> courses, String courseIdForNewSession,
+                                    HashMap<String, InstructorAttributes> instructors,
+                                    FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
+                                    List<String> courseIds, String feedbackSessionNameForSessionList) {
         newForm = new FeedbackSessionsNewForm(courseIdForNewSession, feedbackSessionType, 
                                               newFeedbackSession, courseIds);
         
@@ -68,6 +85,8 @@ public class InstructorFeedbacksPageData extends PageData {
             newForm.formClasses = "form-group has-error";
             newForm.courseFieldClasses = "form-control text-color-red";
         }
+        
+        newForm.feedbackSessionNameForSessionList = feedbackSessionNameForSessionList;
         
         newForm.coursesSelectField = getCourseIdOptions(courses,  courseIdForNewSession, 
                                                         instructors, newFeedbackSession);
@@ -128,34 +147,29 @@ public class InstructorFeedbacksPageData extends PageData {
         }
         newForm.responseVisibleTimeOptions = getTimeOptionsAsElementTags(date);
         
-        newForm.responseVisibleImmediatelyCheckedAttribute = (newFeedbackSession != null &&
-                                                                Const.TIME_REPRESENTS_FOLLOW_VISIBLE
-                                                                .equals(newFeedbackSession.resultsVisibleFromTime)) ?
-                                                                        "checked=\"checked\"" : 
-                                                                        "";
-        newForm.responseVisiblePublishManuallyCheckedAttribute = (newFeedbackSession == null ||
-                                        Const.TIME_REPRESENTS_LATER.equals(newFeedbackSession.resultsVisibleFromTime) ||
-                                        Const.TIME_REPRESENTS_NOW.equals(newFeedbackSession.resultsVisibleFromTime)) ?
-                                                   "checked=\"checked\"" : "";
-        newForm.responseVisibleNeverCheckedAttribute = (newFeedbackSession != null &&
-                                        Const.TIME_REPRESENTS_NEVER
-                                                .equals(newFeedbackSession.resultsVisibleFromTime)) ?
-                                     "checked=\"checked\"" : "";
+        newForm.responseVisibleImmediatelyCheckedAttribute 
+            = (newFeedbackSession != null 
+               && Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(newFeedbackSession.resultsVisibleFromTime)) ?
+                                                                    "checked=\"checked\"" : 
+                                                                    "";
+        newForm.responseVisiblePublishManuallyCheckedAttribute 
+            = (newFeedbackSession == null 
+               || Const.TIME_REPRESENTS_LATER.equals(newFeedbackSession.resultsVisibleFromTime) 
+               || Const.TIME_REPRESENTS_NOW.equals(newFeedbackSession.resultsVisibleFromTime)) ?
+                                                                     "checked=\"checked\"" :
+                                                                      "";
+        
+        newForm.responseVisibleNeverCheckedAttribute = (newFeedbackSession != null 
+                                                        && Const.TIME_REPRESENTS_NEVER
+                                                           .equals(newFeedbackSession.resultsVisibleFromTime)) ?
+                                                                        "checked=\"checked\"" : "";
                                 
         newForm.submitButtonDisabledAttribute = courses.isEmpty() ? " disabled=\"disabled\"" : "";
-        
-        
-        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(existingFeedbackSessions);
-        
-        List<FeedbackSessionRow> existingFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(existingFeedbackSessions,
-                                        instructors, courseIdForNewSession, feedbackSessionNameForSessionList);
-        fsList = new FeedbackSessionsList(existingFeedbackSessionsRow);
-        
-        
     }
     
     List<FeedbackSessionRow> convertFeedbackSessionAttributesToSessionRows(List<FeedbackSessionAttributes> sessions, 
                                     HashMap<String, InstructorAttributes> instructors, String feedbackSessionNameForSessionList, String courseIdForNewSession) {
+
         
         List<FeedbackSessionRow> rows = new ArrayList<FeedbackSessionRow>();
         int displayedStatsCount = 0;
@@ -186,12 +200,12 @@ public class InstructorFeedbacksPageData extends PageData {
             
             ElementTag elementAttributes ;
             if (session.courseId.equals(courseIdForNewSession) && session.feedbackSessionName.equals(feedbackSessionNameForSessionList)) {
-                elementAttributes = new ElementTag("class", "sessionsRow");
-            } else {
                 elementAttributes = new ElementTag("class", "sessionsRow warning");
+            } else {
+                elementAttributes = new ElementTag("class", "sessionsRow");
             }
             
-            rows.add(new FeedbackSessionRow(name, tooltip, status, href, recent, actions, elementAttributes));
+            rows.add(new FeedbackSessionRow(courseId, name, tooltip, status, href, recent, actions, elementAttributes));
         }
         
         return rows;
@@ -243,7 +257,7 @@ public class InstructorFeedbacksPageData extends PageData {
             }
         }
         
-        // Add option if there are no active courses
+        // Add "No active courses" option if there are no active courses
         if (result.isEmpty()) {
             ElementTag blankOption = createOption("No active courses!", "", true);
             result.add(blankOption);
@@ -253,11 +267,9 @@ public class InstructorFeedbacksPageData extends PageData {
     }
     
     private ElementTag createOption(String text, String value, boolean isSelected) {
-        if (isSelected) {
-            return new ElementTag(text, "value", value, "selected", "selected");
-        } else {
-            return new ElementTag(text, "value", value);
-        }
+        return isSelected ? 
+               new ElementTag(text, "value", value, "selected", "selected") : 
+               new ElementTag(text, "value", value);
     }
 
 

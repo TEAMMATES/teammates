@@ -517,10 +517,10 @@
         <c:if test="${ data.newForm.feedbackSessionNameForSessionList != null && data.newForm.courseIdForNewSession != null }">
             <input type="hidden"
                 name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>"
-                value="${data.feedbackSessionNameForSessionList }">
+                value="${data.newForm.feedbackSessionNameForSessionList }">
             <input type="hidden"
                 name="<%= Const.ParamsNames.COURSE_ID %>"
-                value="${ data.courseIdForNewSession }">
+                value="${ data.newForm.courseIdForNewSession }">
         </c:if>
     </form>
 </div>
