@@ -87,8 +87,7 @@ public class InstructorFeedbacksPageData extends PageData {
             courseIds.add(course.id);
         }
         
-        newForm = new FeedbackSessionsNewForm(courseIdForNewSession, feedbackSessionType, 
-                                              newFeedbackSession, courseIds);
+        newForm = new FeedbackSessionsNewForm(courseIdForNewSession, newFeedbackSession, courseIds);
         
         if (courses.isEmpty()) {
             newForm.setFormClasses("form-group has-error");
@@ -96,6 +95,8 @@ public class InstructorFeedbacksPageData extends PageData {
         }
         
         newForm.setFeedbackSessionNameForSessionList(feedbackSessionNameForSessionList);
+        
+        newForm.setFeedbackSessionTypeOptions(getFeedbackSessionTypeOptions(feedbackSessionType));
         
         newForm.setCoursesSelectField(getCourseIdOptions(courses,  courseIdForNewSession, 
                                                         instructors, newFeedbackSession));
@@ -248,6 +249,20 @@ public class InstructorFeedbacksPageData extends PageData {
         return getGracePeriodOptionsAsElementTags(fs == null ? 
                                                   Const.INT_UNINITIALIZED : 
                                                   fs.gracePeriod);
+    }
+    
+    public ArrayList<ElementTag> getFeedbackSessionTypeOptions(String defaultSessionType) {
+        ArrayList<ElementTag> result = new ArrayList<ElementTag>();
+        
+        ElementTag standardFeedbackSession = createOption("Session with your own questions", "STANDARD", defaultSessionType == null ||
+                                                          defaultSessionType.equals("TEAMEVALUATION"));
+        ElementTag evaluationFeedbackSession = createOption("Team peer evaluation session", "TEAMEVALUATION", defaultSessionType == null ||
+                                                            defaultSessionType.equals("TEAMEVALUATION")); 
+        
+        result.add(standardFeedbackSession);
+        result.add(evaluationFeedbackSession);
+        
+        return result;
     }
 
     public ArrayList<ElementTag> getCourseIdOptions(List<CourseAttributes> courses, String  courseIdForNewSession,

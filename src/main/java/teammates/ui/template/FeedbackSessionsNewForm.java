@@ -10,9 +10,9 @@ public class FeedbackSessionsNewForm {
     private String courseIdForNewSession;
     // for highlighting the recently modified session
     private String feedbackSessionNameForSessionList;
-    // default value of the type to display : evaluations or custom session
-    private String feedbackSessionType;
     
+    private List<ElementTag> feedbackSessionTypeOptions;
+
     // List of course ids to populate the dropdown with
     private List<String> courses;
     
@@ -55,10 +55,9 @@ public class FeedbackSessionsNewForm {
     
     
     public FeedbackSessionsNewForm(String courseIdForNewSession,
-                                   String feedbackSessionType, FeedbackSessionAttributes newFeedbackSession,
+                                   FeedbackSessionAttributes newFeedbackSession,
                                    List<String> courses) {
         this.courseIdForNewSession = courseIdForNewSession;
-        this.feedbackSessionType = feedbackSessionType;
         this.fsName = newFeedbackSession == null ? "" : newFeedbackSession.feedbackSessionName;
         this.courses = courses;
     }
@@ -71,12 +70,16 @@ public class FeedbackSessionsNewForm {
         return feedbackSessionNameForSessionList;
     }
     
-    public String getFeedbackSessionType() {
-        return feedbackSessionType;
-    }
-    
     public List<String> getCourses() {
         return courses;
+    }
+    
+    public List<ElementTag> getFeedbackSessionTypeOptions() {
+        return feedbackSessionTypeOptions;
+    }
+
+    public void setFeedbackSessionTypeOptions(List<ElementTag> feedbackSessionTypeOptions) {
+        this.feedbackSessionTypeOptions = feedbackSessionTypeOptions;
     }
 
     public void setFormClasses(String formClasses) {

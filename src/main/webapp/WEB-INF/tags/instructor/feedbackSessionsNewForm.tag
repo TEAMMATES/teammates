@@ -17,18 +17,11 @@
                     <select class="form-control"
                         name="<%= Const.ParamsNames.FEEDBACK_SESSION_TYPE %>"
                         id="<%= Const.ParamsNames.FEEDBACK_SESSION_TYPE %>">
-                        <option value="STANDARD"
-                            <%= newForm.feedbackSessionType != null &&
-                            		newForm.feedbackSessionType.equals("STANDARD") ?
-                                "selected=\"selected\"" : "" %>>
-                            Session with your own questions
-                        </option>
-                        <option value="TEAMEVALUATION"
-                            <%= newForm.feedbackSessionType == null ||
-                            		newForm.feedbackSessionType.equals("TEAMEVALUATION") ?
-                                "selected=\"selected\"" : "" %>>
-                            Team peer evaluation session
-                        </option>
+                        <c:forEach items="${newForm.feedbackSessionTypeOptions}" var="option">
+                            <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
+                                ${option.content}
+                            </option>
+                        </c:forEach>
                     </select>
                 </div>
                 <div class="col-md-1">
@@ -204,7 +197,7 @@
                                 <input class="form-control col-sm-2" type="text"
                                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_ENDDATE %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_ENDDATE %>"
-                                    value="<%= newForm.fsEndDate %>"
+                                    value="${newForm.fsEndDate}"
                                     placeHolder="Date">
                             </div>
                             <div class="col-md-6">

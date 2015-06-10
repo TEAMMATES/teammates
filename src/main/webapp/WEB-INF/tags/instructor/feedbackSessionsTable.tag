@@ -71,7 +71,7 @@
     <p class="col-md-12 text-muted">Note: The table above doesn't contain sessions from archived courses. To view sessions from an archived course, unarchive the course first.</p>
     <br><br><br>
     
-    <c:if test="${empty data.fsList.existingFeedbackSessions}">
+    <c:if test="${empty fsList.existingFeedbackSessions}">
         <div class="align-center">No records found.</div>
         <br><br><br>
     </c:if>

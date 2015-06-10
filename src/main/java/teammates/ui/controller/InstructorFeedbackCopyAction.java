@@ -41,10 +41,10 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
         FeedbackSessionAttributes fs = null;
         try {
             fs = logic.copyFeedbackSession(copiedFeedbackSessionName,
-                                             copiedCourseId,
-                                             feedbackSessionName,
-                                             courseId,
-                                             instructor.email);
+                                           copiedCourseId,
+                                           feedbackSessionName,
+                                           courseId,
+                                           instructor.email);
             
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
             statusToAdmin =
