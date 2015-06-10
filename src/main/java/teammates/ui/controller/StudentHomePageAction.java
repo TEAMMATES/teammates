@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,32 +26,35 @@ public class StudentHomePageAction extends Action {
         data = new StudentHomePageData(account);
         String recentlyJoinedCourseId = getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);        
         
+        List<CourseDetailsBundle> courses = new ArrayList<CourseDetailsBundle>();
+        Map<String, Boolean> sessionSubmissionStatusMap = new HashMap<String, Boolean>();
         try {
-            data.courses = logic.getCourseDetailsListForStudent(account.googleId);
-    
-            data.sessionSubmissionStatusMap = generateFeedbackSessionSubmissionStatusMap(data.courses, account.googleId);
-            CourseDetailsBundle.sortDetailedCourses(data.courses);
+            courses = logic.getCourseDetailsListForStudent(account.googleId);
+            sessionSubmissionStatusMap = generateFeedbackSessionSubmissionStatusMap(courses, account.googleId);
             
-            statusToAdmin = "studentHome Page Load<br>" + "Total courses: " + data.courses.size();
+            CourseDetailsBundle.sortDetailedCourses(courses);
             
-            boolean isDataConsistent = checkEventualConsistency(recentlyJoinedCourseId);
+            statusToAdmin = "studentHome Page Load<br>" + "Total courses: " + courses.size();
+            
+            boolean isDataConsistent = checkEventualConsistency(recentlyJoinedCourseId, courses);
             if (!isDataConsistent) {
-                addPlaceholderCourse(recentlyJoinedCourseId, account.googleId);
-                data.setEventualConsistencyCourse(recentlyJoinedCourseId);
+                addPlaceholderCourse(courses, recentlyJoinedCourseId, account.googleId, sessionSubmissionStatusMap);
             }
             
-            for(CourseDetailsBundle course: data.courses) {
+            for (CourseDetailsBundle course : courses) {
                 FeedbackSessionDetailsBundle.sortFeedbackSessionsByCreationTime(course.feedbackSessions);
             }
-            
+        
         } catch (EntityDoesNotExistException e) {
             if (recentlyJoinedCourseId != null) {
-                addPlaceholderCourse(recentlyJoinedCourseId, account.googleId);
+                addPlaceholderCourse(courses, recentlyJoinedCourseId, account.googleId, sessionSubmissionStatusMap);
             } else {
                 statusToUser.add(Const.StatusMessages.STUDENT_FIRST_TIME);
                 statusToAdmin = Const.ACTION_RESULT_FAILURE + " :" + e.getMessage();
             }
-        } 
+        }
+        
+        data.init(courses, sessionSubmissionStatusMap);
         
         ShowPageResult response = createShowPageResult(Const.ViewURIs.STUDENT_HOME, data);
         
@@ -86,14 +90,14 @@ public class StudentHomePageAction extends Action {
         }
     }
     
-    private boolean checkEventualConsistency(String recentlyJoinedCourseId) {
+    private boolean checkEventualConsistency(String recentlyJoinedCourseId, List<CourseDetailsBundle> courses) {
         boolean isDataConsistent = false;
         
         if (recentlyJoinedCourseId == null) {
             isDataConsistent = true;
         } else {
-            for(CourseDetailsBundle currentCourse : data.courses) {
-                if(currentCourse.course.id.equals(recentlyJoinedCourseId)) {
+            for (CourseDetailsBundle currentCourse : courses) {
+                if (currentCourse.course.id.equals(recentlyJoinedCourseId)) {
                     isDataConsistent = true;
                 }
             }
@@ -103,16 +107,17 @@ public class StudentHomePageAction extends Action {
     }
 
     private void showEventualConsistencyMessage(String recentlyJoinedCourseId) {
-        String errorMessage = String.format(Const.StatusMessages.EVENTUAL_CONSISTENCY_MESSAGE_STUDENT, recentlyJoinedCourseId);
+        String errorMessage = String.format(Const.StatusMessages.EVENTUAL_CONSISTENCY_MESSAGE_STUDENT,
+                                            recentlyJoinedCourseId);
         statusToUser.add(errorMessage);
     }
     
-    private void addPlaceholderCourse(String courseId, String googleId) {
+    private void addPlaceholderCourse(List<CourseDetailsBundle> courses, String courseId, String googleId, Map<String, Boolean> sessionSubmissionStatusMap) {
         try {
             CourseDetailsBundle course = logic.getCourseDetails(courseId);
-            data.courses.add(course);
+            courses.add(course);
 
-            addPlaceholderFeedbackSessions(course);        
+            addPlaceholderFeedbackSessions(course, sessionSubmissionStatusMap);
             FeedbackSessionDetailsBundle.sortFeedbackSessionsByCreationTime(course.feedbackSessions);
             
         } catch (EntityDoesNotExistException e){
@@ -121,10 +126,10 @@ public class StudentHomePageAction extends Action {
         } 
     } 
     
-    private void addPlaceholderFeedbackSessions(CourseDetailsBundle course) {
-        for(FeedbackSessionDetailsBundle fsb: course.feedbackSessions){
+    private void addPlaceholderFeedbackSessions(CourseDetailsBundle course, Map<String, Boolean> sessionSubmissionStatusMap) {
+        for (FeedbackSessionDetailsBundle fsb: course.feedbackSessions){
             FeedbackSessionAttributes f = fsb.feedbackSession;
-            data.sessionSubmissionStatusMap.put(f.courseId+"%"+f.feedbackSessionName, true);
+            sessionSubmissionStatusMap.put(f.courseId+"%"+f.feedbackSessionName, true);
         }
     }
 }

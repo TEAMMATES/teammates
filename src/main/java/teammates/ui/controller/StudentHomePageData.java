@@ -6,10 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
+import teammates.ui.template.CourseTable;
+import teammates.ui.template.ElementTag;
 
 public class StudentHomePageData extends PageData {
     
@@ -17,14 +22,63 @@ public class StudentHomePageData extends PageData {
         super(account);
     }
     
-    public List<CourseDetailsBundle> courses = new ArrayList<CourseDetailsBundle>();
-    public Map<String, Boolean> sessionSubmissionStatusMap = new HashMap<String, Boolean>();
-    public String eventualConsistencyCourse;
+    private List<CourseTable> courseTables;
+    
+    public void init(List<CourseDetailsBundle> courses, Map<String, Boolean> sessionSubmissionStatusMap) {
+        setCourseTables(courses, sessionSubmissionStatusMap);
+    }
+    
+    public List<CourseTable> getCourseTables() {
+        return courseTables;
+    }
+    
+    private void setCourseTables(List<CourseDetailsBundle> courses, Map<String, Boolean> sessionSubmissionStatusMap) {
+        courseTables = new ArrayList<CourseTable>();
+        for (CourseDetailsBundle courseDetails : courses) {
+            courseTables.add(createCourseTable(courseDetails.course, courseDetails.feedbackSessions, sessionSubmissionStatusMap));
+        }
+    }
+    
+    private CourseTable createCourseTable(CourseAttributes course,
+                                          List<FeedbackSessionDetailsBundle> feedbackSessions,
+                                          Map<String, Boolean> sessionSubmissionStatusMap) {
+        String courseId = course.id;
+        return new CourseTable(course,
+                               createCourseTableLinks(courseId),
+                               createSessionRows(feedbackSessions, courseId, sessionSubmissionStatusMap));
+    }
+    
+    private List<ElementTag> createCourseTableLinks(String courseId) {
+        List<ElementTag> links = new ArrayList<ElementTag>();
+        links.add(new ElementTag(
+            "View Team",
+            "href", getStudentCourseDetailsLink(courseId),
+            "title", Const.Tooltips.STUDENT_COURSE_DETAILS
+        ));
+        return links;
+    }
+    
+    private List<Map<String, String>> createSessionRows(List<FeedbackSessionDetailsBundle> feedbackSessions,
+            String courseId, Map<String, Boolean> sessionSubmissionStatusMap) {
+        List<Map<String, String>> rows = new ArrayList<Map<String,String>>();
+        int sessionIndex = 0;
+        for (FeedbackSessionDetailsBundle session : feedbackSessions) {
+            Map<String, String> columns = new HashMap<String, String>();
+            columns.put("name", PageData.sanitizeForHtml(session.feedbackSession.feedbackSessionName));
+            columns.put("endTime", TimeHelper.formatTime(session.feedbackSession.endTime));
+            columns.put("tooltip", getStudentHoverMessageForSession(session.feedbackSession, sessionSubmissionStatusMap));
+            columns.put("status", getStudentStatusForSession(session.feedbackSession, sessionSubmissionStatusMap));
+            columns.put("actions", getStudentFeedbackSessionActions(session.feedbackSession, sessionIndex, sessionSubmissionStatusMap));
+            rows.add(columns);
+        }
+        return rows;
+    }
     
     /**
      * Returns the submission status of the student for a given feedback session.
+     * @param sessionSubmissionStatusMap 
      */
-    public String getStudentStatusForSession(FeedbackSessionAttributes session){
+    private String getStudentStatusForSession(FeedbackSessionAttributes session, Map<String, Boolean> sessionSubmissionStatusMap){
         if(session.isOpened()) {
             Boolean hasSubmitted = sessionSubmissionStatusMap.get(session.courseId+"%"+session.feedbackSessionName);
             return hasSubmitted ? "Submitted" : "Pending";
@@ -42,11 +96,12 @@ public class StudentHomePageData extends PageData {
     }
     
     /**
+     * @param sessionSubmissionStatusMap 
      * @param submissionStatus Submission status of a student for a particular feedback session. 
      * 
      * @return The hover message to explain evaluation submission status.
      */
-    public String getStudentHoverMessageForSession(FeedbackSessionAttributes session){
+    private String getStudentHoverMessageForSession(FeedbackSessionAttributes session, Map<String, Boolean> sessionSubmissionStatusMap){
         String msg = "";
         
         Boolean isAwaiting = session.isWaitingToOpen();
@@ -69,14 +124,14 @@ public class StudentHomePageData extends PageData {
     }
     
     
-    public String getStudentCourseDetailsLink(String courseId){
+    private String getStudentCourseDetailsLink(String courseId){
         String link = Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE;
         link = addUserIdToUrl(link);
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
         return link;
     }
     
-    public String getStudentFeedbackResponseEditLink(String courseId, String feedbackSessionName){
+    private String getStudentFeedbackResponseEditLink(String courseId, String feedbackSessionName){
         String link = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
         link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
@@ -84,7 +139,7 @@ public class StudentHomePageData extends PageData {
         return link;
     }
     
-    public String getStudentFeedbackResultsLink(String courseId, String feedbackSessionName){
+    private String getStudentFeedbackResultsLink(String courseId, String feedbackSessionName){
         String link = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
         link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
@@ -94,9 +149,10 @@ public class StudentHomePageData extends PageData {
     
 
     /**
+     * @param sessionSubmissionStatusMap 
      * @return The list of available actions for a specific feedback session.
      */
-    public String getStudentFeedbackSessionActions(FeedbackSessionAttributes fs, int idx) {
+    private String getStudentFeedbackSessionActions(FeedbackSessionAttributes fs, int idx, Map<String, Boolean> sessionSubmissionStatusMap) {
         String keyOfMap = fs.courseId+"%"+fs.feedbackSessionName;
         boolean hasSubmitted = sessionSubmissionStatusMap.get(keyOfMap).booleanValue();
         
@@ -139,13 +195,5 @@ public class StudentHomePageData extends PageData {
         }
         
         return result;
-    }
-    
-    /**
-     * Obtain the course ID of the course that the student had just recently joined
-     * so that it can be used to check for eventual consistency.
-     */
-    public void setEventualConsistencyCourse(String courseId) {
-        eventualConsistencyCourse = courseId;
     }
 }
