@@ -52,11 +52,9 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         // without accounts need to receive the email to be able to respond
         fs.isOpeningEmailEnabled = true;
         
-        //data.newFeedbackSession = fs;
-        
+     
         String feedbackSessionType = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_TYPE);
-       // data.feedbackSessionType = feedbackSessionType;
-        
+
         try {
             logic.createFeedbackSession(fs);
             
@@ -90,22 +88,22 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             setStatusForException(e);
         }
         // isError == true if an exception occurred above
-/*
+
         boolean omitArchived = true;
         HashMap<String, InstructorAttributes> instructors = loadCourseInstructorMap(omitArchived);
         ArrayList<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>(instructors.values());
         List<CourseAttributes> courses = loadCoursesList(instructorList);
         List<FeedbackSessionAttributes> feedbackSessions = loadFeedbackSessionsList(instructorList);
-        //data.existingFeedbackSessions = feedbackSessions;
+        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(feedbackSessions);
         
         if (feedbackSessions.isEmpty()) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY);
         }
         
-        data.init(courses, courseIdForNewSession, instructors, newFeedbackSession);
+        data.init(courses, courseId, feedbackSessions, instructors, fs, 
+                  feedbackSessionType, null);
         
-        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(feedbackSessions);
-     */   
+       
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
     

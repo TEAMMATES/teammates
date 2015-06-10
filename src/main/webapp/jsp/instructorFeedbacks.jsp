@@ -16,17 +16,13 @@
         <script type="text/javascript" src="/js/instructorFeedbackAjaxRemindModal.js"></script>
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Add New Feedback Session" jsIncludes="${jsIncludes}">
-    <t:statusMessage />
     
     <c:if test="${ !data.usingAjax}">
-  
         <ti:feedbackSessionsNewForm newForm="${ data.newForm }"/>
     </c:if>
-    
+    <t:statusMessage />
     <div id="sessionList" class="align-center">
-    
         <c:if test="${ data.usingAjax }"> 
-    
             <ti:feedbackSessionsTable fsList = "${ data.fsList }" />
         </c:if>
     </div>

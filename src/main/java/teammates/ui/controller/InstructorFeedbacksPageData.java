@@ -12,7 +12,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.ui.template.CourseTableSessionRow;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.FeedbackSessionsList;
@@ -51,6 +50,16 @@ public class InstructorFeedbacksPageData extends PageData {
         return newForm;
     }
 
+    /**
+     * Initialises the PageData
+     * @param courses                   courses that the user is an instructor of 
+     * @param courseIdForNewSession     the course id to automatically select in the dropdown
+     * @param existingFeedbackSessions  list of existing feedback sessions 
+     * @param instructors               a map of courseId to the instructorAttributes for the current user
+     * @param newFeedbackSession        the feedback session which values are used as the default values in the form
+     * @param feedbackSessionType       "TEAMEVALUATION" or "STANDARD"
+     * @param feedbackSessionNameForSessionList  the feedback session to highlight in the sessions table
+     */
     public void init(List<CourseAttributes> courses, String courseIdForNewSession, 
                      List<FeedbackSessionAttributes> existingFeedbackSessions,
                      HashMap<String, InstructorAttributes> instructors,
@@ -62,8 +71,10 @@ public class InstructorFeedbacksPageData extends PageData {
             courseIds.add(course.id);
         }
         
-        buildNewForm(courses, courseIdForNewSession, instructors, newFeedbackSession, feedbackSessionType,
-                                        courseIds, feedbackSessionNameForSessionList);
+        buildNewForm(courses, courseIdForNewSession, 
+                     instructors, newFeedbackSession, 
+                     feedbackSessionType, courseIds, 
+                     feedbackSessionNameForSessionList);
         
         
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(existingFeedbackSessions);
@@ -92,6 +103,12 @@ public class InstructorFeedbacksPageData extends PageData {
                                                         instructors, newFeedbackSession);
         
         newForm.timezoneSelectField = getTimeZoneOptionsAsHtml();
+        
+        
+        newForm.instructions = newFeedbackSession == null ?
+                               "Please answer all the given questions." :
+                               InstructorFeedbacksPageData.sanitizeForHtml(newFeedbackSession.instructions.getValue());
+        
         newForm.fsStartDate = newFeedbackSession == null ?
                               TimeHelper.formatDate(TimeHelper.getNextHour()) :
                               TimeHelper.formatDate(newFeedbackSession.startTime);
@@ -118,10 +135,9 @@ public class InstructorFeedbacksPageData extends PageData {
                                    "";
         newForm.sessionVisibleDateDisabledAttribute = hasSessionVisibleDate ? "" : "disabled=\"disabled\"";
         
-        date = null;
-        if (hasSessionVisibleDate) {
-            date = newFeedbackSession.sessionVisibleFromTime;   
-        }
+        
+        date = hasSessionVisibleDate ? newFeedbackSession.sessionVisibleFromTime : null;   
+        
         newForm.sessionVisibleTimeOptions = getTimeOptionsAsElementTags(date);
         
         newForm.sessionVisibleAtOpenCheckedAttribute = (newFeedbackSession == null ||
@@ -135,16 +151,13 @@ public class InstructorFeedbacksPageData extends PageData {
                                         "checked=\"checked\"" : "";
                         
         boolean hasResultVisibleDate = newFeedbackSession != null &&
-                                        !TimeHelper.isSpecialTime(newFeedbackSession.resultsVisibleFromTime);
+                                       !TimeHelper.isSpecialTime(newFeedbackSession.resultsVisibleFromTime);
         newForm.responseVisibleDateCheckedAttribute = hasResultVisibleDate ? "checked=\"checked\"" : "";
         newForm.responseVisibleDateValue = hasResultVisibleDate ?
                                         TimeHelper.formatDate(newFeedbackSession.resultsVisibleFromTime) : "";
         newForm.responseVisibleDisabledAttribute = hasResultVisibleDate ? "" : "disabled=\"disabled\"";
         
-        date = null;
-        if (hasResultVisibleDate) {
-            date = newFeedbackSession.resultsVisibleFromTime;   
-        }
+        date = hasResultVisibleDate ? newFeedbackSession.resultsVisibleFromTime :  null;
         newForm.responseVisibleTimeOptions = getTimeOptionsAsElementTags(date);
         
         newForm.responseVisibleImmediatelyCheckedAttribute 
@@ -166,6 +179,7 @@ public class InstructorFeedbacksPageData extends PageData {
                                 
         newForm.submitButtonDisabledAttribute = courses.isEmpty() ? " disabled=\"disabled\"" : "";
     }
+    
     
     List<FeedbackSessionRow> convertFeedbackSessionAttributesToSessionRows(List<FeedbackSessionAttributes> sessions, 
                                     HashMap<String, InstructorAttributes> instructors, String feedbackSessionNameForSessionList, String courseIdForNewSession) {

@@ -1,8 +1,10 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -36,13 +38,13 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
         
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
         
+        FeedbackSessionAttributes fs = null;
         try {
-            FeedbackSessionAttributes fs = logic.copyFeedbackSession(copiedFeedbackSessionName,
-                                                                     copiedCourseId,
-                                                                     feedbackSessionName,
-                                                                     courseId,
-                                                                     instructor.email);
-            data.newForm.defaultFeedbackSession = fs;
+            fs = logic.copyFeedbackSession(copiedFeedbackSessionName,
+                                             copiedCourseId,
+                                             feedbackSessionName,
+                                             courseId,
+                                             instructor.email);
             
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
             statusToAdmin =
@@ -67,19 +69,22 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
         }
         // isError == true if an exception occurred above
         
-        /*boolean omitArchived = true;
-        instructors = loadCourseInstructorMap(omitArchived);
+        boolean omitArchived = true;
+        HashMap<String, InstructorAttributes> instructors = loadCourseInstructorMap(omitArchived);
         List<InstructorAttributes> instructorList =
-                new ArrayList<InstructorAttributes>(data.instructors.values());
-        courses = loadCoursesList(instructorList);
-        data.existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
+                new ArrayList<InstructorAttributes>(instructors.values());
+        List<CourseAttributes> courses = loadCoursesList(instructorList);
         
-        if (data.existingFeedbackSessions.isEmpty()) {
+        List<FeedbackSessionAttributes> feedbackSessions = loadFeedbackSessionsList(instructorList);
+        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(feedbackSessions);
+        
+        data.init(courses, null, feedbackSessions, instructors, fs, null, null);
+        
+        
+        if (data.fsList.existingFeedbackSessions.isEmpty()) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY);
         }
-        
-        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
-        */
+       
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
 

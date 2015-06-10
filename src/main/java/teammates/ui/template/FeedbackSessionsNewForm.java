@@ -18,6 +18,9 @@ public class FeedbackSessionsNewForm {
     // List of course ids to populate the dropdown with
     public List<String> courses;
     
+    public String instructions;
+    
+
     public String fsStartDate;
     public List<ElementTag> fsStartTimeOptions;
     public String fsEndDate;
@@ -40,9 +43,14 @@ public class FeedbackSessionsNewForm {
     public String sessionVisibleAtOpenCheckedAttribute;
     public String sessionVisiblePrivateCheckedAttribute;
     public String responseVisibleDateCheckedAttribute;
-    public Object responseVisibleDateValue;
+    public String responseVisibleDateValue;
+    
     public FeedbackSessionAttributes getDefaultFeedbackSession() {
         return defaultFeedbackSession;
+    }
+    
+    public String getInstructions() {
+        return instructions;
     }
 
     public String getFsStartDate() {
@@ -109,7 +117,7 @@ public class FeedbackSessionsNewForm {
         return responseVisibleDateCheckedAttribute;
     }
 
-    public Object getResponseVisibleDateValue() {
+    public String getResponseVisibleDateValue() {
         return responseVisibleDateValue;
     }
 

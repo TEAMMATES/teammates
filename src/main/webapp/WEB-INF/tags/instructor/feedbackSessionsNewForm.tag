@@ -144,7 +144,7 @@
                                     rows="4" cols="100%"
                                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS %>"
-                                    placeholder="e.g. Please answer all the given questions.">${newForm.defaultFeedbackSession.instructions}</textarea>
+                                    placeholder="e.g. Please answer all the given questions.">${newForm.instructions}</textarea>
                             </div>
                         </div>
                     </div>
