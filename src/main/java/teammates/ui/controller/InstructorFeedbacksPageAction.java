@@ -33,7 +33,7 @@ public class InstructorFeedbacksPageAction extends Action {
         }
 
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
-        data.isUsingAjax = (isUsingAjax != null);
+        data.setUsingAjax((isUsingAjax != null));
         
         
         boolean omitArchived = true; // TODO: implement as a request parameter
@@ -45,7 +45,7 @@ public class InstructorFeedbacksPageAction extends Action {
         List<CourseAttributes> courses = loadCoursesList(instructorList);
         
         List<FeedbackSessionAttributes> existingFeedbackSessions;
-        if (courses.isEmpty() || !data.isUsingAjax) {
+        if (courses.isEmpty() || !data.isUsingAjax()) {
             existingFeedbackSessions = new ArrayList<FeedbackSessionAttributes>();
         } else {
             existingFeedbackSessions = loadFeedbackSessionsList(instructorList);

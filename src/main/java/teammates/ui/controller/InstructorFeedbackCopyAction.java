@@ -81,7 +81,7 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
         data.init(courses, null, feedbackSessions, instructors, fs, null, null);
         
         
-        if (data.fsList.existingFeedbackSessions.isEmpty()) {
+        if (data.getFsList().getExistingFeedbackSessions().isEmpty()) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY);
         }
        

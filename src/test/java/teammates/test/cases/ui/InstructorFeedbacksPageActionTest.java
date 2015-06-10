@@ -51,10 +51,10 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         
         InstructorFeedbacksPageData pageData = (InstructorFeedbacksPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
-        assertEquals(2, pageData.newForm.courses.size());
+        assertEquals(2, pageData.getNewForm().getCourses().size());
         //assertEquals(6, pageData.existingFeedbackSessions.size());
-        assertEquals("", pageData.newForm.fsName);
-        assertEquals(null, pageData.newForm.courseIdForNewSession);
+        assertEquals("", pageData.getNewForm().getFsName());
+        assertEquals(null, pageData.getNewForm().getCourseIdForNewSession());
         
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage|||"
@@ -79,10 +79,10 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         
         pageData = (InstructorFeedbacksPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
-        assertEquals(2, pageData.newForm.courses.size());
+        assertEquals(2, pageData.getNewForm().getCourses().size());
         //assertEquals(0, pageData.existingFeedbackSessions.size());
-        assertEquals("", pageData.newForm.fsName);
-        assertEquals(instructor1ofCourse1.courseId, pageData.newForm.courseIdForNewSession);
+        assertEquals("", pageData.getNewForm().getFsName());
+        assertEquals(instructor1ofCourse1.courseId, pageData.getNewForm().getCourseIdForNewSession());
         
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage|||"
@@ -111,9 +111,9 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         
         pageData = (InstructorFeedbacksPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
-        assertEquals(0, pageData.newForm.courses.size());
+        assertEquals(0, pageData.getNewForm().getCourses().size());
         //assertEquals(0, pageData.defaultFeedbackSessions.size());
-        assertEquals("", pageData.newForm.fsName);
+        assertEquals("", pageData.getNewForm().getFsName());
         
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage|||true|||"

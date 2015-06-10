@@ -7,44 +7,41 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 public class FeedbackSessionsNewForm {
 
     // default course id value
-    public String courseIdForNewSession;
+    private String courseIdForNewSession;
     // for highlighting the recently modified session
-    public String feedbackSessionNameForSessionList;
+    private String feedbackSessionNameForSessionList;
     // default value of the type to display : evaluations or custom session
-    public String feedbackSessionType;
-    // If this is provided, then the attributes of this feedback session is the default values 
-    // in the form
+    private String feedbackSessionType;
     
     // List of course ids to populate the dropdown with
-    public List<String> courses;
+    private List<String> courses;
     
-    public String fsName;
-    public String instructions;
+    private String fsName;
+    private String instructions;
     
-
-    public String fsStartDate;
-    public List<ElementTag> fsStartTimeOptions;
-    public String fsEndDate;
-    public List<ElementTag> fsEndTimeOptions;
-    public List<ElementTag> gracePeriodOptions;
+    private String fsStartDate;
+    private List<ElementTag> fsStartTimeOptions;
+    private String fsEndDate;
+    private List<ElementTag> fsEndTimeOptions;
+    private List<ElementTag> gracePeriodOptions;
     
-    public String sessionVisibleDateButtonCheckedAttribute;
-    public String sessionVisibleDateValue;
-    public String sessionVisibleDateDisabledAttribute;
-    public List<ElementTag> sessionVisibleTimeOptions;
+    private String sessionVisibleDateButtonCheckedAttribute;
+    private String sessionVisibleDateValue;
+    private String sessionVisibleDateDisabledAttribute;
+    private List<ElementTag> sessionVisibleTimeOptions;
     
     
     // options for the select
-    public List<ElementTag> coursesSelectField;
-    public List<ElementTag> timezoneSelectField;
+    private List<ElementTag> coursesSelectField;
+    private List<ElementTag> timezoneSelectField;
     
     
-    public String formClasses = "form-group";
-    public String courseFieldClasses = "form-control";
-    public String sessionVisibleAtOpenCheckedAttribute;
-    public String sessionVisiblePrivateCheckedAttribute;
-    public String responseVisibleDateCheckedAttribute;
-    public String responseVisibleDateValue;
+    private String formClasses = "form-group";
+    private String courseFieldClasses = "form-control";
+    private String sessionVisibleAtOpenCheckedAttribute;
+    private String sessionVisiblePrivateCheckedAttribute;
+    private String responseVisibleDateCheckedAttribute;
+    private String responseVisibleDateValue;
     
     
     public String getFsName() {
@@ -179,6 +176,82 @@ public class FeedbackSessionsNewForm {
     
     public List<String> getCourses() {
         return courses;
+    }
+
+    public void setFormClasses(String formClasses) {
+        this.formClasses = formClasses;
+    }
+
+    public void setCourseFieldClasses(String courseFieldClasses) {
+        this.courseFieldClasses = courseFieldClasses;
+    }
+
+    public void setFeedbackSessionNameForSessionList(String feedbackSessionNameForSessionList) {
+        this.feedbackSessionNameForSessionList = feedbackSessionNameForSessionList;
+    }
+
+    public void setCoursesSelectField(List<ElementTag> coursesSelectField) {
+        this.coursesSelectField = coursesSelectField;
+    }
+
+    public void setTimezoneSelectField(List<ElementTag> timezoneSelectField) {
+        this.timezoneSelectField = timezoneSelectField;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
+    }
+
+    public void setFsStartDate(String fsStartDate) {
+        this.fsStartDate = fsStartDate;
+    }
+
+    public void setFsStartTimeOptions(List<ElementTag> fsStartTimeOptions) {
+        this.fsStartTimeOptions = fsStartTimeOptions;
+    }
+
+    public void setFsEndDate(String fsEndDate) {
+        this.fsEndDate = fsEndDate;
+    }
+
+    public void setFsEndTimeOptions(List<ElementTag> fsEndTimeOptions) {
+        this.fsEndTimeOptions = fsEndTimeOptions;
+    }
+
+    public void setSessionVisibleDateButtonCheckedAttribute(String sessionVisibleDateButtonCheckedAttribute) {
+        this.sessionVisibleDateButtonCheckedAttribute = sessionVisibleDateButtonCheckedAttribute;
+    }
+
+    public void setGracePeriodOptions(List<ElementTag> gracePeriodOptions) {
+        this.gracePeriodOptions = gracePeriodOptions;
+    }
+
+    public void setSessionVisibleDateValue(String sessionVisibleDateValue) {
+        this.sessionVisibleDateValue = sessionVisibleDateValue;
+    }
+
+    public void setSessionVisibleDateDisabledAttribute(String sessionVisibleDateDisabledAttribute) {
+        this.sessionVisibleDateDisabledAttribute = sessionVisibleDateDisabledAttribute;
+    }
+
+    public void setSessionVisibleTimeOptions(List<ElementTag> sessionVisibleTimeOptions) {
+        this.sessionVisibleTimeOptions = sessionVisibleTimeOptions;
+    }
+
+    public void setSessionVisibleAtOpenCheckedAttribute(String sessionVisibleAtOpenCheckedAttribute) {
+        this.sessionVisibleAtOpenCheckedAttribute = sessionVisibleAtOpenCheckedAttribute;
+    }
+
+    public void setSessionVisiblePrivateCheckedAttribute(String sessionVisiblePrivateCheckedAttribute) {
+        this.sessionVisiblePrivateCheckedAttribute = sessionVisiblePrivateCheckedAttribute;
+    }
+
+    public void setResponseVisibleDateCheckedAttribute(String responseVisibleDateCheckedAttribute) {
+        this.responseVisibleDateCheckedAttribute = responseVisibleDateCheckedAttribute;
+    }
+
+    public void setResponseVisibleDateValue(String responseVisibleDateValue) {
+        this.responseVisibleDateValue = responseVisibleDateValue;
     }
     
     

@@ -19,29 +19,26 @@ import teammates.ui.template.FeedbackSessionsNewForm;
 
 public class InstructorFeedbacksPageData extends PageData {
     
-    public static final int MAX_CLOSED_SESSION_STATS = 5;
+    private static final int MAX_CLOSED_SESSION_STATS = 5;
+    
+
+    // Flag for deciding if loading the sessions table, or the new sessions form.
+    // if true -> loads the sessions table, else load the form
+    private boolean isUsingAjax;
+    
+    private FeedbackSessionsList fsList;
+    private FeedbackSessionsNewForm newForm;
+    
     
     public InstructorFeedbacksPageData(AccountAttributes account) {
         super(account);
         
     }
 
-    
-    // Flag for deciding if loading the sessions table, or the new sessions form.
-    // if true -> loads the sessions table, else load the form
-    public boolean isUsingAjax;
-    
     public boolean isUsingAjax() {
         return isUsingAjax;
     }
 
-
-    public FeedbackSessionsList fsList;
-
-
-    public FeedbackSessionsNewForm newForm;
-    
- 
 
     /**
      * Initializes the PageData
@@ -94,67 +91,67 @@ public class InstructorFeedbacksPageData extends PageData {
                                               newFeedbackSession, courseIds);
         
         if (courses.isEmpty()) {
-            newForm.formClasses = "form-group has-error";
-            newForm.courseFieldClasses = "form-control text-color-red";
+            newForm.setFormClasses("form-group has-error");
+            newForm.setCourseFieldClasses("form-control text-color-red");
         }
         
-        newForm.feedbackSessionNameForSessionList = feedbackSessionNameForSessionList;
+        newForm.setFeedbackSessionNameForSessionList(feedbackSessionNameForSessionList);
         
-        newForm.coursesSelectField = getCourseIdOptions(courses,  courseIdForNewSession, 
-                                                        instructors, newFeedbackSession);
+        newForm.setCoursesSelectField(getCourseIdOptions(courses,  courseIdForNewSession, 
+                                                        instructors, newFeedbackSession));
         
-        newForm.timezoneSelectField = getTimeZoneOptionsAsHtml(newFeedbackSession);
+        newForm.setTimezoneSelectField(getTimeZoneOptionsAsHtml(newFeedbackSession));
         
         
-        newForm.instructions = newFeedbackSession == null ?
+        newForm.setInstructions(newFeedbackSession == null ?
                                "Please answer all the given questions." :
-                               InstructorFeedbacksPageData.sanitizeForHtml(newFeedbackSession.instructions.getValue());
+                               InstructorFeedbacksPageData.sanitizeForHtml(newFeedbackSession.instructions.getValue()));
         
-        newForm.fsStartDate = newFeedbackSession == null ?
+        newForm.setFsStartDate(newFeedbackSession == null ?
                               TimeHelper.formatDate(TimeHelper.getNextHour()) :
-                              TimeHelper.formatDate(newFeedbackSession.startTime);
+                              TimeHelper.formatDate(newFeedbackSession.startTime));
         
         Date date;
         date = newFeedbackSession == null ? null : newFeedbackSession.startTime;
-        newForm.fsStartTimeOptions = getTimeOptionsAsElementTags(date);
+        newForm.setFsStartTimeOptions(getTimeOptionsAsElementTags(date));
         
-        newForm.fsEndDate = newFeedbackSession == null ?
+        newForm.setFsEndDate(newFeedbackSession == null ?
                             "" : 
-                            TimeHelper.formatDate(newFeedbackSession.endTime);
+                            TimeHelper.formatDate(newFeedbackSession.endTime));
         date = newFeedbackSession == null ?
                null : newFeedbackSession.endTime;
-        newForm.fsEndTimeOptions = getTimeOptionsAsElementTags(date);
+        newForm.setFsEndTimeOptions(getTimeOptionsAsElementTags(date));
         
-        newForm.gracePeriodOptions = getGracePeriodOptionsAsElementTags(newFeedbackSession);
+        newForm.setGracePeriodOptions(getGracePeriodOptionsAsElementTags(newFeedbackSession));
         
         boolean hasSessionVisibleDate = newFeedbackSession != null &&
                                         !TimeHelper.isSpecialTime(newFeedbackSession.sessionVisibleFromTime);
-        newForm.sessionVisibleDateButtonCheckedAttribute = hasSessionVisibleDate ? "checked=\"checked\"" : "";
-        newForm.sessionVisibleDateValue = hasSessionVisibleDate ? 
+        newForm.setSessionVisibleDateButtonCheckedAttribute(hasSessionVisibleDate ? "checked=\"checked\"" : "");
+        newForm.setSessionVisibleDateValue(hasSessionVisibleDate ? 
                                    TimeHelper.formatDate(newFeedbackSession.sessionVisibleFromTime) :
-                                   "";
-        newForm.sessionVisibleDateDisabledAttribute = hasSessionVisibleDate ? "" : "disabled=\"disabled\"";
+                                   "");
+        newForm.setSessionVisibleDateDisabledAttribute(hasSessionVisibleDate ? "" : "disabled=\"disabled\"");
         
         
         date = hasSessionVisibleDate ? newFeedbackSession.sessionVisibleFromTime : null;   
         
-        newForm.sessionVisibleTimeOptions = getTimeOptionsAsElementTags(date);
+        newForm.setSessionVisibleTimeOptions(getTimeOptionsAsElementTags(date));
         
-        newForm.sessionVisibleAtOpenCheckedAttribute = (newFeedbackSession == null ||
+        newForm.setSessionVisibleAtOpenCheckedAttribute((newFeedbackSession == null ||
                                                         Const.TIME_REPRESENTS_FOLLOW_OPENING
                                                         .equals(newFeedbackSession.sessionVisibleFromTime)) ? 
-                                                        "checked=\"checked\"" : "";
+                                                        "checked=\"checked\"" : "");
         
-        newForm.sessionVisiblePrivateCheckedAttribute = (newFeedbackSession != null &&
+        newForm.setSessionVisiblePrivateCheckedAttribute((newFeedbackSession != null &&
                                                          Const.TIME_REPRESENTS_NEVER
                                                          .equals(newFeedbackSession.sessionVisibleFromTime)) ?
-                                                         "checked=\"checked\"" : "";
+                                                         "checked=\"checked\"" : "");
                         
         boolean hasResultVisibleDate = newFeedbackSession != null &&
                                        !TimeHelper.isSpecialTime(newFeedbackSession.resultsVisibleFromTime);
-        newForm.responseVisibleDateCheckedAttribute = hasResultVisibleDate ? "checked=\"checked\"" : "";
-        newForm.responseVisibleDateValue = hasResultVisibleDate ?
-                                        TimeHelper.formatDate(newFeedbackSession.resultsVisibleFromTime) : "";
+        newForm.setResponseVisibleDateCheckedAttribute(hasResultVisibleDate ? "checked=\"checked\"" : "");
+        newForm.setResponseVisibleDateValue(hasResultVisibleDate ?
+                                        TimeHelper.formatDate(newFeedbackSession.resultsVisibleFromTime) : "");
         newForm.responseVisibleDisabledAttribute = hasResultVisibleDate ? "" : "disabled=\"disabled\"";
         
         date = hasResultVisibleDate ? newFeedbackSession.resultsVisibleFromTime :  null;
@@ -292,6 +289,10 @@ public class InstructorFeedbacksPageData extends PageData {
         return isSelected ? 
                new ElementTag(text, "value", value, "selected", "selected") : 
                new ElementTag(text, "value", value);
+    }
+
+    public void setUsingAjax(boolean isUsingAjax) {
+        this.isUsingAjax = isUsingAjax;
     }
 
 

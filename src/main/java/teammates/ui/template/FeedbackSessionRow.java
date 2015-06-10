@@ -3,20 +3,18 @@ package teammates.ui.template;
 
 public class FeedbackSessionRow {
     
+    private String courseId;
+    private String name;
+    private String tooltip;
+    
+    private String href;
+    private String recent;
+    
+    private String status;  // Awaiting, Open, Closed..
+    private String actions;
     
     
-    String courseId;
-    String name;
-    String tooltip;
-    
-    String href;
-    String recent;
-    
-    String status;  // Awaiting, Open, Closed..
-    String actions;
-    
-    
-    ElementTag rowAttributes;
+    private ElementTag rowAttributes;
 
     /**
      * Constructs a session row for a course table.
