@@ -6,7 +6,6 @@
 <c:set var="jsIncludes">
         <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
         
-        <script type="text/javascript" src="/js/date.js"></script>
         <script type="text/javascript" src="/js/datepicker.js"></script>
         <script type="text/javascript" src="/js/instructor.js"></script>
         <script type="text/javascript" src="/js/ajaxResponseRate.js"></script>
@@ -17,20 +16,20 @@
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Add New Feedback Session" jsIncludes="${jsIncludes}">
     
-    <c:if test="${ !data.usingAjax }">
-        <ti:feedbackSessionsNewForm newForm="${ data.newForm }"/>
+    <c:if test="${!data.usingAjax}">
+        <ti:feedbackSessionsNewForm newForm="${data.newForm}"/>
     </c:if>
     <br>
     <t:statusMessage />
     <br>
     <div id="sessionList" class="align-center">
-        <c:if test="${ data.usingAjax }"> 
-            <ti:feedbackSessionsTable fsList = "${ data.fsList }" />
+        <c:if test="${data.usingAjax}"> 
+            <ti:feedbackSessionsTable fsList = "${data.fsList}" />
         </c:if>
     </div>
 
     <ti:remindModal />
-    <ti:copyFromModal fsList="${ data.fsList }" newForm="${ data.newForm }" />
+    <ti:copyFromModal existingFeedbackSessions="${data.fsList.existingFeedbackSessions}" newForm="${data.newForm}" />
     <ti:copyModal />
     
 </ti:instructorPage>

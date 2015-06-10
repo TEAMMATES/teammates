@@ -507,13 +507,13 @@
         <input type="hidden"
             name="<%= Const.ParamsNames.IS_USING_AJAX %>"
             value="on">
-        <c:if test="${ data.newForm.feedbackSessionNameForSessionList != null && data.newForm.courseIdForNewSession != null }">
+        <c:if test="${newForm.feedbackSessionNameForSessionList != null && newForm.courseIdForNewSession != null}">
             <input type="hidden"
                 name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>"
-                value="${data.newForm.feedbackSessionNameForSessionList }">
+                value="${newForm.feedbackSessionNameForSessionList}">
             <input type="hidden"
                 name="<%= Const.ParamsNames.COURSE_ID %>"
-                value="${ data.newForm.courseIdForNewSession }">
+                value="${newForm.courseIdForNewSession}">
         </c:if>
     </form>
 </div>

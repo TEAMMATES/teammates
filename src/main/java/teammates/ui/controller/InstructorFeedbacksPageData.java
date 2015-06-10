@@ -258,10 +258,12 @@ public class InstructorFeedbacksPageData extends PageData {
     public ArrayList<ElementTag> getFeedbackSessionTypeOptions(String defaultSessionType) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
         
-        ElementTag standardFeedbackSession = createOption("Session with your own questions", "STANDARD", defaultSessionType == null ||
-                                                          defaultSessionType.equals("TEAMEVALUATION"));
-        ElementTag evaluationFeedbackSession = createOption("Team peer evaluation session", "TEAMEVALUATION", defaultSessionType == null ||
-                                                            defaultSessionType.equals("TEAMEVALUATION")); 
+        ElementTag standardFeedbackSession = createOption("Session with your own questions", 
+                                                          "STANDARD", defaultSessionType != null 
+                                                          && defaultSessionType.equals("STANDARD"));
+        ElementTag evaluationFeedbackSession = createOption("Team peer evaluation session", 
+                                                            "TEAMEVALUATION", defaultSessionType == null 
+                                                            || defaultSessionType.equals("TEAMEVALUATION")); 
         
         result.add(standardFeedbackSession);
         result.add(evaluationFeedbackSession);

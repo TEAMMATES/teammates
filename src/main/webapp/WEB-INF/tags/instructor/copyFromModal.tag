@@ -3,7 +3,7 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
 
-<%@ attribute name="fsList" type="teammates.ui.template.FeedbackSessionsList" required="true"%>
+<%@ attribute name="existingFeedbackSessions" type="java.util.Collection" required="true"%>
 <%@ attribute name="newForm" type="teammates.ui.template.FeedbackSessionsNewForm" required="true"%>
 
 <div class="modal fade" id="copyModal" tabindex="-1" role="dialog"
@@ -59,7 +59,7 @@
                                 <th>Feedback Session Name</th>
                             </tr>
                         </thead>                                
-                            <c:forEach items="${fsList.existingFeedbackSessions}" var="session" varStatus="i">
+                            <c:forEach items="${existingFeedbackSessions}" var="session" varStatus="i">
                         
                                 <tr style="cursor:pointer;">
                                     <td><input type="radio"></td>
