@@ -1,19 +1,14 @@
 package teammates.ui.template;
 
-
 public class FeedbackSessionRow {
-    
     private String courseId;
     private String name;
     private String tooltip;
-    
     private String href;
     private String recent;
-    
-    private String status;  // Awaiting, Open, Closed..
+    private String status;  
     private String actions;
-    
-    
+        
     private ElementTag rowAttributes;
 
     /**
@@ -38,7 +33,6 @@ public class FeedbackSessionRow {
         this.rowAttributes = attributes;
     }
     
-
     public String getCourseId() {
         return courseId;
     }
@@ -51,23 +45,18 @@ public class FeedbackSessionRow {
         return status;
     }
 
-
-    
     public String getTooltip() {
         return tooltip;
     }
 
-
     public String getHref() {
         return href;
     }
-
-
+    
     public String getRecent() {
         return recent;
     }
 
-    
     public String getActions() {
         return actions;
     }
@@ -75,6 +64,5 @@ public class FeedbackSessionRow {
     public ElementTag getRowAttributes() {
         return rowAttributes;
     }
-    
     
 }

@@ -43,6 +43,117 @@ public class FeedbackSessionsNewForm {
     private String responseVisibleDateCheckedAttribute;
     private String responseVisibleDateValue;
     
+
+
+    public String responseVisibleDisabledAttribute;
+    public List<ElementTag> responseVisibleTimeOptions;
+    public String responseVisibleImmediatelyCheckedAttribute;
+    public String responseVisiblePublishManuallyCheckedAttribute;
+    public String responseVisibleNeverCheckedAttribute;
+    public String submitButtonDisabledAttribute;
+    
+    
+    
+    public FeedbackSessionsNewForm(String courseIdForNewSession,
+                                   String feedbackSessionType, FeedbackSessionAttributes newFeedbackSession,
+                                   List<String> courses) {
+        this.courseIdForNewSession = courseIdForNewSession;
+        this.feedbackSessionType = feedbackSessionType;
+        this.fsName = newFeedbackSession == null ? "" : newFeedbackSession.feedbackSessionName;
+        this.courses = courses;
+    }
+    
+    public String getCourseIdForNewSession() {
+        return courseIdForNewSession;
+    }
+    
+    public String getFeedbackSessionNameForSessionList() {
+        return feedbackSessionNameForSessionList;
+    }
+    
+    public String getFeedbackSessionType() {
+        return feedbackSessionType;
+    }
+    
+    public List<String> getCourses() {
+        return courses;
+    }
+
+    public void setFormClasses(String formClasses) {
+        this.formClasses = formClasses;
+    }
+
+    public void setCourseFieldClasses(String courseFieldClasses) {
+        this.courseFieldClasses = courseFieldClasses;
+    }
+
+    public void setFeedbackSessionNameForSessionList(String feedbackSessionNameForSessionList) {
+        this.feedbackSessionNameForSessionList = feedbackSessionNameForSessionList;
+    }
+
+    public void setCoursesSelectField(List<ElementTag> coursesSelectField) {
+        this.coursesSelectField = coursesSelectField;
+    }
+
+    public void setTimezoneSelectField(List<ElementTag> timezoneSelectField) {
+        this.timezoneSelectField = timezoneSelectField;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
+    }
+
+    public void setFsStartDate(String fsStartDate) {
+        this.fsStartDate = fsStartDate;
+    }
+
+    public void setFsStartTimeOptions(List<ElementTag> fsStartTimeOptions) {
+        this.fsStartTimeOptions = fsStartTimeOptions;
+    }
+
+    public void setFsEndDate(String fsEndDate) {
+        this.fsEndDate = fsEndDate;
+    }
+
+    public void setFsEndTimeOptions(List<ElementTag> fsEndTimeOptions) {
+        this.fsEndTimeOptions = fsEndTimeOptions;
+    }
+
+    public void setSessionVisibleDateButtonCheckedAttribute(String sessionVisibleDateButtonCheckedAttribute) {
+        this.sessionVisibleDateButtonCheckedAttribute = sessionVisibleDateButtonCheckedAttribute;
+    }
+
+    public void setGracePeriodOptions(List<ElementTag> gracePeriodOptions) {
+        this.gracePeriodOptions = gracePeriodOptions;
+    }
+
+    public void setSessionVisibleDateValue(String sessionVisibleDateValue) {
+        this.sessionVisibleDateValue = sessionVisibleDateValue;
+    }
+
+    public void setSessionVisibleDateDisabledAttribute(String sessionVisibleDateDisabledAttribute) {
+        this.sessionVisibleDateDisabledAttribute = sessionVisibleDateDisabledAttribute;
+    }
+
+    public void setSessionVisibleTimeOptions(List<ElementTag> sessionVisibleTimeOptions) {
+        this.sessionVisibleTimeOptions = sessionVisibleTimeOptions;
+    }
+
+    public void setSessionVisibleAtOpenCheckedAttribute(String sessionVisibleAtOpenCheckedAttribute) {
+        this.sessionVisibleAtOpenCheckedAttribute = sessionVisibleAtOpenCheckedAttribute;
+    }
+
+    public void setSessionVisiblePrivateCheckedAttribute(String sessionVisiblePrivateCheckedAttribute) {
+        this.sessionVisiblePrivateCheckedAttribute = sessionVisiblePrivateCheckedAttribute;
+    }
+
+    public void setResponseVisibleDateCheckedAttribute(String responseVisibleDateCheckedAttribute) {
+        this.responseVisibleDateCheckedAttribute = responseVisibleDateCheckedAttribute;
+    }
+
+    public void setResponseVisibleDateValue(String responseVisibleDateValue) {
+        this.responseVisibleDateValue = responseVisibleDateValue;
+    }
     
     public String getFsName() {
         return fsName;
@@ -142,116 +253,6 @@ public class FeedbackSessionsNewForm {
 
     public String getSubmitButtonDisabledAttribute() {
         return submitButtonDisabledAttribute;
-    }
-
-    public String responseVisibleDisabledAttribute;
-    public List<ElementTag> responseVisibleTimeOptions;
-    public String responseVisibleImmediatelyCheckedAttribute;
-    public String responseVisiblePublishManuallyCheckedAttribute;
-    public String responseVisibleNeverCheckedAttribute;
-    public String submitButtonDisabledAttribute;
-    
-    
-    
-    public FeedbackSessionsNewForm(String courseIdForNewSession,
-                                    String feedbackSessionType, FeedbackSessionAttributes newFeedbackSession,
-                                    List<String> courses) {
-        this.courseIdForNewSession = courseIdForNewSession;
-        this.feedbackSessionType = feedbackSessionType;
-        this.fsName = newFeedbackSession == null ? "" : newFeedbackSession.feedbackSessionName;
-        this.courses = courses;
-    }
-    
-    public String getCourseIdForNewSession() {
-        return courseIdForNewSession;
-    }
-    
-    public String getFeedbackSessionNameForSessionList() {
-        return feedbackSessionNameForSessionList;
-    }
-    
-    public String getFeedbackSessionType() {
-        return feedbackSessionType;
-    }
-    
-    public List<String> getCourses() {
-        return courses;
-    }
-
-    public void setFormClasses(String formClasses) {
-        this.formClasses = formClasses;
-    }
-
-    public void setCourseFieldClasses(String courseFieldClasses) {
-        this.courseFieldClasses = courseFieldClasses;
-    }
-
-    public void setFeedbackSessionNameForSessionList(String feedbackSessionNameForSessionList) {
-        this.feedbackSessionNameForSessionList = feedbackSessionNameForSessionList;
-    }
-
-    public void setCoursesSelectField(List<ElementTag> coursesSelectField) {
-        this.coursesSelectField = coursesSelectField;
-    }
-
-    public void setTimezoneSelectField(List<ElementTag> timezoneSelectField) {
-        this.timezoneSelectField = timezoneSelectField;
-    }
-
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
-    }
-
-    public void setFsStartDate(String fsStartDate) {
-        this.fsStartDate = fsStartDate;
-    }
-
-    public void setFsStartTimeOptions(List<ElementTag> fsStartTimeOptions) {
-        this.fsStartTimeOptions = fsStartTimeOptions;
-    }
-
-    public void setFsEndDate(String fsEndDate) {
-        this.fsEndDate = fsEndDate;
-    }
-
-    public void setFsEndTimeOptions(List<ElementTag> fsEndTimeOptions) {
-        this.fsEndTimeOptions = fsEndTimeOptions;
-    }
-
-    public void setSessionVisibleDateButtonCheckedAttribute(String sessionVisibleDateButtonCheckedAttribute) {
-        this.sessionVisibleDateButtonCheckedAttribute = sessionVisibleDateButtonCheckedAttribute;
-    }
-
-    public void setGracePeriodOptions(List<ElementTag> gracePeriodOptions) {
-        this.gracePeriodOptions = gracePeriodOptions;
-    }
-
-    public void setSessionVisibleDateValue(String sessionVisibleDateValue) {
-        this.sessionVisibleDateValue = sessionVisibleDateValue;
-    }
-
-    public void setSessionVisibleDateDisabledAttribute(String sessionVisibleDateDisabledAttribute) {
-        this.sessionVisibleDateDisabledAttribute = sessionVisibleDateDisabledAttribute;
-    }
-
-    public void setSessionVisibleTimeOptions(List<ElementTag> sessionVisibleTimeOptions) {
-        this.sessionVisibleTimeOptions = sessionVisibleTimeOptions;
-    }
-
-    public void setSessionVisibleAtOpenCheckedAttribute(String sessionVisibleAtOpenCheckedAttribute) {
-        this.sessionVisibleAtOpenCheckedAttribute = sessionVisibleAtOpenCheckedAttribute;
-    }
-
-    public void setSessionVisiblePrivateCheckedAttribute(String sessionVisiblePrivateCheckedAttribute) {
-        this.sessionVisiblePrivateCheckedAttribute = sessionVisiblePrivateCheckedAttribute;
-    }
-
-    public void setResponseVisibleDateCheckedAttribute(String responseVisibleDateCheckedAttribute) {
-        this.responseVisibleDateCheckedAttribute = responseVisibleDateCheckedAttribute;
-    }
-
-    public void setResponseVisibleDateValue(String responseVisibleDateValue) {
-        this.responseVisibleDateValue = responseVisibleDateValue;
     }
     
     
