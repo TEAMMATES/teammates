@@ -61,16 +61,22 @@ public class StudentHomePageData extends PageData {
     private List<Map<String, String>> createSessionRows(List<FeedbackSessionDetailsBundle> feedbackSessions,
             String courseId, Map<String, Boolean> sessionSubmissionStatusMap) {
         List<Map<String, String>> rows = new ArrayList<Map<String,String>>();
+        
         int sessionIndex = 0;
         for (FeedbackSessionDetailsBundle session : feedbackSessions) {
+            FeedbackSessionAttributes feedbackSession = session.feedbackSession;
+            String sessionName = feedbackSession.feedbackSessionName;
+            boolean hasSubmitted = sessionSubmissionStatusMap.get(courseId + "%" + sessionName);
+            
             Map<String, String> columns = new HashMap<String, String>();
-            columns.put("name", PageData.sanitizeForHtml(session.feedbackSession.feedbackSessionName));
-            columns.put("endTime", TimeHelper.formatTime(session.feedbackSession.endTime));
-            columns.put("tooltip", getStudentHoverMessageForSession(session.feedbackSession, sessionSubmissionStatusMap));
-            columns.put("status", getStudentStatusForSession(session.feedbackSession, sessionSubmissionStatusMap));
-            columns.put("actions", getStudentFeedbackSessionActions(session.feedbackSession, sessionIndex, sessionSubmissionStatusMap));
+            columns.put("name", PageData.sanitizeForHtml(sessionName));
+            columns.put("endTime", TimeHelper.formatTime(feedbackSession.endTime));
+            columns.put("tooltip", getStudentHoverMessageForSession(feedbackSession, hasSubmitted));
+            columns.put("status", getStudentStatusForSession(feedbackSession, hasSubmitted));
+            columns.put("actions", getStudentFeedbackSessionActions(feedbackSession, sessionIndex, hasSubmitted));
             rows.add(columns);
         }
+        
         return rows;
     }
     
@@ -78,13 +84,12 @@ public class StudentHomePageData extends PageData {
      * Returns the submission status of the student for a given feedback session.
      * @param sessionSubmissionStatusMap 
      */
-    private String getStudentStatusForSession(FeedbackSessionAttributes session, Map<String, Boolean> sessionSubmissionStatusMap){
-        if(session.isOpened()) {
-            Boolean hasSubmitted = sessionSubmissionStatusMap.get(session.courseId+"%"+session.feedbackSessionName);
+    private String getStudentStatusForSession(FeedbackSessionAttributes session, boolean hasSubmitted){
+        if (session.isOpened()) {
             return hasSubmitted ? "Submitted" : "Pending";
         }
         
-        if(session.isWaitingToOpen()) {
+        if (session.isWaitingToOpen()) {
             return "Awaiting";
         }
         
@@ -101,11 +106,10 @@ public class StudentHomePageData extends PageData {
      * 
      * @return The hover message to explain evaluation submission status.
      */
-    private String getStudentHoverMessageForSession(FeedbackSessionAttributes session, Map<String, Boolean> sessionSubmissionStatusMap){
+    private String getStudentHoverMessageForSession(FeedbackSessionAttributes session, boolean hasSubmitted){
         String msg = "";
         
         Boolean isAwaiting = session.isWaitingToOpen();
-        Boolean hasSubmitted = sessionSubmissionStatusMap.get(session.courseId+"%"+session.feedbackSessionName);
         
         if (isAwaiting) {
             msg += Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_AWAITING;
@@ -152,9 +156,7 @@ public class StudentHomePageData extends PageData {
      * @param sessionSubmissionStatusMap 
      * @return The list of available actions for a specific feedback session.
      */
-    private String getStudentFeedbackSessionActions(FeedbackSessionAttributes fs, int idx, Map<String, Boolean> sessionSubmissionStatusMap) {
-        String keyOfMap = fs.courseId+"%"+fs.feedbackSessionName;
-        boolean hasSubmitted = sessionSubmissionStatusMap.get(keyOfMap).booleanValue();
+    private String getStudentFeedbackSessionActions(FeedbackSessionAttributes fs, int idx, boolean hasSubmitted) {
         
         String result = "<a class=\"btn btn-default btn-xs btn-tm-actions" + (fs.isPublished() ? "\"" : DISABLED) 
                 + "href=\"" + getStudentFeedbackResultsLink(fs.courseId, fs.feedbackSessionName)

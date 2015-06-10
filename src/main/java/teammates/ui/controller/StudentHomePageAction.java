@@ -28,6 +28,7 @@ public class StudentHomePageAction extends Action {
         
         List<CourseDetailsBundle> courses = new ArrayList<CourseDetailsBundle>();
         Map<String, Boolean> sessionSubmissionStatusMap = new HashMap<String, Boolean>();
+        
         try {
             courses = logic.getCourseDetailsListForStudent(account.googleId);
             sessionSubmissionStatusMap = generateFeedbackSessionSubmissionStatusMap(courses, account.googleId);
@@ -112,7 +113,8 @@ public class StudentHomePageAction extends Action {
         statusToUser.add(errorMessage);
     }
     
-    private void addPlaceholderCourse(List<CourseDetailsBundle> courses, String courseId, String googleId, Map<String, Boolean> sessionSubmissionStatusMap) {
+    private void addPlaceholderCourse(List<CourseDetailsBundle> courses, String courseId,
+            String googleId, Map<String, Boolean> sessionSubmissionStatusMap) {
         try {
             CourseDetailsBundle course = logic.getCourseDetails(courseId);
             courses.add(course);
@@ -126,10 +128,11 @@ public class StudentHomePageAction extends Action {
         } 
     } 
     
-    private void addPlaceholderFeedbackSessions(CourseDetailsBundle course, Map<String, Boolean> sessionSubmissionStatusMap) {
+    private void addPlaceholderFeedbackSessions(CourseDetailsBundle course,
+                                                Map<String, Boolean> sessionSubmissionStatusMap) {
         for (FeedbackSessionDetailsBundle fsb: course.feedbackSessions){
             FeedbackSessionAttributes f = fsb.feedbackSession;
-            sessionSubmissionStatusMap.put(f.courseId+"%"+f.feedbackSessionName, true);
+            sessionSubmissionStatusMap.put(f.courseId+"%" + f.feedbackSessionName, true);
         }
     }
 }
