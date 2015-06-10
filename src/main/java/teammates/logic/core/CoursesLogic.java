@@ -164,9 +164,11 @@ public class CoursesLogic {
                 Assumption.assertNotNull("Student should not be null at this point.", s);
             }
             
+            // Skip the course existence check since the course ID is obtained from a
+            // valid CourseAttributes resulting from query
             List<FeedbackSessionAttributes> feedbackSessionList = 
-                    feedbackSessionsLogic.getFeedbackSessionsForUserInCourse(c.id, s.email);
-            
+                    feedbackSessionsLogic.getFeedbackSessionsForUserInCourseSkipCheck(c.id, s.email);
+
             CourseDetailsBundle cdd = new CourseDetailsBundle(c);
             
             for (FeedbackSessionAttributes fs : feedbackSessionList) {
