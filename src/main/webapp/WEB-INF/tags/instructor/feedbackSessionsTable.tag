@@ -57,7 +57,7 @@
         
                 </c:forEach> 
             </c:when>
-            <c:when test="${empty fsList.existingFeedbackSessions}">    
+            <c:otherwise>    
                 <tr>
                     <td></td>
                     <td></td>
@@ -65,7 +65,7 @@
                     <td></td>
                     <td></td>
                 </tr>
-            </c:when>
+            </c:otherwise>
         </c:choose>
     </table>
     <p class="col-md-12 text-muted">Note: The table above doesn't contain sessions from archived courses. To view sessions from an archived course, unarchive the course first.</p>
