@@ -990,11 +990,7 @@ public class FeedbackSessionsLogic {
     public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa,
                                                        String userEmail)
                    throws EntityDoesNotExistException {
-        if (fsa == null) {
-            throw new EntityDoesNotExistException(
-                    "Trying to check a feedback session that does not exist.");
-        }
-        
+        Assumption.assertNotNull(fsa);
         if (fsa.respondingStudentList.contains(userEmail)) {
             return true;
         }
@@ -1011,8 +1007,11 @@ public class FeedbackSessionsLogic {
             String feedbackSessionName,
             String courseId, String userEmail)
             throws EntityDoesNotExistException {
-
         FeedbackSessionAttributes  fsa = this.getFeedbackSession(feedbackSessionName, courseId);
+        if (fsa == null) {
+            throw new EntityDoesNotExistException(
+                    "Trying to check a feedback session that does not exist.");
+        }
         return isFeedbackSessionCompletedByStudent(fsa, userEmail);
     }
 
