@@ -29,8 +29,8 @@ public class InstructorCoursesPageData extends PageData {
     }
     
     public void init(ArrayList<CourseDetailsBundle> allCourses, String courseIdToShowParam, String courseNameToShowParam){
-        archivedCourses = extractArchivedCourses(allCourses);
         activeCourses = extractActiveCourses(allCourses);
+        archivedCourses = extractArchivedCourses(allCourses);
         courseIdToShow = courseIdToShowParam;
         courseNameToShow = courseNameToShowParam;
     }
