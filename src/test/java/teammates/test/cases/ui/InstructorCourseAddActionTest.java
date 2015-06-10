@@ -54,7 +54,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         assertEquals(Const.StatusMessages.COURSE_INVALID_ID, pageResult.getStatusMessage());
         
         InstructorCoursesPageData pageData = (InstructorCoursesPageData) pageResult.data;
-        assertEquals(1, pageData.allCourses.size());
+        assertEquals(1, pageData.getActiveCourses().getSize() + pageData.getArchivedCourses().getSize());
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd|||true|||Instructor|||"
                                     + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
@@ -69,7 +69,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         pageResult = (ShowPageResult) addAction.executeAndPostProcess();
         
         pageData = (InstructorCoursesPageData) pageResult.data;
-        assertEquals(2, pageData.allCourses.size());
+        assertEquals(2, pageData.getActiveCourses().getSize() + pageData.getArchivedCourses().getSize());
         
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd|||true|||Instructor|||"
                              + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
@@ -95,7 +95,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         assertEquals(Const.StatusMessages.COURSE_EXISTS, pageResult.getStatusMessage());
         
         pageData = (InstructorCoursesPageData) pageResult.data;
-        assertEquals(2, pageData.allCourses.size());
+        assertEquals(2, pageData.getActiveCourses().getSize() + pageData.getArchivedCourses().getSize());
         
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd|||true|||Instructor|||"
                              + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
@@ -125,7 +125,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         assertEquals(expectedStatus, pageResult.getStatusMessage());
         
         pageData = (InstructorCoursesPageData) pageResult.data;
-        assertEquals(1, pageData.allCourses.size());
+        assertEquals(1, pageData.getActiveCourses().getSize() + pageData.getArchivedCourses().getSize());
         
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd|||true|||Instructor(M)|||"
                              + "Instructor 1 of Course 1|||idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
@@ -146,7 +146,7 @@ public class InstructorCourseAddActionTest extends BaseActionTest {
         pageResult = (ShowPageResult) addAction.executeAndPostProcess();
         
         pageData = (InstructorCoursesPageData) pageResult.data;
-        assertEquals(2, pageData.allCourses.size());
+        assertEquals(2, pageData.getActiveCourses().getSize() + pageData.getArchivedCourses().getSize());
         
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseAdd|||instructorCourseAdd|||true|||Instructor|||"
                              + "InstructorOfArchiveCourse name|||idOfInstructorOfArchivedCourse|||"

@@ -85,10 +85,10 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
         
         InstructorCoursesPageData pageData = (InstructorCoursesPageData)r.data;
         assertEquals(instructorId, pageData.account.googleId);
-        assertEquals(2, pageData.allCourses.size());
-        assertEquals(0, pageData.archivedCourses.size());
-        assertEquals("", pageData.courseIdToShow);
-        assertEquals("", pageData.courseNameToShow);
+        assertEquals(2, pageData.getActiveCourses().getSize());
+        assertEquals(0, pageData.getArchivedCourses().getSize());
+        assertEquals("", pageData.getCourseIdToShow());
+        assertEquals("", pageData.getCourseNameToShow());
         
         String expectedLogMessage = "TEAMMATESLOG|||instructorCoursesPage|||instructorCoursesPage" +
                 "|||true|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +
@@ -112,10 +112,10 @@ public class InstructorCoursesPageActionTest extends BaseActionTest {
         
         pageData = (InstructorCoursesPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
-        assertEquals(0, pageData.allCourses.size());
-        assertEquals(0, pageData.archivedCourses.size());
-        assertEquals("", pageData.courseIdToShow);
-        assertEquals("", pageData.courseNameToShow);
+        assertEquals(0, pageData.getArchivedCourses().getSize());
+        assertEquals(0, pageData.getActiveCourses().getSize());
+        assertEquals("", pageData.getCourseIdToShow());
+        assertEquals("", pageData.getCourseNameToShow());
         
         expectedLogMessage = "TEAMMATESLOG|||instructorCoursesPage|||instructorCoursesPage" +
                 "|||true|||Instructor(M)|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1" +

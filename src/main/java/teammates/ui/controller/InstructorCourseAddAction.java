@@ -1,20 +1,16 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
-import teammates.logic.api.Logic;
 
 /**
  * Action: adding a course for an instructor
@@ -34,32 +30,26 @@ public class InstructorCourseAddAction extends Action {
 
         /* Create a new course in the database */
         data = new InstructorCoursesPageData(account);
-        data.newCourse = new CourseAttributes(newCourseId, newCourseName);
-        createCourse(data.newCourse);
+        CourseAttributes newCourse = new CourseAttributes(newCourseId, newCourseName);
+        createCourse(newCourse);
 
         /* Prepare data for the refreshed page after executing the adding action */
-        data.allCourses = new ArrayList<CourseDetailsBundle>(logic.getCourseSummariesForInstructor(
+        ArrayList<CourseDetailsBundle> allCourses = new ArrayList<CourseDetailsBundle>(logic.getCourseSummariesForInstructor(
                                                                     data.account.googleId).values());
-        data.archivedCourses = extractArchivedCourses(data.allCourses);
-        CourseDetailsBundle.sortDetailedCoursesByCourseId(data.allCourses);
-        data.instructors = new HashMap<String, InstructorAttributes>();
+        String CourseIdToShowParam = "";
+        String CourseNameToShowParam = "";
         
-        for (CourseDetailsBundle courseDetails : data.allCourses) {
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseDetails.course.id, 
-                                                                             account.googleId);
-            data.instructors.put(courseDetails.course.id, instructor);
-        }
         if (isError) { // there is error in adding the course
-            data.courseIdToShow = data.newCourse.id;
-            data.courseNameToShow = data.newCourse.name;
+            CourseIdToShowParam = Sanitizer.sanitizeForHtml(newCourse.id);
+            CourseNameToShowParam = Sanitizer.sanitizeForHtml(newCourse.name);
             statusToAdmin = StringHelper.toString(statusToUser, "<br>");
         } else {
-            data.courseIdToShow = "";
-            data.courseNameToShow = "";
-            statusToAdmin = "Course added : " + data.newCourse.id;
-            statusToAdmin += "<br>Total courses: " + data.allCourses.size();
+            statusToAdmin = "Course added : " + newCourse.id;
+            statusToAdmin += "<br>Total courses: " + allCourses.size();
         }
-
+        
+        data.init(allCourses, CourseIdToShowParam, CourseNameToShowParam);
+        
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
     }
 
@@ -83,18 +73,4 @@ public class InstructorCourseAddAction extends Action {
         }
     }
 
-    private List<CourseAttributes> extractArchivedCourses(List<CourseDetailsBundle> courseBundles) {
-        ArrayList<CourseAttributes> archivedCourses = new ArrayList<CourseAttributes>();
-
-        for (CourseDetailsBundle courseBundle : courseBundles) {
-            CourseAttributes course = courseBundle.course;
-
-            InstructorAttributes curInstructor = logic.getInstructorForGoogleId(course.id, account.googleId);
-
-            if (Logic.isCourseArchived(course.id, curInstructor.googleId)) {
-                archivedCourses.add(course);
-            }
-        }
-        return archivedCourses;
-    }
 }
