@@ -69,6 +69,7 @@ public class CoursesDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
         List<Course> courses = getCourseEntities(courseIds);
         List<CourseAttributes> courseAttributes = new ArrayList<CourseAttributes>();
+        // TODO add method to get List<CourseAttributes> from List<Course>
         for (Course c: courses) {
             courseAttributes.add(new CourseAttributes(c));
         }

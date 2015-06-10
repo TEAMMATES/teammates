@@ -463,11 +463,11 @@ public class CoursesLogic {
             throw new EntityDoesNotExistException("Student with Google ID " + googleId + " does not exist");
         }
         
-        List<String> courses = new ArrayList<String>();
+        List<String> courseIds = new ArrayList<String>();
         for (StudentAttributes s : studentDataList) {
-            courses.add(s.course);
+            courseIds.add(s.course);
         }
-        List<CourseAttributes> courseList = coursesDb.getCourses(courses);
+        List<CourseAttributes> courseList = coursesDb.getCourses(courseIds);
         
         return courseList;
     }
