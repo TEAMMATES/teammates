@@ -45,7 +45,7 @@
                             name="<%= Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME %>"
                             id="modalCopiedSessionName"
                             maxlength=<%= FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH %>
-                            value="${newForm.defaultFeedbackSession.feedbackSessionName}"
+                            value="${newForm.fsName}"
                             placeholder="e.g. Feedback for Project Presentation 1">
                     </div>
                     <!-- Previous Session -->

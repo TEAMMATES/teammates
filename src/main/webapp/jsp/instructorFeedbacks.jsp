@@ -17,10 +17,12 @@
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Add New Feedback Session" jsIncludes="${jsIncludes}">
     
-    <c:if test="${ !data.usingAjax}">
+    <c:if test="${ !data.usingAjax }">
         <ti:feedbackSessionsNewForm newForm="${ data.newForm }"/>
     </c:if>
+    <br>
     <t:statusMessage />
+    <br>
     <div id="sessionList" class="align-center">
         <c:if test="${ data.usingAjax }"> 
             <ti:feedbackSessionsTable fsList = "${ data.fsList }" />

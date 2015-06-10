@@ -14,10 +14,11 @@ public class FeedbackSessionsNewForm {
     public String feedbackSessionType;
     // If this is provided, then the attributes of this feedback session is the default values 
     // in the form
-    public FeedbackSessionAttributes defaultFeedbackSession;
+    
     // List of course ids to populate the dropdown with
     public List<String> courses;
     
+    public String fsName;
     public String instructions;
     
 
@@ -45,8 +46,9 @@ public class FeedbackSessionsNewForm {
     public String responseVisibleDateCheckedAttribute;
     public String responseVisibleDateValue;
     
-    public FeedbackSessionAttributes getDefaultFeedbackSession() {
-        return defaultFeedbackSession;
+    
+    public String getFsName() {
+        return fsName;
     }
     
     public String getInstructions() {
@@ -159,7 +161,7 @@ public class FeedbackSessionsNewForm {
                                     List<String> courses) {
         this.courseIdForNewSession = courseIdForNewSession;
         this.feedbackSessionType = feedbackSessionType;
-        this.defaultFeedbackSession = newFeedbackSession;
+        this.fsName = newFeedbackSession == null ? "" : newFeedbackSession.feedbackSessionName;
         this.courses = courses;
     }
     
@@ -173,10 +175,6 @@ public class FeedbackSessionsNewForm {
     
     public String getFeedbackSessionType() {
         return feedbackSessionType;
-    }
-    
-    public FeedbackSessionAttributes getNewFeedbackSession() {
-        return defaultFeedbackSession;
     }
     
     public List<String> getCourses() {

@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -64,6 +63,7 @@ public class InstructorFeedbacksPageAction extends Action {
                              .replace("${user}", "?user=" + account.googleId));
         }
         
+        statusToAdmin = "Number of feedback sessions: " + existingFeedbackSessions.size();
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }

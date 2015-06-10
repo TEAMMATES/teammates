@@ -121,7 +121,7 @@
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>"
                                     maxlength=<%= FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH %>
                                     placeholder="e.g. Feedback for Project Presentation 1"
-                                    value="${newForm.defaultFeedbackSession.feedbackSessionName}">
+                                    value="${newForm.fsName}">
                             </div>
                         </div>
                     </div>
