@@ -8,7 +8,6 @@ public class StudentProfilePageData extends PageData {
 
     public String name;
     public String editPicture;
-    public StudentProfileAttributes profile;
     public String shortName;
     public String email;
     public String institute;
@@ -28,7 +27,6 @@ public class StudentProfilePageData extends PageData {
     }
     
     private void init(StudentProfileAttributes profile) {
-        this.profile = profile;
         this.shortName = convertToEmptyStringIfNull(profile.shortName);
         this.email = convertToEmptyStringIfNull(profile.email);
         this.institute = convertToEmptyStringIfNull(profile.institute);
@@ -47,10 +45,6 @@ public class StudentProfilePageData extends PageData {
 
     }
     
-    public StudentProfileAttributes getProfile() {
-        return profile;
-    }
-
     public String getShortName() {
         return shortName;
     }
@@ -89,6 +83,10 @@ public class StudentProfilePageData extends PageData {
     
     public String getName() {
         return name;
+    }
+    
+    public String getEditPicture() {
+        return editPicture;
     }
     
     private String convertToEmptyStringIfNull(String s) {
