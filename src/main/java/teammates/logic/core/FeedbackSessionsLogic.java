@@ -149,8 +149,10 @@ public class FeedbackSessionsLogic {
         List<FeedbackSessionAttributes> viewableSessions = new ArrayList<FeedbackSessionAttributes>();
         if (!sessions.isEmpty()) {
             InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
+            // Allow all instructors to view always
+            boolean isInstructorOfCourse = instructor != null;
             for (FeedbackSessionAttributes session : sessions) {
-                if (isFeedbackSessionViewableTo(session, userEmail, instructor)) {
+                if (isInstructorOfCourse || isFeedbackSessionViewableTo(session, userEmail)) {
                     viewableSessions.add(session);
                 }
             }
@@ -2362,22 +2364,16 @@ public class FeedbackSessionsLogic {
      */
     private boolean isFeedbackSessionViewableTo(
             FeedbackSessionAttributes session,
-            String userEmail,
-            InstructorAttributes instructorOfCourse) throws EntityDoesNotExistException {
+            String userEmail) throws EntityDoesNotExistException {
 
         if (session == null) {
             throw new EntityDoesNotExistException(
                     "Trying to get a feedback session that does not exist.");
         }
 
-        // Check for private type first.
+        // If the session is a private session created by the same user, it is viewable to the user
         if (session.feedbackSessionType == FeedbackSessionType.PRIVATE) {
             return session.creatorEmail.equals(userEmail);
-        }
-
-        // Allow all instructors to view always
-        if (instructorOfCourse != null) {
-            return true;
         }
 
         // Allow viewing if session is viewable to students
