@@ -236,26 +236,20 @@ public class InstructorFeedbacksPageData extends PageData {
         return newForm;
     }
 
-    public ArrayList<ElementTag> getTimeZoneOptionsAsHtml(FeedbackSessionAttributes fs){
+    private ArrayList<ElementTag> getTimeZoneOptionsAsHtml(FeedbackSessionAttributes fs){
         return getTimeZoneOptionsAsElementTags(fs == null ? 
                                                Const.DOUBLE_UNINITIALIZED : 
                                                fs.timeZone);
     }
 
-
-    public ArrayList<String> getGracePeriodOptionsAsHtml(FeedbackSessionAttributes fs){
-        return getGracePeriodOptionsAsHtml(fs == null ? 
-                                           Const.INT_UNINITIALIZED : 
-                                           fs.gracePeriod);
-    }
     
-    public ArrayList<ElementTag> getGracePeriodOptionsAsElementTags(FeedbackSessionAttributes fs) {
+    private ArrayList<ElementTag> getGracePeriodOptionsAsElementTags(FeedbackSessionAttributes fs) {
         return getGracePeriodOptionsAsElementTags(fs == null ? 
                                                   Const.INT_UNINITIALIZED : 
                                                   fs.gracePeriod);
     }
     
-    public ArrayList<ElementTag> getFeedbackSessionTypeOptions(String defaultSessionType) {
+    private ArrayList<ElementTag> getFeedbackSessionTypeOptions(String defaultSessionType) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
         
         ElementTag standardFeedbackSession = createOption("Session with your own questions", 
@@ -271,7 +265,7 @@ public class InstructorFeedbacksPageData extends PageData {
         return result;
     }
 
-    public ArrayList<ElementTag> getCourseIdOptions(List<CourseAttributes> courses, String  courseIdForNewSession,
+    private ArrayList<ElementTag> getCourseIdOptions(List<CourseAttributes> courses, String  courseIdForNewSession,
                                                 HashMap<String, InstructorAttributes> instructors,
                                                 FeedbackSessionAttributes newFeedbackSession) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();

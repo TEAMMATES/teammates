@@ -9,12 +9,17 @@ public class FeedbackSessionsNewForm {
     // for highlighting the recently modified session
     private String feedbackSessionNameForSessionList;
     
+    // List of options for feedback session type
     private List<ElementTag> feedbackSessionTypeOptions;
 
     // List of course ids to populate the dropdown with
     private List<String> courses;
+    private String courseFieldClasses = "form-control";
     
+    private String formClasses = "form-group";
+    // Default feedback session name in the new session form
     private String fsName;
+    // Default instructions for the form
     private String instructions;
     
     private String fsStartDate;
@@ -34,8 +39,6 @@ public class FeedbackSessionsNewForm {
     private List<ElementTag> timezoneSelectField;
     
     
-    private String formClasses = "form-group";
-    private String courseFieldClasses = "form-control";
     private String sessionVisibleAtOpenCheckedAttribute;
     private String sessionVisiblePrivateCheckedAttribute;
     private String responseVisibleDateCheckedAttribute;
