@@ -17,6 +17,7 @@ public class StudentProfilePageData extends PageData {
     public String moreInfo;
     public String googleId;
     public String pictureUrl;
+    public String pictureKey;
     
     public StudentProfilePageData(AccountAttributes account, String editPicture) {
         super(account);
@@ -34,12 +35,13 @@ public class StudentProfilePageData extends PageData {
         this.nationality = convertToEmptyStringIfNull(profile.nationality);
         this.gender = profile.gender;
         this.moreInfo = convertToEmptyStringIfNull(profile.moreInfo);
-        if (profile.pictureKey == "") {
+        this.pictureKey = profile.pictureKey;
+        if (pictureKey == "") {
             this.pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
         } else {
             this.pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE +
                                             "?" + Const.ParamsNames.BLOB_KEY + "="
-                                            + profile.pictureKey +
+                                            + pictureKey +
                                             "&" + Const.ParamsNames.USER_ID + "=" + googleId;
         }
 
@@ -79,6 +81,10 @@ public class StudentProfilePageData extends PageData {
     
     public String getPictureUrl() {
         return pictureUrl;
+    }
+    
+    public String getPictureKey() {
+        return pictureKey;
     }
     
     public String getName() {
