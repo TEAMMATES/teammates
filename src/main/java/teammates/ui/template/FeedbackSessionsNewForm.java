@@ -2,8 +2,6 @@ package teammates.ui.template;
 
 import java.util.List;
 
-import teammates.common.datatransfer.FeedbackSessionAttributes;
-
 public class FeedbackSessionsNewForm {
 
     // default course id value
@@ -54,11 +52,18 @@ public class FeedbackSessionsNewForm {
     
     
     
-    public FeedbackSessionsNewForm(String courseIdForNewSession,
-                                   FeedbackSessionAttributes newFeedbackSession,
-                                   List<String> courses) {
+    public FeedbackSessionsNewForm() {
+    }
+    
+    public void setCourseIdForNewSession(String courseIdForNewSession) {
         this.courseIdForNewSession = courseIdForNewSession;
-        this.fsName = newFeedbackSession == null ? "" : newFeedbackSession.feedbackSessionName;
+    }
+    
+    public void setFsName(String fsName) {
+        this.fsName = fsName;
+    }
+    
+    public void setCourses(List<String> courses) {
         this.courses = courses;
     }
     

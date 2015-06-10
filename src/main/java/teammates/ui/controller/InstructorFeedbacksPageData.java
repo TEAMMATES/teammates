@@ -87,7 +87,11 @@ public class InstructorFeedbacksPageData extends PageData {
             courseIds.add(course.id);
         }
         
-        newForm = new FeedbackSessionsNewForm(courseIdForNewSession, newFeedbackSession, courseIds);
+        newForm = new FeedbackSessionsNewForm();
+        
+        newForm.setCourseIdForNewSession(courseIdForNewSession);
+        newForm.setFsName(newFeedbackSession == null ? "" : newFeedbackSession.feedbackSessionName);
+        newForm.setCourses(courseIds);
         
         if (courses.isEmpty()) {
             newForm.setFormClasses("form-group has-error");

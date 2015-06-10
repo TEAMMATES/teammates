@@ -58,13 +58,13 @@
                 </c:forEach> 
             </c:when>
             <c:when test="${empty fsList.existingFeedbackSessions}">    
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
             </c:when>
         </c:choose>
     </table>
