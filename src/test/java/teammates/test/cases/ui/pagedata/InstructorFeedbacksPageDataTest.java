@@ -1,4 +1,4 @@
-package teammates.test.cases.ui.datatests;
+package teammates.test.cases.ui.pagedata;
 
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
