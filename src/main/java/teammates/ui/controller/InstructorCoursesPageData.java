@@ -29,11 +29,11 @@ public class InstructorCoursesPageData extends PageData {
         super(account);
     }
     
-    public void init(ArrayList<CourseDetailsBundle> allCourses){
+    public void init(List<CourseDetailsBundle> allCourses){
         init(allCourses, "", ""); 
     }
     
-    public void init(ArrayList<CourseDetailsBundle> allCourses, String courseIdToShowParam, String courseNameToShowParam){
+    public void init(List<CourseDetailsBundle> allCourses, String courseIdToShowParam, String courseNameToShowParam){
         activeCourses = extractActiveCourses(allCourses);
         archivedCourses = extractArchivedCourses(allCourses);
         courseIdToShow = courseIdToShowParam;
