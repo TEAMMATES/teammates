@@ -16,11 +16,12 @@ public class FeedbackSessionsNewForm {
 
     // List of course ids to populate the dropdown with
     private List<String> courses;
-    private String courseFieldClasses = "form-control";
     
-    private String formClasses = "form-group";
+    private boolean isCourseOptionsEmpty;
+    
     // Default feedback session name in the new session form
     private String fsName;
+
     // Default instructions for the form
     private String instructions;
     
@@ -89,14 +90,6 @@ public class FeedbackSessionsNewForm {
         this.feedbackSessionTypeOptions = feedbackSessionTypeOptions;
     }
 
-    public void setFormClasses(String formClasses) {
-        this.formClasses = formClasses;
-    }
-
-    public void setCourseFieldClasses(String courseFieldClasses) {
-        this.courseFieldClasses = courseFieldClasses;
-    }
-
     public void setCoursesSelectField(List<ElementTag> coursesSelectField) {
         this.coursesSelectField = coursesSelectField;
     }
@@ -161,6 +154,14 @@ public class FeedbackSessionsNewForm {
         this.responseVisibleDateValue = responseVisibleDateValue;
     }
     
+    public boolean isCourseOptionsEmpty() {
+        return isCourseOptionsEmpty;
+    }
+
+    public void setCourseOptionsEmpty(boolean isCourseOptionsEmpty) {
+        this.isCourseOptionsEmpty = isCourseOptionsEmpty;
+    }
+    
     public String getFsName() {
         return fsName;
     }
@@ -211,14 +212,6 @@ public class FeedbackSessionsNewForm {
 
     public List<ElementTag> getTimezoneSelectField() {
         return timezoneSelectField;
-    }
-
-    public String getFormClasses() {
-        return formClasses;
-    }
-
-    public String getCourseFieldClasses() {
-        return courseFieldClasses;
     }
 
     public boolean isSessionVisibleAtOpenChecked() {

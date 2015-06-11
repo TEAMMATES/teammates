@@ -119,12 +119,12 @@ public class InstructorFeedbacksPageData extends PageData {
                                                                              instructors, newFeedbackSession));
     }
 
-    private void buildFsList(String courseIdForNewSession,
-                                    List<FeedbackSessionAttributes> existingFeedbackSessions,
-                                    HashMap<String, InstructorAttributes> instructors,
-                                    String feedbackSessionNameForSessionList) {
-        List<FeedbackSessionRow> existingFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(existingFeedbackSessions,
-                                        instructors, feedbackSessionNameForSessionList, courseIdForNewSession);
+    private void buildFsList(String courseIdForNewSession, List<FeedbackSessionAttributes> existingFeedbackSessions,
+                             HashMap<String, InstructorAttributes> instructors, String feedbackSessionNameForSessionList) {
+        
+        List<FeedbackSessionRow> existingFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(
+                                                                   existingFeedbackSessions, instructors, 
+                                                                   feedbackSessionNameForSessionList, courseIdForNewSession);
         fsList = new FeedbackSessionsList(existingFeedbackSessionsRow);
     }
 
@@ -132,22 +132,20 @@ public class InstructorFeedbacksPageData extends PageData {
                                     HashMap<String, InstructorAttributes> instructors,
                                     FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
                                     String feedbackSessionNameForSessionList) {
+        newForm = new FeedbackSessionsNewForm();
         
         List<String> courseIds = new ArrayList<String>();
         for (CourseAttributes course : courses) {
             courseIds.add(course.id);
         }
         
-        newForm = new FeedbackSessionsNewForm();
-        
         newForm.setCourseIdForNewSession(courseIdForNewSession);
+        
         newForm.setFsName(newFeedbackSession == null ? "" : newFeedbackSession.feedbackSessionName);
+        
         newForm.setCourses(courseIds);
         
-        if (courses.isEmpty()) {
-            newForm.setFormClasses("form-group has-error");
-            newForm.setCourseFieldClasses("form-control text-color-red");
-        }
+        newForm.setCourseOptionsEmpty(courses.isEmpty());
         
         newForm.setFeedbackSessionTypeOptions(getFeedbackSessionTypeOptions(feedbackSessionType));
         
@@ -158,74 +156,81 @@ public class InstructorFeedbacksPageData extends PageData {
         
         
         newForm.setInstructions(newFeedbackSession == null ?
-                               "Please answer all the given questions." :
-                               InstructorFeedbacksPageData.sanitizeForHtml(newFeedbackSession.instructions.getValue()));
+                                "Please answer all the given questions." :
+                                InstructorFeedbacksPageData.sanitizeForHtml(newFeedbackSession.instructions.getValue()));
         
         newForm.setFsStartDate(newFeedbackSession == null ?
-                              TimeHelper.formatDate(TimeHelper.getNextHour()) :
-                              TimeHelper.formatDate(newFeedbackSession.startTime));
+                               TimeHelper.formatDate(TimeHelper.getNextHour()) :
+                               TimeHelper.formatDate(newFeedbackSession.startTime));
         
         Date date;
         date = newFeedbackSession == null ? null : newFeedbackSession.startTime;
         newForm.setFsStartTimeOptions(getTimeOptionsAsElementTags(date));
         
         newForm.setFsEndDate(newFeedbackSession == null ?
-                            "" : 
-                            TimeHelper.formatDate(newFeedbackSession.endTime));
-        date = newFeedbackSession == null ?
-               null : newFeedbackSession.endTime;
+                             "" : 
+                             TimeHelper.formatDate(newFeedbackSession.endTime));
+        
+        
+        date = newFeedbackSession == null ? null : newFeedbackSession.endTime;
         newForm.setFsEndTimeOptions(getTimeOptionsAsElementTags(date));
         
         newForm.setGracePeriodOptions(getGracePeriodOptionsAsElementTags(newFeedbackSession));
+        
         
         boolean hasSessionVisibleDate = newFeedbackSession != null &&
                                         !TimeHelper.isSpecialTime(newFeedbackSession.sessionVisibleFromTime);
         newForm.setSessionVisibleDateButtonChecked(hasSessionVisibleDate);
         newForm.setSessionVisibleDateValue(hasSessionVisibleDate ? 
-                                   TimeHelper.formatDate(newFeedbackSession.sessionVisibleFromTime) :
-                                   "");
+                                           TimeHelper.formatDate(newFeedbackSession.sessionVisibleFromTime) :
+                                           "");
         newForm.setSessionVisibleDateDisabled(!hasSessionVisibleDate);
         
-        
         date = hasSessionVisibleDate ? newFeedbackSession.sessionVisibleFromTime : null;   
-        
         newForm.setSessionVisibleTimeOptions(getTimeOptionsAsElementTags(date));
         
         newForm.setSessionVisibleAtOpenChecked(newFeedbackSession == null 
-                                                        || Const.TIME_REPRESENTS_FOLLOW_OPENING
-                                                        .equals(newFeedbackSession.sessionVisibleFromTime));
+                                                || Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(
+                                                           newFeedbackSession.sessionVisibleFromTime));
         
         newForm.setSessionVisiblePrivateChecked(newFeedbackSession != null 
-                                                 && Const.TIME_REPRESENTS_NEVER
-                                                 .equals(newFeedbackSession.sessionVisibleFromTime));
+                                                 && Const.TIME_REPRESENTS_NEVER.equals(
+                                                           newFeedbackSession.sessionVisibleFromTime));
                         
-        boolean hasResultVisibleDate = newFeedbackSession != null &&
-                                       !TimeHelper.isSpecialTime(newFeedbackSession.resultsVisibleFromTime);
+        boolean hasResultVisibleDate = newFeedbackSession != null 
+                                       && !TimeHelper.isSpecialTime(newFeedbackSession.resultsVisibleFromTime);
+        
         newForm.setResponseVisibleDateChecked(hasResultVisibleDate);
-        newForm.setResponseVisibleDateValue(hasResultVisibleDate ?
-                                        TimeHelper.formatDate(newFeedbackSession.resultsVisibleFromTime) : "");
+        
+        newForm.setResponseVisibleDateValue(hasResultVisibleDate ? 
+                                            TimeHelper.formatDate(newFeedbackSession.resultsVisibleFromTime) :
+                                            "");
+        
         newForm.setResponseVisibleDisabled(!hasResultVisibleDate);
         
         date = hasResultVisibleDate ? newFeedbackSession.resultsVisibleFromTime :  null;
+        
         newForm.setResponseVisibleTimeOptions(getTimeOptionsAsElementTags(date));
         
         newForm.setResponseVisibleImmediatelyChecked((newFeedbackSession != null 
-           && Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(newFeedbackSession.resultsVisibleFromTime)));
-        newForm.setResponseVisiblePublishManuallyChecked((newFeedbackSession == null 
-           || Const.TIME_REPRESENTS_LATER.equals(newFeedbackSession.resultsVisibleFromTime) 
-           || Const.TIME_REPRESENTS_NOW.equals(newFeedbackSession.resultsVisibleFromTime)));
+                                                          && Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(newFeedbackSession.resultsVisibleFromTime)));
         
-        newForm.setResponseVisibleNeverChecked((newFeedbackSession != null 
-                                                 && Const.TIME_REPRESENTS_NEVER
-                                                    .equals(newFeedbackSession.resultsVisibleFromTime)));
+        newForm.setResponseVisiblePublishManuallyChecked(
+                                 (newFeedbackSession == null 
+                                  || Const.TIME_REPRESENTS_LATER.equals(newFeedbackSession.resultsVisibleFromTime) 
+                                  || Const.TIME_REPRESENTS_NOW.equals(newFeedbackSession.resultsVisibleFromTime)));
+        
+        newForm.setResponseVisibleNeverChecked((newFeedbackSession != null  
+                                                    && Const.TIME_REPRESENTS_NEVER.equals(newFeedbackSession.resultsVisibleFromTime)));
                                 
         newForm.setSubmitButtonDisabled(courses.isEmpty());
-   
     }
     
     
-    private List<FeedbackSessionRow> convertFeedbackSessionAttributesToSessionRows(List<FeedbackSessionAttributes> sessions, 
-                                    HashMap<String, InstructorAttributes> instructors, String feedbackSessionNameForSessionList, String courseIdForNewSession) {
+    private List<FeedbackSessionRow> convertFeedbackSessionAttributesToSessionRows(
+                                    List<FeedbackSessionAttributes> sessions, 
+                                    HashMap<String, InstructorAttributes> instructors, 
+                                    String feedbackSessionNameForSessionList, String courseIdForNewSession) {
 
         
         List<FeedbackSessionRow> rows = new ArrayList<FeedbackSessionRow>();
@@ -293,6 +298,11 @@ public class InstructorFeedbacksPageData extends PageData {
                                                   fs.gracePeriod);
     }
     
+    /**
+     * Creates a list of options (STANDARD and TEAMEVALUATION). If defaultSessionType is null,
+     *     TEAMEVALUATION is selected by default.
+     * @param defaultSessionType  either STANDARD or TEAMEVALUATION, the option that is selected on page load
+     */
     private ArrayList<ElementTag> getFeedbackSessionTypeOptions(String defaultSessionType) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
         
