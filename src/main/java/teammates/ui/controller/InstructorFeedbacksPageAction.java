@@ -55,7 +55,7 @@ public class InstructorFeedbacksPageAction extends Action {
         }
         
 
-        data.initWithoutDefaultValues(courses, courseIdForNewSession, existingFeedbackSessions,
+        data.initWithoutDefaultFormValues(courses, courseIdForNewSession, existingFeedbackSessions,
                   instructors, feedbackSessionToHighlight);
         
         if (courses.isEmpty()) {

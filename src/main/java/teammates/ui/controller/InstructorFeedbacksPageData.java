@@ -82,7 +82,7 @@ public class InstructorFeedbacksPageData extends PageData {
         init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, defaultFormValues, feedbackSessionType, null);
     }
     
-    public void initWithoutDefaultValues(List<CourseAttributes> courses, String courseIdForNewSession, 
+    public void initWithoutDefaultFormValues(List<CourseAttributes> courses, String courseIdForNewSession, 
                                     List<FeedbackSessionAttributes> existingFeedbackSessions,
                                     HashMap<String, InstructorAttributes> instructors,
                                     String highlightedFeedbackSession) {
