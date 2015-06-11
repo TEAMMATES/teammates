@@ -11,7 +11,7 @@
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Add New Course" jsIncludes="${jsIncludes}">
     <course:addCoursePanel courseIdToShow="${data.courseIdToShow}" courseNameToShow="${data.courseNameToShow}" googleId="${data.account.googleId}"/>
     <br>
-    <course:statusMessage/>
+    <t:statusMessage/>
     <br>
     
     <course:activeCoursesTable />
