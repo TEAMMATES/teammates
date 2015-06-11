@@ -37,7 +37,7 @@ public class InstructorCoursesPageAction extends Action {
                 logic.getCourseSummariesForInstructor(account.googleId).values());
         
         InstructorCoursesPageData data = new InstructorCoursesPageData(account);
-        data.init(allCourses, "", "");
+        data.init(allCourses);
         
         /* Explanation: Set any status messages that should be shown to the user.*/
         if (allCourses.size() == 0 ){
