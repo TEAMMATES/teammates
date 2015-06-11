@@ -38,12 +38,9 @@
 
     <!-- Main Body -->
     
-    <div class = "container" id="frameBodyWrapper">   
+    <div class="container" id="frameBodyWrapper">  
         <div id="topOfPage"></div>
-        
-        <div id="headerOperation">
-            <h1>Team Details for <%=data.courseDetails.course.id%></h1>
-        </div>
+        <h1>Team Details for <%=data.courseDetails.course.id%></h1>
         <br>
         
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
