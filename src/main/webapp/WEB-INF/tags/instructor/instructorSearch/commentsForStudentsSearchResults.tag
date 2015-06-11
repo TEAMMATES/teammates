@@ -1,6 +1,7 @@
 <%@ tag description="instructorSearch.jsp - Search comments for students" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<br>
 <div class="panel panel-primary">
     <div class="panel-heading">
         <strong><jsp:doBody></jsp:doBody></strong>

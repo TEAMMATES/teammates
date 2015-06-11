@@ -16,21 +16,21 @@
     <t:statusMessage />
     
     <c:if test="${data.commentSearchResultBundle.resultSize != 0}">
-        <search:instructorSearchCommentsForStudents>
+        <search:commentsForStudentsSearchResults>
             Comments for students
-        </search:instructorSearchCommentsForStudents>
+        </search:commentsForStudentsSearchResults>
     </c:if>
     
     <c:if test="${data.feedbackResponseCommentSearchResultBundle.resultSize != 0}">
-        <search:instructorSearchCommentsForResponses>
+        <search:commentsForResponsesSearchResults>
             Comments for responses
-        </search:instructorSearchCommentsForResponses>
+        </search:commentsForResponsesSearchResults>
     </c:if>
     
     <c:if test="${data.studentSearchResultBundle.resultSize != 0}">
-        <search:instructorSearchStudents>
+        <search:studentsSearchResults>
             Students
-        </search:instructorSearchStudents>
+        </search:studentsSearchResults>
     </c:if>
     
 </ti:instructorPage>

@@ -1,4 +1,4 @@
-<%@ tag description="instructorSearchStudents.tag - Display search students table for a course" %>
+<%@ tag description="studentsSearchResults.tag - Display search students table for a course" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/instructorSearch" prefix="search" %>
 <%@ attribute name="studentTable" type="teammates.ui.template.SearchStudentsTable" required="true" %>
