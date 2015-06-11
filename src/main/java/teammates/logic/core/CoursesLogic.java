@@ -719,4 +719,19 @@ public class CoursesLogic {
         boolean isCourseArchived = (instructor.isArchived != null) ? instructor.isArchived : course.isArchived;
         return isCourseArchived;
     }
+    
+    public void extractActiveAndArchivedCourses(List<CourseDetailsBundle> courseBundles, 
+                                                List<CourseDetailsBundle> activeCoursesResult,
+                                                List<CourseDetailsBundle> archivedCoursesResult, String googleId) {
+        CourseDetailsBundle.sortDetailedCoursesByCourseId(courseBundles);
+        
+        for (CourseDetailsBundle courseBundle : courseBundles) {
+            if (isCourseArchived(courseBundle.course.id, googleId)) {
+                archivedCoursesResult.add(courseBundle);
+            } else {
+                activeCoursesResult.add(courseBundle);
+            }
+        }
+    }
+    
 }

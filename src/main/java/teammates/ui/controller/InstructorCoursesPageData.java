@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -9,7 +10,6 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
-import teammates.logic.api.Logic;
 import teammates.ui.template.ActiveCoursesTable;
 import teammates.ui.template.ActiveCoursesTableRow;
 import teammates.ui.template.ArchivedCoursesTable;
@@ -24,18 +24,22 @@ public class InstructorCoursesPageData extends PageData {
     private ActiveCoursesTable activeCourses;
     private String courseIdToShow;
     private String courseNameToShow;
+    private HashMap<String, InstructorAttributes> instructorsForCourses;
     
     public InstructorCoursesPageData(AccountAttributes account) {
         super(account);
     }
     
-    public void init(List<CourseDetailsBundle> allCourses){
-        init(allCourses, "", ""); 
+    public void init(List<CourseDetailsBundle> activeCoursesParam, List<CourseDetailsBundle> archivedCoursesParam,
+                     HashMap<String, InstructorAttributes> instructorsForCoursesParam){
+        init(activeCoursesParam, archivedCoursesParam, instructorsForCoursesParam, "", ""); 
     }
     
-    public void init(List<CourseDetailsBundle> allCourses, String courseIdToShowParam, String courseNameToShowParam){
-        activeCourses = extractActiveCourses(allCourses);
-        archivedCourses = extractArchivedCourses(allCourses);
+    public void init(List<CourseDetailsBundle> activeCoursesParam, List<CourseDetailsBundle> archivedCoursesParam, 
+                     HashMap<String, InstructorAttributes> instructorsForCoursesParam, String courseIdToShowParam, String courseNameToShowParam){
+        instructorsForCourses = instructorsForCoursesParam;
+        activeCourses = convertToActiveCoursesTable(activeCoursesParam);
+        archivedCourses = convertToArchivedCoursesTable(archivedCoursesParam);
         courseIdToShow = courseIdToShowParam;
         courseNameToShow = courseNameToShowParam;
     }
@@ -56,137 +60,120 @@ public class InstructorCoursesPageData extends PageData {
         return archivedCourses;
     }
     
-    private ArchivedCoursesTable extractArchivedCourses(List<CourseDetailsBundle> courseBundles) {
+    private ArchivedCoursesTable convertToArchivedCoursesTable(List<CourseDetailsBundle> archivedCourseBundles) {
         ArchivedCoursesTable archivedCourses = new ArchivedCoursesTable();
-        Logic logic = new Logic();
-
-        CourseDetailsBundle.sortDetailedCoursesByCourseId(courseBundles);
         
         int idx = this.activeCourses.getRows().size() - 1;
         
-        for (CourseDetailsBundle courseBundle : courseBundles) {
+        for (CourseDetailsBundle courseBundle : archivedCourseBundles) {
             CourseAttributes course = courseBundle.course;
 
-            InstructorAttributes curInstructor = logic.getInstructorForGoogleId(course.id, account.googleId);
-
-            if (Logic.isCourseArchived(course.id, curInstructor.googleId)) {
-                idx++;
-                
-                List<ElementTag> actionsParam = new ArrayList<ElementTag>();
-                
-                ElementTag unarchivedButton = new ElementTag();               
-                unarchivedButton.setContent("Unarchive");
-                unarchivedButton.setAttribute("class", "btn btn-default btn-xs");
-                unarchivedButton.setAttribute("id", "t_course_unarchive" + idx);
-                unarchivedButton.setAttribute("href", getInstructorCourseArchiveLink(course.id, false, false));
-                
-                ElementTag deleteButton = new ElementTag();               
-                deleteButton.setContent("Delete");
-                deleteButton.setAttribute("class", "btn btn-default btn-xs");
-                deleteButton.setAttribute("id", "t_course_delete" + idx);
-                deleteButton.setAttribute("onclick", "return toggleDeleteCourseConfirmation('" + course.id + "');");
-                deleteButton.setAttribute("href", getInstructorCourseDeleteLink(course.id, false));
-                deleteButton.setAttribute("data-toggle", "tooltip");
-                deleteButton.setAttribute("data-placement", "top");
-                deleteButton.setAttribute("title", Const.Tooltips.COURSE_DELETE);
-                if (!curInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {
-                    deleteButton.setAttribute("disabled", "disabled");
-                }
-                
-                actionsParam.add(unarchivedButton);
-                actionsParam.add(deleteButton);
-                
-                ArchivedCoursesTableRow row = new ArchivedCoursesTableRow(Sanitizer.sanitizeForHtml(course.id), 
-                                                                          Sanitizer.sanitizeForHtml(course.name), actionsParam);
-                archivedCourses.getRows().add(row);
-            }
+            idx++;
+            
+            List<ElementTag> actionsParam = new ArrayList<ElementTag>();
+            
+            ElementTag unarchivedButton = createButton("Unarchive", "btn btn-default btn-xs", "t_course_unarchive" + idx,
+                                                       getInstructorCourseArchiveLink(course.id, false, false), "", "", false);
+            
+            ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs", "t_course_delete" + idx,
+                                                   getInstructorCourseDeleteLink(course.id, false), Const.Tooltips.COURSE_DELETE,
+                                                   "return toggleDeleteCourseConfirmation('" + course.id + "');",
+                                                   !instructorsForCourses.get(course.id).isAllowedForPrivilege(
+                                                                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+            
+            actionsParam.add(unarchivedButton);
+            actionsParam.add(deleteButton);
+            
+            ArchivedCoursesTableRow row = new ArchivedCoursesTableRow(Sanitizer.sanitizeForHtml(course.id), 
+                                                                      Sanitizer.sanitizeForHtml(course.name), actionsParam);
+            archivedCourses.getRows().add(row);
+            
         }
         
         return archivedCourses;
     }
     
-    private ActiveCoursesTable extractActiveCourses(List<CourseDetailsBundle> courseBundles) {
+    private ActiveCoursesTable convertToActiveCoursesTable(List<CourseDetailsBundle> courseBundles) {
         ActiveCoursesTable activeCourses = new ActiveCoursesTable();
-        Logic logic = new Logic();
-        
-        CourseDetailsBundle.sortDetailedCoursesByCourseId(courseBundles);
         
         int idx = -1;
+        
         for (CourseDetailsBundle courseBundle : courseBundles) {
             CourseAttributes course = courseBundle.course;
 
-            InstructorAttributes curInstructor = logic.getInstructorForGoogleId(course.id, account.googleId);
-
-            if (!Logic.isCourseArchived(course.id, curInstructor.googleId)) {
-                idx++;
-                
-                List<ElementTag> actionsParam = new ArrayList<ElementTag>();
-                
-                ElementTag enrollButton = new ElementTag();
-                enrollButton.setContent("Enroll");
-                enrollButton.setAttribute("class", "btn btn-default btn-xs t_course_enroll" + idx);
-                enrollButton.setAttribute("href", getInstructorCourseEnrollLink(courseBundle.course.id));
-                enrollButton.setAttribute("data-toggle", "tooltip");
-                enrollButton.setAttribute("data-placement", "top");
-                enrollButton.setAttribute("title", Const.Tooltips.COURSE_ENROLL);
-                if (!curInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {
-                    enrollButton.setAttribute("disabled", "disabled");
-                }
-                
-                ElementTag viewButton = new ElementTag();
-                viewButton.setContent("View");
-                viewButton.setAttribute("class", "btn btn-default btn-xs t_course_view" + idx);
-                viewButton.setAttribute("href", getInstructorCourseDetailsLink(courseBundle.course.id));
-                viewButton.setAttribute("data-toggle", "tooltip");
-                viewButton.setAttribute("data-placement", "top");
-                viewButton.setAttribute("title", Const.Tooltips.COURSE_DETAILS);
-                
-                ElementTag editButton = new ElementTag();
-                editButton.setContent("Edit");
-                editButton.setAttribute("class", "btn btn-default btn-xs t_course_edit" + idx);
-                editButton.setAttribute("href", getInstructorCourseEditLink(courseBundle.course.id));
-                editButton.setAttribute("data-toggle", "tooltip");
-                editButton.setAttribute("data-placement", "top");
-                editButton.setAttribute("title", Const.Tooltips.COURSE_EDIT);
-                
-                ElementTag archiveButton = new ElementTag();
-                archiveButton.setContent("Archive");
-                archiveButton.setAttribute("class", "btn btn-default btn-xs t_course_archive" + idx);
-                archiveButton.setAttribute("href", getInstructorCourseArchiveLink(courseBundle.course.id, true, false));
-                archiveButton.setAttribute("data-toggle", "tooltip");
-                archiveButton.setAttribute("data-placement", "top");
-                archiveButton.setAttribute("title", Const.Tooltips.COURSE_ARCHIVE);
-                
-                ElementTag deleteButton = new ElementTag();
-                deleteButton.setContent("Delete");
-                deleteButton.setAttribute("class", "btn btn-default btn-xs t_course_delete" + idx);
-                deleteButton.setAttribute("onclick", "return toggleDeleteCourseConfirmation('" + courseBundle.course.id + "');");
-                deleteButton.setAttribute("data-toggle", "tooltip");
-                deleteButton.setAttribute("data-placement", "top");
-                deleteButton.setAttribute("href", getInstructorCourseDeleteLink(courseBundle.course.id, false));
-                deleteButton.setAttribute("title", Const.Tooltips.COURSE_DELETE);
-                if (!(curInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE))) {
-                    deleteButton.setAttribute("disabled", "disabled");
-                }
-                
-                actionsParam.add(enrollButton);
-                actionsParam.add(viewButton);
-                actionsParam.add(editButton);
-                actionsParam.add(archiveButton);
-                actionsParam.add(deleteButton);
-                
-                ActiveCoursesTableRow row = new ActiveCoursesTableRow(Sanitizer.sanitizeForHtml(course.id), 
-                                                                      Sanitizer.sanitizeForHtml(course.name), 
-                                                                      courseBundle.stats.sectionsTotal,
-                                                                      courseBundle.stats.teamsTotal, 
-                                                                      courseBundle.stats.studentsTotal, 
-                                                                      courseBundle.stats.unregisteredTotal, 
-                                                                      actionsParam);
-                activeCourses.getRows().add(row);
-            }
+            idx++;
+            
+            List<ElementTag> actionsParam = new ArrayList<ElementTag>();
+            
+            ElementTag enrollButton = createButton("Enroll", "btn btn-default btn-xs t_course_enroll" + idx, "",
+                                                   getInstructorCourseEnrollLink(courseBundle.course.id),
+                                                   Const.Tooltips.COURSE_ENROLL, "", 
+                                                   !instructorsForCourses.get(course.id).isAllowedForPrivilege(
+                                                                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
+            
+            ElementTag viewButton = createButton("View", "btn btn-default btn-xs t_course_view" + idx, "",
+                                                 getInstructorCourseDetailsLink(courseBundle.course.id), 
+                                                 Const.Tooltips.COURSE_DETAILS, "", false);
+            
+            ElementTag editButton = createButton("Edit", "btn btn-default btn-xs t_course_edit" + idx, "",
+                                                 getInstructorCourseEditLink(courseBundle.course.id), 
+                                                 Const.Tooltips.COURSE_EDIT, "", false);
+            
+            ElementTag archiveButton = createButton("Archive", "btn btn-default btn-xs t_course_archive" + idx, "",
+                                                    getInstructorCourseArchiveLink(courseBundle.course.id, true, false),
+                                                    Const.Tooltips.COURSE_ARCHIVE, "", false);
+            
+            ElementTag deleteButton = createButton("Delete", "btn btn-default btn-xs t_course_delete" + idx, "",
+                                                   getInstructorCourseDeleteLink(courseBundle.course.id, false),
+                                                   Const.Tooltips.COURSE_DELETE, "return toggleDeleteCourseConfirmation('" + courseBundle.course.id + "');",
+                                                   !(instructorsForCourses.get(course.id).isAllowedForPrivilege(
+                                                                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)));
+            
+            actionsParam.add(enrollButton);
+            actionsParam.add(viewButton);
+            actionsParam.add(editButton);
+            actionsParam.add(archiveButton);
+            actionsParam.add(deleteButton);
+            
+            ActiveCoursesTableRow row = new ActiveCoursesTableRow(Sanitizer.sanitizeForHtml(course.id), 
+                                                                  Sanitizer.sanitizeForHtml(course.name), 
+                                                                  courseBundle.stats.sectionsTotal,
+                                                                  courseBundle.stats.teamsTotal, 
+                                                                  courseBundle.stats.studentsTotal, 
+                                                                  courseBundle.stats.unregisteredTotal, 
+                                                                  actionsParam);
+            activeCourses.getRows().add(row);
         }
         
         return activeCourses;
     }
-         
+    
+    ElementTag createButton(String content, String buttonClass, String id, String href, String title, String onClick, boolean isDisabled){
+        ElementTag button = new ElementTag();
+        button.setContent(content);
+        button.setAttribute("class", buttonClass);
+        
+        if ((id != null) && (!id.equals(""))) {
+            button.setAttribute("id", id);
+        }
+        
+        if ((href != null) && (!href.equals(""))) {
+            button.setAttribute("href", href);
+        }
+        
+        if ((title != null) && (!title.equals(""))) {
+            button.setAttribute("title", title);
+            button.setAttribute("data-toggle", "tooltip");
+            button.setAttribute("data-placement", "top");
+        }
+        
+        if ((onClick != null) && (!onClick.equals(""))) {
+            button.setAttribute("onclick", onClick);
+        }
+        
+        if (isDisabled) {
+            button.setAttribute("disabled", "disabled");
+        }
+        return button;
+    }
 }

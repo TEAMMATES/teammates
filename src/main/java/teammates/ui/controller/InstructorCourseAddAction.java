@@ -1,8 +1,12 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -36,6 +40,11 @@ public class InstructorCourseAddAction extends Action {
         /* Prepare data for the refreshed page after executing the adding action */
         ArrayList<CourseDetailsBundle> allCourses = new ArrayList<CourseDetailsBundle>(logic.getCourseSummariesForInstructor(
                                                                     data.account.googleId).values());
+        ArrayList<CourseDetailsBundle> activeCourses = new ArrayList<CourseDetailsBundle>();
+        ArrayList<CourseDetailsBundle> archivedCourses = new ArrayList<CourseDetailsBundle>();
+                                        
+        logic.extractActiveAndArchivedCourses(allCourses, activeCourses, archivedCourses, data.account.googleId);
+                                        
         String CourseIdToShowParam = "";
         String CourseNameToShowParam = "";
         
@@ -48,7 +57,13 @@ public class InstructorCourseAddAction extends Action {
             statusToAdmin += "<br>Total courses: " + allCourses.size();
         }
         
-        data.init(allCourses, CourseIdToShowParam, CourseNameToShowParam);
+        List<CourseAttributes> courseList = logic.getCoursesForInstructor(data.account.googleId);
+        HashMap<String, InstructorAttributes> instructorsForCourses = new HashMap<String, InstructorAttributes>();
+        for (CourseAttributes course : courseList) {
+            instructorsForCourses.put(course.id, logic.getInstructorForGoogleId(course.id, data.account.googleId));
+        }
+        
+        data.init(activeCourses, archivedCourses, instructorsForCourses, CourseIdToShowParam, CourseNameToShowParam);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
     }

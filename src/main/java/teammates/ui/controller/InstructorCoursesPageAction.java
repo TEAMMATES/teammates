@@ -1,9 +1,13 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Logger;
 
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
@@ -36,8 +40,19 @@ public class InstructorCoursesPageAction extends Action {
         ArrayList<CourseDetailsBundle> allCourses = new ArrayList<CourseDetailsBundle>(
                 logic.getCourseSummariesForInstructor(account.googleId).values());
         
+        ArrayList<CourseDetailsBundle> activeCourses = new ArrayList<CourseDetailsBundle>();
+        ArrayList<CourseDetailsBundle> archivedCourses = new ArrayList<CourseDetailsBundle>();
+        logic.extractActiveAndArchivedCourses(allCourses, activeCourses, archivedCourses, account.googleId);
+        
         InstructorCoursesPageData data = new InstructorCoursesPageData(account);
-        data.init(allCourses);
+        
+        List<CourseAttributes> courseList = logic.getCoursesForInstructor(data.account.googleId);
+        HashMap<String, InstructorAttributes> instructorsForCourses = new HashMap<String, InstructorAttributes>();
+        for (CourseAttributes course : courseList) {
+            instructorsForCourses.put(course.id, logic.getInstructorForGoogleId(course.id, data.account.googleId));
+        }
+        
+        data.init(activeCourses, archivedCourses, instructorsForCourses);
         
         /* Explanation: Set any status messages that should be shown to the user.*/
         if (allCourses.size() == 0 ){
@@ -47,8 +62,7 @@ public class InstructorCoursesPageAction extends Action {
         /* Explanation: We must set this variable. It is the text that will 
          * represent this particular execution of this action in the
          * 'admin activity log' page.*/
-        statusToAdmin = "instructorCourse Page Load<br>" 
-                + "Total courses: " + allCourses.size();
+        statusToAdmin = "instructorCourse Page Load<br>Total courses: " + allCourses.size();
         
         /* Explanation: Create the appropriate result object and return it.*/
         ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSES, data);
