@@ -1,6 +1,4 @@
-<%@ tag description="Generic Student Page" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
-<%@ taglib tagdir="/WEB-INF/tags/student" prefix="ts" %>
+<%@ tag description="studentProfile - Edit profile div" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.ui.template.StudentProfileEditDiv" %>
