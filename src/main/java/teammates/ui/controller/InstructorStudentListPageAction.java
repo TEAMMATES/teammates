@@ -3,6 +3,8 @@ package teammates.ui.controller;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -21,32 +23,30 @@ public class InstructorStudentListPageAction extends Action {
 
         String searchKey = getRequestParamValue(Const.ParamsNames.SEARCH_KEY);
         Boolean displayArchive = getRequestParamAsBoolean(Const.ParamsNames.DISPLAY_ARCHIVE);
-
-        data = new InstructorStudentListPageData(account);
-        data.instructors = new HashMap<String, InstructorAttributes>();
-        data.numStudents = new HashMap<String, String>();
-        data.courses = logic.getCoursesForInstructor(account.googleId);
-        for (CourseAttributes course : data.courses) {
+        Map<String, InstructorAttributes> instructors = new HashMap<String, InstructorAttributes>();
+        Map<String, String> numStudents = new HashMap<String, String>();
+        List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
+        for (CourseAttributes course : courses) {
             InstructorAttributes instructor = logic.getInstructorForGoogleId(course.id, account.googleId);
-            data.instructors.put(course.id, instructor);
+            instructors.put(course.id, instructor);
             int numStudentsInCourse = logic.getStudentsForCourse(course.id).size();
-            data.numStudents.put(course.id, String.valueOf(numStudentsInCourse));
+            numStudents.put(course.id, String.valueOf(numStudentsInCourse));
         }
-
-        Collections.sort(data.courses, new Comparator<CourseAttributes>() {
+        Collections.sort(courses, new Comparator<CourseAttributes>() {
             @Override
             public int compare(CourseAttributes c1, CourseAttributes c2) {
                 return c1.createdAt.compareTo(c2.createdAt);
             }
         });
-        data.searchKey = searchKey;
-        data.displayArchive = displayArchive;
 
-        if (data.courses.size() == 0) {
+        if (courses.size() == 0) {
             statusToUser.add(Const.StatusMessages.INSTRUCTOR_NO_COURSE_AND_STUDENTS);
         }
 
-        statusToAdmin = "instructorStudentList Page Load<br>" + "Total Courses: " + data.courses.size();
+        statusToAdmin = "instructorStudentList Page Load<br>" + "Total Courses: " + courses.size();
+
+        data = new InstructorStudentListPageData(account, searchKey, displayArchive, instructors,
+                                                 numStudents, courses);
 
         ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, data);
         return response;
