@@ -3,98 +3,43 @@ package teammates.ui.controller;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
+import teammates.ui.template.StudentProfileEditDiv;
+import teammates.ui.template.StudentProfileUploadPhotoModal;
 
 public class StudentProfilePageData extends PageData {
 
-    public String name;
-    public String editPicture;
-    public String shortName;
-    public String email;
-    public String institute;
-    public String nationality;
-    public String gender;
-    public String moreInfo;
-    public String googleId;
-    public String pictureUrl;
-    public String pictureKey;
+    private StudentProfileEditDiv profileEditDiv;
+    private StudentProfileUploadPhotoModal uploadPhotoModal;
     
     public StudentProfilePageData(AccountAttributes account, String editPicture) {
         super(account);
-        this.editPicture = editPicture;
-        this.name = account.name;
-        this.googleId = account.googleId;
-        init(account.studentProfile);
+        init(account, editPicture);
     }
     
-    private void init(StudentProfileAttributes profile) {
-        this.shortName = convertToEmptyStringIfNull(profile.shortName);
-        this.email = convertToEmptyStringIfNull(profile.email);
-        this.institute = convertToEmptyStringIfNull(profile.institute);
-        this.nationality = convertToEmptyStringIfNull(profile.nationality);
-        this.gender = profile.gender;
-        this.moreInfo = convertToEmptyStringIfNull(profile.moreInfo);
-        this.pictureKey = profile.pictureKey;
-        if (pictureKey == "") {
-            this.pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
+    private void init(AccountAttributes account, String editPicture) {
+        StudentProfileAttributes profile = account.studentProfile;
+        String pictureUrl;
+        if (profile.pictureKey == "") {
+            pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
         } else {
-            this.pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE +
-                                            "?" + Const.ParamsNames.BLOB_KEY + "="
-                                            + pictureKey +
-                                            "&" + Const.ParamsNames.USER_ID + "=" + googleId;
+            pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE
+                       + "?" + Const.ParamsNames.BLOB_KEY + "=" + profile.pictureKey
+                       + "&" + Const.ParamsNames.USER_ID + "=" + account.googleId;
         }
+        this.profileEditDiv = new StudentProfileEditDiv(account.name, editPicture, profile.shortName,
+                                                        profile.email, profile.institute, profile.nationality,
+                                                        profile.gender, profile.moreInfo, account.googleId,
+                                                        pictureUrl);
+        this.uploadPhotoModal = new StudentProfileUploadPhotoModal(account.googleId, pictureUrl, profile.pictureKey);
 
     }
     
-    public String getShortName() {
-        return shortName;
+    public StudentProfileEditDiv getProfileEditDiv() {
+        return profileEditDiv;
     }
-    
-    public String getEmail() {
-        return email;
-    }
-    
-    public String getInstitute() {
-        return institute;
-    }
-    
-    public String getMoreInfo() {
-        return moreInfo;
-    }
-    
-    public String getNationality() {
-        return nationality;
-    }
-    
-    public String getGender() {
-        return gender;
-    }
-    
-    public String getGoogleId() {
-        return googleId;
-    }
-    
-    public String getPictureUrl() {
-        return pictureUrl;
-    }
-    
-    public String getPictureKey() {
-        return pictureKey;
-    }
-    
-    public String getName() {
-        return name;
-    }
-    
-    public String getEditPicture() {
-        return editPicture;
-    }
-    
-    private String convertToEmptyStringIfNull(String s) {
-        if (s == null) {
-            return "";
-        } else {
-            return s;
-        }
+
+    public StudentProfileUploadPhotoModal getUploadPhotoModal() {
+        return uploadPhotoModal;
     }
 
 }

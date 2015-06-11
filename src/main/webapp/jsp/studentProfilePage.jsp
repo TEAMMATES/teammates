@@ -19,8 +19,6 @@
     <br>
     <t:statusMessage />
     <br>
-    <ts:uploadPhotoModal googleId="${data.googleId}" pictureUrl="${data.pictureUrl}" pictureKey="${data.pictureKey}" />
-    <ts:studentProfileDiv name="${data.name}" shortName="${data.shortName}" email="${data.email}" institute="${data.institute}"
-                          nationality="${data.nationality}" gender="${data.gender}" moreInfo="${data.moreInfo}"
-                          googleId="${data.googleId}" pictureUrl="${data.pictureUrl}" editPicture="${data.editPicture}" />
+    <ts:uploadPhotoModal data="${data.uploadPhotoModal}" />
+    <ts:studentProfileDiv data="${data.profileEditDiv}" />
 </ts:studentPage>
