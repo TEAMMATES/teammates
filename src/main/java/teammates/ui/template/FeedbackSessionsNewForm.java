@@ -28,9 +28,9 @@ public class FeedbackSessionsNewForm {
     private List<ElementTag> fsEndTimeOptions;
     private List<ElementTag> gracePeriodOptions;
     
-    private String sessionVisibleDateButtonCheckedAttribute;
+    private boolean isSessionVisibleDateButtonChecked;
     private String sessionVisibleDateValue;
-    private String sessionVisibleDateDisabledAttribute;
+    private boolean isSessionVisibleDateDisabled;
     private List<ElementTag> sessionVisibleTimeOptions;
     
     
@@ -39,22 +39,23 @@ public class FeedbackSessionsNewForm {
     private List<ElementTag> timezoneSelectField;
     
     
-    private String sessionVisibleAtOpenCheckedAttribute;
-    private String sessionVisiblePrivateCheckedAttribute;
-    private String responseVisibleDateCheckedAttribute;
+    private boolean sessionVisibleAtOpenChecked;
+    private boolean sessionVisiblePrivateChecked;
+    private boolean isResponseVisibleDateChecked;
     private String responseVisibleDateValue;
     
 
 
-    public String responseVisibleDisabledAttribute;
+    public boolean isResponseVisibleDisabled;
     public List<ElementTag> responseVisibleTimeOptions;
-    public String responseVisibleImmediatelyCheckedAttribute;
-    public String responseVisiblePublishManuallyCheckedAttribute;
-    public String responseVisibleNeverCheckedAttribute;
-    public String submitButtonDisabledAttribute;
+    public boolean isResponseVisibleImmediatelyChecked;
+    public boolean isResponseVisiblePublishManuallyChecked;
+    public boolean isResponseVisibleNeverChecked;
+    public boolean isSubmitButtonDisabled;
     
     
-    
+
+
     public FeedbackSessionsNewForm() {
     }
     
@@ -130,8 +131,8 @@ public class FeedbackSessionsNewForm {
         this.fsEndTimeOptions = fsEndTimeOptions;
     }
 
-    public void setSessionVisibleDateButtonCheckedAttribute(String sessionVisibleDateButtonCheckedAttribute) {
-        this.sessionVisibleDateButtonCheckedAttribute = sessionVisibleDateButtonCheckedAttribute;
+    public void setSessionVisibleDateButtonChecked(boolean isSessionVisibleDateButtonChecked) {
+        this.isSessionVisibleDateButtonChecked = isSessionVisibleDateButtonChecked;
     }
 
     public void setGracePeriodOptions(List<ElementTag> gracePeriodOptions) {
@@ -142,24 +143,24 @@ public class FeedbackSessionsNewForm {
         this.sessionVisibleDateValue = sessionVisibleDateValue;
     }
 
-    public void setSessionVisibleDateDisabledAttribute(String sessionVisibleDateDisabledAttribute) {
-        this.sessionVisibleDateDisabledAttribute = sessionVisibleDateDisabledAttribute;
+    public void setSessionVisibleDateDisabled(boolean isSessionVisibleDateDisabled) {
+        this.isSessionVisibleDateDisabled = isSessionVisibleDateDisabled;
     }
 
     public void setSessionVisibleTimeOptions(List<ElementTag> sessionVisibleTimeOptions) {
         this.sessionVisibleTimeOptions = sessionVisibleTimeOptions;
     }
 
-    public void setSessionVisibleAtOpenCheckedAttribute(String sessionVisibleAtOpenCheckedAttribute) {
-        this.sessionVisibleAtOpenCheckedAttribute = sessionVisibleAtOpenCheckedAttribute;
+    public void setSessionVisibleAtOpenChecked(boolean sessionVisibleAtOpenChecked) {
+        this.sessionVisibleAtOpenChecked = sessionVisibleAtOpenChecked;
     }
 
-    public void setSessionVisiblePrivateCheckedAttribute(String sessionVisiblePrivateCheckedAttribute) {
-        this.sessionVisiblePrivateCheckedAttribute = sessionVisiblePrivateCheckedAttribute;
+    public void setSessionVisiblePrivateChecked(boolean isSessionVisiblePrivateChecked) {
+        this.sessionVisiblePrivateChecked = isSessionVisiblePrivateChecked;
     }
 
-    public void setResponseVisibleDateCheckedAttribute(String responseVisibleDateCheckedAttribute) {
-        this.responseVisibleDateCheckedAttribute = responseVisibleDateCheckedAttribute;
+    public void setResponseVisibleDateChecked(boolean isResponseVisibleDateChecked) {
+        this.isResponseVisibleDateChecked = isResponseVisibleDateChecked;
     }
 
     public void setResponseVisibleDateValue(String responseVisibleDateValue) {
@@ -194,16 +195,16 @@ public class FeedbackSessionsNewForm {
         return gracePeriodOptions;
     }
 
-    public String getSessionVisibleDateButtonCheckedAttribute() {
-        return sessionVisibleDateButtonCheckedAttribute;
+    public boolean getSessionVisibleDateButtonChecked() {
+        return isSessionVisibleDateButtonChecked;
     }
 
     public String getSessionVisibleDateValue() {
         return sessionVisibleDateValue;
     }
 
-    public String getSessionVisibleDateDisabledAttribute() {
-        return sessionVisibleDateDisabledAttribute;
+    public boolean isSessionVisibleDateDisabled() {
+        return isSessionVisibleDateDisabled;
     }
 
     public List<ElementTag> getSessionVisibleTimeOptions() {
@@ -226,45 +227,45 @@ public class FeedbackSessionsNewForm {
         return courseFieldClasses;
     }
 
-    public String getSessionVisibleAtOpenCheckedAttribute() {
-        return sessionVisibleAtOpenCheckedAttribute;
+    public boolean isSessionVisibleAtOpenChecked() {
+        return sessionVisibleAtOpenChecked;
     }
 
-    public String getSessionVisiblePrivateCheckedAttribute() {
-        return sessionVisiblePrivateCheckedAttribute;
+    public boolean isSessionVisiblePrivateChecked() {
+        return sessionVisiblePrivateChecked;
     }
 
-    public String getResponseVisibleDateCheckedAttribute() {
-        return responseVisibleDateCheckedAttribute;
+    public boolean isResponseVisibleDateChecked() {
+        return isResponseVisibleDateChecked;
     }
 
     public String getResponseVisibleDateValue() {
         return responseVisibleDateValue;
     }
 
-    public String getResponseVisibleDisabledAttribute() {
-        return responseVisibleDisabledAttribute;
+    public boolean isResponseVisibleDisabled() {
+        return isResponseVisibleDisabled;
     }
 
     public List<ElementTag> getResponseVisibleTimeOptions() {
         return responseVisibleTimeOptions;
     }
 
-    public String getResponseVisibleImmediatelyCheckedAttribute() {
-        return responseVisibleImmediatelyCheckedAttribute;
+    public boolean isResponseVisibleImmediatelyChecked() {
+        return isResponseVisibleImmediatelyChecked;
     }
 
-    public String getResponseVisiblePublishManuallyCheckedAttribute() {
-        return responseVisiblePublishManuallyCheckedAttribute;
+    public boolean isResponseVisiblePublishManuallyChecked() {
+        return isResponseVisiblePublishManuallyChecked;
     }
 
-    public String getResponseVisibleNeverCheckedAttribute() {
-        return responseVisibleNeverCheckedAttribute;
+    public boolean isResponseVisibleNeverChecked() {
+        return isResponseVisibleNeverChecked;
     }
 
-    public String getSubmitButtonDisabledAttribute() {
-        return submitButtonDisabledAttribute;
+    public boolean isSubmitButtonDisabled() {
+        return isSubmitButtonDisabled;
     }
-    
+
     
 }

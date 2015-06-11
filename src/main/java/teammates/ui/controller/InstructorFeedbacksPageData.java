@@ -164,55 +164,48 @@ public class InstructorFeedbacksPageData extends PageData {
         
         boolean hasSessionVisibleDate = newFeedbackSession != null &&
                                         !TimeHelper.isSpecialTime(newFeedbackSession.sessionVisibleFromTime);
-        newForm.setSessionVisibleDateButtonCheckedAttribute(hasSessionVisibleDate ? "checked=\"checked\"" : "");
+        newForm.setSessionVisibleDateButtonChecked(hasSessionVisibleDate);
         newForm.setSessionVisibleDateValue(hasSessionVisibleDate ? 
                                    TimeHelper.formatDate(newFeedbackSession.sessionVisibleFromTime) :
                                    "");
-        newForm.setSessionVisibleDateDisabledAttribute(hasSessionVisibleDate ? "" : "disabled=\"disabled\"");
+        newForm.setSessionVisibleDateDisabled(!hasSessionVisibleDate);
         
         
         date = hasSessionVisibleDate ? newFeedbackSession.sessionVisibleFromTime : null;   
         
         newForm.setSessionVisibleTimeOptions(getTimeOptionsAsElementTags(date));
         
-        newForm.setSessionVisibleAtOpenCheckedAttribute((newFeedbackSession == null ||
-                                                        Const.TIME_REPRESENTS_FOLLOW_OPENING
-                                                        .equals(newFeedbackSession.sessionVisibleFromTime)) ? 
-                                                        "checked=\"checked\"" : "");
+        newForm.setSessionVisibleAtOpenChecked(newFeedbackSession == null 
+                                                        || Const.TIME_REPRESENTS_FOLLOW_OPENING
+                                                        .equals(newFeedbackSession.sessionVisibleFromTime));
         
-        newForm.setSessionVisiblePrivateCheckedAttribute((newFeedbackSession != null &&
-                                                         Const.TIME_REPRESENTS_NEVER
-                                                         .equals(newFeedbackSession.sessionVisibleFromTime)) ?
-                                                         "checked=\"checked\"" : "");
+        newForm.setSessionVisiblePrivateChecked(newFeedbackSession != null 
+                                                 && Const.TIME_REPRESENTS_NEVER
+                                                 .equals(newFeedbackSession.sessionVisibleFromTime));
                         
         boolean hasResultVisibleDate = newFeedbackSession != null &&
                                        !TimeHelper.isSpecialTime(newFeedbackSession.resultsVisibleFromTime);
-        newForm.setResponseVisibleDateCheckedAttribute(hasResultVisibleDate ? "checked=\"checked\"" : "");
+        newForm.setResponseVisibleDateChecked(hasResultVisibleDate);
         newForm.setResponseVisibleDateValue(hasResultVisibleDate ?
                                         TimeHelper.formatDate(newFeedbackSession.resultsVisibleFromTime) : "");
-        newForm.responseVisibleDisabledAttribute = hasResultVisibleDate ? "" : "disabled=\"disabled\"";
+        newForm.isResponseVisibleDisabled = !hasResultVisibleDate;
         
         date = hasResultVisibleDate ? newFeedbackSession.resultsVisibleFromTime :  null;
         newForm.responseVisibleTimeOptions = getTimeOptionsAsElementTags(date);
         
-        newForm.responseVisibleImmediatelyCheckedAttribute 
+        newForm.isResponseVisibleImmediatelyChecked 
             = (newFeedbackSession != null 
-               && Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(newFeedbackSession.resultsVisibleFromTime)) ?
-                                                                    "checked=\"checked\"" : 
-                                                                    "";
-        newForm.responseVisiblePublishManuallyCheckedAttribute 
+               && Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(newFeedbackSession.resultsVisibleFromTime));
+        newForm.isResponseVisiblePublishManuallyChecked 
             = (newFeedbackSession == null 
                || Const.TIME_REPRESENTS_LATER.equals(newFeedbackSession.resultsVisibleFromTime) 
-               || Const.TIME_REPRESENTS_NOW.equals(newFeedbackSession.resultsVisibleFromTime)) ?
-                                                                     "checked=\"checked\"" :
-                                                                      "";
+               || Const.TIME_REPRESENTS_NOW.equals(newFeedbackSession.resultsVisibleFromTime));
         
-        newForm.responseVisibleNeverCheckedAttribute = (newFeedbackSession != null 
-                                                        && Const.TIME_REPRESENTS_NEVER
-                                                           .equals(newFeedbackSession.resultsVisibleFromTime)) ?
-                                                                        "checked=\"checked\"" : "";
+        newForm.isResponseVisibleNeverChecked = (newFeedbackSession != null 
+                                                 && Const.TIME_REPRESENTS_NEVER
+                                                    .equals(newFeedbackSession.resultsVisibleFromTime));
                                 
-        newForm.submitButtonDisabledAttribute = courses.isEmpty() ? " disabled=\"disabled\"" : "";
+        newForm.isSubmitButtonDisabled = courses.isEmpty();
    
     }
     

@@ -137,7 +137,7 @@
                                     rows="4" cols="100%"
                                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_INSTRUCTIONS %>"
-                                    placeholder="e.g. Please answer all the given questions.">${newForm.instructions}</textarea>
+                                    placeholder="e.g. Please answer all the given questions."><c:out value="${newForm.instructions}"/></textarea>
                             </div>
                         </div>
                     </div>
@@ -275,20 +275,23 @@
                                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>_custom"
                                     value="<%= Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM %>"
-                                    ${newForm.sessionVisibleDateButtonCheckedAttribute} >
+                                    <c:if test="${newForm.sessionVisibleDateButtonChecked}">checked="checked"</c:if>
+                                >
                             </div>
                             <div class="col-md-5">
                                 <input class="form-control col-sm-2" type="text"
                                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE %>"
                                     value="${newForm.sessionVisibleDateValue}"
-                                    ${newForm.sessionVisibleDateDisabledAttribute} >
+                                    <c:if test="${newForm.sessionVisibleDateDisabled}">disabled="disabled"</c:if>
+                                >
                             </div>
                             <div class="col-md-4">
                                 <select class="form-control"
                                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME %>"
-                                    ${newForm.sessionVisibleDateDisabledAttribute}>
+                                    <c:if test="${newForm.sessionVisibleDateDisabled}">disabled="disabled"</c:if>
+                                >
                                     <c:forEach items="${newForm.sessionVisibleTimeOptions}" var="option">
                                         <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
                                             ${option.content}
@@ -309,7 +312,8 @@
                                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>_atopen"
                                     value="<%= Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN %>"
-                                    ${newForm.sessionVisibleAtOpenCheckedAttribute}>
+                                    <c:if test="${newForm.sessionVisibleAtOpenChecked}">checked="checked"</c:if>
+                                 >
                             </div>
                         </div>
                         <div class="row radio">
@@ -324,7 +328,8 @@
                                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>_never"
                                     value="never"
-                                    ${newForm.sessionVisiblePrivateCheckedAttribute}>
+                                    <c:if test="${newForm.sessionVisiblePrivateChecked}">checked="checked"</c:if>
+                                    >
                             </div>
                         </div>
                     </div>
@@ -351,7 +356,8 @@
                                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_custom"
                                     value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM %>"
-                                    ${newForm.responseVisibleDateCheckedAttribute}>
+                                    <c:if test="${newForm.responseVisibleDateChecked}">checked="checked"</c:if>
+                                >
                             </div>
                             <div class="col-md-5">
                                 <input class="form-control"
@@ -359,7 +365,8 @@
                                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE %>"
                                     value="${newForm.responseVisibleDateValue}"
-                                    ${newForm.responseVisibleDisabledAttribute} >
+                                    <c:if test="${newForm.responseVisibleDisabled}">disabled="disabled"</c:if>
+                                >
                             </div>
                             <div class="col-md-4">
                                 <select class="form-control"
@@ -368,7 +375,8 @@
                                     title="<%= Const.Tooltips.FEEDBACK_SESSION_PUBLISHDATE %>"
                                     data-toggle="tooltip"
                                     data-placement="top"
-                                    ${newForm.responseVisibleDisabledAttribute}>
+                                    <c:if test="${newForm.responseVisibleDisabled}">disabled="disabled"</c:if>
+                                >
                                     <c:forEach items="${newForm.responseVisibleTimeOptions}" var="option">
                                         <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
                                             ${option.content}
@@ -390,7 +398,8 @@
                                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_atvisible"
                                     value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE %>"
-                                    ${newForm.responseVisibleImmediatelyCheckedAttribute }>
+                                    <c:if test="${newForm.responseVisibleImmediatelyChecked}">checked="checked"</c:if>
+                                >
                             </div>
                         </div>
                         <div class="row radio">
@@ -404,7 +413,8 @@
                                 <input type="radio" name="resultsVisibleFromButton"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_later"
                                     value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER %>"
-                                    ${newForm.responseVisiblePublishManuallyCheckedAttribute }>
+                                    <c:if test="${newForm.responseVisiblePublishManuallyChecked}">checked="checked"</c:if>
+                                >
                             </div>
                         </div>
                         <div class="row radio">
@@ -419,7 +429,8 @@
                                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_never"
                                     value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER %>"
-                                    ${newForm.responseVisibleNeverCheckedAttribute}>
+                                    <c:if test="${newForm.responseVisibleNeverChecked}">checked="checked"</c:if>
+                                >
                             </div>
                         </div>
                     </div>
@@ -482,7 +493,7 @@
             <div class="row">
                 <div class="col-md-offset-5 col-md-3">
                     <button id="button_submit" type="submit" class="btn btn-primary"
-                        ${newForm.submitButtonDisabledAttribute}>
+                        <c:if test="${newForm.submitButtonDisabled}">disabled="disabled"</c:if>>
                         Create Feedback Session
                     </button>
                 </div>
