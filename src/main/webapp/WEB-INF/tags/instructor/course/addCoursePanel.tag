@@ -1,9 +1,10 @@
 <%@ tag description="Add New Course Panel of Course Page" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
-<%@ attribute name="googleId" type="java.lang.String" required="true" %>
-<%@ attribute name="courseIdToShow" type="java.lang.String" required="true" %>
-<%@ attribute name="courseNameToShow" type="java.lang.String" required="true" %>
+<%@ attribute name="googleId" required="true" %>
+<%@ attribute name="courseIdToShow" required="true" %>
+<%@ attribute name="courseNameToShow" required="true" %>
 
 <div class="panel panel-primary">
     <div class="panel-body fill-plain">

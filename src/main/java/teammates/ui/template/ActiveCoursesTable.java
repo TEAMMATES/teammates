@@ -17,11 +17,4 @@ public class ActiveCoursesTable {
     public void setRows(List<ActiveCoursesTableRow> rows) {
         this.rows = rows;
     }
-    
-    public int getSize(){
-        if (rows == null) {
-            return 0;
-        }
-        return this.rows.size();
-    }
 }

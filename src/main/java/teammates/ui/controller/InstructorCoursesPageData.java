@@ -14,6 +14,7 @@ import teammates.ui.template.ActiveCoursesTable;
 import teammates.ui.template.ActiveCoursesTableRow;
 import teammates.ui.template.ArchivedCoursesTable;
 import teammates.ui.template.ArchivedCoursesTableRow;
+import teammates.ui.template.ElementTag;
 
 /**
  * This is the PageData object for the 'Courses' page 
@@ -67,17 +68,30 @@ public class InstructorCoursesPageData extends PageData {
             if (Logic.isCourseArchived(course.id, curInstructor.googleId)) {
                 idx++;
                 
-                String actionsParam = "<a class=\"btn btn-default btn-xs\" id=\"t_course_unarchive" + idx + "\""
-                                                + "href=\"" + getInstructorCourseArchiveLink(course.id, false, false) + "\""
-                                      + ">Unarchive</a>";
+                List<ElementTag> actionsParam = new ArrayList<ElementTag>();
                 
-                actionsParam += "<a class=\"btn btn-default btn-xs\" id=\"t_course_delete" + idx + "\""
-                                        + "href=\"" + getInstructorCourseDeleteLink(course.id,false) + "\""
-                                        + "onclick=\"return toggleDeleteCourseConfirmation('" + course.id + "');\""
-                                        + "data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + Const.Tooltips.COURSE_DELETE + "\""
-                                        + (curInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE) ? ""
-                                                                                                                                      : "disabled=\"disabled\"")
-                                + ">Delete</a>";
+                ElementTag unarchivedButton = new ElementTag();               
+                unarchivedButton.setContent("Unarchive");
+                unarchivedButton.setAttribute("class", "btn btn-default btn-xs");
+                unarchivedButton.setAttribute("id", "t_course_unarchive" + idx);
+                unarchivedButton.setAttribute("href", getInstructorCourseArchiveLink(course.id, false, false));
+                
+                ElementTag deleteButton = new ElementTag();               
+                deleteButton.setContent("Delete");
+                deleteButton.setAttribute("class", "btn btn-default btn-xs");
+                deleteButton.setAttribute("id", "t_course_delete" + idx);
+                deleteButton.setAttribute("onclick", "return toggleDeleteCourseConfirmation('" + course.id + "');");
+                deleteButton.setAttribute("href", getInstructorCourseDeleteLink(course.id, false));
+                deleteButton.setAttribute("data-toggle", "tooltip");
+                deleteButton.setAttribute("data-placement", "top");
+                deleteButton.setAttribute("title", Const.Tooltips.COURSE_DELETE);
+                if (!curInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE)) {
+                    deleteButton.setAttribute("disabled", "disabled");
+                }
+                
+                actionsParam.add(unarchivedButton);
+                actionsParam.add(deleteButton);
+                
                 ArchivedCoursesTableRow row = new ArchivedCoursesTableRow(Sanitizer.sanitizeForHtml(course.id), 
                                                                           Sanitizer.sanitizeForHtml(course.name), actionsParam);
                 archivedCourses.getRows().add(row);
@@ -102,36 +116,61 @@ public class InstructorCoursesPageData extends PageData {
             if (!Logic.isCourseArchived(course.id, curInstructor.googleId)) {
                 idx++;
                 
-                String actionsParam = "<a class=\"btn btn-default btn-xs t_course_enroll" + idx + "\""
-                                                + "href=\"" + getInstructorCourseEnrollLink(courseBundle.course.id) + "\""
-                                                + "data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + Const.Tooltips.COURSE_ENROLL + "\""
-                                                + (curInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT) ? ""
-                                                                                                                                               : "disabled=\"disabled\"")
-                                      + ">Enroll</a>";
-                            
-                actionsParam += "<a class=\"btn btn-default btn-xs t_course_view" + idx + "\""
-                                    + "href=\"" + getInstructorCourseDetailsLink(courseBundle.course.id) + "\""
-                                    + "data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + Const.Tooltips.COURSE_DETAILS + "\""
-                                + ">View</a>";
-                        
-                actionsParam += "<a class=\"btn btn-default btn-xs t_course_edit" + idx + "\""
-                                    + "href=\"" + getInstructorCourseEditLink(courseBundle.course.id) + "\""
-                                    + "data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + Const.Tooltips.COURSE_EDIT + "\""
-                                + ">Edit</a>";
-
-                actionsParam += "<a class=\"btn btn-default btn-xs t_course_archive" + idx + "\""
-                                    + "href=\"" + getInstructorCourseArchiveLink(courseBundle.course.id, true, false) + "\""
-                                    + "data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + Const.Tooltips.COURSE_ARCHIVE + "\""
-                                + ">Archive</a>";
-
-                actionsParam += "<a class=\"btn btn-default btn-xs t_course_delete" + idx + "\""
-                                    + "href=\"" + getInstructorCourseDeleteLink(courseBundle.course.id, false) + "\""
-                                    + "onclick=\"return toggleDeleteCourseConfirmation('" + courseBundle.course.id + "');\""
-                                    + "data-toggle=\"tooltip\" data-placement=\"top\" title=\"" + Const.Tooltips.COURSE_DELETE + "\""
-                                    + (curInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE) ? ""
-                                                                                                                                  : "disabled=\"disabled\"")
-                                + ">Delete</a>";
-
+                List<ElementTag> actionsParam = new ArrayList<ElementTag>();
+                
+                ElementTag enrollButton = new ElementTag();
+                enrollButton.setContent("Enroll");
+                enrollButton.setAttribute("class", "btn btn-default btn-xs t_course_enroll" + idx);
+                enrollButton.setAttribute("href", getInstructorCourseEnrollLink(courseBundle.course.id));
+                enrollButton.setAttribute("data-toggle", "tooltip");
+                enrollButton.setAttribute("data-placement", "top");
+                enrollButton.setAttribute("title", Const.Tooltips.COURSE_ENROLL);
+                if (!curInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)) {
+                    enrollButton.setAttribute("disabled", "disabled");
+                }
+                
+                ElementTag viewButton = new ElementTag();
+                viewButton.setContent("View");
+                viewButton.setAttribute("class", "btn btn-default btn-xs t_course_view" + idx);
+                viewButton.setAttribute("href", getInstructorCourseDetailsLink(courseBundle.course.id));
+                viewButton.setAttribute("data-toggle", "tooltip");
+                viewButton.setAttribute("data-placement", "top");
+                viewButton.setAttribute("title", Const.Tooltips.COURSE_DETAILS);
+                
+                ElementTag editButton = new ElementTag();
+                editButton.setContent("Edit");
+                editButton.setAttribute("class", "btn btn-default btn-xs t_course_edit" + idx);
+                editButton.setAttribute("href", getInstructorCourseEditLink(courseBundle.course.id));
+                editButton.setAttribute("data-toggle", "tooltip");
+                editButton.setAttribute("data-placement", "top");
+                editButton.setAttribute("title", Const.Tooltips.COURSE_EDIT);
+                
+                ElementTag archiveButton = new ElementTag();
+                archiveButton.setContent("Archive");
+                archiveButton.setAttribute("class", "btn btn-default btn-xs t_course_archive" + idx);
+                archiveButton.setAttribute("href", getInstructorCourseArchiveLink(courseBundle.course.id, true, false));
+                archiveButton.setAttribute("data-toggle", "tooltip");
+                archiveButton.setAttribute("data-placement", "top");
+                archiveButton.setAttribute("title", Const.Tooltips.COURSE_ARCHIVE);
+                
+                ElementTag deleteButton = new ElementTag();
+                deleteButton.setContent("Delete");
+                deleteButton.setAttribute("class", "btn btn-default btn-xs t_course_delete" + idx);
+                deleteButton.setAttribute("onclick", "return toggleDeleteCourseConfirmation('" + courseBundle.course.id + "');");
+                deleteButton.setAttribute("data-toggle", "tooltip");
+                deleteButton.setAttribute("data-placement", "top");
+                deleteButton.setAttribute("href", getInstructorCourseDeleteLink(courseBundle.course.id, false));
+                deleteButton.setAttribute("title", Const.Tooltips.COURSE_DELETE);
+                if (!(curInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE))) {
+                    deleteButton.setAttribute("disabled", "disabled");
+                }
+                
+                actionsParam.add(enrollButton);
+                actionsParam.add(viewButton);
+                actionsParam.add(editButton);
+                actionsParam.add(archiveButton);
+                actionsParam.add(deleteButton);
+                
                 ActiveCoursesTableRow row = new ActiveCoursesTableRow(Sanitizer.sanitizeForHtml(course.id), 
                                                                       Sanitizer.sanitizeForHtml(course.name), 
                                                                       courseBundle.stats.sectionsTotal,

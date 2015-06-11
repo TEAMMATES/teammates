@@ -1,11 +1,13 @@
 package teammates.ui.template;
 
+import java.util.List;
+
 public class ArchivedCoursesTableRow {
     private String courseId;
     private String courseName;
-    private String actions;
+    private List<ElementTag> actions;
     
-    public ArchivedCoursesTableRow(String courseIdParam, String courseNameParam, String actionsParam) {
+    public ArchivedCoursesTableRow(String courseIdParam, String courseNameParam, List<ElementTag> actionsParam) {
         this.courseId = courseIdParam;
         this.courseName = courseNameParam;
         this.actions = actionsParam;
@@ -19,7 +21,7 @@ public class ArchivedCoursesTableRow {
         return courseName;
     }
     
-    public String getActions() {
+    public List<ElementTag> getActions() {
         return actions;
     }
 }

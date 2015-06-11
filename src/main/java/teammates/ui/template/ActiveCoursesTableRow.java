@@ -1,5 +1,7 @@
 package teammates.ui.template;
 
+import java.util.List;
+
 public class ActiveCoursesTableRow {
     private String courseId;
     private String courseName;
@@ -7,10 +9,10 @@ public class ActiveCoursesTableRow {
     private int teamNum;
     private int totalStudentNum;
     private int unregisteredStudentNum;
-    private String actions;
+    private List<ElementTag> actions;
     
     public ActiveCoursesTableRow(String courseIdParam, String courseNameParam, int sectionNumParam,
-            int teamNumParam, int totalStudentParam, int unregisteredStudentNumParam, String actionsParam) {
+            int teamNumParam, int totalStudentParam, int unregisteredStudentNumParam, List<ElementTag> actionsParam) {
         this.courseId = courseIdParam;
         this.courseName = courseNameParam;
         this.sectionNum = sectionNumParam;
@@ -44,7 +46,7 @@ public class ActiveCoursesTableRow {
         return unregisteredStudentNum;
     }
     
-    public String getActions() {
+    public List<ElementTag> getActions() {
         return actions;
     }
     

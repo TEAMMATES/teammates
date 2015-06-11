@@ -9,9 +9,24 @@
 </c:set>
 
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Add New Course" jsIncludes="${jsIncludes}">
-	<course:addCoursePanel courseIdToShow="${data.courseIdToShow}" courseNameToShow="${data.courseNameToShow}" googleId="${data.account.googleId}"/>
-	<course:statusMessage/>
-	
-	<course:activeCoursesTable title="Active courses"/>
-	<course:archivedCoursesTable title="Archived courses"/>
+    <course:addCoursePanel courseIdToShow="${data.courseIdToShow}" courseNameToShow="${data.courseNameToShow}" googleId="${data.account.googleId}"/>
+    <course:statusMessage/>
+    
+    <course:activeCoursesTable />
+    <br>
+    <br>
+    <c:if test="${empty data.activeCourses.rows}">
+        No records found. <br>
+        <br>
+    </c:if>
+    <br>
+    <br>
+    
+    <c:if test="${not empty data.archivedCourses.rows}">
+        <course:archivedCoursesTable />
+        <br>
+        <br>
+        <br>
+        <br>
+    </c:if>
 </ti:instructorPage>

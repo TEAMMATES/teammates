@@ -17,12 +17,4 @@ public class ArchivedCoursesTable {
     public void setRows(List<ArchivedCoursesTableRow> rows) {
         this.rows = rows;
     }
-
-    public int getSize() {
-        if (rows == null) {
-            return 0;
-        }
-        return rows.size();
-    }
-
 }

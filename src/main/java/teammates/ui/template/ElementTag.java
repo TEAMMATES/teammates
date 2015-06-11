@@ -32,6 +32,10 @@ public class ElementTag {
         }
     }
     
+    public void setContent(String contentParam) {
+        content = contentParam;
+    }
+    
     public String getContent() {
         return content;
     }

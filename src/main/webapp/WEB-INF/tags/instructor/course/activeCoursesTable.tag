@@ -1,8 +1,7 @@
 <%@ tag description="instructorCourse - Course table" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ attribute name="title" type="String" required="true" %>
 
-<h2>${title}</h2>
+<h2>Active courses</h2>
 <table class="table table-bordered table-striped">
     <thead class="fill-primary">
         <tr>
@@ -37,7 +36,15 @@
             <td class="t_course_teams align-center">${activeCourse.teamNum}</td>
             <td class="align-center">${activeCourse.totalStudentNum}</td>
             <td class="align-center">${activeCourse.unregisteredStudentNum}</td>
-            <td class="align-center no-print">${activeCourse.actions}</td>
+            <td class="align-center no-print">
+                <c:forEach items="${activeCourse.actions}" var="button">
+                    <a  <c:forEach items="${button.attributes}" var="attribute">
+                            ${attribute.key}="${attribute.value}"
+                        </c:forEach> />
+                        ${button.content}
+                    </a>
+                </c:forEach>
+            </td>
         </tr>
     </c:forEach>
     
@@ -53,12 +60,3 @@
         </tr>
     </c:if>
 </table>
-
-<br>
-<br>
-<c:if test="${empty data.activeCourses.rows}">
-    No records found. <br>
-    <br>
-</c:if>
-<br>
-<br>
