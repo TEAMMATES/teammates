@@ -1,6 +1,6 @@
 package teammates.ui.template;
 
-public class StudentProfileEditDiv {
+public class StudentProfileEditBox {
 
     private String name;
     private String editPicture;
@@ -13,7 +13,7 @@ public class StudentProfileEditDiv {
     private String googleId;
     private String pictureUrl;
 
-    public StudentProfileEditDiv(String name, String editPicture, String shortName, String email,
+    public StudentProfileEditBox(String name, String editPicture, String shortName, String email,
                                  String institute, String nationality, String gender,
                                  String moreInfo, String googleId, String pictureUrl) {
         this.name = name;

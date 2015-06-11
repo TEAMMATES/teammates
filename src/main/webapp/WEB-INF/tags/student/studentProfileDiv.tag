@@ -1,8 +1,7 @@
 <%@ tag description="studentProfile - Edit profile div" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
-<%@ tag import="teammates.ui.template.StudentProfileEditDiv" %>
-<%@ attribute name="data" type="teammates.ui.template.StudentProfileEditDiv" required="true" %>
+<%@ attribute name="data" type="teammates.ui.template.StudentProfileEditBox" required="true" %>
 <c:set var="MALE" value="<%= Const.GenderTypes.MALE %>" />
 <c:set var="FEMALE" value="<%= Const.GenderTypes.FEMALE %>" />
 <c:set var="OTHER" value="<%= Const.GenderTypes.OTHER %>" />
