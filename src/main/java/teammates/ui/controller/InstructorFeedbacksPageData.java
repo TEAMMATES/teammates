@@ -31,7 +31,6 @@ public class InstructorFeedbacksPageData extends PageData {
     private FeedbackSessionsNewForm newForm;
     private FeedbackSessionsCopyFromModal copyFromModal;
     
-    
 
     public InstructorFeedbacksPageData(AccountAttributes account) {
         super(account);
@@ -149,8 +148,6 @@ public class InstructorFeedbacksPageData extends PageData {
             newForm.setFormClasses("form-group has-error");
             newForm.setCourseFieldClasses("form-control text-color-red");
         }
-        
-        newForm.setFeedbackSessionNameForSessionList(feedbackSessionNameForSessionList);
         
         newForm.setFeedbackSessionTypeOptions(getFeedbackSessionTypeOptions(feedbackSessionType));
         
@@ -347,11 +344,6 @@ public class InstructorFeedbacksPageData extends PageData {
         return result;
     }
     
-    private ElementTag createOption(String text, String value, boolean isSelected) {
-        return isSelected ? 
-               new ElementTag(text, "value", value, "selected", "selected") : 
-               new ElementTag(text, "value", value);
-    }
 
     public void setUsingAjax(boolean isUsingAjax) {
         this.isUsingAjax = isUsingAjax;

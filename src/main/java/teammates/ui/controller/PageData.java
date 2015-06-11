@@ -249,7 +249,7 @@ public class PageData {
         return result;
     }
     
-    private ElementTag createOption(String text, String value, boolean isSelected) {
+    public ElementTag createOption(String text, String value, boolean isSelected) {
         if (isSelected) {
             return new ElementTag(text, "value", value, "selected", "selected");
         } else {

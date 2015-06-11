@@ -10,7 +10,6 @@ public class FeedbackSessionsList {
         this.existingFeedbackSessions = existingFeedbackSessions;
     }
     
-    
     public List<FeedbackSessionRow> getExistingFeedbackSessions() {
         return existingFeedbackSessions;
     }

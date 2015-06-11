@@ -2,12 +2,14 @@ package teammates.ui.template;
 
 import java.util.List;
 
+/**
+ * Data model for the form for creating a new feedback session.
+ *
+ */
 public class FeedbackSessionsNewForm {
 
-    // default course id value
+    // Default course id value
     private String courseIdForNewSession;
-    // for highlighting the recently modified session
-    private String feedbackSessionNameForSessionList;
     
     // List of options for feedback session type
     private List<ElementTag> feedbackSessionTypeOptions;
@@ -75,10 +77,6 @@ public class FeedbackSessionsNewForm {
         return courseIdForNewSession;
     }
     
-    public String getFeedbackSessionNameForSessionList() {
-        return feedbackSessionNameForSessionList;
-    }
-    
     public List<String> getCourses() {
         return courses;
     }
@@ -97,10 +95,6 @@ public class FeedbackSessionsNewForm {
 
     public void setCourseFieldClasses(String courseFieldClasses) {
         this.courseFieldClasses = courseFieldClasses;
-    }
-
-    public void setFeedbackSessionNameForSessionList(String feedbackSessionNameForSessionList) {
-        this.feedbackSessionNameForSessionList = feedbackSessionNameForSessionList;
     }
 
     public void setCoursesSelectField(List<ElementTag> coursesSelectField) {
@@ -290,6 +284,4 @@ public class FeedbackSessionsNewForm {
     public void setSubmitButtonDisabled(boolean isSubmitButtonDisabled) {
         this.isSubmitButtonDisabled = isSubmitButtonDisabled;
     }
-
-    
 }
