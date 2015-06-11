@@ -6,7 +6,7 @@ import java.util.List;
  * Data model for the form for creating a new feedback session.
  *
  */
-public class FeedbackSessionsNewForm {
+public class FeedbackSessionsForm {
 
     // Default course id value
     private String courseIdForNewSession;
@@ -61,7 +61,7 @@ public class FeedbackSessionsNewForm {
     private boolean isSubmitButtonDisabled;
     
 
-    public FeedbackSessionsNewForm() {
+    public FeedbackSessionsForm() {
     }
     
     public void setCourseIdForNewSession(String courseIdForNewSession) {

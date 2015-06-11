@@ -15,8 +15,8 @@ import teammates.common.util.TimeHelper;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.FeedbackSessionsCopyFromModal;
-import teammates.ui.template.FeedbackSessionsList;
-import teammates.ui.template.FeedbackSessionsNewForm;
+import teammates.ui.template.FeedbackSessionsTable;
+import teammates.ui.template.FeedbackSessionsForm;
 
 public class InstructorFeedbacksPageData extends PageData {
     
@@ -27,8 +27,8 @@ public class InstructorFeedbacksPageData extends PageData {
     // if true -> loads the sessions table, else load the form
     private boolean isUsingAjax;
     
-    private FeedbackSessionsList fsList;
-    private FeedbackSessionsNewForm newForm;
+    private FeedbackSessionsTable fsList;
+    private FeedbackSessionsForm newForm;
     private FeedbackSessionsCopyFromModal copyFromModal;
     
 
@@ -125,14 +125,14 @@ public class InstructorFeedbacksPageData extends PageData {
         List<FeedbackSessionRow> existingFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(
                                                                    existingFeedbackSessions, instructors, 
                                                                    feedbackSessionNameForSessionList, courseIdForNewSession);
-        fsList = new FeedbackSessionsList(existingFeedbackSessionsRow);
+        fsList = new FeedbackSessionsTable(existingFeedbackSessionsRow);
     }
 
     private void buildNewForm(List<CourseAttributes> courses, String courseIdForNewSession,
                                     HashMap<String, InstructorAttributes> instructors,
                                     FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
                                     String feedbackSessionNameForSessionList) {
-        newForm = new FeedbackSessionsNewForm();
+        newForm = new FeedbackSessionsForm();
         
         List<String> courseIds = new ArrayList<String>();
         for (CourseAttributes course : courses) {
@@ -275,11 +275,11 @@ public class InstructorFeedbacksPageData extends PageData {
         return rows;
     }
     
-    public FeedbackSessionsList getFsList() {
+    public FeedbackSessionsTable getFsList() {
         return fsList;
     }
     
-    public FeedbackSessionsNewForm getNewForm() {
+    public FeedbackSessionsForm getNewForm() {
         return newForm;
     }
     

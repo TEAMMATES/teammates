@@ -2,11 +2,11 @@ package teammates.ui.template;
 
 import java.util.List;
 
-public class FeedbackSessionsList {
+public class FeedbackSessionsTable {
     
     private List<FeedbackSessionRow> existingFeedbackSessions;
     
-    public FeedbackSessionsList(List<FeedbackSessionRow> existingFeedbackSessions) {
+    public FeedbackSessionsTable(List<FeedbackSessionRow> existingFeedbackSessions) {
         this.existingFeedbackSessions = existingFeedbackSessions;
     }
     
