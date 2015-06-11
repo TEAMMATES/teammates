@@ -1,11 +1,9 @@
-<div id="frameBodyWrapper" class="container">
+<div class="container" id="frameBodyWrapper">
             <div id="topOfPage"></div>
-            <div class="inner-container">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <h1>Comments from Instructors</h1>
-                    </div>
+            <h1>Comments from Instructors</h1>
+            <br>
                     <div class="col-sm-6 instructor-header-bar">
+                    <br>
                         <form method="get" action="/page/instructorSearchPage?user={$test.instructor}" name="search_form">
                             <div class="input-group">
                                 <input name="searchkey" title="Search for comment" class="form-control" placeholder="Any info related to comments" id="searchBox" type="text"> 
@@ -20,8 +18,6 @@
                             <input name="user" value="{$test.instructor}" type="hidden">
                         </form>
                     </div>
-                </div>
-            </div>
             <br>
             
 
@@ -338,8 +334,8 @@
                                                                 </table>
                                                             </div>
                                                             <div class="form-group">
-                                                                <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText1">Benny, Thanks for helping Alice in her project work. Keep up the good work!
-                                                                </textarea>
+                                                               <!-- Do not add whitespace between the opening and closing tags-->
+                                                                <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText1">Benny, Thanks for helping Alice in her project work. Keep up the good work!</textarea>
                                                             </div>
                                                             <div class="col-sm-offset-5">
                                                                 <input id="commentsave-1" title="Save comment" onclick="return submitCommentForm('1');" class="btn btn-primary" value="Save" type="submit">
@@ -487,8 +483,8 @@
                                                                 </table>
                                                             </div>
                                                             <div class="form-group">
-                                                                <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText2">Alice wanted me to help her catch up with project work
-                                                                </textarea>
+                                                               <!-- Do not add whitespace between the opening and closing tags-->
+                                                                <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText2">Alice wanted me to help her catch up with project work</textarea>
                                                             </div>
                                                             <div class="col-sm-offset-5">
                                                                 <input id="commentsave-2" title="Save comment" onclick="return submitCommentForm('2');" class="btn btn-primary" value="Save" type="submit">
@@ -591,4 +587,4 @@
                     <li><a href="javascript:;">»</a></li>
                 </ul>
             
-        </div>
+    </div>
