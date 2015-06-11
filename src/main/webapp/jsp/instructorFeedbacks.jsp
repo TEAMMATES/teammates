@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
+<%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="feedbacks" %>
 <c:set var="jsIncludes">
         <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
         
@@ -17,19 +18,19 @@
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Add New Feedback Session" jsIncludes="${jsIncludes}">
     
     <c:if test="${!data.usingAjax}">
-        <ti:feedbackSessionsNewForm newForm="${data.newForm}"/>
+        <feedbacks:feedbackSessionsNewForm newForm="${data.newForm}"/>
     </c:if>
     <br>
     <t:statusMessage />
     <br>
     <div id="sessionList" class="align-center">
         <c:if test="${data.usingAjax}"> 
-            <ti:feedbackSessionsTable fsList = "${data.fsList}" />
+            <feedbacks:feedbackSessionsTable fsList = "${data.fsList}" />
         </c:if>
     </div>
 
     <ti:remindModal />
-    <ti:copyFromModal existingFeedbackSessions="${data.fsList.existingFeedbackSessions}" newForm="${data.newForm}" />
+    <feedbacks:copyFromModal existingFeedbackSessions="${data.fsList.existingFeedbackSessions}" newForm="${data.newForm}" />
     <ti:copyModal />
     
 </ti:instructorPage>
