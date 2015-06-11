@@ -7,14 +7,18 @@ import java.util.Map;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.ui.template.InstructorStudentsListFilterBox;
 import teammates.ui.template.InstructorStudentsListFilterCourses;
 import teammates.ui.template.InstructorStudentsListSearchBox;
+import teammates.ui.template.InstructorStudentsListStudentsTableCourses;
 
 public class InstructorStudentListPageData extends PageData {
 
     private InstructorStudentsListSearchBox searchBox;
     private InstructorStudentsListFilterBox filterBox;
+    private List<InstructorStudentsListStudentsTableCourses> studentsTable;
     private int numOfCourses;
     public List<CourseAttributes> courses;
     public Boolean displayArchive;
@@ -36,16 +40,28 @@ public class InstructorStudentListPageData extends PageData {
                       Map<String, InstructorAttributes> instructors, Map<String, String> numStudents,
                       List<CourseAttributes> courses) {
         this.searchBox = new InstructorStudentsListSearchBox(getInstructorSearchLink(), searchKey, account.googleId);
-        List<InstructorStudentsListFilterCourses> coursesList = new ArrayList<InstructorStudentsListFilterCourses>();
+        List<InstructorStudentsListFilterCourses> coursesForFilter =
+                                        new ArrayList<InstructorStudentsListFilterCourses>();
+        List<InstructorStudentsListStudentsTableCourses> coursesForStudentsTable =
+                                        new ArrayList<InstructorStudentsListStudentsTableCourses>();
         for (CourseAttributes course : courses) {
             InstructorAttributes instructor = instructors.get(course.id);
-            boolean isCourseNotArchived = displayArchive || !isCourseArchived(course.id, instructor.googleId);
-            if (isCourseNotArchived) {
-                coursesList.add(new InstructorStudentsListFilterCourses(course.id, course.name));
+            boolean isCourseArchived = isCourseArchived(course.id, instructor.googleId);
+            boolean isCourseDisplayed = displayArchive || !isCourseArchived;
+            if (isCourseDisplayed) {
+                coursesForFilter.add(new InstructorStudentsListFilterCourses(course.id, course.name));
+                coursesForStudentsTable.add(
+                               new InstructorStudentsListStudentsTableCourses(isCourseArchived, course.id,
+                                                                             course.name, account.googleId,
+                                                                             numStudents.get(course.id),
+                                                                             getInstructorCourseEnrollLink(course.id),
+                               instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT)));
             }
         }
-        this.filterBox = new InstructorStudentsListFilterBox(coursesList, displayArchive);
-        this.numOfCourses = coursesList.size();
+        Assumption.assertEquals(coursesForFilter.size(), coursesForStudentsTable.size());
+        this.filterBox = new InstructorStudentsListFilterBox(coursesForFilter, displayArchive);
+        this.studentsTable = coursesForStudentsTable;
+        this.numOfCourses = coursesForFilter.size();
     }
     
     public InstructorStudentsListSearchBox getSearchBox() {
@@ -56,6 +72,10 @@ public class InstructorStudentListPageData extends PageData {
         return filterBox;
     }
     
+    public List<InstructorStudentsListStudentsTableCourses> getStudentsTable() {
+        return studentsTable;
+    }
+
     public int getNumOfCourses() {
         return numOfCourses;
     }
