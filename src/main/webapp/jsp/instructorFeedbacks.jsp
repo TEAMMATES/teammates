@@ -49,9 +49,10 @@
 <body onload="readyFeedbackPage();">
     <jsp:include page="<%= Const.ViewURIs.INSTRUCTOR_HEADER %>" />
 
-    <div id="frameBodyWrapper" class="container theme-showcase">
+    <div class="container" id="frameBodyWrapper">
         <div id="topOfPage"></div>
         <h1>Add New Feedback Session</h1>
+        <br>
         <% if (!data.isUsingAjax) { %>
             <div class="well well-plain">
                 <form class="form-group" method="post"

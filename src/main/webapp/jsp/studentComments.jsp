@@ -47,9 +47,10 @@
 <body>
     <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
 
-    <div id="frameBodyWrapper" class="container theme-showcase">
+    <div class="container" id="frameBodyWrapper">
         <div id="topOfPage"></div>
-        <h2>Comments</h2>
+        <h1>Comments</h1>
+        <br>
 
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         <br>
