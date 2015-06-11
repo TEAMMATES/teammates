@@ -56,8 +56,7 @@
     hideUncommonPanels();">
     <jsp:include page="<%= Const.ViewURIs.INSTRUCTOR_HEADER %>" />
 
-    <div class="container" id="frameBodyWrapper">
-        <div id="topOfPage"></div>
+    <div id="frameBodyWrapper" class="container">
         <h1>Edit Feedback Session</h1>
         <br>
 

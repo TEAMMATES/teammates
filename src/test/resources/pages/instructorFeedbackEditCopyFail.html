@@ -1,5 +1,4 @@
-<div class="container" id="frameBodyWrapper">
-        <div id="topOfPage"></div>
+<div id="frameBodyWrapper" class="container">
         <h1>Edit Feedback Session</h1>
         <br>
 
@@ -811,11 +810,10 @@
                         <span class="glyphicon glyphicon-plus">
                         </span> add more options
                     </a>
-                    
                     <div class="control-label">
                         <label>
-                            <input name="mcqOtherOptionFlag" id="mcqOtherOptionFlag--1" onchange="toggleMcqOtherOptionEnabled(this, -1)" type="checkbox">
-                                Add 'Other' option (Allows respondents to type in their own answer)
+                            <input id="mcqOtherOptionFlag--1" name="mcqOtherOptionFlag" onchange="toggleMcqOtherOptionEnabled(this, -1)" 
+                                   type="checkbox"/>Add &#39;Other&#39; option (Allows respondents to type in their own answer)
                         </label>
                     </div>
                 </div>
@@ -825,11 +823,7 @@
         <input name="noofchoicecreated" id="noofchoicecreated--1" value="2" type="hidden">
     </div>
     <div class="col-sm-6">
-        <label class="control-label col-sm-8">
-            <input disabled="disabled" id="generateOptionsCheckbox--1" onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox">
-                Or, generate options from the list of all 
-        </label>
-        
+        <label class="control-label col-sm-8"><input disabled="disabled" id="generateOptionsCheckbox--1" onchange="toggleMcqGeneratedOptions(this,-1)" type="checkbox">Or, generate options from the list of all </label>
         <div class="col-sm-4">
             <select class="form-control" id="mcqGenerateForSelect--1" onchange="changeMcqGenerateFor(-1)" disabled="disabled">
                 <option value="STUDENTS">students</option>
