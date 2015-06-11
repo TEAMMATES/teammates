@@ -495,9 +495,9 @@ public abstract class Action {
      * {@code isError} is also set to true.
      */
     protected void setStatusForException(Exception e) {
-        statusToUser.add(e.getMessage());
+        statusToUser.add(Sanitizer.sanitizeForHtml(e.getMessage()));
         isError = true;
-        statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + e.getMessage();
+        statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + Sanitizer.sanitizeForHtml(e.getMessage());
     }
     
     /**
@@ -507,9 +507,9 @@ public abstract class Action {
      * {@code isError} is also set to true.
      */
     protected void setStatusForException(Exception e, String statusMessageToUser) {
-        statusToUser.add(statusMessageToUser);
+        statusToUser.add(Sanitizer.sanitizeForHtml(statusMessageToUser));
         isError = true;
-        statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + e.getMessage();
+        statusToAdmin = Const.ACTION_RESULT_FAILURE + " : " + Sanitizer.sanitizeForHtml(e.getMessage());
     }
 
     protected boolean isInMasqueradeMode() {
