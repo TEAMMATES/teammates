@@ -45,16 +45,10 @@
     <jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
 
 
-    <div class="container theme-showcase" role="main">
-
-        <div id="frameBody">
-            <div id="frameBodyWrapper">
+    <div class="container" id="frameBodyWrapper">
                 <div id="topOfPage"></div>
-                <div id="headerOperation" class="page-header">
-                    <h1>Admin Search</h1>
-
-
-                </div>
+                <h1>Admin Search</h1>
+                <br>
 
 
                 <div class="well well-plain">
@@ -547,12 +541,6 @@
                 <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
 
             </div>
-
-
-        </div>
-
-
-    </div>
 
 
 

@@ -44,10 +44,9 @@
 </head>
 <body>
     <jsp:include page="<%= Const.ViewURIs.STUDENT_HEADER %>" />
-    <div id="frameBodyWrapper" class="container theme-showcase">
-        <div id="topOfPage">
-        </div>
-        <h2>Student Profile</h2>
+    <div class="container" id="frameBodyWrapper">
+        <div id="topOfPage"></div>
+        <h1>Student Profile</h1>
         <br>
         <jsp:include page="<%= Const.ViewURIs.STATUS_MESSAGE %>" />
         <br>

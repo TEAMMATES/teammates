@@ -38,13 +38,10 @@
     <div id="frameTop">
     <jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
     </div>
-    <div id="frameBody">
-        <div id="frameBodyWrapper" class="container">
+    <div class="container" id="frameBodyWrapper">
             <div id="topOfPage"></div>
-            <div id="headerOperation" class="page-header">
             <h1>Add New Instructor</h1>
-            </div>
-            <br />
+            <br>
             <div class="well well-plain">
                 <form method="post" action="<%=Const.ActionURIs.ADMIN_INSTRUCTORACCOUNT_ADD%>" name="form_addinstructoraccount">
                     <div>
@@ -73,7 +70,6 @@
             <br>
             <br>
         </div>
-    </div>
 
     <div id="frameBottom">
         <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />

@@ -55,11 +55,9 @@
 <body>
     <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
-    <div id="frameBody">
-        <div id="frameBodyWrapper" class="container">
-            <div>
-                <h1>Search</h1>
-            </div>
+    <div class="container" id="frameBodyWrapper">
+            <div id="topOfPage"></div>
+            <h1>Search</h1>
             <br>
             <div>
                 <form method="get" action="<%=data.getInstructorSearchLink()%>" name="search_form">
@@ -468,7 +466,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
              <% } %>
         </div>
     </div>
