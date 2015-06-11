@@ -40,9 +40,9 @@
     <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
     <div class="container" id="frameBodyWrapper">
-        <div id="headerOperation">
-            <h1>Enrollment Results for <%=sanitizeForHtml(data.courseId)%></h1>
-        </div>
+        <div id="topOfPage"></div>
+        <h1>Enrollment Results for <%=sanitizeForHtml(data.courseId)%></h1>
+        <br>
 
         <div class="alert alert-success">
         <form name='goBack' action="<%=data.getInstructorCourseEnrollLink(data.courseId)%>" method="post" role="form"> 

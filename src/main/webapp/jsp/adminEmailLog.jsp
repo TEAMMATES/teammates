@@ -43,13 +43,10 @@
 
     <jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
 
-    <div class="container theme-showcase" role="main">
-        <div id="frameBody">
-            <div id="frameBodyWrapper">
+    <div class="container" id="frameBodyWrapper">
                 <div id="topOfPage"></div>
-                <div id="headerOperation" class="page-header">
-                    <h1>Admin Email Log</h1>
-                </div>
+                <h1>Admin Email Log</h1>
+                <br>
 
                 <div class="well well-plain">
                     <form class="form-horizontal" method="post"
@@ -281,8 +278,6 @@
                 class="glyphicon glyphicon-arrow-up"></span>&nbsp;Top</a> <a
                 href="#" class="back-to-top-right">Top&nbsp;<span
                 class="glyphicon glyphicon-arrow-up"></span></a> <br> <br>
-        </div>
-    </div>
 
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>

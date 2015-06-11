@@ -46,13 +46,11 @@
 
     <jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
 
-    <div class="container theme-showcase" id="frameBodyWrapper"
-        role="main">
+    <div class="container" id="frameBodyWrapper">
         <div id="topOfPage"></div>
-        <div id="headerOperation" class="page-header">
-            <h1>Instructor Account Management</h1>
-            <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-        </div>
+        <h1>Instructor Account Management</h1>
+        <br>
+        <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         <div id="pagination_top">
             <ul class="pagination">
                 <li class="previous"><a href="#"> <span>&laquo;</span>

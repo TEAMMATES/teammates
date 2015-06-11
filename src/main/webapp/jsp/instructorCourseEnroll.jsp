@@ -43,9 +43,8 @@
  
     <div class="container" id="frameBodyWrapper">
         <div id="topOfPage"></div>
-        <div id="headerOperation">
-            <h1>Enroll Students for <%=sanitizeForHtml(data.courseId)%></h1>
-        </div>
+        <h1>Enroll Students for <%=sanitizeForHtml(data.courseId)%></h1>
+        <br>
         
         <div class="instructionImg">
             <img src="/images/enrollInstructions.gif" class="img-responsive" border="0" > 
