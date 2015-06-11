@@ -270,9 +270,10 @@
                         </table>  
                     </div>
                 </div>
-            </div>
             
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE_WITHOUT_FOCUS%>" />
+            
+            </div>
                     
             <a href="#" class="back-to-top-left"><span
                 class="glyphicon glyphicon-arrow-up"></span>&nbsp;Top</a> <a

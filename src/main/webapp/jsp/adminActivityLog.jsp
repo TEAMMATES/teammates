@@ -465,13 +465,6 @@
                 %>
 
 
-
-               
-
-
-            </div>
-
-
             <br> <br>
            
             <%
@@ -548,6 +541,7 @@
             class="glyphicon glyphicon-arrow-up"></span></a>
             
             <br> <br>
+    </div>
 
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
