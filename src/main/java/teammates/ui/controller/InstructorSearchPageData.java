@@ -154,16 +154,16 @@ public class InstructorSearchPageData extends PageData {
     
     private void setSearchStudentsTables() {
         searchStudentsTables = new ArrayList<SearchStudentsTable>(); // 1 table for each course      
-        ArrayList<String> courseIdList = getCourseIdsFromStudentSearchResultBundle(studentSearchResultBundle.studentList);
+        List<String> courseIdList = getCourseIdsFromStudentSearchResultBundle(studentSearchResultBundle.studentList);
         
         for (String courseId : courseIdList) {
             searchStudentsTables.add(createSearchStudentsTable(courseId));
         }
     }
     
-    private ArrayList<String> getCourseIdsFromStudentSearchResultBundle(
+    private List<String> getCourseIdsFromStudentSearchResultBundle(
                                     List<StudentAttributes> studentList) {
-        ArrayList<String> courses = new ArrayList<String>();
+        List<String> courses = new ArrayList<String>();
         
         for (StudentAttributes student : studentSearchResultBundle.studentList) {
             String course = student.course;
