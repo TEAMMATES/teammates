@@ -66,13 +66,32 @@ public class InstructorFeedbacksPageData extends PageData {
                      feedbackSessionType, highlightedFeedbackSession);
         
         
-        buildFsList(courseIdForNewSession, existingFeedbackSessions, instructors,
-                                        highlightedFeedbackSession);
+        buildFsList(courseIdForNewSession, existingFeedbackSessions, 
+                    instructors, highlightedFeedbackSession);
         
         
         buildCopyFromModal(courses, courseIdForNewSession, existingFeedbackSessions, instructors,
-                                        defaultFormValues, highlightedFeedbackSession);
+                           defaultFormValues, highlightedFeedbackSession);
     }
+    
+    public void initWithoutHighlightedRow(List<CourseAttributes> courses, String courseIdForNewSession, 
+                                          List<FeedbackSessionAttributes> existingFeedbackSessions,
+                                          HashMap<String, InstructorAttributes> instructors,
+                                          FeedbackSessionAttributes defaultFormValues, String feedbackSessionType) {
+
+        init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, defaultFormValues, feedbackSessionType, null);
+    }
+    
+    public void initWithoutDefaultValues(List<CourseAttributes> courses, String courseIdForNewSession, 
+                                    List<FeedbackSessionAttributes> existingFeedbackSessions,
+                                    HashMap<String, InstructorAttributes> instructors,
+                                    String highlightedFeedbackSession) {
+
+         init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, null, null, highlightedFeedbackSession);
+    }
+    
+    
+    
 
     private void buildCopyFromModal(List<CourseAttributes> courses, String courseIdForNewSession,
                                     List<FeedbackSessionAttributes> existingFeedbackSessions,

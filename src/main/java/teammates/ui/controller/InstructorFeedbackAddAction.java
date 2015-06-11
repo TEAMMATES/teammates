@@ -100,8 +100,8 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY);
         }
         
-        data.init(courses, courseId, feedbackSessions, instructors, fs, 
-                  feedbackSessionType, null);
+        data.initWithoutHighlightedRow(courses, courseId, feedbackSessions, instructors, fs, 
+                  feedbackSessionType);
         
        
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);

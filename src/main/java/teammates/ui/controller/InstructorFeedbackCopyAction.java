@@ -78,7 +78,7 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
         List<FeedbackSessionAttributes> feedbackSessions = loadFeedbackSessionsList(instructorList);
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(feedbackSessions);
         
-        data.init(courses, null, feedbackSessions, instructors, fs, null, null);
+        data.initWithoutHighlightedRow(courses, null, feedbackSessions, instructors, fs, null);
         
         
         if (data.getFsList().getExistingFeedbackSessions().isEmpty()) {

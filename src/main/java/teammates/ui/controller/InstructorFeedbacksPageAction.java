@@ -20,7 +20,7 @@ public class InstructorFeedbacksPageAction extends Action {
         // This can be null. Non-null value indicates the page is being loaded 
         // to add a feedback to the specified course
         String courseIdForNewSession = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionNameForSessionList = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        String feedbackSessionToHighlight = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String isUsingAjax = getRequestParamValue(Const.ParamsNames.IS_USING_AJAX);
         
         new GateKeeper().verifyInstructorPrivileges(account);
@@ -55,8 +55,8 @@ public class InstructorFeedbacksPageAction extends Action {
         }
         
 
-        data.init(courses, courseIdForNewSession, existingFeedbackSessions,
-                  instructors, null, null, feedbackSessionNameForSessionList);
+        data.initWithoutDefaultValues(courses, courseIdForNewSession, existingFeedbackSessions,
+                  instructors, feedbackSessionToHighlight);
         
         if (courses.isEmpty()) {
             statusToUser.add(Const.StatusMessages.COURSE_EMPTY_IN_INSTRUCTOR_FEEDBACKS
