@@ -65,7 +65,7 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         
         ______TS("typical success case: test new fs form");
         // Test new fs form model
-        FeedbackSessionsForm formModel = data.getNewForm();
+        FeedbackSessionsForm formModel = data.getNewFsForm();
         
         assertNull(formModel.getCourseIdForNewSession());
         assertEquals(1, formModel.getCoursesSelectField().size());
@@ -147,7 +147,7 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         
         ______TS("case with instructor with restricted permissions: test new fs form");
         // Test new fs form model
-        formModel = helperData.getNewForm();
+        formModel = helperData.getNewFsForm();
         
         assertNull(formModel.getCourseIdForNewSession());
         assertEquals(1, formModel.getCoursesSelectField().size());
@@ -233,7 +233,7 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         
         ______TS("typical success case with existing fs passed in: test new fs form");
         // Test new fs form model
-        FeedbackSessionsForm formModel = data.getNewForm();
+        FeedbackSessionsForm formModel = data.getNewFsForm();
         
         assertNull(formModel.getCourseIdForNewSession());
         assertEquals(1, formModel.getCoursesSelectField().size());
@@ -315,7 +315,7 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         
         data.initWithoutHighlightedRow(courses, "idOfTypicalCourse1", fsList, courseInstructorMap, fsa, "STANDARD");
         
-        FeedbackSessionsForm formModel = data.getNewForm();
+        FeedbackSessionsForm formModel = data.getNewFsForm();
         
         assertEquals("idOfTypicalCourse1", formModel.getCourseIdForNewSession());
         assertEquals(1, formModel.getCoursesSelectField().size());

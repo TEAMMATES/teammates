@@ -28,7 +28,7 @@ public class InstructorFeedbacksPageData extends PageData {
     private boolean isUsingAjax;
     
     private FeedbackSessionsTable fsList;
-    private FeedbackSessionsForm newForm;
+    private FeedbackSessionsForm newFsForm;
     private FeedbackSessionsCopyFromModal copyFromModal;
     
 
@@ -132,100 +132,100 @@ public class InstructorFeedbacksPageData extends PageData {
                                     HashMap<String, InstructorAttributes> instructors,
                                     FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
                                     String feedbackSessionNameForSessionList) {
-        newForm = new FeedbackSessionsForm();
+        newFsForm = new FeedbackSessionsForm();
         
         List<String> courseIds = new ArrayList<String>();
         for (CourseAttributes course : courses) {
             courseIds.add(course.id);
         }
         
-        newForm.setCourseIdForNewSession(courseIdForNewSession);
+        newFsForm.setCourseIdForNewSession(courseIdForNewSession);
         
-        newForm.setFsName(newFeedbackSession == null ? "" : newFeedbackSession.feedbackSessionName);
+        newFsForm.setFsName(newFeedbackSession == null ? "" : newFeedbackSession.feedbackSessionName);
         
-        newForm.setCourses(courseIds);
+        newFsForm.setCourses(courseIds);
         
-        newForm.setCourseOptionsEmpty(courses.isEmpty());
+        newFsForm.setCourseOptionsEmpty(courses.isEmpty());
         
-        newForm.setFeedbackSessionTypeOptions(getFeedbackSessionTypeOptions(feedbackSessionType));
+        newFsForm.setFeedbackSessionTypeOptions(getFeedbackSessionTypeOptions(feedbackSessionType));
 
-        newForm.setFeedbackSessionNameForSessionList(feedbackSessionNameForSessionList);
+        newFsForm.setFeedbackSessionNameForSessionList(feedbackSessionNameForSessionList);
         
-        newForm.setCoursesSelectField(getCourseIdOptions(courses,  courseIdForNewSession, 
+        newFsForm.setCoursesSelectField(getCourseIdOptions(courses,  courseIdForNewSession, 
                                                         instructors, newFeedbackSession));
         
-        newForm.setTimezoneSelectField(getTimeZoneOptionsAsHtml(newFeedbackSession));
+        newFsForm.setTimezoneSelectField(getTimeZoneOptionsAsHtml(newFeedbackSession));
         
         
-        newForm.setInstructions(newFeedbackSession == null ?
+        newFsForm.setInstructions(newFeedbackSession == null ?
                                 "Please answer all the given questions." :
                                 InstructorFeedbacksPageData.sanitizeForHtml(newFeedbackSession.instructions.getValue()));
         
-        newForm.setFsStartDate(newFeedbackSession == null ?
+        newFsForm.setFsStartDate(newFeedbackSession == null ?
                                TimeHelper.formatDate(TimeHelper.getNextHour()) :
                                TimeHelper.formatDate(newFeedbackSession.startTime));
         
         Date date;
         date = newFeedbackSession == null ? null : newFeedbackSession.startTime;
-        newForm.setFsStartTimeOptions(getTimeOptionsAsElementTags(date));
+        newFsForm.setFsStartTimeOptions(getTimeOptionsAsElementTags(date));
         
-        newForm.setFsEndDate(newFeedbackSession == null ?
+        newFsForm.setFsEndDate(newFeedbackSession == null ?
                              "" : 
                              TimeHelper.formatDate(newFeedbackSession.endTime));
         
         
         date = newFeedbackSession == null ? null : newFeedbackSession.endTime;
-        newForm.setFsEndTimeOptions(getTimeOptionsAsElementTags(date));
+        newFsForm.setFsEndTimeOptions(getTimeOptionsAsElementTags(date));
         
-        newForm.setGracePeriodOptions(getGracePeriodOptionsAsElementTags(newFeedbackSession));
+        newFsForm.setGracePeriodOptions(getGracePeriodOptionsAsElementTags(newFeedbackSession));
         
         
         boolean hasSessionVisibleDate = newFeedbackSession != null &&
                                         !TimeHelper.isSpecialTime(newFeedbackSession.sessionVisibleFromTime);
-        newForm.setSessionVisibleDateButtonChecked(hasSessionVisibleDate);
-        newForm.setSessionVisibleDateValue(hasSessionVisibleDate ? 
+        newFsForm.setSessionVisibleDateButtonChecked(hasSessionVisibleDate);
+        newFsForm.setSessionVisibleDateValue(hasSessionVisibleDate ? 
                                            TimeHelper.formatDate(newFeedbackSession.sessionVisibleFromTime) :
                                            "");
-        newForm.setSessionVisibleDateDisabled(!hasSessionVisibleDate);
+        newFsForm.setSessionVisibleDateDisabled(!hasSessionVisibleDate);
         
         date = hasSessionVisibleDate ? newFeedbackSession.sessionVisibleFromTime : null;   
-        newForm.setSessionVisibleTimeOptions(getTimeOptionsAsElementTags(date));
+        newFsForm.setSessionVisibleTimeOptions(getTimeOptionsAsElementTags(date));
         
-        newForm.setSessionVisibleAtOpenChecked(newFeedbackSession == null 
+        newFsForm.setSessionVisibleAtOpenChecked(newFeedbackSession == null 
                                                 || Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(
                                                            newFeedbackSession.sessionVisibleFromTime));
         
-        newForm.setSessionVisiblePrivateChecked(newFeedbackSession != null 
+        newFsForm.setSessionVisiblePrivateChecked(newFeedbackSession != null 
                                                  && Const.TIME_REPRESENTS_NEVER.equals(
                                                            newFeedbackSession.sessionVisibleFromTime));
                         
         boolean hasResultVisibleDate = newFeedbackSession != null 
                                        && !TimeHelper.isSpecialTime(newFeedbackSession.resultsVisibleFromTime);
         
-        newForm.setResponseVisibleDateChecked(hasResultVisibleDate);
+        newFsForm.setResponseVisibleDateChecked(hasResultVisibleDate);
         
-        newForm.setResponseVisibleDateValue(hasResultVisibleDate ? 
+        newFsForm.setResponseVisibleDateValue(hasResultVisibleDate ? 
                                             TimeHelper.formatDate(newFeedbackSession.resultsVisibleFromTime) :
                                             "");
         
-        newForm.setResponseVisibleDisabled(!hasResultVisibleDate);
+        newFsForm.setResponseVisibleDisabled(!hasResultVisibleDate);
         
         date = hasResultVisibleDate ? newFeedbackSession.resultsVisibleFromTime :  null;
         
-        newForm.setResponseVisibleTimeOptions(getTimeOptionsAsElementTags(date));
+        newFsForm.setResponseVisibleTimeOptions(getTimeOptionsAsElementTags(date));
         
-        newForm.setResponseVisibleImmediatelyChecked((newFeedbackSession != null 
+        newFsForm.setResponseVisibleImmediatelyChecked((newFeedbackSession != null 
                                                           && Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(newFeedbackSession.resultsVisibleFromTime)));
         
-        newForm.setResponseVisiblePublishManuallyChecked(
+        newFsForm.setResponseVisiblePublishManuallyChecked(
                                  (newFeedbackSession == null 
                                   || Const.TIME_REPRESENTS_LATER.equals(newFeedbackSession.resultsVisibleFromTime) 
                                   || Const.TIME_REPRESENTS_NOW.equals(newFeedbackSession.resultsVisibleFromTime)));
         
-        newForm.setResponseVisibleNeverChecked((newFeedbackSession != null  
+        newFsForm.setResponseVisibleNeverChecked((newFeedbackSession != null  
                                                     && Const.TIME_REPRESENTS_NEVER.equals(newFeedbackSession.resultsVisibleFromTime)));
                                 
-        newForm.setSubmitButtonDisabled(courses.isEmpty());
+        newFsForm.setSubmitButtonDisabled(courses.isEmpty());
     }
     
     
@@ -279,8 +279,8 @@ public class InstructorFeedbacksPageData extends PageData {
         return fsList;
     }
     
-    public FeedbackSessionsForm getNewForm() {
-        return newForm;
+    public FeedbackSessionsForm getNewFsForm() {
+        return newFsForm;
     }
     
     public FeedbackSessionsCopyFromModal getCopyFromModal() {

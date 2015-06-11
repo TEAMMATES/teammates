@@ -18,7 +18,7 @@
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Add New Feedback Session" jsIncludes="${jsIncludes}">
     
     <c:if test="${!data.usingAjax}">
-        <feedbacks:feedbackSessionsNewForm newForm="${data.newForm}"/>
+        <feedbacks:feedbackSessionsForm fsForm="${data.newFsForm}"/>
     </c:if>
     <br>
     <t:statusMessage />

@@ -4,7 +4,7 @@
 <%@ tag import="teammates.common.util.FieldValidator" %>
 <%@ tag import="teammates.logic.core.Emails.EmailType" %>
 
-<%@ attribute name="fsList" type="teammates.ui.template.FeedbackSessionsList" required="true"%>
+<%@ attribute name="fsList" type="teammates.ui.template.FeedbackSessionsTable" required="true"%>
 
 <table class="table-responsive table table-striped table-bordered" id="table-sessions">
     <thead>
