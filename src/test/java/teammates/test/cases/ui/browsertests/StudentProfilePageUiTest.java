@@ -97,7 +97,10 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
                                          spa.gender, spa.moreInfo);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality",
                                           "female", "this is enough!$%&*</>");
-        profilePage.verifyStatus(StringHelper.toString(spa.getInvalidityInfo(), " "));
+        profilePage.verifyStatus(StringHelper.toString(spa.getInvalidityInfo(), " ")
+                                             // de-sanitize
+                                             .replace("&lt;", "<").replace("&gt;", ">")
+                                             .replace("&quot;", "\"").replace("&#x2f;", "/"));
         
         ______TS("Failure case: invalid data");
 
