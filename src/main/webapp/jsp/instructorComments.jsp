@@ -58,12 +58,15 @@
 <body>
     <jsp:include page="<%= Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
-    <div class="container" id="frameBodyWrapper">
+    <div id="frameBody">
+        <div id="frameBodyWrapper" class="container">
             <div id="topOfPage"></div>
-            <h1>Comments from Instructors</h1>
-            <br>
+            <div class="inner-container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h1>Comments from Instructors</h1>
+                    </div>
                     <div class="col-sm-6 instructor-header-bar">
-                    <br>
                         <form method="get" action="<%= data.getInstructorSearchLink() %>" name="search_form">
                             <div class="input-group">
                                 <input type="text" name="<%= Const.ParamsNames.SEARCH_KEY %>"
@@ -84,6 +87,8 @@
                             <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="<%= data.account.googleId %>">
                         </form>
                     </div>
+                </div>
+            </div>
             <br>
             <jsp:include page="<%= Const.ViewURIs.STATUS_MESSAGE %>" />
             <div class="well well-plain">
@@ -643,6 +648,7 @@
                     There is no comment to display
                 </div>
             <% } %>
+        </div>
     </div>
     <jsp:include page="<%= Const.ViewURIs.FOOTER %>" />
 </body>

@@ -254,19 +254,20 @@
     </div>
 </div>
 
-    <div id="frameBodyWrapper" class="container">
+    <div id="frameBody">
+        <div class="container" id="frameBodyWrapper">
             <div id="topOfPage"></div>
-            <h1>Comments from Instructors</h1>
-            <br />
+            <div class="inner-container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h1>Comments from Instructors</h1>
+                    </div>
                     <div class="col-sm-6 instructor-header-bar">
-                    <br />
                         <form name="search_form" action="/page/instructorSearchPage?user=comments.instructorWithoutCourses" method="get">
                             <div class="input-group">
                                 <input type="text" id="searchBox" placeholder="Any info related to comments" class="form-control" title="Search for comment" name="searchkey" /> 
                                 <span class="input-group-btn">
-                                    <button id="buttonSearch" value="Search" type="submit" class="btn btn-default">
-                                        Search
-                                    </button>
+                                    <button id="buttonSearch" value="Search" type="submit" class="btn btn-default">Search</button>
                                 </span>
                             </div>
                             <input type="hidden" value="true" name="searchcommentforstudents" />
@@ -274,32 +275,30 @@
                             <input type="hidden" value="comments.instructorWithoutCourses" name="user" />
                         </form>
                     </div>
+                </div>
+            </div>
             <br />
             
 
 
 
 
-        <div style="display: none;" id="statusMessage"></div>
+    <div style="display: none;" id="statusMessage"></div>
 
             <div class="well well-plain">
                 <div class="row">
                     <div class="col-md-2">
                         <div class="checkbox">
                             <input type="checkbox" id="option-check" />
-                            <label for="option-check">
-                                Show More
-                                Options
-                            </label>
+                            <label for="option-check">Show More
+                                Options</label>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="checkbox">
                             <input type="checkbox" id="displayArchivedCourses_check" />
-                            <label for="displayArchivedCourses_check">
-                                Include
-                                Archived Courses
-                            </label>
+                            <label for="displayArchivedCourses_check">Include
+                                Archived Courses</label>
                             <div style="display:none;" id="displayArchivedCourses_link">
                                 <a href="/page/instructorCommentsPage?user=comments.instructorWithoutCourses">link back to the page</a>
                             </div>
@@ -316,8 +315,7 @@
                                     </div>
                                     <br />
                                     <div class="checkbox">
-                                        <input type="checkbox" checked="checked" id="panel_all" />
-                                        <label for="panel_all"><strong>All</strong></label>
+                                        <input type="checkbox" checked="checked" id="panel_all" /> <label for="panel_all"><strong>All</strong></label>
                                     </div>
                                     <br />
                                     
@@ -330,23 +328,16 @@
                                     </div>
                                     <br />
                                     <div class="checkbox">
-                                        <input type="checkbox" checked="checked" id="giver_all" value="" /> 
-                                        <label for="giver_all">
-                                            <strong>All</strong>
-                                        </label>
+                                        <input type="checkbox" checked="checked" id="giver_all" value="" /> <label for="giver_all"><strong>All</strong></label>
                                     </div>
                                     <br />
                                     <div class="checkbox">
-                                        <input type="checkbox" checked="checked" id="giver_check-by-you" />
-                                        <label for="giver_check-by-you">
-                                            You
-                                        </label>
+                                        <input type="checkbox" checked="checked" id="giver_check-by-you" /> <label for="giver_check-by-you">
+                                            You </label>
                                     </div>
                                     <div class="checkbox">
-                                        <input type="checkbox" checked="checked" id="giver_check-by-others" />
-                                        <label for="giver_check-by-others">
-                                            Others
-                                        </label>
+                                        <input type="checkbox" checked="checked" id="giver_check-by-others" /> <label for="giver_check-by-others">
+                                            Others </label>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
@@ -355,23 +346,16 @@
                                     </div>
                                     <br />
                                     <div class="checkbox">
-                                        <input type="checkbox" checked="checked" id="status_all" value="" /> 
-                                        <label for="status_all">
-                                            <strong>All</strong>
-                                        </label>
+                                        <input type="checkbox" checked="checked" id="status_all" value="" /> <label for="status_all"><strong>All</strong></label>
                                     </div>
                                     <br />
                                     <div class="checkbox">
-                                        <input type="checkbox" checked="checked" id="status_check-public" />
-                                        <label for="status_check-public">
-                                            Public
-                                        </label>
+                                        <input type="checkbox" checked="checked" id="status_check-public" /> <label for="status_check-public">
+                                            Public </label>
                                     </div>
                                     <div class="checkbox">
-                                        <input type="checkbox" checked="checked" id="status_check-private" />
-                                        <label for="status_check-private">
-                                            Private
-                                        </label>
+                                        <input type="checkbox" checked="checked" id="status_check-private" /> <label for="status_check-private">
+                                            Private </label>
                                     </div>
                                 </div>
                             </div>
@@ -380,14 +364,15 @@
                 </div>
             </div>
             
-                <div class="alert alert-warning" id="statusMessage">
-                    There is no comment to display
-                </div>
+            <div class="alert alert-warning" id="statusMessage">
+                There is no comment to display
+            </div>
+                
             
+        </div>
     </div>
+
     
-
-
 
 
 
@@ -408,6 +393,5 @@
         </div>
     </div>
 </div>
-
 
 </body></html>

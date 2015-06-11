@@ -1,38 +1,39 @@
-<div class="container" id="frameBodyWrapper">
-            <div id="topOfPage"></div>
-            <h1>Search</h1>
+<div id="frameBodyWrapper" class="container">
+            <div>
+                <h1>Search</h1>
+            </div>
             <br>
             <div>
                 <form method="get" action="/page/instructorSearchPage?user=comments.idOfInstructor1OfCourse1" name="search_form">
                     <div class="well well-plain">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <input name="searchkey" value="comments" title="Search for comment" placeholder="Your search keyword" class="form-control" id="searchBox" type="text">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-primary" type="submit" value="Search" id="buttonSearch">Search</button>
-                                </span>
-                            </div>
-                            <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input name="searchkey" value="comments" title="Search for comment" placeholder="Your search keyword" class="form-control" id="searchBox" type="text">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="submit" value="Search" id="buttonSearch">Search</button>
+                            </span>
                         </div>
-                        <div class="form-group">
-                            <ul class="list-inline">
-                                <li>
-                                    <span data-original-title="Tick the checkboxes to limit your search to certain categories" data-toggle="tooltip" title="" class="glyphicon glyphicon-info-sign"></span>
-                                </li>
-                                <li>
-                                    <input id="comments-for-student-check" name="searchcommentforstudents" value="true" checked="" type="checkbox">
-                                    <label for="comments-for-student-check">Comments for students</label>
-                                </li>
-                                <li>
-                                    <input id="comments-for-responses-check" name="searchcommentforresponses" value="true" checked="" type="checkbox">
-                                    <label for="comments-for-responses-check">Comments for responses</label>
-                                </li>
-                                <li>
-                                    <input id="students-check" name="searchstudents" value="true" type="checkbox">
-                                    <label for="students-check">Students</label>
-                                </li>
-                            </ul>
-                        </div>
+                        <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
+                    </div>
+                    <div class="form-group">
+                        <ul class="list-inline">
+                            <li>
+                                <span data-original-title="Tick the checkboxes to limit your search to certain categories" data-toggle="tooltip" title="" class="glyphicon glyphicon-info-sign"></span>
+                            </li>
+                            <li>
+                                <input id="comments-for-student-check" name="searchcommentforstudents" value="true" checked="" type="checkbox">
+                                <label for="comments-for-student-check">Comments for students</label>
+                            </li>
+                            <li>
+                                <input id="comments-for-responses-check" name="searchcommentforresponses" value="true" checked="" type="checkbox">
+                                <label for="comments-for-responses-check">Comments for responses</label>
+                            </li>
+                            <li>
+                                <input id="students-check" name="searchstudents" value="true" type="checkbox">
+                                <label for="students-check">Students</label>
+                            </li>
+                        </ul>
+                    </div>
                     </div>
                 </form>
             </div>
@@ -42,7 +43,7 @@
 
 
 
-        <div id="statusMessage" style="display: none;"></div>
+    <div id="statusMessage" style="display: none;"></div>
 
             
             <div class="panel panel-primary">
@@ -130,19 +131,18 @@
                                 <tbody>
                                     
                                     <tr>
-                                        <td>
-                                            <b>From:</b> student1 In Course1 (Team 1.1)
+                                        <td><b>From:</b> student1 In Course1 (Team 1.1)
                                             <b>To:</b> student1 In Course1 (Team 1.1)
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                            <strong>Response:</strong>
-                                            Student 1 self feedback.
+                                        <td><strong>Response:
+                                        </strong>Student 1 self feedback.
                                         </td>
                                     </tr>
                                     <tr class="active">
-                                        <td>Comment(s):</td>
+                                        <td>Comment(s):
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -151,8 +151,7 @@
                                                 
                                                 <li class="list-group-item list-group-item-warning" id="responseCommentRow-1-1-1-1">
                                                     <div id="commentBar-1-1-1-1">
-                                                        <span class="text-muted">
-                                                            From:
+                                                        <span class="text-muted">From:
                                                             <b>Instructor Instructor1 Course1</b>
                                                             on Tue, 01 Mar 2016, 23:59
                                                         </span>
@@ -160,9 +159,7 @@
                                                             <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
                                                         </a>
                                                     </div> <!-- frComment Content -->
-                                                    <div style="margin-left: 15px;" id="plainCommentText-1-1-1-1">
-                                                        Instructor 1 comment to student 1 self feedback
-                                                    </div>
+                                                    <div style="margin-left: 15px;" id="plainCommentText-1-1-1-1">Instructor 1 comment to student 1 self feedback</div>
                                                 </li>
                                                 
                                             </ul>
