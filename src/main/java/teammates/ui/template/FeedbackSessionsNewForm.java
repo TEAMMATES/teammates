@@ -46,15 +46,15 @@ public class FeedbackSessionsNewForm {
     
 
 
-    public boolean isResponseVisibleDisabled;
-    public List<ElementTag> responseVisibleTimeOptions;
-    public boolean isResponseVisibleImmediatelyChecked;
-    public boolean isResponseVisiblePublishManuallyChecked;
-    public boolean isResponseVisibleNeverChecked;
-    public boolean isSubmitButtonDisabled;
-    
+    private boolean isResponseVisibleDisabled;
+    private List<ElementTag> responseVisibleTimeOptions;
+    private boolean isResponseVisibleImmediatelyChecked;
+    private boolean isResponseVisiblePublishManuallyChecked;
     
 
+    private boolean isResponseVisibleNeverChecked;
+    private boolean isSubmitButtonDisabled;
+    
 
     public FeedbackSessionsNewForm() {
     }
@@ -195,7 +195,7 @@ public class FeedbackSessionsNewForm {
         return gracePeriodOptions;
     }
 
-    public boolean getSessionVisibleDateButtonChecked() {
+    public boolean isSessionVisibleDateButtonChecked() {
         return isSessionVisibleDateButtonChecked;
     }
 
@@ -265,6 +265,30 @@ public class FeedbackSessionsNewForm {
 
     public boolean isSubmitButtonDisabled() {
         return isSubmitButtonDisabled;
+    }
+    
+    public void setResponseVisibleDisabled(boolean isResponseVisibleDisabled) {
+        this.isResponseVisibleDisabled = isResponseVisibleDisabled;
+    }
+
+    public void setResponseVisibleTimeOptions(List<ElementTag> responseVisibleTimeOptions) {
+        this.responseVisibleTimeOptions = responseVisibleTimeOptions;
+    }
+
+    public void setResponseVisibleImmediatelyChecked(boolean isResponseVisibleImmediatelyChecked) {
+        this.isResponseVisibleImmediatelyChecked = isResponseVisibleImmediatelyChecked;
+    }
+
+    public void setResponseVisiblePublishManuallyChecked(boolean isResponseVisiblePublishManuallyChecked) {
+        this.isResponseVisiblePublishManuallyChecked = isResponseVisiblePublishManuallyChecked;
+    }
+
+    public void setResponseVisibleNeverChecked(boolean isResponseVisibleNeverChecked) {
+        this.isResponseVisibleNeverChecked = isResponseVisibleNeverChecked;
+    }
+
+    public void setSubmitButtonDisabled(boolean isSubmitButtonDisabled) {
+        this.isSubmitButtonDisabled = isSubmitButtonDisabled;
     }
 
     

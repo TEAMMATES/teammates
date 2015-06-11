@@ -188,24 +188,22 @@ public class InstructorFeedbacksPageData extends PageData {
         newForm.setResponseVisibleDateChecked(hasResultVisibleDate);
         newForm.setResponseVisibleDateValue(hasResultVisibleDate ?
                                         TimeHelper.formatDate(newFeedbackSession.resultsVisibleFromTime) : "");
-        newForm.isResponseVisibleDisabled = !hasResultVisibleDate;
+        newForm.setResponseVisibleDisabled(!hasResultVisibleDate);
         
         date = hasResultVisibleDate ? newFeedbackSession.resultsVisibleFromTime :  null;
-        newForm.responseVisibleTimeOptions = getTimeOptionsAsElementTags(date);
+        newForm.setResponseVisibleTimeOptions(getTimeOptionsAsElementTags(date));
         
-        newForm.isResponseVisibleImmediatelyChecked 
-            = (newFeedbackSession != null 
-               && Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(newFeedbackSession.resultsVisibleFromTime));
-        newForm.isResponseVisiblePublishManuallyChecked 
-            = (newFeedbackSession == null 
-               || Const.TIME_REPRESENTS_LATER.equals(newFeedbackSession.resultsVisibleFromTime) 
-               || Const.TIME_REPRESENTS_NOW.equals(newFeedbackSession.resultsVisibleFromTime));
+        newForm.setResponseVisibleImmediatelyChecked((newFeedbackSession != null 
+           && Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(newFeedbackSession.resultsVisibleFromTime)));
+        newForm.setResponseVisiblePublishManuallyChecked((newFeedbackSession == null 
+           || Const.TIME_REPRESENTS_LATER.equals(newFeedbackSession.resultsVisibleFromTime) 
+           || Const.TIME_REPRESENTS_NOW.equals(newFeedbackSession.resultsVisibleFromTime)));
         
-        newForm.isResponseVisibleNeverChecked = (newFeedbackSession != null 
+        newForm.setResponseVisibleNeverChecked((newFeedbackSession != null 
                                                  && Const.TIME_REPRESENTS_NEVER
-                                                    .equals(newFeedbackSession.resultsVisibleFromTime));
+                                                    .equals(newFeedbackSession.resultsVisibleFromTime)));
                                 
-        newForm.isSubmitButtonDisabled = courses.isEmpty();
+        newForm.setSubmitButtonDisabled(courses.isEmpty());
    
     }
     
