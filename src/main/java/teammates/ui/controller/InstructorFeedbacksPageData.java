@@ -14,6 +14,7 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackSessionRow;
+import teammates.ui.template.FeedbackSessionsCopyFromModal;
 import teammates.ui.template.FeedbackSessionsList;
 import teammates.ui.template.FeedbackSessionsNewForm;
 
@@ -28,8 +29,10 @@ public class InstructorFeedbacksPageData extends PageData {
     
     private FeedbackSessionsList fsList;
     private FeedbackSessionsNewForm newForm;
+    private FeedbackSessionsCopyFromModal copyFromModal;
     
     
+
     public InstructorFeedbacksPageData(AccountAttributes account) {
         super(account);
         
@@ -46,32 +49,62 @@ public class InstructorFeedbacksPageData extends PageData {
      * @param courseIdForNewSession     the course id to automatically select in the dropdown
      * @param existingFeedbackSessions  list of existing feedback sessions 
      * @param instructors               a map of courseId to the instructorAttributes for the current user
-     * @param newFeedbackSession        the feedback session which values are used as the default values in the form
+     * @param defaultFormValues        the feedback session which values are used as the default values in the form
      * @param feedbackSessionType       "TEAMEVALUATION" or "STANDARD"
-     * @param feedbackSessionNameForSessionList  the feedback session to highlight in the sessions table
+     * @param highlightedFeedbackSession  the feedback session to highlight in the sessions table
      */
     public void init(List<CourseAttributes> courses, String courseIdForNewSession, 
                      List<FeedbackSessionAttributes> existingFeedbackSessions,
                      HashMap<String, InstructorAttributes> instructors,
-                     FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType, 
-                     String feedbackSessionNameForSessionList) {
+                     FeedbackSessionAttributes defaultFormValues, String feedbackSessionType, 
+                     String highlightedFeedbackSession) {
 
+        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(existingFeedbackSessions);
         
         buildNewForm(courses, courseIdForNewSession, 
-                     instructors, newFeedbackSession, 
-                     feedbackSessionType, feedbackSessionNameForSessionList);
+                     instructors, defaultFormValues, 
+                     feedbackSessionType, highlightedFeedbackSession);
         
         
         buildFsList(courseIdForNewSession, existingFeedbackSessions, instructors,
-                                        feedbackSessionNameForSessionList);
+                                        highlightedFeedbackSession);
         
+        
+        buildCopyFromModal(courses, courseIdForNewSession, existingFeedbackSessions, instructors,
+                                        defaultFormValues, highlightedFeedbackSession);
+    }
+
+    private void buildCopyFromModal(List<CourseAttributes> courses, String courseIdForNewSession,
+                                    List<FeedbackSessionAttributes> existingFeedbackSessions,
+                                    HashMap<String, InstructorAttributes> instructors,
+                                    FeedbackSessionAttributes newFeedbackSession,
+                                    String feedbackSessionNameForSessionList) {
+        List<FeedbackSessionAttributes> filteredFeedbackSessions = new ArrayList<FeedbackSessionAttributes>();
+        for (FeedbackSessionAttributes existingFeedbackSession : existingFeedbackSessions) {
+            if (instructors.get(existingFeedbackSession.courseId)
+                           .isAllowedForPrivilege(
+                                  Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
+                filteredFeedbackSessions.add(existingFeedbackSession);
+            }
+        }
+            
+
+        List<FeedbackSessionRow> filteredFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(
+                                                                   filteredFeedbackSessions,
+                                                                   instructors, feedbackSessionNameForSessionList,
+                                                                   courseIdForNewSession);
+        
+        String fsName = newFeedbackSession != null ? newFeedbackSession.feedbackSessionName : "";
+        copyFromModal = new FeedbackSessionsCopyFromModal(filteredFeedbackSessionsRow, 
+                                                          fsName, 
+                                                          getCourseIdOptions(courses, courseIdForNewSession, 
+                                                                             instructors, newFeedbackSession));
     }
 
     private void buildFsList(String courseIdForNewSession,
                                     List<FeedbackSessionAttributes> existingFeedbackSessions,
                                     HashMap<String, InstructorAttributes> instructors,
                                     String feedbackSessionNameForSessionList) {
-        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(existingFeedbackSessions);
         List<FeedbackSessionRow> existingFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(existingFeedbackSessions,
                                         instructors, feedbackSessionNameForSessionList, courseIdForNewSession);
         fsList = new FeedbackSessionsList(existingFeedbackSessionsRow);
@@ -184,7 +217,7 @@ public class InstructorFeedbacksPageData extends PageData {
     }
     
     
-    List<FeedbackSessionRow> convertFeedbackSessionAttributesToSessionRows(List<FeedbackSessionAttributes> sessions, 
+    private List<FeedbackSessionRow> convertFeedbackSessionAttributesToSessionRows(List<FeedbackSessionAttributes> sessions, 
                                     HashMap<String, InstructorAttributes> instructors, String feedbackSessionNameForSessionList, String courseIdForNewSession) {
 
         
@@ -234,6 +267,10 @@ public class InstructorFeedbacksPageData extends PageData {
     
     public FeedbackSessionsNewForm getNewForm() {
         return newForm;
+    }
+    
+    public FeedbackSessionsCopyFromModal getCopyFromModal() {
+        return copyFromModal;
     }
 
     private ArrayList<ElementTag> getTimeZoneOptionsAsHtml(FeedbackSessionAttributes fs){

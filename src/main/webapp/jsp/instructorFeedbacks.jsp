@@ -30,7 +30,7 @@
     </div>
 
     <ti:remindModal />
-    <feedbacks:copyFromModal existingFeedbackSessions="${data.fsList.existingFeedbackSessions}" newForm="${data.newForm}" />
+    <feedbacks:copyFromModal copyFromModal="${data.copyFromModal}" />
     <ti:copyModal />
     
 </ti:instructorPage>

@@ -3,8 +3,7 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
 
-<%@ attribute name="existingFeedbackSessions" type="java.util.Collection" required="true"%>
-<%@ attribute name="newForm" type="teammates.ui.template.FeedbackSessionsNewForm" required="true"%>
+<%@ attribute name="copyFromModal" type="teammates.ui.template.FeedbackSessionsCopyFromModal" required="true"%>
 
 <div class="modal fade" id="copyModal" tabindex="-1" role="dialog"
     aria-labelledby="copyModalTitle" aria-hidden="true">
@@ -30,7 +29,7 @@
                         <select class="form-control"
                             name="<%= Const.ParamsNames.COPIED_COURSE_ID %>"
                             id="modalCopiedCourseId">
-                            <c:forEach items="${newForm.coursesSelectField}" var="option">
+                            <c:forEach items="${copyFromModal.coursesSelectField}" var="option">
                                 <option <c:forEach items="${option.attributes}" var="attr"
                                 > ${attr.key}="${attr.value}"</c:forEach> >${option.content}</option>
                             </c:forEach>
@@ -45,7 +44,7 @@
                             name="<%= Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME %>"
                             id="modalCopiedSessionName"
                             maxlength=<%= FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH %>
-                            value="${newForm.fsName}"
+                            value="${copyFromModal.fsName}"
                             placeholder="e.g. Feedback for Project Presentation 1">
                     </div>
                     <!-- Previous Session -->
@@ -59,7 +58,7 @@
                                 <th>Feedback Session Name</th>
                             </tr>
                         </thead>                                
-                            <c:forEach items="${existingFeedbackSessions}" var="session" varStatus="i">
+                            <c:forEach items="${copyFromModal.existingFeedbackSessions}" var="session" varStatus="i">
                         
                                 <tr style="cursor:pointer;">
                                     <td><input type="radio"></td>
