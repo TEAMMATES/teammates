@@ -30,7 +30,7 @@
         </tr>
     </thead>
     <c:forEach items="${data.activeCourses.rows}" var="activeCourse" varStatus="i">
-		<tr>
+        <tr>
             <td id="courseid${i.index}">${activeCourse.courseId}</td>
             <td id="coursename${i.index}">${activeCourse.courseName}</td>
             <td class="align-center">${activeCourse.sectionNum}</td>
@@ -39,10 +39,10 @@
             <td class="align-center">${activeCourse.unregisteredStudentNum}</td>
             <td class="align-center no-print">${activeCourse.actions}</td>
         </tr>
-	</c:forEach>
-	
-	<c:if test="${empty data.activeCourses.rows}">
-		<tr>
+    </c:forEach>
+    
+    <c:if test="${empty data.activeCourses.rows}">
+        <tr>
             <td></td>
             <td></td>
             <td></td>
@@ -51,14 +51,14 @@
             <td></td>
             <td></td>
         </tr>
-	</c:if>
+    </c:if>
 </table>
 
 <br>
 <br>
 <c:if test="${empty data.activeCourses.rows}">
-	No records found. <br>
-	<br>
+    No records found. <br>
+    <br>
 </c:if>
 <br>
 <br>
