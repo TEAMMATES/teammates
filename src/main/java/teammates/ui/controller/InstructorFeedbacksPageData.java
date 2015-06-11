@@ -148,6 +148,8 @@ public class InstructorFeedbacksPageData extends PageData {
         newForm.setCourseOptionsEmpty(courses.isEmpty());
         
         newForm.setFeedbackSessionTypeOptions(getFeedbackSessionTypeOptions(feedbackSessionType));
+
+        newForm.setFeedbackSessionNameForSessionList(feedbackSessionNameForSessionList);
         
         newForm.setCoursesSelectField(getCourseIdOptions(courses,  courseIdForNewSession, 
                                                         instructors, newFeedbackSession));

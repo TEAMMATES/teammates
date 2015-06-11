@@ -11,6 +11,8 @@ public class FeedbackSessionsNewForm {
     // Default course id value
     private String courseIdForNewSession;
     
+    private String feedbackSessionNameForSessionList;
+    
     // List of options for feedback session type
     private List<ElementTag> feedbackSessionTypeOptions;
 
@@ -213,6 +215,15 @@ public class FeedbackSessionsNewForm {
     public List<ElementTag> getTimezoneSelectField() {
         return timezoneSelectField;
     }
+    
+    public void setFeedbackSessionNameForSessionList(String feedbackSessionNameForSessionList) {
+        this.feedbackSessionNameForSessionList = feedbackSessionNameForSessionList;
+    }
+    
+    public String getfeedbackSessionNameForSessionList() {
+        return this.feedbackSessionNameForSessionList;
+    }
+
 
     public boolean isSessionVisibleAtOpenChecked() {
         return sessionVisibleAtOpenChecked;
