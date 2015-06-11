@@ -20,7 +20,6 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
-import teammates.logic.core.AccountsLogic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.ui.controller.InstructorFeedbacksPageData;
 import teammates.ui.template.FeedbackSessionRow;
@@ -39,7 +38,6 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        turnLoggingUp(AccountsLogic.class);
         removeAndRestoreTypicalDataInDatastore();
     }
     
@@ -73,6 +71,7 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
         assertEquals("Team peer evaluation session", formModel.getFeedbackSessionTypeOptions().get(1).getContent());
+        assertEquals("selected", formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().get("selected"));
         assertEquals("", formModel.getFsEndDate());
         assertEquals(numHoursInDay, formModel.getFsEndTimeOptions().size());
         assertEquals("", formModel.getFsName());
@@ -207,6 +206,126 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
     }
     
     
-  
+    @Test
+    public void testInit() throws Exception {
+
+        AccountAttributes instructorAccount = dataBundle.accounts.get("instructor1OfCourse1");
+        
+        ______TS("typical success case with existing fs passed in");
+        
+        InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(instructorAccount);
+        
+        HashMap<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
+        List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(instructorAccount.googleId, true);
+        for (InstructorAttributes instructor : instructors) {
+            courseInstructorMap.put(instructor.courseId, instructor);
+        }
+        
+        List<InstructorAttributes> instructorsForUser = new ArrayList<InstructorAttributes>(courseInstructorMap.values());
+        List<CourseAttributes> courses = logic.getCoursesForInstructor(instructorsForUser);
+        
+        List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsListForInstructor(instructorsForUser);
+        
+        FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
+        
+        
+        data.init(courses, null, fsList, courseInstructorMap, fsa, null, null);
+        
+        ______TS("typical success case with existing fs passed in: test new fs form");
+        // Test new fs form model
+        FeedbackSessionsForm formModel = data.getNewForm();
+        
+        assertNull(formModel.getCourseIdForNewSession());
+        assertEquals(1, formModel.getCoursesSelectField().size());
+        assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
+        assertEquals("Team peer evaluation session", formModel.getFeedbackSessionTypeOptions().get(1).getContent());
+        assertEquals("selected", formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().get("selected"));
+        
+        assertEquals("30/04/2017", formModel.getFsEndDate());
+        assertEquals(numHoursInDay, formModel.getFsEndTimeOptions().size());
+        assertEquals("First feedback session", formModel.getFsName());
+        
+        assertEquals("01/04/2012", formModel.getFsStartDate());
+        assertEquals(numHoursInDay, formModel.getFsStartTimeOptions().size());
+        
+        assertEquals(7, formModel.getGracePeriodOptions().size());
+        
+        int expectedDefaultGracePeriodOptionsIndex = 2;
+        String defaultSelectedAttribute = formModel.getGracePeriodOptions().get(expectedDefaultGracePeriodOptionsIndex).getAttributes().get("selected");
+        assertEquals("selected", defaultSelectedAttribute);
+        
+        assertEquals("Please please fill in the following questions.", formModel.getInstructions());
+        assertEquals("01/05/2017", formModel.getResponseVisibleDateValue());
+        assertEquals(numHoursInDay, formModel.getResponseVisibleTimeOptions().size());
+        assertEquals("28/03/2012", formModel.getSessionVisibleDateValue());
+        assertEquals(numHoursInDay, formModel.getSessionVisibleTimeOptions().size());
+        
+        assertFalse(formModel.isResponseVisiblePublishManuallyChecked());
+        assertTrue(formModel.isResponseVisibleDateChecked());
+        assertFalse(formModel.isResponseVisibleImmediatelyChecked());
+        assertFalse(formModel.isResponseVisibleNeverChecked());
+        assertFalse(formModel.isResponseVisibleDisabled());
+       
+        assertFalse(formModel.isSessionVisibleAtOpenChecked());
+        assertFalse(formModel.isSessionVisibleDateDisabled());
+        assertTrue(formModel.isSessionVisibleDateButtonChecked());
+        assertFalse(formModel.isSessionVisiblePrivateChecked());
+        
+        ______TS("typical success case with existing fs passed in: session rows");
+        FeedbackSessionsTable fsTableModel = data.getFsList();
+        
+        List<FeedbackSessionRow> fsRows = fsTableModel.getExistingFeedbackSessions();
+        assertEquals(6, fsRows.size());
+
+        String firstFsName = "Grace Period Session";
+        assertEquals(firstFsName, fsRows.get(0).getName());
+        String lastFsName = "First feedback session";
+        assertEquals(lastFsName, fsRows.get(fsRows.size() - 1).getName());
+        
+        
+        ______TS("typical success case with existing fs passed in: copy modal");
+        FeedbackSessionsCopyFromModal copyModalModel = data.getCopyFromModal();
+        
+        assertEquals(1, copyModalModel.getCoursesSelectField().size());
+        assertEquals("First feedback session" , copyModalModel.getFsName());
+        assertEquals(6, copyModalModel.getExistingFeedbackSessions().size());
+    }
+    
+    @Test
+    public void testInitWithoutHighlighting() throws Exception{
+
+        AccountAttributes instructorAccount = dataBundle.accounts.get("instructor2OfCourse1");
+        
+        ______TS("typical success case with existing fs passed in");
+        
+        InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(instructorAccount);
+        
+        HashMap<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
+        List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(instructorAccount.googleId, true);
+        for (InstructorAttributes instructor : instructors) {
+            courseInstructorMap.put(instructor.courseId, instructor);
+        }
+        
+        List<InstructorAttributes> instructorsForUser = new ArrayList<InstructorAttributes>(courseInstructorMap.values());
+        List<CourseAttributes> courses = logic.getCoursesForInstructor(instructorsForUser);
+        
+        List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsListForInstructor(instructorsForUser);
+        
+        FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
+        
+        data.initWithoutHighlightedRow(courses, "idOfTypicalCourse1", fsList, courseInstructorMap, fsa, "STANDARD");
+        
+        FeedbackSessionsForm formModel = data.getNewForm();
+        
+        assertEquals("idOfTypicalCourse1", formModel.getCourseIdForNewSession());
+        assertEquals(1, formModel.getCoursesSelectField().size());
+        assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
+        assertEquals("Session with your own questions", formModel.getFeedbackSessionTypeOptions().get(0).getContent());
+        assertEquals("selected", formModel.getFeedbackSessionTypeOptions().get(0).getAttributes().get("selected"));
+
+        FeedbackSessionsCopyFromModal modal = data.getCopyFromModal();
+        assertEquals("First feedback session", modal.getFsName());
+        
+    }
     
 }
