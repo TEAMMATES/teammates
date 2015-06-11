@@ -71,15 +71,15 @@ public class InstructorSearchPageData extends PageData {
         return sanitizeForHtml(searchKey);
     }
     
-    public boolean getIsSearchCommentForStudents() {
+    public boolean isSearchCommentForStudents() {
         return isSearchCommentForStudents;
     }
     
-    public boolean getIsSearchCommentForResponses() {
+    public boolean isSearchCommentForResponses() {
         return isSearchCommentForResponses;
     }
     
-    public boolean getIsSearchForStudents() {
+    public boolean isSearchForStudents() {
         return isSearchForStudents;
     }
     
