@@ -819,6 +819,7 @@
         <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BOTTOM%>" />
         </div>
     </div>
+    </div>
 
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
