@@ -80,7 +80,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         pageData = (InstructorFeedbacksPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
         assertEquals(2, pageData.getNewForm().getCourses().size());
-        assertEquals(0, pageData.getExistingFeedbackSessions().size());
+        assertEquals(0, pageData.getFsList().getExistingFeedbackSessions().size());
         assertEquals("", pageData.getNewForm().getFsName());
         assertEquals(instructor1ofCourse1.courseId, pageData.getNewForm().getCourseIdForNewSession());
         
@@ -112,7 +112,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         pageData = (InstructorFeedbacksPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
         assertEquals(0, pageData.getNewForm().getCourses().size());
-        assertEquals(0, pageData.getFsList().getDefaultFeedbackSessions().size());
+        assertEquals(0, pageData.getFsList().getExistingFeedbackSessions().size());
         assertEquals("", pageData.getNewForm().getFsName());
         
         expectedLogMessage =
