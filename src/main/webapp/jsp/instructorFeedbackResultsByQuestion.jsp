@@ -49,10 +49,12 @@
 <body>
     <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
-    <div class="container" id="frameBodyWrapper">
+    <div id="frameBody">
+        <div id="frameBodyWrapper" class="container">
             <div id="topOfPage"></div>
-            <h1>Session Results</h1>
-            <br>
+            <div id="headerOperation">
+                <h1>Session Results</h1>
+            </div>            
             <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
             <br>
             <%
@@ -445,6 +447,7 @@
             <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BOTTOM%>" />
             </div>    
         </div>
+    </div>
 
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
