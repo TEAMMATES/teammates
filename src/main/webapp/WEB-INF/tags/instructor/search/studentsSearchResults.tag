@@ -1,6 +1,7 @@
 <%@ tag description="instructorSearch.tag - Search students" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/search" prefix="search" %>
+<%@ attribute name="searchStudentsTables" type="java.util.Collection" required="true" %>
 
 <br>
 <div class="panel panel-primary">
@@ -9,7 +10,7 @@
     </div>
     
     <div class="panel-body">
-        <c:forEach items="${data.searchStudentsTables}" var="searchStudentsTable" varStatus="i">         
+        <c:forEach items="${searchStudentsTables}" var="searchStudentsTable" varStatus="i">         
             <search:searchStudentsTable studentTable="${searchStudentsTable}" courseIdx="${i.index}"/>
         </c:forEach>
     </div>

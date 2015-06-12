@@ -156,10 +156,13 @@ public class InstructorSearchPageData extends PageData {
     private void setSearchCommentsForStudentsTables(
                                     CommentSearchResultBundle commentSearchResultBundle) {
         
-        searchCommentsForStudentsTables = new ArrayList<SearchCommentsForStudentsTable>();       
+        searchCommentsForStudentsTables = new ArrayList<SearchCommentsForStudentsTable>();      
+        
         for (String giverEmailPlusCourseId : commentSearchResultBundle.giverCommentTable.keySet()) {
-            searchCommentsForStudentsTables.add(createSearchCommentsForStudentsTable(
-                                                    giverEmailPlusCourseId, commentSearchResultBundle));
+            String giverDetails = commentSearchResultBundle.giverTable.get(giverEmailPlusCourseId);
+            searchCommentsForStudentsTables.add(new SearchCommentsForStudentsTable(
+                                                  giverDetails, createCommentRows(giverEmailPlusCourseId, 
+                                                                            commentSearchResultBundle)));
         }
     }
     
@@ -167,7 +170,8 @@ public class InstructorSearchPageData extends PageData {
                                     FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
         
         searchCommentsForResponsesTables = new ArrayList<SearchCommentsForResponsesTable>();
-        searchCommentsForResponsesTables.add(createSearchCommentsForResponsesTable(frcSearchResultBundle));
+        searchCommentsForResponsesTables.add(new SearchCommentsForResponsesTable(
+                                               createFeedbackSessionRows(frcSearchResultBundle)));
     }
     
     private void setSearchStudentsTables(StudentSearchResultBundle studentSearchResultBundle) {
@@ -177,35 +181,10 @@ public class InstructorSearchPageData extends PageData {
                                         studentSearchResultBundle.studentList, studentSearchResultBundle);
         
         for (String courseId : courseIdList) {
-            searchStudentsTables.add(createSearchStudentsTable(courseId, studentSearchResultBundle));
+            searchStudentsTables.add(new SearchStudentsTable(
+                                       courseId, createStudentRows(courseId, studentSearchResultBundle)));
         }
     }  
-    
-
-    /*************** Create search result tables ********************/
-    private SearchCommentsForStudentsTable createSearchCommentsForStudentsTable(
-                                    String giverEmailPlusCourseId, 
-                                    CommentSearchResultBundle commentSearchResultBundle) {
-        
-        String giverDetails = commentSearchResultBundle.giverTable.get(giverEmailPlusCourseId);
-        
-        return new SearchCommentsForStudentsTable(giverDetails, 
-                                                  createCommentRows(giverEmailPlusCourseId, 
-                                                                        commentSearchResultBundle));
-    }
-    
-    private SearchCommentsForResponsesTable createSearchCommentsForResponsesTable(
-                                    FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
-        
-        return new SearchCommentsForResponsesTable(createFeedbackSessionRows(frcSearchResultBundle));
-    }
-    
-    private SearchStudentsTable createSearchStudentsTable(
-                                    String courseId, StudentSearchResultBundle studentSearchResultBundle) {
-        
-        return new SearchStudentsTable(courseId, createStudentRows(courseId, studentSearchResultBundle));
-    }
-    
     
     /*************** Create data structures for feedback response comments results ********************/
     private List<FeedbackSessionRow> createFeedbackSessionRows(

@@ -1,5 +1,6 @@
 <%@ tag description="instructorSearch.jsp - Search comments for students" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ attribute name="commentsForStudentsTables" type="java.util.Collection" required="true" %>
 
 <br>
 <div class="panel panel-primary">
@@ -10,7 +11,7 @@
     <div class="panel-body">
         <c:set var="indexCounter" value="${0}"/>
         
-        <c:forEach items="${data.searchCommentsForStudentsTables}" var="searchCommentsForStudentsTable">     
+        <c:forEach items="${commentsForStudentsTables}" var="searchCommentsForStudentsTable">     
             <div class="panel panel-info student-record-comments">
                 <div class="panel-heading">
                     From <b>${searchCommentsForStudentsTable.giverDetails}</b>

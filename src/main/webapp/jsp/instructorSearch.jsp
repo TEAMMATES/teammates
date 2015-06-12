@@ -16,19 +16,19 @@
     <t:statusMessage />
     
     <c:if test="${not data.commentsForStudentsEmpty}">
-        <search:commentsForStudentsSearchResults>
+        <search:commentsForStudentsSearchResults commentsForStudentsTables="${data.searchCommentsForStudentsTables}">
             Comments for students
         </search:commentsForStudentsSearchResults>
     </c:if>
     
     <c:if test="${not data.commentsForResponsesEmpty}">
-        <search:commentsForResponsesSearchResults>
+        <search:commentsForResponsesSearchResults commentsForResponsesTables="${data.searchCommentsForResponsesTables}">
             Comments for responses
         </search:commentsForResponsesSearchResults>
     </c:if>
     
     <c:if test="${not data.studentsEmpty}">
-        <search:studentsSearchResults>
+        <search:studentsSearchResults searchStudentsTables="${data.searchStudentsTables}">
             Students
         </search:studentsSearchResults>
     </c:if>
