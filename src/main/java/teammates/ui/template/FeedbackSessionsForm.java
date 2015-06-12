@@ -18,9 +18,7 @@ public class FeedbackSessionsForm {
 
     // List of course ids to populate the dropdown with
     private List<String> courses;
-    
-    private boolean isCourseOptionsEmpty;
-    
+
     // Default feedback session name in the new session form
     private String fsName;
 
@@ -156,13 +154,6 @@ public class FeedbackSessionsForm {
         this.responseVisibleDateValue = responseVisibleDateValue;
     }
     
-    public boolean isCourseOptionsEmpty() {
-        return isCourseOptionsEmpty;
-    }
-
-    public void setCourseOptionsEmpty(boolean isCourseOptionsEmpty) {
-        this.isCourseOptionsEmpty = isCourseOptionsEmpty;
-    }
     
     public String getFsName() {
         return fsName;

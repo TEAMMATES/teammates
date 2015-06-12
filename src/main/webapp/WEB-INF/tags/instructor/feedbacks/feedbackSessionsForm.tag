@@ -46,7 +46,7 @@
                         title="<%= Const.Tooltips.FEEDBACK_SESSION_COURSE %>"
                         data-toggle="tooltip"
                         data-placement="top">
-                        <div class="form-group<c:if test="${fsForm.courseOptionsEmpty}"> has-error</c:if>">
+                        <div class="form-group<c:if test="${empty fsForm.courses}"> has-error</c:if>">
                             <h5 class="col-sm-4">
                                 <label class="control-label"
                                     for="<%= Const.ParamsNames.COURSE_ID %>">
@@ -54,7 +54,7 @@
                                 </label>
                             </h5>
                             <div class="col-sm-8">
-                                <select class="form-control<c:if test="${fsForm.courseOptionsEmpty}"> text-color-red</c:if>"
+                                <select class="form-control<c:if test="${empty fsForm.courses}"> text-color-red</c:if>"
                                     name="<%= Const.ParamsNames.COURSE_ID %>"
                                     id="<%= Const.ParamsNames.COURSE_ID %>">
                                     

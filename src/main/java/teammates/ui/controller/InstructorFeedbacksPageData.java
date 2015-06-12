@@ -145,8 +145,6 @@ public class InstructorFeedbacksPageData extends PageData {
         
         newFsForm.setCourses(courseIds);
         
-        newFsForm.setCourseOptionsEmpty(courses.isEmpty());
-        
         newFsForm.setFeedbackSessionTypeOptions(getFeedbackSessionTypeOptions(feedbackSessionType));
 
         newFsForm.setFeedbackSessionNameForSessionList(feedbackSessionNameForSessionList);
