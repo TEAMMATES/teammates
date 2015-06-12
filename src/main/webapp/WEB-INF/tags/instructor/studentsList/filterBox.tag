@@ -3,7 +3,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/studentsList" prefix="tisl" %>
 <%@ tag import="teammates.ui.template.InstructorStudentsListFilterCourses" %>
 <%@ attribute name="data" type="teammates.ui.template.InstructorStudentsListFilterBox" required="true" %>
-<div id="moreOptionsDiv" class="well well-plain"<c:if test="${data.numOfCourses == 0}"> style="display:none;"</c:if>>
+<div id="moreOptionsDiv" class="well well-plain"<c:if test="${empty data.courses}"> style="display:none;"</c:if>>
     <div class="row">
         <div class="col-md-3">
             <div class="checkbox">

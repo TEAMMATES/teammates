@@ -1,6 +1,5 @@
 <%@ tag description="instructorStudentList - Students table per course" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib tagdir="/WEB-INF/tags/instructor/studentsList" prefix="tisl" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="data" type="teammates.ui.template.InstructorStudentsListStudentsTableCourses" required="true" %>
 <%@ attribute name="index" required="true" %>
