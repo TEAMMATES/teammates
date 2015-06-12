@@ -5,7 +5,7 @@
 <br>
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <strong><jsp:doBody></jsp:doBody></strong>
+        <strong><jsp:doBody/></strong>
     </div>
     
     <div class="panel-body">
