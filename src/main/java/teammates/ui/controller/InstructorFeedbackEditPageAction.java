@@ -2,6 +2,9 @@ package teammates.ui.controller;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -22,29 +25,34 @@ public class InstructorFeedbackEditPageAction extends Action {
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         Assumption.assertNotNull(feedbackSessionName);
         
-        FeedbackSessionAttributes feedback = logic.getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
         new GateKeeper().verifyAccessible(
                 logic.getInstructorForGoogleId(courseId, account.googleId), 
-                feedback,
+                feedbackSession,
                 false,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);
-        data.session = feedback;
-        data.questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        data.copiableQuestions = logic.getCopiableFeedbackQuestionsForInstructor(account.googleId);
-        for (FeedbackQuestionAttributes question : data.questions) {
+        
+        List<FeedbackQuestionAttributes> questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
+        List<FeedbackQuestionAttributes> copiableQuestions = logic.getCopiableFeedbackQuestionsForInstructor(account.googleId);
+        
+        Map<String, Boolean> questionHasResponses = new HashMap<String, Boolean>();
+        
+        for (FeedbackQuestionAttributes question : questions) {
             boolean hasResponse = logic.isQuestionHasResponses(question.getId());
-            data.questionHasResponses.put(question.getId(), hasResponse);
+            questionHasResponses.put(question.getId(), hasResponse); 
         }
         
-        data.studentList = logic.getStudentsForCourse(courseId);
-        Collections.sort(data.studentList, new StudentComparator());
+        List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
+        Collections.sort(studentList, new StudentComparator());
         
-        data.instructorList = logic.getInstructorsForCourse(courseId);
-        Collections.sort(data.instructorList, new InstructorComparator());
+        List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
+        Collections.sort(instructorList, new InstructorComparator());
         
-        data.instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
+        
+        data.init(feedbackSession, questions, copiableQuestions, questionHasResponses, studentList, instructorList, instructor);
         
         statusToAdmin = "instructorFeedbackEdit Page Load<br>" 
                         + "Editing information for Feedback Session "
@@ -71,3 +79,4 @@ public class InstructorFeedbackEditPageAction extends Action {
         }
     }
 }
+ 
