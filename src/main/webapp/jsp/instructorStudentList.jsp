@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
-<%@ taglib tagdir="/WEB-INF/tags/instructor/studentsList" prefix="tisl" %>
+<%@ taglib tagdir="/WEB-INF/tags/instructor/studentList" prefix="tisl" %>
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorStudentList.js"></script>

@@ -2,7 +2,7 @@ package teammates.ui.template;
 
 import teammates.common.util.Sanitizer;
 
-public class InstructorStudentsListStudentsTableCourses {
+public class InstructorStudentListStudentsTableCourse {
 
     private boolean courseArchived;
     private String courseId;
@@ -12,10 +12,10 @@ public class InstructorStudentsListStudentsTableCourses {
     private String instructorCourseEnrollLink;
     private boolean instructorAllowedToModify;
 
-    public InstructorStudentsListStudentsTableCourses(boolean isCourseArchived, String courseId, String courseName,
-                                                     String googleId, String numStudents,
-                                                     String instructorCourseEnrollLink,
-                                                     boolean isInstructorAllowedToModify) {
+    public InstructorStudentListStudentsTableCourse(boolean isCourseArchived, String courseId, String courseName,
+                                                    String googleId, String numStudents,
+                                                    String instructorCourseEnrollLink,
+                                                    boolean isInstructorAllowedToModify) {
         this.courseArchived = isCourseArchived;
         this.courseId = courseId;
         this.courseName = Sanitizer.sanitizeForHtml(courseName);
@@ -24,7 +24,7 @@ public class InstructorStudentsListStudentsTableCourses {
         this.instructorCourseEnrollLink = instructorCourseEnrollLink;
         this.instructorAllowedToModify = isInstructorAllowedToModify;
     }
-    
+
     public boolean isCourseArchived() {
         return courseArchived;
     }

@@ -1,7 +1,7 @@
 <%@ tag description="instructorStudentList - Students table per course" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
-<%@ attribute name="data" type="teammates.ui.template.InstructorStudentsListStudentsTableCourses" required="true" %>
+<%@ attribute name="data" type="teammates.ui.template.InstructorStudentListStudentsTableCourse" required="true" %>
 <%@ attribute name="index" required="true" %>
 <c:set var="INSTRUCTOR_STUDENT_LIST_AJAX_PAGE" value="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_AJAX_PAGE %>" />
 <c:set var="COURSE_ID" value="<%= Const.ParamsNames.COURSE_ID %>" />

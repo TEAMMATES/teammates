@@ -1,7 +1,7 @@
 <%@ tag description="instructorStudentList - Student search box" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
-<%@ attribute name="data" type="teammates.ui.template.InstructorStudentsListSearchBox" required="true" %>
+<%@ attribute name="data" type="teammates.ui.template.InstructorStudentListSearchBox" required="true" %>
 <c:set var="TOOLTIP_SEARCH_STUDENT" value="<%= Const.Tooltips.SEARCH_STUDENT %>" />
 <c:set var="SEARCH_KEY" value="<%= Const.ParamsNames.SEARCH_KEY %>" />
 <c:set var="SEARCH_STUDENTS" value="<%= Const.ParamsNames.SEARCH_STUDENTS %>" />

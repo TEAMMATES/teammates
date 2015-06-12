@@ -1,11 +1,11 @@
 package teammates.ui.template;
 
-public class InstructorStudentsListFilterCourses {
+public class InstructorStudentListFilterCourse {
 
     private String courseId;
     private String courseName;
-    
-    public InstructorStudentsListFilterCourses(String courseId, String courseName) {
+
+    public InstructorStudentListFilterCourse(String courseId, String courseName) {
         this.courseId = courseId;
         this.courseName = courseName;
     }
