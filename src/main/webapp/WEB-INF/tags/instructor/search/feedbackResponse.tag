@@ -26,7 +26,7 @@
 <tr>
     <td>
         <ul class="list-group comments" id="responseCommentTable-${fsIndx}-${qnIndx}-${responseIndex}"
-            <c:if test="${responseRow.commentsEmpty}">style="display:none"</c:if>>
+            <c:if test="${empty responseRow.feedbackResponseCommentRows}">style="display:none"</c:if>>
             
             <c:forEach items="${responseRow.feedbackResponseCommentRows}" var="frcRow" varStatus="i">
                 <search:feedbackResponseComment qnIndx="${qnIndx}" responseIndex="${responseIndex}" 

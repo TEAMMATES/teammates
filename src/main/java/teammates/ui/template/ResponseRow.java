@@ -31,8 +31,4 @@ public class ResponseRow {
     public List<FeedbackResponseCommentRow> getFeedbackResponseCommentRows() {
         return feedbackResponseCommentRows;
     }
-    
-    public boolean isCommentsEmpty() {
-        return feedbackResponseCommentRows == null || feedbackResponseCommentRows.size() <= 0;
-    }
 }
