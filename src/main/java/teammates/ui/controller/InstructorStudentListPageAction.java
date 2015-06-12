@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -44,9 +45,24 @@ public class InstructorStudentListPageAction extends Action {
         }
 
         statusToAdmin = "instructorStudentList Page Load<br>" + "Total Courses: " + courses.size();
+        
+        data = new InstructorStudentListPageData(account);
+        List<InstructorStudentListPageCourseData> coursesToDisplay = new ArrayList<InstructorStudentListPageCourseData>();
+        for (CourseAttributes course: courses) {
+            InstructorAttributes instructor = instructors.get(course.id);
+            boolean isInstructorAllowedToModify = instructor.isAllowedForPrivilege(
+                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
+            boolean isCourseArchived = data.isCourseArchived(course.id, instructor.googleId);
+            boolean isCourseDisplayed = displayArchive || !isCourseArchived;
+            if (isCourseDisplayed) {
+                coursesToDisplay.add(new InstructorStudentListPageCourseData(course, isCourseArchived,
+                                                                             isInstructorAllowedToModify,
+                                                                        data.getInstructorCourseEnrollLink(course.id)));
+            }
+        }
 
         data = new InstructorStudentListPageData(account, searchKey, displayArchive, instructors,
-                                                 numStudents, courses);
+                                                 numStudents, courses, coursesToDisplay);
 
         ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, data);
         return response;
