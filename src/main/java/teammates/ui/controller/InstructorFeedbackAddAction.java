@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -90,8 +91,8 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
         // isError == true if an exception occurred above
 
         boolean omitArchived = true;
-        HashMap<String, InstructorAttributes> instructors = loadCourseInstructorMap(omitArchived);
-        ArrayList<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>(instructors.values());
+        Map<String, InstructorAttributes> instructors = loadCourseInstructorMap(omitArchived);
+        List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>(instructors.values());
         List<CourseAttributes> courses = loadCoursesList(instructorList);
         List<FeedbackSessionAttributes> feedbackSessions = loadFeedbackSessionsList(instructorList);
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(feedbackSessions);
