@@ -27,13 +27,10 @@
     <td>
         <ul class="list-group comments" id="responseCommentTable-${fsIndx}-${qnIndx}-${responseIndex}"
             <c:if test="${responseRow.commentsEmpty}">style="display:none"</c:if>>
-                    
-            <c:set var="responseCommentIndex" value="${0}" />
             
-            <c:forEach items="${responseRow.feedbackResponseCommentRows}" var="frcRow">
-                <c:set var="responseCommentIndex" value="${responseCommentIndex + 1}" />
+            <c:forEach items="${responseRow.feedbackResponseCommentRows}" var="frcRow" varStatus="i">
                 <search:feedbackResponseComment qnIndx="${qnIndx}" responseIndex="${responseIndex}" 
-                                                responseCommentIndex="${responseCommentIndex}" 
+                                                responseCommentIndex="${i.count}" 
                                                 feedbackResponseCommentRow="${frcRow}" fsIndx="${fsIndx}" />
             </c:forEach>  
 

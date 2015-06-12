@@ -9,13 +9,8 @@
     </div>
     
     <div class="panel-body">
-        <c:set var="courseIdx" value="${-1}"/>
-        
-        <c:forEach items="${data.searchStudentsTables}" var="searchStudentsTable">
-            <c:set var="studentIdx" value="${0}"/>
-            <c:set var="courseIdx" value="${courseIdx + 1}"/>
-            
-            <search:searchStudentsTable studentIdx="${studentIdx}" studentTable="${searchStudentsTable}" courseIdx="${courseIdx}"/>
+        <c:forEach items="${data.searchStudentsTables}" var="searchStudentsTable" varStatus="i">         
+            <search:searchStudentsTable studentTable="${searchStudentsTable}" courseIdx="${i.index}"/>
         </c:forEach>
     </div>
 </div>

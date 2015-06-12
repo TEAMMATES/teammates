@@ -8,7 +8,7 @@
     </div>
                 
     <div class="panel-body">
-        <c:set var="commentIdx" value="${0}"/>
+        <c:set var="indexCounter" value="${0}"/>
         
         <c:forEach items="${data.searchCommentsForStudentsTables}" var="searchCommentsForStudentsTable">     
             <div class="panel panel-info student-record-comments">
@@ -18,12 +18,12 @@
                 
                 <ul class="list-group comments"> 
                     <c:forEach items="${searchCommentsForStudentsTable.rows}" var="commentRow">
-                        <c:set var="commentIdx" value="${commentIdx + 1}" />
+                        <c:set var="indexCounter" value="${indexCounter + 1}" />
                         
                         <li class="list-group-item list-group-item-warning form_comment" 
-                            id="form_commentedit-${commentIdx}>">
+                            id="form_commentedit-${indexCounter}>">
                                     
-                            <div id="commentBar-${commentIdx}">
+                            <div id="commentBar-${indexCounter}">
                                 <span class="text-muted">
                                     To <b>${commentRow.recipientDetails}</b> on ${commentRow.creationTime}
                                 </span>
@@ -34,7 +34,7 @@
                                     <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>                                       
                                 </a>                                    
                             </div>
-                            <div id="plainCommentText${commentIdx}">${commentRow.comment.commentText}</div>                                   
+                            <div id="plainCommentText${indexCounter}">${commentRow.comment.commentText}</div>                                   
                         </li>                      
                     </c:forEach>                            
                 </ul>

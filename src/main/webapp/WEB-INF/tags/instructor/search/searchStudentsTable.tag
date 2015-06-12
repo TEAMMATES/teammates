@@ -3,7 +3,6 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/search" prefix="search" %>
 <%@ attribute name="studentTable" type="teammates.ui.template.SearchStudentsTable" required="true" %>
 <%@ attribute name="courseIdx" required="true" %>
-<%@ attribute name="studentIdx" required="true" %>
 
 <div class="panel panel-info">
     <div class="panel-heading">
@@ -32,9 +31,8 @@
             </thead>
             
             <tbody>
-                <c:forEach items="${studentTable.studentRows}" var="studentRow">
-                    <search:searchStudentsRow studentIdx="${studentIdx}" student="${studentRow}" courseIdx="${courseIdx}" />
-                    <c:set var="studentIdx" value="${studentIdx + 1}"/>
+                <c:forEach items="${studentTable.studentRows}" var="studentRow" varStatus="i">
+                    <search:searchStudentsRow studentIdx="${i.index}" student="${studentRow}" courseIdx="${courseIdx}" />
                 </c:forEach>
             </tbody>
         </table>

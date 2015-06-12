@@ -11,12 +11,9 @@
                 Session: ${feedbackSessionRow.feedbackSessionName} (${feedbackSessionRow.courseId})
             </strong>
         </div>
-        <div class="col-md-10">
-            <c:set var="qnIndx" value="${0}" />
-            
-            <c:forEach items="${feedbackSessionRow.questionTables}" var="questionTable">
-                <c:set var="qnIndx" value="${qnIndx + 1}" />
-                <search:searchCommentFeedbackQuestion questionTable="${questionTable}" qnIndx="${qnIndx}" fsIndx="${fsIndx}" />
+        <div class="col-md-10">         
+            <c:forEach items="${feedbackSessionRow.questionTables}" var="questionTable" varStatus="i">
+                <search:searchCommentFeedbackQuestion questionTable="${questionTable}" qnIndx="${i.count}" fsIndx="${fsIndx}" />
             </c:forEach>  
         </div>
     </div>
