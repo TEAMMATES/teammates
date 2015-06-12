@@ -156,8 +156,8 @@ public class InstructorFeedbacksPageData extends PageData {
         
         
         newFsForm.setInstructions(newFeedbackSession == null ?
-                                "Please answer all the given questions." :
-                                InstructorFeedbacksPageData.sanitizeForHtml(newFeedbackSession.instructions.getValue()));
+                                 "Please answer all the given questions." :
+                                 sanitizeForHtml(newFeedbackSession.instructions.getValue()));
         
         newFsForm.setFsStartDate(newFeedbackSession == null ?
                                TimeHelper.formatDate(TimeHelper.getNextHour()) :
@@ -238,9 +238,9 @@ public class InstructorFeedbacksPageData extends PageData {
         
         for (FeedbackSessionAttributes session : sessions) {
             String courseId = session.courseId;
-            String name = PageData.sanitizeForHtml(session.feedbackSessionName);
-            String tooltip = PageData.getInstructorHoverMessageForFeedbackSession(session);
-            String status = PageData.getInstructorStatusForFeedbackSession(session);
+            String name = sanitizeForHtml(session.feedbackSessionName);
+            String tooltip = getInstructorHoverMessageForFeedbackSession(session);
+            String status = getInstructorStatusForFeedbackSession(session);
             String href = getFeedbackSessionStatsLink(session.courseId, session.feedbackSessionName);
             
             String recent = "";
