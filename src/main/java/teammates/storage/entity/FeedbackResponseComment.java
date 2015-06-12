@@ -20,7 +20,7 @@ import com.google.appengine.api.datastore.Text;
  * Currently giver is restricted only to Instructors.
  */
 @PersistenceCapable
-public class FeedbackResponseComment {
+public class FeedbackResponseComment implements BaseComment {
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private transient Long feedbackResponseCommentId = null;

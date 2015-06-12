@@ -9,10 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.Comment;
@@ -22,23 +20,15 @@ import com.google.appengine.api.datastore.Text;
 /**
  * A data transfer object for {@link Comment} entities.
  */
-public class CommentAttributes extends EntityAttributes 
-    implements Comparable<CommentAttributes> {
+public class CommentAttributes extends BaseCommentAttributes {
 
     private Long commentId = null;
-    public String courseId;
-    public String giverEmail;
     public CommentParticipantType recipientType = CommentParticipantType.PERSON;
     public Set<String> recipients;
     public CommentStatus status = CommentStatus.FINAL;
-    public CommentSendingState sendingState = CommentSendingState.SENT;
     public List<CommentParticipantType> showCommentTo;
     public List<CommentParticipantType> showGiverNameTo;
     public List<CommentParticipantType> showRecipientNameTo;
-    public Text commentText;
-    public Date createdAt;
-    public String lastEditorEmail;
-    public Date lastEditedAt;
 
     public CommentAttributes() {
 
@@ -46,20 +36,17 @@ public class CommentAttributes extends EntityAttributes
 
     public CommentAttributes(String courseId, String giverEmail, CommentParticipantType recipientType,
                              Set<String> recipients, Date createdAt, Text commentText) {
-        this.courseId = courseId;
-        this.giverEmail = giverEmail;
+        super(courseId, giverEmail, createdAt, commentText);
         this.recipientType = recipientType != null ? recipientType : CommentParticipantType.PERSON;
         this.recipients = recipients;
-        this.commentText = commentText;
-        this.createdAt = createdAt;
-        this.lastEditorEmail = giverEmail;
-        this.lastEditedAt = createdAt;
+        this.showCommentTo = new ArrayList<CommentParticipantType>();
+        this.showGiverNameTo = new ArrayList<CommentParticipantType>();
+        this.showRecipientNameTo = new ArrayList<CommentParticipantType>();
     }
 
     public CommentAttributes(Comment comment) {
+        super(comment.getCourseId(), comment.getGiverEmail(), comment.getCreatedAt(), comment.getCommentText());
         this.commentId = comment.getId();
-        this.courseId = comment.getCourseId();
-        this.giverEmail = comment.getGiverEmail();
         this.recipientType = comment.getRecipientType();
         this.status = comment.getStatus();
         this.sendingState = comment.getSendingState() != null ? comment.getSendingState() : CommentSendingState.SENT;
@@ -67,13 +54,19 @@ public class CommentAttributes extends EntityAttributes
         this.showGiverNameTo = comment.getShowGiverNameTo();
         this.showRecipientNameTo = comment.getShowRecipientNameTo();
         this.recipients = comment.getRecipients();
-        this.createdAt = comment.getCreatedAt();
-        this.commentText = comment.getCommentText();
-        this.lastEditorEmail = comment.getLastEditorEmail() != null ?
-                                        comment.getLastEditorEmail() : comment.getGiverEmail();
+        this.lastEditorEmail = comment.getLastEditorEmail() != null ? comment.getLastEditorEmail()
+                                                                    : comment.getGiverEmail();
         this.lastEditedAt = comment.getLastEditedAt() != null ? comment.getLastEditedAt() : comment.getCreatedAt();
     }
 
+    /**
+     * @deprecated defined in abstract class, use getCommentId() instead
+     */
+    @Deprecated
+    public Long getId() {
+        return getCommentId();
+    }
+    
     public Long getCommentId() {
         return this.commentId;
     }
@@ -85,19 +78,9 @@ public class CommentAttributes extends EntityAttributes
 
     public List<String> getInvalidityInfo() {
 
+        List<String> errors = super.getInvalidityInfo();
         FieldValidator validator = new FieldValidator();
-        List<String> errors = new ArrayList<String>();
         String error;
-
-        error = validator.getInvalidityInfo(FieldType.COURSE_ID, courseId);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
-
-        error = validator.getInvalidityInfo(FieldType.EMAIL, giverEmail);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
 
         if (recipients != null && recipientType != null) {
             switch (recipientType) {
@@ -171,11 +154,6 @@ public class CommentAttributes extends EntityAttributes
     }
 
     @Override
-    public String getIdentificationString() {
-        return toString();
-    }
-
-    @Override
     public String getEntityTypeAsString() {
         return "Comment";
     }
@@ -186,16 +164,8 @@ public class CommentAttributes extends EntityAttributes
     }
     
     @Override
-    public String getBackupIdentifier() {
-        return Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId;
-    }
-    
-    @Override
     public void sanitizeForSaving() {
-        this.courseId = this.courseId.trim();
-        this.commentText = Sanitizer.sanitizeTextField(this.commentText);
-        this.courseId = Sanitizer.sanitizeForHtml(courseId);
-        this.giverEmail = Sanitizer.sanitizeForHtml(giverEmail);
+        super.sanitizeForSaving();
 
         if (recipients != null) {
             HashSet<String> sanitizedRecipients = new HashSet<String>();
@@ -269,11 +239,10 @@ public class CommentAttributes extends EntityAttributes
     }
     
     private void removeCommentRecipientTypeIn(List<CommentParticipantType> visibilityOptions, 
-            CommentParticipantType typeToRemove){
+                                              CommentParticipantType typeToRemove) {
         if (visibilityOptions == null) {
             return;
         }
-        
         Iterator<CommentParticipantType> iter = visibilityOptions.iterator();
         while (iter.hasNext()) {
             CommentParticipantType otherType = iter.next();
@@ -298,33 +267,5 @@ public class CommentAttributes extends EntityAttributes
             }
         });
     }
-    
-    @Override
-    public int compareTo(CommentAttributes o) {
-        if (o == null) {
-            return 1;
-        }
-        return o.createdAt.compareTo(createdAt);
-    }
 
-    private String getEditedAtText(Boolean isGiverAnonymous, String displayGiverAs,
-            String displayTimeAs) {
-        if (this.lastEditedAt != null && (!this.lastEditedAt.equals(this.createdAt))) {
-            return "(last edited " +
-                    (isGiverAnonymous ? "" : "by " + displayGiverAs + " ") +
-                    "at " + displayTimeAs + ")";
-        } else {
-            return "";
-        }
-    }
-
-    public String getEditedAtTextForInstructor(Boolean isGiverAnonymous) {
-        return getEditedAtText(isGiverAnonymous, this.lastEditorEmail,
-                TimeHelper.formatTime(this.lastEditedAt));
-    }
-
-    public String getEditedAtTextForStudent(Boolean isGiverAnonymous, String displayGiverAs) {
-        return getEditedAtText(isGiverAnonymous, displayGiverAs,
-                TimeHelper.formatDate(this.lastEditedAt));
-    }
 }

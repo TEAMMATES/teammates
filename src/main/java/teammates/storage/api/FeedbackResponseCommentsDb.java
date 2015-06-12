@@ -14,6 +14,7 @@ import javax.jdo.Query;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 
+import teammates.common.datatransfer.BaseCommentAttributes;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.EntityAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
@@ -24,6 +25,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
+import teammates.storage.entity.BaseComment;
 import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.search.FeedbackResponseCommentSearchDocument;
 import teammates.storage.search.FeedbackResponseCommentSearchQuery;
@@ -32,78 +34,44 @@ import teammates.storage.search.FeedbackResponseCommentSearchQuery;
  * Handles CRUD Operations for {@link FeedbackResponseComment}.
  * The API uses data transfer classes (i.e. *Attributes) instead of persistable classes.
  */
-public class FeedbackResponseCommentsDb extends EntitiesDb {
+public class FeedbackResponseCommentsDb extends BaseCommentsDb {
+
+    public static final String ERROR_UPDATE_NON_EXISTENT = "Trying to update non-existent response comment: ";
+    public static final String ERROR_GET_NON_EXISTENT = "Trying to get non-existent response comment: ";
+    public String getUpdateError() {
+        return ERROR_UPDATE_NON_EXISTENT;
+    }
+    public String getReadError() {
+        return ERROR_GET_NON_EXISTENT;
+    }
 
     private static final Logger log = Utils.getLogger();
     
-    /**
-     * This method is for testing only
-     * @param commentsToAdd
-     * @throws InvalidParametersException
-     */
-    public void createFeedbackResponseComments(Collection<FeedbackResponseCommentAttributes> commentsToAdd)
-            throws InvalidParametersException {
-        List<EntityAttributes> commentsToUpdate = createEntities(commentsToAdd);
-        for (EntityAttributes entity : commentsToUpdate) {
-            FeedbackResponseCommentAttributes comment = (FeedbackResponseCommentAttributes) entity;
-            try {
-                updateFeedbackResponseComment(comment);
-            } catch (EntityDoesNotExistException e) {
-             // This situation is not tested as replicating such a situation is 
-             // difficult during testing
-                Assumption.fail("Entity found be already existing and not existing simultaneously");
-            }
-        }
+    public FeedbackResponseCommentAttributes createEntity(EntityAttributes entityToAdd) throws InvalidParametersException, EntityAlreadyExistsException {
+        return (FeedbackResponseCommentAttributes) super.createEntity(entityToAdd);
     }
     
-    /**
-     * Preconditions: 
-     * <br> * {@code entityToAdd} is not null and has valid data.
-     */
-    @Override
-    public FeedbackResponseCommentAttributes createEntity(EntityAttributes entityToAdd) 
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        FeedbackResponseComment createdEntity = (FeedbackResponseComment) super.createEntity(entityToAdd);
-        if (createdEntity == null) {
-            log.info("Trying to get non-existent FeedbackResponseComment, possibly entity not persistent yet.");
-            return null;
-        } else {
-            FeedbackResponseCommentAttributes createdComment = new FeedbackResponseCommentAttributes(createdEntity);
-            return createdComment;
-        }
+    public void createFeedbackResponseComments(Collection<FeedbackResponseCommentAttributes> commentsToAdd) throws InvalidParametersException{
+        super.createComments(commentsToAdd);
     }
     
-    /*
-     * Remove search document for the given comment
-     */
-    public void deleteDocument(FeedbackResponseCommentAttributes commentToDelete) {
-        if (commentToDelete.getId() == null) {
-            FeedbackResponseComment commentEntity = (FeedbackResponseComment) getEntity(commentToDelete);
-            FeedbackResponseCommentAttributes comment = new FeedbackResponseCommentAttributes(commentEntity);
-            deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, comment.getId().toString());
-        } else {
-            deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, commentToDelete.getId().toString());
-        }
+    protected FeedbackResponseCommentAttributes getAttributeFromEntity(BaseComment frc) {
+        return new FeedbackResponseCommentAttributes((FeedbackResponseComment) frc);
+    }
+    
+    @SuppressWarnings("unchecked")
+    protected List<FeedbackResponseCommentAttributes> getAttributesListFromEntitiesList(List<? extends BaseComment> bcList) {
+        return (List<FeedbackResponseCommentAttributes>) super.getAttributesListFromEntitiesList(bcList);
+    }
+    
+    protected void deleteDocument(String commentId) {
+        deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, commentId);        
     }
 
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null. 
-     * @return Null if not found.
-     */
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(Long feedbackResponseCommentId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackResponseCommentId);
-        
-        FeedbackResponseComment frc = getFeedbackResponseCommentEntity(feedbackResponseCommentId);
-        
-        if (frc == null) {
-            log.info("Trying to get non-existent response comment: " + feedbackResponseCommentId + ".");
-            return null;
-        }
-        
-        return new FeedbackResponseCommentAttributes(frc);    
+        return (FeedbackResponseCommentAttributes) super.getComment(feedbackResponseCommentId);
     }
-    
+
     /**
      * Preconditions: <br>
      * * All parameters are non-null. 
@@ -150,30 +118,10 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         return new FeedbackResponseCommentAttributes(frc);    
     }
     
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null. 
-     * @return Null if not found.
-     */
+    @SuppressWarnings("unchecked")
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForGiver(
                                                            String courseId, String giverEmail) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverEmail);
-        
-        List<FeedbackResponseComment> frcList = getFeedbackResponseCommentEntityForGiver(courseId, giverEmail);
-        
-        if (frcList == null) {
-            log.info("Trying to get non-existent response comment: from: " + giverEmail
-                    + " in the course: " + courseId);
-            return null;
-        }
-        
-        List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
-        for (FeedbackResponseComment frc : frcList) {
-            resultList.add(new FeedbackResponseCommentAttributes(frc));
-        }
-        
-        return resultList;    
+        return (List<FeedbackResponseCommentAttributes>) super.getCommentsForGiver(courseId, giverEmail);
     }
     
     /*
@@ -183,13 +131,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackResponseId);
         
         List<FeedbackResponseComment> frcList = getFeedbackResponseCommentEntitiesForResponse(feedbackResponseId);
-        
-        List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
-        for (FeedbackResponseComment frc : frcList) {
-            resultList.add(new FeedbackResponseCommentAttributes(frc));
-        }
-        
-        return resultList; 
+        return getAttributesListFromEntitiesList(frcList);
     }
     
     /*
@@ -205,17 +147,16 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         getPM().flush();
     }
     
-    /*
-     * Remove response comments for the course Ids
+    public void deleteFeedbackResponseCommentsForCourses(List<String> courseIds){
+        super.deleteCommentsForCourses(courseIds);
+    }
+
+    /**
+     * @deprecated defined in abstract class, use getFeedbackResponseCommentEntitiesForCourses(...) instead
      */
-    public void deleteFeedbackResponseCommentsForCourses(List<String> courseIds) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
-        
-        List<FeedbackResponseComment> feedbackResponseCommentList =
-                getFeedbackResponseCommentEntitiesForCourses(courseIds);
-        
-        getPM().deletePersistentAll(feedbackResponseCommentList);
-        getPM().flush();
+    @Deprecated
+    protected List<FeedbackResponseComment> getCommentEntitiesForCourses(List<String> courseIds) {
+        return getFeedbackResponseCommentEntitiesForCourses(courseIds);
     }
     
     /*
@@ -231,18 +172,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         return feedbackResponseCommentList;
     }
     
-    /*
-     * Get response comments for the course
-     */
+    @SuppressWarnings("unchecked")
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForCourse(String courseId) {
-        List<FeedbackResponseComment> frcList = getFeedbackResponseCommentEntitiesForCourse(courseId);
-        
-        List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
-        for (FeedbackResponseComment frc : frcList) {
-            resultList.add(new FeedbackResponseCommentAttributes(frc));
-        }
-        
-        return resultList;
+        return (List<FeedbackResponseCommentAttributes>) super.getCommentsForCourse(courseId);
     }
     
     
@@ -257,13 +189,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         
         List<FeedbackResponseComment> frcList = 
                 getFeedbackResponseCommentEntitiesForSession(courseId, feedbackSessionName);
-        
-        List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
-        for (FeedbackResponseComment frc : frcList) {
-            resultList.add(new FeedbackResponseCommentAttributes(frc));
-        }
-        
-        return resultList;    
+        return getAttributesListFromEntitiesList(frcList);
     }
 
     /**
@@ -276,191 +202,105 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
         Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, section);
         
-        Collection<FeedbackResponseComment> frcList = 
+        List<FeedbackResponseComment> frcList = 
                 getFeedbackResponseCommentEntitiesForSessionInSection(courseId, feedbackSessionName, section);
-        
-        List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
-        for (FeedbackResponseComment frc : frcList) {
-            resultList.add(new FeedbackResponseCommentAttributes(frc));
-        }
-        
-        return resultList;    
+        return getAttributesListFromEntitiesList(frcList);
     }
     
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * @throws InvalidParametersException 
-     * @throws EntityDoesNotExistException 
-     */
+    public FeedbackResponseCommentAttributes updateComment(BaseCommentAttributes bca)
+            throws InvalidParametersException, EntityDoesNotExistException {
+        return updateFeedbackResponseComment((FeedbackResponseCommentAttributes) bca);
+    }
+    
     public FeedbackResponseCommentAttributes updateFeedbackResponseComment(
                                                      FeedbackResponseCommentAttributes newAttributes) 
                                                      throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, newAttributes);
-        
-        newAttributes.sanitizeForSaving();
-        
-        if (!newAttributes.isValid()) {
-            throw new InvalidParametersException(newAttributes.getInvalidityInfo());
+        return (FeedbackResponseCommentAttributes) super.updateComment(newAttributes);
+    }
+    
+    protected FeedbackResponseComment updateSpecificFields(BaseComment bc, BaseCommentAttributes bca) {
+        FeedbackResponseCommentAttributes newAttributes = (FeedbackResponseCommentAttributes) bca;
+        FeedbackResponseComment frc = (FeedbackResponseComment) bc;
+        if (newAttributes.giverSection != null) {
+            frc.setGiverSection(newAttributes.giverSection);
         }
-        FeedbackResponseComment frc = (FeedbackResponseComment) getEntity(newAttributes);
-        
-        if (frc == null) {
-            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + newAttributes.toString());
+        if (newAttributes.receiverSection != null) {
+            frc.setReceiverSection(newAttributes.receiverSection);
         }
-        
-        frc.setCommentText(newAttributes.commentText);
-        frc.setSendingState(newAttributes.sendingState);
-        frc.setGiverSection(newAttributes.giverSection);
-        frc.setReceiverSection(newAttributes.receiverSection);
-        frc.setShowCommentTo(newAttributes.showCommentTo);
-        frc.setShowGiverNameTo(newAttributes.showGiverNameTo);
+        if (newAttributes.showCommentTo != null) {
+            frc.setShowCommentTo(newAttributes.showCommentTo);
+        }
+        if (newAttributes.showGiverNameTo != null) {
+            frc.setShowGiverNameTo(newAttributes.showGiverNameTo);
+        }
         frc.setIsVisibilityFollowingFeedbackQuestion(Boolean.valueOf(false));
-        frc.setLastEditorEmail(newAttributes.giverEmail);
-        frc.setLastEditedAt(newAttributes.createdAt);
-        
-        log.info(newAttributes.getBackupIdentifier());
-        getPM().close();
-        
-        FeedbackResponseCommentAttributes updatedComment = new FeedbackResponseCommentAttributes(frc);
-        return updatedComment;
+        return frc;
+    }
+    
+    public void updateInstructorEmail(String courseId, String oldInstrEmail, String updatedInstrEmail) {
+        updateGiverEmailOfFeedbackResponseComments(courseId, oldInstrEmail, updatedInstrEmail);
     }
     
     /*
      * Update giver email (normally an instructor email) with the new one
      */
     public void updateGiverEmailOfFeedbackResponseComments(String courseId, String oldEmail, String updatedEmail) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, oldEmail);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updatedEmail);
-        
-        if (oldEmail.equals(updatedEmail)) {
-            return;
-        }
-        
-        List<FeedbackResponseComment> responseComments = 
-                this.getFeedbackResponseCommentEntitiesForGiverInCourse(courseId, oldEmail);
-        
-        for (FeedbackResponseComment responseComment : responseComments) {
-            responseComment.setGiverEmail(updatedEmail);
-        }
-        
-        log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
-        getPM().close();
+        super.updateGiverEmailOfComment(courseId, oldEmail, updatedEmail);
     }
     
-    /*
-     * Get response comments for a sending state (SENT|SENDING|PENDING)
-     */
+    @SuppressWarnings("unchecked")
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(String courseId,
                                                            String sessionName, CommentSendingState state) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, sessionName);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, state);
-        
-        List<FeedbackResponseComment> frcList =
-                getFeedbackResponseCommentEntityForSendingState(courseId, sessionName, state);
-        List<FeedbackResponseCommentAttributes> resultList = new ArrayList<FeedbackResponseCommentAttributes>();
-        for (FeedbackResponseComment frc : frcList) {
-            resultList.add(new FeedbackResponseCommentAttributes(frc));
-        }
-        
-        return resultList;  
+        return (List<FeedbackResponseCommentAttributes>) super.getCommentsForSendingState(courseId, sessionName, state);
     }
     
-    /*
-     * Update response comments from old state to new state
-     */
     public void updateFeedbackResponseComments(String courseId, String feedbackSessionName,
                                                CommentSendingState oldState, CommentSendingState newState) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        
-        List<FeedbackResponseComment> frcList =
-                getFeedbackResponseCommentEntityForSendingState(courseId, feedbackSessionName, oldState);
-        
-        for(FeedbackResponseComment frComment : frcList) {
-            frComment.setSendingState(newState);
-        }
-        
-        log.info(Const.SystemParams.COURSE_BACKUP_LOG_MSG + courseId);
-        getPM().close();
+        super.updateComments(courseId, feedbackSessionName, oldState, newState);
     }
     
-    /*
-     * Create or update search document for the given comment
-     */
-    public void putDocument(FeedbackResponseCommentAttributes comment) {
-        putDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, new FeedbackResponseCommentSearchDocument(comment));
+    public void putDocument(BaseCommentAttributes comment){
+        putDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT,
+                    new FeedbackResponseCommentSearchDocument((FeedbackResponseCommentAttributes) comment));
     }
     
-    /**
-     * Search for response comments
-     * @return {@link FeedbackResponseCommentSearchResultBundle}
-     */
-    public FeedbackResponseCommentSearchResultBundle search(String queryString, String googleId, String cursorString) {
-        if (queryString.trim().isEmpty()) {
-            return new FeedbackResponseCommentSearchResultBundle();
-        }
-        
-        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, 
-                new FeedbackResponseCommentSearchQuery(googleId, queryString, cursorString));
-        
-        return new FeedbackResponseCommentSearchResultBundle().fromResults(results, googleId);
+    protected Results<ScoredDocument> getSearchResult(String googleId, String queryString, String cursorString) {
+        return searchDocuments(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, 
+                               new FeedbackResponseCommentSearchQuery(googleId, queryString, cursorString));
+    }
+    
+    protected FeedbackResponseCommentSearchResultBundle getNewSearchResultBundle() {
+        return new FeedbackResponseCommentSearchResultBundle();
+    }
+    
+    @Deprecated
+    @SuppressWarnings("unchecked")
+    public List<FeedbackResponseCommentAttributes> getAllFeedbackResponseComments() {
+        return (List<FeedbackResponseCommentAttributes>) super.getAllComments(FeedbackResponseComment.class.getName());
     }
     
     /**
-     * @deprecated Not scalable. Don't use unless in admin features.
+     * @deprecated defined in abstract class, use getAllFeedbackResponseComments() instead
      */
     @Deprecated
-    public List<FeedbackResponseCommentAttributes> getAllFeedbackResponseComments() {
-        
-        List<FeedbackResponseCommentAttributes> list = new ArrayList<FeedbackResponseCommentAttributes>();
-        List<FeedbackResponseComment> entities = getAllFeedbackResponseCommentEntities();
-        for(FeedbackResponseComment comment : entities) {
-            list.add(new FeedbackResponseCommentAttributes(comment));
-        }
-        return list;
+    public List<FeedbackResponseCommentAttributes> getAllComments() {
+        return getAllFeedbackResponseComments();
     }
     
-    private List<FeedbackResponseComment> getAllFeedbackResponseCommentEntities() {
-        
-        String query = "select from " + FeedbackResponseComment.class.getName();
-            
-        @SuppressWarnings("unchecked")
-        List<FeedbackResponseComment> feedbackResponseCommentList = 
-                (List<FeedbackResponseComment>) getPM().newQuery(query).execute();
-    
-        return getCommentsWithoutDeletedEntity(feedbackResponseCommentList);
-    }
-
-    private List<FeedbackResponseComment> getCommentsWithoutDeletedEntity(
-                                                  List<FeedbackResponseComment> feedbackResponseCommentList) {
-        List<FeedbackResponseComment> resultList = new ArrayList<FeedbackResponseComment>();
-        for (FeedbackResponseComment frc : feedbackResponseCommentList) {
-            if (!JDOHelper.isDeleted(frc)) {
-                resultList.add(frc);
-            }
-        }
-        
-        return resultList;
+    @SuppressWarnings("unchecked")
+    protected List<FeedbackResponseComment> getCommentsWithoutDeletedEntity(List<? extends BaseComment> bcList) {
+        return (List<FeedbackResponseComment>) super.getCommentsWithoutDeletedEntity(bcList);
     }
     
-    @Override
-    protected Object getEntity(EntityAttributes attributes) {
-        FeedbackResponseCommentAttributes feedbackResponseCommentToGet =
-                (FeedbackResponseCommentAttributes) attributes;
-        
-        if (feedbackResponseCommentToGet.getId() != null) {
-            return getFeedbackResponseCommentEntity(feedbackResponseCommentToGet.getId());
-        } else { 
-            return getFeedbackResponseCommentEntity(
-                feedbackResponseCommentToGet.courseId,
-                feedbackResponseCommentToGet.createdAt,
-                feedbackResponseCommentToGet.giverEmail);
-        }
+    protected FeedbackResponseComment getEntityFromAttributes(BaseCommentAttributes bca) {
+        FeedbackResponseCommentAttributes feedbackResponseCommentToGet = (FeedbackResponseCommentAttributes) bca;
+        return getFeedbackResponseCommentEntity(feedbackResponseCommentToGet.courseId,
+                                                feedbackResponseCommentToGet.createdAt,
+                                                feedbackResponseCommentToGet.giverEmail);
     }
     
-    private Object getFeedbackResponseCommentEntity(String courseId, Date createdAt, String giverEmail) {
+    private FeedbackResponseComment getFeedbackResponseCommentEntity(String courseId, Date createdAt,
+                                                                     String giverEmail) {
         List<FeedbackResponseComment> frcList = getFeedbackResponseCommentEntityForGiver(courseId, giverEmail);
         if (frcList.isEmpty()) {
             return null;
@@ -476,6 +316,14 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         }
         return null;
     }
+    
+    /**
+     * @deprecated defined in abstract class, use getFeedbackResponseCommentEntityForGiver(...) instead
+     */
+    @Deprecated
+    protected List<FeedbackResponseComment> getCommentEntitiesForGiver(String courseId, String giverEmail) {
+        return getFeedbackResponseCommentEntityForGiver(courseId, giverEmail);
+    }
 
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntityForGiver(String courseId, String giverEmail) {
         Query q = getPM().newQuery(FeedbackResponseComment.class);
@@ -487,6 +335,15 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
                 (List<FeedbackResponseComment>) q.execute(courseId, giverEmail);
     
         return getCommentsWithoutDeletedEntity(feedbackResponseCommentList);
+    }
+    
+    /**
+     * @deprecated defined in abstract class, use getFeedbackResponseCommentEntityForSendingState(...) instead
+     */
+    @Deprecated
+    protected List<FeedbackResponseComment> getCommentEntitiesForSendingState(String courseId, String sessionName,
+                                                                              CommentSendingState state) {
+        return getFeedbackResponseCommentEntityForSendingState(courseId, sessionName, state);
     }
     
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntityForSendingState(String courseId,
@@ -502,7 +359,15 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
     
         return getCommentsWithoutDeletedEntity(feedbackResponseCommentList);
     }
-
+    
+    /**
+     * @deprecated defined in abstract class, use getFeedbackResponseCommentEntity(...) instead
+     */
+    @Deprecated
+    protected FeedbackResponseComment getCommentEntity(Long feedbackResponseCommentId) {
+        return getFeedbackResponseCommentEntity(feedbackResponseCommentId);
+    }
+    
     private FeedbackResponseComment getFeedbackResponseCommentEntity(Long feedbackResponseCommentId) {
         Query q = getPM().newQuery(FeedbackResponseComment.class);
         q.declareParameters("String feedbackResponseCommentIdParam");
@@ -539,19 +404,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         return feedbackResponseCommentList.get(0);
     }
     
-    private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForGiverInCourse(String courseId,
-                                                                                             String giverEmail) {
-        Query q = getPM().newQuery(FeedbackResponseComment.class);
-        q.declareParameters("String courseIdParam, String giverEmailParam");
-        q.setFilter("courseId == courseIdParam && giverEmail == giverEmailParam");
-        
-        @SuppressWarnings("unchecked")
-        List<FeedbackResponseComment> feedbackResponseComments =
-                (List<FeedbackResponseComment>) q.execute(courseId, giverEmail);
-        
-        return feedbackResponseComments;
-    }
-    
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForResponse(String feedbackResponseId) {
         Query q = getPM().newQuery(FeedbackResponseComment.class);
         q.declareParameters("String feedbackResponseIdParam");
@@ -579,6 +431,14 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         return getCommentsWithoutDeletedEntity(feedbackResponseCommentList);
     }
     
+    /**
+     * @deprecated defined in abstract class, use getFeedbackResponseCommentEntitiesForCourse(...) instead
+     */
+    @Deprecated
+    protected List<FeedbackResponseComment> getCommentEntitiesForCourse(String courseId) {
+        return getFeedbackResponseCommentEntitiesForCourse(courseId);
+    }
+    
     private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForCourse(String courseId) {
         
         Query q = getPM().newQuery(FeedbackResponseComment.class);
@@ -592,8 +452,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
         return getCommentsWithoutDeletedEntity(feedbackResponseCommentList);
     }
     
-    private Collection<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForSessionInSection(
-                                                        String courseId, String feedbackSessionName, String section) {
+    private List<FeedbackResponseComment> getFeedbackResponseCommentEntitiesForSessionInSection(
+            String courseId, String feedbackSessionName, String section) {
 
         Map<String, FeedbackResponseComment> feedbackResponseCommentList =
                 new HashMap<String, FeedbackResponseComment>();
@@ -625,7 +485,11 @@ public class FeedbackResponseCommentsDb extends EntitiesDb {
                         String.valueOf(responseComment.getFeedbackResponseCommentId()), responseComment);
             }
         }
-        
-        return feedbackResponseCommentList.values();
+        List<FeedbackResponseComment> resultAsList = new ArrayList<FeedbackResponseComment>();
+        for (FeedbackResponseComment frc: feedbackResponseCommentList.values()) {
+            resultAsList.add(frc);
+        }
+
+        return resultAsList;
     }
 }

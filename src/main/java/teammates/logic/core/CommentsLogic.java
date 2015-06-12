@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import teammates.common.datatransfer.BaseCommentAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSearchResultBundle;
@@ -32,17 +33,21 @@ import teammates.storage.api.StudentsDb;
 /**
  * Handles the logic related to {@link CommentAttributes}.
  */
-public class CommentsLogic {
+public class CommentsLogic extends BaseCommentsLogic {
     
     private static CommentsLogic instance;
+    
+    private static final String PARAM_NOT_USED_BY_COMMENT = "PLACEHOLDER";
 
     @SuppressWarnings("unused") //used by test
     private static final Logger log = Utils.getLogger();
 
     private static final CommentsDb commentsDb = new CommentsDb();
+    
+    protected CommentsDb getDb() {
+        return commentsDb;
+    }
 
-    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
@@ -59,20 +64,17 @@ public class CommentsLogic {
 
     public CommentAttributes createComment(CommentAttributes comment) 
            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        verifyIsCoursePresent(comment.courseId, "create");
-        verifyIsInstructorOfCourse(comment.courseId, comment.giverEmail);
-
-        return commentsDb.createEntity(comment);
+        return (CommentAttributes) super.createEntity(comment);
     }
     
     public CommentAttributes getComment(Long commentId) {
-        return commentsDb.getComment(commentId);
+        return (CommentAttributes) super.getComment(commentId);
     }
 
+    @SuppressWarnings("unchecked")
     public List<CommentAttributes> getCommentsForGiver(String courseId, String giverEmail)
            throws EntityDoesNotExistException {
-        verifyIsCoursePresent(courseId, "get");
-        return commentsDb.getCommentsForGiver(courseId, giverEmail);
+        return (List<CommentAttributes>) super.getCommentsForGiver(courseId, giverEmail);
     }
     
     public List<CommentAttributes> getCommentsForReceiver(String courseId,
@@ -100,33 +102,21 @@ public class CommentsLogic {
         return commentsDb.getCommentsForReceiver(courseId, recipientType, receiverEmail);
     }
     
+    @SuppressWarnings("unchecked")
     public List<CommentAttributes> getCommentsForSendingState(String courseId, CommentSendingState sendingState)
            throws EntityDoesNotExistException {
-        verifyIsCoursePresent(courseId, "get");
-        return commentsDb.getCommentsForSendingState(courseId, sendingState);
+        return (List<CommentAttributes>) super.getCommentsForSendingState(courseId, PARAM_NOT_USED_BY_COMMENT,
+                                                                          sendingState);
     }
     
     public void updateCommentsSendingState(String courseId, CommentSendingState oldState, CommentSendingState newState)
            throws EntityDoesNotExistException {
-        verifyIsCoursePresent(courseId, "clear pending");
-        commentsDb.updateComments(courseId, oldState, newState);
+        super.updateCommentsSendingState(courseId, PARAM_NOT_USED_BY_COMMENT, oldState, newState);
     }
     
-    public CommentAttributes updateComment(CommentAttributes comment)
+    public CommentAttributes updateComment(BaseCommentAttributes comment)
            throws InvalidParametersException, EntityDoesNotExistException {
-        verifyIsCoursePresent(comment.courseId, "update");
-        
-        return commentsDb.updateComment(comment);
-    }
-    
-    /**
-     * update comment's giver email (assume to be an instructor)
-     * @param courseId
-     * @param oldInstrEmail
-     * @param updatedInstrEmail
-     */
-    public void updateInstructorEmail(String courseId, String oldInstrEmail, String updatedInstrEmail) {
-        commentsDb.updateInstructorEmail(courseId, oldInstrEmail, updatedInstrEmail);
+        return (CommentAttributes) super.updateComment(comment);
     }
     
     /**
@@ -137,10 +127,6 @@ public class CommentsLogic {
      */
     public void updateStudentEmail(String courseId, String oldStudentEmail, String updatedStudentEmail) {
         commentsDb.updateStudentEmail(courseId, oldStudentEmail, updatedStudentEmail);
-    }
-    
-    public void deleteCommentsForInstructor(String courseId, String instructorEmail) {
-        commentsDb.deleteCommentsByInstructorEmail(courseId, instructorEmail);
     }
     
     public void deleteCommentsForStudent(String courseId, String studentEmail) {
@@ -155,53 +141,13 @@ public class CommentsLogic {
         commentsDb.deleteCommentsForSection(courseId, sectionName);
     }
     
-    public void deleteCommentsForCourse(String courseId) {
-        commentsDb.deleteCommentsForCourse(courseId);
-    }
-    
-    public void deleteCommentAndDocument(CommentAttributes comment) {
-        this.deleteComment(comment);
-        this.deleteDocument(comment);
-    }
-    
-    public void deleteComment(CommentAttributes comment) {
-        commentsDb.deleteEntity(comment);
-    }
-    
-    public void deleteDocument(CommentAttributes comment) {
-        commentsDb.deleteDocument(comment);
-    }
-    
     public List<CommentAttributes> getCommentDrafts(String giverEmail)
             throws EntityDoesNotExistException {
         return commentsDb.getCommentDrafts(giverEmail);
     }
     
-    /**
-     * Create or update document for comment
-     * @param comment
-     */
-    public void putDocument(CommentAttributes comment) {
-        commentsDb.putDocument(comment);
-    }
-    
     public CommentSearchResultBundle searchComment(String queryString, String googleId, String cursorString) {
-        return commentsDb.search(queryString, googleId, cursorString);
-    }
-    
-    private void verifyIsCoursePresent(String courseId, String action) throws EntityDoesNotExistException {
-        if (!coursesLogic.isCoursePresent(courseId)) {
-            throw new EntityDoesNotExistException(
-                    "Trying to " + action + " comments for a course that does not exist.");
-        }
-    }
-    
-    private void verifyIsInstructorOfCourse(String courseId, String email) throws EntityDoesNotExistException {
-        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, email);
-        if (instructor == null) {
-            throw new EntityDoesNotExistException(
-                    "User " + email + " is not a registered instructor for course "+ courseId + ".");
-        }
+        return (CommentSearchResultBundle) super.search(queryString, googleId, cursorString);
     }
     
     /************ Get Comments For an Instructor ************/
@@ -868,8 +814,9 @@ public class CommentsLogic {
         }
     }
 
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({ "deprecation", "unchecked" })
     public List<CommentAttributes> getAllComments() {
-        return commentsDb.getAllComments();
+        return (List<CommentAttributes>) super.getAllComments();
     }
+
 }

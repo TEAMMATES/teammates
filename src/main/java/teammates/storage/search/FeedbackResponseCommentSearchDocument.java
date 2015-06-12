@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -16,24 +15,24 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 
 import com.google.appengine.api.search.Document;
+import com.google.appengine.api.search.Document.Builder;
 import com.google.appengine.api.search.Field;
 import com.google.gson.Gson;
 
 /**
  * The SearchDocument object that defines how we store {@link Document} for response comments
  */
-public class FeedbackResponseCommentSearchDocument extends SearchDocument {
-    
+public class FeedbackResponseCommentSearchDocument extends BaseCommentSearchDocument {
+
+    private static final int DOCUMENT_SIZE_LIMIT = 25;
+
     private FeedbackResponseCommentAttributes comment;
     private FeedbackResponseAttributes relatedResponse;
     private String responseGiverName;
     private String responseRecipientName;
     private FeedbackQuestionAttributes relatedQuestion;
     private FeedbackSessionAttributes relatedSession;
-    private CourseAttributes course;
-    private InstructorAttributes giverAsInstructor;//comment giver
     private List<InstructorAttributes> relatedInstructors;
-    private List<StudentAttributes> relatedStudents;
     
     public FeedbackResponseCommentSearchDocument(FeedbackResponseCommentAttributes comment){
         this.comment = comment;
@@ -43,19 +42,15 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
     protected void prepareData(){
         if(comment == null) return;
         
+        super.prepareFieldsForDataPreparation(comment);
+        
         relatedSession = logic.getFeedbackSession(comment.feedbackSessionName, comment.courseId);
         
         relatedQuestion = logic.getFeedbackQuestion(comment.feedbackQuestionId);
         
         relatedResponse = logic.getFeedbackResponse(comment.feedbackResponseId);
         
-        course = logic.getCourse(comment.courseId);
-        
-        giverAsInstructor = logic.
-                getInstructorForEmail(comment.courseId, comment.giverEmail);
-        
         relatedInstructors = new ArrayList<InstructorAttributes>();
-        relatedStudents = new ArrayList<StudentAttributes>();
         
         //prepare the response giver name and recipient name
         Set<String> addedEmailSet = new HashSet<String>();
@@ -118,18 +113,10 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
     public Document toDocument(){
         
         //populate related Students/Instructors information
-        StringBuilder relatedPeopleBuilder = new StringBuilder("");
+        StringBuilder relatedPeopleBuilder = super.populateRelatedStudentsInformation(DOCUMENT_SIZE_LIMIT);
+        
         String delim = ",";
         int counter = 0;
-        for(StudentAttributes student:relatedStudents){
-            if(counter == 25) break;//in case of exceeding size limit for document
-            relatedPeopleBuilder.append(student.email).append(delim)
-                .append(student.name).append(delim)
-                .append(student.team).append(delim)
-                .append(student.section).append(delim);
-            counter++;
-        }
-        counter = 0;
         for(InstructorAttributes instructor:relatedInstructors){
             if(counter == 25) break;
             relatedPeopleBuilder.append(instructor.email).append(delim)
@@ -144,17 +131,13 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
         //response answer
         //commentGiverEmail, commentGiverName, 
         //related people's information, and commentText
-        StringBuilder searchableTextBuilder = new StringBuilder("");
-        searchableTextBuilder.append(comment.courseId).append(delim);
-        searchableTextBuilder.append(course != null? course.name: "").append(delim);
+        StringBuilder searchableTextBuilder = super
+                .prepareCommonSearchableTextBuilder(comment, delim);
         searchableTextBuilder.append(relatedSession.feedbackSessionName).append(delim);
         searchableTextBuilder.append("question " + relatedQuestion.questionNumber).append(delim);
         searchableTextBuilder.append(relatedQuestion.getQuestionDetails().questionText).append(delim);
         searchableTextBuilder.append(relatedResponse.getResponseDetails().getAnswerString()).append(delim);
-        searchableTextBuilder.append(comment.giverEmail).append(delim);
-        searchableTextBuilder.append(giverAsInstructor != null? giverAsInstructor.name: "").append(delim);
-        searchableTextBuilder.append(relatedPeopleBuilder.toString()).append(delim);
-        searchableTextBuilder.append(comment.commentText.getValue());
+        searchableTextBuilder.append(relatedPeopleBuilder.toString());
         
         //for data-migration use
         boolean isVisibilityFollowingFeedbackQuestion = comment.isVisibilityFollowingFeedbackQuestion;
@@ -166,12 +149,15 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                     relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS): 
                         comment.isVisibleTo(FeedbackParticipantType.INSTRUCTORS);
         
-        Document doc = Document.newBuilder()
+        Builder docBuilder = super.prepareCommonDocumentPart(comment,
+                relatedResponse.giverEmail, searchableTextBuilder,
+                Boolean.valueOf(isVisibleToInstructor).toString(),
+                Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE,
+                Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME);
+        Document doc = docBuilder
             //these are used to filter documents visible to certain instructor
             //TODO: some of the following fields are not used anymore (refer to {@link FeedbackResponseCommentSearchQuery}), can remove them
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.COURSE_ID).setText(comment.courseId))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_EMAIL).setText(comment.giverEmail))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_EMAIL).setText(relatedResponse.giverEmail))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.GIVER_SECTION).setText(relatedResponse.giverSection))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.RECIPIENT_EMAIL).setText(relatedResponse.recipientEmail))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.RECIPIENT_SECTION).setText(relatedResponse.recipientSection))
@@ -179,21 +165,12 @@ public class FeedbackResponseCommentSearchDocument extends SearchDocument {
                     Boolean.valueOf(isVisibleToGiver).toString()))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_RECEIVER).setText(
                     Boolean.valueOf(isVisibleToReceiver).toString()))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.IS_VISIBLE_TO_INSTRUCTOR).setText(
-                    Boolean.valueOf(isVisibleToInstructor).toString()))
-            //searchableText and createdDate are used to match the query string
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.SEARCHABLE_TEXT).setText(searchableTextBuilder.toString()))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.CREATED_DATE).setDate(comment.createdAt))
             //attribute field is used to convert a doc back to attribute
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_ATTRIBUTE).setText(new Gson().toJson(comment)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_ATTRIBUTE).setText(new Gson().toJson(relatedResponse)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_GIVER_NAME).setText(new Gson().toJson(responseGiverName)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_RECEIVER_NAME).setText(new Gson().toJson(responseRecipientName)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_QUESTION_ATTRIBUTE).setText(new Gson().toJson(relatedQuestion)))
             .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_SESSION_ATTRIBUTE).setText(new Gson().toJson(relatedSession)))
-            .addField(Field.newBuilder().setName(Const.SearchDocumentField.FEEDBACK_RESPONSE_COMMENT_GIVER_NAME).setText(
-                    new Gson().toJson(giverAsInstructor != null? giverAsInstructor.displayedName +" "+ giverAsInstructor.name: comment.giverEmail)))
-            .setId(comment.getId().toString())
             .build();
         return doc;
     }

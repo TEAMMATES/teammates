@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import teammates.common.datatransfer.BaseCommentAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -28,7 +29,7 @@ import teammates.storage.api.FeedbackResponseCommentsDb;
 /**
  * Handles the logic related to {@link FeedbackResponseCommentAttributes}.
  */
-public class FeedbackResponseCommentsLogic {
+public class FeedbackResponseCommentsLogic extends BaseCommentsLogic {
     @SuppressWarnings("unused") //used by test
     private static final Logger log = Utils.getLogger();
     
@@ -36,8 +37,10 @@ public class FeedbackResponseCommentsLogic {
 
     private static final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
     
-    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    protected FeedbackResponseCommentsDb getDb() {
+        return frcDb;
+    }
+    
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
 
@@ -50,12 +53,10 @@ public class FeedbackResponseCommentsLogic {
 
     public FeedbackResponseCommentAttributes createFeedbackResponseComment(FeedbackResponseCommentAttributes frComment)
             throws InvalidParametersException, EntityDoesNotExistException {
-        verifyIsCoursePresent(frComment.courseId);
-        verifyIsInstructorOfCourse(frComment.courseId, frComment.giverEmail);
         verifyIsFeedbackSessionOfCourse(frComment.courseId, frComment.feedbackSessionName);
         
         try {
-            return frcDb.createEntity(frComment);
+            return (FeedbackResponseCommentAttributes) super.createEntity(frComment);
         } catch (EntityAlreadyExistsException e) {
             try {
                 FeedbackResponseCommentAttributes existingComment = new FeedbackResponseCommentAttributes();
@@ -77,7 +78,19 @@ public class FeedbackResponseCommentsLogic {
     }
     
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(Long feedbackResponseCommentId) {
-        return frcDb.getFeedbackResponseComment(feedbackResponseCommentId);
+        return (FeedbackResponseCommentAttributes) super.getComment(feedbackResponseCommentId);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<FeedbackResponseCommentAttributes> getCommentsForGiver(String courseId, String giverEmail)
+           throws EntityDoesNotExistException {
+        return (List<FeedbackResponseCommentAttributes>) super.getCommentsForGiver(courseId, giverEmail);
+    }
+    
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForGiver(String courseId,
+                                                                                       String giverEmail)
+                                                   throws EntityDoesNotExistException {
+        return getCommentsForGiver(courseId, giverEmail);
     }
     
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(String responseId, String giverEmail,
@@ -104,7 +117,8 @@ public class FeedbackResponseCommentsLogic {
     }
     
     public void updateFeedbackResponseCommentsGiverEmail(String courseId, String oldEmail, String updatedEmail) {
-        frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, oldEmail, updatedEmail);
+        // for now, giver can only be instructors
+        super.updateInstructorEmail(courseId, oldEmail, updatedEmail);
     }
     
     // right now this method only updates comment's giverSection and receiverSection for a given response
@@ -120,56 +134,44 @@ public class FeedbackResponseCommentsLogic {
     }
 
     public FeedbackResponseCommentAttributes updateFeedbackResponseComment(
-                                                     FeedbackResponseCommentAttributes feedbackResponseComment)
-                                                     throws InvalidParametersException, EntityDoesNotExistException {
-        return frcDb.updateFeedbackResponseComment(feedbackResponseComment);    
+                                    BaseCommentAttributes feedbackResponseComment)
+                                             throws InvalidParametersException, EntityDoesNotExistException {
+        return (FeedbackResponseCommentAttributes) super.updateComment(feedbackResponseComment);
     }
     
+    @SuppressWarnings("unchecked")
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSendingState(
                                                            String courseId, CommentSendingState state) 
                                                            throws EntityDoesNotExistException {
-        verifyIsCoursePresent(courseId);
+        verifyIsCoursePresent(courseId, "get");
         
         List<FeedbackResponseCommentAttributes> frcList = new ArrayList<FeedbackResponseCommentAttributes>();
         List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
         for (FeedbackSessionAttributes fs : feedbackSessions) {
             if (fs.isPublished()) {
-                frcList.addAll(
-                        frcDb.getFeedbackResponseCommentsForSendingState(courseId, fs.feedbackSessionName, state));
+                frcList.addAll((List<FeedbackResponseCommentAttributes>)
+                               super.getCommentsForSendingState(courseId, fs.feedbackSessionName, state));
             }
         }
         return frcList;
     }
     
-    public void updateFeedbackResponseCommentsSendingState(
-            String courseId, CommentSendingState oldState, CommentSendingState newState) 
-            throws EntityDoesNotExistException {
-        verifyIsCoursePresent(courseId);
-        
+    public void updateFeedbackResponseCommentsSendingState(String courseId, CommentSendingState oldState,
+                                                           CommentSendingState newState)
+           throws EntityDoesNotExistException {
+        verifyIsCoursePresent(courseId, "clear pending");
+
         List<FeedbackSessionAttributes> feedbackSessions = fsLogic.getFeedbackSessionsForCourse(courseId);
         for (FeedbackSessionAttributes fs : feedbackSessions) {
             if (fs.isPublished()) {
-                frcDb.updateFeedbackResponseComments(courseId, fs.feedbackSessionName, oldState, newState);    
+                super.updateCommentsSendingState(courseId, fs.feedbackSessionName, oldState, newState);
             }
         }
     }
     
-    /**
-     * Create or update document for the given comment
-     * @param comment
-     */
-    public void putDocument(FeedbackResponseCommentAttributes comment) {
-        frcDb.putDocument(comment);
-    }
-    
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForGiver(String courseId,
-                                                                                       String giverEmail) {
-        return frcDb.getFeedbackResponseCommentForGiver(courseId, giverEmail);
-    }
-    
-    public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(String queryString,
-                                                             String googleId, String cursorString) {
-        return frcDb.search(queryString, googleId, cursorString);
+    public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(
+            String queryString, String googleId, String cursorString) {
+        return (FeedbackResponseCommentSearchResultBundle) super.search(queryString, googleId, cursorString);
     }
     
     public void deleteFeedbackResponseCommentsForResponse(String responseId) {
@@ -177,15 +179,7 @@ public class FeedbackResponseCommentsLogic {
     }
     
     public void deleteFeedbackResponseComment(FeedbackResponseCommentAttributes feedbackResponseComment) {
-        frcDb.deleteEntity(feedbackResponseComment);    
-    }
-    
-    /**
-     * Remove document for the given comment
-     * @param commentToDelete
-     */
-    public void deleteDocument(FeedbackResponseCommentAttributes commentToDelete) {
-        frcDb.deleteDocument(commentToDelete);
+        super.deleteComment(feedbackResponseComment);
     }
     
     /**
@@ -315,21 +309,6 @@ public class FeedbackResponseCommentsLogic {
         return isVisibleTo;
     }
     
-    private void verifyIsCoursePresent(String courseId) throws EntityDoesNotExistException {
-        if (!coursesLogic.isCoursePresent(courseId)) {
-            throw new EntityDoesNotExistException(
-                    "Trying to create feedback response comments for a course that does not exist.");
-        }
-    }
-    
-    private void verifyIsInstructorOfCourse(String courseId, String email) throws EntityDoesNotExistException {
-        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, email);
-        if (instructor == null) {
-            throw new EntityDoesNotExistException("User " + email + " is not a registered instructor for course "
-                                                + courseId + ".");
-        }
-    }
-    
     private void verifyIsFeedbackSessionOfCourse(String courseId, String feedbackSessionName)
             throws EntityDoesNotExistException {
         FeedbackSessionAttributes session = fsLogic.getFeedbackSession(feedbackSessionName, courseId);
@@ -339,8 +318,9 @@ public class FeedbackResponseCommentsLogic {
         }
     }
 
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings({ "deprecation", "unchecked" })
     public List<FeedbackResponseCommentAttributes> getAllFeedbackResponseComments() {
-        return frcDb.getAllFeedbackResponseComments();
+        return (List<FeedbackResponseCommentAttributes>) super.getAllComments();
     }
+
 }

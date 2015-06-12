@@ -10,7 +10,6 @@ import teammates.common.util.Const;
 import teammates.logic.core.CommentsLogic;
 import teammates.logic.core.InstructorsLogic;
 
-import com.google.appengine.api.search.Cursor;
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.google.gson.Gson;
@@ -18,17 +17,17 @@ import com.google.gson.Gson;
 /**
  * The search result bundle for {@link CommentAttributes}. 
  */
-public class CommentSearchResultBundle extends SearchResultBundle {
+public class CommentSearchResultBundle extends BaseCommentSearchResultBundle {
     
     public Map<String, List<CommentAttributes>> giverCommentTable = new TreeMap<String, List<CommentAttributes>>();
     public Map<String, String> giverTable = new HashMap<String, String>();
     public Map<String, String> recipientTable = new HashMap<String, String>();
-    public Cursor cursor = null;
-    private int numberOfResults = 0;
     private CommentsLogic commentsLogic = CommentsLogic.inst();
-    
-    public CommentSearchResultBundle(){}
-    
+
+    public CommentSearchResultBundle() {
+        
+    }
+
     /**
      * Produce a CommentSearchResultBundle from the Results<ScoredDocument> collection
      */
@@ -89,8 +88,4 @@ public class CommentSearchResultBundle extends SearchResultBundle {
         return this;
     }
 
-    @Override
-    public int getResultSize() {
-        return numberOfResults;
-    }
 }

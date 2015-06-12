@@ -23,7 +23,7 @@ import com.google.appengine.api.datastore.Text;
  * receiver is restricted to Student.
  */
 @PersistenceCapable
-public class Comment {
+public class Comment implements BaseComment {
     
     @PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
