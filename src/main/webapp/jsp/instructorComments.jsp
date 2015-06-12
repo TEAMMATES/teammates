@@ -60,11 +60,10 @@
 
         <div class="container" id="frameBodyWrapper">
             <div id="topOfPage"></div>
+            <h1>Comments from Instructors</h1>
+            <br>
             <div class="inner-container">
                 <div class="row">
-                    <div class="col-sm-6">
-                        <h1>Comments from Instructors</h1>
-                    </div>
                     <div class="col-sm-6 instructor-header-bar">
                         <form method="get" action="<%= data.getInstructorSearchLink() %>" name="search_form">
                             <div class="input-group">
