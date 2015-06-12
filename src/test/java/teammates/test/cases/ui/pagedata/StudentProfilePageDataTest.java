@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.ui.controller.StudentProfilePageData;
 import teammates.ui.template.StudentProfileEditBox;
 import teammates.ui.template.StudentProfileUploadPhotoModal;
@@ -59,12 +60,13 @@ public class StudentProfilePageDataTest {
     private void testProfileEditBox(StudentProfileEditBox profileEditBox) {
         assertEquals(acct.name, profileEditBox.getName());
         assertEquals(editPicture, profileEditBox.getEditPicture());
-        assertEquals(convertToEmptyStringIfNull(spa.shortName), profileEditBox.getShortName());
-        assertEquals(convertToEmptyStringIfNull(spa.email), profileEditBox.getEmail()); // email comes from SPA, not AA
-        assertEquals(convertToEmptyStringIfNull(spa.institute), profileEditBox.getInstitute());
-        assertEquals(convertToEmptyStringIfNull(spa.nationality), profileEditBox.getNationality());
+        assertEquals(StringHelper.convertToEmptyStringIfNull(spa.shortName), profileEditBox.getShortName());
+        // email comes from SPA, not AA
+        assertEquals(StringHelper.convertToEmptyStringIfNull(spa.email), profileEditBox.getEmail());
+        assertEquals(StringHelper.convertToEmptyStringIfNull(spa.institute), profileEditBox.getInstitute());
+        assertEquals(StringHelper.convertToEmptyStringIfNull(spa.nationality), profileEditBox.getNationality());
         assertEquals(spa.gender, profileEditBox.getGender());
-        assertEquals(convertToEmptyStringIfNull(spa.moreInfo), profileEditBox.getMoreInfo());
+        assertEquals(StringHelper.convertToEmptyStringIfNull(spa.moreInfo), profileEditBox.getMoreInfo());
         assertEquals(acct.googleId, profileEditBox.getGoogleId()); // googleId comes from AA, not SPA
         assertEquals(pictureUrl, profileEditBox.getPictureUrl());
     }
@@ -73,15 +75,6 @@ public class StudentProfilePageDataTest {
         assertEquals(acct.googleId, uploadPhotoModal.getGoogleId());
         assertEquals(pictureUrl, uploadPhotoModal.getPictureUrl());
         assertEquals(spa.pictureKey, uploadPhotoModal.getPictureKey());
-    }
-    
-    // TODO move this to StringHelper
-    private String convertToEmptyStringIfNull(String s) {
-        if (s == null) {
-            return "";
-        } else {
-            return s;
-        }
     }
     
 }
