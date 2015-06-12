@@ -29,6 +29,42 @@ public class StudentCommentsPageData extends PageData {
         super(account);
     }
     
+    public String getCourseId() {
+        return courseId;
+    }
+    
+    public String getCourseName() {
+        return courseName;
+    }
+    
+    public List<String> getCoursePaginationList() {
+        return coursePaginationList;
+    }
+    
+    public List<CommentAttributes> getComments() {
+        return comments;
+    }
+    
+    public CourseRoster getRoster() {
+        return roster;
+    }
+    
+    public String getPreviousPageLink() {
+        return previousPageLink;
+    }
+    
+    public String getNextPageLink() {
+        return nextPageLink;
+    }
+    
+    public String getStudentEmail() {
+        return studentEmail;
+    }
+    
+    public Map<String, FeedbackSessionResultsBundle> getFeedbackResultBundles() {
+        return feedbackResultBundles;
+    }
+    
     public String getRecipientNames(Set<String> recipients){
         StringBuilder namesStringBuilder = new StringBuilder();
         int i = 0;
