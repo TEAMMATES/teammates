@@ -16,6 +16,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.test.util.TestHelper;
 import teammates.ui.controller.ShowPageResult;
@@ -188,7 +189,7 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
 
         // databundle time changed here because publishing sets resultsVisibleTime to now.
         dataBundle.feedbackSessions.get("session1InCourse1").resultsVisibleFromTime =
-                                        pageData.bundle.feedbackSession.resultsVisibleFromTime;
+                TimeHelper.now( dataBundle.feedbackSessions.get("session1InCourse1").timeZone).getTime();
 
         List<FeedbackSessionAttributes> expectedInfoList = new ArrayList<FeedbackSessionAttributes>();
         List<FeedbackSessionAttributes> actualInfoList = new ArrayList<FeedbackSessionAttributes>();
