@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import teammates.common.datatransfer.CourseAttributes;
@@ -37,16 +38,17 @@ public class InstructorCoursesPageAction extends Action {
          * prepare the matching PageData object, accessing the Logic 
          * component if necessary.*/
         
-        ArrayList<CourseDetailsBundle> allCourses = new ArrayList<CourseDetailsBundle>(
+        List<CourseDetailsBundle> allCourses = new ArrayList<CourseDetailsBundle>(
                 logic.getCourseSummariesForInstructor(account.googleId).values());
         
+        CourseDetailsBundle.sortDetailedCoursesByCourseId(allCourses);
         List<CourseDetailsBundle> activeCourses = logic.extractActiveCourses(allCourses, account.googleId);
         List<CourseDetailsBundle> archivedCourses = logic.extractArchivedCourses(allCourses, account.googleId);
         
         InstructorCoursesPageData data = new InstructorCoursesPageData(account);
         
         List<CourseAttributes> courseList = logic.getCoursesForInstructor(data.account.googleId);
-        HashMap<String, InstructorAttributes> instructorsForCourses = new HashMap<String, InstructorAttributes>();
+        Map<String, InstructorAttributes> instructorsForCourses = new HashMap<String, InstructorAttributes>();
         for (CourseAttributes course : courseList) {
             instructorsForCourses.put(course.id, logic.getInstructorForGoogleId(course.id, data.account.googleId));
         }

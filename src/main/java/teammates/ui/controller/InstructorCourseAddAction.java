@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
@@ -38,8 +39,9 @@ public class InstructorCourseAddAction extends Action {
         createCourse(newCourse);
 
         /* Prepare data for the refreshed page after executing the adding action */
-        ArrayList<CourseDetailsBundle> allCourses = new ArrayList<CourseDetailsBundle>(logic.getCourseSummariesForInstructor(
+        List<CourseDetailsBundle> allCourses = new ArrayList<CourseDetailsBundle>(logic.getCourseSummariesForInstructor(
                                                                     data.account.googleId).values());
+        CourseDetailsBundle.sortDetailedCoursesByCourseId(allCourses);
         List<CourseDetailsBundle> activeCourses = logic.extractActiveCourses(allCourses, data.account.googleId);
         List<CourseDetailsBundle> archivedCourses = logic.extractArchivedCourses(allCourses, data.account.googleId);
                                         
@@ -56,7 +58,7 @@ public class InstructorCourseAddAction extends Action {
         }
         
         List<CourseAttributes> courseList = logic.getCoursesForInstructor(data.account.googleId);
-        HashMap<String, InstructorAttributes> instructorsForCourses = new HashMap<String, InstructorAttributes>();
+        Map<String, InstructorAttributes> instructorsForCourses = new HashMap<String, InstructorAttributes>();
         for (CourseAttributes course : courseList) {
             instructorsForCourses.put(course.id, logic.getInstructorForGoogleId(course.id, data.account.googleId));
         }

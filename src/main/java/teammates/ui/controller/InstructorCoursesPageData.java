@@ -1,8 +1,8 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -24,19 +24,19 @@ public class InstructorCoursesPageData extends PageData {
     private ActiveCoursesTable activeCourses;
     private String courseIdToShow;
     private String courseNameToShow;
-    private HashMap<String, InstructorAttributes> instructorsForCourses;
+    private Map<String, InstructorAttributes> instructorsForCourses;
     
     public InstructorCoursesPageData(AccountAttributes account) {
         super(account);
     }
     
     public void init(List<CourseDetailsBundle> activeCoursesParam, List<CourseDetailsBundle> archivedCoursesParam,
-                     HashMap<String, InstructorAttributes> instructorsForCoursesParam){
+                     Map<String, InstructorAttributes> instructorsForCoursesParam){
         init(activeCoursesParam, archivedCoursesParam, instructorsForCoursesParam, "", ""); 
     }
     
     public void init(List<CourseDetailsBundle> activeCoursesParam, List<CourseDetailsBundle> archivedCoursesParam, 
-                     HashMap<String, InstructorAttributes> instructorsForCoursesParam, String courseIdToShowParam, String courseNameToShowParam){
+                     Map<String, InstructorAttributes> instructorsForCoursesParam, String courseIdToShowParam, String courseNameToShowParam){
         instructorsForCourses = instructorsForCoursesParam;
         activeCourses = convertToActiveCoursesTable(activeCoursesParam);
         archivedCourses = convertToArchivedCoursesTable(archivedCoursesParam);

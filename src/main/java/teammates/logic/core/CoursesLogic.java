@@ -724,9 +724,7 @@ public class CoursesLogic {
     // isCourseArchived(), which retrieves information from the database
     
     public List<CourseDetailsBundle> extractActiveCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
-        CourseDetailsBundle.sortDetailedCoursesByCourseId(courseBundles);
         List<CourseDetailsBundle> result = new ArrayList<CourseDetailsBundle>();
-        
         for (CourseDetailsBundle courseBundle : courseBundles) {
             if (!isCourseArchived(courseBundle.course.id, googleId)) {
                 result.add(courseBundle);
@@ -736,9 +734,7 @@ public class CoursesLogic {
     }
     
     public List<CourseDetailsBundle> extractArchivedCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
-        CourseDetailsBundle.sortDetailedCoursesByCourseId(courseBundles);
         List<CourseDetailsBundle> result = new ArrayList<CourseDetailsBundle>();
-        
         for (CourseDetailsBundle courseBundle : courseBundles) {
             if (isCourseArchived(courseBundle.course.id, googleId)) {
                 result.add(courseBundle);
