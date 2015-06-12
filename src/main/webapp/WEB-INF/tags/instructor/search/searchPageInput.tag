@@ -2,7 +2,6 @@
 <%@ tag import="teammates.common.util.Const"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<br>
 <div>
     <form method="get" action="${data.instructorSearchLink}" name="search_form">       
         <div class="well well-plain">
