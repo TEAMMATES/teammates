@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
@@ -54,7 +55,7 @@ public class InstructorFeedbacksPageData extends PageData {
      */
     public void init(List<CourseAttributes> courses, String courseIdForNewSession, 
                      List<FeedbackSessionAttributes> existingFeedbackSessions,
-                     HashMap<String, InstructorAttributes> instructors,
+                     Map<String, InstructorAttributes> instructors,
                      FeedbackSessionAttributes defaultFormValues, String feedbackSessionType, 
                      String highlightedFeedbackSession) {
 
@@ -75,7 +76,7 @@ public class InstructorFeedbacksPageData extends PageData {
     
     public void initWithoutHighlightedRow(List<CourseAttributes> courses, String courseIdForNewSession, 
                                           List<FeedbackSessionAttributes> existingFeedbackSessions,
-                                          HashMap<String, InstructorAttributes> instructors,
+                                          Map<String, InstructorAttributes> instructors,
                                           FeedbackSessionAttributes defaultFormValues, String feedbackSessionType) {
 
         init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, defaultFormValues, feedbackSessionType, null);
@@ -83,7 +84,7 @@ public class InstructorFeedbacksPageData extends PageData {
     
     public void initWithoutDefaultFormValues(List<CourseAttributes> courses, String courseIdForNewSession, 
                                     List<FeedbackSessionAttributes> existingFeedbackSessions,
-                                    HashMap<String, InstructorAttributes> instructors,
+                                    Map<String, InstructorAttributes> instructors,
                                     String highlightedFeedbackSession) {
 
          init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, null, null, highlightedFeedbackSession);
@@ -94,7 +95,7 @@ public class InstructorFeedbacksPageData extends PageData {
 
     private void buildCopyFromModal(List<CourseAttributes> courses, String courseIdForNewSession,
                                     List<FeedbackSessionAttributes> existingFeedbackSessions,
-                                    HashMap<String, InstructorAttributes> instructors,
+                                    Map<String, InstructorAttributes> instructors,
                                     FeedbackSessionAttributes newFeedbackSession,
                                     String feedbackSessionNameForSessionList) {
         List<FeedbackSessionAttributes> filteredFeedbackSessions = new ArrayList<FeedbackSessionAttributes>();
@@ -120,7 +121,7 @@ public class InstructorFeedbacksPageData extends PageData {
     }
 
     private void buildFsList(String courseIdForNewSession, List<FeedbackSessionAttributes> existingFeedbackSessions,
-                             HashMap<String, InstructorAttributes> instructors, String feedbackSessionNameForSessionList) {
+                             Map<String, InstructorAttributes> instructors, String feedbackSessionNameForSessionList) {
         
         List<FeedbackSessionRow> existingFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(
                                                                    existingFeedbackSessions, instructors, 
@@ -129,7 +130,7 @@ public class InstructorFeedbacksPageData extends PageData {
     }
 
     private void buildNewForm(List<CourseAttributes> courses, String courseIdForNewSession,
-                                    HashMap<String, InstructorAttributes> instructors,
+                                    Map<String, InstructorAttributes> instructors,
                                     FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
                                     String feedbackSessionNameForSessionList) {
         newFsForm = new FeedbackSessionsForm();
@@ -229,7 +230,7 @@ public class InstructorFeedbacksPageData extends PageData {
     
     private List<FeedbackSessionRow> convertFeedbackSessionAttributesToSessionRows(
                                     List<FeedbackSessionAttributes> sessions, 
-                                    HashMap<String, InstructorAttributes> instructors, 
+                                    Map<String, InstructorAttributes> instructors, 
                                     String feedbackSessionNameForSessionList, String courseIdForNewSession) {
 
         
@@ -320,8 +321,8 @@ public class InstructorFeedbacksPageData extends PageData {
     }
 
     private ArrayList<ElementTag> getCourseIdOptions(List<CourseAttributes> courses, String  courseIdForNewSession,
-                                                HashMap<String, InstructorAttributes> instructors,
-                                                FeedbackSessionAttributes newFeedbackSession) {
+                                                     Map<String, InstructorAttributes> instructors,
+                                                     FeedbackSessionAttributes newFeedbackSession) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
 
         for (CourseAttributes course : courses) {
