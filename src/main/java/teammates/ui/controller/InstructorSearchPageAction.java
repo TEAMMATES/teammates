@@ -89,7 +89,7 @@ public class InstructorSearchPageAction extends Action {
         
         InstructorSearchPageData data = new InstructorSearchPageData(account);
         data.init(commentSearchResults, frCommentSearchResults, studentSearchResults, searchKey, 
-                      totalResultsSize, isSearchCommentForStudents, isSearchCommentForResponses, isSearchForStudents);
+                      isSearchCommentForStudents, isSearchCommentForResponses, isSearchForStudents);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_SEARCH, data);
     }

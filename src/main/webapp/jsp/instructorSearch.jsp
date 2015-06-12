@@ -15,19 +15,19 @@
     <search:searchPageInput />
     <t:statusMessage />
     
-    <c:if test="${data.commentSearchResultBundle.resultSize != 0}">
+    <c:if test="${not data.commentsForStudentsEmpty}">
         <search:commentsForStudentsSearchResults>
             Comments for students
         </search:commentsForStudentsSearchResults>
     </c:if>
     
-    <c:if test="${data.feedbackResponseCommentSearchResultBundle.resultSize != 0}">
+    <c:if test="${not data.commentsForResponsesEmpty}">
         <search:commentsForResponsesSearchResults>
             Comments for responses
         </search:commentsForResponsesSearchResults>
     </c:if>
     
-    <c:if test="${data.studentSearchResultBundle.resultSize != 0}">
+    <c:if test="${not data.studentsEmpty}">
         <search:studentsSearchResults>
             Students
         </search:studentsSearchResults>
