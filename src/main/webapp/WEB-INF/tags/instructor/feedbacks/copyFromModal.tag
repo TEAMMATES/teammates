@@ -59,13 +59,11 @@
                             </tr>
                         </thead>                                
                             <c:forEach items="${copyFromModal.existingFeedbackSessions}" var="session" varStatus="i">
-                        
                                 <tr style="cursor:pointer;">
                                     <td><input type="radio"></td>
                                     <td>${session.courseId}</td>
                                     <td>${session.name}</td>
                                 </tr>
-
                             </c:forEach>
                     </table>
                     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"

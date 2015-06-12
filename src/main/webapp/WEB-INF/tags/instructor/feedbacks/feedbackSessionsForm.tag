@@ -5,6 +5,7 @@
 <%@ tag import="teammates.logic.core.Emails.EmailType" %>
 
 <%@ attribute name="fsForm" type="teammates.ui.template.FeedbackSessionsForm" required="true"%>
+
 <div class="well well-plain">
     <form class="form-group" method="post"
         action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD %>"
@@ -57,15 +58,11 @@
                                 <select class="form-control<c:if test="${empty fsForm.courses}"> text-color-red</c:if>"
                                     name="<%= Const.ParamsNames.COURSE_ID %>"
                                     id="<%= Const.ParamsNames.COURSE_ID %>">
-                                    
                                     <c:forEach items="${fsForm.coursesSelectField}" var="option">
                                         <option <c:forEach items="${option.attributes}" var="attr"
                                         > ${attr.key}="${attr.value}"</c:forEach> >${option.content}</option>
                                     </c:forEach>
-                                    
-                                    
                                 </select>
-
                             </div>
                         </div>
                     </div>

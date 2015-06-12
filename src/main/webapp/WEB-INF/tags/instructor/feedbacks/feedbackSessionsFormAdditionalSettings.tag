@@ -17,9 +17,7 @@
                         <label class="label-control">Session visible from </label>
                     </div>
                 </div>
-                <div class="row radio"><%
-                        
-                    %>
+                <div class="row radio">
                     <div class="col-md-2"
                         title="<%= Const.Tooltips.FEEDBACK_SESSION_VISIBLEDATE %>"
                         data-toggle="tooltip"

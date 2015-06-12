@@ -83,9 +83,9 @@ public class InstructorFeedbacksPageData extends PageData {
     }
     
     public void initWithoutDefaultFormValues(List<CourseAttributes> courses, String courseIdForNewSession, 
-                                    List<FeedbackSessionAttributes> existingFeedbackSessions,
-                                    Map<String, InstructorAttributes> instructors,
-                                    String highlightedFeedbackSession) {
+                                             List<FeedbackSessionAttributes> existingFeedbackSessions,
+                                             Map<String, InstructorAttributes> instructors,
+                                             String highlightedFeedbackSession) {
 
          init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, null, null, highlightedFeedbackSession);
     }
@@ -130,9 +130,9 @@ public class InstructorFeedbacksPageData extends PageData {
     }
 
     private void buildNewForm(List<CourseAttributes> courses, String courseIdForNewSession,
-                                    Map<String, InstructorAttributes> instructors,
-                                    FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
-                                    String feedbackSessionNameForSessionList) {
+                              Map<String, InstructorAttributes> instructors,
+                              FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
+                              String feedbackSessionNameForSessionList) {
         newFsForm = new FeedbackSessionsForm();
         
         List<String> courseIds = new ArrayList<String>();
@@ -188,24 +188,24 @@ public class InstructorFeedbacksPageData extends PageData {
                                                                     FeedbackSessionAttributes newFeedbackSession) {
         Date date;
         FeedbackSessionsForm.AdditionalSettingsFormSegment additionalSettings = new FeedbackSessionsForm.AdditionalSettingsFormSegment(); 
-        boolean hasSessionVisibleDate = newFeedbackSession != null &&
-                                        !TimeHelper.isSpecialTime(newFeedbackSession.sessionVisibleFromTime);
+        boolean hasSessionVisibleDate = newFeedbackSession != null 
+                                        && !TimeHelper.isSpecialTime(newFeedbackSession.sessionVisibleFromTime);
         additionalSettings.setSessionVisibleDateButtonChecked(hasSessionVisibleDate);
         additionalSettings.setSessionVisibleDateValue(hasSessionVisibleDate ? 
-                                             TimeHelper.formatDate(newFeedbackSession.sessionVisibleFromTime) :
-                                             "");
+                                                      TimeHelper.formatDate(newFeedbackSession.sessionVisibleFromTime) :
+                                                      "");
         additionalSettings.setSessionVisibleDateDisabled(!hasSessionVisibleDate);
         
         date = hasSessionVisibleDate ? newFeedbackSession.sessionVisibleFromTime : null;   
         additionalSettings.setSessionVisibleTimeOptions(getTimeOptionsAsElementTags(date));
         
         additionalSettings.setSessionVisibleAtOpenChecked(newFeedbackSession == null 
-                                                 || Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(
-                                                           newFeedbackSession.sessionVisibleFromTime));
+                                                           || Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(
+                                                                   newFeedbackSession.sessionVisibleFromTime));
         
         additionalSettings.setSessionVisiblePrivateChecked(newFeedbackSession != null 
-                                                  && Const.TIME_REPRESENTS_NEVER.equals(
-                                                           newFeedbackSession.sessionVisibleFromTime));
+                                                           && Const.TIME_REPRESENTS_NEVER.equals(
+                                                               newFeedbackSession.sessionVisibleFromTime));
                         
         boolean hasResultVisibleDate = newFeedbackSession != null 
                                        && !TimeHelper.isSpecialTime(newFeedbackSession.resultsVisibleFromTime);
@@ -213,17 +213,16 @@ public class InstructorFeedbacksPageData extends PageData {
         additionalSettings.setResponseVisibleDateChecked(hasResultVisibleDate);
         
         additionalSettings.setResponseVisibleDateValue(hasResultVisibleDate ? 
-                                              TimeHelper.formatDate(newFeedbackSession.resultsVisibleFromTime) :
-                                              "");
+                                                       TimeHelper.formatDate(newFeedbackSession.resultsVisibleFromTime) :
+                                                       "");
         
         additionalSettings.setResponseVisibleDisabled(!hasResultVisibleDate);
         
         date = hasResultVisibleDate ? newFeedbackSession.resultsVisibleFromTime :  null;
-        
         additionalSettings.setResponseVisibleTimeOptions(getTimeOptionsAsElementTags(date));
         
         additionalSettings.setResponseVisibleImmediatelyChecked((newFeedbackSession != null 
-                                                          && Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(newFeedbackSession.resultsVisibleFromTime)));
+                                                                && Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(newFeedbackSession.resultsVisibleFromTime)));
         
         additionalSettings.setResponseVisiblePublishManuallyChecked(
                                  (newFeedbackSession == null 
@@ -231,15 +230,15 @@ public class InstructorFeedbacksPageData extends PageData {
                                   || Const.TIME_REPRESENTS_NOW.equals(newFeedbackSession.resultsVisibleFromTime)));
         
         additionalSettings.setResponseVisibleNeverChecked((newFeedbackSession != null  
-                                                    && Const.TIME_REPRESENTS_NEVER.equals(newFeedbackSession.resultsVisibleFromTime)));
+                                                            && Const.TIME_REPRESENTS_NEVER.equals(newFeedbackSession.resultsVisibleFromTime)));
         return additionalSettings;
     }
     
     
     private List<FeedbackSessionRow> convertFeedbackSessionAttributesToSessionRows(
-                                    List<FeedbackSessionAttributes> sessions, 
-                                    Map<String, InstructorAttributes> instructors, 
-                                    String feedbackSessionNameForSessionList, String courseIdForNewSession) {
+                                         List<FeedbackSessionAttributes> sessions, 
+                                         Map<String, InstructorAttributes> instructors, 
+                                         String feedbackSessionNameForSessionList, String courseIdForNewSession) {
 
         
         List<FeedbackSessionRow> rows = new ArrayList<FeedbackSessionRow>();
@@ -263,8 +262,9 @@ public class InstructorFeedbacksPageData extends PageData {
             
             String actions = "";
             try {
-                actions = getInstructorFeedbackSessionActions(session, false, instructors.get(courseId),
-                                                getCourseIdSectionNamesMap(sessions).get(courseId));
+                actions = getInstructorFeedbackSessionActions(session, false, 
+                                                              instructors.get(courseId),
+                                                              getCourseIdSectionNamesMap(sessions).get(courseId));
             } catch (EntityDoesNotExistException e) {
                 // nothing
             }
@@ -349,7 +349,7 @@ public class InstructorFeedbacksPageData extends PageData {
             if (instructors.get(course.id).isAllowedForPrivilege(
                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
                 ElementTag option = createOption(course.id, course.id,  
-                                                (isFilledFormForSessionInThisCourse || isEmptyFormForSessionInThisCourse));
+                                                 (isFilledFormForSessionInThisCourse || isEmptyFormForSessionInThisCourse));
                 result.add(option);
             }
         }
