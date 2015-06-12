@@ -170,8 +170,8 @@ public class InstructorFeedbacksPageData extends PageData {
         newFsForm.setFsStartTimeOptions(getTimeOptionsAsElementTags(date));
         
         newFsForm.setFsEndDate(newFeedbackSession == null ?
-                             "" : 
-                             TimeHelper.formatDate(newFeedbackSession.endTime));
+                               "" : 
+                               TimeHelper.formatDate(newFeedbackSession.endTime));
         
         
         date = newFeedbackSession == null ? null : newFeedbackSession.endTime;
@@ -184,19 +184,19 @@ public class InstructorFeedbacksPageData extends PageData {
                                         !TimeHelper.isSpecialTime(newFeedbackSession.sessionVisibleFromTime);
         newFsForm.setSessionVisibleDateButtonChecked(hasSessionVisibleDate);
         newFsForm.setSessionVisibleDateValue(hasSessionVisibleDate ? 
-                                           TimeHelper.formatDate(newFeedbackSession.sessionVisibleFromTime) :
-                                           "");
+                                             TimeHelper.formatDate(newFeedbackSession.sessionVisibleFromTime) :
+                                             "");
         newFsForm.setSessionVisibleDateDisabled(!hasSessionVisibleDate);
         
         date = hasSessionVisibleDate ? newFeedbackSession.sessionVisibleFromTime : null;   
         newFsForm.setSessionVisibleTimeOptions(getTimeOptionsAsElementTags(date));
         
         newFsForm.setSessionVisibleAtOpenChecked(newFeedbackSession == null 
-                                                || Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(
+                                                 || Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(
                                                            newFeedbackSession.sessionVisibleFromTime));
         
         newFsForm.setSessionVisiblePrivateChecked(newFeedbackSession != null 
-                                                 && Const.TIME_REPRESENTS_NEVER.equals(
+                                                  && Const.TIME_REPRESENTS_NEVER.equals(
                                                            newFeedbackSession.sessionVisibleFromTime));
                         
         boolean hasResultVisibleDate = newFeedbackSession != null 
@@ -205,8 +205,8 @@ public class InstructorFeedbacksPageData extends PageData {
         newFsForm.setResponseVisibleDateChecked(hasResultVisibleDate);
         
         newFsForm.setResponseVisibleDateValue(hasResultVisibleDate ? 
-                                            TimeHelper.formatDate(newFeedbackSession.resultsVisibleFromTime) :
-                                            "");
+                                              TimeHelper.formatDate(newFeedbackSession.resultsVisibleFromTime) :
+                                              "");
         
         newFsForm.setResponseVisibleDisabled(!hasResultVisibleDate);
         

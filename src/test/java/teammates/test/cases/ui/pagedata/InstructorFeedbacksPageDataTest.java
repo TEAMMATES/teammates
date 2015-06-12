@@ -8,18 +8,24 @@ import static org.testng.AssertJUnit.assertEquals;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import com.google.gson.Gson;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.TimeHelper;
-import teammates.logic.api.Logic;
+import teammates.common.util.Utils;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.ui.controller.InstructorFeedbacksPageData;
 import teammates.ui.template.FeedbackSessionRow;
@@ -29,7 +35,8 @@ import teammates.ui.template.FeedbackSessionsForm;
 
 public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
 
-    private Logic logic = new Logic();
+    private static Gson gson = Utils.getTeammatesGson();
+    
     private static DataBundle dataBundle = getTypicalDataBundle();
     
     
@@ -51,15 +58,15 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(instructorAccount);
         
         HashMap<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
-        List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(instructorAccount.googleId, true);
+        List<InstructorAttributes> instructors = getInstructorsForGoogleId(instructorAccount.googleId, true);
         for (InstructorAttributes instructor : instructors) {
             courseInstructorMap.put(instructor.courseId, instructor);
         }
         
         List<InstructorAttributes> instructorsForUser = new ArrayList<InstructorAttributes>(courseInstructorMap.values());
-        List<CourseAttributes> courses = logic.getCoursesForInstructor(instructorsForUser);
+        List<CourseAttributes> courses = getCoursesForInstructor(instructorsForUser);
         
-        List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsListForInstructor(instructorsForUser);
+        List<FeedbackSessionAttributes> fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
         
         data.initWithoutDefaultFormValues(courses, null, fsList, courseInstructorMap, null);
         
@@ -133,15 +140,15 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         InstructorFeedbacksPageData helperData = new InstructorFeedbacksPageData(helperAccount);
         
         HashMap<String, InstructorAttributes> helperCourseInstructorMap = new HashMap<String, InstructorAttributes>();
-        instructors = logic.getInstructorsForGoogleId(helperAccount.googleId, true);
+        instructors = getInstructorsForGoogleId(helperAccount.googleId, true);
         for (InstructorAttributes instructor : instructors) {
             helperCourseInstructorMap.put(instructor.courseId, instructor);
         }
         
         List<InstructorAttributes> instructorsForHelper = new ArrayList<InstructorAttributes>(helperCourseInstructorMap.values());
-        List<CourseAttributes> helperCourses = logic.getCoursesForInstructor(instructorsForHelper);
+        List<CourseAttributes> helperCourses = getCoursesForInstructor(instructorsForHelper);
         
-        List<FeedbackSessionAttributes> helperFsList = logic.getFeedbackSessionsListForInstructor(instructorsForHelper);
+        List<FeedbackSessionAttributes> helperFsList = getFeedbackSessionsListForInstructor(instructorsForHelper);
         
         helperData.initWithoutDefaultFormValues(helperCourses, null, helperFsList, helperCourseInstructorMap, null);
         
@@ -176,15 +183,15 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         data = new InstructorFeedbacksPageData(instructorAccount);
         
         courseInstructorMap = new HashMap<String, InstructorAttributes>();
-        instructors = logic.getInstructorsForGoogleId(instructorAccount.googleId, true);
+        instructors = getInstructorsForGoogleId(instructorAccount.googleId, true);
         for (InstructorAttributes instructor : instructors) {
             courseInstructorMap.put(instructor.courseId, instructor);
         }
         
         instructorsForUser = new ArrayList<InstructorAttributes>(courseInstructorMap.values());
-        courses = logic.getCoursesForInstructor(instructorsForUser);
+        courses = getCoursesForInstructor(instructorsForUser);
         
-        fsList = logic.getFeedbackSessionsListForInstructor(instructorsForUser);
+        fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
         
         data.initWithoutDefaultFormValues(courses, "idOfTypicalCourse1", fsList, courseInstructorMap, "First feedback session");
         
@@ -216,15 +223,15 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(instructorAccount);
         
         HashMap<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
-        List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(instructorAccount.googleId, true);
+        List<InstructorAttributes> instructors = getInstructorsForGoogleId(instructorAccount.googleId, true);
         for (InstructorAttributes instructor : instructors) {
             courseInstructorMap.put(instructor.courseId, instructor);
         }
         
         List<InstructorAttributes> instructorsForUser = new ArrayList<InstructorAttributes>(courseInstructorMap.values());
-        List<CourseAttributes> courses = logic.getCoursesForInstructor(instructorsForUser);
+        List<CourseAttributes> courses = getCoursesForInstructor(instructorsForUser);
         
-        List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsListForInstructor(instructorsForUser);
+        List<FeedbackSessionAttributes> fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
         
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
         
@@ -301,15 +308,15 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(instructorAccount);
         
         HashMap<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
-        List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(instructorAccount.googleId, true);
+        List<InstructorAttributes> instructors = getInstructorsForGoogleId(instructorAccount.googleId, true);
         for (InstructorAttributes instructor : instructors) {
             courseInstructorMap.put(instructor.courseId, instructor);
         }
         
         List<InstructorAttributes> instructorsForUser = new ArrayList<InstructorAttributes>(courseInstructorMap.values());
-        List<CourseAttributes> courses = logic.getCoursesForInstructor(instructorsForUser);
+        List<CourseAttributes> courses = getCoursesForInstructor(instructorsForUser);
         
-        List<FeedbackSessionAttributes> fsList = logic.getFeedbackSessionsListForInstructor(instructorsForUser);
+        List<FeedbackSessionAttributes> fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
         
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
         
@@ -328,4 +335,68 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         
     }
     
+    
+    public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean isOmitArchived) {
+        List<InstructorAttributes> instructors = new ArrayList<InstructorAttributes>(dataBundle.instructors.values());
+        
+        Iterator<InstructorAttributes> iter = instructors.iterator();
+        while (iter.hasNext()) {
+            InstructorAttributes instructor = iter.next();
+            
+            instructor.privileges = gson.fromJson(instructor.instructorPrivilegesAsText, InstructorPrivileges.class);
+            
+            boolean isGoogleIdSame = instructor.googleId != null 
+                                     && instructor.googleId.equals(googleId);
+            boolean isOmittedDueToArchiveStatus = isOmitArchived 
+                                                  && (instructor.isArchived != null 
+                                                      && instructor.isArchived);
+            if (!isGoogleIdSame || isOmittedDueToArchiveStatus) {
+                iter.remove();
+            }
+        }
+        
+        return instructors;
+    }
+    
+    public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorsForUser) {
+        Set<String> courseIdsOfUser = getSetOfCourseIdsFromInstructorAttributes(instructorsForUser);
+        
+        List<CourseAttributes> courses = new ArrayList<CourseAttributes>(dataBundle.courses.values());
+        
+        Iterator<CourseAttributes> iter = courses.iterator();
+        while (iter.hasNext()) {
+            CourseAttributes course = iter.next();
+            if (!courseIdsOfUser.contains(course.id)) {
+                iter.remove();
+            }
+        }
+        
+        return courses;
+    }
+    
+    public List<FeedbackSessionAttributes> getFeedbackSessionsListForInstructor(List<InstructorAttributes> instructorsForUser) {
+        Set<String> courseIdsOfUser = getSetOfCourseIdsFromInstructorAttributes(instructorsForUser);
+        
+        List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<FeedbackSessionAttributes>(dataBundle.feedbackSessions.values());
+        
+        Iterator<FeedbackSessionAttributes> iter = feedbackSessions.iterator();
+        while (iter.hasNext()) {
+            FeedbackSessionAttributes fs = iter.next();
+            if (!courseIdsOfUser.contains(fs.courseId)) {
+                iter.remove();
+            }
+        }
+        
+        return feedbackSessions;
+    }
+    
+    private Set<String> getSetOfCourseIdsFromInstructorAttributes(
+                                    List<InstructorAttributes> instructorsForUser) {
+        Set<String> courseIdsOfUser = new HashSet<String>();
+        for (InstructorAttributes instructor : instructorsForUser) {
+            courseIdsOfUser.add(instructor.courseId);
+        }
+        return courseIdsOfUser;
+    }
+        
 }
