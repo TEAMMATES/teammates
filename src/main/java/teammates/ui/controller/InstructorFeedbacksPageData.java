@@ -13,6 +13,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.ui.template.AdditionalSettingsFormSegment;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.FeedbackSessionsCopyFromModal;
@@ -144,7 +145,7 @@ public class InstructorFeedbacksPageData extends PageData {
                        newFeedbackSession, feedbackSessionType,
                        feedbackSessionNameForSessionList, courseIds);
         
-        FeedbackSessionsForm.AdditionalSettingsFormSegment additionalSettings = buildFormAdditionalSettings(newFeedbackSession);
+        AdditionalSettingsFormSegment additionalSettings = buildFormAdditionalSettings(newFeedbackSession);
         newFsForm.setAdditionalSettings(additionalSettings);                  
         
         newFsForm.setSubmitButtonDisabled(courses.isEmpty());
@@ -193,10 +194,10 @@ public class InstructorFeedbacksPageData extends PageData {
         newFsForm.setGracePeriodOptions(getGracePeriodOptionsAsElementTags(newFeedbackSession));
     }
 
-    private FeedbackSessionsForm.AdditionalSettingsFormSegment buildFormAdditionalSettings(
+    private AdditionalSettingsFormSegment buildFormAdditionalSettings(
                                                                     FeedbackSessionAttributes newFeedbackSession) {
         Date date;
-        FeedbackSessionsForm.AdditionalSettingsFormSegment additionalSettings = new FeedbackSessionsForm.AdditionalSettingsFormSegment(); 
+        AdditionalSettingsFormSegment additionalSettings = new AdditionalSettingsFormSegment(); 
         boolean hasSessionVisibleDate = newFeedbackSession != null 
                                         && !TimeHelper.isSpecialTime(newFeedbackSession.sessionVisibleFromTime);
         additionalSettings.setSessionVisibleDateButtonChecked(hasSessionVisibleDate);
