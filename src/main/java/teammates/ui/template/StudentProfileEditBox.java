@@ -68,6 +68,7 @@ public class StudentProfileEditBox {
         return pictureUrl;
     }
 
+    // TODO move this to StringHelper
     private String convertToEmptyStringIfNull(String s) {
         if (s == null) {
             return "";
