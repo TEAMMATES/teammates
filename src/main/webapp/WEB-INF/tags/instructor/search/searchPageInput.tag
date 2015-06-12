@@ -1,6 +1,5 @@
 <%@ tag description="instructorSearch.jsp - Instructor search page input"%>
 <%@ tag import="teammates.common.util.Const"%>
-<%@ tag import="teammates.ui.controller.InstructorSearchPageData"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <br>
