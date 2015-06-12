@@ -229,11 +229,12 @@ public class InstructorSearchPageData extends PageData {
     private List<CommentRow> createCommentRows(String giverEmailPlusCourseId) {
         List<CommentRow> rows = new ArrayList<CommentRow>();
         String giverDetails = commentSearchResultBundle.giverTable.get(giverEmailPlusCourseId);
+        String instructorCommentsLink = getInstructorCommentsLink();
         
         for (CommentAttributes comment : commentSearchResultBundle.giverCommentTable.get(giverEmailPlusCourseId)) {          
             String recipientDetails = commentSearchResultBundle.recipientTable.get(comment.getCommentId().toString());
             String creationTime = TimeHelper.formatTime(comment.createdAt);          
-            String link = getInstructorCommentsLink() + "&" + Const.ParamsNames.COURSE_ID 
+            String link = instructorCommentsLink + "&" + Const.ParamsNames.COURSE_ID 
                                             + "=" + comment.courseId + "#" + comment.getCommentId();           
             ElementTag editButton = createEditButton(link, Const.Tooltips.COMMENT_EDIT_IN_COMMENTS_PAGE);
             
