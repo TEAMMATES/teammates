@@ -228,9 +228,9 @@ public class InstructorSearchPageData extends PageData {
     
     private List<CommentRow> createCommentRows(String giverEmailPlusCourseId) {
         List<CommentRow> rows = new ArrayList<CommentRow>();
+        String giverDetails = commentSearchResultBundle.giverTable.get(giverEmailPlusCourseId);
         
-        for (CommentAttributes comment : commentSearchResultBundle.giverCommentTable.get(giverEmailPlusCourseId)) {
-            String giverDetails = commentSearchResultBundle.giverTable.get(giverEmailPlusCourseId);
+        for (CommentAttributes comment : commentSearchResultBundle.giverCommentTable.get(giverEmailPlusCourseId)) {          
             String recipientDetails = commentSearchResultBundle.recipientTable.get(comment.getCommentId().toString());
             String creationTime = TimeHelper.formatTime(comment.createdAt);          
             String link = getInstructorCommentsLink() + "&" + Const.ParamsNames.COURSE_ID 
