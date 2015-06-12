@@ -40,6 +40,26 @@ public class InstructorCommentsPageData extends PageData {
         super(account);
     }
     
+    public Map<String, List<CommentAttributes>> getComments() {
+        return comments;
+    }
+    
+    public String getCourseId() {
+        return courseId;
+    }
+    
+    public String getCourseName() {
+        return courseName;
+    }
+    
+    public List<String> getCoursePaginationList() {
+        return coursePaginationList;
+    }
+    
+    public List<FeedbackSessionAttributes> getFeedbackSessions() {
+        return feedbackSessions;
+    }
+    
     public String getGiverName(String giverEmail) {
         InstructorAttributes instructor = roster.getInstructorForEmail(giverEmail);
         String giverDisplay = giverEmail;
@@ -50,6 +70,18 @@ public class InstructorCommentsPageData extends PageData {
             giverDisplay = title + " " + instructor.name;
         }
         return giverDisplay;
+    }
+    
+    public String getNextPageLink() {
+        return nextPageLink;
+    }
+    
+    public int getNumberOfPendingComments() {
+        return numberOfPendingComments;
+    }
+    
+    public String getPreviousPageLink() {
+        return previousPageLink;
     }
     
     public String getRecipientNames(Set<String> recipients) {
@@ -78,8 +110,16 @@ public class InstructorCommentsPageData extends PageData {
         return removeEndComma(namesString);
     }
     
+    public boolean isDisplayArchive() {
+        return isDisplayArchive;
+    }
+    
     public boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
         return comment.showCommentTo.size() > 0;
+    }
+    
+    public boolean isViewingDraft() {
+        return isViewingDraft;
     }
         
     public boolean isInstructorAllowedForPrivilegeOnComment(CommentAttributes comment, String privilegeName) {
