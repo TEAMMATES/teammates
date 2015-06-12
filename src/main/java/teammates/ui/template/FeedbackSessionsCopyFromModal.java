@@ -12,11 +12,11 @@ import java.util.List;
  */
 public class FeedbackSessionsCopyFromModal {
     
-    private List<FeedbackSessionRow> existingFeedbackSessions;
+    private List<FeedbackSessionsTableRow> existingFeedbackSessions;
     private String fsName;
     private List<ElementTag> coursesSelectField;
 
-    public FeedbackSessionsCopyFromModal(List<FeedbackSessionRow> existingFeedbackSessions, 
+    public FeedbackSessionsCopyFromModal(List<FeedbackSessionsTableRow> existingFeedbackSessions, 
                                          String fsName, 
                                          List<ElementTag> coursesSelectField) {
         this.existingFeedbackSessions = existingFeedbackSessions;
@@ -24,7 +24,7 @@ public class FeedbackSessionsCopyFromModal {
         this.coursesSelectField = coursesSelectField;
     }
     
-    public List<FeedbackSessionRow> getExistingFeedbackSessions() {
+    public List<FeedbackSessionsTableRow> getExistingFeedbackSessions() {
         return existingFeedbackSessions;
     }
     

@@ -4,13 +4,13 @@ import java.util.List;
 
 public class FeedbackSessionsTable {
     
-    private List<FeedbackSessionRow> existingFeedbackSessions;
+    private List<FeedbackSessionsTableRow> existingFeedbackSessions;
     
-    public FeedbackSessionsTable(List<FeedbackSessionRow> existingFeedbackSessions) {
+    public FeedbackSessionsTable(List<FeedbackSessionsTableRow> existingFeedbackSessions) {
         this.existingFeedbackSessions = existingFeedbackSessions;
     }
     
-    public List<FeedbackSessionRow> getExistingFeedbackSessions() {
+    public List<FeedbackSessionsTableRow> getExistingFeedbackSessions() {
         return existingFeedbackSessions;
     }
     

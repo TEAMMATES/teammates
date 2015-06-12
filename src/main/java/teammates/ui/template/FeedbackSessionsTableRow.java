@@ -1,6 +1,6 @@
 package teammates.ui.template;
 
-public class FeedbackSessionRow {
+public class FeedbackSessionsTableRow {
     private String courseId;
     private String name;
     private String tooltip;
@@ -21,7 +21,7 @@ public class FeedbackSessionRow {
      * @param recent if the session is considered recent (calculate response rate on load if true)
      * @param actions possible actions to do on the session, a block of HTML representing the formatted actions
      */
-    public FeedbackSessionRow(String courseId, String name, String tooltip, String status, 
+    public FeedbackSessionsTableRow(String courseId, String name, String tooltip, String status, 
                                   String href, String recent, String actions, ElementTag attributes) {
         this.courseId = courseId;
         this.name = name;
