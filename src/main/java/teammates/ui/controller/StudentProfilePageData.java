@@ -19,7 +19,7 @@ public class StudentProfilePageData extends PageData {
     private void init(AccountAttributes account, String editPicture) {
         StudentProfileAttributes profile = account.studentProfile;
         String pictureUrl;
-        if (profile.pictureKey.equals("")) {
+        if (profile.pictureKey.isEmpty()) {
             pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
         } else {
             pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE
