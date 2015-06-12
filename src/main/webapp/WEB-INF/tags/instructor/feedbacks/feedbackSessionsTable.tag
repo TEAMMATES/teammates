@@ -31,17 +31,10 @@
             <c:when test="${not empty fsList.existingFeedbackSessions}">
                 <c:forEach items="${fsList.existingFeedbackSessions}" var="sessionRow" varStatus="i">
                      <tr id="session${i.index}"
-                     
                         <c:forEach items="${sessionRow.rowAttributes.attributes}" var="attr"
                         > ${attr.key}="${attr.value}"</c:forEach>  >
-                     
-                     
-                        <td>
-                            ${sessionRow.courseId}
-                        </td>
-                        <td>
-                            ${sessionRow.name}
-                        </td>
+                        <td>${sessionRow.courseId}</td>
+                        <td>${sessionRow.name}</td>
                         <td>
                             <span title="${sessionRow.tooltip}" data-toggle="tooltip" data-placement="top">
                                 ${sessionRow.status}
@@ -50,11 +43,8 @@
                         <td class="session-response-for-test${sessionRow.recent}">
                             <a oncontextmenu="return false;" href="${sessionRow.href}">Show</a>
                         </td>
-                        <td class="no-print">
-                            ${sessionRow.actions}
-                        </td>
+                        <td class="no-print">${sessionRow.actions}</td>
                       </tr>
-        
                 </c:forEach> 
             </c:when>
             <c:otherwise>    
@@ -67,7 +57,7 @@
                 </tr>
             </c:otherwise>
         </c:choose>
-    </table>
+</table>
     <p class="col-md-12 text-muted">Note: The table above doesn't contain sessions from archived courses. To view sessions from an archived course, unarchive the course first.</p>
     <br><br><br>
     

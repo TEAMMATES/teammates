@@ -45,13 +45,13 @@ public class InstructorFeedbacksPageData extends PageData {
 
     /**
      * Initializes the PageData
-     * @param courses                   courses that the user is an instructor of 
-     * @param courseIdForNewSession     the course id to automatically select in the dropdown
-     * @param existingFeedbackSessions  list of existing feedback sessions 
-     * @param instructors               a map of courseId to the instructorAttributes for the current user
-     * @param defaultFormValues        the feedback session which values are used as the default values in the form
-     * @param feedbackSessionType       "TEAMEVALUATION" or "STANDARD"
-     * @param highlightedFeedbackSession  the feedback session to highlight in the sessions table
+     * @param courses                    courses that the user is an instructor of 
+     * @param courseIdForNewSession      the course id to automatically select in the dropdown
+     * @param existingFeedbackSessions   list of existing feedback sessions 
+     * @param instructors                a map of courseId to the instructorAttributes for the current user
+     * @param defaultFormValues          the feedback session which values are used as the default values in the form
+     * @param feedbackSessionType        "TEAMEVALUATION" or "STANDARD"
+     * @param highlightedFeedbackSession the feedback session to highlight in the sessions table
      */
     public void init(List<CourseAttributes> courses, String courseIdForNewSession, 
                      List<FeedbackSessionAttributes> existingFeedbackSessions,
@@ -178,53 +178,61 @@ public class InstructorFeedbacksPageData extends PageData {
         
         newFsForm.setGracePeriodOptions(getGracePeriodOptionsAsElementTags(newFeedbackSession));
         
+        FeedbackSessionsForm.AdditionalSettingsFormSegment additionalSettings = buildFormAdditionalSettings(newFeedbackSession);
+        newFsForm.setAdditionalSettings(additionalSettings);                  
         
+        newFsForm.setSubmitButtonDisabled(courses.isEmpty());
+    }
+
+    private FeedbackSessionsForm.AdditionalSettingsFormSegment buildFormAdditionalSettings(
+                                                                    FeedbackSessionAttributes newFeedbackSession) {
+        Date date;
+        FeedbackSessionsForm.AdditionalSettingsFormSegment additionalSettings = new FeedbackSessionsForm.AdditionalSettingsFormSegment(); 
         boolean hasSessionVisibleDate = newFeedbackSession != null &&
                                         !TimeHelper.isSpecialTime(newFeedbackSession.sessionVisibleFromTime);
-        newFsForm.setSessionVisibleDateButtonChecked(hasSessionVisibleDate);
-        newFsForm.setSessionVisibleDateValue(hasSessionVisibleDate ? 
+        additionalSettings.setSessionVisibleDateButtonChecked(hasSessionVisibleDate);
+        additionalSettings.setSessionVisibleDateValue(hasSessionVisibleDate ? 
                                              TimeHelper.formatDate(newFeedbackSession.sessionVisibleFromTime) :
                                              "");
-        newFsForm.setSessionVisibleDateDisabled(!hasSessionVisibleDate);
+        additionalSettings.setSessionVisibleDateDisabled(!hasSessionVisibleDate);
         
         date = hasSessionVisibleDate ? newFeedbackSession.sessionVisibleFromTime : null;   
-        newFsForm.setSessionVisibleTimeOptions(getTimeOptionsAsElementTags(date));
+        additionalSettings.setSessionVisibleTimeOptions(getTimeOptionsAsElementTags(date));
         
-        newFsForm.setSessionVisibleAtOpenChecked(newFeedbackSession == null 
+        additionalSettings.setSessionVisibleAtOpenChecked(newFeedbackSession == null 
                                                  || Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(
                                                            newFeedbackSession.sessionVisibleFromTime));
         
-        newFsForm.setSessionVisiblePrivateChecked(newFeedbackSession != null 
+        additionalSettings.setSessionVisiblePrivateChecked(newFeedbackSession != null 
                                                   && Const.TIME_REPRESENTS_NEVER.equals(
                                                            newFeedbackSession.sessionVisibleFromTime));
                         
         boolean hasResultVisibleDate = newFeedbackSession != null 
                                        && !TimeHelper.isSpecialTime(newFeedbackSession.resultsVisibleFromTime);
         
-        newFsForm.setResponseVisibleDateChecked(hasResultVisibleDate);
+        additionalSettings.setResponseVisibleDateChecked(hasResultVisibleDate);
         
-        newFsForm.setResponseVisibleDateValue(hasResultVisibleDate ? 
+        additionalSettings.setResponseVisibleDateValue(hasResultVisibleDate ? 
                                               TimeHelper.formatDate(newFeedbackSession.resultsVisibleFromTime) :
                                               "");
         
-        newFsForm.setResponseVisibleDisabled(!hasResultVisibleDate);
+        additionalSettings.setResponseVisibleDisabled(!hasResultVisibleDate);
         
         date = hasResultVisibleDate ? newFeedbackSession.resultsVisibleFromTime :  null;
         
-        newFsForm.setResponseVisibleTimeOptions(getTimeOptionsAsElementTags(date));
+        additionalSettings.setResponseVisibleTimeOptions(getTimeOptionsAsElementTags(date));
         
-        newFsForm.setResponseVisibleImmediatelyChecked((newFeedbackSession != null 
+        additionalSettings.setResponseVisibleImmediatelyChecked((newFeedbackSession != null 
                                                           && Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(newFeedbackSession.resultsVisibleFromTime)));
         
-        newFsForm.setResponseVisiblePublishManuallyChecked(
+        additionalSettings.setResponseVisiblePublishManuallyChecked(
                                  (newFeedbackSession == null 
                                   || Const.TIME_REPRESENTS_LATER.equals(newFeedbackSession.resultsVisibleFromTime) 
                                   || Const.TIME_REPRESENTS_NOW.equals(newFeedbackSession.resultsVisibleFromTime)));
         
-        newFsForm.setResponseVisibleNeverChecked((newFeedbackSession != null  
+        additionalSettings.setResponseVisibleNeverChecked((newFeedbackSession != null  
                                                     && Const.TIME_REPRESENTS_NEVER.equals(newFeedbackSession.resultsVisibleFromTime)));
-                                
-        newFsForm.setSubmitButtonDisabled(courses.isEmpty());
+        return additionalSettings;
     }
     
     

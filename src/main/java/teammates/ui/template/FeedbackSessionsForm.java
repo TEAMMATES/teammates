@@ -15,10 +15,15 @@ public class FeedbackSessionsForm {
     
     // List of options for feedback session type
     private List<ElementTag> feedbackSessionTypeOptions;
+    // options for selecting which course to make a fs in
+    private List<ElementTag> coursesSelectField;
+    
+    private List<ElementTag> timezoneSelectField;
 
     // List of course ids to populate the dropdown with
     private List<String> courses;
 
+    
     // Default feedback session name in the new session form
     private String fsName;
 
@@ -31,33 +36,134 @@ public class FeedbackSessionsForm {
     private List<ElementTag> fsEndTimeOptions;
     private List<ElementTag> gracePeriodOptions;
     
-    private boolean isSessionVisibleDateButtonChecked;
-    private String sessionVisibleDateValue;
-    private boolean isSessionVisibleDateDisabled;
-    private List<ElementTag> sessionVisibleTimeOptions;
-    
-    
-    // options for the select
-    private List<ElementTag> coursesSelectField;
-    private List<ElementTag> timezoneSelectField;
-    
-    
-    private boolean sessionVisibleAtOpenChecked;
-    private boolean sessionVisiblePrivateChecked;
-    private boolean isResponseVisibleDateChecked;
-    private String responseVisibleDateValue;
-    
-
-
-    private boolean isResponseVisibleDisabled;
-    private List<ElementTag> responseVisibleTimeOptions;
-    private boolean isResponseVisibleImmediatelyChecked;
-    private boolean isResponseVisiblePublishManuallyChecked;
-    
-
-    private boolean isResponseVisibleNeverChecked;
     private boolean isSubmitButtonDisabled;
     
+    private AdditionalSettingsFormSegment additionalSettings;
+    
+    public static class AdditionalSettingsFormSegment {
+        private boolean isSessionVisibleDateButtonChecked;
+        private String sessionVisibleDateValue;
+        private boolean isSessionVisibleDateDisabled;
+        private List<ElementTag> sessionVisibleTimeOptions;
+        private boolean sessionVisibleAtOpenChecked;
+        private boolean sessionVisiblePrivateChecked;
+        
+        private boolean isResponseVisibleDateChecked;
+        private String responseVisibleDateValue;
+        private boolean isResponseVisibleDisabled;
+        private List<ElementTag> responseVisibleTimeOptions;
+        private boolean isResponseVisibleImmediatelyChecked;
+        private boolean isResponseVisiblePublishManuallyChecked;
+        private boolean isResponseVisibleNeverChecked;
+        
+        public AdditionalSettingsFormSegment() {
+        }
+
+        public void setSessionVisibleDateButtonChecked(boolean isSessionVisibleDateButtonChecked) {
+            this.isSessionVisibleDateButtonChecked = isSessionVisibleDateButtonChecked;
+        }
+
+        public void setSessionVisibleDateValue(String sessionVisibleDateValue) {
+            this.sessionVisibleDateValue = sessionVisibleDateValue;
+        }
+
+        public void setSessionVisibleDateDisabled(boolean isSessionVisibleDateDisabled) {
+            this.isSessionVisibleDateDisabled = isSessionVisibleDateDisabled;
+        }
+
+        public void setSessionVisibleTimeOptions(List<ElementTag> sessionVisibleTimeOptions) {
+            this.sessionVisibleTimeOptions = sessionVisibleTimeOptions;
+        }
+
+        public void setSessionVisibleAtOpenChecked(boolean sessionVisibleAtOpenChecked) {
+            this.sessionVisibleAtOpenChecked = sessionVisibleAtOpenChecked;
+        }
+
+        public void setSessionVisiblePrivateChecked(boolean isSessionVisiblePrivateChecked) {
+            this.sessionVisiblePrivateChecked = isSessionVisiblePrivateChecked;
+        }
+
+        public void setResponseVisibleDateChecked(boolean isResponseVisibleDateChecked) {
+            this.isResponseVisibleDateChecked = isResponseVisibleDateChecked;
+        }
+
+        public void setResponseVisibleDateValue(String responseVisibleDateValue) {
+            this.responseVisibleDateValue = responseVisibleDateValue;
+        }
+        
+        public boolean isSessionVisibleDateButtonChecked() {
+            return isSessionVisibleDateButtonChecked;
+        }
+
+        public String getSessionVisibleDateValue() {
+            return sessionVisibleDateValue;
+        }
+
+        public boolean isSessionVisibleDateDisabled() {
+            return isSessionVisibleDateDisabled;
+        }
+
+        public List<ElementTag> getSessionVisibleTimeOptions() {
+            return sessionVisibleTimeOptions;
+        }
+        
+        public boolean isSessionVisibleAtOpenChecked() {
+            return sessionVisibleAtOpenChecked;
+        }
+
+        public boolean isSessionVisiblePrivateChecked() {
+            return sessionVisiblePrivateChecked;
+        }
+
+        public boolean isResponseVisibleDateChecked() {
+            return isResponseVisibleDateChecked;
+        }
+
+        public String getResponseVisibleDateValue() {
+            return responseVisibleDateValue;
+        }
+
+        public boolean isResponseVisibleDisabled() {
+            return isResponseVisibleDisabled;
+        }
+
+        public List<ElementTag> getResponseVisibleTimeOptions() {
+            return responseVisibleTimeOptions;
+        }
+
+        public boolean isResponseVisibleImmediatelyChecked() {
+            return isResponseVisibleImmediatelyChecked;
+        }
+
+        public boolean isResponseVisiblePublishManuallyChecked() {
+            return isResponseVisiblePublishManuallyChecked;
+        }
+
+        public boolean isResponseVisibleNeverChecked() {
+            return isResponseVisibleNeverChecked;
+        }
+        
+        public void setResponseVisibleDisabled(boolean isResponseVisibleDisabled) {
+            this.isResponseVisibleDisabled = isResponseVisibleDisabled;
+        }
+
+        public void setResponseVisibleTimeOptions(List<ElementTag> responseVisibleTimeOptions) {
+            this.responseVisibleTimeOptions = responseVisibleTimeOptions;
+        }
+
+        public void setResponseVisibleImmediatelyChecked(boolean isResponseVisibleImmediatelyChecked) {
+            this.isResponseVisibleImmediatelyChecked = isResponseVisibleImmediatelyChecked;
+        }
+
+        public void setResponseVisiblePublishManuallyChecked(boolean isResponseVisiblePublishManuallyChecked) {
+            this.isResponseVisiblePublishManuallyChecked = isResponseVisiblePublishManuallyChecked;
+        }
+
+        public void setResponseVisibleNeverChecked(boolean isResponseVisibleNeverChecked) {
+            this.isResponseVisibleNeverChecked = isResponseVisibleNeverChecked;
+        }
+        
+    }
 
     public FeedbackSessionsForm() {
     }
@@ -118,41 +224,12 @@ public class FeedbackSessionsForm {
         this.fsEndTimeOptions = fsEndTimeOptions;
     }
 
-    public void setSessionVisibleDateButtonChecked(boolean isSessionVisibleDateButtonChecked) {
-        this.isSessionVisibleDateButtonChecked = isSessionVisibleDateButtonChecked;
-    }
+    
 
     public void setGracePeriodOptions(List<ElementTag> gracePeriodOptions) {
         this.gracePeriodOptions = gracePeriodOptions;
     }
-
-    public void setSessionVisibleDateValue(String sessionVisibleDateValue) {
-        this.sessionVisibleDateValue = sessionVisibleDateValue;
-    }
-
-    public void setSessionVisibleDateDisabled(boolean isSessionVisibleDateDisabled) {
-        this.isSessionVisibleDateDisabled = isSessionVisibleDateDisabled;
-    }
-
-    public void setSessionVisibleTimeOptions(List<ElementTag> sessionVisibleTimeOptions) {
-        this.sessionVisibleTimeOptions = sessionVisibleTimeOptions;
-    }
-
-    public void setSessionVisibleAtOpenChecked(boolean sessionVisibleAtOpenChecked) {
-        this.sessionVisibleAtOpenChecked = sessionVisibleAtOpenChecked;
-    }
-
-    public void setSessionVisiblePrivateChecked(boolean isSessionVisiblePrivateChecked) {
-        this.sessionVisiblePrivateChecked = isSessionVisiblePrivateChecked;
-    }
-
-    public void setResponseVisibleDateChecked(boolean isResponseVisibleDateChecked) {
-        this.isResponseVisibleDateChecked = isResponseVisibleDateChecked;
-    }
-
-    public void setResponseVisibleDateValue(String responseVisibleDateValue) {
-        this.responseVisibleDateValue = responseVisibleDateValue;
-    }
+    
     
     
     public String getFsName() {
@@ -183,21 +260,7 @@ public class FeedbackSessionsForm {
         return gracePeriodOptions;
     }
 
-    public boolean isSessionVisibleDateButtonChecked() {
-        return isSessionVisibleDateButtonChecked;
-    }
-
-    public String getSessionVisibleDateValue() {
-        return sessionVisibleDateValue;
-    }
-
-    public boolean isSessionVisibleDateDisabled() {
-        return isSessionVisibleDateDisabled;
-    }
-
-    public List<ElementTag> getSessionVisibleTimeOptions() {
-        return sessionVisibleTimeOptions;
-    }
+   
 
     public List<ElementTag> getCoursesSelectField() {
         return coursesSelectField;
@@ -215,66 +278,20 @@ public class FeedbackSessionsForm {
         return this.feedbackSessionNameForSessionList;
     }
 
-
-    public boolean isSessionVisibleAtOpenChecked() {
-        return sessionVisibleAtOpenChecked;
+    public AdditionalSettingsFormSegment getAdditionalSettings() {
+        return this.additionalSettings;
     }
-
-    public boolean isSessionVisiblePrivateChecked() {
-        return sessionVisiblePrivateChecked;
+    
+    public void setAdditionalSettings(AdditionalSettingsFormSegment additionalSettings) {
+        this.additionalSettings = additionalSettings;
     }
-
-    public boolean isResponseVisibleDateChecked() {
-        return isResponseVisibleDateChecked;
-    }
-
-    public String getResponseVisibleDateValue() {
-        return responseVisibleDateValue;
-    }
-
-    public boolean isResponseVisibleDisabled() {
-        return isResponseVisibleDisabled;
-    }
-
-    public List<ElementTag> getResponseVisibleTimeOptions() {
-        return responseVisibleTimeOptions;
-    }
-
-    public boolean isResponseVisibleImmediatelyChecked() {
-        return isResponseVisibleImmediatelyChecked;
-    }
-
-    public boolean isResponseVisiblePublishManuallyChecked() {
-        return isResponseVisiblePublishManuallyChecked;
-    }
-
-    public boolean isResponseVisibleNeverChecked() {
-        return isResponseVisibleNeverChecked;
-    }
+    
 
     public boolean isSubmitButtonDisabled() {
         return isSubmitButtonDisabled;
     }
     
-    public void setResponseVisibleDisabled(boolean isResponseVisibleDisabled) {
-        this.isResponseVisibleDisabled = isResponseVisibleDisabled;
-    }
-
-    public void setResponseVisibleTimeOptions(List<ElementTag> responseVisibleTimeOptions) {
-        this.responseVisibleTimeOptions = responseVisibleTimeOptions;
-    }
-
-    public void setResponseVisibleImmediatelyChecked(boolean isResponseVisibleImmediatelyChecked) {
-        this.isResponseVisibleImmediatelyChecked = isResponseVisibleImmediatelyChecked;
-    }
-
-    public void setResponseVisiblePublishManuallyChecked(boolean isResponseVisiblePublishManuallyChecked) {
-        this.isResponseVisiblePublishManuallyChecked = isResponseVisiblePublishManuallyChecked;
-    }
-
-    public void setResponseVisibleNeverChecked(boolean isResponseVisibleNeverChecked) {
-        this.isResponseVisibleNeverChecked = isResponseVisibleNeverChecked;
-    }
+    
 
     public void setSubmitButtonDisabled(boolean isSubmitButtonDisabled) {
         this.isSubmitButtonDisabled = isSubmitButtonDisabled;

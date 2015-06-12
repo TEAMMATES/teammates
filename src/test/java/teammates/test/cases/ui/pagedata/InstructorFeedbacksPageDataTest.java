@@ -96,22 +96,22 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         assertEquals("selected", defaultSelectedAttribute);
         
         assertEquals("Please answer all the given questions.", formModel.getInstructions());
-        assertEquals("", formModel.getResponseVisibleDateValue());
-        assertEquals(numHoursInDay, formModel.getResponseVisibleTimeOptions().size());
-        assertEquals("", formModel.getSessionVisibleDateValue());
-        assertEquals(numHoursInDay, formModel.getSessionVisibleTimeOptions().size());
+        assertEquals("", formModel.getAdditionalSettings().getResponseVisibleDateValue());
+        assertEquals(numHoursInDay, formModel.getAdditionalSettings().getResponseVisibleTimeOptions().size());
+        assertEquals("", formModel.getAdditionalSettings().getSessionVisibleDateValue());
+        assertEquals(numHoursInDay, formModel.getAdditionalSettings().getSessionVisibleTimeOptions().size());
         assertEquals(33, formModel.getTimezoneSelectField().size());
         
-        assertTrue(formModel.isResponseVisiblePublishManuallyChecked());
-        assertFalse(formModel.isResponseVisibleDateChecked());
-        assertFalse(formModel.isResponseVisibleImmediatelyChecked());
-        assertFalse(formModel.isResponseVisibleNeverChecked());
-        assertTrue(formModel.isResponseVisibleDisabled());
+        assertTrue(formModel.getAdditionalSettings().isResponseVisiblePublishManuallyChecked());
+        assertFalse(formModel.getAdditionalSettings().isResponseVisibleDateChecked());
+        assertFalse(formModel.getAdditionalSettings().isResponseVisibleImmediatelyChecked());
+        assertFalse(formModel.getAdditionalSettings().isResponseVisibleNeverChecked());
+        assertTrue(formModel.getAdditionalSettings().isResponseVisibleDisabled());
        
-        assertTrue(formModel.isSessionVisibleAtOpenChecked());
-        assertTrue(formModel.isSessionVisibleDateDisabled());
-        assertFalse(formModel.isSessionVisibleDateButtonChecked());
-        assertFalse(formModel.isSessionVisiblePrivateChecked());
+        assertTrue(formModel.getAdditionalSettings().isSessionVisibleAtOpenChecked());
+        assertTrue(formModel.getAdditionalSettings().isSessionVisibleDateDisabled());
+        assertFalse(formModel.getAdditionalSettings().isSessionVisibleDateButtonChecked());
+        assertFalse(formModel.getAdditionalSettings().isSessionVisiblePrivateChecked());
         
         ______TS("typical success case: session rows");
         FeedbackSessionsTable fsTableModel = data.getFsList();
@@ -262,21 +262,21 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         assertEquals("selected", defaultSelectedAttribute);
         
         assertEquals("Please please fill in the following questions.", formModel.getInstructions());
-        assertEquals("01/05/2017", formModel.getResponseVisibleDateValue());
-        assertEquals(numHoursInDay, formModel.getResponseVisibleTimeOptions().size());
-        assertEquals("28/03/2012", formModel.getSessionVisibleDateValue());
-        assertEquals(numHoursInDay, formModel.getSessionVisibleTimeOptions().size());
+        assertEquals("01/05/2017", formModel.getAdditionalSettings().getResponseVisibleDateValue());
+        assertEquals(numHoursInDay, formModel.getAdditionalSettings().getResponseVisibleTimeOptions().size());
+        assertEquals("28/03/2012", formModel.getAdditionalSettings().getSessionVisibleDateValue());
+        assertEquals(numHoursInDay, formModel.getAdditionalSettings().getSessionVisibleTimeOptions().size());
         
-        assertFalse(formModel.isResponseVisiblePublishManuallyChecked());
-        assertTrue(formModel.isResponseVisibleDateChecked());
-        assertFalse(formModel.isResponseVisibleImmediatelyChecked());
-        assertFalse(formModel.isResponseVisibleNeverChecked());
-        assertFalse(formModel.isResponseVisibleDisabled());
+        assertFalse(formModel.getAdditionalSettings().isResponseVisiblePublishManuallyChecked());
+        assertTrue(formModel.getAdditionalSettings().isResponseVisibleDateChecked());
+        assertFalse(formModel.getAdditionalSettings().isResponseVisibleImmediatelyChecked());
+        assertFalse(formModel.getAdditionalSettings().isResponseVisibleNeverChecked());
+        assertFalse(formModel.getAdditionalSettings().isResponseVisibleDisabled());
        
-        assertFalse(formModel.isSessionVisibleAtOpenChecked());
-        assertFalse(formModel.isSessionVisibleDateDisabled());
-        assertTrue(formModel.isSessionVisibleDateButtonChecked());
-        assertFalse(formModel.isSessionVisiblePrivateChecked());
+        assertFalse(formModel.getAdditionalSettings().isSessionVisibleAtOpenChecked());
+        assertFalse(formModel.getAdditionalSettings().isSessionVisibleDateDisabled());
+        assertTrue(formModel.getAdditionalSettings().isSessionVisibleDateButtonChecked());
+        assertFalse(formModel.getAdditionalSettings().isSessionVisiblePrivateChecked());
         
         ______TS("typical success case with existing fs passed in: session rows");
         FeedbackSessionsTable fsTableModel = data.getFsList();
