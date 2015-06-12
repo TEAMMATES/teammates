@@ -10,9 +10,6 @@ import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.ui.template.StudentCourseDetailsPanel;
 
 public class StudentCourseDetailsPageData extends PageData {
-    public CourseDetailsBundle courseDetails;
-    public List<InstructorAttributes> instructors;
-    public TeamDetailsBundle team;
     private StudentCourseDetailsPanel studentCourseDetailsPanel;
     
     public StudentCourseDetailsPageData(AccountAttributes account) {
@@ -20,24 +17,18 @@ public class StudentCourseDetailsPageData extends PageData {
     }
     
     public void init(CourseDetailsBundle courseDetails, List<InstructorAttributes> instructors, 
-                    StudentAttributes student, TeamDetailsBundle team) {
-        this.courseDetails = courseDetails;
-        this.instructors = instructors;
+                         StudentAttributes student, TeamDetailsBundle team) { 
         this.student = student;
-        this.team = team;
-        
-        setStudentCourseDetailsPanel();
+        studentCourseDetailsPanel = createStudentCourseDetailsPanel(
+                                        courseDetails, instructors, student, team);
     }
     
     public StudentCourseDetailsPanel getStudentCourseDetailsPanel() {
         return studentCourseDetailsPanel;
     }
 
-    private void setStudentCourseDetailsPanel() {
-        studentCourseDetailsPanel = createStudentCourseDetailsPanel();
-    }
-
-    private StudentCourseDetailsPanel createStudentCourseDetailsPanel() {
+    private StudentCourseDetailsPanel createStudentCourseDetailsPanel(CourseDetailsBundle courseDetails, 
+                                    List<InstructorAttributes> instructors, StudentAttributes student, TeamDetailsBundle team) {
         String courseId = courseDetails.course.id;
         String courseName = courseDetails.course.name; 
         String studentTeam = student.team;

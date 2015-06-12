@@ -31,7 +31,7 @@ public class StudentCourseDetailsPageAction extends Action {
 
         statusToAdmin = "studentCourseDetails Page Load<br>" 
                         + "Viewing team details for <span class=\"bold\">[" + courseId + "] " 
-                        + data.courseDetails.course.name + "</span>";
+                        + data.getStudentCourseDetailsPanel().getCourseName() + "</span>";
 
         ShowPageResult response = createShowPageResult(Const.ViewURIs.STUDENT_COURSE_DETAILS, data);
         return response;
