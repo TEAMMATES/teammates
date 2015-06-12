@@ -1,14 +1,12 @@
 package teammates.ui.template;
 
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
-
 public class FeedbackResponseCommentRow {
     private String giverDetails;
-    private FeedbackResponseCommentAttributes comment;
+    private String comment;
     private String creationTime;
     private ElementTag editButton;
 
-    public FeedbackResponseCommentRow(String giverDetails, FeedbackResponseCommentAttributes comment,
+    public FeedbackResponseCommentRow(String giverDetails, String comment,
                                          String creationTime, ElementTag editButton) {
         this.giverDetails = giverDetails;
         this.comment = comment;
@@ -20,12 +18,8 @@ public class FeedbackResponseCommentRow {
         return giverDetails;
     }
 
-    public FeedbackResponseCommentAttributes getComment() {
+    public String getComment() {
         return comment;
-    }
-    
-    public String getCommentText() {
-        return comment.commentText.getValue();
     }
 
     public String getCreationTime() {

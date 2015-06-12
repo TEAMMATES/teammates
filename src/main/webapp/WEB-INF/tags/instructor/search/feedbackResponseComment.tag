@@ -24,6 +24,6 @@
     
     <!-- frComment Content -->
     <div id="plainCommentText-${fsIndx}-${qnIndx}-${responseIndex}-${responseCommentIndex}">
-        ${feedbackResponseCommentRow.commentText}
+        ${feedbackResponseCommentRow.comment}
     </div>
 </li>

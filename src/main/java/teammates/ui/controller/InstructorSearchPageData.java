@@ -256,7 +256,8 @@ public class InstructorSearchPageData extends PageData {
                               + frc.courseId + "#" + frc.getId();         
             ElementTag editButton = createEditButton(link, Const.Tooltips.COMMENT_EDIT_IN_COMMENTS_PAGE);
             
-            rows.add(new FeedbackResponseCommentRow(frCommentGiver, frc, creationTime, editButton));
+            rows.add(new FeedbackResponseCommentRow(frCommentGiver, frc.commentText.getValue(), 
+                                                        creationTime, editButton));
         } 
         return rows;
     }
