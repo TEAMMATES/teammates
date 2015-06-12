@@ -1,7 +1,6 @@
 <%@ tag description="studentProfile - Upload photo modal" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
-<%@ tag import="teammates.ui.template.StudentProfileUploadPhotoModal" %>
 <%@ attribute name="data" type="teammates.ui.template.StudentProfileUploadPhotoModal" required="true" %>
 <c:set var="DEFAULT_PROFILE_PICTURE_PATH" value="<%= Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH %>" />
 <div class="modal fade"

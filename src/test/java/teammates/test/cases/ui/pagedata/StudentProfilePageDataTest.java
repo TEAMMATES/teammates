@@ -20,13 +20,13 @@ public class StudentProfilePageDataTest {
 
     @Test
     public void testAll() {
-        StudentProfilePageData shpd = initializeFirstData();
-        testProfileEditBox(shpd.getProfileEditBox());
-        testUploadPhotoModal(shpd.getUploadPhotoModal());
+        StudentProfilePageData sppd = initializeFirstData();
+        testProfileEditBox(sppd.getProfileEditBox());
+        testUploadPhotoModal(sppd.getUploadPhotoModal());
         
-        shpd = initializeSecondData();
-        testProfileEditBox(shpd.getProfileEditBox());
-        testUploadPhotoModal(shpd.getUploadPhotoModal());
+        sppd = initializeSecondData();
+        testProfileEditBox(sppd.getProfileEditBox());
+        testUploadPhotoModal(sppd.getUploadPhotoModal());
     }
 
     // first data has pictureKey and no null fields
