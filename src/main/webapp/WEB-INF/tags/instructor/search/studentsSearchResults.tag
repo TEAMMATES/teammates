@@ -1,6 +1,6 @@
 <%@ tag description="instructorSearch.tag - Search students" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib tagdir="/WEB-INF/tags/instructor/instructorSearch" prefix="search" %>
+<%@ taglib tagdir="/WEB-INF/tags/instructor/search" prefix="search" %>
 
 <br>
 <div class="panel panel-primary">

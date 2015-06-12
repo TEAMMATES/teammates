@@ -1,6 +1,6 @@
 <%@ tag description="commentsForResponsesSearchResults.tag - Feedback session when instructor searches for a keyword in feedback response comments"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib tagdir="/WEB-INF/tags/instructor/instructorSearch" prefix="search"%>
+<%@ taglib tagdir="/WEB-INF/tags/instructor/search" prefix="search"%>
 <%@ attribute name="fsIndx" required="true" %>
 <%@ attribute name="feedbackSessionRow" type="teammates.ui.template.FeedbackSessionRow" required="true"%>
 
