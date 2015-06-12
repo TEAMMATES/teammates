@@ -133,13 +133,27 @@ public class InstructorFeedbacksPageData extends PageData {
                               Map<String, InstructorAttributes> instructors,
                               FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
                               String feedbackSessionNameForSessionList) {
-        newFsForm = new FeedbackSessionsForm();
         
         List<String> courseIds = new ArrayList<String>();
         for (CourseAttributes course : courses) {
             courseIds.add(course.id);
         }
         
+        newFsForm = new FeedbackSessionsForm();
+        buildBasicForm(courses, courseIdForNewSession, instructors, 
+                       newFeedbackSession, feedbackSessionType,
+                       feedbackSessionNameForSessionList, courseIds);
+        
+        FeedbackSessionsForm.AdditionalSettingsFormSegment additionalSettings = buildFormAdditionalSettings(newFeedbackSession);
+        newFsForm.setAdditionalSettings(additionalSettings);                  
+        
+        newFsForm.setSubmitButtonDisabled(courses.isEmpty());
+    }
+
+    private void buildBasicForm(List<CourseAttributes> courses, String courseIdForNewSession,
+                                    Map<String, InstructorAttributes> instructors,
+                                    FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
+                                    String feedbackSessionNameForSessionList, List<String> courseIds) {
         newFsForm.setCourseIdForNewSession(courseIdForNewSession);
         
         newFsForm.setFsName(newFeedbackSession == null ? "" : newFeedbackSession.feedbackSessionName);
@@ -177,11 +191,6 @@ public class InstructorFeedbacksPageData extends PageData {
         newFsForm.setFsEndTimeOptions(getTimeOptionsAsElementTags(date));
         
         newFsForm.setGracePeriodOptions(getGracePeriodOptionsAsElementTags(newFeedbackSession));
-        
-        FeedbackSessionsForm.AdditionalSettingsFormSegment additionalSettings = buildFormAdditionalSettings(newFeedbackSession);
-        newFsForm.setAdditionalSettings(additionalSettings);                  
-        
-        newFsForm.setSubmitButtonDisabled(courses.isEmpty());
     }
 
     private FeedbackSessionsForm.AdditionalSettingsFormSegment buildFormAdditionalSettings(
