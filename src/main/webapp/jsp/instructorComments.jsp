@@ -58,8 +58,7 @@
 <body>
     <jsp:include page="<%= Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
-    <div id="frameBody">
-        <div id="frameBodyWrapper" class="container">
+        <div class="container" id="frameBodyWrapper">
             <div id="topOfPage"></div>
             <div class="inner-container">
                 <div class="row">
@@ -649,7 +648,6 @@
                 </div>
             <% } %>
         </div>
-    </div>
     <jsp:include page="<%= Const.ViewURIs.FOOTER %>" />
 </body>
 </html>
