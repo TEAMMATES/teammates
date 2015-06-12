@@ -24,11 +24,10 @@ public class StudentCourseDetailsPageAction extends Action {
                                           logic.getCourse(courseId));
 
         data = new StudentCourseDetailsPageData(account);
-
-        data.courseDetails = logic.getCourseDetails(courseId);
-        data.instructors = logic.getInstructorsForCourse(courseId);
-        data.student = logic.getStudentForGoogleId(courseId, account.googleId);
-        data.team = logic.getTeamDetailsForStudent(data.student);
+        
+        data.init(logic.getCourseDetails(courseId), logic.getInstructorsForCourse(courseId),
+                      logic.getStudentForGoogleId(courseId, account.googleId), 
+                      logic.getTeamDetailsForStudent(logic.getStudentForGoogleId(courseId, account.googleId)));
 
         statusToAdmin = "studentCourseDetails Page Load<br>" 
                         + "Viewing team details for <span class=\"bold\">[" + courseId + "] " 
