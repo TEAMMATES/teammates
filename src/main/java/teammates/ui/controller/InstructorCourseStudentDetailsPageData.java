@@ -18,7 +18,8 @@ public class InstructorCourseStudentDetailsPageData extends PageData {
     }
     
     public void init(StudentAttributes student, StudentProfileAttributes studentProfile, boolean isAbleToAddComment, boolean hasSection, String commentRecipient) {
-        String pictureUrl = studentProfile.pictureKey.isEmpty()
+        String pictureUrl = studentProfile == null || studentProfile.pictureKey == null
+                            || studentProfile.pictureKey.isEmpty()
                           ? Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH
                           : Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?"
                                 + Const.ParamsNames.BLOB_KEY + "=" + studentProfile.pictureKey
