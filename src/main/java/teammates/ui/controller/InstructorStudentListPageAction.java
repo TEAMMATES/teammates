@@ -52,7 +52,7 @@ public class InstructorStudentListPageAction extends Action {
             InstructorAttributes instructor = instructors.get(course.id);
             boolean isInstructorAllowedToModify = instructor.isAllowedForPrivilege(
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-            boolean isCourseArchived = data.isCourseArchived(course.id, instructor.googleId);
+            boolean isCourseArchived = data.isCourseArchived(course, instructor);
             boolean isCourseDisplayed = displayArchive || !isCourseArchived;
             if (isCourseDisplayed) {
                 coursesToDisplay.add(new InstructorStudentListPageCourseData(course, isCourseArchived,

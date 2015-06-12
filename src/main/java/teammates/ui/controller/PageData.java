@@ -12,6 +12,7 @@ import java.util.TimeZone;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
@@ -941,6 +942,10 @@ public class PageData {
     
     public boolean isCourseArchived(String courseId, String googleId) {
         return Logic.isCourseArchived(courseId, googleId);
+    }
+    
+    public boolean isCourseArchived(CourseAttributes course, InstructorAttributes instructor) {
+        return Logic.isCourseArchived(course, instructor);
     }
     
     @SuppressWarnings("unused")
