@@ -40,10 +40,8 @@ public class InstructorCourseAddAction extends Action {
         /* Prepare data for the refreshed page after executing the adding action */
         ArrayList<CourseDetailsBundle> allCourses = new ArrayList<CourseDetailsBundle>(logic.getCourseSummariesForInstructor(
                                                                     data.account.googleId).values());
-        ArrayList<CourseDetailsBundle> activeCourses = new ArrayList<CourseDetailsBundle>();
-        ArrayList<CourseDetailsBundle> archivedCourses = new ArrayList<CourseDetailsBundle>();
-                                        
-        logic.extractActiveAndArchivedCourses(allCourses, activeCourses, archivedCourses, data.account.googleId);
+        List<CourseDetailsBundle> activeCourses = logic.extractActiveCourses(allCourses, data.account.googleId);
+        List<CourseDetailsBundle> archivedCourses = logic.extractArchivedCourses(allCourses, data.account.googleId);
                                         
         String CourseIdToShowParam = "";
         String CourseNameToShowParam = "";

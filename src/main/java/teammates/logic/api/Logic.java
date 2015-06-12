@@ -2623,13 +2623,15 @@ public class Logic {
     private void ____helper_methods________________________________________() {
     }
     
-    public void extractActiveAndArchivedCourses(List<CourseDetailsBundle> courseBundles, 
-                                    List<CourseDetailsBundle> activeCoursesResult,
-                                    List<CourseDetailsBundle> archivedCoursesResult, String googleId) {
+    public List<CourseDetailsBundle> extractActiveCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
         Assumption.assertNotNull(courseBundles);
-        Assumption.assertNotNull(activeCoursesResult);
-        Assumption.assertNotNull(archivedCoursesResult);
         Assumption.assertNotNull(googleId);
-        coursesLogic.extractActiveAndArchivedCourses(courseBundles, activeCoursesResult, archivedCoursesResult, googleId);
+        return coursesLogic.extractActiveCourses(courseBundles, googleId);
+    }
+    
+    public List<CourseDetailsBundle> extractArchivedCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
+        Assumption.assertNotNull(courseBundles);
+        Assumption.assertNotNull(googleId);
+        return coursesLogic.extractArchivedCourses(courseBundles, googleId);
     }
 }

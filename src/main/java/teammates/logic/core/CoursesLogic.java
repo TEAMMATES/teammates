@@ -720,18 +720,30 @@ public class CoursesLogic {
         return isCourseArchived;
     }
     
-    public void extractActiveAndArchivedCourses(List<CourseDetailsBundle> courseBundles, 
-                                                List<CourseDetailsBundle> activeCoursesResult,
-                                                List<CourseDetailsBundle> archivedCoursesResult, String googleId) {
+    // TODO: Optimize extractActiveCourses() and extractArchivedCourses() to reduce the number of repeated calls of
+    // isCourseArchived(), which retrieves information from the database
+    
+    public List<CourseDetailsBundle> extractActiveCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
         CourseDetailsBundle.sortDetailedCoursesByCourseId(courseBundles);
+        List<CourseDetailsBundle> result = new ArrayList<CourseDetailsBundle>();
+        
+        for (CourseDetailsBundle courseBundle : courseBundles) {
+            if (!isCourseArchived(courseBundle.course.id, googleId)) {
+                result.add(courseBundle);
+            }
+        }
+        return result;
+    }
+    
+    public List<CourseDetailsBundle> extractArchivedCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
+        CourseDetailsBundle.sortDetailedCoursesByCourseId(courseBundles);
+        List<CourseDetailsBundle> result = new ArrayList<CourseDetailsBundle>();
         
         for (CourseDetailsBundle courseBundle : courseBundles) {
             if (isCourseArchived(courseBundle.course.id, googleId)) {
-                archivedCoursesResult.add(courseBundle);
-            } else {
-                activeCoursesResult.add(courseBundle);
+                result.add(courseBundle);
             }
         }
+        return result;
     }
-    
 }

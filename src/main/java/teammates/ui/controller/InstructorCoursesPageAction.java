@@ -40,9 +40,8 @@ public class InstructorCoursesPageAction extends Action {
         ArrayList<CourseDetailsBundle> allCourses = new ArrayList<CourseDetailsBundle>(
                 logic.getCourseSummariesForInstructor(account.googleId).values());
         
-        ArrayList<CourseDetailsBundle> activeCourses = new ArrayList<CourseDetailsBundle>();
-        ArrayList<CourseDetailsBundle> archivedCourses = new ArrayList<CourseDetailsBundle>();
-        logic.extractActiveAndArchivedCourses(allCourses, activeCourses, archivedCourses, account.googleId);
+        List<CourseDetailsBundle> activeCourses = logic.extractActiveCourses(allCourses, account.googleId);
+        List<CourseDetailsBundle> archivedCourses = logic.extractArchivedCourses(allCourses, account.googleId);
         
         InstructorCoursesPageData data = new InstructorCoursesPageData(account);
         
