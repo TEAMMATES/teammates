@@ -3,10 +3,6 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="data" type="teammates.ui.template.InstructorStudentListStudentsTableCourse" required="true" %>
 <%@ attribute name="index" required="true" %>
-<c:set var="INSTRUCTOR_STUDENT_LIST_AJAX_PAGE" value="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_AJAX_PAGE %>" />
-<c:set var="COURSE_ID" value="<%= Const.ParamsNames.COURSE_ID %>" />
-<c:set var="USER_ID" value="<%= Const.ParamsNames.USER_ID %>" />
-<c:set var="COURSE_ENROLL" value="<%= Const.Tooltips.COURSE_ENROLL %>" />
 <c:choose>
     <c:when test="${data.courseArchived}">
         <c:set var="PANEL_TYPE" value="panel-default" />
@@ -20,15 +16,15 @@
         <form style="display:none;"
               id="seeMore-${index}"
               class="seeMoreForm-${index}"
-              action="${INSTRUCTOR_STUDENT_LIST_AJAX_PAGE}">
-            <input type="hidden" name="${COURSE_ID}" value="${data.courseId}">
-            <input type="hidden" name="${USER_ID}" value="${data.googleId}">
+              action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_AJAX_PAGE %>">
+            <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${data.courseId}">
+            <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${data.googleId}">
             <input type="hidden" id="numStudents-${index}" value="${data.numStudents}">
         </form>
         <a class="btn btn-info btn-xs pull-right pull-down course-enroll-for-test"
            id="enroll-${index}"
            href="${data.instructorCourseEnrollLink}"
-           title="${COURSE_ENROLL}"
+           title="<%= Const.Tooltips.COURSE_ENROLL %>"
            data-toggle="tooltip"
            data-placement="top"
            <c:if test="${not data.instructorAllowedToModify}"> disabled="disabled"</c:if>>
