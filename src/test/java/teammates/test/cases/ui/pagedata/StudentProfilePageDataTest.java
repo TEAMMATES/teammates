@@ -18,19 +18,27 @@ public class StudentProfilePageDataTest {
     private String editPicture;
     private String pictureUrl;
 
+    private StudentProfilePageData sppd;
+
     @Test
     public void testAll() {
-        StudentProfilePageData sppd = initializeFirstData();
-        testProfileEditBox(sppd.getProfileEditBox());
-        testUploadPhotoModal(sppd.getUploadPhotoModal());
-        
-        sppd = initializeSecondData();
+        testWithPictureKeyAndNoNullFields();
+        testWithNoPictureKeyAndNullFields();
+    }
+
+    private void testWithPictureKeyAndNoNullFields() {
+        sppd = initializeDataWithPictureKeyAndNoNullFields();
         testProfileEditBox(sppd.getProfileEditBox());
         testUploadPhotoModal(sppd.getUploadPhotoModal());
     }
 
-    // first data has pictureKey and no null fields
-    private StudentProfilePageData initializeFirstData() {
+    private void testWithNoPictureKeyAndNullFields() {
+        sppd = initializeDataWithNoPictureKeyAndNullFields();
+        testProfileEditBox(sppd.getProfileEditBox());
+        testUploadPhotoModal(sppd.getUploadPhotoModal());
+    }
+
+    private StudentProfilePageData initializeDataWithPictureKeyAndNoNullFields() {
         spa = new StudentProfileAttributes("valid.id.2", "short name", "e@mail2.com", "inst", "nationality",
                                            "male", "more info", "pictureKey");
         acct = new AccountAttributes("valid.id", "full name", false, "e@mail1.com", "inst", spa);
@@ -41,8 +49,7 @@ public class StudentProfilePageDataTest {
         return new StudentProfilePageData(acct, editPicture);        
     }
     
-    // second data has no pictureKey and lots of null fields
-    private StudentProfilePageData initializeSecondData() {
+    private StudentProfilePageData initializeDataWithNoPictureKeyAndNullFields() {
         spa = new StudentProfileAttributes("valid.id.2", null, null, null, null, "male", null, "");
         acct = new AccountAttributes("valid.id", "full name", false, "e@mail1.com", "inst", spa);
         pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
