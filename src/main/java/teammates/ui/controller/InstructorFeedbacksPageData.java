@@ -110,9 +110,9 @@ public class InstructorFeedbacksPageData extends PageData {
             
 
         List<FeedbackSessionsTableRow> filteredFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(
-                                                                   filteredFeedbackSessions,
-                                                                   instructors, feedbackSessionNameForSessionList,
-                                                                   courseIdForNewSession);
+                                                                        filteredFeedbackSessions,
+                                                                        instructors, feedbackSessionNameForSessionList,
+                                                                        courseIdForNewSession);
         
         String fsName = newFeedbackSession != null ? newFeedbackSession.feedbackSessionName : "";
         copyFromModal = new FeedbackSessionsCopyFromModal(filteredFeedbackSessionsRow, 
@@ -125,8 +125,8 @@ public class InstructorFeedbacksPageData extends PageData {
                              Map<String, InstructorAttributes> instructors, String feedbackSessionNameForSessionList) {
         
         List<FeedbackSessionsTableRow> existingFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(
-                                                                   existingFeedbackSessions, instructors, 
-                                                                   feedbackSessionNameForSessionList, courseIdForNewSession);
+                                                                             existingFeedbackSessions, instructors, 
+                                                                             feedbackSessionNameForSessionList, courseIdForNewSession);
         fsList = new FeedbackSessionsTable(existingFeedbackSessionsRow);
     }
 
@@ -140,21 +140,21 @@ public class InstructorFeedbacksPageData extends PageData {
             courseIds.add(course.id);
         }
         
-        newFsForm = new FeedbackSessionsForm();
-        buildBasicForm(courses, courseIdForNewSession, instructors, 
-                       newFeedbackSession, feedbackSessionType,
-                       feedbackSessionNameForSessionList, courseIds);
+        
+        newFsForm = buildBasicForm(courses, courseIdForNewSession, instructors, 
+                                   newFeedbackSession, feedbackSessionType,
+                                   feedbackSessionNameForSessionList, courseIds);
         
         AdditionalSettingsFormSegment additionalSettings = buildFormAdditionalSettings(newFeedbackSession);
         newFsForm.setAdditionalSettings(additionalSettings);                  
         
-        newFsForm.setSubmitButtonDisabled(courses.isEmpty());
     }
 
-    private void buildBasicForm(List<CourseAttributes> courses, String courseIdForNewSession,
-                                    Map<String, InstructorAttributes> instructors,
-                                    FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
-                                    String feedbackSessionNameForSessionList, List<String> courseIds) {
+    private FeedbackSessionsForm buildBasicForm(List<CourseAttributes> courses, String courseIdForNewSession,
+                                                Map<String, InstructorAttributes> instructors,
+                                                FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
+                                                String feedbackSessionNameForSessionList, List<String> courseIds) {
+        FeedbackSessionsForm newFsForm = new FeedbackSessionsForm();
         newFsForm.setCourseIdForNewSession(courseIdForNewSession);
         
         newFsForm.setFsName(newFeedbackSession == null ? "" : newFeedbackSession.feedbackSessionName);
@@ -166,18 +166,18 @@ public class InstructorFeedbacksPageData extends PageData {
         newFsForm.setFeedbackSessionNameForSessionList(feedbackSessionNameForSessionList);
         
         newFsForm.setCoursesSelectField(getCourseIdOptions(courses,  courseIdForNewSession, 
-                                                        instructors, newFeedbackSession));
+                                                           instructors, newFeedbackSession));
         
-        newFsForm.setTimezoneSelectField(getTimeZoneOptionsAsHtml(newFeedbackSession));
+        newFsForm.setTimezoneSelectField(getTimeZoneOptionsAsElementTags(newFeedbackSession));
         
         
         newFsForm.setInstructions(newFeedbackSession == null ?
-                                 "Please answer all the given questions." :
-                                 sanitizeForHtml(newFeedbackSession.instructions.getValue()));
+                                  "Please answer all the given questions." :
+                                  sanitizeForHtml(newFeedbackSession.instructions.getValue()));
         
         newFsForm.setFsStartDate(newFeedbackSession == null ?
-                               TimeHelper.formatDate(TimeHelper.getNextHour()) :
-                               TimeHelper.formatDate(newFeedbackSession.startTime));
+                                 TimeHelper.formatDate(TimeHelper.getNextHour()) :
+                                 TimeHelper.formatDate(newFeedbackSession.startTime));
         
         Date date;
         date = newFeedbackSession == null ? null : newFeedbackSession.startTime;
@@ -192,6 +192,10 @@ public class InstructorFeedbacksPageData extends PageData {
         newFsForm.setFsEndTimeOptions(getTimeOptionsAsElementTags(date));
         
         newFsForm.setGracePeriodOptions(getGracePeriodOptionsAsElementTags(newFeedbackSession));
+        
+        newFsForm.setSubmitButtonDisabled(courses.isEmpty());
+        
+        return newFsForm;
     }
 
     private AdditionalSettingsFormSegment buildFormAdditionalSettings(
@@ -304,7 +308,7 @@ public class InstructorFeedbacksPageData extends PageData {
         return copyFromModal;
     }
 
-    private ArrayList<ElementTag> getTimeZoneOptionsAsHtml(FeedbackSessionAttributes fs){
+    private ArrayList<ElementTag> getTimeZoneOptionsAsElementTags(FeedbackSessionAttributes fs){
         return getTimeZoneOptionsAsElementTags(fs == null ? 
                                                Const.DOUBLE_UNINITIALIZED : 
                                                fs.timeZone);
