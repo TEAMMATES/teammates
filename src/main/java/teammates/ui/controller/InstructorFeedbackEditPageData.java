@@ -97,6 +97,8 @@ public class InstructorFeedbackEditPageData extends PageData {
     
     
     private void buildBasicForm(FeedbackSessionAttributes newFeedbackSession) {
+        fsForm = new FeedbackSessionsForm();
+        
         fsForm.setCourseIdForNewSession(null);
         
         fsForm.setFsName(newFeedbackSession == null ? "" : newFeedbackSession.feedbackSessionName);
@@ -187,6 +189,12 @@ public class InstructorFeedbackEditPageData extends PageData {
     
     
     
+    
+    public FeedbackSessionsForm getFsForm() {
+        return fsForm;
+    }
+
+
     public List<FeedbackQuestionEditForm> getQnForms() {
         return qnForms;
     }
@@ -197,7 +205,7 @@ public class InstructorFeedbackEditPageData extends PageData {
      * Used in instructorFeedbackEdit.jsp for selecting the participant type for a new question.
      * isGiver refers to the feedback path (!isGiver == feedback's recipient)
      */
-    public List<ElementTag> getParticipantOptions(FeedbackQuestionAttributes question, boolean isGiver) {
+    private List<ElementTag> getParticipantOptions(FeedbackQuestionAttributes question, boolean isGiver) {
         List<ElementTag> result = new ArrayList<ElementTag>();
         for (FeedbackParticipantType option : FeedbackParticipantType.values()) {
             
@@ -224,7 +232,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         return result;
     }
     
-    public List<ElementTag> getQuestionNumberOptions(int numQuestions) {
+    private List<ElementTag> getQuestionNumberOptions(int numQuestions) {
         List<ElementTag> options = new ArrayList<ElementTag>();
         
         for (int opt = 1; opt < numQuestions + 1; opt++) {

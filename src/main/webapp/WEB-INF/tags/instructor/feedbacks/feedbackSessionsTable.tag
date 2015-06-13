@@ -6,6 +6,24 @@
 
 <%@ attribute name="fsList" type="teammates.ui.template.FeedbackSessionsTable" required="true"%>
 
+<form style="display:none;" id="ajaxForSessions" class="ajaxForSessionsForm"
+    action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE %>">
+    <input type="hidden"
+        name="<%= Const.ParamsNames.USER_ID %>"
+        value="${data.account.googleId}">
+    <input type="hidden"
+        name="<%= Const.ParamsNames.IS_USING_AJAX %>"
+        value="on">
+    <c:if test="${fsForm.feedbackSessionNameForSessionList != null && fsForm.courseIdForNewSession != null}">
+        <input type="hidden"
+            name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>"
+            value="${fsForm.feedbackSessionNameForSessionList}">
+        <input type="hidden"
+            name="<%= Const.ParamsNames.COURSE_ID %>"
+            value="${fsForm.courseIdForNewSession}">
+    </c:if>
+</form>
+    
 <table class="table-responsive table table-striped table-bordered" id="table-sessions">
     <thead>
         <tr class="fill-primary">

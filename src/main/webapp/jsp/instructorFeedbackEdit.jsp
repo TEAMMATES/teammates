@@ -7,6 +7,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbackEdit" prefix="feedbackEdit" %>
+<%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="feedbacks" %>
 
 <c:set var="jsIncludes">
         <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
@@ -19,6 +20,10 @@
 
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Feedback Session" jsIncludes="${jsIncludes}">
     
+    <feedbacks:feedbackSessionsForm fsForm="${data.fsForm}">
+        <feedbacks:feedbackSessionsFormAdditionalSettings fsForm="${data.fsForm}">
+        </feedbacks:feedbackSessionsFormAdditionalSettings>
+    </feedbacks:feedbackSessionsForm>
     <br>
     <t:statusMessage />
     <ti:copyModal />

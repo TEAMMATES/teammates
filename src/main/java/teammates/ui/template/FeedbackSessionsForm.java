@@ -36,6 +36,7 @@ public class FeedbackSessionsForm {
     private List<ElementTag> fsEndTimeOptions;
     private List<ElementTag> gracePeriodOptions;
     
+    private boolean isShowNoCoursesMessage;
     private boolean isSubmitButtonDisabled;
     
     private AdditionalSettingsFormSegment additionalSettings;
@@ -107,6 +108,12 @@ public class FeedbackSessionsForm {
     
     
     
+    
+    
+    public boolean isShowNoCoursesMessage() {
+        return isShowNoCoursesMessage;
+    }
+
     public String getFsName() {
         return fsName;
     }
@@ -171,4 +178,10 @@ public class FeedbackSessionsForm {
     public void setSubmitButtonDisabled(boolean isSubmitButtonDisabled) {
         this.isSubmitButtonDisabled = isSubmitButtonDisabled;
     }
+
+    public void setIsShowNoCoursesMessage(boolean showNoCoursesMessage) {
+        this.isShowNoCoursesMessage = showNoCoursesMessage;
+    }
+    
+    
 }

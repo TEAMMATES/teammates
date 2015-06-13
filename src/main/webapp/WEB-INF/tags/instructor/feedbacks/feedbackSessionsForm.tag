@@ -47,7 +47,7 @@
                         title="<%= Const.Tooltips.FEEDBACK_SESSION_COURSE %>"
                         data-toggle="tooltip"
                         data-placement="top">
-                        <div class="form-group<c:if test="${empty fsForm.courses}"> has-error</c:if>">
+                        <div class="form-group<c:if test="${fsForm.showNoCoursesMessage}"> has-error</c:if>">
                             <h5 class="col-sm-4">
                                 <label class="control-label"
                                     for="<%= Const.ParamsNames.COURSE_ID %>">
@@ -55,7 +55,7 @@
                                 </label>
                             </h5>
                             <div class="col-sm-8">
-                                <select class="form-control<c:if test="${empty fsForm.courses}"> text-color-red</c:if>"
+                                <select class="form-control<c:if test="${fsForm.showNoCoursesMessage}"> text-color-red</c:if>"
                                     name="<%= Const.ParamsNames.COURSE_ID %>"
                                     id="<%= Const.ParamsNames.COURSE_ID %>">
                                     <c:forEach items="${fsForm.coursesSelectField}" var="option">
@@ -257,7 +257,7 @@
                 </div>
             </div>
         </div>
-        <c:if test="${empty fsForm.courses}"> 
+        <c:if test="${fsForm.showNoCoursesMessage}"> 
             <div class="row">
                 <div class="col-md-12 text-center">
                     <b>You need to have an active(unarchived) course to create a session!</b>
@@ -268,21 +268,5 @@
             name="<%= Const.ParamsNames.USER_ID %>"
             value="${data.account.googleId}">
     </form>
-    <form style="display:none;" id="ajaxForSessions" class="ajaxForSessionsForm"
-        action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE %>">
-        <input type="hidden"
-            name="<%= Const.ParamsNames.USER_ID %>"
-            value="${data.account.googleId}">
-        <input type="hidden"
-            name="<%= Const.ParamsNames.IS_USING_AJAX %>"
-            value="on">
-        <c:if test="${fsForm.feedbackSessionNameForSessionList != null && fsForm.courseIdForNewSession != null}">
-            <input type="hidden"
-                name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>"
-                value="${fsForm.feedbackSessionNameForSessionList}">
-            <input type="hidden"
-                name="<%= Const.ParamsNames.COURSE_ID %>"
-                value="${fsForm.courseIdForNewSession}">
-        </c:if>
-    </form>
+    
 </div>
