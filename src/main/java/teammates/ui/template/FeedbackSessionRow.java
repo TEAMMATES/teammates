@@ -1,68 +1,28 @@
 package teammates.ui.template;
 
-public class FeedbackSessionRow {
-    private String courseId;
-    private String name;
-    private String tooltip;
-    private String href;
-    private String recent;
-    private String status;  
-    private String actions;
-        
-    private ElementTag rowAttributes;
+import java.util.List;
 
-    /**
-     * Constructs a session row for a course table.
-     * @param courseId
-     * @param name name of the session
-     * @param tooltip tooltip displayed when hovering over status
-     * @param status status of the session
-     * @param href link for the session under response rate
-     * @param recent if the session is considered recent (calculate response rate on load if true)
-     * @param actions possible actions to do on the session, a block of HTML representing the formatted actions
-     */
-    public FeedbackSessionRow(String courseId, String name, String tooltip, String status, 
-                                  String href, String recent, String actions, ElementTag attributes) {
+public class FeedbackSessionRow {
+    private String feedbackSessionName;
+    private String courseId;
+    private List<QuestionTable> questionTables;
+    
+    public FeedbackSessionRow(String feedbackSessionName, String courseId, 
+                                    List<QuestionTable> questionTables) {
+        this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
-        this.name = name;
-        this.tooltip = tooltip;
-        this.href = href;
-        this.status = status;
-        this.actions = actions;
-        this.recent = recent;
-        this.rowAttributes = attributes;
+        this.questionTables = questionTables;
+    }
+    
+    public String getFeedbackSessionName() {
+        return feedbackSessionName;
     }
     
     public String getCourseId() {
         return courseId;
     }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public String getTooltip() {
-        return tooltip;
-    }
-
-    public String getHref() {
-        return href;
-    }
     
-    public String getRecent() {
-        return recent;
+    public List<QuestionTable> getQuestionTables() {
+        return questionTables;
     }
-
-    public String getActions() {
-        return actions;
-    }
-    
-    public ElementTag getRowAttributes() {
-        return rowAttributes;
-    }
-    
 }

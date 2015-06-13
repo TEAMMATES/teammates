@@ -15,7 +15,7 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.ui.template.AdditionalSettingsFormSegment;
 import teammates.ui.template.ElementTag;
-import teammates.ui.template.FeedbackSessionRow;
+import teammates.ui.template.FeedbackSessionsTableRow;
 import teammates.ui.template.FeedbackSessionsCopyFromModal;
 import teammates.ui.template.FeedbackSessionsTable;
 import teammates.ui.template.FeedbackSessionsForm;
@@ -109,7 +109,7 @@ public class InstructorFeedbacksPageData extends PageData {
         }
             
 
-        List<FeedbackSessionRow> filteredFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(
+        List<FeedbackSessionsTableRow> filteredFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(
                                                                    filteredFeedbackSessions,
                                                                    instructors, feedbackSessionNameForSessionList,
                                                                    courseIdForNewSession);
@@ -124,7 +124,7 @@ public class InstructorFeedbacksPageData extends PageData {
     private void buildFsList(String courseIdForNewSession, List<FeedbackSessionAttributes> existingFeedbackSessions,
                              Map<String, InstructorAttributes> instructors, String feedbackSessionNameForSessionList) {
         
-        List<FeedbackSessionRow> existingFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(
+        List<FeedbackSessionsTableRow> existingFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(
                                                                    existingFeedbackSessions, instructors, 
                                                                    feedbackSessionNameForSessionList, courseIdForNewSession);
         fsList = new FeedbackSessionsTable(existingFeedbackSessionsRow);
@@ -245,13 +245,13 @@ public class InstructorFeedbacksPageData extends PageData {
     }
     
     
-    private List<FeedbackSessionRow> convertFeedbackSessionAttributesToSessionRows(
+    private List<FeedbackSessionsTableRow> convertFeedbackSessionAttributesToSessionRows(
                                          List<FeedbackSessionAttributes> sessions, 
                                          Map<String, InstructorAttributes> instructors, 
                                          String feedbackSessionNameForSessionList, String courseIdForNewSession) {
 
         
-        List<FeedbackSessionRow> rows = new ArrayList<FeedbackSessionRow>();
+        List<FeedbackSessionsTableRow> rows = new ArrayList<FeedbackSessionsTableRow>();
         int displayedStatsCount = 0;
         
         for (FeedbackSessionAttributes session : sessions) {
@@ -286,7 +286,7 @@ public class InstructorFeedbacksPageData extends PageData {
                 elementAttributes = new ElementTag("class", "sessionsRow");
             }
             
-            rows.add(new FeedbackSessionRow(courseId, name, tooltip, status, href, recent, actions, elementAttributes));
+            rows.add(new FeedbackSessionsTableRow(courseId, name, tooltip, status, href, recent, actions, elementAttributes));
         }
         
         return rows;

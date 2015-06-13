@@ -28,7 +28,7 @@ import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.ui.controller.InstructorFeedbacksPageData;
-import teammates.ui.template.FeedbackSessionRow;
+import teammates.ui.template.FeedbackSessionsTableRow;
 import teammates.ui.template.FeedbackSessionsCopyFromModal;
 import teammates.ui.template.FeedbackSessionsTable;
 import teammates.ui.template.FeedbackSessionsForm;
@@ -116,7 +116,7 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         ______TS("typical success case: session rows");
         FeedbackSessionsTable fsTableModel = data.getFsList();
         
-        List<FeedbackSessionRow> fsRows = fsTableModel.getExistingFeedbackSessions();
+        List<FeedbackSessionsTableRow> fsRows = fsTableModel.getExistingFeedbackSessions();
         assertEquals(6, fsRows.size());
 
         String firstFsName = "Grace Period Session";
@@ -195,10 +195,10 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         
         data.initWithoutDefaultFormValues(courses, "idOfTypicalCourse1", fsList, courseInstructorMap, "First feedback session");
         
-        List<FeedbackSessionRow> sessionRows = data.getFsList().getExistingFeedbackSessions();
+        List<FeedbackSessionsTableRow> sessionRows = data.getFsList().getExistingFeedbackSessions();
         boolean isFirstFeedbackSessionHighlighted = false;
         boolean isOtherFeedbackSessionHighlighted = false;
-        for (FeedbackSessionRow row : sessionRows) {
+        for (FeedbackSessionsTableRow row : sessionRows) {
             if (row.getName().equals("First feedback session")) {
                 isFirstFeedbackSessionHighlighted = row.getRowAttributes().getAttributes().get("class").matches(".*\\bwarning\\b.*");
             } else {
@@ -281,7 +281,7 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         ______TS("typical success case with existing fs passed in: session rows");
         FeedbackSessionsTable fsTableModel = data.getFsList();
         
-        List<FeedbackSessionRow> fsRows = fsTableModel.getExistingFeedbackSessions();
+        List<FeedbackSessionsTableRow> fsRows = fsTableModel.getExistingFeedbackSessions();
         assertEquals(6, fsRows.size());
 
         String firstFsName = "Grace Period Session";
