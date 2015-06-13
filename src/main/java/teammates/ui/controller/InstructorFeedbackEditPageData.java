@@ -1,12 +1,14 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
@@ -14,11 +16,15 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
+import teammates.ui.template.AdditionalSettingsFormSegment;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackQuestionEditForm;
+import teammates.ui.template.FeedbackSessionsForm;
 
 public class InstructorFeedbackEditPageData extends PageData {
 
+    private FeedbackSessionsForm fsForm;
     private List<FeedbackQuestionEditForm> qnForms;
     
     public InstructorFeedbackEditPageData(AccountAttributes account) {
@@ -34,6 +40,9 @@ public class InstructorFeedbackEditPageData extends PageData {
                      List<StudentAttributes> studentList,
                      List<InstructorAttributes> instructorList,
                      InstructorAttributes instructor) {
+        
+        buildBasicForm(feedbackSession);
+        buildFormAdditionalSettings(feedbackSession);
         
         qnForms = new ArrayList<FeedbackQuestionEditForm>();
         for (FeedbackQuestionAttributes question : questions) {
@@ -72,7 +81,7 @@ public class InstructorFeedbackEditPageData extends PageData {
             qnForm.setNumberOfEntitiesToGiveFeedbackToChecked(question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS);
             qnForm.setNumOfEntitiesToGiveFeedbackToValue(question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS ?
                                                          1 :
-                                                         question.numberOfEntitiesToGiveFeedbackTo );
+                                                         question.numberOfEntitiesToGiveFeedbackTo);
             qnForm.setQuestionHasResponses(questionHasResponses.get(question.getId()));
             
             List<String> visibilityMessages = question.getVisibilityMessage();
@@ -86,6 +95,95 @@ public class InstructorFeedbackEditPageData extends PageData {
         
     }
     
+    
+    private void buildBasicForm(FeedbackSessionAttributes newFeedbackSession) {
+        fsForm.setCourseIdForNewSession(null);
+        
+        fsForm.setFsName(newFeedbackSession == null ? "" : newFeedbackSession.feedbackSessionName);
+        
+        fsForm.setCourses(null);
+        
+        fsForm.setFeedbackSessionTypeOptions(null);
+
+        fsForm.setFeedbackSessionNameForSessionList(null);
+        
+        fsForm.setCoursesSelectField(null);
+        
+        fsForm.setTimezoneSelectField(getTimeZoneOptionsAsElementTags(newFeedbackSession.timeZone));
+        
+        
+        fsForm.setInstructions(newFeedbackSession == null ?
+                                 "Please answer all the given questions." :
+                                 sanitizeForHtml(newFeedbackSession.instructions.getValue()));
+        
+        fsForm.setFsStartDate(newFeedbackSession == null ?
+                               TimeHelper.formatDate(TimeHelper.getNextHour()) :
+                               TimeHelper.formatDate(newFeedbackSession.startTime));
+        
+        Date date;
+        date = newFeedbackSession == null ? null : newFeedbackSession.startTime;
+        fsForm.setFsStartTimeOptions(getTimeOptionsAsElementTags(date));
+        
+        fsForm.setFsEndDate(newFeedbackSession == null ?
+                               "" : 
+                               TimeHelper.formatDate(newFeedbackSession.endTime));
+        
+        
+        date = newFeedbackSession == null ? null : newFeedbackSession.endTime;
+        fsForm.setFsEndTimeOptions(getTimeOptionsAsElementTags(date));
+        
+        fsForm.setGracePeriodOptions(getGracePeriodOptionsAsElementTags(newFeedbackSession.gracePeriod));
+    }
+
+    private AdditionalSettingsFormSegment buildFormAdditionalSettings(FeedbackSessionAttributes newFeedbackSession) {
+        
+        Date date;
+        AdditionalSettingsFormSegment additionalSettings = new AdditionalSettingsFormSegment(); 
+        boolean hasSessionVisibleDate = newFeedbackSession != null 
+                                        && !TimeHelper.isSpecialTime(newFeedbackSession.sessionVisibleFromTime);
+        additionalSettings.setSessionVisibleDateButtonChecked(hasSessionVisibleDate);
+        additionalSettings.setSessionVisibleDateValue(hasSessionVisibleDate ? 
+                                                      TimeHelper.formatDate(newFeedbackSession.sessionVisibleFromTime) :
+                                                      "");
+        additionalSettings.setSessionVisibleDateDisabled(!hasSessionVisibleDate);
+        
+        date = hasSessionVisibleDate ? newFeedbackSession.sessionVisibleFromTime : null;   
+        additionalSettings.setSessionVisibleTimeOptions(getTimeOptionsAsElementTags(date));
+        
+        additionalSettings.setSessionVisibleAtOpenChecked(newFeedbackSession == null 
+                                                           || Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(
+                                                                   newFeedbackSession.sessionVisibleFromTime));
+        
+        additionalSettings.setSessionVisiblePrivateChecked(newFeedbackSession != null 
+                                                           && Const.TIME_REPRESENTS_NEVER.equals(
+                                                               newFeedbackSession.sessionVisibleFromTime));
+                        
+        boolean hasResultVisibleDate = newFeedbackSession != null 
+                                       && !TimeHelper.isSpecialTime(newFeedbackSession.resultsVisibleFromTime);
+        
+        additionalSettings.setResponseVisibleDateChecked(hasResultVisibleDate);
+        
+        additionalSettings.setResponseVisibleDateValue(hasResultVisibleDate ? 
+                                                       TimeHelper.formatDate(newFeedbackSession.resultsVisibleFromTime) :
+                                                       "");
+        
+        additionalSettings.setResponseVisibleDisabled(!hasResultVisibleDate);
+        
+        date = hasResultVisibleDate ? newFeedbackSession.resultsVisibleFromTime :  null;
+        additionalSettings.setResponseVisibleTimeOptions(getTimeOptionsAsElementTags(date));
+        
+        additionalSettings.setResponseVisibleImmediatelyChecked((newFeedbackSession != null 
+                                                                && Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(newFeedbackSession.resultsVisibleFromTime)));
+        
+        additionalSettings.setResponseVisiblePublishManuallyChecked(
+                                 (newFeedbackSession == null 
+                                  || Const.TIME_REPRESENTS_LATER.equals(newFeedbackSession.resultsVisibleFromTime) 
+                                  || Const.TIME_REPRESENTS_NOW.equals(newFeedbackSession.resultsVisibleFromTime)));
+        
+        additionalSettings.setResponseVisibleNeverChecked((newFeedbackSession != null  
+                                                            && Const.TIME_REPRESENTS_NEVER.equals(newFeedbackSession.resultsVisibleFromTime)));
+        return additionalSettings;
+    }
     
     
     
