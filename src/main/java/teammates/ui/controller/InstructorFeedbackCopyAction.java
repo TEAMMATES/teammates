@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -70,7 +71,7 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
         // isError == true if an exception occurred above
         
         boolean omitArchived = true;
-        HashMap<String, InstructorAttributes> instructors = loadCourseInstructorMap(omitArchived);
+        Map<String, InstructorAttributes> instructors = loadCourseInstructorMap(omitArchived);
         List<InstructorAttributes> instructorList =
                 new ArrayList<InstructorAttributes>(instructors.values());
         List<CourseAttributes> courses = loadCoursesList(instructorList);
@@ -78,12 +79,11 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
         List<FeedbackSessionAttributes> feedbackSessions = loadFeedbackSessionsList(instructorList);
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(feedbackSessions);
         
-        data.initWithoutHighlightedRow(courses, null, feedbackSessions, instructors, fs, null);
-        
-        
-        if (data.getFsList().getExistingFeedbackSessions().isEmpty()) {
+        if (feedbackSessions.isEmpty()) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY);
         }
+        
+        data.initWithoutHighlightedRow(courses, null, feedbackSessions, instructors, fs, null);
        
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
