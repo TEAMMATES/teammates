@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.testng.annotations.BeforeClass;
@@ -40,7 +41,7 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     
     
-    private final int numHoursInDay = 24;
+    private final int NUMBER_OF_HOURS_IN_DAY= 24;
     
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -80,14 +81,14 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         assertEquals("Team peer evaluation session", formModel.getFeedbackSessionTypeOptions().get(1).getContent());
         assertEquals("selected", formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().get("selected"));
         assertEquals("", formModel.getFsEndDate());
-        assertEquals(numHoursInDay, formModel.getFsEndTimeOptions().size());
+        assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsEndTimeOptions().size());
         assertEquals("", formModel.getFsName());
         
         Calendar currentDate = TimeHelper.now(0);
         String dateAsString = TimeHelper.formatDate(currentDate.getTime());
         
         assertEquals(dateAsString, formModel.getFsStartDate());
-        assertEquals(numHoursInDay, formModel.getFsStartTimeOptions().size());
+        assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsStartTimeOptions().size());
         
         assertEquals(7, formModel.getGracePeriodOptions().size());
         
@@ -97,9 +98,9 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         
         assertEquals("Please answer all the given questions.", formModel.getInstructions());
         assertEquals("", formModel.getAdditionalSettings().getResponseVisibleDateValue());
-        assertEquals(numHoursInDay, formModel.getAdditionalSettings().getResponseVisibleTimeOptions().size());
+        assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getAdditionalSettings().getResponseVisibleTimeOptions().size());
         assertEquals("", formModel.getAdditionalSettings().getSessionVisibleDateValue());
-        assertEquals(numHoursInDay, formModel.getAdditionalSettings().getSessionVisibleTimeOptions().size());
+        assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getAdditionalSettings().getSessionVisibleTimeOptions().size());
         assertEquals(33, formModel.getTimezoneSelectField().size());
         
         assertTrue(formModel.getAdditionalSettings().isResponseVisiblePublishManuallyChecked());
@@ -139,7 +140,7 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         
         InstructorFeedbacksPageData helperData = new InstructorFeedbacksPageData(helperAccount);
         
-        HashMap<String, InstructorAttributes> helperCourseInstructorMap = new HashMap<String, InstructorAttributes>();
+        Map<String, InstructorAttributes> helperCourseInstructorMap = new HashMap<String, InstructorAttributes>();
         instructors = getInstructorsForGoogleId(helperAccount.googleId, true);
         for (InstructorAttributes instructor : instructors) {
             helperCourseInstructorMap.put(instructor.courseId, instructor);
@@ -222,7 +223,7 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(instructorAccount);
         
-        HashMap<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
+        Map<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
         List<InstructorAttributes> instructors = getInstructorsForGoogleId(instructorAccount.googleId, true);
         for (InstructorAttributes instructor : instructors) {
             courseInstructorMap.put(instructor.courseId, instructor);
@@ -249,11 +250,11 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         assertEquals("selected", formModel.getFeedbackSessionTypeOptions().get(1).getAttributes().get("selected"));
         
         assertEquals("30/04/2017", formModel.getFsEndDate());
-        assertEquals(numHoursInDay, formModel.getFsEndTimeOptions().size());
+        assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsEndTimeOptions().size());
         assertEquals("First feedback session", formModel.getFsName());
         
         assertEquals("01/04/2012", formModel.getFsStartDate());
-        assertEquals(numHoursInDay, formModel.getFsStartTimeOptions().size());
+        assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getFsStartTimeOptions().size());
         
         assertEquals(7, formModel.getGracePeriodOptions().size());
         
@@ -263,9 +264,9 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         
         assertEquals("Please please fill in the following questions.", formModel.getInstructions());
         assertEquals("01/05/2017", formModel.getAdditionalSettings().getResponseVisibleDateValue());
-        assertEquals(numHoursInDay, formModel.getAdditionalSettings().getResponseVisibleTimeOptions().size());
+        assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getAdditionalSettings().getResponseVisibleTimeOptions().size());
         assertEquals("28/03/2012", formModel.getAdditionalSettings().getSessionVisibleDateValue());
-        assertEquals(numHoursInDay, formModel.getAdditionalSettings().getSessionVisibleTimeOptions().size());
+        assertEquals(NUMBER_OF_HOURS_IN_DAY, formModel.getAdditionalSettings().getSessionVisibleTimeOptions().size());
         
         assertFalse(formModel.getAdditionalSettings().isResponseVisiblePublishManuallyChecked());
         assertTrue(formModel.getAdditionalSettings().isResponseVisibleDateChecked());
@@ -307,7 +308,7 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(instructorAccount);
         
-        HashMap<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
+        Map<String, InstructorAttributes> courseInstructorMap = new HashMap<String, InstructorAttributes>();
         List<InstructorAttributes> instructors = getInstructorsForGoogleId(instructorAccount.googleId, true);
         for (InstructorAttributes instructor : instructors) {
             courseInstructorMap.put(instructor.courseId, instructor);

@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -38,7 +39,7 @@ public class InstructorFeedbacksPageAction extends Action {
         
         boolean omitArchived = true; // TODO: implement as a request parameter
         // HashMap with courseId as key and InstructorAttributes as value
-        HashMap<String, InstructorAttributes> instructors = loadCourseInstructorMap(omitArchived);
+        Map<String, InstructorAttributes> instructors = loadCourseInstructorMap(omitArchived);
         
         List<InstructorAttributes> instructorList =
                 new ArrayList<InstructorAttributes>(instructors.values());
