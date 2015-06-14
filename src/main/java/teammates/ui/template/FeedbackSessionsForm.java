@@ -2,19 +2,27 @@ package teammates.ui.template;
 
 import java.util.List;
 
+import teammates.common.util.Url;
+
+
 /**
  * Data model for the form for creating a new feedback session.
  *
  */
 public class FeedbackSessionsForm {
 
+    private Url formSubmitAction;
+    
     // Default course id value
     private String courseIdForNewSession;
     
     private String feedbackSessionNameForSessionList;
     
+    private boolean isFeedbackSessionTypeEditable;
     // List of options for feedback session type
     private List<ElementTag> feedbackSessionTypeOptions;
+    
+    private boolean isCourseIdEditable;
     // options for selecting which course to make a fs in
     private List<ElementTag> coursesSelectField;
     
@@ -23,7 +31,7 @@ public class FeedbackSessionsForm {
     // List of course ids to populate the dropdown with
     private List<String> courses;
 
-    
+    private boolean isFsNameEditable;
     // Default feedback session name in the new session form
     private String fsName;
 
@@ -182,6 +190,48 @@ public class FeedbackSessionsForm {
     public void setIsShowNoCoursesMessage(boolean showNoCoursesMessage) {
         this.isShowNoCoursesMessage = showNoCoursesMessage;
     }
+
+    public Url getFormSubmitAction() {
+        return formSubmitAction;
+    }
+
+    public void setFormSubmitAction(Url formSubmitAction) {
+        this.formSubmitAction = formSubmitAction;
+    }
+
+    public boolean isFeedbackSessionTypeEditable() {
+        return isFeedbackSessionTypeEditable;
+    }
+
+    public void setFeedbackSessionTypeEditable(boolean isFeedbackSessionTypeEditable) {
+        this.isFeedbackSessionTypeEditable = isFeedbackSessionTypeEditable;
+    }
+
+    public boolean isCourseIdEditable() {
+        return isCourseIdEditable;
+    }
+
+    public void setCourseIdEditable(boolean isCourseIdEditable) {
+        this.isCourseIdEditable = isCourseIdEditable;
+    }
+
+    public String getFeedbackSessionNameForSessionList() {
+        return feedbackSessionNameForSessionList;
+    }
+
+    public void setShowNoCoursesMessage(boolean isShowNoCoursesMessage) {
+        this.isShowNoCoursesMessage = isShowNoCoursesMessage;
+    }
+
+    public boolean isFsNameEditable() {
+        return isFsNameEditable;
+    }
+
+    public void setFsNameEditable(boolean isFsNameEditable) {
+        this.isFsNameEditable = isFsNameEditable;
+    }
+    
+    
     
     
 }

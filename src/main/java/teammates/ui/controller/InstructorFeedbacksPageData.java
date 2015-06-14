@@ -157,16 +157,19 @@ public class InstructorFeedbacksPageData extends PageData {
         FeedbackSessionsForm newFsForm = new FeedbackSessionsForm();
         newFsForm.setCourseIdForNewSession(courseIdForNewSession);
         
+        newFsForm.setFsNameEditable(true);
         newFsForm.setFsName(newFeedbackSession == null ? "" : newFeedbackSession.feedbackSessionName);
         
+        newFsForm.setCourseIdEditable(true);
         newFsForm.setCourses(courseIds);
         
+        newFsForm.setCoursesSelectField(getCourseIdOptions(courses,  courseIdForNewSession, 
+                                        instructors, newFeedbackSession));
+        
+        newFsForm.setFeedbackSessionTypeEditable(true);
         newFsForm.setFeedbackSessionTypeOptions(getFeedbackSessionTypeOptions(feedbackSessionType));
 
         newFsForm.setFeedbackSessionNameForSessionList(feedbackSessionNameForSessionList);
-        
-        newFsForm.setCoursesSelectField(getCourseIdOptions(courses,  courseIdForNewSession, 
-                                                           instructors, newFeedbackSession));
         
         newFsForm.setTimezoneSelectField(getTimeZoneOptionsAsElementTags(newFeedbackSession));
         

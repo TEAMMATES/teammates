@@ -99,12 +99,15 @@ public class InstructorFeedbackEditPageData extends PageData {
     private void buildBasicForm(FeedbackSessionAttributes newFeedbackSession) {
         fsForm = new FeedbackSessionsForm();
         
-        fsForm.setCourseIdForNewSession(null);
+        fsForm.setCourseIdForNewSession(newFeedbackSession.courseId);
         
+        fsForm.setFsNameEditable(false);
         fsForm.setFsName(newFeedbackSession == null ? "" : newFeedbackSession.feedbackSessionName);
         
+        fsForm.setCourseIdEditable(false);
         fsForm.setCourses(null);
         
+        fsForm.setFeedbackSessionTypeEditable(false);
         fsForm.setFeedbackSessionTypeOptions(null);
 
         fsForm.setFeedbackSessionNameForSessionList(null);

@@ -10,34 +10,53 @@
     <form class="form-group" method="post"
         action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD %>"
         name="form_addfeedbacksession">
-        <div class="row">
-            <h4 class="label-control col-md-2 text-md">Create new </h4>
-            <div class="col-md-5">
-                <div class="col-md-10" title="Select a session type here."
-                    data-toggle="tooltip" data-placement="top">
-                    <select class="form-control"
-                        name="<%= Const.ParamsNames.FEEDBACK_SESSION_TYPE %>"
-                        id="<%= Const.ParamsNames.FEEDBACK_SESSION_TYPE %>">
-                        <c:forEach items="${fsForm.feedbackSessionTypeOptions}" var="option">
-                            <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
-                                ${option.content}
-                            </option>
-                        </c:forEach>
-                    </select>
+        <c:choose>
+            <c:when test="${fsForm.feedbackSessionTypeEditable}">
+            <div class="row">
+                <h4 class="label-control col-md-2 text-md">Create new </h4>
+                <div class="col-md-5">
+                    <div class="col-md-10" title="Select a session type here."
+                        data-toggle="tooltip" data-placement="top">
+                        <select class="form-control"
+                            name="<%= Const.ParamsNames.FEEDBACK_SESSION_TYPE %>"
+                            id="<%= Const.ParamsNames.FEEDBACK_SESSION_TYPE %>">
+                            <c:forEach items="${fsForm.feedbackSessionTypeOptions}" var="option">
+                                <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
+                                    ${option.content}
+                                </option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                    <div class="col-md-1">
+                        <h5>
+                            <a href="/instructorHelp.html#fbSetupSession" target="_blank">
+                                <span class="glyphicon glyphicon-info-sign"></span>
+                            </a>
+                        </h5>
+                    </div>
                 </div>
-                <div class="col-md-1">
-                    <h5>
-                        <a href="/instructorHelp.html#fbSetupSession" target="_blank">
-                            <span class="glyphicon glyphicon-info-sign"></span>
-                        </a>
-                    </h5>
+                <h4 class="label-control col-md-1 text-md">Or: </h4>
+                <div class="col-md-3">
+                    <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Loading...</a>
                 </div>
             </div>
-            <h4 class="label-control col-md-1 text-md">Or: </h4>
-            <div class="col-md-3">
-                <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Loading...</a>
-            </div>
-        </div>
+            </c:when>
+            <c:otherwise>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <span class="pull-right">
+                            <a class="btn btn-primary btn-sm" id="fsEditLink"
+                                title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT %>"
+                                data-toggle="tooltip" data-placement="top"
+                                onclick="enableEditFS()">
+                                Edit
+                            </a>
+                            
+                        </span>
+                    </div>
+                </div>
+            </c:otherwise>
+        </c:choose>
         <br>
 
         <div class="panel panel-primary">
@@ -55,14 +74,23 @@
                                 </label>
                             </h5>
                             <div class="col-sm-8">
-                                <select class="form-control<c:if test="${fsForm.showNoCoursesMessage}"> text-color-red</c:if>"
-                                    name="<%= Const.ParamsNames.COURSE_ID %>"
-                                    id="<%= Const.ParamsNames.COURSE_ID %>">
-                                    <c:forEach items="${fsForm.coursesSelectField}" var="option">
-                                        <option <c:forEach items="${option.attributes}" var="attr"
-                                        > ${attr.key}="${attr.value}"</c:forEach> >${option.content}</option>
-                                    </c:forEach>
-                                </select>
+                                <c:choose>
+                                    <c:when test="${fsForm.courseIdEditable}">
+                                        <select class="form-control<c:if test="${fsForm.showNoCoursesMessage}"> text-color-red</c:if>"
+                                            name="<%= Const.ParamsNames.COURSE_ID %>"
+                                            id="<%= Const.ParamsNames.COURSE_ID %>">
+                                            <c:forEach items="${fsForm.coursesSelectField}" var="option">
+                                                <option <c:forEach items="${option.attributes}" var="attr"
+                                                > ${attr.key}="${attr.value}"</c:forEach> >${option.content}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="form-control-static">
+                                                ${fsForm.courseIdForNewSession}
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </div>
                     </div>
@@ -106,12 +134,21 @@
                                 </label>
                             </h5>
                             <div class="col-sm-10">
-                                <input class="form-control" type="text"
-                                    name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>"
-                                    id="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>"
-                                    maxlength=<%= FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH %>
-                                    placeholder="e.g. Feedback for Project Presentation 1"
-                                    value="${fsForm.fsName}">
+                                <c:choose>
+                                    <c:when test="${fsForm.fsNameEditable}">
+                                        <input class="form-control" type="text"
+                                            name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>"
+                                            id="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>"
+                                            maxlength=<%= FieldValidator.FEEDBACK_SESSION_NAME_MAX_LENGTH %>
+                                            placeholder="e.g. Feedback for Project Presentation 1"
+                                            value="${fsForm.fsName}">
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="form-control-static">
+                                            ${fsForm.fsName}
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                         </div>
                     </div>
