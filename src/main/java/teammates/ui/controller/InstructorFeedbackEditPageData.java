@@ -19,13 +19,16 @@ import teammates.common.util.Url;
 import teammates.ui.template.AdditionalSettingsFormSegment;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackQuestionEditForm;
+import teammates.ui.template.FeedbackSessionPreviewForm;
 import teammates.ui.template.FeedbackSessionsForm;
 
 public class InstructorFeedbackEditPageData extends PageData {
 
+    private static final String SAVE_CHANGES = "Save Changes";
     private FeedbackSessionsForm fsForm;
     private List<FeedbackQuestionEditForm> qnForms;
     private FeedbackQuestionEditForm newQnForm;
+    private FeedbackSessionPreviewForm previewForm;
     
     public InstructorFeedbackEditPageData(AccountAttributes account) {
         super(account);
@@ -115,6 +118,11 @@ public class InstructorFeedbackEditPageData extends PageData {
         newQnForm.setQuestionSpecificEditFormHtml(getNewQuestionSpecificEditFormHtml());
         
         
+        // preview form
+        previewForm = new FeedbackSessionPreviewForm(feedbackSession.courseId, feedbackSession.feedbackSessionName, 
+                                                     getPreviewAsStudentOptions(studentList), 
+                                                     getPreviewAsInstructorOptions(instructorList));
+        
     }
     
     
@@ -167,8 +175,8 @@ public class InstructorFeedbackEditPageData extends PageData {
         fsForm.setGracePeriodOptions(getGracePeriodOptionsAsElementTags(newFeedbackSession.gracePeriod));
         
         fsForm.setSubmitButtonDisabled(false);
-        fsForm.setFormSubmitAction(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD));
-        fsForm.setSubmitButtonText("Save Changes");
+        fsForm.setFormSubmitAction(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE));
+        fsForm.setSubmitButtonText(SAVE_CHANGES);
         fsForm.setSubmitButtonVisible(false);
     }
 
@@ -247,6 +255,12 @@ public class InstructorFeedbackEditPageData extends PageData {
         return newQnForm;
     }
 
+    
+
+    public FeedbackSessionPreviewForm getPreviewForm() {
+        return previewForm;
+    }
+
 
     /**
      * Returns a list of HTML options for selecting participant type.
@@ -317,6 +331,27 @@ public class InstructorFeedbackEditPageData extends PageData {
         return newQuestionSpecificEditForms;
     }
 
+    private List<ElementTag> getPreviewAsInstructorOptions(List<InstructorAttributes> instructorList) {
+        List<ElementTag> results = new ArrayList<ElementTag>();
+        
+        for (InstructorAttributes instructor : instructorList) {
+            ElementTag option = createOption(instructor.name, instructor.email);
+            results.add(option);
+        }
+        
+        return results;
+    }
+    
+    private List<ElementTag> getPreviewAsStudentOptions(List<StudentAttributes> studentList) {
+        List<ElementTag> results = new ArrayList<ElementTag>();
+        
+        for (StudentAttributes student : studentList) {
+            ElementTag option = createOption("[" + student.team + "] " + student.name, student.email);
+            results.add(option);
+        }
+        
+        return results;
+    }
 
 
 }

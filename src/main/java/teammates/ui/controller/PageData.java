@@ -257,6 +257,10 @@ public class PageData {
         }
     }
     
+    public ElementTag createOption(String text, String value) {
+        return new ElementTag(text, "value", value);
+    }
+    
     /**
      * Returns the grace period options as HTML code.
      */

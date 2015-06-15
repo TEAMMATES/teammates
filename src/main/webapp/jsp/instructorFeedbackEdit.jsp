@@ -37,4 +37,6 @@
     
     <feedbackEdit:newQuestionForm fqForm="${data.newQnForm}" />
     
+    <feedbackEdit:previewSessionForm previewForm="${data.previewForm}" />
+    
 </ti:instructorPage>

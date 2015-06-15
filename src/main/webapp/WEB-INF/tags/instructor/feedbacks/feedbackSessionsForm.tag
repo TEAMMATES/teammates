@@ -110,6 +110,7 @@
                                         <div class="form-control-static">
                                                 ${fsForm.courseIdForNewSession}
                                         </div>
+                                        <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${fsForm.courseIdForNewSession}">
                                     </c:otherwise>
                                 </c:choose>
                             </div>
@@ -168,6 +169,7 @@
                                         <div class="form-control-static">
                                             ${fsForm.fsName}
                                         </div>
+                                        <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${fsForm.fsName}">
                                     </c:otherwise>
                                 </c:choose>
                             </div>
@@ -324,6 +326,7 @@
                 </div>
             </div>
         </c:if>
+        
         <input type="hidden"
             name="<%= Const.ParamsNames.USER_ID %>"
             value="${data.account.googleId}">

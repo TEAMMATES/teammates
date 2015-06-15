@@ -22,6 +22,9 @@ import teammates.ui.template.FeedbackSessionsForm;
 
 public class InstructorFeedbacksPageData extends PageData {
     
+    private static final String CREATE_FEEDBACK_SESSION = "Create Feedback Session";
+
+
     private static final int MAX_CLOSED_SESSION_STATS = 5;
     
 
@@ -204,7 +207,7 @@ public class InstructorFeedbacksPageData extends PageData {
         
         newFsForm.setSubmitButtonDisabled(courses.isEmpty());
         newFsForm.setFormSubmitAction(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD));
-        newFsForm.setSubmitButtonText("Create Feedback Session");
+        newFsForm.setSubmitButtonText(CREATE_FEEDBACK_SESSION);
         newFsForm.setSubmitButtonVisible(true);
         
         return newFsForm;
