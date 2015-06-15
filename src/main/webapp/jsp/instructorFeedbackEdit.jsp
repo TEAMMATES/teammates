@@ -36,4 +36,6 @@
         <feedbackEdit:questionEdit fqForm="${question}"></feedbackEdit:questionEdit>
     </c:forEach>
     
+    <feedbackEdit:newQuestionForm fqForm="${data.newQnForm}" />
+    
 </ti:instructorPage>

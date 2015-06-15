@@ -8,7 +8,7 @@
 <%@ attribute name="fqForm" type="teammates.ui.template.FeedbackQuestionEditForm" required="true"%>
 
 <form class="form-horizontal form_question" role="form" method="post"
-    action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT %>"
+    action="${fqForm.action}"
     id="form_editquestion-${fqForm.question.questionNumber}" name="form_editquestions"
     onsubmit="tallyCheckboxes(${fqForm.question.questionNumber})"
     ${ fqForm.questionHasResponses ? "editStatus=\"hasResponses\"" : "" }>
@@ -22,9 +22,9 @@
                             name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>"
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>-${fqForm.question.questionNumber}">
                             <c:forEach items="${fqForm.questionNumberOptions}" var="option">
-                            <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
-                                ${option.content}
-                            </option>
+                                <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
+                                    ${option.content}
+                                </option>
                             </c:forEach>
                         </select>
                         &nbsp;${fqForm.questionDetails.questionTypeDisplayName}

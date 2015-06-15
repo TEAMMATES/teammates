@@ -5,7 +5,7 @@ import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
-import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.util.Url;
 
 /**
  * Data model for editing a single question 
@@ -13,19 +13,27 @@ import teammates.common.datatransfer.FeedbackParticipantType;
  *
  */
 public class FeedbackQuestionEditForm {
+    
+    private Url action;
+    
     private String courseId;
     private String feedbackSessionName;
     
-    private FeedbackQuestionAttributes question;
-    private FeedbackQuestionDetails questionDetails;
-    private String questionText;
+    // Used for adding a new question
+    public List<String> questionTypeOptions;
+    public Url doneEditingLink;
+    
     
     private int numOfQuestionsOnPage;
     
     private boolean isQuestionHasResponses;
     private List<ElementTag> questionNumberOptions;
     
-    //TODO make this a tag instead of having html in java
+    
+    private FeedbackQuestionAttributes question;
+    private FeedbackQuestionDetails questionDetails;
+    private String questionText;
+    //TODO use element tags or a new class instead of having html in java
     private String questionSpecificEditFormHtml;
     
     private List<ElementTag> giverParticipantOptions;
@@ -146,8 +154,41 @@ public class FeedbackQuestionEditForm {
     public void setIsResponseVisible(Map<String, Boolean> isResponseVisible) {
         this.isResponseVisible = isResponseVisible;
     }
-    public void setQuestionTest(String text) {
-        this.questionText = text;
+
+
+
+
+
+    public Url getAction() {
+        return action;
+    }
+
+
+
+
+    public void setAction(Url action) {
+        this.action = action;
+    }
+
+
+
+
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
+    }
+
+
+
+
+    public List<String> getQuestionTypeOptions() {
+        return questionTypeOptions;
+    }
+
+
+
+
+    public Url getDoneEditingLink() {
+        return doneEditingLink;
     }
     
     

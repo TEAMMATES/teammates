@@ -2,13 +2,11 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
@@ -17,6 +15,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.Url;
 import teammates.ui.template.AdditionalSettingsFormSegment;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackQuestionEditForm;
@@ -26,6 +25,7 @@ public class InstructorFeedbackEditPageData extends PageData {
 
     private FeedbackSessionsForm fsForm;
     private List<FeedbackQuestionEditForm> qnForms;
+    private FeedbackQuestionEditForm newQnForm;
     
     public InstructorFeedbackEditPageData(AccountAttributes account) {
         super(account);
@@ -41,13 +41,14 @@ public class InstructorFeedbackEditPageData extends PageData {
                      List<InstructorAttributes> instructorList,
                      InstructorAttributes instructor) {
         
-        buildBasicForm(feedbackSession);
-        buildFormAdditionalSettings(feedbackSession);
+        buildBasicFsForm(feedbackSession);
+        buildFsFormAdditionalSettings(feedbackSession);
         
         qnForms = new ArrayList<FeedbackQuestionEditForm>();
         for (FeedbackQuestionAttributes question : questions) {
             // build question edit form
             FeedbackQuestionEditForm qnForm = new FeedbackQuestionEditForm();
+            qnForm.setAction(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT));
             qnForm.setCourseId(instructor.courseId);
             qnForm.setFeedbackSessionName(feedbackSession.feedbackSessionName);
             qnForm.setQuestion(question);
@@ -56,7 +57,7 @@ public class InstructorFeedbackEditPageData extends PageData {
             qnForm.setRecipientParticipantOptions(getParticipantOptions(question, false));
             qnForm.setNumOfQuestionsOnPage(questions.size());
             qnForm.setQuestionNumberOptions(getQuestionNumberOptions(questions.size()));
-            qnForm.setQuestionTest(question.getQuestionDetails().questionText);
+            qnForm.setQuestionText(question.getQuestionDetails().questionText);
             
             // maps 
             
@@ -93,10 +94,32 @@ public class InstructorFeedbackEditPageData extends PageData {
             qnForms.add(qnForm);
         }
         
+        // new qn form
+        newQnForm = new FeedbackQuestionEditForm();
+        newQnForm.doneEditingLink = new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+                                        .withUserId(account.googleId)
+                                        .withCourseId(feedbackSession.courseId)
+                                        .withSessionName(feedbackSession.feedbackSessionName);
+        
+        
+        newQnForm.setAction(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD));
+        newQnForm.setCourseId(instructor.courseId);
+        newQnForm.setFeedbackSessionName(feedbackSession.feedbackSessionName);
+        
+        newQnForm.questionTypeOptions = getQuestionTypeChoiceOptions();
+      
+        newQnForm.setGiverParticipantOptions(getParticipantOptions(null, true));
+        newQnForm.setRecipientParticipantOptions(getParticipantOptions(null, false));
+        newQnForm.setNumOfQuestionsOnPage(questions.size());
+        newQnForm.setQuestionNumberOptions(getQuestionNumberOptions(questions.size() + 1));
+      
+        newQnForm.setQuestionSpecificEditFormHtml(getNewQuestionSpecificEditFormHtml());
+        
+        
     }
     
     
-    private void buildBasicForm(FeedbackSessionAttributes newFeedbackSession) {
+    private void buildBasicFsForm(FeedbackSessionAttributes newFeedbackSession) {
         fsForm = new FeedbackSessionsForm();
         
         fsForm.setCourseIdForNewSession(newFeedbackSession.courseId);
@@ -140,7 +163,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         fsForm.setGracePeriodOptions(getGracePeriodOptionsAsElementTags(newFeedbackSession.gracePeriod));
     }
 
-    private AdditionalSettingsFormSegment buildFormAdditionalSettings(FeedbackSessionAttributes newFeedbackSession) {
+    private AdditionalSettingsFormSegment buildFsFormAdditionalSettings(FeedbackSessionAttributes newFeedbackSession) {
         
         Date date;
         AdditionalSettingsFormSegment additionalSettings = new AdditionalSettingsFormSegment(); 
@@ -200,6 +223,12 @@ public class InstructorFeedbackEditPageData extends PageData {
 
     public List<FeedbackQuestionEditForm> getQnForms() {
         return qnForms;
+    }
+
+    
+
+    public FeedbackQuestionEditForm getNewQnForm() {
+        return newQnForm;
     }
 
 
