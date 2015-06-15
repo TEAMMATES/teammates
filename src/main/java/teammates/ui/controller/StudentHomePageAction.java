@@ -37,7 +37,7 @@ public class StudentHomePageAction extends Action {
             
             statusToAdmin = "studentHome Page Load<br>" + "Total courses: " + courses.size();
             
-            boolean isDataConsistent = checkEventualConsistency(recentlyJoinedCourseId, courses);
+            boolean isDataConsistent = isCourseIncluded(recentlyJoinedCourseId, courses);
             if (!isDataConsistent) {
                 addPlaceholderCourse(courses, recentlyJoinedCourseId, account.googleId, sessionSubmissionStatusMap);
             }
@@ -91,20 +91,20 @@ public class StudentHomePageAction extends Action {
         }
     }
     
-    private boolean checkEventualConsistency(String recentlyJoinedCourseId, List<CourseDetailsBundle> courses) {
-        boolean isDataConsistent = false;
+    private boolean isCourseIncluded(String recentlyJoinedCourseId, List<CourseDetailsBundle> courses) {
+        boolean isCourseIncluded = false;
         
         if (recentlyJoinedCourseId == null) {
-            isDataConsistent = true;
+            isCourseIncluded = true;
         } else {
             for (CourseDetailsBundle currentCourse : courses) {
                 if (currentCourse.course.id.equals(recentlyJoinedCourseId)) {
-                    isDataConsistent = true;
+                    isCourseIncluded = true;
                 }
             }
         }
         
-        return isDataConsistent;
+        return isCourseIncluded;
     }
 
     private void showEventualConsistencyMessage(String recentlyJoinedCourseId) {
