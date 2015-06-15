@@ -9,7 +9,6 @@
 <div class="well well-plain">
     <form class="form-group" method="post"
         action="${fsForm.formSubmitAction}"
-        name="form_feedbacksession"
         id="form_feedbacksession">
         <c:choose>
             <c:when test="${fsForm.feedbackSessionTypeEditable}">
@@ -107,9 +106,11 @@
                                         </select>
                                     </c:when>
                                     <c:otherwise>
-                                        <div class="form-control-static">
-                                                ${fsForm.courseIdForNewSession}
-                                        </div>
+                                        <h5>
+                                            <div class="form-control-static">
+                                                    ${fsForm.courseIdForNewSession}
+                                            </div>
+                                        </h5>
                                         <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${fsForm.courseIdForNewSession}">
                                     </c:otherwise>
                                 </c:choose>
@@ -166,9 +167,11 @@
                                             value="${fsForm.fsName}">
                                     </c:when>
                                     <c:otherwise>
-                                        <div class="form-control-static">
-                                            ${fsForm.fsName}
-                                        </div>
+                                        <h5>
+                                            <div class="form-control-static">
+                                                ${fsForm.fsName}
+                                            </div>
+                                        </h5>
                                         <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${fsForm.fsName}">
                                     </c:otherwise>
                                 </c:choose>

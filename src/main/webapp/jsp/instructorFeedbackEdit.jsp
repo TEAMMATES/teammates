@@ -28,17 +28,16 @@
     <ti:copyModal />
     
     <c:if test="${empty data.qnForms}">
-            <div class="align-center bold" id="empty_message">No question TODO !!!! replace with const status msg</div>
+            <div class="align-center bold" id="empty_message">${data.emptyFsMsg}</div>
             <br><br>
     </c:if>
+    
     <c:forEach items="${data.qnForms}" var="question" varStatus="i">
-        <feedbackEdit:questionEdit fqForm="${question}"></feedbackEdit:questionEdit>
+        <feedbackEdit:questionEditForm fqForm="${question}" />
     </c:forEach>
     
     <feedbackEdit:newQuestionForm fqForm="${data.newQnForm}" />
-    
     <feedbackEdit:copyQuestionModal copyQnForm="${data.copyQnForm}" />
-    
     <feedbackEdit:previewSessionForm previewForm="${data.previewForm}" />
     
 </ti:instructorPage>

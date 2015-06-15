@@ -29,7 +29,7 @@ public class InstructorFeedbackEditPageData extends PageData {
 
     private static final String SAVE_CHANGES = "Save Changes";
     
-    
+    private String emptyFsMsg = Const.StatusMessages.FEEDBACK_QUESTION_EMPTY; 
     private FeedbackSessionsForm fsForm;
     private List<FeedbackQuestionEditForm> qnForms;
     private FeedbackQuestionEditForm newQnForm;
@@ -271,6 +271,11 @@ public class InstructorFeedbackEditPageData extends PageData {
 
     public FeedbackQuestionCopyTable getCopyQnForm() {
         return copyQnForm;
+    }
+    
+
+    public String getEmptyFsMsg() {
+        return emptyFsMsg;
     }
 
 
