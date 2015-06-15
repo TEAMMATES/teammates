@@ -13,7 +13,7 @@ public class FeedbackQuestionSubmitPage extends AppPage {
     
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("<h1>Submit Feedback Question</h1>");
+        return getPageSource().contains("Submit Feedback Question");
     }
     
     public String getCourseId() {

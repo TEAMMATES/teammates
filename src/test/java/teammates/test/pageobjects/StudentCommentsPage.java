@@ -8,7 +8,7 @@ public class StudentCommentsPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("<h2>Comments</h2>");
+        return getPageSource().contains("Comments");
     }
 
 }

@@ -40,7 +40,7 @@ public class InstructorHomePage extends AppPage {
     }
     
     public static boolean containsExpectedPageContents(String pageSource){
-        return pageSource.contains("<h1>Instructor Home</h1>");
+        return pageSource.contains("Instructor Home");
     }
 
     public InstructorHelpPage clickHelpLink() {

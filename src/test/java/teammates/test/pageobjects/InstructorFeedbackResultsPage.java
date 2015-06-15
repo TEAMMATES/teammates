@@ -44,7 +44,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("<h1>Session Results</h1>");
+        return getPageSource().contains("Session Results");
     }
 
     public String getCourseId() {

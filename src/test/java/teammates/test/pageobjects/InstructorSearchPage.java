@@ -11,7 +11,7 @@ public class InstructorSearchPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("<h1>Search</h1>");
+        return getPageSource().contains("Search");
     }
     
     public void inputSearchContent(String content) {

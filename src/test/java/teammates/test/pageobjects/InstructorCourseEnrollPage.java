@@ -22,7 +22,7 @@ public class InstructorCourseEnrollPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("<h1>Enroll Students for");
+        return getPageSource().contains("Enroll Students for");
     }
 
     public InstructorCourseEnrollPage verifyIsCorrectPage(String courseId){

@@ -29,7 +29,7 @@ public class InstructorCourseDetailsPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("<h1>Course Details</h1>");
+        return getPageSource().contains("Course Details");
     }
 
     public String getCourseId() {

@@ -8,7 +8,7 @@ public class StudentCourseDetailsPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("<h1>Team Details for");
+        return getPageSource().contains("Team Details for");
     }
 
 }

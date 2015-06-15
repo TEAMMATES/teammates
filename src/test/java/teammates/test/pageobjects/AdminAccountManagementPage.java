@@ -14,7 +14,7 @@ public class AdminAccountManagementPage extends AppPage {
     protected boolean containsExpectedPageContents() {
         return getPageSource()
                 .contains(
-                        "<h1>Instructor Account Management</h1>");
+                        "Instructor Account Management");
     }
 
     public AdminAccountManagementPage clickDeleteInstructorStatus(
