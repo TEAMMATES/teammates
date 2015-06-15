@@ -8,10 +8,10 @@
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.SessionResultsBundle"%>
-<%@ page import="teammates.ui.controller.InstructorStudentRecordsPageData"%>
+<%@ page import="teammates.ui.controller.InstructorStudentRecordsAjaxPageData"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml" %>
 <%
-    InstructorStudentRecordsPageData data = (InstructorStudentRecordsPageData)request.getAttribute("data");
+    InstructorStudentRecordsAjaxPageData data = (InstructorStudentRecordsAjaxPageData)request.getAttribute("data");
 %>
 <% // Ajax content to be loaded
 int sessionIndex = -1;
@@ -21,7 +21,7 @@ for (SessionResultsBundle sessionResult: data.results) {
     if (sessionResult instanceof FeedbackSessionResultsBundle) {
         FeedbackSessionResultsBundle feedback = (FeedbackSessionResultsBundle) sessionResult;
         fbIndex++;
-        String giverName = feedback.appendTeamNameToName(InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name), data.student.team);
+        String giverName = feedback.appendTeamNameToName(InstructorStudentRecordsAjaxPageData.sanitizeForHtml(data.student.name), data.student.team);
         String recipientName = giverName;
         Map<String, List<FeedbackResponseAttributes>> received = feedback.getResponsesSortedByRecipient().get(recipientName);
         Map<String, List<FeedbackResponseAttributes>> given = feedback.getResponsesSortedByGiver().get(giverName);
@@ -87,7 +87,7 @@ for (SessionResultsBundle sessionResult: data.results) {
             <br>
             <div class="panel panel-info">
                 <div class="panel-body">
-                    No feedback for <%= InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name) %> found
+                    No feedback for <%= InstructorStudentRecordsAjaxPageData.sanitizeForHtml(data.student.name) %> found
                 </div>
             </div>
         <% }
@@ -151,7 +151,7 @@ for (SessionResultsBundle sessionResult: data.results) {
             <br>
             <div class="panel panel-info">
                 <div class="panel-body">
-                    No feedback by <%= InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name) %> found
+                    No feedback by <%= InstructorStudentRecordsAjaxPageData.sanitizeForHtml(data.student.name) %> found
                 </div>
             </div>
         <% }
