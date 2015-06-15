@@ -18,6 +18,11 @@ public class AdditionalSettingsFormSegment {
     private boolean isResponseVisiblePublishManuallyChecked;
     private boolean isResponseVisibleNeverChecked;
     
+    private boolean isSendClosingEmailChecked;
+    private boolean isSendOpeningEmailChecked;
+    private boolean isSendPublishedEmailChecked;
+    
+    
     public AdditionalSettingsFormSegment() {
     }
 
@@ -123,6 +128,30 @@ public class AdditionalSettingsFormSegment {
 
     public void setResponseVisibleNeverChecked(boolean isResponseVisibleNeverChecked) {
         this.isResponseVisibleNeverChecked = isResponseVisibleNeverChecked;
+    }
+
+    public boolean isSendClosingEmailChecked() {
+        return isSendClosingEmailChecked;
+    }
+
+    public void setSendClosingEmailChecked(boolean isSendClosingEmailChecked) {
+        this.isSendClosingEmailChecked = isSendClosingEmailChecked;
+    }
+
+    public boolean isSendOpeningEmailChecked() {
+        return isSendOpeningEmailChecked;
+    }
+
+    public void setSendOpeningEmailChecked(boolean isSendOpeningEmailChecked) {
+        this.isSendOpeningEmailChecked = isSendOpeningEmailChecked;
+    }
+
+    public boolean isSendPublishedEmailChecked() {
+        return isSendPublishedEmailChecked;
+    }
+
+    public void setSendPublishedEmailChecked(boolean isSendPublishedEmailChecked) {
+        this.isSendPublishedEmailChecked = isSendPublishedEmailChecked;
     }
     
 }

@@ -205,9 +205,10 @@
                 data-placement="top">
                 <div class="checkbox">
                     <label>Session opening reminder</label>
-                    <input type="checkbox" checked="checked"
+                    <input type="checkbox"
                         name="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>"
                         id="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_open"
+                        <c:if test="${fsForm.additionalSettings.sendOpeningEmailChecked}">checked="checked"</c:if>
                         value="<%= EmailType.FEEDBACK_OPENING.toString() %>" disabled="disabled">
                 </div>
             </div>
@@ -219,9 +220,10 @@
                     <label for="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_closing">
                         Session closing reminder
                     </label>
-                    <input type="checkbox" checked="checked"
+                    <input type="checkbox" 
                         name="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>"
                         id="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_closing"
+                        <c:if test="${fsForm.additionalSettings.sendClosingEmailChecked}">checked="checked"</c:if>
                         value="<%= EmailType.FEEDBACK_CLOSING.toString() %>">
                 </div>
             </div>
@@ -233,9 +235,10 @@
                     <label for="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_published">
                         Results published announcement
                     </label>
-                    <input type="checkbox" checked="checked"
+                    <input type="checkbox" 
                         name="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>"
                         id="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_published"
+                        <c:if test="${fsForm.additionalSettings.sendPublishedEmailChecked}">checked="checked"</c:if>
                         value="<%= EmailType.FEEDBACK_PUBLISHED.toString() %>">
                 </div>
             </div>

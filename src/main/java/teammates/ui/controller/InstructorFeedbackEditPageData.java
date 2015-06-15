@@ -219,6 +219,13 @@ public class InstructorFeedbackEditPageData extends PageData {
         
         additionalSettings.setResponseVisibleNeverChecked((newFeedbackSession != null  
                                                             && Const.TIME_REPRESENTS_NEVER.equals(newFeedbackSession.resultsVisibleFromTime)));
+        
+        additionalSettings.setSendClosingEmailChecked(newFeedbackSession != null 
+                                                      && newFeedbackSession.isClosingEmailEnabled);
+        additionalSettings.setSendOpeningEmailChecked(newFeedbackSession != null 
+                                                      && newFeedbackSession.isOpeningEmailEnabled);
+        additionalSettings.setSendPublishedEmailChecked(newFeedbackSession != null 
+                                                        && newFeedbackSession.isPublishedEmailEnabled);
         return additionalSettings;
     }
     
