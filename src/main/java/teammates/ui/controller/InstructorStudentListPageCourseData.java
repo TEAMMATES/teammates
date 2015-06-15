@@ -11,15 +11,12 @@ public class InstructorStudentListPageCourseData {
     CourseAttributes course;
     boolean isCourseArchived;
     boolean isInstructorAllowedToModify;
-    String instructorCourseEnrollLink;
     
     InstructorStudentListPageCourseData(CourseAttributes course, boolean isCourseArchived,
-                                        boolean isInstructorAllowedToModify,
-                                        String instructorCourseEnrollLink) {
+                                        boolean isInstructorAllowedToModify) {
         this.course = course;
         this.isCourseArchived = isCourseArchived;
         this.isInstructorAllowedToModify = isInstructorAllowedToModify;
-        this.instructorCourseEnrollLink = instructorCourseEnrollLink;
     }
 
 }

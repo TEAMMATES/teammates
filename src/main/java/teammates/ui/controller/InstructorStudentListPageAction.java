@@ -56,8 +56,7 @@ public class InstructorStudentListPageAction extends Action {
             boolean isCourseDisplayed = displayArchive || !isCourseArchived;
             if (isCourseDisplayed) {
                 coursesToDisplay.add(new InstructorStudentListPageCourseData(course, isCourseArchived,
-                                                                             isInstructorAllowedToModify,
-                                                                        data.getInstructorCourseEnrollLink(course.id)));
+                                                                             isInstructorAllowedToModify));
             }
         }
 

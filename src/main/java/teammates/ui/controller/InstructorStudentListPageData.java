@@ -45,7 +45,7 @@ public class InstructorStudentListPageData extends PageData {
                              new InstructorStudentListStudentsTableCourse(islpcData.isCourseArchived, course.id,
                                                                           course.name, account.googleId,
                                                                           numStudents.get(course.id),
-                                                                          islpcData.instructorCourseEnrollLink,
+                                                                          getInstructorCourseEnrollLink(course.id),
                                                                           islpcData.isInstructorAllowedToModify));
         }
         this.filterBox = new InstructorStudentListFilterBox(coursesForFilter, displayArchive);
