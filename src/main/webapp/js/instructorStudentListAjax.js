@@ -69,6 +69,26 @@ function addParamToUrl(url, key, value) {
     return url;
 }
 
+function transportSectionChoices() {
+    var sectionChoices = $(".section-to-be-transported");
+    sectionChoices.remove();
+    $("#sectionChoices").append(sectionChoices);
+    sectionChoices.removeClass("section-to-be-transported");
+}
+
+function transportTeamChoices() {
+    var teamChoices = $(".team-to-be-transported");
+    teamChoices.remove();
+    $("#teamChoices").append(teamChoices);
+    teamChoices.removeClass("team-to-be-transported");
+}
+
+function transportEmailChoices() {
+    var emailChoices = $('div[id^="student_email-c"]');
+    emailChoices.remove();
+    $("#emails").append(emailChoices);
+}
+
 function bindPhotos(courseIdx) {
     $('td[id^="studentphoto-c' + courseIdx + '"]').each(function() {
         bindErrorImages($(this).children('.profile-pic-icon-click'));
@@ -121,6 +141,9 @@ var seeMoreRequest = function(e) {
                     },
                     success: function(data) {
                         $(panelBody[0]).html(data);
+                        transportSectionChoices();
+                        transportTeamChoices();
+                        transportEmailChoices();
                         bindPhotos(courseIdx);
                         $(panelHeading).removeClass('ajax_submit');
                         displayIcon.html('');

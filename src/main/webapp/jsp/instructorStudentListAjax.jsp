@@ -56,7 +56,7 @@ if (data.courseSectionDetails.size() > 0) { %>
                 sectionIdx++;
                 // append to section choice, will be transported later
                 %>
-                <div class="checkbox">
+                <div class="checkbox section-to-be-transported">
                     <input id="section_check-<%= courseIdx %>-<%= sectionIdx %>" type="checkbox" checked="checked" class="section_check">
                     <label for="section_check-<%= courseIdx %>-<%= sectionIdx %>">
                         [<%= data.course.id %>] : <%= data.sanitizeForHtml(section.name) %>
@@ -66,7 +66,7 @@ if (data.courseSectionDetails.size() > 0) { %>
                     teamIdx++;
                     // append to team choice, will be transported later
                     %>
-                    <div class="checkbox">
+                    <div class="checkbox team-to-be-transported">
                         <input id="team_check-<%= courseIdx %>-<%= sectionIdx %>-<%= teamIdx %>" type="checkbox" checked="checked" class="team_check">
                         <label for="team_check-<%= courseIdx %>-<%= sectionIdx %>-<%= teamIdx %>">
                             [<%= data.course.id %>] : <%= data.sanitizeForHtml(team.name) %>
