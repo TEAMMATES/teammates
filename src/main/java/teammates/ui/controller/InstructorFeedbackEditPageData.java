@@ -121,6 +121,11 @@ public class InstructorFeedbackEditPageData extends PageData {
     private void buildBasicFsForm(FeedbackSessionAttributes newFeedbackSession) {
         fsForm = new FeedbackSessionsForm();
         
+        
+        fsForm.setFsDeleteLink(new Url(getInstructorFeedbackSessionDeleteLink(newFeedbackSession.courseId, newFeedbackSession.feedbackSessionName, "")));
+        fsForm.setCopyToLink(new Url(getFeedbackSessionEditCopyLink()));
+        
+        
         fsForm.setCourseIdForNewSession(newFeedbackSession.courseId);
         
         fsForm.setFsNameEditable(false);

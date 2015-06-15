@@ -155,6 +155,12 @@ public class InstructorFeedbacksPageData extends PageData {
                                                 FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
                                                 String feedbackSessionNameForSessionList, List<String> courseIds) {
         FeedbackSessionsForm newFsForm = new FeedbackSessionsForm();
+        
+        // make the settings for editing a fs null, since the form in this page is for adding a new fs
+        newFsForm.setFsDeleteLink(null);
+        newFsForm.setCopyToLink(null);
+        
+        
         newFsForm.setCourseIdForNewSession(courseIdForNewSession);
         
         newFsForm.setFsNameEditable(true);

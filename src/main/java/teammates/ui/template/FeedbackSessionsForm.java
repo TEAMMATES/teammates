@@ -23,6 +23,9 @@ public class FeedbackSessionsForm {
     // List of options for feedback session type
     private List<ElementTag> feedbackSessionTypeOptions;
     
+    private Url fsDeleteLink;
+    private Url copyToLink;
+    
     private boolean isCourseIdEditable;
     // options for selecting which course to make a fs in
     private List<ElementTag> coursesSelectField;
@@ -33,10 +36,9 @@ public class FeedbackSessionsForm {
     private List<String> courses;
 
     private boolean isFsNameEditable;
-    // Default feedback session name in the new session form
+
     private String fsName;
 
-    // Default instructions for the form
     private String instructions;
     
     private String fsStartDate;
@@ -247,6 +249,22 @@ public class FeedbackSessionsForm {
 
     public void setSubmitButtonVisible(boolean isSubmitButtonVisible) {
         this.isSubmitButtonVisible = isSubmitButtonVisible;
+    }
+
+    public Url getFsDeleteLink() {
+        return fsDeleteLink;
+    }
+
+    public void setFsDeleteLink(Url fsDeleteLink) {
+        this.fsDeleteLink = fsDeleteLink;
+    }
+
+    public Url getCopyToLink() {
+        return copyToLink;
+    }
+
+    public void setCopyToLink(Url copyToLink) {
+        this.copyToLink = copyToLink;
     }
     
     

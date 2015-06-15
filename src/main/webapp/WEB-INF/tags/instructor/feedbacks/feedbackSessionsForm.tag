@@ -52,7 +52,27 @@
                                 onclick="enableEditFS()">
                                 Edit
                             </a>
-                            
+                            <button type="submit" id="fsSaveLink" style="display:none;" class="btn btn-primary btn-sm" onclick="return checkEditFeedbackSession(this.form);">
+                                Save Changes
+                            </button>
+                            <a href="${fsForm.fsDeleteLink}"
+                                onclick="return toggleDeleteFeedbackSessionConfirmation('${fsForm.courseIdForNewSession}','${fsForm.fsName}');"
+                                title="<%= Const.Tooltips.FEEDBACK_SESSION_DELETE %>"
+                                data-toggle="tooltip" data-placement="top"
+                                class="btn btn-primary btn-sm" id="fsDeleteLink">
+                                Delete
+                            </a>
+                            <span data-toggle="tooltip" title="Copy this feedback session to other courses" data-placement="top">
+                                <a class="btn btn-primary btn-sm" href="#"
+                                    data-actionlink="${fsForm.copyToLink}"
+                                    data-courseid="${fsForm.courseIdForNewSession}"
+                                    data-fsname="${fsForm.fsName}"
+                                    data-target="#fsCopyModal"
+                                    data-placement="top" id="button_fscopy"
+                                    data-toggle="modal">
+                                    Copy
+                                </a>
+                            </span>
                         </span>
                     </div>
                 </div>
