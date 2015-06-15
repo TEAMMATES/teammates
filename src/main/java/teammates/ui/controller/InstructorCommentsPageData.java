@@ -18,6 +18,7 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
 import teammates.ui.template.CommentRow;
+import teammates.ui.template.InstructorCommentsCommentRow;
 import teammates.ui.template.SearchCommentsForStudentsTable;
 import teammates.ui.template.VisibilityCheckboxes;
 
@@ -251,9 +252,9 @@ public class InstructorCommentsPageData extends PageData {
             
             VisibilityCheckboxes visibilityCheckboxes = createVisibilityCheckboxes(comment);
             
-            rows.add(new CommentRow(giverEmail, comment, recipientDetails, creationTime, null,
-                                    isInstructorAllowedToModifyCommentInSection, typeOfPeopleCanViewComment, editedAt,
-                                    visibilityCheckboxes, showCommentsTo, showGiverNameTo, showRecipientNameTo));
+            rows.add(new InstructorCommentsCommentRow(giverEmail, comment, recipientDetails, creationTime, 
+                                 isInstructorAllowedToModifyCommentInSection, typeOfPeopleCanViewComment, editedAt,
+                                 visibilityCheckboxes, showCommentsTo, showGiverNameTo, showRecipientNameTo));
         }       
         return rows;
     }

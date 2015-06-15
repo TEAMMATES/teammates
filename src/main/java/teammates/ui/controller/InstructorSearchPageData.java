@@ -255,8 +255,7 @@ public class InstructorSearchPageData extends PageData {
                                             + "=" + comment.courseId + "#" + comment.getCommentId();           
             ElementTag editButton = createEditButton(link, Const.Tooltips.COMMENT_EDIT_IN_COMMENTS_PAGE);
             
-            rows.add(new CommentRow(giverDetails, comment, recipientDetails, creationTime, editButton,
-                                    null, null, null, null, null, null, null));
+            rows.add(new CommentRow(giverDetails, comment, recipientDetails, creationTime, editButton));
         }       
         return rows;
     }
