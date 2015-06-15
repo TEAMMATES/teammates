@@ -21,8 +21,7 @@
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Feedback Session" jsIncludes="${jsIncludes}">
     
     <feedbacks:feedbackSessionsForm fsForm="${data.fsForm}">
-        <feedbacks:feedbackSessionsFormAdditionalSettings fsForm="${data.fsForm}">
-        </feedbacks:feedbackSessionsFormAdditionalSettings>
+        <feedbacks:feedbackSessionsFormAdditionalSettings fsForm="${data.fsForm}" />
     </feedbacks:feedbackSessionsForm>
     <br>
     <t:statusMessage />

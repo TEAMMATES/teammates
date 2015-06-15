@@ -119,7 +119,7 @@
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE %>"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE %>"
                             value="${fsForm.additionalSettings.responseVisibleDateValue}"
-                            <c:if test="${fsForm.additionalSettings.responseVisibleDisabled}">disabled="disabled"</c:if>
+                            <c:if test="${fsForm.additionalSettings.responseVisibleDateDisabled}">disabled="disabled"</c:if>
                         >
                     </div>
                     <div class="col-md-4">
@@ -129,7 +129,7 @@
                             title="<%= Const.Tooltips.FEEDBACK_SESSION_PUBLISHDATE %>"
                             data-toggle="tooltip"
                             data-placement="top"
-                            <c:if test="${fsForm.additionalSettings.responseVisibleDisabled}">disabled="disabled"</c:if>
+                            <c:if test="${fsForm.additionalSettings.responseVisibleDateDisabled}">disabled="disabled"</c:if>
                         >
                             <c:forEach items="${fsForm.additionalSettings.responseVisibleTimeOptions}" var="option">
                                 <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >

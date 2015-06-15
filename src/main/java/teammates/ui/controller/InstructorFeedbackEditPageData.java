@@ -42,7 +42,7 @@ public class InstructorFeedbackEditPageData extends PageData {
                      InstructorAttributes instructor) {
         
         buildBasicFsForm(feedbackSession);
-        buildFsFormAdditionalSettings(feedbackSession);
+        fsForm.setAdditionalSettings(buildFsFormAdditionalSettings(feedbackSession));
         
         qnForms = new ArrayList<FeedbackQuestionEditForm>();
         for (FeedbackQuestionAttributes question : questions) {
@@ -199,7 +199,7 @@ public class InstructorFeedbackEditPageData extends PageData {
                                                        TimeHelper.formatDate(newFeedbackSession.resultsVisibleFromTime) :
                                                        "");
         
-        additionalSettings.setResponseVisibleDisabled(!hasResultVisibleDate);
+        additionalSettings.setResponseVisibleDateDisabled(!hasResultVisibleDate);
         
         date = hasResultVisibleDate ? newFeedbackSession.resultsVisibleFromTime :  null;
         additionalSettings.setResponseVisibleTimeOptions(getTimeOptionsAsElementTags(date));

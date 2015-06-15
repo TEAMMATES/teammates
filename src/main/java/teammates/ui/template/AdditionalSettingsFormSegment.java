@@ -12,7 +12,7 @@ public class AdditionalSettingsFormSegment {
     
     private boolean isResponseVisibleDateChecked;
     private String responseVisibleDateValue;
-    private boolean isResponseVisibleDisabled;
+    private boolean isResponseVisibleDateDisabled;
     private List<ElementTag> responseVisibleTimeOptions;
     private boolean isResponseVisibleImmediatelyChecked;
     private boolean isResponseVisiblePublishManuallyChecked;
@@ -85,8 +85,8 @@ public class AdditionalSettingsFormSegment {
         return responseVisibleDateValue;
     }
 
-    public boolean isResponseVisibleDisabled() {
-        return isResponseVisibleDisabled;
+    public boolean isResponseVisibleDateDisabled() {
+        return isResponseVisibleDateDisabled;
     }
 
     public List<ElementTag> getResponseVisibleTimeOptions() {
@@ -105,8 +105,8 @@ public class AdditionalSettingsFormSegment {
         return isResponseVisibleNeverChecked;
     }
     
-    public void setResponseVisibleDisabled(boolean isResponseVisibleDisabled) {
-        this.isResponseVisibleDisabled = isResponseVisibleDisabled;
+    public void setResponseVisibleDateDisabled(boolean isResponseVisibleDisabled) {
+        this.isResponseVisibleDateDisabled = isResponseVisibleDisabled;
     }
 
     public void setResponseVisibleTimeOptions(List<ElementTag> responseVisibleTimeOptions) {

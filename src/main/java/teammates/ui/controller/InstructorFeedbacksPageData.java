@@ -2,7 +2,6 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -237,7 +236,7 @@ public class InstructorFeedbacksPageData extends PageData {
                                                        TimeHelper.formatDate(newFeedbackSession.resultsVisibleFromTime) :
                                                        "");
         
-        additionalSettings.setResponseVisibleDisabled(!hasResultVisibleDate);
+        additionalSettings.setResponseVisibleDateDisabled(!hasResultVisibleDate);
         
         date = hasResultVisibleDate ? newFeedbackSession.resultsVisibleFromTime :  null;
         additionalSettings.setResponseVisibleTimeOptions(getTimeOptionsAsElementTags(date));
