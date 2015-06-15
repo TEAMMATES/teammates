@@ -52,13 +52,10 @@ public class InstructorCommentsPageAction extends Action {
         
         List<String> coursePaginationList = new ArrayList<String>(); 
         String courseName = getCoursePaginationList(coursePaginationList);
-        
         data = new InstructorCommentsPageData(account);
-        data.isViewingDraft = isViewingDraft;
-        data.currentInstructor = instructor;
-        data.isDisplayArchive = isDisplayArchivedCourse;
-        data.courseId = courseId;
-        data.courseName = courseName;
+        
+        data.currentInstructor = instructor; // TODO: see how to keep this assignment to the init function();
+        data.courseId = courseId; // TODO: this too
         
         CourseRoster roster = null;
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new HashMap<String, List<CommentAttributes>>();
@@ -73,24 +70,21 @@ public class InstructorCommentsPageAction extends Action {
             feedbackSessions = getFeedbackSessions();
         }
         
-        data.coursePaginationList = coursePaginationList;
-        data.comments = giverEmailToCommentsMap;
-        data.roster = roster;
-        data.feedbackSessions = feedbackSessions;
-        data.instructorEmail = instructor != null ? instructor.email : "no-email";
-        data.previousPageLink = previousPageLink;
-        data.nextPageLink = nextPageLink;
         int numberOfPendingComments = 0;
         if (!courseId.isEmpty()) {
             numberOfPendingComments = logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size() 
                     + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
         }
-        data.numberOfPendingComments = numberOfPendingComments;
         
         statusToAdmin = "instructorComments Page Load<br>" + 
                 "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records " +
                 "for Course <span class=\"bold\">[" + courseId + "]</span>";
-            
+
+        data.init(isViewingDraft, isDisplayArchivedCourse, courseId, courseName, coursePaginationList,
+                  giverEmailToCommentsMap, instructor != null ? instructor.email : "no-email", instructor, 
+                  roster,  feedbackSessions, previousPageLink, nextPageLink, numberOfPendingComments, 
+                  getGiverEmailToGiverNameMap(roster));
+        
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COMMENTS, data);
     }
 
@@ -160,6 +154,26 @@ public class InstructorCommentsPageAction extends Action {
             }
         }
     }
+    
+    private Map<String, String> getGiverEmailToGiverNameMap(CourseRoster roster)
+            throws EntityDoesNotExistException {
+        
+        Map<String, String> giverEmailToGiverNameMap = new HashMap<String, String>();
+        for (String giverEmail : getGiverEmailToCommentsMap().keySet()) {
+            
+            InstructorAttributes instructor = roster.getInstructorForEmail(giverEmail);
+            String giverDisplay = giverEmail;
+            if (giverEmail.equals(InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST)) {
+                giverDisplay = "You";
+            } else if (instructor != null) {
+                String title = instructor.displayedName;
+                giverDisplay = title + " " + instructor.name;
+            }
+            
+            giverEmailToGiverNameMap.put(giverEmail, giverDisplay);
+        }
+        return giverEmailToGiverNameMap;
+    }
 
     private Map<String, List<CommentAttributes>> getGiverEmailToCommentsMap()
             throws EntityDoesNotExistException {
@@ -169,6 +183,7 @@ public class InstructorCommentsPageAction extends Action {
         } else {//for normal comments
             comments = logic.getCommentsForInstructor(instructor);
         }
+
         //group data by recipients
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new TreeMap<String, List<CommentAttributes>>();
         for (CommentAttributes comment : comments) {

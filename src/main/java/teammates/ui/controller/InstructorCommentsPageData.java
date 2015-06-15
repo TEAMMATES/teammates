@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,12 @@ import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
+import teammates.ui.template.CommentRow;
+import teammates.ui.template.SearchCommentsForStudentsTable;
+import teammates.ui.template.VisibilityCheckboxes;
 
 /**
  * PageData: the data to be used in the InstructorCommentsPage
@@ -35,9 +41,16 @@ public class InstructorCommentsPageData extends PageData {
     public String previousPageLink;
     public String nextPageLink;
     public int numberOfPendingComments = 0;
+    public Map<String, String> giverEmailToGiverNameMap;
+    
+    private List<SearchCommentsForStudentsTable> commentsForStudentsTables;
     
     public InstructorCommentsPageData(AccountAttributes account) {
         super(account);
+    }
+    
+    public Set<String> getCommentsKeySet() {
+        return comments.keySet();
     }
     
     public Map<String, List<CommentAttributes>> getComments() {
@@ -59,17 +72,9 @@ public class InstructorCommentsPageData extends PageData {
     public List<FeedbackSessionAttributes> getFeedbackSessions() {
         return feedbackSessions;
     }
-    
-    public String getGiverName(String giverEmail) {
-        InstructorAttributes instructor = roster.getInstructorForEmail(giverEmail);
-        String giverDisplay = giverEmail;
-        if (giverEmail.equals(COMMENT_GIVER_NAME_THAT_COMES_FIRST)) {
-            giverDisplay = "You";
-        } else if (instructor != null) {
-            String title = instructor.displayedName;
-            giverDisplay = title + " " + instructor.name;
-        }
-        return giverDisplay;
+
+    public Map<String, String> getGiverEmailToGiverNameMap() {
+        return giverEmailToGiverNameMap;
     }
     
     public String getNextPageLink() {
@@ -110,6 +115,22 @@ public class InstructorCommentsPageData extends PageData {
         return removeEndComma(namesString);
     }
     
+    public String getShowCommentsToForComment(CommentAttributes comment) {
+        return removeBracketsForArrayString(comment.showCommentTo.toString());
+    }
+    
+    public String getShowGiverNameToForComment(CommentAttributes comment) {
+        return removeBracketsForArrayString(comment.showGiverNameTo.toString());
+    }
+    
+    public String getShowRecipientNameToForComment(CommentAttributes comment) {
+        return removeBracketsForArrayString(comment.showRecipientNameTo.toString());
+    }
+    
+    public List<SearchCommentsForStudentsTable> getCommentsForStudentsTables() {
+        return commentsForStudentsTables;
+    }
+    
     public boolean isDisplayArchive() {
         return isDisplayArchive;
     }
@@ -120,6 +141,13 @@ public class InstructorCommentsPageData extends PageData {
     
     public boolean isViewingDraft() {
         return isViewingDraft;
+    }
+    
+    public boolean isInstructorAllowedToModifyCommentInSection(CommentAttributes comment) {
+        return comment.giverEmail.equals(instructorEmail)
+                       || (currentInstructor != null 
+                               && isInstructorAllowedForPrivilegeOnComment(
+                                               comment, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS));
     }
         
     public boolean isInstructorAllowedForPrivilegeOnComment(CommentAttributes comment, String privilegeName) {
@@ -166,4 +194,95 @@ public class InstructorCommentsPageData extends PageData {
             return false;
         }
     }
+
+    public void init(Boolean isViewingDraft, Boolean isDisplayArchive, String courseId,
+                                    String courseName, List<String> coursePaginationList,
+                                    Map<String, List<CommentAttributes>> comments,
+                                    String string, InstructorAttributes instructor, CourseRoster roster,
+                                    List<FeedbackSessionAttributes> feedbackSessions,
+                                    String previousPageLink, String nextPageLink,
+                                    int numberOfPendingComments,
+                                    Map<String, String> giverEmailToGiverNameMap) {
+        this.isViewingDraft = isViewingDraft;
+        this.isDisplayArchive = isDisplayArchive;
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.coursePaginationList = coursePaginationList;
+        this.comments = comments;
+        this.currentInstructor = instructor;
+        this.roster = roster;
+        this.feedbackSessions = feedbackSessions;
+        this.previousPageLink = previousPageLink;
+        this.nextPageLink = nextPageLink;
+        this.numberOfPendingComments = numberOfPendingComments;
+        this.giverEmailToGiverNameMap = giverEmailToGiverNameMap;
+
+        setCommentsForStudentsTables();
+                                        
+    }
+
+    private void setCommentsForStudentsTables() {
+        commentsForStudentsTables = new ArrayList<SearchCommentsForStudentsTable>();      
+          
+        for (String giverEmail : comments.keySet()) {
+            commentsForStudentsTables.add(new SearchCommentsForStudentsTable(
+                                                  giverEmailToGiverNameMap.get(giverEmail), createCommentRows(giverEmail)));
+        }
+    }
+    
+    private List<CommentRow> createCommentRows(String giverEmail) {
+        
+        List<CommentRow> rows = new ArrayList<CommentRow>();
+        for (CommentAttributes comment : comments.get(giverEmail)) {            
+            String recipientDetails = getRecipientNames(comment.recipients);
+            String creationTime = TimeHelper.formatTime(comment.createdAt);          
+            
+            Boolean isInstructorAllowedToModifyCommentInSection = isInstructorAllowedToModifyCommentInSection(comment);
+            
+            String typeOfPeopleCanViewComment = getTypeOfPeopleCanViewComment(comment);
+            
+            String editedAt = comment.getEditedAtTextForInstructor(giverEmailToGiverNameMap.get(giverEmail).equals("Anonymous"));
+            
+            String showCommentsTo = getShowCommentsToForComment(comment);
+            
+            String showGiverNameTo = getShowGiverNameToForComment(comment);
+            
+            String showRecipientNameTo = getShowRecipientNameToForComment(comment);
+            
+            VisibilityCheckboxes visibilityCheckboxes = createVisibilityCheckboxes(comment);
+            
+            rows.add(new CommentRow(giverEmail, comment, recipientDetails, creationTime, null,
+                                    isInstructorAllowedToModifyCommentInSection, typeOfPeopleCanViewComment, editedAt,
+                                    visibilityCheckboxes, showCommentsTo, showGiverNameTo, showRecipientNameTo));
+        }       
+        return rows;
+    }
+    
+    private VisibilityCheckboxes createVisibilityCheckboxes(CommentAttributes comment) {
+        boolean isRecipientAbleToSeeComment = comment.showCommentTo.contains(CommentParticipantType.PERSON);
+        boolean isRecipientAbleToSeeGiverName = comment.showGiverNameTo.contains(CommentParticipantType.PERSON);
+        
+        boolean isRecipientTeamAbleToSeeComment = comment.showCommentTo.contains(CommentParticipantType.TEAM);
+        boolean isRecipientTeamAbleToSeeGiverName = comment.showGiverNameTo.contains(CommentParticipantType.TEAM);
+        boolean isRecipientTeamAbleToSeeRecipientName = comment.showRecipientNameTo.contains(CommentParticipantType.TEAM);
+        
+        boolean isRecipientSectionAbleToSeeComment = comment.showCommentTo.contains(CommentParticipantType.SECTION);
+        boolean isRecipientSectionAbleToSeeGiverName = comment.showGiverNameTo.contains(CommentParticipantType.SECTION);
+        boolean isRecipientSectionAbleToSeeRecipientName = comment.showRecipientNameTo.contains(CommentParticipantType.SECTION);
+        
+        boolean isCourseStudentsAbleToSeeComment = comment.showCommentTo.contains(CommentParticipantType.COURSE);
+        boolean isCourseStudentsAbleToSeeGiverName = comment.showGiverNameTo.contains(CommentParticipantType.COURSE);
+        boolean isCourseStudentsAbleToSeeRecipientName = comment.showRecipientNameTo.contains(CommentParticipantType.COURSE);
+        
+        boolean isInstructorsAbleToSeeComment = comment.showCommentTo.contains(CommentParticipantType.INSTRUCTOR);
+        boolean isInstructorsAbleToSeeGiverName = comment.showGiverNameTo.contains(CommentParticipantType.INSTRUCTOR);
+        boolean isInstructorsAbleToSeeRecipientName = comment.showRecipientNameTo.contains(CommentParticipantType.INSTRUCTOR);
+        
+        return new VisibilityCheckboxes(isRecipientAbleToSeeComment, isRecipientAbleToSeeGiverName,
+                isRecipientTeamAbleToSeeComment, isRecipientTeamAbleToSeeGiverName, isRecipientTeamAbleToSeeRecipientName,
+                isRecipientSectionAbleToSeeComment, isRecipientSectionAbleToSeeGiverName, isRecipientSectionAbleToSeeRecipientName,
+                isCourseStudentsAbleToSeeComment, isCourseStudentsAbleToSeeGiverName, isCourseStudentsAbleToSeeRecipientName,
+                isInstructorsAbleToSeeComment, isInstructorsAbleToSeeGiverName, isInstructorsAbleToSeeRecipientName);
+    }
+
 }
