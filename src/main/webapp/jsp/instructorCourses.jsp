@@ -14,7 +14,7 @@
     <t:statusMessage/>
     <br>
     
-    <course:activeCoursesTable />
+    <course:activeCoursesTable activeCourses="${data.activeCourses}"/>
     <br>
     <br>
     <c:if test="${empty data.activeCourses.rows}">
@@ -25,7 +25,7 @@
     <br>
     
     <c:if test="${not empty data.archivedCourses.rows}">
-        <course:archivedCoursesTable />
+        <course:archivedCoursesTable archivedCourses="${data.archivedCourses}" activeCourses="${data.activeCourses}"/>
         <br>
         <br>
         <br>

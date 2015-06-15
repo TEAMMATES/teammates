@@ -1,6 +1,8 @@
 <%@ tag description="instructorCourse - Course table" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ attribute name="archivedCourses" required="true" %>
+<%@ attribute name="activeCourses" required="true" %>
 
 <h2 class="text-muted">Archived courses</h2>
 <table class="table table-bordered table-striped">
@@ -15,15 +17,15 @@
             <th class="align-center no-print">Action(s)</th>
         </tr>
     </thead>
-    <c:forEach items="${data.archivedCourses.rows}" var="archivedCourse" varStatus="i">
+    <c:forEach items="${archivedCourses.rows}" var="archivedCourse" varStatus="i">
         <tr>
-            <td id="courseid${i.index + fn:length(data.activeCourses.rows)}">${archivedCourse.courseId}</td>
-            <td id="coursename${i.index + fn:length(data.activeCourses.rows)}">${archivedCourse.courseName}</td>
+            <td id="courseid${i.index + fn:length(activeCourses.rows)}">${archivedCourse.courseId}</td>
+            <td id="coursename${i.index + fn:length(activeCourses.rows)}">${archivedCourse.courseName}</td>
             <td class="align-center no-print">
                 <c:forEach items="${archivedCourse.actions}" var="button">
                     <a  <c:forEach items="${button.attributes}" var="attribute">
                             ${attribute.key}="${attribute.value}"
-                        </c:forEach> />
+                        </c:forEach> >
                         ${button.content}
                     </a>
                 </c:forEach>

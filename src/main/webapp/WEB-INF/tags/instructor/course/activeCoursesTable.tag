@@ -1,5 +1,6 @@
 <%@ tag description="instructorCourse - Course table" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ attribute name="activeCourses" required="true" %>
 
 <h2>Active courses</h2>
 <table class="table table-bordered table-striped">
@@ -28,7 +29,7 @@
             </th>
         </tr>
     </thead>
-    <c:forEach items="${data.activeCourses.rows}" var="activeCourse" varStatus="i">
+    <c:forEach items="${activeCourses.rows}" var="activeCourse" varStatus="i">
         <tr>
             <td id="courseid${i.index}">${activeCourse.courseId}</td>
             <td id="coursename${i.index}">${activeCourse.courseName}</td>
@@ -48,7 +49,7 @@
         </tr>
     </c:forEach>
     
-    <c:if test="${empty data.activeCourses.rows}">
+    <c:if test="${empty activeCourses.rows}">
         <tr>
             <td></td>
             <td></td>

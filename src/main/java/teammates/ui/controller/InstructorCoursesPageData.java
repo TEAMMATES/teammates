@@ -37,11 +37,11 @@ public class InstructorCoursesPageData extends PageData {
     
     public void init(List<CourseDetailsBundle> activeCoursesParam, List<CourseDetailsBundle> archivedCoursesParam, 
                      Map<String, InstructorAttributes> instructorsForCoursesParam, String courseIdToShowParam, String courseNameToShowParam){
-        instructorsForCourses = instructorsForCoursesParam;
-        activeCourses = convertToActiveCoursesTable(activeCoursesParam);
-        archivedCourses = convertToArchivedCoursesTable(archivedCoursesParam);
-        courseIdToShow = courseIdToShowParam;
-        courseNameToShow = courseNameToShowParam;
+        this.instructorsForCourses = instructorsForCoursesParam;
+        this.activeCourses = convertToActiveCoursesTable(activeCoursesParam);
+        this.archivedCourses = convertToArchivedCoursesTable(archivedCoursesParam);
+        this.courseIdToShow = courseIdToShowParam;
+        this.courseNameToShow = courseNameToShowParam;
     }
     
     public String getCourseIdToShow() {
@@ -149,8 +149,8 @@ public class InstructorCoursesPageData extends PageData {
     }
     
     ElementTag createButton(String content, String buttonClass, String id, String href, String title, String onClick, boolean isDisabled){
-        ElementTag button = new ElementTag();
-        button.setContent(content);
+        ElementTag button = new ElementTag(content);
+        
         button.setAttribute("class", buttonClass);
         
         if ((id != null) && (!id.equals(""))) {
