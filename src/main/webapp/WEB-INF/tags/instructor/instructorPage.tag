@@ -4,9 +4,14 @@
 <%@ attribute name="pageTitle" required="true" %>
 <%@ attribute name="jsIncludes" %>
 <%@ attribute name="bodyTitle" required="true" %>
-<t:page pageTitle="${pageTitle}" bodyTitle="${bodyTitle}">
+<%@ attribute name="bodyOnload" %>
+<%@ attribute name="extraScript" %>
+<t:page pageTitle="${pageTitle}" bodyTitle="${bodyTitle}" bodyOnload="${bodyOnload}">
     <jsp:attribute name="jsIncludes">
         ${jsIncludes}
+    </jsp:attribute>
+    <jsp:attribute name="extraScript">
+    	${extraScript}
     </jsp:attribute>
     <jsp:attribute name="navBar">
         <ti:navBar />
