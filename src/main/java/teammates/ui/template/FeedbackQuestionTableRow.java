@@ -1,5 +1,9 @@
 package teammates.ui.template;
 
+/**
+ * Data model for an individual question in the copying question modal on instructorFeedbackEdit.jsp
+ *
+ */
 public class FeedbackQuestionTableRow {
     private String courseId;
     private String fsName;

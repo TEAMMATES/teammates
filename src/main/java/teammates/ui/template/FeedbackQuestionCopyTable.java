@@ -2,6 +2,11 @@ package teammates.ui.template;
 
 import java.util.List;
 
+/**
+ * Data model for the copy question modal on instructorFeedbackEdit.jsp
+ *  
+ *
+ */
 public class FeedbackQuestionCopyTable {
     private String courseId;
     private String fsName;

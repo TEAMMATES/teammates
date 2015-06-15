@@ -6,7 +6,6 @@
 
 <%@ attribute name="fsList" type="teammates.ui.template.FeedbackSessionsTable" required="true"%>
 
-    
 <table class="table-responsive table table-striped table-bordered" id="table-sessions">
     <thead>
         <tr class="fill-primary">

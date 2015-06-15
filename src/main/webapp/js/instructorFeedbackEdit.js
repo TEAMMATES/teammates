@@ -756,9 +756,6 @@ function getVisibilityMessage(buttonElem) {
     var $form = $(buttonElem).closest('form');
     var qnNumber = $form.find('[name=questionnum]').val();
     var newQnNumber = $('input[name=questionnum]').last().val();
-
-    console.log(qnNumber);
-    console.log(newQnNumber);
     
     if (qnNumber === newQnNumber) {
         tallyCheckboxes('');

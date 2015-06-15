@@ -6,7 +6,7 @@ import teammates.common.util.Url;
 
 
 /**
- * Data model for the form for creating a new feedback session.
+ * Data model for the form for creating/editing a feedback session.
  *
  */
 public class FeedbackSessionsForm {

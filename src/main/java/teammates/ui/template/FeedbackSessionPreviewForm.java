@@ -3,9 +3,8 @@ package teammates.ui.template;
 import java.util.List;
 
 
-
 /**
- * Data model for the form for creating a new feedback session.
+ * Data model for the form for previewing a feedback session as a student or instructor
  *
  */
 public class FeedbackSessionPreviewForm {
@@ -54,7 +53,5 @@ public class FeedbackSessionPreviewForm {
     public void setInstructorToPreviewAsOptions(List<ElementTag> instructorToPreviewAsOptions) {
         this.instructorToPreviewAsOptions = instructorToPreviewAsOptions;
     }
-    
-    
-    
+
 }

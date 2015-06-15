@@ -353,16 +353,16 @@ public class InstructorFeedbackEditPageData extends PageData {
                 String participantName = isValidGiver ? option.toDisplayGiverName()
                                                       : option.toDisplayRecipientName();
                 
-                boolean selected = false;
+                boolean isSelected = false;
                 // for existing questions
                 if (question != null) {
                     boolean isGiverType     = isValidGiver     && question.giverType == option;
                     boolean isRecipientType = isValidRecipient && question.recipientType == option;
                     
-                    selected = (isGiverType || isRecipientType); 
+                    isSelected = (isGiverType || isRecipientType); 
                 }
                 
-                ElementTag optionTag = createOption(participantName, option.toString(), selected);
+                ElementTag optionTag = createOption(participantName, option.toString(), isSelected);
                 result.add(optionTag);
             }
         }
