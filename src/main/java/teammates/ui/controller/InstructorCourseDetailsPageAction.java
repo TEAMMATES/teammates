@@ -7,6 +7,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.GateKeeper;
+import teammates.ui.template.ElementTag;
 
 /**
  * Action: showing the details page for a course of an instructor
