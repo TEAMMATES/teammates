@@ -18,7 +18,9 @@ import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.ui.template.AdditionalSettingsFormSegment;
 import teammates.ui.template.ElementTag;
+import teammates.ui.template.FeedbackQuestionCopyTable;
 import teammates.ui.template.FeedbackQuestionEditForm;
+import teammates.ui.template.FeedbackQuestionTableRow;
 import teammates.ui.template.FeedbackSessionPreviewForm;
 import teammates.ui.template.FeedbackSessionsForm;
 
@@ -29,6 +31,7 @@ public class InstructorFeedbackEditPageData extends PageData {
     private List<FeedbackQuestionEditForm> qnForms;
     private FeedbackQuestionEditForm newQnForm;
     private FeedbackSessionPreviewForm previewForm;
+    private FeedbackQuestionCopyTable copyQnForm;
     
     public InstructorFeedbackEditPageData(AccountAttributes account) {
         super(account);
@@ -122,6 +125,23 @@ public class InstructorFeedbackEditPageData extends PageData {
         previewForm = new FeedbackSessionPreviewForm(feedbackSession.courseId, feedbackSession.feedbackSessionName, 
                                                      getPreviewAsStudentOptions(studentList), 
                                                      getPreviewAsInstructorOptions(instructorList));
+        
+        // copy questions modal
+        List<FeedbackQuestionTableRow> copyQuestionRows = new ArrayList<FeedbackQuestionTableRow>();
+        if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
+            for (FeedbackQuestionAttributes question : copiableQuestions) {
+                String courseId = question.courseId;
+                String fsName = question.feedbackSessionName;
+                String qnType = question.getQuestionDetails().getQuestionTypeDisplayName();
+                String qnText = question.getQuestionDetails().questionText;
+                String qnId = question.getId();
+                
+                FeedbackQuestionTableRow row = new FeedbackQuestionTableRow(courseId, fsName, qnType, qnText, qnId);
+                copyQuestionRows.add(row);
+            }
+        }
+        copyQnForm = new FeedbackQuestionCopyTable(feedbackSession.courseId, feedbackSession.feedbackSessionName, 
+                                                   copyQuestionRows);
         
     }
     
@@ -259,6 +279,11 @@ public class InstructorFeedbackEditPageData extends PageData {
 
     public FeedbackSessionPreviewForm getPreviewForm() {
         return previewForm;
+    }
+
+
+    public FeedbackQuestionCopyTable getCopyQnForm() {
+        return copyQnForm;
     }
 
 

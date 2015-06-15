@@ -37,6 +37,8 @@
     
     <feedbackEdit:newQuestionForm fqForm="${data.newQnForm}" />
     
+    <feedbackEdit:copyQuestionModal copyQnForm="${data.copyQnForm}" />
+    
     <feedbackEdit:previewSessionForm previewForm="${data.previewForm}" />
     
 </ti:instructorPage>
