@@ -9,6 +9,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.ui.controller.InstructorStudentListPageAction;
+import teammates.ui.controller.InstructorStudentListPageData;
 import teammates.ui.controller.ShowPageResult;
 
 public class InstructorStudentListPageActionTest extends BaseActionTest {
@@ -48,6 +49,9 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
                                   + "|||instr3@course1n2.tmt|||instructorStudentList Page Load<br>Total Courses: 2"
                                   + "|||/page/instructorStudentListPage";
         assertEquals(expectedLogMessage, a.getLogMessage());
+        
+        InstructorStudentListPageData islpd = (InstructorStudentListPageData) r.data;
+        assertEquals(2, islpd.getNumOfCourses());
 
         ______TS("No courses");
 
@@ -62,9 +66,62 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
         assertEquals(false, r.isError);
         assertEquals(Const.StatusMessages.INSTRUCTOR_NO_COURSE_AND_STUDENTS, r.getStatusMessage());
 
+        islpd = (InstructorStudentListPageData) r.data;
+        assertEquals(0, islpd.getNumOfCourses());
+
         expectedLogMessage = "TEAMMATESLOG|||instructorStudentListPage|||instructorStudentListPage"
                            + "|||true|||Instructor|||Instructor Without Courses|||instructorWithoutCourses"
                            + "|||iwc@yahoo.tmt|||instructorStudentList Page Load<br>Total Courses: 0"
+                           + "|||/page/instructorStudentListPage";
+        assertEquals(expectedLogMessage, a.getLogMessage());
+
+        instructor = dataBundle.instructors.get("instructorOfArchivedCourse");
+        instructorId = instructor.googleId;
+
+        ______TS("Archived course, not displayed");
+
+        gaeSimulation.loginAsInstructor(instructorId);
+        a = getAction(submissionParams);
+        r = getShowPageResult(a);
+
+        assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST + "?error=false&user=idOfInstructorOfArchivedCourse",
+                     r.getDestinationWithParams());
+        assertEquals(false, r.isError);
+        assertEquals("", r.getStatusMessage());
+
+        islpd = (InstructorStudentListPageData) r.data;
+        assertEquals(0, islpd.getNumOfCourses());
+
+        expectedLogMessage = "TEAMMATESLOG|||instructorStudentListPage|||instructorStudentListPage"
+                           + "|||true|||Instructor|||InstructorOfArchiveCourse name|||idOfInstructorOfArchivedCourse"
+                           + "|||instructorOfArchiveCourse@archiveCourse.tmt"
+                           + "|||instructorStudentList Page Load<br>Total Courses: 1"
+                           + "|||/page/instructorStudentListPage";
+        assertEquals(expectedLogMessage, a.getLogMessage());
+
+        submissionParams = new String[] {
+                Const.ParamsNames.SEARCH_KEY, "A search key",
+                Const.ParamsNames.DISPLAY_ARCHIVE, "true",
+        };
+
+        ______TS("Archived course, displayed");
+
+        gaeSimulation.loginAsInstructor(instructorId);
+        a = getAction(submissionParams);
+        r = getShowPageResult(a);
+
+        assertEquals(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST + "?error=false&user=idOfInstructorOfArchivedCourse",
+                     r.getDestinationWithParams());
+        assertEquals(false, r.isError);
+        assertEquals("", r.getStatusMessage());
+
+        islpd = (InstructorStudentListPageData) r.data;
+        assertEquals(1, islpd.getNumOfCourses());
+
+        expectedLogMessage = "TEAMMATESLOG|||instructorStudentListPage|||instructorStudentListPage"
+                           + "|||true|||Instructor|||InstructorOfArchiveCourse name|||idOfInstructorOfArchivedCourse"
+                           + "|||instructorOfArchiveCourse@archiveCourse.tmt"
+                           + "|||instructorStudentList Page Load<br>Total Courses: 1"
                            + "|||/page/instructorStudentListPage";
         assertEquals(expectedLogMessage, a.getLogMessage());
 
