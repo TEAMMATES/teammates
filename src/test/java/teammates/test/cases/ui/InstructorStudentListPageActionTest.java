@@ -9,7 +9,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.ui.controller.InstructorStudentListPageAction;
-import teammates.ui.controller.InstructorStudentListPageData;
 import teammates.ui.controller.ShowPageResult;
 
 public class InstructorStudentListPageActionTest extends BaseActionTest {
@@ -44,12 +43,6 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
         assertEquals(false, r.isError);
         assertEquals("", r.getStatusMessage());
 
-        InstructorStudentListPageData pageData = (InstructorStudentListPageData) r.data;
-        assertEquals(instructorId, pageData.account.googleId);
-        assertEquals(2, pageData.courses.size());
-        assertEquals("A search key", pageData.searchKey);
-        assertEquals(new Boolean(false), pageData.displayArchive);
-
         String expectedLogMessage = "TEAMMATESLOG|||instructorStudentListPage|||instructorStudentListPage"
                                   + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"
                                   + "|||instr3@course1n2.tmt|||instructorStudentList Page Load<br>Total Courses: 2"
@@ -68,10 +61,6 @@ public class InstructorStudentListPageActionTest extends BaseActionTest {
                      r.getDestinationWithParams());
         assertEquals(false, r.isError);
         assertEquals(Const.StatusMessages.INSTRUCTOR_NO_COURSE_AND_STUDENTS, r.getStatusMessage());
-
-        pageData = (InstructorStudentListPageData) r.data;
-        assertEquals(instructorId, pageData.account.googleId);
-        assertEquals(0, pageData.courses.size());
 
         expectedLogMessage = "TEAMMATESLOG|||instructorStudentListPage|||instructorStudentListPage"
                            + "|||true|||Instructor|||Instructor Without Courses|||instructorWithoutCourses"

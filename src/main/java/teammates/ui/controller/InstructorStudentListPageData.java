@@ -18,9 +18,6 @@ public class InstructorStudentListPageData extends PageData {
     private InstructorStudentListFilterBox filterBox;
     private List<InstructorStudentListStudentsTableCourse> studentsTable;
     private int numOfCourses;
-    public List<CourseAttributes> courses;
-    public Boolean displayArchive;
-    public String searchKey;
     
     public InstructorStudentListPageData(AccountAttributes account) {
         super(account);
@@ -30,12 +27,8 @@ public class InstructorStudentListPageData extends PageData {
                                          boolean displayArchive,
                                          Map<String, InstructorAttributes> instructors,
                                          Map<String, String> numStudents,
-                                         List<CourseAttributes> courses,
                                          List<InstructorStudentListPageCourseData> coursesToDisplay) {
         super(account);
-        this.courses = courses;
-        this.displayArchive = displayArchive;
-        this.searchKey = searchKey;
         init(account, searchKey, displayArchive, instructors, numStudents, coursesToDisplay);
     }
     
