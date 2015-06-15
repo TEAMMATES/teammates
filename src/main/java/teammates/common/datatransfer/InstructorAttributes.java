@@ -295,4 +295,16 @@ public class InstructorAttributes extends EntityAttributes {
                    && this.privileges.equals(instructor.privileges);
         }
     }
+    
+    public String getRole() {
+        return this.role;
+    }
+    
+    public String getName() {
+        return this.name;
+    }
+    
+    public String getEmail() {
+        return this.email;
+    }
 }
