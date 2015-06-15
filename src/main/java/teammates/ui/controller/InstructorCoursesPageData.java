@@ -36,7 +36,8 @@ public class InstructorCoursesPageData extends PageData {
     }
     
     public void init(List<CourseDetailsBundle> activeCoursesParam, List<CourseDetailsBundle> archivedCoursesParam, 
-                     Map<String, InstructorAttributes> instructorsForCoursesParam, String courseIdToShowParam, String courseNameToShowParam){
+                     Map<String, InstructorAttributes> instructorsForCoursesParam, String courseIdToShowParam,
+                     String courseNameToShowParam) {
         this.instructorsForCourses = instructorsForCoursesParam;
         this.activeCourses = convertToActiveCoursesTable(activeCoursesParam);
         this.archivedCourses = convertToArchivedCoursesTable(archivedCoursesParam);
