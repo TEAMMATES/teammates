@@ -13,6 +13,7 @@ import teammates.common.datatransfer.FeedbackQuestionType;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
@@ -27,6 +28,8 @@ import teammates.ui.template.FeedbackSessionsForm;
 public class InstructorFeedbackEditPageData extends PageData {
 
     private static final String SAVE_CHANGES = "Save Changes";
+    
+    
     private FeedbackSessionsForm fsForm;
     private List<FeedbackQuestionEditForm> qnForms;
     private FeedbackQuestionEditForm newQnForm;
@@ -46,6 +49,7 @@ public class InstructorFeedbackEditPageData extends PageData {
                      List<StudentAttributes> studentList,
                      List<InstructorAttributes> instructorList,
                      InstructorAttributes instructor) {
+        Assumption.assertNotNull(feedbackSession);
         
         buildBasicFsForm(feedbackSession);
         fsForm.setAdditionalSettings(buildFsFormAdditionalSettings(feedbackSession));
@@ -65,8 +69,7 @@ public class InstructorFeedbackEditPageData extends PageData {
             qnForm.setQuestionNumberOptions(getQuestionNumberOptions(questions.size()));
             qnForm.setQuestionText(question.getQuestionDetails().questionText);
             
-            // maps 
-            
+            // maps for setting visibility
             Map<String, Boolean> isGiverNameVisible = new HashMap<String, Boolean>();
             for (FeedbackParticipantType giverType : question.showGiverNameTo) {
                 isGiverNameVisible.put(giverType.name(), true);
@@ -157,7 +160,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         fsForm.setCourseIdForNewSession(newFeedbackSession.courseId);
         
         fsForm.setFsNameEditable(false);
-        fsForm.setFsName(newFeedbackSession == null ? "" : newFeedbackSession.feedbackSessionName);
+        fsForm.setFsName(newFeedbackSession.feedbackSessionName);
         
         fsForm.setCourseIdEditable(false);
         fsForm.setCourses(null);
@@ -172,24 +175,18 @@ public class InstructorFeedbackEditPageData extends PageData {
         fsForm.setTimezoneSelectField(getTimeZoneOptionsAsElementTags(newFeedbackSession.timeZone));
         
         
-        fsForm.setInstructions(newFeedbackSession == null ?
-                               "Please answer all the given questions." :
-                                sanitizeForHtml(newFeedbackSession.instructions.getValue()));
+        fsForm.setInstructions(sanitizeForHtml(newFeedbackSession.instructions.getValue()));
         
-        fsForm.setFsStartDate(newFeedbackSession == null ?
-                              TimeHelper.formatDate(TimeHelper.getNextHour()) :
-                              TimeHelper.formatDate(newFeedbackSession.startTime));
+        fsForm.setFsStartDate(TimeHelper.formatDate(newFeedbackSession.startTime));
         
         Date date;
-        date = newFeedbackSession == null ? null : newFeedbackSession.startTime;
+        date = newFeedbackSession.startTime;
         fsForm.setFsStartTimeOptions(getTimeOptionsAsElementTags(date));
         
-        fsForm.setFsEndDate(newFeedbackSession == null ?
-                            "" : 
-                            TimeHelper.formatDate(newFeedbackSession.endTime));
+        fsForm.setFsEndDate(TimeHelper.formatDate(newFeedbackSession.endTime));
         
         
-        date = newFeedbackSession == null ? null : newFeedbackSession.endTime;
+        date = newFeedbackSession.endTime;
         fsForm.setFsEndTimeOptions(getTimeOptionsAsElementTags(date));
         
         fsForm.setGracePeriodOptions(getGracePeriodOptionsAsElementTags(newFeedbackSession.gracePeriod));
@@ -204,8 +201,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         
         Date date;
         AdditionalSettingsFormSegment additionalSettings = new AdditionalSettingsFormSegment(); 
-        boolean hasSessionVisibleDate = newFeedbackSession != null 
-                                        && !TimeHelper.isSpecialTime(newFeedbackSession.sessionVisibleFromTime);
+        boolean hasSessionVisibleDate = !TimeHelper.isSpecialTime(newFeedbackSession.sessionVisibleFromTime);
         additionalSettings.setSessionVisibleDateButtonChecked(hasSessionVisibleDate);
         additionalSettings.setSessionVisibleDateValue(hasSessionVisibleDate ? 
                                                       TimeHelper.formatDate(newFeedbackSession.sessionVisibleFromTime) :
@@ -215,16 +211,13 @@ public class InstructorFeedbackEditPageData extends PageData {
         date = hasSessionVisibleDate ? newFeedbackSession.sessionVisibleFromTime : null;   
         additionalSettings.setSessionVisibleTimeOptions(getTimeOptionsAsElementTags(date));
         
-        additionalSettings.setSessionVisibleAtOpenChecked(newFeedbackSession == null 
-                                                           || Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(
+        additionalSettings.setSessionVisibleAtOpenChecked(Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(
                                                                    newFeedbackSession.sessionVisibleFromTime));
         
-        additionalSettings.setSessionVisiblePrivateChecked(newFeedbackSession != null 
-                                                           && Const.TIME_REPRESENTS_NEVER.equals(
+        additionalSettings.setSessionVisiblePrivateChecked(Const.TIME_REPRESENTS_NEVER.equals(
                                                                newFeedbackSession.sessionVisibleFromTime));
                         
-        boolean hasResultVisibleDate = newFeedbackSession != null 
-                                       && !TimeHelper.isSpecialTime(newFeedbackSession.resultsVisibleFromTime);
+        boolean hasResultVisibleDate = !TimeHelper.isSpecialTime(newFeedbackSession.resultsVisibleFromTime);
         
         additionalSettings.setResponseVisibleDateChecked(hasResultVisibleDate);
         
@@ -237,23 +230,17 @@ public class InstructorFeedbackEditPageData extends PageData {
         date = hasResultVisibleDate ? newFeedbackSession.resultsVisibleFromTime :  null;
         additionalSettings.setResponseVisibleTimeOptions(getTimeOptionsAsElementTags(date));
         
-        additionalSettings.setResponseVisibleImmediatelyChecked((newFeedbackSession != null 
-                                                                && Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(newFeedbackSession.resultsVisibleFromTime)));
+        additionalSettings.setResponseVisibleImmediatelyChecked(Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(newFeedbackSession.resultsVisibleFromTime));
         
         additionalSettings.setResponseVisiblePublishManuallyChecked(
-                                 (newFeedbackSession == null 
-                                  || Const.TIME_REPRESENTS_LATER.equals(newFeedbackSession.resultsVisibleFromTime) 
+                                 (Const.TIME_REPRESENTS_LATER.equals(newFeedbackSession.resultsVisibleFromTime) 
                                   || Const.TIME_REPRESENTS_NOW.equals(newFeedbackSession.resultsVisibleFromTime)));
         
-        additionalSettings.setResponseVisibleNeverChecked((newFeedbackSession != null  
-                                                            && Const.TIME_REPRESENTS_NEVER.equals(newFeedbackSession.resultsVisibleFromTime)));
+        additionalSettings.setResponseVisibleNeverChecked(Const.TIME_REPRESENTS_NEVER.equals(newFeedbackSession.resultsVisibleFromTime));
         
-        additionalSettings.setSendClosingEmailChecked(newFeedbackSession != null 
-                                                      && newFeedbackSession.isClosingEmailEnabled);
-        additionalSettings.setSendOpeningEmailChecked(newFeedbackSession != null 
-                                                      && newFeedbackSession.isOpeningEmailEnabled);
-        additionalSettings.setSendPublishedEmailChecked(newFeedbackSession != null 
-                                                        && newFeedbackSession.isPublishedEmailEnabled);
+        additionalSettings.setSendClosingEmailChecked(newFeedbackSession.isClosingEmailEnabled);
+        additionalSettings.setSendOpeningEmailChecked(newFeedbackSession.isOpeningEmailEnabled);
+        additionalSettings.setSendPublishedEmailChecked(newFeedbackSession.isPublishedEmailEnabled);
         return additionalSettings;
     }
     
