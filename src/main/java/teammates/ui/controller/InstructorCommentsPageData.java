@@ -50,10 +50,6 @@ public class InstructorCommentsPageData extends PageData {
         super(account);
     }
     
-    public Set<String> getCommentsKeySet() {
-        return comments.keySet();
-    }
-    
     public Map<String, List<CommentAttributes>> getComments() {
         return comments;
     }
@@ -134,10 +130,6 @@ public class InstructorCommentsPageData extends PageData {
     
     public boolean isDisplayArchive() {
         return isDisplayArchive;
-    }
-    
-    public boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
-        return comment.showCommentTo.size() > 0;
     }
     
     public boolean isViewingDraft() {
