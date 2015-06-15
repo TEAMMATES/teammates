@@ -6,7 +6,6 @@ import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
-import teammates.common.datatransfer.InstructorAttributes;
 import teammates.ui.template.InstructorStudentListFilterBox;
 import teammates.ui.template.InstructorStudentListFilterCourse;
 import teammates.ui.template.InstructorStudentListSearchBox;
@@ -25,15 +24,14 @@ public class InstructorStudentListPageData extends PageData {
 
     public InstructorStudentListPageData(AccountAttributes account, String searchKey,
                                          boolean displayArchive,
-                                         Map<String, InstructorAttributes> instructors,
                                          Map<String, String> numStudents,
                                          List<InstructorStudentListPageCourseData> coursesToDisplay) {
         super(account);
-        init(account, searchKey, displayArchive, instructors, numStudents, coursesToDisplay);
+        init(account, searchKey, displayArchive, numStudents, coursesToDisplay);
     }
     
     private void init(AccountAttributes account, String searchKey, boolean displayArchive,
-                      Map<String, InstructorAttributes> instructors, Map<String, String> numStudents,
+                      Map<String, String> numStudents,
                       List<InstructorStudentListPageCourseData> coursesToDisplay) {
         this.searchBox = new InstructorStudentListSearchBox(getInstructorSearchLink(), searchKey, account.googleId);
         List<InstructorStudentListFilterCourse> coursesForFilter =
