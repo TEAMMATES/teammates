@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ attribute name="pageTitle" required="true" %>
+<%@ attribute name="cssIncludes" fragment="true" %>
 <%@ attribute name="jsIncludes" fragment="true" %>
 <%@ attribute name="navBar" required="true" fragment="true" %>
 <%@ attribute name="bodyTitle" required="true" %>
@@ -22,6 +23,8 @@
     
     <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript"  src="/bootstrap/js/bootstrap.min.js"></script>
+    
+    <jsp:invoke fragment="cssIncludes" />
     
     <jsp:invoke fragment="jsIncludes" />
     

@@ -1,18 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/comments" prefix="comments" %>
-
+<c:set var="cssIncludes">
+    <link href="/stylesheets/omniComment.css" rel="stylesheet">
+</c:set>
 <c:set var="jsIncludes">
-    <link href="/stylesheets/omniComment.css" rel="stylesheet"> <%--TODO: Add a css includes for this --%>
     <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script src="/js/omniComment.js"></script>
     <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
 </c:set>
-<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Comments from Instructors" jsIncludes="${jsIncludes}">
+<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Comments from Instructors" jsIncludes="${jsIncludes}" cssIncludes="${cssIncludes}">
     <div class="row">
         <div class="col-md-6 pull-right instructor-header-bar">
             <comments:search />
@@ -22,7 +22,7 @@
     <t:statusMessage />
     <comments:filter />
     <c:choose>
-    <c:when test="${fn:length(data.coursePaginationList) > 0}">
+    <c:when test="${not empty data.coursePaginationList}">
         <comments:pagination />
         <div class="well well-plain">
             <div class="row">
