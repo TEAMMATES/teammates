@@ -19,7 +19,7 @@ import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
 import teammates.ui.template.CommentRow;
 import teammates.ui.template.InstructorCommentsCommentRow;
-import teammates.ui.template.SearchCommentsForStudentsTable;
+import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.VisibilityCheckboxes;
 
 /**
@@ -44,7 +44,7 @@ public class InstructorCommentsPageData extends PageData {
     public int numberOfPendingComments = 0;
     public Map<String, String> giverEmailToGiverNameMap;
     
-    private List<SearchCommentsForStudentsTable> commentsForStudentsTables;
+    private List<CommentsForStudentsTable> commentsForStudentsTables;
     
     public InstructorCommentsPageData(AccountAttributes account) {
         super(account);
@@ -128,7 +128,7 @@ public class InstructorCommentsPageData extends PageData {
         return removeBracketsForArrayString(comment.showRecipientNameTo.toString());
     }
     
-    public List<SearchCommentsForStudentsTable> getCommentsForStudentsTables() {
+    public List<CommentsForStudentsTable> getCommentsForStudentsTables() {
         return commentsForStudentsTables;
     }
     
@@ -223,10 +223,10 @@ public class InstructorCommentsPageData extends PageData {
     }
 
     private void setCommentsForStudentsTables() {
-        commentsForStudentsTables = new ArrayList<SearchCommentsForStudentsTable>();      
+        commentsForStudentsTables = new ArrayList<CommentsForStudentsTable>();      
           
         for (String giverEmail : comments.keySet()) {
-            commentsForStudentsTables.add(new SearchCommentsForStudentsTable(
+            commentsForStudentsTables.add(new CommentsForStudentsTable(
                                                   giverEmailToGiverNameMap.get(giverEmail), createCommentRows(giverEmail)));
         }
     }

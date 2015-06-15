@@ -23,7 +23,7 @@ import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.QuestionTable;
 import teammates.ui.template.ResponseRow;
-import teammates.ui.template.SearchCommentsForStudentsTable;
+import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.SearchStudentsTable;
 import teammates.ui.template.SearchCommentsForResponsesTable;
 import teammates.ui.template.StudentRow;
@@ -45,7 +45,7 @@ public class InstructorSearchPageData extends PageData {
     private boolean isStudentsEmpty;
     
     /* Tables containing search results */
-    private List<SearchCommentsForStudentsTable> searchCommentsForStudentsTables;
+    private List<CommentsForStudentsTable> searchCommentsForStudentsTables;
     private List<SearchCommentsForResponsesTable> searchCommentsForResponsesTables;
     private List<SearchStudentsTable> searchStudentsTables;
     
@@ -105,7 +105,7 @@ public class InstructorSearchPageData extends PageData {
     }
     
     
-    public List<SearchCommentsForStudentsTable> getSearchCommentsForStudentsTables() {
+    public List<CommentsForStudentsTable> getSearchCommentsForStudentsTables() {
         return searchCommentsForStudentsTables;
     }
     
@@ -156,11 +156,11 @@ public class InstructorSearchPageData extends PageData {
     private void setSearchCommentsForStudentsTables(
                                     CommentSearchResultBundle commentSearchResultBundle) {
         
-        searchCommentsForStudentsTables = new ArrayList<SearchCommentsForStudentsTable>();      
+        searchCommentsForStudentsTables = new ArrayList<CommentsForStudentsTable>();      
         
         for (String giverEmailPlusCourseId : commentSearchResultBundle.giverCommentTable.keySet()) {
             String giverDetails = commentSearchResultBundle.giverTable.get(giverEmailPlusCourseId);
-            searchCommentsForStudentsTables.add(new SearchCommentsForStudentsTable(
+            searchCommentsForStudentsTables.add(new CommentsForStudentsTable(
                                                   giverDetails, createCommentRows(giverEmailPlusCourseId, 
                                                                             commentSearchResultBundle)));
         }
