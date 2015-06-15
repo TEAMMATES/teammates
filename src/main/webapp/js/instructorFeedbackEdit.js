@@ -11,7 +11,7 @@ function readyFeedbackEditPage() {
     
     // Bind submit text links
     $('#fsSaveLink').click(function() {
-        $('#form_editfeedbacksession').submit();
+        $('#form_feedbacksession').submit();
     });
     $('a[id|=questionsavechangestext]').click(function() {
         $(this).parents('form.form_question').submit();
@@ -63,7 +63,7 @@ function disableEditFS() {
     getCustomDateTimeFields().each(function() {
         $(this).data('last', $(this).prop('disabled'));
     });
-    $('#form_editfeedbacksession').find('text,input,button,textarea,select')
+    $('#form_feedbacksession').find('text,input,button,textarea,select')
                                   .prop('disabled', true);
 }
 
@@ -91,14 +91,14 @@ function enableEditFS() {
     // as students without accounts need to receive the session opening email to respond
     var $sessionOpeningReminder = $('#sendreminderemail_open');
     
-    $('#form_editfeedbacksession').find('text,input,button,textarea,select')
+    $('#form_feedbacksession').find('text,input,button,textarea,select')
                                   .not($customDateTimeFields)
                                   .not($sessionOpeningReminder)
                                   .not('.disabled')
                                   .prop('disabled', false);
     $('#fsEditLink').hide();
     $('#fsSaveLink').show();
-    $('#button_submit_edit').show();
+    $('#button_submit').show();
 }
 
 function getCustomDateTimeFields() {
@@ -756,6 +756,9 @@ function getVisibilityMessage(buttonElem) {
     var $form = $(buttonElem).closest('form');
     var qnNumber = $form.find('[name=questionnum]').val();
     var newQnNumber = $('input[name=questionnum]').last().val();
+
+    console.log(qnNumber);
+    console.log(newQnNumber);
     
     if (qnNumber === newQnNumber) {
         tallyCheckboxes('');

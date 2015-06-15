@@ -13,6 +13,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.Url;
 import teammates.ui.template.AdditionalSettingsFormSegment;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackSessionsTableRow;
@@ -197,6 +198,9 @@ public class InstructorFeedbacksPageData extends PageData {
         newFsForm.setGracePeriodOptions(getGracePeriodOptionsAsElementTags(newFeedbackSession));
         
         newFsForm.setSubmitButtonDisabled(courses.isEmpty());
+        newFsForm.setFormSubmitAction(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD));
+        newFsForm.setSubmitButtonText("Create Feedback Session");
+        newFsForm.setSubmitButtonVisible(true);
         
         return newFsForm;
     }

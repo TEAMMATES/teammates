@@ -8,8 +8,9 @@
 
 <div class="well well-plain">
     <form class="form-group" method="post"
-        action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD %>"
-        name="form_addfeedbacksession">
+        action="${fsForm.formSubmitAction}"
+        name="form_feedbacksession"
+        id="form_feedbacksession">
         <c:choose>
             <c:when test="${fsForm.feedbackSessionTypeEditable}">
             <div class="row">
@@ -288,8 +289,10 @@
             <div class="row">
                 <div class="col-md-offset-5 col-md-3">
                     <button id="button_submit" type="submit" class="btn btn-primary"
-                        <c:if test="${fsForm.submitButtonDisabled}">disabled="disabled"</c:if>>
-                        Create Feedback Session
+                        <c:if test="${fsForm.submitButtonDisabled}">disabled="disabled"</c:if>
+                        <c:if test="${!fsForm.submitButtonVisible}"> style="display:none;" </c:if>
+                    >
+                            ${fsForm.submitButtonText}
                     </button>
                 </div>
             </div>

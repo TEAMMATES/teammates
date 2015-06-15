@@ -12,6 +12,7 @@ import teammates.common.util.Url;
 public class FeedbackSessionsForm {
 
     private Url formSubmitAction;
+    private String submitButtonText;
     
     // Default course id value
     private String courseIdForNewSession;
@@ -46,6 +47,7 @@ public class FeedbackSessionsForm {
     
     private boolean isShowNoCoursesMessage;
     private boolean isSubmitButtonDisabled;
+    private boolean isSubmitButtonVisible;
     
     private AdditionalSettingsFormSegment additionalSettings;
     
@@ -229,6 +231,22 @@ public class FeedbackSessionsForm {
 
     public void setFsNameEditable(boolean isFsNameEditable) {
         this.isFsNameEditable = isFsNameEditable;
+    }
+
+    public String getSubmitButtonText() {
+        return submitButtonText;
+    }
+
+    public void setSubmitButtonText(String submitButtonText) {
+        this.submitButtonText = submitButtonText;
+    }
+
+    public boolean isSubmitButtonVisible() {
+        return isSubmitButtonVisible;
+    }
+
+    public void setSubmitButtonVisible(boolean isSubmitButtonVisible) {
+        this.isSubmitButtonVisible = isSubmitButtonVisible;
     }
     
     

@@ -88,7 +88,6 @@ public class InstructorFeedbackEditPageData extends PageData {
             List<String> visibilityMessages = question.getVisibilityMessage();
             qnForm.setVisibilityMessages(visibilityMessages);
             
-            
             qnForm.setQuestionSpecificEditFormHtml(question.getQuestionDetails().getQuestionSpecificEditFormHtml(question.questionNumber));
             
             qnForms.add(qnForm);
@@ -141,26 +140,31 @@ public class InstructorFeedbackEditPageData extends PageData {
         
         
         fsForm.setInstructions(newFeedbackSession == null ?
-                                 "Please answer all the given questions." :
-                                 sanitizeForHtml(newFeedbackSession.instructions.getValue()));
+                               "Please answer all the given questions." :
+                                sanitizeForHtml(newFeedbackSession.instructions.getValue()));
         
         fsForm.setFsStartDate(newFeedbackSession == null ?
-                               TimeHelper.formatDate(TimeHelper.getNextHour()) :
-                               TimeHelper.formatDate(newFeedbackSession.startTime));
+                              TimeHelper.formatDate(TimeHelper.getNextHour()) :
+                              TimeHelper.formatDate(newFeedbackSession.startTime));
         
         Date date;
         date = newFeedbackSession == null ? null : newFeedbackSession.startTime;
         fsForm.setFsStartTimeOptions(getTimeOptionsAsElementTags(date));
         
         fsForm.setFsEndDate(newFeedbackSession == null ?
-                               "" : 
-                               TimeHelper.formatDate(newFeedbackSession.endTime));
+                            "" : 
+                            TimeHelper.formatDate(newFeedbackSession.endTime));
         
         
         date = newFeedbackSession == null ? null : newFeedbackSession.endTime;
         fsForm.setFsEndTimeOptions(getTimeOptionsAsElementTags(date));
         
         fsForm.setGracePeriodOptions(getGracePeriodOptionsAsElementTags(newFeedbackSession.gracePeriod));
+        
+        fsForm.setSubmitButtonDisabled(false);
+        fsForm.setFormSubmitAction(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD));
+        fsForm.setSubmitButtonText("Save Changes");
+        fsForm.setSubmitButtonVisible(false);
     }
 
     private AdditionalSettingsFormSegment buildFsFormAdditionalSettings(FeedbackSessionAttributes newFeedbackSession) {
