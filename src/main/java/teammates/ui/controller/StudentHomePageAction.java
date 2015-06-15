@@ -23,7 +23,6 @@ public class StudentHomePageAction extends Action {
     public ActionResult execute() throws EntityDoesNotExistException { 
         new GateKeeper().verifyLoggedInUserPrivileges();
         
-        data = new StudentHomePageData(account);
         String recentlyJoinedCourseId = getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);        
         
         List<CourseDetailsBundle> courses = new ArrayList<CourseDetailsBundle>();
@@ -55,6 +54,7 @@ public class StudentHomePageAction extends Action {
             }
         }
         
+        data = new StudentHomePageData(account);
         data.init(courses, sessionSubmissionStatusMap);
         
         ShowPageResult response = createShowPageResult(Const.ViewURIs.STUDENT_HOME, data);

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
@@ -18,11 +17,11 @@ import teammates.ui.template.ElementTag;
 
 public class StudentHomePageData extends PageData {
     
+    private List<CourseTable> courseTables;
+    
     public StudentHomePageData(AccountAttributes account) {
         super(account);
     }
-    
-    private List<CourseTable> courseTables;
     
     public void init(List<CourseDetailsBundle> courses, Map<String, Boolean> sessionSubmissionStatusMap) {
         setCourseTables(courses, sessionSubmissionStatusMap);
@@ -35,17 +34,13 @@ public class StudentHomePageData extends PageData {
     private void setCourseTables(List<CourseDetailsBundle> courses, Map<String, Boolean> sessionSubmissionStatusMap) {
         courseTables = new ArrayList<CourseTable>();
         for (CourseDetailsBundle courseDetails : courses) {
-            courseTables.add(createCourseTable(courseDetails.course, courseDetails.feedbackSessions, sessionSubmissionStatusMap));
+            CourseTable courseTable = new CourseTable(courseDetails.course,
+                                                      createCourseTableLinks(courseDetails.course.id),
+                                                      createSessionRows(courseDetails.feedbackSessions,
+                                                                        courseDetails.course.id,
+                                                                        sessionSubmissionStatusMap));
+            courseTables.add(courseTable);
         }
-    }
-    
-    private CourseTable createCourseTable(CourseAttributes course,
-                                          List<FeedbackSessionDetailsBundle> feedbackSessions,
-                                          Map<String, Boolean> sessionSubmissionStatusMap) {
-        String courseId = course.id;
-        return new CourseTable(course,
-                               createCourseTableLinks(courseId),
-                               createSessionRows(feedbackSessions, courseId, sessionSubmissionStatusMap));
     }
     
     private List<ElementTag> createCourseTableLinks(String courseId) {
@@ -60,7 +55,7 @@ public class StudentHomePageData extends PageData {
     
     private List<Map<String, String>> createSessionRows(List<FeedbackSessionDetailsBundle> feedbackSessions,
             String courseId, Map<String, Boolean> sessionSubmissionStatusMap) {
-        List<Map<String, String>> rows = new ArrayList<Map<String,String>>();
+        List<Map<String, String>> rows = new ArrayList<Map<String, String>>();
         
         int sessionIndex = 0;
         for (FeedbackSessionDetailsBundle session : feedbackSessions) {
