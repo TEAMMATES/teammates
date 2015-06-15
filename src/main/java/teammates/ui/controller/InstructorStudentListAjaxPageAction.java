@@ -63,7 +63,7 @@ public class InstructorStudentListAjaxPageAction extends Action {
             data.sectionPrivileges.put(sectionDetails.name, sectionPrivilege);
         }
 
-        return createAjaxResult(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST, data);
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_LIST_AJAX, data);
     }
 
 }
