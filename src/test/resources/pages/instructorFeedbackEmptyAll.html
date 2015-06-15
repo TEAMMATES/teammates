@@ -257,7 +257,7 @@
     </div>
 </div>
 
-    <div class="container theme-showcase" id="frameBodyWrapper">
+    <div class="container" id="frameBodyWrapper">
         <div id="topOfPage"></div>
         <div class="inner-container">
            <div class="row">
@@ -268,7 +268,7 @@
         </div>
         
         <div class="well well-plain">
-            <form name="form_addfeedbacksession" action="/page/instructorFeedbackAdd" method="post" class="form-group">
+            <form action="/page/instructorFeedbackAdd" class="form-group" id="form_feedbacksession" method="post">
                 <div class="row">
                     <h4 class="label-control col-md-2 text-md">Create new </h4>
                     <div class="col-md-5">
@@ -680,12 +680,14 @@
                 
                 <input type="hidden" value="CFeedbackUiT.nocourses" name="user" />
             </form>
-            <form action="/page/instructorFeedbacksPage" class="ajaxForSessionsForm" id="ajaxForSessions" style="display:none;">
+            
+        </div>
+
+        <form action="/page/instructorFeedbacksPage" class="ajaxForSessionsForm" id="ajaxForSessions" style="display:none;">
                 <input type="hidden" value="CFeedbackUiT.nocourses" name="user" />
                 <input type="hidden" value="on" name="isusingAjax" />
                 
-            </form>
-        </div>
+        </form>
         
 
         <br />
