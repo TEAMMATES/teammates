@@ -1,6 +1,4 @@
 <%@ tag description="Panel to notify students of new/edited comments" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
-<%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ tag import="teammates.common.util.Const" %>
 <div class="btn-group pull-right" style="${data.numberOfPendingComments==0 ? 'display:none' : ''}">
     <a type="button" class="btn btn-sm btn-info" data-toggle="tooltip" style="margin-right: 17px;"

@@ -1,8 +1,5 @@
 <%@ tag description="Course Pagination" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
-<%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
-<%@ tag import="teammates.common.util.Const" %>
 <ul class="pagination">
     <li><a href="${data.previousPageLink}">«</a></li>
     <%--<li class="<%= data.isViewingDraft ? "active" : "" %>"><a

@@ -1,9 +1,7 @@
 <%@ tag description="Comments from feedback sessions" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
-<%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
-<%@ attribute name="fsName"%>
-<%@ attribute name="fsIdx" %>
-<%@ attribute name="panelIdx"%>
+<%@ attribute name="fsName" required="true" %>
+<%@ attribute name="fsIdx" required="true" %>
+<%@ attribute name="panelIdx" required="true" %>
 <div class="panel panel-primary">
     <div class="panel-heading" onclick="loadFeedbackResponseComments('${data.account.googleId}','${data.courseId}','${fsName}', '${fsIdx}', this);"
         style="cursor: pointer;">

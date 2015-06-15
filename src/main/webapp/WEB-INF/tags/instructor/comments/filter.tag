@@ -1,8 +1,5 @@
 <%@ tag description="Filter panel" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
-<%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
-<%@ tag import="teammates.common.util.Const" %>
 <div class="well well-plain">
     <div class="row">
         <div class="col-md-2">
