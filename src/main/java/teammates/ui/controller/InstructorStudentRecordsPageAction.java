@@ -10,7 +10,6 @@ import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.SessionAttributes;
-import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -31,9 +30,6 @@ public class InstructorStudentRecordsPageAction extends Action {
 
         String showCommentBox = getRequestParamValue(Const.ParamsNames.SHOW_COMMENT_BOX);
 
-        String targetSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        targetSessionName = targetSessionName == null ? "" : targetSessionName;
-
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
 
         new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
@@ -51,12 +47,8 @@ public class InstructorStudentRecordsPageAction extends Action {
         }
 
         data.showCommentBox = showCommentBox;
-        if (targetSessionName.isEmpty()) {
-            data.comments = logic.getCommentsForReceiver(courseId, instructor.email,
-                                                         CommentParticipantType.PERSON, studentEmail);
-        } else {
-            data.comments = new ArrayList<CommentAttributes>();
-        }
+        data.comments = logic.getCommentsForReceiver(courseId, instructor.email,
+                                                     CommentParticipantType.PERSON, studentEmail);
         Iterator<CommentAttributes> iterator = data.comments.iterator();
         while (iterator.hasNext()) {
             CommentAttributes c = iterator.next();
@@ -74,20 +66,6 @@ public class InstructorStudentRecordsPageAction extends Action {
         data.sessions.addAll(feedbacks);
         Collections.sort(data.sessions, SessionAttributes.DESCENDING_ORDER);
         CommentAttributes.sortCommentsByCreationTimeDescending(data.comments);
-
-        data.targetSessionName = targetSessionName;
-        data.results = new ArrayList<SessionResultsBundle>();
-        for (SessionAttributes session : data.sessions) {
-            if (session instanceof FeedbackSessionAttributes) {
-                if (!targetSessionName.isEmpty() && targetSessionName.equals(session.getSessionName())) {
-                    SessionResultsBundle result = logic.getFeedbackSessionResultsForInstructor(
-                                                    session.getSessionName(), courseId, instructor.email);
-                    data.results.add(result);
-                }
-            } else {
-                Assumption.fail("Unknown session type");
-            }
-        }
 
         if (data.student.googleId == "") {
             statusToUser.add(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS);
@@ -114,12 +92,7 @@ public class InstructorStudentRecordsPageAction extends Action {
                       + "Student Profile: " + (data.studentProfile == null ? "No Profile"
                                                                            : data.studentProfile.toString());
 
-        if (data.targetSessionName.isEmpty()) {
-            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, data);
-        } else {
-            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX, data);
-        }
-
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, data);
     }
 
     private void filterFeedbackSessions(String courseId, List<FeedbackSessionAttributes> feedbacks) {
