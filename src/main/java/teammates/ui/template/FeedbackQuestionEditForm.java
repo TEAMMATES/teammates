@@ -20,7 +20,7 @@ public class FeedbackQuestionEditForm {
     private String feedbackSessionName;
     
     // Used for adding a new question
-    public List<String> questionTypeOptions;
+    public String questionTypeOptions;
     public Url doneEditingLink;
     
     
@@ -36,22 +36,10 @@ public class FeedbackQuestionEditForm {
     //TODO use element tags or a new class instead of having html in java
     private String questionSpecificEditFormHtml;
     
-    private List<ElementTag> giverParticipantOptions;
-    private List<ElementTag> recipientParticipantOptions;
-    
-    private boolean isNumberOfEntitiesToGiveFeedbackToChecked;
-    private int numOfEntitiesToGiveFeedbackToValue;
-    
-    
-    private List<String> visibilityMessages;
-    private Map<String, Boolean> isGiverNameVisible;
-    private Map<String, Boolean> isRecipientNameVisible;
-    private Map<String, Boolean> isResponseVisible;
+    private FeedbackQuestionGeneralSettings generalSettings;
     
     public FeedbackQuestionEditForm() {
     }
-    
-    
     
     
     public String getCourseId() {
@@ -102,61 +90,10 @@ public class FeedbackQuestionEditForm {
     public void setQuestionSpecificEditFormHtml(String questionSpecificEditFormHtml) {
         this.questionSpecificEditFormHtml = questionSpecificEditFormHtml;
     }
-    public List<ElementTag> getGiverParticipantOptions() {
-        return giverParticipantOptions;
-    }
+   
     public String getQuestionText() {
         return questionText;
     }
-    
-    public void setGiverParticipantOptions(List<ElementTag> giverParticipantOptions) {
-        this.giverParticipantOptions = giverParticipantOptions;
-    }
-    public List<ElementTag> getRecipientParticipantOptions() {
-        return recipientParticipantOptions;
-    }
-    public void setRecipientParticipantOptions(List<ElementTag> recipientParticipantOptions) {
-        this.recipientParticipantOptions = recipientParticipantOptions;
-    }
-    public boolean isNumberOfEntitiesToGiveFeedbackToChecked() {
-        return isNumberOfEntitiesToGiveFeedbackToChecked;
-    }
-    public void setNumberOfEntitiesToGiveFeedbackToChecked(boolean isNumberOfEntitiesToGiveFeedbackToChecked) {
-        this.isNumberOfEntitiesToGiveFeedbackToChecked = isNumberOfEntitiesToGiveFeedbackToChecked;
-    }
-    public int getNumOfEntitiesToGiveFeedbackToValue() {
-        return numOfEntitiesToGiveFeedbackToValue;
-    }
-    public void setNumOfEntitiesToGiveFeedbackToValue(int numOfEntitiesToGiveFeedbackToValue) {
-        this.numOfEntitiesToGiveFeedbackToValue = numOfEntitiesToGiveFeedbackToValue;
-    }
-    public List<String> getVisibilityMessages() {
-        return visibilityMessages;
-    }
-    public void setVisibilityMessages(List<String> visibilityMessages) {
-        this.visibilityMessages = visibilityMessages;
-    }
-    public Map<String, Boolean> getIsGiverNameVisible() {
-        return isGiverNameVisible;
-    }
-    public void setIsGiverNameVisible(Map<String, Boolean> isGiverNameVisible) {
-        this.isGiverNameVisible = isGiverNameVisible;
-    }
-    public Map<String, Boolean> getIsRecipientNameVisible() {
-        return isRecipientNameVisible;
-    }
-    public void setIsRecipientNameVisible(Map<String, Boolean> isRecipientNameVisible) {
-        this.isRecipientNameVisible = isRecipientNameVisible;
-    }
-    public Map<String, Boolean> getIsResponseVisible() {
-        return isResponseVisible;
-    }
-    public void setIsResponseVisible(Map<String, Boolean> isResponseVisible) {
-        this.isResponseVisible = isResponseVisible;
-    }
-
-
-
 
 
     public Url getAction() {
@@ -180,7 +117,7 @@ public class FeedbackQuestionEditForm {
 
 
 
-    public List<String> getQuestionTypeOptions() {
+    public String getQuestionTypeOptions() {
         return questionTypeOptions;
     }
 
@@ -189,6 +126,18 @@ public class FeedbackQuestionEditForm {
 
     public Url getDoneEditingLink() {
         return doneEditingLink;
+    }
+
+
+
+
+    public FeedbackQuestionGeneralSettings getGeneralSettings() {
+        return generalSettings;
+    }
+
+
+    public void setGeneralSettings(FeedbackQuestionGeneralSettings generalSettings) {
+        this.generalSettings = generalSettings;
     }
     
     

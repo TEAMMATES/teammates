@@ -97,7 +97,7 @@
                             name="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>"
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>"
                             onchange="feedbackGiverUpdateVisibilityOptions(this)">
-                            <c:forEach items="${fqForm.giverParticipantOptions}" var="option">
+                            <c:forEach items="${fqForm.generalSettings.giverParticipantOptions}" var="option">
                                 <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
                                     ${option.content}
                                 </option>
@@ -115,7 +115,7 @@
                             name="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>"
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>"
                             onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
-                            <c:forEach items="${fqForm.recipientParticipantOptions}" var="option">
+                            <c:forEach items="${fqForm.generalSettings.recipientParticipantOptions}" var="option">
                                 <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
                                     ${option.content}
                                 </option>

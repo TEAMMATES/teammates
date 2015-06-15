@@ -21,6 +21,7 @@ import teammates.ui.template.AdditionalSettingsFormSegment;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackQuestionCopyTable;
 import teammates.ui.template.FeedbackQuestionEditForm;
+import teammates.ui.template.FeedbackQuestionGeneralSettings;
 import teammates.ui.template.FeedbackQuestionTableRow;
 import teammates.ui.template.FeedbackSessionPreviewForm;
 import teammates.ui.template.FeedbackSessionsForm;
@@ -50,84 +51,31 @@ public class InstructorFeedbackEditPageData extends PageData {
                      List<InstructorAttributes> instructorList,
                      InstructorAttributes instructor) {
         Assumption.assertNotNull(feedbackSession);
-        
+        //form for editing the fs
         buildBasicFsForm(feedbackSession);
         fsForm.setAdditionalSettings(buildFsFormAdditionalSettings(feedbackSession));
         
+        //forms for editing questions
         qnForms = new ArrayList<FeedbackQuestionEditForm>();
         for (FeedbackQuestionAttributes question : questions) {
             // build question edit form
-            FeedbackQuestionEditForm qnForm = new FeedbackQuestionEditForm();
-            qnForm.setAction(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT));
-            qnForm.setCourseId(instructor.courseId);
-            qnForm.setFeedbackSessionName(feedbackSession.feedbackSessionName);
-            qnForm.setQuestion(question);
-            qnForm.setQuestionDetails(question.getQuestionDetails());
-            qnForm.setGiverParticipantOptions(getParticipantOptions(question, true));
-            qnForm.setRecipientParticipantOptions(getParticipantOptions(question, false));
-            qnForm.setNumOfQuestionsOnPage(questions.size());
-            qnForm.setQuestionNumberOptions(getQuestionNumberOptions(questions.size()));
-            qnForm.setQuestionText(question.getQuestionDetails().questionText);
-            
-            // maps for setting visibility
-            Map<String, Boolean> isGiverNameVisible = new HashMap<String, Boolean>();
-            for (FeedbackParticipantType giverType : question.showGiverNameTo) {
-                isGiverNameVisible.put(giverType.name(), true);
-            }
-            qnForm.setIsGiverNameVisible(isGiverNameVisible);
-            
-            Map<String, Boolean> isRecipientNameVisible = new HashMap<String, Boolean>();
-            for (FeedbackParticipantType recipientType : question.showRecipientNameTo) {
-                isRecipientNameVisible.put(recipientType.name(), true);
-            }
-            qnForm.setIsRecipientNameVisible(isRecipientNameVisible);
-            
-            Map<String, Boolean> isResponsesVisible = new HashMap<String, Boolean>();
-            for (FeedbackParticipantType participantType : question.showResponsesTo) {
-                isResponsesVisible.put(participantType.name(), true);
-            }
-            qnForm.setIsResponseVisible(isResponsesVisible);
-            
-            qnForm.setNumberOfEntitiesToGiveFeedbackToChecked(question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS);
-            qnForm.setNumOfEntitiesToGiveFeedbackToValue(question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS ?
-                                                         1 :
-                                                         question.numberOfEntitiesToGiveFeedbackTo);
-            qnForm.setQuestionHasResponses(questionHasResponses.get(question.getId()));
-            
-            List<String> visibilityMessages = question.getVisibilityMessage();
-            qnForm.setVisibilityMessages(visibilityMessages);
-            
-            qnForm.setQuestionSpecificEditFormHtml(question.getQuestionDetails().getQuestionSpecificEditFormHtml(question.questionNumber));
-            
-            qnForms.add(qnForm);
+            buildExistingQuestionForm(feedbackSession, questions, questionHasResponses, instructor, question);
         }
         
         // new qn form
-        newQnForm = new FeedbackQuestionEditForm();
-        newQnForm.doneEditingLink = new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
-                                        .withUserId(account.googleId)
-                                        .withCourseId(feedbackSession.courseId)
-                                        .withSessionName(feedbackSession.feedbackSessionName);
-        
-        
-        newQnForm.setAction(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD));
-        newQnForm.setCourseId(instructor.courseId);
-        newQnForm.setFeedbackSessionName(feedbackSession.feedbackSessionName);
-        
-        newQnForm.questionTypeOptions = getQuestionTypeChoiceOptions();
-      
-        newQnForm.setGiverParticipantOptions(getParticipantOptions(null, true));
-        newQnForm.setRecipientParticipantOptions(getParticipantOptions(null, false));
-        newQnForm.setNumOfQuestionsOnPage(questions.size());
-        newQnForm.setQuestionNumberOptions(getQuestionNumberOptions(questions.size() + 1));
-      
-        newQnForm.setQuestionSpecificEditFormHtml(getNewQuestionSpecificEditFormHtml());
-        
+        buildNewQuestionForm(feedbackSession, questions, instructor);
         
         // preview form
-        previewForm = new FeedbackSessionPreviewForm(feedbackSession.courseId, feedbackSession.feedbackSessionName, 
-                                                     getPreviewAsStudentOptions(studentList), 
-                                                     getPreviewAsInstructorOptions(instructorList));
+        buildPreviewForm(feedbackSession, copiableQuestions, studentList, instructorList, instructor);
+        
+    }
+
+
+    private void buildPreviewForm(FeedbackSessionAttributes feedbackSession,
+                                    List<FeedbackQuestionAttributes> copiableQuestions,
+                                    List<StudentAttributes> studentList,
+                                    List<InstructorAttributes> instructorList, InstructorAttributes instructor) {
+        buildPreviewForm(feedbackSession, studentList, instructorList);
         
         // copy questions modal
         List<FeedbackQuestionTableRow> copyQuestionRows = new ArrayList<FeedbackQuestionTableRow>();
@@ -144,18 +92,127 @@ public class InstructorFeedbackEditPageData extends PageData {
             }
         }
         copyQnForm = new FeedbackQuestionCopyTable(feedbackSession.courseId, feedbackSession.feedbackSessionName, 
-                                                   copyQuestionRows);
+                                                       copyQuestionRows);
+    }
+
+
+    private void buildPreviewForm(FeedbackSessionAttributes feedbackSession,
+                                    List<StudentAttributes> studentList,
+                                    List<InstructorAttributes> instructorList) {
+        previewForm = new FeedbackSessionPreviewForm(feedbackSession.courseId, feedbackSession.feedbackSessionName, 
+                                                     getPreviewAsStudentOptions(studentList), 
+                                                     getPreviewAsInstructorOptions(instructorList));
+    }
+
+
+    private void buildExistingQuestionForm(FeedbackSessionAttributes feedbackSession,
+                                    List<FeedbackQuestionAttributes> questions,
+                                    Map<String, Boolean> questionHasResponses,
+                                    InstructorAttributes instructor, FeedbackQuestionAttributes question) {
+        FeedbackQuestionEditForm qnForm = new FeedbackQuestionEditForm();
+        qnForm.setAction(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT));
+        qnForm.setCourseId(instructor.courseId);
+        qnForm.setFeedbackSessionName(feedbackSession.feedbackSessionName);
+        qnForm.setQuestion(question);
+        qnForm.setQuestionDetails(question.getQuestionDetails());
         
+        qnForm.setNumOfQuestionsOnPage(questions.size());
+        qnForm.setQuestionNumberOptions(getQuestionNumberOptions(questions.size()));
+        qnForm.setQuestionText(question.getQuestionDetails().questionText);
+        
+        FeedbackQuestionGeneralSettings generalSettings = new FeedbackQuestionGeneralSettings();
+        qnForm.setGeneralSettings(generalSettings);
+        generalSettings.setGiverParticipantOptions(getParticipantOptions(question, true));
+        generalSettings.setRecipientParticipantOptions(getParticipantOptions(question, false));
+        
+        
+        // maps for setting visibility
+        Map<String, Boolean> isGiverNameVisible = new HashMap<String, Boolean>();
+        for (FeedbackParticipantType giverType : question.showGiverNameTo) {
+            isGiverNameVisible.put(giverType.name(), true);
+        }
+        generalSettings.setIsGiverNameVisible(isGiverNameVisible);
+        
+        Map<String, Boolean> isRecipientNameVisible = new HashMap<String, Boolean>();
+        for (FeedbackParticipantType recipientType : question.showRecipientNameTo) {
+            isRecipientNameVisible.put(recipientType.name(), true);
+        }
+        generalSettings.setIsRecipientNameVisible(isRecipientNameVisible);
+        
+        Map<String, Boolean> isResponsesVisible = new HashMap<String, Boolean>();
+        for (FeedbackParticipantType participantType : question.showResponsesTo) {
+            isResponsesVisible.put(participantType.name(), true);
+        }
+        generalSettings.setIsResponseVisible(isResponsesVisible);
+        
+        generalSettings.setNumberOfEntitiesToGiveFeedbackToChecked(question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS);
+        generalSettings.setNumOfEntitiesToGiveFeedbackToValue(question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS ?
+                                                     1 :
+                                                     question.numberOfEntitiesToGiveFeedbackTo);
+        qnForm.setQuestionHasResponses(questionHasResponses.get(question.getId()));
+        
+        List<String> visibilityMessages = question.getVisibilityMessage();
+        generalSettings.setVisibilityMessages(visibilityMessages);
+        
+        qnForm.setQuestionSpecificEditFormHtml(question.getQuestionDetails().getQuestionSpecificEditFormHtml(question.questionNumber));
+        
+        qnForms.add(qnForm);
+    }
+
+
+    private void buildNewQuestionForm(FeedbackSessionAttributes feedbackSession,
+                                    List<FeedbackQuestionAttributes> questions,
+                                    InstructorAttributes instructor) {
+        newQnForm = new FeedbackQuestionEditForm();
+        newQnForm.doneEditingLink = new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+                                        .withUserId(account.googleId)
+                                        .withCourseId(feedbackSession.courseId)
+                                        .withSessionName(feedbackSession.feedbackSessionName);
+        
+        
+        newQnForm.setAction(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD));
+        newQnForm.setCourseId(instructor.courseId);
+        newQnForm.setFeedbackSessionName(feedbackSession.feedbackSessionName);
+        
+        newQnForm.questionTypeOptions = getQuestionTypeChoiceOptions();
+      
+        FeedbackQuestionGeneralSettings generalSettings = new FeedbackQuestionGeneralSettings();  
+        newQnForm.setGeneralSettings(generalSettings);
+        generalSettings.setGiverParticipantOptions(getParticipantOptions(null, true));
+        generalSettings.setRecipientParticipantOptions(getParticipantOptions(null, false));
+        newQnForm.setNumOfQuestionsOnPage(questions.size());
+        newQnForm.setQuestionNumberOptions(getQuestionNumberOptions(questions.size() + 1));
+      
+        newQnForm.setQuestionSpecificEditFormHtml(getNewQuestionSpecificEditFormHtml());
+        
+        setDefaultVisibilityOptions(generalSettings);
+    }
+
+
+    private void setDefaultVisibilityOptions(FeedbackQuestionGeneralSettings generalSettings) {
+        Map<String, Boolean> isGiverNameVisible = new HashMap<String, Boolean>();
+        Map<String, Boolean> isRecipientNameVisible = new HashMap<String, Boolean>();
+        Map<String, Boolean> isResponsesVisible = new HashMap<String, Boolean>();
+        
+        List<FeedbackParticipantType> participantVisiblity = new ArrayList<FeedbackParticipantType>();
+        participantVisiblity.add(FeedbackParticipantType.INSTRUCTORS);
+        participantVisiblity.add(FeedbackParticipantType.RECEIVER);
+        for (FeedbackParticipantType participant : participantVisiblity) {
+            isGiverNameVisible.put(participant.name(), true);
+            isRecipientNameVisible.put(participant.name(), true);
+            isResponsesVisible.put(participant.name(), true);
+        }
+        generalSettings.setIsGiverNameVisible(isGiverNameVisible);
+        generalSettings.setIsRecipientNameVisible(isRecipientNameVisible);
+        generalSettings.setIsResponseVisible(isResponsesVisible);
     }
     
     
     private void buildBasicFsForm(FeedbackSessionAttributes newFeedbackSession) {
         fsForm = new FeedbackSessionsForm();
         
-        
         fsForm.setFsDeleteLink(new Url(getInstructorFeedbackSessionDeleteLink(newFeedbackSession.courseId, newFeedbackSession.feedbackSessionName, "")));
         fsForm.setCopyToLink(new Url(getFeedbackSessionEditCopyLink()));
-        
         
         fsForm.setCourseIdForNewSession(newFeedbackSession.courseId);
         
@@ -241,6 +298,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         additionalSettings.setSendClosingEmailChecked(newFeedbackSession.isClosingEmailEnabled);
         additionalSettings.setSendOpeningEmailChecked(newFeedbackSession.isOpeningEmailEnabled);
         additionalSettings.setSendPublishedEmailChecked(newFeedbackSession.isPublishedEmailEnabled);
+        
         return additionalSettings;
     }
     
@@ -326,12 +384,12 @@ public class InstructorFeedbackEditPageData extends PageData {
      * Returns a list of HTML options for selecting question type.
      * Used in instructorFeedbackEdit.jsp for selecting the question type for a new question.
      */
-    public List<String> getQuestionTypeChoiceOptions() {
-        List<String> options = new ArrayList<String>();
+    public String getQuestionTypeChoiceOptions() {
+        StringBuilder options = new StringBuilder();
         for (FeedbackQuestionType type : FeedbackQuestionType.values()) {
-            options.add(type.getFeedbackQuestionDetailsInstance().getQuestionTypeChoiceOption());
+            options.append(type.getFeedbackQuestionDetailsInstance().getQuestionTypeChoiceOption());
         }
-        return options;
+        return options.toString();
     }
     
     /**
