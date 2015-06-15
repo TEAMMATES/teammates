@@ -159,7 +159,7 @@ function getAppendedData(data, courseIdx) {
 
                     appendedHtml += '\n<a class="btn btn-default btn-xs student-delete-for-test"'
                                      + 'href="' + getCourseStudentDeleteLink(student, data.account.googleId) + '"'
-                                     + 'onclick="return toggleDeleteStudentConfirmation(\'' + sanitizeForJs(student.course) + '\',\'' + sanitizeForJs(student.name) + '\')"';
+                                     + 'onclick="return toggleDeleteStudentConfirmation(\'' + sanitizeForJs(student.course) + '\',\'' + sanitizeForJs(student.name) + '\')"'
                                      + 'title="' + COURSE_STUDENT_DELETE + '" data-toggle="tooltip" data-placement="top"';
                     if (!data.sectionPrivileges[section.name]['canmodifystudent']) {
                         appendedHtml += 'disabled="disabled"';
