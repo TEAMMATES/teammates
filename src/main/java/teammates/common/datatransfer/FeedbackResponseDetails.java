@@ -1,5 +1,7 @@
 package teammates.common.datatransfer;
 
+import java.util.Map;
+
 
 /** A class holding the details for the response of a specific question type.
  * This abstract class is inherited by concrete Feedback*ResponseDetails
@@ -56,18 +58,18 @@ public abstract class FeedbackResponseDetails {
      * @param feedbackSessionResultsBundle
      * @return
      */
-    public String getAnswerCsv(FeedbackResponseAttributes response, FeedbackQuestionAttributes question, FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
+    public String getAnswerCsv(FeedbackResponseAttributes response, FeedbackQuestionAttributes question, 
+                                    FeedbackSessionResultsBundle feedbackSessionResultsBundle) {
         return getAnswerCsv(question.getQuestionDetails());
     }
     
-
-    
     public static FeedbackResponseDetails createResponseDetails(
             String[] answer, FeedbackQuestionType questionType,
-            FeedbackQuestionDetails questionDetails) {
-        
-        FeedbackResponseDetails responseDetails = questionType.getFeedbackResponseDetailsInstance(questionDetails, answer);
-        
+            FeedbackQuestionDetails questionDetails,
+            Map<String, String[]> requestParameters, int questionIndx, int responseIndx) {
+                                
+        FeedbackResponseDetails responseDetails = questionType.getFeedbackResponseDetailsInstance(
+                                                                   questionDetails, answer, requestParameters, questionIndx, responseIndx);                              
         return responseDetails;
     }
 }

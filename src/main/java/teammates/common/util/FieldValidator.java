@@ -518,15 +518,16 @@ public class FieldValidator {
     public String getValidityInfoForSizeCappedAlphanumericNonEmptyString(String fieldName, int maxLength, String value) {
         
         Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
+        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         } else if(value.length()>maxLength){
-            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_TOO_LONG, fieldName, maxLength);
+            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
         } else if (StringHelper.isMatching(value, "^.*[^a-zA-Z0-9 ].*$")){
-            return String.format(ALPHANUMERIC_STRING_ERROR_MESSAGE, value, fieldName, fieldName);
+            return String.format(ALPHANUMERIC_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, fieldName);
         }
         return "";
     }
@@ -549,13 +550,14 @@ public class FieldValidator {
     public String getValidityInfoForSizeCappedNonEmptyString(String fieldName, int maxLength, String value) {
         
         Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
+        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         } else if(value.length()>maxLength){
-            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_TOO_LONG, fieldName, maxLength);
+            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
         } 
         return "";
     }
@@ -578,24 +580,25 @@ public class FieldValidator {
     public String getValidityInfoForAllowedName(String fieldName, int maxLength, String value) {
         
         Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
+        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
             return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_EMPTY, fieldName, maxLength);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         } else if (value.length()>maxLength) {
-            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_TOO_LONG, fieldName, maxLength);
+            return String.format(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
         } else if (Character.isLetterOrDigit(value.codePointAt(0)) == false) {           
             boolean startsWithBraces = value.charAt(0) == '{' && value.contains("}");
             if(!startsWithBraces){
-                return String.format(INVALID_NAME_ERROR_MESSAGE, value, fieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, fieldName);
+                return String.format(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, fieldName);
             }
             if(!StringHelper.isMatching(value.substring(1), REGEX_NAME)){
-                return String.format(INVALID_NAME_ERROR_MESSAGE, value, fieldName, REASON_CONTAINS_INVALID_CHAR, fieldName);
+                return String.format(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_CONTAINS_INVALID_CHAR, fieldName);
             }
             
         } else if (!StringHelper.isMatching(value, REGEX_NAME)) {
-            return String.format(INVALID_NAME_ERROR_MESSAGE, value, fieldName, REASON_CONTAINS_INVALID_CHAR, fieldName);
+            return String.format(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_CONTAINS_INVALID_CHAR, fieldName);
         }
         return "";
     }
@@ -617,12 +620,13 @@ public class FieldValidator {
     public String getValidityInfoForSizeCappedPossiblyEmptyString(String fieldName, int maxLength, String value) {
         
         Assumption.assertTrue("Non-null value expected for "+fieldName, value != null);
+        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, fieldName);
         } 
         if (value.length()>maxLength){
-            return String.format(SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, value, fieldName, REASON_TOO_LONG, fieldName, maxLength);
+            return String.format(SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue, fieldName, REASON_TOO_LONG, fieldName, maxLength);
         } 
         return "";
     }
@@ -798,15 +802,17 @@ public class FieldValidator {
         Assumption.assertTrue("Non-null value expected", value != null);
         Assumption.assertTrue("\""+value+"\""+  "is not expected to be a gmail address.", 
                 !value.toLowerCase().endsWith("@gmail.com"));
+        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
+            System.out.println(String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_EMPTY));
             return String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "googleID");
         } else if(value.length()>GOOGLE_ID_MAX_LENGTH){
-            return String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_TOO_LONG);
+            return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
         } else if(!StringHelper.isMatching(value, REGEX_EMAIL) && !StringHelper.isMatching(value, REGEX_GOOGLE_ID_NON_EMAIL)){
-            return String.format(GOOGLE_ID_ERROR_MESSAGE, value, REASON_INCORRECT_FORMAT);
+            return String.format(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
         }
         return "";
     }
@@ -814,15 +820,16 @@ public class FieldValidator {
     private String getValidityInfoForCourseId(String value) {
         
         Assumption.assertTrue("Non-null value expected", value != null);
+        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
             return String.format(COURSE_ID_ERROR_MESSAGE, value, REASON_EMPTY);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "course ID");
         } else if(value.length()>COURSE_ID_MAX_LENGTH){
-            return String.format(COURSE_ID_ERROR_MESSAGE, value, REASON_TOO_LONG);
+            return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
         }else if(!StringHelper.isMatching(value, REGEX_COURSE_ID)){
-            return String.format(COURSE_ID_ERROR_MESSAGE, value, REASON_INCORRECT_FORMAT);
+            return String.format(COURSE_ID_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
         }
         return "";
     }
@@ -830,24 +837,26 @@ public class FieldValidator {
     private String getValidityInfoForEmail(String value) {
         
         Assumption.assertTrue("Non-null value expected", value != null);
+        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
             return String.format(EMAIL_ERROR_MESSAGE, value, REASON_EMPTY);
         } else if (!isTrimmed(value)) {
             return String.format(WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE, "email");
         } else if(value.length()>EMAIL_MAX_LENGTH){
-            return String.format(EMAIL_ERROR_MESSAGE, value, REASON_TOO_LONG);
+            return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_TOO_LONG);
         }else if(!StringHelper.isMatching(value, REGEX_EMAIL)){
-            return String.format(EMAIL_ERROR_MESSAGE, value, REASON_INCORRECT_FORMAT);
+            return String.format(EMAIL_ERROR_MESSAGE, sanitizedValue, REASON_INCORRECT_FORMAT);
         }
         return "";
     }
     
     private String getValidityInfoForGender(String value) {
         Assumption.assertTrue("Non-null value expected", value != null);
+        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (!GENDER_ACCEPTED_VALUES.contains(value)) {
-            return String.format(GENDER_ERROR_MESSAGE, value);
+            return String.format(GENDER_ERROR_MESSAGE, sanitizedValue);
         }
         return "";
     }
@@ -855,6 +864,7 @@ public class FieldValidator {
     private String getValidityInfoForInstructorRole(String value) {
         
         Assumption.assertTrue("Non-null value expected", value != null);
+        String sanitizedValue = Sanitizer.sanitizeForHtml(value);
         
         if (value.isEmpty()) {
             return String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, value, REASON_EMPTY);
@@ -864,7 +874,7 @@ public class FieldValidator {
                 || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER)
                 || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR)
                 || value.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM))) {
-            return String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, value, INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING);
+            return String.format(INSTRUCTOR_ROLE_ERROR_MESSAGE, sanitizedValue, INSTRUCTOR_ROLE_ERROR_REASON_NOT_MATCHING);
         }
         
         return "";
