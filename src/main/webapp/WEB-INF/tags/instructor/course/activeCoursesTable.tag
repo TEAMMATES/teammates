@@ -1,6 +1,6 @@
 <%@ tag description="instructorCourse - Course table" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ attribute name="activeCourses" required="true" %>
+<%@ attribute name="activeCourses" type="teammates.ui.template.ActiveCoursesTable" required="true" %>
 
 <h2>Active courses</h2>
 <table class="table table-bordered table-striped">

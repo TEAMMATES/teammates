@@ -1,8 +1,8 @@
 <%@ tag description="instructorCourse - Course table" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ attribute name="archivedCourses" required="true" %>
-<%@ attribute name="activeCourses" required="true" %>
+<%@ attribute name="archivedCourses" type="teammates.ui.template.ArchivedCoursesTable" required="true" %>
+<%@ attribute name="activeCourses" type="teammates.ui.template.ActiveCoursesTable" required="true" %>
 
 <h2 class="text-muted">Archived courses</h2>
 <table class="table table-bordered table-striped">
