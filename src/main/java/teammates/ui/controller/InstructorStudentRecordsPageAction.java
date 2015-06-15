@@ -114,7 +114,11 @@ public class InstructorStudentRecordsPageAction extends Action {
                       + "Student Profile: " + (data.studentProfile == null ? "No Profile"
                                                                            : data.studentProfile.toString());
 
-        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, data);
+        if (data.targetSessionName.isEmpty()) {
+            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, data);
+        } else {
+            return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS_AJAX, data);
+        }
 
     }
 
