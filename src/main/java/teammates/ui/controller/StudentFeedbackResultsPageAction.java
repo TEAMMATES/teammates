@@ -1,5 +1,10 @@
 package teammates.ui.controller;
 
+import java.util.List;
+import java.util.Map;
+
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -11,6 +16,8 @@ public class StudentFeedbackResultsPageAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        String regKey = getRequestParamValue(Const.ParamsNames.REGKEY);
+        String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
         if (courseId == null || feedbackSessionName == null) {
             return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
@@ -27,6 +34,8 @@ public class StudentFeedbackResultsPageAction extends Action {
 
         data.student = getCurrentStudent(courseId);
         data.bundle = logic.getFeedbackSessionResultsForStudent(feedbackSessionName, courseId, data.student.email);
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses =
+                                                                            data.bundle.getQuestionResponseMap();
 
         if (data.bundle == null) {
             // not covered because GateKeeper will detect this as unauthorized exception, but we can
@@ -48,6 +57,8 @@ public class StudentFeedbackResultsPageAction extends Action {
         statusToAdmin = "Show student feedback result page<br>"
                         + "Session Name: " + feedbackSessionName + "<br>"
                         + "Course ID: " + courseId;
+        
+        data.init(regKey, email, courseId, questionsWithResponses);
         return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_RESULTS, data);
     }
 
