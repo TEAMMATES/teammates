@@ -28,6 +28,8 @@
         </c:if>
         <div class="row">
             <div class="col-md-12">
+                <tisr:commentsBox comments="${data.comments}" />
+                <br>
                 <c:forEach items="${data.sessions}" var="session" varStatus="i">
                     <tisr:feedbackSession session="${session}" index="${i.index}" />
                 </c:forEach>

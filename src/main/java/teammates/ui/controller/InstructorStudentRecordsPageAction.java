@@ -59,13 +59,10 @@ public class InstructorStudentRecordsPageAction extends Action {
         filterFeedbackSessions(courseId, sessions, student, instructor);
         Collections.sort(sessions, SessionAttributes.DESCENDING_ORDER);
 
-        data = new InstructorStudentRecordsPageData(account, studentProfile, student, sessions, courseId);
-
-        data.currentInstructor = instructor;
-        data.showCommentBox = showCommentBox;
-        data.comments = logic.getCommentsForReceiver(courseId, instructor.email,
-                                                     CommentParticipantType.PERSON, studentEmail);
-        Iterator<CommentAttributes> iterator = data.comments.iterator();
+        List<CommentAttributes> comments = logic.getCommentsForReceiver(courseId, instructor.email,
+                                                                        CommentParticipantType.PERSON, studentEmail);
+        
+        Iterator<CommentAttributes> iterator = comments.iterator();
         while (iterator.hasNext()) {
             CommentAttributes c = iterator.next();
             if (!c.giverEmail.equals(instructor.email)) {
@@ -74,12 +71,16 @@ public class InstructorStudentRecordsPageAction extends Action {
             }
         }
 
-        CommentAttributes.sortCommentsByCreationTimeDescending(data.comments);
+        CommentAttributes.sortCommentsByCreationTimeDescending(comments);
 
-        if (data.sessions.size() == 0 && data.comments.size() == 0) {
+        if (sessions.size() == 0 && comments.size() == 0) {
             statusToUser.add(Const.StatusMessages.INSTRUCTOR_NO_STUDENT_RECORDS);
         }
 
+        data = new InstructorStudentRecordsPageData(account, studentProfile, student, sessions, courseId, comments,
+                                                    instructor);
+
+        data.showCommentBox = showCommentBox;
         statusToAdmin = "instructorStudentRecords Page Load<br>"
                       + "Viewing <span class=\"bold\">" + studentEmail + "'s</span> records "
                       + "for Course <span class=\"bold\">[" + courseId + "]</span><br>"
