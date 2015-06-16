@@ -13,10 +13,6 @@ public class StudentProfilePageData extends PageData {
     
     public StudentProfilePageData(AccountAttributes account, String isEditingPhoto) {
         super(account);
-        init(account, isEditingPhoto);
-    }
-    
-    private void init(AccountAttributes account, String isEditingPhoto) {
         StudentProfileAttributes profile = account.studentProfile;
         String pictureUrl;
         if (profile.pictureKey.isEmpty()) {
