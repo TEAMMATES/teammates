@@ -13,6 +13,7 @@ import teammates.common.datatransfer.SessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorStudentRecordsPageAction extends Action {
@@ -39,6 +40,7 @@ public class InstructorStudentRecordsPageAction extends Action {
         data.currentInstructor = instructor;
         data.courseId = courseId;
         data.student = logic.getStudentForEmail(courseId, studentEmail);
+        data.studentName = Sanitizer.sanitizeForHtml(data.student.name);
 
         if (data.student == null) {
             statusToUser.add(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_RECORDS);

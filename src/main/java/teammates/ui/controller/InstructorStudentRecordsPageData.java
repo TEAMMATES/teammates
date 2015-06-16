@@ -16,9 +16,22 @@ public class InstructorStudentRecordsPageData extends PageData {
     public List<CommentAttributes> comments;
     public List<SessionAttributes> sessions;
     public String showCommentBox;
+    public String studentName;
 
     public InstructorStudentRecordsPageData(AccountAttributes account) {
         super(account);
+    }
+    
+    public String getShowCommentBox() {
+        return showCommentBox;
+    }
+    
+    public String getStudentName() {
+        return studentName;
+    }
+    
+    public String getCourseId() {
+        return courseId;
     }
 
 }
