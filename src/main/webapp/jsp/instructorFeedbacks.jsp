@@ -6,8 +6,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="feedbacks" %>
 <c:set var="jsIncludes">
     <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
-        
-    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js" type="text/javascript"></script>
+    
     <script src="/js/date.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/datepicker.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
