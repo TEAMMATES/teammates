@@ -54,9 +54,6 @@ public class InstructorCommentsPageAction extends Action {
         String courseName = getCoursePaginationList(coursePaginationList);
         data = new InstructorCommentsPageData(account);
         
-        data.currentInstructor = instructor; // TODO: see how to keep this assignment to the init function();
-        data.courseId = courseId; // TODO: this too
-        
         CourseRoster roster = null;
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new HashMap<String, List<CommentAttributes>>();
         List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<FeedbackSessionAttributes>();
@@ -175,8 +172,7 @@ public class InstructorCommentsPageAction extends Action {
         return giverEmailToGiverNameMap;
     }
 
-    private Map<String, List<CommentAttributes>> getGiverEmailToCommentsMap()
-            throws EntityDoesNotExistException {
+    private Map<String, List<CommentAttributes>> getGiverEmailToCommentsMap() throws EntityDoesNotExistException {
         List<CommentAttributes> comments;
         if (isViewingDraft) {//for comment drafts
             comments = logic.getCommentDrafts(account.email);
@@ -210,8 +206,9 @@ public class InstructorCommentsPageAction extends Action {
                                    boolean isCurrentInstructorGiver,
                                    List<CommentAttributes> commentList) {
         if (!isViewingDraft && !isCurrentInstructorGiver) { 
-            if (data.isInstructorAllowedForPrivilegeOnComment(comment,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
+            if (data.isInstructorAllowedForPrivilegeOnComment(
+                             comment, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS,
+                             instructor, courseId)) {
                 commentList.add(comment);
             }
         } else {

@@ -10,7 +10,6 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -140,24 +139,26 @@ public class InstructorCommentsPageData extends PageData {
         return comment.giverEmail.equals(instructorEmail)
                        || (currentInstructor != null 
                                && isInstructorAllowedForPrivilegeOnComment(
-                                               comment, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS));
+                                          comment, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS,
+                                          currentInstructor, courseId));
     }
         
-    public boolean isInstructorAllowedForPrivilegeOnComment(CommentAttributes comment, String privilegeName) {
+    public boolean isInstructorAllowedForPrivilegeOnComment(CommentAttributes comment, String privilegeName,
+                                                            InstructorAttributes instructor, String courseId) {
         // TODO: remember to come back and change this if later CommentAttributes.recipients can have multiple later!!!
         Logic logic = new Logic();
-        if (this.currentInstructor == null) {
+        if (instructor == null) {
             return false;
         }
         if (comment.recipientType == CommentParticipantType.COURSE) {
-            return this.currentInstructor.isAllowedForPrivilege(privilegeName);          
+            return instructor.isAllowedForPrivilege(privilegeName);          
         } else if (comment.recipientType == CommentParticipantType.SECTION) {
             String section = "";
             if (!comment.recipients.isEmpty()) {
                 Iterator<String> iterator = comment.recipients.iterator();
                 section = iterator.next();
             }
-            return this.currentInstructor.isAllowedForPrivilege(section, privilegeName);
+            return instructor.isAllowedForPrivilege(section, privilegeName);
         } else if (comment.recipientType == CommentParticipantType.TEAM) {
             String team = "";
             String section = "";
@@ -169,7 +170,7 @@ public class InstructorCommentsPageData extends PageData {
             if (!students.isEmpty()) {
                 section = students.get(0).section;
             }
-            return this.currentInstructor.isAllowedForPrivilege(section, privilegeName);
+            return instructor.isAllowedForPrivilege(section, privilegeName);
         } else if (comment.recipientType == CommentParticipantType.PERSON) {
             String studentEmail = "";
             String section = "";
@@ -181,7 +182,7 @@ public class InstructorCommentsPageData extends PageData {
             if (student != null) {
                 section = student.section;
             }
-            return this.currentInstructor.isAllowedForPrivilege(section, privilegeName);
+            return instructor.isAllowedForPrivilege(section, privilegeName);
         } else {
             // TODO: implement this if instructor is later allowed to be added to recipients
             return false;
