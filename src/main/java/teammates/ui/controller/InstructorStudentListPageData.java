@@ -28,12 +28,6 @@ public class InstructorStudentListPageData extends PageData {
                                          Map<String, String> numStudents,
                                          List<InstructorStudentListPageCourseData> coursesToDisplay) {
         super(account);
-        init(account, searchKey, displayArchive, numStudents, coursesToDisplay);
-    }
-    
-    private void init(AccountAttributes account, String searchKey, boolean displayArchive,
-                      Map<String, String> numStudents,
-                      List<InstructorStudentListPageCourseData> coursesToDisplay) {
         this.searchBox = new InstructorStudentListSearchBox(getInstructorSearchLink(), searchKey, account.googleId);
         List<InstructorStudentListFilterCourse> coursesForFilter =
                                         new ArrayList<InstructorStudentListFilterCourse>();
