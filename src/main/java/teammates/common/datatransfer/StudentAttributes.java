@@ -143,6 +143,14 @@ public class StudentAttributes extends EntityAttributes {
                            .withCourseId(StringHelper.encrypt(course))
                            .toString();
     }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
 
     public boolean isEnrollInfoSameAs(StudentAttributes otherStudent) {
         return (otherStudent != null) && otherStudent.email.equals(this.email)

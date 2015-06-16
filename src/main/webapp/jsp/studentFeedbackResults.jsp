@@ -1,4 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
+<%@ taglib tagdir="/WEB-INF/tags/student" prefix="ts" %>
+<%@ taglib tagdir="/WEB-INF/tags/student/feedbackResults" prefix="feedbackResults" %>
+
+<c:set var="jsIncludes">
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
+    <script type="text/javascript" src="/js/student.js"></script>
+</c:set>
+
+<ts:studentPage bodyTitle="Feedback Results - Student" pageTitle="TEAMMATES - Feedback Results" jsIncludes="${jsIncludes}">
+    <ts:registerMessage googleId="${data.account.googleId}" registerMessage="${data.registerMessage}"/>    
+    <feedbackResults:feedbackSessionDetailsPanel feedbackSession="${data.bundle.feedbackSession}"/>
+    <t:statusMessage/>
+    <br>
+    
+    <!-- For every question -->
+    <c:forEach items="${data.feedbackResultsQuestionsWithResponses}" var="questionWithResponses">
+        <feedbackResults:questionWithResponses questionWithResponses="${questionWithResponses}"/>
+    </c:forEach>
+    
+    <c:if test="${empty data.feedbackResultsQuestionsWithResponses}">
+        <div class="col-sm-12" style="color: red">
+            There are currently no responses for you for this feedback session.
+        </div>
+    </c:if>
+</ts:studentPage>
+<!--  -->
+<%-- 
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.List" %>
@@ -64,6 +95,7 @@
             <div id="frameBodyWrapper" class="container">
                 <div id="topOfPage"></div>
                 <h1>Feedback Results - Student</h1>
+                <!--  -->
                 <br>
                 <%
                     if (data.account.googleId == null) {
@@ -129,6 +161,7 @@
                 %>
                         <div class="panel panel-default">
                             <div class="panel-heading">
+                            <!--  -->
                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                 <h4>Question <%= qnIndx %>: <span class="text-preserve-space"><%= StudentFeedbackResultsPageData.sanitizeForHtml(questionDetails.questionText)%><%=questionDetails.getQuestionAdditionalInfoHtml(qnIndx, "") %></span></h4>
                                 <%=
@@ -139,7 +172,9 @@
                                 <%
                                     ListIterator<FeedbackResponseAttributes> itr = questionWithResponses.getValue().listIterator();
                                     String previousRecipientEmail = null;
+                                    
                                     if (questionDetails.isIndividualResponsesShownToStudents()) {
+                                        
                                         while (itr.hasNext()) {
                                             FeedbackResponseAttributes singleResponse = itr.next();
 
@@ -236,6 +271,7 @@
                                                             <%  }  %>
                                     <%  } %>
                                 <%  }  %>
+                                <!--  -->
                             </div>
                         </div>
                         <br>
@@ -247,6 +283,7 @@
                             There are currently no responses for you for this feedback session.
                         </div>
                 <%  }  %>
+                <!--  -->
             </div>
         </div>
 
@@ -255,3 +292,4 @@
         </div>
     </body>
 </html>
+ --%>

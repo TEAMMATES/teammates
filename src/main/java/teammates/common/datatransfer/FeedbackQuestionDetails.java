@@ -96,6 +96,10 @@ public abstract class FeedbackQuestionDetails {
 
         return detailedResponsesRow;
     }
+    
+    public String getQuestionText() {
+        return questionText;
+    }
 
     /**
      * Returns a HTML option for selecting question type.
