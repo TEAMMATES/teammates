@@ -95,14 +95,12 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         InstructorStudentRecordsPageData actualData = (InstructorStudentRecordsPageData) r.data;
         StudentProfileAttributes expectedProfile = new StudentProfileAttributes();
         expectedProfile.googleId = student.googleId;
-        expectedProfile.modifiedDate = actualData.studentProfile.modifiedDate;
-        expectedProfile.pictureKey = actualData.studentProfile.pictureKey;
+        expectedProfile.modifiedDate = actualData.getStudentProfile().getModifiedDate();
 
         assertEquals(instructorId, actualData.account.googleId);
-        assertEquals(instructor.courseId, actualData.courseId);
-        assertEquals(1, actualData.comments.size());
-        assertEquals(6, actualData.sessions.size());
-        assertEquals(student.googleId, actualData.studentProfile.googleId);
+        assertEquals(instructor.courseId, actualData.getCourseId());
+        assertEquals(1, actualData.getComments().getComments().size());
+        assertEquals(6, actualData.getSessions().size());
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorStudentRecordsPage|||instructorStudentRecordsPage"
                                   + "|||true|||Instructor|||Instructor 3 of Course 1 and 2|||idOfInstructor3"
@@ -167,7 +165,7 @@ public class InstructorStudentRecordsPageActionTest extends BaseActionTest {
         a = getAction(submissionParamsWithNoSession);
         r = getShowPageResult(a);
 
-        AssertHelper.assertContains("No records were found for this student", r.getStatusMessage());
+        AssertHelper.assertContains(Const.StatusMessages.INSTRUCTOR_NO_STUDENT_RECORDS, r.getStatusMessage());
 
     }
 

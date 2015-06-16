@@ -1,5 +1,7 @@
 package teammates.ui.template;
 
+import java.util.Date;
+
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
@@ -13,6 +15,7 @@ public class InstructorStudentRecordsStudentProfile {
     private String institute;
     private String nationality;
     private String moreInfo;
+    private Date modifiedDate; // for testing purpose
 
     public InstructorStudentRecordsStudentProfile(StudentProfileAttributes spa, AccountAttributes account) {
         this.shortName = convertUnfilledFields(spa.shortName);
@@ -28,6 +31,7 @@ public class InstructorStudentRecordsStudentProfile {
                             + "?" + Const.ParamsNames.BLOB_KEY + "=" + spa.pictureKey
                             + "&" + Const.ParamsNames.USER_ID + "=" + account.googleId;
         }
+        this.modifiedDate = spa.modifiedDate;
     }
 
     private String convertUnfilledGender(String gender) {
@@ -67,6 +71,10 @@ public class InstructorStudentRecordsStudentProfile {
 
     public String getMoreInfo() {
         return moreInfo;
+    }
+
+    public Date getModifiedDate() {
+        return modifiedDate;
     }
 
 }
