@@ -19,6 +19,7 @@ public class FeedbackSessionsForm {
     
     private String feedbackSessionNameForSessionList;
     
+    private boolean isEditFsButtonsVisible;
     private boolean isFeedbackSessionTypeEditable;
     // List of options for feedback session type
     private List<ElementTag> feedbackSessionTypeOptions;
@@ -265,6 +266,14 @@ public class FeedbackSessionsForm {
 
     public void setCopyToLink(Url copyToLink) {
         this.copyToLink = copyToLink;
+    }
+
+    public boolean isEditFsButtonsVisible() {
+        return isEditFsButtonsVisible;
+    }
+
+    public void setEditFsButtonsVisible(boolean isEditFsButtonsVisible) {
+        this.isEditFsButtonsVisible = isEditFsButtonsVisible;
     }
     
     

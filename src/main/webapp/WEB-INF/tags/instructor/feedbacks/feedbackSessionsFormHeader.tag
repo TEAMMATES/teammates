@@ -6,8 +6,7 @@
 
 <%@ attribute name="fsForm" type="teammates.ui.template.FeedbackSessionsForm" required="true"%>
 
-<c:choose>
-    <c:when test="${fsForm.feedbackSessionTypeEditable}">
+<c:if test="${fsForm.feedbackSessionTypeEditable}">
     <div class="row">
         <h4 class="label-control col-md-2 text-md">Create new </h4>
         <div class="col-md-5">
@@ -36,41 +35,40 @@
             <a id="button_copy" class="btn btn-info" style="vertical-align:middle;">Loading...</a>
         </div>
     </div>
-    </c:when>
-    
-    <c:otherwise>
-        <div class="row">
-            <div class="col-sm-12">
-                <span class="pull-right">
-                    <a class="btn btn-primary btn-sm" id="fsEditLink"
-                        title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT %>"
-                        data-toggle="tooltip" data-placement="top"
-                        onclick="enableEditFS()">
-                        Edit
+</c:if>
+
+<c:if test="${fsForm.editFsButtonsVisible}">
+    <div class="row">
+        <div class="col-sm-12">
+            <span class="pull-right">
+                <a class="btn btn-primary btn-sm" id="fsEditLink"
+                    title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT %>"
+                    data-toggle="tooltip" data-placement="top"
+                    onclick="enableEditFS()">
+                    Edit
+                </a>
+                <button type="submit" id="fsSaveLink" style="display:none;" class="btn btn-primary btn-sm" onclick="return checkEditFeedbackSession(this.form);">
+                    Save Changes
+                </button>
+                <a href="${fsForm.fsDeleteLink}"
+                    onclick="return toggleDeleteFeedbackSessionConfirmation('${fsForm.courseIdForNewSession}','${fsForm.fsName}');"
+                    title="<%= Const.Tooltips.FEEDBACK_SESSION_DELETE %>"
+                    data-toggle="tooltip" data-placement="top"
+                    class="btn btn-primary btn-sm" id="fsDeleteLink">
+                    Delete
+                </a>
+                <span data-toggle="tooltip" title="Copy this feedback session to other courses" data-placement="top">
+                    <a class="btn btn-primary btn-sm" href="#"
+                        data-actionlink="${fsForm.copyToLink}"
+                        data-courseid="${fsForm.courseIdForNewSession}"
+                        data-fsname="${fsForm.fsName}"
+                        data-target="#fsCopyModal"
+                        data-placement="top" id="button_fscopy"
+                        data-toggle="modal">
+                        Copy
                     </a>
-                    <button type="submit" id="fsSaveLink" style="display:none;" class="btn btn-primary btn-sm" onclick="return checkEditFeedbackSession(this.form);">
-                        Save Changes
-                    </button>
-                    <a href="${fsForm.fsDeleteLink}"
-                        onclick="return toggleDeleteFeedbackSessionConfirmation('${fsForm.courseIdForNewSession}','${fsForm.fsName}');"
-                        title="<%= Const.Tooltips.FEEDBACK_SESSION_DELETE %>"
-                        data-toggle="tooltip" data-placement="top"
-                        class="btn btn-primary btn-sm" id="fsDeleteLink">
-                        Delete
-                    </a>
-                    <span data-toggle="tooltip" title="Copy this feedback session to other courses" data-placement="top">
-                        <a class="btn btn-primary btn-sm" href="#"
-                            data-actionlink="${fsForm.copyToLink}"
-                            data-courseid="${fsForm.courseIdForNewSession}"
-                            data-fsname="${fsForm.fsName}"
-                            data-target="#fsCopyModal"
-                            data-placement="top" id="button_fscopy"
-                            data-toggle="modal">
-                            Copy
-                        </a>
-                    </span>
                 </span>
-            </div>
+            </span>
         </div>
-    </c:otherwise>
-</c:choose>
+    </div>
+</c:if>

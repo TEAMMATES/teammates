@@ -177,6 +177,7 @@ public class InstructorFeedbacksPageData extends PageData {
         newFsForm.setCoursesSelectField(getCourseIdOptions(courses,  courseIdForNewSession, 
                                         instructors, newFeedbackSession));
         
+        newFsForm.setEditFsButtonsVisible(false);
         newFsForm.setFeedbackSessionTypeEditable(true);
         newFsForm.setFeedbackSessionTypeOptions(getFeedbackSessionTypeOptions(feedbackSessionType));
 

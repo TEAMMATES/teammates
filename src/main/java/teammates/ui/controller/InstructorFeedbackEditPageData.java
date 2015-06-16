@@ -43,56 +43,62 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
     
 
-    public void init(FeedbackSessionAttributes feedbackSession, 
-                     List<FeedbackQuestionAttributes> questions,
-                     List<FeedbackQuestionAttributes> copiableQuestions,
+    public void init(FeedbackSessionAttributes feedbackSession, List<FeedbackQuestionAttributes> questions,
+                     List<FeedbackQuestionAttributes> copiableQuestions, 
                      Map<String, Boolean> questionHasResponses,
-                     List<StudentAttributes> studentList,
-                     List<InstructorAttributes> instructorList,
+                     List<StudentAttributes> studentList, List<InstructorAttributes> instructorList,
                      InstructorAttributes instructor) {
         Assumption.assertNotNull(feedbackSession);
-        //form for editing the fs
-        buildBasicFsForm(feedbackSession);
-        fsForm.setAdditionalSettings(buildFsFormAdditionalSettings(feedbackSession));
         
-        //forms for editing questions
+        buildFsForm(feedbackSession);
+        
         qnForms = new ArrayList<FeedbackQuestionEditForm>();
         for (FeedbackQuestionAttributes question : questions) {
-            // build question edit form
             buildExistingQuestionForm(feedbackSession, questions, questionHasResponses, instructor, question);
         }
         
-        // new qn form
         buildNewQuestionForm(feedbackSession, questions, instructor);
         
-        // preview form
-        buildPreviewForm(feedbackSession, copiableQuestions, studentList, instructorList, instructor);
+        buildPreviewForm(feedbackSession, studentList, instructorList);
+        
+        buildCopyQnForm(feedbackSession, copiableQuestions, instructor);
         
     }
 
 
-    private void buildPreviewForm(FeedbackSessionAttributes feedbackSession,
+    private void buildFsForm(FeedbackSessionAttributes feedbackSession) {
+        buildBasicFsForm(feedbackSession);
+        fsForm.setAdditionalSettings(buildFsFormAdditionalSettings(feedbackSession));
+    }
+
+
+    private void buildCopyQnForm(FeedbackSessionAttributes feedbackSession,
                                     List<FeedbackQuestionAttributes> copiableQuestions,
-                                    List<StudentAttributes> studentList,
-                                    List<InstructorAttributes> instructorList, InstructorAttributes instructor) {
-        buildPreviewForm(feedbackSession, studentList, instructorList);
-        
-        // copy questions modal
+                                    InstructorAttributes instructor) {
+        List<FeedbackQuestionTableRow> copyQuestionRows = buildCopyQuestionsModal(copiableQuestions,
+                                                                                   instructor);
+        copyQnForm = new FeedbackQuestionCopyTable(feedbackSession.courseId, feedbackSession.feedbackSessionName, 
+                                                   copyQuestionRows);
+    }
+
+
+    private List<FeedbackQuestionTableRow> buildCopyQuestionsModal(
+                                    List<FeedbackQuestionAttributes> copiableQuestions,
+                                    InstructorAttributes instructor) {
         List<FeedbackQuestionTableRow> copyQuestionRows = new ArrayList<FeedbackQuestionTableRow>();
         if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
-            for (FeedbackQuestionAttributes question : copiableQuestions) {
-                String courseId = question.courseId;
-                String fsName = question.feedbackSessionName;
-                String qnType = question.getQuestionDetails().getQuestionTypeDisplayName();
-                String qnText = question.getQuestionDetails().questionText;
-                String qnId = question.getId();
+            for (FeedbackQuestionAttributes question1 : copiableQuestions) {
+                String courseId = question1.courseId;
+                String fsName = question1.feedbackSessionName;
+                String qnType = question1.getQuestionDetails().getQuestionTypeDisplayName();
+                String qnText = question1.getQuestionDetails().questionText;
+                String qnId = question1.getId();
                 
                 FeedbackQuestionTableRow row = new FeedbackQuestionTableRow(courseId, fsName, qnType, qnText, qnId);
                 copyQuestionRows.add(row);
             }
         }
-        copyQnForm = new FeedbackQuestionCopyTable(feedbackSession.courseId, feedbackSession.feedbackSessionName, 
-                                                       copyQuestionRows);
+        return copyQuestionRows;
     }
 
 
@@ -197,11 +203,13 @@ public class InstructorFeedbackEditPageData extends PageData {
         List<FeedbackParticipantType> participantVisiblity = new ArrayList<FeedbackParticipantType>();
         participantVisiblity.add(FeedbackParticipantType.INSTRUCTORS);
         participantVisiblity.add(FeedbackParticipantType.RECEIVER);
+        
         for (FeedbackParticipantType participant : participantVisiblity) {
             isGiverNameVisible.put(participant.name(), true);
             isRecipientNameVisible.put(participant.name(), true);
             isResponsesVisible.put(participant.name(), true);
         }
+        
         generalSettings.setIsGiverNameVisible(isGiverNameVisible);
         generalSettings.setIsRecipientNameVisible(isRecipientNameVisible);
         generalSettings.setIsResponseVisible(isResponsesVisible);
@@ -222,6 +230,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         fsForm.setCourseIdEditable(false);
         fsForm.setCourses(null);
         
+        fsForm.setEditFsButtonsVisible(true);
         fsForm.setFeedbackSessionTypeEditable(false);
         fsForm.setFeedbackSessionTypeOptions(null);
 
