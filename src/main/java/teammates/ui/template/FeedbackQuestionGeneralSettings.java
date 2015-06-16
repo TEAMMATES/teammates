@@ -65,7 +65,7 @@ public class FeedbackQuestionGeneralSettings {
         this.visibilityMessages = visibilityMessages;
     }
 
-    public Map<String, Boolean> getIsGiverNameVisible() {
+    public Map<String, Boolean> isGiverNameVisible() {
         return isGiverNameVisible;
     }
 
@@ -73,7 +73,7 @@ public class FeedbackQuestionGeneralSettings {
         this.isGiverNameVisible = isGiverNameVisible;
     }
 
-    public Map<String, Boolean> getIsRecipientNameVisible() {
+    public Map<String, Boolean> isRecipientNameVisible() {
         return isRecipientNameVisible;
     }
 
@@ -81,7 +81,7 @@ public class FeedbackQuestionGeneralSettings {
         this.isRecipientNameVisible = isRecipientNameVisible;
     }
 
-    public Map<String, Boolean> getIsResponseVisible() {
+    public Map<String, Boolean> isResponseVisible() {
         return isResponseVisible;
     }
 
