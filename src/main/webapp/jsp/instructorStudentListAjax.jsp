@@ -1,14 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.SectionDetailsBundle" %>
 <%@ page import="teammates.common.datatransfer.TeamDetailsBundle"%>
-<%@ page import="teammates.common.datatransfer.InstructorAttributes" %>
-<%@ page import="teammates.common.datatransfer.CourseAttributes" %>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
-<%@ page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
-<%@ page import="static teammates.ui.controller.PageData.sanitizeForJs"%>
-<%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
 <%@ page import="teammates.ui.controller.InstructorStudentListAjaxPageData"%>
 <%
     InstructorStudentListAjaxPageData data = (InstructorStudentListAjaxPageData) request.getAttribute("data");
