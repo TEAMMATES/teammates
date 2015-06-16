@@ -39,7 +39,8 @@ public class InstructorStudentRecordsPageData extends PageData {
         } else {
             this.studentProfile = new InstructorStudentRecordsStudentProfile(spa, account);
         }
-        this.moreInfoModal = new InstructorStudentRecordsMoreInfoModal(studentName, spa.moreInfo);
+        this.moreInfoModal = new InstructorStudentRecordsMoreInfoModal(studentName, spa != null ? spa.moreInfo
+                                                                                                : "");
         this.sessions = new ArrayList<InstructorStudentRecordsFeedbackSession>();
         for (FeedbackSessionAttributes session: sessions) {
             this.sessions.add(new InstructorStudentRecordsFeedbackSession(courseId, student.email,
