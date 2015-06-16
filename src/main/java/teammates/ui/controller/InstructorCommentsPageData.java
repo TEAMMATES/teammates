@@ -189,14 +189,11 @@ public class InstructorCommentsPageData extends PageData {
         }
     }
 
-    public void init(boolean isViewingDraft, boolean isDisplayArchive, String courseId,
-                                    String courseName, List<String> coursePaginationList,
-                                    Map<String, List<CommentAttributes>> comments,
-                                    String string, InstructorAttributes instructor, CourseRoster roster,
-                                    List<FeedbackSessionAttributes> feedbackSessions,
-                                    String previousPageLink, String nextPageLink,
-                                    int numberOfPendingComments,
-                                    Map<String, String> giverEmailToGiverNameMap) {
+    public void init(boolean isViewingDraft, boolean isDisplayArchive, String courseId, String courseName,
+                     List<String> coursePaginationList, Map<String, List<CommentAttributes>> comments,
+                     String string, InstructorAttributes instructor, CourseRoster roster,
+                     List<FeedbackSessionAttributes> feedbackSessions, String previousPageLink, String nextPageLink,
+                     int numberOfPendingComments, Map<String, String> giverEmailToGiverNameMap) {
         this.isViewingDraft = isViewingDraft;
         this.isDisplayArchive = isDisplayArchive;
         this.courseId = courseId;
@@ -219,8 +216,9 @@ public class InstructorCommentsPageData extends PageData {
         commentsForStudentsTables = new ArrayList<CommentsForStudentsTable>();      
           
         for (String giverEmail : comments.keySet()) {
-            commentsForStudentsTables.add(new CommentsForStudentsTable(
-                                                  giverEmailToGiverNameMap.get(giverEmail), createCommentRows(giverEmail)));
+            commentsForStudentsTables
+                    .add(new CommentsForStudentsTable(
+                                 giverEmailToGiverNameMap.get(giverEmail), createCommentRows(giverEmail)));
         }
     }
     
@@ -235,7 +233,8 @@ public class InstructorCommentsPageData extends PageData {
             
             String typeOfPeopleCanViewComment = getTypeOfPeopleCanViewComment(comment);
             
-            String editedAt = comment.getEditedAtTextForInstructor(giverEmailToGiverNameMap.get(giverEmail).equals("Anonymous"));
+            String editedAt = comment.getEditedAtTextForInstructor(
+                                              giverEmailToGiverNameMap.get(giverEmail).equals("Anonymous"));
             
             String showCommentsTo = getShowCommentsToForComment(comment);
             
