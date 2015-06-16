@@ -19,6 +19,9 @@
                    extraScript="${extraScript}"
                    bodyOnload="onload=\"readyStudentRecordsPage();\"">
     <t:statusMessage />
+    <c:if test="${not empty data.studentProfile}">
+        <tisr:moreInfoModal moreinfo="${data.moreInfoModal}" />
+    </c:if>
     <div class="container-fluid">
         <c:if test="${not empty data.studentProfile}">
             <tisr:studentProfile profile="${data.studentProfile}" />

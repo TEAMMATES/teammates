@@ -15,7 +15,6 @@ import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorStudentRecordsPageAction extends Action {
@@ -37,7 +36,7 @@ public class InstructorStudentRecordsPageAction extends Action {
 
         new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
 
-        StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
+        student = logic.getStudentForEmail(courseId, studentEmail);
 
         if (student == null) {
             statusToUser.add(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_RECORDS);
@@ -57,10 +56,8 @@ public class InstructorStudentRecordsPageAction extends Action {
             Assumption.assertNotNull(studentProfile);
         }
 
-        data = new InstructorStudentRecordsPageData(account, studentProfile);
+        data = new InstructorStudentRecordsPageData(account, studentProfile, student.name);
 
-        data.student = student;
-        data.studentName = Sanitizer.sanitizeForHtml(data.student.name);
         data.currentInstructor = instructor;
         data.courseId = courseId;
         data.showCommentBox = showCommentBox;
@@ -104,7 +101,7 @@ public class InstructorStudentRecordsPageAction extends Action {
             FeedbackSessionAttributes tempFs = iterFs.next();
             if (!tempFs.courseId.equals(courseId)) {
                 iterFs.remove();
-            } else if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, 
+            } else if (!data.currentInstructor.isAllowedForPrivilege(student.section, 
                     tempFs.getSessionName(), Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
                 iterFs.remove();
             }
