@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/student" prefix="ts" %>
+<%@ taglib tagdir="/WEB-INF/tags/student/studentProfile" prefix="tsp" %>
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/student.js"></script>
     <script type="text/javascript" src="/js/studentProfile.js"></script>
@@ -14,6 +15,6 @@
     <br>
     <t:statusMessage />
     <br>
-    <ts:uploadPhotoModal data="${data.uploadPhotoModal}" />
-    <ts:studentProfileDiv data="${data.profileEditBox}" />
+    <tsp:uploadPhotoModal data="${data.uploadPhotoModal}" />
+    <tsp:studentProfileDiv data="${data.profileEditBox}" />
 </ts:studentPage>
