@@ -1,4 +1,4 @@
-<%@ tag description="instructorFeedbacks - new feedback session form" %>
+<%@ tag description="instructorFeedbacks - feedback session form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="feedbacks" %>
 

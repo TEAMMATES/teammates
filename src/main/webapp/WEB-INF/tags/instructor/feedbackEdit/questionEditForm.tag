@@ -1,4 +1,4 @@
-<%@ tag description="instructorFeedbacks - feedback sessions table/list" %>
+<%@ tag description="instructorFeedbacks - form for editing feedback question" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
