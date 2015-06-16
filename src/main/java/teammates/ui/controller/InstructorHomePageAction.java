@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseSummaryBundle;
@@ -55,7 +56,8 @@ public class InstructorHomePageAction extends Action {
         
         data.instructors = new HashMap<String, InstructorAttributes>();
         data.numberOfPendingComments = new HashMap<String, Integer>();
-        
+        data.courseIdSectionNamesMap = new HashMap<String, List<String>>();
+         
         for (CourseSummaryBundle course : data.courses) {
             String courseId = course.course.id;
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
@@ -73,6 +75,8 @@ public class InstructorHomePageAction extends Action {
             data.numberOfPendingComments.put(courseId, numberOfPendingCommentsForThisCourse);
             
             FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(course.feedbackSessions);
+            
+            data.courseIdSectionNamesMap.putAll(logic.getCourseIdSectionNamesMap(course.feedbackSessions));
         }
         
         if (logic.isNewInstructor(account.googleId)) {

@@ -58,7 +58,8 @@ public class InstructorFeedbacksPageAction extends Action {
             if (data.existingFeedbackSessions.isEmpty()) {
                 statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EMPTY);
             }
-        }            
+        }    
+        data.courseIdSectionNamesMap = logic.getCourseIdSectionNamesMap(data.existingFeedbackSessions);
         
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
         

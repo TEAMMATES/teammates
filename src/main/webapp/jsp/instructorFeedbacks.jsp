@@ -667,8 +667,7 @@
                         String tableHighlight;
                         if (!data.existingFeedbackSessions.isEmpty()) {
                             int displayFeedbackStatsCount = 0;
-                            Map<String, List<String>> courseIdSectionNamesMap =
-                                    data.getCourseIdSectionNamesMap(data.existingFeedbackSessions);
+
                             for (FeedbackSessionAttributes fdb : data.existingFeedbackSessions) {
                                 sessionIdx++;
                                 boolean isSelectedSession = data.feedbackSessionNameForSessionList != null &&
@@ -708,7 +707,7 @@
                                 <%= data.getInstructorFeedbackSessionActions(fdb,
                                         false,
                                         data.instructors.get(fdb.courseId),
-                                        courseIdSectionNamesMap.get(fdb.courseId)) %>
+                                        data.courseIdSectionNamesMap.get(fdb.courseId)) %>
                             </td>
                         </tr>
                     <%

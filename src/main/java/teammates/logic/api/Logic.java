@@ -3,6 +3,7 @@ package teammates.logic.api;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -1043,6 +1044,15 @@ public class Logic {
     public List<String> getSectionNamesForCourse(String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return coursesLogic.getSectionsNameForCourse(courseId);
+    }
+    
+    /** 
+     * Preconditions: <br>
+     * * All parameters are non-null    
+     */
+    public Map<String, List<String>> getCourseIdSectionNamesMap(List<FeedbackSessionAttributes> fsaList) throws EntityDoesNotExistException {
+        Assumption.assertNotNull(fsaList);
+        return coursesLogic.getCourseIdSectionNamesMap(fsaList);
     }
 
     /** 
