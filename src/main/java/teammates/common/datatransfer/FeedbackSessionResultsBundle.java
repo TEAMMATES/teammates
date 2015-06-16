@@ -2039,4 +2039,138 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return order == 0 ? n1.compareTo(n2) : order;
     }
 
+    public FeedbackSessionAttributes getFeedbackSession() {
+        return feedbackSession;
+    }
+
+    public List<FeedbackResponseAttributes> getResponses() {
+        return responses;
+    }
+
+    public Map<String, FeedbackQuestionAttributes> getQuestions() {
+        return questions;
+    }
+
+    public Map<String, String> getEmailNameTable() {
+        return emailNameTable;
+    }
+
+    public Map<String, String> getEmailLastNameTable() {
+        return emailLastNameTable;
+    }
+
+    public Map<String, String> getEmailTeamNameTable() {
+        return emailTeamNameTable;
+    }
+
+    public Map<String, Set<String>> getRosterTeamNameMembersTable() {
+        return rosterTeamNameMembersTable;
+    }
+
+    public Map<String, Set<String>> getRosterSectionTeamNameTable() {
+        return rosterSectionTeamNameTable;
+    }
+
+    public Map<String, boolean[]> getVisibilityTable() {
+        return visibilityTable;
+    }
+
+    public FeedbackSessionResponseStatus getResponseStatus() {
+        return responseStatus;
+    }
+
+    public CourseRoster getRoster() {
+        return roster;
+    }
+
+    public Map<String, List<FeedbackResponseCommentAttributes>> getResponseComments() {
+        return responseComments;
+    }
+
+    public boolean isComplete() {
+        return isComplete;
+    }
+
+    public static Logger getLog() {
+        return log;
+    }
+
+    public List<FeedbackResponseAttributes> getActualResponses() {
+        return actualResponses;
+    }
+
+    public Map<String, Map<String, StudentResultSummary>> getContributionQuestionStudentResultSummary() {
+        return contributionQuestionStudentResultSummary;
+    }
+
+    public Map<String, Map<String, TeamEvalResult>> getContributionQuestionTeamEvalResults() {
+        return contributionQuestionTeamEvalResults;
+    }
+
+    public Comparator<FeedbackResponseAttributes> getCompareByGiverRecipient() {
+        return compareByGiverRecipient;
+    }
+
+    public Comparator<FeedbackResponseAttributes> getCompareByGiverRecipientQuestion() {
+        return compareByGiverRecipientQuestion;
+    }
+
+    public Comparator<FeedbackResponseAttributes> getCompareByTeamGiverRecipientQuestion() {
+        return compareByTeamGiverRecipientQuestion;
+    }
+
+    public Comparator<FeedbackResponseAttributes> getCompareByRecipientGiverQuestion() {
+        return compareByRecipientGiverQuestion;
+    }
+
+    public Comparator<FeedbackResponseAttributes> getCompareByTeamRecipientGiverQuestion() {
+        return compareByTeamRecipientGiverQuestion;
+    }
+
+    public Comparator<FeedbackResponseAttributes> getCompareByGiverQuestionTeamRecipient() {
+        return compareByGiverQuestionTeamRecipient;
+    }
+
+    public Comparator<FeedbackResponseAttributes> getCompareByTeamGiverQuestionTeamRecipient() {
+        return compareByTeamGiverQuestionTeamRecipient;
+    }
+
+    public Comparator<FeedbackResponseAttributes> getCompareByRecipientQuestionTeamGiver() {
+        return compareByRecipientQuestionTeamGiver;
+    }
+
+    public Comparator<FeedbackResponseAttributes> getCompareByTeamRecipientQuestionTeamGiver() {
+        return compareByTeamRecipientQuestionTeamGiver;
+    }
+
+    public Comparator<FeedbackResponseAttributes> getCompareByTeamQuestionRecipientTeamGiver() {
+        return compareByTeamQuestionRecipientTeamGiver;
+    }
+
+    public Comparator<FeedbackResponseAttributes> getCompareByTeamQuestionGiverTeamRecipient() {
+        return compareByTeamQuestionGiverTeamRecipient;
+    }
+
+    public Comparator<FeedbackResponseAttributes> getCompareByQuestionNumber() {
+        return compareByQuestionNumber;
+    }
+
+    public Comparator<FeedbackResponseAttributes> getCompareByRecipientName() {
+        return compareByRecipientName;
+    }
+
+    public Comparator<FeedbackResponseAttributes> getCompareByGiverName() {
+        return compareByGiverName;
+    }
+
+    public Comparator<FeedbackResponseAttributes> getCompareByRecipientTeamName() {
+        return compareByRecipientTeamName;
+    }
+
+    public Comparator<FeedbackResponseAttributes> getCompareByGiverTeamName() {
+        return compareByGiverTeamName;
+    }
+
+    
+    
 }

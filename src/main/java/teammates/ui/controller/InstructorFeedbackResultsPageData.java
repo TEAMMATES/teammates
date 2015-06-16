@@ -24,6 +24,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public String groupByTeam = null;
     public String showStats = null;
     public int startIndex;
+    private boolean shouldCollapsed;
+
 
     // used for html table ajax loading
     public String courseId = null;
@@ -106,4 +108,64 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 + "&" + Const.ParamsNames.USER_ID + "=" + account.googleId;
     }
 
+    public static String getExceedingResponsesErrorMessage() {
+        return EXCEEDING_RESPONSES_ERROR_MESSAGE;
+    }
+
+    public FeedbackSessionResultsBundle getBundle() {
+        return bundle;
+    }
+
+    public InstructorAttributes getInstructor() {
+        return instructor;
+    }
+
+    public List<String> getSections() {
+        return sections;
+    }
+
+    public String getSelectedSection() {
+        return selectedSection;
+    }
+
+    public String getSortType() {
+        return sortType;
+    }
+
+    public String getGroupByTeam() {
+        return groupByTeam;
+    }
+
+    public String getShowStats() {
+        return showStats;
+    }
+
+    public int getStartIndex() {
+        return startIndex;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public String getFeedbackSessionName() {
+        return feedbackSessionName;
+    }
+
+    public String getAjaxStatus() {
+        return ajaxStatus;
+    }
+
+    public String getSessionResultsHtmlTableAsString() {
+        return sessionResultsHtmlTableAsString;
+    }
+    
+    public boolean isShouldCollapsed() {
+        return shouldCollapsed;
+    }
+
+    public void setShouldCollapsed(boolean shouldCollapsed) {
+        this.shouldCollapsed = shouldCollapsed;
+    }
+    
 }
