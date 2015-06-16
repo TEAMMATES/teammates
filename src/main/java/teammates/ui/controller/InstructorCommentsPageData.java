@@ -27,21 +27,21 @@ import teammates.ui.template.VisibilityCheckboxes;
 public class InstructorCommentsPageData extends PageData {
     public static final String COMMENT_GIVER_NAME_THAT_COMES_FIRST = "0you";
     
-    public Boolean isViewingDraft;
-    public Boolean isDisplayArchive;
-    public String courseId;
-    public String courseName;
-    public List<String> coursePaginationList;
-    public Map<String, List<CommentAttributes>> comments;
+    private boolean isViewingDraft;
+    private boolean isDisplayArchive;
+    private String courseId;
+    private String courseName;
+    private List<String> coursePaginationList;
+    private Map<String, List<CommentAttributes>> comments;
     // TODO: remove this field
-    public String instructorEmail;
-    public InstructorAttributes currentInstructor;
-    public CourseRoster roster;
-    public List<FeedbackSessionAttributes> feedbackSessions;
-    public String previousPageLink;
-    public String nextPageLink;
-    public int numberOfPendingComments = 0;
-    public Map<String, String> giverEmailToGiverNameMap;
+    private String instructorEmail;
+    private InstructorAttributes currentInstructor;
+    private CourseRoster roster;
+    private List<FeedbackSessionAttributes> feedbackSessions;
+    private String previousPageLink;
+    private String nextPageLink;
+    private int numberOfPendingComments = 0;
+    private Map<String, String> giverEmailToGiverNameMap;
     
     private List<CommentsForStudentsTable> commentsForStudentsTables;
     
@@ -189,7 +189,7 @@ public class InstructorCommentsPageData extends PageData {
         }
     }
 
-    public void init(Boolean isViewingDraft, Boolean isDisplayArchive, String courseId,
+    public void init(boolean isViewingDraft, boolean isDisplayArchive, String courseId,
                                     String courseName, List<String> coursePaginationList,
                                     Map<String, List<CommentAttributes>> comments,
                                     String string, InstructorAttributes instructor, CourseRoster roster,
