@@ -114,6 +114,22 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
         this.respondingInstructorList = instructorList;
         this.respondingStudentList = studentList;
     }
+    
+    public String getCourseId() {
+        return courseId;
+    }
+    
+    public String getFeedbackSessionName() {
+        return feedbackSessionName;
+    }
+    
+    public String getStartTime() {
+        return TimeHelper.formatTime(startTime);
+    }
+    
+    public String getEndTime() {
+        return TimeHelper.formatTime(endTime);
+    }
 
     @Override
     public FeedbackSession toEntity() {
