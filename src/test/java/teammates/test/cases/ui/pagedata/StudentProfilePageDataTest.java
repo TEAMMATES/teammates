@@ -59,7 +59,7 @@ public class StudentProfilePageDataTest {
     
     private void testProfileEditBox(StudentProfileEditBox profileEditBox) {
         assertEquals(acct.name, profileEditBox.getName());
-        assertEquals(editPicture, profileEditBox.getEditPicture());
+        assertEquals(editPicture, profileEditBox.getEditPhoto());
         assertEquals(StringHelper.convertToEmptyStringIfNull(spa.shortName), profileEditBox.getShortName());
         // email comes from SPA, not AA
         assertEquals(StringHelper.convertToEmptyStringIfNull(spa.email), profileEditBox.getEmail());

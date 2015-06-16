@@ -11,12 +11,12 @@ public class StudentProfilePageData extends PageData {
     private StudentProfileEditBox profileEditBox;
     private StudentProfileUploadPhotoModal uploadPhotoModal;
     
-    public StudentProfilePageData(AccountAttributes account, String editPicture) {
+    public StudentProfilePageData(AccountAttributes account, String isEditingPhoto) {
         super(account);
-        init(account, editPicture);
+        init(account, isEditingPhoto);
     }
     
-    private void init(AccountAttributes account, String editPicture) {
+    private void init(AccountAttributes account, String isEditingPhoto) {
         StudentProfileAttributes profile = account.studentProfile;
         String pictureUrl;
         if (profile.pictureKey.isEmpty()) {
@@ -26,7 +26,7 @@ public class StudentProfilePageData extends PageData {
                        + "?" + Const.ParamsNames.BLOB_KEY + "=" + profile.pictureKey
                        + "&" + Const.ParamsNames.USER_ID + "=" + account.googleId;
         }
-        this.profileEditBox = new StudentProfileEditBox(account.name, editPicture, profile.shortName,
+        this.profileEditBox = new StudentProfileEditBox(account.name, isEditingPhoto, profile.shortName,
                                                         profile.email, profile.institute, profile.nationality,
                                                         profile.gender, profile.moreInfo, account.googleId,
                                                         pictureUrl);

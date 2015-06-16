@@ -5,7 +5,7 @@ import teammates.common.util.StringHelper;
 public class StudentProfileEditBox {
 
     private String name;
-    private String editPicture;
+    private String editPhoto;
     private String shortName;
     private String email;
     private String institute;
@@ -15,11 +15,11 @@ public class StudentProfileEditBox {
     private String googleId;
     private String pictureUrl;
 
-    public StudentProfileEditBox(String name, String editPicture, String shortName, String email,
+    public StudentProfileEditBox(String name, String editPhoto, String shortName, String email,
                                  String institute, String nationality, String gender,
                                  String moreInfo, String googleId, String pictureUrl) {
         this.name = name;
-        this.editPicture = editPicture;
+        this.editPhoto = editPhoto;
         this.shortName = StringHelper.convertToEmptyStringIfNull(shortName);
         this.email = StringHelper.convertToEmptyStringIfNull(email);
         this.institute = StringHelper.convertToEmptyStringIfNull(institute);
@@ -34,8 +34,8 @@ public class StudentProfileEditBox {
         return name;
     }
 
-    public String getEditPicture() {
-        return editPicture;
+    public String getEditPhoto() {
+        return editPhoto;
     }
 
     public String getShortName() {
