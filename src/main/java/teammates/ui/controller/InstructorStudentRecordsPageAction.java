@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -36,7 +35,7 @@ public class InstructorStudentRecordsPageAction extends Action {
 
         new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
 
-        student = logic.getStudentForEmail(courseId, studentEmail);
+        StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
 
         if (student == null) {
             statusToUser.add(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_RECORDS);
@@ -56,10 +55,13 @@ public class InstructorStudentRecordsPageAction extends Action {
             Assumption.assertNotNull(studentProfile);
         }
 
-        data = new InstructorStudentRecordsPageData(account, studentProfile, student.name);
+        List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsListForInstructor(account.googleId);
+        filterFeedbackSessions(courseId, sessions, student, instructor);
+        Collections.sort(sessions, SessionAttributes.DESCENDING_ORDER);
+
+        data = new InstructorStudentRecordsPageData(account, studentProfile, student, sessions, courseId);
 
         data.currentInstructor = instructor;
-        data.courseId = courseId;
         data.showCommentBox = showCommentBox;
         data.comments = logic.getCommentsForReceiver(courseId, instructor.email,
                                                      CommentParticipantType.PERSON, studentEmail);
@@ -72,13 +74,6 @@ public class InstructorStudentRecordsPageAction extends Action {
             }
         }
 
-        List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsListForInstructor(account.googleId);
-
-        filterFeedbackSessions(courseId, feedbacks);
-
-        data.sessions = new ArrayList<SessionAttributes>();
-        data.sessions.addAll(feedbacks);
-        Collections.sort(data.sessions, SessionAttributes.DESCENDING_ORDER);
         CommentAttributes.sortCommentsByCreationTimeDescending(data.comments);
 
         if (data.sessions.size() == 0 && data.comments.size() == 0) {
@@ -88,20 +83,21 @@ public class InstructorStudentRecordsPageAction extends Action {
         statusToAdmin = "instructorStudentRecords Page Load<br>"
                       + "Viewing <span class=\"bold\">" + studentEmail + "'s</span> records "
                       + "for Course <span class=\"bold\">[" + courseId + "]</span><br>"
-                      + "Number of sessions: " + data.sessions.size() + "<br>"
+                      + "Number of sessions: " + sessions.size() + "<br>"
                       + "Student Profile: " + (studentProfile == null ? "No Profile"
                                                                       : studentProfile.toString());
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, data);
     }
 
-    private void filterFeedbackSessions(String courseId, List<FeedbackSessionAttributes> feedbacks) {
+    private void filterFeedbackSessions(String courseId, List<FeedbackSessionAttributes> feedbacks,
+                                        StudentAttributes student, InstructorAttributes instructor) {
         Iterator<FeedbackSessionAttributes> iterFs = feedbacks.iterator();
         while (iterFs.hasNext()) {
             FeedbackSessionAttributes tempFs = iterFs.next();
             if (!tempFs.courseId.equals(courseId)) {
                 iterFs.remove();
-            } else if (!data.currentInstructor.isAllowedForPrivilege(student.section, 
+            } else if (!instructor.isAllowedForPrivilege(student.section, 
                     tempFs.getSessionName(), Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS)) {
                 iterFs.remove();
             }

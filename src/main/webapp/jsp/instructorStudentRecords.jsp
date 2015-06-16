@@ -26,5 +26,12 @@
         <c:if test="${not empty data.studentProfile}">
             <tisr:studentProfile profile="${data.studentProfile}" />
         </c:if>
+        <div class="row">
+            <div class="col-md-12">
+                <c:forEach items="${data.sessions}" var="session" varStatus="i">
+                    <tisr:feedbackSession session="${session}" index="${i.index}" />
+                </c:forEach>
+            </div>
+        </div>
     </div>
 </ti:instructorPage>
