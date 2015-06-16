@@ -1,6 +1,10 @@
     <div class="container theme-showcase" id="frameBodyWrapper">
         <div id="topOfPage"></div>
-        <h1>Add New Feedback Session</h1>
+        <div class="inner-container">
+            <div class="row">
+                <h1>Add New Feedback Session</h1>
+            </div>
+        </div>
         
             <div class="well well-plain">
                 <form name="form_addfeedbacksession" action="/page/instructorFeedbackAdd" method="post" class="form-group">
@@ -462,7 +466,7 @@
         </div>
         
         <script type="text/javascript">
-            document.getElementById( 'statusMessage' ).scrollIntoView();
+            document.getElementById('statusMessage').scrollIntoView();
         </script>
 
         <br />
@@ -664,8 +668,7 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div aria-hidden="true" aria-labelledby="fsCopyModal" role="dialog" tabindex="-1" id="fsCopyModal" class="modal fade">
+        <div aria-hidden="true" aria-labelledby="fsCopyModal" role="dialog" tabindex="-1" id="fsCopyModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form action="/page/instructorFeedbackEditCopy" role="form" name="form_copy_list" method="post">
@@ -691,5 +694,7 @@
                 </form>
             </div>
         </div>
+        </div>
     </div>
+    
 
