@@ -53,12 +53,13 @@ public class InstructorFeedbacksPageData extends PageData {
      * @param defaultFormValues          the feedback session which values are used as the default values in the form
      * @param feedbackSessionType        "TEAMEVALUATION" or "STANDARD"
      * @param highlightedFeedbackSession the feedback session to highlight in the sessions table
+     * @param courseIdToSectionNameMap   map of course id to names of sections in the course 
      */
     public void init(List<CourseAttributes> courses, String courseIdForNewSession, 
                      List<FeedbackSessionAttributes> existingFeedbackSessions,
                      Map<String, InstructorAttributes> instructors,
                      FeedbackSessionAttributes defaultFormValues, String feedbackSessionType, 
-                     String highlightedFeedbackSession) {
+                     String highlightedFeedbackSession, Map<String, List<String>> courseIdToSectionNameMap) {
 
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(existingFeedbackSessions);
         
@@ -68,27 +69,30 @@ public class InstructorFeedbacksPageData extends PageData {
         
         
         buildFsList(courseIdForNewSession, existingFeedbackSessions, 
-                    instructors, highlightedFeedbackSession);
+                    instructors, highlightedFeedbackSession,
+                    courseIdToSectionNameMap);
         
         
         buildCopyFromModal(courses, courseIdForNewSession, existingFeedbackSessions, instructors,
-                           defaultFormValues, highlightedFeedbackSession);
+                           defaultFormValues, highlightedFeedbackSession,
+                           courseIdToSectionNameMap);
     }
     
     public void initWithoutHighlightedRow(List<CourseAttributes> courses, String courseIdForNewSession, 
                                           List<FeedbackSessionAttributes> existingFeedbackSessions,
                                           Map<String, InstructorAttributes> instructors,
-                                          FeedbackSessionAttributes defaultFormValues, String feedbackSessionType) {
+                                          FeedbackSessionAttributes defaultFormValues, String feedbackSessionType, 
+                                          Map<String, List<String>> courseIdToSectionNameMap) {
 
-        init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, defaultFormValues, feedbackSessionType, null);
+        init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, defaultFormValues, feedbackSessionType, null, courseIdToSectionNameMap);
     }
     
     public void initWithoutDefaultFormValues(List<CourseAttributes> courses, String courseIdForNewSession, 
                                              List<FeedbackSessionAttributes> existingFeedbackSessions,
                                              Map<String, InstructorAttributes> instructors,
-                                             String highlightedFeedbackSession) {
+                                             String highlightedFeedbackSession, Map<String, List<String>> courseIdToSectionNameMap) {
 
-         init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, null, null, highlightedFeedbackSession);
+         init(courses, courseIdForNewSession, existingFeedbackSessions, instructors, null, null, highlightedFeedbackSession, courseIdToSectionNameMap);
     }
     
     
@@ -98,7 +102,8 @@ public class InstructorFeedbacksPageData extends PageData {
                                     List<FeedbackSessionAttributes> existingFeedbackSessions,
                                     Map<String, InstructorAttributes> instructors,
                                     FeedbackSessionAttributes newFeedbackSession,
-                                    String feedbackSessionNameForSessionList) {
+                                    String feedbackSessionNameForSessionList,
+                                    Map<String, List<String>> courseIdToSectionNameMap) {
         List<FeedbackSessionAttributes> filteredFeedbackSessions = new ArrayList<FeedbackSessionAttributes>();
         for (FeedbackSessionAttributes existingFeedbackSession : existingFeedbackSessions) {
             if (instructors.get(existingFeedbackSession.courseId)
@@ -112,7 +117,7 @@ public class InstructorFeedbacksPageData extends PageData {
         List<FeedbackSessionsTableRow> filteredFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(
                                                                         filteredFeedbackSessions,
                                                                         instructors, feedbackSessionNameForSessionList,
-                                                                        courseIdForNewSession);
+                                                                        courseIdForNewSession, courseIdToSectionNameMap);
         
         String fsName = newFeedbackSession != null ? newFeedbackSession.feedbackSessionName : "";
         copyFromModal = new FeedbackSessionsCopyFromModal(filteredFeedbackSessionsRow, 
@@ -122,11 +127,13 @@ public class InstructorFeedbacksPageData extends PageData {
     }
 
     private void buildFsList(String courseIdForNewSession, List<FeedbackSessionAttributes> existingFeedbackSessions,
-                             Map<String, InstructorAttributes> instructors, String feedbackSessionNameForSessionList) {
+                             Map<String, InstructorAttributes> instructors, String feedbackSessionNameForSessionList, 
+                             Map<String, List<String>> courseIdToSectionNameMap) {
         
         List<FeedbackSessionsTableRow> existingFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(
                                                                              existingFeedbackSessions, instructors, 
-                                                                             feedbackSessionNameForSessionList, courseIdForNewSession);
+                                                                             feedbackSessionNameForSessionList, courseIdForNewSession,
+                                                                             courseIdToSectionNameMap);
         fsList = new FeedbackSessionsTable(existingFeedbackSessionsRow);
     }
 
@@ -252,7 +259,8 @@ public class InstructorFeedbacksPageData extends PageData {
     private List<FeedbackSessionsTableRow> convertFeedbackSessionAttributesToSessionRows(
                                          List<FeedbackSessionAttributes> sessions, 
                                          Map<String, InstructorAttributes> instructors, 
-                                         String feedbackSessionNameForSessionList, String courseIdForNewSession) {
+                                         String feedbackSessionNameForSessionList, String courseIdForNewSession,
+                                         Map<String, List<String>> courseIdToSectionNameMap) {
 
         
         List<FeedbackSessionsTableRow> rows = new ArrayList<FeedbackSessionsTableRow>();
@@ -278,7 +286,7 @@ public class InstructorFeedbacksPageData extends PageData {
             try {
                 actions = getInstructorFeedbackSessionActions(session, false, 
                                                               instructors.get(courseId),
-                                                              getCourseIdSectionNamesMap(sessions).get(courseId));
+                                                              courseIdToSectionNameMap.get(courseId));
             } catch (EntityDoesNotExistException e) {
                 // nothing
             }

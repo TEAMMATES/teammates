@@ -7,6 +7,7 @@ import static org.testng.AssertJUnit.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -25,16 +26,17 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorPrivileges;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
-import teammates.test.cases.BaseComponentTestCase;
+import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorFeedbacksPageData;
 import teammates.ui.template.FeedbackSessionsTableRow;
 import teammates.ui.template.FeedbackSessionsCopyFromModal;
 import teammates.ui.template.FeedbackSessionsTable;
 import teammates.ui.template.FeedbackSessionsForm;
 
-public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
+public class InstructorFeedbacksPageDataTest extends BaseTestCase {
 
     private static Gson gson = Utils.getTeammatesGson();
     
@@ -46,7 +48,6 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
     }
     
     @Test
@@ -68,8 +69,9 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         List<CourseAttributes> courses = getCoursesForInstructor(instructorsForUser);
         
         List<FeedbackSessionAttributes> fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
+        Map<String, List<String>> courseIdToSectionNameMap = getCourseIdToSectionNameMap(instructorsForUser, dataBundle.students.values());
         
-        data.initWithoutDefaultFormValues(courses, null, fsList, courseInstructorMap, null);
+        data.initWithoutDefaultFormValues(courses, null, fsList, courseInstructorMap, null, courseIdToSectionNameMap);
         
         ______TS("typical success case: test new fs form");
         // Test new fs form model
@@ -150,8 +152,9 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         List<CourseAttributes> helperCourses = getCoursesForInstructor(instructorsForHelper);
         
         List<FeedbackSessionAttributes> helperFsList = getFeedbackSessionsListForInstructor(instructorsForHelper);
+        courseIdToSectionNameMap = getCourseIdToSectionNameMap(instructorsForHelper, dataBundle.students.values());
         
-        helperData.initWithoutDefaultFormValues(helperCourses, null, helperFsList, helperCourseInstructorMap, null);
+        helperData.initWithoutDefaultFormValues(helperCourses, null, helperFsList, helperCourseInstructorMap, null, courseIdToSectionNameMap);
         
         ______TS("case with instructor with restricted permissions: test new fs form");
         // Test new fs form model
@@ -194,7 +197,8 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         
         fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
         
-        data.initWithoutDefaultFormValues(courses, "idOfTypicalCourse1", fsList, courseInstructorMap, "First feedback session");
+        courseIdToSectionNameMap = getCourseIdToSectionNameMap(instructorsForUser, dataBundle.students.values());
+        data.initWithoutDefaultFormValues(courses, "idOfTypicalCourse1", fsList, courseInstructorMap, "First feedback session", courseIdToSectionNameMap);
         
         List<FeedbackSessionsTableRow> sessionRows = data.getFsList().getExistingFeedbackSessions();
         boolean isFirstFeedbackSessionHighlighted = false;
@@ -236,8 +240,8 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
         
-        
-        data.init(courses, null, fsList, courseInstructorMap, fsa, null, null);
+        Map<String, List<String>> courseIdToSectionNameMap = getCourseIdToSectionNameMap(instructorsForUser, dataBundle.students.values());
+        data.init(courses, null, fsList, courseInstructorMap, fsa, null, null, courseIdToSectionNameMap);
         
         ______TS("typical success case with existing fs passed in: test new fs form");
         // Test new fs form model
@@ -320,8 +324,9 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         List<FeedbackSessionAttributes> fsList = getFeedbackSessionsListForInstructor(instructorsForUser);
         
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
+        Map<String, List<String>> courseIdToSectionNameMap = getCourseIdToSectionNameMap(instructorsForUser, dataBundle.students.values());
         
-        data.initWithoutHighlightedRow(courses, "idOfTypicalCourse1", fsList, courseInstructorMap, fsa, "STANDARD");
+        data.initWithoutHighlightedRow(courses, "idOfTypicalCourse1", fsList, courseInstructorMap, fsa, "STANDARD", courseIdToSectionNameMap);
         
         FeedbackSessionsForm formModel = data.getNewFsForm();
         
@@ -400,4 +405,30 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         return courseIdsOfUser;
     }
         
+    
+    private Map<String, List<String>> getCourseIdToSectionNameMap(List<InstructorAttributes> instructorsForUser, 
+                                                                  Collection<StudentAttributes> allStudent) {
+        Set<String> courseIds = getSetOfCourseIdsFromInstructorAttributes(instructorsForUser);
+        Map<String, List<String>> result = new HashMap<String, List<String>>();
+        
+        for (StudentAttributes student : allStudent) {
+            if (!courseIds.contains(student.course)) {
+                continue;
+            }
+            
+            if (result.containsKey(student.course)) {
+                List<String> sectionList = new ArrayList<String>();
+                sectionList.add(student.section);
+                result.put(student.course, sectionList);
+            } else {
+                if (result.get(student.course).contains(student.section)) {
+                    continue;
+                }
+                result.get(student.course).add(student.section);
+            }
+        }
+        
+        return result;
+        
+    }
 }

@@ -101,10 +101,15 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY);
         }
         
-        data.initWithoutHighlightedRow(courses, courseId, feedbackSessions, instructors, fs, 
-                                       feedbackSessionType);
+        Map<String, List<String>> courseIdToSectionName = new HashMap<String, List<String>>();
+        for (CourseAttributes course : courses) {
+            List<String> sections = logic.getSectionNamesForCourse(course.id);
+            courseIdToSectionName.put(course.id, sections);
+        }
         
-       
+        data.initWithoutHighlightedRow(courses, courseId, feedbackSessions, instructors, fs, 
+                                       feedbackSessionType, courseIdToSectionName);
+        
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
     
