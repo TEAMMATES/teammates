@@ -22,6 +22,9 @@ public class InstructorStudentListAjaxPageAction extends Action {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         Assumption.assertNotNull("null course id", courseId);
 
+        String courseIdx = getRequestParamValue(Const.ParamsNames.COURSE_INDEX);
+        Assumption.assertNotNull("null course index", courseIdx);
+
         new GateKeeper().verifyInstructorPrivileges(account);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
@@ -32,6 +35,7 @@ public class InstructorStudentListAjaxPageAction extends Action {
         InstructorStudentListAjaxPageData data = new InstructorStudentListAjaxPageData(account);
         data.courseSectionDetails = logic.getSectionsForCourse(courseId);
         data.course = course;
+        data.courseIdx = Integer.parseInt(courseIdx);
         data.hasSection = logic.hasIndicatedSections(courseId);
 
         String photoUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE
