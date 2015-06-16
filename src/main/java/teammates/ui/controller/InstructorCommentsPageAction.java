@@ -79,8 +79,7 @@ public class InstructorCommentsPageAction extends Action {
 
         data.init(isViewingDraft, isDisplayArchivedCourse, courseId, courseName, coursePaginationList,
                   giverEmailToCommentsMap, instructor != null ? instructor.email : "no-email", instructor, 
-                  roster,  feedbackSessions, previousPageLink, nextPageLink, numberOfPendingComments, 
-                  getGiverEmailToGiverNameMap(roster));
+                  roster,  feedbackSessions, previousPageLink, nextPageLink, numberOfPendingComments);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COMMENTS, data);
     }
@@ -150,26 +149,6 @@ public class InstructorCommentsPageAction extends Action {
                 break;
             }
         }
-    }
-    
-    private Map<String, String> getGiverEmailToGiverNameMap(CourseRoster roster)
-            throws EntityDoesNotExistException {
-        
-        Map<String, String> giverEmailToGiverNameMap = new HashMap<String, String>();
-        for (String giverEmail : getGiverEmailToCommentsMap().keySet()) {
-            
-            InstructorAttributes instructor = roster.getInstructorForEmail(giverEmail);
-            String giverDisplay = giverEmail;
-            if (giverEmail.equals(InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST)) {
-                giverDisplay = "You";
-            } else if (instructor != null) {
-                String title = instructor.displayedName;
-                giverDisplay = title + " " + instructor.name;
-            }
-            
-            giverEmailToGiverNameMap.put(giverEmail, giverDisplay);
-        }
-        return giverEmailToGiverNameMap;
     }
 
     private Map<String, List<CommentAttributes>> getGiverEmailToCommentsMap() throws EntityDoesNotExistException {

@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
@@ -68,8 +70,23 @@ public class InstructorCommentsPageData extends PageData {
     public List<FeedbackSessionAttributes> getFeedbackSessions() {
         return feedbackSessions;
     }
-
+    
     public Map<String, String> getGiverEmailToGiverNameMap() {
+        
+        Map<String, String> giverEmailToGiverNameMap = new HashMap<String, String>();
+        for (String giverEmail : comments.keySet()) {
+            
+            InstructorAttributes instructor = roster.getInstructorForEmail(giverEmail);
+            String giverDisplay = giverEmail;
+            if (giverEmail.equals(InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST)) {
+                giverDisplay = "You";
+            } else if (instructor != null) {
+                String title = instructor.displayedName;
+                giverDisplay = title + " " + instructor.name;
+            }
+            
+            giverEmailToGiverNameMap.put(giverEmail, giverDisplay);
+        }
         return giverEmailToGiverNameMap;
     }
     
@@ -193,7 +210,7 @@ public class InstructorCommentsPageData extends PageData {
                      List<String> coursePaginationList, Map<String, List<CommentAttributes>> comments,
                      String string, InstructorAttributes instructor, CourseRoster roster,
                      List<FeedbackSessionAttributes> feedbackSessions, String previousPageLink, String nextPageLink,
-                     int numberOfPendingComments, Map<String, String> giverEmailToGiverNameMap) {
+                     int numberOfPendingComments) {
         this.isViewingDraft = isViewingDraft;
         this.isDisplayArchive = isDisplayArchive;
         this.courseId = courseId;
@@ -206,7 +223,7 @@ public class InstructorCommentsPageData extends PageData {
         this.previousPageLink = previousPageLink;
         this.nextPageLink = nextPageLink;
         this.numberOfPendingComments = numberOfPendingComments;
-        this.giverEmailToGiverNameMap = giverEmailToGiverNameMap;
+        this.giverEmailToGiverNameMap = getGiverEmailToGiverNameMap();
 
         setCommentsForStudentsTables();
                                         
