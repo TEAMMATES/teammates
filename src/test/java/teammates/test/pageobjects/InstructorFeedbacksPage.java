@@ -455,7 +455,7 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     public boolean isContainingCssClass(By locator, String className) {
-        return browser.driver.findElement(locator).getAttribute("class").contains(className);
+        return browser.driver.findElement(locator).getAttribute("class").matches(".*\\b" + className + "\\b.*");
     }
     
     
