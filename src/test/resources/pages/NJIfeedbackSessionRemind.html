@@ -1,14 +1,9 @@
 <div id="frameBodyWrapper" class="container theme-showcase">
         <div id="topOfPage"></div>
-      <div class="inner-container">
-         <div class="row">
-            <h1>
-               Add New Feedback Session
-            </h1>
-         </div>
-      </div>  
+        <h1>Add New Feedback Session</h1>
+        
             <div class="well well-plain">
-                <form action="/page/instructorFeedbackAdd" class="form-group" id="form_feedbacksession" method="post">
+                <form class="form-group" method="post" action="/page/instructorFeedbackAdd" name="form_addfeedbacksession">
                     <div class="row">
                         <h4 class="label-control col-md-2 text-md">Create new </h4>
                         <div class="col-md-5">
@@ -465,7 +460,7 @@
         </div>
         
         <script type="text/javascript">
-            document.getElementById('statusMessage').scrollIntoView();
+            document.getElementById( 'statusMessage' ).scrollIntoView();
         </script>
 
         <br>
@@ -652,35 +647,4 @@
                 </div>
             </div>
         </div>
-        <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
-         <div class="modal-dialog">
-            <div class="modal-content">
-               <form action="&#x2f;page&#x2f;instructorFeedbackEditCopy" method="post" name="form_copy_list" role="form">
-                  <div class="modal-header">
-                     <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
-                        ×
-                     </button>
-                     <h4 class="modal-title">
-                        Copy this feedback session to other courses
-                        <br/>
-                                                <small>
-                           (Select the course(s) you want to copy this feedback session to)
-                        </small>
-                     </h4>
-                  </div>
-                  <div class="modal-body">
-                     <div class="form-group" id="courseList">
-                     </div>
-                  </div>
-                  <div class="modal-footer">
-                     <button class="btn btn-default" data-dismiss="modal" type="button">
-                        Cancel
-                     </button>
-                     <input class="btn btn-primary" id="fscopy_submit" type="submit" value="Copy"/>
-                                          <input name="user" type="hidden" value="teammates.coord.example"/>
-                                       </div>
-               </form>
-            </div>
-         </div>
-      </div>
     </div>
