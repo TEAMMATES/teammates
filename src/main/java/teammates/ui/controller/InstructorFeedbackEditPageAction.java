@@ -32,7 +32,6 @@ public class InstructorFeedbackEditPageAction extends Action {
                 false,
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
-        InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);
         
         List<FeedbackQuestionAttributes> questions = logic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         List<FeedbackQuestionAttributes> copiableQuestions = logic.getCopiableFeedbackQuestionsForInstructor(account.googleId);
@@ -52,13 +51,14 @@ public class InstructorFeedbackEditPageAction extends Action {
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         
-        data.init(feedbackSession, questions, copiableQuestions, questionHasResponses, studentList, instructorList, instructor);
-        
         statusToAdmin = "instructorFeedbackEdit Page Load<br>" 
                         + "Editing information for Feedback Session "
                         + "<span class=\"bold\">[" + feedbackSessionName + "]</span>"
                         + "in Course: <span class=\"bold\">[" + courseId + "]</span>";
         
+        InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);
+        data.init(feedbackSession, questions, copiableQuestions, questionHasResponses, studentList, instructorList, instructor);
+           
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_EDIT, data);
     }
     

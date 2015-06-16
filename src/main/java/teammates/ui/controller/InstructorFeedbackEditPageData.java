@@ -75,16 +75,15 @@ public class InstructorFeedbackEditPageData extends PageData {
     private void buildCopyQnForm(FeedbackSessionAttributes feedbackSession,
                                     List<FeedbackQuestionAttributes> copiableQuestions,
                                     InstructorAttributes instructor) {
-        List<FeedbackQuestionTableRow> copyQuestionRows = buildCopyQuestionsModal(copiableQuestions,
-                                                                                   instructor);
+        List<FeedbackQuestionTableRow> copyQuestionRows = buildCopyQuestionsModalRows(copiableQuestions,
+                                                                                  instructor);
         copyQnForm = new FeedbackQuestionCopyTable(feedbackSession.courseId, feedbackSession.feedbackSessionName, 
                                                    copyQuestionRows);
     }
 
 
-    private List<FeedbackQuestionTableRow> buildCopyQuestionsModal(
-                                    List<FeedbackQuestionAttributes> copiableQuestions,
-                                    InstructorAttributes instructor) {
+    private List<FeedbackQuestionTableRow> buildCopyQuestionsModalRows(List<FeedbackQuestionAttributes> copiableQuestions,
+                                                                       InstructorAttributes instructor) {
         List<FeedbackQuestionTableRow> copyQuestionRows = new ArrayList<FeedbackQuestionTableRow>();
         if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) {
             for (FeedbackQuestionAttributes question1 : copiableQuestions) {
@@ -112,9 +111,9 @@ public class InstructorFeedbackEditPageData extends PageData {
 
 
     private void buildExistingQuestionForm(FeedbackSessionAttributes feedbackSession,
-                                    List<FeedbackQuestionAttributes> questions,
-                                    Map<String, Boolean> questionHasResponses,
-                                    InstructorAttributes instructor, FeedbackQuestionAttributes question) {
+                                           List<FeedbackQuestionAttributes> questions,
+                                           Map<String, Boolean> questionHasResponses,
+                                           InstructorAttributes instructor, FeedbackQuestionAttributes question) {
         FeedbackQuestionEditForm qnForm = new FeedbackQuestionEditForm();
         qnForm.setAction(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT));
         qnForm.setCourseId(instructor.courseId);
@@ -153,8 +152,8 @@ public class InstructorFeedbackEditPageData extends PageData {
         
         generalSettings.setNumberOfEntitiesToGiveFeedbackToChecked(question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS);
         generalSettings.setNumOfEntitiesToGiveFeedbackToValue(question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS ?
-                                                     1 :
-                                                     question.numberOfEntitiesToGiveFeedbackTo);
+                                                                 1 :
+                                                                 question.numberOfEntitiesToGiveFeedbackTo);
         qnForm.setQuestionHasResponses(questionHasResponses.get(question.getId()));
         
         List<String> visibilityMessages = question.getVisibilityMessage();
@@ -167,8 +166,8 @@ public class InstructorFeedbackEditPageData extends PageData {
 
 
     private void buildNewQuestionForm(FeedbackSessionAttributes feedbackSession,
-                                    List<FeedbackQuestionAttributes> questions,
-                                    InstructorAttributes instructor) {
+                                      List<FeedbackQuestionAttributes> questions,
+                                      InstructorAttributes instructor) {
         newQnForm = new FeedbackQuestionEditForm();
         newQnForm.doneEditingLink = new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                                         .withUserId(account.googleId)

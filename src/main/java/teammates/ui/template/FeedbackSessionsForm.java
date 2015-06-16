@@ -169,10 +169,6 @@ public class FeedbackSessionsForm {
         this.feedbackSessionNameForSessionList = feedbackSessionNameForSessionList;
     }
     
-    public String getfeedbackSessionNameForSessionList() {
-        return this.feedbackSessionNameForSessionList;
-    }
-
     public AdditionalSettingsFormSegment getAdditionalSettings() {
         return this.additionalSettings;
     }
