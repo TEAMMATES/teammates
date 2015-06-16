@@ -17,9 +17,9 @@ public class FeedbackQuestionGeneralSettings {
     private int numOfEntitiesToGiveFeedbackToValue;
     
     private List<String> visibilityMessages;
-    private Map<String, Boolean> isGiverNameVisible;
-    private Map<String, Boolean> isRecipientNameVisible;
-    private Map<String, Boolean> isResponseVisible;
+    private Map<String, Boolean> giverNameVisibleFor;
+    private Map<String, Boolean> recipientNameVisibleFor;
+    private Map<String, Boolean> responseVisibleFor;
     
     public FeedbackQuestionGeneralSettings() {
         
@@ -65,28 +65,28 @@ public class FeedbackQuestionGeneralSettings {
         this.visibilityMessages = visibilityMessages;
     }
 
-    public Map<String, Boolean> isGiverNameVisible() {
-        return isGiverNameVisible;
+    public Map<String, Boolean> getGiverNameVisibleFor() {
+        return giverNameVisibleFor;
     }
 
-    public void setIsGiverNameVisible(Map<String, Boolean> isGiverNameVisible) {
-        this.isGiverNameVisible = isGiverNameVisible;
+    public void setGiverNameVisibleFor(Map<String, Boolean> isGiverNameVisible) {
+        this.giverNameVisibleFor = isGiverNameVisible;
     }
 
-    public Map<String, Boolean> isRecipientNameVisible() {
-        return isRecipientNameVisible;
+    public Map<String, Boolean> getRecipientNameVisibleFor() {
+        return recipientNameVisibleFor;
     }
 
-    public void setIsRecipientNameVisible(Map<String, Boolean> isRecipientNameVisible) {
-        this.isRecipientNameVisible = isRecipientNameVisible;
+    public void setRecipientNameVisibleFor(Map<String, Boolean> isRecipientNameVisible) {
+        this.recipientNameVisibleFor = isRecipientNameVisible;
     }
 
-    public Map<String, Boolean> isResponseVisible() {
-        return isResponseVisible;
+    public Map<String, Boolean> getResponseVisibleFor() {
+        return responseVisibleFor;
     }
 
-    public void setIsResponseVisible(Map<String, Boolean> isResponseVisible) {
-        this.isResponseVisible = isResponseVisible;
+    public void setResponseVisibleFor(Map<String, Boolean> isResponseVisible) {
+        this.responseVisibleFor = isResponseVisible;
     }
     
 }

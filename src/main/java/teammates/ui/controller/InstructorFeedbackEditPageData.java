@@ -136,19 +136,19 @@ public class InstructorFeedbackEditPageData extends PageData {
         for (FeedbackParticipantType giverType : question.showGiverNameTo) {
             isGiverNameVisible.put(giverType.name(), true);
         }
-        generalSettings.setIsGiverNameVisible(isGiverNameVisible);
+        generalSettings.setGiverNameVisibleFor(isGiverNameVisible);
         
         Map<String, Boolean> isRecipientNameVisible = new HashMap<String, Boolean>();
         for (FeedbackParticipantType recipientType : question.showRecipientNameTo) {
             isRecipientNameVisible.put(recipientType.name(), true);
         }
-        generalSettings.setIsRecipientNameVisible(isRecipientNameVisible);
+        generalSettings.setRecipientNameVisibleFor(isRecipientNameVisible);
         
         Map<String, Boolean> isResponsesVisible = new HashMap<String, Boolean>();
         for (FeedbackParticipantType participantType : question.showResponsesTo) {
             isResponsesVisible.put(participantType.name(), true);
         }
-        generalSettings.setIsResponseVisible(isResponsesVisible);
+        generalSettings.setResponseVisibleFor(isResponsesVisible);
         
         generalSettings.setNumberOfEntitiesToGiveFeedbackToChecked(question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS);
         generalSettings.setNumOfEntitiesToGiveFeedbackToValue(question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS ?
@@ -209,9 +209,9 @@ public class InstructorFeedbackEditPageData extends PageData {
             isResponsesVisible.put(participant.name(), true);
         }
         
-        generalSettings.setIsGiverNameVisible(isGiverNameVisible);
-        generalSettings.setIsRecipientNameVisible(isRecipientNameVisible);
-        generalSettings.setIsResponseVisible(isResponsesVisible);
+        generalSettings.setGiverNameVisibleFor(isGiverNameVisible);
+        generalSettings.setRecipientNameVisibleFor(isRecipientNameVisible);
+        generalSettings.setResponseVisibleFor(isResponsesVisible);
     }
     
     

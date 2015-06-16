@@ -129,17 +129,17 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         assertEquals(8, questionForms.get(0).getGeneralSettings().getRecipientParticipantOptions().size());
         assertEquals(4, questionForms.get(0).getGeneralSettings().getGiverParticipantOptions().size());
         
-        assertTrue(questionForms.get(0).getGeneralSettings().isResponseVisible().get(FeedbackParticipantType.INSTRUCTORS.name()));
-        assertFalse(questionForms.get(0).getGeneralSettings().isResponseVisible().containsKey(FeedbackParticipantType.RECEIVER.name()));
-        assertFalse(questionForms.get(0).getGeneralSettings().isResponseVisible().containsKey(FeedbackParticipantType.STUDENTS.name()));
+        assertTrue(questionForms.get(0).getGeneralSettings().getResponseVisibleFor().get(FeedbackParticipantType.INSTRUCTORS.name()));
+        assertFalse(questionForms.get(0).getGeneralSettings().getResponseVisibleFor().containsKey(FeedbackParticipantType.RECEIVER.name()));
+        assertFalse(questionForms.get(0).getGeneralSettings().getResponseVisibleFor().containsKey(FeedbackParticipantType.STUDENTS.name()));
         
-        assertTrue(questionForms.get(0).getGeneralSettings().isGiverNameVisible().get(FeedbackParticipantType.INSTRUCTORS.name()));
-        assertFalse(questionForms.get(0).getGeneralSettings().isGiverNameVisible().containsKey(FeedbackParticipantType.RECEIVER.name()));
-        assertFalse(questionForms.get(0).getGeneralSettings().isGiverNameVisible().containsKey(FeedbackParticipantType.STUDENTS.name()));
+        assertTrue(questionForms.get(0).getGeneralSettings().getGiverNameVisibleFor().get(FeedbackParticipantType.INSTRUCTORS.name()));
+        assertFalse(questionForms.get(0).getGeneralSettings().getGiverNameVisibleFor().containsKey(FeedbackParticipantType.RECEIVER.name()));
+        assertFalse(questionForms.get(0).getGeneralSettings().getGiverNameVisibleFor().containsKey(FeedbackParticipantType.STUDENTS.name()));
         
-        assertTrue(questionForms.get(0).getGeneralSettings().isRecipientNameVisible().get(FeedbackParticipantType.INSTRUCTORS.name()));
-        assertFalse(questionForms.get(0).getGeneralSettings().isRecipientNameVisible().containsKey(FeedbackParticipantType.RECEIVER.name()));
-        assertFalse(questionForms.get(0).getGeneralSettings().isRecipientNameVisible().containsKey(FeedbackParticipantType.STUDENTS.name()));
+        assertTrue(questionForms.get(0).getGeneralSettings().getRecipientNameVisibleFor().get(FeedbackParticipantType.INSTRUCTORS.name()));
+        assertFalse(questionForms.get(0).getGeneralSettings().getRecipientNameVisibleFor().containsKey(FeedbackParticipantType.RECEIVER.name()));
+        assertFalse(questionForms.get(0).getGeneralSettings().getRecipientNameVisibleFor().containsKey(FeedbackParticipantType.STUDENTS.name()));
         
         assertEquals("Rate 1 other student's product", questionForms.get(1).getQuestionText());
         assertEquals(false, questionForms.get(1).getGeneralSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
@@ -147,17 +147,17 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         assertEquals(8, questionForms.get(1).getGeneralSettings().getRecipientParticipantOptions().size());
         assertEquals(4, questionForms.get(1).getGeneralSettings().getGiverParticipantOptions().size());
         
-        assertTrue(questionForms.get(1).getGeneralSettings().isResponseVisible().get(FeedbackParticipantType.INSTRUCTORS.name()));
-        assertTrue(questionForms.get(1).getGeneralSettings().isResponseVisible().get(FeedbackParticipantType.RECEIVER.name()));
-        assertFalse(questionForms.get(1).getGeneralSettings().isResponseVisible().containsKey(FeedbackParticipantType.STUDENTS.name()));
+        assertTrue(questionForms.get(1).getGeneralSettings().getResponseVisibleFor().get(FeedbackParticipantType.INSTRUCTORS.name()));
+        assertTrue(questionForms.get(1).getGeneralSettings().getResponseVisibleFor().get(FeedbackParticipantType.RECEIVER.name()));
+        assertFalse(questionForms.get(1).getGeneralSettings().getResponseVisibleFor().containsKey(FeedbackParticipantType.STUDENTS.name()));
         
-        assertTrue(questionForms.get(1).getGeneralSettings().isGiverNameVisible().get(FeedbackParticipantType.INSTRUCTORS.name()));
-        assertFalse(questionForms.get(1).getGeneralSettings().isGiverNameVisible().containsKey(FeedbackParticipantType.RECEIVER.name()));
-        assertFalse(questionForms.get(1).getGeneralSettings().isGiverNameVisible().containsKey(FeedbackParticipantType.STUDENTS.name()));
+        assertTrue(questionForms.get(1).getGeneralSettings().getGiverNameVisibleFor().get(FeedbackParticipantType.INSTRUCTORS.name()));
+        assertFalse(questionForms.get(1).getGeneralSettings().getGiverNameVisibleFor().containsKey(FeedbackParticipantType.RECEIVER.name()));
+        assertFalse(questionForms.get(1).getGeneralSettings().getGiverNameVisibleFor().containsKey(FeedbackParticipantType.STUDENTS.name()));
         
-        assertTrue(questionForms.get(1).getGeneralSettings().isRecipientNameVisible().get(FeedbackParticipantType.INSTRUCTORS.name()));
-        assertTrue(questionForms.get(1).getGeneralSettings().isRecipientNameVisible().get(FeedbackParticipantType.RECEIVER.name()));
-        assertFalse(questionForms.get(1).getGeneralSettings().isRecipientNameVisible().containsKey(FeedbackParticipantType.STUDENTS.name()));
+        assertTrue(questionForms.get(1).getGeneralSettings().getRecipientNameVisibleFor().get(FeedbackParticipantType.INSTRUCTORS.name()));
+        assertTrue(questionForms.get(1).getGeneralSettings().getRecipientNameVisibleFor().get(FeedbackParticipantType.RECEIVER.name()));
+        assertFalse(questionForms.get(1).getGeneralSettings().getRecipientNameVisibleFor().containsKey(FeedbackParticipantType.STUDENTS.name()));
         
         assertEquals("My comments on the class", questionForms.get(2).getQuestionText());
         assertEquals(true, questionForms.get(2).getGeneralSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
@@ -165,17 +165,17 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         assertEquals(8, questionForms.get(2).getGeneralSettings().getRecipientParticipantOptions().size());
         assertEquals(4, questionForms.get(2).getGeneralSettings().getGiverParticipantOptions().size());
         
-        assertTrue(questionForms.get(2).getGeneralSettings().isResponseVisible().get(FeedbackParticipantType.INSTRUCTORS.name()));
-        assertTrue(questionForms.get(2).getGeneralSettings().isResponseVisible().get(FeedbackParticipantType.RECEIVER.name()));
-        assertTrue(questionForms.get(2).getGeneralSettings().isResponseVisible().get(FeedbackParticipantType.STUDENTS.name()));
+        assertTrue(questionForms.get(2).getGeneralSettings().getResponseVisibleFor().get(FeedbackParticipantType.INSTRUCTORS.name()));
+        assertTrue(questionForms.get(2).getGeneralSettings().getResponseVisibleFor().get(FeedbackParticipantType.RECEIVER.name()));
+        assertTrue(questionForms.get(2).getGeneralSettings().getResponseVisibleFor().get(FeedbackParticipantType.STUDENTS.name()));
         
-        assertTrue(questionForms.get(2).getGeneralSettings().isGiverNameVisible().get(FeedbackParticipantType.INSTRUCTORS.name()));
-        assertTrue(questionForms.get(2).getGeneralSettings().isGiverNameVisible().get(FeedbackParticipantType.RECEIVER.name()));
-        assertTrue(questionForms.get(2).getGeneralSettings().isGiverNameVisible().get(FeedbackParticipantType.STUDENTS.name()));
+        assertTrue(questionForms.get(2).getGeneralSettings().getGiverNameVisibleFor().get(FeedbackParticipantType.INSTRUCTORS.name()));
+        assertTrue(questionForms.get(2).getGeneralSettings().getGiverNameVisibleFor().get(FeedbackParticipantType.RECEIVER.name()));
+        assertTrue(questionForms.get(2).getGeneralSettings().getGiverNameVisibleFor().get(FeedbackParticipantType.STUDENTS.name()));
         
-        assertTrue(questionForms.get(2).getGeneralSettings().isRecipientNameVisible().get(FeedbackParticipantType.INSTRUCTORS.name()));
-        assertTrue(questionForms.get(2).getGeneralSettings().isRecipientNameVisible().get(FeedbackParticipantType.RECEIVER.name()));
-        assertTrue(questionForms.get(2).getGeneralSettings().isRecipientNameVisible().get(FeedbackParticipantType.STUDENTS.name()));
+        assertTrue(questionForms.get(2).getGeneralSettings().getRecipientNameVisibleFor().get(FeedbackParticipantType.INSTRUCTORS.name()));
+        assertTrue(questionForms.get(2).getGeneralSettings().getRecipientNameVisibleFor().get(FeedbackParticipantType.RECEIVER.name()));
+        assertTrue(questionForms.get(2).getGeneralSettings().getRecipientNameVisibleFor().get(FeedbackParticipantType.STUDENTS.name()));
         //TODO test specific question edit form html after it is no longer html in java
         
         // test question add form
