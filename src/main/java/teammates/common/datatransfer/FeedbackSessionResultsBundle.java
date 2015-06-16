@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.logging.Logger;
 
 import teammates.common.util.Const;
@@ -32,6 +33,13 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     public Map<String, String> emailTeamNameTable = null;
     public Map<String, Set<String>> rosterTeamNameMembersTable = null;
     public Map<String, Set<String>> rosterSectionTeamNameTable = null;
+    
+    // Givers of responses of the question specified
+    public Map<String, Set<String>> actualGiversForQuestion = null;
+    // Recipients of existing responses by the specified giver
+    public Map<String, Set<String>> actualRecipientsForGiverForQuestion = null;
+    
+    
     public Map<String, boolean[]> visibilityTable = null;
     public FeedbackSessionResponseStatus responseStatus = null;
     public CourseRoster roster = null;
@@ -53,7 +61,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     // Key is questionId, value is a map of team name to TeamEvalResult
     public Map<String, Map<String, TeamEvalResult>> contributionQuestionTeamEvalResults =
             new HashMap<String, Map<String, TeamEvalResult>>();
-
+    
+    
     public FeedbackSessionResultsBundle(FeedbackSessionAttributes feedbackSession,
                                         List<FeedbackResponseAttributes> responses,
                                         Map<String, FeedbackQuestionAttributes> questions,
@@ -108,7 +117,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         this.rosterTeamNameMembersTable = getTeamNameToEmailsTableFromRoster(roster);
         this.rosterSectionTeamNameTable = getSectionToTeamNamesFromRoster(roster);
     }
-
+    
+    
+    
     /**
      * Hides response names/emails and teams that are not visible to the current user.
      * Replaces the giver/recipient email in responses to an email with two "@@"s
@@ -148,7 +159,64 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             }
         }
     }
+    
+    /**
+     * Populates {@code actualGiversForQuestion}, which is a mapping of questionId to givers.
+     */
+    public void constructTablesForActualGiversForQuestionFromResponses() {
+        actualGiversForQuestion = new HashMap<String, Set<String>>();
+        for (FeedbackResponseAttributes response : this.responses) {
+            String questionId = response.feedbackQuestionId;
+            FeedbackQuestionAttributes question = questions.get(questionId);
+            
+            String giverIdentifier = response.giverEmail;
+            
+            if (question.giverType.isTeam() 
+                && !rosterTeamNameMembersTable.containsKey(giverIdentifier)) { // anonymous team
+                    // An anonymous team only has one member, which
+                    // is the anonymous student who gave the response
+                    giverIdentifier = emailTeamNameTable.get(giverIdentifier);
+            }
+ 
+            if (actualGiversForQuestion.containsKey(questionId)) {
+                Set<String> actualGivers = actualGiversForQuestion.get(questionId);
+                actualGivers.add(giverIdentifier);
+            } else {
+                Set<String> actualGivers = new HashSet<String>();
+                actualGivers.add(giverIdentifier);
+                actualGiversForQuestion.put(questionId, actualGivers);
+            }
+            
+        }
+    }
+    
+    public void constructTablesForActualRecipientsForGiversFromResponses() {
+        actualRecipientsForGiverForQuestion = new HashMap<String, Set<String>>();
+        
+        for (FeedbackResponseAttributes response : this.responses) {
+            FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
+            String giverIdentifier = response.giverEmail;
+            String questionId = response.feedbackQuestionId;
+            
+            // normalize the giver name i.e. ".*'s team" converted to actual team name
+            if (question.giverType.isTeam() && isGiverVisible(response)) {
+                giverIdentifier = response.giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER, "");
+                giverIdentifier = getTeamNameForEmail(giverIdentifier);
+            } 
+            
+            if (actualRecipientsForGiverForQuestion.containsKey(giverIdentifier)) {
+                Set<String> recipientsForGiver = actualRecipientsForGiverForQuestion.get(giverIdentifier);
+                recipientsForGiver.add(response.recipientEmail);
+            } else {
+                Set<String> recipientsForGiver = new HashSet<>();
+                recipientsForGiver.add(response.recipientEmail);
+                actualRecipientsForGiverForQuestion.put(giverIdentifier, recipientsForGiver);
+            }
+        }
+        
+    }
 
+    
     /**
      * Checks if the giver/recipient for a response is visible/hidden from the current user.
      */
@@ -185,6 +253,22 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      */
     public boolean isGiverVisible(FeedbackResponseAttributes response) {
         return isFeedbackParticipantVisible(true, response);
+    }
+    
+    /**
+     * Checks giver and recipient for the questions are both visible to the instructor
+     */
+    public boolean isBothGiverAndReceiverVisibleToInstructor(FeedbackQuestionAttributes question) {
+        return isGiverVisibleToInstructor(question) 
+            && isRecipientVisibleToInstructor(question);
+    }
+    
+    public boolean isGiverVisibleToInstructor(FeedbackQuestionAttributes question) {
+        return question.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+    }
+    
+    public boolean isRecipientVisibleToInstructor(FeedbackQuestionAttributes question) {
+        return question.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
     }
 
     private String getAnonEmail(FeedbackParticipantType type, String name) {
@@ -329,9 +413,24 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
     }
 
+    public boolean isParticipantInSection(String participantIdentifier, String section) {
+        String personSection = getSectionFromRoster(participantIdentifier);
+        
+        if (personSection.equals(section)) {
+            return true;
+        }
+        
+        // identifier might be a team, which will not be identified using the roster
+        Set<String> teamsInSection = getTeamsInSectionFromRoster(section);
+        return teamsInSection.contains(participantIdentifier);
+    }
+    
+    
     /**
-     * Get the displayable section name from an email.
+     * Get the displayable section name from an email. 
      * If the email is not an email of someone in the class roster, an empty string is returned.
+     * 
+     * If a team is passed in, "" is returned 
      * 
      * If the email of an instructor or "%GENERAL%" is passed in, "Not in a section" is returned.
      * @param participantIdentifier
@@ -350,6 +449,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             return "";
         }
     }
+    
 
     /**
      * Get the emails of the students given a teamName,
@@ -392,6 +492,25 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return instructor != null;
     }
 
+    
+    /**
+     * Return a list of questionIds sorted in increasing order. 
+     * 
+     */
+    public List<String> getQuestionIdsSortedByQuestionNumber() {
+        List<FeedbackQuestionAttributes> questionsList = new ArrayList<FeedbackQuestionAttributes>();
+        for (Map.Entry<String, FeedbackQuestionAttributes> entry : questions.entrySet()) {
+            questionsList.add(entry.getValue());
+        }
+        Collections.sort(questionsList);
+        
+        List<String> questionIds = new ArrayList<String>();
+        for (FeedbackQuestionAttributes question : questionsList) {
+            questionIds.add(question.getId());
+        }
+        return questionIds;
+    }
+    
     /**
      * Get the possible givers for a recipient specified by its participant identifier for
      * a question
@@ -588,6 +707,54 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return possibleGivers;
     }
 
+    /**
+     * For a given question, returns a list of participantIdentifiers (student emails, instructor emails,
+     *  or team name) that have given responses for it, or are able to give responses for it.
+     * @param fqa
+     */
+    public List<String> getPossibleAndActualGivers(FeedbackQuestionAttributes fqa) {
+        Set<String> possibleGiversSet = new HashSet<String>(getPossibleGivers(fqa));
+        if (actualGiversForQuestion.containsKey(fqa.getId())) {
+            possibleGiversSet.addAll(actualGiversForQuestion.get(fqa.getId()));
+        }
+        
+        List<String> possibleGivers = new ArrayList<String>(possibleGiversSet);
+        
+        Collections.sort(possibleGivers, compareByParticipantName);
+        return possibleGivers;
+    }
+    
+    /**
+     * For a given question and giver identifier, 
+     * returns a list of participantIdentifiers (student emails, instructor emails,
+     *  or team name) that have received responses for it, or are able to receive responses for it.
+     * @param fqa
+     */
+    public List<String> getPossibleAndActualReceivers(FeedbackQuestionAttributes fqa, String giver, 
+                                    Map<String, Map<String, FeedbackResponseAttributes>> giverToRecipientMap) {
+        
+        List<String> possibleRecipients = fqa.giverType.isTeam() ? 
+                                        getPossibleRecipients(fqa, getFullNameFromRoster(giver)) :
+                                        getPossibleRecipients(fqa, giver);
+        Set<String> possibleRecipientSet = new TreeSet<String>(possibleRecipients);
+        
+        Set<String> actualRecipients = new HashSet<String>();
+        if (giverToRecipientMap.containsKey(giver)) {
+            for (String actualRecipient : giverToRecipientMap.get(giver).keySet() ) {
+                actualRecipients.add(actualRecipient);
+            }
+        }
+        
+        Set<String> result = new HashSet<String>();
+        result.addAll(possibleRecipientSet); 
+        result.addAll(actualRecipients);
+        
+        List<String> resultList = new ArrayList<String>(result);
+        Collections.sort(resultList, compareByParticipantName);
+        
+        return resultList;
+    }
+    
     public List<String> getPossibleRecipients(FeedbackQuestionAttributes fqa) {
         FeedbackParticipantType recipientType = fqa.recipientType;
         List<String> possibleRecipients = null;
@@ -1158,6 +1325,26 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return sortedMap;
     }
     
+    
+    public List<FeedbackResponseAttributes> filterResponsesForQuestion(Map<String, 
+                                    Map<String, Map<String, FeedbackResponseAttributes>>> responseBundle, 
+                                    String questionId) {
+       if (!responseBundle.containsKey(questionId)) {
+           return new ArrayList<FeedbackResponseAttributes>();
+       }
+       Map<String, Map<String, FeedbackResponseAttributes>> responsesMapOfGiverAndRecipient = responseBundle.get(questionId);
+       
+       List<FeedbackResponseAttributes> responses = new ArrayList<FeedbackResponseAttributes>();
+       for (Map.Entry<String, Map<String, FeedbackResponseAttributes>> giverRecipientEntry : responsesMapOfGiverAndRecipient.entrySet()) {
+           for (Map.Entry<String, FeedbackResponseAttributes> recipientEntry : giverRecipientEntry.getValue().entrySet()) {
+               FeedbackResponseAttributes response = recipientEntry.getValue();
+               responses.add(response);
+           }
+       }
+       
+       return responses;
+   }
+    
     /**
      * Returns responses as a Map<recipientName, Map<question, List<response>>>
      * Where the responses are sorted in the order of recipient, question, giver.
@@ -1500,9 +1687,52 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
         return sectionToTeam;
     }
+    
+    /**
+     * Returns a map where questionId > giverIdentifier > recipientIdentifier returns the 
+     * response.
+     */
+    public Map<String, Map<String, Map<String, FeedbackResponseAttributes>>> getResponseBundle() {
+        Map<String, Map<String, Map<String, FeedbackResponseAttributes > > > result = new LinkedHashMap<String, Map<String, Map<String, FeedbackResponseAttributes>>>();
+        
+        for (FeedbackResponseAttributes response : responses) {
+            String questionId = response.feedbackQuestionId;
+            String giverIdentifier;
+            
+            FeedbackQuestionAttributes question = questions.get(questionId);
+            if (question.giverType.isTeam()) {
+                giverIdentifier = response.giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER, "");
+                giverIdentifier = getTeamNameForEmail(giverIdentifier);
+            } else {
+                giverIdentifier = response.giverEmail;
+            }
+            
+            String recipientIdentifier = response.recipientEmail;
+
+            Map<String, Map<String, FeedbackResponseAttributes > > giverToRecipientResponseMap;
+            Map<String, FeedbackResponseAttributes > recipientToResponseMap; 
+            giverToRecipientResponseMap = result.containsKey(questionId) ? 
+                                          result.get(questionId) :
+                                          new LinkedHashMap<String, Map<String, FeedbackResponseAttributes>>();
+            
+            recipientToResponseMap = giverToRecipientResponseMap.containsKey(giverIdentifier) ? 
+                                     giverToRecipientResponseMap.get(giverIdentifier) :
+                                     new LinkedHashMap<String, FeedbackResponseAttributes>();
+            
+            if (recipientToResponseMap.containsKey(recipientIdentifier)) {
+                // This should be impossible
+                log.severe("duplicate response id");
+            }
+            recipientToResponseMap.put(recipientIdentifier, response);
+            giverToRecipientResponseMap.put(giverIdentifier, recipientToResponseMap);
+            result.put(questionId, giverToRecipientResponseMap);
+        }
+        
+        return result;
+    }
+    
 
     @SuppressWarnings("unused")
-    // TODO unused. Can remove?
     private void ________________COMPARATORS_____________() {
     }
 
@@ -2005,6 +2235,23 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             String t2 = getTeamNameForEmail(o2.giverEmail).equals("") ? getNameForEmail(o2.giverEmail)
                                                                       : getTeamNameForEmail(o2.giverEmail);
             return t1.compareTo(t2);
+        }
+    };
+    
+    
+    public final Comparator<String> compareByParticipantName =
+            new Comparator<String>() {
+        @Override
+        public int compare(String participantIdentifier1, String participantIdentifier2) {
+            String participantName1 = emailNameTable.containsKey(participantIdentifier1) ? 
+                                      getNameForEmail(participantIdentifier1) :
+                                      getNameFromRoster(participantIdentifier1, true);
+                                      
+            String participantName2 = emailNameTable.containsKey(participantIdentifier2) ? 
+                                      getNameForEmail(participantIdentifier2) :
+                                      getNameFromRoster(participantIdentifier2, true);
+            
+            return compareByNames(participantName1, participantName2);
         }
     };
 

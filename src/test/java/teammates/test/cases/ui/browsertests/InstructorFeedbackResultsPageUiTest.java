@@ -78,7 +78,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: standard session results");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
-        resultsPage.verifyHtml("/instructorFeedbackResultsPageOpen.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpen.html");
 
         ______TS("Typical case: standard session results with helper view");
 
@@ -105,11 +105,11 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         verifyModerateResponsesButton(2, "CFResultsUiT.alice.b@gmail.tmt", "CFResultsUiT.benny.c@gmail.tmt",
                                       "CFResultsUiT.charlie.d@gmail.tmt", "CFResultsUiT.danny.e@gmail.tmt",
-                                      "drop.out@gmail.tmt", "extra.guy@gmail.tmt", "CFResultsUiT.emily.f@gmail.tmt");
+                                      "drop.out@gmail.tmt", "CFResultsUiT.emily.f@gmail.tmt", "extra.guy@gmail.tmt");
 
         ______TS("Typical case: test moderate responses button for team response");
 
-        verifyModerateResponsesButton(4, "CFResultsUiT.alice.b@gmail.tmt");
+        verifyModerateResponsesButton(4, "Team 1");
 
     }
 

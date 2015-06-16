@@ -787,7 +787,7 @@ public class FeedbackSessionsLogic {
         
         exportBuilder.append(questionDetails.getCsvDetailedResponsesHeader());
 
-        List<String> possibleGiversWithoutResponses = fsrBundle.getPossibleGivers(question);
+        List<String> possibleGiversWithoutResponses = new ArrayList<String>(fsrBundle.getPossibleGivers(question));
         List<String> possibleRecipientsForGiver = new ArrayList<String>();
         String prevGiver = "";
         
