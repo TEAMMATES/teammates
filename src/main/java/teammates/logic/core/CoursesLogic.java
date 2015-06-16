@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -199,7 +198,6 @@ public class CoursesLogic {
 
         return sectionNameList;
     }
-    
 
     public SectionDetailsBundle getSectionForCourse(String section, String courseId)
             throws EntityDoesNotExistException {
