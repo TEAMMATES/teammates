@@ -10,6 +10,8 @@ import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.SessionAttributes;
+import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -35,19 +37,32 @@ public class InstructorStudentRecordsPageAction extends Action {
 
         new GateKeeper().verifyAccessible(instructor, logic.getCourse(courseId));
 
-        data = new InstructorStudentRecordsPageData(account);
+        StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
 
-        data.currentInstructor = instructor;
-        data.courseId = courseId;
-        data.student = logic.getStudentForEmail(courseId, studentEmail);
-        data.studentName = Sanitizer.sanitizeForHtml(data.student.name);
-
-        if (data.student == null) {
+        if (student == null) {
             statusToUser.add(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_RECORDS);
             isError = true;
             return createRedirectResult(Const.ActionURIs.INSTRUCTOR_HOME_PAGE);
         }
 
+        StudentProfileAttributes studentProfile = null;
+        
+        if (student.googleId == "") {
+            statusToUser.add(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS);
+        } else if (!instructor.isAllowedForPrivilege(student.section,
+                                           Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
+            statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR);
+        } else {
+            studentProfile = logic.getStudentProfile(student.googleId);
+            Assumption.assertNotNull(studentProfile);
+        }
+
+        data = new InstructorStudentRecordsPageData(account, studentProfile);
+
+        data.student = student;
+        data.studentName = Sanitizer.sanitizeForHtml(data.student.name);
+        data.currentInstructor = instructor;
+        data.courseId = courseId;
         data.showCommentBox = showCommentBox;
         data.comments = logic.getCommentsForReceiver(courseId, instructor.email,
                                                      CommentParticipantType.PERSON, studentEmail);
@@ -69,20 +84,6 @@ public class InstructorStudentRecordsPageAction extends Action {
         Collections.sort(data.sessions, SessionAttributes.DESCENDING_ORDER);
         CommentAttributes.sortCommentsByCreationTimeDescending(data.comments);
 
-        if (data.student.googleId == "") {
-            statusToUser.add(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS);
-        } else if (!data.currentInstructor
-                        .isAllowedForPrivilege(data.student.section,
-                                               Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
-            statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR);
-        } else {
-            data.studentProfile = logic.getStudentProfile(data.student.googleId);
-            Assumption.assertNotNull(data.studentProfile);
-        }
-
-        // call this function right before the 'no-records' check
-        loadStudentProfile();
-
         if (data.sessions.size() == 0 && data.comments.size() == 0) {
             statusToUser.add(Const.StatusMessages.INSTRUCTOR_NO_STUDENT_RECORDS);
         }
@@ -91,8 +92,8 @@ public class InstructorStudentRecordsPageAction extends Action {
                       + "Viewing <span class=\"bold\">" + studentEmail + "'s</span> records "
                       + "for Course <span class=\"bold\">[" + courseId + "]</span><br>"
                       + "Number of sessions: " + data.sessions.size() + "<br>"
-                      + "Student Profile: " + (data.studentProfile == null ? "No Profile"
-                                                                           : data.studentProfile.toString());
+                      + "Student Profile: " + (studentProfile == null ? "No Profile"
+                                                                      : studentProfile.toString());
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_STUDENT_RECORDS, data);
     }
@@ -110,7 +111,7 @@ public class InstructorStudentRecordsPageAction extends Action {
         }
     }
 
-    private void loadStudentProfile() {
+    /*private StudentProfileAttributes loadStudentProfile() {
         boolean hasExistingStatus = !statusToUser.isEmpty()
                                  || session.getAttribute(Const.ParamsNames.STATUS_MESSAGE) != null;
 
@@ -119,6 +120,7 @@ public class InstructorStudentRecordsPageAction extends Action {
                 // not covered as status should have been added prior to reaching this branch
                 statusToUser.add(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS);
             }
+            return null;
         } else if (!data.currentInstructor
                         .isAllowedForPrivilege(data.student.section,
                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
@@ -126,10 +128,12 @@ public class InstructorStudentRecordsPageAction extends Action {
                 // not covered as status should have been added prior to reaching this branch
                 statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR);
             }
+            return null;
         } else {
-            data.studentProfile = logic.getStudentProfile(data.student.googleId);
+            StudentProfileAttributes studentProfile = logic.getStudentProfile(data.student.googleId);
             Assumption.assertNotNull(data.studentProfile);
+            return studentProfile;
         }
-    }
+    }*/
 
 }

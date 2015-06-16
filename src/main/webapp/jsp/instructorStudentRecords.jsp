@@ -18,4 +18,10 @@
                    jsIncludes="${jsIncludes}"
                    extraScript="${extraScript}"
                    bodyOnload="onload=\"readyStudentRecordsPage();\"">
+    <t:statusMessage />
+    <div class="container-fluid">
+        <c:if test="${not empty data.studentProfile}">
+            <tisr:studentProfile profile="${data.studentProfile}" />
+        </c:if>
+    </div>
 </ti:instructorPage>
