@@ -41,13 +41,10 @@
 <body>
 
     <jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
-    <div class="container theme-showcase" role="main">
-        <div id="frameBody">
-            <div id="frameBodyWrapper">
+    <div class="container" id="frameBodyWrapper">
                 <div id="topOfPage"></div>
-                <div id="headerOperation" class="page-header">
-                    <h1>Instructor Account Details</h1>
-                </div>
+                <h1>Instructor Account Details</h1>
+                <br>
 
                 <div class="well well-plain">
                     <form class="form-horizontal" role="form">
@@ -210,8 +207,6 @@
                 %>
                 <br> <br> <br>
             </div>
-        </div>
-    </div>
 
 
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
