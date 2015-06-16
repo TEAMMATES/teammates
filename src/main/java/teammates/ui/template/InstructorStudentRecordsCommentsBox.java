@@ -2,8 +2,6 @@ package teammates.ui.template;
 
 import java.util.List;
 
-import teammates.common.datatransfer.CommentAttributes;
-
 public class InstructorStudentRecordsCommentsBox {
 
     private String studentName;
@@ -12,10 +10,11 @@ public class InstructorStudentRecordsCommentsBox {
     private String email;
     private String googleId;
     private boolean instructorAllowedToGiveComment;
-    private List<CommentAttributes> comments;
+    private List<InstructorStudentRecordsComment> comments;
 
     public InstructorStudentRecordsCommentsBox(String studentName, String section, String courseId,
-                                               String email, String googleId, List<CommentAttributes> comments,
+                                               String email, String googleId,
+                                               List<InstructorStudentRecordsComment> comments,
                                                boolean isInstructorAllowedToGiveComment) {
         this.studentName = studentName;
         this.section = section;
@@ -50,7 +49,7 @@ public class InstructorStudentRecordsCommentsBox {
         return instructorAllowedToGiveComment;
     }
 
-    public List<CommentAttributes> getComments() {
+    public List<InstructorStudentRecordsComment> getComments() {
         return comments;
     }
 

@@ -3,6 +3,7 @@
 <%@ tag import="teammates.common.datatransfer.CommentParticipantType" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib tagdir="/WEB-INF/tags/instructor/studentRecords" prefix="tisr" %>
 <%@ attribute name="comments" type="teammates.ui.template.InstructorStudentRecordsCommentsBox" required="true" %>
 <c:set var="commentIdx" value="${fn:length(comments.comments) - 1}" />
 <div class="panel panel-info">
@@ -22,7 +23,18 @@
             <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
         </button>
         <ul class="list-group" style="margin-top: 15px;">
-        	<!-- add comments here -->
+            <c:choose>
+                <c:when test="${not empty comments.comments}">
+                    <c:forEach items="${comments.comments}" var="comment" varStatus="i">
+                        <tisr:comment comment="${comment}" index="${i.index}" />
+                    </c:forEach>
+                </c:when>
+                <c:otherwise>
+                    <li class="list-group-item list-group-item-warning">
+                        You don't have any comments on this student.
+                    </li>
+                </c:otherwise>
+            </c:choose>
             <li class="list-group-item list-group-item-warning" id="comment_box" style="display: none;">
                 <form method="post"
                       action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD %>"
@@ -89,9 +101,9 @@
                                 <tr id="recipient-team${commentIdx}">
                                     <td class="text-left">
                                         <div data-toggle="tooltip"
-                                        	 data-placement="top"
-                                        	 title=""
-                                        	 data-original-title="Control what team members of comment recipients can view">
+                                             data-placement="top"
+                                             title=""
+                                             data-original-title="Control what team members of comment recipients can view">
                                             Recipient's Team
                                         </div>
                                     </td>
@@ -108,9 +120,9 @@
                                 <tr id="recipient-course${commentIdx}">
                                     <td class="text-left">
                                         <div data-toggle="tooltip"
-                                        	 data-placement="top"
-                                        	 title=""
-                                        	 data-original-title="Control what other students in this course can view">
+                                             data-placement="top"
+                                             title=""
+                                             data-original-title="Control what other students in this course can view">
                                             Other students in this course
                                         </div>
                                     </td>
@@ -127,9 +139,9 @@
                                 <tr>
                                     <td class="text-left">
                                         <div data-toggle="tooltip"
-                                        	 data-placement="top"
-                                        	 title=""
-                                        	 data-original-title="Control what instructors can view">
+                                             data-placement="top"
+                                             title=""
+                                             data-original-title="Control what instructors can view">
                                             Instructors
                                         </div>
                                     </td>
@@ -149,10 +161,10 @@
                     <div class="form-group">
                         <!-- Do not add whitespace between the opening and closing tags -->
                         <textarea class="form-control"
-                        	      rows="3"
-                        	      placeholder="Your comment about this student"
-                        	      name="<%= Const.ParamsNames.COMMENT_TEXT %>"
-                        	      id="commentText"></textarea>
+                                  rows="3"
+                                  placeholder="Your comment about this student"
+                                  name="<%= Const.ParamsNames.COMMENT_TEXT %>"
+                                  id="commentText"></textarea>
                     </div>
                     <div class="col-sm-offset-5">
                         <input type="submit" class="btn btn-primary" id="button_save_comment" value="Save">

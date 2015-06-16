@@ -78,9 +78,8 @@ public class InstructorStudentRecordsPageAction extends Action {
         }
 
         data = new InstructorStudentRecordsPageData(account, studentProfile, student, sessions, courseId, comments,
-                                                    instructor);
+                                                    instructor, showCommentBox);
 
-        data.showCommentBox = showCommentBox;
         statusToAdmin = "instructorStudentRecords Page Load<br>"
                       + "Viewing <span class=\"bold\">" + studentEmail + "'s</span> records "
                       + "for Course <span class=\"bold\">[" + courseId + "]</span><br>"

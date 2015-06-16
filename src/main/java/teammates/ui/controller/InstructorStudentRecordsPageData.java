@@ -11,6 +11,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
+import teammates.ui.template.InstructorStudentRecordsComment;
 import teammates.ui.template.InstructorStudentRecordsCommentsBox;
 import teammates.ui.template.InstructorStudentRecordsFeedbackSession;
 import teammates.ui.template.InstructorStudentRecordsMoreInfoModal;
@@ -26,14 +27,19 @@ public class InstructorStudentRecordsPageData extends PageData {
     public List<InstructorStudentRecordsFeedbackSession> sessions;
     public InstructorStudentRecordsCommentsBox comments;
 
+    public InstructorStudentRecordsPageData(AccountAttributes account) {
+        super(account);
+    }
+
     public InstructorStudentRecordsPageData(AccountAttributes account, StudentProfileAttributes spa,
                                             StudentAttributes student, List<FeedbackSessionAttributes> sessions,
-                                            String courseId, List<CommentAttributes> comments,
-                                            InstructorAttributes instructor) {
+                                            String courseId, List<CommentAttributes> commentAttributes,
+                                            InstructorAttributes instructor, String showCommentBox) {
         super(account);
         String studentName = Sanitizer.sanitizeForHtml(student.name);
         this.studentName = studentName;
         this.courseId = courseId;
+        this.showCommentBox = showCommentBox;
         if (spa == null) {
             this.studentProfile = null;
         } else {
@@ -49,6 +55,16 @@ public class InstructorStudentRecordsPageData extends PageData {
         }
         boolean isInstructorAllowedToGiveComment = instructor.isAllowedForPrivilege(student.section,
                                         Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
+        List<InstructorStudentRecordsComment> comments = new ArrayList<InstructorStudentRecordsComment>();
+        for (CommentAttributes comment: commentAttributes) {
+            String typeOfPeopleCanViewComment = "";
+            if (comment.showCommentTo.size() > 0) {
+                typeOfPeopleCanViewComment = getTypeOfPeopleCanViewComment(comment);
+            }
+            comments.add(new InstructorStudentRecordsComment(comment, typeOfPeopleCanViewComment,
+                                                             courseId, studentName, student.email,
+                                                             account.googleId, commentAttributes.size()));
+        }
         this.comments = new InstructorStudentRecordsCommentsBox(studentName, student.section, courseId,
                                                                 student.email, account.googleId, comments,
                                                                 isInstructorAllowedToGiveComment);
