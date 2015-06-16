@@ -21,7 +21,6 @@ public class InstructorStudentListAjaxPageData extends PageData {
     public boolean hasSection;
     public Map<String, String> emailPhotoUrlMapping;
     public Map<String, Map<String, Boolean>> sectionPrivileges;
-    public ShowPageResult spr;
     public int courseIdx;
 
     public String getCourseStudentDetailsLink(StudentAttributes student, String userId) {
