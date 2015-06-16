@@ -31,7 +31,7 @@
             <div class="align-center bold" id="empty_message">${data.emptyFsMsg}</div>
             <br><br>
     </c:if>
-    
+    <br>
     <c:forEach items="${data.qnForms}" var="question" varStatus="i">
         <feedbackEdit:questionEditForm fqForm="${question}" />
     </c:forEach>

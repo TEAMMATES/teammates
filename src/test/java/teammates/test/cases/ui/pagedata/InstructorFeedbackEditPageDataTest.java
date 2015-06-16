@@ -128,6 +128,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         assertEquals(1, questionForms.get(0).getGeneralSettings().getNumOfEntitiesToGiveFeedbackToValue());
         assertEquals(8, questionForms.get(0).getGeneralSettings().getRecipientParticipantOptions().size());
         assertEquals(4, questionForms.get(0).getGeneralSettings().getGiverParticipantOptions().size());
+        assertEquals("-1", questionForms.get(0).getQuestionNumberSuffix());
         
         assertTrue(questionForms.get(0).getGeneralSettings().getResponseVisibleFor().get(FeedbackParticipantType.INSTRUCTORS.name()));
         assertFalse(questionForms.get(0).getGeneralSettings().getResponseVisibleFor().containsKey(FeedbackParticipantType.RECEIVER.name()));
@@ -160,6 +161,9 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         assertFalse(questionForms.get(1).getGeneralSettings().getRecipientNameVisibleFor().containsKey(FeedbackParticipantType.STUDENTS.name()));
         
         assertEquals("My comments on the class", questionForms.get(2).getQuestionText());
+        
+        assertEquals("-3", questionForms.get(0).getQuestionNumberSuffix());
+        
         assertEquals(true, questionForms.get(2).getGeneralSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
         assertEquals(1, questionForms.get(2).getGeneralSettings().getNumOfEntitiesToGiveFeedbackToValue());
         assertEquals(8, questionForms.get(2).getGeneralSettings().getRecipientParticipantOptions().size());
@@ -185,6 +189,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
                         .withCourseId(fs.courseId)
                         .withSessionName(fs.feedbackSessionName).toString(), newQuestionForm.getDoneEditingLink().toString());
         assertEquals(false, newQuestionForm.getGeneralSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
+        assertEquals("", questionForms.get(0).getQuestionNumberSuffix());
         
         assertEquals(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                             .withUserId(instructor.googleId)

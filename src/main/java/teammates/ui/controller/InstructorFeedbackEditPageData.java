@@ -117,9 +117,11 @@ public class InstructorFeedbackEditPageData extends PageData {
         FeedbackQuestionEditForm qnForm = new FeedbackQuestionEditForm();
         qnForm.setAction(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT));
         qnForm.setCourseId(instructor.courseId);
+        
         qnForm.setFeedbackSessionName(feedbackSession.feedbackSessionName);
         qnForm.setQuestion(question);
         qnForm.setQuestionDetails(question.getQuestionDetails());
+        qnForm.setQuestionNumberSuffix("-" + String.valueOf(question.questionNumber));
         
         qnForm.setNumOfQuestionsOnPage(questions.size());
         qnForm.setQuestionNumberOptions(getQuestionNumberOptions(questions.size()));
@@ -178,6 +180,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         newQnForm.setAction(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD));
         newQnForm.setCourseId(instructor.courseId);
         newQnForm.setFeedbackSessionName(feedbackSession.feedbackSessionName);
+        newQnForm.setQuestionNumberSuffix("");
         
         newQnForm.questionTypeOptions = getQuestionTypeChoiceOptions();
       

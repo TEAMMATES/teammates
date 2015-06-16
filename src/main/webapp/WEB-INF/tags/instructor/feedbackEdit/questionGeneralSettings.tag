@@ -18,7 +18,7 @@
         </label>
         <div class="col-sm-7">
             <select class="form-control participantSelect"
-                id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>-${fqForm.question.questionNumber}"
+                id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>${fqForm.questionNumberSuffix}"
                 name="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>"
                 disabled="disabled"
                 onchange="feedbackGiverUpdateVisibilityOptions(this)">
@@ -37,7 +37,7 @@
         </label>
         <div class="col-sm-7">
             <select class="form-control participantSelect"
-                id="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>-${fqForm.question.questionNumber}"
+                id="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>${fqForm.questionNumberSuffix}"
                 name="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>"
                 disabled="disabled" onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
                 <c:forEach items="${fqForm.generalSettings.recipientParticipantOptions}" var="option">
@@ -51,7 +51,7 @@
     <div class="col-sm-6">
     </div>
     <div class="col-sm-6 numberOfEntitiesElements${fqForm.question.questionNumber}">
-        <label id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>_text-${fqForm.question.questionNumber}" class="control-label col-sm-4 small">
+        <label id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>_text${fqForm.questionNumberSuffix}" class="control-label col-sm-4 small">
             The maximum number of <span id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>_text_inner-${fqForm.question.questionNumber}"></span> each respondant should give feedback to:
         </label>
         <div class="col-sm-8 form-control-static">
@@ -62,7 +62,7 @@
                     value="custom" disabled="disabled">
                 <input class="nonDestructive numberOfEntitiesBox" type="number"
                     name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>"
-                    id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>-${fqForm.question.questionNumber}" 
+                    id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>${fqForm.questionNumberSuffix}" 
                     value="${fqForm.generalSettings.numOfEntitiesToGiveFeedbackToValue}" 
                     min="1" max="250" disabled="disabled">
             </div>
@@ -83,19 +83,19 @@
     </div>
     <div class="col-sm-6 btn-group" data-toggle="buttons">
         <label class="btn btn-xs btn-info visibilityOptionsLabel"
-            id="visibilityOptionsLabel-${fqForm.question.questionNumber}"
+            id="visibilityOptionsLabel${fqForm.questionNumberSuffix}"
             onchange="toggleVisibilityOptions(this)">
             <input type="radio">
             <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
         </label>
-        <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton-${fqForm.question.questionNumber}" onchange="toggleVisibilityMessage(this)">
+        <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton${fqForm.questionNumberSuffix}" onchange="toggleVisibilityMessage(this)">
             <input type="radio">
             <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
         </label>
     </div>
 </div>
 <div class="col-sm-12 background-color-light-green">
-    <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage-${fqForm.question.questionNumber}">
+    <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage${fqForm.questionNumberSuffix}">
         This is the visibility as seen by the feedback giver.
         <ul class="background-color-warning">
         <c:forEach items="${fqForm.generalSettings.visibilityMessages}" var="msg">
@@ -105,7 +105,7 @@
     </div>
 </div>
 <div class="col-sm-12 margin-bottom-15px background-color-light-green">
-    <div class="visibilityOptions" id="visibilityOptions-${fqForm.question.questionNumber}">
+    <div class="visibilityOptions" id="visibilityOptions${fqForm.questionNumberSuffix}">
         <table class="dataTable participantTable table table-striped text-center background-color-white">
             <tr>
                 <th class="text-center">User/Group</th>

@@ -17,6 +17,8 @@ public class FeedbackQuestionEditForm {
     private String courseId;
     private String feedbackSessionName;
     
+    private String questionNumberSuffix;
+    
     // Used for adding a new question
     public String questionTypeOptions;
     public Url doneEditingLink;
@@ -136,5 +138,15 @@ public class FeedbackQuestionEditForm {
         this.generalSettings = generalSettings;
     }
 
+
+    public String getQuestionNumberSuffix() {
+        return questionNumberSuffix;
+    }
+
+
+    public void setQuestionNumberSuffix(String questionNumberSuffix) {
+        this.questionNumberSuffix = questionNumberSuffix;
+    }
+    
     
 }
