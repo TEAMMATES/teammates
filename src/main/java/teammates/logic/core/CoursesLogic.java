@@ -200,23 +200,6 @@ public class CoursesLogic {
         return sectionNameList;
     }
     
-    /**
-     * Gets a Map with courseId as key and List of sectionNames as value
-     * @param fsaList
-     * @throws EntityDoesNotExistException
-     */
-    public Map<String, List<String>> getCourseIdSectionNamesMap(List<FeedbackSessionAttributes> fsaList) throws EntityDoesNotExistException {
-        Map<String, List<String>> courseIdSectionNamesMap = new HashMap<String, List<String>>();
-        
-        for (FeedbackSessionAttributes fsa : fsaList) {
-            String courseId = fsa.courseId;
-            if (courseIdSectionNamesMap.get(courseId) == null) {
-                List<String> sectionsInCourse = getSectionsNameForCourse(courseId);
-                courseIdSectionNamesMap.put(courseId, sectionsInCourse);
-            }
-        }
-        return courseIdSectionNamesMap;
-    }
 
     public SectionDetailsBundle getSectionForCourse(String section, String courseId)
             throws EntityDoesNotExistException {

@@ -76,7 +76,7 @@ public class InstructorHomePageAction extends Action {
             
             FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(course.feedbackSessions);
             
-            data.courseIdSectionNamesMap.putAll(logic.getCourseIdSectionNamesMap(course.feedbackSessions));
+            data.courseIdSectionNamesMap.put(courseId, logic.getSectionNamesForCourse(courseId));
         }
         
         if (logic.isNewInstructor(account.googleId)) {

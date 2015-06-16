@@ -1050,15 +1050,6 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null    
      */
-    public Map<String, List<String>> getCourseIdSectionNamesMap(List<FeedbackSessionAttributes> fsaList) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(fsaList);
-        return coursesLogic.getCourseIdSectionNamesMap(fsaList);
-    }
-
-    /** 
-     * Preconditions: <br>
-     * * All parameters are non-null    
-     */
     public SectionDetailsBundle getSectionForCourse(String section, String courseId) 
             throws EntityDoesNotExistException {
 
