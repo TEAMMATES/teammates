@@ -5,7 +5,8 @@ import java.util.Map;
 
 
 /**
- * Data model for the feedback path and visibility settings for the 
+ * Data model for the settings common to all question types,
+ * which are the feedback path and visibility settings for the 
  * feedback question form. 
  * 
  * Used on instructorFeedbackEdit.jsp

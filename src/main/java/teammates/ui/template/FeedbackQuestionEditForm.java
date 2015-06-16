@@ -20,8 +20,8 @@ public class FeedbackQuestionEditForm {
     private String questionNumberSuffix;
     
     // Used for adding a new question
-    public String questionTypeOptions;
-    public Url doneEditingLink;
+    private String questionTypeOptions;
+    private Url doneEditingLink;
     
     
     private int numOfQuestionsOnPage;
@@ -146,6 +146,16 @@ public class FeedbackQuestionEditForm {
 
     public void setQuestionNumberSuffix(String questionNumberSuffix) {
         this.questionNumberSuffix = questionNumberSuffix;
+    }
+
+
+    public void setDoneEditingLink(Url doneEditingLink) {
+        this.doneEditingLink = doneEditingLink;
+    }
+
+
+    public void setQuestionTypeOptions(String questionTypeOptions) {
+        this.questionTypeOptions = questionTypeOptions;
     }
     
     

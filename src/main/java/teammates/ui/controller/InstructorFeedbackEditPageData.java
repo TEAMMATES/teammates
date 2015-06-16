@@ -171,10 +171,10 @@ public class InstructorFeedbackEditPageData extends PageData {
                                       List<FeedbackQuestionAttributes> questions,
                                       InstructorAttributes instructor) {
         newQnForm = new FeedbackQuestionEditForm();
-        newQnForm.doneEditingLink = new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
+        newQnForm.setDoneEditingLink(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                                         .withUserId(account.googleId)
                                         .withCourseId(feedbackSession.courseId)
-                                        .withSessionName(feedbackSession.feedbackSessionName);
+                                        .withSessionName(feedbackSession.feedbackSessionName));
         
         
         newQnForm.setAction(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD));
@@ -182,7 +182,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         newQnForm.setFeedbackSessionName(feedbackSession.feedbackSessionName);
         newQnForm.setQuestionNumberSuffix("");
         
-        newQnForm.questionTypeOptions = getQuestionTypeChoiceOptions();
+        newQnForm.setQuestionTypeOptions(getQuestionTypeChoiceOptions());
       
         FeedbackQuestionGeneralSettings generalSettings = new FeedbackQuestionGeneralSettings();  
         newQnForm.setGeneralSettings(generalSettings);
