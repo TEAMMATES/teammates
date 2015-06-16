@@ -68,41 +68,41 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         pageData.init(student.key, student.email, student.course, questionsWithResponses);
         
         assertNotNull(pageData.getFeedbackResultsQuestionsWithResponses());
-        assertEquals(pageData.getFeedbackResultsQuestionsWithResponses().size(), 2);
-        assertEquals(pageData.getRegisterMessage(), 
-                        "You are viewing feedback results as <span class='text-danger text-bold text-large'>"
-                        + "student1 In Course1</span>. You may submit feedback and view results without logging in. "
-                        + "To access other features you need <a href='/page/studentCourseJoinAuthentication?studentemail="
-                        + "student1InCourse1%40gmail.tmt&courseid=idOfTypicalCourse1' class='link'>to login using "
-                        + "a google account</a> (recommended)."); 
+        assertEquals(2, pageData.getFeedbackResultsQuestionsWithResponses().size());
+        assertEquals("You are viewing feedback results as <span class='text-danger text-bold text-large'>"
+                      + "student1 In Course1</span>. You may submit feedback and view results without logging in. "
+                      + "To access other features you need <a href='/page/studentCourseJoinAuthentication?studentemail="
+                      + "student1InCourse1%40gmail.tmt&courseid=idOfTypicalCourse1' class='link'>to login using "
+                      + "a google account</a> (recommended).", 
+                      pageData.getRegisterMessage()); 
         
         assertNotNull(getQ1(pageData).getQuestionDetails());
         assertNotNull(getQ2(pageData).getQuestionDetails()); 
         
-        assertEquals(getQ1(pageData).getQuestionDetails().getQuestionIndex(), "1");
-        assertEquals(getQ2(pageData).getQuestionDetails().getQuestionIndex(), "2"); 
+        assertEquals("1", getQ1(pageData).getQuestionDetails().getQuestionIndex());
+        assertEquals("2", getQ2(pageData).getQuestionDetails().getQuestionIndex()); 
         
-        assertEquals(getQ1(pageData).getQuestionDetails().getAdditionalInfo(), "");
-        assertEquals(getQ2(pageData).getQuestionDetails().getAdditionalInfo(), "");
+        assertEquals("", getQ1(pageData).getQuestionDetails().getAdditionalInfo());
+        assertEquals("", getQ2(pageData).getQuestionDetails().getAdditionalInfo());
         
         assertNotNull(getQ1(pageData).getResponseTables());
         assertNotNull(getQ2(pageData).getResponseTables());      
         
-        assertEquals(getQ1(pageData).getResponseTables().get(0).getRecipientName(), "You");
-        assertEquals(getQ1(pageData).getResponseTables().get(1).getRecipientName(), "student2 In Course1");
+        assertEquals("You", getQ1(pageData).getResponseTables().get(0).getRecipientName());
+        assertEquals("student2 In Course1", getQ1(pageData).getResponseTables().get(1).getRecipientName());
         
         assertNotNull(getQ1(pageData).getResponseTables().get(0).getResponses());
         assertNotNull(getQ2(pageData).getResponseTables().get(1).getResponses());
         
-        assertEquals(getQ1(pageData).getResponseTables().get(0).getResponses()
-                                        .get(0).getGiverName(), "You");
-        assertEquals(getQ1(pageData).getResponseTables().get(1).getResponses()
-                                        .get(0).getGiverName(), "student2 In Course1");
+        assertEquals("You", getQ1(pageData).getResponseTables().get(0).getResponses()
+                                        .get(0).getGiverName());
+        assertEquals("student2 In Course1", getQ1(pageData).getResponseTables().get(1).getResponses()
+                                        .get(0).getGiverName());
         
-        assertEquals(getQ1(pageData).getResponseTables().get(0).getResponses()
-                                        .get(0).getAnswer(), "Student 1 self feedback.");
-        assertEquals(getQ1(pageData).getResponseTables().get(1).getResponses()
-                                        .get(0).getAnswer(), "I&#39;m cool&#39;");
+        assertEquals("Student 1 self feedback.", getQ1(pageData).getResponseTables().get(0).getResponses()
+                                        .get(0).getAnswer());
+        assertEquals("I&#39;m cool&#39;", getQ1(pageData).getResponseTables().get(1).getResponses()
+                                        .get(0).getAnswer());
         
         ______TS("student in unregistered course");
         
@@ -116,19 +116,19 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         
         assertTrue(pageData.getFeedbackResultsQuestionsWithResponses().isEmpty());
         
-        assertEquals(student.key, "regKeyForStuNotYetJoinCourse");
-        assertEquals(student.course, "idOfUnregisteredCourse");
-        assertEquals(student.email, "student1InUnregisteredCourse@gmail.tmt");
+        assertEquals("regKeyForStuNotYetJoinCourse", student.key);
+        assertEquals("idOfUnregisteredCourse", student.course);
+        assertEquals("student1InUnregisteredCourse@gmail.tmt", student.email);
         
-        assertEquals(pageData.getRegisterMessage(), 
-                                        "You are viewing feedback results as "
-                                        + "<span class='text-danger text-bold text-large'>student1 In "
-                                        + "unregisteredCourse</span>. You may submit feedback and view "
-                                        + "results without logging in. To access other features you need "
-                                        + "<a href='/page/studentCourseJoinAuthentication?key="
-                                        + "regKeyForStuNotYetJoinCourse&studentemail="
-                                        + "student1InUnregisteredCourse%40gmail.tmt&courseid=idOfUnregisteredCourse' "
-                                        + "class='link'>to login using a google account</a> (recommended).");       
+        assertEquals("You are viewing feedback results as "
+                      + "<span class='text-danger text-bold text-large'>student1 In "
+                      + "unregisteredCourse</span>. You may submit feedback and view "
+                      + "results without logging in. To access other features you need "
+                      + "<a href='/page/studentCourseJoinAuthentication?key="
+                      + "regKeyForStuNotYetJoinCourse&studentemail="
+                      + "student1InUnregisteredCourse%40gmail.tmt&courseid=idOfUnregisteredCourse' "
+                      + "class='link'>to login using a google account</a> (recommended).", 
+                      pageData.getRegisterMessage());       
     }
     
     public StudentFeedbackResultsQuestionWithResponses getQ1(StudentFeedbackResultsPageData pageData) {
