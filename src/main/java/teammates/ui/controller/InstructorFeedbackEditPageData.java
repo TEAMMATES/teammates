@@ -185,6 +185,8 @@ public class InstructorFeedbackEditPageData extends PageData {
         newQnForm.setGeneralSettings(generalSettings);
         generalSettings.setGiverParticipantOptions(getParticipantOptions(null, true));
         generalSettings.setRecipientParticipantOptions(getParticipantOptions(null, false));
+        generalSettings.setNumOfEntitiesToGiveFeedbackToValue(1);
+        
         newQnForm.setNumOfQuestionsOnPage(questions.size());
         newQnForm.setQuestionNumberOptions(getQuestionNumberOptions(questions.size() + 1));
       

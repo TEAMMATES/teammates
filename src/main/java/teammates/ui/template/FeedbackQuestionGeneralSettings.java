@@ -6,8 +6,9 @@ import java.util.Map;
 
 /**
  * Data model for the feedback path and visibility settings for the 
- * feedback question form. Used on instructorFeedbackEdit.jsp
+ * feedback question form. 
  * 
+ * Used on instructorFeedbackEdit.jsp
  */
 public class FeedbackQuestionGeneralSettings {
     private List<ElementTag> giverParticipantOptions;
