@@ -14,7 +14,6 @@ import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
@@ -208,7 +207,7 @@ public class InstructorCommentsPageData extends PageData {
 
     public void init(boolean isViewingDraft, boolean isDisplayArchive, String courseId, String courseName,
                      List<String> coursePaginationList, Map<String, List<CommentAttributes>> comments,
-                     String string, InstructorAttributes instructor, CourseRoster roster,
+                     InstructorAttributes instructor, CourseRoster roster,
                      List<FeedbackSessionAttributes> feedbackSessions, String previousPageLink, String nextPageLink,
                      int numberOfPendingComments) {
         this.isViewingDraft = isViewingDraft;
@@ -217,6 +216,7 @@ public class InstructorCommentsPageData extends PageData {
         this.courseName = courseName;
         this.coursePaginationList = coursePaginationList;
         this.comments = comments;
+        this.instructorEmail = instructor != null ? instructor.email : "no-email";
         this.currentInstructor = instructor;
         this.roster = roster;
         this.feedbackSessions = feedbackSessions;

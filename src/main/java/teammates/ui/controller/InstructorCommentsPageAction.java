@@ -78,7 +78,7 @@ public class InstructorCommentsPageAction extends Action {
                 "for Course <span class=\"bold\">[" + courseId + "]</span>";
 
         data.init(isViewingDraft, isDisplayArchivedCourse, courseId, courseName, coursePaginationList,
-                  giverEmailToCommentsMap, instructor != null ? instructor.email : "no-email", instructor, 
+                  giverEmailToCommentsMap, instructor, 
                   roster,  feedbackSessions, previousPageLink, nextPageLink, numberOfPendingComments);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COMMENTS, data);
