@@ -34,7 +34,7 @@
 </head>
 <body>
     <jsp:invoke fragment="navBar" />
-    <div id="frameBodyWrapper" class="container theme-showcase">
+    <div class="container" id="frameBodyWrapper">
         <t:bodyHeader title="${bodyTitle}" />
         <jsp:doBody />
     </div>
