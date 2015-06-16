@@ -6,6 +6,7 @@ import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
+import teammates.ui.datatransfer.InstructorStudentListPageCourseData;
 import teammates.ui.template.InstructorStudentListFilterBox;
 import teammates.ui.template.InstructorStudentListFilterCourse;
 import teammates.ui.template.InstructorStudentListSearchBox;

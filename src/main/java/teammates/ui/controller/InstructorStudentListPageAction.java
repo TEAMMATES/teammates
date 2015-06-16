@@ -12,6 +12,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
+import teammates.ui.datatransfer.InstructorStudentListPageCourseData;
 
 public class InstructorStudentListPageAction extends Action {
 

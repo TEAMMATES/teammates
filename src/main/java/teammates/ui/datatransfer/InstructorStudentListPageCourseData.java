@@ -1,4 +1,4 @@
-package teammates.ui.controller;
+package teammates.ui.datatransfer;
 
 import teammates.common.datatransfer.CourseAttributes;
 
@@ -8,9 +8,9 @@ import teammates.common.datatransfer.CourseAttributes;
  */
 public class InstructorStudentListPageCourseData {
 
-    CourseAttributes course;
-    boolean isCourseArchived;
-    boolean isInstructorAllowedToModify;
+    public CourseAttributes course;
+    public boolean isCourseArchived;
+    public boolean isInstructorAllowedToModify;
     
     public InstructorStudentListPageCourseData(CourseAttributes course, boolean isCourseArchived,
                                         boolean isInstructorAllowedToModify) {
