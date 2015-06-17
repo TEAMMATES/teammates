@@ -1532,7 +1532,7 @@ public class FeedbackSessionsLogic {
         fqLogic.deleteFeedbackQuestionsForCourse(courseId);
         
         List<FeedbackSessionAttributes> fsList = getFeedbackSessionsForCourse(courseId);
-        fsDb.deleteEntities(fsList);
+        deleteFeedbackSessions(fsList);
     }
 
     /**
@@ -2465,4 +2465,16 @@ public class FeedbackSessionsLogic {
         emails.addFeedbackSessionReminderToEmailsQueue(session,
                 Emails.EmailType.FEEDBACK_PUBLISHED);
     }
+    
+    /**
+     * Delete the feedback sessions given. This is a non-cascade delete.<br>
+     * 
+     * Questions and responses in the feedback sessions are not deleted, 
+     * and should be handled prior to calling this method.
+     * @param fsList
+     */
+    private void deleteFeedbackSessions(List<FeedbackSessionAttributes> fsList) {
+        fsDb.deleteEntities(fsList);
+    }
+    
 }
