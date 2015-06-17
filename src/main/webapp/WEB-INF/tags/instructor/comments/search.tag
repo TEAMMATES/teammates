@@ -1,7 +1,8 @@
 <%@ tag description="Instructor Comments Search" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
-<form method="get" action="${data.instructorSearchLink}" name="search_form">
+<%@ attribute name="instructorSearchLink" required="true" %>
+<form method="get" action="${instructorSearchLink}" name="search_form">
     <div class="input-group">
         <input type="text" name="<%= Const.ParamsNames.SEARCH_KEY %>"
             title="Search for comment"

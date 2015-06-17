@@ -15,7 +15,7 @@
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Comments from Instructors" jsIncludes="${jsIncludes}" cssIncludes="${cssIncludes}">
     <div class="row">
         <div class="col-md-6 pull-right instructor-header-bar">
-            <comments:search />
+            <comments:search instructorSearchLink="${data.instructorSearchLink}"/>
         </div>
     </div>
     <br>
