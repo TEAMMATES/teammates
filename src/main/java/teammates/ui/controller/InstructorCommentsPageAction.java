@@ -29,8 +29,6 @@ public class InstructorCommentsPageAction extends Action {
     private String isDisplayArchivedCourseString;
     private Boolean isDisplayArchivedCourse;
     private Boolean isViewingDraft;
-    private String previousPageLink = "javascript:;";
-    private String nextPageLink = "javascript:;";
     private InstructorAttributes instructor;
     
     @Override
