@@ -48,7 +48,8 @@ if (data.courseSectionDetails.size() > 0) { %>
             int studentIdx = -1;
             for (SectionDetailsBundle section : data.courseSectionDetails) {
                 sectionIdx++;
-                // append to section choice, will be transported later
+                // generated here but to be appended to #sectionChoices in instructorStudentList.jsp
+                // will be transported via JavaScript in instructorStudentListAjax.js
                 %>
                 <div class="checkbox section-to-be-transported">
                     <input id="section_check-<%= courseIdx %>-<%= sectionIdx %>" type="checkbox" checked="checked" class="section_check">
@@ -58,7 +59,8 @@ if (data.courseSectionDetails.size() > 0) { %>
                 </div>
                 <% for (TeamDetailsBundle team: section.teams) {
                     teamIdx++;
-                    // append to team choice, will be transported later
+                    // generated here but to be appended to #teamChoices in instructorStudentList.jsp
+                    // will be transported via JavaScript in instructorStudentListAjax.js
                     %>
                     <div class="checkbox team-to-be-transported">
                         <input id="team_check-<%= courseIdx %>-<%= sectionIdx %>-<%= teamIdx %>" type="checkbox" checked="checked" class="team_check">
@@ -68,7 +70,8 @@ if (data.courseSectionDetails.size() > 0) { %>
                     </div>
                     <% for (StudentAttributes student: team.students) {
                         studentIdx++;
-                        // append to email choice, will be transported later
+                        // generated here but to be appended to #emails in instructorStudentList.jsp
+                        // will be transported via JavaScript in instructorStudentListAjax.js
                         %>
                         <div class="email-to-be-transported" id="student_email-c<%= courseIdx %>.<%= studentIdx %>">
                             <%= student.email %>
