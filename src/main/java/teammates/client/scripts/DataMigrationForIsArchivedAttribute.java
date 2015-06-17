@@ -15,6 +15,8 @@ import teammates.storage.datastore.Datastore;
  * Script to set the isArchived attribute of instructors if the course's isArchived 
  * attribute is set.
  * 
+ * If the course is not archived, the instructors of the course will not be modified
+ * 
  */
 public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
 
@@ -55,7 +57,7 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
      * @throws InvalidParametersException
      */
     private void setInstructorsIsArchivedInCourse(CourseAttributes course) throws InvalidParametersException, EntityDoesNotExistException {
-        System.out.println("Updating instructors of course: " + course.id);
+        System.out.println("Updating instructors of old archived course: " + course.id);
         
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(course.id);
         for (InstructorAttributes instructor: instructorList) {
@@ -70,6 +72,8 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
             }
             
         }
+        
+        System.out.println("");
         
     }
 
