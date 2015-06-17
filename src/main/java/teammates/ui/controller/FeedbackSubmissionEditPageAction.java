@@ -18,6 +18,9 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         Assumption.assertPostParamNotNull(Const.ParamsNames.COURSE_ID, courseId);
         Assumption.assertPostParamNotNull(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         
+        String regKey = getRequestParamValue(Const.ParamsNames.REGKEY);
+        String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        
         if (!isSpecificUserJoinedCourse()) {
             return createPleaseJoinCourseResponse(courseId);
         }
@@ -44,6 +47,7 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SUBMISSIONS_NOT_OPEN);
         }
         
+        data.init(regKey, email, courseId);
         return createSpecificShowPageResult();
     }
 
