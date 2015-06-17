@@ -3,13 +3,14 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/comments" prefix="comments" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="commentsForStudentsTables" type="java.util.Collection" required="true" %>
+<%@ attribute name="viewingDraft" required="true" %>
 
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <strong>${data.viewingDraft ? 'Comment drafts' : 'Comments for students'}</strong>
+        <strong>${viewingDraft ? 'Comment drafts' : 'Comments for students'}</strong>
     </div>
     <div class="panel-body">
-        ${data.viewingDraft ? 'Your comments that are not finished:' : ''}
+        ${viewingDraft ? 'Your comments that are not finished:' : ''}
         <c:set var="commentIdx" value="0" />
         <c:forEach items="${commentsForStudentsTables}" var="commentsForStudentsTable"> <%--recipient loop starts--%>
             <div class="panel panel-info student-record-comments ${commentsForStudentsTable.giverDetails == '0you' ? 'giver_display-by-you' : 'giver_display-by-others'}"
