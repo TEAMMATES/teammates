@@ -100,8 +100,7 @@
         "archivedCourse":{
             "id":"comments.idOfArchivedCourse",
             "name":"Archived Course",
-            "createdAt": "2012-04-01 11:58 PM UTC",
-            "isArchived":true
+            "createdAt": "2012-04-01 11:58 PM UTC"
         }
     },
     "instructors":{
@@ -163,6 +162,7 @@
             "role":"Co-owner",
             "isDisplayedToStudents":true,
             "displayedName":"Instructor",
+            "isArchived":true,
             "instructorPrivilegesAsText": "{\n  \"courseLevel\": {\n    \"canviewstudentinsection\": true,\n    \"cangivecommentinsection\": true,\n    \"cansubmitsessioninsection\": true,\n    \"canmodifysessioncommentinsection\": true,\n    \"canmodifycommentinsection\": true,\n    \"canmodifycourse\": true,\n    \"canviewsessioninsection\": true,\n    \"canmodifysession\": true,\n    \"canviewcommentinsection\": true,\n    \"canmodifystudent\": true,\n    \"canmodifyinstructor\": true\n  },\n  \"sectionLevel\": {},\n  \"sessionLevel\": {}\n}"
         }
     },
