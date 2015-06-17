@@ -19,13 +19,13 @@ import teammates.ui.template.InstructorStudentRecordsStudentProfile;
 
 public class InstructorStudentRecordsPageData extends PageData {
 
-    public String courseId;
-    public String showCommentBox;
-    public String studentName;
-    public InstructorStudentRecordsStudentProfile studentProfile;
-    public InstructorStudentRecordsMoreInfoModal moreInfoModal;
-    public List<InstructorStudentRecordsFeedbackSession> sessions;
-    public InstructorStudentRecordsCommentsBox comments;
+    private String courseId;
+    private String showCommentBox;
+    private String studentName;
+    private InstructorStudentRecordsStudentProfile studentProfile;
+    private InstructorStudentRecordsMoreInfoModal moreInfoModal;
+    private List<InstructorStudentRecordsFeedbackSession> sessions;
+    private InstructorStudentRecordsCommentsBox comments;
 
     public InstructorStudentRecordsPageData(AccountAttributes account) {
         super(account);
