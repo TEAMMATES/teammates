@@ -23,6 +23,9 @@ public abstract class FeedbackQuestionSubmissionEditPageAction extends Action {
         feedbackQuestionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         Assumption.assertNotNull(feedbackQuestionId);
         
+        String regKey = getRequestParamValue(Const.ParamsNames.REGKEY);
+        String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        
         if (!isSpecificUserJoinedCourse()) {
             return createPleaseJoinCourseResponse(courseId);
         }
@@ -41,7 +44,7 @@ public abstract class FeedbackQuestionSubmissionEditPageAction extends Action {
         }
         
         setStatusToAdmin();
-        
+        data.init(regKey, email, courseId);
         return createSpecificShowPageResult();
     }
 
