@@ -20,7 +20,7 @@
                     <c:forEach items="${searchCommentsForStudentsTable.rows}" var="commentRow">
                         <c:set var="indexCounter" value="${indexCounter + 1}" />
                         
-                        <li class="list-group-item list-group-item-warning form_comment" 
+                        <li class="list-group-item list-group-item-warning" 
                             id="form_commentedit-${indexCounter}>">
                                     
                             <div id="commentBar-${indexCounter}">
