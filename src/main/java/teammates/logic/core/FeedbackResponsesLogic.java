@@ -283,9 +283,16 @@ public class FeedbackResponsesLogic {
                 isGiverName ? question.showGiverNameTo
                         : question.showRecipientNameTo;
         
-        //Giver can always see giver and recipient.(because he answered.)
-        if(response.giverEmail.equals(userEmail)){
-            return true;
+        // Early return if user is giver
+        if (question.giverType != FeedbackParticipantType.TEAMS) {
+            if (response.giverEmail.equals(userEmail)) {
+                return true;
+            }
+        } else {
+            // if response is given by team, then anyone in the team can see the response
+            if (roster.isStudentsInSameTeam(response.giverEmail, userEmail)) {
+                return true;
+            }
         }
         
         for (FeedbackParticipantType type : showNameTo) {
@@ -311,6 +318,7 @@ public class FeedbackResponsesLogic {
                             response.recipientEmail)) {
                         return true;
                     }
+                    break;
                     // Response to individual
                 } else if (response.recipientEmail.equals(userEmail)) {
                     return true;
@@ -324,6 +332,7 @@ public class FeedbackResponsesLogic {
                             response.recipientEmail)) {
                         return true;
                     }
+                    break;
                     // Response to individual
                 } else if (roster.isStudentsInSameTeam(response.recipientEmail,
                         userEmail)) {

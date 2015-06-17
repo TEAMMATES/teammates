@@ -389,7 +389,8 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student = typicalBundle.students.get("student1InCourse1");
         StudentAttributes student2 = typicalBundle.students.get("student2InCourse1");
-        StudentAttributes student3 = typicalBundle.students.get("student5InCourse1");
+        StudentAttributes student3 = typicalBundle.students.get("student3InCourse1");
+        StudentAttributes student5 = typicalBundle.students.get("student5InCourse1");
         
         FeedbackQuestionAttributes fq = getQuestionFromDatastore("qn3InSession1InCourse1"); 
         FeedbackResponseAttributes fr = getResponseFromDatastore("response1ForQ3S1C1"); 
@@ -432,7 +433,18 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         fr.recipientEmail = student.email;
         assertTrue(frLogic.isNameVisibleTo(fq, fr, student.email, UserType.Role.STUDENT, false, roster));
         assertTrue(frLogic.isNameVisibleTo(fq, fr, student2.email, UserType.Role.STUDENT, false, roster));
-        assertFalse(frLogic.isNameVisibleTo(fq, fr, student3.email, UserType.Role.STUDENT, false, roster));
+        assertFalse(frLogic.isNameVisibleTo(fq, fr, student5.email, UserType.Role.STUDENT, false, roster));
+        
+        
+        ______TS("test anonymous team recipients");
+        // Only members of the recipient team should be able to see the recipient name
+        fq.recipientType = FeedbackParticipantType.TEAMS;
+        fq.showRecipientNameTo.clear();
+        fq.showRecipientNameTo.add(FeedbackParticipantType.RECEIVER);
+        fq.showResponsesTo.add(FeedbackParticipantType.STUDENTS);
+        fr.recipientEmail = "Team 1.1";
+        assertFalse(frLogic.isNameVisibleTo(fq, fr, student5.email, UserType.Role.STUDENT, false, roster));
+        
         
         ______TS("null question");
         
@@ -440,6 +452,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         
     }
     
+
     public void testDeleteFeedbackResponsesForStudent() throws Exception {    
         
         ______TS("standard delete");

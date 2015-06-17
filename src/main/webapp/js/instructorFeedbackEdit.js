@@ -175,11 +175,13 @@ function enableQuestion(number) {
     if ($('#generateOptionsCheckbox-' + number).prop('checked')) {
         $('#mcqChoiceTable-' + number).hide();
         $('#msqChoiceTable-' + number).hide();
+        $("#mcqOtherOptionFlag-" + number).parent().hide();
         $('#mcqGenerateForSelect-' + number).prop('disabled', false);
         $('#msqGenerateForSelect-' + number).prop('disabled', false);
     } else {
         $('#mcqChoiceTable-' + number).show();
         $('#msqChoiceTable-' + number).show();
+        $("#mcqOtherOptionFlag-" + number).parent().show();
         $('#mcqGenerateForSelect-' + number).prop('disabled', true);
         $('#msqGenerateForSelect-' + number).prop('disabled', true);
     }
@@ -259,6 +261,14 @@ function disableQuestion(number) {
     $currentQuestionTable.find('#mcqAddOptionLink').hide();
     $currentQuestionTable.find('#msqAddOptionLink').hide();
     $currentQuestionTable.find('.removeOptionLink').hide();
+    
+    /* Check whether generate options for students/instructors/teams is selected
+       If so, hide 'add Other option' */
+    if ($currentQuestionTable.find("#generateOptionsCheckbox-" + number).attr("checked")) {
+        $currentQuestionTable.find("#mcqOtherOptionFlag-" + number).parent().hide();
+    } else {
+        $currentQuestionTable.find("#mcqOtherOptionFlag-" + number).parent().show();
+    }
 
     $currentQuestionTable.find('#rubricAddChoiceLink-' + number).hide();
     $currentQuestionTable.find('#rubricAddSubQuestionLink-' + number).hide();
@@ -883,14 +893,25 @@ function toggleMcqGeneratedOptions(checkbox, questionNumber) {
         $('#mcqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', true)
         $('#mcqChoiceTable' + idSuffix).hide();
         $('#mcqGenerateForSelect' + idSuffix).prop('disabled', false);
+        $("#mcqOtherOptionFlag" + idSuffix).parent().hide();
         $('#generatedOptions' + idSuffix).attr('value',
                                                $('#mcqGenerateForSelect' + idSuffix).prop('value'));
     } else {
         $('#mcqChoiceTable' + idSuffix).find('input[type=text]').prop('disabled', false);
         $('#mcqChoiceTable' + idSuffix).show();
         $('#mcqGenerateForSelect' + idSuffix).prop('disabled', true);
+        $("#mcqOtherOptionFlag" + idSuffix).parent().show();
         $('#generatedOptions' + idSuffix).attr('value', 'NONE');
     }
+}
+
+function toggleMcqOtherOptionEnabled(checkbox, questionNumber) {
+	idOfQuestion = '#form_editquestion-' + questionNumber;
+	idSuffix = getQuestionIdSuffix(questionNumber);
+
+	if($(idOfQuestion).attr('editStatus') === "hasResponses") {
+		$(idOfQuestion).attr('editStatus', "mustDeleteResponses");
+	}
 }
 
 function changeMcqGenerateFor(questionNumber) {

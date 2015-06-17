@@ -229,6 +229,51 @@ public class InstructorFeedbackQuestionAddActionTest extends BaseActionTest {
                              + " created.<br><span class=\"bold\">Multiple-choice (single answer) question:</span> "
                              + "Who do you like best in the class?|||/page/instructorFeedbackQuestionAdd";
         assertEquals(expectedLogMessage, action.getLogMessage());
+        
+        ______TS("Enable other option");
+
+        params = new String[]{
+                Const.ParamsNames.COURSE_ID, fs.courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE, FeedbackParticipantType.STUDENTS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE, FeedbackParticipantType.STUDENTS.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, "3",
+                Const.ParamsNames.FEEDBACK_QUESTION_TYPE, "MCQ",
+                Const.ParamsNames.FEEDBACK_QUESTION_TEXT, "What can be improved for this class?",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFCHOICECREATED, "4", 
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-0", "The content",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-1", "Teaching style",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-2", "Tutorial questions",
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQCHOICE + "-3", "Assignments",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE, "custom",
+                Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES, "2",
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRESPONSESTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWGIVERTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_SHOWRECIPIENTTO, FeedbackParticipantType.RECEIVER.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_EDITTYPE, "edit",
+                Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS, FeedbackParticipantType.NONE.toString(),
+                Const.ParamsNames.FEEDBACK_QUESTION_MCQOTHEROPTIONFLAG, "on"
+        };
+
+        action = getAction(params);
+        result = (RedirectResult) action.executeAndPostProcess();
+
+        assertEquals(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE + "?courseid=" + instructor1ofCourse1.courseId
+                     + "&fsname=First+feedback+session" + "&user=" + instructor1ofCourse1.googleId + "&error=false",
+                     result.getDestinationWithParams());
+
+        assertEquals(Const.StatusMessages.FEEDBACK_QUESTION_ADDED, result.getStatusMessage());
+
+        expectedLogMessage = "TEAMMATESLOG|||instructorFeedbackQuestionAdd|||"
+                             + "instructorFeedbackQuestionAdd|||true|||"
+                             + "Instructor|||Instructor 1 of Course 1|||"
+                             + "idOfInstructor1OfCourse1|||instr1@course1.tmt|||"
+                             + "Created Feedback Question for Feedback Session:<span class=\"bold\">"
+                             + "(First feedback session)</span> for Course "
+                             + "<span class=\"bold\">[idOfTypicalCourse1]</span>"
+                             + " created.<br><span class=\"bold\">Multiple-choice (single answer) question:</span> "
+                             + "What can be improved for this class?|||/page/instructorFeedbackQuestionAdd";
+        assertEquals(expectedLogMessage, action.getLogMessage());
     }
 
     @Test

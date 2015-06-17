@@ -87,14 +87,28 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality",
                                          "female", "this is enough!$%&*</>");
 
+        ______TS("Failure case: script injection");
+
+        StudentProfileAttributes spa = new StudentProfileAttributes("valid.id",
+                                                                    "<script>alert(\"Hello world!\");</script>",
+                                                                    "e@email.tmt", " inst", "Usual Nationality",
+                                                                    "male", "this is enough!$%&*</>", "");
+        profilePage.editProfileThroughUi(spa.googleId, spa.shortName, spa.email, spa.institute, spa.nationality,
+                                         spa.gender, spa.moreInfo);
+        profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality",
+                                          "female", "this is enough!$%&*</>");
+        profilePage.verifyStatus(StringHelper.toString(spa.getInvalidityInfo(), " ")
+                                             // de-sanitize
+                                             .replace("&lt;", "<").replace("&gt;", ">")
+                                             .replace("&quot;", "\"").replace("&#x2f;", "/"));
+        
         ______TS("Failure case: invalid data");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes("valid.id", "$$short.name",
-                                                                    "e@email.tmt", " inst  ",
-                                                                    StringHelper.generateStringOfLength(54),
-                                                                    "male", "this is enough!$%&*</>", "");
-        profilePage.editProfileThroughUi("", spa.shortName, spa.email, spa.institute,
-                                         spa.nationality, spa.gender, spa.moreInfo);
+        spa = new StudentProfileAttributes("valid.id", "$$short.name", "e@email.tmt", " inst  ",
+                                           StringHelper.generateStringOfLength(54),
+                                           "male", "this is enough!$%&*</>", "");
+        profilePage.editProfileThroughUi("", spa.shortName, spa.email, spa.institute, spa.nationality,
+                                         spa.gender, spa.moreInfo);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality",
                                           "female", "this is enough!$%&*</>");
         profilePage.verifyStatus(StringHelper.toString(spa.getInvalidityInfo(), " "));
@@ -103,7 +117,9 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");
         profilePage.uploadPicture();
-        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
+
+        // Verify with retry after upload picture due to inconsistency of .click in detecting page load
+        profilePage.verifyStatusWithRetry(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED, 10);
         profilePage.isElementVisible("studentPhotoUploader");
 
         profilePage.editProfilePhoto();
@@ -129,14 +145,18 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
 
         profilePage.fillProfilePic("src/test/resources/images/not_a_picture.txt");
         profilePage.uploadPicture();
-        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE);
+
+        // Verify with retry after upload picture due to inconsistency of .click in detecting page load
+        profilePage.verifyStatusWithRetry(Const.StatusMessages.STUDENT_PROFILE_NOT_A_PICTURE, 10);
         verifyPictureIsPresent(prevPictureKey);
 
         ______TS("Failure case: picture too large");
 
         profilePage.fillProfilePic("src/test/resources/images/profile_pic_too_large.jpg");
         profilePage.uploadPicture();
-        profilePage.verifyStatus(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE);
+
+        // Verify with retry after upload picture due to inconsistency of .click in detecting page load
+        profilePage.verifyStatusWithRetry(Const.StatusMessages.STUDENT_PROFILE_PIC_TOO_LARGE, 10);
         verifyPictureIsPresent(prevPictureKey);
 
         ______TS("Typical case: update picture (too tall)");

@@ -95,6 +95,9 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "questiontext")
     private WebElement questionTextBox;
     
+    @FindBy(id = "mcqOtherOptionFlag--1")
+    private WebElement addOtherOptionCheckboxForNewQuestion;
+    
     @FindBy(id = "givertype")
     private WebElement giverDropdown;
     
@@ -345,6 +348,10 @@ public class InstructorFeedbackEditPage extends AppPage {
     
     public void clickCopySubmitButton() {
         copySubmitButton.click();
+    }
+    
+    public void clickAddOtherOptionCheckboxForNewQuestion() {
+        addOtherOptionCheckboxForNewQuestion.click();
     }
     
     public void waitForModalToLoad() {

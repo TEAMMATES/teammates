@@ -134,7 +134,7 @@ function enableComment(commentIdx) {
 function disableComment(commentIdx) {
     $('#' + 'commentBar' + commentIdx).show();
     $('#' + 'plainCommentText' + commentIdx).show();
-    $('div[id="commentTextEdit' + commentIdx + '""]').hide();
+    $('div[id="commentTextEdit' + commentIdx + '"]').hide();
 }
 
 function textAreaAdjust(o) {
@@ -160,7 +160,7 @@ function loadFeedbackSession(courseId, stuEmail, user, fsName, sender) {
     $('.tooltip').hide();
     var targetDiv = $(sender).find('div[id^="target-feedback-"]');
     var fsNameForUrl = encodeURIComponent(fsName);
-    var url = '/page/instructorStudentRecordsPage?courseid=' + courseId + '&studentemail=' + stuEmail + '&user=' + user + '&fsname=' + fsNameForUrl;
+    var url = '/page/instructorStudentRecordsAjaxPage?courseid=' + courseId + '&studentemail=' + stuEmail + '&user=' + user + '&fsname=' + fsNameForUrl;
     $(sender).find('div[class^="placeholder-img-loading"]').html('<img src="/images/ajax-loader.gif">');
     targetDiv.load(url, function( response, status, xhr ) {
       if (status == 'success') {

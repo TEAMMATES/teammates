@@ -65,6 +65,17 @@ public class CoursesDb extends EntitiesDb {
         return new CourseAttributes(c);
     }
     
+    public List<CourseAttributes> getCourses(List<String> courseIds) {
+        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
+        List<Course> courses = getCourseEntities(courseIds);
+        List<CourseAttributes> courseAttributes = new ArrayList<CourseAttributes>();
+        // TODO add method to get List<CourseAttributes> from List<Course>
+        for (Course c: courses) {
+            courseAttributes.add(new CourseAttributes(c));
+        }
+        return courseAttributes;
+    }
+    
     
     /**
      * @deprecated Not scalable. Use only in admin features. 
@@ -152,5 +163,15 @@ public class CoursesDb extends EntitiesDb {
         }
     
         return courseList.get(0);
+    }
+    
+    private List<Course> getCourseEntities(List<String> courseIds) {
+        Query q = getPM().newQuery(Course.class);
+        q.setFilter(":p.contains(ID)");
+
+        @SuppressWarnings("unchecked")
+        List<Course> courses = (List<Course>) q.execute(courseIds);
+
+        return courses;
     }
 }
