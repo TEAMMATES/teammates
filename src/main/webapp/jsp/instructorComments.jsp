@@ -48,7 +48,7 @@
                 <c:set var="panelIdx" value="${panelIdx + 1}" />
                 <div id="panel_display-${panelIdx}">
                     <br>
-                    <comments:commentsForStudentsPanel commentsForStudentsTables="${data.commentsForStudentsTables}" viewingDraft="${data.viewingDraft}" />
+                    <comments:commentsForStudentsPanel courseId="${data.courseId}" commentsForStudentsTables="${data.commentsForStudentsTables}" viewingDraft="${data.viewingDraft}" />
                 </div>
             </c:if> <%--check student comments ends --%>
             <c:set var="fsIdx" value="0" />

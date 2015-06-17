@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/comments" prefix="comments" %>
 <%@ tag import="teammates.common.util.Const" %>
+<%@ attribute name="courseId" required="true" %>
 <%@ attribute name="commentsForStudentsTables" type="java.util.Collection" required="true" %>
 <%@ attribute name="viewingDraft" required="true" %>
 
@@ -72,7 +73,7 @@
                                 </div>
                                 <div id="plainCommentText${commentIdx}">${commentRow.comment.commentText}</div>
                                 <c:if test="${commentRow.instructorAllowedToModifyCommentInSection}"> <%-- comment edit/delete control starts --%>
-                                    <comments:visibilityOptions commentRow="${commentRow}" commentIdx="${commentIdx}"/>
+                                    <comments:visibilityOptions commentRow="${commentRow}" commentIdx="${commentIdx}" courseId="${courseId}"/>
                                 </c:if> <%--comment edit/delete control ends --%>
                             </form>
                         </li>

@@ -4,6 +4,7 @@
 <%@ tag import="teammates.common.datatransfer.CommentParticipantType" %>
 <%@ attribute name="commentIdx" required="true" %>
 <%@ attribute name="commentRow" type="teammates.ui.template.CommentRow" required="true" %>
+<%@ attribute name="courseId" required="true" %>
 <div id="commentTextEdit${commentIdx}"
      style="display: none;">
     <div class="form-group form-inline">
@@ -213,7 +214,7 @@
     value="${commentRow.comment.commentId}">
 <input type="hidden"
     name=<%= Const.ParamsNames.COURSE_ID %>
-    value="${data.courseId}">
+    value="${courseId}">
 <input type="hidden"
     name=<%= Const.ParamsNames.FROM_COMMENTS_PAGE %>
     value="true"> 
