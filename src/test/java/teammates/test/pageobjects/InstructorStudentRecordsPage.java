@@ -1,5 +1,6 @@
 package teammates.test.pageobjects;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
 import org.openqa.selenium.By;
@@ -80,9 +81,23 @@ public class InstructorStudentRecordsPage extends AppPage {
                        && !getCommentEditLink(id).isDisplayed();
         return display;
     }
+    
+    public void clickEditCommentAndCancel(int id) {
+        getCommentEditLink(id).click();
+        getCommentEditCancelLink(id).click();
+    }
+    
+    public void verifyCommentEditBoxNotVisible(int id) {
+        assertFalse(isElementVisible(By.id("commentTextEdit" + id)));
+    }
 
     private WebElement getCommentEditLink(int id) {
         return browser.driver.findElement(By.id("commentedit-" + id));
+    }
+
+    private WebElement getCommentEditCancelLink(int id) {
+        return browser.driver.findElement(By.id("commentsave-" + id))
+                             .findElement(By.xpath("./following-sibling::input"));
     }
 
     private WebElement getCommentDeleteLink(int id) {
