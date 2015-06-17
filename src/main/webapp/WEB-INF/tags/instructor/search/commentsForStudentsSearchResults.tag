@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="commentsForStudentsTables" type="java.util.Collection" required="true" %>
 
-<br>
 <div class="panel panel-primary">
     <div class="panel-heading">
         <strong><jsp:doBody/></strong>
