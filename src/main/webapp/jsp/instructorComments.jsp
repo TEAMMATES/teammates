@@ -20,7 +20,7 @@
     </div>
     <br>
     <t:statusMessage />
-    <comments:filter />
+    <comments:filter displayArchive="${data.displayArchive}" instructorCommentsLink="${data.instructorCommentsLink}" comments="${data.comments}" feedbackSessions="${data.feedbackSessions}"/>
     <c:choose>
     <c:when test="${not empty data.coursePaginationList}">
         <comments:pagination />

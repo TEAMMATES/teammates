@@ -1,5 +1,9 @@
 <%@ tag description="Filter panel" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ attribute name="displayArchive" required="true" %>
+<%@ attribute name="instructorCommentsLink" required="true" %>
+<%@ attribute name="comments" type="java.util.Map" required="true" %>
+<%@ attribute name="feedbackSessions" type="java.util.Collection" required="true" %>
 <div class="well well-plain">
     <div class="row">
         <div class="col-md-2">
@@ -15,13 +19,13 @@
             <div class="checkbox">
                 <input id="displayArchivedCourses_check"
                     type="checkbox"
-                    ${data.displayArchive ? 'checked=\"checked\"' : ''}>
+                    ${displayArchive ? 'checked=\"checked\"' : ''}>
                 <label for="displayArchivedCourses_check">
                     Include
                     Archived Courses
                 </label>
                 <div id="displayArchivedCourses_link" style="display:none;">
-                    <a href="${data.instructorCommentsLink}">link back to the page</a>
+                    <a href="${instructorCommentsLink}">link back to the page</a>
                 </div>
             </div>
         </div>
@@ -43,7 +47,7 @@
                         </div>
                         <br>
                         <c:set var="panelIdx" value="0" scope="page" />
-                        <c:if test="${not empty data.comments}"> 
+                        <c:if test="${not empty comments}"> 
                             <c:set var="panelIdx" value="${panelIdx + 1}" scope="page" />
                             <div class="checkbox">
                                 <input id="panel_check-${panelIdx}"
@@ -55,7 +59,7 @@
                                 </label>
                             </div>
                         </c:if>
-                        <c:forEach items="${data.feedbackSessions}" var="fs"> 
+                        <c:forEach items="${feedbackSessions}" var="fs"> 
                             <c:set var="panelIdx" value="${panelIdx + 1}" scope="page" />
                             <div class="checkbox">
                                 <input id="panel_check-${panelIdx}"
