@@ -55,7 +55,7 @@
                 <c:set var="panelIdx" value="${panelIdx + 1}"/>
                 <div id="panel_display-${panelIdx}">
                     <br>
-                    <comments:commentsFromFeedbackSessions fsName="${fsName}" fsIdx="${fsIdx.index + 1}" panelIdx="${panelIdx}" />
+                    <comments:commentsFromFeedbackSessions courseId="${data.courseId}" fsName="${fsName}" fsIdx="${fsIdx.index + 1}" panelIdx="${panelIdx}" />
                 </div>
             </c:forEach> <%-- FeedbackSession loop ends --%>
         </div>
