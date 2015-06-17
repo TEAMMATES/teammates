@@ -7,8 +7,6 @@
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorStudentRecords.js"></script>
     <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
-</c:set>
-<c:set var="extraScript">
     <script type="text/javascript">
         var showCommentBox = "${data.showCommentBox}";
     </script>
@@ -16,7 +14,6 @@
 <ti:instructorPage pageTitle="TEAMMATES - Instructor"
                    bodyTitle="${data.studentName}'s Records<small class=\"muted\"> - ${data.courseId}</small>"
                    jsIncludes="${jsIncludes}"
-                   extraScript="${extraScript}"
                    bodyOnload="onload=\"readyStudentRecordsPage();\"">
     <t:statusMessage />
     <c:if test="${not empty data.studentProfile}">

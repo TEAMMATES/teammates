@@ -6,7 +6,6 @@
 <%@ attribute name="navBar" required="true" fragment="true" %>
 <%@ attribute name="bodyTitle" required="true" %>
 <%@ attribute name="bodyOnload" %>
-<%@ attribute name="extraScript" fragment="true" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,8 +30,6 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
-    <jsp:invoke fragment="extraScript" />
     
     <t:enableJS />
 </head>
