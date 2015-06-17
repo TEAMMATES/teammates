@@ -31,7 +31,7 @@
                         ${data.viewingDraft ? "Drafts" : data.courseName}
                     </strong>
                 </h4>
-                <comments:commentsNotifyPanel />
+                <comments:commentsNotifyPanel courseId="${data.courseId}" numberOfPendingComments="${data.numberOfPendingComments}" />
             </div>
             <div id="no-comment-panel" style="${empty data.comments && empty data.feedbackSessions ? '' : 'display:none;'}">
                 <br>
