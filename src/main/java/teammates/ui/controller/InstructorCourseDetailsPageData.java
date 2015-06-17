@@ -24,9 +24,8 @@ public class InstructorCourseDetailsPageData extends PageData {
 
     public InstructorAttributes currentInstructor;
     public CourseDetailsBundle courseDetails;
-    //public List<StudentAttributes> students;
     public List<InstructorAttributes> instructors;
-    //public String studentListHtmlTableAsString;
+    public String studentListHtmlTableAsString;
     public ElementTag giveCommentButton;
     public ElementTag courseRemindButton;
     public CourseDetailsStudentsTable studentsTable;
@@ -49,9 +48,11 @@ public class InstructorCourseDetailsPageData extends PageData {
         this.courseRemindButton = createButton(null, "btn btn-primary", "button_remind", null, 
                                                Const.Tooltips.COURSE_REMIND, "tooltip", onClick, isDisabled);
         
-        studentsTable = new CourseDetailsStudentsTable();
+        this.studentsTable = new CourseDetailsStudentsTable();
+        int idx = 0;
         for (StudentAttributes student : students) {
             CourseDetailsStudentsTableRow row = new CourseDetailsStudentsTableRow();
+            row.student = student;
             
             isDisabled = !this.currentInstructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
             ElementTag viewButton = createButton("View", "btn btn-default btn-xs", null, this.getCourseStudentDetailsLink(student),
@@ -81,14 +82,9 @@ public class InstructorCourseDetailsPageData extends PageData {
             row.actions.add(deleteButton);
             row.actions.add(allRecordsButton);
             
-            /*String content, String type, String buttonClass, String id, String href, 
-            String title, String dataOriginalTitle, String onClick, String value, 
-            String tabIndex, boolean isDisabled*/
-            
             isDisabled = !this.currentInstructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
-            onClick = "return toggleDeleteStudentConfirmation('" + sanitizeForJs(student.course) + "','" + sanitizeForJs(student.name) + "')";
             ElementTag addCommentButton = createButton("Add Comment", "btn btn-default btn-xs cursor-default", null, "javascript:;",
-                                                       Const.Tooltips.COURSE_STUDENT_COMMENT, "tooltip", onClick, isDisabled);
+                                                       Const.Tooltips.COURSE_STUDENT_COMMENT, "tooltip", null, isDisabled);
             
             isDisabled = !this.currentInstructor.isAllowedForPrivilege(student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
             ElementTag addCommentsButton = createButton("<span class=\"caret\"></span><span class=\"sr-only\">Add comments</span>", 
@@ -97,7 +93,36 @@ public class InstructorCourseDetailsPageData extends PageData {
             row.commentActions.add(addCommentButton);
             row.commentActions.add(addCommentsButton);
             
+            ElementTag toStudentCommentOption = createButton("To student: " + sanitizeForHtml(row.student.name), 
+                                                             "t_student_details_tostudent-c" + this.courseDetails.course.id + "." + idx, null,
+                                                             getCourseStudentDetailsLink(row.student) + "&" + Const.ParamsNames.SHOW_COMMENT_BOX + "=student", 
+                                                             null, null, null, false);
+            toStudentCommentOption.setAttribute("role", "menuitem");
+            toStudentCommentOption.setAttribute("tabindex", "-1");
+            
+            ElementTag toTeamCommentOption = createButton("To team: " + sanitizeForHtml(row.student.team), 
+                                                          "t_student_details_toteam-c" + this.courseDetails.course.id + "." + idx, null,
+                                                          getCourseStudentDetailsLink(row.student) + "&" + Const.ParamsNames.SHOW_COMMENT_BOX + "=team", 
+                                                          null, null, null, false);
+            toTeamCommentOption.setAttribute("role", "menuitem");
+            toTeamCommentOption.setAttribute("tabindex", "-1");
+            
+            row.commentRecipientOptions.add(toStudentCommentOption);
+            row.commentRecipientOptions.add(toTeamCommentOption);
+            
+            if ((row.student.section != null) && (!row.student.section.equals("None"))) {
+                ElementTag toSectionCommentOption = createButton("To section: " + sanitizeForHtml(row.student.section), 
+                                                                 "t_student_details_tosection-c" + this.courseDetails.course.id + "." + idx, null,
+                                                                 getCourseStudentDetailsLink(row.student) + "&" + Const.ParamsNames.SHOW_COMMENT_BOX + "=section", 
+                                                                 null, null, null, false);
+                toSectionCommentOption.setAttribute("role", "menuitem");
+                toSectionCommentOption.setAttribute("tabindex", "-1");
+                  
+                row.commentRecipientOptions.add(toSectionCommentOption);
+            }
+            
             studentsTable.rows.add(row);
+            idx++;
         }
           
     }
@@ -177,10 +202,9 @@ public class InstructorCourseDetailsPageData extends PageData {
         return link;
     }
     
-    ElementTag createButton(String content, String buttonClass, String id, String href, 
+    private ElementTag createButton(String content, String buttonClass, String id, String href, 
                             String title, String dataToggle, String onClick, boolean isDisabled){
-        ElementTag button = new ElementTag();
-        button.setContent(content);
+        ElementTag button = new ElementTag(content);
         
         if ((buttonClass != null) && (!buttonClass.equals(""))) {
             button.setAttribute("class", buttonClass);
@@ -200,7 +224,7 @@ public class InstructorCourseDetailsPageData extends PageData {
         }
         
         if (dataToggle != null) {
-            button.setAttribute("data-toggle", "dataToggle");
+            button.setAttribute("data-toggle", dataToggle);
         }
                 
         if ((onClick != null) && (!onClick.equals(""))) {

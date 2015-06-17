@@ -149,8 +149,7 @@ public class InstructorCoursesPageData extends PageData {
     }
     
     ElementTag createButton(String content, String buttonClass, String id, String href, String title, String onClick, boolean isDisabled){
-        ElementTag button = new ElementTag();
-        button.setContent(content);
+        ElementTag button = new ElementTag(content);
         button.setAttribute("class", buttonClass);
         
         if ((id != null) && (!id.equals(""))) {

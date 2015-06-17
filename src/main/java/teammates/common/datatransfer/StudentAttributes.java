@@ -326,4 +326,16 @@ public class StudentAttributes extends EntityAttributes {
         this.section = Sanitizer.sanitizeForHtml(this.section);
         this.comments = Sanitizer.sanitizeForHtml(this.comments);
     }
+    
+    public String getSection() {
+        return this.section;
+    }
+    
+    public String getName() {
+        return this.name;
+    }
+    
+    public String getTeam() {
+        return this.team;
+    }
 }

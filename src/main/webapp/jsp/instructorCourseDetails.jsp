@@ -13,12 +13,12 @@
 </c:set>
 
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Course Details" jsIncludes="${jsIncludes}">
-    <course:courseInformation />
-    <course:commentArea />
+    <course:courseInformation courseDetails="${data.courseDetails}" instructors="${data.instructors}" giveCommentButton="${data.giveCommentButton}" courseRemindButton="${data.courseRemindButton}" account="${data.account}"/>
+    <course:commentArea courseDetails="${data.courseDetails}" account="${data.account}"/>
     <br>
     <t:statusMessage />
     <br>
-    <course:studentsTable />
+    <course:studentsTable studentsTable="${data.studentsTable}" courseDetails="${data.courseDetails}"/>
     <br>
     <br>
     <br>    
