@@ -9,6 +9,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
+import teammates.ui.template.InstructorResultsQuestionTable;
 
 public class InstructorFeedbackResultsPageData extends PageData {
     public static final String EXCEEDING_RESPONSES_ERROR_MESSAGE = "Sorry, we could not retrieve results. "
@@ -16,6 +17,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                  + "<ul><li>If that is the case, you can still use the 'By question' report to view responses. You can also download the results as a spreadsheet. If you would like to see the responses in other formats (e.g. 'Group by - Giver'), you can try to divide the course into smaller sections so that we can display responses one section at a time.</li>"
                                                                  + "<li>If you believe the report you are trying to view is unlikely to have more than 2,500 entries, please contact us at <a href='mailto:teammates@comp.nus.edu.sg'>teammates@comp.nus.edu.sg</a> so that we can investigate.</li></ul>";
 
+    public static final String teamOfEmailOwner = Const.TEAM_OF_EMAIL_OWNER;
+    
     public FeedbackSessionResultsBundle bundle = null;
     public InstructorAttributes instructor = null;
     public List<String> sections = null;
@@ -33,9 +36,17 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public String ajaxStatus = null;
     public String sessionResultsHtmlTableAsString = null;
 
+    
+    List<InstructorResultsQuestionTable> questionPanels;  
+    
     public InstructorFeedbackResultsPageData(AccountAttributes account) {
         super(account);
         startIndex = -1;
+    }
+    
+    public void init() {
+        
+        
     }
 
     /* 
@@ -167,5 +178,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public void setShouldCollapsed(boolean shouldCollapsed) {
         this.shouldCollapsed = shouldCollapsed;
     }
+
+    public static String getTeamOfEmailowner() {
+        return teamOfEmailOwner;
+    }
+    
+    
     
 }

@@ -11,6 +11,8 @@
 <%@ tag import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
 <%@ tag import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 
+<%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
+
 <%@ attribute name="data" type="teammates.ui.controller.InstructorFeedbackResultsPageData" required="true" %>
 <%@ attribute name="showAll" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="shouldCollapsed" type="java.lang.Boolean" required="true" %>
@@ -367,23 +369,8 @@
                                                       <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                       <td class="text-preserve-space color_neutral"><%=questionDetails.getNoResponseTextInHtml(possibleGiver, possibleReceiver, data.bundle, question)%></td>
                                                       <td>
-                                                        <% 
-                                                            boolean isAllowedToModerate = data.instructor.isAllowedForPrivilege(data.bundle.getSectionFromRoster(possibleGiver), 
-                                                                                                                            data.feedbackSessionName, 
-                                                                                                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-                                                            String disabledAttribute = (!isAllowedToModerate) ? "disabled=\"disabled\"" : "";
-                                                        %>
-                                                        <form class="inline" method="post" action="<%=data.getInstructorEditStudentFeedbackLink() %>" target="_blank"> 
-                                                            <input type="submit" class="btn btn-default btn-xs" value="Moderate Response" <%=disabledAttribute%> data-toggle="tooltip" title="<%=Const.Tooltips.FEEDBACK_SESSION_MODERATE_FEEDBACK%>">
-                                                            <input type="hidden" name="courseid" value="<%=data.courseId %>">
-                                                            <input type="hidden" name="fsname" value="<%= data.feedbackSessionName%>">
-                                                            <input type="hidden" name="moderatedquestion" value="<%= question.questionNumber%>">
-                                                            <% if (possibleGiver.matches(Const.REGEXP_TEAM)) { %>
-                                                            <input type="hidden" name="moderatedstudent" value="<%= possibleGiver.replace(Const.TEAM_OF_EMAIL_OWNER,"")%>">
-                                                            <% } else { %>
-                                                            <input type="hidden" name="moderatedstudent" value="<%= possibleGiver%>">
-                                                            <% } %>
-                                                        </form>
+                                                      ${question.giverTypeIsATeam eq true}
+                                                        <results:moderationsButton questionNumber="${question.questionNumber}" isGiverTeamGiver="${question.giverTypeIsATeam}" possibleGiver="${possibleGiver}" data="${data}" />
                                                       </td>
                                                   </tr>
                         <% 

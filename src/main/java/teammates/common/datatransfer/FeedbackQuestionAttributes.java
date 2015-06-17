@@ -518,4 +518,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     private Class<? extends FeedbackQuestionDetails> getFeedbackQuestionDetailsClass() {
         return questionType.getQuestionDetailsClass();
     }
+    
+    
+    public boolean getGiverTypeIsATeam() {
+        return giverType.isTeam();
+    }
 }
