@@ -1,105 +1,54 @@
 package teammates.ui.template;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CommentParticipantType;
+
 public class VisibilityCheckboxes {
+
+    private List<Boolean> visibilitySettingsForRecipient;
+    private List<Boolean> visibilitySettingsForRecipientTeam;
+    private List<Boolean> visibilitySettingsForRecipientSection;
+    private List<Boolean> visibilitySettingsForCourseStudents;
+    private List<Boolean> visibilitySettingsForInstructors;
+    private CommentAttributes comment;
     
-    private boolean isRecipientAbleToSeeComment;
-    private boolean isRecipientAbleToSeeGiverName;
-    
-    private boolean isRecipientTeamAbleToSeeComment;
-    private boolean isRecipientTeamAbleToSeeGiverName;
-    private boolean isRecipientTeamAbleToSeeRecipientName;
-    
-    private boolean isRecipientSectionAbleToSeeComment;
-    private boolean isRecipientSectionAbleToSeeGiverName;
-    private boolean isRecipientSectionAbleToSeeRecipientName;
-    
-    private boolean isCourseStudentsAbleToSeeComment;
-    private boolean isCourseStudentsAbleToSeeGiverName;
-    private boolean isCourseStudentsAbleToSeeRecipientName;
-    
-    private boolean isInstructorsAbleToSeeComment;
-    private boolean isInstructorsAbleToSeeGiverName;
-    private boolean isInstructorsAbleToSeeRecipientName;
-    
-    public VisibilityCheckboxes(boolean iRATSC, boolean iRATSGN,
-                                boolean iRTATSC, boolean iRTATSGN, boolean iRTATSRN,
-                                boolean iRSATSC, boolean iRSATSGN, boolean iRSATSRN,
-                                boolean iCSATSC, boolean iCSATSGN, boolean iCSATSRN,
-                                boolean iIATSC, boolean iIATSGN, boolean iIATSRN) {
-        this.isRecipientAbleToSeeComment = iRATSC;
-        this.isRecipientAbleToSeeGiverName = iRATSGN;
-        
-        this.isRecipientTeamAbleToSeeComment = iRTATSC;
-        this.isRecipientTeamAbleToSeeGiverName = iRTATSGN;
-        this.isRecipientTeamAbleToSeeRecipientName = iRTATSRN;
-        
-        this.isRecipientSectionAbleToSeeComment = iRSATSC;
-        this.isRecipientSectionAbleToSeeGiverName = iRSATSGN;
-        this.isRecipientSectionAbleToSeeRecipientName = iRSATSRN;
-        
-        this.isCourseStudentsAbleToSeeComment = iCSATSC;
-        this.isCourseStudentsAbleToSeeGiverName = iCSATSGN;
-        this.isCourseStudentsAbleToSeeRecipientName = iCSATSRN;
-        
-        this.isInstructorsAbleToSeeComment = iIATSC;
-        this.isInstructorsAbleToSeeGiverName = iIATSGN;
-        this.isInstructorsAbleToSeeRecipientName = iIATSRN;
-        
+    public VisibilityCheckboxes(CommentAttributes comment) {
+        this.comment = comment;
+        visibilitySettingsForRecipient = getVisibilityForCommentParticipant(CommentParticipantType.PERSON);
+        visibilitySettingsForRecipientTeam = getVisibilityForCommentParticipant(CommentParticipantType.TEAM);
+        visibilitySettingsForRecipientSection = getVisibilityForCommentParticipant(CommentParticipantType.SECTION);
+        visibilitySettingsForCourseStudents = getVisibilityForCommentParticipant(CommentParticipantType.COURSE);
+        visibilitySettingsForInstructors = getVisibilityForCommentParticipant(CommentParticipantType.INSTRUCTOR);
     }
     
-    public boolean isRecipientAbleToSeeComment() {
-        return isRecipientAbleToSeeComment;
+    public List<Boolean> getVisibilitySettingsForRecipient() {
+        return visibilitySettingsForRecipient;
     }
 
-    public boolean isRecipientAbleToSeeGiverName() {
-        return isRecipientAbleToSeeGiverName;
+    public List<Boolean> getVisibilitySettingsForRecipientTeam() {
+        return visibilitySettingsForRecipientTeam;
     }
 
-    public boolean isRecipientTeamAbleToSeeComment() {
-        return isRecipientTeamAbleToSeeComment;
+    public List<Boolean> getVisibilitySettingsForRecipientSection() {
+        return visibilitySettingsForRecipientSection;
     }
 
-    public boolean isRecipientTeamAbleToSeeGiverName() {
-        return isRecipientTeamAbleToSeeGiverName;
+    public List<Boolean> getVisibilitySettingsForCourseStudents() {
+        return visibilitySettingsForCourseStudents;
     }
 
-    public boolean isRecipientTeamAbleToSeeRecipientName() {
-        return isRecipientTeamAbleToSeeRecipientName;
+    public List<Boolean> getVisibilitySettingsForInstructors() {
+        return visibilitySettingsForInstructors;
     }
 
-    public boolean isRecipientSectionAbleToSeeComment() {
-        return isRecipientSectionAbleToSeeComment;
-    }
-
-    public boolean isRecipientSectionAbleToSeeGiverName() {
-        return isRecipientSectionAbleToSeeGiverName;
-    }
-
-    public boolean isRecipientSectionAbleToSeeRecipientName() {
-        return isRecipientSectionAbleToSeeRecipientName;
-    }
-
-    public boolean isCourseStudentsAbleToSeeComment() {
-        return isCourseStudentsAbleToSeeComment;
-    }
-
-    public boolean isCourseStudentsAbleToSeeGiverName() {
-        return isCourseStudentsAbleToSeeGiverName;
-    }
-
-    public boolean isCourseStudentsAbleToSeeRecipientName() {
-        return isCourseStudentsAbleToSeeRecipientName;
-    }
-
-    public boolean isInstructorsAbleToSeeComment() {
-        return isInstructorsAbleToSeeComment;
-    }
-
-    public boolean isInstructorsAbleToSeeGiverName() {
-        return isInstructorsAbleToSeeGiverName;
-    }
-
-    public boolean isInstructorsAbleToSeeRecipientName() {
-        return isInstructorsAbleToSeeRecipientName;
+    private List<Boolean> getVisibilityForCommentParticipant(CommentParticipantType participant) {
+        List<Boolean> visibilitySettingsForParticipant = new ArrayList<Boolean>();
+        visibilitySettingsForParticipant.add(comment.showCommentTo.contains(participant));
+        visibilitySettingsForParticipant.add(comment.showGiverNameTo.contains(participant));
+        visibilitySettingsForParticipant.add(comment.showRecipientNameTo.contains(participant));
+        return visibilitySettingsForParticipant;
     }
 }

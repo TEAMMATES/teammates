@@ -244,20 +244,12 @@ public class InstructorCommentsPageData extends PageData {
         for (CommentAttributes comment : comments.get(giverEmail)) {            
             String recipientDetails = getRecipientNames(comment.recipients);
             String creationTime = TimeHelper.formatTime(comment.createdAt);          
-            
             Boolean isInstructorAllowedToModifyCommentInSection = isInstructorAllowedToModifyCommentInSection(comment);
-            
             String typeOfPeopleCanViewComment = getTypeOfPeopleCanViewComment(comment);
-            
-            String editedAt = comment.getEditedAtTextForInstructor(
-                                              giverName.equals("Anonymous"));
-            
+            String editedAt = comment.getEditedAtTextForInstructor(giverName.equals("Anonymous"));
             String showCommentsTo = getShowCommentsToForComment(comment);
-            
             String showGiverNameTo = getShowGiverNameToForComment(comment);
-            
             String showRecipientNameTo = getShowRecipientNameToForComment(comment);
-            
             VisibilityCheckboxes visibilityCheckboxes = createVisibilityCheckboxes(comment);
             
             rows.add(new InstructorCommentsCommentRow(giverEmail, comment, recipientDetails, creationTime, 
@@ -268,30 +260,7 @@ public class InstructorCommentsPageData extends PageData {
     }
     
     private VisibilityCheckboxes createVisibilityCheckboxes(CommentAttributes comment) {
-        boolean isRecipientAbleToSeeComment = comment.showCommentTo.contains(CommentParticipantType.PERSON);
-        boolean isRecipientAbleToSeeGiverName = comment.showGiverNameTo.contains(CommentParticipantType.PERSON);
-        
-        boolean isRecipientTeamAbleToSeeComment = comment.showCommentTo.contains(CommentParticipantType.TEAM);
-        boolean isRecipientTeamAbleToSeeGiverName = comment.showGiverNameTo.contains(CommentParticipantType.TEAM);
-        boolean isRecipientTeamAbleToSeeRecipientName = comment.showRecipientNameTo.contains(CommentParticipantType.TEAM);
-        
-        boolean isRecipientSectionAbleToSeeComment = comment.showCommentTo.contains(CommentParticipantType.SECTION);
-        boolean isRecipientSectionAbleToSeeGiverName = comment.showGiverNameTo.contains(CommentParticipantType.SECTION);
-        boolean isRecipientSectionAbleToSeeRecipientName = comment.showRecipientNameTo.contains(CommentParticipantType.SECTION);
-        
-        boolean isCourseStudentsAbleToSeeComment = comment.showCommentTo.contains(CommentParticipantType.COURSE);
-        boolean isCourseStudentsAbleToSeeGiverName = comment.showGiverNameTo.contains(CommentParticipantType.COURSE);
-        boolean isCourseStudentsAbleToSeeRecipientName = comment.showRecipientNameTo.contains(CommentParticipantType.COURSE);
-        
-        boolean isInstructorsAbleToSeeComment = comment.showCommentTo.contains(CommentParticipantType.INSTRUCTOR);
-        boolean isInstructorsAbleToSeeGiverName = comment.showGiverNameTo.contains(CommentParticipantType.INSTRUCTOR);
-        boolean isInstructorsAbleToSeeRecipientName = comment.showRecipientNameTo.contains(CommentParticipantType.INSTRUCTOR);
-        
-        return new VisibilityCheckboxes(isRecipientAbleToSeeComment, isRecipientAbleToSeeGiverName,
-                isRecipientTeamAbleToSeeComment, isRecipientTeamAbleToSeeGiverName, isRecipientTeamAbleToSeeRecipientName,
-                isRecipientSectionAbleToSeeComment, isRecipientSectionAbleToSeeGiverName, isRecipientSectionAbleToSeeRecipientName,
-                isCourseStudentsAbleToSeeComment, isCourseStudentsAbleToSeeGiverName, isCourseStudentsAbleToSeeRecipientName,
-                isInstructorsAbleToSeeComment, isInstructorsAbleToSeeGiverName, isInstructorsAbleToSeeRecipientName);
+        return new VisibilityCheckboxes(comment);
     }
 
     private String retrievePreviousPageLink() {

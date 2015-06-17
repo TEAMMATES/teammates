@@ -43,12 +43,12 @@
                             <input 
                                 class="visibilityCheckbox answerCheckbox"
                                 type="checkbox" value="<%= CommentParticipantType.PERSON %>"
-                                ${commentRow.visibilityCheckboxes.recipientAbleToSeeComment ? 'checked=\"checked\"' : ''}>
+                                ${commentRow.visibilityCheckboxes.visibilitySettingsForRecipient[0] ? 'checked=\"checked\"' : ''}>
                         </td>
                         <td><input 
                                 class="visibilityCheckbox giverCheckbox"
                                 type="checkbox" value="<%= CommentParticipantType.PERSON %>"
-                                ${commentRow.visibilityCheckboxes.recipientAbleToSeeGiverName ? 'checked=\"checked\"' : ''}>
+                                ${commentRow.visibilityCheckboxes.visibilitySettingsForRecipient[1] ? 'checked=\"checked\"' : ''}>
                         </td>
                         <td>
                             <input 
@@ -73,14 +73,14 @@
                                 class="visibilityCheckbox answerCheckbox"
                                 type="checkbox"
                                 value="<%= CommentParticipantType.TEAM %>"
-                                ${commentRow.visibilityCheckboxes.recipientTeamAbleToSeeComment ? "checked=\"checked\"" : ""}>
+                                ${commentRow.visibilityCheckboxes.visibilitySettingsForRecipientTeam[0] ? "checked=\"checked\"" : ""}>
                         </td>
                         <td>
                             <input 
                                 class="visibilityCheckbox giverCheckbox"
                                 type="checkbox"
                                 value="<%= CommentParticipantType.TEAM %>"
-                                ${commentRow.visibilityCheckboxes.recipientTeamAbleToSeeGiverName ? "checked=\"checked\"" : ""}>
+                                ${commentRow.visibilityCheckboxes.visibilitySettingsForRecipientTeam[1] ? "checked=\"checked\"" : ""}>
                         </td>
                         <td>
                             <input 
@@ -88,7 +88,7 @@
                                 type="checkbox"
                                 value="<%= CommentParticipantType.TEAM %>"
                                 ${commentRow.comment.recipientType == 'TEAM' ? "disabled=\"disabled\"" : ""}
-                                ${commentRow.visibilityCheckboxes.recipientTeamAbleToSeeRecipientName ? "checked=\"checked\"" : ""}>
+                                ${commentRow.visibilityCheckboxes.visibilitySettingsForRecipientTeam[2] ? "checked=\"checked\"" : ""}>
                         </td>
                     </tr>
                 </c:if>
@@ -105,14 +105,14 @@
                                 class="visibilityCheckbox answerCheckbox"
                                 type="checkbox"
                                 value="<%= CommentParticipantType.SECTION %>"
-                                ${commentRow.visibilityCheckboxes.recipientSectionAbleToSeeComment ? "checked=\"checked\"" : ""}>
+                                ${commentRow.visibilityCheckboxes.visibilitySettingsForRecipientSection[0] ? "checked=\"checked\"" : ""}>
                         </td>
                         <td>
                             <input 
                                 class="visibilityCheckbox giverCheckbox"
                                 type="checkbox"
                                 value="<%= CommentParticipantType.SECTION %>"
-                                ${commentRow.visibilityCheckboxes.recipientSectionAbleToSeeGiverName ? "checked=\"checked\"" : ""}>
+                                ${commentRow.visibilityCheckboxes.visibilitySettingsForRecipientSection[1] ? "checked=\"checked\"" : ""}>
                         </td>
                         <td>
                             <input 
@@ -120,7 +120,7 @@
                                 type="checkbox"
                                 value="<%= CommentParticipantType.SECTION %>"
                                 ${commentRow.comment.recipientType == 'SECTION' ? "disabled=\"disabled\"" : ""}
-                                ${commentRow.visibilityCheckboxes.recipientSectionAbleToSeeRecipientName ? "checked=\"checked\"" : ""}>
+                                ${commentRow.visibilityCheckboxes.visibilitySettingsForRecipientSection[2] ? "checked=\"checked\"" : ""}>
                         </td>
                     </tr>
                 </c:if>
@@ -135,20 +135,20 @@
                         <input 
                             class="visibilityCheckbox answerCheckbox"
                             type="checkbox" value="<%= CommentParticipantType.COURSE %>"
-                            ${commentRow.visibilityCheckboxes.courseStudentsAbleToSeeComment ? "checked=\"checked\"" : ""}>
+                            ${commentRow.visibilityCheckboxes.visibilitySettingsForCourseStudents[0] ? "checked=\"checked\"" : ""}>
                     </td>
                     <td>
                         <input 
                             class="visibilityCheckbox giverCheckbox"
                             type="checkbox" value="<%= CommentParticipantType.COURSE %>"
-                            ${commentRow.visibilityCheckboxes.courseStudentsAbleToSeeGiverName ? "checked=\"checked\"" : ""}>
+                            ${commentRow.visibilityCheckboxes.visibilitySettingsForCourseStudents[1] ? "checked=\"checked\"" : ""}>
                     </td>
                     <td>
                         <input 
                             class="visibilityCheckbox recipientCheckbox"
                             type="checkbox" value="<%= CommentParticipantType.COURSE %>"
                             ${commentRow.comment.recipientType == 'COURSE' ? "disabled=\"disabled\"" : ""}
-                            ${commentRow.visibilityCheckboxes.courseStudentsAbleToSeeRecipientName ? "checked=\"checked\"" : ""}>
+                            ${commentRow.visibilityCheckboxes.visibilitySettingsForCourseStudents[2] ? "checked=\"checked\"" : ""}>
                     </td>
                 </tr>
                 <tr>
@@ -163,19 +163,19 @@
                         <input
                             class="visibilityCheckbox answerCheckbox"
                             type="checkbox" value="<%= CommentParticipantType.INSTRUCTOR %>"
-                            ${commentRow.visibilityCheckboxes.instructorsAbleToSeeComment ? "checked=\"checked\"" : ""}>
+                            ${commentRow.visibilityCheckboxes.visibilitySettingsForInstructors[0] ? "checked=\"checked\"" : ""}>
                     </td>
                     <td>
                         <input
                             class="visibilityCheckbox giverCheckbox"
                             type="checkbox" value="<%= CommentParticipantType.INSTRUCTOR %>"
-                            ${commentRow.visibilityCheckboxes.instructorsAbleToSeeGiverName ? "checked=\"checked\"" : ""}>
+                            ${commentRow.visibilityCheckboxes.visibilitySettingsForInstructors[1] ? "checked=\"checked\"" : ""}>
                     </td>
                     <td>
                         <input
                             class="visibilityCheckbox recipientCheckbox"
                             type="checkbox" value="<%= CommentParticipantType.INSTRUCTOR %>"
-                            ${commentRow.visibilityCheckboxes.instructorsAbleToSeeRecipientName ? "checked=\"checked\"" : ""}>
+                            ${commentRow.visibilityCheckboxes.visibilitySettingsForInstructors[2] ? "checked=\"checked\"" : ""}>
                     </td>
                 </tr>
             </tbody>
