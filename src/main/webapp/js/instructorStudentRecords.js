@@ -134,7 +134,7 @@ function enableComment(commentIdx) {
 function disableComment(commentIdx) {
     $('#' + 'commentBar' + commentIdx).show();
     $('#' + 'plainCommentText' + commentIdx).show();
-    $('div[id="commentTextEdit' + commentIdx + '""]').hide();
+    $('div[id="commentTextEdit' + commentIdx + '"]').hide();
 }
 
 function textAreaAdjust(o) {
