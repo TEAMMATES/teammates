@@ -1,4 +1,5 @@
-<%@ tag description="studentFeedbackSubmissionEdit.jsp - Display preview or moderation header" %>
+<%@ tag description="studentFeedbackSubmissionEdit.jsp, studentFeedbackQuestionSubmissionEdit.jsp
+                         - Display preview or moderation header" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="preview" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="moderation" type="java.lang.Boolean" required="true" %>
