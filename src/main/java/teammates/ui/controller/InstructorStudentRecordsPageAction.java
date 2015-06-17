@@ -104,29 +104,4 @@ public class InstructorStudentRecordsPageAction extends Action {
         }
     }
 
-    /*private StudentProfileAttributes loadStudentProfile() {
-        boolean hasExistingStatus = !statusToUser.isEmpty()
-                                 || session.getAttribute(Const.ParamsNames.STATUS_MESSAGE) != null;
-
-        if (data.student.googleId.isEmpty()) {
-            if (!hasExistingStatus) {
-                // not covered as status should have been added prior to reaching this branch
-                statusToUser.add(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS);
-            }
-            return null;
-        } else if (!data.currentInstructor
-                        .isAllowedForPrivilege(data.student.section,
-                                               Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
-            if (!hasExistingStatus) {
-                // not covered as status should have been added prior to reaching this branch
-                statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR);
-            }
-            return null;
-        } else {
-            StudentProfileAttributes studentProfile = logic.getStudentProfile(data.student.googleId);
-            Assumption.assertNotNull(data.studentProfile);
-            return studentProfile;
-        }
-    }*/
-
 }
