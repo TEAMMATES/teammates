@@ -22,7 +22,7 @@
         <c:choose>
             <c:when test="${empty questionResponseBundle}">
                     There are no questions for you to answer here!
-                </c:when>
+            </c:when>
             <c:otherwise>
                 <feedbackSubmissionEdit:submitButton
                     preview="${preview}" submittable="${submittable}" />
