@@ -20,6 +20,7 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
 
     private Logic logic = new Logic();
     private CoursesDb coursesDb = new CoursesDb();
+    private final boolean isPreview = true;
     
     public static void main(String[] args) throws IOException {
         DataMigrationForIsArchivedAttribute migrator = new DataMigrationForIsArchivedAttribute();
@@ -58,10 +59,15 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
         
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(course.id);
         for (InstructorAttributes instructor: instructorList) {
-            instructor.isArchived = true;
-            logic.updateInstructorByEmail(instructor.email, instructor);    
-            
-            System.out.println("Successfully updated instructor: [" + instructor.email + "] " + instructor.name);
+            if (isPreview) {
+                System.out.println("Instructor: " + instructor.googleId + " : " + instructor.isArchived);
+                
+            } else {
+                instructor.isArchived = true;
+                logic.updateInstructorByEmail(instructor.email, instructor);    
+                
+                System.out.println("Successfully updated instructor: [" + instructor.email + "] " + instructor.name);
+            }
             
         }
         
