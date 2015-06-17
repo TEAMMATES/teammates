@@ -416,7 +416,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
                 continue;
             }
             
-            if (result.containsKey(student.course)) {
+            if (!result.containsKey(student.course)) {
                 List<String> sectionList = new ArrayList<String>();
                 sectionList.add(student.section);
                 result.put(student.course, sectionList);
