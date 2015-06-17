@@ -3,23 +3,23 @@ var PERFORMANCE_ISSUE_MESSAGE = 'Due to performance issue, it is not allowed to 
 var numStudents = 0;
 
 function transportSectionChoices() {
-    var sectionChoices = $(".section-to-be-transported");
+    var sectionChoices = $('.section-to-be-transported');
     sectionChoices.remove();
-    $("#sectionChoices").append(sectionChoices);
-    sectionChoices.removeClass("section-to-be-transported");
+    $('#sectionChoices').append(sectionChoices);
+    sectionChoices.removeClass('section-to-be-transported');
 }
 
 function transportTeamChoices() {
-    var teamChoices = $(".team-to-be-transported");
+    var teamChoices = $('.team-to-be-transported');
     teamChoices.remove();
-    $("#teamChoices").append(teamChoices);
-    teamChoices.removeClass("team-to-be-transported");
+    $('#teamChoices').append(teamChoices);
+    teamChoices.removeClass('team-to-be-transported');
 }
 
 function transportEmailChoices() {
     var emailChoices = $('div[id^="student_email-c"]');
     emailChoices.remove();
-    $("#emails").append(emailChoices);
+    $('#emails').append(emailChoices);
 }
 
 function bindPhotos(courseIdx) {
@@ -64,7 +64,7 @@ var seeMoreRequest = function(e) {
             if (displayIcon.html().indexOf('img') == -1) {
                 $.ajax({
                     type: 'POST',
-                    url:   $(formObject[0]).attr('action') + '?' + formData + '&courseidx=' + courseIdx,
+                    url: $(formObject[0]).attr('action') + '?' + formData + '&courseidx=' + courseIdx,
                     beforeSend: function() {
                         displayIcon.html('<img height="25" width="25" src="/images/ajax-preload.gif">')
                     },
