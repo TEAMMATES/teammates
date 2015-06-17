@@ -21,7 +21,7 @@
                         <c:set var="indexCounter" value="${indexCounter + 1}" />
                         
                         <li class="list-group-item list-group-item-warning" 
-                            id="form_commentedit-${indexCounter}>">
+                            id="form_commentedit-${indexCounter}">
                                     
                             <div id="commentBar-${indexCounter}">
                                 <span class="text-muted">
