@@ -50,6 +50,47 @@ public class InstructorCommentsPageData extends PageData {
         super(account);
     }
     
+    public void init(boolean isViewingDraft, boolean isDisplayArchive, String courseId, String courseName,
+                     List<String> coursePaginationList, Map<String, List<CommentAttributes>> comments,
+                     InstructorAttributes instructor, CourseRoster roster,
+                     List<FeedbackSessionAttributes> feedbackSessions, int numberOfPendingComments) {
+        this.isViewingDraft = isViewingDraft;
+        this.isDisplayArchive = isDisplayArchive;
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.coursePaginationList = coursePaginationList;
+        this.comments = comments;
+        this.instructorEmail = instructor != null ? instructor.email : "no-email";
+        this.currentInstructor = instructor;
+        this.roster = roster;
+        this.feedbackSessions = feedbackSessions;
+        this.previousPageLink = retrievePreviousPageLink();
+        this.nextPageLink = retrieveNextPageLink();
+        this.numberOfPendingComments = numberOfPendingComments;
+        this.giverEmailToGiverNameMap = getGiverEmailToGiverNameMap();
+    
+        setCommentsForStudentsTables();
+                                        
+    }
+
+    private String retrievePreviousPageLink() {
+        int courseIdx = coursePaginationList.indexOf(courseId);
+        String previousPageLink = "javascript:;";
+        if (courseIdx >= 1) {
+            previousPageLink = getInstructorCommentsLink() + "&courseid=" + coursePaginationList.get(courseIdx - 1);
+        }
+        return previousPageLink;
+    }
+    
+    private String retrieveNextPageLink() {
+        int courseIdx = coursePaginationList.indexOf(courseId);
+        String nextPageLink = "javascript:;";
+        if (courseIdx < coursePaginationList.size() - 1) {
+            nextPageLink = getInstructorCommentsLink() + "&courseid=" + coursePaginationList.get(courseIdx + 1);
+        }
+        return nextPageLink;
+    }
+
     public Map<String, List<CommentAttributes>> getComments() {
         return comments;
     }
@@ -203,30 +244,6 @@ public class InstructorCommentsPageData extends PageData {
             // TODO: implement this if instructor is later allowed to be added to recipients
             return false;
         }
-    }
-
-    public void init(boolean isViewingDraft, boolean isDisplayArchive, String courseId, String courseName,
-                     List<String> coursePaginationList, Map<String, List<CommentAttributes>> comments,
-                     InstructorAttributes instructor, CourseRoster roster,
-                     List<FeedbackSessionAttributes> feedbackSessions, String previousPageLink, String nextPageLink,
-                     int numberOfPendingComments) {
-        this.isViewingDraft = isViewingDraft;
-        this.isDisplayArchive = isDisplayArchive;
-        this.courseId = courseId;
-        this.courseName = courseName;
-        this.coursePaginationList = coursePaginationList;
-        this.comments = comments;
-        this.instructorEmail = instructor != null ? instructor.email : "no-email";
-        this.currentInstructor = instructor;
-        this.roster = roster;
-        this.feedbackSessions = feedbackSessions;
-        this.previousPageLink = previousPageLink;
-        this.nextPageLink = nextPageLink;
-        this.numberOfPendingComments = numberOfPendingComments;
-        this.giverEmailToGiverNameMap = getGiverEmailToGiverNameMap();
-
-        setCommentsForStudentsTables();
-                                        
     }
 
     private void setCommentsForStudentsTables() {

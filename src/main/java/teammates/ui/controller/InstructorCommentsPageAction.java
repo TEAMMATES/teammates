@@ -78,8 +78,7 @@ public class InstructorCommentsPageAction extends Action {
                 "for Course <span class=\"bold\">[" + courseId + "]</span>";
 
         data.init(isViewingDraft, isDisplayArchivedCourse, courseId, courseName, coursePaginationList,
-                  giverEmailToCommentsMap, instructor, 
-                  roster,  feedbackSessions, previousPageLink, nextPageLink, numberOfPendingComments);
+                  giverEmailToCommentsMap, instructor, roster,  feedbackSessions, numberOfPendingComments);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COMMENTS, data);
     }
@@ -124,31 +123,9 @@ public class InstructorCommentsPageAction extends Action {
             }
             if (course.id.equals(courseId)) {
                 courseName = course.id + " : " + course.name;
-                setPreviousPageLink(courses, i);
-                setNextPageLink(courses, i);
             }
         }
         return courseName;
-    }
-    
-    private void setPreviousPageLink(List<CourseAttributes> courses, int currentIndex) {
-        for (int i = currentIndex - 1; i >= 0; i--) {
-            CourseAttributes course = courses.get(i);
-            if (isDisplayArchivedCourse || !isCourseArchived(course, account.googleId)) {
-                previousPageLink = new PageData(account).getInstructorCommentsLink() + "&courseid=" + course.id;
-                break;
-            }
-        }
-    }
-    
-    private void setNextPageLink(List<CourseAttributes> courses, int currentIndex) {
-        for (int i = currentIndex + 1; i < courses.size(); i++) {
-            CourseAttributes course = courses.get(i);
-            if (isDisplayArchivedCourse || !isCourseArchived(course, account.googleId)) {
-                nextPageLink = new PageData(account).getInstructorCommentsLink() + "&courseid=" + course.id;
-                break;
-            }
-        }
     }
 
     private Map<String, List<CommentAttributes>> getGiverEmailToCommentsMap() throws EntityDoesNotExistException {
