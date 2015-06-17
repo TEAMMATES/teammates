@@ -5,6 +5,7 @@
 <%@ attribute name="jsIncludes" fragment="true" %>
 <%@ attribute name="navBar" required="true" fragment="true" %>
 <%@ attribute name="bodyTitle" required="true" %>
+<%@ attribute name="bodyOnload" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,7 +35,7 @@
 
     <jsp:invoke fragment="jsIncludes" />
 </head>
-<body>
+<body ${bodyOnload}>
     <jsp:invoke fragment="navBar" />
     <div class="container" id="frameBodyWrapper">
         <t:bodyHeader title="${bodyTitle}" />
