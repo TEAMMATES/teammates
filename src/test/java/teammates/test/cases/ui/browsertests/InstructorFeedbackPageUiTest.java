@@ -704,16 +704,21 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         cal.add(Calendar.DATE, -50);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_ENDDATE, cal);
         
+        String valueOfStartDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE);
         assertEquals(sdf.format(initialCal.getTime()),
-                     feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_STARTDATE));
+                     valueOfStartDate);
         
+        String valueOfVisibleDate = feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
         assertEquals(sdf.format(initialCal.getTime()),
-                     feedbackPage.getValueOfDate(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
-        assertEquals(sdf.format(initialCal.getTime()),
-                     feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
+                     valueOfVisibleDate);
         
+        String maxValueOfVisibleDate = feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE);
         assertEquals(sdf.format(initialCal.getTime()),
-                     feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE));
+                     maxValueOfVisibleDate);
+        
+        String minValueOfPublishDate = feedbackPage.getMinDateOf(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE);
+        assertEquals(sdf.format(initialCal.getTime()),
+                     minValueOfPublishDate);
         
         
         ______TS("changing visible date affects publish date range");
@@ -744,8 +749,6 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         cal.add(Calendar.DATE, 30);
         feedbackPage.fillTimeValueForDatePickerTest(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, cal);
         
-        //set the value back to start time
-        cal.add(Calendar.DATE, -29);
         //check if maxDate is start time and not publish time
         assertEquals(sdf.format(initialCal.getTime()),
                      feedbackPage.getMaxDateOf(Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE));
