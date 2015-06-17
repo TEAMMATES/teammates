@@ -42,7 +42,6 @@ public class InstructorCommentsPageData extends PageData {
     private String previousPageLink;
     private String nextPageLink;
     private int numberOfPendingComments = 0;
-    private Map<String, String> giverEmailToGiverNameMap;
     
     private List<CommentsForStudentsTable> commentsForStudentsTables;
     
@@ -67,28 +66,9 @@ public class InstructorCommentsPageData extends PageData {
         this.previousPageLink = retrievePreviousPageLink();
         this.nextPageLink = retrieveNextPageLink();
         this.numberOfPendingComments = numberOfPendingComments;
-        this.giverEmailToGiverNameMap = getGiverEmailToGiverNameMap();
     
         setCommentsForStudentsTables();
                                         
-    }
-
-    private String retrievePreviousPageLink() {
-        int courseIdx = coursePaginationList.indexOf(courseId);
-        String previousPageLink = "javascript:;";
-        if (courseIdx >= 1) {
-            previousPageLink = getInstructorCommentsLink() + "&courseid=" + coursePaginationList.get(courseIdx - 1);
-        }
-        return previousPageLink;
-    }
-    
-    private String retrieveNextPageLink() {
-        int courseIdx = coursePaginationList.indexOf(courseId);
-        String nextPageLink = "javascript:;";
-        if (courseIdx < coursePaginationList.size() - 1) {
-            nextPageLink = getInstructorCommentsLink() + "&courseid=" + coursePaginationList.get(courseIdx + 1);
-        }
-        return nextPageLink;
     }
 
     public Map<String, List<CommentAttributes>> getComments() {
@@ -247,16 +227,18 @@ public class InstructorCommentsPageData extends PageData {
     }
 
     private void setCommentsForStudentsTables() {
+        Map<String, String> giverEmailToGiverNameMap = getGiverEmailToGiverNameMap();
         commentsForStudentsTables = new ArrayList<CommentsForStudentsTable>();      
           
         for (String giverEmail : comments.keySet()) {
+            String giverName = giverEmailToGiverNameMap.get(giverEmail);
             commentsForStudentsTables
                     .add(new CommentsForStudentsTable(
-                                 giverEmailToGiverNameMap.get(giverEmail), createCommentRows(giverEmail)));
+                                 giverName, createCommentRows(giverEmail, giverName)));
         }
     }
     
-    private List<CommentRow> createCommentRows(String giverEmail) {
+    private List<CommentRow> createCommentRows(String giverEmail, String giverName) {
         
         List<CommentRow> rows = new ArrayList<CommentRow>();
         for (CommentAttributes comment : comments.get(giverEmail)) {            
@@ -268,7 +250,7 @@ public class InstructorCommentsPageData extends PageData {
             String typeOfPeopleCanViewComment = getTypeOfPeopleCanViewComment(comment);
             
             String editedAt = comment.getEditedAtTextForInstructor(
-                                              giverEmailToGiverNameMap.get(giverEmail).equals("Anonymous"));
+                                              giverName.equals("Anonymous"));
             
             String showCommentsTo = getShowCommentsToForComment(comment);
             
@@ -310,6 +292,24 @@ public class InstructorCommentsPageData extends PageData {
                 isRecipientSectionAbleToSeeComment, isRecipientSectionAbleToSeeGiverName, isRecipientSectionAbleToSeeRecipientName,
                 isCourseStudentsAbleToSeeComment, isCourseStudentsAbleToSeeGiverName, isCourseStudentsAbleToSeeRecipientName,
                 isInstructorsAbleToSeeComment, isInstructorsAbleToSeeGiverName, isInstructorsAbleToSeeRecipientName);
+    }
+
+    private String retrievePreviousPageLink() {
+        int courseIdx = coursePaginationList.indexOf(courseId);
+        String previousPageLink = "javascript:;";
+        if (courseIdx >= 1) {
+            previousPageLink = getInstructorCommentsLink() + "&courseid=" + coursePaginationList.get(courseIdx - 1);
+        }
+        return previousPageLink;
+    }
+
+    private String retrieveNextPageLink() {
+        int courseIdx = coursePaginationList.indexOf(courseId);
+        String nextPageLink = "javascript:;";
+        if (courseIdx < coursePaginationList.size() - 1) {
+            nextPageLink = getInstructorCommentsLink() + "&courseid=" + coursePaginationList.get(courseIdx + 1);
+        }
+        return nextPageLink;
     }
 
 }
