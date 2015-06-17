@@ -46,6 +46,7 @@
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 
     <jsp:include page="../enableJS.jsp"></jsp:include>
 
