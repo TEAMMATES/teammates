@@ -70,7 +70,7 @@ if (data.courseSectionDetails.size() > 0) { %>
                         studentIdx++;
                         // append to email choice, will be transported later
                         %>
-                        <div id="student_email-c<%= courseIdx %>.<%= studentIdx %>">
+                        <div class="email-to-be-transported" id="student_email-c<%= courseIdx %>.<%= studentIdx %>">
                             <%= student.email %>
                         </div>
                         <tr id="student-c<%= courseIdx %>.<%= studentIdx %>">

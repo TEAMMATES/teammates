@@ -17,9 +17,10 @@ function transportTeamChoices() {
 }
 
 function transportEmailChoices() {
-    var emailChoices = $('div[id^="student_email-c"]');
+    var emailChoices = $('.email-to-be-transported');
     emailChoices.remove();
     $('#emails').append(emailChoices);
+    emailChoices.removeAttr('class'); // the email divs have no other class
 }
 
 function bindPhotos(courseIdx) {
