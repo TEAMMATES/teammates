@@ -7,8 +7,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
-public class StudentFeedbackQuestionSubmissionEditPageAction extends
-        FeedbackQuestionSubmissionEditPageAction {
+public class StudentFeedbackQuestionSubmissionEditPageAction extends FeedbackQuestionSubmissionEditPageAction {
     @Override
     protected boolean isSpecificUserJoinedCourse() {
         return isJoinedCourse(courseId, account.googleId);
@@ -16,15 +15,14 @@ public class StudentFeedbackQuestionSubmissionEditPageAction extends
     
     @Override
     protected void verifyAccesibleForSpecificUser() {
-        new GateKeeper().verifyAccessible(
-                getStudent(), 
-                logic.getFeedbackSession(feedbackSessionName, courseId));
+        new GateKeeper().verifyAccessible(getStudent(), logic.getFeedbackSession(feedbackSessionName, courseId));
     }
 
     protected StudentAttributes getStudent() {
         if (student == null) {
             student = logic.getStudentForGoogleId(courseId, account.googleId);
         }
+
         return student;
     }
 
@@ -34,8 +32,7 @@ public class StudentFeedbackQuestionSubmissionEditPageAction extends
     }
 
     @Override
-    protected FeedbackSessionQuestionsBundle getDataBundle(
-            String userEmailForCourse) throws EntityDoesNotExistException {
+    protected FeedbackSessionQuestionsBundle getDataBundle(String userEmailForCourse) throws EntityDoesNotExistException {
         return logic.getFeedbackSessionQuestionsBundleForStudent(
                 feedbackSessionName, courseId, feedbackQuestionId, userEmailForCourse);
     }
@@ -47,10 +44,10 @@ public class StudentFeedbackQuestionSubmissionEditPageAction extends
     
     @Override
     protected void setStatusToAdmin() {
-        statusToAdmin = "Show student feedback question submission edit page<br>" +
-                "Question ID: " + feedbackQuestionId + "<br>" +
-                "Session Name: " + feedbackSessionName + "<br>" + 
-                "Course ID: " + courseId;
+        statusToAdmin = "Show student feedback question submission edit page<br>"
+                        + "Question ID: " + feedbackQuestionId + "<br>"
+                        + "Session Name: " + feedbackSessionName + "<br>"
+                        + "Course ID: " + courseId;
     }
 
     @Override

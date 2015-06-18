@@ -16,11 +16,13 @@ public class StudentAttributesFactory {
     public static final int MAX_FIELD_COUNT = 5;
 
     public static final String ERROR_HEADER_ROW_FIELD_REPEATED = "The header row contains repeated fields";
-    public static final String ERROR_HEADER_ROW_FIELD_MISSED = "The following required column names are missing in the header row";
+    public static final String ERROR_HEADER_ROW_FIELD_MISSED =
+            "The following required column names are missing in the header row";
 
     public static final String ERROR_ENROLL_LINE_EMPTY = "Enroll line was empty\n";
-    public static final String ERROR_ENROLL_LINE_TOOFEWPARTS = "Enroll line had fewer than the minimally expected "
-                                                             + MIN_FIELD_COUNT + " columns (Team, Name and Email)\n";
+    public static final String ERROR_ENROLL_LINE_TOOFEWPARTS =
+            "Enroll line had fewer than the minimally expected "
+            + MIN_FIELD_COUNT + " columns (Team, Name and Email)\n";
 
     public static final int FIRST_COLUMN_INDEX = 0;
     public static final int SECOND_COLUMN_INDEX = 1;
@@ -51,7 +53,7 @@ public class StudentAttributesFactory {
      * doesn't contain all required columns, then it is ignored and treated as a
      * normal enroll line. <br>
      * Pre-condition: headerRow must not be null
-     * 
+     *
      * @throws EnrollException
      */
     public StudentAttributesFactory(String headerRow) throws EnrollException {
@@ -70,11 +72,10 @@ public class StudentAttributesFactory {
 
     /**
      * Return a StudentAttributes object created from the given enrollLine.
-     * 
+     *
      * @throws EnrollException
      */
-    public StudentAttributes makeStudent(String enrollLine, String courseId)
-            throws EnrollException {
+    public StudentAttributes makeStudent(String enrollLine, String courseId) throws EnrollException {
         if (enrollLine.isEmpty()) {
             throw new EnrollException(ERROR_ENROLL_LINE_EMPTY);
         }
@@ -82,8 +83,9 @@ public class StudentAttributesFactory {
         String[] columns = splitLineIntoColumns(enrollLine);
 
         boolean hasMissingFields = columns.length <= teamColumnIndex
-                                || columns.length <= nameColumnIndex
-                                || columns.length <= emailColumnIndex;
+                                   || columns.length <= nameColumnIndex
+                                   || columns.length <= emailColumnIndex;
+
         if (hasMissingFields) {
             throw new EnrollException(ERROR_ENROLL_LINE_TOOFEWPARTS);
         }
@@ -93,11 +95,13 @@ public class StudentAttributesFactory {
         String paramEmail = columns[emailColumnIndex].trim();
 
         String paramComment = "";
+
         if (hasComment && columns.length > commentColumnIndex) {
             paramComment = columns[commentColumnIndex].trim();
         }
 
         String paramSection;
+
         if (hasSection && columns.length > sectionColumnIndex) {
             paramSection = columns[sectionColumnIndex].trim();
         } else {
@@ -151,6 +155,7 @@ public class StudentAttributesFactory {
                 // do nothing as it is a empty column
             }
         }
+
         if (count > fieldCount) {
             throw new EnrollException(ERROR_HEADER_ROW_FIELD_REPEATED);
         }
@@ -163,5 +168,4 @@ public class StudentAttributesFactory {
         String[] cols = line.replace("|", "\t").split("\t", -1);
         return cols;
     }
-
 }

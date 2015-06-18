@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.common.util.Assumption;
@@ -165,49 +166,40 @@ public class FieldValidatorTest extends BaseTestCase{
         
         String nameContainInvalidChars = "Dr. Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length with invalid characters", 
-                String.format(
-                        INVALID_NAME_ERROR_MESSAGE, 
-                        nameContainInvalidChars, typicalFieldName, REASON_CONTAINS_INVALID_CHAR, typicalFieldName),
-                validator.getValidityInfoForAllowedName(
-                        typicalFieldName, 
-                        maxLength, 
-                        nameContainInvalidChars));
+                     String.format(INVALID_NAME_ERROR_MESSAGE, Sanitizer.sanitizeForHtml(nameContainInvalidChars),
+                                   typicalFieldName, REASON_CONTAINS_INVALID_CHAR, typicalFieldName),
+                     validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
+                                                             nameContainInvalidChars));
         
         ______TS("failure: starts with non-alphanumeric character");
         
         String nameStartedWithNonAlphaNumChar = "!Amy-Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length with invalid characters", 
-                String.format(
-                        INVALID_NAME_ERROR_MESSAGE, 
-                        nameStartedWithNonAlphaNumChar, typicalFieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, typicalFieldName),
-                validator.getValidityInfoForAllowedName(
-                        typicalFieldName, 
-                        maxLength, 
-                        nameStartedWithNonAlphaNumChar));
+                     String.format(INVALID_NAME_ERROR_MESSAGE,
+                                   Sanitizer.sanitizeForHtml(nameStartedWithNonAlphaNumChar),
+                                   typicalFieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, typicalFieldName),
+                     validator.getValidityInfoForAllowedName(typicalFieldName,  maxLength, 
+                                                             nameStartedWithNonAlphaNumChar));
         
         ______TS("failure: starts with curly braces but contains invalid char");
         
         String nameStartedWithBracesButHasInvalidChar = "{Amy} -Bén s/o O'&|% 2\t\n (~!@#$^*+_={}[]\\:;\"<>?)";
         assertEquals("invalid: typical length with invalid characters", 
-                String.format(
-                        INVALID_NAME_ERROR_MESSAGE, 
-                        nameStartedWithBracesButHasInvalidChar, typicalFieldName, REASON_CONTAINS_INVALID_CHAR, typicalFieldName),
-                validator.getValidityInfoForAllowedName(
-                        typicalFieldName, 
-                        maxLength, 
-                        nameStartedWithBracesButHasInvalidChar));
+                     String.format(INVALID_NAME_ERROR_MESSAGE,
+                                   Sanitizer.sanitizeForHtml(nameStartedWithBracesButHasInvalidChar),
+                                   typicalFieldName, REASON_CONTAINS_INVALID_CHAR, typicalFieldName),
+                     validator.getValidityInfoForAllowedName(typicalFieldName, maxLength, 
+                                                             nameStartedWithBracesButHasInvalidChar));
         
         ______TS("failure: starts with opening curly bracket but dose not have closing bracket");
         
         String nameStartedWithCurlyBracketButHasNoEnd = "{Amy -Bén s/o O'&|% 2\t\n (~!@#$^*+_={[]\\:;\"<>?)";
         assertEquals("invalid: typical length started with non-alphanumeric character", 
-                String.format(
-                        INVALID_NAME_ERROR_MESSAGE, 
-                        nameStartedWithCurlyBracketButHasNoEnd, typicalFieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, typicalFieldName),
-                validator.getValidityInfoForAllowedName(
-                        typicalFieldName, 
-                        maxLength, 
-                        nameStartedWithCurlyBracketButHasNoEnd));
+                     String.format(INVALID_NAME_ERROR_MESSAGE, 
+                                   Sanitizer.sanitizeForHtml(nameStartedWithCurlyBracketButHasNoEnd),
+                                   typicalFieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR, typicalFieldName),
+                     validator.getValidityInfoForAllowedName(typicalFieldName, maxLength,
+                                                             nameStartedWithCurlyBracketButHasNoEnd));
         
         ______TS("success: with opening and closing curly braces");
         
@@ -422,7 +414,8 @@ public class FieldValidatorTest extends BaseTestCase{
         testOnce("invalid: disallowed char", 
                 FieldType.GOOGLE_ID, 
                 valueWithDisallowedChar, 
-                String.format(GOOGLE_ID_ERROR_MESSAGE, valueWithDisallowedChar, REASON_INCORRECT_FORMAT));
+                String.format(GOOGLE_ID_ERROR_MESSAGE, Sanitizer.sanitizeForHtml(valueWithDisallowedChar),
+                              REASON_INCORRECT_FORMAT));
         
     }
     

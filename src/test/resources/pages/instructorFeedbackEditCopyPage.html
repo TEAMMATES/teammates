@@ -364,6 +364,7 @@
                                     <div class="form-group">
                                         <label data-placement="top" data-toggle="tooltip" title="" for="instructions" class="col-sm-2 control-label" data-original-title="Enter instructions for this feedback session. e.g. Avoid comments which are too critical.&lt;br /&gt; It will be displayed at the top of the page when users respond to the session.">Instructions</label>
                                         <div class="col-sm-10">
+                                            <!-- Do not add whitespace between the opening and closing tags-->
                                             <textarea id="instructions" name="instructions" cols="100%" rows="4" class="form-control" disabled="disabled">Instructions for first session
                                             </textarea>
                                         </div>
@@ -757,6 +758,7 @@
                     <div class="panel-body">
                         <div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-blue">
                             <div>
+                                <!-- Do not add whitespace between the opening and closing tags-->
                                 <textarea disabled="disabled" tabindex="9" title="" data-placement="top" data-toggle="tooltip" id="questiontext-1" name="questiontext" rows="5" class="form-control textvalue nonDestructive" data-original-title="Please enter the question for users to give feedback about. e.g. What is the biggest weakness of the presented product?">student self feedback
                                 </textarea>
                             </div>
@@ -1062,6 +1064,12 @@
                         <span class="glyphicon glyphicon-plus">
                         </span> add more options
                     </a>
+                    <div class="control-label">
+                        <label>
+                            <input id="mcqOtherOptionFlag--1" name="mcqOtherOptionFlag" onchange="toggleMcqOtherOptionEnabled(this, -1)" 
+                                   type="checkbox"/>Add &#39;Other&#39; option (Allows respondents to type in their own answer)
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>

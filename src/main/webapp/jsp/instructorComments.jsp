@@ -542,13 +542,13 @@
                                                                 </table>
                                                             </div>
                                                             <div class="form-group">
+                                                               <!-- Do not add whitespace between the opening and closing tags-->
                                                                 <textarea
                                                                     class="form-control"
                                                                     rows="3"
                                                                     placeholder="Your comment about this student"
                                                                     name=<%= Const.ParamsNames.COMMENT_TEXT %>
-                                                                    id="commentText<%= commentIdx %>"><%= comment.commentText.getValue() %>
-                                                                </textarea>
+                                                                    id="commentText<%= commentIdx %>"><%= comment.commentText.getValue() %></textarea>
                                                             </div>
                                                             <div class="col-sm-offset-5">
                                                                 <input

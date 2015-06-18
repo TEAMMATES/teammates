@@ -19,8 +19,6 @@ import teammates.common.util.Url;
 import teammates.storage.entity.Student;
 
 public class StudentAttributes extends EntityAttributes {
-
-    // =========================================================================
     public enum UpdateStatus {
         // @formatter:off
         ERROR(0),
@@ -55,8 +53,6 @@ public class StudentAttributes extends EntityAttributes {
             }
         }
     }
-
-    // =========================================================================
 
     // @formatter:off
     // Note: be careful when changing these variables as their names are used in *.json files.
@@ -135,17 +131,17 @@ public class StudentAttributes extends EntityAttributes {
 
     public String getRegistrationUrl() {
         return new Url(Config.APP_URL + Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
-                       .withRegistrationKey(StringHelper.encrypt(key))
-                       .withStudentEmail(email)
-                       .withCourseId(course)
-                       .toString();
+                                           .withRegistrationKey(StringHelper.encrypt(key))
+                                           .withStudentEmail(email)
+                                           .withCourseId(course)
+                                           .toString();
     }
 
     public String getPublicProfilePictureUrl() {
         return new Url(Const.ActionURIs.STUDENT_PROFILE_PICTURE)
-                       .withStudentEmail(StringHelper.encrypt(email))
-                       .withCourseId(StringHelper.encrypt(course))
-                       .toString();
+                           .withStudentEmail(StringHelper.encrypt(email))
+                           .withCourseId(StringHelper.encrypt(course))
+                           .toString();
     }
 
     public boolean isEnrollInfoSameAs(StudentAttributes otherStudent) {
@@ -168,40 +164,35 @@ public class StudentAttributes extends EntityAttributes {
 
         if (isRegistered()) {
             error = validator.getInvalidityInfo(FieldType.GOOGLE_ID, googleId);
+
             if (!error.isEmpty()) {
                 errors.add(error);
             }
         }
 
         error = validator.getInvalidityInfo(FieldType.COURSE_ID, course);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+
+        if (!error.isEmpty()) { errors.add(error); }
 
         error = validator.getInvalidityInfo(FieldType.EMAIL, email);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+
+        if (!error.isEmpty()) { errors.add(error); }
 
         error = validator.getInvalidityInfo(FieldType.TEAM_NAME, team);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+
+        if (!error.isEmpty()) { errors.add(error); }
 
         error = validator.getInvalidityInfo(FieldType.SECTION_NAME, section);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+
+        if (!error.isEmpty()) { errors.add(error); }
 
         error = validator.getInvalidityInfo(FieldType.STUDENT_ROLE_COMMENTS, comments);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+
+        if (!error.isEmpty()) { errors.add(error); }
 
         error = validator.getInvalidityInfo(FieldType.PERSON_NAME, name);
-        if (!error.isEmpty()) {
-            errors.add(error);
-        }
+
+        if (!error.isEmpty()) { errors.add(error); }
 
         return errors;
     }
@@ -217,8 +208,10 @@ public class StudentAttributes extends EntityAttributes {
                     if (student1.team.compareTo(student2.team) == 0) {
                         return student1.name.compareTo(student2.name);
                     }
+
                     return student1.team.compareTo(student2.team);
                 }
+
                 return sect1.compareTo(sect2);
             }
         });
@@ -234,6 +227,7 @@ public class StudentAttributes extends EntityAttributes {
                 if (team1.compareTo(team2) == 0) {
                     return student1.name.compareTo(student2.name);
                 }
+
                 return team1.compareTo(team2);
             }
         });
@@ -243,8 +237,11 @@ public class StudentAttributes extends EntityAttributes {
         Collections.sort(students, new Comparator<StudentAttributes>() {
             public int compare(StudentAttributes student1, StudentAttributes student2) {
                 int result = student1.name.compareTo(student2.name);
-                if (result == 0)
+
+                if (result == 0) {
                     result = student1.email.compareTo(student2.email);
+                }
+
                 return result;
             }
         });
@@ -254,18 +251,23 @@ public class StudentAttributes extends EntityAttributes {
         if (this.email == null) {
             this.email = originalStudent.email;
         }
+
         if (this.name == null) {
             this.name = originalStudent.name;
         }
+
         if (this.googleId == null) {
             this.googleId = originalStudent.googleId;
         }
+
         if (this.team == null) {
             this.team = originalStudent.team;
         }
+
         if (this.comments == null) {
             this.comments = originalStudent.comments;
         }
+
         if (this.section == null) {
             this.section = originalStudent.section;
         }
@@ -283,6 +285,7 @@ public class StudentAttributes extends EntityAttributes {
         String indentString = StringHelper.getIndent(indent);
         StringBuilder sb = new StringBuilder();
         sb.append(indentString + "Student:" + name + "[" + email + "]" + EOL);
+
         return sb.toString();
     }
 
@@ -323,5 +326,4 @@ public class StudentAttributes extends EntityAttributes {
         this.section = Sanitizer.sanitizeForHtml(this.section);
         this.comments = Sanitizer.sanitizeForHtml(this.comments);
     }
-
 }

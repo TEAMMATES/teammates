@@ -171,10 +171,4 @@ public class StudentProfilePage extends AppPage {
                                                           .getAttribute("value"));
     }
 
-    // TODO method unused
-    public void verifyPictureIsVisible(int height) throws Exception {
-        assertEquals(height, Integer.parseInt(browser.driver.findElement(By.className("jcrop-holder"))
-                                                     .getCssValue("height")));
-    }
-
 }
