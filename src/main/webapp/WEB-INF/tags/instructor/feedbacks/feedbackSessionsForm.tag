@@ -264,11 +264,11 @@
                 </div>
             </div>
         </c:if>
-        <c:if test="${!fsForm.courseIdEditable}">
-            <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${fsForm.courseIdForNewSession}">
-        </c:if>
         <c:if test="${!fsForm.fsNameEditable}">
             <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${fsForm.fsName}">
+        </c:if>
+        <c:if test="${!fsForm.courseIdEditable}">
+            <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${fsForm.courseIdForNewSession}">
         </c:if>
         <input type="hidden"
             name="<%= Const.ParamsNames.USER_ID %>"
