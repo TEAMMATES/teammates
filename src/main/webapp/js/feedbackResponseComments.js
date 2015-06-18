@@ -12,12 +12,13 @@ var addCommentHandler = function(e) {
     var formData = formObject.serialize();
     var responseCommentId = addFormRow.parent().attr('id');
     var numberOfComments = addFormRow.parent().find('li').length;
+    var commentId = responseCommentId.substring(21) + '-' + numberOfComments;
     
     e.preventDefault();
     
     $.ajax({
         type: 'POST',
-        url: submitButton.attr('href') + "?" + formData,
+        url: submitButton.attr('href') + "?" + formData + "&commentid=" + commentId,
         beforeSend: function() {
             formObject.find("textarea").prop("disabled", true);
             submitButton.html("<img src='/images/ajax-loader.gif'/>");
@@ -39,7 +40,7 @@ var addCommentHandler = function(e) {
                     } else {
                         // Inject new comment row
                         addFormRow.parent().attr("class", "list-group");
-                        addFormRow.before(generateNewCommentRow(data, responseCommentId, numberOfComments));
+                        addFormRow.before(data);
                         var newCommentRow = addFormRow.prev();
                         newCommentRow.find("form[class*='responseCommentEditForm'] > div > a[id*='button_save_comment_for_edit']").click(editCommentHandler);
                         newCommentRow.find("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
