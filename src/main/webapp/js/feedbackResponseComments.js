@@ -41,6 +41,7 @@ var addCommentHandler = function(e) {
                         // Inject new comment row
                         addFormRow.parent().attr("class", "list-group");
                         addFormRow.before(data);
+                        removeUnwantedVisibilityOptions(commentId);
                         var newCommentRow = addFormRow.prev();
                         newCommentRow.find("form[class*='responseCommentEditForm'] > div > a[id*='button_save_comment_for_edit']").click(editCommentHandler);
                         newCommentRow.find("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
@@ -334,6 +335,33 @@ function generateNewCommentRow(data, responseCommentId, numberOfComments) {
     + "</form>"
     + "</li>";
     return newRow;
+}
+
+function removeUnwantedVisibilityOptions(commentId) {
+    var addFormId = "showResponseCommentAddForm-" + commentId.split('-').splice(0, 3).join('-');
+    var checkboxesInInAddForm = $('#' + addFormId).find('tr').find("input.visibilityCheckbox");
+    var valuesOfCheckbox = [];
+    for (var i = 0; i < checkboxesInInAddForm.length; i++) {
+        valuesOfCheckbox.push($(checkboxesInInAddForm[i]).val());
+    }
+    if (valuesOfCheckbox.indexOf('GIVER') == -1) {
+        $("#response-giver-" + commentId).remove();
+    }
+    if (valuesOfCheckbox.indexOf('RECEIVER') == -1) {
+        $("#response-recipient-" + commentId).remove();
+    }
+    if (valuesOfCheckbox.indexOf('OWN_TEAM_MEMBERS') == -1) {
+        $("#response-giver-team-" + commentId).remove();
+    }
+    if (valuesOfCheckbox.indexOf('RECEIVER_TEAM_MEMBERS') == -1) {
+        $("#response-recipient-team-" + commentId).remove();
+    }
+    if (valuesOfCheckbox.indexOf('STUDENTS') == -1) {
+        $("#response-students-" + commentId).remove();
+    }
+    if (valuesOfCheckbox.indexOf('INSTRUCTORS') == -1) {
+        $("#response-instructors-" + commentId).remove();
+    }
 }
 
 function generateNewCommentVisibilityTable(data, addedCommentId) {
