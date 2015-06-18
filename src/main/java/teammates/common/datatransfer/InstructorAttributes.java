@@ -311,4 +311,9 @@ public class InstructorAttributes extends EntityAttributes {
                    && this.privileges.equals(instructor.privileges);
         }
     }
+    
+    public String getRole() {
+        return this.role;
+    }
+    
 }

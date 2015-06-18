@@ -322,10 +322,10 @@ public class PageData {
      * @return "Yet to Join" or "Joined"
      */
     public String getStudentStatus(StudentAttributes student) {
-        if (student.googleId == null || student.googleId.equals("")) {
-            return Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
-        } else {
+        if (student.isRegistered()) {
             return Const.STUDENT_COURSE_STATUS_JOINED;
+        } else {
+            return Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
         }
     }
     
