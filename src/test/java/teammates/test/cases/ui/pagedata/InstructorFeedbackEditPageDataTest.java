@@ -161,7 +161,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         
         assertEquals("My comments on the class", questionForms.get(2).getQuestionText());
         
-        assertEquals("-3", questionForms.get(0).getQuestionNumberSuffix());
+        assertEquals("-3", questionForms.get(2).getQuestionNumberSuffix());
         
         assertEquals(true, questionForms.get(2).getGeneralSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
         assertEquals(1, questionForms.get(2).getGeneralSettings().getNumOfEntitiesToGiveFeedbackToValue());
@@ -188,7 +188,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
                         .withCourseId(fs.courseId)
                         .withSessionName(fs.feedbackSessionName).toString(), newQuestionForm.getDoneEditingLink().toString());
         assertEquals(false, newQuestionForm.getGeneralSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
-        assertEquals("", questionForms.get(0).getQuestionNumberSuffix());
+        assertEquals("", newQuestionForm.getQuestionNumberSuffix());
         
         assertEquals(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                             .withUserId(instructor.googleId)
