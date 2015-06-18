@@ -12,6 +12,7 @@
             <package name="teammates.test.cases" />
             <package name="teammates.test.cases.storage" />
             <package name="teammates.test.cases.ui" />
+            <package name="teammates.test.cases.ui.pagedata" />
         </packages>
         <classes>
             <class name="teammates.test.cases.testdriver.DataBundleTest" />

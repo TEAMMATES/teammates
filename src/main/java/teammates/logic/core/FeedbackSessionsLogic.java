@@ -129,6 +129,8 @@ public class FeedbackSessionsLogic {
     }
 
     /**
+     * Checks if the specified course exists, then gets the feedback sessions for
+     * the specified user in the course if it does exist.
      * 
      * @param courseId
      * @param userEmail
@@ -143,7 +145,21 @@ public class FeedbackSessionsLogic {
             throw new EntityDoesNotExistException(
                     "Trying to get feedback sessions for a course that does not exist.");
         }
+        return getFeedbackSessionsForUserInCourseSkipCheck(courseId, userEmail);
+    }
 
+    /**
+     * Gets the feedback sessions for the specified user in the specified course
+     * without checking for the course's existence.<br>
+     * This method is usually called after the course's existence is assumed or
+     * has been verified.
+     * 
+     * @param courseId
+     * @param userEmail
+     * @return a list of viewable feedback sessions for any user for his course.
+     */
+    public List<FeedbackSessionAttributes> getFeedbackSessionsForUserInCourseSkipCheck(
+            String courseId, String userEmail) {
         List<FeedbackSessionAttributes> sessions =
                 getFeedbackSessionsForCourse(courseId);
         List<FeedbackSessionAttributes> viewableSessions = new ArrayList<FeedbackSessionAttributes>();
@@ -2359,12 +2375,7 @@ public class FeedbackSessionsLogic {
      */
     private boolean isFeedbackSessionViewableTo(
             FeedbackSessionAttributes session,
-            String userEmail) throws EntityDoesNotExistException {
-
-        if (session == null) {
-            throw new EntityDoesNotExistException(
-                    "Trying to get a feedback session that does not exist.");
-        }
+            String userEmail) {
 
         // Check for private type first.
         if (session.feedbackSessionType == FeedbackSessionType.PRIVATE) {
@@ -2384,8 +2395,7 @@ public class FeedbackSessionsLogic {
     }
 
     public boolean isFeedbackSessionViewableToStudents(
-            FeedbackSessionAttributes session)
-            throws EntityDoesNotExistException {
+            FeedbackSessionAttributes session) {
         // Allow students to view the feedback session if there are questions for them
         List<FeedbackQuestionAttributes> questionsToAnswer =
                 fqLogic.getFeedbackQuestionsForStudents(
@@ -2400,8 +2410,7 @@ public class FeedbackSessionsLogic {
         // where the responses of the questions are visible to the students
         List<FeedbackQuestionAttributes> questionsWithVisibleResponses = new ArrayList<FeedbackQuestionAttributes>();
         List<FeedbackQuestionAttributes> questionsForInstructors =
-                                        fqLogic.getFeedbackQuestionsForCreatorInstructor(session.feedbackSessionName, 
-                                                                                         session.courseId);
+                                        fqLogic.getFeedbackQuestionsForCreatorInstructor(session);
         for (FeedbackQuestionAttributes question : questionsForInstructors) {
             if (frLogic.isResponseOfFeedbackQuestionVisibleToStudent(question)) {
                 questionsWithVisibleResponses.add(question);
