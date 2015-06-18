@@ -8,8 +8,6 @@
 <%@ attribute name="nextPageLink" required="true" %>
 <ul class="pagination">
     <li><a href="${previousPageLink}">«</a></li>
-    <%--<li class="<%= data.isViewingDraft ? "active" : "" %>"><a
-        href="<%= data.getInstructorCommentsLink() %>">Drafts</a></li>--%>
     <c:forEach items="${coursePaginationList}" var="courseId">
         <li
             class="${!viewingDraft && courseId == currentCourseId ? 'active' : ''}">
