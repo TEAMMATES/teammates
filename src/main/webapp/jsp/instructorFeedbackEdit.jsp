@@ -44,6 +44,9 @@
     
     <feedbackEdit:newQuestionForm fqForm="${data.newQnForm}" />
     <feedbackEdit:copyQuestionModal copyQnForm="${data.copyQnForm}" />
+    
+    <br/>
+    <br/>
     <feedbackEdit:previewSessionForm previewForm="${data.previewForm}" />
     
     <br>
