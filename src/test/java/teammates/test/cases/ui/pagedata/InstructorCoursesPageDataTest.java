@@ -11,24 +11,19 @@ import java.util.Map;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-//import com.google.gson.Gson;
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-//import teammates.common.util.Utils;
-import teammates.test.cases.BaseComponentTestCase;
+import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorCoursesPageData;
 
-public class InstrutorCoursesPageDataTest extends BaseComponentTestCase {
-    //private static Gson gson = Utils.getTeammatesGson();
+public class InstructorCoursesPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
     }
     
     @Test
