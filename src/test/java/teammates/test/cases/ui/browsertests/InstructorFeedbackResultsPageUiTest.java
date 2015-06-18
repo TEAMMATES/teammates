@@ -457,6 +457,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.verifyContains("id=\"frComment-visibility-options-trigger-0-1-1-1\"");
         resultsPage.verifyCommentRowContent("-0-1-1-2", "test comment 2", "CFResultsUiT.instr@gmail.tmt");
         resultsPage.verifyContains("id=\"visibility-options-0-1-1-2\"");
+        
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsAddComment.html");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
         resultsPage.displayByRecipientGiverQuestion();
