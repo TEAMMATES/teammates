@@ -253,7 +253,13 @@ public class InstructorFeedbacksPage extends AppPage {
         
         selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
         
-        clickCopyTableAtRow(0);
+        clickCopyTableRadioButtonAtRow(3);
+        clickCopyTableRadioButtonAtRow(2);
+        clickCopyTableAtRow(1);
+        clickCopyTableRadioButtonAtRow(4);
+        clickCopyTableAtRow(3);
+        clickCopyTableAtRow(1);
+        clickCopyTableRadioButtonAtRow(0);
         
         clickCopySubmitButton();
     }
@@ -263,6 +269,13 @@ public class InstructorFeedbacksPage extends AppPage {
                                        .findElements(By.tagName("tr"))
                                        .get(rowIndex + 1);
         row.click();
+    }
+    
+    public void clickCopyTableRadioButtonAtRow(int rowIndex) {
+        WebElement button = browser.driver.findElement(By.id("copyTableModal"))
+                                       .findElements(By.tagName("tr"))
+                                       .get(rowIndex + 1).findElement(By.tagName("input"));
+        button.click();
     }
     
     public void fillStartTime (Date startTime) {
