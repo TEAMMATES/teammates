@@ -51,6 +51,14 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
             this.isArchived = status.booleanValue(); 
         }
     }
+
+    public String getId() {
+        return this.id;
+    }
+    
+    public String getName() {
+        return this.name;
+    }
     
     public List<String> getInvalidityInfo() {
         

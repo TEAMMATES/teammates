@@ -138,7 +138,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         String helperId = testData.accounts.get("helperWithSessions").googleId;
         
         feedbackPage = getFeedbackPageForInstructor(helperId);
-        feedbackPage.verifyHtmlAjax("/instructorFeedbacksAllSessionTypesWithHelperView.html");
+        feedbackPage.verifyHtmlAjax("/instructorFeedbackAllSessionTypesWithHelperView.html");
         
         
         ______TS("typical case, sort by name");

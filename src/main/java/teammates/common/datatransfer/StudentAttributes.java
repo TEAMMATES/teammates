@@ -143,6 +143,14 @@ public class StudentAttributes extends EntityAttributes {
                            .withCourseId(StringHelper.encrypt(course))
                            .toString();
     }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
 
     public boolean isEnrollInfoSameAs(StudentAttributes otherStudent) {
         return (otherStudent != null) && otherStudent.email.equals(this.email)
@@ -325,5 +333,13 @@ public class StudentAttributes extends EntityAttributes {
         this.team = Sanitizer.sanitizeForHtml(this.team);
         this.section = Sanitizer.sanitizeForHtml(this.section);
         this.comments = Sanitizer.sanitizeForHtml(this.comments);
+    }
+    
+    public String getSection() {
+        return this.section;
+    }
+    
+    public String getTeam() {
+        return this.team;
     }
 }
