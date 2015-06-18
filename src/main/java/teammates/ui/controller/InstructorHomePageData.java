@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +17,6 @@ import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.ui.template.CourseTable;
 import teammates.ui.template.ElementTag;
-import teammates.ui.template.CourseTableSessionRow;
 
 public class InstructorHomePageData extends PageData {
 
@@ -160,35 +160,35 @@ public class InstructorHomePageData extends PageData {
         }
     }
     
-    private List<CourseTableSessionRow> createSessionRows(List<FeedbackSessionAttributes> sessions,
+    private List<Map<String, String>> createSessionRows(List<FeedbackSessionAttributes> sessions,
             InstructorAttributes instructor, String courseId) {
-        List<CourseTableSessionRow> rows = new ArrayList<CourseTableSessionRow>();
+        List<Map<String, String>> rows = new ArrayList<Map<String, String>>();
         int displayedStatsCount = 0;
         
         for (FeedbackSessionAttributes session : sessions) {
-            String name = PageData.sanitizeForHtml(session.feedbackSessionName);
-            String tooltip = PageData.getInstructorHoverMessageForFeedbackSession(session);
-            String status = PageData.getInstructorStatusForFeedbackSession(session);
-            String href = getFeedbackSessionStatsLink(session.courseId, session.feedbackSessionName);
+            Map<String, String> columns = new HashMap<String, String>();
             
-            String recent = "";
+            columns.put("name", sanitizeForHtml(session.feedbackSessionName));
+            columns.put("tooltip", getInstructorHoverMessageForFeedbackSession(session));
+            columns.put("status", getInstructorStatusForFeedbackSession(session));
+            columns.put("href", getFeedbackSessionStatsLink(session.courseId, session.feedbackSessionName));
+            
             if (session.isOpened() || session.isWaitingToOpen()) {
-                recent = " recent";
+                columns.put("recent", " recent");
             } else if (displayedStatsCount < InstructorHomePageData.MAX_CLOSED_SESSION_STATS
                        && !TimeHelper.isOlderThanAYear(session.createdTime)) {
-                recent = " recent";
+                columns.put("recent", " recent");
                 ++displayedStatsCount;
             }
             
-            String actions = "";
             try {
-                actions = getInstructorFeedbackSessionActions(session, false, instructor,
-                                                getCourseIdSectionNamesMap(sessions).get(courseId));
+                columns.put("actions", getInstructorFeedbackSessionActions(session, false, instructor,
+                                               getCourseIdSectionNamesMap(sessions).get(courseId)));
             } catch (EntityDoesNotExistException e) {
                 // nothing
             }
             
-            rows.add(new CourseTableSessionRow(name, tooltip, status, href, recent, actions));
+            rows.add(columns);
         }
         
         return rows;
