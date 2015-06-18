@@ -1,7 +1,10 @@
 package teammates.ui.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -32,6 +35,8 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         Assumption.assertNotNull("null feedback question id", feedbackQuestionId);
         String feedbackResponseId = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID);
         Assumption.assertNotNull("null feedback response id", feedbackResponseId);
+        String commentId = getRequestParamValue(Const.ParamsNames.COMMENT_ID);
+        Assumption.assertNotNull("null comment id", commentId);
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
@@ -103,10 +108,28 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         }
         
         data.comment = createdComment;
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz YYYY");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        data.commentId = commentId;
+        data.commentTime = sdf.format(createdComment.createdAt);
+        data.showCommentToString = joinParticipantTypes(createdComment.showCommentTo, ",");
+        data.showGiverNameToString = joinParticipantTypes(createdComment.showGiverNameTo, ",");
         
-        return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD, data);
     }
 
+    private String joinParticipantTypes(List<FeedbackParticipantType> participants, String joiner) {
+        if (participants.isEmpty()) {
+            return "";
+        } else {
+            String result = "";
+            for (FeedbackParticipantType fpt: participants) {
+                result += fpt + joiner;
+            }
+            return result.substring(0, result.length() - joiner.length());
+        }
+    }
+    
     private boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
         return (comment.isVisibleTo(FeedbackParticipantType.GIVER)
              || comment.isVisibleTo(FeedbackParticipantType.RECEIVER)

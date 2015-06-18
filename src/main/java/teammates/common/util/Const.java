@@ -709,6 +709,7 @@ public class Const {
     
         public static final String INSTRUCTOR_HOME = "/jsp/instructorHome.jsp"; 
         public static final String INSTRUCTOR_COMMENTS = "/jsp/instructorComments.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD = "/jsp/instructorFeedbackResponseCommentsAdd.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_LOAD = "/jsp/instructorFeedbackResponseCommentsLoad.jsp";
         public static final String INSTRUCTOR_COURSES = "/jsp/instructorCourses.jsp"; 
         public static final String INSTRUCTOR_COURSE_EDIT = "/jsp/instructorCourseEdit.jsp"; 
