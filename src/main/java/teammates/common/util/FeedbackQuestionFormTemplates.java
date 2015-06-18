@@ -8,6 +8,7 @@ public class FeedbackQuestionFormTemplates {
     
     public static String MCQ_SUBMISSION_FORM = FileHelper.readResourseFile("feedbackQuestionMcqSubmissionFormTemplate.html");
     public static String MCQ_SUBMISSION_FORM_OPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionMcqSubmissionFormOptionFragment.html");
+    public static String MCQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionMcqSubmissionFormOtherOptionFragment.html");
     public static String MCQ_EDIT_FORM = FileHelper.readResourseFile("feedbackQuestionMcqEditFormTemplate.html");
     public static String MCQ_EDIT_FORM_OPTIONFRAGMENT = FileHelper.readResourseFile("feedbackQuestionMcqEditFormOptionFragment.html");
     public static String MCQ_ADDITIONAL_INFO_FRAGMENT = FileHelper.readResourseFile("feedbackQuestionMcqAdditionalInfoFragment.html");

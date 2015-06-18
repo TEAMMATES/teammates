@@ -24,3 +24,15 @@ $(document).ready(function() {
         });
     });
 });
+
+/**
+ * This is the function invoked when an instructor clicks on the archive button, which asks the instructor
+ * to confirm whether or not the course should be archived
+ * 
+ * @param courseId
+ * @returns a boolean to either continue or stop the action from continuing
+ */
+function toggleArchiveCourseConfirmation(courseId) {
+    return confirm('Are you sure you want to archive ' + courseId + '? This action can be reverted'
+                   + 'by going to the "courses" tab and unarchiving the desired course(s).');
+}

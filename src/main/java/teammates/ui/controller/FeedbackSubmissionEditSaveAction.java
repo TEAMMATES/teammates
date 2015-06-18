@@ -92,6 +92,10 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
             for (int responseIndx = 0; responseIndx < numOfResponsesToGet; responseIndx++) {
                 FeedbackResponseAttributes response = extractFeedbackResponseData(requestParameters, questionIndx, responseIndx, questionAttributes);
                 
+                if (response.feedbackQuestionType != questionAttributes.questionType) {
+                    errors.add(String.format(Const.StatusMessages.FEEDBACK_RESPONSES_WRONG_QUESTION_TYPE, questionIndx));
+                }
+                
                 qnId = response.feedbackQuestionId;
                 
                 boolean isExistingResponse = response.getId() != null; 
@@ -206,6 +210,7 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
     private FeedbackResponseAttributes extractFeedbackResponseData(
             Map<String, String[]> requestParameters, int questionIndx, int responseIndx,
             FeedbackQuestionAttributes feedbackQuestionAttributes) {
+        
         FeedbackQuestionDetails questionDetails = feedbackQuestionAttributes.getQuestionDetails();
         FeedbackResponseAttributes response = new FeedbackResponseAttributes();
         
@@ -255,15 +260,15 @@ public abstract class FeedbackSubmissionEditSaveAction extends Action {
         
         // This field can be null if the question is skipped
         String[] answer = HttpRequestHelper.getValuesFromParamMap(
-                requestParameters, 
-                Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + questionIndx + "-" + responseIndx);
+                                               requestParameters, 
+                                               Const.ParamsNames.FEEDBACK_RESPONSE_TEXT + "-" + questionIndx + "-" + responseIndx);
         
         if (!questionDetails.isQuestionSkipped(answer)) {
             FeedbackResponseDetails responseDetails = 
                     FeedbackResponseDetails.createResponseDetails(
                             answer,
                             questionDetails.questionType,
-                            questionDetails);
+                            questionDetails, requestParameters, questionIndx, responseIndx);
             response.setResponseDetails(responseDetails);
         } else {
             response.responseMetaData = new Text("");

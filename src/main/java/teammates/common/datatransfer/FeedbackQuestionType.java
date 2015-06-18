@@ -63,14 +63,15 @@ public enum FeedbackQuestionType {
 
         return feedbackQuestionDetails;
     }
-
+    
     /**
      * Returns an instance of a corresponding Feedback*ResponseDetails class
      *
      * @return FeedbackResponseDetails
      */
     public FeedbackResponseDetails getFeedbackResponseDetailsInstance(FeedbackQuestionDetails questionDetails,
-                                                                      String[] answer) {
+                                                                      String[] answer, Map<String, String[]> requestParameters,
+                                                                      int questionIndx, int responseIndx) {
         FeedbackResponseDetails feedbackResponseDetails = null;
 
         switch (this) {
@@ -102,7 +103,15 @@ public enum FeedbackQuestionType {
         }
 
         try {
-            feedbackResponseDetails.extractResponseDetails(this, questionDetails, answer);
+            switch (this) {
+            case MCQ:
+                ((FeedbackMcqResponseDetails) feedbackResponseDetails).extractResponseDetails(
+                                                                           this, questionDetails, answer, requestParameters,
+                                                                               questionIndx, responseIndx);
+                break;
+            default:
+                feedbackResponseDetails.extractResponseDetails(this, questionDetails, answer);
+            }
         } catch (Exception e) {
             Utils.getLogger().warning("Failed to extract response details.\n" + e.toString());
             return null;

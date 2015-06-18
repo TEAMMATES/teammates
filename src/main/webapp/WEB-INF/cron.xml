@@ -1,16 +1,5 @@
 <cronentries>
     <cron>
-      <url>/evaluationopeningreminders</url>
-      <description>Checks and activates evaluation every hour.</description>
-      <schedule>every 60 minutes synchronized</schedule>
-      <timezone>Australia/Perth</timezone></cron>
-    <cron>
-      <url>/evaluationclosingreminders</url>
-      <description>Checks for evaluations that are due in 24 hours and send reminders to students who have not submitted their evaluations.</description>
-      <schedule>every 60 minutes from 00:08 to 23:59</schedule>
-      <timezone>Australia/Perth</timezone>
-    </cron>
-    <cron>
       <url>/feedbackSessionOpeningReminders</url>
       <description>Checks and sends out emails for feedback sessions which are about to open every hour.</description>
       <schedule>every 60 minutes from 00:02 to 23:59</schedule>
@@ -29,7 +18,7 @@
       <timezone>Australia/Perth</timezone>
     </cron>
     <cron>
-      <url>/_ah/datastore_admin/backup.create?name=BackupToCloud&amp;kind=Instructor&amp;kind=Course&amp;kind=Evaluation&amp;kind=Student&amp;kind=Submission&amp;filesystem=blobstore</url>
+      <url>/_ah/datastore_admin/backup.create?name=BackupToCloud&amp;kind=Instructor&amp;kind=Course&amp;kind=Student&amp;kind=FeedbackSession&amp;kind=FeedbackQuestion&amp;kind=FeedbackResponse&amp;kind=FeedbackResponseComment&amp;kind=Comment&amp;kind=StudentProfile&amp;filesystem=gs&amp;gs_bucket_name=/gs/teammatesv4.appspot.com/backups</url>
       <description>Weekly Backup</description>
       <schedule>every monday 05:30</schedule>
       <target>ah-builtin-python-bundle</target>
