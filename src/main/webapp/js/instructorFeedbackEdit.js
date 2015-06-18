@@ -1472,6 +1472,3 @@ function highlightRubricCol(index, questionNumber, highlight) {
         $rubricCol.removeClass('cell-selected-negative');
     }
 }
-
-
-$(document).ready(readyFeedbackEditPage);
