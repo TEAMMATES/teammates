@@ -11,7 +11,6 @@
     <script type="text/javascript" src="/js/student.js"></script>
 </c:set>
 
-
 <t:pageWithoutNavbar bodyTitle="Submit Feedback Question" pageTitle="TEAMMATES - Submit Feedback Question">
     <jsp:attribute name="jsIncludes">
         ${jsIncludes}
