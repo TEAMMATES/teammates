@@ -91,25 +91,6 @@ public class InstructorCommentsPageData extends PageData {
         return feedbackSessions;
     }
     
-    public Map<String, String> getGiverEmailToGiverNameMap() {
-        
-        Map<String, String> giverEmailToGiverNameMap = new HashMap<String, String>();
-        for (String giverEmail : comments.keySet()) {
-            
-            InstructorAttributes instructor = roster.getInstructorForEmail(giverEmail);
-            String giverDisplay = giverEmail;
-            if (giverEmail.equals(InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST)) {
-                giverDisplay = "You";
-            } else if (instructor != null) {
-                String title = instructor.displayedName;
-                giverDisplay = title + " " + instructor.name;
-            }
-            
-            giverEmailToGiverNameMap.put(giverEmail, giverDisplay);
-        }
-        return giverEmailToGiverNameMap;
-    }
-    
     public String getNextPageLink() {
         return nextPageLink;
     }
@@ -279,6 +260,25 @@ public class InstructorCommentsPageData extends PageData {
             nextPageLink = getInstructorCommentsLink() + "&courseid=" + coursePaginationList.get(courseIdx + 1);
         }
         return nextPageLink;
+    }
+
+    private Map<String, String> getGiverEmailToGiverNameMap() {
+        
+        Map<String, String> giverEmailToGiverNameMap = new HashMap<String, String>();
+        for (String giverEmail : comments.keySet()) {
+            
+            InstructorAttributes instructor = roster.getInstructorForEmail(giverEmail);
+            String giverDisplay = giverEmail;
+            if (giverEmail.equals(InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST)) {
+                giverDisplay = "You";
+            } else if (instructor != null) {
+                String title = instructor.displayedName;
+                giverDisplay = title + " " + instructor.name;
+            }
+            
+            giverEmailToGiverNameMap.put(giverEmail, giverDisplay);
+        }
+        return giverEmailToGiverNameMap;
     }
 
 }
