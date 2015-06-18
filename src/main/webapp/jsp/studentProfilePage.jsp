@@ -12,7 +12,6 @@
     <script type="text/javascript" src="/Jcrop/js/jquery.Jcrop.min.js"></script>
 </c:set>
 <ts:studentPage pageTitle="TEAMMATES - Student Profile" bodyTitle="Student Profile" jsIncludes="${jsIncludes}">
-    <br>
     <t:statusMessage />
     <br>
     <tsp:uploadPhotoModal data="${data.uploadPhotoModal}" />
