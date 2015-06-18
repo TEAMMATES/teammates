@@ -27,7 +27,6 @@ import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorFeedbackEditPageData;
-import teammates.ui.controller.PageData;
 import teammates.ui.template.AdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackQuestionCopyTable;
 import teammates.ui.template.FeedbackQuestionEditForm;

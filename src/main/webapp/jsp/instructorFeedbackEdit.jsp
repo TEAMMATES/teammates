@@ -31,8 +31,9 @@
     <ti:copyModal />
     
     <c:if test="${empty data.qnForms}">
+            <br>
             <div class="align-center bold" id="empty_message">${data.emptyFsMsg}</div>
-            <br><br>
+            <br>
     </c:if>
     <br>
     <c:forEach items="${data.qnForms}" var="question" varStatus="i">
@@ -43,4 +44,6 @@
     <feedbackEdit:copyQuestionModal copyQnForm="${data.copyQnForm}" />
     <feedbackEdit:previewSessionForm previewForm="${data.previewForm}" />
     
+    <br>
+    <br>
 </ti:instructorPage>

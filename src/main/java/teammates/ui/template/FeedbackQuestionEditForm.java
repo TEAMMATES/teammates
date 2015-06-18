@@ -36,6 +36,7 @@ public class FeedbackQuestionEditForm {
     //TODO use element tags or a new class instead of having html in java
     private String questionSpecificEditFormHtml;
     
+    private boolean isEditable;
     private FeedbackQuestionGeneralSettings generalSettings;
     
     public FeedbackQuestionEditForm() {
@@ -156,6 +157,16 @@ public class FeedbackQuestionEditForm {
 
     public void setQuestionTypeOptions(String questionTypeOptions) {
         this.questionTypeOptions = questionTypeOptions;
+    }
+
+
+    public boolean isEditable() {
+        return isEditable;
+    }
+
+
+    public void setEditable(boolean isEditable) {
+        this.isEditable = isEditable;
     }
     
     

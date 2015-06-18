@@ -162,6 +162,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         generalSettings.setVisibilityMessages(visibilityMessages);
         
         qnForm.setQuestionSpecificEditFormHtml(question.getQuestionDetails().getQuestionSpecificEditFormHtml(question.questionNumber));
+        qnForm.setEditable(false);
         
         qnForms.add(qnForm);
     }
@@ -194,6 +195,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         newQnForm.setQuestionNumberOptions(getQuestionNumberOptions(questions.size() + 1));
       
         newQnForm.setQuestionSpecificEditFormHtml(getNewQuestionSpecificEditFormHtml());
+        newQnForm.setEditable(true);
         
         setDefaultVisibilityOptions(generalSettings);
     }
