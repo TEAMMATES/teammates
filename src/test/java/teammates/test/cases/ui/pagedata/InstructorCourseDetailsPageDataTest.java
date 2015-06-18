@@ -23,7 +23,6 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        removeAndRestoreTypicalDataInDatastore();
     }
     
     @Test
