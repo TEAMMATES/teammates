@@ -13,6 +13,7 @@
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Search" jsIncludes="${jsIncludes}">
 
     <search:searchPageInput />
+    <br>
     <t:statusMessage />
     
     <c:if test="${not data.commentsForStudentsEmpty}">
