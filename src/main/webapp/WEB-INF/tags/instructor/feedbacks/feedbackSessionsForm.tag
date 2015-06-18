@@ -48,7 +48,6 @@
                                                     ${fsForm.courseIdForNewSession}
                                             </div>
                                         </h5>
-                                        <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${fsForm.courseIdForNewSession}">
                                     </c:otherwise>
                                 </c:choose>
                             </div>
@@ -109,7 +108,6 @@
                                                 ${fsForm.fsName}
                                             </div>
                                         </h5>
-                                        <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${fsForm.fsName}">
                                     </c:otherwise>
                                 </c:choose>
                             </div>
@@ -265,6 +263,12 @@
                     <b>You need to have an active(unarchived) course to create a session!</b>
                 </div>
             </div>
+        </c:if>
+        <c:if test="${!fsForm.courseIdEditable}">
+            <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${fsForm.courseIdForNewSession}">
+        </c:if>
+        <c:if test="${!fsForm.fsNameEditable}">
+            <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${fsForm.fsName}">
         </c:if>
         <input type="hidden"
             name="<%= Const.ParamsNames.USER_ID %>"
