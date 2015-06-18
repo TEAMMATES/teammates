@@ -1,5 +1,6 @@
 package teammates.ui.template;
 
+import teammates.common.datatransfer.StudentProfileAttributes;
 import teammates.common.util.StringHelper;
 
 public class StudentProfileEditBox {
@@ -15,17 +16,16 @@ public class StudentProfileEditBox {
     private String googleId;
     private String pictureUrl;
 
-    public StudentProfileEditBox(String name, String editPhoto, String shortName, String email,
-                                 String institute, String nationality, String gender,
-                                 String moreInfo, String googleId, String pictureUrl) {
+    public StudentProfileEditBox(String name, String editPhoto, StudentProfileAttributes profile, 
+                                 String googleId, String pictureUrl) {
         this.name = name;
         this.editPhoto = editPhoto;
-        this.shortName = StringHelper.convertToEmptyStringIfNull(shortName);
-        this.email = StringHelper.convertToEmptyStringIfNull(email);
-        this.institute = StringHelper.convertToEmptyStringIfNull(institute);
-        this.nationality = StringHelper.convertToEmptyStringIfNull(nationality);
-        this.gender = gender;
-        this.moreInfo = StringHelper.convertToEmptyStringIfNull(moreInfo);
+        this.shortName = StringHelper.convertToEmptyStringIfNull(profile.shortName);
+        this.email = StringHelper.convertToEmptyStringIfNull(profile.email);
+        this.institute = StringHelper.convertToEmptyStringIfNull(profile.institute);
+        this.nationality = StringHelper.convertToEmptyStringIfNull(profile.nationality);
+        this.gender = profile.gender;
+        this.moreInfo = StringHelper.convertToEmptyStringIfNull(profile.moreInfo);
         this.googleId = googleId;
         this.pictureUrl = pictureUrl;
     }

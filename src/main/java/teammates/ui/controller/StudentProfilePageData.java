@@ -22,10 +22,8 @@ public class StudentProfilePageData extends PageData {
                        + "?" + Const.ParamsNames.BLOB_KEY + "=" + profile.pictureKey
                        + "&" + Const.ParamsNames.USER_ID + "=" + account.googleId;
         }
-        this.profileEditBox = new StudentProfileEditBox(account.name, isEditingPhoto, profile.shortName,
-                                                        profile.email, profile.institute, profile.nationality,
-                                                        profile.gender, profile.moreInfo, account.googleId,
-                                                        pictureUrl);
+        this.profileEditBox = new StudentProfileEditBox(account.name, isEditingPhoto, profile,
+                                                        account.googleId, pictureUrl);
         this.uploadPhotoModal = new StudentProfileUploadPhotoModal(account.googleId, pictureUrl, profile.pictureKey);
 
     }
