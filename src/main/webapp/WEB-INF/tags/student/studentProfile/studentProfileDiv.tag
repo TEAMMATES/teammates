@@ -12,7 +12,7 @@
     <br>
     <div class="form-group row">
         <div class="col-xs-6 col-sm-5 col-md-3 cursor-pointer" title="<%= Const.Tooltips.STUDENT_PROFILE_PICTURE %>" data-toggle="tooltip" data-placement="top">
-            <img id="profilePic" src="${data.pictureUrl}" class="profile-pic" data-toggle="modal" data-target="#studentPhotoUploader" data-edit="${data.editPhoto}">
+            <img id="profilePic" src="${data.pictureUrl}" class="profile-pic" data-toggle="modal" data-target="#studentPhotoUploader" data-edit="${data.editingPhoto}">
         </div>
         <div class="">
             <button id="uploadEditPhoto" class="btn btn-primary" type="button" data-toggle="modal" data-target="#studentPhotoUploader">
