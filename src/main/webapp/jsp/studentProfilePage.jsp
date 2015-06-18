@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/student" prefix="ts" %>
-<%@ taglib tagdir="/WEB-INF/tags/student/studentProfile" prefix="tsp" %>
+<%@ taglib tagdir="/WEB-INF/tags/student/profile" prefix="tsp" %>
 <c:set var="jsIncludes">
     <link rel="stylesheet" href="/Jcrop/css/jquery.Jcrop.min.css">
     <script type="text/javascript" src="/js/student.js"></script>
