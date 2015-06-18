@@ -263,80 +263,6 @@ function enableTooltip() {
 
 $(document).ready(registerResponseCommentsEvent);
 
-function generateNewCommentRow(data, responseCommentId, numberOfComments) {
-    var addedCommentId = responseCommentId.substring(21) + '-' + numberOfComments;
-    var addedCommendFuncStr = addedCommentId.split('-').join(',');
-    var commentDate = new Date(data.comment.createdAt);
-    var commentDateStr = commentDate.toString();
-    var thisYear = commentDate.getFullYear();
-    var indexOfYear = commentDateStr.indexOf(thisYear, 0);
-    var formattedDate = commentDateStr.substring(0, indexOfYear - 1);
-    var formattedTime = commentDateStr.substring(indexOfYear + 5, indexOfYear + 14);
-    var commentTime = formattedDate + " " + formattedTime + " UTC " + thisYear;
-    
-    var classNameForRow = isInCommentsPage()? "list-group-item list-group-item-warning giver_display-by-you":
-            "list-group-item list-group-item-warning";
-    
-    var newRow =
-    // Comment Row
-    "<li class=\"" + classNameForRow + "\" id=\"responseCommentRow-" + addedCommentId + "\">"
-    + "<div id=\"commentBar-" + addedCommentId + "\">"
-    + "<span class=\"text-muted\">From: <b>you</b> [" + commentTime + "]</span>"
-    // Delete form
-    + "<form class=\"responseCommentDeleteForm pull-right\">"
-    +         "<a href=\"/page/instructorFeedbackResponseCommentDelete\" type=\"button\" id=\"commentdelete-" + data.comment.feedbackResponseCommentId + "\" class=\"btn btn-default btn-xs icon-button\"" 
-    +            " data-toggle=\"tooltip\" data-placement=\"top\" title=\"Delete this comment\">" 
-    +            "<span class=\"glyphicon glyphicon-trash glyphicon-primary\"></span>"
-    +        "</a>"
-    +   "<input type=\"hidden\" name=\"" + FEEDBACK_RESPONSE_ID + "\" value=\"" + data.comment.feedbackResponseId + "\">"
-    +     "<input type=\"hidden\" name=\"" + FEEDBACK_RESPONSE_COMMENT_ID + "\" value=\"" + data.comment.feedbackResponseCommentId + "\">"
-    +     "<input type=\"hidden\" name=\"" + COURSE_ID + "\" value=\"" + data.comment.courseId + "\">"
-    +     "<input type=\"hidden\" name=\"" + FEEDBACK_SESSION_NAME + "\" value=\"" + data.comment.feedbackSessionName + "\">"
-    +     "<input type=\"hidden\" name=\"" + USER_ID + "\" value=\"" + data.account.googleId + "\">"
-    + "</form>"
-    + "<a type=\"button\" id=\"commentedit-" + addedCommentId + "\" class=\"btn btn-default btn-xs icon-button pull-right\""
-    +         " onclick=\"showResponseCommentEditForm(" + addedCommendFuncStr + ")\""
-    +         " data-toggle=\"tooltip\" data-placement=\"top\" title=\"Edit this comment\">"
-    +     "<span class=\"glyphicon glyphicon-pencil glyphicon-primary\"></span>"
-    + "</a>"
-    + "</div>"
-    // Display Saved Comment
-    + "<div id=\"plainCommentText-" + addedCommentId + "\">" + data.comment.commentText.value + "</div>"
-    // Edit form
-    + "<form style=\"display:none;\" id=\"responseCommentEditForm-" + addedCommentId + "\" class=\"responseCommentEditForm\">"
-    +    "<div class=\"form-group form-inline\">"
-    +        "<div class=\"form-group text-muted\">"
-    +            "You may change comment's visibility using the visibility options on the right hand side."
-    +        "</div>"
-    +       "<a id=\"frComment-visibility-options-trigger-" + addedCommentId + "\" class=\"btn btn-sm btn-info pull-right\" onclick=\"toggleVisibilityEditForm(" + addedCommendFuncStr + ")\"><span class=\"glyphicon glyphicon-eye-close\"></span> Show Visibility Options</a>"
-    +    "</div>"
-    +    "<div id=\"visibility-options-" + addedCommentId + "\" class=\"panel panel-default\" style=\"display: none;\">"
-    +       "<div class=\"panel-heading\">Visibility Options</div>"
-    +       generateNewCommentVisibilityTable(data, addedCommentId)
-    +   "</div>"
-    +     "<div class=\"form-group\">"
-    +         "<textarea class=\"form-control\" rows=\"3\" placeholder=\"Your comment about this response\""
-    +             " name=\"" + FEEDBACK_RESPONSE_COMMENT_TEXT + "\""
-    +             " id=\"" + FEEDBACK_RESPONSE_COMMENT_TEXT + "\"-" + addedCommentId + "\">" + data.comment.commentText.value + "</textarea>"
-    +     "</div>"
-    +      "<div class=\"col-sm-offset-5\">"
-    +         "<a href=\"/page/instructorFeedbackResponseCommentEdit\" type=\"button\" class=\"btn btn-primary\" id=\"button_save_comment_for_edit-" + addedCommentId + "\">"
-    +             "Save"
-    +         "</a><span> </span>"
-    +        "<input type=\"button\" class=\"btn btn-default\" value=\"Cancel\" onclick=\"return hideResponseCommentEditForm(" + addedCommendFuncStr + ");\">"
-    +      "</div>"
-    +   "<input type=\"hidden\" name=\"" + FEEDBACK_RESPONSE_ID + "\" value=\"" + data.comment.feedbackResponseId + "\">"
-    +      "<input type=\"hidden\" name=\"" + FEEDBACK_RESPONSE_COMMENT_ID + "\" value=\"" + data.comment.feedbackResponseCommentId + "\">"
-    +      "<input type=\"hidden\" name=\"" + COURSE_ID + "\" value=\"" + data.comment.courseId + "\">"
-    +      "<input type=\"hidden\" name=\"" + FEEDBACK_SESSION_NAME + "\" value=\"" + data.comment.feedbackSessionName + "\">"
-    +      "<input type=\"hidden\" name=\"" + USER_ID + "\" value=\"" + data.account.googleId + "\">"
-    +    "<input type=\"hidden\" name=\"showresponsecommentsto\" value=\"" + data.comment.showCommentTo.join(",") + "\">"
-    +    "<input type=\"hidden\" name=\"showresponsegiverto\" value=\"" + data.comment.showGiverNameTo.join(",") + "\">"
-    + "</form>"
-    + "</li>";
-    return newRow;
-}
-
 function removeUnwantedVisibilityOptions(commentId) {
     var addFormId = "showResponseCommentAddForm-" + commentId.split('-').splice(0, 3).join('-');
     var checkboxesInInAddForm = $('#' + addFormId).find('tr').find("input.visibilityCheckbox");
@@ -362,51 +288,6 @@ function removeUnwantedVisibilityOptions(commentId) {
     if (valuesOfCheckbox.indexOf('INSTRUCTORS') == -1) {
         $("#response-instructors-" + commentId).remove();
     }
-}
-
-function generateNewCommentVisibilityTable(data, addedCommentId) {
-    var tableStr = "<table class=\"table text-center\" style=\"color:#000;\">"
-    +   "<tbody>"
-    +       "<tr><th class=\"text-center\">User/Group</th><th class=\"text-center\">Can see your comment</th><th class=\"text-center\">Can see your name</th></tr>";
-    var addFormId = "showResponseCommentAddForm-" + addedCommentId.split('-').splice(0, 3).join('-');
-    var checkboxesInInAddForm = $('#' + addFormId).find('tr').find("input.visibilityCheckbox");
-    var valuesOfCheckbox = [];
-    for (var i = 0; i < checkboxesInInAddForm.length; i++) {
-        valuesOfCheckbox.push($(checkboxesInInAddForm[i]).val());
-    }
-    if (valuesOfCheckbox.indexOf('GIVER') != -1) {
-        tableStr += "<tr id=\"response-giver-" + addedCommentId + "\"><td class=\"text-left\"><div data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" data-original-title=\"Control what response giver can view\">Response Giver</div></td>"
-        +   "<td><input class=\"visibilityCheckbox answerCheckbox centered\" name=\"receiverLeaderCheckbox\" type=\"checkbox\" value=\"GIVER\" " + ((data.comment.showCommentTo.indexOf("GIVER") === -1) ? "" : "checked=\"checked\"") + "></td>"
-        +   "<td><input class=\"visibilityCheckbox giverCheckbox\" type=\"checkbox\" value=\"GIVER\" " + ((data.comment.showGiverNameTo.indexOf("GIVER") === -1) ? "" : "checked=\"checked\"") + "></td></tr>";
-    }
-    if (valuesOfCheckbox.indexOf('RECEIVER') != -1) {
-        tableStr += "<tr id=\"response-recipient-" + addedCommentId + "\"><td class=\"text-left\"><div data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" data-original-title=\"Control what response recipient(s) can view\">Response Recipient(s)</div></td>"
-        +    "<td><input class=\"visibilityCheckbox answerCheckbox centered\" name=\"receiverLeaderCheckbox\" type=\"checkbox\" value=\"RECEIVER\" " + ((data.comment.showCommentTo.indexOf("RECEIVER") === -1) ? "" : "checked=\"checked\"") + "></td>"
-        +    "<td><input class=\"visibilityCheckbox giverCheckbox\" type=\"checkbox\" value=\"RECEIVER\" " + ((data.comment.showGiverNameTo.indexOf("RECEIVER") === -1) ? "" : "checked=\"checked\"") + "></td></tr>";
-    }
-    if (valuesOfCheckbox.indexOf('OWN_TEAM_MEMBERS') != -1) {
-        tableStr += "<tr id=\"response-giver-team-" + addedCommentId + "\"><td class=\"text-left\"><div data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" data-original-title=\"Control what team members of response giver can view\">Response Giver's Team Members</div></td>"
-        +    "<td><input class=\"visibilityCheckbox answerCheckbox\" type=\"checkbox\" value=\"OWN_TEAM_MEMBERS\" " + ((data.comment.showCommentTo.indexOf("OWN_TEAM_MEMBERS") === -1) ? "" : "checked=\"checked\"") + "></td>"
-        +    "<td><input class=\"visibilityCheckbox giverCheckbox\" type=\"checkbox\" value=\"OWN_TEAM_MEMBERS\" " + ((data.comment.showGiverNameTo.indexOf("OWN_TEAM_MEMBERS") === -1) ? "" : "checked=\"checked\"") + "></td></tr>";
-    }
-    if (valuesOfCheckbox.indexOf('RECEIVER_TEAM_MEMBERS') != -1) {
-        tableStr += "<tr id=\"response-recipient-team-" + addedCommentId + "\"><td class=\"text-left\"><div data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" data-original-title=\"Control what team members of response recipient(s) can view\">Response Recipient's Team Members</div></td>"
-        +    "<td><input class=\"visibilityCheckbox answerCheckbox\" type=\"checkbox\" value=\"RECEIVER_TEAM_MEMBERS\" " + ((data.comment.showCommentTo.indexOf("RECEIVER_TEAM_MEMBERS") === -1) ? "" : "checked=\"checked\"") + "></td>"
-        +    "<td><input class=\"visibilityCheckbox giverCheckbox\" type=\"checkbox\" value=\"RECEIVER_TEAM_MEMBERS\" " + ((data.comment.showGiverNameTo.indexOf("RECEIVER_TEAM_MEMBERS") === -1) ? "" : "checked=\"checked\"") + "></td></tr>";
-    }
-    if (valuesOfCheckbox.indexOf('STUDENTS') != -1) {
-        tableStr += "<tr id=\"response-instructors-" + addedCommentId + "\"><td class=\"text-left\"><div data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" data-original-title=\"Control what other students in this course can view\">Other students in this course</div></td>"
-        +    "<td><input class=\"visibilityCheckbox answerCheckbox\" type=\"checkbox\" value=\"STUDENTS\" " + ((data.comment.showCommentTo.indexOf("STUDENTS") === -1) ? "" : "checked=\"checked\"") + "></td>"
-        +    "<td><input class=\"visibilityCheckbox giverCheckbox\" type=\"checkbox\" value=\"STUDENTS\" " + ((data.comment.showGiverNameTo.indexOf("STUDENTS") === -1) ? "" : "checked=\"checked\"") + "></td></tr>";
-    }
-    if (valuesOfCheckbox.indexOf('INSTRUCTORS') != -1) {
-        tableStr += "<tr id=\"response-instructors-" + addedCommentId + "\"><td class=\"text-left\"><div data-toggle=\"tooltip\" data-placement=\"top\" title=\"\" data-original-title=\"Control what instructors can view\">Instructors</div></td>"
-        +    "<td><input class=\"visibilityCheckbox answerCheckbox\" type=\"checkbox\" value=\"INSTRUCTORS\" " + ((data.comment.showCommentTo.indexOf("INSTRUCTORS") === -1) ? "" : "checked=\"checked\"") + "></td>"
-        +    "<td><input class=\"visibilityCheckbox giverCheckbox\" type=\"checkbox\" value=\"INSTRUCTORS\" " + ((data.comment.showGiverNameTo.indexOf("INSTRUCTORS") === -1) ? "" : "checked=\"checked\"") + "></td></tr>";
-    }
-    tableStr += "</tbody></table>";
-    
-    return tableStr;
 }
 
 function removeFormErrorMessage(submitButton) {
