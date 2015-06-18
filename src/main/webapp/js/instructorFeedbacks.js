@@ -182,35 +182,32 @@ function bindCopyButton() {
         return false;
     });
 }
+var prevRow;
 
 function bindCopyEvents() {
-
-    $('#copyTableModal >tbody>tr').on('click', function(e) {
+    $('#copyTableModal > tbody > tr').on('click', function(e){
         e.preventDefault();
-
+        
         var currentRow = $(this);
-        if (currentRow.hasClass('row-selected')) {
-            return;
+        
+        if (typeof prevRow != 'undefined') {
+            $(prevRow).removeClass('row-selected');
+            $($(prevRow).children('td:first')).html('<input type="radio">');
         }
-
+        prevRow = currentRow;
+        
         var cells = currentRow.children('td');
         var courseId = $(cells[1]).text().trim();
         var feedbackSessionName = $(cells[2]).text().trim();
+        
         $('#modalCourseId').val(courseId);
         $('#modalSessionName').val(feedbackSessionName);
-
-        var selectedRadio = currentRow.parent().find('input:checked');
-        var selectedRow = selectedRadio.parent().parent();
-
-        selectedRadio.prop('checked', false);
-        selectedRow.removeClass('row-selected');
-
-        selectedRadio = currentRow.children('td').children('input');
-        selectedRadio.prop('checked', true);
+                
         currentRow.addClass('row-selected');
+        $(currentRow.children('td:first')).html('<input type="radio" checked="checked">');
 
         $('#button_copy_submit').prop('disabled', false);
-
+        
         return false;
     });
 }
