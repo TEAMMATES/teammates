@@ -333,5 +333,3 @@ function collapseIfPrivateSession() {
         $('#timeFramePanel, #instructionsRow, #responsesVisibleFromColumn').show();
     }
 }
-
-$(document).ready(readyFeedbackPage);
