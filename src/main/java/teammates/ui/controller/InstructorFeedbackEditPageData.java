@@ -267,6 +267,8 @@ public class InstructorFeedbackEditPageData extends PageData {
         fsForm.setFormSubmitAction(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE));
         fsForm.setSubmitButtonText(SAVE_CHANGES);
         fsForm.setSubmitButtonVisible(false);
+        
+        fsForm.setEditButtonTags(new ElementTag("onclick", "enableEditFS()"));
     }
 
     private AdditionalSettingsFormSegment buildFsFormAdditionalSettings(FeedbackSessionAttributes newFeedbackSession) {

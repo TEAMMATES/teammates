@@ -52,6 +52,7 @@ public class FeedbackSessionsForm {
     private boolean isSubmitButtonDisabled;
     private boolean isSubmitButtonVisible;
     
+    private ElementTag editButtonTags;
     private AdditionalSettingsFormSegment additionalSettings;
     
     public FeedbackSessionsForm() {
@@ -270,6 +271,14 @@ public class FeedbackSessionsForm {
 
     public void setEditFsButtonsVisible(boolean isEditFsButtonsVisible) {
         this.isEditFsButtonsVisible = isEditFsButtonsVisible;
+    }
+
+    public ElementTag getEditButtonTags() {
+        return editButtonTags;
+    }
+
+    public void setEditButtonTags(ElementTag editButtonTags) {
+        this.editButtonTags = editButtonTags;
     }
     
     

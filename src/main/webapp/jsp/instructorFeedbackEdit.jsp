@@ -33,11 +33,8 @@
     <c:if test="${empty data.qnForms}">
             <br>
             <div class="align-center bold" id="empty_message">${data.emptyFsMsg}</div>
-            <br>
     </c:if>
-    <br>
-             <br/>
-                  <br/>
+     <br/>
     <c:forEach items="${data.qnForms}" var="question" varStatus="i">
         <feedbackEdit:questionEditForm fqForm="${question}" />
     </c:forEach>

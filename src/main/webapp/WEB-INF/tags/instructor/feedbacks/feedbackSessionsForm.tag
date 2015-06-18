@@ -240,7 +240,7 @@
         <div class="row" id="uncommonSettingsInfo">
             <div class="col-md-12 text-muted">
                 <span id="uncommonSettingsInfoText"></span>
-                <a id="editUncommonSettingsButton" data-edit="[Edit]" data-done="[Done]">[Edit]</a>
+                <a id="editUncommonSettingsButton" data-edit="[Edit]" data-done="[Done]" <c:forEach items="${fsForm.editButtonTags.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach>>[Edit]</a>
                 <br><br>
             </div>
         </div>

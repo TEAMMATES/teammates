@@ -92,10 +92,10 @@ function enableEditFS() {
     var $sessionOpeningReminder = $('#sendreminderemail_open');
     
     $('#form_feedbacksession').find('text,input,button,textarea,select')
-                                  .not($customDateTimeFields)
-                                  .not($sessionOpeningReminder)
-                                  .not('.disabled')
-                                  .prop('disabled', false);
+                              .not($customDateTimeFields)
+                              .not($sessionOpeningReminder)
+                              .not('.disabled')
+                              .prop('disabled', false);
     $('#fsEditLink').hide();
     $('#fsSaveLink').show();
     $('#button_submit').show();
