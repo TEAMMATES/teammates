@@ -631,6 +631,14 @@ public abstract class AppPage {
             return false;
         }
     }
+
+    public boolean isElementVisible(By by) {
+        try{
+            return browser.driver.findElement(by).isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
     
     public boolean isNamedElementVisible(String elementName) {
         try{
