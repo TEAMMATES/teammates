@@ -415,7 +415,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
                                      + Const.ParamsNames.USER_ID + "=" + instructorId + "&"
                                      + Const.ParamsNames.COURSE_ID + "=" + courseId + "&"
                                      + Const.ParamsNames.FEEDBACK_SESSION_NAME + "="
-                                     + feedbackSessionName.replaceAll(" ", "%20");
+                                     + feedbackSessionName.replaceAll(" ", "+");
         assertEquals(expectedRedirectUrl, feedbackPage.getPageUrl());
         
         

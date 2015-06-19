@@ -32,16 +32,16 @@
                             <div class="col-md-6" data-original-title="Please select the course for which the feedback session is to be created." data-placement="top" data-toggle="tooltip" title="">
                               <div class="form-group">
                                  <h5 class="col-sm-4">
-                                    <h5>
+                                    <label class="control-label" for="courseid">
+                                      Course ID
+                                    </label>
+                                 </h5>
+                                    <div class="col-sm-8">
+                                        <h5>
                                          <div class="form-control-static">
                                             FMsqQnUiT.CS2104
                                          </div>
                                       </h5>
-                                 </h5>
-                                    <div class="col-sm-8">
-                                        <div class="form-control-static">
-                                            FMsqQnUiT.CS2104
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +121,7 @@
                                           </label>
                                     </h5>
                                         <div class="col-sm-10">
-                                            <textarea disabled="" class="form-control" rows="4" cols="100%" name="instructions" id="instructions">Instructions for first session
+                                            <textarea disabled="" class="form-control" rows="4" cols="100%" name="instructions" id="instructions" placeholder="e.g. Please answer all the given questions." >Instructions for first session
                                             </textarea>
                                         </div>
                                     
@@ -1229,11 +1229,11 @@
                             <b>Visibility</b> (Who can see the responses?)
                         </div>
                         <div class="col-sm-6 btn-group" data-toggle="buttons">
-                            <label class="btn btn-xs btn-info visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
+                            <label class="btn btn-xs btn-info visibilityOptionsLabel" id="visibilityOptionsLabel" onchange="toggleVisibilityOptions(this)">
                                 <input type="radio">
                                 <span class="glyphicon glyphicon-pencil"></span> Edit Visibility
                             </label>
-                            <label class="btn btn-xs btn-info active visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
+                            <label class="btn btn-xs btn-info active visibilityMessageButton" id="visibilityMessageButton" onchange="toggleVisibilityMessage(this)">
                                 <input type="radio">
                                 <span class="glyphicon glyphicon-eye-open"></span> Preview Visibility
                             </label>
@@ -1417,7 +1417,7 @@
                               <td>
                                  edited msq qn text
                               </td>
-                              <input type="hidden" value="ahB0ZWFtbWF0ZXMta2FuZ2hqch0LEhBGZWVkYmFja1F1ZXN0aW9uGICAgICA35sLDA"/>
+                              <input type="hidden" value="{*}"/>
                                                          </tr>
                         </tbody>
                      </table>
