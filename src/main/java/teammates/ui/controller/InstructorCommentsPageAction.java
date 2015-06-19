@@ -2,16 +2,19 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import teammates.common.datatransfer.CommentAttributes;
+import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
@@ -54,6 +57,7 @@ public class InstructorCommentsPageAction extends Action {
         
         CourseRoster roster = null;
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new HashMap<String, List<CommentAttributes>>();
+        Map<String, List<Boolean>> giverEmailToCanModifyCommentListMap = new HashMap<String, List<Boolean>>();
         List<FeedbackSessionAttributes> feedbackSessions = new ArrayList<FeedbackSessionAttributes>();
         if (coursePaginationList.size() > 0) {
         //Load details of students and instructors once and pass it to callee methods
@@ -62,6 +66,7 @@ public class InstructorCommentsPageAction extends Action {
 
             //Prepare comments data
             giverEmailToCommentsMap = getGiverEmailToCommentsMap();
+            giverEmailToCanModifyCommentListMap = getGiverEmailToCanModifyCommentListMap(giverEmailToCommentsMap);
             feedbackSessions = getFeedbackSessions();
         }
         
@@ -76,7 +81,8 @@ public class InstructorCommentsPageAction extends Action {
                 "for Course <span class=\"bold\">[" + courseId + "]</span>";
 
         data.init(isViewingDraft, isDisplayArchivedCourse, courseId, courseName, coursePaginationList,
-                  giverEmailToCommentsMap, instructor, roster,  feedbackSessions, numberOfPendingComments);
+                  giverEmailToCommentsMap, giverEmailToCanModifyCommentListMap, roster, 
+                  feedbackSessions, numberOfPendingComments);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COMMENTS, data);
     }
@@ -160,14 +166,27 @@ public class InstructorCommentsPageAction extends Action {
                                    boolean isCurrentInstructorGiver,
                                    List<CommentAttributes> commentList) {
         if (!isViewingDraft && !isCurrentInstructorGiver) { 
-            if (data.isInstructorAllowedForPrivilegeOnComment(
-                             comment, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS,
-                             instructor, courseId)) {
+            if (isInstructorAllowedForPrivilegeOnComment(comment, instructor, courseId, 
+                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS)) {
                 commentList.add(comment);
             }
         } else {
             commentList.add(comment);
         }
+    }
+    
+    private Map<String, List<Boolean>> getGiverEmailToCanModifyCommentListMap(
+                                               Map<String, List<CommentAttributes>> comments) {
+        Map<String, List<Boolean>> giverEmailToCanModifyCommentListMap = new TreeMap<String, List<Boolean>>();
+        for (String giverEmail : comments.keySet()) {
+            List<Boolean> canModifyCommentList = new ArrayList<Boolean>();
+            for (CommentAttributes comment : comments.get(giverEmail)) {
+                Boolean canModifyComment = isInstructorAllowedToModifyCommentInSection(comment); 
+                canModifyCommentList.add(canModifyComment);
+            }
+            giverEmailToCanModifyCommentListMap.put(giverEmail, canModifyCommentList);
+        }
+        return giverEmailToCanModifyCommentListMap;
     }
 
     private List<FeedbackSessionAttributes> getFeedbackSessions() {
@@ -177,5 +196,61 @@ public class InstructorCommentsPageAction extends Action {
     
     private boolean isCourseArchived(CourseAttributes course, String googleId) {
         return Logic.isCourseArchived(course.id, googleId);
+    }
+    
+    private boolean isInstructorAllowedToModifyCommentInSection(CommentAttributes comment) {
+        return instructor != null 
+                       && (comment.giverEmail.equals(instructor.email)
+                                   || isInstructorAllowedForPrivilegeOnComment(
+                                              comment, instructor, courseId, 
+                                              Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS));
+    }
+    
+    private boolean isInstructorAllowedForPrivilegeOnComment(CommentAttributes comment, InstructorAttributes instructor, 
+                                                             String courseId, String privilegeName) {
+        // TODO: remember to come back and change this if later
+        // CommentAttributes.recipients can have multiple later!!!
+
+        if (instructor == null) {
+            return false;
+        }
+        if (comment.recipientType == CommentParticipantType.COURSE) {
+            return instructor.isAllowedForPrivilege(privilegeName);
+        } else if (comment.recipientType == CommentParticipantType.SECTION) {
+            String section = "";
+            if (!comment.recipients.isEmpty()) {
+                Iterator<String> iterator = comment.recipients.iterator();
+                section = iterator.next();
+            }
+            return instructor.isAllowedForPrivilege(section, privilegeName);
+        } else if (comment.recipientType == CommentParticipantType.TEAM) {
+            String team = "";
+            String section = "";
+            if (!comment.recipients.isEmpty()) {
+                Iterator<String> iterator = comment.recipients.iterator();
+                team = iterator.next();
+            }
+            List<StudentAttributes> students = logic.getStudentsForTeam(team, courseId);
+            if (!students.isEmpty()) {
+                section = students.get(0).section;
+            }
+            return instructor.isAllowedForPrivilege(section, privilegeName);
+        } else if (comment.recipientType == CommentParticipantType.PERSON) {
+            String studentEmail = "";
+            String section = "";
+            if (!comment.recipients.isEmpty()) {
+                Iterator<String> iterator = comment.recipients.iterator();
+                studentEmail = iterator.next();
+            }
+            StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
+            if (student != null) {
+                section = student.section;
+            }
+            return instructor.isAllowedForPrivilege(section, privilegeName);
+        } else {
+            // TODO: implement this if instructor is later allowed to be added
+            // to recipients
+            return false;
+        }
     }
 }

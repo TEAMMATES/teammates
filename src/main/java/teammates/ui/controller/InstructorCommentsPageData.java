@@ -2,21 +2,17 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
-import teammates.common.datatransfer.CommentParticipantType;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.logic.api.Logic;
 import teammates.ui.template.CommentRow;
 import teammates.ui.template.InstructorCommentsCommentRow;
 import teammates.ui.template.CommentsForStudentsTable;
@@ -34,9 +30,7 @@ public class InstructorCommentsPageData extends PageData {
     private String courseName;
     private List<String> coursePaginationList;
     private Map<String, List<CommentAttributes>> comments;
-    // TODO: remove this field
-    private String instructorEmail;
-    private InstructorAttributes currentInstructor;
+    private Map<String, List<Boolean>> commentModifyPermissions;
     private CourseRoster roster;
     private List<FeedbackSessionAttributes> feedbackSessions;
     private String previousPageLink;
@@ -51,16 +45,18 @@ public class InstructorCommentsPageData extends PageData {
     
     public void init(boolean isViewingDraft, boolean isDisplayArchive, String courseId, String courseName,
                      List<String> coursePaginationList, Map<String, List<CommentAttributes>> comments,
-                     InstructorAttributes instructor, CourseRoster roster,
+                     Map<String, List<Boolean>> commentModifyPermissions, CourseRoster roster, 
                      List<FeedbackSessionAttributes> feedbackSessions, int numberOfPendingComments) {
+        for (String key : comments.keySet()) {
+            System.out.println(key + " : " + comments.get(key));
+        }
         this.isViewingDraft = isViewingDraft;
         this.isDisplayArchive = isDisplayArchive;
         this.courseId = courseId;
         this.courseName = courseName;
         this.coursePaginationList = coursePaginationList;
         this.comments = comments;
-        this.instructorEmail = instructor != null ? instructor.email : "no-email";
-        this.currentInstructor = instructor;
+        this.commentModifyPermissions = commentModifyPermissions;
         this.roster = roster;
         this.feedbackSessions = feedbackSessions;
         this.previousPageLink = retrievePreviousPageLink();
@@ -151,61 +147,7 @@ public class InstructorCommentsPageData extends PageData {
     
     public boolean isViewingDraft() {
         return isViewingDraft;
-    }
-    
-    public boolean isInstructorAllowedToModifyCommentInSection(CommentAttributes comment) {
-        return comment.giverEmail.equals(instructorEmail)
-                       || (currentInstructor != null 
-                               && isInstructorAllowedForPrivilegeOnComment(
-                                          comment, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS,
-                                          currentInstructor, courseId));
-    }
-        
-    public boolean isInstructorAllowedForPrivilegeOnComment(CommentAttributes comment, String privilegeName,
-                                                            InstructorAttributes instructor, String courseId) {
-        // TODO: remember to come back and change this if later CommentAttributes.recipients can have multiple later!!!
-        Logic logic = new Logic();
-        if (instructor == null) {
-            return false;
-        }
-        if (comment.recipientType == CommentParticipantType.COURSE) {
-            return instructor.isAllowedForPrivilege(privilegeName);          
-        } else if (comment.recipientType == CommentParticipantType.SECTION) {
-            String section = "";
-            if (!comment.recipients.isEmpty()) {
-                Iterator<String> iterator = comment.recipients.iterator();
-                section = iterator.next();
-            }
-            return instructor.isAllowedForPrivilege(section, privilegeName);
-        } else if (comment.recipientType == CommentParticipantType.TEAM) {
-            String team = "";
-            String section = "";
-            if (!comment.recipients.isEmpty()) {
-                Iterator<String> iterator = comment.recipients.iterator();
-                team = iterator.next();
-            }
-            List<StudentAttributes> students = logic.getStudentsForTeam(team, courseId);
-            if (!students.isEmpty()) {
-                section = students.get(0).section;
-            }
-            return instructor.isAllowedForPrivilege(section, privilegeName);
-        } else if (comment.recipientType == CommentParticipantType.PERSON) {
-            String studentEmail = "";
-            String section = "";
-            if (!comment.recipients.isEmpty()) {
-                Iterator<String> iterator = comment.recipients.iterator();
-                studentEmail = iterator.next();
-            }
-            StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
-            if (student != null) {
-                section = student.section;
-            }
-            return instructor.isAllowedForPrivilege(section, privilegeName);
-        } else {
-            // TODO: implement this if instructor is later allowed to be added to recipients
-            return false;
-        }
-    }
+    }        
 
     private void setCommentsForStudentsTables() {
         Map<String, String> giverEmailToGiverNameMap = getGiverEmailToGiverNameMap();
@@ -222,18 +164,19 @@ public class InstructorCommentsPageData extends PageData {
     private List<CommentRow> createCommentRows(String giverEmail, String giverName) {
         
         List<CommentRow> rows = new ArrayList<CommentRow>();
-        for (CommentAttributes comment : comments.get(giverEmail)) {            
-            String recipientDetails = getRecipientNames(comment.recipients);
-            String creationTime = TimeHelper.formatTime(comment.createdAt);          
-            Boolean isInstructorAllowedToModifyCommentInSection = isInstructorAllowedToModifyCommentInSection(comment);
-            String typeOfPeopleCanViewComment = getTypeOfPeopleCanViewComment(comment);
-            String editedAt = comment.getEditedAtTextForInstructor(giverName.equals("Anonymous"));
-            String showCommentsTo = getShowCommentsToForComment(comment);
-            String showGiverNameTo = getShowGiverNameToForComment(comment);
-            String showRecipientNameTo = getShowRecipientNameToForComment(comment);
-            VisibilityCheckboxes visibilityCheckboxes = createVisibilityCheckboxes(comment);
+        List<CommentAttributes> commentsForGiver = comments.get(giverEmail);
+        for (int i = 0; i < commentsForGiver.size(); i++) {            
+            String recipientDetails = getRecipientNames(commentsForGiver.get(i).recipients);
+            String creationTime = TimeHelper.formatTime(commentsForGiver.get(i).createdAt);          
+            Boolean isInstructorAllowedToModifyCommentInSection = commentModifyPermissions.get(giverEmail).get(i);
+            String typeOfPeopleCanViewComment = getTypeOfPeopleCanViewComment(commentsForGiver.get(i));
+            String editedAt = commentsForGiver.get(i).getEditedAtTextForInstructor(giverName.equals("Anonymous"));
+            String showCommentsTo = getShowCommentsToForComment(commentsForGiver.get(i));
+            String showGiverNameTo = getShowGiverNameToForComment(commentsForGiver.get(i));
+            String showRecipientNameTo = getShowRecipientNameToForComment(commentsForGiver.get(i));
+            VisibilityCheckboxes visibilityCheckboxes = createVisibilityCheckboxes(commentsForGiver.get(i));
             
-            rows.add(new InstructorCommentsCommentRow(giverEmail, comment, recipientDetails, creationTime, 
+            rows.add(new InstructorCommentsCommentRow(giverEmail, commentsForGiver.get(i), recipientDetails, creationTime, 
                                  isInstructorAllowedToModifyCommentInSection, typeOfPeopleCanViewComment, editedAt,
                                  visibilityCheckboxes, showCommentsTo, showGiverNameTo, showRecipientNameTo));
         }       
