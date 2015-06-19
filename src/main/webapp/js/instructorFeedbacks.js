@@ -195,6 +195,7 @@ function bindCopyEvents() {
             $(prevRow).removeClass('row-selected');
             $($(prevRow).children('td:first')).html('<input type="radio">');
         }
+        
         prevRow = currentRow;
         
         var cells = currentRow.children('td');
