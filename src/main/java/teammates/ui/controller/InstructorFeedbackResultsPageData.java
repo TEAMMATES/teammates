@@ -1,8 +1,12 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -10,6 +14,8 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.ui.template.InstructorResultsQuestionTable;
+import teammates.ui.template.InstructorResultsResponseRow;
+import teammates.ui.template.ModerationButton;
 
 public class InstructorFeedbackResultsPageData extends PageData {
     public static final String EXCEEDING_RESPONSES_ERROR_MESSAGE = "Sorry, we could not retrieve results. "
@@ -17,7 +23,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                  + "<ul><li>If that is the case, you can still use the 'By question' report to view responses. You can also download the results as a spreadsheet. If you would like to see the responses in other formats (e.g. 'Group by - Giver'), you can try to divide the course into smaller sections so that we can display responses one section at a time.</li>"
                                                                  + "<li>If you believe the report you are trying to view is unlikely to have more than 2,500 entries, please contact us at <a href='mailto:teammates@comp.nus.edu.sg'>teammates@comp.nus.edu.sg</a> so that we can investigate.</li></ul>";
 
-    public static final String teamOfEmailOwner = Const.TEAM_OF_EMAIL_OWNER;
     
     public FeedbackSessionResultsBundle bundle = null;
     public InstructorAttributes instructor = null;
@@ -44,9 +49,75 @@ public class InstructorFeedbackResultsPageData extends PageData {
         startIndex = -1;
     }
     
-    public void init() {
+    public void init(FeedbackSessionResultsBundle bundle) {
+        this.bundle = bundle;
+       
+        
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionToResponseMap = bundle.getQuestionResponseMap();
+        questionPanels = new ArrayList<InstructorResultsQuestionTable>();
+        
+        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry : questionToResponseMap.entrySet()) {
+            FeedbackQuestionAttributes question = entry.getKey();
+            List<FeedbackResponseAttributes> responses = entry.getValue();
+            
+            questionPanels.add(buildQuestionTable(question, responses));
+        }
+        
+    }
+    
+    private InstructorResultsQuestionTable buildQuestionTable(FeedbackQuestionAttributes question,
+                                                              List<FeedbackResponseAttributes> responses) {
+        
+        String statisticsTable = question.getQuestionDetails().
+                                              getQuestionResultStatisticsHtml(responses, 
+                                                                              question, 
+                                                                              this, 
+                                                                              bundle, 
+                                                                              "question");
+        List<InstructorResultsResponseRow> responseRows = buildResponseRowsForExistingResponses(question, responses);
+        
+        InstructorResultsQuestionTable questionTable = new InstructorResultsQuestionTable(this, responses, statisticsTable, responseRows, question);
         
         
+        return questionTable;
+    }
+    
+    private List<InstructorResultsResponseRow> buildResponseRowsForExistingResponses(FeedbackQuestionAttributes question,
+                                                                 List<FeedbackResponseAttributes> responses) {
+        List<InstructorResultsResponseRow> responseRows = new ArrayList<InstructorResultsResponseRow>();
+        for (FeedbackResponseAttributes response : responses) {
+            ModerationButton moderationButton = buildModerationButtonForResponse(question, response);
+            
+            InstructorResultsResponseRow responseRow 
+                    = new InstructorResultsResponseRow(
+                                                   bundle.getGiverNameForResponse(question, response), 
+                                                   bundle.getTeamNameForEmail(response.giverEmail), 
+                                                   bundle.getRecipientNameForResponse(question, response), 
+                                                   bundle.getTeamNameForEmail(response.recipientEmail), 
+                                                   bundle.getResponseAnswerHtml(response, question), 
+                                                   true, 
+                                                   moderationButton);
+            responseRows.add(responseRow);
+        }
+        return responseRows;
+    }
+
+    private ModerationButton buildModerationButtonForResponse(FeedbackQuestionAttributes question,
+                                                              FeedbackResponseAttributes response) {
+        boolean isAllowedToModerate = instructor.isAllowedForPrivilege(bundle.getSectionFromRoster(response.giverEmail), 
+                                                                       feedbackSessionName, 
+                                                                       Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+        boolean isDisabled = !isAllowedToModerate;
+        String giverIdentifier = question.giverType.isTeam() ? 
+                                 response.giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"") : 
+                                 response.giverEmail;
+        ModerationButton moderationButton 
+                             = new ModerationButton( isAllowedToModerate, isDisabled, 
+                                                     question.questionNumber, 
+                                                     giverIdentifier, 
+                                                     courseId, feedbackSessionName, 
+                                                     question);
+        return moderationButton;
     }
 
     /* 
@@ -179,9 +250,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
         this.shouldCollapsed = shouldCollapsed;
     }
 
-    public static String getTeamOfEmailowner() {
-        return teamOfEmailOwner;
+    public List<InstructorResultsQuestionTable> getQuestionPanels() {
+        return questionPanels;
     }
+
+    
     
     
     

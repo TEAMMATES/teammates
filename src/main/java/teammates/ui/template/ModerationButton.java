@@ -18,9 +18,7 @@ public class ModerationButton {
         this.isAllowedToModerate = isAllowedToModerate;
         this.isDisabled = isDisabled;
         this.questionNumber = questionNumber;
-        this.giverIdentifier = question.giverType.isTeam() ? 
-                               giverIdentifier.replace(Const.TEAM_OF_EMAIL_OWNER,"") : 
-                               giverIdentifier;
+        this.giverIdentifier = giverIdentifier;
         this.courseId = courseId;
         this.feedbackSessionName = feedbackSessionName;
         
