@@ -3,7 +3,7 @@
 <%@ attribute name="courseId" required="true" %>
 <%@ attribute name="courseIndex" required="true" %>
 <%@ attribute name="hasSection" required="true" %>
-<%@ attribute name="sections" required="true" %>
+<%@ attribute name="sections" type="java.util.List" required="true" %>
 <table class="table table-responsive table-striped table-bordered margin-0">
     <c:choose>
         <c:when test="${not empty sections}">
@@ -29,6 +29,38 @@
                 </tr>
             </thead>
             <tbody>
+                <c:set var="teamIndex" value="${-1}" />
+                <c:set var="studentIndex" value="${-1}" />
+                <c:forEach items="${sections}" var="section" varStatus="sectionIdx">
+                    <c:set var="sectionIndex" value="${sectionIdx.index}" />
+                    <%-- generated here but to be appended to #sectionChoices in instructorStudentList.jsp
+                         will be transported via JavaScript in instructorStudentListAjax.js --%>
+                    <div class="checkbox section-to-be-transported">
+                        <input id="section_check-${courseIndex}-${sectionIndex}" type="checkbox" checked="checked" class="section_check">
+                        <label for="section_check-${courseIndex}-${sectionIndex}">
+                            [${courseId}] : ${section.sectionName}
+                        </label>
+                    </div>
+                    <c:forEach items="${section.teams}" var="team">
+                        <c:set var="teamIndex" value="${teamIndex + 1}" />
+                        <%-- generated here but to be appended to #teamChoices in instructorStudentList.jsp
+                             will be transported via JavaScript in instructorStudentListAjax.js --%>
+                        <div class="checkbox team-to-be-transported">
+                            <input id="team_check-${courseIndex}-${sectionIndex}-${teamIndex}" type="checkbox" checked="checked" class="team_check">
+                            <label for="team_check-${courseIndex}-${sectionIndex}-${teamIndex}">
+                                [${courseId}] : ${team.teamName}
+                            </label>
+                        </div>
+                        <c:forEach items="${team.students}" var="student" varStatus="studentIdx">
+                            <c:set var="studentIndex" value="${studentIndex + 1}" />
+                            <%-- generated here but to be appended to #teamChoices in instructorStudentList.jsp
+                                 will be transported via JavaScript in instructorStudentListAjax.js --%>
+                            <div class="email-to-be-transported" id="student_email-c${courseIndex}.${studentIndex}">
+                                ${student.studentEmail}
+                            </div>
+                        </c:forEach>
+                    </c:forEach>
+                </c:forEach>
             </tbody>
         </c:when>
         <c:otherwise>
