@@ -1,5 +1,6 @@
 <%@ tag description="instructorStudentList - Ajax result" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="courseId" required="true" %>
 <%@ attribute name="courseIndex" required="true" %>
 <%@ attribute name="hasSection" required="true" %>
@@ -58,6 +59,104 @@
                             <div class="email-to-be-transported" id="student_email-c${courseIndex}.${studentIndex}">
                                 ${student.studentEmail}
                             </div>
+                            <tr id="student-c${courseIndex}.${studentIndex}">
+                                <td id="studentphoto-c${courseIndex}.${studentIndex}">
+                                    <div class="profile-pic-icon-click align-center" data-link="${student.photoUrl}">
+                                        <a class="student-profile-pic-view-link btn-link">View Photo</a>
+                                        <img src="" alt="No Image Given" class="hidden">
+                                    </div>
+                                </td>
+                                <td id="studentsection-c${courseIndex}.${sectionIndex}"
+                                    <c:if test="${not hasSection}">class="hidden"</c:if>>
+                                    ${section.sectionName}
+                                </td>
+                                <td id="studentteam-c${courseIndex}.${sectionIndex}.${teamIndex}">
+                                    ${team.teamName}
+                                </td>
+                                <td id="studentname-c${courseIndex}.${studentIndex}">
+                                    ${student.studentName}
+                                </td>
+                                <td id="studentemail-c${courseIndex}.${studentIndex}">
+                                    ${student.studentEmail}
+                                </td>
+                                <td class="no-print align-center">
+                                    <a class="btn btn-default btn-xs student-view-for-test"
+                                       href="${student.courseStudentDetailsLink}"
+                                       title="<%= Const.Tooltips.COURSE_STUDENT_DETAILS %>"
+                                       target="_blank"
+                                       data-toggle="tooltip"
+                                       data-placement="top"
+                                       <c:if test="${not section.allowedToViewStudentInSection}">disabled="disabled"</c:if>>
+                                        View
+                                    </a>
+                                    &nbsp;
+                                    <a class="btn btn-default btn-xs student-edit-for-test"
+                                       href="${student.courseStudentEditLink}"
+                                       title="<%= Const.Tooltips.COURSE_STUDENT_EDIT %>"
+                                       target="_blank"
+                                       data-toggle="tooltip"
+                                       data-placement="top"
+                                       <c:if test="${not section.allowedToModifyStudent}">disabled="disabled"</c:if>>
+                                        Edit
+                                    </a>
+                                    &nbsp;
+                                    <a class="btn btn-default btn-xs student-delete-for-test"
+                                       href="${student.courseStudentDeleteLink}"
+                                       onclick="return toggleDeleteStudentConfirmation(${student.toggleDeleteConfirmationParams})"
+                                       title="Delete the student and the corresponding evaluations from the course"
+                                       data-toggle="tooltip"
+                                       data-placement="top"
+                                       <c:if test="${not section.allowedToModifyStudent}">disabled="disabled"</c:if>>
+                                        Delete
+                                    </a>
+                                    &nbsp;
+                                    <a class="btn btn-default btn-xs student-records-for-test"
+                                       href="${student.courseStudentRecordsLink}"
+                                       title="View all student's evaluations and feedbacks"
+                                       target="_blank"
+                                       data-toggle="tooltip"
+                                       data-placement="top">
+                                        All Records
+                                    </a>
+                                    &nbsp;
+                                    <div class="dropdown inline">
+                                        <a class="btn btn-default btn-xs dropdown-toggle"
+                                           href="javascript:;"
+                                           data-toggle="dropdown"
+                                           <c:if test="${not section.allowedToGiveCommentInSection}">disabled="disabled"</c:if>>
+                                            Add Comment
+                                        </a>
+                                        <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
+                                            <li role="presentation">
+                                                <a target="_blank"
+                                                   role="menuitem"
+                                                   tabindex="-1"
+                                                   href="${student.courseStudentDetailsLink}&addComment=student">
+                                                    Comment on ${student.studentName}
+                                                </a>
+                                            </li>
+                                            <li role="presentation">
+                                                <a target="_blank"
+                                                   role="menuitem"
+                                                   tabindex="-1"
+                                                   href="${student.courseStudentDetailsLink}&addComment=team">
+                                                    Comment on ${team.teamName}
+                                                </a>
+                                            </li>
+                                            <c:if test="${hasSection}">
+                                                <li role="presentation">
+                                                    <a target="_blank"
+                                                       role="menuitem"
+                                                       tabindex="-1"
+                                                       href="${student.courseStudentDetailsLink}&addComment=section">
+                                                        Comment on ${section.sectionName}
+                                                    </a>
+                                                </li>
+                                            </c:if>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
                         </c:forEach>
                     </c:forEach>
                 </c:forEach>
