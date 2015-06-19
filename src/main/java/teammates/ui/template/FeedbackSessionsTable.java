@@ -4,14 +4,29 @@ import java.util.List;
 
 public class FeedbackSessionsTable {
     
-    private List<FeedbackSessionsTableRow> existingFeedbackSessions;
+    private String feedbackSessionNameToHighlight;
+    private String courseIdForHighlight;
     
-    public FeedbackSessionsTable(List<FeedbackSessionsTableRow> existingFeedbackSessions) {
+    private List<FeedbackSessionsTableRow> existingFeedbackSessions;
+        
+    public FeedbackSessionsTable(List<FeedbackSessionsTableRow> existingFeedbackSessions, 
+                                 String feedbackSessionNameToHighlight, 
+                                 String courseIdForHighlight) {
         this.existingFeedbackSessions = existingFeedbackSessions;
+        this.feedbackSessionNameToHighlight = feedbackSessionNameToHighlight;
+        this.courseIdForHighlight = courseIdForHighlight;
     }
     
     public List<FeedbackSessionsTableRow> getExistingFeedbackSessions() {
         return existingFeedbackSessions;
     }
-    
+
+    public String getFeedbackSessionNameToHighlight() {
+        return feedbackSessionNameToHighlight;
+    }
+
+    public String getCourseIdForHighlight() {
+        return courseIdForHighlight;
+    }
+
 }

@@ -21,7 +21,7 @@
         <feedbacks:feedbackSessionsForm fsForm="${data.newFsForm}">
             <feedbacks:feedbackSessionsFormAdditionalSettings fsForm="${data.newFsForm}" />
         </feedbacks:feedbackSessionsForm>
-       <feedbacks:loadSessionsTableByAjaxForm fsForm="${data.newFsForm}" />
+       <feedbacks:loadSessionsTableByAjaxForm fsList="${data.fsList}" />
     </c:if>
     <br>
     <t:statusMessage />

@@ -3,7 +3,7 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
  
- <%@ attribute name="fsForm" type="teammates.ui.template.FeedbackSessionsForm" required="true"%>
+ <%@ attribute name="fsList" type="teammates.ui.template.FeedbackSessionsTable" required="true"%>
  
  <form style="display:none;" id="ajaxForSessions" class="ajaxForSessionsForm"
     action="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE %>">
@@ -13,12 +13,12 @@
     <input type="hidden"
         name="<%= Const.ParamsNames.IS_USING_AJAX %>"
         value="on">
-    <c:if test="${fsForm.feedbackSessionNameForSessionList != null && fsForm.courseIdForNewSession != null}">
+    <c:if test="${fsList.feedbackSessionNameToHighlight != null && fsList.courseIdForHighlight != null}">
         <input type="hidden"
             name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>"
-            value="${fsForm.feedbackSessionNameForSessionList}">
+            value="${fsList.feedbackSessionNameToHighlight}">
         <input type="hidden"
             name="<%= Const.ParamsNames.COURSE_ID %>"
-            value="${fsForm.courseIdForNewSession}">
+            value="${fsList.courseIdForHighlight}">
     </c:if>
 </form>

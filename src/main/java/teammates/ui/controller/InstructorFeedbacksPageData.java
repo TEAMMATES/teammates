@@ -124,13 +124,16 @@ public class InstructorFeedbacksPageData extends PageData {
                                                                              instructors, newFeedbackSession));
     }
 
-    private void buildFsList(String courseIdForNewSession, List<FeedbackSessionAttributes> existingFeedbackSessions,
-                             Map<String, InstructorAttributes> instructors, String feedbackSessionNameForSessionList) {
+    private void buildFsList(String courseIdForHighlight, List<FeedbackSessionAttributes> existingFeedbackSessions,
+                             Map<String, InstructorAttributes> instructors, String feedbackSessionNameToHighlight) {
         
         List<FeedbackSessionsTableRow> existingFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(
                                                                              existingFeedbackSessions, instructors, 
-                                                                             feedbackSessionNameForSessionList, courseIdForNewSession);
-        fsList = new FeedbackSessionsTable(existingFeedbackSessionsRow);
+                                                                             feedbackSessionNameToHighlight, courseIdForHighlight);
+        
+        fsList = new FeedbackSessionsTable(existingFeedbackSessionsRow, 
+                                           feedbackSessionNameToHighlight, 
+                                           courseIdForHighlight);
     }
 
     private void buildNewForm(List<CourseAttributes> courses, String courseIdForNewSession,
