@@ -1049,6 +1049,31 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
         return sortedMap;
     }
+    
+    public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> getQuestionResponseMapSortedByRecipient() {
+        if (questions == null || responses == null) {
+            return null;
+        }
+
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> sortedMap =
+                new TreeMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
+
+        for (FeedbackQuestionAttributes question : questions.values()) {
+            sortedMap.put(question, new ArrayList<FeedbackResponseAttributes>());
+        }
+
+        for (FeedbackResponseAttributes response : responses) {
+            List<FeedbackResponseAttributes> responsesForQuestion = sortedMap
+                    .get(questions.get(response.feedbackQuestionId));
+            responsesForQuestion.add(response);
+        }
+
+        for (List<FeedbackResponseAttributes> responsesForQuestion : sortedMap.values()) {
+            Collections.sort(responsesForQuestion, compareByRecipientName);
+        }
+
+        return sortedMap;
+    }
 
     public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
             getQuestionResponseMapByRecipientTeam() {
