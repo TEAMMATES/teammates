@@ -7,7 +7,6 @@
     <div class="panel-body">
         <div class="form-horizontal">
             <div class="panel-heading">         
-                <!-- Course ID -->
                 <feedbackResults:displayFeedbackSessionInfo>
                     <jsp:attribute name="heading">Course ID:</jsp:attribute>
                     <jsp:body>
@@ -15,7 +14,6 @@
                     </jsp:body>
                 </feedbackResults:displayFeedbackSessionInfo>
                 
-                <!-- Session -->
                 <feedbackResults:displayFeedbackSessionInfo>
                     <jsp:attribute name="heading">Session:</jsp:attribute>
                     <jsp:body>
@@ -23,19 +21,17 @@
                     </jsp:body>
                 </feedbackResults:displayFeedbackSessionInfo>
                 
-                <!-- Opening time -->
                 <feedbackResults:displayFeedbackSessionInfo>
                     <jsp:attribute name="heading">Opening time:</jsp:attribute>
                     <jsp:body>
-                        ${feedbackSession.startTime}
+                        ${feedbackSession.startTimeString}
                     </jsp:body>
                 </feedbackResults:displayFeedbackSessionInfo>
                 
-                <!-- Closing time -->
                 <feedbackResults:displayFeedbackSessionInfo>
                     <jsp:attribute name="heading">Closing time:</jsp:attribute>
                     <jsp:body>
-                        ${feedbackSession.endTime}
+                        ${feedbackSession.endTimeString}
                     </jsp:body>
                 </feedbackResults:displayFeedbackSessionInfo>
             </div>
