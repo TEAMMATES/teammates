@@ -2,8 +2,6 @@ $(document).ready(function() {
     $('#remindModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // Button that triggered the modal
         var actionlink = button.data('actionlink');
-        var courseid = button.data('courseid');
-        var fsname = button.data('fsname');
         
         $.ajax({
             type : 'POST',
