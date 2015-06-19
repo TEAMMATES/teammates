@@ -15,7 +15,6 @@
     <t:statusMessage/>
     <br>
     
-    <!-- For every question -->
     <c:forEach items="${data.feedbackResultsQuestionsWithResponses}" var="questionWithResponses">
         <feedbackResults:questionWithResponses questionWithResponses="${questionWithResponses}"/>
     </c:forEach>
