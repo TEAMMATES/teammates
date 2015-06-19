@@ -1,20 +1,29 @@
 package teammates.ui.template;
 
-public class ModerationsButton {
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.util.Const;
+
+public class ModerationButton {
 
     private boolean isAllowedToModerate;
+    private boolean isDisabled;
     private int questionNumber;
     private String giverIdentifier;
     private String courseId;
     private String feedbackSessionName;
     
-    public ModerationsButton(boolean isAllowedToModerate, int questionNumber, String giverIdentifier,
-                             String courseId, String feedbackSessionName) {
+    public ModerationButton(boolean isAllowedToModerate, boolean isDisabled, 
+                             int questionNumber, String giverIdentifier,
+                             String courseId, String feedbackSessionName, FeedbackQuestionAttributes question) {
         this.isAllowedToModerate = isAllowedToModerate;
+        this.isDisabled = isDisabled;
         this.questionNumber = questionNumber;
-        this.giverIdentifier = giverIdentifier;
+        this.giverIdentifier = question.giverType.isTeam() ? 
+                               giverIdentifier.replace(Const.TEAM_OF_EMAIL_OWNER,"") : 
+                               giverIdentifier;
         this.courseId = courseId;
         this.feedbackSessionName = feedbackSessionName;
+        
     }
     
     public boolean isAllowedToModerate() {
@@ -35,6 +44,10 @@ public class ModerationsButton {
     
     public String getFeedbackSessionName() {
         return feedbackSessionName;
+    }
+
+    public boolean isDisabled() {
+        return isDisabled;
     }
     
 }
