@@ -65,7 +65,7 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         
         
         pageData.bundle = logic.getFeedbackSessionResultsForStudent(question1.feedbackSessionName, question1.courseId, student.email);
-        pageData.init(student.key, student.email, student.course, questionsWithResponses);
+        pageData.init(questionsWithResponses);
         
         assertNotNull(pageData.getFeedbackResultsQuestionsWithResponses());
         assertEquals(2, pageData.getFeedbackResultsQuestionsWithResponses().size());
@@ -112,7 +112,7 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponsesUnregistered = 
                                         new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
         
-        pageData.init(student.key, student.email, student.course, questionsWithResponsesUnregistered);
+        pageData.init(questionsWithResponsesUnregistered);
         
         assertTrue(pageData.getFeedbackResultsQuestionsWithResponses().isEmpty());
         

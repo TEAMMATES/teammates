@@ -29,13 +29,12 @@ public class StudentFeedbackResultsPageData extends PageData {
         super(account, student);
     }
     
-    public void init(String regKey, String email, String courseId, 
-                       Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses) {
+    public void init(Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses) {
         
         String joinUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
-                                                   .withRegistrationKey(regKey)
-                                                   .withStudentEmail(email)
-                                                   .withCourseId(courseId)
+                                                   .withRegistrationKey(student.key)
+                                                   .withStudentEmail(student.email)
+                                                   .withCourseId(student.course)
                                                    .toString();
         
         registerMessage = String.format(Const.StatusMessages.UNREGISTERED_STUDENT_RESULTS, 
@@ -162,7 +161,8 @@ public class StudentFeedbackResultsPageData extends PageData {
             }
             
             if (question.recipientType == FeedbackParticipantType.TEAMS) {
-                if (student.team.equals(singleResponse.recipientEmail)) {
+                if (student.team.equals(singleResponse.recipientEmail) && 
+                      !(recipientName.startsWith("Your Team (") && recipientName.endsWith(")"))) { // To avoid duplicate replacement
                     recipientName = "Your Team (" + recipientName + ")";
                 }
             } else if (student.email.equals(singleResponse.recipientEmail)
