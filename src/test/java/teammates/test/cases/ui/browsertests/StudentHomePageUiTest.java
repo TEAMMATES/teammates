@@ -67,12 +67,12 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
                                                       .loginAsStudent(unregUserId, unregPassword);
 
         // this test uses the accounts from test.properties
-        studentHome.verifyHtmlMainContent("/StudentHomeHTMLEmpty.html");
+        studentHome.verifyHtmlMainContent("/studentHomeHTMLEmpty.html");
         
         ______TS("persistence check");
         
         loginWithPersistenceProblem();
-        studentHome.verifyHtmlMainContent("/StudentHomeHTMLPersistenceCheck.html");
+        studentHome.verifyHtmlMainContent("/studentHomeHTMLPersistenceCheck.html");
         
         ______TS("login");
         
@@ -84,14 +84,14 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         ______TS("content: multiple courses");
         
         // this test uses the accounts from test.properties
-        studentHome.verifyHtmlMainContent("/StudentHomeHTML.html");
+        studentHome.verifyHtmlMainContent("/studentHomeHTML.html");
         
         Url detailsPageUrl = createUrl(Const.ActionURIs.STUDENT_HOME_PAGE)
                              .withUserId(testData.students.get("SHomeUiT.charlie.d@SHomeUiT.CS2104").googleId);
 
         StudentHomePage studentHomePage = loginAdminToPage(browser, detailsPageUrl, StudentHomePage.class);
         
-        studentHomePage.verifyHtmlMainContent("/StudentHomeTypicalHTML.html");
+        studentHomePage.verifyHtmlMainContent("/studentHomeTypicalHTML.html");
            
     }
     
@@ -181,7 +181,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         BackDoor.deleteFeedbackSession("First Feedback Session", "SHomeUiT.CS2104");     
         studentHomePage.getSubmitFeedbackButton("First Feedback Session").click();
         browser.selenium.waitForPageToLoad("15000");
-        studentHomePage.verifyHtmlMainContent("/StudentHomeFeedbackDeletedHTML.html");
+        studentHomePage.verifyHtmlMainContent("/studentHomeFeedbackDeletedHTML.html");
         
     }
 

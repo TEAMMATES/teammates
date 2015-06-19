@@ -1,12 +1,7 @@
-<div id="frameBodyWrapper" class="container theme-showcase">
+<div class="container" id="frameBodyWrapper">
         <div id="topOfPage"></div>
-        <div class="inner-container">
-         <div class="row">
-            <h1>
-               Add New Feedback Session
-            </h1>
-         </div>
-      </div>
+        <h1>Add New Feedback Session</h1>
+        <br>
         
             <div class="well well-plain">
                 <form class="form-group" method="post" action="/page/instructorFeedbackAdd" name="form_addfeedbacksession">
@@ -462,7 +457,7 @@
 
 
         <div id="statusMessage" class="alert alert-warning">
-            The feedback session has been published. Please allow up to 1 hour for all the notification emails to be sent out.
+            Reminder e-mails have been sent out to those students and instructors. Please allow up to 1 hour for all the notification emails to be sent out.
         </div>
         
         <script type="text/javascript">
@@ -653,7 +648,7 @@
                 </div>
             </div>
         </div>
-        <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
+              <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
          <div class="modal-dialog">
             <div class="modal-content">
                <form action="&#x2f;page&#x2f;instructorFeedbackEditCopy" method="post" name="form_copy_list" role="form">
@@ -678,7 +673,7 @@
                         Cancel
                      </button>
                      <input class="btn btn-primary" id="fscopy_submit" type="submit" value="Copy"/>
-                                          <input name="user" type="hidden" value="teammates.coord.example"/>
+                                          <input name="user" type="hidden" value="{$test.instructor}"/>
                                        </div>
                </form>
             </div>
