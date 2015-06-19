@@ -50,10 +50,9 @@ public class InstructorStudentListAjaxPageActionTest extends BaseActionTest {
         InstructorStudentListAjaxPageAction action = getAction(submissionParams);
         ShowPageResult result = (ShowPageResult) action.executeAndPostProcess();
         InstructorStudentListAjaxPageData data = (InstructorStudentListAjaxPageData) result.data;
-        assertEquals(2, data.courseSectionDetails.size());
-        assertTrue(data.hasSection);
-        assertEquals(5, data.emailPhotoUrlMapping.values().size());
-        assertEquals(instructor.courseId, data.course.id);
+        assertEquals(2, data.getSections().size());
+        assertTrue(data.isHasSection());
+        assertEquals(instructor.courseId, data.getCourseId());
     }
 
     private InstructorStudentListAjaxPageAction getAction(String... params) throws Exception {
