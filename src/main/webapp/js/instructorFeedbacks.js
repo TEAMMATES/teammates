@@ -181,6 +181,10 @@ function bindCopyButton() {
     });
 }
 
+/**
+ * Variable is intended to be outside of bindCopyEvents function scope
+ * It is used to remember what row was previously clicked by the user
+ */
 var prevRow;
 
 function bindCopyEvents() {
