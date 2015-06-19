@@ -47,9 +47,6 @@ public class InstructorCommentsPageData extends PageData {
                      List<String> coursePaginationList, Map<String, List<CommentAttributes>> comments,
                      Map<String, List<Boolean>> commentModifyPermissions, CourseRoster roster, 
                      List<FeedbackSessionAttributes> feedbackSessions, int numberOfPendingComments) {
-        for (String key : comments.keySet()) {
-            System.out.println(key + " : " + comments.get(key));
-        }
         this.isViewingDraft = isViewingDraft;
         this.isDisplayArchive = isDisplayArchive;
         this.courseId = courseId;
