@@ -129,7 +129,6 @@ function convertDateToHHMM(date) {
 
 function bindCopyButton() {
     $('#button_copy').on('click', function(e) {
-        e.preventDefault();
         var selectedCourseId = $('#' + COURSE_ID + ' option:selected').text();
         var newFeedbackSessionName = $('#' + FEEDBACK_SESSION_NAME).val();
 
@@ -177,17 +176,15 @@ function bindCopyButton() {
     });
 
     $('#button_copy_submit').on('click', function(e) {
-        e.preventDefault();
         $('#copyModalForm').submit();
         return false;
     });
 }
+
 var prevRow;
 
 function bindCopyEvents() {
-    $('#copyTableModal > tbody > tr').on('click', function(e){
-        e.preventDefault();
-        
+    $('#copyTableModal > tbody > tr').on('click', function(e) {      
         var currentRow = $(this);
         
         if (typeof prevRow != 'undefined') {
