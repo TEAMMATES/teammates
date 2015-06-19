@@ -6,7 +6,6 @@ import teammates.common.util.Url;
 
 public class InstructorStudentListAjaxStudentData {
 
-    private String googleId;
     private String studentName;
     private String studentEmail;
     private String toggleDeleteConfirmationParams;
@@ -18,7 +17,6 @@ public class InstructorStudentListAjaxStudentData {
 
     public InstructorStudentListAjaxStudentData(String googleId, String studentName, String studentEmail,
                                                 String course, String photoUrl) {
-        this.googleId = googleId;
         this.studentName = Sanitizer.sanitizeForHtml(studentName);
         this.studentEmail = Sanitizer.sanitizeForHtml(studentEmail);
         this.toggleDeleteConfirmationParams = "'" + Sanitizer.sanitizeForJs(course) + "','"
@@ -40,10 +38,6 @@ public class InstructorStudentListAjaxStudentData {
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
         return link.replace("%40", "@");
-    }
-
-    public String getGoogleId() {
-        return googleId;
     }
 
     public String getStudentName() {

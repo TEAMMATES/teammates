@@ -52,6 +52,7 @@ public class InstructorStudentListAjaxPageActionTest extends BaseActionTest {
         InstructorStudentListAjaxPageData data = (InstructorStudentListAjaxPageData) result.data;
         assertEquals(2, data.getSections().size());
         assertTrue(data.isHasSection());
+        assertEquals(1, data.getCourseIndex());
         assertEquals(instructor.courseId, data.getCourseId());
     }
 
