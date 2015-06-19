@@ -4,7 +4,7 @@
         <br>
 
         <div class="well well-plain">
-            <form class="form-group" method="post" action="/page/instructorFeedbackEditSave" id="form_editfeedbacksession">
+            <form class="form-group" method="post" action="/page/instructorFeedbackEditSave" id="form_feedbacksession">
                 <div class="row">
                     <div class="col-sm-12">
                         <span class="pull-right">
@@ -29,9 +29,13 @@
                 <div class="panel panel-primary">
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label data-original-title="Please select the course for which the feedback session is to be created." class="col-sm-4 control-label" title="" data-toggle="tooltip" data-placement="top">Course ID</label>
+                            <div class="col-md-6" data-original-title="Please select the course for which the feedback session is to be created." data-placement="top" data-toggle="tooltip" title="">
+                              <div class="form-group">
+                                 <h5 class="col-sm-4">
+                                    <label class="control-label" for="courseid">
+                                       Course ID
+                                    </label>
+                                 </h5>
                                     <div class="col-sm-8">
                                         <div class="form-control-static">
                                             FRubricQnUiT.CS2104
@@ -39,11 +43,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <h5 class="col-sm-4">
-                                        <label data-original-title="You should not need to change this as your timezone is auto-detected. <br /><br />However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is daylight saving, you should choose UTC -7:00 and its corresponding timings." class="col-sm-4 control-label" for="timezone" title="" data-toggle="tooltip" data-placement="top">
-                                            Timezone
+                                                       <div class="col-md-6" data-original-title="You should not need to change this as your timezone is auto-detected. &lt;br &#x2f;&gt;&lt;br &#x2f;&gt;However, note that daylight saving is not taken into account i.e. if you are in UTC -8:00 and there is daylight saving, you should choose UTC -7:00 and its corresponding timings." data-placement="top" data-toggle="tooltip" title="">
+                              <div class="form-group">
+                                 <h5 class="col-sm-4">
+                                    <label class="control-label" for="timezone">
+                                       Timezone
                                         </label>
                                     </h5>
                                     <div class="col-sm-8">
