@@ -40,7 +40,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * The next three methods are not covered in action test, but covered in UI tests.
      */
 
-    @Override
     public String getInstructorFeedbackSessionPublishAndUnpublishAction(FeedbackSessionAttributes session,
                                                                         boolean isHome,
                                                                         InstructorAttributes instructor) {

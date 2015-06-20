@@ -160,13 +160,13 @@ public class InstructorHomePageData extends PageData {
         }
     }
     
-    private List<Map<String, String>> createSessionRows(List<FeedbackSessionAttributes> sessions,
+    private List<Map<String, Object>> createSessionRows(List<FeedbackSessionAttributes> sessions,
             InstructorAttributes instructor, String courseId) {
-        List<Map<String, String>> rows = new ArrayList<Map<String, String>>();
+        List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
         int displayedStatsCount = 0;
         
         for (FeedbackSessionAttributes session : sessions) {
-            Map<String, String> columns = new HashMap<String, String>();
+            Map<String, Object> columns = new HashMap<String, Object>();
             
             columns.put("name", sanitizeForHtml(session.feedbackSessionName));
             columns.put("tooltip", getInstructorHoverMessageForFeedbackSession(session));
@@ -182,10 +182,10 @@ public class InstructorHomePageData extends PageData {
             }
             
             try {
-                columns.put("actions", getInstructorFeedbackSessionActions(session, false, instructor,
-                                               getCourseIdSectionNamesMap(sessions).get(courseId)));
+                columns.put("actions", getInstructorFeedbackSessionActions(true, session, false, instructor,
+                                                getCourseIdSectionNamesMap(sessions).get(courseId)));
             } catch (EntityDoesNotExistException e) {
-                // nothing
+                columns.put("actions", getInstructorFeedbackSessionActions(false, null, false, null, null));
             }
             
             rows.add(columns);

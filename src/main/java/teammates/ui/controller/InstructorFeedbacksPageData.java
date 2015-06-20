@@ -15,6 +15,7 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.ui.template.AdditionalSettingsFormSegment;
 import teammates.ui.template.ElementTag;
+import teammates.ui.template.FeedbackSessionActions;
 import teammates.ui.template.FeedbackSessionsTableRow;
 import teammates.ui.template.FeedbackSessionsCopyFromModal;
 import teammates.ui.template.FeedbackSessionsTable;
@@ -274,13 +275,12 @@ public class InstructorFeedbacksPageData extends PageData {
                 ++displayedStatsCount;
             }
             
-            String actions = "";
+            FeedbackSessionActions actions = null;
             try {
-                actions = getInstructorFeedbackSessionActions(session, false, 
-                                                              instructors.get(courseId),
+                actions = getInstructorFeedbackSessionActions(true, session, false, instructors.get(courseId),
                                                               getCourseIdSectionNamesMap(sessions).get(courseId));
             } catch (EntityDoesNotExistException e) {
-                // nothing
+                actions = getInstructorFeedbackSessionActions(false, null, false, null, null);
             }
             
             ElementTag elementAttributes ;
