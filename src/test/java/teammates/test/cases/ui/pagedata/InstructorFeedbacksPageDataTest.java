@@ -407,11 +407,11 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         
     
     private Map<String, List<String>> getCourseIdToSectionNameMap(List<InstructorAttributes> instructorsForUser, 
-                                                                  Collection<StudentAttributes> allStudent) {
+                                                                  Collection<StudentAttributes> allStudents) {
         Set<String> courseIds = getSetOfCourseIdsFromInstructorAttributes(instructorsForUser);
         Map<String, List<String>> result = new HashMap<String, List<String>>();
         
-        for (StudentAttributes student : allStudent) {
+        for (StudentAttributes student : allStudents) {
             if (!courseIds.contains(student.course)) {
                 continue;
             }
@@ -421,10 +421,9 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
                 sectionList.add(student.section);
                 result.put(student.course, sectionList);
             } else {
-                if (result.get(student.course).contains(student.section)) {
-                    continue;
+                if (!result.get(student.course).contains(student.section)) {
+                    result.get(student.course).add(student.section);
                 }
-                result.get(student.course).add(student.section);
             }
         }
         
