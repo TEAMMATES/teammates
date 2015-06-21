@@ -55,11 +55,7 @@ public class InstructorFeedbacksPageAction extends Action {
             }
         }
         
-        Map<String, List<String>> courseIdToSectionName = new HashMap<String, List<String>>();
-        for (CourseAttributes course : courses) {
-            List<String> sections = logic.getSectionNamesForCourse(course.id);
-            courseIdToSectionName.put(course.id, sections);
-        }
+        Map<String, List<String>> courseIdToSectionName = logic.getCourseIdToSectionNamesMap(courses);
         
         if (courses.isEmpty()) {
             statusToUser.add(Const.StatusMessages.COURSE_EMPTY_IN_INSTRUCTOR_FEEDBACKS
