@@ -20,7 +20,7 @@
         </c:otherwise>
     </c:choose>   
     </td>
-    <td class="middlealign <c:if test="${responseRow.rowGrey}">color_neutral</c:if>">${responseRow.giverTeam}></td>
+    <td class="middlealign <c:if test="${responseRow.rowGrey}">color_neutral</c:if>">${responseRow.giverTeam}</td>
     <td class="middlealign <c:if test="${responseRow.rowGrey}">color_neutral</c:if>">
     <c:choose>
         <c:when test="${responseRow.recipientProfilePictureDisplayed}">

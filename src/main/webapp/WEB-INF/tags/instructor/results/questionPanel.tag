@@ -6,7 +6,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 
 <%@ attribute name="showAll" type="java.lang.Boolean" required="true" %>
-<%@ attribute name="questionIndx" type="java.lang.Integer" required="true" %>
+<%@ attribute name="questionIndex" type="java.lang.Integer" required="true" %>
 <%@ attribute name="shouldCollapsed" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="questionPanel" type="teammates.ui.template.InstructorResultsQuestionTable" required="true" %>
 
@@ -14,7 +14,7 @@
 <div class="panel ${questionPanel.panelClass}">
     <div class="panel-heading<%=showAll ? "" : " ajax_submit"%>">
         <form style="display:none;" id="seeMore-${questionPanel.question.questionNumber}" class="seeMoreForm-${questionPanel.question.questionNumber}" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
-            <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${questionPanel.courseId}>">
+            <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${questionPanel.courseId}">
             <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${questionPanel.feedbackSessionName}">
             <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
             <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" value="${groupByTeam}">

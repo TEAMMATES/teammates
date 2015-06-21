@@ -12,7 +12,7 @@
 <br>
 
     <c:forEach items="${data.questionPanels}" var="questionPanel" varStatus="i">
-        <results:questionPanel questionIndx="${i.index}" showAll="${showAll}" questionPanel="${questionPanel}" shouldCollapsed="${shouldCollapsed}"/>
+        <results:questionPanel questionIndex="${i.index}" showAll="${showAll}" questionPanel="${questionPanel}" shouldCollapsed="${shouldCollapsed}"/>
     </c:forEach>
  
 

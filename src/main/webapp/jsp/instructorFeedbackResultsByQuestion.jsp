@@ -4,18 +4,14 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
-<c:set var="jsIncludes">
-        <link rel="stylesheet" href="/stylesheets/datepicker.css" type="text/css" media="screen">
-        
-        <script type="text/javascript" src="/js/datepicker.js"></script>
-        <script type="text/javascript" src="/js/instructor.js"></script>
-        <script type="text/javascript" src="/js/ajaxResponseRate.js"></script>
-        <script type="text/javascript" src="/js/instructorFeedbackAjaxRemindModal.js"></script>
-        <script type="text/javascript" src="/js/instructorFeedbacksAjax.js"></script>
-        <script type="text/javascript" src="/js/instructorFeedbacks.js"></script>
-       
+<c:set var="jsIncludes">    
+    <script type="text/javascript" src="/js/instructor.js"></script>
+    <script type="text/javascript" src="/js/instructorFeedbackResults.js"></script>
+    <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxByQuestion.js"></script>
+    <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxResponseRate.js"></script>
+    <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
 </c:set>
+
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Add New Feedback Session" jsIncludes="${jsIncludes}">
-    <results:byQuestionResults showAll="${data.bundle.complete}" shouldCollapsed="${data.shouldCollapsed}" data="${data}" />
-    
+    <results:byQuestionResults showAll="${data.bundle.complete}" shouldCollapsed="${data.shouldCollapsed}" data="${data}" />    
 </ti:instructorPage>

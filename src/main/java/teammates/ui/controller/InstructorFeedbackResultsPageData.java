@@ -1,7 +1,6 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +13,6 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.ui.template.InstructorResultsQuestionTable;
@@ -92,14 +90,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
         List<InstructorResultsResponseRow> responseRows = new ArrayList<InstructorResultsResponseRow>();
         
         List<String> possibleGiversWithoutResponses = bundle.getPossibleGivers(question);
-        List<String> possibleReceiversForGiver = new ArrayList<String>();
+        List<String> possibleReceiversWithoutResponsesForGiver = new ArrayList<String>();
 
         String prevGiver = "";
         
         for (FeedbackResponseAttributes response : responses) {
             if (!bundle.isGiverVisible(response) || !bundle.isRecipientVisible(response)) {
                 possibleGiversWithoutResponses.clear();
-                possibleReceiversForGiver.clear();
+                possibleReceiversWithoutResponsesForGiver.clear();
             }
             
             // keep track of possible givers who did not give a response
@@ -108,19 +106,19 @@ public class InstructorFeedbackResultsPageData extends PageData {
             
             boolean isNewGiver = !prevGiver.equals(response.giverEmail); 
             if (isNewGiver) {
-                responseRows.addAll(getResponseRowsBetweenGiverAndPossibleRecipients(
-                                    question, question.getQuestionDetails(),
-                                    possibleReceiversForGiver, prevGiver));
+                responseRows.addAll(buildResponseRowsBetweenGiverAndPossibleRecipients(
+                                    question, possibleReceiversWithoutResponsesForGiver, prevGiver, 
+                                    bundle.getNameForEmail(prevGiver), bundle.getTeamNameForEmail(prevGiver)));
                 
                 String giverIdentifier = (question.giverType == FeedbackParticipantType.TEAMS) ? 
                                          bundle.getFullNameFromRoster(response.giverEmail) :
                                          response.giverEmail;
                             
-                possibleReceiversForGiver = bundle.getPossibleRecipients(question, giverIdentifier);
+                possibleReceiversWithoutResponsesForGiver = bundle.getPossibleRecipients(question, giverIdentifier);
             }
             
-            //keep track of possible recipients without a response from the current giver
-            removeParticipantIdentifierFromList(question.recipientType, possibleReceiversForGiver, response.recipientEmail);
+            // keep track of possible recipients without a response from the current giver
+            removeParticipantIdentifierFromList(question.recipientType, possibleReceiversWithoutResponsesForGiver, response.recipientEmail);
             prevGiver = response.giverEmail;
             
             ModerationButton moderationButton = buildModerationButtonForExistingResponse(question, response);
@@ -133,28 +131,31 @@ public class InstructorFeedbackResultsPageData extends PageData {
             responseRows.add(responseRow);
         }
         
-        getRemainingRowsInCsvFormat(question, question.getQuestionDetails(),
-                                    possibleGiversWithoutResponses, possibleReceiversForGiver, prevGiver);
+        responseRows.addAll(getRemainingResponseRows(question, 
+                                                     possibleGiversWithoutResponses, 
+                                                     possibleReceiversWithoutResponsesForGiver, 
+                                                     prevGiver));
         
         return responseRows;
     }
     
-    private List<InstructorResultsResponseRow> getResponseRowsBetweenGiverAndPossibleRecipients(
-                                                                    FeedbackQuestionAttributes question, FeedbackQuestionDetails questionDetails, 
-                                                                    List<String> possibleReceivers, String giver) {
+    private List<InstructorResultsResponseRow> buildResponseRowsBetweenGiverAndPossibleRecipients(
+                                                                    FeedbackQuestionAttributes question, 
+                                                                    List<String> possibleReceivers, 
+                                                                    String giverIdentifier,
+                                                                    String giverName, String giverTeam) {
         List<InstructorResultsResponseRow> missingResponses = new ArrayList<InstructorResultsResponseRow>();
+        FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
         
         for (String possibleRecipient : possibleReceivers) {
-            String giverName = bundle.getFullNameFromRoster(giver);
-            String giverTeam = bundle.getTeamNameForEmail(giver);
             
             String possibleRecipientName = bundle.getFullNameFromRoster(possibleRecipient);
-            String possibleRecipientTeam = bundle.getTeamNameForEmail(possibleRecipient);
+            String possibleRecipientTeam = bundle.getTeamNameFromRoster(possibleRecipient);
             
-            String textToDisplay = questionDetails.getNoResponseTextInHtml(giver, possibleRecipient, bundle, question);
+            String textToDisplay = questionDetails.getNoResponseTextInHtml(giverIdentifier, possibleRecipient, bundle, question);
             
-            if (questionDetails.shouldShowNoResponseText(giver, possibleRecipient, question)) {
-                ModerationButton moderationButton = buildModerationButtonForMissingResponse(question, giver);
+            if (questionDetails.shouldShowNoResponseText(giverIdentifier, possibleRecipient, question)) {
+                ModerationButton moderationButton = buildModerationButtonForMissingResponse(question, giverIdentifier);
                 InstructorResultsResponseRow missingResponse = new InstructorResultsResponseRow(giverName, giverTeam, possibleRecipientName, possibleRecipientTeam, 
                                                                                                 textToDisplay, true, moderationButton, true);
                 missingResponses.add(missingResponse);
@@ -184,17 +185,17 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
     }
     
-    private List<InstructorResultsResponseRow> getRemainingRowsInCsvFormat(
+    private List<InstructorResultsResponseRow> getRemainingResponseRows(
                                                 FeedbackQuestionAttributes question,
-                                                FeedbackQuestionDetails questionDetails,
                                                 List<String> remainingPossibleGivers,
                                                 List<String> possibleRecipientsForGiver, String prevGiver) {
         List<InstructorResultsResponseRow> responseRows = new ArrayList<InstructorResultsResponseRow>();
         
         if (possibleRecipientsForGiver != null) {
-            responseRows.addAll(getResponseRowsBetweenGiverAndPossibleRecipients(question, 
-                                                                                 questionDetails, possibleRecipientsForGiver,
-                                                                                 prevGiver));
+            responseRows.addAll(buildResponseRowsBetweenGiverAndPossibleRecipients(question, 
+                                                                                   possibleRecipientsForGiver,
+                                                                                   prevGiver, 
+                                                                                   bundle.getNameForEmail(prevGiver), bundle.getTeamNameForEmail(prevGiver)));
             
         }
         
@@ -203,9 +204,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
         for (String possibleGiverWithNoResponses : remainingPossibleGivers) {
             possibleRecipientsForGiver = bundle.getPossibleRecipients(question, possibleGiverWithNoResponses);
             
-            responseRows.addAll(getResponseRowsBetweenGiverAndPossibleRecipients(
-                                    question, questionDetails, possibleRecipientsForGiver,
-                                    possibleGiverWithNoResponses));
+            responseRows.addAll(buildResponseRowsBetweenGiverAndPossibleRecipients(
+                                    question, possibleRecipientsForGiver, possibleGiverWithNoResponses, 
+                                    bundle.getFullNameFromRoster(possibleGiverWithNoResponses),
+                                    bundle.getTeamNameFromRoster(possibleGiverWithNoResponses)));
         }
         
         return responseRows;
