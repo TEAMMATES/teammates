@@ -15,6 +15,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
+import teammates.common.util.Url;
 import teammates.ui.template.InstructorResultsQuestionTable;
 import teammates.ui.template.InstructorResultsResponseRow;
 import teammates.ui.template.ModerationButton;
@@ -128,6 +129,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                bundle.getRecipientNameForResponse(question, response), bundle.getTeamNameForEmail(response.recipientEmail), 
                                                                bundle.getResponseAnswerHtml(response, question), 
                                                                true, moderationButton);
+            responseRow.setGiverProfilePictureDisplayed(question.isGiverAStudent());
+            responseRow.setGiverProfilePictureLink(new Url(getProfilePictureLink(prevGiver)));
+            
+            responseRow.setRecipientProfilePictureDisplayed(question.isRecipientAStudent());
+            responseRow.setRecipientProfilePictureLink(new Url(getProfilePictureLink(response.recipientEmail)));
+            
             responseRows.add(responseRow);
         }
         
@@ -158,6 +165,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 ModerationButton moderationButton = buildModerationButtonForMissingResponse(question, giverIdentifier);
                 InstructorResultsResponseRow missingResponse = new InstructorResultsResponseRow(giverName, giverTeam, possibleRecipientName, possibleRecipientTeam, 
                                                                                                 textToDisplay, true, moderationButton, true);
+                
+                missingResponse.setGiverProfilePictureDisplayed(question.isGiverAStudent());
+                missingResponse.setGiverProfilePictureLink(new Url(getProfilePictureLink(giverIdentifier)));
+                
+                missingResponse.setRecipientProfilePictureDisplayed(question.isRecipientAStudent());
+                missingResponse.setRecipientProfilePictureLink(new Url(getProfilePictureLink(possibleRecipient)));
+                
                 missingResponses.add(missingResponse);
             }
         }

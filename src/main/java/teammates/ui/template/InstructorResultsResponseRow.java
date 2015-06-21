@@ -95,5 +95,23 @@ public class InstructorResultsResponseRow {
     public boolean isRowGrey() {
         return isRowGrey;
     }
+
+    public void setGiverProfilePictureDisplayed(boolean isGiverProfilePictureDisplayed) {
+        this.isGiverProfilePictureDisplayed = isGiverProfilePictureDisplayed;
+    }
+
+    public void setGiverProfilePictureLink(Url giverProfilePictureLink) {
+        this.giverProfilePictureLink = giverProfilePictureLink;
+    }
+
+    public void setRecipientProfilePictureDisplayed(boolean isRecipientProfilePictureDisplayed) {
+        this.isRecipientProfilePictureDisplayed = isRecipientProfilePictureDisplayed;
+    }
+
+    public void setRecipientProfilePictureLink(Url recipientProfilePictureLink) {
+        this.recipientProfilePictureLink = recipientProfilePictureLink;
+    }
+    
+    
     
 }
