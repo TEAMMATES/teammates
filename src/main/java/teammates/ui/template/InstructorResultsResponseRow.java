@@ -24,19 +24,29 @@ public class InstructorResultsResponseRow {
     private boolean isModerationsButtonDisplayed;
     private ModerationButton moderationButton;
     
+    private boolean isRowGrey;
     
     public InstructorResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
                                         String recipientDisplayableIdentifier, String recipientTeam,
                                         String displayableResponse, boolean isModerationsButtonShown,
                                         ModerationButton moderationButton) {
-        this.giverDisplayableIdentifier = giverDisplayableIdentifier;
-        this.giverTeam = giverTeam;
-        this.recipientDisplayableIdentifier = recipientDisplayableIdentifier;
-        this.recipientTeam = recipientTeam;
-        this.displayableResponse = displayableResponse;
-        this.isModerationsButtonDisplayed = isModerationsButtonShown;
-        this.moderationButton = moderationButton;
+        this(giverDisplayableIdentifier, giverTeam, recipientDisplayableIdentifier, recipientTeam,
+             displayableResponse, isModerationsButtonShown, moderationButton, false);
     }
+    
+    public InstructorResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
+                                        String recipientDisplayableIdentifier, String recipientTeam,
+                                        String displayableResponse, boolean isModerationsButtonShown,
+                                        ModerationButton moderationButton, boolean isRowGrey) {
+    this.giverDisplayableIdentifier = giverDisplayableIdentifier;
+    this.giverTeam = giverTeam;
+    this.recipientDisplayableIdentifier = recipientDisplayableIdentifier;
+    this.recipientTeam = recipientTeam;
+    this.displayableResponse = displayableResponse;
+    this.isModerationsButtonDisplayed = isModerationsButtonShown;
+    this.moderationButton = moderationButton;
+    this.isRowGrey = isRowGrey;
+}
     
     public String getGiverDisplayableIdentifier() {
         return giverDisplayableIdentifier;
@@ -80,6 +90,10 @@ public class InstructorResultsResponseRow {
 
     public boolean isRecipientProfilePictureDisplayed() {
         return isRecipientProfilePictureDisplayed;
+    }
+
+    public boolean isRowGrey() {
+        return isRowGrey;
     }
     
 }

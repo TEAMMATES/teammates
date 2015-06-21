@@ -1,16 +1,20 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.ui.template.InstructorResultsQuestionTable;
@@ -52,7 +56,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public void init(FeedbackSessionResultsBundle bundle) {
         this.bundle = bundle;
        
-        
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionToResponseMap = bundle.getQuestionResponseMap();
         questionPanels = new ArrayList<InstructorResultsQuestionTable>();
         
@@ -68,41 +71,148 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private InstructorResultsQuestionTable buildQuestionTable(FeedbackQuestionAttributes question,
                                                               List<FeedbackResponseAttributes> responses) {
         
-        String statisticsTable = question.getQuestionDetails().
-                                              getQuestionResultStatisticsHtml(responses, 
-                                                                              question, 
-                                                                              this, 
-                                                                              bundle, 
-                                                                              "question");
-        List<InstructorResultsResponseRow> responseRows = buildResponseRowsForExistingResponses(question, responses);
+        FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
+        String statisticsTable = questionDetails.getQuestionResultStatisticsHtml(responses, question, 
+                                                                                 this, bundle, "question");
+        List<InstructorResultsResponseRow> responseRows = buildResponseRowsForQuestion(question, responses);
         
         InstructorResultsQuestionTable questionTable = new InstructorResultsQuestionTable(this, responses, statisticsTable, responseRows, question);
-        
         
         return questionTable;
     }
     
-    private List<InstructorResultsResponseRow> buildResponseRowsForExistingResponses(FeedbackQuestionAttributes question,
-                                                                 List<FeedbackResponseAttributes> responses) {
+    /**
+     * Builds response rows for a given question. This not only builds response rows for existing responses, but includes 
+     * the missing responses between pairs of givers and recipients.
+     * @param question
+     * @param responses  existing responses for the question
+     */
+    private List<InstructorResultsResponseRow> buildResponseRowsForQuestion(FeedbackQuestionAttributes question,
+                                                                            List<FeedbackResponseAttributes> responses) {
         List<InstructorResultsResponseRow> responseRows = new ArrayList<InstructorResultsResponseRow>();
+        
+        List<String> possibleGiversWithoutResponses = bundle.getPossibleGivers(question);
+        List<String> possibleReceiversForGiver = new ArrayList<String>();
+
+        String prevGiver = "";
+        
         for (FeedbackResponseAttributes response : responses) {
-            ModerationButton moderationButton = buildModerationButtonForResponse(question, response);
+            if (!bundle.isGiverVisible(response) || !bundle.isRecipientVisible(response)) {
+                possibleGiversWithoutResponses.clear();
+                possibleReceiversForGiver.clear();
+            }
             
-            InstructorResultsResponseRow responseRow 
-                    = new InstructorResultsResponseRow(
-                                                   bundle.getGiverNameForResponse(question, response), 
-                                                   bundle.getTeamNameForEmail(response.giverEmail), 
-                                                   bundle.getRecipientNameForResponse(question, response), 
-                                                   bundle.getTeamNameForEmail(response.recipientEmail), 
-                                                   bundle.getResponseAnswerHtml(response, question), 
-                                                   true, 
-                                                   moderationButton);
+            // keep track of possible givers who did not give a response
+            removeParticipantIdentifierFromList(question.giverType, possibleGiversWithoutResponses, 
+                                                response.giverEmail);
+            
+            boolean isNewGiver = !prevGiver.equals(response.giverEmail); 
+            if (isNewGiver) {
+                responseRows.addAll(getResponseRowsBetweenGiverAndPossibleRecipients(
+                                    question, question.getQuestionDetails(),
+                                    possibleReceiversForGiver, prevGiver));
+                
+                String giverIdentifier = (question.giverType == FeedbackParticipantType.TEAMS) ? 
+                                         bundle.getFullNameFromRoster(response.giverEmail) :
+                                         response.giverEmail;
+                            
+                possibleReceiversForGiver = bundle.getPossibleRecipients(question, giverIdentifier);
+            }
+            
+            //keep track of possible recipients without a response from the current giver
+            removeParticipantIdentifierFromList(question.recipientType, possibleReceiversForGiver, response.recipientEmail);
+            prevGiver = response.giverEmail;
+            
+            ModerationButton moderationButton = buildModerationButtonForExistingResponse(question, response);
+            
+            InstructorResultsResponseRow responseRow = new InstructorResultsResponseRow(
+                                                               bundle.getGiverNameForResponse(question, response), bundle.getTeamNameForEmail(response.giverEmail), 
+                                                               bundle.getRecipientNameForResponse(question, response), bundle.getTeamNameForEmail(response.recipientEmail), 
+                                                               bundle.getResponseAnswerHtml(response, question), 
+                                                               true, moderationButton);
             responseRows.add(responseRow);
         }
+        
+        getRemainingRowsInCsvFormat(question, question.getQuestionDetails(),
+                                    possibleGiversWithoutResponses, possibleReceiversForGiver, prevGiver);
+        
         return responseRows;
     }
+    
+    private List<InstructorResultsResponseRow> getResponseRowsBetweenGiverAndPossibleRecipients(
+                                                                    FeedbackQuestionAttributes question, FeedbackQuestionDetails questionDetails, 
+                                                                    List<String> possibleReceivers, String giver) {
+        List<InstructorResultsResponseRow> missingResponses = new ArrayList<InstructorResultsResponseRow>();
+        
+        for (String possibleRecipient : possibleReceivers) {
+            String giverName = bundle.getFullNameFromRoster(giver);
+            String giverTeam = bundle.getTeamNameForEmail(giver);
+            
+            String possibleRecipientName = bundle.getFullNameFromRoster(possibleRecipient);
+            String possibleRecipientTeam = bundle.getTeamNameForEmail(possibleRecipient);
+            
+            String textToDisplay = questionDetails.getNoResponseTextInHtml(giver, possibleRecipient, bundle, question);
+            
+            if (questionDetails.shouldShowNoResponseText(giver, possibleRecipient, question)) {
+                ModerationButton moderationButton = buildModerationButtonForMissingResponse(question, giver);
+                InstructorResultsResponseRow missingResponse = new InstructorResultsResponseRow(giverName, giverTeam, possibleRecipientName, possibleRecipientTeam, 
+                                                                                                textToDisplay, true, moderationButton, true);
+                missingResponses.add(missingResponse);
+            }
+        }
+        
+        return missingResponses;
+    }
 
-    private ModerationButton buildModerationButtonForResponse(FeedbackQuestionAttributes question,
+    /**
+     * Given a participantIdentifier, remove it from participantIdentifierList. 
+     * 
+     * Before removal, FeedbackSessionResultsBundle.getNameFromRoster is used to 
+     * convert the identifier into a canonical form if the participantIdentifierType is TEAMS. 
+     *  
+     * @param participantIdentifierType
+     * @param participantIdentifierList
+     * @param participantIdentifier
+     */
+    private void removeParticipantIdentifierFromList(
+            FeedbackParticipantType participantIdentifierType,
+            List<String> participantIdentifierList, String participantIdentifier) {
+        if (participantIdentifierType == FeedbackParticipantType.TEAMS) {
+            participantIdentifierList.remove(bundle.getFullNameFromRoster(participantIdentifier)); 
+        } else {
+            participantIdentifierList.remove(participantIdentifier);
+        }
+    }
+    
+    private List<InstructorResultsResponseRow> getRemainingRowsInCsvFormat(
+                                                FeedbackQuestionAttributes question,
+                                                FeedbackQuestionDetails questionDetails,
+                                                List<String> remainingPossibleGivers,
+                                                List<String> possibleRecipientsForGiver, String prevGiver) {
+        List<InstructorResultsResponseRow> responseRows = new ArrayList<InstructorResultsResponseRow>();
+        
+        if (possibleRecipientsForGiver != null) {
+            responseRows.addAll(getResponseRowsBetweenGiverAndPossibleRecipients(question, 
+                                                                                 questionDetails, possibleRecipientsForGiver,
+                                                                                 prevGiver));
+            
+        }
+        
+        removeParticipantIdentifierFromList(question.giverType, remainingPossibleGivers, prevGiver);
+            
+        for (String possibleGiverWithNoResponses : remainingPossibleGivers) {
+            possibleRecipientsForGiver = bundle.getPossibleRecipients(question, possibleGiverWithNoResponses);
+            
+            responseRows.addAll(getResponseRowsBetweenGiverAndPossibleRecipients(
+                                    question, questionDetails, possibleRecipientsForGiver,
+                                    possibleGiverWithNoResponses));
+        }
+        
+        return responseRows;
+    }
+    
+
+    private ModerationButton buildModerationButtonForExistingResponse(FeedbackQuestionAttributes question,
                                                               FeedbackResponseAttributes response) {
         boolean isAllowedToModerate = instructor.isAllowedForPrivilege(bundle.getSectionFromRoster(response.giverEmail), 
                                                                        feedbackSessionName, 
@@ -112,13 +222,31 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                  response.giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"") : 
                                  response.giverEmail;
         ModerationButton moderationButton 
-                             = new ModerationButton( isAllowedToModerate, isDisabled, 
-                                                     question.questionNumber, 
-                                                     giverIdentifier, 
-                                                     courseId, feedbackSessionName, 
-                                                     question);
+                             = new ModerationButton(isAllowedToModerate, isDisabled, 
+                                                    question.questionNumber, 
+                                                    giverIdentifier, 
+                                                    courseId, feedbackSessionName, 
+                                                    question);
         return moderationButton;
     }
+    
+    private ModerationButton buildModerationButtonForMissingResponse(FeedbackQuestionAttributes question,
+                                                                     String giverEmail) {
+        boolean isAllowedToModerate = instructor.isAllowedForPrivilege(bundle.getSectionFromRoster(giverEmail), 
+                                                     feedbackSessionName, 
+                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+        boolean isDisabled = !isAllowedToModerate;
+        String giverIdentifier = question.giverType.isTeam() ? 
+                                 giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"") : 
+                                 giverEmail;
+        ModerationButton moderationButton 
+           = new ModerationButton(isAllowedToModerate, isDisabled, 
+                                  question.questionNumber, 
+                                  giverIdentifier, 
+                                  courseId, feedbackSessionName, 
+                                  question);
+        return moderationButton;
+   }
 
     /* 
      * The next three methods are not covered in action test, but covered in UI tests.

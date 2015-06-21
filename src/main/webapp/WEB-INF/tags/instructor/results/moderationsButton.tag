@@ -10,6 +10,6 @@
     <input type="hidden" name="courseid" value="${moderationButton.courseId}">
     <input type="hidden" name="fsname" value="${moderationButton.feedbackSessionName}">
     <input type="hidden" name="moderatedquestion" value="${moderationButton.questionNumber}">
-    <input type="hidden" name="moderatedstudent" value="${possibleGiver}">
+    <input type="hidden" name="moderatedstudent" value="${moderationButton.giverIdentifier}">
 </form>
 
