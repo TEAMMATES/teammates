@@ -57,7 +57,7 @@
                     <div id="feedbackDataButtons">
                         <input id="button_download" type="submit" class="btn btn-primary btn-block"
                             name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
-                            value="Download results">
+                            value="Download Results">
                     </div>
                     <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
                     <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>">
