@@ -16,6 +16,7 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
+import teammates.ui.template.ElementTag;
 import teammates.ui.template.InstructorResultsQuestionTable;
 import teammates.ui.template.InstructorResultsResponseRow;
 import teammates.ui.template.ModerationButton;
@@ -128,7 +129,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                bundle.getGiverNameForResponse(question, response), bundle.getTeamNameForEmail(response.giverEmail), 
                                                                bundle.getRecipientNameForResponse(question, response), bundle.getTeamNameForEmail(response.recipientEmail), 
                                                                bundle.getResponseAnswerHtml(response, question), 
-                                                               true, moderationButton);
+                                                               bundle.isGiverVisible(response), moderationButton);
             responseRow.setGiverProfilePictureDisplayed(question.isGiverAStudent());
             responseRow.setGiverProfilePictureLink(new Url(getProfilePictureLink(prevGiver)));
             
@@ -165,6 +166,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 ModerationButton moderationButton = buildModerationButtonForMissingResponse(question, giverIdentifier);
                 InstructorResultsResponseRow missingResponse = new InstructorResultsResponseRow(giverName, giverTeam, possibleRecipientName, possibleRecipientTeam, 
                                                                                                 textToDisplay, true, moderationButton, true);
+                missingResponse.setRowAttributes(new ElementTag("class", "pending_response_row"));
                 
                 missingResponse.setGiverProfilePictureDisplayed(question.isGiverAStudent());
                 missingResponse.setGiverProfilePictureLink(new Url(getProfilePictureLink(giverIdentifier)));
@@ -216,6 +218,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
         removeParticipantIdentifierFromList(question.giverType, remainingPossibleGivers, prevGiver);
             
         for (String possibleGiverWithNoResponses : remainingPossibleGivers) {
+            if (!selectedSection.equals("All") && !bundle.getSectionFromRoster(possibleGiverWithNoResponses).equals(selectedSection)) {
+                continue;
+             }
             possibleRecipientsForGiver = bundle.getPossibleRecipients(question, possibleGiverWithNoResponses);
             
             responseRows.addAll(buildResponseRowsBetweenGiverAndPossibleRecipients(
@@ -359,7 +364,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     public String getGroupByTeam() {
-        return groupByTeam;
+        return groupByTeam != null? groupByTeam : "null";
     }
 
     public String getShowStats() {

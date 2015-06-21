@@ -12,6 +12,6 @@
     <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
 </c:set>
 
-<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Add New Feedback Session" jsIncludes="${jsIncludes}">
+<ti:instructorPage pageTitle="TEAMMATES - Feedback Session Results" bodyTitle="Session Results" jsIncludes="${jsIncludes}">
     <results:byQuestionResults showAll="${data.bundle.complete}" shouldCollapsed="${data.shouldCollapsed}" data="${data}" />    
 </ti:instructorPage>

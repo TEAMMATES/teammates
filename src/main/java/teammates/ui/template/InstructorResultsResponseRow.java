@@ -24,6 +24,7 @@ public class InstructorResultsResponseRow {
     private boolean isModerationsButtonDisplayed;
     private ModerationButton moderationButton;
     
+    private ElementTag rowAttributes;
     private boolean isRowGrey;
     
     public InstructorResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
@@ -111,7 +112,12 @@ public class InstructorResultsResponseRow {
     public void setRecipientProfilePictureLink(Url recipientProfilePictureLink) {
         this.recipientProfilePictureLink = recipientProfilePictureLink;
     }
-    
-    
-    
+
+    public ElementTag getRowAttributes() {
+        return rowAttributes;
+    }
+
+    public void setRowAttributes(ElementTag rowAttributes) {
+        this.rowAttributes = rowAttributes;
+    }
 }
