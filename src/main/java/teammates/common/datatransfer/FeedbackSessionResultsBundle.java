@@ -1038,8 +1038,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
 
         for (FeedbackResponseAttributes response : responses) {
-            List<FeedbackResponseAttributes> responsesForQuestion = sortedMap
-                    .get(questions.get(response.feedbackQuestionId));
+            FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
+            List<FeedbackResponseAttributes> responsesForQuestion = sortedMap.get(question);
             responsesForQuestion.add(response);
         }
 
@@ -1063,8 +1063,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
 
         for (FeedbackResponseAttributes response : responses) {
-            List<FeedbackResponseAttributes> responsesForQuestion = sortedMap
-                    .get(questions.get(response.feedbackQuestionId));
+            FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
+            List<FeedbackResponseAttributes> responsesForQuestion = sortedMap.get(question);
             responsesForQuestion.add(response);
         }
 
