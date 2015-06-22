@@ -181,36 +181,31 @@ function bindCopyButton() {
     });
 }
 
-/**
- * Variable is intended to be outside of bindCopyEvents function scope
- * It is used to remember what row was previously clicked by the user
- */
-var $previouslySelectedCopyRow;
-
 function bindCopyEvents() {
-    $('#copyTableModal > tbody > tr').on('click', function(e) {      
+    $('#copyTableModal >tbody>tr').on('click', function(e) {
         var $currentRow = $(this);
         
-        if (typeof $previouslySelectedCopyRow != 'undefined') {
-            $previouslySelectedCopyRow.removeClass('row-selected');
-            $($previouslySelectedCopyRow.children('td:first')).html('<input type="radio">');
+        if ($currentRow.hasClass('row-selected')) {
+            return;
         }
-        
-        $previouslySelectedCopyRow = $currentRow;
-        
-        var cells = $currentRow.children('td');
-        var courseId = $(cells[1]).text().trim();
-        var feedbackSessionName = $(cells[2]).text().trim();
-        
+
+        var $cells = $currentRow.children('td');
+        var courseId = $($cells[1]).text().trim();
+        var feedbackSessionName = $($cells[2]).text().trim();
         $('#modalCourseId').val(courseId);
         $('#modalSessionName').val(feedbackSessionName);
-                
+
+        var $selectedRadio = $currentRow.parent().find('input:checked');
+        var $selectedRow = $selectedRadio.parent().parent();
+
+        $selectedRadio.prop('checked', false);
+        $selectedRow.removeClass('row-selected');
+
+        $selectedRadio = $currentRow.children('td').children('input');
+        $selectedRadio.prop('checked', true);
         $currentRow.addClass('row-selected');
-        $($currentRow.children('td:first')).html('<input type="radio" checked="checked">');
 
         $('#button_copy_submit').prop('disabled', false);
-        
-        return false;
     });
 }
 
