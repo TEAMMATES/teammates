@@ -3,16 +3,14 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/comments" prefix="comments" %>
-<c:set var="cssIncludes">
-    <link href="/stylesheets/omniComment.css" rel="stylesheet">
-</c:set>
 <c:set var="jsIncludes">
+    <link href="/stylesheets/omniComment.css" rel="stylesheet">
     <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script src="/js/omniComment.js"></script>
     <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
 </c:set>
-<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Comments from Instructors" jsIncludes="${jsIncludes}" cssIncludes="${cssIncludes}">
+<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Comments from Instructors" jsIncludes="${jsIncludes}">
     <div class="row">
         <div class="col-md-6 pull-right instructor-header-bar">
             <comments:search instructorSearchLink="${data.instructorSearchLink}"/>
