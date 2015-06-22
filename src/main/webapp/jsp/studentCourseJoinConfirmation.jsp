@@ -36,7 +36,7 @@
 
 <body>
     <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
-    <div class="container-fluid theme-showcase" id="frameBodyWrapper">
+    <div class="container" id="frameBodyWrapper">
         <div id="topOfPage"></div>
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         <br>

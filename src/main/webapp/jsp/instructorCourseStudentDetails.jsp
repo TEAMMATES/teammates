@@ -52,11 +52,10 @@
 <body>
     <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
-    <div class="container theme-showcase" id="frameBodyWrapper">
+    <div class="container" id="frameBodyWrapper">
         <div id="topOfPage"></div>
-        <div id="headerOperation">
-            <h1>Student Details</h1>
-        </div>
+        <h1>Student Details</h1>
+        <br>
 
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         

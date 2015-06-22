@@ -59,14 +59,10 @@
     <jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
 
 
-    <div class="container theme-showcase" role="main">
-
-        <div id="frameBody">
-            <div id="frameBodyWrapper">
+    <div class="container" id="frameBodyWrapper">
                 <div id="topOfPage"></div>
-                <div id="headerOperation" class="page-header">
-                    <h1>Admin Email</h1>
-                </div>
+                <h1>Admin Email</h1>
+                <br>
 
                 <ul class="nav nav-tabs">
                     <li role="presentation" class="<%=data.getClass().toString().contains("AdminEmailCompose") ? "active" : ""%>">
@@ -397,8 +393,6 @@
                
                 <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
             </div>
-        </div>
-    </div>
     
      
     
