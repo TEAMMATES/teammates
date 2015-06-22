@@ -10,7 +10,6 @@ public class FeedbackResultsResponse {
     public FeedbackResultsResponse(String giverName, String answer,
                                     List<StudentFeedbackResultsResponseComment> comments) {
         this.giverName = giverName;
-        //this.recipientName = recipientName;
         this.answer = answer;
         this.comments = comments;
     }
