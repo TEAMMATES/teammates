@@ -37,11 +37,10 @@
 <body>
     <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
-    <div class="container theme-showcase" id="frameBodyWrapper">
+    <div class="container" id="frameBodyWrapper">
         <div id="topOfPage"></div>
-        <div id="headerOperation">
-            <h1>Edit Course Details</h1>
-        </div>
+        <h1>Edit Course Details</h1>
+        <br>
             
         <div class="panel panel-primary">
             <div class="panel-heading">

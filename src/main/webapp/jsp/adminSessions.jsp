@@ -53,15 +53,12 @@
 
 
     <jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
-    <div class="container theme-showcase" id="frameBodyWrapper"
-        role="main">
+    <div class="container" id="frameBodyWrapper">
 
         <div id="topOfPage"></div>
 
-        <div id="headerOperation" class="page-header">
 
-
-            <h1 id="headTitle">
+            <h1>
                 Ongoing Sessions<small> Total: <%=data.totalOngoingSessions%>
                     <br> <%=TimeHelper.formatTime(data.rangeStart)%>&nbsp;&nbsp;<span
                     class="glyphicon glyphicon-resize-horizontal"></span>&nbsp;&nbsp;<%=TimeHelper.formatTime(data.rangeEnd)%>
@@ -72,9 +69,7 @@
                     onclick="closeAllSections(<%=data.tableCount%>)">
                     Collapse All</a>
             </h1>
-
-
-        </div>
+            <br>
 
         <div class="form-group">
             <a href="#" class="btn btn-link center-block"
