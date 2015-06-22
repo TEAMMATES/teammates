@@ -60,15 +60,15 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
 
         StudentCourseDetailsPageData pageData = (StudentCourseDetailsPageData) pageResult.data;
 
-        assertEquals(student1InCourse1.course, pageData.courseDetails.course.id);
+        assertEquals(student1InCourse1.course, pageData.getStudentCourseDetailsPanel().getCourseId());
         assertEquals(studentId, pageData.account.googleId);
         assertEquals(student1InCourse1.getIdentificationString(), pageData.student.getIdentificationString());
-        assertEquals(student1InCourse1.team, pageData.team.name);
+        assertEquals(student1InCourse1.team, pageData.getStudentCourseDetailsPanel().getStudentTeam());
 
         List<StudentAttributes> expectedStudentsList = StudentsLogic.inst().getStudentsForTeam(
                                                                     student1InCourse1.team, student1InCourse1.course);
         
-        List<StudentAttributes> actualStudentsList = pageData.team.students;
+        List<StudentAttributes> actualStudentsList = pageData.getStudentCourseDetailsPanel().getTeammates();
           
         assertTrue(TestHelper.isSameContentIgnoreOrder(expectedStudentsList,actualStudentsList));
 
@@ -77,7 +77,7 @@ public class StudentCourseDetailsPageActionTest extends BaseActionTest {
         
         List<InstructorAttributes> expectedInstructorsList = InstructorsLogic.inst()
                                                                 .getInstructorsForCourse(student1InCourse1.course);
-        List<InstructorAttributes> actualInstructorsList = pageData.instructors;
+        List<InstructorAttributes> actualInstructorsList = pageData.getStudentCourseDetailsPanel().getInstructors();
         
         assertTrue(TestHelper.isSameContentIgnoreOrder(expectedInstructorsList,actualInstructorsList));
 

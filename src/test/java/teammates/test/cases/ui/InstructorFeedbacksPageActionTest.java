@@ -51,10 +51,10 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         
         InstructorFeedbacksPageData pageData = (InstructorFeedbacksPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
-        assertEquals(2, pageData.courses.size());
-        assertEquals(6, pageData.existingFeedbackSessions.size());
-        assertEquals(null, pageData.newFeedbackSession);
-        assertEquals(null, pageData.courseIdForNewSession);
+        assertEquals(2, pageData.getNewFsForm().getCourses().size());
+        assertEquals(6, pageData.getFsList().getExistingFeedbackSessions().size());
+        assertEquals("", pageData.getNewFsForm().getFsName());
+        assertEquals(null, pageData.getNewFsForm().getCourseIdForNewSession());
         
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage|||"
@@ -79,10 +79,10 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         
         pageData = (InstructorFeedbacksPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
-        assertEquals(2, pageData.courses.size());
-        assertEquals(0, pageData.existingFeedbackSessions.size());
-        assertEquals(null, pageData.newFeedbackSession);
-        assertEquals(instructor1ofCourse1.courseId, pageData.courseIdForNewSession);
+        assertEquals(2, pageData.getNewFsForm().getCourses().size());
+        assertEquals(0, pageData.getFsList().getExistingFeedbackSessions().size());
+        assertEquals("", pageData.getNewFsForm().getFsName());
+        assertEquals(instructor1ofCourse1.courseId, pageData.getNewFsForm().getCourseIdForNewSession());
         
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage|||"
@@ -111,9 +111,9 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         
         pageData = (InstructorFeedbacksPageData) r.data;
         assertEquals(instructorId, pageData.account.googleId);
-        assertEquals(0, pageData.courses.size());
-        assertEquals(0, pageData.existingFeedbackSessions.size());
-        assertEquals(null, pageData.newFeedbackSession);
+        assertEquals(0, pageData.getNewFsForm().getCourses().size());
+        assertEquals(0, pageData.getFsList().getExistingFeedbackSessions().size());
+        assertEquals("", pageData.getNewFsForm().getFsName());
         
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage|||true|||"

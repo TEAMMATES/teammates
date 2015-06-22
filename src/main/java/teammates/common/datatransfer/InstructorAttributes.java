@@ -173,6 +173,22 @@ public class InstructorAttributes extends EntityAttributes {
         return gson.fromJson(instructorPrivilegesAsText, InstructorPrivileges.class);
     }
     
+    public String getName() {
+        return name;
+    }
+    
+    public String getDisplayedName() {
+        return displayedName;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+    
+    public boolean isDisplayedToStudents() {
+        return isDisplayedToStudents;
+    }
+    
     public boolean isRegistered() {
         return googleId != null;
     }
