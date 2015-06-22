@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
+<%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.datatransfer.SectionDetailsBundle" %>
 <%@ page import="teammates.common.datatransfer.TeamDetailsBundle"%>
 <%@ page import="teammates.common.datatransfer.StudentAttributes"%>
@@ -8,11 +9,6 @@
     InstructorStudentListAjaxPageData data = (InstructorStudentListAjaxPageData) request.getAttribute("data");
 %>
 <%
-String COURSE_STUDENT_EDIT = "Use this to edit the details of this student. <br>"
-                           + "To edit multiple students in one go, you can use the enroll page: <br>"
-                           + "Simply enroll students using the updated data and existing data will be updated accordingly";
-String COURSE_STUDENT_DELETE = "Delete the student and the corresponding evaluations from the course";
-String COURSE_STUDENT_RECORDS = "View all student's evaluations and feedbacks";
 int courseIdx = data.courseIdx;
 int sortIdx = 2;
 if (data.courseSectionDetails.size() > 0) { %>
@@ -108,7 +104,7 @@ if (data.courseSectionDetails.size() > 0) { %>
                                 &nbsp;
                                 <a class="btn btn-default btn-xs student-edit-for-test"
                                    href="<%= data.getCourseStudentEditLink(student, data.account.googleId).replace("%40", "@") %>"
-                                   title="<%= COURSE_STUDENT_EDIT %>"
+                                   title="<%= Const.Tooltips.COURSE_STUDENT_EDIT %>"
                                    target="_blank"
                                    data-toggle="tooltip"
                                    data-placement="top"
@@ -119,7 +115,7 @@ if (data.courseSectionDetails.size() > 0) { %>
                                 <a class="btn btn-default btn-xs student-delete-for-test"
                                    href="<%= data.getCourseStudentDeleteLink(student, data.account.googleId).replace("%40", "@") %>"
                                    onclick="return toggleDeleteStudentConfirmation('<%= data.sanitizeForJs(student.course) %>','<%= data.sanitizeForJs(student.name) %>')"
-                                   title="<%= COURSE_STUDENT_DELETE %>"
+                                   title="<%= Const.Tooltips.COURSE_STUDENT_DELETE %>"
                                    data-toggle="tooltip"
                                    data-placement="top"
                                    <%= data.sectionPrivileges.get(section.name).get("canmodifystudent") ? "" : "disabled=\"disabled\"" %>>
@@ -128,7 +124,7 @@ if (data.courseSectionDetails.size() > 0) { %>
                                 &nbsp;
                                 <a class="btn btn-default btn-xs student-records-for-test"
                                    href="<%= data.getStudentRecordsLink(student, data.account.googleId).replace("%40", "@") %>"
-                                   title="<%= COURSE_STUDENT_RECORDS %>"
+                                   title="<%= Const.Tooltips.COURSE_STUDENT_RECORDS %>"
                                    target="_blank"
                                    data-toggle="tooltip"
                                    data-placement="top">
