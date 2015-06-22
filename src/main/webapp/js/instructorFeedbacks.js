@@ -184,9 +184,7 @@ function bindCopyButton() {
 }
 
 function bindCopyEvents() {
-
     $('#copyTableModal >tbody>tr').on('click', function(e) {
-        e.preventDefault();
 
         var currentRow = $(this);
         if (currentRow.hasClass('row-selected')) {
@@ -210,8 +208,6 @@ function bindCopyEvents() {
         currentRow.addClass('row-selected');
 
         $('#button_copy_submit').prop('disabled', false);
-
-        return false;
     });
 }
 
