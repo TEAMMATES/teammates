@@ -59,25 +59,28 @@ public class StudentCourseDetailsPageDataTest extends BaseTestCase {
         
         pageData.init(courseDetails, instructors, student, team);
         
+        List<InstructorAttributes> courseInstructors = pageData.getStudentCourseDetailsPanel().getInstructors();
+        List<StudentAttributes> teammates = pageData.getStudentCourseDetailsPanel().getTeammates();
+        
         assertEquals(courseDetails.course.name, pageData.getStudentCourseDetailsPanel().getCourseName());
         assertEquals(courseDetails.course.id, pageData.getStudentCourseDetailsPanel().getCourseId());
         
-        assertFalse(getInstructors(pageData).isEmpty());
-        assertFalse(getTeammates(pageData).isEmpty());
+        assertFalse(courseInstructors.isEmpty());
+        assertFalse(teammates.isEmpty());
         
         assertEquals(student.email, pageData.getStudentCourseDetailsPanel().getStudentEmail());
         assertEquals(student.name, pageData.getStudentCourseDetailsPanel().getStudentName());
         assertEquals(team.name, pageData.getStudentCourseDetailsPanel().getStudentTeam());
         
-        assertEquals(3, getInstructors(pageData).size());
-        assertEquals("Instructor1 Course1", getInstructors(pageData).get(0).name);
-        assertEquals("Instructor2 Course1", getInstructors(pageData).get(1).name);
-        assertEquals("Helper Course1", getInstructors(pageData).get(2).name);
-        assertEquals("Instructor", getInstructors(pageData).get(0).displayedName);
-        assertEquals("Manager", getInstructors(pageData).get(1).displayedName);
-        assertEquals("Helper", getInstructors(pageData).get(2).displayedName);
+        assertEquals(3, courseInstructors.size());
+        assertEquals("Instructor1 Course1", courseInstructors.get(0).name);
+        assertEquals("Instructor2 Course1", courseInstructors.get(1).name);
+        assertEquals("Helper Course1", courseInstructors.get(2).name);
+        assertEquals("Instructor", courseInstructors.get(0).displayedName);
+        assertEquals("Manager", courseInstructors.get(1).displayedName);
+        assertEquals("Helper", courseInstructors.get(2).displayedName);
         
-        assertEquals(4, getTeammates(pageData).size());
+        assertEquals(4, teammates.size());
         
         ______TS("student in unregistered course");
         
@@ -102,21 +105,24 @@ public class StudentCourseDetailsPageDataTest extends BaseTestCase {
         
         pageData.init(courseDetails, instructors, student, team);
         
+        courseInstructors = pageData.getStudentCourseDetailsPanel().getInstructors();
+        teammates = pageData.getStudentCourseDetailsPanel().getTeammates();
+        
         assertEquals(courseDetails.course.name, pageData.getStudentCourseDetailsPanel().getCourseName());
         assertEquals(courseDetails.course.id, pageData.getStudentCourseDetailsPanel().getCourseId());
         
-        assertFalse(getInstructors(pageData).isEmpty());        
-        assertFalse(getTeammates(pageData).isEmpty());
+        assertFalse(courseInstructors.isEmpty());        
+        assertFalse(teammates.isEmpty());
         
         assertEquals(student.email, pageData.getStudentCourseDetailsPanel().getStudentEmail());
         assertEquals(student.name, pageData.getStudentCourseDetailsPanel().getStudentName());
         assertEquals(team.name, pageData.getStudentCourseDetailsPanel().getStudentTeam());
         
-        assertEquals(1, getInstructors(pageData).size());
-        assertEquals("Instructor 5 of CourseNoRegister", getInstructors(pageData).get(0).name);
-        assertEquals("Instructor", getInstructors(pageData).get(0).displayedName);
+        assertEquals(1, courseInstructors.size());
+        assertEquals("Instructor 5 of CourseNoRegister", courseInstructors.get(0).name);
+        assertEquals("Instructor", courseInstructors.get(0).displayedName);
         
-        assertEquals(1, getTeammates(pageData).size());
+        assertEquals(1, teammates.size());
         
         ______TS("student in archived course");
               
@@ -141,28 +147,23 @@ public class StudentCourseDetailsPageDataTest extends BaseTestCase {
         
         pageData.init(courseDetails, instructors, student, team);
         
+        courseInstructors = pageData.getStudentCourseDetailsPanel().getInstructors();
+        teammates = pageData.getStudentCourseDetailsPanel().getTeammates();
+        
         assertEquals(courseDetails.course.name, pageData.getStudentCourseDetailsPanel().getCourseName());
         assertEquals(courseDetails.course.id, pageData.getStudentCourseDetailsPanel().getCourseId());
         
-        assertFalse(getInstructors(pageData).isEmpty());        
-        assertFalse(getTeammates(pageData).isEmpty());
+        assertFalse(courseInstructors.isEmpty());        
+        assertFalse(teammates.isEmpty());
         
         assertEquals(student.email, pageData.getStudentCourseDetailsPanel().getStudentEmail());
         assertEquals(student.name, pageData.getStudentCourseDetailsPanel().getStudentName());
         assertEquals(team.name, pageData.getStudentCourseDetailsPanel().getStudentTeam());
         
-        assertEquals(1, getInstructors(pageData).size());
-        assertEquals("InstructorOfArchiveCourse name", getInstructors(pageData).get(0).name);
-        assertEquals("Instructor", getInstructors(pageData).get(0).displayedName);
+        assertEquals(1, courseInstructors.size());
+        assertEquals("InstructorOfArchiveCourse name", courseInstructors.get(0).name);
+        assertEquals("Instructor", courseInstructors.get(0).displayedName);
         
-        assertEquals(3, getTeammates(pageData).size());
-    }
-    
-    public List<InstructorAttributes> getInstructors(StudentCourseDetailsPageData pageData) {
-        return pageData.getStudentCourseDetailsPanel().getInstructors();
-    }
-    
-    public List<StudentAttributes> getTeammates(StudentCourseDetailsPageData pageData) {
-        return pageData.getStudentCourseDetailsPanel().getTeammates();
+        assertEquals(3, teammates.size());
     }
 }
