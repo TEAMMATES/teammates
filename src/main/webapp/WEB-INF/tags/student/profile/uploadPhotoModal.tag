@@ -1,7 +1,7 @@
 <%@ tag description="studentProfile - Upload photo modal" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
-<%@ attribute name="modaldata" type="teammates.ui.template.StudentProfileUploadPhotoModal" required="true" %>
+<%@ attribute name="modal" type="teammates.ui.template.StudentProfileUploadPhotoModal" required="true" %>
 <c:set var="DEFAULT_PROFILE_PICTURE_PATH" value="<%= Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH %>" />
 <div class="modal fade"
      id="studentPhotoUploader"
@@ -41,20 +41,20 @@
                                         onclick="finaliseUploadPictureForm()">
                                     Upload Picture
                                 </button>
-                                <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${modaldata.googleId}">
+                                <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${modal.googleId}">
                             </form>
                         </div>
                     </div>
                     <div class="col-xs-8 profile-pic-edit-col border-left-gray">
                         <c:choose>
-                            <c:when test="${modaldata.pictureUrl == DEFAULT_PROFILE_PICTURE_PATH}">
+                            <c:when test="${modal.pictureUrl == DEFAULT_PROFILE_PICTURE_PATH}">
                                 <div class="alert alert-warning">
                                     Please upload a photo to start editing.
                                 </div>
                             </c:when>
                             <c:otherwise>
                                 <div class="profile-pic-edit">
-                                    <img id="editableProfilePicture" src="${modaldata.pictureUrl}">
+                                    <img id="editableProfilePicture" src="${modal.pictureUrl}">
                                     <br><br>
                                     <label for="editableProfilePicture">
                                         Your Photo
@@ -68,8 +68,8 @@
                                     <input id="cropBoxTopY" type="hidden" name="<%= Const.ParamsNames.PROFILE_PICTURE_TOPY %>" value="">
                                     <input id="cropBoxRightX" type="hidden" name="<%= Const.ParamsNames.PROFILE_PICTURE_RIGHTX %>" value="">
                                     <input id="cropBoxBottomY" type="hidden" name="<%= Const.ParamsNames.PROFILE_PICTURE_BOTTOMY %>" value="">
-                                    <input id="blobKey" type="hidden" name="<%= Const.ParamsNames.BLOB_KEY %>" value="${modaldata.pictureKey}">
-                                    <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${modaldata.googleId}">
+                                    <input id="blobKey" type="hidden" name="<%= Const.ParamsNames.BLOB_KEY %>" value="${modal.pictureKey}">
+                                    <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${modal.googleId}">
                                     <button type="button"
                                             id="profileEditPictureSubmit"
                                             class="btn btn-primary"

@@ -1,13 +1,13 @@
 <%@ tag description="studentProfile - Edit profile div" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
-<%@ attribute name="profiledata" type="teammates.ui.template.StudentProfileEditBox" required="true" %>
+<%@ attribute name="profile" type="teammates.ui.template.StudentProfileEditBox" required="true" %>
 <c:set var="MALE" value="<%= Const.GenderTypes.MALE %>" />
 <c:set var="FEMALE" value="<%= Const.GenderTypes.FEMALE %>" />
 <c:set var="OTHER" value="<%= Const.GenderTypes.OTHER %>" />
 <div id="editProfileDiv" class="well well-plain well-narrow well-sm-wide">
     <h3 id="studentName">
-        <strong>${profiledata.name}</strong>
+        <strong>${profile.name}</strong>
     </h3>
     <br>
     <div class="form-group row">
@@ -16,11 +16,11 @@
              data-toggle="tooltip"
              data-placement="top">
             <img id="profilePic"
-                 src="${profiledata.pictureUrl}"
+                 src="${profile.pictureUrl}"
                  class="profile-pic"
                  data-toggle="modal"
                  data-target="#studentPhotoUploader"
-                 data-edit="${profiledata.editingPhoto}">
+                 data-edit="${profile.editingPhoto}">
         </div>
         <div class="">
             <button id="uploadEditPhoto"
@@ -47,8 +47,8 @@
                    name="<%= Const.ParamsNames.STUDENT_SHORT_NAME %>"
                    class="form-control"
                    type="text"
-                   data-actual-value="${profiledata.shortName}"
-                   value="${profiledata.shortName}"
+                   data-actual-value="${profile.shortName}"
+                   value="${profile.shortName}"
                    placeholder="How the instructor should call you">
         </div>
         <div class="form-group"
@@ -62,8 +62,8 @@
                    name="<%= Const.ParamsNames.STUDENT_PROFILE_EMAIL %>"
                    class="form-control"
                    type="email"
-                   data-actual-value="${profiledata.email}"
-                   value="${profiledata.email}"
+                   data-actual-value="${profile.email}"
+                   value="${profile.email}"
                    placeholder="Contact Email (for your instructors to contact you beyond graduation)">
         </div>
         <div class="form-group"
@@ -77,8 +77,8 @@
                    name="<%= Const.ParamsNames.STUDENT_PROFILE_INSTITUTION %>"
                    class="form-control"
                    type="text"
-                   data-actual-value="${profiledata.institute}"
-                   value="${profiledata.institute}"
+                   data-actual-value="${profile.institute}"
+                   value="${profile.institute}"
                    placeholder="Your Institution">
         </div>
         <div class="form-group"
@@ -92,8 +92,8 @@
                    name="<%= Const.ParamsNames.STUDENT_NATIONALITY %>"
                    class="form-control"
                    type="text"
-                   data-actual-value="${profiledata.nationality}"
-                   value="${profiledata.nationality}"
+                   data-actual-value="${profile.nationality}"
+                   value="${profile.nationality}"
                    placeholder="Nationality">
         </div>
         <div class="form-group">
@@ -107,7 +107,7 @@
                            class="radio"
                            type="radio"
                            value="<%= Const.GenderTypes.MALE %>"
-                           <c:if test="${profiledata.gender == MALE}">checked="checked"</c:if>> Male
+                           <c:if test="${profile.gender == MALE}">checked="checked"</c:if>> Male
                 </label>
                 <label for="genderFemale" class="radio-inline">
                     <input id="genderFemale"
@@ -115,7 +115,7 @@
                            class="radio"
                            type="radio"
                            value="<%= Const.GenderTypes.FEMALE %>"
-                           <c:if test="${profiledata.gender == FEMALE}">checked="checked"</c:if>> Female
+                           <c:if test="${profile.gender == FEMALE}">checked="checked"</c:if>> Female
                 </label>
                 <label class="radio-inline" for="genderOther">
                     <input id="genderOther"
@@ -123,7 +123,7 @@
                            class="radio"
                            type="radio"
                            value="<%= Const.GenderTypes.OTHER %>"
-                           <c:if test="${profiledata.gender == OTHER}">checked="checked"</c:if>> Not Specified
+                           <c:if test="${profile.gender == OTHER}">checked="checked"</c:if>> Not Specified
                 </label>
             </div>
         </div>
@@ -139,7 +139,7 @@
                       name="<%= Const.ParamsNames.STUDENT_PROFILE_MOREINFO %>"
                       rows="4"
                       class="form-control"
-                      placeholder="<%= Const.Tooltips.STUDENT_PROFILE_MOREINFO %>">${profiledata.moreInfo}</textarea>
+                      placeholder="<%= Const.Tooltips.STUDENT_PROFILE_MOREINFO %>">${profile.moreInfo}</textarea>
         </div>
         <br>
         <button type="submit" id="profileEditSubmit" class="btn btn-primary center-block">
@@ -149,6 +149,6 @@
         <p class="text-muted text-color-disclaimer">
             <i>* This profile will be visible to all your Instructors and Coursemates</i>
         </p>
-        <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${profiledata.googleId}">
+        <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${profile.googleId}">
     </form>
 </div>

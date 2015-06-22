@@ -12,6 +12,6 @@
 <ts:studentPage pageTitle="TEAMMATES - Student Profile" bodyTitle="Student Profile" jsIncludes="${jsIncludes}">
     <t:statusMessage />
     <br>
-    <tsp:uploadPhotoModal modaldata="${data.uploadPhotoModal}" />
-    <tsp:studentProfileDiv profiledata="${data.profileEditBox}" />
+    <tsp:uploadPhotoModal modal="${data.uploadPhotoModal}" />
+    <tsp:studentProfileDiv profile="${data.profileEditBox}" />
 </ts:studentPage>
