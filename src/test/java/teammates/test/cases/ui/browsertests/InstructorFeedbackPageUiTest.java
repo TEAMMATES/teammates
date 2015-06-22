@@ -1,5 +1,6 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
@@ -91,6 +92,11 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         testViewResultsLink();
         testEditLink();
         testSubmitLink();
+    }
+    
+    @Test
+    public void testButtons() throws Exception {
+        testCopySessionModalButtons();
     }
 
     @Test
@@ -826,6 +832,53 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackResultsPage = feedbackPage.loadSubmitLink(fsa.courseId, fsa.feedbackSessionName);
         assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+    }
+    
+    public void testCopySessionModalButtons() {
+        feedbackPage.copyFeedbackSessionTestButtons("Session 1", newSession.courseId);
+        
+        assertFalse(feedbackPage.isCopySubmitButtonEnabled());
+        
+        ______TS("click on a row");
+        
+        feedbackPage.clickCopyTableAtRow(0);
+        assertTrue(feedbackPage.isRowSelected(0));
+        assertTrue(feedbackPage.isRadioButtonChecked(0));
+        assertTrue(feedbackPage.isCopySubmitButtonEnabled());
+        
+        ______TS("click on a radio button");
+        
+        feedbackPage.clickCopyTableRadioButtonAtRow(2);
+        assertTrue(feedbackPage.isRowSelected(2));
+        assertTrue(feedbackPage.isRadioButtonChecked(2));
+        assertFalse(feedbackPage.isRowSelected(0));
+        assertFalse(feedbackPage.isRadioButtonChecked(0));
+        assertTrue(feedbackPage.isCopySubmitButtonEnabled());
+        
+        ______TS("click on another radio button");
+        
+        feedbackPage.clickCopyTableRadioButtonAtRow(1);
+        assertTrue(feedbackPage.isRowSelected(1));
+        assertTrue(feedbackPage.isRadioButtonChecked(1));
+        assertFalse(feedbackPage.isRowSelected(2));
+        assertFalse(feedbackPage.isRadioButtonChecked(2));
+        assertTrue(feedbackPage.isCopySubmitButtonEnabled());
+        
+        ______TS("click on a row");
+        
+        feedbackPage.clickCopyTableAtRow(3);
+        assertTrue(feedbackPage.isRowSelected(3));
+        assertTrue(feedbackPage.isRadioButtonChecked(3));
+        assertFalse(feedbackPage.isRowSelected(1));
+        assertFalse(feedbackPage.isRadioButtonChecked(1));
+        assertTrue(feedbackPage.isCopySubmitButtonEnabled());
+        
+        ______TS("click on a radio button of the same row");
+        
+        feedbackPage.clickCopyTableRadioButtonAtRow(3);
+        assertTrue(feedbackPage.isRowSelected(3));
+        assertTrue(feedbackPage.isRadioButtonChecked(3));
+        assertTrue(feedbackPage.isCopySubmitButtonEnabled());
     }
     
     public void testValidationReload() {
