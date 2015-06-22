@@ -31,22 +31,22 @@ public class StudentFeedbackResultsPageAction extends Action {
         StudentFeedbackResultsPageData data = new StudentFeedbackResultsPageData(account, student);
 
         data.student = getCurrentStudent(courseId);
-        data.bundle = logic.getFeedbackSessionResultsForStudent(feedbackSessionName, courseId, data.student.email);
+        data.setBundle(logic.getFeedbackSessionResultsForStudent(feedbackSessionName, courseId, data.student.email));
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses =
-                                                                            data.bundle.getQuestionResponseMap();
+                                                                            data.getBundle().getQuestionResponseMap();
 
-        if (data.bundle == null) {
+        if (data.getBundle() == null) {
             // not covered because GateKeeper will detect this as unauthorized exception, but we can
             // leave this here as a safety net on the off cases that GateKeeper fails to catch the Exception
             throw new EntityDoesNotExistException("Feedback session " + feedbackSessionName
                                                   + " does not exist in " + courseId + ".");
         }
 
-        if (data.bundle.feedbackSession.isPublished() == false) {
+        if (data.getBundle().feedbackSession.isPublished() == false) {
             throw new UnauthorizedAccessException("This feedback session is not yet visible.");
         }
 
-        if (data.bundle.isStudentHasSomethingNewToSee(data.student)) {
+        if (data.getBundle().isStudentHasSomethingNewToSee(data.student)) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESULTS_SOMETHINGNEW);
         } else {
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESULTS_NOTHINGNEW);

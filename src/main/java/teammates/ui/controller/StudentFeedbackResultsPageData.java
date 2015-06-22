@@ -21,7 +21,7 @@ import teammates.ui.template.StudentFeedbackResultsQuestionWithResponses;
 import teammates.ui.template.StudentFeedbackResultsResponseComment;
 
 public class StudentFeedbackResultsPageData extends PageData {
-    public FeedbackSessionResultsBundle bundle = null;
+    private FeedbackSessionResultsBundle bundle = null;
     private String registerMessage;
     private List<StudentFeedbackResultsQuestionWithResponses> feedbackResultsQuestionsWithResponses;
     
@@ -84,6 +84,10 @@ public class StudentFeedbackResultsPageData extends PageData {
             questionIndex++;
             
         }
+    }
+    
+    public void setBundle(FeedbackSessionResultsBundle bundle) {
+        this.bundle = bundle;
     }
 
     /**

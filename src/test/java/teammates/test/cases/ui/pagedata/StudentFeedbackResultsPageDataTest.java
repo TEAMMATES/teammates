@@ -65,7 +65,7 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         responsesForQ2.add(dataBundle.feedbackResponses.get("response2ForQ2S1C1"));
         questionsWithResponses.put(question2, responsesForQ1);
             
-        pageData.bundle = logic.getFeedbackSessionResultsForStudent(question1.feedbackSessionName, question1.courseId, student.email);
+        pageData.setBundle(logic.getFeedbackSessionResultsForStudent(question1.feedbackSessionName, question1.courseId, student.email));
         pageData.init(questionsWithResponses);
         
         StudentFeedbackResultsQuestionWithResponses questionBundle1 = pageData.getFeedbackResultsQuestionsWithResponses().get(0);
