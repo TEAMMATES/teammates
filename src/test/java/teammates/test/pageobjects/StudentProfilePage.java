@@ -62,7 +62,7 @@ public class StudentProfilePage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("<h2>Student Profile</h2>");
+        return getPageSource().contains("Student Profile");
     }
 
     public StudentProfilePage submitEditedProfile() {

@@ -60,8 +60,7 @@
     <body>
         <jsp:include page="<%= Const.ViewURIs.STUDENT_HEADER %>" />
 
-        <div id="frameBody">
-            <div id="frameBodyWrapper" class="container">
+        <div class="container" id="frameBodyWrapper">
                 <div id="topOfPage"></div>
                 <h1>Feedback Results - Student</h1>
                 <br>
@@ -119,7 +118,7 @@
                 <%
                     int qnIndx = 0;
                     Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses =
-                            data.bundle.getQuestionResponseMap();
+                            data.bundle.getQuestionResponseMapSortedByRecipient();
 
                     for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionWithResponses : questionsWithResponses.entrySet()) {
                         qnIndx++;
@@ -247,7 +246,6 @@
                             There are currently no responses for you for this feedback session.
                         </div>
                 <%  }  %>
-            </div>
         </div>
 
         <div id="frameBottom">

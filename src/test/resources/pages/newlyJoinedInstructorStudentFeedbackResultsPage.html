@@ -10,13 +10,13 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Course ID:</label>
                                     <div class="col-sm-10">
-                                        <p class="form-control-static">SFResultsUiT.CS2104</p>
+                                        <p class="form-control-static">AHPUiT.instr1.gma-demo</p>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Session:</label>
                                     <div class="col-sm-10">
-                                        <p class="form-control-static">First Session</p>
+                                        <p class="form-control-static">First team feedback session</p>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -28,7 +28,7 @@
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">Closing time:</label>
                                     <div class="col-sm-10">
-                                        <p class="form-control-static">Sat, 30 Apr 2016, 23:59</p>
+                                        <p class="form-control-static">Mon, 02 Apr 2012, 23:59</p>
                                     </div>
                                 </div>
                             </div>
@@ -56,7 +56,105 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                <h4>Question 1: <span class="text-preserve-space">What is the best selling point of your product?</span></h4>
+                                <h4>Question 1: <span class="text-preserve-space">Please rate the estimated contribution of your team members and yourself.&nbsp;<span style=" white-space: normal;">
+    <a href="javascript:;" id="questionAdditionalInfoButton-1-" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-')" data-more="[more]" data-less="[less]">[more]</a>
+    <br>
+    <span id="questionAdditionalInfo-1-" style="display:none;">Team contribution question</span>
+</span></span></h4>
+                                <div class="panel panel-primary">
+    <div class="panel-heading">
+        Comparison of work distribution &nbsp;<span style=" white-space: normal;">
+    <a href="javascript:;" id="questionAdditionalInfoButton-1-contributionInfo" class="color_gray" onclick="toggleAdditionalQuestionInfo('1-contributionInfo')" data-more="[how to interpret, etc..]" data-less="[less]">[how to interpret, etc..]</a>
+    <br>
+    <span id="questionAdditionalInfo-1-contributionInfo" style="display:none;"><h4 id="interpret">How do I interpret these results? </h4>
+<ul class="bulletedList">
+    <li>
+        Compare values given under 'My view' to those under 'Team's view'.
+        This tells you whether your perception matches with what the team thinks, 
+        particularly regarding your own contribution. You may ignore minor differences.
+    </li>
+    <li>
+        Team's view of your contribution is the average value of the contribution your 
+        team members attributed to you, excluding the contribution you attributed to yourself. 
+        That means you cannot boost your perceived contribution by claiming a high contribution 
+        for yourself or attributing a low contribution to team members.
+    </li>
+    <li>
+        Also note that the team’s view has been scaled up/down so that the sum of values in your 
+        view matches the sum of values in team’s view. That way, you can make a direct comparison 
+        between your view and the team’s view. As a result, the values you see in team’s view may 
+        not match the values your team members see in their results.
+    </li>
+</ul>
+<br>
+<h4>How are these results used in grading?</h4>
+TEAMMATES does not calculate grades. It is up to the instructors to use contribution question results in any way they want. 
+However, TEAMMATES recommend that contribution question results are used only as flags to identify teams with contribution imbalances. 
+Once identified, the instructor is recommended to investigate further before taking action.
+<br><br>
+<h4>How are the contribution numbers calculated?</h4>
+Here are the important things to note:
+<ul class="bulletedList">
+    <li>
+        The contribution you attributed to yourself is not used when calculating the perceived 
+        contribution of you or team members.
+    </li>
+    <li>
+        From the estimates you submit, we try to deduce the answer to this question: 
+        In your opinion, if your teammates are doing the project by themselves without you, 
+        how do they compare against each other in terms of contribution? This is because we 
+        want to deduce your unbiased opinion about your team members’ contributions. Then, 
+        we use those values to calculate the average perceived contribution of each team member.
+    </li>
+    <li>
+        When deducing the above, we first adjust the estimates you submitted to remove artificial 
+        inflations/deflations. For example, giving everyone [Equal share + 20%] is as same as giving 
+        everyone [Equal share] because in both cases all members have done a similar share of work.
+    </li>
+</ul>
+The actual calculation is a bit complex and the finer details can be found 
+<a href="/dev/spec.html#supplementaryrequirements-pointcalculationscheme">here</a>.</span>
+</span>
+    </div>
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <td>
+                    <strong>My view:</strong>
+                </td>
+                <td><span class="text-muted"><strong>of me:</strong></span>
+                    <span class="color-positive">E +10%</span>
+                </td>
+                <td>
+                    <span class="text-muted"><strong>of others:</strong></span>
+                    <span class="color-positive">E +10%</span>, <span class="color-positive">E +10%</span>, <span class="color-negative">E -20%</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>Team's view:</strong>
+                </td>
+                <td>
+                    <span class="text-muted"><strong>of me:</strong></span>
+                    <span class="color-positive">E +9%</span>
+                </td>
+                <td>
+                    <span class="text-muted"><strong>of others:</strong></span>
+                    <span class="color-positive">E +9%</span>, <span class="color-positive">E +9%</span>, <span class="color-negative">E -18%</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+                                
+                            </div>
+                        </div>
+                        <br>
+                
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                <h4>Question 2: <span class="text-preserve-space">Comments about my contribution (shown to other teammates)</span></h4>
                                 
                                 
                                                 <div class="panel panel-info">
@@ -71,57 +169,7 @@
                                                             </tr>
                                                             <tr>
                                                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                                <td class="text-preserve-space">Alice self feedback.</td>
-                                                            </tr>
-                                                            
-                                                                    <tr>
-                                                                        <td>
-                                                                            <ul class="list-group comment-list">
-                                                                                    
-                                                                                            <li class="list-group-item list-group-item-warning">
-                                                                                                <span class="text-muted">From: SFResultsUiT.instr@gmail.tmt [Tue Mar 01 23:59:00 UTC 2016]</span>
-                                                                                                <div>Instructor first comment to Alice</div>
-                                                                                            </li>
-                                                                                    
-                                                                                            <li class="list-group-item list-group-item-warning">
-                                                                                                <span class="text-muted">From: SFResultsUiT.instr@gmail.tmt [Wed Mar 02 23:59:00 UTC 2016]</span>
-                                                                                                <div>Instructor second comment to Alice</div>
-                                                                                            </li>
-                                                                                    
-                                                                            </ul>
-                                                                         </td>
-                                                                    </tr>
-                                                            
-                                                            
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                            
-                                    
-                                
-                            </div>
-                        </div>
-                        <br>
-                
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                <h4>Question 2: <span class="text-preserve-space">Rate 3 other students' products</span></h4>
-                                
-                                
-                                                <div class="panel panel-primary">
-                                                    <div class="panel-heading"><b>To:</b> You</div>
-                                                    <table class="table">
-                                                        <tbody>
-                                        
-                                                            <tr class="resultSubheader">
-                                                                <td>
-                                                                    <span class="bold"><b>From:</b></span> Anonymous student 369443139
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                                <td class="text-preserve-space">Response to Alice from Dropout.</td>
+                                                                <td class="text-preserve-space">I was the project lead. I designed the application architecture and managed the project to ensure we deliver the product on time.</td>
                                                             </tr>
                                                             
                                                             
@@ -131,18 +179,18 @@
                                                             
                                     
                                                 <div class="panel panel-primary">
-                                                    <div class="panel-heading"><b>To:</b> Anonymous student 1138974819</div>
+                                                    <div class="panel-heading"><b>To:</b> Charlie Davis</div>
                                                     <table class="table">
                                                         <tbody>
                                         
                                                             <tr class="resultSubheader">
                                                                 <td>
-                                                                    <span class="bold"><b>From:</b></span> Anonymous student 369443139
+                                                                    <span class="bold"><b>From:</b></span> Charlie Davis
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                                <td class="text-preserve-space">Response to Danny from Dropout.</td>
+                                                                <td class="text-preserve-space">I am a bit slow compared to my team mates, but the members helped me to catch up.</td>
                                                             </tr>
                                                             
                                                             
@@ -152,18 +200,18 @@
                                                             
                                     
                                                 <div class="panel panel-primary">
-                                                    <div class="panel-heading"><b>To:</b> Anonymous student 410339386</div>
+                                                    <div class="panel-heading"><b>To:</b> Francis Gabriel</div>
                                                     <table class="table">
                                                         <tbody>
                                         
                                                             <tr class="resultSubheader">
                                                                 <td>
-                                                                    <span class="bold"><b>From:</b></span> Anonymous student 369443139
+                                                                    <span class="bold"><b>From:</b></span> Francis Gabriel
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                                <td class="text-preserve-space">Response to Benny from Dropout.</td>
+                                                                <td class="text-preserve-space">I was the designer. I did all the UI work.</td>
                                                             </tr>
                                                             
                                                             
@@ -172,61 +220,19 @@
                                                 </div>
                                                             
                                     
-                                                <div class="panel panel-info">
-                                                    <div class="panel-heading"><b>To:</b> Benny Charles</div>
+                                                <div class="panel panel-primary">
+                                                    <div class="panel-heading"><b>To:</b> Gene Hudson</div>
                                                     <table class="table">
                                                         <tbody>
                                         
                                                             <tr class="resultSubheader">
                                                                 <td>
-                                                                    <span class="bold"><b>From:</b></span> You
+                                                                    <span class="bold"><b>From:</b></span> Gene Hudson
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                                <td class="text-preserve-space">Response to Benny.</td>
-                                                            </tr>
-                                                            
-                                                            
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                            
-                                    
-                                                <div class="panel panel-info">
-                                                    <div class="panel-heading"><b>To:</b> Danny Engrid</div>
-                                                    <table class="table">
-                                                        <tbody>
-                                        
-                                                            <tr class="resultSubheader">
-                                                                <td>
-                                                                    <span class="bold"><b>From:</b></span> You
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                                <td class="text-preserve-space">Response to Danny.</td>
-                                                            </tr>
-                                                            
-                                                            
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                            
-                                    
-                                                <div class="panel panel-info">
-                                                    <div class="panel-heading"><b>To:</b> Drop out</div>
-                                                    <table class="table">
-                                                        <tbody>
-                                        
-                                                            <tr class="resultSubheader">
-                                                                <td>
-                                                                    <span class="bold"><b>From:</b></span> You
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                                <td class="text-preserve-space">Response to Dropout.</td>
+                                                                <td class="text-preserve-space">I am the programmer for the team. I did most of the coding.</td>
                                                             </tr>
                                                             
                                                             
@@ -243,22 +249,64 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                <h4>Question 3: <span class="text-preserve-space">Feedback to class</span></h4>
+                                <h4>Question 3: <span class="text-preserve-space">My comments about this teammate(confidential and only shown to instructor)</span></h4>
                                 
                                 
-                                                <div class="panel panel-primary">
-                                                    <div class="panel-heading"><b>To:</b> -</div>
+                                                <div class="panel panel-info">
+                                                    <div class="panel-heading"><b>To:</b> Charlie Davis</div>
                                                     <table class="table">
                                                         <tbody>
                                         
                                                             <tr class="resultSubheader">
                                                                 <td>
-                                                                    <span class="bold"><b>From:</b></span> Anonymous student 410339386
+                                                                    <span class="bold"><b>From:</b></span> You
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                                <td class="text-preserve-space">Secret feedback about class. (to nobody test)</td>
+                                                                <td class="text-preserve-space">A bit weak in terms of technical skills. He spent lots of time in picking up the skills. Although a bit slow in development, his attitude is good.</td>
+                                                            </tr>
+                                                            
+                                                            
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                            
+                                    
+                                                <div class="panel panel-info">
+                                                    <div class="panel-heading"><b>To:</b> Francis Gabriel</div>
+                                                    <table class="table">
+                                                        <tbody>
+                                        
+                                                            <tr class="resultSubheader">
+                                                                <td>
+                                                                    <span class="bold"><b>From:</b></span> You
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                                <td class="text-preserve-space">Francis is the designer of the project. He did a good job!</td>
+                                                            </tr>
+                                                            
+                                                            
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                            
+                                    
+                                                <div class="panel panel-info">
+                                                    <div class="panel-heading"><b>To:</b> Gene Hudson</div>
+                                                    <table class="table">
+                                                        <tbody>
+                                        
+                                                            <tr class="resultSubheader">
+                                                                <td>
+                                                                    <span class="bold"><b>From:</b></span> You
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                                <td class="text-preserve-space">Gene is the programmer for our team. She put in a lot of effort in coding a significant portion of the project.</td>
                                                             </tr>
                                                             
                                                             
@@ -275,68 +323,22 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                <h4>Question 4: <span class="text-preserve-space">Give feedback to 3 other teams.</span></h4>
+                                <h4>Question 4: <span class="text-preserve-space">Comments about team dynamics(confidential and only shown to instructor)</span></h4>
                                 
                                 
-                                                <div class="panel panel-primary">
-                                                    <div class="panel-heading"><b>To:</b> Your Team (Team 1)</div>
-                                                    <table class="table">
-                                                        <tbody>
-                                        
-                                                            <tr class="resultSubheader">
-                                                                <td>
-                                                                    <span class="bold"><b>From:</b></span> Team 2
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                                <td class="text-preserve-space">Team 2 (charlie) to team 1</td>
-                                                            </tr>
-                                                            
-                                                            
-                                    
-                                                            <tr class="resultSubheader">
-                                                                <td>
-                                                                    <span class="bold"><b>From:</b></span> Team 2
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                                <td class="text-preserve-space">Team 2 (danny) to team 1</td>
-                                                            </tr>
-                                                            
-                                                            
-                                    
-                                                            <tr class="resultSubheader">
-                                                                <td>
-                                                                    <span class="bold"><b>From:</b></span> Team 3
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                                <td class="text-preserve-space">Team 3 to Team 1 
- multiline special char test</td>
-                                                            </tr>
-                                                            
-                                                            
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                            
-                                    
-                                                <div class="panel panel-primary">
+                                                <div class="panel panel-info">
                                                     <div class="panel-heading"><b>To:</b> Team 2</div>
                                                     <table class="table">
                                                         <tbody>
                                         
                                                             <tr class="resultSubheader">
                                                                 <td>
-                                                                    <span class="bold"><b>From:</b></span> Your Team (Team 1)
+                                                                    <span class="bold"><b>From:</b></span> You
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                                <td class="text-preserve-space">alice to team 2</td>
+                                                                <td class="text-preserve-space">I had a great time with this team. Thanks for all the support from the members.</td>
                                                             </tr>
                                                             
                                                             
@@ -353,7 +355,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                <h4>Question 5: <span class="text-preserve-space">Give feedback to your team mates</span></h4>
+                                <h4>Question 5: <span class="text-preserve-space">My feedback to this teammate(shown anonymously to the teammate)</span></h4>
                                 
                                 
                                                 <div class="panel panel-primary">
@@ -363,12 +365,36 @@
                                         
                                                             <tr class="resultSubheader">
                                                                 <td>
-                                                                    <span class="bold"><b>From:</b></span> Benny Charles
+                                                                    <span class="bold"><b>From:</b></span> Anonymous student 23645205
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                                <td class="text-preserve-space">Teammate feedback from benny</td>
+                                                                <td class="text-preserve-space">Thank you AHPUiT Instrúctör for all the help in the project.</td>
+                                                            </tr>
+                                                            
+                                                            
+                                    
+                                                            <tr class="resultSubheader">
+                                                                <td>
+                                                                    <span class="bold"><b>From:</b></span> Anonymous student 1993586758
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                                <td class="text-preserve-space">Thank you AHPUiT Instrúctör for all the hardwork!</td>
+                                                            </tr>
+                                                            
+                                                            
+                                    
+                                                            <tr class="resultSubheader">
+                                                                <td>
+                                                                    <span class="bold"><b>From:</b></span> Anonymous student 2078924966
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                                <td class="text-preserve-space">Thank you AHPUiT Instrúctör for being such a good team leader!</td>
                                                             </tr>
                                                             
                                                             
@@ -377,19 +403,8 @@
                                                 </div>
                                                             
                                     
-                                
-                            </div>
-                        </div>
-                        <br>
-                
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                <h4>Question 6: <span class="text-preserve-space">Give feedback on how well the team worked together.</span></h4>
-                                
-                                
                                                 <div class="panel panel-info">
-                                                    <div class="panel-heading"><b>To:</b> Team 1</div>
+                                                    <div class="panel-heading"><b>To:</b> Charlie Davis</div>
                                                     <table class="table">
                                                         <tbody>
                                         
@@ -400,7 +415,49 @@
                                                             </tr>
                                                             <tr>
                                                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                                <td class="text-preserve-space">Feedback from alice to the team</td>
+                                                                <td class="text-preserve-space">Good try Charlie! Thanks for showing great effort in picking up the skills.</td>
+                                                            </tr>
+                                                            
+                                                            
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                            
+                                    
+                                                <div class="panel panel-info">
+                                                    <div class="panel-heading"><b>To:</b> Francis Gabriel</div>
+                                                    <table class="table">
+                                                        <tbody>
+                                        
+                                                            <tr class="resultSubheader">
+                                                                <td>
+                                                                    <span class="bold"><b>From:</b></span> You
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                                <td class="text-preserve-space">Nice work Francis!</td>
+                                                            </tr>
+                                                            
+                                                            
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                            
+                                    
+                                                <div class="panel panel-info">
+                                                    <div class="panel-heading"><b>To:</b> Gene Hudson</div>
+                                                    <table class="table">
+                                                        <tbody>
+                                        
+                                                            <tr class="resultSubheader">
+                                                                <td>
+                                                                    <span class="bold"><b>From:</b></span> You
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                                <td class="text-preserve-space">Keep up the good work Gene!</td>
                                                             </tr>
                                                             
                                                             
