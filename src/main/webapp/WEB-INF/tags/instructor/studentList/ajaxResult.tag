@@ -103,7 +103,7 @@
                                     <a class="btn btn-default btn-xs student-delete-for-test"
                                        href="${student.courseStudentDeleteLink}"
                                        onclick="return toggleDeleteStudentConfirmation(${student.toggleDeleteConfirmationParams})"
-                                       title="Delete the student and the corresponding evaluations from the course"
+                                       title="<%= Const.Tooltips.COURSE_STUDENT_DELETE %>"
                                        data-toggle="tooltip"
                                        data-placement="top"
                                        <c:if test="${not section.allowedToModifyStudent}">disabled="disabled"</c:if>>
@@ -112,7 +112,7 @@
                                     &nbsp;
                                     <a class="btn btn-default btn-xs student-records-for-test"
                                        href="${student.courseStudentRecordsLink}"
-                                       title="View all student's evaluations and feedbacks"
+                                       title="<%= Const.Tooltips.COURSE_STUDENT_RECORDS %>"
                                        target="_blank"
                                        data-toggle="tooltip"
                                        data-placement="top">
