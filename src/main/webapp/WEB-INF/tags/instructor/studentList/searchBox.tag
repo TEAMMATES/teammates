@@ -1,11 +1,11 @@
 <%@ tag description="instructorStudentList - Student search box" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
-<%@ attribute name="searchboxdata" type="teammates.ui.template.InstructorStudentListSearchBox" required="true" %>
+<%@ attribute name="searchBox" type="teammates.ui.template.InstructorStudentListSearchBox" required="true" %>
 <div class="well well-plain">
     <div class="row">
         <div class="col-md-12">
-            <form method="get" action="${searchboxdata.instructorSearchLink}" name="search_form">
+            <form method="get" action="${searchBox.instructorSearchLink}" name="search_form">
                 <div class="row">
                     <div class="col-md-10">
                         <div class="form-group">
@@ -16,7 +16,7 @@
                                    data-toggle="tooltip"
                                    data-placement="top"
                                    placeholder="e.g. Charles Shultz"
-                                   value="${searchboxdata.searchKey}">
+                                   value="${searchBox.searchKey}">
                         </div>
                     </div>
                     <div class="col-md-2 nav">
@@ -30,7 +30,7 @@
                 <input type="hidden" name="<%= Const.ParamsNames.SEARCH_STUDENTS %>" value="true">
                 <input type="hidden" name="<%= Const.ParamsNames.SEARCH_COMMENTS_FOR_STUDENTS %>" value="false">
                 <input type="hidden" name="<%= Const.ParamsNames.SEARCH_COMMENTS_FOR_RESPONSES %>" value="false">
-                <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${searchboxdata.googleId}">
+                <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${searchBox.googleId}">
             </form>
         </div>
     </div>

@@ -9,10 +9,10 @@
     <script type="text/javascript" src="/js/instructorStudentListAjax.js"></script>
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Student List" jsIncludes="${jsIncludes}">
-    <tisl:searchBox searchboxdata="${data.searchBox}" />
+    <tisl:searchBox searchBox="${data.searchBox}" />
     <br>
     <h2>Filter Students</h2>
-    <tisl:filterBox filterboxdata="${data.filterBox}" />
+    <tisl:filterBox filterBox="${data.filterBox}" />
     <t:statusMessage />
     <c:if test="${data.numOfCourses > 0}">
         <br>

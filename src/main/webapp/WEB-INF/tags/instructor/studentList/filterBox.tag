@@ -1,11 +1,11 @@
 <%@ tag description="instructorStudentList - Student filter box" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ attribute name="filterboxdata" type="teammates.ui.template.InstructorStudentListFilterBox" required="true" %>
-<div id="moreOptionsDiv" class="well well-plain"<c:if test="${empty filterboxdata.courses}"> style="display:none;"</c:if>>
+<%@ attribute name="filterBox" type="teammates.ui.template.InstructorStudentListFilterBox" required="true" %>
+<div id="moreOptionsDiv" class="well well-plain"<c:if test="${empty filterBox.courses}"> style="display:none;"</c:if>>
     <div class="row">
         <div class="col-md-3">
             <div class="checkbox">
-                <input id="displayArchivedCourses_check" type="checkbox"<c:if test="${filterboxdata.displayArchive}"> checked="checked"</c:if>>
+                <input id="displayArchivedCourses_check" type="checkbox"<c:if test="${filterBox.displayArchive}"> checked="checked"</c:if>>
                 <label for="displayArchivedCourses_check">Display Archived Courses</label>
             </div>
         </div>
@@ -22,7 +22,7 @@
                     <label for="course_all"><strong>Select all</strong></label>
                 </div>
                 <br>
-                <c:forEach items="${filterboxdata.courses}" var="course" varStatus="i">
+                <c:forEach items="${filterBox.courses}" var="course" varStatus="i">
                     <div class="checkbox">
                         <input id="course_check-${i.index}" type="checkbox">
                         <label for="course_check-${i.index}">
