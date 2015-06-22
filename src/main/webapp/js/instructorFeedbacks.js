@@ -129,7 +129,6 @@ function convertDateToHHMM(date) {
 
 function bindCopyButton() {
     $('#button_copy').on('click', function(e) {
-        e.preventDefault();
         var selectedCourseId = $('#' + COURSE_ID + ' option:selected').text();
         var newFeedbackSessionName = $('#' + FEEDBACK_SESSION_NAME).val();
 
@@ -177,41 +176,36 @@ function bindCopyButton() {
     });
 
     $('#button_copy_submit').on('click', function(e) {
-        e.preventDefault();
         $('#copyModalForm').submit();
         return false;
     });
 }
 
 function bindCopyEvents() {
-
     $('#copyTableModal >tbody>tr').on('click', function(e) {
-        e.preventDefault();
-
-        var currentRow = $(this);
-        if (currentRow.hasClass('row-selected')) {
+        var $currentRow = $(this);
+        
+        if ($currentRow.hasClass('row-selected')) {
             return;
         }
 
-        var cells = currentRow.children('td');
-        var courseId = $(cells[1]).text().trim();
-        var feedbackSessionName = $(cells[2]).text().trim();
+        var $cells = $currentRow.children('td');
+        var courseId = $($cells[1]).text().trim();
+        var feedbackSessionName = $($cells[2]).text().trim();
         $('#modalCourseId').val(courseId);
         $('#modalSessionName').val(feedbackSessionName);
 
-        var selectedRadio = currentRow.parent().find('input:checked');
-        var selectedRow = selectedRadio.parent().parent();
+        var $selectedRadio = $currentRow.parent().find('input:checked');
+        var $selectedRow = $selectedRadio.parent().parent();
 
-        selectedRadio.prop('checked', false);
-        selectedRow.removeClass('row-selected');
+        $selectedRadio.prop('checked', false);
+        $selectedRow.removeClass('row-selected');
 
-        selectedRadio = currentRow.children('td').children('input');
-        selectedRadio.prop('checked', true);
-        currentRow.addClass('row-selected');
+        $selectedRadio = $currentRow.children('td').children('input');
+        $selectedRadio.prop('checked', true);
+        $currentRow.addClass('row-selected');
 
         $('#button_copy_submit').prop('disabled', false);
-
-        return false;
     });
 }
 

@@ -253,16 +253,40 @@ public class InstructorFeedbacksPage extends AppPage {
         
         selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
         
-        clickCopyTableAtRow(0);
+        clickCopyTableRadioButtonAtRow(3);
+        clickCopyTableRadioButtonAtRow(2);
+        clickCopyTableAtRow(1);
+        clickCopyTableRadioButtonAtRow(4);
+        clickCopyTableAtRow(3);
+        clickCopyTableAtRow(1);
+        clickCopyTableRadioButtonAtRow(0);
         
         clickCopySubmitButton();
     }
     
+    public void copyFeedbackSessionTestButtons(String feedbackSessionName, String courseId) {
+        
+        clickCopyButton();
+        
+        this.waitForElementVisible(copiedFsNameTextBox);
+        
+        fillTextBox(copiedFsNameTextBox, feedbackSessionName);
+        
+        selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
+    }
+
     public void clickCopyTableAtRow(int rowIndex) {
         WebElement row = browser.driver.findElement(By.id("copyTableModal"))
                                        .findElements(By.tagName("tr"))
                                        .get(rowIndex + 1);
         row.click();
+    }
+    
+    public void clickCopyTableRadioButtonAtRow(int rowIndex) {
+        WebElement button = browser.driver.findElement(By.id("copyTableModal"))
+                                       .findElements(By.tagName("tr"))
+                                       .get(rowIndex + 1).findElement(By.tagName("input"));
+        button.click();
     }
     
     public void fillStartTime (Date startTime) {
@@ -346,6 +370,26 @@ public class InstructorFeedbacksPage extends AppPage {
     
     public String getTimeZone() {
         return timezoneDropdown.getAttribute("value");
+    }
+    
+    public boolean isRowSelected(int rowIndex) {
+        WebElement row = browser.driver.findElement(By.id("copyTableModal"))
+                                        .findElements(By.tagName("tr"))
+                                        .get(rowIndex + 1);
+        
+        return row.getAttribute("class").contains("row-selected");
+    }
+    
+    public boolean isRadioButtonChecked(int rowIndex) {
+        WebElement button = browser.driver.findElement(By.id("copyTableModal"))
+                                        .findElements(By.tagName("tr"))
+                                        .get(rowIndex + 1).findElement(By.tagName("input"));
+        
+        return button.isSelected();
+    }
+    
+    public boolean isCopySubmitButtonEnabled() {
+        return copySubmitButton.isEnabled();
     }
     
     public String getClientTimeZone() {

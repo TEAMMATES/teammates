@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -20,7 +21,7 @@ public class InstructorFeedbacksPageAction extends Action {
         // This can be null. Non-null value indicates the page is being loaded 
         // to add a feedback to the specified course
         String courseIdForNewSession = getRequestParamValue(Const.ParamsNames.COURSE_ID);
-        String feedbackSessionNameForSessionList = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        String feedbackSessionToHighlight = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String isUsingAjax = getRequestParamValue(Const.ParamsNames.IS_USING_AJAX);
         
         new GateKeeper().verifyInstructorPrivileges(account);
@@ -33,38 +34,37 @@ public class InstructorFeedbacksPageAction extends Action {
         }
 
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
-        data.isUsingAjax = (isUsingAjax != null);
-        data.courseIdForNewSession = courseIdForNewSession;
-        data.feedbackSessionNameForSessionList = feedbackSessionNameForSessionList;
-        // This indicates that an empty form to be shown (except possibly the course value filled in)
-        data.newFeedbackSession = null;
+        data.setUsingAjax((isUsingAjax != null));
+        
+        
         boolean omitArchived = true; // TODO: implement as a request parameter
         // HashMap with courseId as key and InstructorAttributes as value
-        data.instructors = loadCourseInstructorMap(omitArchived);
+        Map<String, InstructorAttributes> instructors = loadCourseInstructorMap(omitArchived);
         
         List<InstructorAttributes> instructorList =
-                new ArrayList<InstructorAttributes>(data.instructors.values());
-        data.courses = loadCoursesList(instructorList);
+                new ArrayList<InstructorAttributes>(instructors.values());
+        List<CourseAttributes> courses = loadCoursesList(instructorList);
         
-        if (data.courses.isEmpty()) {
+        List<FeedbackSessionAttributes> existingFeedbackSessions;
+        if (courses.isEmpty() || !data.isUsingAjax()) {
+            existingFeedbackSessions = new ArrayList<FeedbackSessionAttributes>();
+        } else {
+            existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
+            if (existingFeedbackSessions.isEmpty()) {
+                statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EMPTY);
+            }
+        }
+        
+
+        data.initWithoutDefaultFormValues(courses, courseIdForNewSession, existingFeedbackSessions,
+                  instructors, feedbackSessionToHighlight);
+        
+        if (courses.isEmpty()) {
             statusToUser.add(Const.StatusMessages.COURSE_EMPTY_IN_INSTRUCTOR_FEEDBACKS
                              .replace("${user}", "?user=" + account.googleId));
         }
         
-        if (data.courses.isEmpty() || !data.isUsingAjax) {
-            data.existingFeedbackSessions = new ArrayList<FeedbackSessionAttributes>();
-        } else {
-            data.existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
-            if (data.existingFeedbackSessions.isEmpty()) {
-                statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EMPTY);
-            }
-        }            
-        
-        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
-        
-        statusToAdmin = "Number of feedback sessions: " + data.existingFeedbackSessions.size();
-        
-        data.getCourseIdOptions();
+        statusToAdmin = "Number of feedback sessions: " + existingFeedbackSessions.size();
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }

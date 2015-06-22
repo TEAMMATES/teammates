@@ -46,6 +46,10 @@ public class FeedbackResponseCommentSearchResultBundle extends SearchResultBundl
     private FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
     
     public FeedbackResponseCommentSearchResultBundle(){}
+    
+    public Map<String, List<FeedbackQuestionAttributes>> getQuestions() {
+        return questions;
+    }
 
     /**
      * Produce a FeedbackResponseCommentSearchResultBundle from the Results<ScoredDocument> collection
