@@ -10,7 +10,12 @@
 </c:set>
 
 <ts:studentPage bodyTitle="Feedback Results - Student" pageTitle="TEAMMATES - Feedback Results" jsIncludes="${jsIncludes}">
-    <ts:registerMessage googleId="${data.account.googleId}" registerMessage="${data.registerMessage}"/>    
+    <c:if test="${empty data.account.googleId}">
+        <div id="registerMessage" class="alert alert-info">
+            ${data.registerMessage}
+        </div>
+    </c:if>
+    
     <feedbackResults:feedbackSessionDetailsPanel feedbackSession="${data.bundle.feedbackSession}"/>
     <t:statusMessage/>
     <br>
