@@ -28,14 +28,14 @@ public class InstructorStudentCommentClearPendingAction extends Action {
                 logic.getCourse(courseId));
         
         logic.updateCommentsSendingState(courseId, CommentSendingState.PENDING, CommentSendingState.SENDING);
-        logic.updateFeedbackResponseCommentsSendingState(courseId, CommentSendingState.PENDING, CommentSendingState.SENDING);
+        logic.updateFeedbackResponseCommentsSendingState(
+                      courseId, CommentSendingState.PENDING, CommentSendingState.SENDING);
         
         // Wait for the operation to persist
-        if(Config.PERSISTENCE_CHECK_DURATION > 0){
+        if (Config.PERSISTENCE_CHECK_DURATION > 0) {
             int elapsedTime = 0;
             int pendingCommentsSize = getPendingCommentsSize(courseId);
-            while ((pendingCommentsSize != 0)
-                    && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
+            while ((pendingCommentsSize != 0) && (elapsedTime < Config.PERSISTENCE_CHECK_DURATION)) {
                 ThreadHelper.waitBriefly();
                 pendingCommentsSize = getPendingCommentsSize(courseId);
                 //check before incrementing to avoid boundary case problem
@@ -53,7 +53,7 @@ public class InstructorStudentCommentClearPendingAction extends Action {
             }
         }
         
-        if(!isError){
+        if (!isError) {
             statusToUser.add(Const.StatusMessages.COMMENT_CLEARED);
             statusToAdmin = "Successful: " + account.googleId + " cleared pending comments for course " + courseId;
         } else {
@@ -61,10 +61,11 @@ public class InstructorStudentCommentClearPendingAction extends Action {
             statusToAdmin = "Unsuccessful: " + account.googleId + " cleared pending comments for course " + courseId;
         }
         
-        return createRedirectResult((new PageData(account).getInstructorCommentsLink()) + "&" + Const.ParamsNames.COURSE_ID + "=" + courseId);
+        return createRedirectResult((new PageData(account).getInstructorCommentsLink()) + "&" 
+                                     + Const.ParamsNames.COURSE_ID + "=" + courseId);
     }
     
-    private int getPendingCommentsSize(String courseId) throws EntityDoesNotExistException{
+    private int getPendingCommentsSize(String courseId) throws EntityDoesNotExistException {
         return logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size()
                 + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
     }
