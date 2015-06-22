@@ -12,7 +12,6 @@ import java.util.Map;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -40,6 +39,7 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         
         AccountAttributes account = dataBundle.accounts.get("student1InCourse1");
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
+        assertNotNull(student);
         Logic logic = new Logic();
         
         StudentFeedbackResultsPageData pageData = new StudentFeedbackResultsPageData(account, student);
@@ -48,7 +48,9 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
                                         new HashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
         
         FeedbackQuestionAttributes question1 = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        assertNotNull(question1);
         FeedbackQuestionAttributes question2 = dataBundle.feedbackQuestions.get("qn2InSession1InCourse1");
+        assertNotNull(question2);
         
         List<FeedbackResponseAttributes> responsesForQ1 = new ArrayList<FeedbackResponseAttributes>();
         List<FeedbackResponseAttributes> responsesForQ2 = new ArrayList<FeedbackResponseAttributes>();
@@ -62,10 +64,12 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
         responsesForQ2.add(dataBundle.feedbackResponses.get("response1ForQ2S1C1"));
         responsesForQ2.add(dataBundle.feedbackResponses.get("response2ForQ2S1C1"));
         questionsWithResponses.put(question2, responsesForQ1);
-        
-        
+            
         pageData.bundle = logic.getFeedbackSessionResultsForStudent(question1.feedbackSessionName, question1.courseId, student.email);
         pageData.init(questionsWithResponses);
+        
+        StudentFeedbackResultsQuestionWithResponses questionBundle1 = pageData.getFeedbackResultsQuestionsWithResponses().get(0);
+        StudentFeedbackResultsQuestionWithResponses questionBundle2 = pageData.getFeedbackResultsQuestionsWithResponses().get(1);
         
         assertNotNull(pageData.getFeedbackResultsQuestionsWithResponses());
         assertEquals(2, pageData.getFeedbackResultsQuestionsWithResponses().size());
@@ -76,32 +80,32 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
                       + "a google account</a> (recommended).", 
                       pageData.getRegisterMessage()); 
         
-        assertNotNull(getQ1(pageData).getQuestionDetails());
-        assertNotNull(getQ2(pageData).getQuestionDetails()); 
+        assertNotNull(questionBundle1.getQuestionDetails());
+        assertNotNull(questionBundle2.getQuestionDetails()); 
         
-        assertEquals("1", getQ1(pageData).getQuestionDetails().getQuestionIndex());
-        assertEquals("2", getQ2(pageData).getQuestionDetails().getQuestionIndex()); 
+        assertEquals("1", questionBundle1.getQuestionDetails().getQuestionIndex());
+        assertEquals("2", questionBundle2.getQuestionDetails().getQuestionIndex()); 
         
-        assertEquals("", getQ1(pageData).getQuestionDetails().getAdditionalInfo());
-        assertEquals("", getQ2(pageData).getQuestionDetails().getAdditionalInfo());
+        assertEquals("", questionBundle1.getQuestionDetails().getAdditionalInfo());
+        assertEquals("", questionBundle2.getQuestionDetails().getAdditionalInfo());
         
-        assertNotNull(getQ1(pageData).getResponseTables());
-        assertNotNull(getQ2(pageData).getResponseTables());      
+        assertNotNull(questionBundle1.getResponseTables());
+        assertNotNull(questionBundle2.getResponseTables());      
         
-        assertEquals("You", getQ1(pageData).getResponseTables().get(0).getRecipientName());
-        assertEquals("student2 In Course1", getQ1(pageData).getResponseTables().get(1).getRecipientName());
+        assertEquals("You", questionBundle1.getResponseTables().get(0).getRecipientName());
+        assertEquals("student2 In Course1", questionBundle1.getResponseTables().get(1).getRecipientName());
         
-        assertNotNull(getQ1(pageData).getResponseTables().get(0).getResponses());
-        assertNotNull(getQ2(pageData).getResponseTables().get(1).getResponses());
+        assertNotNull(questionBundle1.getResponseTables().get(0).getResponses());
+        assertNotNull(questionBundle2.getResponseTables().get(1).getResponses());
         
-        assertEquals("You", getQ1(pageData).getResponseTables().get(0).getResponses()
+        assertEquals("You", questionBundle1.getResponseTables().get(0).getResponses()
                                         .get(0).getGiverName());
-        assertEquals("student2 In Course1", getQ1(pageData).getResponseTables().get(1).getResponses()
+        assertEquals("student2 In Course1", questionBundle1.getResponseTables().get(1).getResponses()
                                         .get(0).getGiverName());
         
-        assertEquals("Student 1 self feedback.", getQ1(pageData).getResponseTables().get(0).getResponses()
+        assertEquals("Student 1 self feedback.", questionBundle1.getResponseTables().get(0).getResponses()
                                         .get(0).getAnswer());
-        assertEquals("I&#39;m cool&#39;", getQ1(pageData).getResponseTables().get(1).getResponses()
+        assertEquals("I&#39;m cool&#39;", questionBundle1.getResponseTables().get(1).getResponses()
                                         .get(0).getAnswer());
         
         ______TS("student in unregistered course");
@@ -129,13 +133,5 @@ public class StudentFeedbackResultsPageDataTest extends BaseComponentTestCase {
                       + "student1InUnregisteredCourse%40gmail.tmt&courseid=idOfUnregisteredCourse' "
                       + "class='link'>to login using a google account</a> (recommended).", 
                       pageData.getRegisterMessage());       
-    }
-    
-    public StudentFeedbackResultsQuestionWithResponses getQ1(StudentFeedbackResultsPageData pageData) {
-        return pageData.getFeedbackResultsQuestionsWithResponses().get(0);
-    }
-    
-    public StudentFeedbackResultsQuestionWithResponses getQ2(StudentFeedbackResultsPageData pageData) {
-        return pageData.getFeedbackResultsQuestionsWithResponses().get(1);
     }
 }
