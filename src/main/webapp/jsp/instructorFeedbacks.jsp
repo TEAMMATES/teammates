@@ -43,9 +43,8 @@
 
         <link media="screen" type="text/css" href="/stylesheets/datepicker.css" rel="stylesheet">
 
-        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js" type="text/javascript"></script>
-        <script src="/js/datepicker.js" type="text/javascript"></script>
         <script src="/js/date.js" type="text/javascript"></script>
+        <script src="/js/datepicker.js" type="text/javascript"></script>
         <script src="/js/instructor.js" type="text/javascript"></script>
         <script src="/js/ajaxResponseRate.js" type="text/javascript"></script>
         <script src="/js/instructorFeedbackAjaxRemindModal.js" type="text/javascript"></script>
