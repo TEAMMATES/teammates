@@ -176,7 +176,8 @@ public class StudentFeedbackResultsPageData extends PageData {
             }
             
             String answer = singleResponse.getResponseDetails().getAnswerHtml(question.getQuestionDetails());
-            List<StudentFeedbackResultsResponseComment> comments = createStudentFeedbackResultsResponseComments(singleResponse);
+            List<StudentFeedbackResultsResponseComment> comments = createStudentFeedbackResultsResponseComments(
+                                                                                          singleResponse.getId());
             
             responses.add(new FeedbackResultsResponse(giverName, answer, comments));
         }
@@ -189,10 +190,10 @@ public class StudentFeedbackResultsPageData extends PageData {
      * @return Comments for the response
      */
     private List<StudentFeedbackResultsResponseComment> createStudentFeedbackResultsResponseComments(
-                                                            FeedbackResponseAttributes singleResponse) {
+                                                                               String feedbackResponseId) {
         
         List<StudentFeedbackResultsResponseComment> comments = new ArrayList<StudentFeedbackResultsResponseComment>();
-        List<FeedbackResponseCommentAttributes> commentsBundle = bundle.responseComments.get(singleResponse.getId());
+        List<FeedbackResponseCommentAttributes> commentsBundle = bundle.responseComments.get(feedbackResponseId);
         
         if (commentsBundle != null) {
             for (FeedbackResponseCommentAttributes comment : commentsBundle) { 
