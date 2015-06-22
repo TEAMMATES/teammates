@@ -185,28 +185,28 @@ function bindCopyButton() {
  * Variable is intended to be outside of bindCopyEvents function scope
  * It is used to remember what row was previously clicked by the user
  */
-var prevRow;
+var $previouslySelectedCopyRow;
 
 function bindCopyEvents() {
     $('#copyTableModal > tbody > tr').on('click', function(e) {      
-        var currentRow = $(this);
+        var $currentRow = $(this);
         
-        if (typeof prevRow != 'undefined') {
-            $(prevRow).removeClass('row-selected');
-            $($(prevRow).children('td:first')).html('<input type="radio">');
+        if (typeof $previouslySelectedCopyRow != 'undefined') {
+            $previouslySelectedCopyRow.removeClass('row-selected');
+            $($previouslySelectedCopyRow.children('td:first')).html('<input type="radio">');
         }
         
-        prevRow = currentRow;
+        $previouslySelectedCopyRow = $currentRow;
         
-        var cells = currentRow.children('td');
+        var cells = $currentRow.children('td');
         var courseId = $(cells[1]).text().trim();
         var feedbackSessionName = $(cells[2]).text().trim();
         
         $('#modalCourseId').val(courseId);
         $('#modalSessionName').val(feedbackSessionName);
                 
-        currentRow.addClass('row-selected');
-        $(currentRow.children('td:first')).html('<input type="radio" checked="checked">');
+        $currentRow.addClass('row-selected');
+        $($currentRow.children('td:first')).html('<input type="radio" checked="checked">');
 
         $('#button_copy_submit').prop('disabled', false);
         
