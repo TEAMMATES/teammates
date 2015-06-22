@@ -10,7 +10,6 @@
 </c:set>
 
 <ts:studentPage bodyTitle="Team Details for ${data.studentCourseDetailsPanel.courseId}" pageTitle="TEAMMATES - Student">
-    <br>
     <t:statusMessage />
     <br>
     <div class="well well-plain">

@@ -168,9 +168,9 @@ public class InstructorHomePageData extends PageData {
         for (FeedbackSessionAttributes session : sessions) {
             Map<String, String> columns = new HashMap<String, String>();
             
-            columns.put("name", PageData.sanitizeForHtml(session.feedbackSessionName));
-            columns.put("tooltip", PageData.getInstructorHoverMessageForFeedbackSession(session));
-            columns.put("status", PageData.getInstructorStatusForFeedbackSession(session));
+            columns.put("name", sanitizeForHtml(session.feedbackSessionName));
+            columns.put("tooltip", getInstructorHoverMessageForFeedbackSession(session));
+            columns.put("status", getInstructorStatusForFeedbackSession(session));
             columns.put("href", getFeedbackSessionStatsLink(session.courseId, session.feedbackSessionName));
             
             if (session.isOpened() || session.isWaitingToOpen()) {
