@@ -2,11 +2,13 @@ package teammates.client.scripts;
 
 import java.io.IOException;
 import java.util.List;
+
 import teammates.client.remoteapi.RemoteApiClient;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Assumption;
 import teammates.logic.api.Logic;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.datastore.Datastore;
@@ -16,6 +18,8 @@ import teammates.storage.datastore.Datastore;
  * attribute is set.
  * 
  * If the course is not archived, the instructors of the course will not be modified
+ * 
+ * Assumptions: the default value of an instructor without an isArchived attribute is null, and not false
  * 
  */
 public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
@@ -37,12 +41,22 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
         
         try {
             for (CourseAttributes course : allCourses) {
-                if (course.isArchived) {
-                    setInstructorsIsArchivedInCourse(course);
-                }
+                migrateCourse(course);
             }
         } catch (EntityDoesNotExistException | InvalidParametersException e) {
             e.printStackTrace();
+        }
+    }
+
+    
+    private void migrateCourse(CourseAttributes course) throws InvalidParametersException,
+                                    EntityDoesNotExistException {
+        if (course.isArchived) {
+            if (!isPreview) {
+                setInstructorsIsArchivedInCourse(course);
+            } else {
+                previewInstructorsIsArchivedInCourse(course);
+            }
         }
     }
     
@@ -57,30 +71,49 @@ public class DataMigrationForIsArchivedAttribute extends RemoteApiClient {
      * @throws InvalidParametersException
      */
     private void setInstructorsIsArchivedInCourse(CourseAttributes course) throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertEquals(false, isPreview);
+        Assumption.assertTrue(course.isArchived);
+        
         System.out.println("Updating instructors of old archived course: " + course.id);
         
-        List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(course.id);
-        for (InstructorAttributes instructor: instructorList) {
-            if (isPreview) {
-                System.out.println("Instructor: " + instructor.googleId + " : " + instructor.isArchived);
-                
-                if (instructor.isArchived == null) {
-                    System.out.println("======= Migration has not been done yet =======");
-                }
-            } else {
-                // only update if migration had not been done for the instructor
-                if (instructor.isArchived == null) {
-                    instructor.isArchived = true;
-                    logic.updateInstructorByEmail(instructor.email, instructor);    
-                    
-                    System.out.println("Successfully updated instructor: [" + instructor.email + "] " + instructor.name);
-                }
-            }
+        List<InstructorAttributes> instructorsOfCourse = logic.getInstructorsForCourse(course.id);
+        for (InstructorAttributes instructor: instructorsOfCourse) {
             
+            // only update if migration had not been done for the instructor
+            if (instructor.isArchived == null) {
+                instructor.isArchived = true;
+                logic.updateInstructorByEmail(instructor.email, instructor);    
+                
+                System.out.println("Successfully updated instructor: [" + instructor.email + "] " + instructor.name);
+            }
+        
         }
         
         System.out.println("");
         
+    }
+    
+    /**
+     * For preview mode, prints out the instructors of the course and their isArchived status 
+     * @throws EntityDoesNotExistException 
+     * @throws InvalidParametersException
+     */
+    private void previewInstructorsIsArchivedInCourse(CourseAttributes course) throws InvalidParametersException, EntityDoesNotExistException {
+        Assumption.assertEquals(true, isPreview);
+        Assumption.assertTrue(course.isArchived);
+        
+        System.out.println("Previewing instructors of old archived course: " + course.id);
+        
+        List<InstructorAttributes> instructorsOfCourse = logic.getInstructorsForCourse(course.id);
+        for (InstructorAttributes instructor: instructorsOfCourse) {
+            System.out.println("Instructor: " + instructor.googleId + " : " + instructor.isArchived);
+            
+            if (instructor.isArchived == null) {
+                System.out.println("======= Migration has not been done yet =======");
+            }
+        }
+        
+        System.out.println("");
     }
 
 }
