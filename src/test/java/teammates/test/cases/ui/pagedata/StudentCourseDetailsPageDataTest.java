@@ -72,7 +72,7 @@ public class StudentCourseDetailsPageDataTest extends BaseTestCase {
         assertEquals(student.name, pageData.getStudentCourseDetailsPanel().getStudentName());
         assertEquals(team.name, pageData.getStudentCourseDetailsPanel().getStudentTeam());
         
-        assertEquals(3, courseInstructors.size());
+        assertEquals(instructors.size(), courseInstructors.size());
         assertEquals(instructors.get(0).name, courseInstructors.get(0).name);
         assertEquals(instructors.get(1).name, courseInstructors.get(1).name);
         assertEquals(instructors.get(2).name, courseInstructors.get(2).name);
@@ -80,7 +80,7 @@ public class StudentCourseDetailsPageDataTest extends BaseTestCase {
         assertEquals(instructors.get(1).displayedName, courseInstructors.get(1).displayedName);
         assertEquals(instructors.get(2).displayedName, courseInstructors.get(2).displayedName);
         
-        assertEquals(4, teammates.size());
+        assertEquals(team.students.size(), teammates.size());
         
         ______TS("student in unregistered course");
         
