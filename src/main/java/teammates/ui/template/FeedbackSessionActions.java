@@ -13,9 +13,6 @@ public class FeedbackSessionActions {
     private boolean hasActions;
     private boolean privateSession;
 
-    private boolean hasUnpublish;
-    private boolean hasPublish;
-    
     private boolean hasSubmit;
     private boolean hasRemind;
     
@@ -29,20 +26,16 @@ public class FeedbackSessionActions {
     private String remindLink;
     private String remindParticularStudentsLink;
     private String editCopyLink;
-    private String unpublishLink;
-    private String publishLink;
 
     private boolean allowedToEdit;
     private boolean allowedToDelete;
     private boolean allowedToSubmit;
     private boolean allowedToRemind;
-    private boolean allowedToUnpublish;
-    private boolean allowedToPublish;
 
     private String toggleDeleteFeedbackSessionParams;
     private String toggleRemindStudentsParams;
-    private String toggleUnpublishSessionParams;
-    private String togglePublishSessionParams;
+    
+    private FeedbackSessionPublishButton publishButton;
 
     public FeedbackSessionActions(boolean hasActions, PageData data, FeedbackSessionAttributes session,
                                   boolean isHome, InstructorAttributes instructor,
@@ -52,9 +45,6 @@ public class FeedbackSessionActions {
         this.hasActions = hasActions;
         if (hasActions) {
             this.privateSession = session.isPrivateSession();
-
-            this.hasUnpublish = !session.isWaitingToOpen() && session.isPublished();
-            this.hasPublish = !session.isWaitingToOpen() && !session.isPublished();
 
             this.hasSubmit = session.isVisible() || session.isPrivateSession();
             this.hasRemind = session.isOpened();
@@ -72,8 +62,6 @@ public class FeedbackSessionActions {
             this.remindParticularStudentsLink = data.getInstructorFeedbackSessionRemindParticularStudentsPageLink(courseId,
                                                                                                        feedbackSessionName);
             this.editCopyLink = data.getFeedbackSessionEditCopyLink();
-            this.unpublishLink = data.getInstructorFeedbackSessionUnpublishLink(courseId, feedbackSessionName, isHome);
-            this.publishLink = data.getInstructorFeedbackSessionPublishLink(courseId, feedbackSessionName, isHome);
 
             this.allowedToEdit = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
             this.allowedToDelete = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
@@ -88,15 +76,12 @@ public class FeedbackSessionActions {
             }
             this.allowedToSubmit = shouldEnableSubmitLink;
             this.allowedToRemind = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) && hasRemind;
-            this.allowedToUnpublish = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-            this.allowedToPublish = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
 
             this.toggleDeleteFeedbackSessionParams = "'" + Sanitizer.sanitizeForJs(courseId) + "','"
                                                    + Sanitizer.sanitizeForJs(feedbackSessionName) + "'";
             this.toggleRemindStudentsParams = "'" + Sanitizer.sanitizeForJs(feedbackSessionName) + "'";
-            this.toggleUnpublishSessionParams = "'" + Sanitizer.sanitizeForJs(feedbackSessionName) + "'";
-            this.togglePublishSessionParams = "'" + Sanitizer.sanitizeForJs(feedbackSessionName) + "', "
-                                            + session.isPublishedEmailEnabled;
+            
+            this.publishButton = new FeedbackSessionPublishButton(data, session, isHome, instructor);
         }
     }
 
@@ -106,14 +91,6 @@ public class FeedbackSessionActions {
 
     public boolean isPrivateSession() {
         return privateSession;
-    }
-
-    public boolean isHasUnpublish() {
-        return hasUnpublish;
-    }
-
-    public boolean isHasPublish() {
-        return hasPublish;
     }
 
     public boolean isHasSubmit() {
@@ -160,14 +137,6 @@ public class FeedbackSessionActions {
         return editCopyLink;
     }
 
-    public String getUnpublishLink() {
-        return unpublishLink;
-    }
-
-    public String getPublishLink() {
-        return publishLink;
-    }
-
     public boolean isAllowedToEdit() {
         return allowedToEdit;
     }
@@ -184,14 +153,6 @@ public class FeedbackSessionActions {
         return allowedToRemind;
     }
 
-    public boolean isAllowedToUnpublish() {
-        return allowedToUnpublish;
-    }
-
-    public boolean isAllowedToPublish() {
-        return allowedToPublish;
-    }
-
     public String getToggleDeleteFeedbackSessionParams() {
         return toggleDeleteFeedbackSessionParams;
     }
@@ -200,12 +161,8 @@ public class FeedbackSessionActions {
         return toggleRemindStudentsParams;
     }
 
-    public String getToggleUnpublishSessionParams() {
-        return toggleUnpublishSessionParams;
-    }
-
-    public String getTogglePublishSessionParams() {
-        return togglePublishSessionParams;
+    public FeedbackSessionPublishButton getPublishButton() {
+        return publishButton;
     }
 
 }

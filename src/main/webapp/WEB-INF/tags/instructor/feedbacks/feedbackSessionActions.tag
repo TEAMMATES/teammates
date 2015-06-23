@@ -1,5 +1,6 @@
 <%@ tag description="instructorFeedbacks and instructorHome - Feedback Session actions" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="tif" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="actions" type="teammates.ui.template.FeedbackSessionActions" required="true" %>
 <c:if test="${actions.hasActions}">
@@ -94,40 +95,6 @@
                 </ul>
             </div>
         </div>
-        <c:choose>
-            <c:when test="${actions.hasUnpublish}">
-                <a class="btn btn-default btn-xs btn-tm-actions session-unpublish-for-test"
-                   href="${actions.unpublishLink}"
-                   title="<%= Const.Tooltips.FEEDBACK_SESSION_UNPUBLISH %>"
-                   data-toggle="tooltip"
-                   data-placement="top"
-                   onclick="return toggleUnpublishEvaluation(${actions.toggleUnpublishSessionParams});"
-                   <c:if test="${not actions.allowedToUnpublish}">disabled="disabled"</c:if>>
-                    Unpublish Results
-                </a>
-            </c:when>
-            <c:otherwise>
-                <c:choose>
-                    <c:when test="${actions.hasPublish}">
-                        <c:set var="tooltip" value="<%= Const.Tooltips.FEEDBACK_SESSION_PUBLISH %>" />
-                    </c:when>
-                    <c:otherwise>
-                        <c:set var="tooltip" value="<%= Const.Tooltips.FEEDBACK_SESSION_AWAITING %>" />
-                    </c:otherwise>
-                </c:choose>
-                <div title="${tooltip}"
-                     data-toggle="tooltip"
-                     data-placement="top"
-                     style="display: inline-block; padding-right: 5px;">
-                    <a class="btn btn-default btn-xs btn-tm-actions session-publish-for-test<c:if test="${not actions.hasPublish}"> disabled</c:if>"
-                       href="${actions.publishLink}"
-                       <c:if test="${actions.hasPublish}">onclick="return togglePublishEvaluation(${actions.togglePublishSessionParams});"</c:if>
-                       <c:if test="${not actions.hasPublish}">onclick="return false"</c:if>
-                       <c:if test="${not actions.allowedToPublish}">disabled="disabled"</c:if>>
-                        Publish Results
-                    </a>
-                </div>
-            </c:otherwise>
-        </c:choose>
+        <tif:feedbackSessionPublishButton publishButton="${actions.publishButton}" buttonType="btn-default btn-xs" />
     </c:if>
 </c:if>
