@@ -22,21 +22,112 @@ import teammates.ui.template.CourseTable;
 import teammates.ui.template.ElementTag;
 
 public class StudentHomePageDataTest {
+    private List<CourseDetailsBundle> courses;
+    
+    private FeedbackSessionAttributes submittedSession;
+    private FeedbackSessionAttributes pendingSession;
+    private FeedbackSessionAttributes awaitingSession;
+    
+    private FeedbackSessionAttributes publishedSession;
+    private FeedbackSessionAttributes closedSession;
+    private FeedbackSessionAttributes submittedClosedSession;
+    
     @Test
-    public void testInit() throws Exception {
-        // Data creation
+    public void allTests() {
+        StudentHomePageData data = createData();
+        testCourseTables(data.getCourseTables());
+    }
+
+    public void testCourseTables(List<CourseTable> courseTables) {
+        assertEquals(courses.size(), courseTables.size());
         
+        CourseDetailsBundle newCourse = courses.get(0);
+        CourseTable newCourseTable = courseTables.get(0);
+        
+        testCourseTableMeta(newCourse.course, newCourseTable);
+        testNewCourseTable(newCourse, newCourseTable);
+        
+        CourseDetailsBundle oldCourse = courses.get(1);
+        CourseTable oldCourseTable = courseTables.get(1);
+        
+        testCourseTableMeta(oldCourse.course, oldCourseTable);
+        testOldCourseTable(oldCourse, oldCourseTable);
+    }
+    
+    private void testCourseTableMeta(CourseAttributes course, CourseTable table) {
+        assertEquals(course.id, table.getCourseId());
+        assertEquals(course.name, table.getCourseName());
+        assertEquals(1, table.getButtons().size());
+        testViewTeamButton(table.getButtons().get(0), course.id);
+    }
+    
+    private void testViewTeamButton(ElementTag tag, String courseId) {
+        assertEquals("View Team", tag.getContent());
+        assertEquals(2, tag.getAttributes().size());
+        assertTrue(tag.getAttributes().get("href").startsWith(Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE));
+        assertTrue(tag.getAttributes().get("href").endsWith(Const.ParamsNames.COURSE_ID + "=" + courseId));
+        assertEquals(Const.Tooltips.STUDENT_COURSE_DETAILS, tag.getAttributes().get("title"));
+    }
+
+    private void testNewCourseTable(CourseDetailsBundle newCourse, CourseTable courseTable) {
+        assertEquals(newCourse.feedbackSessions.size(), courseTable.getRows().size());
+        List<Map<String, String>> sessions = courseTable.getRows();
+        Map<String, String> submittedRow = sessions.get(0);
+        Map<String, String> pendingRow = sessions.get(1);
+        Map<String, String> awaitingRow = sessions.get(2);
+        
+        testFeedbackSession(submittedRow, submittedSession,
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED, "Submitted");
+        testFeedbackSession(pendingRow, pendingSession,
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING, "Pending");
+        testFeedbackSession(awaitingRow, awaitingSession,
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_AWAITING, "Awaiting");
+    }
+    
+    private void testOldCourseTable(CourseDetailsBundle oldCourse, CourseTable courseTable) {
+        // Sessions in old course have multiple messages in tooltip as their end dates have passed.
+        assertEquals(oldCourse.feedbackSessions.size(), courseTable.getRows().size());
+        List<Map<String, String>> sessions = courseTable.getRows();
+        Map<String, String> publishedRow = sessions.get(0);
+        Map<String, String> closedRow = sessions.get(1);
+        Map<String, String> submittedClosedRow = sessions.get(2);
+        
+        testFeedbackSession(publishedRow, publishedSession,
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING
+                                + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED
+                                + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED,
+                            "Published");
+        testFeedbackSession(closedRow, closedSession,
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING
+                                + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED,
+                            "Closed");
+        testFeedbackSession(submittedClosedRow, submittedClosedSession,
+                            Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED
+                                + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED,
+                            "Closed");
+    }
+    
+    private void testFeedbackSession(Map<String, String> row, FeedbackSessionAttributes session,
+            String expectedTooltip, String expectedStatus) {
+        assertEquals(session.feedbackSessionName, row.get("name"));
+        assertEquals(TimeHelper.formatTime(session.endTime), row.get("endTime"));
+        assertEquals(expectedTooltip, row.get("tooltip"));
+        assertEquals(expectedStatus, row.get("status"));
+        //TODO: verify actions are correct after they are not merely a block of HTML
+    }
+    
+    private StudentHomePageData createData() {
         // Courses
-        CourseAttributes course1 = new CourseAttributes("course-id-1", "course-name-1");
-        CourseAttributes course2 = new CourseAttributes("course-id-2", "course-name-2");
+        CourseAttributes course1 = new CourseAttributes("course-id-1", "old-course");
+        CourseAttributes course2 = new CourseAttributes("course-id-2", "new-course");
         
         // Feedback sessions
-        FeedbackSessionAttributes submittedSession = createFeedbackSession("submitted session", -1, 1, 1);
-        FeedbackSessionAttributes pendingSession = createFeedbackSession("pending session", -1, 1, 1);
-        FeedbackSessionAttributes awaitingSession = createFeedbackSession("awaiting session", 1, 2, 1);
-        FeedbackSessionAttributes publishedSession = createFeedbackSession("published sesssion", -1, -1, -1);
-        FeedbackSessionAttributes closedSession = createFeedbackSession("closed session", -2, -1, 1);
-        FeedbackSessionAttributes submittedClosedSession = createFeedbackSession("submitted closed session", -1, 0, 1);
+        submittedSession = createFeedbackSession("submitted session", -1, 1, 1);
+        pendingSession = createFeedbackSession("pending session", -1, 1, 1);
+        awaitingSession = createFeedbackSession("awaiting session", 1, 2, 1);
+        publishedSession = createFeedbackSession("published sesssion", -1, -1, -1);
+        closedSession = createFeedbackSession("closed session", -2, -1, 1);
+        submittedClosedSession = createFeedbackSession("submitted closed session", -1, 0, 1);
         
         // Submission status
         Map<String, Boolean> sessionSubmissionStatusMap = new HashMap<String, Boolean>();
@@ -48,69 +139,23 @@ public class StudentHomePageDataTest {
         sessionSubmissionStatusMap.put(course2.id + "%" + submittedClosedSession.feedbackSessionName, true);
         
         // Packing into bundles
-        CourseDetailsBundle courseDetails1 = new CourseDetailsBundle(course1);
-        courseDetails1.feedbackSessions.add(new FeedbackSessionDetailsBundle(submittedSession));
-        courseDetails1.feedbackSessions.add(new FeedbackSessionDetailsBundle(pendingSession));
-        courseDetails1.feedbackSessions.add(new FeedbackSessionDetailsBundle(awaitingSession));
+        CourseDetailsBundle newCourseBundle = new CourseDetailsBundle(course1);
+        newCourseBundle.feedbackSessions.add(new FeedbackSessionDetailsBundle(submittedSession));
+        newCourseBundle.feedbackSessions.add(new FeedbackSessionDetailsBundle(pendingSession));
+        newCourseBundle.feedbackSessions.add(new FeedbackSessionDetailsBundle(awaitingSession));
         
-        CourseDetailsBundle courseDetails2 = new CourseDetailsBundle(course2);
-        courseDetails2.feedbackSessions.add(new FeedbackSessionDetailsBundle(publishedSession));
-        courseDetails2.feedbackSessions.add(new FeedbackSessionDetailsBundle(closedSession));
-        courseDetails2.feedbackSessions.add(new FeedbackSessionDetailsBundle(submittedClosedSession));
+        CourseDetailsBundle oldCourseBundle = new CourseDetailsBundle(course2);
+        oldCourseBundle.feedbackSessions.add(new FeedbackSessionDetailsBundle(publishedSession));
+        oldCourseBundle.feedbackSessions.add(new FeedbackSessionDetailsBundle(closedSession));
+        oldCourseBundle.feedbackSessions.add(new FeedbackSessionDetailsBundle(submittedClosedSession));
         
-        List<CourseDetailsBundle> courses = new ArrayList<CourseDetailsBundle>();
-        courses.add(courseDetails1);
-        courses.add(courseDetails2);
-        
-        
-        StudentHomePageData data = new StudentHomePageData(new AccountAttributes());
-        data.init(courses, sessionSubmissionStatusMap);
-        
-        
-        // Assertions
-        
-        assertEquals(courses.size(), data.getCourseTables().size());
-        
-        CourseTable courseTable = data.getCourseTables().get(0);
-        verifyCourseTable(courseTable, course1);
-        
-        assertEquals(courseDetails1.feedbackSessions.size(), courseTable.getRows().size());
-        List<Map<String, String>> sessions = courseTable.getRows();
-        Map<String, String> submittedRow = sessions.get(0);
-        Map<String, String> pendingRow = sessions.get(1);
-        Map<String, String> awaitingRow = sessions.get(2);
-        
-        verifyFeedbackSession(submittedRow, submittedSession,
-                              Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED, "Submitted");
-        verifyFeedbackSession(pendingRow, pendingSession,
-                              Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING, "Pending");
-        verifyFeedbackSession(awaitingRow, awaitingSession,
-                              Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_AWAITING, "Awaiting");
-        
-        courseTable = data.getCourseTables().get(1);
-        verifyCourseTable(courseTable, course2);
-        
-        assertEquals(courseDetails2.feedbackSessions.size(), courseTable.getRows().size());
-        sessions = courseTable.getRows();
-        Map<String, String> publishedRow = sessions.get(0);
-        Map<String, String> closedRow = sessions.get(1);
-        Map<String, String> submittedClosedRow = sessions.get(2);
-        
-        verifyFeedbackSession(publishedRow, publishedSession,
-                              Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING
-                                  + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED
-                                  + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED,
-                              "Published");
-        verifyFeedbackSession(closedRow, closedSession,
-                              Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING
-                                  + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED,
-                              "Closed");
-        verifyFeedbackSession(submittedClosedRow, submittedClosedSession,
-                              Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED
-                                  + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED,
-                              "Closed");
+        courses = new ArrayList<CourseDetailsBundle>();
+        courses.add(newCourseBundle);
+        courses.add(oldCourseBundle);
+
+        return new StudentHomePageData(new AccountAttributes(), courses, sessionSubmissionStatusMap);
     }
-    
+
     private FeedbackSessionAttributes createFeedbackSession(String name,
             int offsetStart, int offsetEnd, int offsetPublish) {
         FeedbackSessionAttributes session = new FeedbackSessionAttributes();
@@ -120,29 +165,5 @@ public class StudentHomePageDataTest {
         session.resultsVisibleFromTime = TimeHelper.getHoursOffsetToCurrentTime(offsetPublish);
         session.sessionVisibleFromTime = TimeHelper.getHoursOffsetToCurrentTime(-1);
         return session;
-    }
-    
-    private void verifyCourseTable(CourseTable table, CourseAttributes course) {
-        assertEquals(course.id, table.getCourseId());
-        assertEquals(course.name, table.getCourseName());
-        assertEquals(1, table.getButtons().size());
-        verifyViewTeamButton(table.getButtons().get(0), course.id);
-    }
-    
-    private void verifyViewTeamButton(ElementTag tag, String courseId) {
-        assertEquals("View Team", tag.getContent());
-        assertEquals(2, tag.getAttributes().size());
-        assertTrue(tag.getAttributes().get("href").startsWith(Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE));
-        assertTrue(tag.getAttributes().get("href").endsWith(Const.ParamsNames.COURSE_ID + "=" + courseId));
-        assertEquals(Const.Tooltips.STUDENT_COURSE_DETAILS, tag.getAttributes().get("title"));
-    }
-    
-    private void verifyFeedbackSession(Map<String, String> row, FeedbackSessionAttributes session,
-            String expectedTooltip, String expectedStatus) {
-        assertEquals(session.feedbackSessionName, row.get("name"));
-        assertEquals(TimeHelper.formatTime(session.endTime), row.get("endTime"));
-        assertEquals(expectedTooltip, row.get("tooltip"));
-        assertEquals(expectedStatus, row.get("status"));
-        //TODO: verify actions are correct after they are not merely a block of HTML
     }
 }
