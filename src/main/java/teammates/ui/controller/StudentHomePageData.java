@@ -76,8 +76,9 @@ public class StudentHomePageData extends PageData {
     }
     
     /**
-     * Returns the submission status of the student for a given feedback session.
-     * @param sessionSubmissionStatusMap 
+     * @param session The feedback session in question.
+     * @param hasSubmitted Whether the student had submitted the session or not.
+     * @return The submission status of the student for a given feedback session as a String.
      */
     private String getStudentStatusForSession(FeedbackSessionAttributes session, boolean hasSubmitted){
         if (session.isOpened()) {
@@ -96,10 +97,9 @@ public class StudentHomePageData extends PageData {
     }
     
     /**
-     * @param sessionSubmissionStatusMap 
-     * @param submissionStatus Submission status of a student for a particular feedback session. 
-     * 
-     * @return The hover message to explain evaluation submission status.
+     * @param session The feedback session in question.
+     * @param hasSubmitted Whether the student had submitted the session or not.
+     * @return The hover message to explain feedback session submission status.
      */
     private String getStudentHoverMessageForSession(FeedbackSessionAttributes session, boolean hasSubmitted){
         String msg = "";
@@ -148,7 +148,9 @@ public class StudentHomePageData extends PageData {
     
 
     /**
-     * @param sessionSubmissionStatusMap 
+     * @param fs The feedback session in question.
+     * @param idx The index of the session in the table.
+     * @param hasSubmitted Whether the student had submitted the session or not.
      * @return The list of available actions for a specific feedback session.
      */
     private String getStudentFeedbackSessionActions(FeedbackSessionAttributes fs, int idx, boolean hasSubmitted) {
