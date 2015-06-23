@@ -6,61 +6,54 @@
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.CommentAttributes"%>
 <%@ page import="teammates.common.datatransfer.CommentParticipantType"%>
-<%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
-<%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
 <%@ page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
-<%@ page import="teammates.common.datatransfer.FeedbackSessionResultsBundle"%>
-<%@ page import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
-<%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.SessionAttributes"%>
-<%@ page import="teammates.common.datatransfer.SessionResultsBundle"%>
 <%@ page import="teammates.ui.controller.InstructorStudentRecordsPageData"%>
-<%@ page import="static teammates.ui.controller.PageData.sanitizeForJs"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml" %>
 <%
     InstructorStudentRecordsPageData data = (InstructorStudentRecordsPageData)request.getAttribute("data");
 %>
-<%
-    if (data.targetSessionName.isEmpty()) {
-%>
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="shortcut icon" href="/favicon.png">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TEAMMATES - Instructor</title>
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
-    <!-- Bootstrap theme -->
-    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/teammatesCommon.css" media="screen">
-    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-    <script type="text/javascript" src="/js/jquery-minified.js"></script>
-    <script type="text/javascript" src="/js/common.js"></script>
-    <script type="text/javascript" src="/js/instructor.js"></script>
-    <script type="text/javascript" src="/js/instructorStudentRecords.js"></script>
-    <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
-    <jsp:include page="../enableJS.jsp" />
-    <!-- Bootstrap core JavaScript ================================================== -->
-    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+    <link rel="shortcut icon" href="/favicon.png" />
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>
+    <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet"/>
+
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
+    <script type="text/javascript" src="/js/jquery-minified.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+
+    <jsp:include page="../enableJS.jsp" />
+
+    <script type="text/javascript" src="/js/instructor.js"></script>
+    <script type="text/javascript" src="/js/instructorStudentRecords.js"></script>
+    <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
     <script type="text/javascript">
         var showCommentBox = "<%= data.showCommentBox %>";
     </script>
 </head>
 <body onload="readyStudentRecordsPage();">
     <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
-    <div id="frameBodyWrapper" class="container">
+    <div class="container" id="frameBodyWrapper">
         <div id="topOfPage"></div>
-        <h2>
+        <h1>
             <%= InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name) %>'s Records<small class="muted"> - <%=data.courseId%></small>
-        </h2>
+        </h1>
         <br>
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
         <% if (data.studentProfile != null) { %>
@@ -481,149 +474,3 @@
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>
 </html>
-<% } else {
-    // Ajax content to be loaded
-    int sessionIndex = -1;
-    int fbIndex = -1;
-    for (SessionResultsBundle sessionResult: data.results) {
-        sessionIndex++;
-        if (sessionResult instanceof FeedbackSessionResultsBundle) {
-            FeedbackSessionResultsBundle feedback = (FeedbackSessionResultsBundle) sessionResult;
-            fbIndex++;
-            String giverName = feedback.appendTeamNameToName(InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name), data.student.team);
-            String recipientName = giverName;
-            Map<String, List<FeedbackResponseAttributes>> received = feedback.getResponsesSortedByRecipient().get(recipientName);
-            Map<String, List<FeedbackResponseAttributes>> given = feedback.getResponsesSortedByGiver().get(giverName);
-            if (received != null) { %>
-                <br>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        To: <strong><%=recipientName%></strong>
-                    </div>
-                    <div class="panel-body">
-                        <% int giverIndex = 0;
-                        for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesReceived : received.entrySet()) {
-                            giverIndex++; %>
-                            <div class="row <%= giverIndex == 1 ? "" : "border-top-gray" %>">
-                                <div class="col-md-2">
-                                    <strong>From: <%= responsesReceived.getKey() %></strong>
-                                </div>
-                                <div class="col-md-10">
-                                    <% int qnIndx = 1;
-                                    for (FeedbackResponseAttributes singleResponse : responsesReceived.getValue()) { %>
-                                        <div class="panel panel-info">
-                                            <div class="panel-heading">
-                                                Question <%= feedback.questions.get(singleResponse.feedbackQuestionId).questionNumber%>: <%=feedback.getQuestionText(singleResponse.feedbackQuestionId) %><%
-                                                Map<String, FeedbackQuestionAttributes> questions = feedback.questions;
-                                                FeedbackQuestionAttributes question = questions.get(singleResponse.feedbackQuestionId);
-                                                FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
-                                                out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "giver-" + giverIndex + "-session-" + fbIndex)); %>
-                                            </div>
-                                            <div class="panel-body">
-                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                                <span class="text-preserve-space"><%= feedback.getResponseAnswerHtml(singleResponse, question) %></span>
-                                                <% List<FeedbackResponseCommentAttributes> responseComments = feedback.responseComments.get(singleResponse.getId());
-                                                if (responseComments != null) { %>
-                                                    <ul class="list-group comment-list">
-                                                        <% for (FeedbackResponseCommentAttributes comment : responseComments) { %>
-                                                            <li class="list-group-item list-group-item-warning">
-                                                                <span class="text-muted">
-                                                                    From: <%= comment.giverEmail %> [<%= comment.createdAt %>]
-                                                                </span>
-                                                                <div>
-                                                                    <%= comment.commentText.getValue() %>
-                                                                </div>
-                                                            </li>
-                                                        <% } %>
-                                                    </ul>
-                                                <% } %>
-                                            </div>
-                                        </div>
-                                    <% }
-                                    qnIndx++;
-                                    if (responsesReceived.getValue().isEmpty()) { %>
-                                        <div class="col-sm-12" style="color: red;">
-                                            No feedback from this user.
-                                        </div>
-                                    <% } %>
-                                </div>
-                            </div>
-                        <br>
-                        <% } %>
-                    </div>
-                </div>
-            <% } else { %>
-                <br>
-                <div class="panel panel-info">
-                    <div class="panel-body">
-                        No feedback for <%= InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name) %> found
-                    </div>
-                </div>
-            <% }
-            if (given != null) { %>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        From: <strong><%= giverName %></strong>
-                    </div>
-                    <div class="panel-body">
-                        <% int recipientIndex = 0;
-                        for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesGiven : given.entrySet()) {
-                            recipientIndex++; %>
-                            <div class="row <%= recipientIndex == 1 ? "" : "border-top-gray" %>">
-                                <div class="col-md-2"><strong>
-                                    To: <%= responsesGiven.getKey() %></strong>
-                                </div>
-                                <div class="col-md-10">
-                                    <% int qnIndx = 1;
-                                    for (FeedbackResponseAttributes singleResponse : responsesGiven.getValue()) { %>
-                                        <div class="panel panel-info">
-                                            <div class="panel-heading">
-                                                Question <%= feedback.questions.get(singleResponse.feedbackQuestionId).questionNumber %>: <%= feedback.getQuestionText(singleResponse.feedbackQuestionId) %><%
-                                                Map<String, FeedbackQuestionAttributes> questions = feedback.questions;
-                                                FeedbackQuestionAttributes question = questions.get(singleResponse.feedbackQuestionId);
-                                                FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
-                                                out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "recipient-" + recipientIndex + "-session-" + fbIndex)); %>
-                                            </div>
-                                            <div class="panel-body">
-                                                <%= singleResponse.getResponseDetails().getAnswerHtml(questionDetails) %>
-                                                <% List<FeedbackResponseCommentAttributes> responseComments = feedback.responseComments.get(singleResponse.getId());
-                                                if (responseComments != null) { %>
-                                                    <ul class="list-group comment-list">
-                                                        <% for (FeedbackResponseCommentAttributes comment : responseComments) { %>
-                                                            <li class="list-group-item list-group-item-warning">
-                                                                <span class="text-muted">
-                                                                    From: <%= comment.giverEmail %> [<%= comment.createdAt %>]
-                                                                </span>
-                                                                <div>
-                                                                    <%= comment.commentText.getValue() %>
-                                                                </div>
-                                                            </li>
-                                                        <% } %>
-                                                    </ul>
-                                                <% } %>
-                                            </div>
-                                        </div>
-                                    <% qnIndx++;
-                                    }
-                                    if (responsesGiven.getValue().isEmpty()) { %>
-                                        <div class="col-sm-12" style="color: red;">
-                                            No feedback from this user.
-                                        </div>
-                                    <% } %>
-                                </div>
-                            </div>
-                            <br>
-                        <% } %>
-                    </div>
-                </div>
-            <% } else{ %>
-                <br>
-                <div class="panel panel-info">
-                    <div class="panel-body">
-                        No feedback by <%= InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name) %> found
-                    </div>
-                </div>
-            <% }
-        }
-    }
-} %> 

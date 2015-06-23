@@ -30,7 +30,7 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
             return createSpecificRedirectResult();
         }
         
-        verifyAccesibleForSpecificUser();
+        verifyAccesibleForSpecificUser(feedbackSession);
         
         String userEmailForCourse = getUserEmailForCourse();
         data = new FeedbackSubmissionEditPageData(account, student);
@@ -49,7 +49,7 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
 
     protected abstract boolean isSpecificUserJoinedCourse();
     
-    protected abstract void verifyAccesibleForSpecificUser();
+    protected abstract void verifyAccesibleForSpecificUser(FeedbackSessionAttributes fsa);
     
     protected abstract String getUserEmailForCourse();
 

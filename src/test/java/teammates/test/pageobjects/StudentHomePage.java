@@ -21,7 +21,7 @@ public class StudentHomePage extends AppPage {
     }
 
     public static boolean containsExpectedPageContents(String pageSource) {
-        return pageSource.contains("<h1>Student Home</h1>");
+        return pageSource.contains("Student Home");
     }
 
     public StudentHelpPage clickHelpLink() {
