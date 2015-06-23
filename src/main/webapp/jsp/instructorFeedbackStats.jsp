@@ -11,23 +11,22 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>TEAMMATES-Feedback Stats</title>
-    <link rel="stylesheet" href="/stylesheets/common.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" media="screen">
 </head>
 <body>
     <div id="frameTop">
         <jsp:include page="<%= Const.ViewURIs.INSTRUCTOR_HEADER %>" />
     </div>
     
-    <div id="frameBody">
-        <div id="frameBodyWrapper">
+    <div class="container" id="frameBodyWrapper">
+            <div id="topOfPage"></div>
             <h1 class="align-center"><%= data.sessionDetails.feedbackSession.feedbackSessionName %></h1>
-            <br />
+            <br>
             <p class="align-center">Expected : <%= data.sessionDetails.stats.expectedTotal %></p>
             <br />
             
             <p class="align-center">Submitted : <%= data.sessionDetails.stats.submittedTotal %></p>
             <br />
-        </div>
     </div>
 </body>
 </html>

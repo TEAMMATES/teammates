@@ -41,9 +41,10 @@
     </head>
     <body>
         <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
-        <div id="frameBodyWrapper" class="container theme-showcase">
+        <div class="container" id="frameBodyWrapper">
             <div id="topOfPage"></div>
             <h1>Student List</h1>
+            <br>
             <div class="well well-plain">
                 <div class="row">
                     <div class="col-md-12">
