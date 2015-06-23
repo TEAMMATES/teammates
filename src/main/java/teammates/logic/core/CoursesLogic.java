@@ -164,9 +164,11 @@ public class CoursesLogic {
                 Assumption.assertNotNull("Student should not be null at this point.", s);
             }
             
+            // Skip the course existence check since the course ID is obtained from a
+            // valid CourseAttributes resulting from query
             List<FeedbackSessionAttributes> feedbackSessionList = 
-                    feedbackSessionsLogic.getFeedbackSessionsForUserInCourse(c.id, s.email);
-            
+                    feedbackSessionsLogic.getFeedbackSessionsForUserInCourseSkipCheck(c.id, s.email);
+
             CourseDetailsBundle cdd = new CourseDetailsBundle(c);
             
             for (FeedbackSessionAttributes fs : feedbackSessionList) {
@@ -463,16 +465,12 @@ public class CoursesLogic {
             throw new EntityDoesNotExistException("Student with Google ID " + googleId + " does not exist");
         }
         
-        ArrayList<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
-
+        List<String> courseIds = new ArrayList<String>();
         for (StudentAttributes s : studentDataList) {
-            CourseAttributes course = coursesDb.getCourse(s.course);
-            if (course == null) {
-                log.warning("Course was deleted but the Student still exists :" + Const.EOL + s.toString());
-            } else {
-                courseList.add(course);
-            }
+            courseIds.add(s.course);
         }
+        List<CourseAttributes> courseList = coursesDb.getCourses(courseIds);
+        
         return courseList;
     }
 
