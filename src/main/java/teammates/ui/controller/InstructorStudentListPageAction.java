@@ -12,6 +12,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
+import teammates.logic.api.Logic;
 import teammates.ui.datatransfer.InstructorStudentListPageCourseData;
 
 public class InstructorStudentListPageAction extends Action {
@@ -47,13 +48,12 @@ public class InstructorStudentListPageAction extends Action {
 
         statusToAdmin = "instructorStudentList Page Load<br>" + "Total Courses: " + courses.size();
         
-        data = new InstructorStudentListPageData(account);
         List<InstructorStudentListPageCourseData> coursesToDisplay = new ArrayList<InstructorStudentListPageCourseData>();
         for (CourseAttributes course: courses) {
             InstructorAttributes instructor = instructors.get(course.id);
             boolean isInstructorAllowedToModify = instructor.isAllowedForPrivilege(
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-            boolean isCourseArchived = data.isCourseArchived(course, instructor);
+            boolean isCourseArchived = Logic.isCourseArchived(course, instructor);
             boolean isCourseDisplayed = displayArchive || !isCourseArchived;
             if (isCourseDisplayed) {
                 coursesToDisplay.add(new InstructorStudentListPageCourseData(course, isCourseArchived,

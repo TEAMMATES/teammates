@@ -19,10 +19,6 @@ public class InstructorStudentListPageData extends PageData {
     private List<InstructorStudentListStudentsTableCourse> studentsTable;
     private int numOfCourses;
     
-    public InstructorStudentListPageData(AccountAttributes account) {
-        super(account);
-    }
-
     public InstructorStudentListPageData(AccountAttributes account, String searchKey,
                                          boolean displayArchive,
                                          Map<String, String> numStudents,
