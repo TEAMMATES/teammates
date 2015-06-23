@@ -25,7 +25,7 @@
                     <c:forEach items="${commentsForStudentsTable.rows}" var="commentRow"> <%--student comments loop starts--%>
                         <c:set var="commentIdx" value="${commentIdx + 1}" />
                         <li id="${commentRow.comment.commentId}"
-                            class="list-group-item list-group-item-warning ${not empty comment.showCommentTo ? 'status_display-public' : 'status_display-private'}">
+                            class="list-group-item list-group-item-warning ${not empty commentRow.comment.showCommentTo ? 'status_display-public' : 'status_display-private'}">
                             <form method="post"
                                 action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT %>"
                                 name="form_commentedit"
@@ -33,9 +33,7 @@
                                 id="form_commentedit-${commentIdx}">
                                 <div id="commentBar-${commentIdx}">
                                     
-                                    <span class="text-muted">To ${commentRow.recipientDetails} on
-                                       ${commentRow.creationTime} ${commentRow.editedAt} 
-                                    </span>
+                                    <span class="text-muted">To ${commentRow.recipientDetails} on ${commentRow.creationTime} ${commentRow.editedAt}</span>
                                     <c:if test="${commentRow.instructorAllowedToModifyCommentInSection}"> <%-- comment edit/delete control starts --%>
                                         <a type="button"
                                             id="commentdelete-${commentIdx}"
