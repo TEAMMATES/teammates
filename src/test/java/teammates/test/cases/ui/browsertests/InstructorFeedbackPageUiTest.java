@@ -846,15 +846,27 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertTrue(feedbackPage.isRadioButtonChecked(0));
         assertTrue(feedbackPage.isCopySubmitButtonEnabled());
         
+        // row -> row
+        ______TS("click on another row");
+        
+        feedbackPage.clickCopyTableAtRow(3);
+        assertTrue(feedbackPage.isRowSelected(3));
+        assertTrue(feedbackPage.isRadioButtonChecked(3));
+        assertFalse(feedbackPage.isRowSelected(0));
+        assertFalse(feedbackPage.isRadioButtonChecked(0));
+        assertTrue(feedbackPage.isCopySubmitButtonEnabled());
+        
+        // row -> radio
         ______TS("click on a radio button");
         
         feedbackPage.clickCopyTableRadioButtonAtRow(2);
         assertTrue(feedbackPage.isRowSelected(2));
         assertTrue(feedbackPage.isRadioButtonChecked(2));
-        assertFalse(feedbackPage.isRowSelected(0));
-        assertFalse(feedbackPage.isRadioButtonChecked(0));
+        assertFalse(feedbackPage.isRowSelected(3));
+        assertFalse(feedbackPage.isRadioButtonChecked(3));
         assertTrue(feedbackPage.isCopySubmitButtonEnabled());
         
+        // radio -> radio
         ______TS("click on another radio button");
         
         feedbackPage.clickCopyTableRadioButtonAtRow(1);
@@ -864,6 +876,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertFalse(feedbackPage.isRadioButtonChecked(2));
         assertTrue(feedbackPage.isCopySubmitButtonEnabled());
         
+        // radio -> row
         ______TS("click on a row");
         
         feedbackPage.clickCopyTableAtRow(3);
@@ -873,6 +886,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         assertFalse(feedbackPage.isRadioButtonChecked(1));
         assertTrue(feedbackPage.isCopySubmitButtonEnabled());
         
+        // row -> radio (same row)
         ______TS("click on a radio button of the same row");
         
         feedbackPage.clickCopyTableRadioButtonAtRow(3);
