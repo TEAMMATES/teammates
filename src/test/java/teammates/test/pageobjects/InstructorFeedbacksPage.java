@@ -249,14 +249,7 @@ public class InstructorFeedbacksPage extends AppPage {
         fillTextBox(copiedFsNameTextBox, feedbackSessionName);       
         selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
         
-        clickCopyTableRadioButtonAtRow(3);
-        clickCopyTableRadioButtonAtRow(2);
-        clickCopyTableAtRow(1);
-        clickCopyTableRadioButtonAtRow(4);
-        clickCopyTableAtRow(3);
-        clickCopyTableAtRow(1);
-        clickCopyTableRadioButtonAtRow(0);
-        
+        clickCopyTableAtRow(0);       
         clickCopySubmitButton();
     }
     
