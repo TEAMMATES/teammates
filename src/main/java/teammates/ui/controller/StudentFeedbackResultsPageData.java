@@ -1,6 +1,8 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -132,6 +134,8 @@ public class StudentFeedbackResultsPageData extends PageData {
             }           
         }
         
+        Collections.sort(recipients, compareByRecipientName);
+        
         for (String recipientEmail : recipients) {
             List<FeedbackResponseAttributes> responsesBundleForRecipient = filterResponsesByRecipientEmail(recipientEmail, responsesBundle);
             responseTables.add(createResponseTable(question, responsesBundleForRecipient));
@@ -227,4 +231,34 @@ public class StudentFeedbackResultsPageData extends PageData {
         return responsesForRecipient;
     }
     
+    // Sorts by recipientName
+    private final Comparator<String> compareByRecipientName =
+            new Comparator<String>() {
+        @Override
+        public int compare(String recipientEmail1,
+                           String recipientEmail2) {
+            return compareByNames(bundle.getNameForEmail(recipientEmail1),
+                                  bundle.getNameForEmail(recipientEmail2));
+        }
+    };
+    
+    private int compareByNames(String n1, String n2) {
+        // Make class feedback always appear on top, and team responses at bottom.
+        int n1Priority = 0;
+        int n2Priority = 0;
+
+        if (n1.equals(Const.USER_IS_NOBODY)) {
+            n1Priority = -1;
+        } else if (n1.equals(Const.USER_IS_TEAM)) {
+            n1Priority = 1;
+        }
+        if (n2.equals(Const.USER_IS_NOBODY)) {
+            n2Priority = -1;
+        } else if (n2.equals(Const.USER_IS_TEAM)) {
+            n2Priority = 1;
+        }
+
+        int order = Integer.compare(n1Priority, n2Priority);
+        return order == 0 ? n1.compareTo(n2) : order;
+    }
 }
