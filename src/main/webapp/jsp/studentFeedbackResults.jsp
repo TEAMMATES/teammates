@@ -116,7 +116,7 @@
                 <%
                     int qnIndx = 0;
                     Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses =
-                            data.bundle.getQuestionResponseMap();
+                            data.bundle.getQuestionResponseMapSortedByRecipient();
 
                     for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionWithResponses : questionsWithResponses.entrySet()) {
                         qnIndx++;
