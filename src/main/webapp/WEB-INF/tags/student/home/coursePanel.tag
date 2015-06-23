@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="courseTable" type="teammates.ui.template.CourseTable" required="true" %>
-<%@ attribute name="index" required="true" %>
 <div class="panel panel-primary">
     <div class="panel-heading">
         <strong>

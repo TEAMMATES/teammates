@@ -13,8 +13,8 @@
                     <th class="studentHomeActions">Action(s)</th>
                 </tr>
             </thead>
-            <c:forEach items="${sessionRows}" var="sessionRow" varStatus="i">
-                <tr class="home_evaluations_row" id="evaluation${i.index}">
+            <c:forEach items="${sessionRows}" var="sessionRow">
+                <tr class="home_evaluations_row" id="evaluation${sessionRow.index}">
                     <td>
                         ${sessionRow.name}
                     </td>

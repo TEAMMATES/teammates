@@ -32,12 +32,15 @@ public class StudentHomePageData extends PageData {
     
     private void setCourseTables(List<CourseDetailsBundle> courses, Map<String, Boolean> sessionSubmissionStatusMap) {
         courseTables = new ArrayList<CourseTable>();
+        int startingSessionIdx = 0; // incremented for each session row without resetting between courses
         for (CourseDetailsBundle courseDetails : courses) {
             CourseTable courseTable = new CourseTable(courseDetails.course,
                                                       createCourseTableLinks(courseDetails.course.id),
                                                       createSessionRows(courseDetails.feedbackSessions,
                                                                         courseDetails.course.id,
-                                                                        sessionSubmissionStatusMap));
+                                                                        sessionSubmissionStatusMap,
+                                                                        startingSessionIdx));
+            startingSessionIdx += courseDetails.feedbackSessions.size();
             courseTables.add(courseTable);
         }
     }
@@ -53,10 +56,9 @@ public class StudentHomePageData extends PageData {
     }
     
     private List<Map<String, String>> createSessionRows(List<FeedbackSessionDetailsBundle> feedbackSessions,
-            String courseId, Map<String, Boolean> sessionSubmissionStatusMap) {
+            String courseId, Map<String, Boolean> sessionSubmissionStatusMap, int sessionIdx) {
         List<Map<String, String>> rows = new ArrayList<Map<String, String>>();
         
-        int sessionIndex = 0;
         for (FeedbackSessionDetailsBundle session : feedbackSessions) {
             FeedbackSessionAttributes feedbackSession = session.feedbackSession;
             String sessionName = feedbackSession.feedbackSessionName;
@@ -67,8 +69,11 @@ public class StudentHomePageData extends PageData {
             columns.put("endTime", TimeHelper.formatTime(feedbackSession.endTime));
             columns.put("tooltip", getStudentHoverMessageForSession(feedbackSession, hasSubmitted));
             columns.put("status", getStudentStatusForSession(feedbackSession, hasSubmitted));
-            columns.put("actions", getStudentFeedbackSessionActions(feedbackSession, sessionIndex, hasSubmitted));
+            columns.put("actions", getStudentFeedbackSessionActions(feedbackSession, sessionIdx, hasSubmitted));
+            columns.put("index", Integer.toString(sessionIdx));
             rows.add(columns);
+            
+            ++sessionIdx;
         }
         
         return rows;

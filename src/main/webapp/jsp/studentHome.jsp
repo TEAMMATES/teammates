@@ -11,8 +11,8 @@
 <ts:studentPage pageTitle="TEAMMATES - Student" bodyTitle="Student Home" jsIncludes="${jsIncludes}">
     <t:statusMessage />
     <br />
-    <c:forEach items="${data.courseTables}" var="courseTable" varStatus="i">
-        <home:coursePanel courseTable="${courseTable}" index="${i.index}">
+    <c:forEach items="${data.courseTables}" var="courseTable">
+        <home:coursePanel courseTable="${courseTable}">
             <home:courseTable sessionRows="${courseTable.rows}" />
         </home:coursePanel>
         <br /><br />
