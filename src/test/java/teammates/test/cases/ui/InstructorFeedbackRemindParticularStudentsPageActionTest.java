@@ -12,9 +12,9 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackRemindParticularStudentsPageAction;
 import teammates.ui.controller.InstructorFeedbackRemindParticularStudentsPageData;
+import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbackRemindParticularStudentsPageActionTest extends
         BaseActionTest {
@@ -46,7 +46,7 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends
         };
         
         InstructorFeedbackRemindParticularStudentsPageAction a = getAction(submissionParams);
-        AjaxResult r = getAjaxResult(a);
+        ShowPageResult r = getShowPageResult(a);
         
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
