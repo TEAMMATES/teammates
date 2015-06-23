@@ -243,14 +243,10 @@ public class InstructorFeedbacksPage extends AppPage {
         clickSubmitButton();
     }
     
-    public void copyFeedbackSession(String feedbackSessionName, String courseId) {
-        
-        clickCopyButton();
-        
-        this.waitForElementVisible(copiedFsNameTextBox);
-        
-        fillTextBox(copiedFsNameTextBox, feedbackSessionName);
-        
+    public void copyFeedbackSession(String feedbackSessionName, String courseId) {        
+        clickCopyButton();        
+        this.waitForElementVisible(copiedFsNameTextBox);        
+        fillTextBox(copiedFsNameTextBox, feedbackSessionName);       
         selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
         
         clickCopyTableRadioButtonAtRow(3);
@@ -264,14 +260,10 @@ public class InstructorFeedbacksPage extends AppPage {
         clickCopySubmitButton();
     }
     
-    public void copyFeedbackSessionTestButtons(String feedbackSessionName, String courseId) {
-        
-        clickCopyButton();
-        
-        this.waitForElementVisible(copiedFsNameTextBox);
-        
-        fillTextBox(copiedFsNameTextBox, feedbackSessionName);
-        
+    public void copyFeedbackSessionTestButtons(String feedbackSessionName, String courseId) {       
+        clickCopyButton();       
+        this.waitForElementVisible(copiedFsNameTextBox);       
+        fillTextBox(copiedFsNameTextBox, feedbackSessionName);        
         selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
     }
 
