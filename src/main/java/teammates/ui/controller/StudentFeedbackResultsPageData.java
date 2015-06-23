@@ -190,7 +190,7 @@ public class StudentFeedbackResultsPageData extends PageData {
 
     /**
      * Creates a list of comments for a feedback results response
-     * @param singleResponse  Response for which comments are created
+     * @param feedbackResponseId  Response ID for which comments are created
      * @return Comments for the response
      */
     private List<StudentFeedbackResultsResponseComment> createStudentFeedbackResultsResponseComments(
