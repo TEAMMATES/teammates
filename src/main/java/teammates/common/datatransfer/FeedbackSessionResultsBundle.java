@@ -1038,13 +1038,38 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
 
         for (FeedbackResponseAttributes response : responses) {
-            List<FeedbackResponseAttributes> responsesForQuestion = sortedMap
-                    .get(questions.get(response.feedbackQuestionId));
+            FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
+            List<FeedbackResponseAttributes> responsesForQuestion = sortedMap.get(question);
             responsesForQuestion.add(response);
         }
 
         for (List<FeedbackResponseAttributes> responsesForQuestion : sortedMap.values()) {
             Collections.sort(responsesForQuestion, compareByGiverRecipient);
+        }
+
+        return sortedMap;
+    }
+    
+    public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> getQuestionResponseMapSortedByRecipient() {
+        if (questions == null || responses == null) {
+            return null;
+        }
+
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> sortedMap =
+                new TreeMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
+
+        for (FeedbackQuestionAttributes question : questions.values()) {
+            sortedMap.put(question, new ArrayList<FeedbackResponseAttributes>());
+        }
+
+        for (FeedbackResponseAttributes response : responses) {
+            FeedbackQuestionAttributes question = questions.get(response.feedbackQuestionId);
+            List<FeedbackResponseAttributes> responsesForQuestion = sortedMap.get(question);
+            responsesForQuestion.add(response);
+        }
+
+        for (List<FeedbackResponseAttributes> responsesForQuestion : sortedMap.values()) {
+            Collections.sort(responsesForQuestion, compareByRecipientName);
         }
 
         return sortedMap;
