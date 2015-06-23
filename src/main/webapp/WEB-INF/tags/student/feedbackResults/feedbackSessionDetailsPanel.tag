@@ -7,32 +7,20 @@
     <div class="panel-body">
         <div class="form-horizontal">
             <div class="panel-heading">         
-                <feedbackResults:displayFeedbackSessionInfo>
-                    <jsp:attribute name="heading">Course ID:</jsp:attribute>
-                    <jsp:body>
-                        <c:out value="${feedbackSession.courseId}"/>
-                    </jsp:body>
+                <feedbackResults:displayFeedbackSessionInfo label="Course ID:">
+                    <c:out value="${feedbackSession.courseId}"/>
                 </feedbackResults:displayFeedbackSessionInfo>
                 
-                <feedbackResults:displayFeedbackSessionInfo>
-                    <jsp:attribute name="heading">Session:</jsp:attribute>
-                    <jsp:body>
-                        <c:out value="${feedbackSession.feedbackSessionName}"/>
-                    </jsp:body>
+                <feedbackResults:displayFeedbackSessionInfo label="Session:">
+                    <c:out value="${feedbackSession.feedbackSessionName}"/>
                 </feedbackResults:displayFeedbackSessionInfo>
                 
-                <feedbackResults:displayFeedbackSessionInfo>
-                    <jsp:attribute name="heading">Opening time:</jsp:attribute>
-                    <jsp:body>
-                        ${feedbackSession.startTimeString}
-                    </jsp:body>
+                <feedbackResults:displayFeedbackSessionInfo label="Opening time:">
+                    ${feedbackSession.startTimeString}
                 </feedbackResults:displayFeedbackSessionInfo>
                 
-                <feedbackResults:displayFeedbackSessionInfo>
-                    <jsp:attribute name="heading">Closing time:</jsp:attribute>
-                    <jsp:body>
-                        ${feedbackSession.endTimeString}
-                    </jsp:body>
+                <feedbackResults:displayFeedbackSessionInfo label="Closing time:">
+                    ${feedbackSession.endTimeString}
                 </feedbackResults:displayFeedbackSessionInfo>
             </div>
         </div>
