@@ -19,11 +19,10 @@ public class StudentHomePageData extends PageData {
     
     private List<CourseTable> courseTables;
     
-    public StudentHomePageData(AccountAttributes account) {
+    public StudentHomePageData(AccountAttributes account,
+                               List<CourseDetailsBundle> courses,
+                               Map<String, Boolean> sessionSubmissionStatusMap) {
         super(account);
-    }
-    
-    public void init(List<CourseDetailsBundle> courses, Map<String, Boolean> sessionSubmissionStatusMap) {
         setCourseTables(courses, sessionSubmissionStatusMap);
     }
     

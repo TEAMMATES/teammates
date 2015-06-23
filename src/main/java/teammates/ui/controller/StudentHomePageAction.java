@@ -54,8 +54,7 @@ public class StudentHomePageAction extends Action {
             }
         }
         
-        data = new StudentHomePageData(account);
-        data.init(courses, sessionSubmissionStatusMap);
+        data = new StudentHomePageData(account, courses, sessionSubmissionStatusMap);
         
         ShowPageResult response = createShowPageResult(Const.ViewURIs.STUDENT_HOME, data);
         
