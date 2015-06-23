@@ -184,7 +184,7 @@ function bindCopyButton() {
 }
 
 function bindCopyEvents() {
-    $('#copyTableModal >tbody>tr').on('click', function(e) {
+    $('#copyTableModal > tbody > tr').on('click', function(e) {
 
         var currentRow = $(this);
         if (currentRow.hasClass('row-selected')) {
