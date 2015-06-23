@@ -186,26 +186,26 @@ function bindCopyButton() {
 function bindCopyEvents() {
     $('#copyTableModal > tbody > tr').on('click', function(e) {
 
-        var currentRow = $(this);
-        if (currentRow.hasClass('row-selected')) {
+        var currentlySelectedRow = $(this);
+        if (currentlySelectedRow.hasClass('row-selected')) {
             return;
         }
 
-        var cells = currentRow.children('td');
+        var cells = currentlySelectedRow.children('td');
         var courseId = $(cells[1]).text().trim();
         var feedbackSessionName = $(cells[2]).text().trim();
         $('#modalCourseId').val(courseId);
         $('#modalSessionName').val(feedbackSessionName);
 
-        var selectedRadio = currentRow.parent().find('input:checked');
-        var selectedRow = selectedRadio.parent().parent();
+        var previouslySelectedRadio = currentlySelectedRow.parent().find('input:checked');
+        var previouslySelectedRow = previouslySelectedRadio.parent().parent();
 
-        selectedRadio.prop('checked', false);
-        selectedRow.removeClass('row-selected');
+        previouslySelectedRadio.prop('checked', false);
+        previouslySelectedRow.removeClass('row-selected');
 
-        selectedRadio = currentRow.children('td').children('input');
-        selectedRadio.prop('checked', true);
-        currentRow.addClass('row-selected');
+        var currentlySelectedRadio = currentlySelectedRow.children('td').children('input');
+        currentlySelectedRadio.prop('checked', true);
+        currentlySelectedRow.addClass('row-selected');
 
         $('#button_copy_submit').prop('disabled', false);
     });
