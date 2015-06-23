@@ -15,7 +15,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.TimeHelper;
 import teammates.ui.template.CommentRow;
 import teammates.ui.template.InstructorCommentsCommentRow;
-import teammates.ui.template.CommentsForStudentsTable;
+import teammates.ui.template.InstructorCommentsForStudentsTable;
 import teammates.ui.template.VisibilityCheckboxes;
 
 /**
@@ -37,7 +37,7 @@ public class InstructorCommentsPageData extends PageData {
     private String nextPageLink;
     private int numberOfPendingComments = 0;
     
-    private List<CommentsForStudentsTable> commentsForStudentsTables;
+    private List<InstructorCommentsForStudentsTable> commentsForStudentsTables;
     
     public InstructorCommentsPageData(AccountAttributes account) {
         super(account);
@@ -134,7 +134,7 @@ public class InstructorCommentsPageData extends PageData {
         return removeBracketsForArrayString(comment.showRecipientNameTo.toString());
     }
     
-    public List<CommentsForStudentsTable> getCommentsForStudentsTables() {
+    public List<InstructorCommentsForStudentsTable> getCommentsForStudentsTables() {
         return commentsForStudentsTables;
     }
     
@@ -148,13 +148,13 @@ public class InstructorCommentsPageData extends PageData {
 
     private void setCommentsForStudentsTables() {
         Map<String, String> giverEmailToGiverNameMap = getGiverEmailToGiverNameMap();
-        commentsForStudentsTables = new ArrayList<CommentsForStudentsTable>();      
+        commentsForStudentsTables = new ArrayList<InstructorCommentsForStudentsTable>();      
           
         for (String giverEmail : comments.keySet()) {
             String giverName = giverEmailToGiverNameMap.get(giverEmail);
             commentsForStudentsTables
-                    .add(new CommentsForStudentsTable(
-                                 giverName, createCommentRows(giverEmail, giverName)));
+                    .add(new InstructorCommentsForStudentsTable(
+                                 giverEmail, giverName, createCommentRows(giverEmail, giverName)));
         }
     }
     

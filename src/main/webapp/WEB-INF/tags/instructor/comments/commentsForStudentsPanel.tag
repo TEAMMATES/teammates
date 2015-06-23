@@ -14,12 +14,12 @@
         ${viewingDraft ? 'Your comments that are not finished:' : ''}
         <c:set var="commentIdx" value="0" />
         <c:forEach items="${commentsForStudentsTables}" var="commentsForStudentsTable"> <%--recipient loop starts--%>
-            <div class="panel panel-info student-record-comments ${commentsForStudentsTable.giverDetails == '0you' ? 'giver_display-by-you' : 'giver_display-by-others'}"
+            <div class="panel panel-info student-record-comments ${commentsForStudentsTable.giverEmail == '0you' ? 'giver_display-by-you' : 'giver_display-by-others'}"
                 <c:if test="${empty commentsForStudentsTable.rows}"> 
                     style="display: none;" 
                 </c:if>>
                 <div class="panel-heading">
-                    From <b>${commentsForStudentsTable.giverDetails}</b>
+                    From <b>${commentsForStudentsTable.giverName}</b>
                 </div>
                 <ul class="list-group comments">
                     <c:forEach items="${commentsForStudentsTable.rows}" var="commentRow"> <%--student comments loop starts--%>
