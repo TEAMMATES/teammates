@@ -7,13 +7,15 @@
     <link href="/stylesheets/omniComment.css" rel="stylesheet">
     <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
     <script type="text/javascript" src="/js/instructor.js"></script>
-    <script src="/js/omniComment.js"></script>
     <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
+    <script src="/js/omniComment.js"></script>
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Comments from Instructors" jsIncludes="${jsIncludes}">
-    <div class="row">
-        <div class="col-md-6 pull-right instructor-header-bar">
-            <comments:search instructorSearchLink="${data.instructorSearchLink}"/>
+    <div class="inner-container">
+        <div class="row">
+            <div class="col-sm-6 instructor-header-bar">
+                <comments:search instructorSearchLink="${data.instructorSearchLink}"/>
+            </div>
         </div>
     </div>
     <br>
