@@ -69,7 +69,9 @@ public class InstructorCourseStudentDetailsEditPageUiTest extends BaseUiTestCase
             .withStudentEmail(testData.students.get("registeredStudent").email);
         
         editPage = loginAdminToPage(browser, editPageUrl, InstructorCourseStudentDetailsEditPage.class);
-        editPage.verifyHtmlMainContent("/InstructorCourseStudentEditPage.html");
+
+        // This is the full HTML verification for Instructor Course Student Edit Page, the rest can all be verifyMainHtml
+        editPage.verifyHtml("/InstructorCourseStudentEditPage.html");
     }
     
     public void testInputValidation() {

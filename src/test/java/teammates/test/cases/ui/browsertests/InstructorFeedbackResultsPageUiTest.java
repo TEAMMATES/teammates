@@ -78,6 +78,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: standard session results");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
+
+        // This is the full HTML verification for Instructor Feedback Results Page, the rest can all be verifyMainHtml
         resultsPage.verifyHtml("/instructorFeedbackResultsPageOpen.html");
 
         ______TS("Typical case: standard session results: helper view");
