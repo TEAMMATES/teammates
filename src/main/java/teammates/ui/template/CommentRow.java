@@ -3,14 +3,18 @@ package teammates.ui.template;
 import teammates.common.datatransfer.CommentAttributes;
 
 public class CommentRow {
-    private String giverDetails;
-    private CommentAttributes comment;
-    private String recipientDetails;
-    private String creationTime;
-    private ElementTag editButton;
+    protected String giverDetails;
+    protected CommentAttributes comment;
+    protected String recipientDetails;
+    protected String creationTime;
+    protected ElementTag editButton;
+   
+    public CommentRow() {
+        
+    }
     
     public CommentRow(String giverDetails, CommentAttributes comment,
-                       String recipientDetails, String creationTime, ElementTag editButton) {
+                      String recipientDetails, String creationTime, ElementTag editButton) {
         this.giverDetails = giverDetails;
         this.comment = comment;
         this.recipientDetails = recipientDetails;

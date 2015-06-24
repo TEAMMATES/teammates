@@ -897,6 +897,9 @@ public class PageData {
             }
         }
         String peopleCanViewString = peopleCanView.toString();
+        if(peopleCanViewString.isEmpty()) {
+            return peopleCanViewString;
+        }
         return removeEndComma(peopleCanViewString);
     }
     
