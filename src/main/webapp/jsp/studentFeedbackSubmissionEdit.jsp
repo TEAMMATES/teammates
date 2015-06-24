@@ -23,8 +23,5 @@
     </c:choose>
     
     <ts:registerMessage googleId="${data.account.googleId}" registerMessage="${data.registerMessage}"/>    
-    <feedbackSubmissionEdit:feedbackSubmissionForm submitAction="${data.submitAction}" preview="${data.preview}" 
-                                                   moderatedStudentEmail="${data.studentToViewPageAs.email}" 
-                                                   questionResponseBundle="${data.bundle.questionResponseBundle}" 
-                                                   moderation="${data.moderation}" submittable="${data.submittable}"/>
+    <feedbackSubmissionEdit:feedbackSubmissionForm feedbackSubmissionForm="${data}"/>
 </ts:studentPage>
