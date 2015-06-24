@@ -15,15 +15,15 @@ import teammates.common.datatransfer.StudentAttributes;
  */
 public class StudentCommentsPageData extends PageData {
 
-    public String courseId;
-    public String courseName;
-    public List<String> coursePaginationList;
-    public List<CommentAttributes> comments;
-    public CourseRoster roster;
-    public String previousPageLink;
-    public String nextPageLink;
-    public String studentEmail;
-    public Map<String, FeedbackSessionResultsBundle> feedbackResultBundles;
+    private String courseId;
+    private String courseName;
+    private List<String> coursePaginationList;
+    private List<CommentAttributes> comments;
+    private CourseRoster roster;
+    private String previousPageLink;
+    private String nextPageLink;
+    private String studentEmail;
+    private Map<String, FeedbackSessionResultsBundle> feedbackResultBundles;
     
     public StudentCommentsPageData(AccountAttributes account) {
         super(account);
