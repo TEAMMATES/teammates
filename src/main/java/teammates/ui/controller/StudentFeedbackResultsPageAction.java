@@ -33,7 +33,7 @@ public class StudentFeedbackResultsPageAction extends Action {
         data.student = getCurrentStudent(courseId);
         data.setBundle(logic.getFeedbackSessionResultsForStudent(feedbackSessionName, courseId, data.student.email));
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses =
-                                                                            data.getBundle().getQuestionResponseMap();
+                                                                            data.getBundle().getQuestionResponseMapSortedByRecipient();
 
         if (data.getBundle() == null) {
             // not covered because GateKeeper will detect this as unauthorized exception, but we can
