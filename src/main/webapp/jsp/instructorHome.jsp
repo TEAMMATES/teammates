@@ -59,7 +59,7 @@
     <body>
         <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
     
-        <div id="frameBodyWrapper" class="container theme-showcase">
+        <div id="mainContent" class="container theme-showcase">
             <div id="topOfPage"></div>
             <div class="inner-container">
                 <div class="row">

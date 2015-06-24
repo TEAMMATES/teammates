@@ -38,7 +38,7 @@
 
     <!-- Main Body -->
     
-    <div class="container" id="frameBodyWrapper">  
+    <div class="container" id="mainContent">  
         <div id="topOfPage"></div>
         <h1>Team Details for <%=data.courseDetails.course.id%></h1>
         <br>

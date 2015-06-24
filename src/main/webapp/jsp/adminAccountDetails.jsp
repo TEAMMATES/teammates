@@ -45,7 +45,7 @@
 <body>
 
     <jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
-    <div class="container" id="frameBodyWrapper">
+    <div class="container" id="mainContent">
                 <div id="topOfPage"></div>
                 <h1>Instructor Account Details</h1>
                 <br>

@@ -25,18 +25,18 @@ public class StudentProfilePicturePage extends AppPage {
 
     public void verifyIsErrorPage(String expectedFilename) {
         if (TestProperties.inst().isDevServer()) {
-            verifyHtmlPart(By.id("frameBodyWrapper"), expectedFilename);
+            verifyHtmlPart(By.id("mainContent"), expectedFilename);
         } else {
             assertEquals("", browser.driver.findElement(By.tagName("body")).getText());
         }
     }
 
     public void verifyIsUnauthorisedErrorPage(String expectedFilename) {
-        verifyHtmlPart(By.id("frameBodyWrapper"), expectedFilename);
+        verifyHtmlPart(By.id("mainContent"), expectedFilename);
     }
 
     public void verifyIsEntityNotFoundErrorPage(String expectedFilename) {
-        verifyHtmlPart(By.id("frameBodyWrapper"), expectedFilename);
+        verifyHtmlPart(By.id("mainContent"), expectedFilename);
     }
 
 }
