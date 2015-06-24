@@ -32,7 +32,7 @@ public class GodModeTest extends BaseUiTestCase {
         if (TestProperties.inst().isDevServer()) {
             injectRealAccountsIntoFile();
             writeToFile(getOutputFilePath(), 
-                    "<div id='frameBodyWrapper'>test</div>");
+                    "<div id='mainContent'>test</div>");
             browser = BrowserPool.getBrowser();
             page = AppPage.getNewPageInstance(browser).navigateTo(new Url(getPath()));
         }
@@ -100,7 +100,7 @@ public class GodModeTest extends BaseUiTestCase {
         ______TS("test verifyHtmlMainContent");
         
         writeToFile(getOutputFilePath(), 
-                "<div id='frameBodyWrapper'>test</div>");
+                "<div id='mainContent'>test</div>");
         
         try {
             page.verifyHtml("/godmodeOutput.html");
