@@ -11,11 +11,9 @@
             <h3 class="text-center">Previewing Session as Student ${name} (${email})</h3>
         </nav>
     </c:when>
-    <c:otherwise>
-        <c:if test="${moderation}">
-            <nav class="navbar navbar-default navbar-fixed-top">
-                <h3 class="text-center">Moderating Responses for Student ${name} (${email})</h3>
-            </nav>
-        </c:if>
-    </c:otherwise>
+    <c:when test="${moderation}">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <h3 class="text-center">Moderating Responses for Student ${name} (${email})</h3>
+        </nav>
+    </c:when>
 </c:choose>
