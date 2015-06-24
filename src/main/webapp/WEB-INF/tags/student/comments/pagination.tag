@@ -6,8 +6,7 @@
     <c:forEach items="${data.coursePaginationList}" var="courseId">
     <li
         class="${courseId == data.courseId ? 'active' : ''}">
-        <a
-        href="${data.studentCommentsLink}&courseid=${courseId}">${courseId}</a>
+        <a href="${data.studentCommentsLink}&courseid=${courseId}">${courseId}</a>
     </li>
     </c:forEach>
     <li><a href="${data.nextPageLink}">»</a></li>

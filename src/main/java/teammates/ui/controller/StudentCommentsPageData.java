@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -8,7 +9,11 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.util.TimeHelper;
+import teammates.ui.template.CommentRow;
+import teammates.ui.template.StudentCommentsCommentRow;
 
 /**
  * PageData: the data used in the StudentCommentsPage
@@ -25,8 +30,27 @@ public class StudentCommentsPageData extends PageData {
     private String studentEmail;
     private Map<String, FeedbackSessionResultsBundle> feedbackResultBundles;
     
+    List<CommentRow> commentRows;
+    
     public StudentCommentsPageData(AccountAttributes account) {
         super(account);
+    }
+    
+    public void init(String courseId, String courseName, List<String> coursePaginationList,
+                     List<CommentAttributes> comments, CourseRoster roster, String previousPageLink,
+                     String nextPageLink, String studentEmail,
+                     Map<String, FeedbackSessionResultsBundle> feedbackResultBundles) {
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.coursePaginationList = coursePaginationList;
+        this.comments = comments;
+        this.roster = roster;
+        this.previousPageLink = previousPageLink;
+        this.nextPageLink = nextPageLink;
+        this.studentEmail = studentEmail;
+        this.feedbackResultBundles = feedbackResultBundles;
+        
+        setCommentRows();
     }
     
     public String getCourseId() {
@@ -65,6 +89,10 @@ public class StudentCommentsPageData extends PageData {
         return feedbackResultBundles;
     }
     
+    public List<CommentRow> getCommentRows() {
+        return commentRows;
+    }
+    
     public String getRecipientNames(Set<String> recipients){
         StringBuilder namesStringBuilder = new StringBuilder();
         int i = 0;
@@ -86,5 +114,29 @@ public class StudentCommentsPageData extends PageData {
         }
         String namesString = namesStringBuilder.toString();
         return removeEndComma(namesString);
+    }
+    
+    private void setCommentRows() {
+        commentRows = new ArrayList<CommentRow>();
+        for (CommentAttributes comment : comments) {
+            String recipientDetails = getRecipientNames(comment.recipients);
+            
+            InstructorAttributes instructor = roster.getInstructorForEmail(comment.giverEmail);
+            String giverDetails = comment.giverEmail;
+            if(instructor != null){
+                giverDetails = instructor.displayedName + " " + instructor.name;
+            }
+            String lastEditorDisplay = null;
+            if (comment.lastEditorEmail != null) {
+                 InstructorAttributes lastEditor = roster.getInstructorForEmail(comment.lastEditorEmail);
+                 lastEditorDisplay = lastEditor.displayedName + " " + lastEditor.name;
+            }
+            String creationTime = TimeHelper.formatDate(comment.createdAt);
+            String editedAt = comment.getEditedAtTextForStudent(giverDetails.equals("Anonymous"), lastEditorDisplay);
+            CommentRow commentRow = 
+                    new StudentCommentsCommentRow(
+                                giverDetails, comment, recipientDetails, creationTime, editedAt);
+            commentRows.add(commentRow);
+        }
     }
 }

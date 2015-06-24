@@ -70,15 +70,8 @@ public class StudentCommentsPageAction extends Action {
         }
         
         data = new StudentCommentsPageData(account);
-        data.courseId = courseId;
-        data.courseName = courseName;
-        data.coursePaginationList = coursePaginationList;
-        data.comments = comments;
-        data.roster = roster;
-        data.previousPageLink = previousPageLink;
-        data.nextPageLink = nextPageLink;
-        data.studentEmail = studentEmail;
-        data.feedbackResultBundles = feedbackResultBundles;
+        data.init(courseId, courseName, coursePaginationList, comments, roster,
+                  previousPageLink, nextPageLink, studentEmail, feedbackResultBundles);
         
         statusToAdmin = "studentComments Page Load<br>" + 
                 "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records " +
