@@ -14,14 +14,14 @@ import teammates.common.util.Url;
 
 public class FeedbackSubmissionEditPageData extends PageData {
     public FeedbackSessionQuestionsBundle bundle = null;
-    public String moderatedQuestion = null;
-    public boolean isSessionOpenForSubmission;
-    public boolean isPreview;
-    public boolean isModeration;
-    public boolean isShowRealQuestionNumber;
-    public boolean isHeaderHidden;
-    public StudentAttributes studentToViewPageAs;
-    public InstructorAttributes previewInstructor;    
+    private String moderatedQuestion = null;
+    private boolean isSessionOpenForSubmission;
+    private boolean isPreview;
+    private boolean isModeration;
+    private boolean isShowRealQuestionNumber;
+    private boolean isHeaderHidden;
+    private StudentAttributes studentToViewPageAs;
+    private InstructorAttributes previewInstructor;    
     private String registerMessage;
     
     public FeedbackSubmissionEditPageData(AccountAttributes account, StudentAttributes student) {
@@ -49,6 +49,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
     public FeedbackSessionQuestionsBundle getBundle() {
         return bundle;
     }
+    
+    public String getModeratedQuestion() {
+        return moderatedQuestion;
+    }
    
     public boolean isSessionOpenForSubmission() {
         return isSessionOpenForSubmission;
@@ -60,6 +64,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
 
     public boolean isModeration() {
         return isModeration;
+    }
+    
+    public boolean isShowRealQuestionNumber() {
+        return isShowRealQuestionNumber;
     }
 
     public boolean isHeaderHidden() {
@@ -74,6 +82,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
         return account;
     }
     
+    public InstructorAttributes getPreviewInstructor() {
+        return previewInstructor;
+    }
+    
     public String getRegisterMessage() {
         return registerMessage;
     }
@@ -85,6 +97,42 @@ public class FeedbackSubmissionEditPageData extends PageData {
     
     public boolean isSubmittable() {
         return isSessionOpenForSubmission || isModeration;
+    }
+
+    public void setModeratedQuestion(String moderatedQuestion) {
+        this.moderatedQuestion = moderatedQuestion;
+    }
+
+    public void setSessionOpenForSubmission(boolean isSessionOpenForSubmission) {
+        this.isSessionOpenForSubmission = isSessionOpenForSubmission;
+    }
+
+    public void setPreview(boolean isPreview) {
+        this.isPreview = isPreview;
+    }
+
+    public void setModeration(boolean isModeration) {
+        this.isModeration = isModeration;
+    }
+
+    public void setShowRealQuestionNumber(boolean isShowRealQuestionNumber) {
+        this.isShowRealQuestionNumber = isShowRealQuestionNumber;
+    }
+
+    public void setHeaderHidden(boolean isHeaderHidden) {
+        this.isHeaderHidden = isHeaderHidden;
+    }
+
+    public void setStudentToViewPageAs(StudentAttributes studentToViewPageAs) {
+        this.studentToViewPageAs = studentToViewPageAs;
+    }
+
+    public void setPreviewInstructor(InstructorAttributes previewInstructor) {
+        this.previewInstructor = previewInstructor;
+    }
+
+    public void setRegisterMessage(String registerMessage) {
+        this.registerMessage = registerMessage;
     }
 
     public List<String> getRecipientOptionsForQuestion(String feedbackQuestionId, String currentlySelectedOption) {

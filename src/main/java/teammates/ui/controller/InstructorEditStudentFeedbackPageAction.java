@@ -68,13 +68,13 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         
         Assumption.assertNotNull(data.bundle);
         
-        data.isSessionOpenForSubmission = true;
-        data.isModeration = true;
-        data.isHeaderHidden = true;
-        data.studentToViewPageAs = studentUnderModeration;
+        data.setSessionOpenForSubmission(true);
+        data.setModeration(true);
+        data.setHeaderHidden(true);
+        data.setStudentToViewPageAs(studentUnderModeration);
         
         if (moderatedQuestionNumber != null) {
-          data.moderatedQuestion = moderatedQuestionNumber;
+          data.setModeratedQuestion(moderatedQuestionNumber);
         }
         
         hideQuestionsWithAnonymousResponses(data.bundle);

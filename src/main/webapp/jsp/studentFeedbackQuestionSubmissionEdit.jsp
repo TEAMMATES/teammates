@@ -41,21 +41,21 @@
 
     <body>
         <%
-            if (!data.isHeaderHidden) {
+            if (!data.isHeaderHidden()) {
         %>
                 <jsp:include page="<%= Const.ViewURIs.STUDENT_HEADER %>" />
                 <jsp:include page="<%= Const.ViewURIs.STUDENT_MOTD %>" />
         <%
-            } else if (data.isPreview) {
+            } else if (data.isPreview()) {
         %>
                 <nav class="navbar navbar-default navbar-fixed-top">
-                    <h3 class="text-center">Previewing Session as Student <%= data.studentToViewPageAs.name %> (<%= data.studentToViewPageAs.email %>)</h3>
+                    <h3 class="text-center">Previewing Session as Student <%= data.getStudentToViewPageAs().name %> (<%= data.getStudentToViewPageAs().email %>)</h3>
                 </nav>
         <%
-            } else if (data.isModeration) {
+            } else if (data.isModeration()) {
         %>
                 <nav class="navbar navbar-default navbar-fixed-top">
-                    <h3 class="text-center">Moderating Responses for Student <%= data.studentToViewPageAs.name %> (<%= data.studentToViewPageAs.email %>)</h3>
+                    <h3 class="text-center">Moderating Responses for Student <%= data.getStudentToViewPageAs().name %> (<%= data.getStudentToViewPageAs().email %>)</h3>
                 </nav>
         <%
             }
@@ -79,7 +79,7 @@
                 <%
                     }
 
-                    String submitAction = data.isModeration ?
+                    String submitAction = data.isModeration() ?
                                             Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE :
                                             Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE;
                 %>
@@ -88,18 +88,18 @@
 
                     <div class="bold align-center">
                         <%
-                            if (data.isModeration) {
+                            if (data.isModeration()) {
                         %>
-                                <input name="moderatedstudent" value="<%= data.studentToViewPageAs.email %>" type="hidden">
+                                <input name="moderatedstudent" value="<%= data.getStudentToViewPageAs().email %>" type="hidden">
                         <%
                             }
 
-                            boolean isSubmittable = data.isSessionOpenForSubmission || data.isModeration;
+                            boolean isSubmittable = data.isSessionOpenForSubmission() || data.isModeration();
                             if (data.bundle.questionResponseBundle.isEmpty()) {
                         %>
                                 There are no questions for you to answer here!
                         <%
-                            } else if (data.isPreview || !isSubmittable) {
+                            } else if (data.isPreview() || !isSubmittable) {
                         %>
                                 <input disabled="disabled" type="submit" class="btn btn-primary" id="response_submit_button" data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE %>" value="Submit Feedback" style="background: #66727A;">
                         <%

@@ -70,7 +70,7 @@
 </div>
 <br>
 <%
-    if (data.isModeration) {
+    if (data.isModeration()) {
 %>
         <div class="row">
             <span class="help-block align-center">
@@ -115,8 +115,8 @@
         <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_ID %>-<%= Integer.toString(qnIndx) %>" value="<%= question.getId() %>">
         <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_QUESTION_RESPONSETOTAL %>-<%= Integer.toString(qnIndx) %>" value="<%= numOfResponseBoxes %>">
         <div class="form-horizontal">
-            <div class="panel panel-primary<%= questionNumberString.equals(data.moderatedQuestion) ? " moderated-question" : "" %>">
-                <div class="panel-heading">Question <%= data.isShowRealQuestionNumber ? question.questionNumber : qnIndx %>:
+            <div class="panel panel-primary<%= questionNumberString.equals(data.getModeratedQuestion()) ? " moderated-question" : "" %>">
+                <div class="panel-heading">Question <%= data.isShowRealQuestionNumber() ? question.questionNumber : qnIndx %>:
                     <br>
                     <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                     <span class="text-preserve-space"><%= sanitizeForHtml(questionDetails.questionText) %></span>
@@ -149,7 +149,7 @@
                                     <label for="input">To: </label>
                                     <select class="participantSelect middlealign form-control" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT %>-<%= Integer.toString(qnIndx) %>-<%= Integer.toString(responseIndx) %>"
                                         <%= (numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none;max-width:125px\"" : "style=\"width:275px;max-width:275px\"" %>
-                                        <%= data.isSessionOpenForSubmission ? "" : "disabled=\"disabled\"" %>
+                                        <%= data.isSessionOpenForSubmission() ? "" : "disabled=\"disabled\"" %>
                                     >
                                         <%
                                             for (String opt : data.getRecipientOptionsForQuestion(question.getId(), existingResponse.recipientEmail)) {
@@ -160,7 +160,7 @@
                                 </div>
                                 <div <%= divClassType %>>
                                     <%= questionDetails.getQuestionWithExistingResponseSubmissionFormHtml(
-                                            data.isSessionOpenForSubmission,
+                                            data.isSessionOpenForSubmission(),
                                             qnIndx, responseIndx, question.courseId,
                                             existingResponse.getResponseDetails()) %>
                                     <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>-<%= Integer.toString(qnIndx) %>-<%= Integer.toString(responseIndx) %>" value="<%= sanitizeForHtml(existingResponse.getId()) %>">
@@ -179,7 +179,7 @@
                                     <label for="input">To:</label>
                                     <select class="participantSelect middlealign newResponse form-control" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT %>-<%= Integer.toString(qnIndx) %>-<%= Integer.toString(responseIndx) %>"
                                         <%= (numOfResponseBoxes == maxResponsesPossible) ? "style=\"display:none;max-width:125px\"" : "style=\"width:275px;max-width:275px\"" %>
-                                        <%= data.isSessionOpenForSubmission ? "" : "disabled=\"disabled\"" %>
+                                        <%= data.isSessionOpenForSubmission() ? "" : "disabled=\"disabled\"" %>
                                     >
                                     <%
                                         for (String opt : data.getRecipientOptionsForQuestion(question.getId(), null)) {
@@ -190,7 +190,7 @@
                                 </div>
                                 <div <%= divClassType %>>
                                 <%= questionDetails.getQuestionWithoutExistingResponseSubmissionFormHtml(
-                                        data.isSessionOpenForSubmission,
+                                        data.isSessionOpenForSubmission(),
                                         qnIndx, responseIndx, question.courseId) %>
                                 </div>
                             </div>
