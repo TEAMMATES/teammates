@@ -813,6 +813,14 @@ public class PageData {
     public String getInstructorFeedbackSessionPublishAndUnpublishAction(FeedbackSessionAttributes session, 
                                                                         boolean isHome, 
                                                                         InstructorAttributes instructor) {
+        return getInstructorFeedbackSessionPublishAndUnpublishAction("btn-default btn-xs", session, isHome,
+                                                                     instructor);
+    }
+    
+    public String getInstructorFeedbackSessionPublishAndUnpublishAction(String buttonType,
+                                                                        FeedbackSessionAttributes session, 
+                                                                        boolean isHome, 
+                                                                        InstructorAttributes instructor) {
         boolean hasPublish = !session.isWaitingToOpen() && !session.isPublished();
         boolean hasUnpublish = !session.isWaitingToOpen() && session.isPublished();
         String disabledStr = "disabled=\"disabled\"";
@@ -825,7 +833,7 @@ public class PageData {
         String result = "";
         if (hasUnpublish) {
             result =
-                "<a class=\"btn btn-default btn-xs btn-tm-actions session-unpublish-for-test\""
+                "<a class=\"btn " + buttonType + " btn-tm-actions session-unpublish-for-test\""
                     + "href=\"" + getInstructorFeedbackSessionUnpublishLink(session.courseId, 
                                                                             session.feedbackSessionName, 
                                                                             isHome) + "\" " 
@@ -833,22 +841,18 @@ public class PageData {
                     + "data-placement=\"top\" onclick=\"return toggleUnpublishEvaluation('" 
                     + session.feedbackSessionName + "');\" " + disableUnpublishSessionStr + ">Unpublish Results</a> ";
         } else {
-            result = 
-                "<div title=\"" + (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH 
-                                              : Const.Tooltips.FEEDBACK_SESSION_AWAITING) + "\" "
-                    + "data-toggle=\"tooltip\" data-placement=\"top\" style=\"display: inline-block; "
-                    + "padding-right: 5px;\">" +
-                    "<a class=\"btn btn-default btn-xs btn-tm-actions session-publish-for-test" 
-                        + (hasPublish ? "\"" : DISABLED) + "href=\"" + getInstructorFeedbackSessionPublishLink(
-                                                                                session.courseId, 
-                                                                                session.feedbackSessionName, isHome) 
-                        + "\" " + (hasPublish ? "onclick=\"return togglePublishEvaluation('" 
-                                                + session.feedbackSessionName + "', " 
-                                                + session.isPublishedEmailEnabled + ");\" " 
+            result = "<a class=\"btn " + buttonType + " btn-tm-actions session-publish-for-test" 
+                   + (hasPublish ? "\"" : DISABLED) + "href=\""
+                   + getInstructorFeedbackSessionPublishLink(session.courseId, session.feedbackSessionName,
+                                                             isHome) 
+                   + "\" " + "title=\""
+                   + (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH 
+                                 : Const.Tooltips.FEEDBACK_SESSION_AWAITING)
+                   + "\" " + "data-toggle=\"tooltip\" data-placement=\"top\""
+                   + (hasPublish ? "onclick=\"return togglePublishEvaluation('" + session.feedbackSessionName + "', " 
+                                                                                + session.isPublishedEmailEnabled + ");\" " 
                                               : " ") 
-                        + disablePublishSessionStr + ">Publish Results" +
-                    "</a> " +
-                "</div>";
+                   + disablePublishSessionStr + ">Publish Results</a> ";
         }
         return result;
     }

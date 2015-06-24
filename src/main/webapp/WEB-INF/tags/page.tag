@@ -36,7 +36,7 @@
 </head>
 <body ${bodyOnload}>
     <jsp:invoke fragment="navBar" />
-    <div class="container" id="frameBodyWrapper">
+    <div class="container" id="mainContent">
         <t:bodyHeader title="${bodyTitle}" />
         <jsp:doBody />
     </div>

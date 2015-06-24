@@ -41,7 +41,7 @@
     <div id="frameTop">
     <jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
     </div>
-    <div class="container" id="frameBodyWrapper">
+    <div class="container" id="mainContent">
             <div id="topOfPage"></div>
             <h1>Add New Instructor</h1>
             <br>
