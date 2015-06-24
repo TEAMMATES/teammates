@@ -319,10 +319,10 @@
         </div> 
         <br>
         <br>
-        <br>
-        <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-    </body>
-    </html>
-<%
-    }
-%>
+        <br>        
+    <%
+        }
+    %>
+    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
+</body>
+</html>
