@@ -9,6 +9,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
+import teammates.ui.template.FeedbackSessionPublishButton;
 
 public class InstructorFeedbackResultsPageData extends PageData {
     public static final String EXCEEDING_RESPONSES_ERROR_MESSAGE = "Sorry, we could not retrieve results. "
@@ -40,6 +41,19 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * The next three methods are not covered in action test, but covered in UI tests.
      */
 
+    /*
+    public FeedbackSessionPublishButton getInstructorFeedbackSessionPublishAndUnpublishAction(
+                                                                        FeedbackSessionAttributes session,
+                                                                        boolean isHome,
+                                                                        InstructorAttributes instructor) {
+        return new FeedbackSessionPublishButton(this, session, isHome, instructor, "btn-primary btn-block");
+    }
+    */
+
+    /**
+     * TODO: re-use {@link FeedbackSessionPublishButton} when migrating this to JSTL.<br>
+     * As a shortcut, un-comment the above method, making necessary changes, and remove this one.
+     */
     public String getInstructorFeedbackSessionPublishAndUnpublishAction(FeedbackSessionAttributes session,
                                                                         boolean isHome,
                                                                         InstructorAttributes instructor) {
