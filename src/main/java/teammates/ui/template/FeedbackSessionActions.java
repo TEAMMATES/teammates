@@ -37,6 +37,8 @@ public class FeedbackSessionActions {
     
     private FeedbackSessionPublishButton publishButton;
 
+    private static final String PUBLISH_BUTTON_TYPE = "btn-default btn-xs";
+
     public FeedbackSessionActions(boolean hasActions, PageData data, FeedbackSessionAttributes session,
                                   boolean isHome, InstructorAttributes instructor,
                                   List<String> sectionsInCourse) {
@@ -81,7 +83,8 @@ public class FeedbackSessionActions {
                                                    + Sanitizer.sanitizeForJs(feedbackSessionName) + "'";
             this.toggleRemindStudentsParams = "'" + Sanitizer.sanitizeForJs(feedbackSessionName) + "'";
             
-            this.publishButton = new FeedbackSessionPublishButton(data, session, isHome, instructor);
+            this.publishButton = new FeedbackSessionPublishButton(data, session, isHome, instructor,
+                                                                  PUBLISH_BUTTON_TYPE);
         }
     }
 

@@ -21,9 +21,11 @@ public class FeedbackSessionPublishButton {
 
     private String toggleUnpublishSessionParams;
     private String togglePublishSessionParams;
+
+    private String buttonType;
     
-    public FeedbackSessionPublishButton(PageData data, FeedbackSessionAttributes session,
-                                        boolean isHome, InstructorAttributes instructor) {
+    public FeedbackSessionPublishButton(PageData data, FeedbackSessionAttributes session, boolean isHome,
+                                        InstructorAttributes instructor, String buttonType) {
         String courseId = session.courseId;
         String feedbackSessionName = session.feedbackSessionName;
 
@@ -42,6 +44,8 @@ public class FeedbackSessionPublishButton {
         this.toggleUnpublishSessionParams = "'" + Sanitizer.sanitizeForJs(feedbackSessionName) + "'";
         this.togglePublishSessionParams = "'" + Sanitizer.sanitizeForJs(feedbackSessionName) + "', "
                                         + session.isPublishedEmailEnabled;
+
+        this.buttonType = buttonType;
     }
 
     public boolean isHasUnpublish() {
@@ -78,6 +82,10 @@ public class FeedbackSessionPublishButton {
 
     public String getTogglePublishSessionParams() {
         return togglePublishSessionParams;
+    }
+
+    public String getButtonType() {
+        return buttonType;
     }
 
 }

@@ -16,17 +16,15 @@
         </a>
     </c:when>
     <c:otherwise>
-        <div title="${publishButton.tooltipText}"
-             data-toggle="tooltip"
-             data-placement="top"
-             style="display: inline-block; padding-right: 5px;">
-            <a class="btn ${buttonType} btn-tm-actions session-publish-for-test<c:if test="${not publishButton.hasPublish}"> disabled</c:if>"
-               href="${publishButton.publishLink}"
-               <c:if test="${publishButton.hasPublish}">onclick="return togglePublishEvaluation(${publishButton.togglePublishSessionParams});"</c:if>
-               <c:if test="${not publishButton.hasPublish}">onclick="return false"</c:if>
-               <c:if test="${not publishButton.allowedToPublish}">disabled="disabled"</c:if>>
-                Publish Results
-            </a>
-        </div>
+        <a class="btn ${buttonType} btn-tm-actions session-publish-for-test<c:if test="${not publishButton.hasPublish}"> disabled</c:if>"
+           href="${publishButton.publishLink}"
+           title="${publishButton.tooltipText}"
+           data-toggle="tooltip"
+           data-placement="top"
+           <c:if test="${publishButton.hasPublish}">onclick="return togglePublishEvaluation(${publishButton.togglePublishSessionParams});"</c:if>
+           <c:if test="${not publishButton.hasPublish}">onclick="return false"</c:if>
+           <c:if test="${not publishButton.allowedToPublish}">disabled="disabled"</c:if>>
+            Publish Results
+        </a>
     </c:otherwise>
 </c:choose>
