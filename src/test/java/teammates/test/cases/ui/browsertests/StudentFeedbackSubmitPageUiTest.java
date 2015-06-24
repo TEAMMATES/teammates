@@ -80,14 +80,18 @@ public class StudentFeedbackSubmitPageUiTest extends BaseUiTestCase {
         ______TS("unreg student");
 
         submitPage = loginToStudentFeedbackSubmitPage(testData.students.get("DropOut"), "Open Session");
-        submitPage.verifyHtmlMainContent("/unregisteredStudentFeedbackSubmitPageOpen.html");
+
+        // This is the full HTML verification for Unregistered Student Feedback Submit Page, the rest can all be verifyMainHtml
+        submitPage.verifyHtml("/unregisteredStudentFeedbackSubmitPageOpen.html");
 
         ______TS("Awaiting session");
 
         // this session contains questions to instructors, and since instr3 is not displayed to students,
         // student cannot submit to instr3
         submitPage = loginToStudentFeedbackSubmitPage("Alice", "Awaiting Session");
-        submitPage.verifyHtmlMainContent("/studentFeedbackSubmitPageAwaiting.html");
+
+        // This is the full HTML verification for Registered Student Feedback Submit Page, the rest can all be verifyMainHtml
+        submitPage.verifyHtml("/studentFeedbackSubmitPageAwaiting.html");
 
         ______TS("Open session");
 
