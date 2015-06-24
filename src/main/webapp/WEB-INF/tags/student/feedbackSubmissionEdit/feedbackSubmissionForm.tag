@@ -18,8 +18,13 @@
                     There are no questions for you to answer here!
             </c:when>
             <c:otherwise>
-                <feedbackSubmissionEdit:submitButton
-                    preview="${feedbackSubmissionForm.preview}" submittable="${feedbackSubmissionForm.submittable}" />
+                <input type="submit" class="btn btn-primary"
+                       id="response_submit_button" data-toggle="tooltip"
+                       data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>"
+                       value="Submit Feedback"
+                       <c:if test="${feedbackSubmissionForm.preview or (not feedbackSubmissionForm.submittable)}">
+                           disabled="disabled" style="background: #66727A;"
+                       </c:if>>
             </c:otherwise>
         </c:choose>
     </div>
