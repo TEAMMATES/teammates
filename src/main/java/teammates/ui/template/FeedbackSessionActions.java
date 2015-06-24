@@ -10,7 +10,6 @@ import teammates.ui.controller.PageData;
 
 public class FeedbackSessionActions {
     
-    private boolean hasActions;
     private boolean privateSession;
 
     private boolean hasSubmit;
@@ -39,57 +38,50 @@ public class FeedbackSessionActions {
 
     private static final String PUBLISH_BUTTON_TYPE = "btn-default btn-xs";
 
-    public FeedbackSessionActions(boolean hasActions, PageData data, FeedbackSessionAttributes session,
-                                  boolean isHome, InstructorAttributes instructor,
-                                  List<String> sectionsInCourse) {
+    public FeedbackSessionActions(PageData data, FeedbackSessionAttributes session, boolean isHome,
+                                  InstructorAttributes instructor, List<String> sectionsInCourse) {
         String courseId = session.courseId;
         String feedbackSessionName = session.feedbackSessionName;
-        this.hasActions = hasActions;
-        if (hasActions) {
-            this.privateSession = session.isPrivateSession();
 
-            this.hasSubmit = session.isVisible() || session.isPrivateSession();
-            this.hasRemind = session.isOpened();
+        this.privateSession = session.isPrivateSession();
 
-            this.courseId = Sanitizer.sanitizeForHtml(courseId);
-            this.fsName = Sanitizer.sanitizeForHtml(feedbackSessionName);
+        this.hasSubmit = session.isVisible() || session.isPrivateSession();
+        this.hasRemind = session.isOpened();
 
-            this.resultsLink = data.getInstructorFeedbackSessionResultsLink(courseId, feedbackSessionName);
-            this.editLink = data.getInstructorFeedbackSessionEditLink(courseId, feedbackSessionName);
-            this.deleteLink = data.getInstructorFeedbackSessionDeleteLink(courseId, feedbackSessionName,
-                                                                          (isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
-                                                                                  : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE));
-            this.submitLink = data.getInstructorFeedbackSessionSubmitLink(courseId, feedbackSessionName);
-            this.remindLink = data.getInstructorFeedbackSessionRemindLink(courseId, feedbackSessionName);
-            this.remindParticularStudentsLink = data.getInstructorFeedbackSessionRemindParticularStudentsPageLink(courseId,
-                                                                                                       feedbackSessionName);
-            this.editCopyLink = data.getFeedbackSessionEditCopyLink();
+        this.courseId = Sanitizer.sanitizeForHtml(courseId);
+        this.fsName = Sanitizer.sanitizeForHtml(feedbackSessionName);
 
-            this.allowedToEdit = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-            this.allowedToDelete = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-            boolean shouldEnableSubmitLink = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-            for (String section : sectionsInCourse) {
-                if (instructor.isAllowedForPrivilege(section, 
-                                                     session.feedbackSessionName, 
-                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
-                    shouldEnableSubmitLink = true;
-                    break;
-                }
+        this.resultsLink = data.getInstructorFeedbackSessionResultsLink(courseId, feedbackSessionName);
+        this.editLink = data.getInstructorFeedbackSessionEditLink(courseId, feedbackSessionName);
+        this.deleteLink = data.getInstructorFeedbackSessionDeleteLink(courseId, feedbackSessionName,
+                                                                      (isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
+                                                                              : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE));
+        this.submitLink = data.getInstructorFeedbackSessionSubmitLink(courseId, feedbackSessionName);
+        this.remindLink = data.getInstructorFeedbackSessionRemindLink(courseId, feedbackSessionName);
+        this.remindParticularStudentsLink = data.getInstructorFeedbackSessionRemindParticularStudentsPageLink(courseId,
+                                                                                                     feedbackSessionName);
+        this.editCopyLink = data.getFeedbackSessionEditCopyLink();
+
+        this.allowedToEdit = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        this.allowedToDelete = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+        boolean shouldEnableSubmitLink = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
+        for (String section : sectionsInCourse) {
+            if (instructor.isAllowedForPrivilege(section, 
+                                                 session.feedbackSessionName, 
+                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
+                shouldEnableSubmitLink = true;
+                break;
             }
-            this.allowedToSubmit = shouldEnableSubmitLink;
-            this.allowedToRemind = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) && hasRemind;
-
-            this.toggleDeleteFeedbackSessionParams = "'" + Sanitizer.sanitizeForJs(courseId) + "','"
-                                                   + Sanitizer.sanitizeForJs(feedbackSessionName) + "'";
-            this.toggleRemindStudentsParams = "'" + Sanitizer.sanitizeForJs(feedbackSessionName) + "'";
-            
-            this.publishButton = new FeedbackSessionPublishButton(data, session, isHome, instructor,
-                                                                  PUBLISH_BUTTON_TYPE);
         }
-    }
+        this.allowedToSubmit = shouldEnableSubmitLink;
+        this.allowedToRemind = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) && hasRemind;
 
-    public boolean isHasActions() {
-        return hasActions;
+        this.toggleDeleteFeedbackSessionParams = "'" + Sanitizer.sanitizeForJs(courseId) + "','"
+                                               + Sanitizer.sanitizeForJs(feedbackSessionName) + "'";
+        this.toggleRemindStudentsParams = "'" + Sanitizer.sanitizeForJs(feedbackSessionName) + "'";
+            
+        this.publishButton = new FeedbackSessionPublishButton(data, session, isHome, instructor,
+                                                              PUBLISH_BUTTON_TYPE);
     }
 
     public boolean isPrivateSession() {

@@ -686,8 +686,6 @@ public class PageData {
     
     /**
      * Returns the links of actions available for a specific session
-     * @param hasActions
-     *         Indicates whether or not there are possible actions in the first place
      * @param session
      *         The feedback session details
      * @param isHome
@@ -699,12 +697,11 @@ public class PageData {
      * @return
      * @throws EntityDoesNotExistException 
      */
-    public FeedbackSessionActions getInstructorFeedbackSessionActions(boolean hasActions,
-                                                                      FeedbackSessionAttributes session,
+    public FeedbackSessionActions getInstructorFeedbackSessionActions(FeedbackSessionAttributes session,
                                                                       boolean isHome,
                                                                       InstructorAttributes instructor,
                                                                       List<String> sectionsInCourse) {
-        return new FeedbackSessionActions(hasActions, this, session, isHome, instructor, sectionsInCourse);
+        return new FeedbackSessionActions(this, session, isHome, instructor, sectionsInCourse);
     }
 
     /**
