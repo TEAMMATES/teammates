@@ -5,6 +5,7 @@
 <%@ attribute name="jsIncludes" fragment="true" %>
 <%@ attribute name="navBar" required="true" fragment="true" %>
 <%@ attribute name="bodyTitle" required="true" %>
+<%@ attribute name="bodyFooter" required="true" fragment="true" %>
 <%@ attribute name="bodyOnload" %>
 <!DOCTYPE html>
 <html>
@@ -42,7 +43,7 @@
         <jsp:doBody />
     </div>
     <c:if test="${not empty data.account.institute}">
-        <t:bodyFooter />
+        <jsp:invoke fragment="${bodyFooter}" />
     </c:if>
 </body>
 </html>
