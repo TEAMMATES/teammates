@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.util.Arrays;
 
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -29,31 +30,30 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
         
         InstructorCourseStudentDetailsEditPageData data = new InstructorCourseStudentDetailsEditPageData(account);
         
-        data.student = logic.getStudentForEmail(courseId, studentEmail);
-        data.regKey = logic.getEncryptedKeyForStudent(courseId, studentEmail);
+        StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         data.hasSection = logic.hasIndicatedSections(courseId);
 
-        data.student.name = getRequestParamValue(Const.ParamsNames.STUDENT_NAME);
-        data.student.email = getRequestParamValue(Const.ParamsNames.NEW_STUDENT_EMAIL);
-        data.student.team = getRequestParamValue(Const.ParamsNames.TEAM_NAME);
-        data.student.section = getRequestParamValue(Const.ParamsNames.SECTION_NAME);
-        data.student.comments = getRequestParamValue(Const.ParamsNames.COMMENTS);    
+        student.name = getRequestParamValue(Const.ParamsNames.STUDENT_NAME);
+        student.email = getRequestParamValue(Const.ParamsNames.NEW_STUDENT_EMAIL);
+        student.team = getRequestParamValue(Const.ParamsNames.TEAM_NAME);
+        student.section = getRequestParamValue(Const.ParamsNames.SECTION_NAME);
+        student.comments = getRequestParamValue(Const.ParamsNames.COMMENTS);    
         
-        data.student.name = Sanitizer.sanitizeName(data.student.name);
-        data.student.email = Sanitizer.sanitizeEmail(data.student.email);
-        data.student.team = Sanitizer.sanitizeName(data.student.team);
-        data.student.section = Sanitizer.sanitizeName(data.student.section);
-        data.student.comments = Sanitizer.sanitizeTextField(data.student.comments);
+        student.name = Sanitizer.sanitizeName(student.name);
+        student.email = Sanitizer.sanitizeEmail(student.email);
+        student.team = Sanitizer.sanitizeName(student.team);
+        student.section = Sanitizer.sanitizeName(student.section);
+        student.comments = Sanitizer.sanitizeTextField(student.comments);
         
         try {
-            data.student.updateWithExistingRecord(logic.getStudentForEmail(courseId, studentEmail));
-            logic.validateSections(Arrays.asList(data.student), courseId);
-            logic.updateStudent(studentEmail, data.student);
+            student.updateWithExistingRecord(logic.getStudentForEmail(courseId, studentEmail));
+            logic.validateSections(Arrays.asList(student), courseId);
+            logic.updateStudent(studentEmail, student);
             statusToUser.add(Const.StatusMessages.STUDENT_EDITED);
             statusToAdmin = "Student <span class=\"bold\">" + studentEmail + 
                     "'s</span> details in Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"+ 
-                    "New Email: " + data.student.email + "<br>New Team: " + 
-                    data.student.team + "<br>Comments: " + data.student.comments;
+                    "New Email: " + student.email + "<br>New Team: " + 
+                    student.team + "<br>Comments: " + student.comments;
             
             RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE);
             result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
@@ -61,8 +61,9 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
             
         } catch (InvalidParametersException | EnrollException e) {
             setStatusForException(e);
-            data.newEmail = data.student.email;
-            data.student.email = studentEmail;
+            data.newEmail = student.email;
+            student.email = studentEmail;
+            data.init(student, data.newEmail, data.hasSection);
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT, data);
         }
         

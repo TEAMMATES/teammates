@@ -1,13 +1,13 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseStudentDetailsEditPageAction extends InstructorCoursesPageAction {
-    
     
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
@@ -22,16 +22,15 @@ public class InstructorCourseStudentDetailsEditPageAction extends InstructorCour
         new GateKeeper().verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         
-        InstructorCourseStudentDetailsEditPageData data = new InstructorCourseStudentDetailsEditPageData(account);
+        StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
+        boolean hasSection = logic.hasIndicatedSections(courseId);
         
-        data.student = logic.getStudentForEmail(courseId, studentEmail);
-        data.regKey = logic.getEncryptedKeyForStudent(courseId, studentEmail);
-        data.hasSection = logic.hasIndicatedSections(courseId);
-        data.newEmail = data.student.email;
+        InstructorCourseStudentDetailsEditPageData data = new InstructorCourseStudentDetailsEditPageData(account);
+        data.init(student, student.email, hasSection);
 
-        statusToAdmin = "instructorCourseStudentEdit Page Load<br>" + 
-                "Editing Student <span class=\"bold\">" + studentEmail +"'s</span> details " +
-                "in Course <span class=\"bold\">[" + courseId + "]</span>"; 
+        statusToAdmin = "instructorCourseStudentEdit Page Load<br>"
+                        + "Editing Student <span class=\"bold\">" + studentEmail +"'s</span> details "
+                        + "in Course <span class=\"bold\">[" + courseId + "]</span>"; 
         
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT, data);

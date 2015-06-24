@@ -51,14 +51,14 @@
         <div class="panel panel-primary">
             <div class="panel-body fill-plain">
                 <form action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_SAVE%>" method="post" class="form form-horizontal">
-                    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.student.course%>">
+                    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.getStudentInfoTable().getCourse()%>">
                     
                     <div class="form-group">
                          <label class="col-sm-1 control-label">Student Name:</label>
                          <div class="col-sm-11">
                              <input class="form-control" name="<%=Const.ParamsNames.STUDENT_NAME%>" 
                                      id="<%=Const.ParamsNames.STUDENT_NAME%>"
-                                     value="<%=sanitizeForHtml(data.student.name)%>">
+                                     value="<%=sanitizeForHtml(data.getStudentInfoTable().getName())%>">
                          </div>
                      </div>
                      <% if(data.hasSection) { %>
@@ -67,7 +67,7 @@
                          <div class="col-sm-11">
                              <input class="form-control" name="<%=Const.ParamsNames.SECTION_NAME%>" 
                                      id="<%=Const.ParamsNames.SECTION_NAME%>"
-                                     value="<%=sanitizeForHtml(data.student.section)%>">
+                                     value="<%=sanitizeForHtml(data.getStudentInfoTable().getSection())%>">
                          </div>
                      </div>
                      <% } %>
@@ -76,14 +76,14 @@
                          <div class="col-sm-11">
                              <input class="form-control" name="<%=Const.ParamsNames.TEAM_NAME%>" 
                                      id="<%=Const.ParamsNames.TEAM_NAME%>"
-                                     value="<%=sanitizeForHtml(data.student.team)%>">
+                                     value="<%=sanitizeForHtml(data.getStudentInfoTable().getTeam())%>">
                          </div>
                      </div>
                      <div class="form-group">
                          <label class="col-sm-1 control-label">E-mail Address:
                              <input type="hidden" name="<%=Const.ParamsNames.STUDENT_EMAIL%>" 
                                      id="<%=Const.ParamsNames.STUDENT_EMAIL%>"
-                                     value="<%=sanitizeForHtml(data.student.email)%>">
+                                     value="<%=sanitizeForHtml(data.getStudentInfoTable().getEmail())%>">
                          </label>
                          <div class="col-sm-11">
                              <input class="form-control" name="<%=Const.ParamsNames.NEW_STUDENT_EMAIL%>" 
@@ -95,7 +95,7 @@
                          <label class="col-sm-1 control-label">Comments:</label>
                          <div class="col-sm-11">
                              <textarea class="form-control" rows="6" name="<%=Const.ParamsNames.COMMENTS%>" 
-                                 id="<%=Const.ParamsNames.COMMENTS%>"><%=sanitizeForHtml(data.student.comments)%></textarea>
+                                 id="<%=Const.ParamsNames.COMMENTS%>"><%=sanitizeForHtml(data.getStudentInfoTable().getComments())%></textarea>
                          </div>
                      </div>
                     
