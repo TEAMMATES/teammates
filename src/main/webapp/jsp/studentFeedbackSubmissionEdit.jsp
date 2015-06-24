@@ -5,7 +5,6 @@
 <%@ taglib tagdir="/WEB-INF/tags/student/feedbackSubmissionEdit" prefix="feedbackSubmissionEdit" %>
 
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/js/feedbackSubmissionsEdit.js"></script>
     <script type="text/javascript" src="/js/student.js"></script>
 </c:set>
