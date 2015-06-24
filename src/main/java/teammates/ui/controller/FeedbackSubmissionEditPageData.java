@@ -33,11 +33,11 @@ public class FeedbackSubmissionEditPageData extends PageData {
     }
     
     public void init(String regKey, String email, String courseId) {
-        String joinUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW).
-                                        withRegistrationKey(regKey).
-                                        withStudentEmail(email).
-                                        withCourseId(courseId).
-                                        toString();
+        String joinUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
+                                        .withRegistrationKey(regKey)
+                                        .withStudentEmail(email)
+                                        .withCourseId(courseId)
+                                        .toString();
         try {
             registerMessage = String.format(Const.StatusMessages.UNREGISTERED_STUDENT, student.name, joinUrl);
         } catch (NullPointerException e) {
@@ -79,8 +79,8 @@ public class FeedbackSubmissionEditPageData extends PageData {
     }
     
     public String getSubmitAction() {
-        return isModeration ? Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE :
-                              Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
+        return isModeration ? Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE
+                              : Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
     }
     
     public boolean isSubmittable() {
@@ -105,10 +105,11 @@ public class FeedbackSubmissionEditPageData extends PageData {
         
         for (Map.Entry<String, String> pair : emailNamePair.entrySet()) {
             result.add(
-                "<option value=\"" + pair.getKey() + "\"" +
-                (StringHelper.recoverFromSanitizedText(pair.getKey()).equals(currentlySelectedOption)  ? " selected=\"selected\"" : "") +
-                ">" + sanitizeForHtml(pair.getValue()) + 
-                "</option>"
+                "<option value=\"" + pair.getKey() + "\"" 
+                + (StringHelper.recoverFromSanitizedText(pair.getKey()).equals(currentlySelectedOption)  
+                                                ? " selected=\"selected\"" : "")
+                + ">" + sanitizeForHtml(pair.getValue()) 
+                + "</option>"
             );
         }
 
