@@ -12,7 +12,7 @@
 <ts:studentPage pageTitle="TEAMMATES - Submit Feedback" bodyTitle="Submit Feedback" jsIncludes="${jsIncludes}">
     <c:choose>
         <c:when test="${not data.headerHidden}">
-            <jsp:include page="<%= Const.ViewURIs.STUDENT_HEADER%>" />
+            <%-- <jsp:include page="<%= Const.ViewURIs.STUDENT_HEADER%>" /> --%>
             <jsp:include page="<%= Const.ViewURIs.STUDENT_MOTD%>" />
         </c:when>
         <c:otherwise>
@@ -23,7 +23,6 @@
     </c:choose>
     
     <ts:registerMessage googleId="${data.account.googleId}" registerMessage="${data.registerMessage}"/>    
-    <br>
     <feedbackSubmissionEdit:feedbackSubmissionForm submitAction="${data.submitAction}" preview="${data.preview}" 
                                                    moderatedStudentEmail="${data.studentToViewPageAs.email}" 
                                                    questionResponseBundle="${data.bundle.questionResponseBundle}" 
