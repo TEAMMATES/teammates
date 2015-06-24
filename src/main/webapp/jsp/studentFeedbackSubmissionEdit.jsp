@@ -21,7 +21,11 @@
                                            name="${data.studentToViewPageAs.name}"/>
         </c:otherwise>
     </c:choose>
-    
-    <ts:registerMessage googleId="${data.account.googleId}" registerMessage="${data.registerMessage}"/>    
+       
+    <c:if test="${empty data.account.googleId}">
+        <div id="registerMessage" class="alert alert-info">
+            ${data.registerMessage}
+        </div>
+    </c:if>
     <feedbackSubmissionEdit:feedbackSubmissionForm feedbackSubmissionForm="${data}"/>
 </ts:studentPage>
