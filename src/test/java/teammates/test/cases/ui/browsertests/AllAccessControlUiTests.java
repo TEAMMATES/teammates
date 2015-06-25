@@ -185,11 +185,6 @@ public class AllAccessControlUiTests extends BaseUiTestCase {
         url = createUrl(Const.ViewURIs.SHOW_MESSAGE);
         currentPage.navigateTo(url);
         currentPage.verifyHtml("/showMessage.html");
-        
-        ______TS("maintenance page");
-        url = createUrl(Const.ViewURIs.MAINTENANCE_PAGE);
-        currentPage.navigateTo(url);
-        currentPage.verifyHtml("/maintenance.html");
     }
     
 
