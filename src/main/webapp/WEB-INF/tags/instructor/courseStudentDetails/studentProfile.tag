@@ -21,8 +21,7 @@
                     <tbody>
                         <tr>
                             <td class="text-bold">Short Name (Gender)</td>
-                            <td>${empty student.shortName ? none : student.shortName}
-                                (<i> ${student.gender == other ? noneForGender : student.gender} </i>)
+                            <td>${empty student.shortName ? none : student.shortName} (<i> ${student.gender == other ? noneForGender : student.gender} </i>)
                             </td>
                         </tr>
                         <tr>

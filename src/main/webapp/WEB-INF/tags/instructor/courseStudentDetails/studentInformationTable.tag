@@ -13,8 +13,7 @@
     <div class="form form-horizontal"
         id="studentInfomationTable">
         <div class="form-group">
-            <label class="col-sm-1 control-label">Student
-                Name:</label>
+            <label class="col-sm-1 control-label">Student Name:</label>
             <div class="col-sm-11"
                 id="<%=Const.ParamsNames.STUDENT_NAME%>">
                 <p class="form-control-static">${studentInfoTable.name}</p>
@@ -22,8 +21,7 @@
         </div>
         <c:if test="${studentInfoTable.hasSection}">
             <div class="form-group">
-                <label class="col-sm-1 control-label">Section
-                    Name:</label>
+                <label class="col-sm-1 control-label">Section Name:</label>
                 <div class="col-sm-11"
                     id="<%= Const.ParamsNames.SECTION_NAME %>">
                     <p class="form-control-static">${studentInfoTable.section}</p>
@@ -31,16 +29,14 @@
             </div>
         </c:if>
         <div class="form-group">
-            <label class="col-sm-1 control-label">Team
-                Name:</label>
+            <label class="col-sm-1 control-label">Team Name:</label>
             <div class="col-sm-11"
                 id="<%= Const.ParamsNames.TEAM_NAME %>">
                 <p class="form-control-static">${studentInfoTable.team}</p>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-1 control-label">Official Email
-                Address:</label>
+            <label class="col-sm-1 control-label">Official Email Address:</label>
             <div class="col-sm-11"
                 id="<%= Const.ParamsNames.STUDENT_EMAIL %>">
                 <p class="form-control-static">${studentInfoTable.email}</p>
@@ -83,12 +79,9 @@
                 <tbody>
                     <tr>
                         <th class="text-center">User/Group</th>
-                        <th class="text-center">Can see
-                            your comment</th>
-                        <th class="text-center">Can see
-                            giver's name</th>
-                        <th class="text-center">Can see
-                            recipient's name</th>
+                        <th class="text-center">Can see your comment</th>
+                        <th class="text-center">Can see giver's name</th>
+                        <th class="text-center">Can see recipient's name</th>
                     </tr>
                     <tr id="recipient-person">
                         <td class="text-left">
