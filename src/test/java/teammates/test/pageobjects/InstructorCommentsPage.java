@@ -24,7 +24,7 @@ public class InstructorCommentsPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Comments from Instructors");
+        return getPageSource().contains("<h1>Comments from Instructors</h1>");
     }
     
     public void loadResponseComments() throws Exception{

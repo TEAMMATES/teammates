@@ -28,7 +28,7 @@ public class AdminHomePage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Add New Instructor");
+        return getPageSource().contains("<h1>Add New Instructor</h1>");
     }
 
     /** Fills the form with values from the parameters and clicks the submit button.

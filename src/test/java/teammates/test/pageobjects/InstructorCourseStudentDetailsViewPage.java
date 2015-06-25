@@ -17,7 +17,7 @@ public class InstructorCourseStudentDetailsViewPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Student Details");
+        return getPageSource().contains("<h1>Student Details</h1>");
     }
 
     public void verifyIsCorrectPage(String email) {

@@ -25,7 +25,7 @@ public class DevServerLoginPage extends LoginPage {
     }
     
     public static boolean containsExpectedPageContents(String pageSource) {
-        return pageSource.contains("Not logged in");
+        return pageSource.contains("<h3>Not logged in</h3>");
     }
 
     @Override

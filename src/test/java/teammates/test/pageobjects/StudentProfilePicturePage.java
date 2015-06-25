@@ -15,7 +15,7 @@ public class StudentProfilePicturePage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return true;
+        return getPageSource().contains("<h1>Student Profile</h1>");
     }
 
     public void verifyHasPicture() {

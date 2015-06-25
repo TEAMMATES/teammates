@@ -32,7 +32,7 @@ public class InstructorCourseStudentDetailsEditPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Edit Student Details");
+        return getPageSource().contains("<h1>Edit Student Details</h1>");
     }
     
     /**

@@ -36,7 +36,7 @@ public class InstructorStudentListPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Student List");
+        return getPageSource().contains("<h1>Student List</h1>");
     }
 
     public InstructorCourseEnrollPage clickEnrollStudents(String courseId) {

@@ -116,7 +116,7 @@ public class InstructorFeedbacksPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Add New Feedback Session");
+        return getPageSource().contains("<h1>Add New Feedback Session</h1>");
     }
     
     public void selectSessionType(String visibleText){

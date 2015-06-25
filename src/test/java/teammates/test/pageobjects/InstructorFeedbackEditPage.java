@@ -153,7 +153,7 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Edit Feedback Session");
+        return getPageSource().contains("<h1>Edit Feedback Session</h1>");
     }
     
     public String getCourseId() {

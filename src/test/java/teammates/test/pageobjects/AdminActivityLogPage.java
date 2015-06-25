@@ -14,7 +14,7 @@ public class AdminActivityLogPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Admin Activity Log");
+        return getPageSource().contains("<h1>Admin Activity Log</h1>");
     }
     
     public void verifyIsCorrectPage() {

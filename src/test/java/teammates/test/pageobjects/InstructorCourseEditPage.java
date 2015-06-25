@@ -57,7 +57,7 @@ public class InstructorCourseEditPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Edit Course Details");
+        return getPageSource().contains("<h1>Edit Course Details</h1>");
     }
 
     public String getCourseId() {
