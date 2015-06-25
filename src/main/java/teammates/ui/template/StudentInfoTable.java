@@ -25,7 +25,7 @@ public class StudentInfoTable {
     }
 
     public String getName() {
-        return name;
+        return Sanitizer.sanitizeForHtml(name);
     }
 
     public String getEmail() {
