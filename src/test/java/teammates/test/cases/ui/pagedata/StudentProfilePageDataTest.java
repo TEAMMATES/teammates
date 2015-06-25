@@ -61,7 +61,10 @@ public class StudentProfilePageDataTest {
         assertEquals(acct.name, profileEditBox.getName());
         assertEquals(isEditingPhoto, profileEditBox.getEditingPhoto());
         assertEquals(StringHelper.convertToEmptyStringIfNull(spa.shortName), profileEditBox.getShortName());
-        // email comes from SPA, not AA
+        /*
+         * The email field value is the one entered by student (long-term contact email), not the one
+         * entered by instructor during enrollment. It comes from SPA, not AA.
+         */
         assertEquals(StringHelper.convertToEmptyStringIfNull(spa.email), profileEditBox.getEmail());
         assertEquals(StringHelper.convertToEmptyStringIfNull(spa.institute), profileEditBox.getInstitute());
         assertEquals(StringHelper.convertToEmptyStringIfNull(spa.nationality), profileEditBox.getNationality());
