@@ -998,14 +998,6 @@ public class PageData {
         }
     }
     
-    public boolean isCourseArchived(String courseId, String googleId) {
-        return Logic.isCourseArchived(courseId, googleId);
-    }
-    
-    public boolean isCourseArchived(CourseAttributes course, InstructorAttributes instructor) {
-        return Logic.isCourseArchived(course, instructor);
-    }
-    
     @SuppressWarnings("unused")
     private void ___________methods_to_generate_feedback_response_comments() {
     //========================================================================    
