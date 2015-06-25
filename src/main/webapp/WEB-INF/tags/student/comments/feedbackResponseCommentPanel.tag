@@ -10,6 +10,6 @@
             <b>${feedbackResponseCommentRow.giverDetails}</b>
             on ${feedbackResponseCommentRow.creationTime} ${feedbackResponseCommentRow.editedAt}
         </span>
-    </div> <!-- frComment Content -->
+    </div> <%-- frComment Content --%>
     <div id="plainCommentText-${fsIdx}-${qnIdx}-${responseIndex}-${responseCommentIndex}">${feedbackResponseCommentRow.comment}</div>
 </li>
