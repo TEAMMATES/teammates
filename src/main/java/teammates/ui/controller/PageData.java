@@ -27,6 +27,7 @@ import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.logic.api.Logic;
 import teammates.ui.template.ElementTag;
+import teammates.ui.template.InstructorFeedbackSessionActions;
 
 /**
  * Data and utility methods needed to render a specific page.
@@ -696,167 +697,13 @@ public class PageData {
      * @return
      * @throws EntityDoesNotExistException 
      */
-    public String getInstructorFeedbackSessionActions(FeedbackSessionAttributes session,
-            boolean isHome, InstructorAttributes instructor, List<String> sectionsInCourse) throws EntityDoesNotExistException{
-        StringBuilder result = new StringBuilder();
-        
-        // Allowing ALL instructors to view results regardless of publish state.
-        boolean hasSubmit = session.isVisible() || session.isPrivateSession();
-        boolean hasRemind = session.isOpened();
-        String disabledStr = "disabled=\"disabled\"";
-        String disableEditSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
-        String disableDeleteSessionStr = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" : disabledStr;
-        String disableRemindSessionStr = (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) && hasRemind) ? "" : disabledStr;
-        boolean shouldEnableSubmitLink = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-        
-        for (String section : sectionsInCourse) {
-            if (instructor.isAllowedForPrivilege(section, 
-                                                 session.feedbackSessionName, 
-                                                 Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
-                shouldEnableSubmitLink = true;
-                break;
-            }
-        }
-        String disableSubmitSessionStr = shouldEnableSubmitLink ? "" : disabledStr;
-        result.append("<a class=\"btn btn-default btn-xs btn-tm-actions session-view-for-test\"" 
-                      + "href=\"" + getInstructorFeedbackSessionResultsLink(session.courseId,
-                                                                            session.feedbackSessionName) + "\" " 
-                      + "title=\"" + Const.Tooltips.FEEDBACK_SESSION_RESULTS + "\" data-toggle=\"tooltip\" "
-                      + "data-placement=\"top\">View Results</a> ");
-        result.append("<a class=\"btn btn-default btn-xs btn-tm-actions session-edit-for-test\"" 
-                       + "href=\"" + getInstructorFeedbackSessionEditLink(session.courseId,
-                                                                          session.feedbackSessionName) + "\" " 
-                       + "title=\"" + Const.Tooltips.FEEDBACK_SESSION_EDIT + "\" data-toggle=\"tooltip\" "
-                       + "data-placement=\"top\" " + disableEditSessionStr + ">Edit</a> ");
-        result.append("<a class=\"btn btn-default btn-xs btn-tm-actions session-delete-for-test\"" 
-                      + "href=\"" + getInstructorFeedbackSessionDeleteLink(
-                                      session.courseId, 
-                                      session.feedbackSessionName, 
-                                      (isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
-                                              : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)) + "\" " 
-                      + "title=\"" + Const.Tooltips.FEEDBACK_SESSION_DELETE + "\" data-toggle=\"tooltip\" "
-                      + "data-placement=\"top\" onclick=\"return toggleDeleteFeedbackSessionConfirmation('" 
-                      + session.courseId + "','" + session.feedbackSessionName + "');\" " + disableDeleteSessionStr 
-                      + ">Delete</a> "
-        );
-        result.append("<a class=\"btn btn-default btn-xs btn-tm-actions session-copy-for-test\" href=\"#\"" 
-                      + "title=\"" + Const.Tooltips.FEEDBACK_SESSION_COPY + "\" data-actionlink=\"" 
-                      + getFeedbackSessionEditCopyLink() + "\" data-courseid=\"" + session.courseId + "\" "
-                      + "data-fsname=\"" + session.feedbackSessionName + "\" data-toggle=\"modal\" "
-                      + "data-target=\"#fsCopyModal\" data-placement=\"top\" id=\"button_fscopy" + "-" 
-                      + session.courseId + "-" + session.feedbackSessionName + "\">Copy</a> ");
-        result.append("<div title=\"" + Const.Tooltips.FEEDBACK_SESSION_SUBMIT + "\" data-toggle=\"tooltip\" "
-                      + "data-placement=\"top\"" + " style=\"display: inline-block; padding-right: 5px;\">" 
-                      + "<a class=\"btn btn-default btn-xs btn-tm-actions session-submit-for-test" 
-                      + (hasSubmit ? "\"" : DISABLED) + "href=\"" + getInstructorFeedbackSessionSubmitLink(
-                                                                              session.courseId, 
-                                                                              session.feedbackSessionName) 
-                      + "\" " + disableSubmitSessionStr + ">Submit</a></div>");
-        
-        // Don't need to show any other links if private
-        if (session.isPrivateSession()) {
-            return result.toString();
-        }
-        
-        result.append(
-            "<div title=\"" + Const.Tooltips.FEEDBACK_SESSION_REMIND + "\" data-toggle=\"tooltip\" data-placement=\"top\" style=\"display: inline-block; padding-right: 5px;\">" +
-                "<div class=\"btn-group\">" +
-                    "<a class=\"btn btn-default btn-xs btn-tm-actions session-remind-for-test" 
-                        + ((instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) && hasRemind) ? "\" " : DISABLED) 
-                        + "href=\"" + getInstructorFeedbackSessionRemindLink(session.courseId, session.feedbackSessionName) + "\" " 
-                        + ((instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) && hasRemind) ? "onclick=\"return toggleRemindStudents('" + session.feedbackSessionName + "');\" " : "") +
-                        disableRemindSessionStr + ">Remind" +
-                    "</a>" +
-                    "<button type=\"button\" class=\"btn btn-default btn-xs btn-tm-actions dropdown-toggle session-remind-options-for-test\"" + 
-                        disableRemindSessionStr + "data-toggle=\"dropdown\" aria-expanded=\"false\">" +
-                        "<span class=\"caret\"></span>" +
-                    "</button>" +
-                    "<ul class=\"dropdown-menu\" role=\"menu\">" +
-                        "<li>" +
-                            "<a href=\"" + getInstructorFeedbackSessionRemindLink(session.courseId, session.feedbackSessionName) + "\" " +
-                                "class=\"session-remind-inner-for-test\" " +
-                                (hasRemind ? "onclick=\"return toggleRemindStudents('" + session.feedbackSessionName + "');\" " : " ") +
-                                disableRemindSessionStr + ">Remind all students" +
-                            "</a>" +
-                        "</li>" +
-                        "<li>" +
-                            "<a href=\"#\" data-actionlink=\"" 
-                                + getInstructorFeedbackSessionRemindParticularStudentsPageLink(
-                                            session.courseId, 
-                                            session.feedbackSessionName) + "\" " 
-                                + "class=\"session-remind-particular-for-test\" " + disableRemindSessionStr 
-                                + "data-courseid=\"" + session.courseId + "\" data-fsname=\"" 
-                                + session.feedbackSessionName + "\" data-toggle=\"modal\" "
-                                + "data-target=\"#remindModal\">Remind particular students" +
-                            "</a>" +
-                        "</li>" +
-                    "</ul>" +
-                "</div>" +
-            "</div>"
-        );
-        
-        result.append(getInstructorFeedbackSessionPublishAndUnpublishAction(session, isHome, instructor));
+    public InstructorFeedbackSessionActions getInstructorFeedbackSessionActions(FeedbackSessionAttributes session,
+                                                                                boolean isHome,
+                                                                                InstructorAttributes instructor,
+                                                                                List<String> sectionsInCourse) {
+        return new InstructorFeedbackSessionActions(this, session, isHome, instructor, sectionsInCourse);
+    }
 
-        return result.toString();
-    }
-    
-    /**
-     * Returns the link of publish and unpublish action for the session feedback
-     * @param session
-     *         The session details
-     * @param isHome
-     *         Flag whether the link is to be put at homepage (to determine the redirect link in delete / publish)
-     * @param instructor
-     *         The instructor attributes of the session feedback
-     * @return
-     */
-    public String getInstructorFeedbackSessionPublishAndUnpublishAction(FeedbackSessionAttributes session, 
-                                                                        boolean isHome, 
-                                                                        InstructorAttributes instructor) {
-        return getInstructorFeedbackSessionPublishAndUnpublishAction("btn-default btn-xs", session, isHome,
-                                                                     instructor);
-    }
-    
-    public String getInstructorFeedbackSessionPublishAndUnpublishAction(String buttonType,
-                                                                        FeedbackSessionAttributes session, 
-                                                                        boolean isHome, 
-                                                                        InstructorAttributes instructor) {
-        boolean hasPublish = !session.isWaitingToOpen() && !session.isPublished();
-        boolean hasUnpublish = !session.isWaitingToOpen() && session.isPublished();
-        String disabledStr = "disabled=\"disabled\"";
-        String disableUnpublishSessionStr = 
-                instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" 
-                                                                                                         : disabledStr;
-        String disablePublishSessionStr = 
-                instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" 
-                                                                                                         : disabledStr;
-        String result = "";
-        if (hasUnpublish) {
-            result =
-                "<a class=\"btn " + buttonType + " btn-tm-actions session-unpublish-for-test\""
-                    + "href=\"" + getInstructorFeedbackSessionUnpublishLink(session.courseId, 
-                                                                            session.feedbackSessionName, 
-                                                                            isHome) + "\" " 
-                    + "title=\"" + Const.Tooltips.FEEDBACK_SESSION_UNPUBLISH + "\" data-toggle=\"tooltip\" "
-                    + "data-placement=\"top\" onclick=\"return toggleUnpublishEvaluation('" 
-                    + session.feedbackSessionName + "');\" " + disableUnpublishSessionStr + ">Unpublish Results</a> ";
-        } else {
-            result = "<a class=\"btn " + buttonType + " btn-tm-actions session-publish-for-test" 
-                   + (hasPublish ? "\"" : DISABLED) + "href=\""
-                   + getInstructorFeedbackSessionPublishLink(session.courseId, session.feedbackSessionName,
-                                                             isHome) 
-                   + "\" " + "title=\""
-                   + (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH 
-                                 : Const.Tooltips.FEEDBACK_SESSION_AWAITING)
-                   + "\" " + "data-toggle=\"tooltip\" data-placement=\"top\""
-                   + (hasPublish ? "onclick=\"return togglePublishEvaluation('" + session.feedbackSessionName + "', " 
-                                                                                + session.isPublishedEmailEnabled + ");\" " 
-                                              : " ") 
-                   + disablePublishSessionStr + ">Publish Results</a> ";
-        }
-        return result;
-    }
-    
     /**
      * Returns the type of people that can view the comment. 
      */
