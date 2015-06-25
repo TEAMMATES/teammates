@@ -8,7 +8,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.ui.controller.PageData;
 
-public class FeedbackSessionActions {
+public class InstructorFeedbackSessionActions {
     
     private boolean privateSession;
 
@@ -38,8 +38,8 @@ public class FeedbackSessionActions {
 
     private static final String PUBLISH_BUTTON_TYPE = "btn-default btn-xs";
 
-    public FeedbackSessionActions(PageData data, FeedbackSessionAttributes session, boolean isHome,
-                                  InstructorAttributes instructor, List<String> sectionsInCourse) {
+    public InstructorFeedbackSessionActions(PageData data, FeedbackSessionAttributes session, boolean isHome,
+                                            InstructorAttributes instructor, List<String> sectionsInCourse) {
         String courseId = session.courseId;
         String feedbackSessionName = session.feedbackSessionName;
 

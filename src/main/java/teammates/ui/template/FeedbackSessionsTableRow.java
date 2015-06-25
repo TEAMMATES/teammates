@@ -7,7 +7,7 @@ public class FeedbackSessionsTableRow {
     private String href;
     private String recent;
     private String status;  
-    private FeedbackSessionActions actions;
+    private InstructorFeedbackSessionActions actions;
         
     private ElementTag rowAttributes;
 
@@ -22,7 +22,7 @@ public class FeedbackSessionsTableRow {
      * @param actions possible actions to do on the session, a block of HTML representing the formatted actions
      */
     public FeedbackSessionsTableRow(String courseId, String name, String tooltip, String status, String href,
-                                    String recent, FeedbackSessionActions actions, ElementTag attributes) {
+                                    String recent, InstructorFeedbackSessionActions actions, ElementTag attributes) {
         this.courseId = courseId;
         this.name = name;
         this.tooltip = tooltip;
@@ -57,7 +57,7 @@ public class FeedbackSessionsTableRow {
         return recent;
     }
 
-    public FeedbackSessionActions getActions() {
+    public InstructorFeedbackSessionActions getActions() {
         return actions;
     }
     

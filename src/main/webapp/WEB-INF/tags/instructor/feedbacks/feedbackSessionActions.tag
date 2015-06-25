@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="tif" %>
 <%@ tag import="teammates.common.util.Const" %>
-<%@ attribute name="actions" type="teammates.ui.template.FeedbackSessionActions" required="true" %>
+<%@ attribute name="actions" type="teammates.ui.template.InstructorFeedbackSessionActions" required="true" %>
 <a class="btn btn-default btn-xs btn-tm-actions session-view-for-test"
    href="${actions.resultsLink}"
    title="<%= Const.Tooltips.FEEDBACK_SESSION_RESULTS %>"
