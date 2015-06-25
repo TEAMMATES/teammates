@@ -177,7 +177,10 @@ public class StudentCourseJoinConfirmationPageUiTest extends BaseUiTestCase {
         browser.driver.get(joinLink);
         confirmationPage = createNewPage(browser, StudentCourseJoinConfirmationPage.class);
         // this test uses accounts from test.properties
-        confirmationPage.verifyHtmlMainContent("/studentCourseJoinConfirmationHTML.html");
+
+        // This is also a HTML verification for Student Course Join Confirmation Page because they use the
+        // same html file for verification
+        confirmationPage.verifyHtml("/studentCourseJoinConfirmationHTML.html");
         
         ______TS("Cancelling goes to login page");
         createCorrectLoginPageType(confirmationPage.clickCancelButtonAndGetSourceOfDestination());
