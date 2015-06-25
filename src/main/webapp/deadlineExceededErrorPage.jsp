@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <div id="frameBodyWrapper" class="container">
+    <div id="mainContent" class="container">
         <div class="row">
             <div class="alert alert-warning col-md-4 col-md-offset-4">
                 <img src="/images/error.png"
