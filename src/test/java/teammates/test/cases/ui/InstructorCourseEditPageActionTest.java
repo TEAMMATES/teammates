@@ -54,7 +54,7 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         
         InstructorCourseEditPageData data = (InstructorCourseEditPageData) pageResult.data;
         assertEquals(CoursesLogic.inst().getCourse(courseId).toString(), data.course.toString());
-        verifySameInstructorList(InstructorsLogic.inst().getInstructorsForCourse(courseId), data.instructorList);
+        verifySameInstructorList(InstructorsLogic.inst().getInstructorsForCourse(courseId), data.getInstructorList());
         
         String expectedLogSegment = "instructorCourseEdit Page Load<br>"
                                     + "Editing information for Course <span class=\"bold\">[" + courseId + "]</span>";
@@ -76,7 +76,7 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         
         data = (InstructorCourseEditPageData) pageResult.data;
         assertEquals(CoursesLogic.inst().getCourse(courseId).toString(), data.course.toString());
-        assertEquals(1, data.instructorList.size());
+        assertEquals(1, data.getInstructorList().size());
         
         expectedLogSegment = "instructorCourseEdit Page Load<br>"
                              + "Editing information for Course <span class=\"bold\">[" + courseId + "]</span>";
@@ -104,7 +104,7 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         
         data = (InstructorCourseEditPageData) pageResult.data;
         assertEquals(CoursesLogic.inst().getCourse(courseId).toString(), data.course.toString());
-        verifySameInstructorList(InstructorsLogic.inst().getInstructorsForCourse(courseId), data.instructorList);
+        verifySameInstructorList(InstructorsLogic.inst().getInstructorsForCourse(courseId), data.getInstructorList());
         
         expectedLogSegment = "instructorCourseEdit Page Load<br>"
                              + "Editing information for Course <span class=\"bold\">[" + courseId + "]</span>";

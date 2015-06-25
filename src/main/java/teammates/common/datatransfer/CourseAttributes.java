@@ -128,4 +128,12 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
             return -1 * course1.createdAt.compareTo(course2.createdAt);
         }
     };
+    
+    public String getId() {
+        return id;
+    }
+    
+    public String getName() {
+        return name;
+    }
 }

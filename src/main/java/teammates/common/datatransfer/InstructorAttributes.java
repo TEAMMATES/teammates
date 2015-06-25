@@ -311,4 +311,20 @@ public class InstructorAttributes extends EntityAttributes {
                    && this.privileges.equals(instructor.privileges);
         }
     }
+    
+    public boolean isCustomRole() {
+        return role.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+    }
+    
+    public String getCourseId() {
+        return courseId;
+    }
+    
+    public String getGoogleId() {
+        return googleId;
+    }
+    
+    public String getRole() {
+        return role;
+    }
 }
