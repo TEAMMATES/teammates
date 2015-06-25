@@ -3,15 +3,8 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="course" type="teammates.ui.template.InstructorStudentListStudentsTableCourse" required="true" %>
 <%@ attribute name="index" required="true" %>
-<c:choose>
-    <c:when test="${course.courseArchived}">
-        <c:set var="PANEL_TYPE" value="panel-default" />
-    </c:when>
-    <c:otherwise>
-        <c:set var="PANEL_TYPE" value="panel-info" />
-    </c:otherwise>
-</c:choose>
-<div class='panel ${PANEL_TYPE}'>
+<c:set var="PANEL_TYPE" value="${course.courseArchived ? 'panel-default' : 'panel-info'}" />
+<div class="panel ${PANEL_TYPE}">
     <div class="panel-heading ajax_submit">
         <form style="display:none;"
               id="seeMore-${index}"
