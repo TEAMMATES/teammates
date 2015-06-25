@@ -15,27 +15,31 @@
 <html>
 
 <head>
-    <link rel="shortcut icon" href="/favicon.png" />
-    <meta http-equiv="X-UA-Compatible" content="IE=8" />
     <title>TEAMMATES - Administrator</title>
-    
-    
-    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
-    <link href="/stylesheets/teammatesCommon.css" rel="stylesheet">
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+    <link rel="shortcut icon" href="/favicon.png" />
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>
+    <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet"/>
+
     <!--[if lt IE 9]>
-                      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-                      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-                      <![endif]-->
-    
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
-    <script type="text/javascript" src="/js/adminEmailLog.js"></script>
-    <script type="text/javascript"
-        src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+
+    <jsp:include page="../enableJS.jsp"></jsp:include>
+
+    <script type="text/javascript" src="/js/adminEmailLog.js"></script>
 </head>
 
 <body>
@@ -43,13 +47,10 @@
 
     <jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
 
-    <div class="container theme-showcase" role="main">
-        <div id="frameBody">
-            <div id="frameBodyWrapper">
+    <div class="container" id="mainContent">
                 <div id="topOfPage"></div>
-                <div id="headerOperation" class="page-header">
-                    <h1>Admin Email Log</h1>
-                </div>
+                <h1>Admin Email Log</h1>
+                <br>
 
                 <div class="well well-plain">
                     <form class="form-horizontal" method="post"
@@ -273,16 +274,15 @@
                         </table>  
                     </div>
                 </div>
-            </div>
             
             <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE_WITHOUT_FOCUS%>" />
+            
+            </div>
                     
             <a href="#" class="back-to-top-left"><span
                 class="glyphicon glyphicon-arrow-up"></span>&nbsp;Top</a> <a
                 href="#" class="back-to-top-right">Top&nbsp;<span
                 class="glyphicon glyphicon-arrow-up"></span></a> <br> <br>
-        </div>
-    </div>
 
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
 </body>

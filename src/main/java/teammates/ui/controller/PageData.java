@@ -26,6 +26,7 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.logic.api.Logic;
+import teammates.ui.template.ElementTag;
 
 /**
  * Data and utility methods needed to render a specific page.
@@ -212,18 +213,48 @@ public class PageData {
      */
     protected ArrayList<String> getTimeZoneOptionsAsHtml(double existingTimeZone) {
         double[] options = new double[] {-12, -11, -10, -9, -8, -7, -6, -5, -4.5, -4, -3.5, -3, -2, -1, 0, 1, 2, 3, 
+                                        3.5, 4, 4.5, 5, 5.5, 5.75, 6, 7, 8, 9, 10, 11, 12, 13};
+       ArrayList<String> result = new ArrayList<String>();
+       if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
+           result.add("<option value=\"" + Const.INT_UNINITIALIZED + "\" selected=\"selected\"></option>");
+       }
+       for (int i = 0; i < options.length; i++) {
+           String utcFormatOption = StringHelper.toUtcFormat(options[i]);      
+           result.add("<option value=\"" + formatAsString(options[i]) + "\"" 
+                      + (existingTimeZone == options[i] ? " selected=\"selected\"" : "") + ">" + "(" + utcFormatOption 
+                      + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(options[i])) + "</option>");
+       }
+       return result;
+    }
+    
+    protected ArrayList<ElementTag> getTimeZoneOptionsAsElementTags(double existingTimeZone) {
+        double[] options = new double[] {-12, -11, -10, -9, -8, -7, -6, -5, -4.5, -4, -3.5, -3, -2, -1, 0, 1, 2, 3, 
                                          3.5, 4, 4.5, 5, 5.5, 5.75, 6, 7, 8, 9, 10, 11, 12, 13};
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<ElementTag> result = new ArrayList<ElementTag>();
         if (existingTimeZone == Const.DOUBLE_UNINITIALIZED) {
-            result.add("<option value=\"" + Const.INT_UNINITIALIZED + "\" selected=\"selected\"></option>");
+            ElementTag option = createOption("", String.valueOf(Const.INT_UNINITIALIZED), false);
+            result.add(option);
         }
+        
         for (int i = 0; i < options.length; i++) {
-            String utcFormatOption = StringHelper.toUtcFormat(options[i]);      
-            result.add("<option value=\"" + formatAsString(options[i]) + "\"" 
-                       + (existingTimeZone == options[i] ? " selected=\"selected\"" : "") + ">" + "(" + utcFormatOption 
-                       + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(options[i])) + "</option>");
+            String utcFormatOption = StringHelper.toUtcFormat(options[i]);
+            String textToDisplay = "(" + utcFormatOption 
+                                            + ") " + TimeHelper.getCitiesForTimeZone(Double.toString(options[i]));
+            boolean isExistingTimeZone = (existingTimeZone == options[i]);
+            
+            ElementTag option = createOption(textToDisplay, 
+                                            formatAsString(options[i]), isExistingTimeZone);
+            result.add(option);
         }
         return result;
+    }
+    
+    public ElementTag createOption(String text, String value, boolean isSelected) {
+        if (isSelected) {
+            return new ElementTag(text, "value", value, "selected", "selected");
+        } else {
+            return new ElementTag(text, "value", value);
+        }
     }
     
     /**
@@ -239,6 +270,16 @@ public class PageData {
         return result;
     }
     
+    protected ArrayList<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
+        ArrayList<ElementTag> result = new ArrayList<ElementTag>();
+        for(int i = 0; i <= 30; i += 5) {
+            ElementTag option = createOption(String.valueOf(i) + " mins", String.valueOf(i), 
+                                            (isGracePeriodToBeSelected(existingGracePeriod, i)));
+            result.add(option);
+        }
+        return result;
+    }
+    
     /**
      * Returns the time options as HTML code.
      * By default the selected one is the last one.
@@ -250,6 +291,16 @@ public class PageData {
             result.add("<option value=\"" + i + "\"" +
                        (isTimeToBeSelected(timeToShowAsSelected, i) ? " selected=\"selected\"" : "") + ">" 
                        + String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)) + "</option>");
+        }
+        return result;
+    }
+    
+    public ArrayList<ElementTag> getTimeOptionsAsElementTags(Date timeToShowAsSelected) {
+        ArrayList<ElementTag> result = new ArrayList<ElementTag>();
+        for(int i = 1; i <= 24; i++) {
+            ElementTag option = createOption(String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)), 
+                                             String.valueOf(i), (isTimeToBeSelected(timeToShowAsSelected, i)));
+            result.add(option);
         }
         return result;
     }
@@ -762,6 +813,14 @@ public class PageData {
     public String getInstructorFeedbackSessionPublishAndUnpublishAction(FeedbackSessionAttributes session, 
                                                                         boolean isHome, 
                                                                         InstructorAttributes instructor) {
+        return getInstructorFeedbackSessionPublishAndUnpublishAction("btn-default btn-xs", session, isHome,
+                                                                     instructor);
+    }
+    
+    public String getInstructorFeedbackSessionPublishAndUnpublishAction(String buttonType,
+                                                                        FeedbackSessionAttributes session, 
+                                                                        boolean isHome, 
+                                                                        InstructorAttributes instructor) {
         boolean hasPublish = !session.isWaitingToOpen() && !session.isPublished();
         boolean hasUnpublish = !session.isWaitingToOpen() && session.isPublished();
         String disabledStr = "disabled=\"disabled\"";
@@ -774,7 +833,7 @@ public class PageData {
         String result = "";
         if (hasUnpublish) {
             result =
-                "<a class=\"btn btn-default btn-xs btn-tm-actions session-unpublish-for-test\""
+                "<a class=\"btn " + buttonType + " btn-tm-actions session-unpublish-for-test\""
                     + "href=\"" + getInstructorFeedbackSessionUnpublishLink(session.courseId, 
                                                                             session.feedbackSessionName, 
                                                                             isHome) + "\" " 
@@ -782,22 +841,18 @@ public class PageData {
                     + "data-placement=\"top\" onclick=\"return toggleUnpublishEvaluation('" 
                     + session.feedbackSessionName + "');\" " + disableUnpublishSessionStr + ">Unpublish Results</a> ";
         } else {
-            result = 
-                "<div title=\"" + (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH 
-                                              : Const.Tooltips.FEEDBACK_SESSION_AWAITING) + "\" "
-                    + "data-toggle=\"tooltip\" data-placement=\"top\" style=\"display: inline-block; "
-                    + "padding-right: 5px;\">" +
-                    "<a class=\"btn btn-default btn-xs btn-tm-actions session-publish-for-test" 
-                        + (hasPublish ? "\"" : DISABLED) + "href=\"" + getInstructorFeedbackSessionPublishLink(
-                                                                                session.courseId, 
-                                                                                session.feedbackSessionName, isHome) 
-                        + "\" " + (hasPublish ? "onclick=\"return togglePublishEvaluation('" 
-                                                + session.feedbackSessionName + "', " 
-                                                + session.isPublishedEmailEnabled + ");\" " 
+            result = "<a class=\"btn " + buttonType + " btn-tm-actions session-publish-for-test" 
+                   + (hasPublish ? "\"" : DISABLED) + "href=\""
+                   + getInstructorFeedbackSessionPublishLink(session.courseId, session.feedbackSessionName,
+                                                             isHome) 
+                   + "\" " + "title=\""
+                   + (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH 
+                                 : Const.Tooltips.FEEDBACK_SESSION_AWAITING)
+                   + "\" " + "data-toggle=\"tooltip\" data-placement=\"top\""
+                   + (hasPublish ? "onclick=\"return togglePublishEvaluation('" + session.feedbackSessionName + "', " 
+                                                                                + session.isPublishedEmailEnabled + ");\" " 
                                               : " ") 
-                        + disablePublishSessionStr + ">Publish Results" +
-                    "</a> " +
-                "</div>";
+                   + disablePublishSessionStr + ">Publish Results</a> ";
         }
         return result;
     }
@@ -846,6 +901,9 @@ public class PageData {
             }
         }
         String peopleCanViewString = peopleCanView.toString();
+        if(peopleCanViewString.isEmpty()) {
+            return peopleCanViewString;
+        }
         return removeEndComma(peopleCanViewString);
     }
     

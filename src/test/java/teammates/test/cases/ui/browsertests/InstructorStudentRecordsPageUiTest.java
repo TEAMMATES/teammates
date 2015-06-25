@@ -146,6 +146,11 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         ______TS("delete comment: success");
 
         viewPage.clickDeleteCommentAndConfirm(0).verifyStatus("Comment deleted");
+        
+        ______TS("edit comment then cancel: success");
+        
+        viewPage.clickEditCommentAndCancel(0);
+        viewPage.verifyCommentEditBoxNotVisible(0);
 
         ______TS("edit comment: success");
 

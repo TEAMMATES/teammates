@@ -38,7 +38,7 @@ public class InstructorCommentsPage extends AppPage {
     }
     
     public void clickSendEmailNotificationButton(){
-        browser.driver.findElement(By.xpath("//*[@id=\"frameBodyWrapper\"]/div[5]/div[1]/div/a")).click();
+        browser.driver.findElement(By.xpath("//*[@id=\"mainContent\"]/div[5]/div[1]/div/a")).click();
         waitForPageToLoad();
     }
     
@@ -98,12 +98,12 @@ public class InstructorCommentsPage extends AppPage {
     }
 
     public WebElement getNextCourseLink() {
-        String xpathExp = "//*[@id=\"frameBodyWrapper\"]/ul[1]/li[4]/a";
+        String xpathExp = "//*[@id=\"mainContent\"]/ul[1]/li[4]/a";
         return browser.driver.findElement(By.xpath(xpathExp));
     }
     
     public WebElement getPreviousCourseLink() {
-        String xpathExp = "//*[@id=\"frameBodyWrapper\"]/ul[1]/li[1]/a";
+        String xpathExp = "//*[@id=\"mainContent\"]/ul[1]/li[1]/a";
         return browser.driver.findElement(By.xpath(xpathExp));
     }
     
