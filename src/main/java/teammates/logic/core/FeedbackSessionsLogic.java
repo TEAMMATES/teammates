@@ -1019,18 +1019,6 @@ public class FeedbackSessionsLogic {
         return allQuestions.isEmpty();
     }
 
-    public boolean isFeedbackSessionCompletedByStudent(
-            String feedbackSessionName,
-            String courseId, String userEmail)
-            throws EntityDoesNotExistException {
-        FeedbackSessionAttributes  fsa = this.getFeedbackSession(feedbackSessionName, courseId);
-        if (fsa == null) {
-            throw new EntityDoesNotExistException(
-                    "Trying to check a feedback session that does not exist.");
-        }
-        return isFeedbackSessionCompletedByStudent(fsa, userEmail);
-    }
-
     public boolean isFeedbackSessionCompletedByInstructor(
             String feedbackSessionName,
             String courseId, String userEmail)
