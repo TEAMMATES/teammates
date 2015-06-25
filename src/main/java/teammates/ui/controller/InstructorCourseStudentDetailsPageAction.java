@@ -64,7 +64,7 @@ public class InstructorCourseStudentDetailsPageAction extends InstructorCoursesP
             if (!hasExistingStatus) {
                 statusToUser.add(Const.StatusMessages.STUDENT_NOT_JOINED_YET_FOR_RECORDS);
             }
-        } else if(!currentInstructor.isAllowedForPrivilege(student.section, 
+        } else if (!currentInstructor.isAllowedForPrivilege(student.section, 
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)) {
             if (!hasExistingStatus) {
                 statusToUser.add(Const.StatusMessages.STUDENT_PROFILE_UNACCESSIBLE_TO_INSTRUCTOR);

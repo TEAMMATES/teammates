@@ -6,13 +6,12 @@
 <c:set var="isShowCommentBox">
     ${data.commentRecipient == 'student' || data.commentRecipient == 'team' || data.commentRecipient == 'section'}
 </c:set>
-<c:set var="commentRecipient" value="${data.commentRecipient}" />
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/contextualcomments.js"></script>
     <script type="text/javascript">
         var isShowCommentBox = ${isShowCommentBox};
-        var commentRecipient = "${data.commentRecipient}";
+        var commentRecipient = '${data.commentRecipient}';
     </script>
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Student Details" jsIncludes="${jsIncludes}">

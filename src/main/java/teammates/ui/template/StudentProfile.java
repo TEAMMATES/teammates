@@ -15,14 +15,12 @@ public class StudentProfile {
     public StudentProfile(String fullName, StudentProfileAttributes student, String pictureUrl) {
         this.pictureUrl = pictureUrl;
         this.name = fullName;
-        if (student != null) {
-            this.shortName = student.shortName;
-            this.gender = student.gender;
-            this.email = student.email;
-            this.institute = student.institute;
-            this.nationality = student.nationality;
-            this.moreInfo = student.moreInfo;
-        }
+        this.shortName = student.shortName;
+        this.gender = student.gender;
+        this.email = student.email;
+        this.institute = student.institute;
+        this.nationality = student.nationality;
+        this.moreInfo = student.moreInfo;
     }
     
     public String getPictureUrl() {

@@ -61,7 +61,7 @@
             <label style="margin-right: 24px;">Recipient:
             </label> 
             <select id="comment_recipient_select" class="form-control">
-                <option value="<%= CommentParticipantType.PERSON %>" selected><c:out value="${studentInfoTable.name}" /></option>
+                <option value="<%= CommentParticipantType.PERSON %>" selected>${studentInfoTable.name}</option>
                 <option value="<%= CommentParticipantType.TEAM %>">${studentInfoTable.team}</option>
                 <c:if test="${studentInfoTable.hasSection && studentInfoTable.section != 'None'}">
                     <option value="<%= CommentParticipantType.SECTION %>">${studentInfoTable.section}</option>

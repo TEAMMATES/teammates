@@ -17,16 +17,19 @@ public class InstructorCourseStudentDetailsPageData extends PageData {
         super(account);
     }
     
-    public void init(StudentAttributes student, StudentProfileAttributes studentProfile, boolean isAbleToAddComment, boolean hasSection, String commentRecipient) {
+    public void init(StudentAttributes student, StudentProfileAttributes studentProfile,
+            boolean isAbleToAddComment, boolean hasSection, String commentRecipient) {
         String pictureUrl = studentProfile == null || studentProfile.pictureKey == null
                             || studentProfile.pictureKey.isEmpty()
                           ? Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH
                           : Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?"
-                                + Const.ParamsNames.BLOB_KEY + "=" + studentProfile.pictureKey
-                                + "&user=" + account.googleId;
-        this.studentProfile = new StudentProfile(student.name, studentProfile, pictureUrl);
+                            + Const.ParamsNames.BLOB_KEY + "=" + studentProfile.pictureKey + "&"
+                            + Const.ParamsNames.USER_ID + "=" + account.googleId;
         this.studentInfoTable = new StudentInfoTable(student, isAbleToAddComment, hasSection);
         this.commentRecipient = commentRecipient;
+        if (studentProfile != null) {
+            this.studentProfile = new StudentProfile(student.name, studentProfile, pictureUrl);
+        }
     }
     
     public StudentProfile getStudentProfile() {
