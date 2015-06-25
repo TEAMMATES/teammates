@@ -1,11 +1,15 @@
 package teammates.ui.template;
 
 public class FeedbackResponseCommentRow {
-    private String giverDetails;
-    private String comment;
-    private String creationTime;
+    protected String giverDetails;
+    protected String comment;
+    protected String creationTime;
     private ElementTag editButton;
-
+    
+    public FeedbackResponseCommentRow() {
+        
+    }
+    
     public FeedbackResponseCommentRow(String giverDetails, String comment,
                                          String creationTime, ElementTag editButton) {
         this.giverDetails = giverDetails;
