@@ -70,7 +70,11 @@ public class StudentProfilePageDataTest {
         assertEquals(StringHelper.convertToEmptyStringIfNull(spa.nationality), profileEditBox.getNationality());
         assertEquals(spa.gender, profileEditBox.getGender());
         assertEquals(StringHelper.convertToEmptyStringIfNull(spa.moreInfo), profileEditBox.getMoreInfo());
-        assertEquals(acct.googleId, profileEditBox.getGoogleId()); // googleId comes from AA, not SPA
+        /*
+         * Currently across the application googleId is always taken from Account.
+         * TODO check if googleId in SPA can ever be different from AA.
+         */
+        assertEquals(acct.googleId, profileEditBox.getGoogleId());
         assertEquals(pictureUrl, profileEditBox.getPictureUrl());
     }
 
