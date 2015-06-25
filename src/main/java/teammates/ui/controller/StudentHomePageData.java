@@ -14,6 +14,7 @@ import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.ui.template.CourseTable;
 import teammates.ui.template.ElementTag;
+import teammates.ui.template.StudentFeedbackSessionActions;
 
 public class StudentHomePageData extends PageData {
     
@@ -134,7 +135,7 @@ public class StudentHomePageData extends PageData {
         return link;
     }
     
-    private String getStudentFeedbackResponseEditLink(String courseId, String feedbackSessionName){
+    public String getStudentFeedbackResponseEditLink(String courseId, String feedbackSessionName){
         String link = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
         link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
@@ -142,7 +143,7 @@ public class StudentHomePageData extends PageData {
         return link;
     }
     
-    private String getStudentFeedbackResultsLink(String courseId, String feedbackSessionName){
+    public String getStudentFeedbackResultsLink(String courseId, String feedbackSessionName){
         String link = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
         link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
@@ -157,46 +158,8 @@ public class StudentHomePageData extends PageData {
      * @param hasSubmitted Whether the student had submitted the session or not.
      * @return The list of available actions for a specific feedback session.
      */
-    private String getStudentFeedbackSessionActions(FeedbackSessionAttributes fs, int idx, boolean hasSubmitted) {
-        
-        String result = "<a class=\"btn btn-default btn-xs btn-tm-actions" + (fs.isPublished() ? "\"" : DISABLED) 
-                + "href=\"" + getStudentFeedbackResultsLink(fs.courseId, fs.feedbackSessionName)
-                + "\" " + "name=\"viewFeedbackResults"
-                + idx + "\" " + " id=\"viewFeedbackResults" + idx + "\" "
-                + "data-toggle=\"tooltip\" data-placement=\"top\""
-                + "title=\"" + Const.Tooltips.FEEDBACK_SESSION_RESULTS + "\""
-                + "role=\"button\">" + "View Responses</a>";
-                
-        if (hasSubmitted) {
-            result += "<a class=\"btn btn-default btn-xs btn-tm-actions\" href=\""
-                    + getStudentFeedbackResponseEditLink(fs.courseId, fs.feedbackSessionName)
-                    + "\" " + "name=\"editFeedbackResponses" + idx
-                    + "\" id=\"editFeedbackResponses" + idx + "\" "
-                    + "data-toggle=\"tooltip\" data-placement=\"top\""
-                    + "title=\"" + (fs.isOpened() ? 
-                                Const.Tooltips.FEEDBACK_SESSION_EDIT_SUBMITTED_RESPONSE :
-                                Const.Tooltips.FEEDBACK_SESSION_VIEW_SUBMITTED_RESPONSE) + "\""
-                    + "role=\"button\">"
-                    + (fs.isOpened() ? "Edit" : "View") + " Submission</a>";
-        } else {
-            String title = "";
-            String linkText = "";
-            if (!fs.isClosed()) {
-                title = fs.isWaitingToOpen() ? Const.Tooltips.FEEDBACK_SESSION_AWAITING : Const.Tooltips.FEEDBACK_SESSION_SUBMIT;
-                linkText = "Start Submission";
-            } else {
-                title = Const.Tooltips.FEEDBACK_SESSION_VIEW_SUBMITTED_RESPONSE;
-                linkText = (fs.isOpened() ? "Edit" : "View") + " Submission";
-            }
-            result += "<a class=\"btn btn-default btn-xs btn-tm-actions" + (fs.isVisible() ? "\"" : DISABLED)
-                    + "id=\"submitFeedback" + idx + "\" " + "href=\"" 
-                    + getStudentFeedbackResponseEditLink(fs.courseId,
-                        fs.feedbackSessionName) + "\" "
-                    + "data-toggle=\"tooltip\" data-placement=\"top\""
-                    + "title=\"" + title + "\""
-                    + "role=\"button\">" + linkText + "</a>";    
-        }
-        
-        return result;
+    private StudentFeedbackSessionActions getStudentFeedbackSessionActions(FeedbackSessionAttributes fs, int idx,
+                                                                           boolean hasSubmitted) {
+        return new StudentFeedbackSessionActions(this, fs, idx, hasSubmitted);
     }
 }
