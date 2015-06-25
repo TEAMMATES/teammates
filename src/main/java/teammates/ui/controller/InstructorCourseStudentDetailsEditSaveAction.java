@@ -30,9 +30,9 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
         
         InstructorCourseStudentDetailsEditPageData data = new InstructorCourseStudentDetailsEditPageData(account);
         
+        boolean hasSection = logic.hasIndicatedSections(courseId);
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
-        data.hasSection = logic.hasIndicatedSections(courseId);
-
+        
         student.name = getRequestParamValue(Const.ParamsNames.STUDENT_NAME);
         student.email = getRequestParamValue(Const.ParamsNames.NEW_STUDENT_EMAIL);
         student.team = getRequestParamValue(Const.ParamsNames.TEAM_NAME);
@@ -50,10 +50,10 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
             logic.validateSections(Arrays.asList(student), courseId);
             logic.updateStudent(studentEmail, student);
             statusToUser.add(Const.StatusMessages.STUDENT_EDITED);
-            statusToAdmin = "Student <span class=\"bold\">" + studentEmail + 
-                    "'s</span> details in Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"+ 
-                    "New Email: " + student.email + "<br>New Team: " + 
-                    student.team + "<br>Comments: " + student.comments;
+            statusToAdmin = "Student <span class=\"bold\">" + studentEmail + "'s</span> details in "
+                            + "Course <span class=\"bold\">[" + courseId + "]</span> edited.<br>"
+                            + "New Email: " + student.email + "<br>New Team: " + student.team + "<br>"
+                            + "Comments: " + student.comments;
             
             RedirectResult result = createRedirectResult(Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE);
             result.addResponseParam(Const.ParamsNames.COURSE_ID, courseId);
@@ -61,9 +61,9 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
             
         } catch (InvalidParametersException | EnrollException e) {
             setStatusForException(e);
-            data.newEmail = student.email;
+            String newEmail = student.email;
             student.email = studentEmail;
-            data.init(student, data.newEmail, data.hasSection);
+            data.init(student, newEmail, hasSection);
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT, data);
         }
         

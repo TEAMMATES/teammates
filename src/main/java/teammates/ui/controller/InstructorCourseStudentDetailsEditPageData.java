@@ -6,17 +6,22 @@ import teammates.common.datatransfer.StudentAttributes;
 
 public class InstructorCourseStudentDetailsEditPageData extends  InstructorCourseStudentDetailsPageData{
     
-    public boolean hasSection;
-    public String newEmail;
+    private String newEmail;
 
     public InstructorCourseStudentDetailsEditPageData(AccountAttributes account) {
         super(account);
     }
 
+    public void init(StudentAttributes student, boolean hasSection) {
+        init(student, student.email, hasSection);
+    }
+    
     public void init(StudentAttributes student, String newEmail, boolean hasSection) {
-        this.hasSection = hasSection;
         this.newEmail = newEmail;
-        super.init(student, null, false, hasSection, null);
+        init(student, null, false, hasSection, null);
     }
 
+    public String getNewEmail() {
+        return newEmail;
+    }
 }
