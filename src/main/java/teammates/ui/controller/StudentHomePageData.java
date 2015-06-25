@@ -55,16 +55,16 @@ public class StudentHomePageData extends PageData {
         return links;
     }
     
-    private List<Map<String, String>> createSessionRows(List<FeedbackSessionDetailsBundle> feedbackSessions,
+    private List<Map<String, Object>> createSessionRows(List<FeedbackSessionDetailsBundle> feedbackSessions,
             String courseId, Map<String, Boolean> sessionSubmissionStatusMap, int sessionIdx) {
-        List<Map<String, String>> rows = new ArrayList<Map<String, String>>();
+        List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
         
         for (FeedbackSessionDetailsBundle session : feedbackSessions) {
             FeedbackSessionAttributes feedbackSession = session.feedbackSession;
             String sessionName = feedbackSession.feedbackSessionName;
             boolean hasSubmitted = sessionSubmissionStatusMap.get(courseId + "%" + sessionName);
             
-            Map<String, String> columns = new HashMap<String, String>();
+            Map<String, Object> columns = new HashMap<String, Object>();
             columns.put("name", PageData.sanitizeForHtml(sessionName));
             columns.put("endTime", TimeHelper.formatTime(feedbackSession.endTime));
             columns.put("tooltip", getStudentHoverMessageForSession(feedbackSession, hasSubmitted));

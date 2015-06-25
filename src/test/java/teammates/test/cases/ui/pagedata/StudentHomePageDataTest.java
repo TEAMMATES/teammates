@@ -71,10 +71,10 @@ public class StudentHomePageDataTest {
 
     private void testNewCourseTable(CourseDetailsBundle newCourse, CourseTable courseTable) {
         assertEquals(newCourse.feedbackSessions.size(), courseTable.getRows().size());
-        List<Map<String, String>> sessions = courseTable.getRows();
-        Map<String, String> submittedRow = sessions.get(0);
-        Map<String, String> pendingRow = sessions.get(1);
-        Map<String, String> awaitingRow = sessions.get(2);
+        List<Map<String, Object>> sessions = courseTable.getRows();
+        Map<String, Object> submittedRow = sessions.get(0);
+        Map<String, Object> pendingRow = sessions.get(1);
+        Map<String, Object> awaitingRow = sessions.get(2);
         
         testFeedbackSession(submittedRow, submittedSession,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED, "Submitted");
@@ -87,10 +87,10 @@ public class StudentHomePageDataTest {
     private void testOldCourseTable(CourseDetailsBundle oldCourse, CourseTable courseTable) {
         // Sessions in old course have multiple messages in tooltip as their end dates have passed.
         assertEquals(oldCourse.feedbackSessions.size(), courseTable.getRows().size());
-        List<Map<String, String>> sessions = courseTable.getRows();
-        Map<String, String> publishedRow = sessions.get(0);
-        Map<String, String> closedRow = sessions.get(1);
-        Map<String, String> submittedClosedRow = sessions.get(2);
+        List<Map<String, Object>> sessions = courseTable.getRows();
+        Map<String, Object> publishedRow = sessions.get(0);
+        Map<String, Object> closedRow = sessions.get(1);
+        Map<String, Object> submittedClosedRow = sessions.get(2);
         
         testFeedbackSession(publishedRow, publishedSession,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING
@@ -107,7 +107,7 @@ public class StudentHomePageDataTest {
                             "Closed");
     }
     
-    private void testFeedbackSession(Map<String, String> row, FeedbackSessionAttributes session,
+    private void testFeedbackSession(Map<String, Object> row, FeedbackSessionAttributes session,
             String expectedTooltip, String expectedStatus) {
         assertEquals(session.feedbackSessionName, row.get("name"));
         assertEquals(TimeHelper.formatTime(session.endTime), row.get("endTime"));
