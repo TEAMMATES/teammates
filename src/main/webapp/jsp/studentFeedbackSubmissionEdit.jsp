@@ -28,7 +28,6 @@
 
 
 <ts:studentPageCustom bodyTitle="Submit Feedback" pageTitle="TEAMMATES - Submit Feedback" jsIncludes="${jsIncludes}" altNavBar="${altHeader}">
-
     <c:if test="${not data.headerHidden}">
         <jsp:include page="<%= Const.ViewURIs.STUDENT_MOTD%>" />
     </c:if>
