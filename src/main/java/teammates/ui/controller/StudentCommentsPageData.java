@@ -108,19 +108,20 @@ public class StudentCommentsPageData extends PageData {
         return feedbackSessionRows;
     }
     
-    public String getRecipientNames(Set<String> recipients){
+    private String getRecipientNames(Set<String> recipients) {
         StringBuilder namesStringBuilder = new StringBuilder();
         int i = 0;
-        for(String recipient : recipients){
-            if(i == recipients.size() - 1 && recipients.size() > 1){
+        
+        for (String recipient : recipients) {
+            if (i == recipients.size() - 1 && recipients.size() > 1) {
                 namesStringBuilder.append("and ");
             }
             StudentAttributes student = roster.getStudentForEmail(recipient);
-            if(recipient.equals(studentEmail)){
+            if (recipient.equals(studentEmail)) {
                 namesStringBuilder.append("you, ");
-            } else if(courseId.equals(recipient)){ 
+            } else if (courseId.equals(recipient)) { 
                 namesStringBuilder.append("All Students In This Course, ");
-            } else if(student != null){
+            } else if (student != null) {
                 namesStringBuilder.append(student.name + ", ");
             } else {
                 namesStringBuilder.append(recipient + ", ");
@@ -133,12 +134,12 @@ public class StudentCommentsPageData extends PageData {
     
     private void setCommentRows() {
         commentRows = new ArrayList<CommentRow>();
+        
         for (CommentAttributes comment : comments) {
             String recipientDetails = getRecipientNames(comment.recipients);
-            
             InstructorAttributes instructor = roster.getInstructorForEmail(comment.giverEmail);
             String giverDetails = comment.giverEmail;
-            if(instructor != null){
+            if (instructor != null) {
                 giverDetails = instructor.displayedName + " " + instructor.name;
             }
             String lastEditorDisplay = null;
@@ -148,31 +149,40 @@ public class StudentCommentsPageData extends PageData {
             }
             String creationTime = TimeHelper.formatDate(comment.createdAt);
             String editedAt = comment.getEditedAtTextForStudent(giverDetails.equals("Anonymous"), lastEditorDisplay);
+            
             CommentRow commentRow = 
                     new StudentCommentsCommentRow(
                                 giverDetails, comment, recipientDetails, creationTime, editedAt);
+            
             commentRows.add(commentRow);
         }
     }
     
     private void createFeedbackSessionRows() {
         feedbackSessionRows = new ArrayList<FeedbackSessionRow>();
+        
         for (String fsName : feedbackResultBundles.keySet()) {
+            
             FeedbackSessionRow feedbackSessionRow = 
                     new FeedbackSessionRow(
                             fsName, courseId, createFeedbackQuestionTables(feedbackResultBundles.get(fsName)));
+            
             feedbackSessionRows.add(feedbackSessionRow);
         }
     }
     
     private List<QuestionTable> createFeedbackQuestionTables(FeedbackSessionResultsBundle feedbackResultBundle) {
         List<QuestionTable> feedbackQuestionTables = new ArrayList<QuestionTable>();
+        
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries 
                      : feedbackResultBundle.getQuestionResponseMap().entrySet()) {
-            int questionNumber = responseEntries.getKey().questionNumber;
-            String questionText = feedbackResultBundle.getQuestionText(responseEntries.getKey().getId());
+            
+            FeedbackQuestionAttributes feedbackQuestion = responseEntries.getKey();
+            int questionNumber = feedbackQuestion.questionNumber;
+            String questionText = feedbackResultBundle.getQuestionText(feedbackQuestion.getId());
             Map<String, FeedbackQuestionAttributes> questions = feedbackResultBundle.questions;
-            FeedbackQuestionAttributes question = questions.get(responseEntries.getKey().getId());
+            
+            FeedbackQuestionAttributes question = questions.get(feedbackQuestion.getId());
             FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
             String additionalInfo = questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "");
             
@@ -185,16 +195,18 @@ public class StudentCommentsPageData extends PageData {
         return feedbackQuestionTables;
     }
     
-    private List<ResponseRow> createFeedbackResponseRows(FeedbackSessionResultsBundle feedbackResultBundle, 
-            FeedbackQuestionDetails questionDetails, 
+    private List<ResponseRow> createFeedbackResponseRows(
+            FeedbackSessionResultsBundle feedbackResultBundle, FeedbackQuestionDetails questionDetails, 
             Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries) {
         List<ResponseRow> feedbackResponseRows = new ArrayList<ResponseRow>();
+        
         for (FeedbackResponseAttributes responseEntry : responseEntries.getValue()) {
             String giverName = feedbackResultBundle.getGiverNameForResponse(responseEntries.getKey(), responseEntry);
             String giverTeamName = feedbackResultBundle.getTeamNameForEmail(responseEntry.giverEmail);
             giverName = feedbackResultBundle.appendTeamNameToName(giverName, giverTeamName);
 
-            String recipientName = feedbackResultBundle.getRecipientNameForResponse(responseEntries.getKey(), responseEntry);
+            String recipientName = 
+                    feedbackResultBundle.getRecipientNameForResponse(responseEntries.getKey(), responseEntry);
             String recipientTeamName = feedbackResultBundle.getTeamNameForEmail(responseEntry.recipientEmail);
             recipientName = feedbackResultBundle.appendTeamNameToName(recipientName, recipientTeamName);
             
@@ -211,7 +223,9 @@ public class StudentCommentsPageData extends PageData {
     private List<FeedbackResponseCommentRow> createFeedbackResponseCommentRows(
             FeedbackSessionResultsBundle feedbackResultBundle, FeedbackResponseAttributes responseEntry) {
         List<FeedbackResponseCommentRow> feedbackResponseCommentRows = new ArrayList<FeedbackResponseCommentRow>();
-        List<FeedbackResponseCommentAttributes> frcList = feedbackResultBundle.responseComments.get(responseEntry.getId());
+        List<FeedbackResponseCommentAttributes> frcList = 
+                feedbackResultBundle.responseComments.get(responseEntry.getId());
+        
         for (FeedbackResponseCommentAttributes frc : frcList) {
             String frCommentGiver = frc.giverEmail;
             InstructorAttributes instructor = roster.getInstructorForEmail(frc.giverEmail);
@@ -226,8 +240,10 @@ public class StudentCommentsPageData extends PageData {
             String creationTime = TimeHelper.formatDate(frc.createdAt);
             String editedAt = frc.getEditedAtTextForStudent(frCommentGiver.equals("Anonymous"), lastEditorDisplay);
             String comment = frc.commentText.getValue();
+            
             StudentCommentsFeedbackResponseCommentRow feedbackResponseCommentRow = 
                     new StudentCommentsFeedbackResponseCommentRow(frCommentGiver, comment, creationTime, editedAt);
+            
             feedbackResponseCommentRows.add(feedbackResponseCommentRow);
         }
         return feedbackResponseCommentRows;
