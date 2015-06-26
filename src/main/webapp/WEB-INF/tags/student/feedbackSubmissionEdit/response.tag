@@ -18,11 +18,11 @@
 <br>
 <div class="form-group margin-0">
     <div ${isNumResponsesMax ? "class=\"col-sm-2 form-inline\"" : "class=\"col-sm-4 form-inline\""}
-         ${isRecipientNameHidden ?  "style=\"display:none\"" : "style=\"text-align:right;\""}>
+         ${isRecipientNameHidden ?  "style=\"display:none\"" : "style=\"text-align:right\""}>
          
         <label for="input">To: </label>
         
-        <select class="participantSelect middlealign <c:if test="${not response.existingResponse}">newResponse</c:if> form-control" 
+        <select class="participantSelect middlealign<c:if test="${not response.existingResponse}"> newResponse</c:if> form-control" 
                 name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_RECIPIENT %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
                 ${isNumResponsesMax ? "style=\"display:none;max-width:125px\"" : "style=\"width:275px;max-width:275px\""}
                 ${isSessionOpenForSubmission ? "" : "disabled=\"disabled\"" }>
