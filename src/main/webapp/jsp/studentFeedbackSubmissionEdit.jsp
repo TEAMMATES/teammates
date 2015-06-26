@@ -9,23 +9,36 @@
     <script type="text/javascript" src="/js/student.js"></script>
 </c:set>
 
-<ts:studentPage pageTitle="TEAMMATES - Submit Feedback" bodyTitle="Submit Feedback" jsIncludes="${jsIncludes}">
-    <c:choose>
-        <c:when test="${not data.headerHidden}">
-            <%-- <jsp:include page="<%= Const.ViewURIs.STUDENT_HEADER%>" /> --%>
-            <jsp:include page="<%= Const.ViewURIs.STUDENT_MOTD%>" />
-        </c:when>
-        <c:otherwise>
-            <feedbackSubmissionEdit:header preview="${data.preview}" moderation="${data.moderation}" 
-                                           email="${data.studentToViewPageAs.email}" 
-                                           name="${data.studentToViewPageAs.name}"/>
-        </c:otherwise>
-    </c:choose>
+
+
+<c:if test="${data.headerHidden}">
+    <c:set var="altHeader">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <c:choose>
+                <c:when test="${data.preview}">
+                    <h3 class="text-center">Previewing Session as Student ${data.studentToViewPageAs.name} (${data.studentToViewPageAs.email})</h3>
+                </c:when>
+                <c:when test="${data.moderation}">
+                    <h3 class="text-center">Moderating Responses for Student ${data.studentToViewPageAs.name} (${data.studentToViewPageAs.email})</h3>
+                </c:when>
+            </c:choose>
+        </nav>
+    </c:set>
+</c:if>
+
+
+<ts:studentPageCustom bodyTitle="Submit Feedback" pageTitle="TEAMMATES - Submit Feedback" jsIncludes="${jsIncludes}" altNavBar="${altHeader}">
+
+    <c:if test="${not data.headerHidden}">
+        <jsp:include page="<%= Const.ViewURIs.STUDENT_MOTD%>" />
+    </c:if>
        
     <c:if test="${empty data.account.googleId}">
         <div id="registerMessage" class="alert alert-info">
             ${data.registerMessage}
         </div>
     </c:if>
+    
     <feedbackSubmissionEdit:feedbackSubmissionForm feedbackSubmissionForm="${data}"/>
-</ts:studentPage>
+    
+</ts:studentPageCustom>
