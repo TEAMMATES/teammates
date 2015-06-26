@@ -27,41 +27,38 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="shortcut icon" href="/favicon.png">
-
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <title>TEAMMATES - Feedback Results</title>
 
-        <!-- Bootstrap core CSS -->
-        <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <!-- Bootstrap theme -->
-        <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
-        <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet">
+	    <link rel="shortcut icon" href="/favicon.png" />
+	
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	    <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+	    <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>
+	    <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet"/>
+	
+	    <!--[if lt IE 9]>
+	        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	    <![endif]-->
 
-        <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-        <script type="text/javascript" src="/js/jquery-minified.js"></script>
-        <script type="text/javascript" src="/js/common.js"></script>
-        <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
-        <script type="text/javascript" src="/js/student.js"></script>
-        <!-- Bootstrap core JavaScript ================================================== -->
-        <script src="/bootstrap/js/bootstrap.min.js"></script>
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
+	    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
+	    <script type="text/javascript" src="/js/jquery-minified.js"></script>
+	    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+	    <script type="text/javascript" src="/js/common.js"></script>
+	    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 
         <jsp:include page="../enableJS.jsp"></jsp:include>
+        
+        <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
+        <script type="text/javascript" src="/js/student.js"></script>
     </head>
 
     <body>
         <jsp:include page="<%= Const.ViewURIs.STUDENT_HEADER %>" />
 
-        <div id="frameBody">
-            <div id="frameBodyWrapper" class="container">
+        <div class="container" id="mainContent">
                 <div id="topOfPage"></div>
                 <h1>Feedback Results - Student</h1>
                 <br>
@@ -119,7 +116,7 @@
                 <%
                     int qnIndx = 0;
                     Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses =
-                            data.bundle.getQuestionResponseMap();
+                            data.bundle.getQuestionResponseMapSortedByRecipient();
 
                     for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionWithResponses : questionsWithResponses.entrySet()) {
                         qnIndx++;
@@ -247,7 +244,6 @@
                             There are currently no responses for you for this feedback session.
                         </div>
                 <%  }  %>
-            </div>
         </div>
 
         <div id="frameBottom">

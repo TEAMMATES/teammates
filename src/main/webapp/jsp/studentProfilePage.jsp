@@ -19,35 +19,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="shortcut icon" href="/favicon.png">
+    <title>TEAMMATES - Student Profile</title>
+
+    <link rel="shortcut icon" href="/favicon.png" />
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TEAMMATES - Student Profile</title>
-    <link rel="stylesheet" href="/Jcrop/css/jquery.Jcrop.min.css">
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css">
-    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css">
 
-    <script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script>
+    <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>
+    <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet"/>
+
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
     <script type="text/javascript" src="/js/jquery-minified.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
-    <script type="text/javascript" src="/Jcrop/js/jquery.Jcrop.min.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+
+    <jsp:include page="../enableJS.jsp"></jsp:include>
+    
+    <link type="text/css" href="/Jcrop/css/jquery.Jcrop.min.css" rel="stylesheet"/>
+
+    <script type="text/javascript" src="/Jcrop/js/jquery.Jcrop.min.js"></script>
     <script type="text/javascript" src="/js/student.js"></script>
     <script type="text/javascript" src="/js/studentProfile.js"></script>
-    <!-- [if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif] -->
 </head>
 <body>
     <jsp:include page="<%= Const.ViewURIs.STUDENT_HEADER %>" />
-    <div id="frameBodyWrapper" class="container theme-showcase">
-        <div id="topOfPage">
-        </div>
-        <h2>Student Profile</h2>
+    <div class="container" id="mainContent">
+        <div id="topOfPage"></div>
+        <h1>Student Profile</h1>
         <br>
         <jsp:include page="<%= Const.ViewURIs.STATUS_MESSAGE %>" />
         <br>

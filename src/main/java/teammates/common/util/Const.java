@@ -720,6 +720,8 @@ public class Const {
         public static final String INSTRUCTOR_COURSE_ENROLL_RESULT = "/jsp/instructorCourseEnrollResult.jsp";
         public static final String INSTRUCTOR_COURSE_JOIN_CONFIRMATION = "/jsp/instructorCourseJoinConfirmation.jsp";
         public static final String INSTRUCTOR_FEEDBACKS = "/jsp/instructorFeedbacks.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_COPY_MODAL = "/jsp/instructorFeedbackCopyModal.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_REMIND_MODAL = "/jsp/instructorFeedbackRemindModal.jsp";
         public static final String INSTRUCTOR_FEEDBACK_EDIT = "/jsp/instructorFeedbackEdit.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_TOP = "/jsp/instructorFeedbackResultsTop.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BOTTOM = "/jsp/instructorFeedbackResultsBottom.jsp";
@@ -764,8 +766,7 @@ public class Const {
         public static final String ERROR_PAGE = "/errorPage.jsp"; 
         public static final String DEADLINE_EXCEEDED_ERROR_PAGE = "/deadlineExceededErrorPage.jsp"; 
         public static final String ENTITY_NOT_FOUND_PAGE = "/entityNotFoundPage.jsp"; 
-        public static final String ACTION_NOT_FOUND_PAGE = "/pageNotFound.jsp"; 
-        public static final String MAINTENANCE_PAGE = "/maintenance.jsp";
+        public static final String ACTION_NOT_FOUND_PAGE = "/pageNotFound.jsp";
         
         public static final String MASHUP = "/dev/mashup.jsp";
     

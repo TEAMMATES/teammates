@@ -29,7 +29,9 @@ public class StudentCourseDetailsPageUiTest extends BaseUiTestCase {
     
     @Test    
     public void testAll() throws Exception{
-        
+        // TODO: Split up both tests, one to use verifyHtml and one to use verifyHtmlMainContent to ensure
+        // a full HTML check is done at least
+
         ______TS("content");
         
         //with teammates"

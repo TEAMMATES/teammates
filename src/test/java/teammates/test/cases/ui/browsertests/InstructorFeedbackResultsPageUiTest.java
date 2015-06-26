@@ -78,15 +78,17 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: standard session results");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
+
+        // This is the full HTML verification for Instructor Feedback Results Page, the rest can all be verifyMainHtml
         resultsPage.verifyHtml("/instructorFeedbackResultsPageOpen.html");
 
-        ______TS("Typical case: standard session results with helper view");
+        ______TS("Typical case: standard session results: helper view");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper1", "Open Session");
-        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenWithHelperView1.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenViewForHelperOne.html");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.helper2", "Open Session");
-        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenWithHelperView2.html");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultsPageOpenViewForHelperTwo.html");
 
         ______TS("Typical case: empty session");
 
@@ -296,21 +298,21 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.hoverClickAndViewGiverPhotoOnTableCell(0, 0, "studentProfilePic?studentemail={*}&courseid={*}&user=CFResultsUiT.instr");
         resultsPage.hoverClickAndViewRecipientPhotoOnTableCell(0, 0, "profile_picture_default.png");
 
-        ______TS("Typical case: ajax for view by question for helper");
+        ______TS("Typical case: ajax for view by question for helper 1");
 
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.helper1",
                                                                        "Open Session", true, "question");
 
         resultsPage.clickAjaxPanel(0);
 
-        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestionHelperView.html");
+        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestionViewForHelperOne.html");
         
         ______TS("Typical case: ajax for view by question for helper2");
         resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.helper2",
                                         "Open Session", true, "question");
 
         resultsPage.clickAjaxPanel(0);
-        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestionHelperView2.html");
+        resultsPage.verifyHtmlAjax("/instructorFeedbackResultsAjaxByQuestionViewForHelperTwo.html");
 
         ______TS("Typical case: ajax for view by giver > recipient > question");
 
