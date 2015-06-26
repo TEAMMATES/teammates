@@ -142,7 +142,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditSuccess.html");
 
 
-        ______TS("test edit page after manual publish");
+        ______TS("test edit page session visibility period settings after manual publish");
 
         // Do a backdoor 'manual' publish.
         editedSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NOW;
