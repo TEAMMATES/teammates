@@ -54,6 +54,8 @@ public class InstructorSearchPageUiTest extends BaseUiTestCase {
         
         String instructorId = testData.accounts.get("instructor1OfCourse1").googleId;
         searchPage = getInstructorSearchPage(instructorId);
+
+        // This is the full HTML verification for Instructor Search Page, the rest can all be verifyMainHtml
         searchPage.verifyHtml("/instructorSearchPageDefault.html");
         
     }
