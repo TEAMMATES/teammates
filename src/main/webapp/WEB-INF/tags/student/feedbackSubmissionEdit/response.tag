@@ -36,7 +36,7 @@
         ${response.submissionFormHtml}
         <c:if test="${response.existingResponse}">
             <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>-${questionWithResponses.question.qnIndx}-${response.responseIndx}"
-                   value="${response.responseId}">
+                   value="<c:out value="${response.responseId}"/>">
         </c:if>                                    
     </div>
 </div>
