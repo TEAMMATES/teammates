@@ -130,6 +130,10 @@ public class FeedbackSessionAttributes extends EntityAttributes implements Sessi
     public String getEndTimeString() {
         return TimeHelper.formatTime(endTime);
     }
+    
+    public String getInstructionsString() {
+        return instructions.getValue();
+    }
 
     @Override
     public FeedbackSession toEntity() {
