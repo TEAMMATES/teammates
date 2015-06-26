@@ -49,7 +49,7 @@
 </head>
 <body onload="readyStudentRecordsPage();">
     <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
-    <div class="container" id="frameBodyWrapper">
+    <div class="container" id="mainContent">
         <div id="topOfPage"></div>
         <h1>
             <%= InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name) %>'s Records<small class="muted"> - <%=data.courseId%></small>

@@ -10,9 +10,9 @@ public class CourseTable {
     private String courseId;
     private String courseName;
     private List<ElementTag> buttons;
-    private List<Map<String, String>> rows;
+    private List<Map<String, Object>> rows;
     
-    public CourseTable(CourseAttributes course, List<ElementTag> buttons, List<Map<String, String>> rows) {
+    public CourseTable(CourseAttributes course, List<ElementTag> buttons, List<Map<String, Object>> rows) {
         this.courseId = course.id;
         this.courseName = course.name;
         this.buttons = buttons;
@@ -31,7 +31,7 @@ public class CourseTable {
         return buttons;
     }
     
-    public List<Map<String, String>> getRows() {
+    public List<Map<String, Object>> getRows() {
         return rows;
     }
 }
