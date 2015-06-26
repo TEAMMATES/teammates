@@ -7,10 +7,10 @@ public class CourseDetailsStudentsTable {
     private List<CourseDetailsStudentsTableRow> rows;
     
     public CourseDetailsStudentsTable() {
-        this.rows = new ArrayList<CourseDetailsStudentsTableRow>();
+        rows = new ArrayList<CourseDetailsStudentsTableRow>();
     }
     
     public List<CourseDetailsStudentsTableRow> getRows() {
-        return this.rows;
+        return rows;
     }
 }

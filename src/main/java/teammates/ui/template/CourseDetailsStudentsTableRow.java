@@ -12,25 +12,25 @@ public class CourseDetailsStudentsTableRow {
     private StudentAttributes student;
     
     public CourseDetailsStudentsTableRow() {
-        this.actions = new ArrayList<ElementTag>();
-        this.commentActions = new ArrayList<ElementTag>();
-        this.commentRecipientOptions = new ArrayList<ElementTag>();
+        actions = new ArrayList<ElementTag>();
+        commentActions = new ArrayList<ElementTag>();
+        commentRecipientOptions = new ArrayList<ElementTag>();
     }
     
     public List<ElementTag> getActions() {
-        return this.actions;
+        return actions;
     }
     
     public List<ElementTag> getCommentActions() {
-        return this.commentActions;
+        return commentActions;
     }
     
     public StudentAttributes getStudent() {
-        return this.student;
+        return student;
     }
     
     public List<ElementTag> getCommentRecipientOptions() {
-        return this.commentRecipientOptions;
+        return commentRecipientOptions;
     }
 
     public void setStudent(StudentAttributes student) {

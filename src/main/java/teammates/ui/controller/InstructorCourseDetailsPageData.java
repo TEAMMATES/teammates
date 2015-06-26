@@ -45,9 +45,9 @@ public class InstructorCourseDetailsPageData extends PageData {
         
         isDisabled = !currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         String onClick = "if(toggleSendRegistrationKeysConfirmation('" 
-                          + Sanitizer.sanitizeForJs(this.courseDetails.course.id) + "')) "
+                          + Sanitizer.sanitizeForJs(courseDetails.course.id) + "')) "
                           + "window.location.href='" 
-                          + Sanitizer.sanitizeForJs(this.getInstructorCourseRemindLink()) + "';";
+                          + Sanitizer.sanitizeForJs(getInstructorCourseRemindLink()) + "';";
         courseRemindButton = createButton(null, "btn btn-primary", "button_remind", null, 
                                           Const.Tooltips.COURSE_REMIND, "tooltip", onClick, isDisabled);
         
@@ -165,7 +165,7 @@ public class InstructorCourseDetailsPageData extends PageData {
         return courseRemindButton;
     }
     
-    public String getInstructorCourseRemindLink() {
+    private String getInstructorCourseRemindLink() {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_REMIND;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseDetails.course.id);
         link = addUserIdToUrl(link);
@@ -173,7 +173,7 @@ public class InstructorCourseDetailsPageData extends PageData {
     }
     
     
-    public String getCourseStudentDetailsLink(StudentAttributes student) {
+    private String getCourseStudentDetailsLink(StudentAttributes student) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseDetails.course.id);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, student.email);
@@ -182,7 +182,7 @@ public class InstructorCourseDetailsPageData extends PageData {
     }
     
     
-    public String getCourseStudentEditLink(StudentAttributes student) {
+    private String getCourseStudentEditLink(StudentAttributes student) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseDetails.course.id);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, student.email);
@@ -191,7 +191,7 @@ public class InstructorCourseDetailsPageData extends PageData {
     }
     
     
-    public String getCourseStudentRemindLink(StudentAttributes student) {
+    private String getCourseStudentRemindLink(StudentAttributes student) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_REMIND;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseDetails.course.id);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, student.email);
@@ -200,7 +200,7 @@ public class InstructorCourseDetailsPageData extends PageData {
     }
     
     
-    public String getCourseStudentDeleteLink(StudentAttributes student) {
+    private String getCourseStudentDeleteLink(StudentAttributes student) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseDetails.course.id);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, student.email);
@@ -208,7 +208,7 @@ public class InstructorCourseDetailsPageData extends PageData {
         return link;
     }
     
-    public String getStudentRecordsLink(StudentAttributes student) {
+    private String getStudentRecordsLink(StudentAttributes student) {
         String link = Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, student.course);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, student.email);
