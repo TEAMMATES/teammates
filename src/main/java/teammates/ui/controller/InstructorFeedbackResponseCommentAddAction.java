@@ -53,7 +53,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         if (commentText.trim().isEmpty()) {
             data.errorMessage = Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY;
             data.isError = true;
-            return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
+            return createAjaxResult(data);
         }
         
         FeedbackResponseCommentAttributes feedbackResponseComment = new FeedbackResponseCommentAttributes(courseId,
@@ -104,7 +104,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         
         data.comment = createdComment;
         
-        return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
+        return createAjaxResult(data);
     }
 
     private boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
