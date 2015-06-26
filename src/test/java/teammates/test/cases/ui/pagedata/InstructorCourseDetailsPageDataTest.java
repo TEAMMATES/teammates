@@ -1,6 +1,9 @@
 package teammates.test.cases.ui.pagedata;
 
 import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.util.ArrayList;
@@ -55,12 +58,12 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         assertEquals(5, pageData.getStudentsTable().getRows().size());
         assertEquals(4, pageData.getStudentsTable().getRows().get(0).actions.size());
         assertEquals(2, pageData.getStudentsTable().getRows().get(0).commentActions.size());
-        assertTrue(pageData.getCourseRemindButton() != null);
-        assertTrue(pageData.getCourseRemindButton().getAttributes().size() > 0);
-        assertTrue(pageData.getCourseRemindButton().getContent() == null);
-        assertTrue(pageData.getGiveCommentButton() != null);
-        assertTrue(pageData.getGiveCommentButton().getAttributes().size() > 0);
-        assertTrue(pageData.getGiveCommentButton().getContent() != null);
+        assertNotNull(pageData.getCourseRemindButton());
+        assertFalse(pageData.getCourseRemindButton().getAttributes().isEmpty());
+        assertNull(pageData.getCourseRemindButton().getContent());
+        assertNotNull(pageData.getGiveCommentButton());
+        assertFalse(pageData.getGiveCommentButton().getAttributes().isEmpty());
+        assertNotNull(pageData.getGiveCommentButton().getContent());
         
     }
 }

@@ -342,4 +342,12 @@ public class StudentAttributes extends EntityAttributes {
     public String getTeam() {
         return this.team;
     }
+    
+    public String getStudentStatus() {
+        if (this.isRegistered()) {
+            return Const.STUDENT_COURSE_STATUS_JOINED;
+        } else {
+            return Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
+        }
+    }
 }

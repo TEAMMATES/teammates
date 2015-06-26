@@ -2,8 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.datatransfer.CommentParticipantType" %>
-<%@ attribute name="courseDetails" type="teammates.common.datatransfer.CourseDetailsBundle" required="true" %>
-<%@ attribute name="account" type="teammates.common.datatransfer.AccountAttributes" required="true" %>
+<%@ attribute name="courseId" required="true" %>
+<%@ attribute name="googleId" required="true" %>
 
 <div id="commentArea" class="well well-plain" style="display: none;">
     <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD%>" name="form_commentadd">
@@ -21,7 +21,7 @@
         </div>
         
         <p class="form-group text-muted">
-            The default visibility for your comment is private. You may change it using the 'show visibility options' button above.
+            The default visibility for your comment is private. You may change it using the &#8216;show visibility options&#8217; button above.
         </p>
         
         <div id="visibility-options" class="panel panel-default" style="display: none;">
@@ -75,13 +75,13 @@
         <div style="text-align: center;">
             <input type="submit" class="btn btn-primary" id="button_save_comment" value="Save"> 
             <input type="button" class="btn btn-default" id="button_cancel_comment" value="Cancel">
-            <input type="hidden" name=<%=Const.ParamsNames.COURSE_ID%> value="${courseDetails.course.id}">
+            <input type="hidden" name=<%=Const.ParamsNames.COURSE_ID%> value="${courseId}">
             <input type="hidden" name=<%=Const.ParamsNames.RECIPIENT_TYPE%> value="<%=CommentParticipantType.COURSE%>">
-            <input type="hidden" name=<%=Const.ParamsNames.RECIPIENTS%> value="${courseDetails.course.id}">
+            <input type="hidden" name=<%=Const.ParamsNames.RECIPIENTS%> value="${courseId}">
             <input type="hidden" name=<%=Const.ParamsNames.COMMENTS_SHOWCOMMENTSTO%> value="">
             <input type="hidden" name=<%=Const.ParamsNames.COMMENTS_SHOWGIVERTO%> value="">
             <input type="hidden" name=<%=Const.ParamsNames.COMMENTS_SHOWRECIPIENTTO%> value="">
-            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${account.googleId}">
+            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${googleId}">
             <input type="hidden" name="<%=Const.ParamsNames.FROM_COURSE_DETAILS_PAGE%>" value="true">
         </div>
     </form>

@@ -38,16 +38,7 @@
             </c:if>
             <td id="<%=Const.ParamsNames.TEAM_NAME%>">${row.student.team}</td>
             <td id="<%=Const.ParamsNames.STUDENT_NAME%>">${row.student.name}</td>
-            <td class="align-center">
-                <c:choose>
-                    <c:when test="${row.student.registered}">
-                        <%= Const.STUDENT_COURSE_STATUS_JOINED %>
-                    </c:when>
-                    <c:otherwise>
-                        <%= Const.STUDENT_COURSE_STATUS_YET_TO_JOIN %>
-                    </c:otherwise>
-                </c:choose>
-            </td>
+            <td class="align-center">${row.student.studentStatus}</td>
             <td class="align-center no-print">
                 <c:forEach items="${row.actions}" var="action">
                     <a  <c:forEach items="${action.attributes}" var="attribute">
@@ -69,9 +60,9 @@
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
                         <c:forEach items="${row.commentRecipientOptions}" var="option">
                             <li role="presentation">
-                                <a  <c:forEach items="${option.attributes}" var="attribute">
-                                        ${attribute.key}="${attribute.value}"
-                                    </c:forEach> >
+                                <a role="menuitem" tabindex="-1"    <c:forEach items="${option.attributes}" var="attribute">
+                                                                        ${attribute.key}="${attribute.value}"
+                                                                    </c:forEach> >
                                     ${option.content}
                                 </a>
                             </li>
