@@ -43,7 +43,7 @@
 <body>
     <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
 
-    <div class="container" id="frameBodyWrapper">
+    <div class="container" id="mainContent">
         <div id="topOfPage"></div>
         <h1>Edit Student Details</h1>
         <br>

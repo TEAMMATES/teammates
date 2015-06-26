@@ -163,9 +163,13 @@ public class FeedbackSessionsLogic {
         List<FeedbackSessionAttributes> sessions =
                 getFeedbackSessionsForCourse(courseId);
         List<FeedbackSessionAttributes> viewableSessions = new ArrayList<FeedbackSessionAttributes>();
-        for (FeedbackSessionAttributes session : sessions) {
-            if (isFeedbackSessionViewableTo(session, userEmail)) {
-                viewableSessions.add(session);
+        if (!sessions.isEmpty()) {
+            InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, userEmail);
+            boolean isInstructorOfCourse = instructor != null;
+            for (FeedbackSessionAttributes session : sessions) {
+                if (isFeedbackSessionViewableTo(session, userEmail, isInstructorOfCourse)) {
+                    viewableSessions.add(session);
+                }
             }
         }
 
@@ -2370,24 +2374,21 @@ public class FeedbackSessionsLogic {
     }
 
     /**
-     * This method returns a list of feedback sessions which are relevant for a
-     * user.
+     * Checks whether the feedback session is viewable to the specified user.
      */
     private boolean isFeedbackSessionViewableTo(
             FeedbackSessionAttributes session,
-            String userEmail) {
+            String userEmail,
+            boolean isInstructorOfCourse) {
 
-        // Check for private type first.
+        // If the session is a private session created by the same user, it is viewable to the user
         if (session.feedbackSessionType == FeedbackSessionType.PRIVATE) {
             return session.creatorEmail.equals(userEmail);
         }
-
+        
         // Allow all instructors to view always
-        InstructorAttributes instructor = instructorsLogic.
-                getInstructorForEmail(session.courseId, userEmail);
-        if (instructor != null) {
-            return instructorsLogic.isEmailOfInstructorOfCourse(
-                    instructor.email, session.courseId);
+        if (isInstructorOfCourse) {
+            return true;
         }
 
         // Allow viewing if session is viewable to students

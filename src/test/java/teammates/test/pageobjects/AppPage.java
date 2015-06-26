@@ -866,7 +866,7 @@ public abstract class AppPage {
     }
     
     /**
-     * Verifies that main content specified id "frameBodyWrapper" in currently 
+     * Verifies that main content specified id "mainContent" in currently 
      * loaded page has the same HTML content as 
      * the content given in the file at {@code filePath}. <br>
      * The HTML is checked for logical equivalence, not text equivalence. 
@@ -876,7 +876,7 @@ public abstract class AppPage {
      */
     public AppPage verifyHtmlMainContent(String filePath) {
         waitForAjaxLoaderGifToDisappear();
-        verifyHtmlPart(By.id("frameBodyWrapper"), filePath);
+        verifyHtmlPart(By.id("mainContent"), filePath);
         
         return this;
     }
@@ -906,9 +906,9 @@ public abstract class AppPage {
         String actual = "";
         
         try {
-            expectedString = extractHtmlPartFromFile(By.id("frameBodyWrapper"), filePath);
+            expectedString = extractHtmlPartFromFile(By.id("mainContent"), filePath);
             for(int i =0; i < maxRetryCount; i++) {
-                actual = browser.driver.findElement(By.id("frameBodyWrapper")).getAttribute("outerHTML");
+                actual = browser.driver.findElement(By.id("mainContent")).getAttribute("outerHTML");
                 if(HtmlHelper.areSameHtml(actual, expectedString)) {
                     break;
                 } else {

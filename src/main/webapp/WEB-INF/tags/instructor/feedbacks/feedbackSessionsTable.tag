@@ -1,5 +1,6 @@
 <%@ tag description="instructorFeedbacks - feedback sessions table/list" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="tif" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
 <%@ tag import="teammates.logic.core.Emails.EmailType" %>
@@ -43,7 +44,9 @@
                         <td class="session-response-for-test${sessionRow.recent}">
                             <a oncontextmenu="return false;" href="${sessionRow.href}">Show</a>
                         </td>
-                        <td class="no-print">${sessionRow.actions}</td>
+                        <td class="no-print">
+                            <tif:feedbackSessionActions actions="${sessionRow.actions}" />
+                        </td>
                       </tr>
                 </c:forEach> 
             </c:when>
