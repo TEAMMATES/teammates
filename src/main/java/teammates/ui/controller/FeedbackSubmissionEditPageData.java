@@ -82,6 +82,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
         return account;
     }
     
+    public StudentAttributes getStudent() {
+        return student;
+    }
+    
     public InstructorAttributes getPreviewInstructor() {
         return previewInstructor;
     }
@@ -97,6 +101,10 @@ public class FeedbackSubmissionEditPageData extends PageData {
     
     public boolean isSubmittable() {
         return isSessionOpenForSubmission || isModeration;
+    }
+    
+    public List<StudentFeedbackSubmissionEditQuestionsWithResponses> getQuestionsWithResponses() {
+        return questionsWithResponses;
     }
 
     public void setModeratedQuestion(String moderatedQuestion) {
