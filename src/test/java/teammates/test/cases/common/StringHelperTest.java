@@ -222,6 +222,18 @@ public class StringHelperTest extends BaseTestCase {
         assertEquals(2, StringHelper.countEmptyStrings(empty, whitespace, nul, nonEmpty));
     }
 
+    @Test
+    public void testConvertToEmptyStringIfNull() {
+        String nul = null;
+        String empty = "";
+        String whitespace = " ";
+        String nonEmpty = "non-empty";
+        assertEquals("", StringHelper.convertToEmptyStringIfNull(nul));
+        assertEquals("non-empty", StringHelper.convertToEmptyStringIfNull(nonEmpty));
+        assertEquals("", StringHelper.convertToEmptyStringIfNull(empty));
+        assertEquals(" ", StringHelper.convertToEmptyStringIfNull(whitespace));
+    }
+
     private void verifyRegexMatch(String[] stringsToMatch, String[] regexArray, boolean expectedResult){
         for(String str : stringsToMatch){
             assertEquals(expectedResult, StringHelper.isAnyMatching(str, regexArray));

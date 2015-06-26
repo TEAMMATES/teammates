@@ -7,7 +7,7 @@ public class FeedbackSessionsTableRow {
     private String href;
     private String recent;
     private String status;  
-    private String actions;
+    private InstructorFeedbackSessionActions actions;
         
     private ElementTag rowAttributes;
 
@@ -21,8 +21,8 @@ public class FeedbackSessionsTableRow {
      * @param recent if the session is considered recent (calculate response rate on load if true)
      * @param actions possible actions to do on the session, a block of HTML representing the formatted actions
      */
-    public FeedbackSessionsTableRow(String courseId, String name, String tooltip, String status, 
-                                  String href, String recent, String actions, ElementTag attributes) {
+    public FeedbackSessionsTableRow(String courseId, String name, String tooltip, String status, String href,
+                                    String recent, InstructorFeedbackSessionActions actions, ElementTag attributes) {
         this.courseId = courseId;
         this.name = name;
         this.tooltip = tooltip;
@@ -57,7 +57,7 @@ public class FeedbackSessionsTableRow {
         return recent;
     }
 
-    public String getActions() {
+    public InstructorFeedbackSessionActions getActions() {
         return actions;
     }
     

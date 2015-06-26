@@ -38,7 +38,7 @@
         <jsp:include page="<%= Const.ViewURIs.INSTRUCTOR_HEADER %>" />
     </div>
     
-    <div class="container" id="frameBodyWrapper">
+    <div class="container" id="mainContent">
             <div id="topOfPage"></div>
             <h1 class="align-center"><%= data.sessionDetails.feedbackSession.feedbackSessionName %></h1>
             <br>
