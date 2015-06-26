@@ -130,6 +130,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("no courses");
         
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
+
+        // This is the full HTML verification for Instructor Feedbacks Page, the rest can all be verifyMainHtml
         feedbackPage.verifyHtml("/instructorFeedbackEmptyAll.html");
         
         

@@ -1587,15 +1587,13 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public boolean hasStudentSubmittedFeedback(String courseId, String feedbackSessionName, String studentEmail)
+    public boolean hasStudentSubmittedFeedback(FeedbackSessionAttributes fsa, String studentEmail)
             throws InvalidParametersException, EntityDoesNotExistException {
         
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, fsa);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
     
-        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(
-                feedbackSessionName, courseId, studentEmail);
+        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, studentEmail);
     }
     
     /**

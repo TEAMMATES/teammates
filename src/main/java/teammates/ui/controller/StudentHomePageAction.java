@@ -77,8 +77,7 @@ public class StudentHomePageAction extends Action {
         String studentEmail = student.email;
         
         try {
-            return logic.hasStudentSubmittedFeedback(
-                    fs.courseId, fs.feedbackSessionName, studentEmail);
+            return logic.hasStudentSubmittedFeedback(fs, studentEmail);
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
             Assumption.fail("Parameters are expected to be valid at this point :"
                              + TeammatesException.toStringWithStackTrace(e));
