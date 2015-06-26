@@ -4,6 +4,7 @@
 <%@ attribute name="jsIncludes" fragment="true" %>
 <%@ attribute name="navBar" required="true" fragment="true" %>
 <%@ attribute name="bodyTitle" required="true" %>
+<%@ attribute name="bodyFooter" required="true" fragment="true" %>
 <%@ attribute name="bodyOnload" %>
 <!DOCTYPE html>
 <html>
@@ -40,6 +41,6 @@
         <t:bodyHeader title="${bodyTitle}" />
         <jsp:doBody />
     </div>
-    <t:bodyFooter />
+    <jsp:invoke fragment="bodyFooter" />
 </body>
 </html>
