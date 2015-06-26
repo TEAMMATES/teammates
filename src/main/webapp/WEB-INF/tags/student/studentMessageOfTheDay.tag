@@ -2,9 +2,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Config" %>
 <c:set var="motdUrl" value="<%= Config.inst().STUDENT_MOTD_URL %>" />
-<c:if test="${motdUrl != null && not empty motdUrl}">
+<c:if test="${not empty motdUrl}">
     <script>
         var url = window.location.origin + '/' + '<c:out value="${motdUrl}" />';
+
         $.ajax({
             type: 'GET',
             url: url,
@@ -20,6 +21,7 @@
             $('#student-motd-container').hide();
         }
     </script>
+
     <div class="container theme-showcase" id="student-motd-container">
         <div class="row">
             <div class="col-sm-12">
