@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CourseDetailsStudentsTable {
-    public List<CourseDetailsStudentsTableRow> rows;
+    private List<CourseDetailsStudentsTableRow> rows;
     
     public CourseDetailsStudentsTable() {
         this.rows = new ArrayList<CourseDetailsStudentsTableRow>();

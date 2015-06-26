@@ -6,10 +6,10 @@ import java.util.List;
 import teammates.common.datatransfer.StudentAttributes;
 
 public class CourseDetailsStudentsTableRow {
-    public List<ElementTag> actions;
-    public List<ElementTag> commentActions;
-    public List<ElementTag> commentRecipientOptions;
-    public StudentAttributes student;
+    private List<ElementTag> actions;
+    private List<ElementTag> commentActions;
+    private List<ElementTag> commentRecipientOptions;
+    private StudentAttributes student;
     
     public CourseDetailsStudentsTableRow() {
         this.actions = new ArrayList<ElementTag>();
@@ -31,5 +31,9 @@ public class CourseDetailsStudentsTableRow {
     
     public List<ElementTag> getCommentRecipientOptions() {
         return this.commentRecipientOptions;
+    }
+
+    public void setStudent(StudentAttributes student) {
+        this.student = student;
     }
 }

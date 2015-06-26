@@ -55,7 +55,7 @@ public class InstructorCourseDetailsPageData extends PageData {
         int studentIndex = 0;
         for (StudentAttributes student : students) {
             CourseDetailsStudentsTableRow row = createStudentsTableRow(studentIndex, student);
-            studentsTable.rows.add(row);
+            studentsTable.getRows().add(row);
             studentIndex++;
         }
     }
@@ -64,7 +64,7 @@ public class InstructorCourseDetailsPageData extends PageData {
                                                                 StudentAttributes student) {
         CourseDetailsStudentsTableRow row = new CourseDetailsStudentsTableRow();
         
-        row.student = student;
+        row.setStudent(student);
         
         boolean isDisabled = !currentInstructor.isAllowedForPrivilege(student.section, 
                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
@@ -91,13 +91,13 @@ public class InstructorCourseDetailsPageData extends PageData {
                                                    getStudentRecordsLink(student), Const.Tooltips.COURSE_STUDENT_RECORDS, 
                                                    "tooltip", null, false);
 
-        row.actions.add(viewButton);
-        row.actions.add(editButton);
+        row.getActions().add(viewButton);
+        row.getActions().add(editButton);
         if (!student.isRegistered()) {
-            row.actions.add(sendInviteButton);
+            row.getActions().add(sendInviteButton);
         }
-        row.actions.add(deleteButton);
-        row.actions.add(allRecordsButton);
+        row.getActions().add(deleteButton);
+        row.getActions().add(allRecordsButton);
         
         isDisabled = !currentInstructor.isAllowedForPrivilege(student.section, 
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
@@ -111,31 +111,31 @@ public class InstructorCourseDetailsPageData extends PageData {
         String content = "<span class=\"caret\"></span><span class=\"sr-only\">Add comments</span>";
         ElementTag addCommentsButton = createButton(content, "btn btn-default btn-xs dropdown-toggle", null, 
                                                     "javascript:;", null, "dropdown", null, isDisabled);
-        row.commentActions.add(addCommentButton);
-        row.commentActions.add(addCommentsButton);
+        row.getCommentActions().add(addCommentButton);
+        row.getCommentActions().add(addCommentsButton);
         
         String buttonClass = "t_student_details_tostudent-c" + courseDetails.course.id + "." + studentIndex;
-        String href = getCourseStudentDetailsLink(row.student) + "&" + Const.ParamsNames.SHOW_COMMENT_BOX + "=student";
-        ElementTag toStudentCommentOption = createButton("To student: " + sanitizeForHtml(row.student.name), 
+        String href = getCourseStudentDetailsLink(student) + "&" + Const.ParamsNames.SHOW_COMMENT_BOX + "=student";
+        ElementTag toStudentCommentOption = createButton("To student: " + sanitizeForHtml(student.name), 
                                                          buttonClass, null, href, null, null, null, false);
         
         buttonClass = "t_student_details_toteam-c" + courseDetails.course.id + "." + studentIndex;
-        href = getCourseStudentDetailsLink(row.student) + "&" + Const.ParamsNames.SHOW_COMMENT_BOX + "=team";
-        ElementTag toTeamCommentOption = createButton("To team: " + sanitizeForHtml(row.student.team), 
+        href = getCourseStudentDetailsLink(student) + "&" + Const.ParamsNames.SHOW_COMMENT_BOX + "=team";
+        ElementTag toTeamCommentOption = createButton("To team: " + sanitizeForHtml(student.team), 
                                                       buttonClass, null, href, null, null, null, false);
         
-        row.commentRecipientOptions.add(toStudentCommentOption);
-        row.commentRecipientOptions.add(toTeamCommentOption);
+        row.getCommentRecipientOptions().add(toStudentCommentOption);
+        row.getCommentRecipientOptions().add(toTeamCommentOption);
         
-        if ((row.student.section != null) && (!row.student.section.equals("None"))) {
+        if ((student.section != null) && (!student.section.equals("None"))) {
             buttonClass = "t_student_details_tosection-c" + courseDetails.course.id + "." + studentIndex;
-            href = getCourseStudentDetailsLink(row.student) + "&" + Const.ParamsNames.SHOW_COMMENT_BOX + "=section";
-            ElementTag toSectionCommentOption = createButton("To section: " + sanitizeForHtml(row.student.section), 
+            href = getCourseStudentDetailsLink(student) + "&" + Const.ParamsNames.SHOW_COMMENT_BOX + "=section";
+            ElementTag toSectionCommentOption = createButton("To section: " + sanitizeForHtml(student.section), 
                                                              buttonClass, null, href, null, null, null, false);
             toSectionCommentOption.setAttribute("role", "menuitem");
             toSectionCommentOption.setAttribute("tabindex", "-1");
               
-            row.commentRecipientOptions.add(toSectionCommentOption);
+            row.getCommentRecipientOptions().add(toSectionCommentOption);
         }
         
         return row;

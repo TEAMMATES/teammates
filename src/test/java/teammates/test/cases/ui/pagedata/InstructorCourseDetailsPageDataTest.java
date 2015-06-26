@@ -1,6 +1,5 @@
 package teammates.test.cases.ui.pagedata;
 
-import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
@@ -56,8 +55,8 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         
         assertEquals(4, pageData.getInstructors().size());
         assertEquals(5, pageData.getStudentsTable().getRows().size());
-        assertEquals(4, pageData.getStudentsTable().getRows().get(0).actions.size());
-        assertEquals(2, pageData.getStudentsTable().getRows().get(0).commentActions.size());
+        assertEquals(4, pageData.getStudentsTable().getRows().get(0).getActions().size());
+        assertEquals(2, pageData.getStudentsTable().getRows().get(0).getCommentActions().size());
         assertNotNull(pageData.getCourseRemindButton());
         assertFalse(pageData.getCourseRemindButton().getAttributes().isEmpty());
         assertNull(pageData.getCourseRemindButton().getContent());
