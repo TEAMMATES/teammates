@@ -56,23 +56,23 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
         
         pageData.init(course, instructorList, currentInstructor, offset, sectionNames, feedbackSessionNames);
         
-        assertNotNull(pageData.deleteCourseButton);
-        assertNotNull(pageData.addInstructorButton);
+        assertNotNull(pageData.getDeleteCourseButton());
+        assertNotNull(pageData.getAddInstructorButton());
         
-        assertNotNull(pageData.instructorPanelList);
-        assertEquals(3, pageData.instructorPanelList.size());
-        assertEquals(4, pageData.instructorPanelList.get(0).permissionInputGroup1.size());
-        assertEquals(4, pageData.instructorPanelList.get(0).permissionInputGroup2.size());
-        assertEquals(3, pageData.instructorPanelList.get(0).permissionInputGroup3.size());
-        assertEquals(2, pageData.instructorPanelList.get(0).sectionRows.size());
-        assertEquals(6, pageData.instructorPanelList.get(0).sectionRows.get(0).feedbackSessions.size());
+        assertNotNull(pageData.getInstructorPanelList());
+        assertEquals(instructorList.size(), pageData.getInstructorPanelList().size());
+        assertEquals(4, pageData.getInstructorPanelList().get(0).getPermissionInputGroup1().size());
+        assertEquals(4, pageData.getInstructorPanelList().get(0).getPermissionInputGroup2().size());
+        assertEquals(3, pageData.getInstructorPanelList().get(0).getPermissionInputGroup3().size());
+        assertEquals(sectionNames.size(), pageData.getInstructorPanelList().get(0).getSectionRows().size());
+        assertEquals(feedbackSessionNames.size(), pageData.getInstructorPanelList().get(0).getSectionRows().get(0).getFeedbackSessions().size());
         
-        assertNotNull(pageData.addInstructorPanel);
-        assertEquals(4, pageData.addInstructorPanel.permissionInputGroup1.size());
-        assertEquals(4, pageData.addInstructorPanel.permissionInputGroup2.size());
-        assertEquals(3, pageData.addInstructorPanel.permissionInputGroup3.size());
-        assertEquals(2, pageData.addInstructorPanel.sectionRows.size());
-        assertEquals(6, pageData.addInstructorPanel.sectionRows.get(0).feedbackSessions.size());
+        assertNotNull(pageData.getAddInstructorPanel());
+        assertEquals(4, pageData.getAddInstructorPanel().getPermissionInputGroup1().size());
+        assertEquals(4, pageData.getAddInstructorPanel().getPermissionInputGroup2().size());
+        assertEquals(3, pageData.getAddInstructorPanel().getPermissionInputGroup3().size());
+        assertEquals(sectionNames.size(), pageData.getAddInstructorPanel().getSectionRows().size());
+        assertEquals(feedbackSessionNames.size(), pageData.getAddInstructorPanel().getSectionRows().get(0).getFeedbackSessions().size());
         
     }
 }

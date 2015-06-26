@@ -13,37 +13,44 @@ import teammates.ui.template.ElementTag;
 
 
 public class InstructorCourseEditPageData extends PageData {
-    public int offset;
-    public ElementTag deleteCourseButton;
-    public CourseAttributes course;
-    public List<CourseEditInstructorPanel> instructorPanelList;
-    public CourseEditInstructorPanel addInstructorPanel;
-    public InstructorAttributes currentInstructor;
-    public ElementTag addInstructorButton;
+    private int instructorToShowIndex;
+    private ElementTag deleteCourseButton;
+    private CourseAttributes course;
+    private List<CourseEditInstructorPanel> instructorPanelList;
+    private CourseEditInstructorPanel addInstructorPanel;
+    private InstructorAttributes currentInstructor;
+    private ElementTag addInstructorButton;
     
     public InstructorCourseEditPageData(AccountAttributes account) {
         super(account);
         instructorPanelList = new ArrayList<CourseEditInstructorPanel>();
     }
     
-    public void init(CourseAttributes course, List<InstructorAttributes> instructorList, InstructorAttributes currentInstructor, 
-                     int offset, List<String> sectionNames, List<String> feedbackNames) {
+    public void init(CourseAttributes course, List<InstructorAttributes> instructorList, 
+                     InstructorAttributes currentInstructor, int instructorToShowIndex, 
+                     List<String> sectionNames, List<String> feedbackNames) {
         this.course = course;
-        this.offset = offset;
+        this.instructorToShowIndex = instructorToShowIndex;
         this.currentInstructor = currentInstructor;
         
-        boolean isDisabled = !currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
-        deleteCourseButton = createButton("<span class=\"glyphicon glyphicon-trash\"></span>Delete", "btn btn-primary btn-xs pull-right",
-                                          "courseDeleteLink", getInstructorCourseDeleteLink(this.course.id, false), Const.Tooltips.COURSE_DELETE,
-                                          "return toggleDeleteCourseConfirmation('" + this.course.id + "');", isDisabled);
+        boolean isDisabled = !currentInstructor.isAllowedForPrivilege(
+                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
         
-        isDisabled = !currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
-        addInstructorButton = createButton(null, "btn btn-primary", "btnShowNewInstructorForm", null, null, "showNewInstructorForm()", isDisabled);
+        String content = "<span class=\"glyphicon glyphicon-trash\"></span>Delete";
+        deleteCourseButton = createButton(content, "btn btn-primary btn-xs pull-right", "courseDeleteLink", 
+                                          getInstructorCourseDeleteLink(course.id, false), Const.Tooltips.COURSE_DELETE,
+                                          "return toggleDeleteCourseConfirmation('" + course.id + "');", isDisabled);
+        
+        isDisabled = !currentInstructor.isAllowedForPrivilege(
+                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
+        addInstructorButton = createButton(null, "btn btn-primary", "btnShowNewInstructorForm", null, null, 
+                                           "showNewInstructorForm()", isDisabled);
         
         int instructorIndex = 0;
         for (InstructorAttributes instructor : instructorList) {
             instructorIndex++;
-            CourseEditInstructorPanel instructorPanel = createInstructorPanel(instructorIndex, instructor, sectionNames, feedbackNames); 
+            CourseEditInstructorPanel instructorPanel = createInstructorPanel(instructorIndex, instructor, 
+                                                                              sectionNames, feedbackNames); 
             instructorPanelList.add(instructorPanel);
         }
         
@@ -52,37 +59,40 @@ public class InstructorCourseEditPageData extends PageData {
     
     private CourseEditInstructorPanel createInstructorPanel(int instructorIndex, InstructorAttributes instructor, 
                                                             List<String> sectionNames, List<String> feedbackNames) {
-        CourseEditInstructorPanel instructorPanel = new CourseEditInstructorPanel(offset, instructorIndex, instructor, 
-                                                                                  currentInstructor, sectionNames, feedbackNames);
+        CourseEditInstructorPanel instructorPanel = new CourseEditInstructorPanel(instructorToShowIndex, 
+                                                                                  instructorIndex, instructor, 
+                                                                                  currentInstructor, sectionNames, 
+                                                                                  feedbackNames);
         
         if (instructor != null) {
             String buttonContent = "<span class=\"glyphicon glyphicon-envelope\"></span> Resend Invite";
-            boolean isDisabled;
+            boolean isDisabled = !currentInstructor.isAllowedForPrivilege(
+                                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
+            String href;
+            String onClick;
             if (instructor.googleId == null) {
-                isDisabled = !this.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
-                instructorPanel.resendInviteButton = createButton(buttonContent, "btn btn-primary btn-xs", 
-                                                                  "instrRemindLink" + instructorPanel.index, 
-                                                                  this.getInstructorCourseInstructorRemindLink(instructor.courseId, instructor.email),
-                                                                  Const.Tooltips.COURSE_INSTRUCTOR_REMIND, 
-                                                                  "return toggleSendRegistrationKey('" + instructor.courseId + "','" + instructor.email + ");",
-                                                                  isDisabled);
+                href = getInstructorCourseInstructorRemindLink(instructor.courseId, instructor.email);
+                onClick = "return toggleSendRegistrationKey('" + instructor.courseId + "','" + instructor.email + ");";
+                instructorPanel.setResendInviteButton(createButton(buttonContent, "btn btn-primary btn-xs", 
+                                                                   "instrRemindLink" + instructorPanel.getIndex(), 
+                                                                   href, Const.Tooltips.COURSE_INSTRUCTOR_REMIND, 
+                                                                   onClick, isDisabled));
             }
             
             buttonContent = "<span class=\"glyphicon glyphicon-pencil\"></span> Edit";
-            isDisabled = !this.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
-            instructorPanel.editButton = createButton(buttonContent, "btn btn-primary btn-xs",
-                                                      "instrEditLink" + instructorPanel.index, "javascript:;", 
-                                                      Const.Tooltips.COURSE_INSTRUCTOR_EDIT,
-                                                      null, isDisabled);
+            instructorPanel.setEditButton(createButton(buttonContent, "btn btn-primary btn-xs", 
+                                                       "instrEditLink" + instructorPanel.getIndex(), 
+                                                       "javascript:;", Const.Tooltips.COURSE_INSTRUCTOR_EDIT,
+                                                       null, isDisabled));
             
             buttonContent = "<span class=\"glyphicon glyphicon-trash\"></span> Delete";
-            isDisabled = !this.currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
-            instructorPanel.deleteButton = createButton(buttonContent, "btn btn-primary btn-xs", 
-                                                        "instrDeleteLink" + instructorPanel.index, 
-                                                        this.getInstructorCourseInstructorDeleteLink(instructor.courseId, instructor.email), 
-                                                        Const.Tooltips.COURSE_INSTRUCTOR_DELETE, 
-                                                        "return toggleDeleteInstructorConfirmation('" + instructor.courseId + "','" + instructor.email + "', " + instructor.email.equals(this.account.email) + ");",
-                                                        isDisabled);
+            href = getInstructorCourseInstructorDeleteLink(instructor.courseId, instructor.email);
+            onClick = "return toggleDeleteInstructorConfirmation('" + instructor.courseId + "','" 
+                      + instructor.email + "', " + instructor.email.equals(this.account.email) + ");";
+            instructorPanel.setDeleteButton(createButton(buttonContent, "btn btn-primary btn-xs", 
+                                                         "instrDeleteLink" + instructorPanel.getIndex(), 
+                                                         href, Const.Tooltips.COURSE_INSTRUCTOR_DELETE, 
+                                                         onClick, isDisabled));
         }
         
         return instructorPanel;
@@ -108,20 +118,11 @@ public class InstructorCourseEditPageData extends PageData {
         return instructorPanelList;
     }
     
-    public List<InstructorAttributes> getInstructorList() {
-        ArrayList<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>();
-        for (CourseEditInstructorPanel instructorPanel : instructorPanelList) {
-            instructorList.add(instructorPanel.instructor);
-        }
-        return instructorList;
+    public int getInstructorToShowIndex() {
+        return instructorToShowIndex;
     }
     
-    
-    public int getOffset() {
-        return this.offset;
-    }
-    
-    public String getInstructorCourseInstructorDeleteLink(String courseId, String instructorEmail) {
+    private String getInstructorCourseInstructorDeleteLink(String courseId, String instructorEmail) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_DELETE;
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link,Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);
@@ -129,7 +130,7 @@ public class InstructorCourseEditPageData extends PageData {
         return link;
     }
     
-    public String getInstructorCourseInstructorRemindLink(String courseId, String instructorEmail) {
+    private String getInstructorCourseInstructorRemindLink(String courseId, String instructorEmail) {
         String link = Const.ActionURIs.INSTRUCTOR_COURSE_REMIND;
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseId);
         link = Url.addParamToUrl(link, Const.ParamsNames.INSTRUCTOR_EMAIL, instructorEmail);

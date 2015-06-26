@@ -2,6 +2,7 @@ package teammates.test.cases.ui;
 
 import static org.testng.AssertJUnit.assertEquals;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.BeforeClass;
@@ -17,6 +18,7 @@ import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseEditPageAction;
 import teammates.ui.controller.InstructorCourseEditPageData;
 import teammates.ui.controller.ShowPageResult;
+import teammates.ui.template.CourseEditInstructorPanel;
 
 public class InstructorCourseEditPageActionTest extends BaseActionTest {
 
@@ -53,8 +55,8 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         assertEquals("", pageResult.getStatusMessage());
         
         InstructorCourseEditPageData data = (InstructorCourseEditPageData) pageResult.data;
-        assertEquals(CoursesLogic.inst().getCourse(courseId).toString(), data.course.toString());
-        verifySameInstructorList(InstructorsLogic.inst().getInstructorsForCourse(courseId), data.getInstructorList());
+        assertEquals(CoursesLogic.inst().getCourse(courseId).toString(), data.getCourse().toString());
+        verifySameInstructorList(InstructorsLogic.inst().getInstructorsForCourse(courseId), getInstructorList(data.getInstructorPanelList()));
         
         String expectedLogSegment = "instructorCourseEdit Page Load<br>"
                                     + "Editing information for Course <span class=\"bold\">[" + courseId + "]</span>";
@@ -75,8 +77,8 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         assertEquals("", pageResult.getStatusMessage());
         
         data = (InstructorCourseEditPageData) pageResult.data;
-        assertEquals(CoursesLogic.inst().getCourse(courseId).toString(), data.course.toString());
-        assertEquals(1, data.getInstructorList().size());
+        assertEquals(CoursesLogic.inst().getCourse(courseId).toString(), data.getCourse().toString());
+        assertEquals(1, getInstructorList(data.getInstructorPanelList()).size());
         
         expectedLogSegment = "instructorCourseEdit Page Load<br>"
                              + "Editing information for Course <span class=\"bold\">[" + courseId + "]</span>";
@@ -103,8 +105,8 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         assertEquals("", pageResult.getStatusMessage());
         
         data = (InstructorCourseEditPageData) pageResult.data;
-        assertEquals(CoursesLogic.inst().getCourse(courseId).toString(), data.course.toString());
-        verifySameInstructorList(InstructorsLogic.inst().getInstructorsForCourse(courseId), data.getInstructorList());
+        assertEquals(CoursesLogic.inst().getCourse(courseId).toString(), data.getCourse().toString());
+        verifySameInstructorList(InstructorsLogic.inst().getInstructorsForCourse(courseId), getInstructorList(data.getInstructorPanelList()));
         
         expectedLogSegment = "instructorCourseEdit Page Load<br>"
                              + "Editing information for Course <span class=\"bold\">[" + courseId + "]</span>";
@@ -128,7 +130,16 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         }
 
     }
-
+    
+    public List<InstructorAttributes> getInstructorList(List<CourseEditInstructorPanel> instructorPanelList) {
+        ArrayList<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>();
+        for (CourseEditInstructorPanel instructorPanel : instructorPanelList) {
+            instructorList.add(instructorPanel.getInstructor());
+        }
+        return instructorList;
+    }
+    
+    
     private InstructorCourseEditPageAction getAction(String... params) throws Exception {
         return (InstructorCourseEditPageAction) (gaeSimulation.getActionObject(uri, params));
     }

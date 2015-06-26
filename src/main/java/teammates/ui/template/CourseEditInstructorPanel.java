@@ -7,26 +7,26 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 
 public class CourseEditInstructorPanel {
-    public int index;
-    public InstructorAttributes instructor;
-    public List<ElementTag> permissionInputGroup1;
-    public List<ElementTag> permissionInputGroup2;
-    public List<ElementTag> permissionInputGroup3;
-    public ElementTag resendInviteButton;
-    public ElementTag editButton;
-    public ElementTag deleteButton;
-    public ElementTag addSectionLevelForInstructorButton;
-    public boolean isAccessControlDisplayed;
-    public List<CourseEditSectionRow> sectionRows;
+    private int index;
+    private InstructorAttributes instructor;
+    private List<ElementTag> permissionInputGroup1;
+    private List<ElementTag> permissionInputGroup2;
+    private List<ElementTag> permissionInputGroup3;
+    private ElementTag resendInviteButton;
+    private ElementTag editButton;
+    private ElementTag deleteButton;
+    private ElementTag addSectionLevelForInstructorButton;
+    private boolean isAccessControlDisplayed;
+    private List<CourseEditSectionRow> sectionRows;
     
-    public CourseEditInstructorPanel(int offset, int instructorIndex, InstructorAttributes instructor, 
+    public CourseEditInstructorPanel(int instructorToShowIndex, int instructorIndex, InstructorAttributes instructor, 
                                     InstructorAttributes currentInstructor,List<String> sectionNames, List<String> feedbackNames) {
         
-        if (offset == -1) { 
+        if (instructorToShowIndex == -1) { 
             index = instructorIndex;
             isAccessControlDisplayed = false;
         } else {
-            index = offset;
+            index = instructorToShowIndex;
             isAccessControlDisplayed = true;
         }
         
@@ -63,18 +63,29 @@ public class CourseEditInstructorPanel {
         return index;
     }
     
+    public void setResendInviteButton(ElementTag resendInviteButton) {
+        this.resendInviteButton = resendInviteButton;
+    }
+    
     public ElementTag getResendInviteButton() {
         return resendInviteButton;
+    }
+    
+    public void setEditButton(ElementTag editButton) {
+        this.editButton = editButton;
     }
     
     public ElementTag getEditButton() {
         return editButton;
     }
     
+    public void setDeleteButton(ElementTag deleteButton) {
+        this.deleteButton = deleteButton;
+    }
+    
     public ElementTag getDeleteButton() {
         return deleteButton;
     }
-    
     
     public InstructorAttributes getInstructor() {
         return instructor;

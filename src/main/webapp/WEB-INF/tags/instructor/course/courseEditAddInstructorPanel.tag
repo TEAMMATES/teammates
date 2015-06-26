@@ -150,125 +150,125 @@
                                     </div>
                                 </div>
                                 
-                                <c:if test="${not empty addInstructorPanel.sectionRows}">
-                                    <c:forEach items="${addInstructorPanel.sectionRows}" var="sectionRow" varStatus="i">
-                                        <div id="tuneSectionPermissionsDiv${i.index}ForInstructor${addInstructorPanel.index}" style="display: none;">
-                                            <div class="panel panel-info">
-                                                <div class="panel-heading">
-                                                    <div class="row">
-                                                        <div class="col-sm-2">
-                                                            <p><strong>But in section(s)</strong></p>
-                                                        </div>
-                                                        
-                                                        <div class="col-sm-9">
-                                                            <c:forEach items="${sectionRow.specialSections}" var="specialSectionSmallGroup">
-                                                                <div class="col-sm-12">
-                                                                    <c:forEach items="${specialSectionSmallGroup}" var="specialSection">
-                                                                        <div class="col-sm-4">
-                                                                            <input  <c:forEach items="${specialSection.attributes}" var="attribute">
-                                                                                        ${attribute.key}="${attribute.value}"
-                                                                                    </c:forEach> > 
-                                                                            ${specialSection.content}
-                                                                        </div>
-                                                                    </c:forEach>
-                                                                </div>
-                                                            </c:forEach>
-                                                        </div>
-                                                        
-                                                        <div class="col-sm-1">
-                                                            <a href="javascript:;" onclick="hideTuneSectionPermissionsDiv(${addInstructorPanel.index}, ${i.index})" class="pull-right">
-                                                                <span class="glyphicon glyphicon-trash"></span>
-                                                            </a>
-                                                        </div>
+                            
+                                <c:forEach items="${addInstructorPanel.sectionRows}" var="sectionRow" varStatus="i">
+                                    <div id="tuneSectionPermissionsDiv${i.index}ForInstructor${addInstructorPanel.index}" style="display: none;">
+                                        <div class="panel panel-info">
+                                            <div class="panel-heading">
+                                                <div class="row">
+                                                    <div class="col-sm-2">
+                                                        <p><strong>But in section(s)</strong></p>
                                                     </div>
-                                                    <br>
                                                     
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <p><strong> the instructor can only,</strong></p>
-                                                        </div>
+                                                    <div class="col-sm-9">
+                                                        <c:forEach items="${sectionRow.specialSections}" var="specialSectionSmallGroup">
+                                                            <div class="col-sm-12">
+                                                                <c:forEach items="${specialSectionSmallGroup}" var="specialSection">
+                                                                    <div class="col-sm-4">
+                                                                        <input  <c:forEach items="${specialSection.attributes}" var="attribute">
+                                                                                    ${attribute.key}="${attribute.value}"
+                                                                                </c:forEach> > 
+                                                                        ${specialSection.content}
+                                                                    </div>
+                                                                </c:forEach>
+                                                            </div>
+                                                        </c:forEach>
                                                     </div>
-                                                    <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP%>${i.index}set" value="false"/>
+                                                    
+                                                    <div class="col-sm-1">
+                                                        <a href="javascript:;" onclick="hideTuneSectionPermissionsDiv(${addInstructorPanel.index}, ${i.index})" class="pull-right">
+                                                            <span class="glyphicon glyphicon-trash"></span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <p><strong> the instructor can only,</strong></p>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP%>${i.index}set" value="false"/>
+                                            </div>
+                                            
+                                            <div class="panel-body">
+                                                <br>
+                                                <div class="col-sm-6 border-right-gray">
+                                                    <c:forEach items="${sectionRow.permissionInputGroup2}" var="checkbox">
+                                                        <input  <c:forEach items="${checkbox.attributes}" var="attribute">
+                                                                    ${attribute.key}="${attribute.value}"
+                                                                </c:forEach>
+                                                        /> ${checkbox.content}
+                                                        <br>
+                                                    </c:forEach>
+                                                    <br>
                                                 </div>
                                                 
-                                                <div class="panel-body">
-                                                    <br>
-                                                    <div class="col-sm-6 border-right-gray">
-                                                        <c:forEach items="${sectionRow.permissionInputGroup2}" var="checkbox">
-                                                            <input  <c:forEach items="${checkbox.attributes}" var="attribute">
-                                                                        ${attribute.key}="${attribute.value}"
-                                                                    </c:forEach>
-                                                            /> ${checkbox.content}
-                                                            <br>
-                                                        </c:forEach>
-                                                        <br>
-                                                    </div>
-                                                    
-                                                    <div class="col-sm-5 col-sm-offset-1">
-                                                        <c:forEach items="${sectionRow.permissionInputGroup3}" var="checkbox">
-                                                            <input  <c:forEach items="${checkbox.attributes}" var="attribute">
-                                                                        ${attribute.key}="${attribute.value}"
-                                                                    </c:forEach>
-                                                            /> ${checkbox.content}
-                                                            <br>
-                                                        </c:forEach>
-                                                        <br>
-                                                    </div>
-                                                    
-                                                    <a  <c:forEach items="${sectionRow.toggleSessionLevelInSectionButton.attributes}" var="attribute">
-                                                            ${attribute.key}="${attribute.value}"
-                                                        </c:forEach> >
-                                                        ${sectionRow.toggleSessionLevelInSectionButton.content}
-                                                    </a>
-                                                    
-                                                    <div id="tuneSessionPermissionsDiv${i.index}ForInstructor${addInstructorPanel.index}" class="row" style="display: none;">
-                                                        <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP%>${i.index}sessionsset" value="false"/>
-                                                        <table class="table table-striped">
-                                                            <thead>
-                                                                <tr>
-                                                                    <td>SessionName</td>
-                                                                    <td>Submit Responses and Add Comments</td>
-                                                                    <td>View Responses and Comments</td>
-                                                                    <td>Edit/Delete Responses/Comments by Others</td>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <c:if test="${empty sectionRow.feedbackSessions}">
-                                                                    <tr>
-                                                                        <td colspan="4" class="text-center text-bold">No sessions in this course for you to configure</td>
-                                                                    </tr>
-                                                                </c:if>
-                                                                
-                                                                <c:forEach items="${sectionRow.feedbackSessions}" var="feedbackSession">
-                                                                    <tr>
-                                                                        <td>${feedbackSession.feedbackSessionName}</td>
-                                                                        <td class="align-center">
-                                                                            <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS 
-                                                                                    + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP %>${i.index}feedback${feedbackSession.feedbackSessionName}" value="true"/>
-                                                                        </td>
-                                                                        <td class="align-center">
-                                                                            <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS
-                                                                                    + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP %>${i.index}feedback${feedbackSession.feedbackSessionName}" value="true"/>
-                                                                        </td>
-                                                                        <td class="align-center">
-                                                                            <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
-                                                                                    + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP %>${i.index}feedback${feedbackSession.feedbackSessionName}" value="true"/>
-                                                                        </td>
-                                                                    </tr>
+                                                <div class="col-sm-5 col-sm-offset-1">
+                                                    <c:forEach items="${sectionRow.permissionInputGroup3}" var="checkbox">
+                                                        <input  <c:forEach items="${checkbox.attributes}" var="attribute">
+                                                                    ${attribute.key}="${attribute.value}"
                                                                 </c:forEach>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
+                                                        /> ${checkbox.content}
+                                                        <br>
+                                                    </c:forEach>
+                                                    <br>
+                                                </div>
+                                                
+                                                <a  <c:forEach items="${sectionRow.toggleSessionLevelInSectionButton.attributes}" var="attribute">
+                                                        ${attribute.key}="${attribute.value}"
+                                                    </c:forEach> >
+                                                    ${sectionRow.toggleSessionLevelInSectionButton.content}
+                                                </a>
+                                                
+                                                <div id="tuneSessionPermissionsDiv${i.index}ForInstructor${addInstructorPanel.index}" class="row" style="display: none;">
+                                                    <input type="hidden" name="is<%=Const.ParamsNames.INSTRUCTOR_SECTION_GROUP%>${i.index}sessionsset" value="false"/>
+                                                    <table class="table table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <td>SessionName</td>
+                                                                <td>Submit Responses and Add Comments</td>
+                                                                <td>View Responses and Comments</td>
+                                                                <td>Edit/Delete Responses/Comments by Others</td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <c:if test="${empty sectionRow.feedbackSessions}">
+                                                                <tr>
+                                                                    <td colspan="4" class="text-center text-bold">No sessions in this course for you to configure</td>
+                                                                </tr>
+                                                            </c:if>
+                                                            
+                                                            <c:forEach items="${sectionRow.feedbackSessions}" var="feedbackSession">
+                                                                <tr>
+                                                                    <td>${feedbackSession.feedbackSessionName}</td>
+                                                                    <td class="align-center">
+                                                                        <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS 
+                                                                                + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP %>${i.index}feedback${feedbackSession.feedbackSessionName}" value="true"/>
+                                                                    </td>
+                                                                    <td class="align-center">
+                                                                        <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS
+                                                                                + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP %>${i.index}feedback${feedbackSession.feedbackSessionName}" value="true"/>
+                                                                    </td>
+                                                                    <td class="align-center">
+                                                                        <input type="checkbox" name="<%=Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS
+                                                                                + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP %>${i.index}feedback${feedbackSession.feedbackSessionName}" value="true"/>
+                                                                    </td>
+                                                                </tr>
+                                                            </c:forEach>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
                                         </div>
-                                    </c:forEach>
+                                    </div>
+                                </c:forEach>
+                                <c:if test="${not empty addInstructorPanel.sectionRows}">
                                     <a href="javascript:;" onclick="showTuneSectionPermissionsDiv(${addInstructorPanel.index}, 0)" class="small" 
                                             id="addSectionLevelForInstructor${addInstructorPanel.index}">
                                         Give different permissions for a specific section
                                     </a>
                                 </c:if>
-                                
                             </div>
                         </div>
                      </div>

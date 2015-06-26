@@ -7,13 +7,13 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 
 public class CourseEditSectionRow {
-    public String sectionName;
-    public InstructorAttributes instructor;
-    public List<ElementTag> permissionInputGroup2;
-    public List<ElementTag> permissionInputGroup3;
-    public ElementTag toggleSessionLevelInSectionButton;
-    public List<CourseEditFeedbackSessionRow> feedbackSessions;
-    public List<List<ElementTag>> specialSections;
+    private String sectionName;
+    private InstructorAttributes instructor;
+    private List<ElementTag> permissionInputGroup2;
+    private List<ElementTag> permissionInputGroup3;
+    private ElementTag toggleSessionLevelInSectionButton;
+    private List<CourseEditFeedbackSessionRow> feedbackSessions;
+    private List<List<ElementTag>> specialSections;
     
     public CourseEditSectionRow(String sectionName, List<String> sectionNames, int sectionIndex, 
                                 InstructorAttributes instructor, int instructorIndex, List<String> feedbackNames) {
@@ -54,9 +54,9 @@ public class CourseEditSectionRow {
             isChecked = (instructor != null) && instructor.isAllowedForPrivilege(sectionName, feedbackName, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
             ElementTag modifySessionInSectionCheckBox = createCheckBox(null, name, "true", isChecked);
             
-            feedbackSessionRow.permissionCheckBoxes.add(submitSessionInSectionCheckBox);
-            feedbackSessionRow.permissionCheckBoxes.add(viewSessionInSectionCheckBox);
-            feedbackSessionRow.permissionCheckBoxes.add(modifySessionInSectionCheckBox);
+            feedbackSessionRow.getPermissionCheckBoxes().add(submitSessionInSectionCheckBox);
+            feedbackSessionRow.getPermissionCheckBoxes().add(viewSessionInSectionCheckBox);
+            feedbackSessionRow.getPermissionCheckBoxes().add(modifySessionInSectionCheckBox);
             
             feedbackSessions.add(feedbackSessionRow);
         }

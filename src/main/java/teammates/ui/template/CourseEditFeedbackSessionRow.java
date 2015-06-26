@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CourseEditFeedbackSessionRow {
-    public String feedbackSessionName;
-    public List<ElementTag> permissionCheckBoxes;
+    private String feedbackSessionName;
+    private List<ElementTag> permissionCheckBoxes;
     
     public CourseEditFeedbackSessionRow(String feedbackSessionName) {
         this.feedbackSessionName = feedbackSessionName;

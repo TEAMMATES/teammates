@@ -34,13 +34,14 @@ public class InstructorCourseEditPageAction extends Action {
         InstructorCourseEditPageData data = new InstructorCourseEditPageData(account);
         
         List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>();
-        int offset = -1;
+        
+        int instructorToShowIndex  = -1;    // -1 means showing all instructors
         
         if (instructorEmail == null) {
             instructorList = logic.getInstructorsForCourse(courseId);
         } else {
             instructorList.add(logic.getInstructorForEmail(courseId, instructorEmail));
-            offset = Integer.parseInt(index);        
+            instructorToShowIndex = Integer.parseInt(index);        
         }
         
         List<String> sectionNames = logic.getSectionNamesForCourse(courseId);
@@ -51,7 +52,7 @@ public class InstructorCourseEditPageAction extends Action {
             feedbackNames.add(feedback.feedbackSessionName);
         }
         
-        data.init(courseToEdit, instructorList, instructor, offset, sectionNames, feedbackNames);
+        data.init(courseToEdit, instructorList, instructor, instructorToShowIndex, sectionNames, feedbackNames);
         statusToAdmin = "instructorCourseEdit Page Load<br>"
                         + "Editing information for Course <span class=\"bold\">[" + courseId + "]</span>";
         
