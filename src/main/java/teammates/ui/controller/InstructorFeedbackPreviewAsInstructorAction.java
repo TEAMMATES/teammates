@@ -62,6 +62,8 @@ public class InstructorFeedbackPreviewAsInstructorAction extends Action {
                         "Session Name: " + feedbackSessionName + "<br>" +
                         "Course ID: " + courseId;
         
+        data.init("", "", courseId);
+
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, data);
     }
 }

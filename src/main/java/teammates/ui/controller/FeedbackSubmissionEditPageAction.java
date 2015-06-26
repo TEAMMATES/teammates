@@ -48,6 +48,7 @@ public abstract class FeedbackSubmissionEditPageAction extends Action {
         }
         
         data.init(regKey, email, courseId);
+        
         return createSpecificShowPageResult();
     }
 
