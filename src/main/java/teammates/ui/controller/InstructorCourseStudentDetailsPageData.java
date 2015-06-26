@@ -13,12 +13,10 @@ public class InstructorCourseStudentDetailsPageData extends PageData {
     StudentInfoTable studentInfoTable;
     private String commentRecipient;
 
-    public InstructorCourseStudentDetailsPageData(AccountAttributes account) {
+    public InstructorCourseStudentDetailsPageData(AccountAttributes account, StudentAttributes student,
+            StudentProfileAttributes studentProfile, boolean isAbleToAddComment, boolean hasSection,
+            String commentRecipient) {
         super(account);
-    }
-    
-    public void init(StudentAttributes student, StudentProfileAttributes studentProfile,
-            boolean isAbleToAddComment, boolean hasSection, String commentRecipient) {
         String pictureUrl = studentProfile == null || studentProfile.pictureKey == null
                             || studentProfile.pictureKey.isEmpty()
                           ? Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH

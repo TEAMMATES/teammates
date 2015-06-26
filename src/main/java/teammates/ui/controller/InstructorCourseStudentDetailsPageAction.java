@@ -10,8 +10,6 @@ import teammates.logic.api.GateKeeper;
 
 public class InstructorCourseStudentDetailsPageAction extends InstructorCoursesPageAction {
     
-    private InstructorCourseStudentDetailsPageData data;
-    
     @Override
     public ActionResult execute() throws EntityDoesNotExistException {
 
@@ -41,8 +39,9 @@ public class InstructorCourseStudentDetailsPageAction extends InstructorCoursesP
         
         StudentProfileAttributes studentProfile = loadStudentProfile(student, instructor);
         
-        data = new InstructorCourseStudentDetailsPageData(account);
-        data.init(student, studentProfile, isAbleToAddComment, hasSection, commentRecipient);
+        InstructorCourseStudentDetailsPageData data =
+                new InstructorCourseStudentDetailsPageData(account, student, studentProfile,
+                                                           isAbleToAddComment, hasSection, commentRecipient);
         
         statusToAdmin = "instructorCourseStudentDetails Page Load<br>"
                         + "Viewing details for Student <span class=\"bold\">" + studentEmail

@@ -8,17 +8,15 @@ public class InstructorCourseStudentDetailsEditPageData extends  InstructorCours
     
     private String newEmail;
 
-    public InstructorCourseStudentDetailsEditPageData(AccountAttributes account) {
-        super(account);
-    }
-
-    public void init(StudentAttributes student, boolean hasSection) {
-        init(student, student.email, hasSection);
+    public InstructorCourseStudentDetailsEditPageData(
+            AccountAttributes account, StudentAttributes student, boolean hasSection) {
+        this(account, student, student.email, hasSection);
     }
     
-    public void init(StudentAttributes student, String newEmail, boolean hasSection) {
+    public InstructorCourseStudentDetailsEditPageData(
+            AccountAttributes account, StudentAttributes student, String newEmail, boolean hasSection) {
+        super(account, student, null, false, hasSection, null);
         this.newEmail = newEmail;
-        init(student, null, false, hasSection, null);
     }
 
     public String getNewEmail() {

@@ -25,8 +25,8 @@ public class InstructorCourseStudentDetailsEditPageAction extends InstructorCour
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         boolean hasSection = logic.hasIndicatedSections(courseId);
         
-        InstructorCourseStudentDetailsEditPageData data = new InstructorCourseStudentDetailsEditPageData(account);
-        data.init(student, student.email, hasSection);
+        InstructorCourseStudentDetailsEditPageData data =
+                new InstructorCourseStudentDetailsEditPageData(account, student, student.email, hasSection);
 
         statusToAdmin = "instructorCourseStudentEdit Page Load<br>"
                         + "Editing Student <span class=\"bold\">" + studentEmail +"'s</span> details "

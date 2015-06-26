@@ -28,8 +28,6 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
         new GateKeeper().verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         
-        InstructorCourseStudentDetailsEditPageData data = new InstructorCourseStudentDetailsEditPageData(account);
-        
         boolean hasSection = logic.hasIndicatedSections(courseId);
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         
@@ -63,7 +61,8 @@ public class InstructorCourseStudentDetailsEditSaveAction extends InstructorCour
             setStatusForException(e);
             String newEmail = student.email;
             student.email = studentEmail;
-            data.init(student, newEmail, hasSection);
+            InstructorCourseStudentDetailsEditPageData data =
+                    new InstructorCourseStudentDetailsEditPageData(account, student, newEmail, hasSection);
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_STUDENT_EDIT, data);
         }
         
