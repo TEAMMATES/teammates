@@ -5,12 +5,17 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionQuestionsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
+import teammates.ui.template.FeedbackSubmissionEditQuestion;
+import teammates.ui.template.FeedbackSubmissionEditResponse;
+import teammates.ui.template.StudentFeedbackSubmissionEditQuestionsWithResponses;
 
 public class FeedbackSubmissionEditPageData extends PageData {
     public FeedbackSessionQuestionsBundle bundle = null;
@@ -22,16 +27,17 @@ public class FeedbackSubmissionEditPageData extends PageData {
     private boolean isHeaderHidden;
     private StudentAttributes studentToViewPageAs;
     private InstructorAttributes previewInstructor;    
-    private String registerMessage;
+    private String registerMessage; 
+    private List<StudentFeedbackSubmissionEditQuestionsWithResponses> questionsWithResponses;
     
     public FeedbackSubmissionEditPageData(AccountAttributes account, StudentAttributes student) {
         super(account, student);
         isPreview = false;
         isModeration = false;
         isShowRealQuestionNumber = false;
-        isHeaderHidden = false;
+        isHeaderHidden = false;        
     }
-    
+
     public void init(String regKey, String email, String courseId) {
         String joinUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW)
                                         .withRegistrationKey(regKey)
@@ -44,6 +50,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
             registerMessage = "";
         }
         
+        createQuestionsWithResponses();        
     }
     
     public FeedbackSessionQuestionsBundle getBundle() {
@@ -170,5 +177,70 @@ public class FeedbackSubmissionEditPageData extends PageData {
         }
 
         return result;
+    }
+    
+    private void createQuestionsWithResponses() {
+        questionsWithResponses = new ArrayList<StudentFeedbackSubmissionEditQuestionsWithResponses>();
+        int qnIndx = 1;
+        
+        for (FeedbackQuestionAttributes questionAttributes : bundle.getSortedQuestions()) {
+            int numOfResponseBoxes = questionAttributes.numberOfEntitiesToGiveFeedbackTo;
+            int maxResponsesPossible = bundle.recipientList.get(questionAttributes.getId()).size();
+            
+            if (numOfResponseBoxes == Const.MAX_POSSIBLE_RECIPIENTS || numOfResponseBoxes > maxResponsesPossible) {
+                numOfResponseBoxes = maxResponsesPossible;
+            }
+            
+            FeedbackSubmissionEditQuestion question = createQuestion(questionAttributes, qnIndx);
+            List<FeedbackSubmissionEditResponse> responses = createResponses(questionAttributes, qnIndx, numOfResponseBoxes);
+            
+            questionsWithResponses.add(new StudentFeedbackSubmissionEditQuestionsWithResponses(
+                                            question, responses, numOfResponseBoxes, maxResponsesPossible));
+            qnIndx++;
+        }
+    }
+
+    private FeedbackSubmissionEditQuestion createQuestion(FeedbackQuestionAttributes questionAttributes, int qnIndx) {
+        boolean isModeratedQuestion = String.valueOf(questionAttributes.questionNumber).equals(getModeratedQuestion());
+        
+        return new FeedbackSubmissionEditQuestion(questionAttributes.courseId, questionAttributes.questionNumber,
+                                                  qnIndx, questionAttributes.getId(), questionAttributes.getQuestionDetails().questionText, 
+                                                  questionAttributes.getVisibilityMessage(), questionAttributes.questionType, 
+                                                  questionAttributes.numberOfEntitiesToGiveFeedbackTo, isModeratedQuestion, 
+                                                  questionAttributes.isRecipientNameHidden());
+    }
+
+    private List<FeedbackSubmissionEditResponse> createResponses(
+                                    FeedbackQuestionAttributes questionAttributes, int qnIndx, int numOfResponseBoxes) {
+        List<FeedbackSubmissionEditResponse> responses = new ArrayList<FeedbackSubmissionEditResponse>();
+        
+        List<FeedbackResponseAttributes> existingResponses = bundle.questionResponseBundle.get(questionAttributes);
+        int responseIndx = 0;
+        
+        for(FeedbackResponseAttributes existingResponse : existingResponses) {
+            List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(
+                                                           questionAttributes.getId(), existingResponse.recipientEmail);
+            
+            String submissionFormHtml = questionAttributes.getQuestionDetails()
+                                            .getQuestionWithExistingResponseSubmissionFormHtml(isSessionOpenForSubmission(),
+                                                                                               qnIndx, responseIndx, questionAttributes.courseId,
+                                                                                               existingResponse.getResponseDetails());
+            
+            responses.add(new FeedbackSubmissionEditResponse(responseIndx, true, recipientOptionsForQuestion, 
+                                                                 submissionFormHtml, existingResponse.getId()));
+            responseIndx++;
+        }
+        
+        while (responseIndx < numOfResponseBoxes) {
+            List<String> recipientOptionsForQuestion = getRecipientOptionsForQuestion(questionAttributes.getId(), null);
+            String submissionFormHtml = questionAttributes.getQuestionDetails()
+                                            .getQuestionWithoutExistingResponseSubmissionFormHtml(isSessionOpenForSubmission(),
+                                                                                                  qnIndx, responseIndx, questionAttributes.courseId);
+            
+            responses.add(new FeedbackSubmissionEditResponse(responseIndx, false, recipientOptionsForQuestion, submissionFormHtml, ""));
+            responseIndx++;
+        }
+        
+        return responses;
     }
 }
