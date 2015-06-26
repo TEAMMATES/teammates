@@ -150,9 +150,9 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 
         feedbackEditPage = getFeedbackEditPage();
-        feedbackEditPage.isElementSelected(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON
-                                           + "_atvisible");
-        //feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditPublished.html");
+        assertFalse(feedbackEditPage.isElementSelected(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON
+                                                       + "_atvisible"));
+
         // Restore defaults
         feedbackEditPage.clickEditSessionButton();
 
