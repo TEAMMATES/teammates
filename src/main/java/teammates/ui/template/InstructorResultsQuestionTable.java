@@ -1,5 +1,6 @@
 package teammates.ui.template;
 
+import java.util.Arrays;
 import java.util.List;
 
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -28,6 +29,8 @@ public class InstructorResultsQuestionTable {
     private boolean isQuestionHasResponses;
     private boolean isShowResponseRows;
 
+    private List<String> columnNames = Arrays.asList("Giver", "Team", "Recipient", "Team", 
+                                                     "Feedback", "Actions");
 
     public InstructorResultsQuestionTable(InstructorFeedbackResultsPageData data,
                                           List<FeedbackResponseAttributes> responses,
@@ -100,8 +103,13 @@ public class InstructorResultsQuestionTable {
     public void setShowResponseRows(boolean isShowResponseRows) {
         this.isShowResponseRows = isShowResponseRows;
     }
-    
-    
-    
+
+    public List<String> getColumnNames() {
+        return columnNames;
+    }
+
+    public void setColumnNames(List<String> columnNames) {
+        this.columnNames = columnNames;
+    }
     
 }

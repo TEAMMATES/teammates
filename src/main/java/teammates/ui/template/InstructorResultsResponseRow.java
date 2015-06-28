@@ -7,25 +7,28 @@ import teammates.common.util.Url;
  *
  */
 public class InstructorResultsResponseRow {
+    private ElementTag rowAttributes;
+    private boolean isRowGrey;
     
+    private boolean isGiverDisplayed = true;
     private String giverDisplayableIdentifier;
     private String giverTeam;
     private boolean isGiverProfilePictureDisplayed;
+    private boolean isGiverProfilePictureAColumn = false;
     private Url giverProfilePictureLink;
     
-    
+    private boolean isRecipientDisplayed = true;
     private String recipientDisplayableIdentifier;
     private String recipientTeam;
     private boolean isRecipientProfilePictureDisplayed;
+    private boolean isRecipientProfilePictureAColumn = false;
     private Url recipientProfilePictureLink;
     
-    private String displayableResponse;
     
+    private String displayableResponse;
     private boolean isModerationsButtonDisplayed;
     private ModerationButton moderationButton;
     
-    private ElementTag rowAttributes;
-    private boolean isRowGrey;
     
     public InstructorResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
                                         String recipientDisplayableIdentifier, String recipientTeam,
@@ -39,15 +42,15 @@ public class InstructorResultsResponseRow {
                                         String recipientDisplayableIdentifier, String recipientTeam,
                                         String displayableResponse, boolean isModerationsButtonShown,
                                         ModerationButton moderationButton, boolean isRowGrey) {
-    this.giverDisplayableIdentifier = giverDisplayableIdentifier;
-    this.giverTeam = giverTeam;
-    this.recipientDisplayableIdentifier = recipientDisplayableIdentifier;
-    this.recipientTeam = recipientTeam;
-    this.displayableResponse = displayableResponse;
-    this.isModerationsButtonDisplayed = isModerationsButtonShown;
-    this.moderationButton = moderationButton;
-    this.isRowGrey = isRowGrey;
-}
+        this.giverDisplayableIdentifier = giverDisplayableIdentifier;
+        this.giverTeam = giverTeam;
+        this.recipientDisplayableIdentifier = recipientDisplayableIdentifier;
+        this.recipientTeam = recipientTeam;
+        this.displayableResponse = displayableResponse;
+        this.isModerationsButtonDisplayed = isModerationsButtonShown;
+        this.moderationButton = moderationButton;
+        this.isRowGrey = isRowGrey;
+    }
     
     public String getGiverDisplayableIdentifier() {
         return giverDisplayableIdentifier;
@@ -120,4 +123,38 @@ public class InstructorResultsResponseRow {
     public void setRowAttributes(ElementTag rowAttributes) {
         this.rowAttributes = rowAttributes;
     }
+
+    public boolean isGiverDisplayed() {
+        return isGiverDisplayed;
+    }
+
+    public void setGiverDisplayed(boolean isGiverDisplayed) {
+        this.isGiverDisplayed = isGiverDisplayed;
+    }
+
+    public boolean isGiverProfilePictureAColumn() {
+        return isGiverProfilePictureAColumn;
+    }
+
+    public void setGiverProfilePictureAColumn(boolean isGiverProfilePictureAColumn) {
+        this.isGiverProfilePictureAColumn = isGiverProfilePictureAColumn;
+    }
+
+    public boolean isRecipientDisplayed() {
+        return isRecipientDisplayed;
+    }
+
+    public void setRecipientDisplayed(boolean isRecipientDisplayed) {
+        this.isRecipientDisplayed = isRecipientDisplayed;
+    }
+
+    public boolean isRecipientProfilePictureAColumn() {
+        return isRecipientProfilePictureAColumn;
+    }
+
+    public void setRecipientProfilePictureAColumn(boolean isRecipientProfilePictureAColumn) {
+        this.isRecipientProfilePictureAColumn = isRecipientProfilePictureAColumn;
+    }
+    
+    
 }
