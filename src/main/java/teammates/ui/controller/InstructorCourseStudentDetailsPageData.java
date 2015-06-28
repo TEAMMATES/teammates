@@ -9,25 +9,24 @@ import teammates.ui.template.StudentProfile;
 
 public class InstructorCourseStudentDetailsPageData extends PageData {
     
-    StudentProfile studentProfile;
-    StudentInfoTable studentInfoTable;
+    private StudentProfile studentProfile;
+    private StudentInfoTable studentInfoTable;
     private String commentRecipient;
 
     public InstructorCourseStudentDetailsPageData(AccountAttributes account, StudentAttributes student,
             StudentProfileAttributes studentProfile, boolean isAbleToAddComment, boolean hasSection,
             String commentRecipient) {
         super(account);
-        String pictureUrl = studentProfile == null || studentProfile.pictureKey == null
-                            || studentProfile.pictureKey.isEmpty()
-                          ? Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH
-                          : Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?"
-                            + Const.ParamsNames.BLOB_KEY + "=" + studentProfile.pictureKey + "&"
-                            + Const.ParamsNames.USER_ID + "=" + account.googleId;
-        this.studentInfoTable = new StudentInfoTable(student, isAbleToAddComment, hasSection);
-        this.commentRecipient = commentRecipient;
         if (studentProfile != null) {
+            String pictureUrl = studentProfile.pictureKey == null || studentProfile.pictureKey.isEmpty()
+                              ? Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH
+                              : Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?"
+                                + Const.ParamsNames.BLOB_KEY + "=" + studentProfile.pictureKey + "&"
+                                + Const.ParamsNames.USER_ID + "=" + account.googleId;
             this.studentProfile = new StudentProfile(student.name, studentProfile, pictureUrl);
         }
+        this.studentInfoTable = new StudentInfoTable(student, isAbleToAddComment, hasSection);
+        this.commentRecipient = commentRecipient;
     }
     
     public StudentProfile getStudentProfile() {
