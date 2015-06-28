@@ -2,6 +2,7 @@ package teammates.ui.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseSummaryBundle;
@@ -19,6 +20,7 @@ public class InstructorHomePageData extends PageData {
     public List<CourseSummaryBundle> courses;
     public String sortCriteria;
     public HashMap<String, Integer> numberOfPendingComments;
+    public Map<String, List<String>> courseIdSectionNamesMap;
     public static final int MAX_CLOSED_SESSION_STATS = 3;
     
     public String getInstructorFeedbacksPageLinkForCourse(String courseID) {

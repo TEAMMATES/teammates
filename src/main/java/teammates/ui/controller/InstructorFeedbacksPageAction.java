@@ -58,8 +58,20 @@ public class InstructorFeedbacksPageAction extends Action {
             if (data.existingFeedbackSessions.isEmpty()) {
                 statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EMPTY);
             }
-        }            
+        }
         
+        data.courseIdSectionNamesMap = new HashMap<String, List<String>>();
+        for (FeedbackSessionAttributes feedbackSession : data.existingFeedbackSessions) {
+            String courseId = feedbackSession.courseId;
+            
+            if (data.courseIdSectionNamesMap.containsKey(courseId)) {
+                continue;
+            }
+            
+            data.courseIdSectionNamesMap.put(courseId, 
+                                             logic.getSectionNamesForCourse(courseId));
+        }
+
         FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
         
         statusToAdmin = "Number of feedback sessions: " + data.existingFeedbackSessions.size();

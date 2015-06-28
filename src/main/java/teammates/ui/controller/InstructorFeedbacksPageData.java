@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
@@ -23,6 +24,7 @@ public class InstructorFeedbacksPageData extends PageData {
     public List<CourseAttributes> courses;
     public List<FeedbackSessionAttributes> existingFeedbackSessions;
     public HashMap<String, InstructorAttributes> instructors;
+    public Map<String, List<String>> courseIdSectionNamesMap;
     public boolean isUsingAjax;
     public static final int MAX_CLOSED_SESSION_STATS = 5;
 

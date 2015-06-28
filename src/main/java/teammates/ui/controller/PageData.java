@@ -581,24 +581,6 @@ public class PageData {
         return msg;
     }
     
-    /**
-     * Gets a Map with courseId as key and List of sectionNames as value
-     * @param fsaList
-     * @return
-     * @throws EntityDoesNotExistException
-     */
-    public Map<String, List<String>> getCourseIdSectionNamesMap(List<FeedbackSessionAttributes> fsaList) throws EntityDoesNotExistException {
-        Map<String, List<String>> courseIdSectionNamesMap = new HashMap<String, List<String>>();
-        
-        for (FeedbackSessionAttributes fsa : fsaList) {
-            String courseId = fsa.courseId;
-            if (courseIdSectionNamesMap.get(courseId) == null) {
-                List<String> sectionsInCourse = new Logic().getSectionNamesForCourse(courseId);
-                courseIdSectionNamesMap.put(courseId, sectionsInCourse);
-            }
-        }
-        return courseIdSectionNamesMap;
-    }
     
     /**
      * Returns the links of actions available for a specific session

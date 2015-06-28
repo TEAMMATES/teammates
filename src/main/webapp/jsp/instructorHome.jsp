@@ -248,8 +248,6 @@
                                     </thead>
                             <%
                                 int displayFeedbackStatsCount = 0;
-                                Map<String, List<String>> courseIdSectionNamesMap = data.getCourseIdSectionNamesMap(
-                                                                                    courseDetails.feedbackSessions);
                                 for(FeedbackSessionAttributes fdb : courseDetails.feedbackSessions) {
                                     sessionIdx++;
                             %>
@@ -274,7 +272,7 @@
                                         </td>
                                         <td class="no-print">
                                             <%=data.getInstructorFeedbackSessionActions(fdb, false, 
-                                                    instructor, courseIdSectionNamesMap.get(fdb.courseId))%>
+                                                    instructor, data.courseIdSectionNamesMap.get(fdb.courseId))%>
                                         </td>
                                     </tr>
                             <%
