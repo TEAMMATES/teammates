@@ -26,6 +26,7 @@ public class InstructorResultsQuestionTable {
     private String questionStatisticsTable;
     
     private boolean isQuestionHasResponses;
+    private boolean isShowResponseRows;
 
 
     public InstructorResultsQuestionTable(InstructorFeedbackResultsPageData data,
@@ -90,6 +91,14 @@ public class InstructorResultsQuestionTable {
 
     public String getFeedbackSessionName() {
         return feedbackSessionName;
+    }
+
+    public boolean isShowResponseRows() {
+        return isShowResponseRows;
+    }
+
+    public void setShowResponseRows(boolean isShowResponseRows) {
+        this.isShowResponseRows = isShowResponseRows;
     }
     
     

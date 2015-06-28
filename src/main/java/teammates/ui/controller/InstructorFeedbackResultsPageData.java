@@ -54,7 +54,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         startIndex = -1;
     }
     
-    public void init(FeedbackSessionResultsBundle bundle) {
+    public void initForViewByQuestion(FeedbackSessionResultsBundle bundle) {
         this.bundle = bundle;
        
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionToResponseMap = bundle.getQuestionResponseMap();
@@ -69,6 +69,18 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
     }
     
+    public void initForViewByGiverRecipientQuestion(FeedbackSessionResultsBundle bundle) {
+        this.bundle = bundle;
+        Map<String, Map<String, List<FeedbackResponseAttributes>>> allResponses = bundle.getResponsesSortedByGiver(groupByTeam == null || groupByTeam.equals("on"));
+        Map<String, FeedbackQuestionAttributes> questions = bundle.questions;
+        
+        // Used for computing statistics over all responses from the team
+        Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> teamResponses = bundle.getQuestionResponseMapByGiverTeam();
+        
+        
+        
+    }
+    
     private InstructorResultsQuestionTable buildQuestionTable(FeedbackQuestionAttributes question,
                                                               List<FeedbackResponseAttributes> responses) {
         
@@ -78,6 +90,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         List<InstructorResultsResponseRow> responseRows = buildResponseRowsForQuestion(question, responses);
         
         InstructorResultsQuestionTable questionTable = new InstructorResultsQuestionTable(this, responses, statisticsTable, responseRows, question);
+        questionTable.setShowResponseRows(true);
         
         return questionTable;
     }
@@ -164,7 +177,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             String textToDisplay = questionDetails.getNoResponseTextInHtml(giverIdentifier, possibleRecipient, bundle, question);
             
             if (questionDetails.shouldShowNoResponseText(giverIdentifier, possibleRecipient, question)) {
-                ModerationButton moderationButton = buildModerationButtonForMissingResponse(question, giverIdentifier);
+                ModerationButton moderationButton = buildModerationButtonForGiver(question, giverIdentifier);
                 InstructorResultsResponseRow missingResponse = new InstructorResultsResponseRow(giverName, giverTeam, possibleRecipientName, possibleRecipientTeam, 
                                                                                                 textToDisplay, true, moderationButton, true);
                 missingResponse.setRowAttributes(new ElementTag("class", "pending_response_row"));
@@ -221,7 +234,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         for (String possibleGiverWithNoResponses : remainingPossibleGivers) {
             if (!selectedSection.equals("All") && !bundle.getSectionFromRoster(possibleGiverWithNoResponses).equals(selectedSection)) {
                 continue;
-             }
+            }
             possibleRecipientsForGiver = bundle.getPossibleRecipients(question, possibleGiverWithNoResponses);
             
             responseRows.addAll(buildResponseRowsBetweenGiverAndPossibleRecipients(
@@ -235,24 +248,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
     
 
     private ModerationButton buildModerationButtonForExistingResponse(FeedbackQuestionAttributes question,
-                                                              FeedbackResponseAttributes response) {
-        boolean isAllowedToModerate = instructor.isAllowedForPrivilege(bundle.getSectionFromRoster(response.giverEmail), 
-                                                                       feedbackSessionName, 
-                                                                       Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        boolean isDisabled = !isAllowedToModerate;
-        String giverIdentifier = question.giverType.isTeam() ? 
-                                 response.giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"") : 
-                                 response.giverEmail;
-        ModerationButton moderationButton 
-                             = new ModerationButton(isAllowedToModerate, isDisabled, 
-                                                    question.questionNumber, 
-                                                    giverIdentifier, 
-                                                    courseId, feedbackSessionName, 
-                                                    question);
-        return moderationButton;
+                                                                      FeedbackResponseAttributes response) {
+        return buildModerationButtonForGiver(question, response.giverEmail);
     }
     
-    private ModerationButton buildModerationButtonForMissingResponse(FeedbackQuestionAttributes question,
+    private ModerationButton buildModerationButtonForGiver(FeedbackQuestionAttributes question,
                                                                      String giverEmail) {
         boolean isAllowedToModerate = instructor.isAllowedForPrivilege(bundle.getSectionFromRoster(giverEmail), 
                                                      feedbackSessionName, 
@@ -261,12 +261,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
         String giverIdentifier = question.giverType.isTeam() ? 
                                  giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"") : 
                                  giverEmail;
-        ModerationButton moderationButton 
-           = new ModerationButton(isAllowedToModerate, isDisabled, 
-                                  question.questionNumber, 
-                                  giverIdentifier, 
-                                  courseId, feedbackSessionName, 
-                                  question);
+        ModerationButton moderationButton = new ModerationButton(isAllowedToModerate, isDisabled, 
+                                                                 question.questionNumber, 
+                                                                 giverIdentifier, 
+                                                                 courseId, feedbackSessionName, 
+                                                                 question);
         return moderationButton;
    }
 

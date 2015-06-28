@@ -144,7 +144,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         switch (data.sortType) {
             case "question":
-                data.init(data.bundle);
+                data.initForViewByQuestion(data.bundle);
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
             case "recipient-giver-question":
