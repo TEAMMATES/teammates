@@ -109,9 +109,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         this.rosterSectionTeamNameTable = getSectionToTeamNamesFromRoster(roster);
     }
     
-    public FeedbackSessionAttributes getFeedbackSession() {
-        return feedbackSession;
-    }
 
     /**
      * Hides response names/emails and teams that are not visible to the current user.

@@ -35,6 +35,7 @@
     </c:choose>   
     </td>
     <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${responseRow.recipientTeam}</td>
+    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
     <td class="text-preserve-space<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">${responseRow.displayableResponse}</td>
     <td>
         <c:if test="${responseRow.moderationsButtonDisplayed}">
