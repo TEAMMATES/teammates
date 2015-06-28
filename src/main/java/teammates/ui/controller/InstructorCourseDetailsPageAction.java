@@ -36,7 +36,7 @@ public class InstructorCourseDetailsPageAction extends Action {
             statusToAdmin = "instructorCourseDetails Page Ajax Html table Load<br>" 
                             + "Viewing Student List Table for Course <span class=\"bold\">[" + courseId + "]</span>";
             
-            return createAjaxResult(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS, data);
+            return createAjaxResult(data);
         } else {
             data.studentListHtmlTableAsString = "";
         }

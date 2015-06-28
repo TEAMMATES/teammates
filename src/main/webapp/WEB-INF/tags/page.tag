@@ -1,10 +1,10 @@
 <%@ tag description="Generic TEAMMATES Page" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ attribute name="pageTitle" required="true" %>
 <%@ attribute name="jsIncludes" fragment="true" %>
 <%@ attribute name="navBar" required="true" fragment="true" %>
 <%@ attribute name="bodyTitle" required="true" %>
+<%@ attribute name="bodyFooter" required="true" fragment="true" %>
 <%@ attribute name="bodyOnload" %>
 <!DOCTYPE html>
 <html>
@@ -37,12 +37,10 @@
 </head>
 <body ${bodyOnload}>
     <jsp:invoke fragment="navBar" />
-    <div class="container" id="frameBodyWrapper">
+    <div class="container" id="mainContent">
         <t:bodyHeader title="${bodyTitle}" />
         <jsp:doBody />
     </div>
-    <c:if test="${not empty data.account.institute}">
-        <t:bodyFooter />
-    </c:if>
+    <jsp:invoke fragment="bodyFooter" />
 </body>
 </html>

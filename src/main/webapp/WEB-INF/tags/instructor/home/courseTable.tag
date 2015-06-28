@@ -1,5 +1,6 @@
 <%@ tag description="instructorHome - Course table" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib tagdir="/WEB-INF/tags/instructor/feedbacks" prefix="tif" %>
 <%@ tag import="teammates.common.util.Const" %>
 <%@ attribute name="sessionRows" type="java.util.Collection" required="true" %>
 <table class="table-responsive table table-striped table-bordered">
@@ -30,7 +31,7 @@
                 <a oncontextmenu="return false;" href="${sessionRow.href}">Show</a>
             </td>
             <td class="no-print">
-                ${sessionRow.actions}
+                <tif:feedbackSessionActions actions="${sessionRow.actions}" />
             </td>
         </tr>
     </c:forEach>

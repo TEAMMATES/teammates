@@ -10,14 +10,14 @@
     <div class="panel-body">
         <c:set var="indexCounter" value="${0}"/>
         
-        <c:forEach items="${commentsForStudentsTables}" var="searchCommentsForStudentsTable">     
+        <c:forEach items="${commentsForStudentsTables}" var="commentsForStudentsTable">     
             <div class="panel panel-info student-record-comments">
                 <div class="panel-heading">
-                    From <b>${searchCommentsForStudentsTable.giverDetails}</b>
+                    From <b>${commentsForStudentsTable.giverDetails}</b>
                 </div>
                 
                 <ul class="list-group comments"> 
-                    <c:forEach items="${searchCommentsForStudentsTable.rows}" var="commentRow">
+                    <c:forEach items="${commentsForStudentsTable.rows}" var="commentRow">
                         <c:set var="indexCounter" value="${indexCounter + 1}" />
                         
                         <li class="list-group-item list-group-item-warning" 

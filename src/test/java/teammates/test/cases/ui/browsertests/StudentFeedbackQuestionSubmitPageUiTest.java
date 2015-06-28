@@ -61,7 +61,8 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         // Open session
         StudentAttributes unregStudent = testData.students.get("Unregistered");
         submitPage = goToStudentFeedbackQuestionSubmitPage(unregStudent, "Open Session", fqOpen.getId());
-        
+
+        // This is the full HTML verification for Unregistered Student Feedback Question Submit Page, the rest can all be verifyMainHtml
         submitPage.verifyHtml("/unregisteredStudentFeedbackQuestionSubmitPageOpen.html");
         
         // closed session
@@ -72,6 +73,8 @@ public class StudentFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
 
         fq = BackDoor.getFeedbackQuestion("SFQSubmitUiT.CS2104", "Awaiting Session", 1);
         submitPage = loginToStudentFeedbackQuestionSubmitPage("Alice", "Awaiting Session", fq.getId());
+
+        // This is the full HTML verification for Registered Student Feedback Question Submit Page, the rest can all be verifyMainHtml
         submitPage.verifyHtml("/studentFeedbackQuestionSubmitPageAwaiting.html");
         
         ______TS("Open session");

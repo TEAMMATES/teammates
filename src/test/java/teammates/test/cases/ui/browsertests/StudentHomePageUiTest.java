@@ -67,7 +67,9 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
                                                       .loginAsStudent(unregUserId, unregPassword);
 
         // this test uses the accounts from test.properties
-        studentHome.verifyHtmlMainContent("/studentHomeHTMLEmpty.html");
+
+        // This is the full HTML verification for Student Home Page, the rest can all be verifyMainHtml
+        studentHome.verifyHtml("/studentHomeHTMLEmpty.html");
         
         ______TS("persistence check");
         

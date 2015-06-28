@@ -77,7 +77,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 data.ajaxStatus = "There are too many responses. Please download the feedback results by section.";
             }
 
-            return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_TOP, data);
+            return createAjaxResult(data);
 
         } else {
             data.sessionResultsHtmlTableAsString = "";

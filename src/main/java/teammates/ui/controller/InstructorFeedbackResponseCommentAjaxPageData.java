@@ -9,6 +9,10 @@ import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
 
     public FeedbackResponseCommentAttributes comment;
+    public String commentId;
+    public String commentTime;
+    public String showCommentToString;
+    public String showGiverNameToString;
     public boolean isError;
     public String errorMessage;
     

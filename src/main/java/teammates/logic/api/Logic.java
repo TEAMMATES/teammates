@@ -1587,15 +1587,13 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public boolean hasStudentSubmittedFeedback(String courseId, String feedbackSessionName, String studentEmail)
+    public boolean hasStudentSubmittedFeedback(FeedbackSessionAttributes fsa, String studentEmail)
             throws InvalidParametersException, EntityDoesNotExistException {
         
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, fsa);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
     
-        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(
-                feedbackSessionName, courseId, studentEmail);
+        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, studentEmail);
     }
     
     /**
@@ -2621,5 +2619,17 @@ public class Logic {
 
     @SuppressWarnings("unused")
     private void ____helper_methods________________________________________() {
+    }
+    
+    public List<CourseDetailsBundle> extractActiveCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
+        Assumption.assertNotNull(courseBundles);
+        Assumption.assertNotNull(googleId);
+        return coursesLogic.extractActiveCourses(courseBundles, googleId);
+    }
+    
+    public List<CourseDetailsBundle> extractArchivedCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
+        Assumption.assertNotNull(courseBundles);
+        Assumption.assertNotNull(googleId);
+        return coursesLogic.extractArchivedCourses(courseBundles, googleId);
     }
 }

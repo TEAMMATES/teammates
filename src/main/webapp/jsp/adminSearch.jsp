@@ -51,7 +51,7 @@
     <jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
 
 
-    <div class="container" id="frameBodyWrapper">
+    <div class="container" id="mainContent">
                 <div id="topOfPage"></div>
                 <h1>Admin Search</h1>
                 <br>
