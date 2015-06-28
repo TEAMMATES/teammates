@@ -21,7 +21,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     private String pictureUrl;
     private boolean isAbleToAddComment;
     private boolean hasSection;
-    private String commentRecipient;
+    protected String commentRecipient;
     
     @BeforeClass
     public static void classSetUp() {
@@ -31,11 +31,13 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     @Test
     public void allTests() {
         boolean hasPictureKey = true;
-        InstructorCourseStudentDetailsPageData data = createData(hasPictureKey);
+        createStudentData(hasPictureKey);
+        InstructorCourseStudentDetailsPageData data = createData();
         testData(data);
         
         hasPictureKey = false;
-        data = createData(hasPictureKey);
+        createStudentData(hasPictureKey);
+        data = createData();
         testData(data);
     }
     
@@ -59,7 +61,7 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         assertEquals(inputStudentProfile.moreInfo, studentProfile.getMoreInfo());
     }
 
-    private void testStudentInfoTable(StudentInfoTable studentInfoTable) {
+    protected void testStudentInfoTable(StudentInfoTable studentInfoTable) {
         assertNotNull(studentInfoTable);
         
         assertEquals(inputStudent.name, studentInfoTable.getName());
@@ -71,16 +73,25 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         assertEquals(isAbleToAddComment, studentInfoTable.isAbleToAddComment());
         assertEquals(hasSection, studentInfoTable.getHasSection());
     }
-
-    private InstructorCourseStudentDetailsPageData createData(boolean hasPictureKey) {
+    
+    private void createStudentData(boolean hasPictureKey) {
         String name = "John Doe";
         String email = "john@doe.com";
         
+        createStudent(name, email);
+        createStudentProfile(name, email, hasPictureKey);
+    }
+    
+    protected void createStudent(String name, String email) {
         String comments = "This is a comment for John Doe.";
         String courseId = "CourseForJohnDoe";
         String team = "TeamForJohnDoe";
         String section = "SectionForJohnDoe";
         
+        inputStudent = new StudentAttributes(null, email, name, comments, courseId, team, section);
+    }
+    
+    private void createStudentProfile(String name, String email, boolean hasPictureKey) {
         String shortName = "John";
         String institute = "InstituteForJohnDoe";
         String nationality = "NationForJohnDoe";
@@ -96,9 +107,11 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
             this.pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
         }
         
-        inputStudent = new StudentAttributes(null, email, name, comments, courseId, team, section);
         inputStudentProfile = new StudentProfileAttributes(
                 null, shortName, email, institute, nationality, gender, moreInfo, pictureKey);
+    }
+
+    protected InstructorCourseStudentDetailsPageData createData() {
         isAbleToAddComment = true;
         hasSection = true;
         commentRecipient = "cmtRec";
