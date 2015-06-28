@@ -30,13 +30,18 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     
     @Test
     public void allTests() {
-        boolean hasPictureKey = true;
-        createStudentData(hasPictureKey);
+        String pictureKey = "examplePictureKey";
+        createStudentData(pictureKey);
         InstructorCourseStudentDetailsPageData data = createData();
         testData(data);
         
-        hasPictureKey = false;
-        createStudentData(hasPictureKey);
+        pictureKey = "";
+        createStudentData(pictureKey);
+        data = createData();
+        testData(data);
+        
+        pictureKey = null;
+        createStudentData(pictureKey);
         data = createData();
         testData(data);
     }
@@ -74,12 +79,12 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         assertEquals(hasSection, studentInfoTable.getHasSection());
     }
     
-    private void createStudentData(boolean hasPictureKey) {
+    private void createStudentData(String pictureKey) {
         String name = "John Doe";
         String email = "john@doe.com";
         
         createStudent(name, email);
-        createStudentProfile(name, email, hasPictureKey);
+        createStudentProfile(name, email, pictureKey);
     }
     
     protected void createStudent(String name, String email) {
@@ -91,20 +96,19 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         inputStudent = new StudentAttributes(null, email, name, comments, courseId, team, section);
     }
     
-    private void createStudentProfile(String name, String email, boolean hasPictureKey) {
+    private void createStudentProfile(String name, String email, String pictureKey) {
         String shortName = "John";
         String institute = "InstituteForJohnDoe";
         String nationality = "NationForJohnDoe";
         String gender = Const.GenderTypes.MALE;
         String moreInfo = "Information for John Doe.";
-        String pictureKey = hasPictureKey ? "ThisIsAPictureKeyForJohnDoe" : null;
         
-        if (hasPictureKey) {
+        if (pictureKey == null || pictureKey.isEmpty()) {
+            this.pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
+        } else {
             this.pictureUrl =  Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?"
                                + Const.ParamsNames.BLOB_KEY + "=" + pictureKey + "&"
                                + Const.ParamsNames.USER_ID + "=null";
-        } else {
-            this.pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
         }
         
         inputStudentProfile = new StudentProfileAttributes(
