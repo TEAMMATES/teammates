@@ -17,6 +17,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.TimeHelper;
 import teammates.ui.template.CommentRow;
+import teammates.ui.template.CoursePagination;
 import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.QuestionTable;
@@ -31,11 +32,8 @@ public class StudentCommentsPageData extends PageData {
 
     private String courseId;
     private String courseName;
-    private List<String> coursePaginationList;
-    private List<CommentAttributes> comments;
-    private String previousPageLink;
-    private String nextPageLink;
     
+    private CoursePagination coursePagination;
     private List<CommentRow> commentRows;
     private List<FeedbackSessionRow> feedbackSessionRows;
     
@@ -48,37 +46,18 @@ public class StudentCommentsPageData extends PageData {
                      Map<String, FeedbackSessionResultsBundle> feedbackResultBundles) {
         this.courseId = courseId;
         this.courseName = courseName;
-        this.coursePaginationList = coursePaginationList;
-        this.comments = comments;
-        this.previousPageLink = retrievePreviousPageLink();
-        this.nextPageLink = retrieveNextPageLink();
         
-        setCommentRows(studentEmail, roster);
+        setCoursePagination(coursePaginationList);
+        setCommentRows(studentEmail, roster, comments);
         createFeedbackSessionRows(feedbackResultBundles, roster);
     }
-    
+
     public String getCourseId() {
         return courseId;
     }
     
     public String getCourseName() {
         return courseName;
-    }
-    
-    public List<String> getCoursePaginationList() {
-        return coursePaginationList;
-    }
-    
-    public List<CommentAttributes> getComments() {
-        return comments;
-    }
-    
-    public String getPreviousPageLink() {
-        return previousPageLink;
-    }
-    
-    public String getNextPageLink() {
-        return nextPageLink;
     }
     
     public List<CommentRow> getCommentRows() {
@@ -89,7 +68,7 @@ public class StudentCommentsPageData extends PageData {
         return feedbackSessionRows;
     }
     
-    private String retrievePreviousPageLink() {
+    private String retrievePreviousPageLink(List<String> coursePaginationList) {
         int courseIdx = coursePaginationList.indexOf(courseId);
         String previousPageLink = "javascript:;";
         if (courseIdx >= 1) {
@@ -98,7 +77,7 @@ public class StudentCommentsPageData extends PageData {
         return previousPageLink;
     }
 
-    private String retrieveNextPageLink() {
+    private String retrieveNextPageLink(List<String> coursePaginationList) {
         int courseIdx = coursePaginationList.indexOf(courseId);
         String nextPageLink = "javascript:;";
         if (courseIdx < coursePaginationList.size() - 1) {
@@ -131,7 +110,22 @@ public class StudentCommentsPageData extends PageData {
         return removeEndComma(namesString);
     }
     
-    private void setCommentRows(String studentEmail, CourseRoster roster) {
+    
+    private void setCoursePagination(List<String> coursePaginationList) {
+        String previousPageLink = retrievePreviousPageLink(coursePaginationList);
+        String nextPageLink = retrieveNextPageLink(coursePaginationList);
+        String activeCourse = "";
+        for (String courseId : coursePaginationList) {
+            if (courseId.equals(this.courseId)) {
+                activeCourse = courseId;
+            }
+        }
+        String userCommentsLink = getStudentCommentsLink(false);
+        coursePagination = new CoursePagination(previousPageLink, nextPageLink, coursePaginationList,
+                                                activeCourse, userCommentsLink);
+    }
+    
+    private void setCommentRows(String studentEmail, CourseRoster roster, List<CommentAttributes> comments) {
         commentRows = new ArrayList<CommentRow>();
         
         for (CommentAttributes comment : comments) {
