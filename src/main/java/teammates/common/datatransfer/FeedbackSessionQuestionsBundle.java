@@ -23,6 +23,14 @@ public class FeedbackSessionQuestionsBundle {
         this.recipientList = recipientList;
     }
 
+    public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> getQuestionResponseBundle() {
+        return questionResponseBundle;
+    }
+    
+    public FeedbackSessionAttributes getFeedbackSession() {
+        return feedbackSession;
+    }
+
     /**
      * Gets the list of questions in this bundle, sorted by question number.
      * @return A {@code List} of {@code FeedackQuestionAttributes}.

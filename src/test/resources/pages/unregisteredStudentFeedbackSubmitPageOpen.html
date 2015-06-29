@@ -218,22 +218,22 @@
                 </div>
                 <div id="contentLinks" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="">
+                        <li>
                             <a data-unreg="true" href="{$app.url}/page/studentCourseJoinAuthentication?key={*}&amp;studentemail=drop.out%40gmail.tmt&amp;courseid=SFSubmitUiT.CS2104&amp;next=%2Fpage%2FstudentHomePage" id="studentHomeNavLink" class="navLinks">
                                 Home
                             </a>
                         </li>
-                        <li class="">
+                        <li>
                             <a data-unreg="true" href="{$app.url}/page/studentCourseJoinAuthentication?key={*}&amp;studentemail=drop.out%40gmail.tmt&amp;courseid=SFSubmitUiT.CS2104&amp;next=%2Fpage%2FstudentProfilePage" id="studentProfileNavLink" class="navLinks">
                                 Profile
                             </a>
                         </li>
-                        <li class="">
+                        <li>
                             <a data-unreg="true" href="{$app.url}/page/studentCourseJoinAuthentication?key={*}&amp;studentemail=drop.out%40gmail.tmt&amp;courseid=SFSubmitUiT.CS2104&amp;next=%2Fpage%2FstudentCommentsPage" id="studentCommentsNavLink" class="navLinks">
                                 Comments
                             </a>
                         </li>
-                        <li class="">
+                        <li>
                             <a target="_blank" href="/studentHelp.html" class="nav" id="studentHelpLink">Help</a>
                         </li>
                     </ul>
@@ -241,75 +241,61 @@
                 </div>
             </div>
         </div>
-                
+<div class="container" id="mainContent">
+            <div id="topOfPage">
+            </div>
+            <h1>
+               Submit Feedback
+            </h1>
+            <br/>
+                        <script>
+               var url = window.location.origin + &#39;&#x2f;&#39; + &#39;test-student-motd&#39;;
 
-
-
-
-
-
-
-    <script>
-        var url = window.location.origin + "/" + "test-student-motd.html";
         $.ajax({
-            type: "GET",
+            type: &#39;GET&#39;,
             url: url,
-            success: function(data){
-                $("#student-motd").html(data);
+            success: function(data) {
+                $(&#39;#student-motd&#39;).html(data);
             },
-            error: function(jqXHR, textStatus, errorThrown){
-                console.log('AJAX request failed');
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(&#39;AJAX request failed&#39;);
             }
         });
+
         function closeMotd() {
-            $("#student-motd-container").hide();
+            $(&#39;#student-motd-container&#39;).hide();
         }
-    </script>
-    <div id="student-motd-container" class="container theme-showcase">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="panel panel-default">
-                    <div class="panel-body padding-top-0">
-                        <div class="row">
-                            <div "col-sm-12"="">
-                                <p class="padding-15px margin-0">
-                                    <b class="text-color-gray">TEAMMATES Message of the day</b>
+            </script>
+            <div class="container theme-showcase" id="student-motd-container">
+               <div class="row">
+                  <div class="col-sm-12">
+                     <div class="panel panel-default">
+                        <div class="panel-body padding-top-0">
+                           <div class="row">
+                              <div class="col-sm-12">
+                                 <p class="padding-15px margin-0">
+                                    <b class="text-color-gray">
+                                       TEAMMATES Message of the day
+                                    </b>
                                      
-                                    <button onclick="closeMotd();" aria-label="Close" class="close" type="button">
-                                        <span aria-hidden="true">×</span>
+                                    <button aria-label="Close" class="close" onclick="closeMotd();" type="button">
+                                       <span aria-hidden="true">
+                                          ×
+                                       </span>
                                     </button>
-                                </p>
-                            </div>
+                                 </p>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-sm-12" id="student-motd">
+                              <!-- student message of the day -->
+                              </div>
+                           </div>
                         </div>
-                        <div class="row">
-                            <div id="student-motd" class="col-sm-12">
-
-
-
-<link href="/favicon.png" rel="shortcut icon" />
-<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-<title>TEAMMATES</title>
-
-
-	<div class="col-sm-12">
-    	<h1>Test student Message of the day! =)</h1><h1>
-    	<img width="350px" src="/images/overview.png" alt="Overview of TEAMMATES - anonymous peer feedback and confidential peer evaluations" />
-	</h1></div>
-
-</div>
-                        </div>
-                    </div>
-                </div>
+                     </div>
+                  </div>
+               </div>
             </div>
-        </div>
-    </div>
-
-
-        
-        <div id="mainContent" class="container">
-                <div id="topOfPage"></div>
-                <h1>Submit Feedback</h1>
-                <br />
                 
                     <div class="alert alert-info" id="registerMessage">
                         You are submitting feedback as <span class="text-danger text-bold text-large">Drop out</span>. You may submit feedback and view results without logging in. To access other features you need <a class="link" href="/page/studentCourseJoinAuthentication?key={*}&amp;studentemail=drop.out%40gmail.tmt&amp;courseid=SFSubmitUiT.CS2104">to login using a google account</a> (recommended).
