@@ -11,11 +11,11 @@
     </div>
     <table class="table">
         <tbody>
-            <c:forEach items="${feedbackQuestionTable.responseRows}" var="feedbackResponseRow" varStatus="j"> <%-- FeedbackResponse loop starts --%>
+            <c:forEach items="${feedbackQuestionTable.responseRows}" var="feedbackResponseRow" varStatus="j">
                 <c:set var="responseIndex" value="${j.index + 1}" />
                 <comments:feedbackResponsePanel feedbackResponseRow="${feedbackResponseRow}"
                  fsIdx="${fsIdx}" qnIdx="${qnIdx}" responseIndex="${responseIndex}"/>
-            </c:forEach> <%-- FeedbackResponse loop ends --%>
+            </c:forEach>
         </tbody>
     </table>
 </div>

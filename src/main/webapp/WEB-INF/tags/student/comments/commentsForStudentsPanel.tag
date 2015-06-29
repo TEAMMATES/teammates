@@ -8,7 +8,7 @@
     </div>
     <div class="panel-body">
         <c:set var="commentIdx" value="0" />
-        <c:forEach items="${commentRows}" var="commentRow" varStatus="i"> <%-- comment loop starts --%>
+        <c:forEach items="${commentRows}" var="commentRow" varStatus="i">
             <c:set var="studentIdx" value="${i.index + 1}" />
             <div class="panel panel-info student-record-comments ${commentRow.recipientDetails == 'you' ? 'giver_display-to-you' : 'giver_display-to-others'}">
                 <div class="panel-heading">
@@ -29,6 +29,6 @@
                     </li>
                 </ul>
             </div>
-        </c:forEach> <%-- comment loop ends --%>
+        </c:forEach>
     </div>
 </div>

@@ -8,10 +8,10 @@
         <strong>Comments in session: ${feedbackSessionRow.feedbackSessionName}</strong>
     </div> 
     <div class="panel-body"> 
-        <c:forEach items="${feedbackSessionRow.questionTables}" var="feedbackQuestionTable" varStatus="i"> <%-- FeedbackQuestion loop starts --%>
+        <c:forEach items="${feedbackSessionRow.questionTables}" var="feedbackQuestionTable" varStatus="i">
             <c:set var="qnIdx" value="${i.index + 1}" />
             <comments:feedbackQuestionPanel feedbackQuestionTable="${feedbackQuestionTable}"
              fsIdx="${fsIdx}" qnIdx="${qnIdx}"/>
-        </c:forEach> <%-- FeedbackQuestion loop ends --%>
+        </c:forEach>
     </div>
 </div>

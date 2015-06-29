@@ -29,15 +29,15 @@
                     </div>
                 </div>
             </div>
-            <c:if test="${not empty data.comments}"> <%-- check student comments starts --%>
+            <c:if test="${not empty data.comments}">
                 <br>
                 <comments:commentsForStudentsPanel commentRows="${data.commentRows}"/>
-            </c:if> <%--check student comments ends--%> 
-            <c:forEach items="${data.feedbackSessionRows}" var="feedbackSessionRow" varStatus="h"> <%-- FeedbackSession loop starts --%>
+            </c:if>
+            <c:forEach items="${data.feedbackSessionRows}" var="feedbackSessionRow" varStatus="h">
                 <c:set var="fsIdx" value="${h.index + 1}" />
                 <br>
                 <comments:feedbackSessionPanel feedbackSessionRow="${feedbackSessionRow}" fsIdx="${fsIdx}"/>
-            </c:forEach> <%-- FeedbackSession loop ends --%>
+            </c:forEach>
         </div>
         <comments:pagination />
     </c:when>
