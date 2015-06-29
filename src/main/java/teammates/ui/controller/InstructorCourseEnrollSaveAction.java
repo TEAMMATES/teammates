@@ -49,8 +49,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
             statusToAdmin += "<br>Enrollment string entered by user:<br>" + studentsInfo.replace("\n", "<br>");
             
             InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account);
-            pageData.courseId = courseId;
-            pageData.enrollStudents = studentsInfo;
+            pageData.init(courseId, studentsInfo);
             
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
         } catch (EntityAlreadyExistsException e) {
@@ -61,8 +60,7 @@ public class InstructorCourseEnrollSaveAction extends Action {
                              + "please contact TEAMMATES support");
             
             InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account);
-            pageData.courseId = courseId;
-            pageData.enrollStudents = studentsInfo;
+            pageData.init(courseId, studentsInfo);
             
             log.severe("Entity already exists exception occurred when updating student: " + e.getMessage());
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);

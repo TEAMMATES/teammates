@@ -23,8 +23,7 @@ public class InstructorCourseEnrollPageAction extends Action {
         
         /* Setup page data for 'Enroll' page of a course */
         InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account);
-        pageData.courseId = courseId;
-        pageData.enrollStudents = studentsInfo;
+        pageData.init(courseId, studentsInfo);
 
         statusToAdmin = "instructorCourseEnroll Page Load<br>"
                 + "Enrollment for Course <span class=\"bold\">[" + courseId + "]</span>"; 

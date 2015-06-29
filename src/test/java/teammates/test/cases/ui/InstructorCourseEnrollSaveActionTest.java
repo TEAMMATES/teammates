@@ -180,8 +180,8 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         assertEquals(expectedStatusMessage, pageResult.getStatusMessage());
         
         InstructorCourseEnrollPageData enrollPageData = (InstructorCourseEnrollPageData) pageResult.data;
-        assertEquals(courseId, enrollPageData.courseId);
-        assertEquals(enrollString, enrollPageData.enrollStudents);
+        assertEquals(courseId, enrollPageData.getCourseId());
+        assertEquals(enrollString, enrollPageData.getEnrollStudents());
         
         expectedLogSegment = expectedStatusMessage + "<br>Enrollment string entered by user:<br>" + (enrollString).replace("\n", "<br>");
         AssertHelper.assertContains(expectedLogSegment, enrollAction.getLogMessage());
@@ -237,8 +237,8 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         assertEquals(Const.StatusMessages.ENROLL_LINE_EMPTY, pageResult.getStatusMessage());
         
         enrollPageData = (InstructorCourseEnrollPageData) pageResult.data;
-        assertEquals(courseId, enrollPageData.courseId);
-        assertEquals(enrollString, enrollPageData.enrollStudents);
+        assertEquals(courseId, enrollPageData.getCourseId());
+        assertEquals(enrollString, enrollPageData.getEnrollStudents());
         
         AssertHelper.assertContains(Const.StatusMessages.ENROLL_LINE_EMPTY, enrollAction.getLogMessage());
             
