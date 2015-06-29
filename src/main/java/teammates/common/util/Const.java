@@ -722,7 +722,7 @@ public class Const {
         public static final String INSTRUCTOR_COURSE_JOIN_CONFIRMATION = "/jsp/instructorCourseJoinConfirmation.jsp";
         public static final String INSTRUCTOR_FEEDBACKS = "/jsp/instructorFeedbacks.jsp";
         public static final String INSTRUCTOR_FEEDBACK_COPY_MODAL = "/jsp/instructorFeedbackCopyModal.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_REMIND_MODAL = "/jsp/instructorFeedbackRemindModal.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_REMIND_MODAL = "/jsp/instructorFeedbackAjaxRemindModal.jsp";
         public static final String INSTRUCTOR_FEEDBACK_EDIT = "/jsp/instructorFeedbackEdit.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_TOP = "/jsp/instructorFeedbackResultsTop.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BOTTOM = "/jsp/instructorFeedbackResultsBottom.jsp";
