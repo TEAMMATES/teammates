@@ -1,12 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
-<%@ taglib tagdir="/WEB-INF/tags/student" prefix="ts" %>
+<%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 
-<c:set var="jsIncludes">
-</c:set>
-
-<ts:studentPage pageTitle="TEAMMATES - Instructor" bodyTitle="" jsIncludes="${jsIncludes}">
+<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="">
     <t:statusMessage />
     <div class="panel panel-primary panel-narrow">
         <div class="panel-heading">
@@ -26,4 +23,4 @@
             </p>
         </div>
     </div>
-</ts:studentPage>
+</ti:instructorPage>
