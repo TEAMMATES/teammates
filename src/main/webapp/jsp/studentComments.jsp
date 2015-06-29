@@ -12,7 +12,7 @@
     <t:statusMessage />
     <br>
     <c:choose>
-    <c:when test="${not empty data.coursePaginationList}">
+    <c:when test="${not empty data.coursePagination.coursePaginationList}">
         <comments:pagination coursePagination="${data.coursePagination}" />
         <div class="well well-plain">
             <div class="text-color-primary">
