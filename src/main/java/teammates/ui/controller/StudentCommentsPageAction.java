@@ -29,8 +29,6 @@ public class StudentCommentsPageAction extends Action {
     
     private StudentCommentsPageData data;
     private String courseId;
-    private String previousPageLink = "javascript:;";
-    private String nextPageLink = "javascript:;";
     private String studentEmail;
     
     @Override
@@ -72,7 +70,7 @@ public class StudentCommentsPageAction extends Action {
         
         data = new StudentCommentsPageData(account);
         data.init(courseId, courseName, coursePaginationList, comments, roster,
-                  previousPageLink, nextPageLink, studentEmail, feedbackResultBundles);
+                  studentEmail, feedbackResultBundles);
         
         statusToAdmin = "studentComments Page Load<br>" + 
                 "Viewing <span class=\"bold\">" + account.googleId + "'s</span> comment records " +
@@ -109,28 +107,12 @@ public class StudentCommentsPageAction extends Action {
             }
             if (course.id.equals(courseId)) {
                 courseName = course.id + " : " + course.name;
-                setPreviousPageLink(courses, i);
-                setNextPageLink(courses, i);
             }
         }
         if (courseName.equals("")) {
             throw new EntityDoesNotExistException("Trying to access a course that does not exist.");
         }
         return courseName;
-    }
-    
-    private void setPreviousPageLink(List<CourseAttributes> courses, int currentIndex){
-        if (currentIndex - 1 >= 0) {
-            CourseAttributes course = courses.get(currentIndex - 1);
-            previousPageLink = new PageData(account).getStudentCommentsLink(false) + "&courseid=" + course.id;
-        }
-    }
-    
-    private void setNextPageLink(List<CourseAttributes> courses, int currentIndex) {
-        if (currentIndex + 1 < courses.size()) {
-            CourseAttributes course = courses.get(currentIndex + 1);
-            nextPageLink = new PageData(account).getStudentCommentsLink(false) + "&courseid=" + course.id;
-        }
     }
     
     /*

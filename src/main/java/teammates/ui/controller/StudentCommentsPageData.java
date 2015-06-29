@@ -47,16 +47,15 @@ public class StudentCommentsPageData extends PageData {
     }
     
     public void init(String courseId, String courseName, List<String> coursePaginationList,
-                     List<CommentAttributes> comments, CourseRoster roster, String previousPageLink,
-                     String nextPageLink, String studentEmail,
+                     List<CommentAttributes> comments, CourseRoster roster, String studentEmail,
                      Map<String, FeedbackSessionResultsBundle> feedbackResultBundles) {
         this.courseId = courseId;
         this.courseName = courseName;
         this.coursePaginationList = coursePaginationList;
         this.comments = comments;
         this.roster = roster;
-        this.previousPageLink = previousPageLink;
-        this.nextPageLink = nextPageLink;
+        this.previousPageLink = retrievePreviousPageLink();
+        this.nextPageLink = retrieveNextPageLink();
         this.studentEmail = studentEmail;
         this.feedbackResultBundles = feedbackResultBundles;
         
@@ -106,6 +105,24 @@ public class StudentCommentsPageData extends PageData {
     
     public List<FeedbackSessionRow> getFeedbackSessionRows() {
         return feedbackSessionRows;
+    }
+    
+    private String retrievePreviousPageLink() {
+        int courseIdx = coursePaginationList.indexOf(courseId);
+        String previousPageLink = "javascript:;";
+        if (courseIdx >= 1) {
+            previousPageLink = getStudentCommentsLink() + "&courseid=" + coursePaginationList.get(courseIdx - 1);
+        }
+        return previousPageLink;
+    }
+
+    private String retrieveNextPageLink() {
+        int courseIdx = coursePaginationList.indexOf(courseId);
+        String nextPageLink = "javascript:;";
+        if (courseIdx < coursePaginationList.size() - 1) {
+            nextPageLink = getStudentCommentsLink() + "&courseid=" + coursePaginationList.get(courseIdx + 1);
+        }
+        return nextPageLink;
     }
     
     private String getRecipientNames(Set<String> recipients) {
