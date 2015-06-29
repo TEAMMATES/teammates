@@ -19,4 +19,8 @@ public class InstructorFeedbackRemindParticularStudentsPageData extends PageData
     public String getFsName() {
         return fsName;
     }
+    
+    public FeedbackSessionResponseStatus getResponseStatus() {
+        return responseStatus;
+    }
 }
