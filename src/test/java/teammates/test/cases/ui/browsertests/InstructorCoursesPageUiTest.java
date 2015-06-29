@@ -127,6 +127,8 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
         
         instructorId = testData.accounts.get("instructorWithoutCourses").googleId;
         coursesPage = getCoursesPage();
+
+        // This is the full HTML verification for Instructor Courses Page, the rest can all be verifyMainHtml
         coursesPage.verifyHtml("/instructorCoursesNoCourse.html");
         
         ______TS("multiple course");

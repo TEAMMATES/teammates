@@ -46,6 +46,8 @@ public class InstructorCourseStudentDetailsPageUiTest extends BaseUiTestCase {
         ______TS("content: registered student");
         
         viewPage = getCourseStudentDetailsPage("registeredStudent");
+
+        // This is the full HTML verification for Instructor Student Details Page, the rest can all be verifyMainHtml
         viewPage.verifyHtml("/InstructorCourseStudentDetailsRegistered.html");
 
         ______TS("content: unregistered student");

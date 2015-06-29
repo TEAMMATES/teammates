@@ -76,6 +76,10 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public String getId() {
         return feedbackQuestionId;
     }
+    
+    public FeedbackQuestionType getQuestionType() {
+        return questionType;
+    }
 
     /** NOTE: Only use this to match and search for the ID of a known existing question entity. */
     public void setId(String id) {

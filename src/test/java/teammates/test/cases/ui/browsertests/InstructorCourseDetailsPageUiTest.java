@@ -64,6 +64,8 @@ public class InstructorCourseDetailsPageUiTest extends BaseUiTestCase {
         courseId = testData.courses.get("CCDetailsUiT.CourseWithoutStudents").id;
         detailsPage = getCourseDetailsPage();
         detailsPage.verifyIsCorrectPage(courseId);
+
+        // This is the full HTML verification for Instructor Course Details Page, the rest can all be verifyMainHtml
         detailsPage.verifyHtml("/InstructorCourseDetailsEmptyCourse.html");
         
         ______TS("content: multiple students with sections");

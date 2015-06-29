@@ -1,31 +1,30 @@
-<%@ tag description="studentFeedbackSubmissionEdit.jsp, studentFeedbackQuestionSubmissionEdit.jsp
-                         - Display student feedback submission form" %>
+<%@ tag description="studentFeedbackSubmissionEdit.jsp - Display student feedback submission form" %>
 <%@ tag import="teammates.common.util.Const"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/student/feedbackSubmissionEdit" prefix="feedbackSubmissionEdit" %>
 
-<%@ attribute name="submitAction" required="true" %>
-<%@ attribute name="moderation" type="java.lang.Boolean" required="true" %>
-<%@ attribute name="moderatedStudentEmail" required="true" %>
-<%@ attribute name="questionResponseBundle" type="java.util.Map" required="true" %>
-<%@ attribute name="preview" type="java.lang.Boolean" required="true" %>
-<%@ attribute name="submittable" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="feedbackSubmissionForm" type="teammates.ui.controller.FeedbackSubmissionEditPageData" required="true" %>
 
-<form method="post" name="form_student_submit_response" action="${submitAction}">
+<form method="post" name="form_student_submit_response" action="${feedbackSubmissionForm.submitAction}">
     <jsp:include page="<%=Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT%>" />
     
     <div class="bold align-center"> 
-        <c:if test="${moderation}">       
-            <input name="moderatedstudent" value="${moderatedStudentEmail}" type="hidden">
+        <c:if test="${feedbackSubmissionForm.moderation}">       
+            <input name="moderatedstudent" value="${feedbackSubmissionForm.studentToViewPageAs.email}" type="hidden">
         </c:if>
 
         <c:choose>
-            <c:when test="${empty questionResponseBundle}">
+            <c:when test="${empty feedbackSubmissionForm.bundle.questionResponseBundle}">
                     There are no questions for you to answer here!
             </c:when>
             <c:otherwise>
-                <feedbackSubmissionEdit:submitButton
-                    preview="${preview}" submittable="${submittable}" />
+                <input type="submit" class="btn btn-primary"
+                       id="response_submit_button" data-toggle="tooltip"
+                       data-placement="top" title="<%=Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE%>"
+                       value="Submit Feedback"
+                       <c:if test="${feedbackSubmissionForm.preview or (not feedbackSubmissionForm.submittable)}">
+                           disabled="disabled" style="background: #66727A;"
+                       </c:if>>
             </c:otherwise>
         </c:choose>
     </div>

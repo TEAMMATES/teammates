@@ -78,7 +78,9 @@ public class InstructorStudentListPageUiTest extends BaseUiTestCase {
         ______TS("content: search no match");
         viewPage = loginAdminToPage(browser, viewPageUrl, InstructorStudentListPage.class);
         viewPage.setSearchKey("noMatch");
-        viewPage.verifyHtmlMainContent("/instructorStudentListPageSearchNoMatch.html");
+
+        // This is the full HTML verification for Instructor Student List Page, the rest can all be verifyMainHtml
+        viewPage.verifyHtml("/instructorStudentListPageSearchNoMatch.html");
 
         ______TS("content: search student with 1 result");
 

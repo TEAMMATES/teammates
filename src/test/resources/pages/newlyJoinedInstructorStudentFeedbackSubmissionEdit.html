@@ -2,7 +2,53 @@
                 <div id="topOfPage"></div>
                 <h1>Submit Feedback</h1>
                 <br>
-                
+                <script>
+         var url = window.location.origin + &#39;&#x2f;&#39; + &#39;test-student-motd&#39;;
+
+        $.ajax({
+            type: &#39;GET&#39;,
+            url: url,
+            success: function(data) {
+                $(&#39;#student-motd&#39;).html(data);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(&#39;AJAX request failed&#39;);
+            }
+        });
+
+        function closeMotd() {
+            $(&#39;#student-motd-container&#39;).hide();
+        }
+      </script>
+      <div class="container theme-showcase" id="student-motd-container">
+         <div class="row">
+            <div class="col-sm-12">
+               <div class="panel panel-default">
+                  <div class="panel-body padding-top-0">
+                     <div class="row">
+                        <div class="col-sm-12">
+                           <p class="padding-15px margin-0">
+                              <b class="text-color-gray">
+                                 TEAMMATES Message of the day
+                              </b>
+                               
+                              <button aria-label="Close" class="close" onclick="closeMotd();" type="button">
+                                 <span aria-hidden="true">
+                                    ×
+                                 </span>
+                              </button>
+                           </p>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-sm-12" id="student-motd">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
                 <form method="post" name="form_student_submit_response" action="/page/studentFeedbackSubmissionEditSave">
                     
 
@@ -32,7 +78,7 @@
         </div>
         
         <script type="text/javascript">
-            document.getElementById( 'statusMessage' ).scrollIntoView();
+            document.getElementById('statusMessage').scrollIntoView();
         </script>
 
 
@@ -104,7 +150,7 @@
                     
                             <br>
                             <div class="form-group margin-0">
-                                <div class="col-sm-2 form-inline" style="text-align:right;">
+                                <div class="col-sm-2 form-inline" style="text-align:right">
                                     <label for="input">To: </label>
                                     <select class="participantSelect middlealign form-control" name="responserecipient-1-0" style="display:none;max-width:125px" disabled="disabled">
                                         <option value=""></option>
@@ -148,7 +194,7 @@
                     
                             <br>
                             <div class="form-group margin-0">
-                                <div class="col-sm-2 form-inline" style="text-align:right;">
+                                <div class="col-sm-2 form-inline" style="text-align:right">
                                     <label for="input">To: </label>
                                     <select class="participantSelect middlealign form-control" name="responserecipient-1-1" style="display:none;max-width:125px" disabled="disabled">
                                         <option value=""></option>
@@ -192,7 +238,7 @@
                     
                             <br>
                             <div class="form-group margin-0">
-                                <div class="col-sm-2 form-inline" style="text-align:right;">
+                                <div class="col-sm-2 form-inline" style="text-align:right">
                                     <label for="input">To: </label>
                                     <select class="participantSelect middlealign form-control" name="responserecipient-1-2" style="display:none;max-width:125px" disabled="disabled">
                                         <option value=""></option>
@@ -236,7 +282,7 @@
                     
                             <br>
                             <div class="form-group margin-0">
-                                <div class="col-sm-2 form-inline" style="text-align:right;">
+                                <div class="col-sm-2 form-inline" style="text-align:right">
                                     <label for="input">To: </label>
                                     <select class="participantSelect middlealign form-control" name="responserecipient-1-3" style="display:none;max-width:125px" disabled="disabled">
                                         <option value=""></option>
@@ -350,7 +396,7 @@
                     
                             <br>
                             <div class="form-group margin-0">
-                                <div class="col-sm-2 form-inline" style="text-align:right;">
+                                <div class="col-sm-2 form-inline" style="text-align:right">
                                     <label for="input">To: </label>
                                     <select class="participantSelect middlealign form-control" name="responserecipient-3-0" style="display:none;max-width:125px" disabled="disabled">
                                         <option value=""></option>
@@ -368,7 +414,7 @@
                     
                             <br>
                             <div class="form-group margin-0">
-                                <div class="col-sm-2 form-inline" style="text-align:right;">
+                                <div class="col-sm-2 form-inline" style="text-align:right">
                                     <label for="input">To: </label>
                                     <select class="participantSelect middlealign form-control" name="responserecipient-3-1" style="display:none;max-width:125px" disabled="disabled">
                                         <option value=""></option>
@@ -386,7 +432,7 @@
                     
                             <br>
                             <div class="form-group margin-0">
-                                <div class="col-sm-2 form-inline" style="text-align:right;">
+                                <div class="col-sm-2 form-inline" style="text-align:right">
                                     <label for="input">To: </label>
                                     <select class="participantSelect middlealign form-control" name="responserecipient-3-2" style="display:none;max-width:125px" disabled="disabled">
                                         <option value=""></option>
@@ -428,7 +474,7 @@
                     
                             <br>
                             <div class="form-group margin-0">
-                                <div class="col-sm-2 form-inline" style="text-align:right;">
+                                <div class="col-sm-2 form-inline" style="text-align:right">
                                     <label for="input">To: </label>
                                     <select class="participantSelect middlealign form-control" name="responserecipient-4-0" style="display:none;max-width:125px" disabled="disabled">
                                         <option value=""></option>
@@ -470,7 +516,7 @@
                     
                             <br>
                             <div class="form-group margin-0">
-                                <div class="col-sm-2 form-inline" style="text-align:right;">
+                                <div class="col-sm-2 form-inline" style="text-align:right">
                                     <label for="input">To: </label>
                                     <select class="participantSelect middlealign form-control" name="responserecipient-5-0" style="display:none;max-width:125px" disabled="disabled">
                                         <option value=""></option>
@@ -488,7 +534,7 @@
                     
                             <br>
                             <div class="form-group margin-0">
-                                <div class="col-sm-2 form-inline" style="text-align:right;">
+                                <div class="col-sm-2 form-inline" style="text-align:right">
                                     <label for="input">To: </label>
                                     <select class="participantSelect middlealign form-control" name="responserecipient-5-1" style="display:none;max-width:125px" disabled="disabled">
                                         <option value=""></option>
@@ -506,7 +552,7 @@
                     
                             <br>
                             <div class="form-group margin-0">
-                                <div class="col-sm-2 form-inline" style="text-align:right;">
+                                <div class="col-sm-2 form-inline" style="text-align:right">
                                     <label for="input">To: </label>
                                     <select class="participantSelect middlealign form-control" name="responserecipient-5-2" style="display:none;max-width:125px" disabled="disabled">
                                         <option value=""></option>

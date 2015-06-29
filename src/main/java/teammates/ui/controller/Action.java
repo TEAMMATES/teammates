@@ -435,9 +435,8 @@ public abstract class Action {
     /**
      * Generates a {@link AjaxResult} with the information in this object.
      */
-    public AjaxResult createAjaxResult(String destination, PageData pageData) {
-        return new AjaxResult(destination, 
-                              account,
+    public AjaxResult createAjaxResult(PageData pageData) {
+        return new AjaxResult(account,
                               requestParameters,
                               statusToUser,
                               pageData);

@@ -4,10 +4,10 @@
 <%@ taglib tagdir="/WEB-INF/tags/student" prefix="ts" %>
 <%@ taglib tagdir="/WEB-INF/tags/student/profile" prefix="tsp" %>
 <c:set var="jsIncludes">
-    <link rel="stylesheet" href="/Jcrop/css/jquery.Jcrop.min.css">
+    <link type="text/css" rel="stylesheet" href="/Jcrop/css/jquery.Jcrop.min.css">
+    <script type="text/javascript" src="/Jcrop/js/jquery.Jcrop.min.js"></script>
     <script type="text/javascript" src="/js/student.js"></script>
     <script type="text/javascript" src="/js/studentProfile.js"></script>
-    <script type="text/javascript" src="/Jcrop/js/jquery.Jcrop.min.js"></script>
 </c:set>
 <ts:studentPage pageTitle="TEAMMATES - Student Profile" bodyTitle="Student Profile" jsIncludes="${jsIncludes}">
     <t:statusMessage />
