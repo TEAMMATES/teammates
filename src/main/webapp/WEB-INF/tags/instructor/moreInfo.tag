@@ -18,15 +18,15 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-xs-12">
         <div class="panel panel-default">
             <div class="panel-body">
                 <span data-toggle="modal" data-target="#studentProfileMoreInfo"
-                      class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
+                    class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
                 <h5>More Info </h5>
                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->                                    
                 <p class="text-preserve-space height-fixed-md">${empty student.moreInfo ? notFilled : student.moreInfo}</p>
