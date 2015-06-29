@@ -9,11 +9,10 @@
 <%@ attribute name="shouldCollapsed" type="java.lang.Boolean" required="true" %>
 
 <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
-<br>
-
-
-<c:forEach items="${data.questionPanels}" var="questionPanel" varStatus="i">
-    <results:questionPanel questionIndex="${i.index}" showAll="${showAll}" questionPanel="${questionPanel}" shouldCollapsed="${shouldCollapsed}"/>
-</c:forEach>
-
+    <br>
+    
+    <c:forEach items="${data.sectionPanels}" var="sectionPanel" varStatus="i">
+    
+        <results:sectionPanel showAll="${showAll}" sectionPanel="${sectionPanel.value}" shouldCollapsed="${shouldCollapsed}" sectionIndex="${i.index}"/>
+    </c:forEach>
 <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BOTTOM%>" />

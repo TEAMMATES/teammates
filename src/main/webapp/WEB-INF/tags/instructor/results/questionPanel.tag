@@ -6,7 +6,7 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 
 <%@ attribute name="showAll" type="java.lang.Boolean" required="true" %>
-<%@ attribute name="questionIndex" type="java.lang.Integer" required="true" %>
+<%@ attribute name="questionIndex" type="java.lang.Integer"%>
 <%@ attribute name="shouldCollapsed" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="questionPanel" type="teammates.ui.template.InstructorResultsQuestionTable" required="true" %>
 
@@ -34,7 +34,7 @@
         </div>
     </div>
     <div class="panel-collapse collapse <c:if test="${showAll && !shouldCollapsed}">in</c:if>" >
-    <div class="panel-body padding-0" id="questionBody-${questionIndex}">
+    <div class="panel-body padding-0" <c:if test="${questionIndex != null}">id="questionBody-${questionIndex}"</c:if>>
         
         <c:if test="${!questionPanel.questionHasResponses}">
             <div class="col-sm-12">
@@ -42,46 +42,48 @@
             </div>
         </c:if>
         
-        <c:if test="${showAll && questionPanel.questionHasResponses && questionPanel.showResponseRows}">
+        <c:if test="${showAll && questionPanel.questionHasResponses}">
             <div class="resultStatistics">
                 ${questionPanel.questionStatisticsTable}
             </div>
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered dataTable margin-0">
-                    <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                        <tr>
-                            <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
-                                Giver
-                                <span class="icon-sort unsorted"></span>
-                            </th>
-                            <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
-                                Team
-                                <span class="icon-sort unsorted"></span>
-                            </th>
-                            <th id="button_sortToName" class="button-sort-none" onclick="toggleSort(this,3)" style="width: 15%;">
-                                Recipient
-                                <span class="icon-sort unsorted"></span>
-                            </th>
-                            <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
-                                Team
-                                <span class="icon-sort unsorted"></span>
-                            </th>
-                            <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,5)">
-                                Feedback
-                                <span class="icon-sort unsorted"></span>
-                            </th>
-                            <th>
-                                Actions
-                            </th>
-                        </tr>
-                    <thead>
-                    <tbody>
-                        <c:forEach items="${questionPanel.responses}" var="responseRow">
-                            <results:responseRow responseRow="${responseRow}"/>
-                        </c:forEach>
-                    </tbody>
-                </table>
-            </div>
+            <c:if test="${questionPanel.showResponseRows}">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered dataTable margin-0">
+                        <thead class="background-color-medium-gray text-color-gray font-weight-normal">
+                            <tr>
+                                <th id="button_sortFromName" class="button-sort-none" onclick="toggleSort(this,1)" style="width: 15%;">
+                                    Giver
+                                    <span class="icon-sort unsorted"></span>
+                                </th>
+                                <th id="button_sortFromTeam" class="button-sort-none" onclick="toggleSort(this,2)" style="width: 15%;">
+                                    Team
+                                    <span class="icon-sort unsorted"></span>
+                                </th>
+                                <th id="button_sortToName" class="button-sort-none" onclick="toggleSort(this,3)" style="width: 15%;">
+                                    Recipient
+                                    <span class="icon-sort unsorted"></span>
+                                </th>
+                                <th id="button_sortToTeam" class="button-sort-ascending" onclick="toggleSort(this,4)" style="width: 15%;">
+                                    Team
+                                    <span class="icon-sort unsorted"></span>
+                                </th>
+                                <th id="button_sortFeedback" class="button-sort-none" onclick="toggleSort(this,5)">
+                                    Feedback
+                                    <span class="icon-sort unsorted"></span>
+                                </th>
+                                <th>
+                                    Actions
+                                </th>
+                            </tr>
+                        <thead>
+                        <tbody>
+                            <c:forEach items="${questionPanel.responses}" var="responseRow">
+                                <results:responseRow responseRow="${responseRow}"/>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </c:if>
         </c:if>
         
     </div>

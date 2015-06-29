@@ -1,8 +1,15 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -16,6 +23,10 @@ import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
+import teammates.ui.template.FeedbackResultsParticipantPanel;
+import teammates.ui.template.InstructorFeedbackResultsGroupByParticipantPanel;
+import teammates.ui.template.InstructorFeedbackResultsGroupByQuestionPanel;
+import teammates.ui.template.InstructorFeedbackResultsSectionPanel;
 import teammates.ui.template.FeedbackSessionPublishButton;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.InstructorResultsQuestionTable;
@@ -46,8 +57,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public String ajaxStatus = null;
     public String sessionResultsHtmlTableAsString = null;
 
+    // TODO multiple page data classes for each view type inheriting from this class
     
-    List<InstructorResultsQuestionTable> questionPanels;  
+    // for question view
+    List<InstructorResultsQuestionTable> questionPanels;
+    // for giver > question > recipient, and more...
+    Map<String, InstructorFeedbackResultsSectionPanel> sectionPanels;
     
     public InstructorFeedbackResultsPageData(AccountAttributes account) {
         super(account);
@@ -64,29 +79,118 @@ public class InstructorFeedbackResultsPageData extends PageData {
             FeedbackQuestionAttributes question = entry.getKey();
             List<FeedbackResponseAttributes> responses = entry.getValue();
             
-            questionPanels.add(buildQuestionTable(question, responses));
+            questionPanels.add(buildQuestionTable(question, responses, "question"));
         }
         
     }
     
-    public void initForViewByGiverRecipientQuestion(FeedbackSessionResultsBundle bundle) {
+    public void initForViewByGiverRecipientQuestion(FeedbackSessionResultsBundle bundle, List<String> sections) {
         this.bundle = bundle;
-        Map<String, Map<String, List<FeedbackResponseAttributes>>> allResponses = bundle.getResponsesSortedByGiver(groupByTeam == null || groupByTeam.equals("on"));
+        LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>> responses = bundle.getResponsesSortedByGiver(
+                                                                                               groupByTeam == null 
+                                                                                            || groupByTeam.equals("on"));
         Map<String, FeedbackQuestionAttributes> questions = bundle.questions;
         
-        // Used for computing statistics over all responses from the team
-        Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> teamResponses = bundle.getQuestionResponseMapByGiverTeam();
+        LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> teamResponses = bundle.getQuestionResponseMapByGiverTeam();
         
+        // Initialize section Panels. TODO abstract into method
+        sectionPanels = new HashMap<String, InstructorFeedbackResultsSectionPanel>();
+       
+        // For detailed responses,
+        // need to iterate over the responses, to handle cases of anonymous responses.
+        String prevSection = "";
+        InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
+        
+        for (Map.Entry<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> giverTeamToQuestionResponseMapEntry 
+                                        : teamResponses.entrySet()) {
+            
+            String giverTeam = giverTeamToQuestionResponseMapEntry.getKey();
+            Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionToResponsesMap = giverTeamToQuestionResponseMapEntry.getValue(); 
+
+            String giverSection = Const.DEFAULT_SECTION;
+            // get first response for the section, temporarily. TODO remove
+            for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionToResponseListMap : questionToResponsesMap.entrySet()) {
+                FeedbackResponseAttributes anyResponse = questionToResponseListMap.getValue().get(0);
+                giverSection = anyResponse.giverSection;
+            }
+            
+            if (!prevSection.equals(giverSection)) {
+                sectionPanels.put(prevSection, sectionPanel);
+                sectionPanel = new InstructorFeedbackResultsSectionPanel();
+            }
+            
+            Map<String, List<FeedbackResultsParticipantPanel>> teamsToQuestionPanel 
+                = new HashMap<String, List<FeedbackResultsParticipantPanel>>();
+            
+            List<FeedbackResultsParticipantPanel> participantPanelList = new ArrayList<FeedbackResultsParticipantPanel>();
+            participantPanelList.add(new FeedbackResultsParticipantPanel());
+            teamsToQuestionPanel.put(giverTeam, participantPanelList);
+
+            sectionPanel.setSectionName(giverSection);            
+            sectionPanel.setParticipantPanels(teamsToQuestionPanel);
+
+            sectionPanel.getIsTeamWithResponses().put(giverTeam, true);
+            
+            prevSection = giverSection;
+        }
+        // for the last section
+        sectionPanels.put(prevSection, sectionPanel);
+        
+        for (String section : sections) {
+            if (!sectionPanels.containsKey(section)) {
+                continue;
+            }
+            InstructorFeedbackResultsSectionPanel panel = sectionPanels.get(section);
+            
+            panel.setSectionName(section);
+            panel.setArrowClass("glyphicon-chevron-up");
+            panel.setPanelClass("panel-success");
+            
+            // Initialize team, participant data. TODO abstract into method
+            Collection<String> teamsInSection = bundle.getTeamsInSectionFromRoster(section);
+            
+            // compute statistics tables
+            Map<String, List<InstructorResultsQuestionTable>> teamToStatisticsTables = new HashMap<String, List<InstructorResultsQuestionTable>>();
+            for (String team : teamsInSection) {
+                if (!teamResponses.containsKey(team)) {
+                    continue;
+                }
+                
+                List<InstructorResultsQuestionTable> statisticsTablesForTeam = new ArrayList<InstructorResultsQuestionTable>();
+                
+                for (FeedbackQuestionAttributes question : questions.values()) {
+                    if (!teamResponses.get(team).containsKey(question)) {
+                        continue;
+                    }
+                    
+                    List<FeedbackResponseAttributes> responsesGivenTeamAndQuestion = teamResponses.get(team).get(question);
+                    
+                    FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
+                    questionDetails.getQuestionResultStatisticsHtml(responsesGivenTeamAndQuestion, question, this, bundle, "giver-question-recipient");
+                    InstructorResultsQuestionTable statsTable = buildQuestionTable(question, responsesGivenTeamAndQuestion, "giver-question-recipient");
+                    statsTable.setShowResponseRows(false); 
+                    
+                    statisticsTablesForTeam.add(statsTable);
+                }
+ 
+                teamToStatisticsTables.put(team, statisticsTablesForTeam);
+            }
+            
+            panel.setTeamStatisticsTable(teamToStatisticsTables);
+            panel.setStatisticsHeaderText("Statistics for Given Responses");
+            panel.setDetailedResponsesHeaderText("Detailed Responses");
+        }
         
         
     }
     
     private InstructorResultsQuestionTable buildQuestionTable(FeedbackQuestionAttributes question,
-                                                              List<FeedbackResponseAttributes> responses) {
+                                                              List<FeedbackResponseAttributes> responses,
+                                                              String statisticsViewType) {
         
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
         String statisticsTable = questionDetails.getQuestionResultStatisticsHtml(responses, question, 
-                                                                                 this, bundle, "question");
+                                                                                 this, bundle, statisticsViewType);
         List<InstructorResultsResponseRow> responseRows = buildResponseRowsForQuestion(question, responses);
         
         InstructorResultsQuestionTable questionTable = new InstructorResultsQuestionTable(this, responses, statisticsTable, responseRows, question);
@@ -414,6 +518,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     public List<InstructorResultsQuestionTable> getQuestionPanels() {
         return questionPanels;
+    }
+
+    public Map<String, InstructorFeedbackResultsSectionPanel> getSectionPanels() {
+        return sectionPanels;
+    }
+
+    public void setSectionPanels(Map<String, InstructorFeedbackResultsSectionPanel> sectionPanels) {
+        this.sectionPanels = sectionPanels;
     }
 
     

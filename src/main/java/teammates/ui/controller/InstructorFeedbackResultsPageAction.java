@@ -136,7 +136,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
         data.setShouldCollapsed(data.bundle.responses.size() > 500);
 
         // Warning for section wise viewing in case of many responses.
-        if (data.selectedSection.equals(ALL_SECTION_OPTION) && data.bundle.isComplete == false) {
+        if (data.selectedSection.equals(ALL_SECTION_OPTION) && !data.bundle.isComplete) {
             // not tested because the test data is not large enough to make this happen
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING);
             isError = true;
@@ -157,6 +157,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER, data);
             case "giver-question-recipient":
+                data.initForViewByGiverRecipientQuestion(data.bundle, data.sections);
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT, data);
             default:

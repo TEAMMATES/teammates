@@ -1,5 +1,6 @@
 <%@ tag description="instructorFeedbackResults - by question" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+ <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%@ tag import="teammates.common.util.Const" %>
 
@@ -8,10 +9,11 @@
 <%@ attribute name="showAll" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="sectionIndex" type="java.lang.Integer" required="true" %>
 <%@ attribute name="shouldCollapsed" type="java.lang.Boolean" required="true" %>
-<%@ attribute name="sectionPanel" type="teammates.ui.template.FeedbackResultsSectionPanel" required="true" %>
+<%@ attribute name="sectionPanel" type="teammates.ui.template.InstructorFeedbackResultsSectionPanel" required="true" %>
 
-<c:set var="groupByTeamEnabled" value = "${data.groupByTeam != null || data.groupByTeam.equals(\"on\"))}"/>
-<div class="panel panel-success">
+
+<c:set var="groupByTeamEnabled" value="${data.groupByTeam != null && data.groupByTeam == 'on'}"/>
+<div class="panel ${sectionPanel.panelClass}">
     <div class="panel-heading">
         <div class="row">
             <div class="col-sm-9 panel-heading-text">
@@ -30,5 +32,18 @@
         </div>
     </div>
     <div class="panel-collapse collapse in">
-    <div class="panel-body" id="sectionBody-<%=sectionIndex%>">
-
+        <div class="panel-body" id="sectionBody-${sectionIndex}">
+            ${sectionPanel.teamStatisticsTable}
+            ==
+            
+            <c:forEach var="teamPanel" items="${sectionPanel.participantPanels}" varStatus="i">
+                   <results:teamPanel teamName="${teamPanel.key}" teamIndex="${i.index}" 
+                                      showAll="${showAll}" shouldCollapsed="${shouldCollapsed}" 
+                                      statsTables="${sectionPanel.teamStatisticsTable[teamPanel.key]}"
+                                      detailedResponsesHeaderText="${sectionPanel.detailedResponsesHeaderText}" 
+                                      statisticsHeaderText="${sectionPanel.statisticsHeaderText}"
+                                      isTeamHasResponses="${sectionPanel.isTeamWithResponses[teamPanel.key]}"/>  
+            </c:forEach>
+        </div>
+    </div>
+</div>
