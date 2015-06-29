@@ -218,33 +218,36 @@
                 </div>
                 <div id="contentLinks" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="">
+                        <li>
                             <a href="/page/studentHomePage?user=SFSubmitUiT.alice.b" id="studentHomeNavLink" class="navLinks">
                                 Home
                             </a>
                         </li>
-                        <li class="">
+                        <li>
                             <a href="/page/studentProfilePage?user=SFSubmitUiT.alice.b" id="studentProfileNavLink" class="navLinks">
                                 Profile
                             </a>
                         </li>
-                        <li class="">
+                        <li>
                             <a href="/page/studentCommentsPage?user=SFSubmitUiT.alice.b" id="studentCommentsNavLink" class="navLinks">
                                 Comments
                             </a>
                         </li>
-                        <li class="">
+                        <li>
                             <a target="_blank" href="/studentHelp.html" class="nav" id="studentHelpLink">Help</a>
                         </li>
                     </ul>
                     
                     <ul class="nav navbar-nav pull-right">
                         <li>
-                            <a href="/logout.jsp" class="nav logout">Logout
-                                (<span title="" data-placement="bottom" data-toggle="tooltip" class="text-info" data-original-title="SFSubmitUiT.alice.b">
-                                        SFSubmitUiT.alice.b
-                                 </span>)
-                            </a>
+                            <a class="nav logout" href="&#x2f;logout.jsp">
+                           Logout
+                            (
+                           <span class="text-info" data-original-title="SFSubmitUiT.alice.b" data-placement="bottom" data-toggle="tooltip" title="">
+                              SFSubmitUiT.alice.b
+                           </span>
+                           )
+                        </a>
                         </li>
                     </ul>
                     
@@ -254,72 +257,61 @@
                 
 
 
+<div class="container" id="mainContent">
+            <div id="topOfPage">
+            </div>
+            <h1>
+               Submit Feedback
+            </h1>
+            <br/>
+                        <script>
+               var url = window.location.origin + &#39;&#x2f;&#39; + &#39;test-student-motd&#39;;
 
-
-
-
-
-    <script>
-        var url = window.location.origin + "/" + "test-student-motd.html";
         $.ajax({
-            type: "GET",
+            type: &#39;GET&#39;,
             url: url,
-            success: function(data){
-                $("#student-motd").html(data);
+            success: function(data) {
+                $(&#39;#student-motd&#39;).html(data);
             },
-            error: function(jqXHR, textStatus, errorThrown){
-                console.log('AJAX request failed');
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(&#39;AJAX request failed&#39;);
             }
         });
+
         function closeMotd() {
-            $("#student-motd-container").hide();
+            $(&#39;#student-motd-container&#39;).hide();
         }
-    </script>
-    <div id="student-motd-container" class="container theme-showcase">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="panel panel-default">
-                    <div class="panel-body padding-top-0">
-                        <div class="row">
-                            <div "col-sm-12"="">
-                                <p class="padding-15px margin-0">
-                                    <b class="text-color-gray">TEAMMATES Message of the day</b>
+            </script>
+            <div class="container theme-showcase" id="student-motd-container">
+               <div class="row">
+                  <div class="col-sm-12">
+                     <div class="panel panel-default">
+                        <div class="panel-body padding-top-0">
+                           <div class="row">
+                              <div class="col-sm-12">
+                                 <p class="padding-15px margin-0">
+                                    <b class="text-color-gray">
+                                       TEAMMATES Message of the day
+                                    </b>
                                      
-                                    <button onclick="closeMotd();" aria-label="Close" class="close" type="button">
-                                        <span aria-hidden="true">×</span>
+                                    <button aria-label="Close" class="close" onclick="closeMotd();" type="button">
+                                       <span aria-hidden="true">
+                                          ×
+                                       </span>
                                     </button>
-                                </p>
-                            </div>
+                                 </p>
+                              </div>
+                           </div>
+                           <div class="row">
+                              <div class="col-sm-12" id="student-motd">
+                                 <!-- student message of the day -->
+                              </div>
+                           </div>
                         </div>
-                        <div class="row">
-                            <div id="student-motd" class="col-sm-12">
-
-
-
-<link href="/favicon.png" rel="shortcut icon" />
-<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-<title>TEAMMATES</title>
-
-
-	<div class="col-sm-12">
-    	<h1>Test student Message of the day! =)</h1><h1>
-    	<img width="350px" src="/images/overview.png" alt="Overview of TEAMMATES - anonymous peer feedback and confidential peer evaluations" />
-	</h1></div>
-
-</div>
-                        </div>
-                    </div>
-                </div>
+                     </div>
+                  </div>
+               </div>
             </div>
-        </div>
-    </div>
-
-
-        
-        <div id="mainContent" class="container">
-                <div id="topOfPage"></div>
-                <h1>Submit Feedback</h1>
-                <br />
                 
                 <form action="/page/studentFeedbackSubmissionEditSave" name="form_student_submit_response" method="post">
                     
@@ -477,7 +469,7 @@
             </div>
             <div class="col-md-8">
                 
-                        [for <span class="highlight-white"><span class="color_white">TEAMMATES Test Institute 1</span></span>]
+                        [for <span class="highlight-white">TEAMMATES Test Institute 1</span>]
                 
             </div>
             <div class="col-md-2">
