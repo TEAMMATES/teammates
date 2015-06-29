@@ -422,7 +422,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         
         ______TS("Check for highlight on last modified row");
         
-        feedbackPage.verifyHtmlMainContent("/instructorFeedbackDoneEditing.html");
+        String idOfModifiedSession = "session0";
+        String idOfModifiedSession2 = "session1";
+        assertTrue(feedbackPage.isContainingCssClass(By.id(idOfModifiedSession), "warning"));
+        assertFalse(feedbackPage.isContainingCssClass(By.id(idOfModifiedSession2), "warning"));
         
         // restore feedbackeditpage
         feedbackEditPage = getFeedbackEditPage();
