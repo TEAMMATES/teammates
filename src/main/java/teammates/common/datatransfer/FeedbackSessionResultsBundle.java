@@ -1397,9 +1397,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return getResponsesSortedByGiver(false);
     }
 
-    public Map<String, Map<String, List<FeedbackResponseAttributes>>>
+    public LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>
             getResponsesSortedByGiver(boolean sortByTeam) {
-        Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
+        LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
                 new LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>();
 
         if (sortByTeam) {
@@ -1444,11 +1444,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             recipientName = this.getRecipientNameForResponse(questions.get(response.feedbackQuestionId),
                                                              response);
             recipientTeamName = this.getTeamNameForEmail(response.recipientEmail);
-            recipientName = this.appendTeamNameToName(recipientName, recipientTeamName);
+            
             giverName = this.getGiverNameForResponse(questions.get(response.feedbackQuestionId),
                                                      response);
             giverTeamName = this.getTeamNameForEmail(response.giverEmail);
-            giverName = this.appendTeamNameToName(giverName, giverTeamName);
+            
         }
 
         if (!(responses.isEmpty())) {
