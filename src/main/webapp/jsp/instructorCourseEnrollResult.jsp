@@ -25,31 +25,11 @@
         </form>
     </div>
     
-    <c:forEach items="${data.students}" var="studentList" varStatus="i">
-        <c:if test="${not empty studentList}">
-            <c:choose>
-                <c:when test="${i.index == 0}">
-                    <c:set var="panelClass">panel panel-danger</c:set>
-                </c:when>
-                <c:when test="${i.index == 1}">
-                    <c:set var="panelClass">panel panel-primary</c:set>
-                </c:when>
-                <c:when test="${i.index == 2}">
-                    <c:set var="panelClass">panel panel-warning</c:set>
-                </c:when>
-                <c:when test="${i.index == 3}">
-                    <c:set var="panelClass">panel panel-info</c:set>
-                </c:when>
-                <c:when test="${i.index == 4}">
-                    <c:set var="panelClass">panel panel-default</c:set>
-                </c:when>
-                <c:otherwise>
-                    <c:set var="panelClass">panel panel-danger</c:set>
-                </c:otherwise>
-            </c:choose>
-            <div class="${panelClass}">
+    <c:forEach items="${data.enrollResultPanelList}" var="enrollResultPanel">
+        <c:if test="${not empty enrollResultPanel.studentList}">
+            <div class="${enrollResultPanel.panelClass}">
                 <div class="panel-heading">
-                    ${data.messageForEnrollmentStatus[i.index]}
+                    ${enrollResultPanel.messageForEnrollmentStatus}
                 </div>
                 <table class="table table-striped table-bordered">
                     <tr> 
@@ -61,7 +41,7 @@
                         <th>E-mail address</th>
                         <th>Comments</th>
                     </tr>
-                    <c:forEach items="${studentList}" var="student">
+                    <c:forEach items="${enrollResultPanel.studentList}" var="student">
                         <tr>
                             <c:if test="${data.hasSection}">
                                 <td>${student.section}</td>

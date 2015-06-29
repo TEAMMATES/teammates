@@ -1,8 +1,7 @@
 package teammates.ui.controller;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -10,11 +9,19 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
+import teammates.ui.template.EnrollResultPanel;
 
 /**
  * PageData: page data for the 'Result' page after enrollment for a course
  */
 public class InstructorCourseEnrollResultPageData extends PageData {
+    protected static final Logger log = Utils.getLogger();
+    
+    private String courseId;
+    private List<StudentAttributes>[] students;
+    private boolean hasSection;
+    private String enrollStudents;
+    private List<EnrollResultPanel> enrollResultPanelList;
     
     public InstructorCourseEnrollResultPageData(AccountAttributes account, String courseId, 
                                                 List<StudentAttributes>[] students, boolean hasSection, 
@@ -24,27 +31,32 @@ public class InstructorCourseEnrollResultPageData extends PageData {
         this.students = students;
         this.hasSection = hasSection;
         this.enrollStudents = enrollStudents;
+        enrollResultPanelList = new ArrayList<EnrollResultPanel>();
         
-        messageForEnrollmentStatus = new HashMap<Integer, String>();
         for (int i = 0; i < UpdateStatus.STATUS_COUNT; i++) {
-            messageForEnrollmentStatus.put(i, getMessageForEnrollmentStatus(i));
+            String panelClass = "";
+            if (i == UpdateStatus.ERROR.numericRepresentation) {
+                panelClass = "panel panel-danger";
+            } else if (i == UpdateStatus.NEW.numericRepresentation) {
+                panelClass = "panel panel-primary";
+            } else if (i == UpdateStatus.MODIFIED.numericRepresentation) {
+                panelClass = "panel panel-warning";
+            } else if (i == UpdateStatus.UNMODIFIED.numericRepresentation) {
+                panelClass = "panel panel-info";
+            } else if (i == UpdateStatus.NOT_IN_ENROLL_LIST.numericRepresentation) {
+                panelClass = "panel panel-default";
+            } else {
+                panelClass = "panel panel-danger";
+            }
+            
+            String messageForEnrollmentStatus = getMessageForEnrollmentStatus(i);
+            EnrollResultPanel enrollResultPanel = new EnrollResultPanel(panelClass, messageForEnrollmentStatus, students[i]);
+            enrollResultPanelList.add(enrollResultPanel);
         }
     }
-
-    protected static final Logger log = Utils.getLogger();
-    
-    private String courseId;
-    private List<StudentAttributes>[] students;
-    private boolean hasSection;
-    private String enrollStudents;
-    private Map<Integer, String> messageForEnrollmentStatus;
     
     public String getCourseId() {
         return courseId;
-    }
-    
-    public List<StudentAttributes>[] getStudents() {
-        return students;
     }
     
     public boolean isHasSection() {
@@ -55,8 +67,8 @@ public class InstructorCourseEnrollResultPageData extends PageData {
         return enrollStudents;
     }
     
-    public Map<Integer, String> getMessageForEnrollmentStatus() {
-        return messageForEnrollmentStatus;
+    public List<EnrollResultPanel> getEnrollResultPanelList() {
+        return enrollResultPanelList;
     }
     
     private String getMessageForEnrollmentStatus(int enrollmentStatus) {
