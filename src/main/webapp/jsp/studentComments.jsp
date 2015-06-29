@@ -247,7 +247,7 @@
                                                         </span>
                                                     </div> <!-- frComment Content -->
                                                     <div
-                                                        id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>"><%=frc.commentText.getValue()%></div>
+                                                        id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>" style="margin-left: 15px;"><%=frc.commentText.getValue()%></div>
                                                 </li>
                                                 <%
                                                     }//FeedbackResponseComments loop ends
