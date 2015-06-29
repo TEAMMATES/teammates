@@ -2,11 +2,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
 
-<c:forEach items="${data.responseStatus.noResponse}" var="userToRemind">
+<c:forEach items="${data.emailNamePairs}" var="userToRemind">
     <div class="checkbox">
         <label>
-            <input type="checkbox" name="<%= Const.ParamsNames.SUBMISSION_REMIND_USERLIST %>" value="${userToRemind}">
-            <%= data.responseStatus.emailNameTable.get(userToRemind) %>
+            <input type="checkbox" name="<%= Const.ParamsNames.SUBMISSION_REMIND_USERLIST %>" value="${userToRemind.studentEmail}">
+            ${userToRemind.studentName}
         </label>
     </div>
 </c:forEach>
