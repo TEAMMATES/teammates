@@ -60,6 +60,10 @@ public class StudentCommentsPageData extends PageData {
         return courseName;
     }
     
+    public CoursePagination getCoursePagination() {
+        return coursePagination;
+    }
+    
     public List<CommentRow> getCommentRows() {
         return commentRows;
     }
