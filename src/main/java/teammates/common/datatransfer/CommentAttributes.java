@@ -77,6 +77,22 @@ public class CommentAttributes extends EntityAttributes
     public Long getCommentId() {
         return this.commentId;
     }
+    
+    public String getCommentText() {
+        return commentText.getValue();
+    }
+    
+    public CommentParticipantType getRecipientType() {
+        return this.recipientType;
+    }
+
+    public List<CommentParticipantType> getShowCommentTo() {
+        return showCommentTo;
+    }
+
+    public boolean isPendingNotification() {
+        return sendingState.equals(CommentSendingState.PENDING);
+    }
 
     // Use only to match existing and known Comment
     public void setCommentId(Long commentId) {

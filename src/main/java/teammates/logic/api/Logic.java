@@ -2620,4 +2620,16 @@ public class Logic {
     @SuppressWarnings("unused")
     private void ____helper_methods________________________________________() {
     }
+    
+    public List<CourseDetailsBundle> extractActiveCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
+        Assumption.assertNotNull(courseBundles);
+        Assumption.assertNotNull(googleId);
+        return coursesLogic.extractActiveCourses(courseBundles, googleId);
+    }
+    
+    public List<CourseDetailsBundle> extractArchivedCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
+        Assumption.assertNotNull(courseBundles);
+        Assumption.assertNotNull(googleId);
+        return coursesLogic.extractArchivedCourses(courseBundles, googleId);
+    }
 }

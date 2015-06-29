@@ -471,5 +471,16 @@ public class StringHelper {
         }
         return numOfEmptyStrings;
     }
+    
+    /**
+     * Converts null input to empty string. Non-null inputs will be left as is.
+     * This method is for displaying purpose.
+     * 
+     * @param String
+     * @return empty string if null, the string itself otherwise
+     */
+    public static String convertToEmptyStringIfNull(String str) {
+        return (str == null) ? "" : str;
+    }
 
 }
