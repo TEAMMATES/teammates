@@ -43,6 +43,8 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
     }
 
     private void testContent() throws Exception {
+        // TODO: Add a full HTML verification check
+
         InstructorAttributes instructor;
         StudentAttributes student;
 

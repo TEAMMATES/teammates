@@ -79,7 +79,7 @@ function filterResults(searchText) {
     searchText = (searchText.split('\\s+')).join(' ');
 
     // all panel text will be sorted in post-order 
-    var allPanelText = $('#frameBodyWrapper').find('div.panel-heading-text');
+    var allPanelText = $('#mainContent').find('div.panel-heading-text');
 
     // a stack that stores parent panels that are pending on 
     // the search result from the child panels to decide show/hide

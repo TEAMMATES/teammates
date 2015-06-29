@@ -1,5 +1,6 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
@@ -92,6 +93,11 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         testEditLink();
         testSubmitLink();
     }
+    
+    @Test
+    public void testButtons() throws Exception {
+        testCopySessionModalButtons();
+    }
 
     @Test
     public void testMiscellaneous() throws Exception {
@@ -124,6 +130,8 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         ______TS("no courses");
         
         feedbackPage = getFeedbackPageForInstructor(testData.accounts.get("instructorWithoutCourses").googleId);
+
+        // This is the full HTML verification for Instructor Feedbacks Page, the rest can all be verifyMainHtml
         feedbackPage.verifyHtml("/instructorFeedbackEmptyAll.html");
         
         
@@ -826,6 +834,81 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
         feedbackResultsPage = feedbackPage.loadSubmitLink(fsa.courseId, fsa.feedbackSessionName);
         assertTrue(feedbackResultsPage.isCorrectPage(fsa.courseId, fsa.feedbackSessionName));
         feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+    }
+    
+    public void testCopySessionModalButtons() {
+        feedbackPage.copyFeedbackSessionTestButtons("Session 1", newSession.courseId);
+        
+        assertFalse(feedbackPage.isCopySubmitButtonEnabled());
+        
+        ______TS("click on a row");
+        
+        feedbackPage.clickCopyTableAtRow(0);
+        assertTrue(feedbackPage.isRowSelected(0));
+        assertTrue(feedbackPage.isRadioButtonChecked(0));
+        assertTrue(feedbackPage.isCopySubmitButtonEnabled());
+        
+        // row -> row
+        ______TS("click on another row");
+        
+        feedbackPage.clickCopyTableAtRow(3);
+        assertTrue(feedbackPage.isRowSelected(3));
+        assertTrue(feedbackPage.isRadioButtonChecked(3));
+        assertFalse(feedbackPage.isRowSelected(0));
+        assertFalse(feedbackPage.isRadioButtonChecked(0));
+        assertTrue(feedbackPage.isCopySubmitButtonEnabled());
+        
+        // row -> radio
+        ______TS("click on a radio button");
+        
+        feedbackPage.clickCopyTableRadioButtonAtRow(2);
+        assertTrue(feedbackPage.isRowSelected(2));
+        assertTrue(feedbackPage.isRadioButtonChecked(2));
+        assertFalse(feedbackPage.isRowSelected(3));
+        assertFalse(feedbackPage.isRadioButtonChecked(3));
+        assertTrue(feedbackPage.isCopySubmitButtonEnabled());
+        
+        // radio -> radio
+        ______TS("click on another radio button");
+        
+        feedbackPage.clickCopyTableRadioButtonAtRow(1);
+        assertTrue(feedbackPage.isRowSelected(1));
+        assertTrue(feedbackPage.isRadioButtonChecked(1));
+        assertFalse(feedbackPage.isRowSelected(2));
+        assertFalse(feedbackPage.isRadioButtonChecked(2));
+        assertTrue(feedbackPage.isCopySubmitButtonEnabled());
+        
+        // radio -> row
+        ______TS("click on a row");
+        
+        feedbackPage.clickCopyTableAtRow(3);
+        assertTrue(feedbackPage.isRowSelected(3));
+        assertTrue(feedbackPage.isRadioButtonChecked(3));
+        assertFalse(feedbackPage.isRowSelected(1));
+        assertFalse(feedbackPage.isRadioButtonChecked(1));
+        assertTrue(feedbackPage.isCopySubmitButtonEnabled());
+        
+        // row -> radio (same row)
+        ______TS("click on a radio button of the same row");
+        
+        feedbackPage.clickCopyTableRadioButtonAtRow(3);
+        assertTrue(feedbackPage.isRowSelected(3));
+        assertTrue(feedbackPage.isRadioButtonChecked(3));
+        assertTrue(feedbackPage.isCopySubmitButtonEnabled());
+        
+         // refresh page
+        feedbackPage = getFeedbackPageForInstructor(idOfInstructorWithSessions);
+        
+        feedbackPage.copyFeedbackSessionTestButtons("Session 1", newSession.courseId);
+        
+        assertFalse(feedbackPage.isCopySubmitButtonEnabled());
+        
+        ______TS("click on a radio button after page refresh");
+        
+        feedbackPage.clickCopyTableRadioButtonAtRow(4);
+        assertTrue(feedbackPage.isRowSelected(4));
+        assertTrue(feedbackPage.isRadioButtonChecked(4));
+        assertTrue(feedbackPage.isCopySubmitButtonEnabled());
     }
     
     public void testValidationReload() {

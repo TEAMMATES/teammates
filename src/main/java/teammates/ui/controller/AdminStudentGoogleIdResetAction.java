@@ -73,11 +73,11 @@ public class AdminStudentGoogleIdResetAction extends Action {
             } 
             
             isError = false;
-            return createAjaxResult(Const.ViewURIs.ADMIN_SEARCH, data);
+            return createAjaxResult(data);
         }
         
         isError = true;
-        return createAjaxResult(Const.ViewURIs.ADMIN_SEARCH, data);
+        return createAjaxResult(data);
     }
         
     

@@ -113,7 +113,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
 
         ______TS("fresh new page");
 
-        // Verify Html instead of main content to verify copy panel and preview panel
+        // This is the full HTML verification for Instructor Feedback Edit Page, the rest can all be verifyMainHtml
         feedbackEditPage.verifyHtml("/instructorFeedbackEditEmpty.html");
 
     }
