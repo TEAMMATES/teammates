@@ -1,6 +1,8 @@
 package teammates.ui.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -14,21 +16,50 @@ import teammates.common.util.Utils;
  */
 public class InstructorCourseEnrollResultPageData extends PageData {
     
-    public InstructorCourseEnrollResultPageData(AccountAttributes account) {
+    public InstructorCourseEnrollResultPageData(AccountAttributes account, String courseId, 
+                                                List<StudentAttributes>[] students, boolean hasSection, 
+                                                String enrollStudents) {
         super(account);
+        this.courseId = courseId;
+        this.students = students;
+        this.hasSection = hasSection;
+        this.enrollStudents = enrollStudents;
+        
+        messageForEnrollmentStatus = new HashMap<Integer, String>();
+        for (int i = 0; i < UpdateStatus.STATUS_COUNT; i++) {
+            messageForEnrollmentStatus.put(i, getMessageForEnrollmentStatus(i));
+        }
     }
 
     protected static final Logger log = Utils.getLogger();
     
-    public String courseId;
-
-    public List<StudentAttributes>[] students;
+    private String courseId;
+    private List<StudentAttributes>[] students;
+    private boolean hasSection;
+    private String enrollStudents;
+    private Map<Integer, String> messageForEnrollmentStatus;
     
-    public boolean hasSection;
-
-    public String enrollStudents;
-
-    public String getMessageForEnrollmentStatus(int enrollmentStatus) {
+    public String getCourseId() {
+        return courseId;
+    }
+    
+    public List<StudentAttributes>[] getStudents() {
+        return students;
+    }
+    
+    public boolean isHasSection() {
+        return hasSection;
+    }
+    
+    public String getEnrollStudents() {
+        return enrollStudents;
+    }
+    
+    public Map<Integer, String> getMessageForEnrollmentStatus() {
+        return messageForEnrollmentStatus;
+    }
+    
+    private String getMessageForEnrollmentStatus(int enrollmentStatus) {
 
         UpdateStatus status = UpdateStatus.enumRepresentation(enrollmentStatus);
 
@@ -56,5 +87,8 @@ public class InstructorCourseEnrollResultPageData extends PageData {
             return "There are students:";
         }
     }
-
+    
+    public String getInstructorCourseEnrollLink() {
+        return getInstructorCourseEnrollLink(courseId);
+    }
 }

@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -21,9 +22,10 @@ public class InstructorCourseEnrollPageAction extends Action {
         new GateKeeper().verifyAccessible(
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         
+        courseId = Sanitizer.sanitizeForHtml(courseId);
+        studentsInfo = Sanitizer.sanitizeForHtml(studentsInfo);
         /* Setup page data for 'Enroll' page of a course */
-        InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account);
-        pageData.init(courseId, studentsInfo);
+        InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account, courseId, studentsInfo);
 
         statusToAdmin = "instructorCourseEnroll Page Load<br>"
                 + "Enrollment for Course <span class=\"bold\">[" + courseId + "]</span>"; 

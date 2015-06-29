@@ -9,13 +9,9 @@ public class InstructorCourseEnrollPageData extends PageData {
     private String courseId;
     private String enrollStudents;
     
-    public InstructorCourseEnrollPageData(AccountAttributes account) {
+    public InstructorCourseEnrollPageData(AccountAttributes account, String courseId, String enrollStudents) {
         super(account);
-        enrollStudents = "";
-    }
-    
-    public void init(String courseId, String enrollStudents) {
-        this.courseId = courseId;
+        this.courseId =  courseId;
         this.enrollStudents = enrollStudents;
     }
     

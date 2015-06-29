@@ -13,6 +13,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -34,11 +35,14 @@ public class InstructorCourseEnrollSaveAction extends Action {
         
         /* Process enrollment list and setup data for page result */
         try {
-            InstructorCourseEnrollResultPageData pageData = new InstructorCourseEnrollResultPageData(account);
-            pageData.courseId = courseId;
-            pageData.students = enrollAndProcessResultForDisplay(studentsInfo, courseId);
-            pageData.hasSection = hasSections(pageData.students);
-            pageData.enrollStudents = studentsInfo;
+            List<StudentAttributes>[] students = enrollAndProcessResultForDisplay(studentsInfo, courseId);
+            boolean hasSection = hasSections(students);
+            
+            courseId = Sanitizer.sanitizeForHtml(courseId);
+            studentsInfo = Sanitizer.sanitizeForHtml(studentsInfo);
+            InstructorCourseEnrollResultPageData pageData = new InstructorCourseEnrollResultPageData(account,
+                                                                    courseId, students, hasSection, studentsInfo);
+            
             statusToAdmin = "Students Enrolled in Course <span class=\"bold\">[" 
                             + courseId + "]:</span><br>" + (studentsInfo).replace("\n", "<br>");
 
@@ -46,21 +50,25 @@ public class InstructorCourseEnrollSaveAction extends Action {
             
         } catch (EnrollException | InvalidParametersException e) {
             setStatusForException(e);
+            
+            courseId = Sanitizer.sanitizeForHtml(courseId);
+            studentsInfo = Sanitizer.sanitizeForHtml(studentsInfo);
             statusToAdmin += "<br>Enrollment string entered by user:<br>" + studentsInfo.replace("\n", "<br>");
             
-            InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account);
-            pageData.init(courseId, studentsInfo);
+            InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account, courseId, studentsInfo);
             
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);
         } catch (EntityAlreadyExistsException e) {
             setStatusForException(e);
+            
+            courseId = Sanitizer.sanitizeForHtml(courseId);
+            studentsInfo = Sanitizer.sanitizeForHtml(studentsInfo);
             statusToUser.add("The enrollment failed, possibly because some students were re-enrolled before "
                              + "the previous enrollment action was still being processed by TEAMMATES database "
                              + "servers. Please try again after about 10 minutes. If the problem persists, "
                              + "please contact TEAMMATES support");
             
-            InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account);
-            pageData.init(courseId, studentsInfo);
+            InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account, courseId, studentsInfo);
             
             log.severe("Entity already exists exception occurred when updating student: " + e.getMessage());
             return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_ENROLL, pageData);

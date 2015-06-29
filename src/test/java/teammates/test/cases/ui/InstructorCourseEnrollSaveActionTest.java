@@ -65,22 +65,22 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         assertEquals("", pageResult.getStatusMessage());
         
         InstructorCourseEnrollResultPageData pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
-        assertEquals(courseId, pageData.courseId);
+        assertEquals(courseId, pageData.getCourseId());
         
         StudentAttributes newStudent = new StudentAttributes("jean", "jean@email.tmt", "Jean Wong", "Exchange student", courseId, "Team 1", "Section 3");
         newStudent.updateStatus = StudentAttributes.UpdateStatus.NEW;
-        verifyStudentEnrollmentStatus(newStudent, pageData.students);
+        verifyStudentEnrollmentStatus(newStudent, pageData.getStudents());
         
         StudentAttributes modifiedStudent = dataBundle.students.get("student1InCourse1");
         modifiedStudent.comments = "New comment added";
         modifiedStudent.section  = "Section 2";
         modifiedStudent.team = "Team 1.3";
         modifiedStudent.updateStatus = StudentAttributes.UpdateStatus.MODIFIED;
-        verifyStudentEnrollmentStatus(modifiedStudent, pageData.students);
+        verifyStudentEnrollmentStatus(modifiedStudent, pageData.getStudents());
         
         StudentAttributes unmodifiedStudent = dataBundle.students.get("student2InCourse1");
         unmodifiedStudent.updateStatus = StudentAttributes.UpdateStatus.UNMODIFIED;
-        verifyStudentEnrollmentStatus(unmodifiedStudent, pageData.students);
+        verifyStudentEnrollmentStatus(unmodifiedStudent, pageData.getStudents());
         
         String expectedLogSegment = "Students Enrolled in Course <span class=\"bold\">[" + courseId + "]"
                                     + ":</span><br>" + enrollString.replace("\n", "<br>"); 
@@ -116,17 +116,17 @@ public class InstructorCourseEnrollSaveActionTest extends BaseActionTest {
         assertEquals("", pageResult.getStatusMessage());
         
         pageData = (InstructorCourseEnrollResultPageData) pageResult.data;
-        assertEquals(courseId, pageData.courseId);
+        assertEquals(courseId, pageData.getCourseId());
 
         StudentAttributes student1 = new StudentAttributes("jean", "jean@email.tmt", "Jean Wong", 
                                                            "Exchange student", courseId, "Team 1","None");
         student1.updateStatus = StudentAttributes.UpdateStatus.NEW;
-        verifyStudentEnrollmentStatus(student1, pageData.students);
+        verifyStudentEnrollmentStatus(student1, pageData.getStudents());
         
         StudentAttributes student2 = new StudentAttributes("james", "james@email.tmt", "James Tan", "", 
                                                            courseId, "Team 2","None");
         student2.updateStatus = StudentAttributes.UpdateStatus.NEW;
-        verifyStudentEnrollmentStatus(student2, pageData.students);
+        verifyStudentEnrollmentStatus(student2, pageData.getStudents());
         
         expectedLogSegment = "Students Enrolled in Course <span class=\"bold\">[" + courseId + "]:</span>"
                              + "<br>" + enrollString.replace("\n", "<br>"); 
