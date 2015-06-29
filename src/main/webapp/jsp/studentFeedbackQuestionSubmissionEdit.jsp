@@ -11,21 +11,32 @@
 </c:set>
 
 <c:if test="${data.headerHidden}">
-    <c:set var="altHeader">
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <c:choose>
-                <c:when test="${data.preview}">
+    <c:set var="altHeader">    
+        <c:choose>
+            <c:when test="${data.preview}">
+                <nav class="navbar navbar-default navbar-fixed-top">
                     <h3 class="text-center">Previewing Session as Student ${data.studentToViewPageAs.name} (${data.studentToViewPageAs.email})</h3>
-                </c:when>
-                <c:when test="${data.moderation}">
+                </nav>
+            </c:when>
+            <c:when test="${data.moderation}">
+                <nav class="navbar navbar-default navbar-fixed-top">
                     <h3 class="text-center">Moderating Responses for Student ${data.studentToViewPageAs.name} (${data.studentToViewPageAs.email})</h3>
-                </c:when>
-            </c:choose>
-        </nav>
+                </nav>
+            </c:when>
+            <c:otherwise>
+                <!-- Cannot be empty to prevent default navbar -->
+                &nbsp;
+            </c:otherwise>
+        </c:choose>
     </c:set>
 </c:if>
 
-<ts:studentPageCustom bodyTitle="Submit Feedback Question" pageTitle="TEAMMATES - Submit Feedback Question" jsIncludes="${jsIncludes}" altNavBar="${altHeader}">
+<c:set var="altFooter">
+    <!-- Cannot be empty to prevent default footer -->
+    &nbsp;
+</c:set>
+
+<ts:studentPageCustom bodyTitle="Submit Feedback Question" pageTitle="TEAMMATES - Submit Feedback Question" jsIncludes="${jsIncludes}" altNavBar="${altHeader}" altFooter="${altFooter}">
     <c:if test="${not data.headerHidden}">
         <ts:studentMessageOfTheDay/>
     </c:if>
@@ -36,6 +47,6 @@
         </div>
     </c:if>
     
-    <feedbackSubmissionEdit:feedbackSubmissionForm feedbackSubmissionForm="${data}"/>
+    <feedbackSubmissionEdit:feedbackQuestionSubmissionForm feedbackSubmissionForm="${data}"/>
 </ts:studentPageCustom>
 
