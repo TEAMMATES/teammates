@@ -57,11 +57,13 @@ for (SessionResultsBundle sessionResult: data.results) {
                                             if (responseComments != null) { %>
                                                 <ul class="list-group comment-list">
                                                     <% for (FeedbackResponseCommentAttributes comment : responseComments) { %>
-                                                        <li class="list-group-item list-group-item-warning">
-                                                            <span class="text-muted">
-                                                                From: <%= comment.giverEmail %> [<%= comment.createdAt %>]
-                                                            </span>
-                                                            <div>
+                                                        <li class="list-group-item list-group-item-warning" id="">
+                                                            <div id="">
+                                                                <span class="text-muted">
+                                                                    From: <%= comment.giverEmail %> [<%= comment.createdAt %>] <%=comment.getEditedAtTextForInstructor(comment.giverEmail.equals("Anonymous"))%>
+                                                                </span>
+                                                            </div>
+                                                            <div id="" style="margin-left: 15px;">
                                                                 <%= comment.commentText.getValue() %>
                                                             </div>
                                                         </li>
@@ -121,11 +123,13 @@ for (SessionResultsBundle sessionResult: data.results) {
                                             if (responseComments != null) { %>
                                                 <ul class="list-group comment-list">
                                                     <% for (FeedbackResponseCommentAttributes comment : responseComments) { %>
-                                                        <li class="list-group-item list-group-item-warning">
-                                                            <span class="text-muted">
-                                                                From: <%= comment.giverEmail %> [<%= comment.createdAt %>]
-                                                            </span>
-                                                            <div>
+                                                        <li class="list-group-item list-group-item-warning" id="">
+                                                            <div id="">
+                                                                <span class="text-muted">
+                                                                    From: <%= comment.giverEmail %> [<%= comment.createdAt %>] <%= comment.getEditedAtTextForInstructor(comment.giverEmail.equals("Anonymous")) %>
+                                                                </span>
+                                                            </div>
+                                                            <div id="" style="margin-left: 15px;">
                                                                 <%= comment.commentText.getValue() %>
                                                             </div>
                                                         </li>
