@@ -49,14 +49,13 @@ public class InstructorCourseJoinAction extends Action {
             
             return createRedirectResult(redirectUrl);
         } 
-        pageData = new InstructorCourseJoinConfirmationPageData(account);
         
         //1.For instructors added by admin, institute is passed from the join link and should be passed
         //to the confirmation page and later to authenticated action for account creation
         //2.For instructors added by other instructors, institute is not passed from the link so the value 
         //will be null
         
-        pageData.init(regkey, institute);
+        pageData = new InstructorCourseJoinConfirmationPageData(account, regkey, institute);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_COURSE_JOIN_CONFIRMATION, pageData);
     }

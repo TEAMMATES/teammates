@@ -9,11 +9,8 @@ public class InstructorCourseJoinConfirmationPageData extends PageData {
     private String regkey;
     private String institute;
     
-    public InstructorCourseJoinConfirmationPageData(AccountAttributes account) {
+    public InstructorCourseJoinConfirmationPageData(AccountAttributes account, String regkey, String institute) {
         super(account);
-    }
-    
-    public void init(String regkey, String institute) {
         this.regkey = regkey;
         this.institute = institute;
     }
@@ -28,15 +25,10 @@ public class InstructorCourseJoinConfirmationPageData extends PageData {
     
     public String getConfirmationLink() {
         String ref = "";
-        if (institute == null) {
-
-            ref = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
-                    + "?key=" + regkey;
-        } else {
-            ref = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED
-                    + "?key=" + regkey + "&"
-                    + Const.ParamsNames.INSTRUCTOR_INSTITUTION + "="
-                    + Sanitizer.sanitizeForUri(institute);
+        
+        ref = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED + "?key=" + regkey;
+        if (institute != null) {
+            ref +=  "&" + Const.ParamsNames.INSTRUCTOR_INSTITUTION + "=" + Sanitizer.sanitizeForUri(institute);
         }
         return ref;
     }
