@@ -4,10 +4,9 @@
 <ul class="pagination">
     <li><a href="${data.previousPageLink}">«</a></li>
     <c:forEach items="${data.coursePaginationList}" var="courseId">
-    <li
-        class="${courseId == data.courseId ? 'active' : ''}">
-        <a href="${data.studentCommentsLink}&courseid=${courseId}">${courseId}</a>
-    </li>
+        <li class="${courseId == data.courseId ? 'active' : ''}">
+            <a href="${data.studentCommentsLink}&courseid=${courseId}">${courseId}</a>
+        </li>
     </c:forEach>
     <li><a href="${data.nextPageLink}">»</a></li>
 </ul>
