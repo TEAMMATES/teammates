@@ -26,7 +26,7 @@ public class InstructorFeedbackRemindParticularStudentsPageAction extends Action
         data.courseId = courseId;
         data.fsName = feedbackSessionName;
         
-        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_REMIND_MODAL, data);
+        return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_AJAX_REMIND_PARTICULAR_STUDENTS_MODAL, data);
     }
 
 }
