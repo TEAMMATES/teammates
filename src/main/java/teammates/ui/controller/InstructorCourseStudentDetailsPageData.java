@@ -40,4 +40,10 @@ public class InstructorCourseStudentDetailsPageData extends PageData {
     public String getCommentRecipient() {
         return commentRecipient;
     }
+    
+    public boolean isCommentBoxShown() {
+        return commentRecipient != null && (commentRecipient.equals("student")
+                                            || commentRecipient.equals("team")
+                                            || commentRecipient.equals("section"));
+    }
 }

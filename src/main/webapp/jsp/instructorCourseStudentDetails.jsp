@@ -3,14 +3,11 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/courseStudentDetails" prefix="csd" %>
-<c:set var="isShowCommentBox">
-    ${data.commentRecipient == 'student' || data.commentRecipient == 'team' || data.commentRecipient == 'section'}
-</c:set>
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/contextualcomments.js"></script>
     <script type="text/javascript">
-        var isShowCommentBox = ${isShowCommentBox};
+        var isShowCommentBox = ${data.commentBoxShown};
         var commentRecipient = '${data.commentRecipient}';
     </script>
 </c:set>
