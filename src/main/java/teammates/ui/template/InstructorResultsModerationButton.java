@@ -3,7 +3,7 @@ package teammates.ui.template;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
 
-public class ModerationButton {
+public class InstructorResultsModerationButton {
 
     private boolean isAllowedToModerate;
     private boolean isDisabled;
@@ -12,7 +12,7 @@ public class ModerationButton {
     private String courseId;
     private String feedbackSessionName;
     
-    public ModerationButton(boolean isAllowedToModerate, boolean isDisabled, 
+    public InstructorResultsModerationButton(boolean isAllowedToModerate, boolean isDisabled, 
                              int questionNumber, String giverIdentifier,
                              String courseId, String feedbackSessionName, FeedbackQuestionAttributes question) {
         this.isAllowedToModerate = isAllowedToModerate;

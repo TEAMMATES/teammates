@@ -20,7 +20,7 @@ import teammates.ui.template.FeedbackSessionPublishButton;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.InstructorResultsQuestionTable;
 import teammates.ui.template.InstructorResultsResponseRow;
-import teammates.ui.template.ModerationButton;
+import teammates.ui.template.InstructorResultsModerationButton;
 
 public class InstructorFeedbackResultsPageData extends PageData {
     public static final String EXCEEDING_RESPONSES_ERROR_MESSAGE = "Sorry, we could not retrieve results. "
@@ -137,7 +137,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             removeParticipantIdentifierFromList(question.recipientType, possibleReceiversWithoutResponsesForGiver, response.recipientEmail);
             prevGiver = response.giverEmail;
             
-            ModerationButton moderationButton = buildModerationButtonForExistingResponse(question, response);
+            InstructorResultsModerationButton moderationButton = buildModerationButtonForExistingResponse(question, response);
             
             InstructorResultsResponseRow responseRow = new InstructorResultsResponseRow(
                                                                bundle.getGiverNameForResponse(question, response), bundle.getTeamNameForEmail(response.giverEmail), 
@@ -177,7 +177,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             String textToDisplay = questionDetails.getNoResponseTextInHtml(giverIdentifier, possibleRecipient, bundle, question);
             
             if (questionDetails.shouldShowNoResponseText(giverIdentifier, possibleRecipient, question)) {
-                ModerationButton moderationButton = buildModerationButtonForGiver(question, giverIdentifier);
+                InstructorResultsModerationButton moderationButton = buildModerationButtonForGiver(question, giverIdentifier);
                 InstructorResultsResponseRow missingResponse = new InstructorResultsResponseRow(giverName, giverTeam, possibleRecipientName, possibleRecipientTeam, 
                                                                                                 textToDisplay, true, moderationButton, true);
                 missingResponse.setRowAttributes(new ElementTag("class", "pending_response_row"));
@@ -247,12 +247,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
     
 
-    private ModerationButton buildModerationButtonForExistingResponse(FeedbackQuestionAttributes question,
+    private InstructorResultsModerationButton buildModerationButtonForExistingResponse(FeedbackQuestionAttributes question,
                                                                       FeedbackResponseAttributes response) {
         return buildModerationButtonForGiver(question, response.giverEmail);
     }
     
-    private ModerationButton buildModerationButtonForGiver(FeedbackQuestionAttributes question,
+    private InstructorResultsModerationButton buildModerationButtonForGiver(FeedbackQuestionAttributes question,
                                                                      String giverEmail) {
         boolean isAllowedToModerate = instructor.isAllowedForPrivilege(bundle.getSectionFromRoster(giverEmail), 
                                                      feedbackSessionName, 
@@ -261,7 +261,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         String giverIdentifier = question.giverType.isTeam() ? 
                                  giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"") : 
                                  giverEmail;
-        ModerationButton moderationButton = new ModerationButton(isAllowedToModerate, isDisabled, 
+        InstructorResultsModerationButton moderationButton = new InstructorResultsModerationButton(isAllowedToModerate, isDisabled, 
                                                                  question.questionNumber, 
                                                                  giverIdentifier, 
                                                                  courseId, feedbackSessionName, 

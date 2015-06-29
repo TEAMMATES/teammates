@@ -27,13 +27,13 @@ public class InstructorResultsResponseRow {
     
     private String displayableResponse;
     private boolean isModerationsButtonDisplayed;
-    private ModerationButton moderationButton;
+    private InstructorResultsModerationButton moderationButton;
     
     
     public InstructorResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
                                         String recipientDisplayableIdentifier, String recipientTeam,
                                         String displayableResponse, boolean isModerationsButtonShown,
-                                        ModerationButton moderationButton) {
+                                        InstructorResultsModerationButton moderationButton) {
         this(giverDisplayableIdentifier, giverTeam, recipientDisplayableIdentifier, recipientTeam,
              displayableResponse, isModerationsButtonShown, moderationButton, false);
     }
@@ -41,7 +41,7 @@ public class InstructorResultsResponseRow {
     public InstructorResultsResponseRow(String giverDisplayableIdentifier, String giverTeam,
                                         String recipientDisplayableIdentifier, String recipientTeam,
                                         String displayableResponse, boolean isModerationsButtonShown,
-                                        ModerationButton moderationButton, boolean isRowGrey) {
+                                        InstructorResultsModerationButton moderationButton, boolean isRowGrey) {
         this.giverDisplayableIdentifier = giverDisplayableIdentifier;
         this.giverTeam = giverTeam;
         this.recipientDisplayableIdentifier = recipientDisplayableIdentifier;
@@ -76,7 +76,7 @@ public class InstructorResultsResponseRow {
         return isModerationsButtonDisplayed;
     }
     
-    public ModerationButton getModerationButton() {
+    public InstructorResultsModerationButton getModerationButton() {
         return moderationButton;
     }
 
