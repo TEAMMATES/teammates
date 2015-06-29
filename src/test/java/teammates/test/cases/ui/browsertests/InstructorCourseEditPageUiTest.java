@@ -71,6 +71,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         instructorId = testData.instructors.get("InsCrsEdit.Helper").googleId;
         courseEditPage = getCourseEditPage();
+
+        // This is the full HTML verification for Instructor Course Edit Page, the rest can all be verifyMainHtml
         courseEditPage.verifyHtml("/instructorCourseEditHelper.html");
         
         ______TS("page load: Co-owner privileges");

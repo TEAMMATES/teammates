@@ -33,7 +33,7 @@ public class AdminEmailCreateImageUploadUrlAction extends Action {
             data.ajaxStatus = "Image upload url created, proceed to uploading";
         }
           
-        return createAjaxResult(Const.ViewURIs.ADMIN_EMAIL, data);
+        return createAjaxResult(data);
         
     }
     

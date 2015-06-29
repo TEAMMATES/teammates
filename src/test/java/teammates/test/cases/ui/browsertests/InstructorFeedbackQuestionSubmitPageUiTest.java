@@ -44,7 +44,9 @@ public class InstructorFeedbackQuestionSubmitPageUiTest extends BaseUiTestCase {
         
         fq = BackDoor.getFeedbackQuestion("IFQSubmitUiT.CS2104", "Awaiting Session", 1);
         submitPage = loginToInstructorFeedbackQuestionSubmitPage("IFQSubmitUiT.instr", "Awaiting Session", fq.getId());
-        submitPage.verifyHtmlMainContent("/instructorFeedbackQuestionSubmitPageAwaiting.html");
+
+        // This is the full HTML verification for Instructor Feedback Question Submit Page, the rest can all be verifyMainHtml
+        submitPage.verifyHtml("/instructorFeedbackQuestionSubmitPageAwaiting.html");
         
         ______TS("Open session");
         

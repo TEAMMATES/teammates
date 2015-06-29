@@ -19,7 +19,7 @@ public class StudentProfileCreateFormUrlAction extends Action {
     protected ActionResult execute() throws EntityDoesNotExistException {
         StudentProfileCreateFormUrlAjaxPageData data =
                 new StudentProfileCreateFormUrlAjaxPageData(account, getUploadUrl(), isError);
-        return createAjaxResult("", data);
+        return createAjaxResult(data);
     }
 
     private UploadOptions generateUploadOptions() {
