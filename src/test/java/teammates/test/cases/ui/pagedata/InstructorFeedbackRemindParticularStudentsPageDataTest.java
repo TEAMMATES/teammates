@@ -36,13 +36,18 @@ public class InstructorFeedbackRemindParticularStudentsPageDataTest extends Base
 
         data.responseStatus = feedbackSessionResponseStatus;
 
-        ______TS("Init with no student without response(s) existing");
+        ______TS("Init with no students without response(s) existing");
 
         data.init();
 
         assertEquals(data.getEmailNamePairs(), new ArrayList<RemindParticularStudentsCheckboxEmailNamePair>());
 
         ______TS("Init with only one student without response(s) existing");
+
+        feedbackSessionResponseStatus.noResponse.add("LazyBoy@lazyboy.com");
+        feedbackSessionResponseStatus.emailNameTable.put("LazyBoy@lazyboy.com", "Lazy Boy");
+
+        ______TS("Init with multiple students without response(s) existing");
 
         
     }

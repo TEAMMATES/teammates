@@ -91,4 +91,8 @@ public class FeedbackSessionResponseStatus {
     public List<String> getNoResponse() {
         return noResponse;
     }
+
+    public Map<String, String> getEmailNameTable() {
+        return emailNameTable;
+    }
 }

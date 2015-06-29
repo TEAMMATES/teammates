@@ -36,6 +36,10 @@ public class InstructorFeedbackRemindParticularStudentsPageData extends PageData
     public String getFsName() {
         return fsName;
     }
+
+    public FeedbackSessionResponseStatus getResponseStatus() {
+        return responseStatus;
+    }
     
     public List<RemindParticularStudentsCheckboxEmailNamePair> getEmailNamePairs() {
         return emailNamePairs;
