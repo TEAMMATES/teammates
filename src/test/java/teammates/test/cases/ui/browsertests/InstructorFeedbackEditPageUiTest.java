@@ -152,8 +152,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage = getFeedbackEditPage();
 
         // Ensuring that the settings did not default back to original values after manual publishing
-        assertFalse(feedbackEditPage.isElementSelected(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON
-                                                       + "_atvisible"));
+        feedbackEditPage.verifyHtml("/instructorFeedbackEditManuallyPublished.html");
 
         // Restore defaults
         feedbackEditPage.clickEditSessionButton();
