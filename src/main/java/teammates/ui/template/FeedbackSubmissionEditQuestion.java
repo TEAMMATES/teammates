@@ -2,6 +2,7 @@ package teammates.ui.template;
 
 import java.util.List;
 
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionType;
 
 public class FeedbackSubmissionEditQuestion {
@@ -16,22 +17,21 @@ public class FeedbackSubmissionEditQuestion {
     private boolean isModeratedQuestion;
     private boolean isRecipientNameHidden;
     
-    public FeedbackSubmissionEditQuestion(String courseId, int questionNumber, int qnIndx, String questionId,
-                                    String questionText, List<String> visibilityMessages,
-                                    FeedbackQuestionType questionType, int numberOfEntitiesToGiveFeedbackTo,
-                                    boolean isModeratedQuestion, boolean isRecipientNameHidden) {
-        this.courseId = courseId;
-        this.questionNumber = questionNumber;
+    public FeedbackSubmissionEditQuestion(FeedbackQuestionAttributes questionAttributes, int qnIndx,
+                                    boolean isModeratedQuestion) {
+        
+        courseId = questionAttributes.courseId;
+        questionNumber = questionAttributes.questionNumber;
         this.qnIndx = qnIndx;
-        this.questionId = questionId;
-        this.questionText = questionText;
-        this.visibilityMessages = visibilityMessages;
-        this.questionType = questionType;
-        this.numberOfEntitiesToGiveFeedbackTo = numberOfEntitiesToGiveFeedbackTo;
+        questionId = questionAttributes.getId();
+        questionText = questionAttributes.getQuestionDetails().questionText;
+        visibilityMessages = questionAttributes.getVisibilityMessage();
+        questionType = questionAttributes.questionType;
+        numberOfEntitiesToGiveFeedbackTo = questionAttributes.numberOfEntitiesToGiveFeedbackTo;
         this.isModeratedQuestion = isModeratedQuestion;
-        this.isRecipientNameHidden = isRecipientNameHidden;
+        isRecipientNameHidden = questionAttributes.isRecipientNameHidden();
     }
-    
+
     public String getCourseId() {
         return courseId;
     }

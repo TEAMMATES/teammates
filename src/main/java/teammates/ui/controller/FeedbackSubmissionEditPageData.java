@@ -202,11 +202,7 @@ public class FeedbackSubmissionEditPageData extends PageData {
     private FeedbackSubmissionEditQuestion createQuestion(FeedbackQuestionAttributes questionAttributes, int qnIndx) {
         boolean isModeratedQuestion = String.valueOf(questionAttributes.questionNumber).equals(getModeratedQuestion());
         
-        return new FeedbackSubmissionEditQuestion(questionAttributes.courseId, questionAttributes.questionNumber,
-                                                  qnIndx, questionAttributes.getId(), questionAttributes.getQuestionDetails().questionText, 
-                                                  questionAttributes.getVisibilityMessage(), questionAttributes.questionType, 
-                                                  questionAttributes.numberOfEntitiesToGiveFeedbackTo, isModeratedQuestion, 
-                                                  questionAttributes.isRecipientNameHidden());
+        return new FeedbackSubmissionEditQuestion(questionAttributes, qnIndx, isModeratedQuestion);
     }
 
     private List<FeedbackSubmissionEditResponse> createResponses(
