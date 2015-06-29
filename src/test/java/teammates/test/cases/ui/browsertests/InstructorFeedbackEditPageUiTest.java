@@ -142,7 +142,7 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditSuccess.html");
 
 
-        ______TS("test edit page after manual publish");
+        ______TS("test edit page not changed after manual publish");
 
         // Do a backdoor 'manual' publish.
         editedSession.resultsVisibleFromTime = Const.TIME_REPRESENTS_NOW;
@@ -150,9 +150,10 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, status);
 
         feedbackEditPage = getFeedbackEditPage();
-        feedbackEditPage.isElementSelected(Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON
-                                           + "_atvisible");
-        //feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditPublished.html");
+
+        // Ensuring that the settings did not default back to original values after manual publishing
+        feedbackEditPage.verifyHtml("/instructorFeedbackEditManuallyPublished.html");
+
         // Restore defaults
         feedbackEditPage.clickEditSessionButton();
 
