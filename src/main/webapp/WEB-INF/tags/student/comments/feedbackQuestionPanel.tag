@@ -12,9 +12,8 @@
     <table class="table">
         <tbody>
             <c:forEach items="${feedbackQuestionTable.responseRows}" var="feedbackResponseRow" varStatus="j">
-                <c:set var="responseIndex" value="${j.index + 1}" />
                 <comments:feedbackResponsePanel feedbackResponseRow="${feedbackResponseRow}"
-                 fsIdx="${fsIdx}" qnIdx="${qnIdx}" responseIndex="${responseIndex}"/>
+                 fsIdx="${fsIdx}" qnIdx="${qnIdx}" responseIndex="${j.index + 1}"/>
             </c:forEach>
         </tbody>
     </table>

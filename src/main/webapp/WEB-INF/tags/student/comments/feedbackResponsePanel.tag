@@ -24,10 +24,9 @@
         <ul class="list-group comments" id="responseCommentTable-${fsIdx}-${qnIdx}-${responseIndex}"
             style="${not empty feedbackResponseRow.feedbackResponseCommentRows  ? '' : 'display:none'}">
             <c:forEach items="${feedbackResponseRow.feedbackResponseCommentRows}" var="feedbackResponseCommentRow" varStatus="k">
-                <c:set var="responseCommentIndex" value="${k.index + 1}" />
                 <comments:feedbackResponseCommentPanel feedbackResponseCommentRow="${feedbackResponseCommentRow}"
                  fsIdx="${fsIdx}" qnIdx="${qnIdx}" responseIndex="${responseIndex}" 
-                 responseCommentIndex="${responseCommentIndex}"/>
+                 responseCommentIndex="${k.index + 1}"/>
             </c:forEach>
         </ul>
     </td>

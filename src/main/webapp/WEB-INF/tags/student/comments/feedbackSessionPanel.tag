@@ -9,9 +9,8 @@
     </div> 
     <div class="panel-body"> 
         <c:forEach items="${feedbackSessionRow.questionTables}" var="feedbackQuestionTable" varStatus="i">
-            <c:set var="qnIdx" value="${i.index + 1}" />
             <comments:feedbackQuestionPanel feedbackQuestionTable="${feedbackQuestionTable}"
-             fsIdx="${fsIdx}" qnIdx="${qnIdx}"/>
+             fsIdx="${fsIdx}" qnIdx="${i.index + 1}"/>
         </c:forEach>
     </div>
 </div>
