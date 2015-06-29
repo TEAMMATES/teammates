@@ -44,8 +44,8 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
         assertEquals(false, result.isError);
         
         StudentCommentsPageData data = (StudentCommentsPageData) result.data;
-        assertEquals(2, data.getComments().size());
-        assertEquals(1, data.getCoursePaginationList().size());
+        assertEquals(2, data.getCommentRows().size());
+        assertEquals(1, data.getCoursePagination().getCoursePaginationList().size());
         
         String expectedLogMessage = "TEAMMATESLOG|||studentCommentsPage|||studentCommentsPage|||true|||Student"
                 + "|||Student 1 in course 1|||student1InCourse1|||student1InCourse1@gmail.tmt|||studentComments "
@@ -64,8 +64,8 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
         assertEquals(false, result.isError);
         
         data = (StudentCommentsPageData) result.data;
-        assertEquals(0, data.getComments().size());
-        assertEquals(2, data.getCoursePaginationList().size());
+        assertEquals(0, data.getCommentRows().size());
+        assertEquals(2, data.getCoursePagination().getCoursePaginationList().size());
         
         expectedLogMessage = "TEAMMATESLOG|||studentCommentsPage|||studentCommentsPage|||true|||Student(M)|||"
                 + "Student in two courses|||student2InCourse1|||student2InCourse1@gmail.tmt|||studentComments "
