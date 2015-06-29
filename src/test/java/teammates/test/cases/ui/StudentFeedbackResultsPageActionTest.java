@@ -191,6 +191,22 @@ public class StudentFeedbackResultsPageActionTest extends BaseActionTest {
         dataBundle.feedbackSessions.get("session1InCourse1").resultsVisibleFromTime =
                 TimeHelper.now( dataBundle.feedbackSessions.get("session1InCourse1").timeZone).getTime();
 
+        /*
+         * The above test can fail if the time elapsed between pageData... and dataBundle...
+         * changes the time recorded by dataBundle up to the precision of seconds.
+         * To solve that, verify that the time elapsed is less than one second (or else the test
+         * fails after all) and if it does, change the value in the dataBundle to match.
+         */
+        long pageDataResultsVisibleFromTime = pageData.bundle.feedbackSession.resultsVisibleFromTime.getTime();
+        long dataBundleResultsVisibleFromTime = dataBundle.feedbackSessions.get("session1InCourse1")
+                                                                           .resultsVisibleFromTime.getTime();
+        long TOLERANCE_TIME_IN_MILLISECONDS = 1000;
+        if (dataBundleResultsVisibleFromTime - pageDataResultsVisibleFromTime < TOLERANCE_TIME_IN_MILLISECONDS) {
+            // change to the value that will never make the test fail
+            dataBundle.feedbackSessions.get("session1InCourse1").resultsVisibleFromTime = 
+                                            pageData.bundle.feedbackSession.resultsVisibleFromTime;
+        }
+
         List<FeedbackSessionAttributes> expectedInfoList = new ArrayList<FeedbackSessionAttributes>();
         List<FeedbackSessionAttributes> actualInfoList = new ArrayList<FeedbackSessionAttributes>();
         expectedInfoList.add(dataBundle.feedbackSessions.get("session1InCourse1"));

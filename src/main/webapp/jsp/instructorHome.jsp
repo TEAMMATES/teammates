@@ -26,36 +26,40 @@
     <!DOCTYPE html>
     <html>
     <head>
-        <link rel="shortcut icon" href="/favicon.png" />
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>TEAMMATES - Instructor</title>
-        <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css"/>
-        <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css"/>
-        <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css"/>
-        
-        <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-        <script type="text/javascript" src="/js/jquery-minified.js"></script>
-        <script type="text/javascript" src="/js/date.js"></script>
-        
-        <script type="text/javascript" src="/js/common.js"></script>
-        <script type="text/javascript"  src="/bootstrap/js/bootstrap.min.js"></script>
-        
-        <script type="text/javascript" src="/js/instructor.js"></script>
-        <script type="text/javascript" src="/js/instructorHome.js"></script>
-        <script type="text/javascript" src="/js/ajaxResponseRate.js"></script>
-        <script type="text/javascript" src="/js/instructorFeedbackAjaxRemindModal.js"></script>
-        <jsp:include page="../enableJS.jsp"></jsp:include>
+
+        <link href="/favicon.png" rel="shortcut icon" />
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+        <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
+        <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet" />
+
         <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
+        
+        <script src="/js/googleAnalytics.js" type="text/javascript"></script>
+        <script src="/js/jquery-minified.js" type="text/javascript"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"type="text/javascript"></script>
+        <script src="/js/common.js" type="text/javascript"></script>
+        <script src="/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+
+        <jsp:include page="../enableJS.jsp"></jsp:include>
+        
+        <script src="/js/instructor.js" type="text/javascript"></script>
+        <script src="/js/instructorHome.js" type="text/javascript"></script>
+        <script src="/js/ajaxResponseRate.js" type="text/javascript"></script>
+        <script src="/js/instructorFeedbackAjaxRemindModal.js" type="text/javascript"></script>
     </head>
     
     <body>
         <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
     
-        <div id="frameBodyWrapper" class="container theme-showcase">
+        <div id="mainContent" class="container theme-showcase">
             <div id="topOfPage"></div>
             <div class="inner-container">
                 <div class="row">
@@ -315,10 +319,10 @@
         </div> 
         <br>
         <br>
-        <br>
-        <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-    </body>
-    </html>
-<%
-    }
-%>
+        <br>        
+    <%
+        }
+    %>
+    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
+</body>
+</html>

@@ -88,6 +88,8 @@ public class InstructorHomePageUiTest extends BaseUiTestCase {
         ______TS("persistence check");
         
         loginWithPersistenceProblem();
+
+        // This is the full HTML verification for Instructor Home Page, the rest can all be verifyMainHtml
         homePage.verifyHtml("/InstructorHomeHTMLPersistenceCheck.html");
     }
 

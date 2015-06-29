@@ -261,9 +261,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         action = getAction(paramsNeedHtmlTableAllSections);
         result = action.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_TOP
-                     + "?error=false&user=idOfInstructor1OfCourse1",
-                     result.getDestinationWithParams());
+        assertEquals("?error=false&user=idOfInstructor1OfCourse1", result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
         
@@ -271,9 +269,7 @@ public class InstructorFeedbackResultsPageActionTest extends BaseActionTest {
         action = getAction(paramsNeedHtmlTableSectionOne);
         result = action.executeAndPostProcess();
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_TOP
-                     + "?error=false&user=idOfInstructor1OfCourse1",
-                     result.getDestinationWithParams());
+        assertEquals("?error=false&user=idOfInstructor1OfCourse1", result.getDestinationWithParams());
         assertEquals("", result.getStatusMessage());
         assertFalse(result.isError);
         

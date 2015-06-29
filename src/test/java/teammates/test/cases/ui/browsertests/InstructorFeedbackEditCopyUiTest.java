@@ -41,8 +41,9 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         ______TS("Submit empty course list");
         feedbackEditPage.clickFsCopyButton();
         feedbackEditPage.waitForModalToLoad();
-        
-        feedbackEditPage.verifyHtml("/instructorFeedbackEditCopyPage.html");
+
+        // Full HTML verification already done in InstructorFeedbackEditPageUiTest
+        feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditCopyPage.html");
         
         feedbackEditPage.clickFsCopySubmitButton();
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
@@ -58,7 +59,8 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         String error = String.format(Const.StatusMessages.FEEDBACK_SESSION_COPY_ALREADYEXISTS,
                                      feedbackSessionName, testData.courses.get("course").id);
         feedbackEditPage.verifyStatus(error);
-        
+
+        // Full HTML verification already done in InstructorFeedbackEditPageUiTest
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditCopyFail.html");
         
         
@@ -85,6 +87,8 @@ public class InstructorFeedbackEditCopyUiTest extends BaseUiTestCase {
         
         feedbackEditPage.verifyStatus(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
         feedbackEditPage.waitForElementPresence(By.id("table-sessions"), 5);
+
+        // Full HTML verification already done in InstructorFeedbackEditPageUiTest
         feedbackEditPage.verifyHtmlMainContent("/instructorFeedbackEditCopySuccess.html");
         
     }

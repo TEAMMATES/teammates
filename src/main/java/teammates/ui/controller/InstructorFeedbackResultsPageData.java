@@ -44,39 +44,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public String getInstructorFeedbackSessionPublishAndUnpublishAction(FeedbackSessionAttributes session,
                                                                         boolean isHome,
                                                                         InstructorAttributes instructor) {
-        boolean hasPublish = !session.isWaitingToOpen() && !session.isPublished();
-        boolean hasUnpublish = !session.isWaitingToOpen() && session.isPublished();
-        String disabledStr = "disabled=\"disabled\"";
-        String disableUnpublishSessionStr =
-                instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)
-                        ? "" : disabledStr;
-        String disablePublishSessionStr =
-                instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)
-                        ? "" : disabledStr;
-        String result = "";
-        if (hasUnpublish) {
-            result = "<a class=\"btn btn-primary btn-block btn-tm-actions session-unpublish-for-test\""
-                   + "href=\"" + getInstructorFeedbackSessionUnpublishLink(session.courseId,
-                                                                           session.feedbackSessionName, isHome)
-                   + "\" " + "title=\"" + Const.Tooltips.FEEDBACK_SESSION_UNPUBLISH
-                   + "\" data-toggle=\"tooltip\" data-placement=\"top\""
-                   + "onclick=\"return toggleUnpublishEvaluation('"
-                   + session.feedbackSessionName + "');\" "
-                   + disableUnpublishSessionStr + ">Unpublish results</a> ";
-        } else {
-            result = "<a class=\"btn btn-primary btn-block btn-tm-actions session-publish-for-test"
-                   + (hasPublish ? "\"" : DISABLED) + "href=\""
-                   + getInstructorFeedbackSessionPublishLink(session.courseId, session.feedbackSessionName,
-                                                             isHome)
-                   + "\" " + "title=\""
-                   + (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH
-                                 : Const.Tooltips.FEEDBACK_SESSION_AWAITING)
-                   + "\"" + "data-toggle=\"tooltip\" data-placement=\"top\""
-                   + (hasPublish ? "onclick=\"return togglePublishEvaluation('" + session.feedbackSessionName + "');\" "
-                                 : " ")
-                   + disablePublishSessionStr + ">Publish results</a> ";
-        }
-        return result;
+        return getInstructorFeedbackSessionPublishAndUnpublishAction("btn-primary btn-block", session, isHome,
+                                                                     instructor);
     }
 
     public String getResultsVisibleFromText() {
