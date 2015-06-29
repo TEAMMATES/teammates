@@ -29,7 +29,7 @@
                     </div>
                 </div>
             </div>
-            <c:if test="${not empty data.comments}">
+            <c:if test="${not empty data.commentRows}">
                 <br>
                 <comments:commentsForStudentsPanel commentRows="${data.commentRows}"/>
             </c:if>
