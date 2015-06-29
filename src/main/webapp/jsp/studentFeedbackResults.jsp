@@ -6,6 +6,7 @@
 <%@ page import="teammates.common.util.Assumption" %>
 <%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.util.Url" %>
+<%@ page import="teammates.common.util.TimeHelper" %>
 <%@ page import="teammates.common.datatransfer.AccountAttributes" %>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType" %>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes" %>
@@ -199,9 +200,11 @@
                                                                                     <%
                                                                                         for (FeedbackResponseCommentAttributes comment : responseComments) {
                                                                                     %>
-                                                                                            <li class="list-group-item list-group-item-warning">
-                                                                                                <span class="text-muted">From: <%= comment.giverEmail %> [<%= comment.createdAt %>]</span>
-                                                                                                <div><%= comment.commentText.getValue() %></div>
+                                                                                            <li class="list-group-item list-group-item-warning" id="">
+                                                                                                <div id="">
+                                                                                                    <span class="text-muted">From: <%= comment.giverEmail %> [<%= TimeHelper.formatDate(comment.createdAt) %>] <%= comment.getEditedAtTextForStudent(comment.giverEmail.equals("Anonymous"), comment.giverEmail) %></span>
+                                                                                                </div>
+                                                                                                <div id="" style="margin-left: 15px;"><%= comment.commentText.getValue() %></div>
                                                                                             </li>
                                                                                     <%
                                                                                         }
