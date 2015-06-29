@@ -21,7 +21,7 @@
                     </strong>
                 </h4>
             </div>
-            <div id="no-comment-panel" style="${empty data.commentRows && empty data.feedbackSessionRows ? '' : 'display:none;'}>">
+            <div id="no-comment-panel" style="${empty data.commentRows && empty data.feedbackSessionRows ? '' : 'display:none;'}">
                 <br>
                 <div class="panel">
                     <div class="panel-body">

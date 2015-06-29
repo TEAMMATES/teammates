@@ -21,8 +21,7 @@
                <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>                                       
         </a>
     </div>
-    
-    <!-- frComment Content -->
+
     <div id="plainCommentText-${fsIndx}-${qnIndx}-${responseIndex}-${responseCommentIndex}">
         ${feedbackResponseCommentRow.comment}
     </div>

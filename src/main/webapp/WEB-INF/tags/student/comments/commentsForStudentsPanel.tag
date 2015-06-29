@@ -19,8 +19,8 @@
                         class="form_comment"
                         id="form_commentedit-${commentIdx}">
                         <div id="commentBar-${commentIdx}">
-                            <span class="text-muted">From <b>${commentRow.giverDetails}</b> on
-                                ${commentRow.creationTime} ${commentRow.editedAt}
+                            <span class="text-muted">
+                                From <b>${commentRow.giverDetails}</b> on ${commentRow.creationTime} ${commentRow.editedAt}
                             </span>
                         </div>
                         <div id="plainCommentText${commentIdx}">${commentRow.comment.commentText}</div>

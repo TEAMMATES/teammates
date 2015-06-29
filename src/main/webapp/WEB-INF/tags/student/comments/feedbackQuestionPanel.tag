@@ -6,8 +6,7 @@
 <%@ attribute name="qnIdx" required="true" %>
 <div class="panel panel-info">
     <div class="panel-heading">
-        <b>Question ${feedbackQuestionTable.questionNumber}</b>:
-        ${feedbackQuestionTable.questionText}
+        <b>Question ${feedbackQuestionTable.questionNumber}</b>: ${feedbackQuestionTable.questionText}
     </div>
     <table class="table">
         <tbody>
