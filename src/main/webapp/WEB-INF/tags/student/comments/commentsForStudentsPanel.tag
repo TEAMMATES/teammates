@@ -14,7 +14,6 @@
                     To <b>${commentRow.recipientDetails}</b>
                 </div>
                 <ul class="list-group comments">
-                    <c:set var="commentIdx" value="${commentIdx + 1}" />
                     <li class="list-group-item list-group-item-warning"
                         name="form_commentedit"
                         class="form_comment"
