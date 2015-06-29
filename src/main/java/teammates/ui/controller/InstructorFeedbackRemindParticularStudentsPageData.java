@@ -11,4 +11,12 @@ public class InstructorFeedbackRemindParticularStudentsPageData extends PageData
     public InstructorFeedbackRemindParticularStudentsPageData(AccountAttributes account) {
         super(account);
     }
+    
+    public String getCourseId() {
+        return courseId;
+    }
+    
+    public String getFsName() {
+        return fsName;
+    }
 }
