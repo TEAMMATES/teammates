@@ -1,4 +1,4 @@
-<%@ tag description="Feedback response comment panel" %>
+<%@ tag description="StudentComments - Feedback response comment" %>
 <%@ attribute name="feedbackResponseCommentRow" type="teammates.ui.template.FeedbackResponseCommentRow" required="true" %>
 <%@ attribute name="fsIdx" required="true" %>
 <%@ attribute name="qnIdx" required="true" %>

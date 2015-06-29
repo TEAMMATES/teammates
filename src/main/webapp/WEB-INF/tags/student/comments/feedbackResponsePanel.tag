@@ -1,4 +1,4 @@
-<%@ tag description="Feedback response panel" %>
+<%@ tag description="StudentComments - Feedback response" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/student/comments" prefix="comments" %>
 <%@ attribute name="feedbackResponseRow" type="teammates.ui.template.ResponseRow" required="true" %>

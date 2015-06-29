@@ -1,4 +1,4 @@
-<%@ tag description="Comments for students" %>
+<%@ tag description="StudentComments - Comments for students" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/student/comments" prefix="comments" %>
 <%@ attribute name="commentRows" type="java.util.Collection" required="true" %>

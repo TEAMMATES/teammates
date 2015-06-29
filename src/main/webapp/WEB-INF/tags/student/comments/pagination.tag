@@ -1,4 +1,4 @@
-<%@ tag description="Student comments course pagination" %>
+<%@ tag description="StudentComments - Course pagination" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <ul class="pagination">
