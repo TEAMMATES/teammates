@@ -1,6 +1,5 @@
 package teammates.test.cases.ui.pagedata;
 
-import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNull;
 
 import org.testng.annotations.BeforeClass;
@@ -20,7 +19,6 @@ public class InstructorCourseStudentDetailsEditPageDataTest extends InstructorCo
         
         assertNull(data.getStudentProfile());
         testStudentInfoTable(data.getStudentInfoTable());
-        assertEquals(commentRecipient, data.getCommentRecipient());
     }
     
     protected InstructorCourseStudentDetailsPageData createData() {

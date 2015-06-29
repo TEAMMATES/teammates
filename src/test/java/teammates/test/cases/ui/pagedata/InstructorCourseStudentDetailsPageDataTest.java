@@ -2,6 +2,10 @@ package teammates.test.cases.ui.pagedata;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertFalse;
+
+import java.util.Arrays;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -16,12 +20,15 @@ import teammates.ui.template.StudentInfoTable;
 import teammates.ui.template.StudentProfile;
 
 public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
+    private String[] USERS_COMMENT_BOX_SHOWN_TO = {"student", "team", "section"};
+    
     private StudentAttributes inputStudent;
     private StudentProfileAttributes inputStudentProfile;
     private String pictureUrl;
     private boolean isAbleToAddComment;
     private boolean hasSection;
-    protected String commentRecipient;
+    private String commentRecipient;
+    
     
     @BeforeClass
     public static void classSetUp() {
@@ -44,12 +51,30 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         createStudentData(pictureKey);
         data = createData();
         testData(data);
+        
+        data = createData("someOtherCommentRecipient");
+        testData(data);
+        
+        for (String user : USERS_COMMENT_BOX_SHOWN_TO) {
+            data = createData(user);
+            testData(data);
+        }
     }
     
     private void testData(InstructorCourseStudentDetailsPageData data) {
         testStudentProfile(data.getStudentProfile());
         testStudentInfoTable(data.getStudentInfoTable());
-        assertEquals(commentRecipient, data.getCommentRecipient());
+        testCommentRecipient(data.getCommentRecipient(), data.isCommentBoxShown());
+    }
+
+    private void testCommentRecipient(String commentRecipient, boolean isCommentBoxShown) {
+        assertEquals(this.commentRecipient, commentRecipient);
+        
+        if (Arrays.asList(USERS_COMMENT_BOX_SHOWN_TO).contains(commentRecipient)) {
+            assertTrue(isCommentBoxShown);
+        } else {
+            assertFalse(isCommentBoxShown);
+        }
     }
 
     private void testStudentProfile(StudentProfile studentProfile) {
@@ -114,15 +139,25 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         inputStudentProfile = new StudentProfileAttributes(
                 null, shortName, email, institute, nationality, gender, moreInfo, pictureKey);
     }
-
-    protected InstructorCourseStudentDetailsPageData createData() {
+    
+    private void initCommonData() {
         isAbleToAddComment = true;
         hasSection = true;
-        commentRecipient = "cmtRec";
+        commentRecipient = null;
+    }
+
+    protected InstructorCourseStudentDetailsPageData createData() {
+        initCommonData();
         
         return new InstructorCourseStudentDetailsPageData(
                 new AccountAttributes(), inputStudent, inputStudentProfile, isAbleToAddComment, hasSection, commentRecipient);
     }
     
-    
+    private InstructorCourseStudentDetailsPageData createData(String commentRecipient) {
+        initCommonData();
+        this.commentRecipient = commentRecipient;
+        
+        return new InstructorCourseStudentDetailsPageData(
+                new AccountAttributes(), inputStudent, inputStudentProfile, isAbleToAddComment, hasSection, commentRecipient);
+    }
 }
