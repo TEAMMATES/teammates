@@ -13,9 +13,9 @@ public class StudentProfilePageAction extends Action {
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
         account.studentProfile = logic.getStudentProfile(account.googleId);
-        String editPhoto = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_PHOTOEDIT);
-        if (editPhoto == null) {
-            editPhoto = "false";
+        String isEditingPhoto = getRequestParamValue(Const.ParamsNames.STUDENT_PROFILE_PHOTOEDIT);
+        if (isEditingPhoto == null) {
+            isEditingPhoto = "false";
         }
 
         if (account.studentProfile == null) {
@@ -23,7 +23,7 @@ public class StudentProfilePageAction extends Action {
             return createRedirectResult(Const.ActionURIs.STUDENT_HOME_PAGE);
         }
 
-        data = new StudentProfilePageData(account, editPhoto);
+        data = new StudentProfilePageData(account, isEditingPhoto);
         statusToAdmin = "studentProfile Page Load <br> Profile: " + account.studentProfile.toString();
 
         ShowPageResult response = createShowPageResult(Const.ViewURIs.STUDENT_PROFILE_PAGE, data);

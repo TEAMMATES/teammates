@@ -729,4 +729,27 @@ public class CoursesLogic {
         
         return courseIdToSectionName;
     }
+    
+    // TODO: Optimize extractActiveCourses() and extractArchivedCourses() to reduce the number of repeated calls of
+    // isCourseArchived(), which retrieves information from the database
+    
+    public List<CourseDetailsBundle> extractActiveCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
+        List<CourseDetailsBundle> result = new ArrayList<CourseDetailsBundle>();
+        for (CourseDetailsBundle courseBundle : courseBundles) {
+            if (!isCourseArchived(courseBundle.course.id, googleId)) {
+                result.add(courseBundle);
+            }
+        }
+        return result;
+    }
+    
+    public List<CourseDetailsBundle> extractArchivedCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
+        List<CourseDetailsBundle> result = new ArrayList<CourseDetailsBundle>();
+        for (CourseDetailsBundle courseBundle : courseBundles) {
+            if (isCourseArchived(courseBundle.course.id, googleId)) {
+                result.add(courseBundle);
+            }
+        }
+        return result;
+    }
 }

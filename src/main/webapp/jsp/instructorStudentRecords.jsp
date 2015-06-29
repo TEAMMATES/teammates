@@ -16,37 +16,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="shortcut icon" href="/favicon.png">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TEAMMATES - Instructor</title>
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
-    <!-- Bootstrap theme -->
-    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="/stylesheets/teammatesCommon.css" media="screen">
-    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-    <script type="text/javascript" src="/js/jquery-minified.js"></script>
-    <script type="text/javascript" src="/js/common.js"></script>
-    <script type="text/javascript" src="/js/instructor.js"></script>
-    <script type="text/javascript" src="/js/instructorStudentRecords.js"></script>
-    <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
-    <jsp:include page="../enableJS.jsp" />
-    <!-- Bootstrap core JavaScript ================================================== -->
-    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+    <link rel="shortcut icon" href="/favicon.png" />
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>
+    <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet"/>
+
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
+    <script type="text/javascript" src="/js/jquery-minified.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+
+    <jsp:include page="../enableJS.jsp" />
+
+    <script type="text/javascript" src="/js/instructor.js"></script>
+    <script type="text/javascript" src="/js/instructorStudentRecords.js"></script>
+    <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
     <script type="text/javascript">
         var showCommentBox = "<%= data.showCommentBox %>";
     </script>
 </head>
 <body onload="readyStudentRecordsPage();">
     <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
-    <div class="container" id="frameBodyWrapper">
+    <div class="container" id="mainContent">
         <div id="topOfPage"></div>
         <h1>
             <%= InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name) %>'s Records<small class="muted"> - <%=data.courseId%></small>
