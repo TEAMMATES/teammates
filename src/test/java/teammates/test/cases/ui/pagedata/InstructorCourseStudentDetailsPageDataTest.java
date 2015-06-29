@@ -37,24 +37,29 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
     
     @Test
     public void allTests() {
+        ______TS("With picture key, no comment recipient");
         String pictureKey = "examplePictureKey";
         createStudentData(pictureKey);
         InstructorCourseStudentDetailsPageData data = createData();
         testData(data);
         
+        ______TS("With empty picture key, no comment recipient");
         pictureKey = "";
         createStudentData(pictureKey);
         data = createData();
         testData(data);
         
+        ______TS("With null picture key, no comment recipient");
         pictureKey = null;
         createStudentData(pictureKey);
         data = createData();
         testData(data);
         
+        ______TS("With comment recipient unauthorised to see comment box");
         data = createData("someOtherCommentRecipient");
         testData(data);
         
+        ______TS("With comment recipient authorised to see comment box");
         for (String user : USERS_COMMENT_BOX_SHOWN_TO) {
             data = createData(user);
             testData(data);

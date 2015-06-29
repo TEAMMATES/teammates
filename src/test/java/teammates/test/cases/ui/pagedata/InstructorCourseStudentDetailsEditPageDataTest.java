@@ -17,6 +17,7 @@ public class InstructorCourseStudentDetailsEditPageDataTest extends InstructorCo
     public void allTests() {
         InstructorCourseStudentDetailsPageData data = createData();
         
+        ______TS("With no student profile (Details edit shows only the info table)");
         assertNull(data.getStudentProfile());
         testStudentInfoTable(data.getStudentInfoTable());
     }
