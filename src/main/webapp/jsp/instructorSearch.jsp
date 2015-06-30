@@ -278,13 +278,16 @@
                                                         responseCommentIndex++;
                                                         String frCommentGiver = data.feedbackResponseCommentSearchResultBundle
                                                                                          .commentGiverTable.get(frc.getId().toString());
+                                                        if (!frCommentGiver.equals("Anonymous")) {
+                                                            frCommentGiver = frc.giverEmail;
+                                                        }
                                                 %>
                                                 <li class="list-group-item list-group-item-warning"
                                                     id="responseCommentRow-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                     <div id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                         <span class="text-muted">
                                                             From:
-                                                            <%= frc.giverEmail %>
+                                                            <%= frCommentGiver %>
                                                             [<%= frc.createdAt %>] <%=frc.getEditedAtText(frc.giverEmail.equals("Anonymous"))%>
                                                         </span>
                                                         <a type="button" href="<%=data.getInstructorCommentsLink() + "&" + Const.ParamsNames.COURSE_ID 
