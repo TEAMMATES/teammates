@@ -51,8 +51,10 @@ for (SessionResultsBundle sessionResult: data.results) {
                                             out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "giver-" + giverIndex + "-session-" + fbIndex)); %></span>
                                         </div>
                                         <div class="panel-body">
-                                            <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                            <span class="text-preserve-space"><%= feedback.getResponseAnswerHtml(singleResponse, question) %></span>
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space"><%= feedback.getResponseAnswerHtml(singleResponse, question) %></div>
+                                            </div>
                                             <% List<FeedbackResponseCommentAttributes> responseComments = feedback.responseComments.get(singleResponse.getId());
                                             if (responseComments != null) { %>
                                                 <ul class="list-group comment-list">
@@ -116,7 +118,10 @@ for (SessionResultsBundle sessionResult: data.results) {
                                             out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "recipient-" + recipientIndex + "-session-" + fbIndex)); %></span>
                                         </div>
                                         <div class="panel-body">
-                                            <%= singleResponse.getResponseDetails().getAnswerHtml(questionDetails) %>
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space"><%= singleResponse.getResponseDetails().getAnswerHtml(questionDetails) %></div>
+                                            </div>
                                             <% List<FeedbackResponseCommentAttributes> responseComments = feedback.responseComments.get(singleResponse.getId());
                                             if (responseComments != null) { %>
                                                 <ul class="list-group comment-list">
