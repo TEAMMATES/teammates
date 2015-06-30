@@ -11,4 +11,12 @@ public class StudentCourseJoinConfirmationPageData extends PageData {
     public StudentCourseJoinConfirmationPageData(AccountAttributes account, StudentAttributes student) {
         super(account, student);
     }
+
+    public String getConfirmUrl() {
+        return confirmUrl;
+    }
+
+    public String getLogoutUrl() {
+        return logoutUrl;
+    }
 }

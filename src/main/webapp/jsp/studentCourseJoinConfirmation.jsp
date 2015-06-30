@@ -15,16 +15,16 @@
 	    </div>
 	    <div class="panel-body">
 	        <p>
-	            You are currently logged in as <span><strong><%=data.account.googleId%></strong></span>. 
-	            <br>If this is not you please <a href="<%=data.logoutUrl%>">log out</a> and re-login using your own Google account.
+	            You are currently logged in as <span><strong>${data.account.googleId}</strong></span>. 
+	            <br>If this is not you please <a href="${data.logoutUrl}">log out</a> and re-login using your own Google account.
 	            <br>If this is you, please confirm below to complete your registration.
 	            <br>
 	        </p>
 	        <div class="align-center">
-	            <a href="<%=data.confirmUrl%>" 
+	            <a href="${data.confirmUrl}" 
 	                class="btn btn-success"
 	                id="button_confirm">Yes, this is my account</a>
-	            <a href="<%=data.logoutUrl%>" 
+	            <a href="${data.logoutUrl}" 
 	                class="btn btn-danger"
 	                id="button_cancel">No, this is not my account</a>
 	        </div>
