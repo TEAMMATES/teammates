@@ -2,8 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/course" prefix="course" %>
 <%@ tag import="teammates.common.util.Const" %>
-<%@ tag import="teammates.common.util.FieldValidator" %>
-
 <%@ attribute name="instructorIndex" required="true" %>
 <%@ attribute name="sectionIndex" required="true" %>
 <%@ attribute name="sectionRow" type="teammates.ui.template.CourseEditSectionRow" required="true" %>

@@ -1,7 +1,6 @@
 <%@ tag description="instructorCourseEdit - Panel Heading of Instructor List" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const" %>
-<%@ tag import="teammates.common.util.FieldValidator" %>
 <%@ attribute name="index" required="true" %>
 <%@ attribute name="resendInviteButton" type="teammates.ui.template.ElementTag" required="true" %>
 <%@ attribute name="editButton" type="teammates.ui.template.ElementTag" required="true" %>

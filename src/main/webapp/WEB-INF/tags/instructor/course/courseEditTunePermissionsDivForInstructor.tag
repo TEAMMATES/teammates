@@ -1,9 +1,6 @@
 <%@ tag description="instructorCourseEdit - Panel Heading of Instructor List" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/course" prefix="course" %>
-<%@ tag import="teammates.common.util.Const" %>
-<%@ tag import="teammates.common.util.FieldValidator" %>
-
 <%@ attribute name="instructorPanel" type="teammates.ui.template.CourseEditInstructorPanel" required="true" %>
 
 <div id="tunePermissionsDivForInstructor${instructorPanel.index}" style="display: none;">
