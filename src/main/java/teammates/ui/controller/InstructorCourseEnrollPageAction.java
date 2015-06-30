@@ -22,9 +22,7 @@ public class InstructorCourseEnrollPageAction extends Action {
                 instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         
         /* Setup page data for 'Enroll' page of a course */
-        InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account);
-        pageData.courseId = courseId;
-        pageData.enrollStudents = studentsInfo;
+        InstructorCourseEnrollPageData pageData = new InstructorCourseEnrollPageData(account, courseId, studentsInfo);
 
         statusToAdmin = "instructorCourseEnroll Page Load<br>"
                 + "Enrollment for Course <span class=\"bold\">[" + courseId + "]</span>"; 
