@@ -24,16 +24,16 @@
                 </nav>
             </c:when>
             <c:otherwise>
-                <!-- Cannot be empty to prevent default navbar -->
-                &nbsp;
+                <%-- Cannot be empty to prevent default navbar --%>
+                <span style="display:none"></span>
             </c:otherwise>
         </c:choose>
     </c:set>
 </c:if>
 
 <c:set var="altFooter">
-    <!-- Cannot be empty to prevent default footer -->
-    &nbsp;
+    <%-- Cannot be empty to prevent default footer --%>
+    <span style="display:none"></span>
 </c:set>
 
 <ts:studentPageCustom bodyTitle="Submit Feedback Question" pageTitle="TEAMMATES - Submit Feedback Question" jsIncludes="${jsIncludes}" altNavBar="${altHeader}" altFooter="${altFooter}">
