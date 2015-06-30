@@ -238,8 +238,7 @@
                                         <div class="panel-heading">Visibility
                                             Options</div>
                                         <table class="table text-center"
-                                            style="color: #000;"
-                                            style="background: #fff;">
+                                            style="color: #000;">
                                             <tbody>
                                                 <tr>
                                                     <th

@@ -547,8 +547,7 @@
                                                     <div id="visibility-options-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>" class="panel panel-default"
                                                         style="display: none;">
                                                         <div class="panel-heading">Visibility Options</div>
-                                                        <table class="table text-center" style="color:#000;"
-                                                            style="background: #fff;">
+                                                        <table class="table text-center" style="color:#000;">
                                                             <tbody>
                                                                 <tr>
                                                                     <th class="text-center">User/Group</th>
