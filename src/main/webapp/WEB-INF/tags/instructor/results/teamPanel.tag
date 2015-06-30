@@ -16,6 +16,7 @@
 <%@ attribute name="participantPanels" type="java.util.List" required="true" %>
 
 <c:set var="groupByTeamEnabled" value = "${data.groupByTeam != null || data.groupByTeam == 'on'}"/>
+
 <div class="panel panel-warning">
     <div class="panel-heading">
         <div class="row">
@@ -34,6 +35,7 @@
             </div>
         </div>
     </div>
+    
     <div class="panel-collapse collapse<c:if test="${!shouldCollapsed}"> in</c:if>">
         <div class="panel-body background-color-warning">
             <div class="resultStatistics">

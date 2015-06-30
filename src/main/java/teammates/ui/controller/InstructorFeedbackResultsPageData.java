@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -110,10 +112,18 @@ public class InstructorFeedbackResultsPageData extends PageData {
         // Initialize section Panels. TODO abstract into method
         sectionPanels = new HashMap<String, InstructorFeedbackResultsSectionPanel>();
        
+        InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
+
         // For detailed responses, 
         String prevSection = Const.DEFAULT_SECTION;
         String prevTeam = "";
-        InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
+        
+        Set<String> sectionsInCourse = bundle.rosterSectionTeamNameTable.keySet();
+        Set<String> receivingSections = new HashSet<String>();
+        
+        Set<String> teamMembersWithResponses = new HashSet<String>();                                
+        Set<String> teamMembersEmail = new HashSet<String>();
+        
         
         for (Map.Entry<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesFromGiver : sortedResponses.entrySet()) {
             String giverIdentifier = responsesFromGiver.getKey();
@@ -127,10 +137,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 currentTeam = bundle.getNameForEmail(giverIdentifier);
             }
             
-            
             String currentSection = Const.DEFAULT_SECTION;
             // update current section
-            // retrieve section from the first response
+            // retrieve section from the first response of this user
             // TODO simplify by introducing more data structures into bundle
             for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesFromGiverForQuestion : 
                                                                                          responsesFromGiver.getValue().entrySet()) {
@@ -146,8 +155,21 @@ public class InstructorFeedbackResultsPageData extends PageData {
             if (!prevSection.equals(currentSection) && sectionPanel.getParticipantPanels().size() > 0) {
                 sectionPanel.setSectionName(prevSection);
                 sectionPanels.put(prevSection, sectionPanel);
+                
                 sectionPanel = new InstructorFeedbackResultsSectionPanel();
+                
+                receivingSections.add(prevSection);
             }
+            
+            // change in team
+            if (!prevSection.equals(currentSection) && sectionPanel.getParticipantPanels().size() > 0) {
+                sectionPanel.setSectionName(prevSection);
+                sectionPanels.put(prevSection, sectionPanel);
+                
+                sectionPanel = new InstructorFeedbackResultsSectionPanel();
+                
+                receivingSections.add(prevSection);
+            } 
             
             List<InstructorResultsQuestionTable> questionTables = new ArrayList<InstructorResultsQuestionTable>();
             for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesFromGiverForQuestion : responsesFromGiver.getValue().entrySet()) {
@@ -163,7 +185,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 sectionPanel.getIsTeamWithResponses().put(currentTeam, true);
 
                 InstructorResultsQuestionTable questionTable = buildQuestionTable(currentQuestion, responsesForQuestion, viewType);
-                
                 questionTables.add(questionTable);
                 
                 questionForGiver = currentQuestion;
@@ -172,7 +193,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
             if (questionForGiver == null) {
                 continue;
             }
-            
             
             // Construct InstructorFeedbackResultsGroupByQuestionPanel for the current giver
             FieldValidator validator = new FieldValidator();
@@ -210,9 +230,23 @@ public class InstructorFeedbackResultsPageData extends PageData {
         // for the last group
         sectionPanel.setSectionName(prevSection);
         sectionPanels.put(prevSection, sectionPanel);
+        receivingSections.add(prevSection);
         
+        Set<String> sectionsWithNoResponseReceived = new HashSet<String>(sectionsInCourse);
+        sectionsWithNoResponseReceived.removeAll(receivingSections);
         
         // for statistics
+        buildTeamStatisticsTable(bundle, sections, viewType, questions, responsesGroupedByTeam);
+        
+        
+    }
+
+    private void buildTeamStatisticsTable(
+                                    FeedbackSessionResultsBundle bundle,
+                                    List<String> sections,
+                                    ViewType viewType,
+                                    Map<String, FeedbackQuestionAttributes> questions,
+                                    LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam) {
         for (String section : sections) {
             if (!sectionPanels.containsKey(section)) {
                 continue;
@@ -256,8 +290,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
             panel.setStatisticsHeaderText("Statistics for Given Responses");
             panel.setDetailedResponsesHeaderText("Detailed Responses");
         }
-        
-        
     }
     
     private InstructorResultsQuestionTable buildQuestionTable(FeedbackQuestionAttributes question,

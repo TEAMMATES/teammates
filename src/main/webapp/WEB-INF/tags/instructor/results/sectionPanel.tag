@@ -33,16 +33,26 @@
     </div>
     <div class="panel-collapse collapse in">
         <div class="panel-body" id="sectionBody-${sectionIndex}">
-           
-            <c:forEach var="teamPanel" items="${sectionPanel.participantPanels}" varStatus="i">
-                   <results:teamPanel teamName="${teamPanel.key}" teamIndex="${i.index}" 
-                                      showAll="${showAll}" shouldCollapsed="${shouldCollapsed}" 
-                                      statsTables="${sectionPanel.teamStatisticsTable[teamPanel.key]}"
-                                      detailedResponsesHeaderText="${sectionPanel.detailedResponsesHeaderText}" 
-                                      statisticsHeaderText="${sectionPanel.statisticsHeaderText}"
-                                      isTeamHasResponses="${sectionPanel.isTeamWithResponses[teamPanel.key]}"
-                                      participantPanels="${sectionPanel.participantPanels[teamPanel.key]}"/>  
-            </c:forEach>
+            <c:choose>
+            <c:when test="${groupByTeamEnabled}">
+                <c:forEach var="teamPanel" items="${sectionPanel.participantPanels}" varStatus="i">
+                       <results:teamPanel teamName="${teamPanel.key}" teamIndex="${i.index}" 
+                                          showAll="${showAll}" shouldCollapsed="${shouldCollapsed}" 
+                                          statsTables="${sectionPanel.teamStatisticsTable[teamPanel.key]}"
+                                          detailedResponsesHeaderText="${sectionPanel.detailedResponsesHeaderText}" 
+                                          statisticsHeaderText="${sectionPanel.statisticsHeaderText}"
+                                          isTeamHasResponses="${sectionPanel.isTeamWithResponses[teamPanel.key]}"
+                                          participantPanels="${teamPanel.value}"/>  
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                <c:forEach var="participantPanels" items="${sectionPanel.participantPanels}" varStatus="i">
+                    <c:forEach var="participantPanel" items="${participantPanels.value}">
+                        <results:participantGroupByQuestionPanel showAll="${showAll}" groupByQuestionPanel="${participantPanel}" shouldCollapsed="${shouldCollapsed}"/>
+                    </c:forEach>
+                </c:forEach>
+            </c:otherwise>
+            </c:choose>
         </div>
     </div>
 </div>
