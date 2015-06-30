@@ -5,9 +5,7 @@
 <%@ attribute name="studentsTable" type="teammates.ui.template.CourseDetailsStudentsTable" required="true" %>
 
 <table class="table table-bordered table-striped">
-    <c:set var="hasSection">
-        ${courseDetails.stats.sectionsTotal > 0}
-    </c:set>
+    <c:set var="hasSection">${courseDetails.stats.sectionsTotal > 0}</c:set>
 
     <thead class="fill-primary">
         <tr>

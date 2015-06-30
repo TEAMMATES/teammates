@@ -3,7 +3,6 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.datatransfer.CommentParticipantType" %>
 <%@ attribute name="courseId" required="true" %>
-<%@ attribute name="googleId" required="true" %>
 
 <div id="commentArea" class="well well-plain" style="display: none;">
     <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_ADD%>" name="form_commentadd">
@@ -81,7 +80,7 @@
             <input type="hidden" name=<%=Const.ParamsNames.COMMENTS_SHOWCOMMENTSTO%> value="">
             <input type="hidden" name=<%=Const.ParamsNames.COMMENTS_SHOWGIVERTO%> value="">
             <input type="hidden" name=<%=Const.ParamsNames.COMMENTS_SHOWRECIPIENTTO%> value="">
-            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${googleId}">
+            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
             <input type="hidden" name="<%=Const.ParamsNames.FROM_COURSE_DETAILS_PAGE%>" value="true">
         </div>
     </form>

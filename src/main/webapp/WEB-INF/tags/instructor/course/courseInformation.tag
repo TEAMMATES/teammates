@@ -5,7 +5,6 @@
 <%@ attribute name="instructors" type="java.util.Collection" required="true" %>
 <%@ attribute name="giveCommentButton" type="teammates.ui.template.ElementTag" required="true" %>
 <%@ attribute name="courseRemindButton" type="teammates.ui.template.ElementTag" required="true" %>
-<%@ attribute name="account" type="teammates.common.datatransfer.AccountAttributes" required="true" %>
 
 <div class="well well-plain" id="courseInformationHeader">
     <button type="button" data-original-title="Give a comment about all students in the course"
@@ -83,7 +82,7 @@
                         <input id="button_download" type="submit" class="btn btn-primary"
                                 name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
                                 value=" Download Student List ">
-                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${account.googleId}">
+                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
                         <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${courseDetails.course.id}">
                     </form>
 
@@ -98,7 +97,7 @@
                 
                     <form id="csvToHtmlForm">
                         <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${courseDetails.course.id}">
-                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${account.googleId}">
+                        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
                         <input type="hidden" name="<%=Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED%>" value=true>
                     </form>
                 
