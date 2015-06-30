@@ -11,7 +11,8 @@ public class CourseDetailsStudentsTableRow {
     private List<ElementTag> commentRecipientOptions;
     private StudentAttributes student;
     
-    public CourseDetailsStudentsTableRow() {
+    public CourseDetailsStudentsTableRow(StudentAttributes student) {
+        this.student = student;
         actions = new ArrayList<ElementTag>();
         commentActions = new ArrayList<ElementTag>();
         commentRecipientOptions = new ArrayList<ElementTag>();
@@ -31,9 +32,5 @@ public class CourseDetailsStudentsTableRow {
     
     public List<ElementTag> getCommentRecipientOptions() {
         return commentRecipientOptions;
-    }
-
-    public void setStudent(StudentAttributes student) {
-        this.student = student;
     }
 }

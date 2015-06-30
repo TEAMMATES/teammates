@@ -7,7 +7,6 @@ import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Sanitizer;
 import teammates.common.util.Url;
 import teammates.ui.template.CourseDetailsStudentsTable;
 import teammates.ui.template.CourseDetailsStudentsTableRow;
@@ -45,9 +44,8 @@ public class InstructorCourseDetailsPageData extends PageData {
         
         isDisabled = !currentInstructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
         String onClick = "if(toggleSendRegistrationKeysConfirmation('" 
-                          + Sanitizer.sanitizeForJs(courseDetails.course.id) + "')) "
-                          + "window.location.href='" 
-                          + Sanitizer.sanitizeForJs(getInstructorCourseRemindLink()) + "';";
+                          + sanitizeForJs(courseDetails.course.id) + "')) "
+                          + "window.location.href='" + sanitizeForJs(getInstructorCourseRemindLink()) + "';";
         courseRemindButton = createButton(null, "btn btn-primary", "button_remind", null, 
                                           Const.Tooltips.COURSE_REMIND, "tooltip", onClick, isDisabled);
         
@@ -60,15 +58,11 @@ public class InstructorCourseDetailsPageData extends PageData {
         }
     }
     
-    public CourseDetailsStudentsTableRow createStudentsTableRow(int studentIndex, 
-                                                                StudentAttributes student) {
-        CourseDetailsStudentsTableRow row = new CourseDetailsStudentsTableRow();
-        
-        row.setStudent(student);
+    public CourseDetailsStudentsTableRow createStudentsTableRow(int studentIndex, StudentAttributes student) {
+        CourseDetailsStudentsTableRow row = new CourseDetailsStudentsTableRow(student);
         
         boolean isDisabled = !currentInstructor.isAllowedForPrivilege(student.section, 
                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
-        
         ElementTag viewButton = createButton("View", "btn btn-default btn-xs", null, getCourseStudentDetailsLink(student),
                                              Const.Tooltips.COURSE_STUDENT_DETAILS, "tooltip", null, isDisabled);
         
