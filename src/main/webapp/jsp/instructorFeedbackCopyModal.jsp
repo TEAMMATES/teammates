@@ -1,11 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
 <%@ page import="teammates.common.util.Const" %>
-<%@ page import="teammates.common.datatransfer.CourseAttributes" %>
-<%@ page import="teammates.ui.controller.InstructorFeedbackEditCopyPageData" %>
-<%
-    InstructorFeedbackEditCopyPageData data = (InstructorFeedbackEditCopyPageData) request.getAttribute("data");
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <div class="form-group">
     <label for="<%= Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME %>" class="control-label">
         Name for copied sessions
@@ -14,7 +10,7 @@
            id="<%= Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME %>"
            type="text"
            name="<%= Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME %>"
-           value="<%= data.fsName %>">
+           value="${data.fsName}">
 </div>
 <% for (CourseAttributes course: data.courses) { %>
     <div class="checkbox">
@@ -32,5 +28,6 @@
         </label>
     </div>
 <% } %>
-<input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="<%= data.courseId %>">
-<input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="<%= data.fsName %>">
+
+<input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${data.courseId}">
+<input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${data.fsName}">
