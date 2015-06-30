@@ -35,18 +35,26 @@ public class InstructorCourseEnrollResultPageData extends PageData {
         
         for (int i = 0; i < UpdateStatus.STATUS_COUNT; i++) {
             String panelClass = "";
-            if (i == UpdateStatus.ERROR.numericRepresentation) {
-                panelClass = "panel panel-danger";
-            } else if (i == UpdateStatus.NEW.numericRepresentation) {
-                panelClass = "panel panel-primary";
-            } else if (i == UpdateStatus.MODIFIED.numericRepresentation) {
-                panelClass = "panel panel-warning";
-            } else if (i == UpdateStatus.UNMODIFIED.numericRepresentation) {
-                panelClass = "panel panel-info";
-            } else if (i == UpdateStatus.NOT_IN_ENROLL_LIST.numericRepresentation) {
-                panelClass = "panel panel-default";
-            } else {
-                panelClass = "panel panel-danger";
+            
+            switch (UpdateStatus.enumRepresentation(i)) {
+            case ERROR :
+                panelClass = "panel-danger";
+                break;
+            case NEW :
+                panelClass = "panel-primary";
+                break;
+            case MODIFIED :
+                panelClass = "panel-warning";
+                break;
+            case UNMODIFIED :
+                panelClass = "panel-info";
+                break;
+            case NOT_IN_ENROLL_LIST :
+                panelClass = "panel-default";
+                break;
+            default :
+                panelClass = "panel-danger";
+                break;
             }
             
             String messageForEnrollmentStatus = getMessageForEnrollmentStatus(i);

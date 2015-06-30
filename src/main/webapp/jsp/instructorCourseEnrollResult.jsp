@@ -27,7 +27,7 @@
     
     <c:forEach items="${data.enrollResultPanelList}" var="enrollResultPanel">
         <c:if test="${not empty enrollResultPanel.studentList}">
-            <div class="${enrollResultPanel.panelClass}">
+            <div class="panel ${enrollResultPanel.panelClass}">
                 <div class="panel-heading">
                     ${enrollResultPanel.messageForEnrollmentStatus}
                 </div>
