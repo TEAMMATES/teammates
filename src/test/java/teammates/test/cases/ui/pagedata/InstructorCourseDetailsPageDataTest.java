@@ -53,8 +53,8 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         
         pageData.init(curInstructor, courseDetails, instructors, students);
         
-        assertEquals(4, pageData.getInstructors().size());
-        assertEquals(5, pageData.getStudentsTable().getRows().size());
+        assertEquals(instructors.size(), pageData.getInstructors().size());
+        assertEquals(students.size(), pageData.getStudentsTable().getRows().size());
         assertEquals(4, pageData.getStudentsTable().getRows().get(0).getActions().size());
         assertEquals(2, pageData.getStudentsTable().getRows().get(0).getCommentActions().size());
         assertNotNull(pageData.getCourseRemindButton());
