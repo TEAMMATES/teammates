@@ -293,7 +293,7 @@
                                                             <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
                                                         </a>
                                                     </div> <!-- frComment Content -->
-                                                    <div id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
+                                                    <div id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>" style="margin-left: 15px;">
                                                         <%=frc.commentText.getValue()%>
                                                     </div>
                                                 </li>
