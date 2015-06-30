@@ -9,7 +9,7 @@
     id="responseCommentRow-<%= data.commentId %>">
     <div id="commentBar-<%= data.commentId %>">
         <span class="text-muted">
-            From: you [<%= data.comment.createdAt %>]
+            From: <%= data.comment.giverEmail %> [<%= data.comment.createdAt %>]
         </span>
         <form class="responseCommentDeleteForm pull-right">
             <a href="/page/instructorFeedbackResponseCommentDelete"

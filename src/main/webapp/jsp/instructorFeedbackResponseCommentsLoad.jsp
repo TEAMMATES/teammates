@@ -111,9 +111,12 @@
                                             String frCommentGiver = frc.giverEmail;
                                             if (frc.giverEmail.equals(data.instructorEmail)) {
                                                 frCommentGiver = "you";
-                                            } else if (data.roster.getInstructorForEmail(frc.giverEmail) != null) {
+                                            }/*
+                                            keep for reference on how to implement "you" and display name
+                                            else if (data.roster.getInstructorForEmail(frc.giverEmail) != null) {
                                                 frCommentGiver = data.roster.getInstructorForEmail(frc.giverEmail).name;
                                             }
+                                            */
                                             Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(frc);
                         %>
                         <li id="<%=frc.getId()%>"
@@ -122,7 +125,7 @@
                             <div
                                 id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                 <span class="text-muted">From: <%= frc.giverEmail %>
-                                    [<%=frc.createdAt%>] <%=frc.getEditedAtText(frCommentGiver.equals("Anonymous"))%>
+                                    [<%=frc.createdAt%>] <%=frc.getEditedAtText(frc.giverEmail.equals("Anonymous"))%>
                                 </span>
                                 <%
                                     if (isPublicResponseComment && bundle.feedbackSession.isPublished()) {
