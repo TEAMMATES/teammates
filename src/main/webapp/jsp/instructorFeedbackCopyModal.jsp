@@ -12,22 +12,23 @@
            name="<%= Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME %>"
            value="${data.fsName}">
 </div>
-<% for (CourseAttributes course: data.courses) { %>
+
+<c:forEach items="${data.courses}" var="course">
     <div class="checkbox">
         <label>
             <input type="checkbox"
                    name="<%= Const.ParamsNames.COPIED_COURSES_ID %>"
-                   value="<%= course.id %>">
+                   value="${course.id}">
             <% if (course.id.equals(data.courseId)) { %>
-                [<span class="text-color-red"><%= course.id %></span>] : <%= course.name %>
+                [<span class="text-color-red">${course.id}</span>] : ${course.name}
                 <br>
                 <span class="text-color-red small">{Session currently in this course}</span>       
             <% } else { %>
-                [<%= course.id %>] : <%= course.name %>
+                [${course.id}] : ${course.name}
             <% } %>
         </label>
     </div>
-<% } %>
+</c:forEach>
 
 <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${data.courseId}">
 <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${data.fsName}">

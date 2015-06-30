@@ -14,6 +14,10 @@ public class InstructorFeedbackEditCopyPageData extends PageData {
         super(account);
     }
 
+    public List<CourseAttributes> getCourses() {
+        return courses;
+    }
+
     public String getCourseId() {
         return courseId;
     }
