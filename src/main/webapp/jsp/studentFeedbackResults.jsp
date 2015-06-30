@@ -200,11 +200,11 @@
                                                                                     <%
                                                                                         for (FeedbackResponseCommentAttributes comment : responseComments) {
                                                                                     %>
-                                                                                            <li class="list-group-item list-group-item-warning" id="">
-                                                                                                <div id="">
+                                                                                            <li class="list-group-item list-group-item-warning" id="responseCommentRow-<%= comment.getId() %>">
+                                                                                                <div id="commentBar-<%= comment.getId() %>">
                                                                                                     <span class="text-muted">From: <%= comment.giverEmail %> [<%= comment.createdAt %>] <%= comment.getEditedAtText(comment.giverEmail.equals("Anonymous"), comment.giverEmail) %></span>
                                                                                                 </div>
-                                                                                                <div id="" style="margin-left: 15px;"><%= comment.commentText.getValue() %></div>
+                                                                                                <div id="plainCommentText-<%= comment.getId() %>" style="margin-left: 15px;"><%= comment.commentText.getValue() %></div>
                                                                                             </li>
                                                                                     <%
                                                                                         }
