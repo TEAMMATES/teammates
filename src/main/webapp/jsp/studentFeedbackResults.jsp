@@ -202,7 +202,7 @@
                                                                                     %>
                                                                                             <li class="list-group-item list-group-item-warning" id="">
                                                                                                 <div id="">
-                                                                                                    <span class="text-muted">From: <%= comment.giverEmail %> [<%= TimeHelper.formatDate(comment.createdAt) %>] <%= comment.getEditedAtText(comment.giverEmail.equals("Anonymous"), comment.giverEmail) %></span>
+                                                                                                    <span class="text-muted">From: <%= comment.giverEmail %> [<%= comment.createdAt %>] <%= comment.getEditedAtText(comment.giverEmail.equals("Anonymous"), comment.giverEmail) %></span>
                                                                                                 </div>
                                                                                                 <div id="" style="margin-left: 15px;"><%= comment.commentText.getValue() %></div>
                                                                                             </li>

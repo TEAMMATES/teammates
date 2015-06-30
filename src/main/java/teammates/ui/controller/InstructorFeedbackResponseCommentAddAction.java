@@ -1,10 +1,8 @@
 package teammates.ui.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -123,10 +121,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         }
         
         data.comment = createdComment;
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz YYYY");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         data.commentId = commentId;
-        data.commentTime = sdf.format(createdComment.createdAt);
         data.showCommentToString = joinParticipantTypes(createdComment.showCommentTo, ",");
         data.showGiverNameToString = joinParticipantTypes(createdComment.showGiverNameTo, ",");
         

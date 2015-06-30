@@ -284,8 +284,8 @@
                                                     <div id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                         <span class="text-muted">
                                                             From:
-                                                            <b><%=frCommentGiver%></b>
-                                                            [<%=TimeHelper.formatTime(frc.createdAt)%>] <%=frc.getEditedAtText(frc.giverEmail.equals("Anonymous"))%>
+                                                            <%= frc.giverEmail %>
+                                                            [<%= frc.createdAt %>] <%=frc.getEditedAtText(frc.giverEmail.equals("Anonymous"))%>
                                                         </span>
                                                         <a type="button" href="<%=data.getInstructorCommentsLink() + "&" + Const.ParamsNames.COURSE_ID 
                                                         + "=" + frc.courseId + "#" + frc.getId()%>" target="_blank" class="btn btn-default btn-xs icon-button pull-right"

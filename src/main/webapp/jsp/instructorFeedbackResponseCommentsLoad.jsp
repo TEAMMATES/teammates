@@ -121,7 +121,7 @@
                             id="responseCommentRow-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                             <div
                                 id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
-                                <span class="text-muted">From: <b><%=frCommentGiver%></b>
+                                <span class="text-muted">From: <%= frc.giverEmail %>
                                     [<%=frc.createdAt%>] <%=frc.getEditedAtText(frCommentGiver.equals("Anonymous"))%>
                                 </span>
                                 <%
