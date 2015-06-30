@@ -4,12 +4,14 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 
 public class StudentCourseJoinConfirmationPageData extends PageData {
-
-    public String confirmUrl;
-    public String logoutUrl;
+    private String confirmUrl;
+    private String logoutUrl;
     
-    public StudentCourseJoinConfirmationPageData(AccountAttributes account, StudentAttributes student) {
+    public StudentCourseJoinConfirmationPageData(AccountAttributes account, StudentAttributes student,
+                                                 String confirmUrl, String logoutUrl) {
         super(account, student);
+        this.confirmUrl = confirmUrl;
+        this.logoutUrl = logoutUrl;
     }
 
     public String getConfirmUrl() {
