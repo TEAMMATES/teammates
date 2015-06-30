@@ -13,6 +13,7 @@
 <%@ attribute name="teamName" required="true" %>
 <%@ attribute name="statsTables" type="java.util.List" %>
 <%@ attribute name="isTeamHasResponses" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="participantPanels" type="java.util.List" required="true" %>
 
 <c:set var="groupByTeamEnabled" value = "${data.groupByTeam != null || data.groupByTeam == 'on'}"/>
 <div class="panel panel-warning">
@@ -67,7 +68,11 @@
                     </div>
                 </div>
                 <hr class="margin-top-0">
+                <c:forEach items="${participantPanels}" var="participantPanel">
+                    <results:participantGroupByQuestionPanel showAll="${showAll}" groupByQuestionPanel="${participantPanel}" shouldCollapsed="${shouldCollapsed}"/>
+                </c:forEach>
             </c:if>
+            
             
         </div>
     </div>

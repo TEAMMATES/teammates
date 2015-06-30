@@ -10,7 +10,7 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
  * and for the recipient panel in Recipient > Giver > Question 
  * 
  */
-public class InstructorFeedbackResultsGroupByParticipantPanel extends FeedbackResultsParticipantPanel {
+public class InstructorFeedbackResultsGroupByParticipantPanel extends InstructorResultsParticipantPanel {
    private Map<String, InstructorResultsModerationButton> moderationButtons;
    private List<FeedbackResponseAttributes> responses;
     

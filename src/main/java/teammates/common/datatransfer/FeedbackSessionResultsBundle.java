@@ -1353,12 +1353,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                                               responsesFromOneGiverOneQuestion);
                 }
                 if (giver != null && responsesFromOneGiver != null) {
-                    sortedMap.put(giverName, responsesFromOneGiver);
+                    sortedMap.put(giver, responsesFromOneGiver);
                 }
                 responsesFromOneGiver = new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
                 giver = response.giverEmail;
-                giverName = this.getGiverNameForResponse(questions.get(response.feedbackQuestionId),
-                                                         response);
+            
                 questionId = null;
             }
             if (questionId == null || !response.feedbackQuestionId.equals(questionId)) {
@@ -1377,7 +1376,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                                       responsesFromOneGiverOneQuestion);
         }
         if (giver != null && responsesFromOneGiver != null) {
-            sortedMap.put(giverName, responsesFromOneGiver);
+            sortedMap.put(giver, responsesFromOneGiver);
         }
 
         return sortedMap;

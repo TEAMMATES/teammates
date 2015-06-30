@@ -36,7 +36,8 @@ public class InstructorResultsQuestionTable {
                                           List<FeedbackResponseAttributes> responses,
                                           String questionStatisticsHtml,
                                           List<InstructorResultsResponseRow> responseRows,
-                                          FeedbackQuestionAttributes question) {
+                                          FeedbackQuestionAttributes question,
+                                          String additionalInfoId) {
         this.courseId = question.courseId;
         this.feedbackSessionName = question.feedbackSessionName;
         
@@ -52,7 +53,7 @@ public class InstructorResultsQuestionTable {
         this.panelClass = responses.isEmpty() ? "panel-default" : "panel-info";
         
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
-        this.additionalInfoText = questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, "");        
+        this.additionalInfoText = questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, additionalInfoId);        
         this.questionStatisticsTable = questionDetails.getQuestionResultStatisticsHtml(responses, question, data, data.bundle, "question");
     }
 

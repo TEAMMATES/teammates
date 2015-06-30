@@ -33,16 +33,15 @@
     </div>
     <div class="panel-collapse collapse in">
         <div class="panel-body" id="sectionBody-${sectionIndex}">
-            ${sectionPanel.teamStatisticsTable}
-            ==
-            
+           
             <c:forEach var="teamPanel" items="${sectionPanel.participantPanels}" varStatus="i">
                    <results:teamPanel teamName="${teamPanel.key}" teamIndex="${i.index}" 
                                       showAll="${showAll}" shouldCollapsed="${shouldCollapsed}" 
                                       statsTables="${sectionPanel.teamStatisticsTable[teamPanel.key]}"
                                       detailedResponsesHeaderText="${sectionPanel.detailedResponsesHeaderText}" 
                                       statisticsHeaderText="${sectionPanel.statisticsHeaderText}"
-                                      isTeamHasResponses="${sectionPanel.isTeamWithResponses[teamPanel.key]}"/>  
+                                      isTeamHasResponses="${sectionPanel.isTeamWithResponses[teamPanel.key]}"
+                                      participantPanels="${sectionPanel.participantPanels[teamPanel.key]}"/>  
             </c:forEach>
         </div>
     </div>

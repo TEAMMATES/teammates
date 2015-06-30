@@ -14,12 +14,14 @@ public class InstructorFeedbackResultsSectionPanel {
     private String statisticsHeaderText;
     private String detailedResponsesHeaderText;
     
-    private Map<String, List<FeedbackResultsParticipantPanel>> participantPanels;
+    // A mapping from team name to a list of participant panels. Each participant panel is for one member of the team
+    private Map<String, List<InstructorResultsParticipantPanel>> participantPanels;
     private Map<String, List<InstructorResultsQuestionTable>> teamStatisticsTable;
     private Map<String, Boolean> isTeamWithResponses;
 
     public InstructorFeedbackResultsSectionPanel() {
         isTeamWithResponses = new HashMap<String, Boolean>();
+        participantPanels = new HashMap<String, List<InstructorResultsParticipantPanel>>();
     }
     
     
@@ -55,12 +57,12 @@ public class InstructorFeedbackResultsSectionPanel {
         this.arrowClass = arrowClass;
     }
 
-    public Map<String, List<FeedbackResultsParticipantPanel>> getParticipantPanels() {
+    public Map<String, List<InstructorResultsParticipantPanel>> getParticipantPanels() {
         return participantPanels;
     }
 
     public void setParticipantPanels(
-                                    Map<String, List<FeedbackResultsParticipantPanel>> participantPanels) {
+                                    Map<String, List<InstructorResultsParticipantPanel>> participantPanels) {
         this.participantPanels = participantPanels; 
     }
 
