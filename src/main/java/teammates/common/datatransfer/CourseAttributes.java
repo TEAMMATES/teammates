@@ -28,36 +28,36 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     }
 
     public CourseAttributes(String courseId, String name) {
-        this.id = Sanitizer.sanitizeTitle(courseId);
+        id = Sanitizer.sanitizeTitle(courseId);
         this.name = Sanitizer.sanitizeTitle(name);
-        this.isArchived = false;
+        isArchived = false;
     }
     
     public CourseAttributes(String courseId, String name, boolean archiveStatus) {
-        this.id = Sanitizer.sanitizeTitle(courseId);
+        id = Sanitizer.sanitizeTitle(courseId);
         this.name = Sanitizer.sanitizeTitle(name);
-        this.isArchived = archiveStatus;
+        isArchived = archiveStatus;
     }
 
     public CourseAttributes(Course course) {
-        this.id = course.getUniqueId();
-        this.name = course.getName();
-        this.createdAt = course.getCreatedAt();
+        id = course.getUniqueId();
+        name = course.getName();
+        createdAt = course.getCreatedAt();
         
         Boolean status = course.getArchiveStatus();
         if (status == null) {
-            this.isArchived = false;
+            isArchived = false;
         } else {
-            this.isArchived = status.booleanValue(); 
+            isArchived = status.booleanValue(); 
         }
     }
 
     public String getId() {
-        return this.id;
+        return id;
     }
     
     public String getName() {
-        return this.name;
+        return name;
     }
     
     public List<String> getInvalidityInfo() {
@@ -90,7 +90,7 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
 
     @Override
     public String getIdentificationString() {
-        return this.id;
+        return id;
     }
 
     @Override
@@ -110,8 +110,8 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     
     @Override
     public void sanitizeForSaving() {
-        this.id = Sanitizer.sanitizeForHtml(id);
-        this.name = Sanitizer.sanitizeForHtml(name);
+        id = Sanitizer.sanitizeForHtml(id);
+        name = Sanitizer.sanitizeForHtml(name);
     }
 
     @Override
