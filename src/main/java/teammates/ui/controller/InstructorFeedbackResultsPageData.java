@@ -128,11 +128,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
             
             
-            String currentSection = "";
+            String currentSection = Const.DEFAULT_SECTION;
             // update current section
             // retrieve section from the first response
             // TODO simplify by introducing more data structures into bundle
-            for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesFromGiverForQuestion : responsesFromGiver.getValue().entrySet()) {
+            for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesFromGiverForQuestion : 
+                                                                                         responsesFromGiver.getValue().entrySet()) {
                 if (responsesFromGiverForQuestion.getValue().isEmpty()) {
                     continue;
                 }
@@ -142,7 +143,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
             
             // change in section
-            if (!prevSection.equals(currentSection)) {
+            if (!prevSection.equals(currentSection) && sectionPanel.getParticipantPanels().size() > 0) {
+                sectionPanel.setSectionName(prevSection);
                 sectionPanels.put(prevSection, sectionPanel);
                 sectionPanel = new InstructorFeedbackResultsSectionPanel();
             }
@@ -205,6 +207,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
             prevSection = currentSection;
         }
         
+        // for the last group
+        sectionPanel.setSectionName(prevSection);
+        sectionPanels.put(prevSection, sectionPanel);
+        
+        
         // for statistics
         for (String section : sections) {
             if (!sectionPanels.containsKey(section)) {
@@ -212,7 +219,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
             InstructorFeedbackResultsSectionPanel panel = sectionPanels.get(section);
             
-            panel.setSectionName(section);
             panel.setArrowClass("glyphicon-chevron-up");
             panel.setPanelClass("panel-success");
             
@@ -290,6 +296,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         ElementTag recipientTeamElement = new ElementTag("Team", "id", "button_sortToTeam", "class", "button-sort-none", "onclick", "toggleSort(this,4)", "style", "width: 15%;");
         ElementTag responseElement = new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick", "toggleSort(this,5)");
         ElementTag actionElement = new ElementTag("Actions");
+        
         columnTags.add(giverElement);
         columnTags.add(giverTeamElement);
         columnTags.add(recipientElement);
