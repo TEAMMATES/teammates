@@ -119,8 +119,7 @@
                                             */
                                             Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(frc);
                         %>
-                        <li id="<%=frc.getId()%>"
-                            class="list-group-item list-group-item-warning <%=frCommentGiver.equals("you") ? "giver_display-by-you" : "giver_display-by-others"%> <%=isPublicResponseComment && bundle.feedbackSession.isPublished() ? "status_display-public" : "status_display-private"%>"
+                        <li class="list-group-item list-group-item-warning <%=frCommentGiver.equals("you") ? "giver_display-by-you" : "giver_display-by-others"%> <%=isPublicResponseComment && bundle.feedbackSession.isPublished() ? "status_display-public" : "status_display-private"%>"
                             id="responseCommentRow-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                             <div
                                 id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
