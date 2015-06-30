@@ -202,7 +202,7 @@
                                                                                     %>
                                                                                             <li class="list-group-item list-group-item-warning" id="responseCommentRow-<%= comment.getId() %>">
                                                                                                 <div id="commentBar-<%= comment.getId() %>">
-                                                                                                    <span class="text-muted">From: <%= comment.giverEmail %> [<%= comment.createdAt %>] <%= comment.getEditedAtText(comment.giverEmail.equals("Anonymous"), comment.giverEmail) %></span>
+                                                                                                    <span class="text-muted">From: <%= comment.giverEmail %> [<%= comment.createdAt %>] <%= comment.getEditedAtText(comment.giverEmail.equals("Anonymous")) %></span>
                                                                                                 </div>
                                                                                                 <div id="plainCommentText-<%= comment.getId() %>" style="margin-left: 15px;"><%= comment.commentText.getValue() %></div>
                                                                                             </li>
