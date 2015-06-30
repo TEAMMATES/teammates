@@ -33,8 +33,8 @@ public class InstructorCourseJoinConfirmationPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getRegkey());
         assertEquals(regkey, pageData.getRegkey());
         
-        assertNotNull(pageData.getInstitue());
-        assertEquals(institute, pageData.getInstitue());
+        assertNotNull(pageData.getInstitute());
+        assertEquals(institute, pageData.getInstitute());
         
         assertNotNull(pageData.getConfirmationLink());
         String confirmationLink = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED + "?key=" + regkey 
@@ -52,7 +52,7 @@ public class InstructorCourseJoinConfirmationPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getRegkey());
         assertEquals(regkey, pageData.getRegkey());
         
-        assertNull(pageData.getInstitue());
+        assertNull(pageData.getInstitute());
         
         assertNotNull(pageData.getConfirmationLink());
         confirmationLink = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED + "?key=" + regkey;

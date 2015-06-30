@@ -19,14 +19,12 @@ public class InstructorCourseJoinConfirmationPageData extends PageData {
         return regkey;
     }
     
-    public String getInstitue() {
+    public String getInstitute() {
         return institute;
     }
     
     public String getConfirmationLink() {
-        String ref = "";
-        
-        ref = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED + "?key=" + regkey;
+        String ref = Const.ActionURIs.INSTRUCTOR_COURSE_JOIN_AUTHENTICATED + "?key=" + regkey;
         if (institute != null) {
             ref +=  "&" + Const.ParamsNames.INSTRUCTOR_INSTITUTION + "=" + Sanitizer.sanitizeForUri(institute);
         }
