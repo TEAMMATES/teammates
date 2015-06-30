@@ -4,7 +4,7 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
 
 public class InstructorResultsModerationButton {
-
+    
     private boolean isAllowedToModerate;
     private boolean isDisabled;
     private int questionNumber;
@@ -13,11 +13,11 @@ public class InstructorResultsModerationButton {
     private String feedbackSessionName;
     
     public InstructorResultsModerationButton(boolean isAllowedToModerate, boolean isDisabled, 
-                             int questionNumber, String giverIdentifier,
+                             String giverIdentifier,
                              String courseId, String feedbackSessionName, FeedbackQuestionAttributes question) {
         this.isAllowedToModerate = isAllowedToModerate;
         this.isDisabled = isDisabled;
-        this.questionNumber = questionNumber;
+        this.questionNumber = question != null ? question.questionNumber : -1;
         this.giverIdentifier = giverIdentifier;
         this.courseId = courseId;
         this.feedbackSessionName = feedbackSessionName;

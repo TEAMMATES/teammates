@@ -4,7 +4,6 @@ import teammates.common.util.Url;
 
 /**
  * Data model for Instructor Feedback Results view by question, view by...
- *
  */
 public class InstructorResultsResponseRow {
     private ElementTag rowAttributes;
@@ -24,6 +23,7 @@ public class InstructorResultsResponseRow {
     private boolean isRecipientProfilePictureAColumn = false;
     private Url recipientProfilePictureLink;
     
+    private boolean isActionsDisplayed;
     
     private String displayableResponse;
     private boolean isModerationsButtonDisplayed;
@@ -154,6 +154,14 @@ public class InstructorResultsResponseRow {
 
     public void setRecipientProfilePictureAColumn(boolean isRecipientProfilePictureAColumn) {
         this.isRecipientProfilePictureAColumn = isRecipientProfilePictureAColumn;
+    }
+
+    public boolean isActionsDisplayed() {
+        return isActionsDisplayed;
+    }
+
+    public void setActionsDisplayed(boolean isActionsDisplayed) {
+        this.isActionsDisplayed = isActionsDisplayed;
     }
     
     

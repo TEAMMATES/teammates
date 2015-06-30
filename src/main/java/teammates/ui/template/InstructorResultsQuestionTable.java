@@ -1,6 +1,5 @@
 package teammates.ui.template;
 
-import java.util.Arrays;
 import java.util.List;
 
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
@@ -29,15 +28,15 @@ public class InstructorResultsQuestionTable {
     private boolean isQuestionHasResponses;
     private boolean isShowResponseRows;
 
-    private List<String> columnNames = Arrays.asList("Giver", "Team", "Recipient", "Team", 
-                                                     "Feedback", "Actions");
+    private List<ElementTag> columns;
 
     public InstructorResultsQuestionTable(InstructorFeedbackResultsPageData data,
                                           List<FeedbackResponseAttributes> responses,
                                           String questionStatisticsHtml,
                                           List<InstructorResultsResponseRow> responseRows,
                                           FeedbackQuestionAttributes question,
-                                          String additionalInfoId) {
+                                          String additionalInfoId,
+                                          List<ElementTag> columns) {
         this.courseId = question.courseId;
         this.feedbackSessionName = question.feedbackSessionName;
         
@@ -55,6 +54,8 @@ public class InstructorResultsQuestionTable {
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
         this.additionalInfoText = questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, additionalInfoId);        
         this.questionStatisticsTable = questionDetails.getQuestionResultStatisticsHtml(responses, question, data, data.bundle, "question");
+        
+        this.columns = columns;
     }
 
     public String getQuestionStatisticsHtml() {
@@ -105,12 +106,54 @@ public class InstructorResultsQuestionTable {
         this.isShowResponseRows = isShowResponseRows;
     }
 
-    public List<String> getColumnNames() {
-        return columnNames;
+    public List<ElementTag> getColumns() {
+        return columns;
     }
 
-    public void setColumnNames(List<String> columnNames) {
-        this.columnNames = columnNames;
+    public void setColumns(List<ElementTag> columns) {
+        this.columns = columns;
     }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
+    public void setFeedbackSessionName(String feedbackSessionName) {
+        this.feedbackSessionName = feedbackSessionName;
+    }
+
+    public void setQuestionStatisticsHtml(String questionStatisticsHtml) {
+        this.questionStatisticsHtml = questionStatisticsHtml;
+    }
+
+    public void setPanelClass(String panelClass) {
+        this.panelClass = panelClass;
+    }
+
+    public void setResponses(List<InstructorResultsResponseRow> responses) {
+        this.responses = responses;
+    }
+
+    public void setQuestion(FeedbackQuestionAttributes question) {
+        this.question = question;
+    }
+
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
+    }
+
+    public void setAdditionalInfoText(String additionalInfoText) {
+        this.additionalInfoText = additionalInfoText;
+    }
+
+    public void setQuestionStatisticsTable(String questionStatisticsTable) {
+        this.questionStatisticsTable = questionStatisticsTable;
+    }
+
+    public void setQuestionHasResponses(boolean isQuestionHasResponses) {
+        this.isQuestionHasResponses = isQuestionHasResponses;
+    }
+
+  
     
 }

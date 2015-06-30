@@ -16,15 +16,15 @@
             <c:choose>
                 <c:when test="${groupByQuestionPanel.emailValid}">
                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="${groupByQuestionPanel.profilePictureLink}">
-                        <strong>${participantIdentifier}</strong>
+                        <strong>${groupByQuestionPanel.participantIdentifier}</strong>
                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                        <a class="link-in-dark-bg" href="mailTo:${participantIdentifier}> " ${groupByQuestionPanel.mailtoStyle}>[${participantIdentifier}]</a>
+                        <a class="link-in-dark-bg" href="mailTo:${participantIdentifier}> " ${groupByQuestionPanel.mailtoStyle}>[${groupByQuestionPanel.participantIdentifier}]</a>
                     </div>
                 </c:when>
                 <c:otherwise>
                     <div class="inline panel-heading-text">
-                        <strong>${participantIdentifier}</strong>
-                        <a class="link-in-dark-bg" href="mailTo:${participantIdentifier}" ${mailtoStyleAttr}>[${participantIdentifier}]</a>
+                        <strong>${groupByQuestionPanel.participantIdentifier}</strong>
+                        <a class="link-in-dark-bg" href="mailTo:${participantIdentifier}" ${mailtoStyleAttr}>[${groupByQuestionPanel.participantIdentifier}]</a>
                     </div>
                 </c:otherwise>
             </c:choose>
@@ -39,10 +39,10 @@
             </div>                
         </div>
     </div>
-    <div class='panel-collapse collapse ${shouldCollapsed ? "" : "in"}'>
+    <div class="panel-collapse collapse ${shouldCollapsed ? '' : 'in'}">
         <div class="panel-body">
             <c:forEach items="${groupByQuestionPanel.questionTables}" var="questionTable">
-                <results:questionPanel showAll="${showAll}" questionPanel="${questionTable}" shouldCollapsed="${shouldCollapsed}"></results:questionPanel>        
+                <results:questionPanel showAll="${showAll}" questionPanel="${questionTable}" shouldCollapsed="${shouldCollapsed}"/>        
             </c:forEach>
         </div>
     </div>

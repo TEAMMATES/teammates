@@ -17,7 +17,6 @@ public class InstructorResultsParticipantPanel {
     String mailtoStyle;
     Url profilePictureLink;
     
-    List<InstructorResultsQuestionTable> questionTables;
     
     boolean isModerationButtonDisplayed;
     InstructorResultsModerationButton moderationButton;
@@ -84,14 +83,6 @@ public class InstructorResultsParticipantPanel {
 
     public void setProfilePictureLink(Url profilePictureLink) {
         this.profilePictureLink = profilePictureLink;
-    }
-
-    public List<InstructorResultsQuestionTable> getQuestionTables() {
-        return questionTables;
-    }
-
-    public void setQuestionTables(List<InstructorResultsQuestionTable> questionTables) {
-        this.questionTables = questionTables;
     }
 
     public InstructorResultsModerationButton getModerationButton() {

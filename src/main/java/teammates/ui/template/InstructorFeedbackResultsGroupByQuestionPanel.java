@@ -2,6 +2,7 @@ package teammates.ui.template;
 
 import java.util.List;
 
+import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.util.Url;
 
 
@@ -24,16 +25,21 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorRes
     }
     
     public static InstructorFeedbackResultsGroupByQuestionPanel buildInstructorFeedbackResultsGroupByQuestionPanel(
+                                                                    FeedbackSessionResultsBundle bundle,
                                                                     List<InstructorResultsQuestionTable> questionTables,
-                                                                    boolean isEmailValid, Url profilePictureLink, String mailtoStyle) {
+                                                                    boolean isEmailValid, Url profilePictureLink, String mailtoStyle,
+                                                                    boolean isGiver, String participantIdentifier, 
+                                                                    InstructorResultsModerationButton moderationButton) {
 
         InstructorFeedbackResultsGroupByQuestionPanel byQuestionPanel = new InstructorFeedbackResultsGroupByQuestionPanel();
-        
+        byQuestionPanel.setParticipantIdentifier(participantIdentifier);
+        byQuestionPanel.setGiver(isGiver);
         
         byQuestionPanel.questionTables = questionTables;
         
-        return byQuestionPanel;
+        byQuestionPanel.setModerationButtonDisplayed(bundle.isParticipantIdentifierStudent(participantIdentifier));
         
+        return byQuestionPanel;
     }
 
     public List<InstructorResultsQuestionTable> getQuestionTables() {
