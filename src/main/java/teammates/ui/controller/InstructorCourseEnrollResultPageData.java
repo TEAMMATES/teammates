@@ -37,24 +37,27 @@ public class InstructorCourseEnrollResultPageData extends PageData {
             String panelClass = "";
             
             switch (UpdateStatus.enumRepresentation(i)) {
-            case ERROR :
-                panelClass = "panel-danger";
-                break;
-            case NEW :
-                panelClass = "panel-primary";
-                break;
-            case MODIFIED :
-                panelClass = "panel-warning";
-                break;
-            case UNMODIFIED :
-                panelClass = "panel-info";
-                break;
-            case NOT_IN_ENROLL_LIST :
-                panelClass = "panel-default";
-                break;
-            default :
-                panelClass = "panel-danger";
-                break;
+                case ERROR :
+                    panelClass = "panel-danger";
+                    break;
+                case NEW :
+                    panelClass = "panel-primary";
+                    break;
+                case MODIFIED :
+                    panelClass = "panel-warning";
+                    break;
+                case UNMODIFIED :
+                    panelClass = "panel-info";
+                    break;
+                case NOT_IN_ENROLL_LIST :
+                    panelClass = "panel-default";
+                    break;
+                case UNKNOWN :
+                    panelClass = "panel-danger";
+                    break;
+                default :
+                    log.severe("Unknown Enrollment status " + i);
+                    break;
             }
             
             String messageForEnrollmentStatus = getMessageForEnrollmentStatus(i);
