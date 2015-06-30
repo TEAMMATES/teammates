@@ -4,7 +4,9 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="">
+    <br />
     <t:statusMessage />
+    <br />
     <div class="panel panel-primary panel-narrow">
         <div class="panel-heading">
             <h3>Confirm your Google account</h3>
