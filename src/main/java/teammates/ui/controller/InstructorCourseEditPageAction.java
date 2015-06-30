@@ -31,8 +31,6 @@ public class InstructorCourseEditPageAction extends Action {
         new GateKeeper().verifyAccessible(instructor, courseToEdit);
         
         /* Setup page data for 'Edit' page of a course for an instructor */
-        InstructorCourseEditPageData data = new InstructorCourseEditPageData(account);
-        
         List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>();
         
         int instructorToShowIndex  = -1;    // -1 means showing all instructors
@@ -52,7 +50,11 @@ public class InstructorCourseEditPageAction extends Action {
             feedbackNames.add(feedback.feedbackSessionName);
         }
         
-        data.init(courseToEdit, instructorList, instructor, instructorToShowIndex, sectionNames, feedbackNames);
+        InstructorCourseEditPageData data = new InstructorCourseEditPageData(account, courseToEdit, 
+                                                                             instructorList, instructor, 
+                                                                             instructorToShowIndex, 
+                                                                             sectionNames, feedbackNames);
+        
         statusToAdmin = "instructorCourseEdit Page Load<br>"
                         + "Editing information for Course <span class=\"bold\">[" + courseId + "]</span>";
         

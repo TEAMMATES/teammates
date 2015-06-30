@@ -21,31 +21,24 @@ public class InstructorCourseEditPageData extends PageData {
     private InstructorAttributes currentInstructor;
     private ElementTag addInstructorButton;
     
-    public InstructorCourseEditPageData(AccountAttributes account) {
+    public InstructorCourseEditPageData(AccountAttributes account, CourseAttributes course, 
+                                        List<InstructorAttributes> instructorList, 
+                                        InstructorAttributes currentInstructor, int instructorToShowIndex, 
+                                        List<String> sectionNames, List<String> feedbackNames) {
         super(account);
         instructorPanelList = new ArrayList<CourseEditInstructorPanel>();
-    }
-    
-    public void init(CourseAttributes course, List<InstructorAttributes> instructorList, 
-                     InstructorAttributes currentInstructor, int instructorToShowIndex, 
-                     List<String> sectionNames, List<String> feedbackNames) {
         this.course = course;
         this.instructorToShowIndex = instructorToShowIndex;
         this.currentInstructor = currentInstructor;
         
-        boolean isDisabled = !currentInstructor.isAllowedForPrivilege(
-                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
-        
-        String content = "<span class=\"glyphicon glyphicon-trash\"></span>Delete";
-        deleteCourseButton = createButton(content, "btn btn-primary btn-xs pull-right", "courseDeleteLink", 
-                                          getInstructorCourseDeleteLink(course.id, false), Const.Tooltips.COURSE_DELETE,
-                                          "return toggleDeleteCourseConfirmation('" + course.id + "');", isDisabled);
-        
-        isDisabled = !currentInstructor.isAllowedForPrivilege(
-                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
-        addInstructorButton = createButton(null, "btn btn-primary", "btnShowNewInstructorForm", null, null, 
-                                           "showNewInstructorForm()", isDisabled);
-        
+        createButtons();
+        createInstructorPanelList(instructorList, sectionNames, feedbackNames);
+        addInstructorPanel = createInstructorPanel(instructorPanelList.size() + 1, null, sectionNames, 
+                                                   feedbackNames);
+    }
+
+    private void createInstructorPanelList(List<InstructorAttributes> instructorList,
+                                           List<String> sectionNames, List<String> feedbackNames) {
         int instructorIndex = 0;
         for (InstructorAttributes instructor : instructorList) {
             instructorIndex++;
@@ -53,12 +46,27 @@ public class InstructorCourseEditPageData extends PageData {
                                                                               sectionNames, feedbackNames); 
             instructorPanelList.add(instructorPanel);
         }
+    }
+
+    private void createButtons() {
+        boolean isDisabled = !currentInstructor.isAllowedForPrivilege(
+                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
+        String content = "<span class=\"glyphicon glyphicon-trash\"></span>Delete";
+        String onClick = "return toggleDeleteCourseConfirmation('" + course.id + "');";
+        deleteCourseButton = createButton(content, "btn btn-primary btn-xs pull-right", "courseDeleteLink", 
+                                          getInstructorCourseDeleteLink(course.id, false), 
+                                          Const.Tooltips.COURSE_DELETE, onClick, isDisabled);
         
-        addInstructorPanel = createInstructorPanel(instructorIndex + 1, null, sectionNames, feedbackNames);
+        isDisabled = !currentInstructor.isAllowedForPrivilege(
+                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
+        addInstructorButton = createButton(null, "btn btn-primary", "btnShowNewInstructorForm", null, null, 
+                                           "showNewInstructorForm()", isDisabled);
     }
     
-    private CourseEditInstructorPanel createInstructorPanel(int instructorIndex, InstructorAttributes instructor, 
-                                                            List<String> sectionNames, List<String> feedbackNames) {
+    private CourseEditInstructorPanel createInstructorPanel(int instructorIndex, 
+                                                            InstructorAttributes instructor,
+                                                            List<String> sectionNames, 
+                                                            List<String> feedbackNames) {
         CourseEditInstructorPanel instructorPanel = new CourseEditInstructorPanel(instructorToShowIndex, 
                                                                                   instructorIndex, instructor, 
                                                                                   currentInstructor, sectionNames, 

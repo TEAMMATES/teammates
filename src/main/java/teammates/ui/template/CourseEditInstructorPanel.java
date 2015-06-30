@@ -19,9 +19,9 @@ public class CourseEditInstructorPanel {
     private boolean isAccessControlDisplayed;
     private List<CourseEditSectionRow> sectionRows;
     
-    public CourseEditInstructorPanel(int instructorToShowIndex, int instructorIndex, InstructorAttributes instructor, 
-                                    InstructorAttributes currentInstructor,List<String> sectionNames, List<String> feedbackNames) {
-        
+    public CourseEditInstructorPanel(int instructorToShowIndex, int instructorIndex, 
+                                     InstructorAttributes instructor, InstructorAttributes currentInstructor,
+                                     List<String> sectionNames, List<String> feedbackNames) {
         if (instructorToShowIndex == -1) { 
             index = instructorIndex;
             isAccessControlDisplayed = false;
@@ -29,17 +29,9 @@ public class CourseEditInstructorPanel {
             index = instructorToShowIndex;
             isAccessControlDisplayed = true;
         }
-        
         this.instructor = instructor;
         
-        sectionRows = new ArrayList<CourseEditSectionRow>();
-        int sectionIndex = -1; 
-        for (String sectionName : sectionNames) {
-            sectionIndex++;
-            CourseEditSectionRow sectionRow = new CourseEditSectionRow(sectionName, sectionNames, sectionIndex, instructor, instructorIndex, feedbackNames);
-            sectionRows.add(sectionRow);
-        }
-        
+        createSectionRows(instructorIndex, sectionNames, feedbackNames);
         permissionInputGroup1 = createPermissionInputGroup1ForInstructorPanel(instructor);
         permissionInputGroup2 = createPermissionInputGroup2ForInstructorPanel(instructor);
         permissionInputGroup3 = createPermissionInputGroup3ForInstructorPanel(instructor);
@@ -49,9 +41,25 @@ public class CourseEditInstructorPanel {
             if (instructor.privileges.numberOfSectionsSpecial() >= sectionNames.size()) {
                 style = "display: none;";
             }
-            addSectionLevelForInstructorButton = createButton("Give different permissions for a specific section", "small",
-                                                              "addSectionLevelForInstructor" + index, "javascript:;", style, 
-                                                              "showTuneSectionPermissionsDiv(" + index + ", " + instructor.privileges.numberOfSectionsSpecial() + ")");
+            String onClick = "showTuneSectionPermissionsDiv(" + index + ", " 
+                             + instructor.privileges.numberOfSectionsSpecial() + ")";
+            String content = "Give different permissions for a specific section";
+            String id = "addSectionLevelForInstructor" + index;
+            addSectionLevelForInstructorButton = createButton(content, "small", id, "javascript:;",
+                                                              style, onClick);
+        }
+    }
+
+    private void createSectionRows(int instructorIndex, List<String> sectionNames, 
+                                   List<String> feedbackNames) {
+        sectionRows = new ArrayList<CourseEditSectionRow>();
+        int sectionIndex = -1; 
+        for (String sectionName : sectionNames) {
+            sectionIndex++;
+            CourseEditSectionRow sectionRow = new CourseEditSectionRow(sectionName, sectionNames, 
+                                                                       sectionIndex, instructor, 
+                                                                       instructorIndex, feedbackNames);
+            sectionRows.add(sectionRow);
         }
     }
     
@@ -114,14 +122,15 @@ public class CourseEditInstructorPanel {
     private List<ElementTag> createPermissionInputGroup3ForInstructorPanel(InstructorAttributes instructor) {
         List<ElementTag> permissionInputGroup = new ArrayList<ElementTag>();
         
-        boolean isChecked = (instructor == null) || instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS);
-        permissionInputGroup.add(createCheckBox("Sessions: Submit Responses and Add Comments", Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, isChecked));
+        permissionInputGroup.add(createCheckBox("Sessions: Submit Responses and Add Comments", instructor,
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
         
-        isChecked = (instructor == null) || instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS);
-        permissionInputGroup.add(createCheckBox("Sessions: View Responses and Comments", Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS, isChecked));
+        permissionInputGroup.add(createCheckBox("Sessions: View Responses and Comments", instructor,
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
         
-        isChecked = (instructor == null) || instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-        permissionInputGroup.add(createCheckBox("Sessions: Edit/Delete Responses/Comments by Others", Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, isChecked));
+        permissionInputGroup.add(createCheckBox(
+                                    "Sessions: Edit/Delete Responses/Comments by Others", instructor, 
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         
         return permissionInputGroup;
     }
@@ -129,17 +138,17 @@ public class CourseEditInstructorPanel {
     private List<ElementTag> createPermissionInputGroup2ForInstructorPanel(InstructorAttributes instructor) {
         List<ElementTag> permissionInputGroup = new ArrayList<ElementTag>();
         
-        boolean isChecked = (instructor == null) || instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
-        permissionInputGroup.add(createCheckBox("View Students' Details", Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS, isChecked));
+        permissionInputGroup.add(createCheckBox("View Students' Details", instructor, 
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
         
-        isChecked = (instructor == null) || instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
-        permissionInputGroup.add(createCheckBox("Give Comments for Students", Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS, isChecked));
+        permissionInputGroup.add(createCheckBox("Give Comments for Students", instructor, 
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
         
-        isChecked = (instructor == null) || instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS);
-        permissionInputGroup.add(createCheckBox("View Others' Comments on Students", Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS, isChecked));
+        permissionInputGroup.add(createCheckBox("View Others' Comments on Students", instructor,
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS));
         
-        isChecked = (instructor == null) || instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS);
-        permissionInputGroup.add(createCheckBox("Edit/Delete Others' Comments on Students", Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS, isChecked));
+        permissionInputGroup.add(createCheckBox("Edit/Delete Others' Comments on Students", instructor,
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS));
         
         return permissionInputGroup;
     }
@@ -147,23 +156,24 @@ public class CourseEditInstructorPanel {
     private List<ElementTag> createPermissionInputGroup1ForInstructorPanel(InstructorAttributes instructor) {
         List<ElementTag> permissionInputGroup = new ArrayList<ElementTag>();
         
-        boolean isChecked = (instructor == null) || instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
-        permissionInputGroup.add(createCheckBox("Edit/Delete Course", Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, isChecked));
+        permissionInputGroup.add(createCheckBox("Edit/Delete Course", instructor,
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
         
-        isChecked = (instructor == null) || instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
-        permissionInputGroup.add(createCheckBox("Add/Edit/Delete Instructors", Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, isChecked));
+        permissionInputGroup.add(createCheckBox("Add/Edit/Delete Instructors", instructor,
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
         
-        isChecked = (instructor == null) || instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
-        permissionInputGroup.add(createCheckBox("Create/Edit/Delete Sessions", Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, isChecked));
+        permissionInputGroup.add(createCheckBox("Create/Edit/Delete Sessions", instructor,
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
         
-        isChecked = (instructor == null) || instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
-        permissionInputGroup.add(createCheckBox("Enroll/Edit/Delete Students", Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, isChecked));
+        permissionInputGroup.add(createCheckBox("Enroll/Edit/Delete Students", instructor,
+                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
         
         return permissionInputGroup;
     }
     
-    private ElementTag createCheckBox(String content, String name, boolean isChecked) {
-        ElementTag result = new ElementTag(content, "name", name, "type", "checkbox", "value", "true");
+    private ElementTag createCheckBox(String content, InstructorAttributes instructor, String privilege) {
+        boolean isChecked = (instructor == null) || instructor.isAllowedForPrivilege(privilege);
+        ElementTag result = new ElementTag(content, "name", privilege, "type", "checkbox", "value", "true");
         if (isChecked) {
             result.setAttribute("checked", "checked");
         }
@@ -171,8 +181,8 @@ public class CourseEditInstructorPanel {
     }
     
 
-    private ElementTag createButton(String content, String buttonClass, String id, String href, 
-                                    String style, String onClick) {
+    private ElementTag createButton(String content, String buttonClass, String id, String href, String style,
+                                    String onClick) {
         ElementTag button = new ElementTag(content);
         
         if (buttonClass != null) {

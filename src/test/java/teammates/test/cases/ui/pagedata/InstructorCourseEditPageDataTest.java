@@ -29,8 +29,6 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
         ______TS("test typical case");
         
         AccountAttributes account = dataBundle.accounts.get("instructor1OfCourse1");
-        InstructorCourseEditPageData pageData = new InstructorCourseEditPageData(account);
-        
         CourseAttributes course = dataBundle.courses.get("typicalCourse1");
         
         List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>();
@@ -54,7 +52,11 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
         feedbackSessionNames.add("Empty session");
         feedbackSessionNames.add("non visible session");
         
-        pageData.init(course, instructorList, currentInstructor, offset, sectionNames, feedbackSessionNames);
+        InstructorCourseEditPageData pageData = new InstructorCourseEditPageData(account, course, 
+                                                                                 instructorList, 
+                                                                                 currentInstructor, 
+                                                                                 offset, sectionNames, 
+                                                                                 feedbackSessionNames);
         
         assertNotNull(pageData.getDeleteCourseButton());
         assertNotNull(pageData.getAddInstructorButton());
