@@ -60,7 +60,7 @@ for (SessionResultsBundle sessionResult: data.results) {
                                                         <li class="list-group-item list-group-item-warning" id="">
                                                             <div id="">
                                                                 <span class="text-muted">
-                                                                    From: <%= comment.giverEmail %> [<%= comment.createdAt %>] <%=comment.getEditedAtTextForSessionsView(comment.giverEmail.equals("Anonymous"))%>
+                                                                    From: <%= comment.giverEmail %> [<%= comment.createdAt %>] <%=comment.getEditedAtText(comment.giverEmail.equals("Anonymous"))%>
                                                                 </span>
                                                             </div>
                                                             <div id="" style="margin-left: 15px;">
@@ -126,7 +126,7 @@ for (SessionResultsBundle sessionResult: data.results) {
                                                         <li class="list-group-item list-group-item-warning" id="">
                                                             <div id="">
                                                                 <span class="text-muted">
-                                                                    From: <%= comment.giverEmail %> [<%= comment.createdAt %>] <%= comment.getEditedAtTextForSessionsView(comment.giverEmail.equals("Anonymous")) %>
+                                                                    From: <%= comment.giverEmail %> [<%= comment.createdAt %>] <%= comment.getEditedAtText(comment.giverEmail.equals("Anonymous")) %>
                                                                 </span>
                                                             </div>
                                                             <div id="" style="margin-left: 15px;">
