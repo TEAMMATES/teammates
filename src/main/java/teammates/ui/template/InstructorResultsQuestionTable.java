@@ -1,10 +1,13 @@
 package teammates.ui.template;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.ui.controller.InstructorFeedbackResultsPageData;
 
 public class InstructorResultsQuestionTable {
@@ -154,6 +157,14 @@ public class InstructorResultsQuestionTable {
         this.isQuestionHasResponses = isQuestionHasResponses;
     }
 
-  
+    public static void sortByQuestionNumber(List<InstructorResultsQuestionTable> questionTables) {
+        Collections.sort(questionTables, new Comparator<InstructorResultsQuestionTable>() {
+            public int compare(InstructorResultsQuestionTable questionTable1, InstructorResultsQuestionTable questionTable2) {
+                boolean result = questionTable1.question.questionNumber < questionTable2.question.questionNumber;
+
+                return result ? -1 : 1;
+            }
+        });
+    }
     
 }

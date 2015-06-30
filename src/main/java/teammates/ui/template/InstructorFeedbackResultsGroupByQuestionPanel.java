@@ -33,6 +33,7 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorRes
 
         InstructorFeedbackResultsGroupByQuestionPanel byQuestionPanel = new InstructorFeedbackResultsGroupByQuestionPanel();
         byQuestionPanel.setParticipantIdentifier(participantIdentifier);
+        byQuestionPanel.setName(bundle.getNameForEmail(participantIdentifier));
         byQuestionPanel.setGiver(isGiver);
         
         byQuestionPanel.questionTables = questionTables;

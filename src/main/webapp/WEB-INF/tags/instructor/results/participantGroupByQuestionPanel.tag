@@ -16,14 +16,14 @@
             <c:choose>
                 <c:when test="${groupByQuestionPanel.emailValid}">
                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="${groupByQuestionPanel.profilePictureLink}">
-                        <strong>${groupByQuestionPanel.participantIdentifier}</strong>
+                        <strong>${groupByQuestionPanel.name}</strong>
                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                         <a class="link-in-dark-bg" href="mailTo:${participantIdentifier}> " ${groupByQuestionPanel.mailtoStyle}>[${groupByQuestionPanel.participantIdentifier}]</a>
                     </div>
                 </c:when>
                 <c:otherwise>
                     <div class="inline panel-heading-text">
-                        <strong>${groupByQuestionPanel.participantIdentifier}</strong>
+                        <strong>${groupByQuestionPanel.name}</strong>
                         <a class="link-in-dark-bg" href="mailTo:${participantIdentifier}" ${mailtoStyleAttr}>[${groupByQuestionPanel.participantIdentifier}]</a>
                     </div>
                 </c:otherwise>

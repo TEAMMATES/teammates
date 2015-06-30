@@ -207,6 +207,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                        "";
             
             InstructorResultsModerationButton moderationButton = buildModerationButtonForGiver(null, giverIdentifier);
+            InstructorResultsQuestionTable.sortByQuestionNumber(questionTables);
             InstructorFeedbackResultsGroupByQuestionPanel giverPanel = 
                                             InstructorFeedbackResultsGroupByQuestionPanel.buildInstructorFeedbackResultsGroupByQuestionPanel(
                                                                             bundle,
@@ -283,6 +284,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     statisticsTablesForTeam.add(statsTable);
                 }
  
+                InstructorResultsQuestionTable.sortByQuestionNumber(statisticsTablesForTeam);
                 teamToStatisticsTables.put(team, statisticsTablesForTeam);
             }
             
