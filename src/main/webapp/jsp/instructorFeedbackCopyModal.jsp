@@ -19,13 +19,16 @@
             <input type="checkbox"
                    name="<%= Const.ParamsNames.COPIED_COURSES_ID %>"
                    value="${course.id}">
-            <% if (course.id.equals(data.courseId)) { %>
-                [<span class="text-color-red">${course.id}</span>] : ${course.name}
-                <br>
-                <span class="text-color-red small">{Session currently in this course}</span>       
-            <% } else { %>
-                [${course.id}] : ${course.name}
-            <% } %>
+            <c:choose>
+                <c:when test="${course.id.equals(data.courseId)}">
+	                [<span class="text-color-red">${course.id}</span>] : ${course.name}
+	                <br>
+	                <span class="text-color-red small">{Session currently in this course}</span> 
+                </c:when>
+                <c:otherwise>
+                    [${course.id}] : ${course.name}
+                </c:otherwise>
+            </c:choose>
         </label>
     </div>
 </c:forEach>
