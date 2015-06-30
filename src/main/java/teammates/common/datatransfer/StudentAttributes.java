@@ -155,7 +155,19 @@ public class StudentAttributes extends EntityAttributes {
     public String getKey() {
         return key;
     }
-
+    
+    public String getSection() {
+        return section;
+    }
+    
+    public String getTeam() {
+        return team;
+    }
+    
+    public String getComments() {
+        return comments;
+    }
+    
     public boolean isEnrollInfoSameAs(StudentAttributes otherStudent) {
         return (otherStudent != null) && otherStudent.email.equals(this.email)
                 && otherStudent.course.equals(this.course)

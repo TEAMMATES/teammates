@@ -47,8 +47,8 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         assertEquals("", pageResult.getStatusMessage());
         
         InstructorCourseEnrollPageData pageData = (InstructorCourseEnrollPageData) pageResult.data;
-        assertEquals(courseId, pageData.courseId);
-        assertEquals(null, pageData.enrollStudents);
+        assertEquals(courseId, pageData.getCourseId());
+        assertEquals(null, pageData.getEnrollStudents());
         
         String expectedLogSegment = "instructorCourseEnroll Page Load<br>"
                 + "Enrollment for Course <span class=\"bold\">[" + courseId + "]</span>"; 
@@ -70,8 +70,8 @@ public class InstructorCourseEnrollPageActionTest extends BaseActionTest {
         assertEquals("", pageResult.getStatusMessage());
         
         pageData = (InstructorCourseEnrollPageData) pageResult.data;
-        assertEquals(courseId, pageData.courseId);
-        assertEquals(null, pageData.enrollStudents);
+        assertEquals(courseId, pageData.getCourseId());
+        assertEquals(null, pageData.getEnrollStudents());
         
         expectedLogSegment = "instructorCourseEnroll Page Load<br>"
                 + "Enrollment for Course <span class=\"bold\">[" + courseId + "]</span>"; 
