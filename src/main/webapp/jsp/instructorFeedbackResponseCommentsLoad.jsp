@@ -150,14 +150,14 @@
                                     }
                                 %>
                                 <%
-                                    if (frc.giverEmail.equals(data.instructorEmail)
+                                    Boolean isAllowedToEditOrDeleteComment = (frc.giverEmail.equals(data.instructorEmail)
                                                             || (data.currentInstructor != null &&
                                                                     data.currentInstructor.isAllowedForPrivilege(responseEntry.giverSection,
                                                                             responseEntry.feedbackSessionName,
                                                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
                                                                     && data.currentInstructor.isAllowedForPrivilege(responseEntry.recipientSection,
                                                                     responseEntry.feedbackSessionName,
-                                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS))) {//FeedbackResponseComment edit/delete control starts
+                                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)));
                                 %>
                                 <form
                                     class="responseCommentDeleteForm pull-right">
@@ -169,8 +169,11 @@
                                         data-toggle="tooltip"
                                         data-placement="top"
                                         title="<%=Const.Tooltips.COMMENT_DELETE%>"
-                                        style="display: none;"> <span
-                                        class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                                        style="display: none;"
+                                        <% if (!isAllowedToEditOrDeleteComment) { %>
+                                            disabled="disabled"
+                                        <% } %>>
+                                        <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                                     </a> <input type="hidden"
                                         name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID%>"
                                         value="<%=frc.feedbackResponseId%>">
@@ -194,12 +197,12 @@
                                     data-toggle="tooltip"
                                     data-placement="top"
                                     title="<%=Const.Tooltips.COMMENT_EDIT%>"
-                                    style="display: none;"> <span
-                                    class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                                    style="display: none;"
+                                    <% if (!isAllowedToEditOrDeleteComment) { %>
+                                        disabled="disabled"
+                                    <% } %>>
+                                    <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                 </a>
-                                <%
-                                    }//FeedbackResponseComment edit/delete control ends
-                                %>
                             </div> <!-- frComment Content -->
                             <div
                                 id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>"><%=frc.commentText.getValue()%></div>
