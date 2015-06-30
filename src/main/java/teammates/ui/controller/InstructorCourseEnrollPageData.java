@@ -1,7 +1,6 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.util.Sanitizer;
 
 /**
  * PageData: this is page data for 'Enroll' page for a course of an instructor
@@ -12,8 +11,8 @@ public class InstructorCourseEnrollPageData extends PageData {
     
     public InstructorCourseEnrollPageData(AccountAttributes account, String courseId, String enrollStudents) {
         super(account);
-        this.courseId =  Sanitizer.sanitizeForHtml(courseId);
-        this.enrollStudents = Sanitizer.sanitizeForHtml(enrollStudents);
+        this.courseId =  PageData.sanitizeForHtml(courseId);
+        this.enrollStudents = PageData.sanitizeForHtml(enrollStudents);
     }
     
     public String getCourseId() {
