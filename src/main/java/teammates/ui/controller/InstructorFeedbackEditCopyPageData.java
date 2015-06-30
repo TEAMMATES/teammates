@@ -7,10 +7,26 @@ import teammates.common.datatransfer.CourseAttributes;
 
 public class InstructorFeedbackEditCopyPageData extends PageData {
     public List<CourseAttributes> courses;
-    public String courseId;
-    public String fsName;
+    private String courseId;
+    private String fsName;
     
     public InstructorFeedbackEditCopyPageData(AccountAttributes account) {
         super(account);
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public String getFsName() {
+        return fsName;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
+    public void setFsName(String fsName) {
+        this.fsName = fsName;
     }
 }

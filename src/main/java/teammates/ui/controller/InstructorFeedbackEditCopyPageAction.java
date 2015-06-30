@@ -26,8 +26,8 @@ public class InstructorFeedbackEditCopyPageAction extends Action {
         
         InstructorFeedbackEditCopyPageData data = new InstructorFeedbackEditCopyPageData(account);
         data.courses = new ArrayList<CourseAttributes>();
-        data.courseId = courseId;
-        data.fsName = feedbackSessionName;
+        data.setCourseId(courseId);
+        data.setFsName(feedbackSessionName);
         
         List<CourseAttributes> courses = logic.getCoursesForInstructor(account.googleId);
         
