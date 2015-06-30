@@ -126,7 +126,7 @@
                                 class="form_comment" id="form_commentedit-<%=commentIdx%>">
                                 <div id="commentBar-<%=commentIdx%>">
                                     <span class="text-muted">To <b><%=recipientDisplay%></b> 
-                                        [<%=TimeHelper.formatTime(comment.createdAt)%>] <%= comment.getEditedAtTextForInstructor(data.commentSearchResultBundle.giverTable.get("Anonymous" + comment.courseId).equals("Anonymous" + " (" + comment.courseId + ")")) %></span></span>
+                                        [<%=TimeHelper.formatTime(comment.createdAt)%>] <%= comment.getEditedAtTextForInstructor(data.commentSearchResultBundle.giverTable.get("Anonymous" + comment.courseId).equals("Anonymous" + " (" + comment.courseId + ")")) %></span>
                                     <a type="button" href="<%=data.getInstructorCommentsLink() + "&" + Const.ParamsNames.COURSE_ID 
                                     + "=" + comment.courseId + "#" + comment.getCommentId()%>" target="_blank" class="btn btn-default btn-xs icon-button pull-right"
                                     data-toggle="tooltip" data-placement="top" data-original-title="Edit comment in the Comments page" style="display:none;">
