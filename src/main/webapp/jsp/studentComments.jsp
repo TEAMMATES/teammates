@@ -33,9 +33,9 @@
                     <br>
                     <comments:commentsForStudentsPanel commentRows="${data.commentRows}"/>
                 </c:if>
-                <c:forEach items="${data.feedbackSessionRows}" var="feedbackSessionRow" varStatus="h">
+                <c:forEach items="${data.feedbackSessionRows}" var="feedbackSessionRow" varStatus="i">
                     <br>
-                    <comments:feedbackSessionPanel feedbackSessionRow="${feedbackSessionRow}" fsIdx="${h.index + 1}"/>
+                    <comments:feedbackSessionPanel feedbackSessionRow="${feedbackSessionRow}" fsIdx="${i.index + 1}"/>
                 </c:forEach>
             </div>
             <comments:pagination coursePagination="${data.coursePagination}" />

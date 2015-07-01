@@ -10,9 +10,9 @@
     </div>
     <table class="table">
         <tbody>
-            <c:forEach items="${feedbackQuestionTable.responseRows}" var="feedbackResponseRow" varStatus="j">
+            <c:forEach items="${feedbackQuestionTable.responseRows}" var="feedbackResponseRow" varStatus="i">
                 <comments:feedbackResponsePanel feedbackResponseRow="${feedbackResponseRow}"
-                 fsIdx="${fsIdx}" qnIdx="${qnIdx}" responseIndex="${j.index + 1}"/>
+                 fsIdx="${fsIdx}" qnIdx="${qnIdx}" responseIndex="${i.index + 1}"/>
             </c:forEach>
         </tbody>
     </table>
