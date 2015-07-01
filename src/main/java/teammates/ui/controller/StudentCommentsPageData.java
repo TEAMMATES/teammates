@@ -118,12 +118,7 @@ public class StudentCommentsPageData extends PageData {
     private void setCoursePagination(List<String> coursePaginationList) {
         String previousPageLink = retrievePreviousPageLink(coursePaginationList);
         String nextPageLink = retrieveNextPageLink(coursePaginationList);
-        String activeCourse = "";
-        for (String courseId : coursePaginationList) {
-            if (courseId.equals(this.courseId)) {
-                activeCourse = courseId;
-            }
-        }
+        String activeCourse = coursePaginationList.contains(courseId) ? courseId : "";
         String userCommentsLink = getStudentCommentsLink(false);
         coursePagination = new CoursePagination(previousPageLink, nextPageLink, coursePaginationList,
                                                 activeCourse, userCommentsLink);
