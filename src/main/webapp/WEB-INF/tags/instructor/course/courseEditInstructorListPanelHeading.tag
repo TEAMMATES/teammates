@@ -13,9 +13,7 @@
         <div class="display-icon" style="display:inline;"></div>
         
         <c:if test="${not empty resendInviteButton}">
-            <a  <c:forEach items="${resendInviteButton.attributes}" var="attribute">
-                    ${attribute.key}="${attribute.value}"
-                </c:forEach> >
+            <a ${resendInviteButton.attributesToString}>
                 ${resendInviteButton.content}
             </a>
         </c:if>
@@ -27,15 +25,11 @@
             <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
         </form>
     
-        <a  <c:forEach items="${editButton.attributes}" var="attribute">
-                ${attribute.key}="${attribute.value}"
-            </c:forEach> >
+        <a ${editButton.attributesToString}>
             ${editButton.content}
         </a>
     
-        <a  <c:forEach items="${deleteButton.attributes}" var="attribute">
-                ${attribute.key}="${attribute.value}"
-            </c:forEach> >
+        <a ${deleteButton.attributesToString}>
             ${deleteButton.content}
         </a>
     </div>
