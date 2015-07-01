@@ -325,6 +325,6 @@ public class CommentAttributes extends EntityAttributes
 
     public String getEditedAtTextForStudent(Boolean isGiverAnonymous, String displayGiverAs) {
         return getEditedAtText(isGiverAnonymous, displayGiverAs,
-                TimeHelper.formatDate(this.lastEditedAt));
+                this.lastEditedAt.toString());
     }
 }

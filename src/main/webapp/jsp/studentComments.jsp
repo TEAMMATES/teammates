@@ -139,8 +139,8 @@
                                                                                         lastEditorDisplay = lastEditor.displayedName + " " + lastEditor.name;
                                                                                    }
                                         %>
-                                        <span class="text-muted">From <b><%=giverDisplay%></b> on
-                                            <%=TimeHelper.formatDate(comment.createdAt)%> <%=comment.getEditedAtTextForStudent(giverDisplay.equals("Anonymous"), lastEditorDisplay)%>
+                                        <span class="text-muted">From <b><%=giverDisplay%></b> 
+                                            [<%= comment.createdAt %>] <%=comment.getEditedAtTextForStudent(giverDisplay.equals("Anonymous"), lastEditorDisplay)%>
                                         </span>
                                     </div>
                                     <div id="plainCommentText<%=commentIdx%>"><%=comment.commentText.getValue()%></div>
