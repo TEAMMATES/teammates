@@ -28,12 +28,12 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorRes
                                                                     FeedbackSessionResultsBundle bundle,
                                                                     List<InstructorResultsQuestionTable> questionTables,
                                                                     boolean isEmailValid, Url profilePictureLink, String mailtoStyle,
-                                                                    boolean isGiver, String participantIdentifier, 
+                                                                    boolean isGiver, String participantIdentifier, String participantName,
                                                                     InstructorResultsModerationButton moderationButton) {
 
         InstructorFeedbackResultsGroupByQuestionPanel byQuestionPanel = new InstructorFeedbackResultsGroupByQuestionPanel();
         byQuestionPanel.setParticipantIdentifier(participantIdentifier);
-        byQuestionPanel.setName(bundle.getNameForEmail(participantIdentifier));
+        byQuestionPanel.setName(participantName);
         byQuestionPanel.setGiver(isGiver);
         
         byQuestionPanel.questionTables = questionTables;

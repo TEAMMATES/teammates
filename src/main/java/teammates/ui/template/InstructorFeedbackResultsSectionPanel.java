@@ -1,12 +1,17 @@
 package teammates.ui.template;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import teammates.common.datatransfer.StudentAttributes;
+
 public class InstructorFeedbackResultsSectionPanel {
-    private String panelClass = "panel-success";
+    private String panelClass;
     private boolean isGroupedByTeam;
+    private boolean isDisplayingMissingParticipants;
     
     private String sectionName;
     private String arrowClass;
@@ -16,10 +21,15 @@ public class InstructorFeedbackResultsSectionPanel {
     
     // A mapping from team name to a list of participant panels. Each participant panel is for one member of the team
     private Map<String, List<InstructorResultsParticipantPanel>> participantPanels;
+    
+    private boolean isDisplayingTeamStatistics;
     private Map<String, List<InstructorResultsQuestionTable>> teamStatisticsTable;
     private Map<String, Boolean> isTeamWithResponses;
 
     public InstructorFeedbackResultsSectionPanel() {
+        panelClass = "panel-success";
+        isDisplayingMissingParticipants = true;
+        
         isTeamWithResponses = new HashMap<String, Boolean>();
         participantPanels = new HashMap<String, List<InstructorResultsParticipantPanel>>();
     }
@@ -97,6 +107,21 @@ public class InstructorFeedbackResultsSectionPanel {
     public void setIsTeamWithResponses(Map<String, Boolean> isTeamWithResponses) {
         this.isTeamWithResponses = isTeamWithResponses;
     }
-    
 
+    public boolean isDisplayingMissingParticipants() {
+        return isDisplayingMissingParticipants;
+    }
+
+    public void setDisplayingMissingParticipants(boolean isDisplayingMissingParticipants) {
+        this.isDisplayingMissingParticipants = isDisplayingMissingParticipants;
+    }
+
+    public boolean isDisplayingTeamStatistics() {
+        return isDisplayingTeamStatistics;
+    }
+
+    public void setDisplayingTeamStatistics(boolean isDisplayingTeamStatistics) {
+        this.isDisplayingTeamStatistics = isDisplayingTeamStatistics;
+    }
+    
 }

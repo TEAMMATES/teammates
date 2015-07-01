@@ -10,7 +10,7 @@
 <%@ attribute name="showAll" type="java.lang.Boolean" required="true" %>
 
 
-<div class="panel panel-primary">
+<div class="panel ${not empty groupByQuestionPanel.questionTables ? 'panel-primary' : 'panel-default'}">
     <div class="panel-heading">
         From: 
             <c:choose>
@@ -18,13 +18,13 @@
                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="${groupByQuestionPanel.profilePictureLink}">
                         <strong>${groupByQuestionPanel.name}</strong>
                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                        <a class="link-in-dark-bg" href="mailTo:${participantIdentifier}> " ${groupByQuestionPanel.mailtoStyle}>[${groupByQuestionPanel.participantIdentifier}]</a>
+                        <a <c:if test="${not empty groupByQuestionPanel.questionTables}">class="link-in-dark-bg"</c:if> href="mailTo:${groupByQuestionPanel.participantIdentifier}> " ${groupByQuestionPanel.mailtoStyle}>[${groupByQuestionPanel.participantIdentifier}]</a>
                     </div>
                 </c:when>
                 <c:otherwise>
                     <div class="inline panel-heading-text">
                         <strong>${groupByQuestionPanel.name}</strong>
-                        <a class="link-in-dark-bg" href="mailTo:${participantIdentifier}" ${mailtoStyleAttr}>[${groupByQuestionPanel.participantIdentifier}]</a>
+                        <a <c:if test="${not empty groupByQuestionPanel.questionTables}">class="link-in-dark-bg"</c:if> href="mailTo:${groupByQuestionPanel.participantIdentifier}" ${mailtoStyleAttr}>[${groupByQuestionPanel.participantIdentifier}]</a>
                     </div>
                 </c:otherwise>
             </c:choose>
@@ -41,9 +41,16 @@
     </div>
     <div class="panel-collapse collapse ${shouldCollapsed ? '' : 'in'}">
         <div class="panel-body">
-            <c:forEach items="${groupByQuestionPanel.questionTables}" var="questionTable">
-                <results:questionPanel showAll="${showAll}" questionPanel="${questionTable}" shouldCollapsed="${shouldCollapsed}"/>        
-            </c:forEach>
+            <c:choose>
+                <c:when test="${not empty groupByQuestionPanel.questionTables}">
+                    <c:forEach items="${groupByQuestionPanel.questionTables}" var="questionTable">
+                        <results:questionPanel showAll="${showAll}" questionPanel="${questionTable}" shouldCollapsed="${shouldCollapsed}"/>        
+                    </c:forEach>
+                </c:when>
+                <c:otherwise>
+                    <i>There are no responses given by this user</i>
+                </c:otherwise>
+            </c:choose>
         </div>
     </div>
 </div>

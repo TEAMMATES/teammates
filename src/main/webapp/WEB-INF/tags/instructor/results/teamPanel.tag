@@ -13,6 +13,8 @@
 <%@ attribute name="teamName" required="true" %>
 <%@ attribute name="statsTables" type="java.util.List" %>
 <%@ attribute name="isTeamHasResponses" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="isDisplayingTeamStatistics" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="isDisplayingMissingParticipants" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="participantPanels" type="java.util.List" required="true" %>
 
 <c:set var="groupByTeamEnabled" value = "${data.groupByTeam != null || data.groupByTeam == 'on'}"/>
@@ -25,10 +27,11 @@
             </div>
             <div class="col-sm-3">
                 <div class="pull-right">
-                    <a class="btn btn-success btn-xs" id="collapse-panels-button-section-${sectionIndex}" data-toggle="tooltip" title='Collapse or expand all ${groupByTeamEnabled? "team" : "student"} panels. You can also click on the panel heading to toggle each one individually.'>
-                        ${shouldCollapsed ? 'Expand ' : 'Collapse '}
-                        ${groupByTeamEnabled ? 'Teams' : 'Students'}
-                    </a>
+                    <c:if test="${!isDisplayingTeamStatistics}">
+                        <a class="btn btn-warning btn-xs" id="collapse-panels-button-team-${teamIndex}" data-toggle="tooltip" title='Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.'>
+                            ${shouldCollapsed ? 'Expand ' : 'Collapse '} Students
+                        </a>
+                    </c:if>
                     &nbsp;
                     <span class="glyphicon pull-right ${!shouldCollapsed ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'}"></span>
                 </div>
@@ -39,7 +42,7 @@
     <div class="panel-collapse collapse<c:if test="${!shouldCollapsed}"> in</c:if>">
         <div class="panel-body background-color-warning">
             <div class="resultStatistics">
-                <c:if test="${isTeamHasResponses}">
+                <c:if test="${isDisplayingTeamStatistics && isTeamHasResponses}">
                     <h3>${teamName} ${statisticsHeaderText}</h3>
                     <hr class="margin-top-0">
                     
@@ -58,18 +61,20 @@
                 </c:if>
             </div>
             
-            <c:if test="${isTeamHasResponses}">
-                <div class="row">
-                    <div class="col-sm-9">
-                        <h3>${teamName} ${detailedResponsesHeaderText}</h3>
+            <c:if test="${isTeamHasResponses || isDisplayingMissingParticipants}">
+                <c:if test="${isTeamHasResponses}">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <h3>${teamName} ${detailedResponsesHeaderText}</h3>
+                        </div>
+                        <div class="col-sm-3 h3">
+                            <a class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-${teamIndex}" data-toggle="tooltip" title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">
+                                ${shouldCollapsed ? 'Expand' : 'Collapse'} Students
+                            </a>
+                        </div>
                     </div>
-                    <div class="col-sm-3 h3">
-                        <a class="btn btn-warning btn-xs pull-right" id="collapse-panels-button-team-${teamIndex}" data-toggle="tooltip" title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">
-                            ${shouldCollapsed ? 'Expand' : 'Collapse'} Students
-                        </a>
-                    </div>
-                </div>
-                <hr class="margin-top-0">
+                    <hr class="margin-top-0">
+                </c:if>
                 <c:forEach items="${participantPanels}" var="participantPanel">
                     <results:participantGroupByQuestionPanel showAll="${showAll}" groupByQuestionPanel="${participantPanel}" shouldCollapsed="${shouldCollapsed}"/>
                 </c:forEach>
