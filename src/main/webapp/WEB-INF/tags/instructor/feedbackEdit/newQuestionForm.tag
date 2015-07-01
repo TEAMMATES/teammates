@@ -85,7 +85,7 @@
                 ${fqForm.questionSpecificEditFormHtml}
             </div>
             <br>
-            <feedbackEdit:questionGeneralSettings fqForm="${fqForm}"></feedbackEdit:questionGeneralSettings>
+            <feedbackEdit:questionGeneralSettings fqForm="${fqForm}"/>
           
             <div>
                 <span class="pull-right">

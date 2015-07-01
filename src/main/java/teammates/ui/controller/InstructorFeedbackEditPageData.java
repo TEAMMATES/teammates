@@ -27,8 +27,6 @@ import teammates.ui.template.FeedbackSessionPreviewForm;
 import teammates.ui.template.FeedbackSessionsForm;
 
 public class InstructorFeedbackEditPageData extends PageData {
-
-    private static final String SAVE_CHANGES = "Save Changes";
     
     private String emptyFsMsg = Const.StatusMessages.FEEDBACK_QUESTION_EMPTY; 
     private FeedbackSessionsForm fsForm;
@@ -54,15 +52,16 @@ public class InstructorFeedbackEditPageData extends PageData {
         
         qnForms = new ArrayList<FeedbackQuestionEditForm>();
         for (FeedbackQuestionAttributes question : questions) {
-            buildExistingQuestionForm(feedbackSession, questions, questionHasResponses, instructor, question);
+            buildExistingQuestionForm(feedbackSession.feedbackSessionName, 
+                                      questions.size(), questionHasResponses, 
+                                      instructor.courseId, question);
         }
         
-        buildNewQuestionForm(feedbackSession, questions, instructor);
+        buildNewQuestionForm(feedbackSession, questions);
         
         buildPreviewForm(feedbackSession, studentList, instructorList);
         
         buildCopyQnForm(feedbackSession, copiableQuestions, instructor);
-        
     }
 
 
@@ -110,21 +109,20 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
 
 
-    private void buildExistingQuestionForm(FeedbackSessionAttributes feedbackSession,
-                                           List<FeedbackQuestionAttributes> questions,
+    private void buildExistingQuestionForm(String feedbackSessionName,
+                                           int questionsSize,
                                            Map<String, Boolean> questionHasResponses,
-                                           InstructorAttributes instructor, FeedbackQuestionAttributes question) {
+                                           String courseId, FeedbackQuestionAttributes question) {
         FeedbackQuestionEditForm qnForm = new FeedbackQuestionEditForm();
         qnForm.setAction(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT));
-        qnForm.setCourseId(instructor.courseId);
+        qnForm.setCourseId(courseId);
         
-        qnForm.setFeedbackSessionName(feedbackSession.feedbackSessionName);
+        qnForm.setFeedbackSessionName(feedbackSessionName);
         qnForm.setQuestion(question);
-        qnForm.setQuestionDetails(question.getQuestionDetails());
-        qnForm.setQuestionNumberSuffix("-" + String.valueOf(question.questionNumber));
+        qnForm.setQuestionNumberSuffix("-" + question.questionNumber);
         
-        qnForm.setNumOfQuestionsOnPage(questions.size());
-        qnForm.setQuestionNumberOptions(getQuestionNumberOptions(questions.size()));
+        qnForm.setNumOfQuestionsOnPage(questionsSize);
+        qnForm.setQuestionNumberOptions(getQuestionNumberOptions(questionsSize));
         qnForm.setQuestionText(question.getQuestionDetails().questionText);
         
         FeedbackQuestionGeneralSettings generalSettings = new FeedbackQuestionGeneralSettings();
@@ -158,8 +156,7 @@ public class InstructorFeedbackEditPageData extends PageData {
                                                                  question.numberOfEntitiesToGiveFeedbackTo);
         qnForm.setQuestionHasResponses(questionHasResponses.get(question.getId()));
         
-        List<String> visibilityMessages = question.getVisibilityMessage();
-        generalSettings.setVisibilityMessages(visibilityMessages);
+        generalSettings.setVisibilityMessages(question.getVisibilityMessage());
         
         qnForm.setQuestionSpecificEditFormHtml(question.getQuestionDetails().getQuestionSpecificEditFormHtml(question.questionNumber));
         qnForm.setEditable(false);
@@ -169,8 +166,7 @@ public class InstructorFeedbackEditPageData extends PageData {
 
 
     private void buildNewQuestionForm(FeedbackSessionAttributes feedbackSession,
-                                      List<FeedbackQuestionAttributes> questions,
-                                      InstructorAttributes instructor) {
+                                      List<FeedbackQuestionAttributes> questions) {
         newQnForm = new FeedbackQuestionEditForm();
         newQnForm.setDoneEditingLink(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                                         .withUserId(account.googleId)
@@ -179,7 +175,7 @@ public class InstructorFeedbackEditPageData extends PageData {
         
         
         newQnForm.setAction(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD));
-        newQnForm.setCourseId(instructor.courseId);
+        newQnForm.setCourseId(feedbackSession.courseId);
         newQnForm.setFeedbackSessionName(feedbackSession.feedbackSessionName);
         newQnForm.setQuestionNumberSuffix("");
         
@@ -251,21 +247,17 @@ public class InstructorFeedbackEditPageData extends PageData {
         
         fsForm.setFsStartDate(TimeHelper.formatDate(newFeedbackSession.startTime));
         
-        Date date;
-        date = newFeedbackSession.startTime;
-        fsForm.setFsStartTimeOptions(getTimeOptionsAsElementTags(date));
         
+        
+        fsForm.setFsStartTimeOptions(getTimeOptionsAsElementTags(newFeedbackSession.startTime));
         fsForm.setFsEndDate(TimeHelper.formatDate(newFeedbackSession.endTime));
-        
-        
-        date = newFeedbackSession.endTime;
-        fsForm.setFsEndTimeOptions(getTimeOptionsAsElementTags(date));
+        fsForm.setFsEndTimeOptions(getTimeOptionsAsElementTags(newFeedbackSession.endTime));
         
         fsForm.setGracePeriodOptions(getGracePeriodOptionsAsElementTags(newFeedbackSession.gracePeriod));
         
         fsForm.setSubmitButtonDisabled(false);
         fsForm.setFormSubmitAction(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE));
-        fsForm.setSubmitButtonText(SAVE_CHANGES);
+        fsForm.setSubmitButtonText("Save Changes");
         fsForm.setSubmitButtonVisible(false);
         
         fsForm.setEditButtonTags(new ElementTag("onclick", "enableEditFS()"));

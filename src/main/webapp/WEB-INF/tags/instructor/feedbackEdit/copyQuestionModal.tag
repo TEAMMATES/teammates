@@ -4,8 +4,6 @@
 
 <%@ attribute name="copyQnForm" type="teammates.ui.template.FeedbackQuestionCopyTable" required="true"%>
 
-
-<!-- Modal -->
 <div class="modal fade" id="copyModal" tabindex="-1" role="dialog" aria-labelledby="copyModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

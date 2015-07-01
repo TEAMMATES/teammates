@@ -24,9 +24,6 @@ import teammates.ui.template.FeedbackSessionsTable;
 import teammates.ui.template.FeedbackSessionsForm;
 
 public class InstructorFeedbacksPageData extends PageData {
-    
-    private static final String CREATE_FEEDBACK_SESSION = "Create Feedback Session";
-
 
     private static final int MAX_CLOSED_SESSION_STATS = 5;
     
@@ -127,16 +124,16 @@ public class InstructorFeedbacksPageData extends PageData {
                                                                              instructors, newFeedbackSession));
     }
 
-    private void buildFsList(String courseIdForHighlight, List<FeedbackSessionAttributes> existingFeedbackSessions,
+    private void buildFsList(String courseIdToHighlight, List<FeedbackSessionAttributes> existingFeedbackSessions,
                              Map<String, InstructorAttributes> instructors, String feedbackSessionNameToHighlight) {
         
         List<FeedbackSessionsTableRow> existingFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(
                                                                              existingFeedbackSessions, instructors, 
-                                                                             feedbackSessionNameToHighlight, courseIdForHighlight);
+                                                                             feedbackSessionNameToHighlight, courseIdToHighlight);
         
         fsList = new FeedbackSessionsTable(existingFeedbackSessionsRow, 
                                            feedbackSessionNameToHighlight, 
-                                           courseIdForHighlight);
+                                           courseIdToHighlight);
     }
 
     private void buildNewForm(List<CourseAttributes> courses, String courseIdForNewSession,
@@ -216,7 +213,7 @@ public class InstructorFeedbacksPageData extends PageData {
         
         newFsForm.setSubmitButtonDisabled(courses.isEmpty());
         newFsForm.setFormSubmitAction(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD));
-        newFsForm.setSubmitButtonText(CREATE_FEEDBACK_SESSION);
+        newFsForm.setSubmitButtonText("Create Feedback Session");
         newFsForm.setSubmitButtonVisible(true);
         
         return newFsForm;
@@ -236,46 +233,53 @@ public class InstructorFeedbacksPageData extends PageData {
         
         date = hasSessionVisibleDate ? newFeedbackSession.sessionVisibleFromTime : null;   
         additionalSettings.setSessionVisibleTimeOptions(getTimeOptionsAsElementTags(date));
-        
-        additionalSettings.setSessionVisibleAtOpenChecked(newFeedbackSession == null 
-                                                           || Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(
-                                                                   newFeedbackSession.sessionVisibleFromTime));
-        
-        additionalSettings.setSessionVisiblePrivateChecked(newFeedbackSession != null 
-                                                           && Const.TIME_REPRESENTS_NEVER.equals(
-                                                               newFeedbackSession.sessionVisibleFromTime));
-                        
-        boolean hasResultVisibleDate = newFeedbackSession != null 
-                                       && !TimeHelper.isSpecialTime(newFeedbackSession.resultsVisibleFromTime);
-        
-        additionalSettings.setResponseVisibleDateChecked(hasResultVisibleDate);
-        
-        additionalSettings.setResponseVisibleDateValue(hasResultVisibleDate ? 
-                                                       TimeHelper.formatDate(newFeedbackSession.resultsVisibleFromTime) :
-                                                       "");
-        
-        additionalSettings.setResponseVisibleDateDisabled(!hasResultVisibleDate);
-        
-        date = hasResultVisibleDate ? newFeedbackSession.resultsVisibleFromTime :  null;
         additionalSettings.setResponseVisibleTimeOptions(getTimeOptionsAsElementTags(date));
         
-        additionalSettings.setResponseVisibleImmediatelyChecked((newFeedbackSession != null 
-                                                                && Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(newFeedbackSession.resultsVisibleFromTime)));
         
-        additionalSettings.setResponseVisiblePublishManuallyChecked(
-                                 (newFeedbackSession == null 
-                                  || Const.TIME_REPRESENTS_LATER.equals(newFeedbackSession.resultsVisibleFromTime) 
-                                  || Const.TIME_REPRESENTS_NOW.equals(newFeedbackSession.resultsVisibleFromTime)));
-        
-        additionalSettings.setResponseVisibleNeverChecked((newFeedbackSession != null  
-                                                            && Const.TIME_REPRESENTS_NEVER.equals(newFeedbackSession.resultsVisibleFromTime)));
-        
-        additionalSettings.setSendClosingEmailChecked(newFeedbackSession == null 
-                                                      || newFeedbackSession.isClosingEmailEnabled);
-        additionalSettings.setSendOpeningEmailChecked(newFeedbackSession == null 
-                                                      || newFeedbackSession.isOpeningEmailEnabled);
-        additionalSettings.setSendPublishedEmailChecked(newFeedbackSession == null 
-                                                        || newFeedbackSession.isPublishedEmailEnabled);
+        if (newFeedbackSession == null) {
+            additionalSettings.setSessionVisibleAtOpenChecked(true);
+            additionalSettings.setResponseVisiblePublishManuallyChecked(true);
+            
+            additionalSettings.setSendClosingEmailChecked(true);
+            additionalSettings.setSendOpeningEmailChecked(true);
+            additionalSettings.setSendPublishedEmailChecked(true);
+        } else {
+            additionalSettings.setSessionVisibleAtOpenChecked(
+                                            Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(
+                                                 newFeedbackSession.sessionVisibleFromTime));
+            additionalSettings.setSessionVisiblePrivateChecked( 
+                                            Const.TIME_REPRESENTS_NEVER.equals(
+                                                newFeedbackSession.sessionVisibleFromTime));
+            
+            boolean hasResultVisibleDate = !TimeHelper.isSpecialTime(newFeedbackSession.resultsVisibleFromTime);
+            
+            additionalSettings.setResponseVisibleDateChecked(hasResultVisibleDate);
+             
+            additionalSettings.setResponseVisibleDateValue(hasResultVisibleDate ? 
+                                                            TimeHelper.formatDate(newFeedbackSession.resultsVisibleFromTime) :
+                                                            "");
+             
+            additionalSettings.setResponseVisibleDateDisabled(!hasResultVisibleDate);
+            
+            date = hasResultVisibleDate ? newFeedbackSession.resultsVisibleFromTime :  null;
+            
+            additionalSettings.setResponseVisibleImmediatelyChecked(
+                                     Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(
+                                          newFeedbackSession.resultsVisibleFromTime));
+            
+            additionalSettings.setResponseVisiblePublishManuallyChecked(
+                                            Const.TIME_REPRESENTS_LATER.equals(newFeedbackSession.resultsVisibleFromTime) 
+                                              || Const.TIME_REPRESENTS_NOW.equals(newFeedbackSession.resultsVisibleFromTime));
+            
+            additionalSettings.setResponseVisibleNeverChecked(Const.TIME_REPRESENTS_NEVER.equals(newFeedbackSession.resultsVisibleFromTime));
+            
+            additionalSettings.setSendClosingEmailChecked( 
+                                            newFeedbackSession.isClosingEmailEnabled);
+            additionalSettings.setSendOpeningEmailChecked( 
+                                            newFeedbackSession.isOpeningEmailEnabled);
+            additionalSettings.setSendPublishedEmailChecked(
+                                            newFeedbackSession.isPublishedEmailEnabled);
+        }
         
         return additionalSettings;
     }

@@ -44,7 +44,7 @@
                 <a class="btn btn-primary btn-sm" id="fsEditLink"
                     title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT %>"
                     data-toggle="tooltip" data-placement="top"
-                    onclick="enableEditFS()">
+                    <c:forEach items="${fsForm.editButtonTags.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach>>
                     Edit
                 </a>
                 <button type="submit" id="fsSaveLink" style="display:none;" class="btn btn-primary btn-sm" onclick="return checkEditFeedbackSession(this.form);">

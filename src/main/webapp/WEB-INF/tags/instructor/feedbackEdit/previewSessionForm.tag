@@ -30,7 +30,7 @@
                     <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${previewForm.courseId}">
                     <div class="col-sm-6">
                         <input id="button_preview_student" type="submit" class="btn btn-primary" value="Preview as Student"
-                            <c:if test="${empty previewForm.studentToPreviewAsOptions}"> "disabled=\"disabled\" style=\"background: #66727A;\""
+                            <c:if test="${empty previewForm.studentToPreviewAsOptions}"> disabled="disabled" style="background: #66727A;"
                             </c:if>
                         >
                     </div>

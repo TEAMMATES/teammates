@@ -18,10 +18,13 @@
         <script type="text/javascript" src="/js/instructorFeedbackEdit.js"></script>
 </c:set>
 
-<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Feedback Session" jsIncludes="${jsIncludes}" bodyOnload="onload=\"readyFeedbackEditPage();
+<c:set var="onload">
+    onload="readyFeedbackEditPage();
     bindUncommonSettingsEvents();
     updateUncommonSettingsInfo();
-    hideUncommonPanels();\"">
+    hideUncommonPanels();"
+</c:set>
+<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Feedback Session" jsIncludes="${jsIncludes}" bodyOnload="${onload}">
     
     <feedbacks:feedbackSessionsForm fsForm="${data.fsForm}">
         <feedbacks:feedbackSessionsFormAdditionalSettings fsForm="${data.fsForm}" />

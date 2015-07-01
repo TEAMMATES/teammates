@@ -43,11 +43,9 @@
                                         </select>
                                     </c:when>
                                     <c:otherwise>
-                                        <h5>
                                             <div class="form-control-static">
                                                     ${fsForm.courseIdForNewSession}
                                             </div>
-                                        </h5>
                                     </c:otherwise>
                                 </c:choose>
                             </div>
@@ -103,11 +101,9 @@
                                             value="${fsForm.fsName}">
                                     </c:when>
                                     <c:otherwise>
-                                        <h5>
                                             <div class="form-control-static">
                                                 ${fsForm.fsName}
                                             </div>
-                                        </h5>
                                     </c:otherwise>
                                 </c:choose>
                             </div>

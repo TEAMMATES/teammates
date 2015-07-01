@@ -13,7 +13,7 @@
     action="${fqForm.action}"
     id="form_editquestion-${fqForm.question.questionNumber}" name="form_editquestions"
     onsubmit="tallyCheckboxes(${fqForm.question.questionNumber})"
-    ${ fqForm.questionHasResponses ? "editStatus=\"hasResponses\"" : "" }>
+    ${ fqForm.questionHasResponses ? 'editStatus="hasResponses"' : '' }>
     <div class="panel panel-primary questionTable" id="questionTable${fqForm.question.questionNumber}">
         <div class="panel-heading">
             <div class="row">
@@ -29,7 +29,7 @@
                                 </option>
                             </c:forEach>
                         </select>
-                        &nbsp;${fqForm.questionDetails.questionTypeDisplayName}
+                        &nbsp;${fqForm.question.questionDetails.questionTypeDisplayName}
                     </span>
                     <span class="pull-right">
                         <a class="btn btn-primary btn-xs"
@@ -82,7 +82,7 @@
                 ${fqForm.questionSpecificEditFormHtml}
             </div>
             <br>
-            <feedbackEdit:questionGeneralSettings fqForm="${fqForm}"></feedbackEdit:questionGeneralSettings>
+            <feedbackEdit:questionGeneralSettings fqForm="${fqForm}"/>
             <div>
                 <span class="pull-right">
                     <input id="button_question_submit-${fqForm.question.questionNumber}"
