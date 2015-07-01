@@ -129,6 +129,10 @@ var TEAMNAME_MAX_LENGTH = 60;
 var NAME_MAX_LENGTH = 40;
 var INSTITUTION_MAX_LENGTH = 64;
 
+$(document).on('ajaxComplete ready', function() {
+    $('[data-toggle="tooltip"]').tooltip({html: true, container: 'body'});
+});
+
 /**
  * Sorts a table
  * @param divElement
