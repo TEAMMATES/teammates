@@ -101,7 +101,7 @@ public class StudentCommentsPageAction extends Action {
         for (int i = 0; i < courses.size(); i++) {
             CourseAttributes course = courses.get(i);
             coursePaginationList.add(course.id);
-            if (courseId == "") {
+            if (courseId.isEmpty()) {
                 //if courseId not provided, select the newest course
                 courseId = course.id;
             }
