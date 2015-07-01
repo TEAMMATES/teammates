@@ -12,38 +12,38 @@
     <t:statusMessage />
     <br>
     <c:choose>
-    <c:when test="${not empty data.coursePagination.coursePaginationList}">
-        <comments:pagination coursePagination="${data.coursePagination}" />
-        <div class="well well-plain">
-            <div class="text-color-primary">
-                <h4>
-                    <strong> ${data.courseName}
-                    </strong>
-                </h4>
-            </div>
-            <div id="no-comment-panel" style="${empty data.commentRows && empty data.feedbackSessionRows ? '' : 'display:none;'}">
-                <br>
-                <div class="panel">
-                    <div class="panel-body">
-                        You don't have any comment in this course.
+        <c:when test="${not empty data.coursePagination.coursePaginationList}">
+            <comments:pagination coursePagination="${data.coursePagination}" />
+            <div class="well well-plain">
+                <div class="text-color-primary">
+                    <h4>
+                        <strong> ${data.courseName}
+                        </strong>
+                    </h4>
+                </div>
+                <div id="no-comment-panel" style="${empty data.commentRows && empty data.feedbackSessionRows ? '' : 'display:none;'}">
+                    <br>
+                    <div class="panel">
+                        <div class="panel-body">
+                            You don't have any comment in this course.
+                        </div>
                     </div>
                 </div>
+                <c:if test="${not empty data.commentRows}">
+                    <br>
+                    <comments:commentsForStudentsPanel commentRows="${data.commentRows}"/>
+                </c:if>
+                <c:forEach items="${data.feedbackSessionRows}" var="feedbackSessionRow" varStatus="h">
+                    <br>
+                    <comments:feedbackSessionPanel feedbackSessionRow="${feedbackSessionRow}" fsIdx="${h.index + 1}"/>
+                </c:forEach>
             </div>
-            <c:if test="${not empty data.commentRows}">
-                <br>
-                <comments:commentsForStudentsPanel commentRows="${data.commentRows}"/>
-            </c:if>
-            <c:forEach items="${data.feedbackSessionRows}" var="feedbackSessionRow" varStatus="h">
-                <br>
-                <comments:feedbackSessionPanel feedbackSessionRow="${feedbackSessionRow}" fsIdx="${h.index + 1}"/>
-            </c:forEach>
-        </div>
-        <comments:pagination coursePagination="${data.coursePagination}" />
-    </c:when>
-    <c:otherwise>
-        <div id="statusMessage" class="alert alert-warning">
-            There is no comment to display
-        </div>
-    </c:otherwise>
+            <comments:pagination coursePagination="${data.coursePagination}" />
+        </c:when>
+        <c:otherwise>
+            <div id="statusMessage" class="alert alert-warning">
+                There is no comment to display
+            </div>
+        </c:otherwise>
     </c:choose>
 </ts:studentPage>
