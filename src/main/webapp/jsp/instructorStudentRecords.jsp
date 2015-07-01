@@ -2,6 +2,8 @@
 
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
+<%@ page import="java.util.TimeZone"%>
+<%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.CommentAttributes"%>
@@ -159,13 +161,15 @@
                             </button>
                             <ul class="list-group" style="margin-top: 15px;">
                                 <% int commentIdx = -1;
-                                for (CommentAttributes comment : data.comments) {
-                                    commentIdx++; %>
+                                   SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM YYYY, HH:mm zzz");
+                                   sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+                                   for (CommentAttributes comment : data.comments) {
+                                   commentIdx++; %>
                                     <li class="list-group-item list-group-item-warning">
                                         <form method="post" action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT %>" name="form_commentedit" class="form_comment" id="form_commentedit-<%= commentIdx %>">
                                             <div id="commentBar<%= commentIdx %>">
                                                 <span class="text-muted">
-                                                    <%= comment.createdAt %> <%= comment.getEditedAtTextForInstructor(false) %>
+                                                    <%= sdf.format(comment.createdAt) %> <%= comment.getEditedAtTextForInstructor(false) %>
                                                 </span>
                                                 <a type="button" id="commentdelete-<%= commentIdx %>" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('<%= commentIdx %>');" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_DELETE%>"> 
                                                     <span class="glyphicon glyphicon-trash glyphicon-primary"></span>

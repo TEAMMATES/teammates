@@ -10,6 +10,8 @@
 
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.TimeZone"%>
+<%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.util.TimeHelper" %>
 <%@ page import="teammates.common.datatransfer.CommentAttributes" %>
@@ -298,6 +300,8 @@
                                         <ul class="list-group comments">
                                             <%
                                                 CommentParticipantType recipientTypeForThisRecipient = CommentParticipantType.PERSON;//default value is PERSON
+                                                SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM YYYY, HH:mm zzz");
+                                                sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
                                                 for (CommentAttributes comment : data.comments.get(giverEmail)) {//student comments loop starts
                                                     commentIdx++;
                                                     recipientTypeForThisRecipient = comment.recipientType;
@@ -312,7 +316,7 @@
                                                         <div id="commentBar-<%= commentIdx %>">
                                                             
                                                             <span class="text-muted">To <b><%= data.getRecipientNames(comment.recipients) %></b> 
-                                                [<%= comment.createdAt %>] <%= comment.getEditedAtTextForInstructor(data.getGiverName(giverEmail).equals("Anonymous")) %>
+                                                [<%= sdf.format(comment.createdAt) %>] <%= comment.getEditedAtTextForInstructor(data.getGiverName(giverEmail).equals("Anonymous")) %>
                                                             </span>
                                                             <%
                                                                 if (comment.giverEmail.equals(data.instructorEmail)

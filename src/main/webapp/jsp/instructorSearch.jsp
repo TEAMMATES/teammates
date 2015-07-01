@@ -7,6 +7,8 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Set" %>
+<%@ page import="java.util.TimeZone"%>
+<%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType" %>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.Sanitizer"%>
@@ -117,7 +119,9 @@
                             From <b><%=data.commentSearchResultBundle.giverTable.get(giverEmailPlusCourseId)%></b>
                         </div>
                         <ul class="list-group comments">
-                            <%
+                            <% 
+                                SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM YYYY, HH:mm zzz");
+                                sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
                                 for (CommentAttributes comment : data.commentSearchResultBundle.giverCommentTable.get(giverEmailPlusCourseId)) {
                                     String recipientDisplay = data.commentSearchResultBundle.recipientTable.get(comment.getCommentId().toString());
                                     commentIdx++;
@@ -126,7 +130,7 @@
                                 class="form_comment" id="form_commentedit-<%=commentIdx%>">
                                 <div id="commentBar-<%=commentIdx%>">
                                     <span class="text-muted">To <b><%=recipientDisplay%></b> 
-                                        [<%= comment.createdAt %>] <%= comment.getEditedAtTextForInstructor(data.commentSearchResultBundle.giverTable.get("Anonymous" + comment.courseId).equals("Anonymous" + " (" + comment.courseId + ")")) %></span>
+                                        [<%= sdf.format(comment.createdAt) %>] <%= comment.getEditedAtTextForInstructor(data.commentSearchResultBundle.giverTable.get("Anonymous" + comment.courseId).equals("Anonymous" + " (" + comment.courseId + ")")) %></span>
                                     <a type="button" href="<%=data.getInstructorCommentsLink() + "&" + Const.ParamsNames.COURSE_ID 
                                     + "=" + comment.courseId + "#" + comment.getCommentId()%>" target="_blank" class="btn btn-default btn-xs icon-button pull-right"
                                     data-toggle="tooltip" data-placement="top" data-original-title="Edit comment in the Comments page" style="display:none;">

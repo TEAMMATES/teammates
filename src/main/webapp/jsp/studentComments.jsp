@@ -6,6 +6,8 @@
 <%@page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
+<%@ page import="java.util.TimeZone"%>
+<%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.util.TimeHelper" %>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
@@ -105,9 +107,11 @@
                     <div class="panel-body">
                         <%
                         	int commentIdx = 0;
-                                                    int studentIdx = 0;
-                                                    for (CommentAttributes comment : data.comments) {//comment loop starts
-                                                        studentIdx++;
+                            int studentIdx = 0;
+                    		SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM YYYY, HH:mm zzz");
+                            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+                            for (CommentAttributes comment : data.comments) {//comment loop starts
+                                studentIdx++;
                         %>
                         <%
                         	String recipientDisplay = data.getRecipientNames(comment.recipients);
@@ -140,7 +144,7 @@
                                                                                    }
                                         %>
                                         <span class="text-muted">From <b><%=giverDisplay%></b> 
-                                            [<%= comment.createdAt %>] <%=comment.getEditedAtTextForStudent(giverDisplay.equals("Anonymous"), lastEditorDisplay)%>
+                                            [<%= sdf.format(comment.createdAt) %>] <%=comment.getEditedAtTextForStudent(giverDisplay.equals("Anonymous"), lastEditorDisplay)%>
                                         </span>
                                     </div>
                                     <div id="plainCommentText<%=commentIdx%>"><%=comment.commentText.getValue()%></div>
