@@ -7,11 +7,11 @@
 <c:set var="jsIncludes">    
     <script type="text/javascript" src="/js/instructor.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackResults.js"></script>
-    <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxByQuestion.js"></script>
+    <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxByGQR.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxResponseRate.js"></script>
     <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
 </c:set>
 
 <ti:instructorPage pageTitle="TEAMMATES - Feedback Session Results" bodyTitle="Session Results" jsIncludes="${jsIncludes}">
-    <results:byGiverQuestionRecipient showAll="${data.bundle.complete}" shouldCollapsed="${data.shouldCollapsed}" data="${data}" />    
+    <results:byGiverQuestionRecipient showAll="${data.bundle.complete}" shouldCollapsed="${data.shouldCollapsed}" />    
 </ti:instructorPage>

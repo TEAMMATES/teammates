@@ -94,10 +94,57 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
     }
     
+    /**
+     * Creates {@code InstructorFeedbackResultsSectionPanel}s for sectionPanels.
+     * 
+     * Iterates through the responses and creates panels and questions for them. Keeps track 
+     * of missing sections, teams and participants who do not have responses 
+     * and create panels for these missing sections, teams and participants.
+     * 
+     * TODO: simplify the logic in this method
+     */
     public void initForViewByGiverRecipientQuestion(FeedbackSessionResultsBundle bundle, List<String> sections) {
         this.bundle = bundle;
         ViewType viewType = ViewType.GIVER_QUESTION_RECIPIENT;
         FieldValidator validator = new FieldValidator();
+        
+        if (!bundle.isComplete) {
+            // results page to be loaded by ajax instead
+            
+            setShouldCollapsed(true);
+            
+            // TODO 
+            // Abstract out "All" sections into a boolean or enum instead. Otherwise this will cause problems in future
+            // if there is ever a section named "All"
+            if (selectedSection.equals("All")) {
+                sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
+                
+                for (String section : sections) {
+                    InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
+                    sectionPanel.setSectionName(section);
+                    sectionPanel.setLoadSectionResponsesByAjax(true);
+                    
+                    sectionPanels.put(section, sectionPanel);
+                }
+                
+            } else {
+                sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
+                
+                InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
+                sectionPanel.setSectionName(selectedSection);
+                sectionPanel.setLoadSectionResponsesByAjax(true);
+                
+                sectionPanels.put(selectedSection, sectionPanel);
+            }
+            
+            return;
+        }
+        
+        if (bundle.responses.size() == 0) {
+            return;
+        }
+        
+        setShouldCollapsed(bundle.responses.size() > 500);
         
         Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponses = bundle.getResponsesSortedByGiverQuestionRecipient(
                                                                                                                groupByTeam == null 

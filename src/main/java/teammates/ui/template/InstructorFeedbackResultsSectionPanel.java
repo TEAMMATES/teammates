@@ -1,17 +1,14 @@
 package teammates.ui.template;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import teammates.common.datatransfer.StudentAttributes;
 
 public class InstructorFeedbackResultsSectionPanel {
     private String panelClass;
     private boolean isGroupedByTeam;
     private boolean isDisplayingMissingParticipants;
+    private boolean isLoadSectionResponsesByAjax;
     
     private String sectionName;
     private String arrowClass;
@@ -122,6 +119,14 @@ public class InstructorFeedbackResultsSectionPanel {
 
     public void setDisplayingTeamStatistics(boolean isDisplayingTeamStatistics) {
         this.isDisplayingTeamStatistics = isDisplayingTeamStatistics;
+    }
+
+    public boolean isLoadSectionResponsesByAjax() {
+        return isLoadSectionResponsesByAjax;
+    }
+
+    public void setLoadSectionResponsesByAjax(boolean isLoadSectionResponsesByAjax) {
+        this.isLoadSectionResponsesByAjax = isLoadSectionResponsesByAjax;
     }
     
 }
