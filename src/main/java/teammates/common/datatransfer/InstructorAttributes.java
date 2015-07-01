@@ -234,7 +234,7 @@ public class InstructorAttributes extends EntityAttributes {
  
     @Override
     public String getIdentificationString() {
-        return this.courseId + "/" + this.email;
+        return courseId + "/" + email;
     }
 
     @Override
@@ -254,48 +254,48 @@ public class InstructorAttributes extends EntityAttributes {
     
     @Override
     public void sanitizeForSaving() {
-        this.googleId = Sanitizer.sanitizeGoogleId(this.googleId);
-        this.name = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeName(this.name));
-        this.email = Sanitizer.sanitizeEmail(this.email);
-        this.courseId = Sanitizer.sanitizeTitle(this.courseId);
+        googleId = Sanitizer.sanitizeGoogleId(googleId);
+        name = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeName(name));
+        email = Sanitizer.sanitizeEmail(email);
+        courseId = Sanitizer.sanitizeTitle(courseId);
         
-        if (this.role == null) {
-            this.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        if (role == null) {
+            role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         } else {
-            this.role = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeName(this.role));
+            role = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeName(role));
         }
         
-        if (this.displayedName == null) {
-            this.displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
+        if (displayedName == null) {
+            displayedName = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
         } else {
-            this.displayedName = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeName(this.displayedName));
+            displayedName = Sanitizer.sanitizeHtmlForSaving(Sanitizer.sanitizeName(displayedName));
         }
         
-        if (this.instructorPrivilegesAsText == null) {
-            this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
-            this.instructorPrivilegesAsText = this.getTextFromInstructorPrivileges();
+        if (instructorPrivilegesAsText == null) {
+            privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+            instructorPrivilegesAsText = getTextFromInstructorPrivileges();
         }
     }
     
     public boolean isAllowedForPrivilege(String privilegeName) {
-        if (this.privileges == null) {
-            this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        if (privileges == null) {
+            privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         }
-        return this.privileges.isAllowedForPrivilege(privilegeName);
+        return privileges.isAllowedForPrivilege(privilegeName);
     }
     
     public boolean isAllowedForPrivilege(String sectionName, String privilegeName) {
-        if (this.privileges == null) {
-            this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        if (privileges == null) {
+            privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         }
-        return this.privileges.isAllowedForPrivilege(sectionName, privilegeName);
+        return privileges.isAllowedForPrivilege(sectionName, privilegeName);
     }
     
     public boolean isAllowedForPrivilege(String sectionName, String sessionName, String privilegeName) {
-        if (this.privileges == null) {
-            this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+        if (privileges == null) {
+            privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         }
-        return this.privileges.isAllowedForPrivilege(sectionName, sessionName, privilegeName);
+        return privileges.isAllowedForPrivilege(sectionName, sessionName, privilegeName);
     }
     
     /**
@@ -307,13 +307,13 @@ public class InstructorAttributes extends EntityAttributes {
         if (gson.toJson(this).equals(gson.toJson(instructor))) {
             return true;
         } else {
-            return !this.instructorPrivilegesAsText.equals(instructor.instructorPrivilegesAsText) 
-                   && this.privileges.equals(instructor.privileges);
+            return !instructorPrivilegesAsText.equals(instructor.instructorPrivilegesAsText) 
+                   && privileges.equals(instructor.privileges);
         }
     }
     
     public String getRole() {
-        return this.role;
+        return role;
     }
     
 }

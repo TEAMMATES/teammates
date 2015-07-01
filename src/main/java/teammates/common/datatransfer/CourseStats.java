@@ -14,18 +14,18 @@ public class CourseStats {
     public int unregisteredTotal = 0;
     
     public int getSectionsTotal() {
-        return this.sectionsTotal;
+        return sectionsTotal;
     }
     
     public int getTeamsTotal() {
-        return this.teamsTotal;
+        return teamsTotal;
     }
     
     public int getStudentsTotal() {
-        return this.studentsTotal;
+        return studentsTotal;
     }
     
     public int getUnregisteredTotal() {
-        return this.unregisteredTotal;
+        return unregisteredTotal;
     }
 }

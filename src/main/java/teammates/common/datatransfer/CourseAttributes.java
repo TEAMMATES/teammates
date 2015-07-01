@@ -28,27 +28,27 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     }
 
     public CourseAttributes(String courseId, String name) {
-        id = Sanitizer.sanitizeTitle(courseId);
+        this.id = Sanitizer.sanitizeTitle(courseId);
         this.name = Sanitizer.sanitizeTitle(name);
-        isArchived = false;
+        this.isArchived = false;
     }
     
     public CourseAttributes(String courseId, String name, boolean archiveStatus) {
-        id = Sanitizer.sanitizeTitle(courseId);
+        this.id = Sanitizer.sanitizeTitle(courseId);
         this.name = Sanitizer.sanitizeTitle(name);
-        isArchived = archiveStatus;
+        this.isArchived = archiveStatus;
     }
 
     public CourseAttributes(Course course) {
-        id = course.getUniqueId();
-        name = course.getName();
-        createdAt = course.getCreatedAt();
+        this.id = course.getUniqueId();
+        this.name = course.getName();
+        this.createdAt = course.getCreatedAt();
         
         Boolean status = course.getArchiveStatus();
         if (status == null) {
-            isArchived = false;
+            this.isArchived = false;
         } else {
-            isArchived = status.booleanValue(); 
+            this.isArchived = status.booleanValue(); 
         }
     }
 

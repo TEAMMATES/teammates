@@ -74,10 +74,10 @@ public class CourseDetailsBundle {
     }
 
     public CourseStats getStats() {
-        return this.stats;
+        return stats;
     }
     
     public CourseAttributes getCourse() {
-        return this.course;
+        return course;
     }
 }
