@@ -7,7 +7,6 @@ import java.util.List;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.StudentAttributes;
 import teammates.ui.controller.InstructorFeedbackResultsPageData;
 
 public class InstructorResultsQuestionTable {
@@ -30,6 +29,9 @@ public class InstructorResultsQuestionTable {
     
     private boolean isQuestionHasResponses;
     private boolean isShowResponseRows;
+    
+    private boolean isCollapsible;
+    private boolean isBoldQuestionNumber;
 
     private List<ElementTag> columns;
 
@@ -59,6 +61,8 @@ public class InstructorResultsQuestionTable {
         this.questionStatisticsTable = questionDetails.getQuestionResultStatisticsHtml(responses, question, data, data.bundle, "question");
         
         this.columns = columns;
+        
+        this.isBoldQuestionNumber = true;
     }
 
     public String getQuestionStatisticsHtml() {
@@ -155,6 +159,22 @@ public class InstructorResultsQuestionTable {
 
     public void setQuestionHasResponses(boolean isQuestionHasResponses) {
         this.isQuestionHasResponses = isQuestionHasResponses;
+    }
+
+    public boolean isCollapsible() {
+        return isCollapsible;
+    }
+
+    public void setCollapsible(boolean isCollapsible) {
+        this.isCollapsible = isCollapsible;
+    }
+    
+    public boolean isBoldQuestionNumber() {
+        return isBoldQuestionNumber;
+    }
+
+    public void setBoldQuestionNumber(boolean isBoldQuestionNumber) {
+        this.isBoldQuestionNumber = isBoldQuestionNumber;
     }
 
     public static void sortByQuestionNumber(List<InstructorResultsQuestionTable> questionTables) {

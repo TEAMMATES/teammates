@@ -13,27 +13,37 @@
 
 <div class="panel ${questionPanel.panelClass}">
     <div class="panel-heading<%=showAll ? "" : " ajax_submit"%>">
-        <c:if test="${questionPanel.showResponseRows}">
-            <form style="display:none;" id="seeMore-${questionPanel.question.questionNumber}" class="seeMoreForm-${questionPanel.question.questionNumber}" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
-                <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${questionPanel.courseId}">
-                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${questionPanel.feedbackSessionName}">
-                <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
-                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" value="${data.groupByTeam}">
-                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="${data.sortType}">
-                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>" value="on" id="showStats-${questionPanel.question.questionNumber}">
-                <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" value="${questionPanel.question.questionNumber}">
-            </form>
-            <div class='display-icon pull-right'>
-                <span class="glyphicon <%= showAll && !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right"></span>
-            </div>
-        </c:if>
-        <strong>Question ${questionPanel.question.questionNumber}: </strong>
-        <div class="inline panel-heading-text">
-            <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-            <span class="text-preserve-space">${questionPanel.questionText}${questionPanel.additionalInfoText}</span>
-        </div>
+            <c:if test="${questionPanel.collapsible}">
+                <form style="display:none;" id="seeMore-${questionPanel.question.questionNumber}" class="seeMoreForm-${questionPanel.question.questionNumber}" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
+                    <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${questionPanel.courseId}">
+                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="${questionPanel.feedbackSessionName}">
+                    <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
+                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM%>" value="${data.groupByTeam}">
+                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE%>" value="${data.sortType}">
+                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>" value="on" id="showStats-${questionPanel.question.questionNumber}">
+                    <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_QUESTION_NUMBER%>" value="${questionPanel.question.questionNumber}">
+                </form>
+                <div class='display-icon pull-right'>
+                    <span class="glyphicon <%= showAll && !shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"%> pull-right"></span>
+                </div>
+                
+            </c:if>
+        <c:choose>
+            <c:when test="${questionPanel.boldQuestionNumber}">
+                <strong>Question ${questionPanel.question.questionNumber}: </strong>
+                <div class="inline panel-heading-text">
+                    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                    <span class="text-preserve-space">${questionPanel.questionText}${questionPanel.additionalInfoText}</span>
+                </div>
+            </c:when>
+            <c:otherwise>
+                Question ${questionPanel.question.questionNumber}: 
+                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                <span class="text-preserve-space">${questionPanel.questionText}${questionPanel.additionalInfoText}</span>
+            </c:otherwise>
+        </c:choose>
     </div>
-    <div class="panel-collapse collapse <c:if test="${showAll && !shouldCollapsed}">in</c:if>" >
+    <div class="<c:if test="${questionPanel.collapsible}">panel-collapse collapse<c:if test="${showAll && !shouldCollapsed}"> in</c:if></c:if>">
         <div class="panel-body padding-0" <c:if test="${questionIndex != null}">id="questionBody-${questionIndex}"</c:if>>
             
             <c:if test="${!questionPanel.questionHasResponses}">
@@ -52,7 +62,7 @@
                             <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                 <tr>
                                     <c:forEach items="${questionPanel.columns}" var="thElement">
-                                        <th <c:forEach items="${thElement.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach>> ${thElement.content}</th>
+                                        <th <c:forEach items="${thElement.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach>> ${thElement.content} <span class="icon-sort unsorted"></span></th>
                                     </c:forEach>
                                 </tr>
                             <thead>
