@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionResponseStatus;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
@@ -21,10 +22,12 @@ public class InstructorFeedbackRemindParticularStudentsPageAction extends Action
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);        
         new GateKeeper().verifyAccessible(instructor, fsa, false);
         
-        InstructorFeedbackRemindParticularStudentsPageData data = new InstructorFeedbackRemindParticularStudentsPageData(account);
-        data.responseStatus = logic.getFeedbackSessionResponseStatus(feedbackSessionName, courseId);
-        data.courseId = courseId;
-        data.fsName = feedbackSessionName;
+        FeedbackSessionResponseStatus fsResponseStatus = 
+            logic.getFeedbackSessionResponseStatus(feedbackSessionName, courseId);
+        
+        InstructorFeedbackRemindParticularStudentsPageData data = 
+            new InstructorFeedbackRemindParticularStudentsPageData(account, fsResponseStatus, 
+                                                                   courseId, feedbackSessionName);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_AJAX_REMIND_PARTICULAR_STUDENTS_MODAL, data);
     }
