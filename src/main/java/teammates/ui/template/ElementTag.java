@@ -59,4 +59,24 @@ public class ElementTag {
     public String removeAttribute(String attributeName) {
         return attributes.remove(attributeName);
     }
+    
+    /**
+     * @return all attributes joined into a string for HTML purposes with a space in front;
+     *         attribute added if and only if it has a non-null value,
+     *         empty strings will still be treated as empty strings
+     */
+    public String getAttributesToString() {
+        if (attributes == null || attributes.isEmpty()) {
+            return "";
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, String> attribute : attributes.entrySet()) {
+            sb.append(" " + attribute.getKey());
+            if (attribute.getValue() != null) {
+                sb.append("=\"" + attribute.getValue() + "\"");
+            }
+        }
+        return sb.toString();
+    }
 }
