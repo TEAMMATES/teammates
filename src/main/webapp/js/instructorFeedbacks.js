@@ -135,13 +135,13 @@ function bindCopyButton() {
 
         var isExistingSession = false;
 
-        var sessionsList = $('tr[id^="session"]');
-        if (!sessionsList.length) {
+        var $sessionsList = $('tr[id^="session"]');
+        if (!$sessionsList.length) {
             setStatusMessage(FEEDBACK_SESSION_COPY_INVALID, true);
             return false;
         }
 
-        $(sessionsList).each(function() {
+        $sessionsList.each(function() {
             var cells = $(this).find('td');
             var courseId = $(cells[0]).text();
             var feedbackSessionName = $(cells[1]).text();
@@ -156,20 +156,20 @@ function bindCopyButton() {
         } else {
             setStatusMessage('', false);
 
-            var firstSession = $(sessionsList[0]).find('td');
+            var $firstSession = $(sessionsList[0]).find('td');
             var firstSessionCourseId = $(firstSession[0]).text();
             var firstSessionName = $(firstSession[1]).text();
 
             $('#copyModal').modal('show');
             $('#modalCopiedSessionName').val(newFeedbackSessionName.trim());
             $('#modalCopiedCourseId').val(selectedCourseId.trim());
-            var modalCourseId = $('#modalCourseId');
-            if (!modalCourseId.val().trim()) {
-                modalCourseId.val(firstSessionCourseId);
+            var $modalCourseId = $('#modalCourseId');
+            if (!$modalCourseId.val().trim()) {
+                $modalCourseId.val(firstSessionCourseId);
             }
-            var modalSessionName = $('#modalSessionName');
-            if (!modalSessionName.val().trim()) {
-                modalSessionName.val(firstSessionName);
+            var $modalSessionName = $('#modalSessionName');
+            if (!$modalSessionName.val().trim()) {
+                $modalSessionName.val(firstSessionName);
             }
         }
 
@@ -186,26 +186,26 @@ function bindCopyButton() {
 function bindCopyEvents() {
     $('#copyTableModal > tbody > tr').on('click', function(e) {
 
-        var currentlySelectedRow = $(this);
-        if (currentlySelectedRow.hasClass('row-selected')) {
+        var $currentlySelectedRow = $(this);
+        if ($currentlySelectedRow.hasClass('row-selected')) {
             return;
         }
 
-        var cells = currentlySelectedRow.children('td');
+        var $cells = $currentlySelectedRow.children('td');
         var courseId = $(cells[1]).text().trim();
         var feedbackSessionName = $(cells[2]).text().trim();
         $('#modalCourseId').val(courseId);
         $('#modalSessionName').val(feedbackSessionName);
 
-        var previouslySelectedRadio = currentlySelectedRow.parent().find('input:checked');
-        var previouslySelectedRow = previouslySelectedRadio.parent().parent();
+        var $previouslySelectedRadio = $currentlySelectedRow.parent().find('input:checked');
+        var $previouslySelectedRow = $previouslySelectedRadio.parent().parent();
 
-        previouslySelectedRadio.prop('checked', false);
-        previouslySelectedRow.removeClass('row-selected');
+        $previouslySelectedRadio.prop('checked', false);
+        $previouslySelectedRow.removeClass('row-selected');
 
-        var currentlySelectedRadio = currentlySelectedRow.children('td').children('input');
-        currentlySelectedRadio.prop('checked', true);
-        currentlySelectedRow.addClass('row-selected');
+        var $currentlySelectedRadio = $currentlySelectedRow.children('td').children('input');
+        $currentlySelectedRadio.prop('checked', true);
+        $currentlySelectedRow.addClass('row-selected');
 
         $('#button_copy_submit').prop('disabled', false);
     });
