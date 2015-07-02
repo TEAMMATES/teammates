@@ -242,8 +242,8 @@
                                                     <div
                                                         id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                         <span class="text-muted">From:
-                                                            <b><%=frCommentGiver%></b>
-                                                            [<%=TimeHelper.formatDate(frc.createdAt)%>] <%=frc.getEditedAtText(frCommentGiver.equals("Anonymous")) %>
+                                                            <%= frc.giverEmail %>
+                                                            [<%= frc.createdAt %>] <%= frc.getEditedAtText(frc.giverEmail.equals("Anonymous")) %>
                                                         </span>
                                                     </div> <!-- frComment Content -->
                                                     <div
