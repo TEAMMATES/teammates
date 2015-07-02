@@ -107,12 +107,12 @@ public class InstructorCourseDetailsPageData extends PageData {
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
         
         String content = "<span class=\"caret\"></span><span class=\"sr-only\">Add comments</span>";
-        ElementTag addCommentsButton = createButton(content, "btn btn-default btn-xs dropdown-toggle", null, 
+        ElementTag addCommentsDropdownButton  = createButton(content, "btn btn-default btn-xs dropdown-toggle", null, 
                                                     "javascript:;", null, "dropdown", null, isDisabled);
         
         List<ElementTag> commentActionButtons = new ArrayList<ElementTag>();
         commentActionButtons.add(addCommentButton);
-        commentActionButtons.add(addCommentsButton);
+        commentActionButtons.add(addCommentsDropdownButton );
         return commentActionButtons;
     }
 
