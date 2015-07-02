@@ -2,6 +2,8 @@ package teammates.ui.template;
 
 import java.util.List;
 
+import teammates.ui.controller.PageData;
+
 public class AdditionalSettingsFormSegment {
     private boolean isSessionVisibleDateButtonChecked;
     private String sessionVisibleDateValue;
@@ -152,6 +154,29 @@ public class AdditionalSettingsFormSegment {
 
     public void setSendPublishedEmailChecked(boolean isSendPublishedEmailChecked) {
         this.isSendPublishedEmailChecked = isSendPublishedEmailChecked;
+    }
+    
+    public static void setDefaultSessionAndResponseVisibleSettings(AdditionalSettingsFormSegment additionalSettings,
+                                                                   PageData data) {
+        
+        additionalSettings.setSessionVisibleAtOpenChecked(true);
+        additionalSettings.setSessionVisibleDateButtonChecked(false);
+        additionalSettings.setSessionVisibleDateValue("");
+        additionalSettings.setSessionVisibleDateDisabled(true); 
+        additionalSettings.setSessionVisiblePrivateChecked(false);
+        additionalSettings.setSessionVisibleTimeOptions(data.getTimeOptionsAsElementTags(null));
+        
+        additionalSettings.setResponseVisibleDateChecked(false);
+        additionalSettings.setResponseVisibleDateValue("");
+        additionalSettings.setResponseVisibleTimeOptions(data.getTimeOptionsAsElementTags(null));
+        additionalSettings.setResponseVisibleDateDisabled(true);
+        additionalSettings.setResponseVisibleImmediatelyChecked(false);
+        additionalSettings.setResponseVisiblePublishManuallyChecked(true);
+        additionalSettings.setResponseVisibleNeverChecked(false);
+        
+        additionalSettings.setSendClosingEmailChecked(true);
+        additionalSettings.setSendOpeningEmailChecked(true);
+        additionalSettings.setSendPublishedEmailChecked(true);
     }
     
 }

@@ -3,7 +3,6 @@ package teammates.ui.template;
 import java.util.List;
 
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.util.Url;
 
 /**
@@ -11,7 +10,7 @@ import teammates.common.util.Url;
  *
  */
 public class FeedbackQuestionEditForm {
-    
+    //TODO switch the rest of the Strings to use Url
     private Url action;
     
     private String courseId;
@@ -23,12 +22,10 @@ public class FeedbackQuestionEditForm {
     private String questionTypeOptions;
     private Url doneEditingLink;
     
-    
     private int numOfQuestionsOnPage;
     
     private boolean isQuestionHasResponses;
     private List<ElementTag> questionNumberOptions;
-    
     
     private FeedbackQuestionAttributes question;
     private String questionText;
@@ -37,7 +34,9 @@ public class FeedbackQuestionEditForm {
     private String questionSpecificEditFormHtml;
     
     private boolean isEditable;
-    private FeedbackQuestionGeneralSettings generalSettings;
+    private FeedbackQuestionFeedbackPathSettings feedbackPathSettings;
+    private FeedbackQuestionVisibilitySettings visibilitySettings;
+    
     
     public FeedbackQuestionEditForm() {
     }
@@ -123,43 +122,44 @@ public class FeedbackQuestionEditForm {
         return doneEditingLink;
     }
 
-    public FeedbackQuestionGeneralSettings getGeneralSettings() {
-        return generalSettings;
+    public FeedbackQuestionFeedbackPathSettings getFeedbackPathSettings() {
+        return feedbackPathSettings;
     }
 
-    public void setGeneralSettings(FeedbackQuestionGeneralSettings generalSettings) {
-        this.generalSettings = generalSettings;
+    public void setFeedbackPathSettings(FeedbackQuestionFeedbackPathSettings generalSettings) {
+        this.feedbackPathSettings = generalSettings;
     }
-
 
     public String getQuestionNumberSuffix() {
         return questionNumberSuffix;
     }
 
-
     public void setQuestionNumberSuffix(String questionNumberSuffix) {
         this.questionNumberSuffix = questionNumberSuffix;
     }
-
 
     public void setDoneEditingLink(Url doneEditingLink) {
         this.doneEditingLink = doneEditingLink;
     }
 
-
     public void setQuestionTypeOptions(String questionTypeOptions) {
         this.questionTypeOptions = questionTypeOptions;
     }
 
+    public FeedbackQuestionVisibilitySettings getVisibilitySettings() {
+        return visibilitySettings;
+    }
+
+    public void setVisibilitySettings(FeedbackQuestionVisibilitySettings visibilitySettings) {
+        this.visibilitySettings = visibilitySettings;
+    }
 
     public boolean isEditable() {
         return isEditable;
     }
 
-
     public void setEditable(boolean isEditable) {
         this.isEditable = isEditable;
     }
-    
-    
+
 }

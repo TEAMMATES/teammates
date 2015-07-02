@@ -1,7 +1,6 @@
 package teammates.ui.template;
 
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -11,19 +10,15 @@ import java.util.Map;
  * 
  * Used on instructorFeedbackEdit.jsp
  */
-public class FeedbackQuestionGeneralSettings {
+public class FeedbackQuestionFeedbackPathSettings {
     private List<ElementTag> giverParticipantOptions;
     private List<ElementTag> recipientParticipantOptions;
     
     private boolean isNumberOfEntitiesToGiveFeedbackToChecked;
     private int numOfEntitiesToGiveFeedbackToValue;
     
-    private List<String> visibilityMessages;
-    private Map<String, Boolean> giverNameVisibleFor;
-    private Map<String, Boolean> recipientNameVisibleFor;
-    private Map<String, Boolean> responseVisibleFor;
     
-    public FeedbackQuestionGeneralSettings() {
+    public FeedbackQuestionFeedbackPathSettings() {
         
     }
 
@@ -57,38 +52,6 @@ public class FeedbackQuestionGeneralSettings {
 
     public void setNumOfEntitiesToGiveFeedbackToValue(int numOfEntitiesToGiveFeedbackToValue) {
         this.numOfEntitiesToGiveFeedbackToValue = numOfEntitiesToGiveFeedbackToValue;
-    }
-
-    public List<String> getVisibilityMessages() {
-        return visibilityMessages;
-    }
-
-    public void setVisibilityMessages(List<String> visibilityMessages) {
-        this.visibilityMessages = visibilityMessages;
-    }
-
-    public Map<String, Boolean> getGiverNameVisibleFor() {
-        return giverNameVisibleFor;
-    }
-
-    public void setGiverNameVisibleFor(Map<String, Boolean> isGiverNameVisible) {
-        this.giverNameVisibleFor = isGiverNameVisible;
-    }
-
-    public Map<String, Boolean> getRecipientNameVisibleFor() {
-        return recipientNameVisibleFor;
-    }
-
-    public void setRecipientNameVisibleFor(Map<String, Boolean> isRecipientNameVisible) {
-        this.recipientNameVisibleFor = isRecipientNameVisible;
-    }
-
-    public Map<String, Boolean> getResponseVisibleFor() {
-        return responseVisibleFor;
-    }
-
-    public void setResponseVisibleFor(Map<String, Boolean> isResponseVisible) {
-        this.responseVisibleFor = isResponseVisible;
     }
     
 }

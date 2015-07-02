@@ -225,26 +225,11 @@ public class InstructorFeedbacksPageData extends PageData {
         AdditionalSettingsFormSegment additionalSettings = new AdditionalSettingsFormSegment(); 
         
         if (newFeedbackSession == null) {
-            additionalSettings.setSessionVisibleAtOpenChecked(true);
-            
-            additionalSettings.setSessionVisibleDateButtonChecked(false);
-            additionalSettings.setSessionVisibleDateValue("");
-            additionalSettings.setSessionVisibleDateDisabled(true); 
-            additionalSettings.setSessionVisibleTimeOptions(getTimeOptionsAsElementTags(null));
-            
-            additionalSettings.setResponseVisibleDateChecked(false);
-            additionalSettings.setResponseVisibleDateValue("");
-            additionalSettings.setResponseVisibleTimeOptions(getTimeOptionsAsElementTags(null));
-            additionalSettings.setResponseVisibleDateDisabled(true);
-            additionalSettings.setResponseVisibleImmediatelyChecked(false);
-            additionalSettings.setResponseVisiblePublishManuallyChecked(true);
-            additionalSettings.setResponseVisibleNeverChecked(false);
-            
-            additionalSettings.setSendClosingEmailChecked(true);
-            additionalSettings.setSendOpeningEmailChecked(true);
-            additionalSettings.setSendPublishedEmailChecked(true);
+            AdditionalSettingsFormSegment.setDefaultSessionAndResponseVisibleSettings(additionalSettings, this);
             
         } else {
+            boolean hasSessionVisibleDate = !TimeHelper.isSpecialTime(newFeedbackSession.sessionVisibleFromTime);
+            
             additionalSettings.setSessionVisibleAtOpenChecked(
                                             Const.TIME_REPRESENTS_FOLLOW_OPENING.equals(
                                                  newFeedbackSession.sessionVisibleFromTime));
@@ -252,7 +237,6 @@ public class InstructorFeedbacksPageData extends PageData {
                                             Const.TIME_REPRESENTS_NEVER.equals(
                                                 newFeedbackSession.sessionVisibleFromTime));
             
-            boolean hasSessionVisibleDate = !TimeHelper.isSpecialTime(newFeedbackSession.sessionVisibleFromTime);
             additionalSettings.setSessionVisibleDateButtonChecked(hasSessionVisibleDate);
             additionalSettings.setSessionVisibleDateValue(hasSessionVisibleDate ? 
                                                           TimeHelper.formatDate(newFeedbackSession.sessionVisibleFromTime) :
@@ -269,11 +253,9 @@ public class InstructorFeedbacksPageData extends PageData {
             additionalSettings.setResponseVisibleTimeOptions(getTimeOptionsAsElementTags(
                                                                  newFeedbackSession.resultsVisibleFromTime));
             additionalSettings.setResponseVisibleDateDisabled(!hasResultVisibleDate);
-            
             additionalSettings.setResponseVisibleImmediatelyChecked(
                                           Const.TIME_REPRESENTS_FOLLOW_VISIBLE.equals(
                                           newFeedbackSession.resultsVisibleFromTime));
-            
             additionalSettings.setResponseVisiblePublishManuallyChecked(
                                               Const.TIME_REPRESENTS_LATER.equals(newFeedbackSession.resultsVisibleFromTime) 
                                               || Const.TIME_REPRESENTS_NOW.equals(newFeedbackSession.resultsVisibleFromTime));
@@ -289,9 +271,9 @@ public class InstructorFeedbacksPageData extends PageData {
     
     
     private List<FeedbackSessionsTableRow> convertFeedbackSessionAttributesToSessionRows(
-                                         List<FeedbackSessionAttributes> sessions, 
-                                         Map<String, InstructorAttributes> instructors, 
-                                         String feedbackSessionNameForSessionList, String courseIdForNewSession) {
+                                                 List<FeedbackSessionAttributes> sessions, 
+                                                 Map<String, InstructorAttributes> instructors, 
+                                                 String feedbackSessionNameForSessionList, String courseIdForNewSession) {
 
         
         List<FeedbackSessionsTableRow> rows = new ArrayList<FeedbackSessionsTableRow>();

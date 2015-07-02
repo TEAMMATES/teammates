@@ -6,77 +6,8 @@
 <%@ tag import="teammates.common.datatransfer.FeedbackParticipantType" %>
 
 <%@ attribute name="fqForm" type="teammates.ui.template.FeedbackQuestionEditForm" required="true"%>
-<div class="col-sm-12 padding-15px margin-bottom-15px background-color-light-green">
-    <div class="col-sm-12 padding-0">
-        <b>Feedback Path</b> (Who is giving feedback about whom?)
-    </div>
-    <div class="col-sm-6 padding-0"
-        data-toggle="tooltip" data-placement="top"
-        title="<%= Const.Tooltips.FEEDBACK_SESSION_GIVER %>">  
-        <label class="col-sm-5 control-label">
-            Who will give the feedback:
-        </label>
-        <div class="col-sm-7">
-            <select class="form-control participantSelect"
-                id="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>${fqForm.questionNumberSuffix}"
-                name="<%= Const.ParamsNames.FEEDBACK_QUESTION_GIVERTYPE %>"
-                <c:if test="${!fqForm.editable}">disabled="disabled"</c:if>
-                onchange="feedbackGiverUpdateVisibilityOptions(this)">
-                <c:forEach items="${fqForm.generalSettings.giverParticipantOptions}" var="option">
-                    <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
-                        ${option.content}
-                    </option>
-                </c:forEach>
-            </select>
-        </div>
-    </div>
-    <div class="col-sm-6 padding-0" data-toggle="tooltip" data-placement="top"
-        title="<%= Const.Tooltips.FEEDBACK_SESSION_RECIPIENT %>">
-        <label class="col-sm-5 control-label">
-            Who the feedback is about:
-        </label>
-        <div class="col-sm-7">
-            <select class="form-control participantSelect"
-                id="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>${fqForm.questionNumberSuffix}"
-                name="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>"
-                <c:if test="${!fqForm.editable}">disabled="disabled"</c:if> onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
-                <c:forEach items="${fqForm.generalSettings.recipientParticipantOptions}" var="option">
-                    <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
-                        ${option.content}
-                    </option>
-                </c:forEach>
-            </select>
-        </div>
-    </div>
-    <div class="col-sm-6">
-    </div>
-    <div class="col-sm-6 numberOfEntitiesElements${fqForm.question.questionNumber}">
-        <label id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>_text-${fqForm.question.questionNumber}" class="control-label col-sm-4 small">
-            The maximum number of <span id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>_text_inner-${fqForm.question.questionNumber}"></span> each respondant should give feedback to:
-        </label>
-        <div class="col-sm-8 form-control-static">
-            <div class="col-sm-6">
-                <input class="nonDestructive" type="radio"
-                    name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE %>"
-                    <c:if test="isNumberOfEntitiesToGiveFeedbackToChecked">checked="checked"</c:if>
-                    value="custom" <c:if test="${!fqForm.editable}">disabled="disabled"</c:if>>
-                <input class="nonDestructive numberOfEntitiesBox" type="number"
-                    name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>"
-                    id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>${fqForm.questionNumberSuffix}" 
-                    value="${fqForm.generalSettings.numOfEntitiesToGiveFeedbackToValue}" 
-                    min="1" max="250" <c:if test="${!fqForm.editable}">disabled="disabled"</c:if>>
-            </div>
-            <div class="col-sm-6">
-                <input class="nonDestructive" type="radio"
-                    name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE %>"
-                    <c:if test="${!isNumberOfEntitiesToGiveFeedbackToChecked}">checked="checked"</c:if>
-                    value="max" <c:if test="${!fqForm.editable}">disabled="disabled"</c:if>>
-                <span class="">Unlimited</span>
-            </div>
-        </div>
-    </div>
-</div>
-<br>
+
+
 <div class="col-sm-12 padding-15px background-color-light-green">
     <div class="col-sm-12 padding-0">
         <b>Visibility</b> (Who can see the responses?)
@@ -98,7 +29,7 @@
     <div class="col-sm-12 text-muted visibilityMessage" id="visibilityMessage${fqForm.questionNumberSuffix}">
         This is the visibility as seen by the feedback giver.
         <ul class="background-color-warning">
-        <c:forEach items="${fqForm.generalSettings.visibilityMessages}" var="msg">
+        <c:forEach items="${fqForm.visibilitySettings.visibilityMessages}" var="msg">
             <li>${msg}</li>
         </c:forEach>
         </ul>
@@ -123,18 +54,18 @@
                     <input class="visibilityCheckbox answerCheckbox${fqForm.question.questionNumber} centered"
                         name="receiverLeaderCheckbox" type="checkbox"
                         value="<%= FeedbackParticipantType.RECEIVER %>" <c:if test="${!fqForm.editable}">disabled="disabled"</c:if>
-                        <c:if test="${fqForm.generalSettings.responseVisibleFor['RECEIVER']}"> checked="checked"</c:if> >
+                        <c:if test="${fqForm.visibilitySettings.responseVisibleFor['RECEIVER']}"> checked="checked"</c:if> >
                 </td>
                 <td>
                     <input class="visibilityCheckbox giverCheckbox${fqForm.question.questionNumber}"
                         type="checkbox" value="<%= FeedbackParticipantType.RECEIVER %>" <c:if test="${!fqForm.editable}">disabled="disabled"</c:if>
-                        <c:if test="${fqForm.generalSettings.giverNameVisibleFor['RECEIVER']}"> checked="checked"</c:if> >
+                        <c:if test="${fqForm.visibilitySettings.giverNameVisibleFor['RECEIVER']}"> checked="checked"</c:if> >
                 </td>
                 <td>
                     <input class="visibilityCheckbox recipientCheckbox${fqForm.question.questionNumber}"
                         name="receiverFollowerCheckbox" type="checkbox"
                         value="<%= FeedbackParticipantType.RECEIVER %>" disabled="disabled"
-                        <c:if test="${fqForm.generalSettings.recipientNameVisibleFor['RECEIVER']}"> checked="checked"</c:if> >
+                        <c:if test="${fqForm.visibilitySettings.recipientNameVisibleFor['RECEIVER']}"> checked="checked"</c:if> >
                 </td>
             </tr>
             <tr>
@@ -146,17 +77,17 @@
                 <td>
                     <input class="visibilityCheckbox answerCheckbox${fqForm.question.questionNumber}"
                         type="checkbox" value="<%= FeedbackParticipantType.OWN_TEAM_MEMBERS %>" <c:if test="${!fqForm.editable}">disabled="disabled"</c:if>
-                        <c:if test="${fqForm.generalSettings.responseVisibleFor['OWN_TEAM_MEMBERS']}"> checked="checked"</c:if> >
+                        <c:if test="${fqForm.visibilitySettings.responseVisibleFor['OWN_TEAM_MEMBERS']}"> checked="checked"</c:if> >
                 </td>
                 <td>
                     <input class="visibilityCheckbox giverCheckbox${fqForm.question.questionNumber}"
                         type="checkbox" value="<%= FeedbackParticipantType.OWN_TEAM_MEMBERS %>" <c:if test="${!fqForm.editable}">disabled="disabled"</c:if>
-                        <c:if test="${fqForm.generalSettings.giverNameVisibleFor['OWN_TEAM_MEMBERS']}"> checked="checked"</c:if> >
+                        <c:if test="${fqForm.visibilitySettings.giverNameVisibleFor['OWN_TEAM_MEMBERS']}"> checked="checked"</c:if> >
                 </td>
                 <td>
                     <input class="visibilityCheckbox recipientCheckbox${fqForm.question.questionNumber}"
                         type="checkbox" value="<%= FeedbackParticipantType.OWN_TEAM_MEMBERS %>" <c:if test="${!fqForm.editable}">disabled="disabled"</c:if>
-                        <c:if test="${fqForm.generalSettings.recipientNameVisibleFor['OWN_TEAM_MEMBERS']}"> checked="checked"</c:if> >
+                        <c:if test="${fqForm.visibilitySettings.recipientNameVisibleFor['OWN_TEAM_MEMBERS']}"> checked="checked"</c:if> >
                 </td>
             </tr>
             <tr>
@@ -167,15 +98,15 @@
                 </td>
                 <td>
                     <input class="visibilityCheckbox answerCheckbox${fqForm.question.questionNumber}" type="checkbox" value="<%= FeedbackParticipantType.RECEIVER_TEAM_MEMBERS %>" <c:if test="${!fqForm.editable}">disabled="disabled"</c:if>
-                    <c:if test="${fqForm.generalSettings.responseVisibleFor['RECEIVER_TEAM_MEMBERS']}"> checked="checked"</c:if> >
+                    <c:if test="${fqForm.visibilitySettings.responseVisibleFor['RECEIVER_TEAM_MEMBERS']}"> checked="checked"</c:if> >
                 </td>
                 <td>
                     <input class="visibilityCheckbox giverCheckbox${fqForm.question.questionNumber}" type="checkbox" value="<%= FeedbackParticipantType.RECEIVER_TEAM_MEMBERS %>" <c:if test="${!fqForm.editable}">disabled="disabled"</c:if>
-                    <c:if test="${fqForm.generalSettings.giverNameVisibleFor['RECEIVER_TEAM_MEMBERS']}"> checked="checked"</c:if> >
+                    <c:if test="${fqForm.visibilitySettings.giverNameVisibleFor['RECEIVER_TEAM_MEMBERS']}"> checked="checked"</c:if> >
                 </td>
                 <td>
                     <input class="visibilityCheckbox recipientCheckbox${fqForm.question.questionNumber}" type="checkbox" value="<%= FeedbackParticipantType.RECEIVER_TEAM_MEMBERS %>" <c:if test="${!fqForm.editable}">disabled="disabled"</c:if>
-                    <c:if test="${fqForm.generalSettings.recipientNameVisibleFor['RECEIVER_TEAM_MEMBERS']}"> checked="checked"</c:if> >
+                    <c:if test="${fqForm.visibilitySettings.recipientNameVisibleFor['RECEIVER_TEAM_MEMBERS']}"> checked="checked"</c:if> >
                 </td>
             </tr>
             <tr>
@@ -187,17 +118,17 @@
                 <td>
                     <input class="visibilityCheckbox answerCheckbox${fqForm.question.questionNumber}"
                     type="checkbox" value="<%= FeedbackParticipantType.STUDENTS %>" <c:if test="${!fqForm.editable}">disabled="disabled"</c:if>
-                    <c:if test="${fqForm.generalSettings.responseVisibleFor['STUDENTS']}"> checked="checked"</c:if> >
+                    <c:if test="${fqForm.visibilitySettings.responseVisibleFor['STUDENTS']}"> checked="checked"</c:if> >
                 </td>
                 <td>
                     <input class="visibilityCheckbox giverCheckbox${fqForm.question.questionNumber}"
                     type="checkbox" value="<%= FeedbackParticipantType.STUDENTS %>" <c:if test="${!fqForm.editable}">disabled="disabled"</c:if>
-                    <c:if test="${fqForm.generalSettings.giverNameVisibleFor['STUDENTS']}"> checked="checked"</c:if> >
+                    <c:if test="${fqForm.visibilitySettings.giverNameVisibleFor['STUDENTS']}"> checked="checked"</c:if> >
                 </td>
                 <td>
                     <input class="visibilityCheckbox recipientCheckbox${fqForm.question.questionNumber}"
                     type="checkbox" value="<%= FeedbackParticipantType.STUDENTS %>" <c:if test="${!fqForm.editable}">disabled="disabled"</c:if>
-                    <c:if test="${fqForm.generalSettings.recipientNameVisibleFor['STUDENTS']}"> checked="checked"</c:if> >
+                    <c:if test="${fqForm.visibilitySettings.recipientNameVisibleFor['STUDENTS']}"> checked="checked"</c:if> >
                 </td>
             </tr>
             <tr>
@@ -209,17 +140,17 @@
                 <td>
                     <input class="visibilityCheckbox answerCheckbox${fqForm.question.questionNumber}"
                         type="checkbox" value="<%= FeedbackParticipantType.INSTRUCTORS %>" <c:if test="${!fqForm.editable}">disabled="disabled"</c:if>
-                    <c:if test="${fqForm.generalSettings.responseVisibleFor['INSTRUCTORS']}"> checked="checked"</c:if> >
+                    <c:if test="${fqForm.visibilitySettings.responseVisibleFor['INSTRUCTORS']}"> checked="checked"</c:if> >
                 </td>
                 <td>
                     <input class="visibilityCheckbox giverCheckbox${fqForm.question.questionNumber}"
                         type="checkbox" value="<%= FeedbackParticipantType.INSTRUCTORS %>" <c:if test="${!fqForm.editable}">disabled="disabled"</c:if>
-                    <c:if test="${fqForm.generalSettings.giverNameVisibleFor['INSTRUCTORS']}"> checked="checked"</c:if> >
+                    <c:if test="${fqForm.visibilitySettings.giverNameVisibleFor['INSTRUCTORS']}"> checked="checked"</c:if> >
                 </td>
                 <td>
                     <input class="visibilityCheckbox recipientCheckbox${fqForm.question.questionNumber}"
                         type="checkbox" value="<%= FeedbackParticipantType.INSTRUCTORS %>" <c:if test="${!fqForm.editable}">disabled="disabled"</c:if>
-                    <c:if test="${fqForm.generalSettings.recipientNameVisibleFor['INSTRUCTORS']}"> checked="checked"</c:if> >
+                    <c:if test="${fqForm.visibilitySettings.recipientNameVisibleFor['INSTRUCTORS']}"> checked="checked"</c:if> >
                 </td>
             </tr>
         </table>

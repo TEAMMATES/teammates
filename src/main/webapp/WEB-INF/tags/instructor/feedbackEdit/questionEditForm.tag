@@ -81,8 +81,11 @@
                 </div>
                 ${fqForm.questionSpecificEditFormHtml}
             </div>
+            
             <br>
-            <feedbackEdit:questionGeneralSettings fqForm="${fqForm}"/>
+            <feedbackEdit:questionFeedbackPathSettings fqForm="${fqForm}"/>
+            <feedbackEdit:questionVisibilityOptions fqForm="${fqForm}"/>
+            
             <div>
                 <span class="pull-right">
                     <input id="button_question_submit-${fqForm.question.questionNumber}"
