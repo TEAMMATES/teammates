@@ -142,9 +142,9 @@ function bindCopyButton() {
         }
 
         $sessionsList.each(function() {
-            var cells = $(this).find('td');
-            var courseId = $(cells[0]).text();
-            var feedbackSessionName = $(cells[1]).text();
+            var $cells = $(this).find('td');
+            var courseId = $($cells[0]).text();
+            var feedbackSessionName = $($cells[1]).text();
             if (selectedCourseId === courseId && newFeedbackSessionName === feedbackSessionName) {
                 isExistingSession = true;
                 return false;
@@ -192,8 +192,8 @@ function bindCopyEvents() {
         }
 
         var $cells = $currentlySelectedRow.children('td');
-        var courseId = $(cells[1]).text().trim();
-        var feedbackSessionName = $(cells[2]).text().trim();
+        var courseId = $($cells[1]).text().trim();
+        var feedbackSessionName = $($cells[2]).text().trim();
         $('#modalCourseId').val(courseId);
         $('#modalSessionName').val(feedbackSessionName);
 
