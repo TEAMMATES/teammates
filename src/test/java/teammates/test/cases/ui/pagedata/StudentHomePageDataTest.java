@@ -20,6 +20,7 @@ import teammates.common.util.TimeHelper;
 import teammates.ui.controller.StudentHomePageData;
 import teammates.ui.template.CourseTable;
 import teammates.ui.template.ElementTag;
+import teammates.ui.template.StudentFeedbackSessionActions;
 
 public class StudentHomePageDataTest {
     private List<CourseDetailsBundle> courses;
@@ -31,6 +32,9 @@ public class StudentHomePageDataTest {
     private FeedbackSessionAttributes publishedSession;
     private FeedbackSessionAttributes closedSession;
     private FeedbackSessionAttributes submittedClosedSession;
+    
+    private Map<FeedbackSessionAttributes, String> tooltipTextMap;
+    private Map<FeedbackSessionAttributes, String> buttonTextMap;
     
     @Test
     public void allTests() {
@@ -113,9 +117,16 @@ public class StudentHomePageDataTest {
         assertEquals(TimeHelper.formatTime(session.endTime), row.get("endTime"));
         assertEquals(expectedTooltip, row.get("tooltip"));
         assertEquals(expectedStatus, row.get("status"));
-        //TODO: verify actions are correct after they are not merely a block of HTML
+        testActions((StudentFeedbackSessionActions) row.get("actions"), session);
     }
     
+    private void testActions(StudentFeedbackSessionActions actions, FeedbackSessionAttributes session) {
+        assertEquals(session.isVisible(), actions.isSessionVisible());
+        assertEquals(session.isPublished(), actions.isSessionPublished());
+        assertEquals(tooltipTextMap.get(session), actions.getTooltipText());
+        assertEquals(buttonTextMap.get(session), actions.getButtonText());
+    }
+
     private StudentHomePageData createData() {
         // Courses
         CourseAttributes course1 = new CourseAttributes("course-id-1", "old-course");
@@ -137,6 +148,22 @@ public class StudentHomePageDataTest {
         sessionSubmissionStatusMap.put(course2.id + "%" + publishedSession.feedbackSessionName, false);
         sessionSubmissionStatusMap.put(course2.id + "%" + closedSession.feedbackSessionName, false);
         sessionSubmissionStatusMap.put(course2.id + "%" + submittedClosedSession.feedbackSessionName, true);
+        
+        // Tooltip and button texts
+        tooltipTextMap = new HashMap<FeedbackSessionAttributes, String>();
+        buttonTextMap = new HashMap<FeedbackSessionAttributes, String>();
+        tooltipTextMap.put(submittedSession, Const.Tooltips.FEEDBACK_SESSION_EDIT_SUBMITTED_RESPONSE);
+        buttonTextMap.put(submittedSession, "Edit Submission");
+        tooltipTextMap.put(pendingSession, Const.Tooltips.FEEDBACK_SESSION_SUBMIT);
+        buttonTextMap.put(pendingSession, "Start Submission");
+        tooltipTextMap.put(awaitingSession, Const.Tooltips.FEEDBACK_SESSION_AWAITING);
+        buttonTextMap.put(awaitingSession, "Start Submission");
+        tooltipTextMap.put(publishedSession, Const.Tooltips.FEEDBACK_SESSION_VIEW_SUBMITTED_RESPONSE);
+        buttonTextMap.put(publishedSession, "View Submission");
+        tooltipTextMap.put(closedSession, Const.Tooltips.FEEDBACK_SESSION_VIEW_SUBMITTED_RESPONSE);
+        buttonTextMap.put(closedSession, "View Submission");
+        tooltipTextMap.put(submittedClosedSession, Const.Tooltips.FEEDBACK_SESSION_VIEW_SUBMITTED_RESPONSE);
+        buttonTextMap.put(submittedClosedSession, "View Submission");
         
         // Packing into bundles
         CourseDetailsBundle newCourseBundle = new CourseDetailsBundle(course1);
