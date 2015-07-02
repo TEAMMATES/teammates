@@ -156,7 +156,7 @@ function bindCopyButton() {
         } else {
             setStatusMessage('', false);
 
-            var $firstSession = $(sessionsList[0]).find('td');
+            var $firstSession = $($sessionsList[0]).find('td');
             var firstSessionCourseId = $($firstSession[0]).text();
             var firstSessionName = $($firstSession[1]).text();
 
