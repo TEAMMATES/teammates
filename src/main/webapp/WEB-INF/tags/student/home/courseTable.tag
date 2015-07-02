@@ -25,7 +25,7 @@
                         </span>
                     </td>
                     <td class="studentHomeActions">
-                        <home:rowActions actions="${sessionRow.actions}" />
+                        <home:rowActions actions="${sessionRow.actions}" index="${sessionRow.index}" />
                     </td>
                 </tr>
             </c:forEach>

@@ -10,18 +10,16 @@ public class StudentFeedbackSessionActions {
     private boolean sessionPublished;
     private String studentFeedbackResultsLink;
     private String studentFeedbackResponseEditLink;
-    private int index;
     private String tooltipText;
     private String buttonText;
 
-    public StudentFeedbackSessionActions(FeedbackSessionAttributes fs, int index,
+    public StudentFeedbackSessionActions(FeedbackSessionAttributes fs,
             String feedbackResultsLink, String feedbackResponseEditLink, boolean hasSubmitted) {
         this.hasSubmitted = hasSubmitted;
         this.sessionVisible = fs.isVisible();
         this.sessionPublished = fs.isPublished();
         this.studentFeedbackResultsLink = feedbackResultsLink;
         this.studentFeedbackResponseEditLink = feedbackResponseEditLink;
-        this.index = index;
         
         if (hasSubmitted) {
             if (fs.isOpened()) {
@@ -61,10 +59,6 @@ public class StudentFeedbackSessionActions {
 
     public String getStudentFeedbackResponseEditLink() {
         return studentFeedbackResponseEditLink;
-    }
-
-    public int getIndex() {
-        return index;
     }
 
     public String getTooltipText() {

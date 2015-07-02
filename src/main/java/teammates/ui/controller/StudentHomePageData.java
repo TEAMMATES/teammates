@@ -70,7 +70,7 @@ public class StudentHomePageData extends PageData {
             columns.put("endTime", TimeHelper.formatTime(feedbackSession.endTime));
             columns.put("tooltip", getStudentHoverMessageForSession(feedbackSession, hasSubmitted));
             columns.put("status", getStudentStatusForSession(feedbackSession, hasSubmitted));
-            columns.put("actions", getStudentFeedbackSessionActions(feedbackSession, sessionIdx, hasSubmitted));
+            columns.put("actions", getStudentFeedbackSessionActions(feedbackSession, hasSubmitted));
             columns.put("index", Integer.toString(sessionIdx));
             rows.add(columns);
             
@@ -159,9 +159,9 @@ public class StudentHomePageData extends PageData {
      * @return The list of available actions for a specific feedback session.
      */
     private StudentFeedbackSessionActions getStudentFeedbackSessionActions(
-            FeedbackSessionAttributes fs, int idx, boolean hasSubmitted) {
+            FeedbackSessionAttributes fs, boolean hasSubmitted) {
         String resultsLink = getStudentFeedbackResultsLink(fs.courseId, fs.feedbackSessionName);
         String responseEditLink = getStudentFeedbackResponseEditLink(fs.courseId, fs.feedbackSessionName);
-        return new StudentFeedbackSessionActions(fs, idx, resultsLink, responseEditLink, hasSubmitted);
+        return new StudentFeedbackSessionActions(fs, resultsLink, responseEditLink, hasSubmitted);
     }
 }
