@@ -313,7 +313,7 @@ public class CommentAttributes extends EntityAttributes
         return o.createdAt.compareTo(createdAt);
     }
 
-    private String getEditedAtText(Boolean isGiverAnonymous, String displayGiverAs,
+    public String getEditedAtText(Boolean isGiverAnonymous, String displayGiverAs,
             String displayTimeAs) {
         if (this.lastEditedAt != null && (!this.lastEditedAt.equals(this.createdAt))) {
             return "(last edited " +

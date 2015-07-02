@@ -316,7 +316,7 @@
                                                         <div id="commentBar-<%= commentIdx %>">
                                                             
                                                             <span class="text-muted">To <b><%= data.getRecipientNames(comment.recipients) %></b> 
-                                                [<%= sdf.format(comment.createdAt) %>] <%= comment.getEditedAtTextForInstructor(data.getGiverName(giverEmail).equals("Anonymous")) %>
+                                                [<%= sdf.format(comment.createdAt) %>] <%= comment.getEditedAtText(data.getGiverName(giverEmail).equals("Anonymous"), comment.lastEditorEmail, sdf.format(comment.lastEditedAt)) %>
                                                             </span>
                                                             <%
                                                                 if (comment.giverEmail.equals(data.instructorEmail)

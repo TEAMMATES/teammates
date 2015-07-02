@@ -144,7 +144,7 @@
                                                                                    }
                                         %>
                                         <span class="text-muted">From <b><%=giverDisplay%></b> 
-                                            [<%= sdf.format(comment.createdAt) %>] <%=comment.getEditedAtTextForStudent(giverDisplay.equals("Anonymous"), lastEditorDisplay)%>
+                                            [<%= sdf.format(comment.createdAt) %>] <%=comment.getEditedAtText(giverDisplay.equals("Anonymous"), lastEditorDisplay, sdf.format(comment.lastEditedAt))%>
                                         </span>
                                     </div>
                                     <div id="plainCommentText<%=commentIdx%>"><%=comment.commentText.getValue()%></div>
