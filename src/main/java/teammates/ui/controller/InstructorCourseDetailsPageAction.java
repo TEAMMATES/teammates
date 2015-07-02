@@ -33,8 +33,8 @@ public class InstructorCourseDetailsPageAction extends Action {
         InstructorCourseDetailsPageData data = new InstructorCourseDetailsPageData(account);
 
         if (isHtmlTableNeeded) {
-            data.studentListHtmlTableAsString = StringHelper.csvToHtmlTable(
-                                                    logic.getCourseStudentListAsCsv(courseId, account.googleId));
+            String courseStudentListAsCsv = logic.getCourseStudentListAsCsv(courseId, account.googleId);
+            data.setStudentListHtmlTableAsString(StringHelper.csvToHtmlTable(courseStudentListAsCsv));
             
             statusToAdmin = "instructorCourseDetails Page Ajax Html table Load<br>" 
                             + "Viewing Student List Table for Course <span class=\"bold\">[" + courseId + "]</span>";

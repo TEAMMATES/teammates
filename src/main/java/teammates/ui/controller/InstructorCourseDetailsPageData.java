@@ -16,18 +16,17 @@ import teammates.ui.template.ElementTag;
  * PageData: data used for the "Course Details" page
  */
 public class InstructorCourseDetailsPageData extends PageData {
+    private InstructorAttributes currentInstructor;
+    private CourseDetailsBundle courseDetails;
+    private List<InstructorAttributes> instructors;
+    private String studentListHtmlTableAsString;
+    private ElementTag giveCommentButton;
+    private ElementTag courseRemindButton;
+    private CourseDetailsStudentsTable studentsTable;
     
     public InstructorCourseDetailsPageData(AccountAttributes account) {
         super(account);
     }
-
-    public InstructorAttributes currentInstructor;
-    public CourseDetailsBundle courseDetails;
-    public List<InstructorAttributes> instructors;
-    public String studentListHtmlTableAsString;
-    public ElementTag giveCommentButton;
-    public ElementTag courseRemindButton;
-    public CourseDetailsStudentsTable studentsTable;
     
     public void init(InstructorAttributes currentInstructor, CourseDetailsBundle courseDetails, 
                      List<InstructorAttributes> instructors, List<StudentAttributes> students) {
@@ -157,6 +156,14 @@ public class InstructorCourseDetailsPageData extends PageData {
     
     public ElementTag getCourseRemindButton() {
         return courseRemindButton;
+    }
+    
+    public void setStudentListHtmlTableAsString(String studentListHtmlTableAsString) {
+        this.studentListHtmlTableAsString = studentListHtmlTableAsString;
+    }
+    
+    public String getStudentListHtmlTableAsString() {
+        return studentListHtmlTableAsString;
     }
     
     private String getInstructorCourseRemindLink() {
