@@ -157,8 +157,8 @@ function bindCopyButton() {
             setStatusMessage('', false);
 
             var $firstSession = $(sessionsList[0]).find('td');
-            var firstSessionCourseId = $(firstSession[0]).text();
-            var firstSessionName = $(firstSession[1]).text();
+            var firstSessionCourseId = $($firstSession[0]).text();
+            var firstSessionName = $($firstSession[1]).text();
 
             $('#copyModal').modal('show');
             $('#modalCopiedSessionName').val(newFeedbackSessionName.trim());
