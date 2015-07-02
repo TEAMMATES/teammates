@@ -10,7 +10,7 @@ import teammates.common.util.Url;
  *
  */
 public class FeedbackQuestionEditForm {
-    //TODO switch the rest of the Strings to use Url
+    //TODO switch the rest of the Strings to use Url if they are links
     private Url action;
     
     private String courseId;

@@ -228,7 +228,7 @@ public class PageData {
        return result;
     }
     
-    protected ArrayList<ElementTag> getTimeZoneOptionsAsElementTags(double existingTimeZone) {
+    public List<ElementTag> getTimeZoneOptionsAsElementTags(double existingTimeZone) {
         double[] options = new double[] {-12, -11, -10, -9, -8, -7, -6, -5, -4.5, -4, -3.5, -3, -2, -1, 0, 1, 2, 3, 
                                          3.5, 4, 4.5, 5, 5.5, 5.75, 6, 7, 8, 9, 10, 11, 12, 13};
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
@@ -275,7 +275,7 @@ public class PageData {
         return result;
     }
     
-    protected ArrayList<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
+    public List<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
         for(int i = 0; i <= 30; i += 5) {
             ElementTag option = createOption(String.valueOf(i) + " mins", String.valueOf(i), 
