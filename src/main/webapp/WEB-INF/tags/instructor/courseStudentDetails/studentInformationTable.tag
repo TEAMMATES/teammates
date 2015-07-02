@@ -185,15 +185,15 @@
         <textarea class="form-control" rows="6" placeholder="Enter your comment here ..." style="margin-bottom: 15px;"
                   name="<%= Const.ParamsNames.COMMENT_TEXT %>" id="commentText"></textarea>
         <div style="text-align: center;">
-            <input type="submit" class="btn btn-primary" id="button_save_comment" value="Save"> 
+            <input type="submit" class="btn btn-primary" id="button_save_comment" value="Save">
             <input type="button" class="btn btn-default" id="button_cancel_comment" value="Cancel">
-            <input type="hidden" name=<%=Const.ParamsNames.COURSE_ID%> value="${studentInfoTable.course}">
-            <input type="hidden" name=<%=Const.ParamsNames.STUDENT_EMAIL%> value="${studentInfoTable.email}">
-            <input type="hidden" name=<%=Const.ParamsNames.RECIPIENT_TYPE%> value="<%= CommentParticipantType.PERSON %>">
-            <input type="hidden" name=<%=Const.ParamsNames.RECIPIENTS%> value="${studentInfoTable.email}">
-            <input type="hidden" name=<%=Const.ParamsNames.COMMENTS_SHOWCOMMENTSTO%> value="">
-            <input type="hidden" name=<%=Const.ParamsNames.COMMENTS_SHOWGIVERTO%> value="">
-            <input type="hidden" name=<%=Const.ParamsNames.COMMENTS_SHOWRECIPIENTTO%> value="">
+            <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${studentInfoTable.course}">
+            <input type="hidden" name="<%=Const.ParamsNames.STUDENT_EMAIL%>" value="${studentInfoTable.email}">
+            <input type="hidden" name="<%=Const.ParamsNames.RECIPIENT_TYPE%>" value="<%= CommentParticipantType.PERSON %>">
+            <input type="hidden" name="<%=Const.ParamsNames.RECIPIENTS%>" value="${studentInfoTable.email}">
+            <input type="hidden" name="<%=Const.ParamsNames.COMMENTS_SHOWCOMMENTSTO%>" value="">
+            <input type="hidden" name="<%=Const.ParamsNames.COMMENTS_SHOWGIVERTO%>" value="">
+            <input type="hidden" name="<%=Const.ParamsNames.COMMENTS_SHOWRECIPIENTTO%>" value="">
             <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
             <input type="hidden" name="<%=Const.ParamsNames.FROM_STUDENT_DETAILS_PAGE%>" value="true">
         </div>
