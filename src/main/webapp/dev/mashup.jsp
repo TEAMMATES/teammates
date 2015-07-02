@@ -17,7 +17,7 @@
         <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
         <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet">
         <link type="text/css" href="./mashup.css" rel="stylesheet">
-        <script type="text/javascript" src="/js/jquery-minified.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="/js/common.js"></script>
     </head>
