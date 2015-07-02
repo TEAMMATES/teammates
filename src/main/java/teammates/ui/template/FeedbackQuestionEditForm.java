@@ -32,6 +32,7 @@ public class FeedbackQuestionEditForm {
     
     private FeedbackQuestionAttributes question;
     private String questionText;
+    
     //TODO use element tags or a new class instead of having html in java
     private String questionSpecificEditFormHtml;
     
