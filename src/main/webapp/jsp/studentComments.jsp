@@ -6,8 +6,6 @@
 <%@page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<%@ page import="java.util.TimeZone"%>
-<%@ page import="java.text.SimpleDateFormat"%>
 <%@ page import="teammates.common.util.Const" %>
 <%@ page import="teammates.common.util.TimeHelper" %>
 <%@ page import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
@@ -108,8 +106,6 @@
                         <%
                         	int commentIdx = 0;
                             int studentIdx = 0;
-                    		SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM YYYY, HH:mm zzz");
-                            sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
                             for (CommentAttributes comment : data.comments) {//comment loop starts
                                 studentIdx++;
                         %>
@@ -144,7 +140,7 @@
                                                                                    }
                                         %>
                                         <span class="text-muted">From <b><%=giverDisplay%></b> 
-                                            [<%= sdf.format(comment.createdAt) %>] <%=comment.getEditedAtText(giverDisplay.equals("Anonymous"), lastEditorDisplay, sdf.format(comment.lastEditedAt))%>
+                                            [<%= Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt) %>] <%= comment.getEditedAtText(giverDisplay.equals("Anonymous"), lastEditorDisplay, Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.lastEditedAt)) %>
                                         </span>
                                     </div>
                                     <div id="plainCommentText<%=commentIdx%>"><%=comment.commentText.getValue()%></div>

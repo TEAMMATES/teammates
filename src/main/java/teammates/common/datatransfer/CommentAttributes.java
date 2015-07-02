@@ -8,9 +8,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.TimeZone;
-import java.text.SimpleDateFormat;
-
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
@@ -27,7 +24,6 @@ public class CommentAttributes extends EntityAttributes
     implements Comparable<CommentAttributes> {
 
     private Long commentId = null;
-    private SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM YYYY, HH:mm zzz");
     public String courseId;
     public String giverEmail;
     public CommentParticipantType recipientType = CommentParticipantType.PERSON;
@@ -56,8 +52,6 @@ public class CommentAttributes extends EntityAttributes
         this.createdAt = createdAt;
         this.lastEditorEmail = giverEmail;
         this.lastEditedAt = createdAt;
-        
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
     public CommentAttributes(Comment comment) {
@@ -76,8 +70,6 @@ public class CommentAttributes extends EntityAttributes
         this.lastEditorEmail = comment.getLastEditorEmail() != null ?
                                         comment.getLastEditorEmail() : comment.getGiverEmail();
         this.lastEditedAt = comment.getLastEditedAt() != null ? comment.getLastEditedAt() : comment.getCreatedAt();
-        
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
     public Long getCommentId() {
