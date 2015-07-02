@@ -28,7 +28,6 @@ public class FeedbackQuestionEditForm {
     private List<ElementTag> questionNumberOptions;
     
     private FeedbackQuestionAttributes question;
-    private String questionText;
     
     //TODO use element tags or a new class instead of having html in java
     private String questionSpecificEditFormHtml;
@@ -99,7 +98,7 @@ public class FeedbackQuestionEditForm {
     }
    
     public String getQuestionText() {
-        return questionText;
+        return question.getQuestionDetails().questionText;
     }
 
     public Url getAction() {
@@ -108,10 +107,6 @@ public class FeedbackQuestionEditForm {
 
     public void setAction(Url action) {
         this.action = action;
-    }
-
-    public void setQuestionText(String questionText) {
-        this.questionText = questionText;
     }
 
     public String getQuestionTypeOptions() {

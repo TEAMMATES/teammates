@@ -7,7 +7,7 @@ import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.ui.controller.PageData;
 
-public class AdditionalSettingsFormSegment {
+public class FeedbackSessionsAdditionalSettingsFormSegment {
     private boolean isSessionVisibleDateButtonChecked;
     private String sessionVisibleDateValue;
     private boolean isSessionVisibleDateDisabled;
@@ -28,7 +28,7 @@ public class AdditionalSettingsFormSegment {
     private boolean isSendPublishedEmailChecked;
     
     
-    public AdditionalSettingsFormSegment() {
+    public FeedbackSessionsAdditionalSettingsFormSegment() {
     }
 
     public void setSessionVisibleDateButtonChecked(boolean isSessionVisibleDateButtonChecked) {
@@ -159,8 +159,8 @@ public class AdditionalSettingsFormSegment {
         this.isSendPublishedEmailChecked = isSendPublishedEmailChecked;
     }
     
-    public static AdditionalSettingsFormSegment getDefaultFormSegment(PageData data) {
-        AdditionalSettingsFormSegment additionalSettings = new AdditionalSettingsFormSegment(); 
+    public static FeedbackSessionsAdditionalSettingsFormSegment getDefaultFormSegment(PageData data) {
+        FeedbackSessionsAdditionalSettingsFormSegment additionalSettings = new FeedbackSessionsAdditionalSettingsFormSegment(); 
         
         additionalSettings.setSessionVisibleAtOpenChecked(true);
         additionalSettings.setSessionVisibleDateButtonChecked(false);
@@ -186,9 +186,9 @@ public class AdditionalSettingsFormSegment {
         return additionalSettings;
     }
     
-    public static AdditionalSettingsFormSegment getFormSegmentWithExistingValues(PageData data, 
+    public static FeedbackSessionsAdditionalSettingsFormSegment getFormSegmentWithExistingValues(PageData data, 
                                                                                  FeedbackSessionAttributes newFeedbackSession) {
-        AdditionalSettingsFormSegment additionalSettings = new AdditionalSettingsFormSegment();
+        FeedbackSessionsAdditionalSettingsFormSegment additionalSettings = new FeedbackSessionsAdditionalSettingsFormSegment();
         
         setSessionVisibleSettings(data, newFeedbackSession, additionalSettings);
         setResponseVisibleSettings(data, newFeedbackSession, additionalSettings);
@@ -198,7 +198,7 @@ public class AdditionalSettingsFormSegment {
     }
 
     private static void setEmailSettings(FeedbackSessionAttributes newFeedbackSession,
-                                    AdditionalSettingsFormSegment additionalSettings) {
+                                    FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
         additionalSettings.setSendClosingEmailChecked(newFeedbackSession.isClosingEmailEnabled);
         additionalSettings.setSendOpeningEmailChecked(newFeedbackSession.isOpeningEmailEnabled);
         additionalSettings.setSendPublishedEmailChecked(newFeedbackSession.isPublishedEmailEnabled);
@@ -206,7 +206,7 @@ public class AdditionalSettingsFormSegment {
 
     private static void setResponseVisibleSettings(PageData data,
                                                     FeedbackSessionAttributes newFeedbackSession,
-                                                    AdditionalSettingsFormSegment additionalSettings) {
+                                                    FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
         boolean hasResultVisibleDate = !TimeHelper.isSpecialTime(newFeedbackSession.resultsVisibleFromTime);
         additionalSettings.setResponseVisibleDateChecked(hasResultVisibleDate);
         additionalSettings.setResponseVisibleDateValue(hasResultVisibleDate ? 
@@ -228,7 +228,7 @@ public class AdditionalSettingsFormSegment {
 
     private static void setSessionVisibleSettings(PageData data,
                                     FeedbackSessionAttributes newFeedbackSession,
-                                    AdditionalSettingsFormSegment additionalSettings) {
+                                    FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
         boolean hasSessionVisibleDate = !TimeHelper.isSpecialTime(newFeedbackSession.sessionVisibleFromTime);
         
         additionalSettings.setSessionVisibleAtOpenChecked(

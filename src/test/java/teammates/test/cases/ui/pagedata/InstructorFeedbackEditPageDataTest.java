@@ -27,7 +27,7 @@ import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorFeedbackEditPageData;
-import teammates.ui.template.AdditionalSettingsFormSegment;
+import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackQuestionCopyTable;
 import teammates.ui.template.FeedbackQuestionEditForm;
 import teammates.ui.template.FeedbackSessionPreviewForm;
@@ -94,7 +94,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         assertEquals(false, fsForm.isSubmitButtonVisible());
         assertEquals(false, fsForm.isSubmitButtonDisabled());
         
-        AdditionalSettingsFormSegment additionalSettings = data.getFsForm().getAdditionalSettings();
+        FeedbackSessionsAdditionalSettingsFormSegment additionalSettings = data.getFsForm().getAdditionalSettings();
         assertEquals(TimeHelper.formatDate(fs.resultsVisibleFromTime), additionalSettings.getResponseVisibleDateValue());
         assertEquals(TimeHelper.formatDate(fs.sessionVisibleFromTime), additionalSettings.getSessionVisibleDateValue());
         

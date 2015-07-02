@@ -13,7 +13,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.ui.template.AdditionalSettingsFormSegment;
+import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.InstructorFeedbackSessionActions;
 import teammates.ui.template.FeedbackSessionsTableRow;
@@ -143,7 +143,7 @@ public class InstructorFeedbacksPageData extends PageData {
             courseIds.add(course.id);
         }
         
-        AdditionalSettingsFormSegment additionalSettings = buildFormAdditionalSettings(newFeedbackSession);
+        FeedbackSessionsAdditionalSettingsFormSegment additionalSettings = buildFormAdditionalSettings(newFeedbackSession);
         newFsForm = buildBasicForm(courses, courseIdForNewSession, instructors, 
                                    newFeedbackSession, feedbackSessionType,
                                    feedbackSessionNameForSessionList, courseIds,
@@ -154,7 +154,7 @@ public class InstructorFeedbacksPageData extends PageData {
                                                 Map<String, InstructorAttributes> instructors,
                                                 FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
                                                 String feedbackSessionNameForSessionList, List<String> courseIds,
-                                                AdditionalSettingsFormSegment additionalSettings) {
+                                                FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
         return FeedbackSessionsForm.getFormForNewFs(this, 
                                         courseIdForNewSession,
                                         instructors,
@@ -166,12 +166,12 @@ public class InstructorFeedbacksPageData extends PageData {
                                         additionalSettings);
     }
 
-    private AdditionalSettingsFormSegment buildFormAdditionalSettings(
+    private FeedbackSessionsAdditionalSettingsFormSegment buildFormAdditionalSettings(
                                               FeedbackSessionAttributes newFeedbackSession) {
         if (newFeedbackSession == null) {
-            return AdditionalSettingsFormSegment.getDefaultFormSegment(this);            
+            return FeedbackSessionsAdditionalSettingsFormSegment.getDefaultFormSegment(this);            
         } else {
-            return AdditionalSettingsFormSegment.getFormSegmentWithExistingValues(this, newFeedbackSession);
+            return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(this, newFeedbackSession);
         }
 
     }

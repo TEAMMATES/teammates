@@ -15,7 +15,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
-import teammates.ui.template.AdditionalSettingsFormSegment;
+import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackQuestionCopyTable;
 import teammates.ui.template.FeedbackQuestionEditForm;
@@ -121,7 +121,6 @@ public class InstructorFeedbackEditPageData extends PageData {
         
         qnForm.setNumOfQuestionsOnPage(questionsSize);
         qnForm.setQuestionNumberOptions(getQuestionNumberOptions(questionsSize));
-        qnForm.setQuestionText(question.getQuestionDetails().questionText);
         
         FeedbackQuestionFeedbackPathSettings feedbackPathSettings = new FeedbackQuestionFeedbackPathSettings();
         FeedbackQuestionVisibilitySettings visibilitySettings = new FeedbackQuestionVisibilitySettings();
@@ -222,13 +221,13 @@ public class InstructorFeedbackEditPageData extends PageData {
     }
     
     
-    private void buildBasicFsForm(FeedbackSessionAttributes newFeedbackSession, AdditionalSettingsFormSegment additionalSettings) {
+    private void buildBasicFsForm(FeedbackSessionAttributes newFeedbackSession, FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
         fsForm = FeedbackSessionsForm.getFsFormForExistingFs(this, newFeedbackSession, additionalSettings);
     }
 
-    private AdditionalSettingsFormSegment buildFsFormAdditionalSettings(FeedbackSessionAttributes newFeedbackSession) {
+    private FeedbackSessionsAdditionalSettingsFormSegment buildFsFormAdditionalSettings(FeedbackSessionAttributes newFeedbackSession) {
         
-        return AdditionalSettingsFormSegment.getFormSegmentWithExistingValues(this, newFeedbackSession); 
+        return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(this, newFeedbackSession); 
     }
 
     public FeedbackSessionsForm getFsForm() {

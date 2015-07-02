@@ -60,11 +60,15 @@ public class FeedbackSessionsForm {
     private boolean isSubmitButtonVisible;
     
     private ElementTag editButtonTags;
-    private AdditionalSettingsFormSegment additionalSettings;
+    private FeedbackSessionsAdditionalSettingsFormSegment additionalSettings;
+    
+    public FeedbackSessionsForm() {
+    }
+    
     
     public static FeedbackSessionsForm getFsFormForExistingFs(PageData data, 
                                                               FeedbackSessionAttributes newFeedbackSession,
-                                                              AdditionalSettingsFormSegment additionalSettings) {
+                                                              FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
         FeedbackSessionsForm fsForm = new FeedbackSessionsForm();
         
         fsForm.setFsDeleteLink(
@@ -116,7 +120,7 @@ public class FeedbackSessionsForm {
                                                        String feedbackSessionNameForSessionList, 
                                                        List<String> courseIds, List<ElementTag> courseIdOptions,
                                                        List<ElementTag> fsTypeOptions,
-                                                       AdditionalSettingsFormSegment additionalSettings) {
+                                                       FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
         FeedbackSessionsForm newFsForm = new FeedbackSessionsForm();
         
         newFsForm.setIsShowNoCoursesMessage(courseIds.isEmpty());
@@ -148,16 +152,16 @@ public class FeedbackSessionsForm {
                                  TimeHelper.formatDate(TimeHelper.getNextHour()) :
                                  TimeHelper.formatDate(feedbackSession.startTime));
         
-        Date date;
-        date = feedbackSession == null ? null : feedbackSession.startTime;
-        newFsForm.setFsStartTimeOptions(data.getTimeOptionsAsElementTags(date));
+        
+        Date startDate = feedbackSession == null ? null : feedbackSession.startTime;
+        newFsForm.setFsStartTimeOptions(data.getTimeOptionsAsElementTags(startDate));
         
         newFsForm.setFsEndDate(feedbackSession == null ?
                                "" : 
                                TimeHelper.formatDate(feedbackSession.endTime));
         
-        date = feedbackSession == null ? null : feedbackSession.endTime;
-        newFsForm.setFsEndTimeOptions(data.getTimeOptionsAsElementTags(date));
+        Date endDate = feedbackSession == null ? null : feedbackSession.endTime;
+        newFsForm.setFsEndTimeOptions(data.getTimeOptionsAsElementTags(endDate));
         
         newFsForm.setGracePeriodOptions(data.getGracePeriodOptionsAsElementTags(feedbackSession == null ? 
                                                                                 Const.INT_UNINITIALIZED : 
@@ -171,9 +175,6 @@ public class FeedbackSessionsForm {
         newFsForm.setAdditionalSettings(additionalSettings);
         
         return newFsForm;
-    }
-    
-    public FeedbackSessionsForm() {
     }
     
     public void setCourseIdForNewSession(String courseIdForNewSession) {
@@ -280,11 +281,11 @@ public class FeedbackSessionsForm {
         this.feedbackSessionNameForSessionList = feedbackSessionNameForSessionList;
     }
     
-    public AdditionalSettingsFormSegment getAdditionalSettings() {
+    public FeedbackSessionsAdditionalSettingsFormSegment getAdditionalSettings() {
         return this.additionalSettings;
     }
     
-    public void setAdditionalSettings(AdditionalSettingsFormSegment additionalSettings) {
+    public void setAdditionalSettings(FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
         this.additionalSettings = additionalSettings;
     }
 

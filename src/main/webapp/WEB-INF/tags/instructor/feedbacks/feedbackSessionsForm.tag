@@ -240,7 +240,9 @@
                 <br><br>
             </div>
         </div>
-        <jsp:doBody/>
+        
+        <feedbacks:feedbackSessionsFormAdditionalSettings fsForm="${fsForm}"/>
+        
         <div class="form-group">
             <div class="row">
                 <div class="col-md-offset-5 col-md-3">

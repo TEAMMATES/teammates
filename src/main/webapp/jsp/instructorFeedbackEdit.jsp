@@ -26,9 +26,8 @@
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Feedback Session" jsIncludes="${jsIncludes}" bodyOnload="${onload}">
     
-    <feedbacks:feedbackSessionsForm fsForm="${data.fsForm}">
-        <feedbacks:feedbackSessionsFormAdditionalSettings fsForm="${data.fsForm}" />
-    </feedbacks:feedbackSessionsForm>
+    <feedbacks:feedbackSessionsForm fsForm="${data.fsForm}" />
+     
     <br>
     <t:statusMessage />
     <ti:copyModal />
