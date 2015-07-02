@@ -33,4 +33,17 @@ public class CourseDetailsStudentsTableRow {
     public List<ElementTag> getCommentRecipientOptions() {
         return commentRecipientOptions;
     }
+
+    public void setActions(List<ElementTag> actionButtons) {
+        actions = actionButtons;        
+    }
+
+    public void setCommentActionButtons(List<ElementTag> createCommentActionButtons) {
+        commentActions = createCommentActionButtons;
+        
+    }
+
+    public void setCommentRecipientOptions(List<ElementTag> createCommentRecipientOptions) {
+        commentRecipientOptions = createCommentRecipientOptions;
+    }
 }

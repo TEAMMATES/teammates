@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -59,7 +60,63 @@ public class InstructorCourseDetailsPageData extends PageData {
     
     public CourseDetailsStudentsTableRow createStudentsTableRow(int studentIndex, StudentAttributes student) {
         CourseDetailsStudentsTableRow row = new CourseDetailsStudentsTableRow(student);
+        row.setActions(createActionButtons(student));
+        row.setCommentActionButtons(createCommentActionButtons(student));
+        row.setCommentRecipientOptions(createCommentRecipientOptions(studentIndex, student));
+        return row;
+    }
+
+    private List<ElementTag> createCommentRecipientOptions(int studentIndex, StudentAttributes student) {
+        List<ElementTag> commentRecipientOptions = new ArrayList<ElementTag>();
         
+        String buttonClass = "t_student_details_tostudent-c" + courseDetails.course.id + "." + studentIndex;
+        String href = getCourseStudentDetailsLink(student) + "&" + Const.ParamsNames.SHOW_COMMENT_BOX + "=student";
+        ElementTag toStudentCommentOption = createButton("To student: " + sanitizeForHtml(student.name), 
+                                                         buttonClass, null, href, null, null, null, false);
+        
+        buttonClass = "t_student_details_toteam-c" + courseDetails.course.id + "." + studentIndex;
+        href = getCourseStudentDetailsLink(student) + "&" + Const.ParamsNames.SHOW_COMMENT_BOX + "=team";
+        ElementTag toTeamCommentOption = createButton("To team: " + sanitizeForHtml(student.team), 
+                                                      buttonClass, null, href, null, null, null, false);
+        
+        commentRecipientOptions.add(toStudentCommentOption);
+        commentRecipientOptions.add(toTeamCommentOption);
+        
+        if ((student.section != null) && (!student.section.equals("None"))) {
+            buttonClass = "t_student_details_tosection-c" + courseDetails.course.id + "." + studentIndex;
+            href = getCourseStudentDetailsLink(student) + "&" + Const.ParamsNames.SHOW_COMMENT_BOX + "=section";
+            ElementTag toSectionCommentOption = createButton("To section: " + sanitizeForHtml(student.section), 
+                                                             buttonClass, null, href, null, null, null, false);
+            toSectionCommentOption.setAttribute("role", "menuitem");
+            toSectionCommentOption.setAttribute("tabindex", "-1");
+              
+            commentRecipientOptions.add(toSectionCommentOption);
+        }
+        return commentRecipientOptions;
+    }
+
+    private List<ElementTag> createCommentActionButtons(StudentAttributes student) {
+        boolean isDisabled;
+        isDisabled = !currentInstructor.isAllowedForPrivilege(student.section, 
+                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
+        ElementTag addCommentButton = createButton("Add Comment", "btn btn-default btn-xs cursor-default", 
+                                                   null, "javascript:;", Const.Tooltips.COURSE_STUDENT_COMMENT, 
+                                                   "tooltip", null, isDisabled);
+        
+        isDisabled = !currentInstructor.isAllowedForPrivilege(student.section, 
+                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
+        
+        String content = "<span class=\"caret\"></span><span class=\"sr-only\">Add comments</span>";
+        ElementTag addCommentsButton = createButton(content, "btn btn-default btn-xs dropdown-toggle", null, 
+                                                    "javascript:;", null, "dropdown", null, isDisabled);
+        
+        List<ElementTag> commentActionButtons = new ArrayList<ElementTag>();
+        commentActionButtons.add(addCommentButton);
+        commentActionButtons.add(addCommentsButton);
+        return commentActionButtons;
+    }
+
+    private List<ElementTag> createActionButtons(StudentAttributes student) {
         boolean isDisabled = !currentInstructor.isAllowedForPrivilege(student.section, 
                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
         ElementTag viewButton = createButton("View", "btn btn-default btn-xs", null, getCourseStudentDetailsLink(student),
@@ -83,55 +140,17 @@ public class InstructorCourseDetailsPageData extends PageData {
         ElementTag allRecordsButton = createButton("All Records", "btn btn-default btn-xs", null, 
                                                    getStudentRecordsLink(student), Const.Tooltips.COURSE_STUDENT_RECORDS, 
                                                    "tooltip", null, false);
-
-        row.getActions().add(viewButton);
-        row.getActions().add(editButton);
+        
+        List<ElementTag> actionButtons = new ArrayList<ElementTag>();
+        actionButtons.add(viewButton);
+        actionButtons.add(editButton);
         if (!student.isRegistered()) {
-            row.getActions().add(sendInviteButton);
+            actionButtons.add(sendInviteButton);
         }
-        row.getActions().add(deleteButton);
-        row.getActions().add(allRecordsButton);
+        actionButtons.add(deleteButton);
+        actionButtons.add(allRecordsButton);
         
-        isDisabled = !currentInstructor.isAllowedForPrivilege(student.section, 
-                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
-        ElementTag addCommentButton = createButton("Add Comment", "btn btn-default btn-xs cursor-default", 
-                                                   null, "javascript:;", Const.Tooltips.COURSE_STUDENT_COMMENT, 
-                                                   "tooltip", null, isDisabled);
-        
-        isDisabled = !currentInstructor.isAllowedForPrivilege(student.section, 
-                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
-        
-        String content = "<span class=\"caret\"></span><span class=\"sr-only\">Add comments</span>";
-        ElementTag addCommentsButton = createButton(content, "btn btn-default btn-xs dropdown-toggle", null, 
-                                                    "javascript:;", null, "dropdown", null, isDisabled);
-        row.getCommentActions().add(addCommentButton);
-        row.getCommentActions().add(addCommentsButton);
-        
-        String buttonClass = "t_student_details_tostudent-c" + courseDetails.course.id + "." + studentIndex;
-        String href = getCourseStudentDetailsLink(student) + "&" + Const.ParamsNames.SHOW_COMMENT_BOX + "=student";
-        ElementTag toStudentCommentOption = createButton("To student: " + sanitizeForHtml(student.name), 
-                                                         buttonClass, null, href, null, null, null, false);
-        
-        buttonClass = "t_student_details_toteam-c" + courseDetails.course.id + "." + studentIndex;
-        href = getCourseStudentDetailsLink(student) + "&" + Const.ParamsNames.SHOW_COMMENT_BOX + "=team";
-        ElementTag toTeamCommentOption = createButton("To team: " + sanitizeForHtml(student.team), 
-                                                      buttonClass, null, href, null, null, null, false);
-        
-        row.getCommentRecipientOptions().add(toStudentCommentOption);
-        row.getCommentRecipientOptions().add(toTeamCommentOption);
-        
-        if ((student.section != null) && (!student.section.equals("None"))) {
-            buttonClass = "t_student_details_tosection-c" + courseDetails.course.id + "." + studentIndex;
-            href = getCourseStudentDetailsLink(student) + "&" + Const.ParamsNames.SHOW_COMMENT_BOX + "=section";
-            ElementTag toSectionCommentOption = createButton("To section: " + sanitizeForHtml(student.section), 
-                                                             buttonClass, null, href, null, null, null, false);
-            toSectionCommentOption.setAttribute("role", "menuitem");
-            toSectionCommentOption.setAttribute("tabindex", "-1");
-              
-            row.getCommentRecipientOptions().add(toSectionCommentOption);
-        }
-        
-        return row;
+        return actionButtons;
     }
     
     public InstructorAttributes getCurrentInstructor() {
