@@ -13,4 +13,9 @@ public class CourseDetailsStudentsTable {
     public List<CourseDetailsStudentsTableRow> getRows() {
         return rows;
     }
+
+    public void setRows(List<CourseDetailsStudentsTableRow> studentTableRows) {
+        rows = studentTableRows;
+        
+    }
 }

@@ -51,11 +51,15 @@ public class InstructorCourseDetailsPageData extends PageData {
         
         studentsTable = new CourseDetailsStudentsTable();
         int studentIndex = 0;
+        
+        List<CourseDetailsStudentsTableRow> studentTableRows = new ArrayList<CourseDetailsStudentsTableRow>();
+        
         for (StudentAttributes student : students) {
             CourseDetailsStudentsTableRow row = createStudentsTableRow(studentIndex, student);
-            studentsTable.getRows().add(row);
+            studentTableRows.add(row);
             studentIndex++;
         }
+        studentsTable.setRows(studentTableRows);
     }
     
     public CourseDetailsStudentsTableRow createStudentsTableRow(int studentIndex, StudentAttributes student) {
