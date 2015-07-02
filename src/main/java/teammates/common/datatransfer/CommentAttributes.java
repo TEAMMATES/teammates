@@ -323,14 +323,4 @@ public class CommentAttributes extends EntityAttributes
             return "";
         }
     }
-
-    public String getEditedAtTextForInstructor(Boolean isGiverAnonymous) {
-        return getEditedAtText(isGiverAnonymous, this.lastEditorEmail,
-                sdf.format(this.lastEditedAt));
-    }
-
-    public String getEditedAtTextForStudent(Boolean isGiverAnonymous, String displayGiverAs) {
-        return getEditedAtText(isGiverAnonymous, displayGiverAs,
-                sdf.format(this.lastEditedAt));
-    }
 }
