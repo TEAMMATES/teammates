@@ -135,7 +135,7 @@ public class StudentHomePageData extends PageData {
         return link;
     }
     
-    public String getStudentFeedbackResponseEditLink(String courseId, String feedbackSessionName){
+    private String getStudentFeedbackResponseEditLink(String courseId, String feedbackSessionName){
         String link = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
         link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
@@ -143,7 +143,7 @@ public class StudentHomePageData extends PageData {
         return link;
     }
     
-    public String getStudentFeedbackResultsLink(String courseId, String feedbackSessionName){
+    private String getStudentFeedbackResultsLink(String courseId, String feedbackSessionName){
         String link = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
         link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
@@ -158,8 +158,10 @@ public class StudentHomePageData extends PageData {
      * @param hasSubmitted Whether the student had submitted the session or not.
      * @return The list of available actions for a specific feedback session.
      */
-    private StudentFeedbackSessionActions getStudentFeedbackSessionActions(FeedbackSessionAttributes fs, int idx,
-                                                                           boolean hasSubmitted) {
-        return new StudentFeedbackSessionActions(this, fs, idx, hasSubmitted);
+    private StudentFeedbackSessionActions getStudentFeedbackSessionActions(
+            FeedbackSessionAttributes fs, int idx, boolean hasSubmitted) {
+        String resultsLink = getStudentFeedbackResultsLink(fs.courseId, fs.feedbackSessionName);
+        String responseEditLink = getStudentFeedbackResponseEditLink(fs.courseId, fs.feedbackSessionName);
+        return new StudentFeedbackSessionActions(fs, idx, resultsLink, responseEditLink, hasSubmitted);
     }
 }

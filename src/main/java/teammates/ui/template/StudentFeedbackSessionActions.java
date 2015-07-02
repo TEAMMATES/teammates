@@ -2,7 +2,6 @@ package teammates.ui.template;
 
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
-import teammates.ui.controller.StudentHomePageData;
 
 public class StudentFeedbackSessionActions {
 
@@ -15,15 +14,15 @@ public class StudentFeedbackSessionActions {
     private String tooltipText;
     private String buttonText;
 
-    public StudentFeedbackSessionActions(StudentHomePageData data, FeedbackSessionAttributes fs, int index,
-                                         boolean hasSubmitted) {
+    public StudentFeedbackSessionActions(FeedbackSessionAttributes fs, int index,
+            String feedbackResultsLink, String feedbackResponseEditLink, boolean hasSubmitted) {
         this.hasSubmitted = hasSubmitted;
         this.sessionVisible = fs.isVisible();
         this.sessionPublished = fs.isPublished();
-        this.studentFeedbackResultsLink = data.getStudentFeedbackResultsLink(fs.courseId, fs.feedbackSessionName);
-        this.studentFeedbackResponseEditLink = data.getStudentFeedbackResponseEditLink(fs.courseId,
-                                                                                       fs.feedbackSessionName);
+        this.studentFeedbackResultsLink = feedbackResultsLink;
+        this.studentFeedbackResponseEditLink = feedbackResponseEditLink;
         this.index = index;
+        
         if (hasSubmitted) {
             if (fs.isOpened()) {
                 this.tooltipText = Const.Tooltips.FEEDBACK_SESSION_EDIT_SUBMITTED_RESPONSE;
