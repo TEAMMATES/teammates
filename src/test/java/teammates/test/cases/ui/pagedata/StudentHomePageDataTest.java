@@ -80,11 +80,13 @@ public class StudentHomePageDataTest {
         Map<String, Object> pendingRow = sessions.get(1);
         Map<String, Object> awaitingRow = sessions.get(2);
         
-        testFeedbackSession(submittedRow, submittedSession,
+        int index = 0;
+        
+        testFeedbackSession(index++, submittedRow, submittedSession,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED, "Submitted");
-        testFeedbackSession(pendingRow, pendingSession,
+        testFeedbackSession(index++, pendingRow, pendingSession,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING, "Pending");
-        testFeedbackSession(awaitingRow, awaitingSession,
+        testFeedbackSession(index++, awaitingRow, awaitingSession,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_AWAITING, "Awaiting");
     }
     
@@ -96,27 +98,31 @@ public class StudentHomePageDataTest {
         Map<String, Object> closedRow = sessions.get(1);
         Map<String, Object> submittedClosedRow = sessions.get(2);
         
-        testFeedbackSession(publishedRow, publishedSession,
+        int accumlativeOffset = courses.get(0).feedbackSessions.size();
+        int index = 0 + accumlativeOffset;
+        
+        testFeedbackSession(index++, publishedRow, publishedSession,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING
                                 + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED
                                 + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PUBLISHED,
                             "Published");
-        testFeedbackSession(closedRow, closedSession,
+        testFeedbackSession(index++, closedRow, closedSession,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_PENDING
                                 + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED,
                             "Closed");
-        testFeedbackSession(submittedClosedRow, submittedClosedSession,
+        testFeedbackSession(index++, submittedClosedRow, submittedClosedSession,
                             Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_SUBMITTED
                                 + Const.Tooltips.STUDENT_FEEDBACK_SESSION_STATUS_CLOSED,
                             "Closed");
     }
     
-    private void testFeedbackSession(Map<String, Object> row, FeedbackSessionAttributes session,
+    private void testFeedbackSession(int index, Map<String, Object> row, FeedbackSessionAttributes session,
             String expectedTooltip, String expectedStatus) {
         assertEquals(session.feedbackSessionName, row.get("name"));
         assertEquals(TimeHelper.formatTime(session.endTime), row.get("endTime"));
         assertEquals(expectedTooltip, row.get("tooltip"));
         assertEquals(expectedStatus, row.get("status"));
+        assertEquals(String.valueOf(index), row.get("index"));
         testActions((StudentFeedbackSessionActions) row.get("actions"), session);
     }
     
