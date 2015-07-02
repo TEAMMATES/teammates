@@ -31,7 +31,7 @@
         </c:if>
     </div>
 
-    <ti:remindModal />
+    <ti:remindParticularStudentsModal />
     <feedbacks:copyFromModal copyFromModal="${data.copyFromModal}" />
     <ti:copyModal />
     

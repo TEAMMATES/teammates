@@ -55,7 +55,9 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         // assumes it is run after NavLinks Test
         // (ie already logged in as studentWithEmptyProfile
         ______TS("Typical case: empty profile values");
-        profilePage.verifyHtmlMainContent("/studentProfilePageDefault.html");
+
+        // This is the full HTML verification for Registered Student Profile Submit Page, the rest can all be verifyMainHtml
+        profilePage.verifyHtml("/studentProfilePageDefault.html");
 
         ______TS("Typical case: existing profile values");
         // this test uses actual user accounts

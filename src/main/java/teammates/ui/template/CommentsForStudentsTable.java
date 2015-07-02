@@ -7,11 +7,11 @@ import java.util.List;
  * email and course ID. Comments by the same giver email but different course IDs
  * e.g same instructor in different courses will be in different tables.
  */
-public class SearchCommentsForStudentsTable {
+public class CommentsForStudentsTable {
     private String giverDetails;
     private List<CommentRow> rows;
     
-    public SearchCommentsForStudentsTable(String giverDetails, List<CommentRow> rows) {
+    public CommentsForStudentsTable(String giverDetails, List<CommentRow> rows) {
         this.giverDetails = giverDetails;
         this.rows = rows;
     }

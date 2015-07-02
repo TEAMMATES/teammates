@@ -21,7 +21,7 @@
     </div>
     <br />
     <t:statusMessage />
-    <ti:remindModal />
+    <ti:remindParticularStudentsModal />
     <c:if test="${data.account.instructor}">
         <c:if test="${data.unarchivedCoursesCount > 1}">
             <div class="row">

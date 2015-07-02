@@ -75,6 +75,10 @@ public class AccountAttributes extends EntityAttributes {
         return googleId;
     }
     
+    public String getEmail() {
+        return email;
+    }
+    
     public String getTruncatedGoogleId() {
         return StringHelper.truncate(googleId, Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH);
     }

@@ -635,7 +635,8 @@ public class AllActionsAccessControlTest extends BaseActionTest {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT, "",
                 Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE, "recipient",
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, comment.feedbackQuestionId,
-                Const.ParamsNames.FEEDBACK_RESPONSE_ID, comment.feedbackResponseId
+                Const.ParamsNames.FEEDBACK_RESPONSE_ID, comment.feedbackResponseId,
+                Const.ParamsNames.COMMENT_ID, "1-1-1-1"
         };
         
         verifyUnaccessibleWithoutSubmitSessionInSectionsPrivilege(submissionParams);

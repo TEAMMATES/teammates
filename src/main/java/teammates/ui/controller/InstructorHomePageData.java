@@ -12,6 +12,7 @@ import teammates.common.datatransfer.CourseSummaryBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
@@ -164,6 +165,18 @@ public class InstructorHomePageData extends PageData {
             InstructorAttributes instructor, String courseId) {
         List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
         int displayedStatsCount = 0;
+
+        Map<String, List<String>> courseIdSectionNamesMap = new HashMap<String, List<String>>();
+        try {
+            courseIdSectionNamesMap = getCourseIdSectionNamesMap(sessions);
+        } catch (EntityDoesNotExistException wonthappen) {
+            /*
+             * EDNEE is thrown if the courseId of any of the sessions is not valid.
+             * However, the sessions passed to this method come from course objects which are
+             * retrieved through database query, thus impossible for the courseId to be invalid.
+             */
+            Assumption.fail("Course that should exist is found to be non-existent");
+        }
         
         for (FeedbackSessionAttributes session : sessions) {
             Map<String, Object> columns = new HashMap<String, Object>();
@@ -181,12 +194,8 @@ public class InstructorHomePageData extends PageData {
                 ++displayedStatsCount;
             }
             
-            try {
-                columns.put("actions", getInstructorFeedbackSessionActions(session, false, instructor,
-                                               getCourseIdSectionNamesMap(sessions).get(courseId)));
-            } catch (EntityDoesNotExistException e) {
-                // nothing
-            }
+            columns.put("actions", getInstructorFeedbackSessionActions(session, false, instructor,
+                                                                       courseIdSectionNamesMap.get(courseId)));
             
             rows.add(columns);
         }

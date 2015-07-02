@@ -103,8 +103,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         pageAction = getAction(submissionParams);
         AjaxResult ajaxResult = this.getAjaxResult(pageAction);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS + "?error=false&user=idOfInstructor1OfCourse1", 
-                     ajaxResult.getDestinationWithParams());
+        assertEquals("?error=false&user=idOfInstructor1OfCourse1", ajaxResult.getDestinationWithParams());
         assertEquals(false, pageResult.isError);
         assertEquals("", ajaxResult.getStatusMessage());
         

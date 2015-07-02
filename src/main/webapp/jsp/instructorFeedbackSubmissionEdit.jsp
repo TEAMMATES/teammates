@@ -40,20 +40,20 @@
 
     <body>
         <%
-            if (!data.isHeaderHidden) {
+            if (!data.isHeaderHidden()) {
         %>
                 <jsp:include page="<%= Const.ViewURIs.INSTRUCTOR_HEADER %>" />
         <%
-            } else if (data.isPreview) {
+            } else if (data.isPreview()) {
         %>
             <nav class="navbar navbar-default navbar-fixed-top">
-                <h3 class="text-center">Previewing Session as Instructor <%= data.previewInstructor.name %> (<%= data.previewInstructor.email %>)</h3>
+                <h3 class="text-center">Previewing Session as Instructor <%= data.getPreviewInstructor().name %> (<%= data.getPreviewInstructor().email %>)</h3>
             </nav>
         <%
             }
         %>
 
-        <div class="container" id="frameBodyWrapper">
+        <div class="container" id="mainContent">
             <div id="topOfPage"></div>
             <h1>Submit Feedback</h1>
             <br>
@@ -68,7 +68,7 @@
                     %>
                             There are no questions for you to answer here!
                     <%
-                        } else if (data.isPreview || !data.isSessionOpenForSubmission) {
+                        } else if (data.isPreview() || !data.isSessionOpenForSubmission()) {
                     %>
                             <input disabled="disabled" type="submit" class="btn btn-primary center-block" id="response_submit_button" data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE %>" value="Submit Feedback">
                     <%
