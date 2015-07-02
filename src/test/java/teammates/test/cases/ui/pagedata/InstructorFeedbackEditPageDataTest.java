@@ -1,5 +1,6 @@
 package teammates.test.cases.ui.pagedata;
 
+import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
@@ -64,7 +65,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>();
         instructorList.add(dataBundle.instructors.get("instructor1OfCourse1"));
         
-        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor = getInstructorFromBundle("instructor1OfCourse1");
         
         data.init(fs, questions, copiableQuestions, questionHasResponses, studentList, instructorList, instructor);
         
@@ -72,12 +73,11 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         FeedbackSessionsForm fsForm = data.getFsForm();
         assertEquals((new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE).withUserId(instructor.googleId)).toString(), fsForm.getCopyToLink().toString());
         assertEquals(fs.courseId, fsForm.getCourseIdForNewSession());
-        assertEquals(null, fsForm.getCourses());
-        assertEquals(null, fsForm.getCoursesSelectField());
-        assertEquals(null, fsForm.getFeedbackSessionNameForSessionList());
-        assertEquals(false, fsForm.isFeedbackSessionTypeEditable());
-        assertEquals(true, fsForm.isEditFsButtonsVisible());
-        assertEquals(null, fsForm.getFeedbackSessionTypeOptions());
+        assertNull(fsForm.getCourses());
+        assertNull(fsForm.getCoursesSelectField());
+        assertFalse(fsForm.isFeedbackSessionTypeEditable());
+        assertTrue(fsForm.isEditFsButtonsVisible());
+        assertNull(fsForm.getFeedbackSessionTypeOptions());
         assertEquals(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE).toString(), fsForm.getFormSubmitAction().toString());
         
         assertEquals(data.getInstructorFeedbackSessionDeleteLink(fs.courseId, fs.feedbackSessionName, ""), fsForm.getFsDeleteLink().toString());
@@ -89,10 +89,10 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         assertEquals(Sanitizer.sanitizeForHtml(fs.instructions.getValue()), fsForm.getInstructions());
         assertEquals("Save Changes", fsForm.getSubmitButtonText());
         
-        assertEquals(false, fsForm.isCourseIdEditable());
-        assertEquals(false, fsForm.isShowNoCoursesMessage());
-        assertEquals(false, fsForm.isSubmitButtonVisible());
-        assertEquals(false, fsForm.isSubmitButtonDisabled());
+        assertFalse(fsForm.isCourseIdEditable());
+        assertFalse(fsForm.isShowNoCoursesMessage());
+        assertFalse(fsForm.isSubmitButtonVisible());
+        assertFalse(fsForm.isSubmitButtonDisabled());
         
         FeedbackSessionsAdditionalSettingsFormSegment additionalSettings = data.getFsForm().getAdditionalSettings();
         assertEquals(TimeHelper.formatDate(fs.resultsVisibleFromTime), additionalSettings.getResponseVisibleDateValue());
@@ -187,8 +187,8 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
                         .withUserId(instructor.googleId)
                         .withCourseId(fs.courseId)
                         .withSessionName(fs.feedbackSessionName).toString(), newQuestionForm.getDoneEditingLink().toString());
-        assertEquals(false, newQuestionForm.getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
-        assertEquals("", newQuestionForm.getQuestionNumberSuffix());
+        assertFalse(newQuestionForm.getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
+        assertTrue(newQuestionForm.getQuestionNumberSuffix().isEmpty());
         
         assertEquals(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE)
                             .withUserId(instructor.googleId)
@@ -224,7 +224,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         
         instructorList = new ArrayList<InstructorAttributes>();
         
-        instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        instructor = getInstructorFromBundle("instructor1OfCourse1");
         
         data.init(fs, questions, copiableQuestions, 
                   questionHasResponses, studentList, 
@@ -234,7 +234,6 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         assertEquals(fs.courseId, fsForm.getCourseIdForNewSession());
         assertEquals(null, fsForm.getCourses());
         assertEquals(null, fsForm.getCoursesSelectField());
-        assertEquals(null, fsForm.getFeedbackSessionNameForSessionList());
         assertEquals(false, fsForm.isFeedbackSessionTypeEditable());
         assertEquals(true, fsForm.isEditFsButtonsVisible());
         assertEquals(null, fsForm.getFeedbackSessionTypeOptions());
@@ -307,11 +306,16 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         instructorList = new ArrayList<InstructorAttributes>();
         instructorList.add(dataBundle.instructors.get("instructor1OfCourse1"));
         
-        instructor = dataBundle.instructors.get("helperOfCourse1");
-        instructor.privileges = gson.fromJson(instructor.instructorPrivilegesAsText, InstructorPrivileges.class);
+        instructor = getInstructorFromBundle("helperOfCourse1");
         
         data.init(fs, questions, copiableQuestions, questionHasResponses, studentList, instructorList, instructor);
         assertEquals(0, data.getCopyQnForm().getQuestionRows().size());
+    }
+    
+    public InstructorAttributes getInstructorFromBundle(String instructor) {
+        InstructorAttributes instructorAttributes = dataBundle.instructors.get(instructor);
+        instructorAttributes.privileges = gson.fromJson(instructorAttributes.instructorPrivilegesAsText, InstructorPrivileges.class);
+        return instructorAttributes;
     }
 
 

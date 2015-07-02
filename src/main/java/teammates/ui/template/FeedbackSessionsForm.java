@@ -24,8 +24,6 @@ public class FeedbackSessionsForm {
     // Default course id value
     private String courseIdForNewSession;
     
-    private String feedbackSessionNameForSessionList;
-    
     private boolean isEditFsButtonsVisible;
     private boolean isFeedbackSessionTypeEditable;
     // List of options for feedback session type
@@ -138,8 +136,6 @@ public class FeedbackSessionsForm {
         newFsForm.setFeedbackSessionTypeEditable(true);
         newFsForm.setFeedbackSessionTypeOptions(fsTypeOptions);
 
-        newFsForm.setFeedbackSessionNameForSessionList(feedbackSessionNameForSessionList);
-        
         newFsForm.setTimezoneSelectField(data.getTimeZoneOptionsAsElementTags(feedbackSession == null ? 
                                                                               Const.DOUBLE_UNINITIALIZED : 
                                                                               feedbackSession.timeZone));
@@ -276,11 +272,7 @@ public class FeedbackSessionsForm {
     public List<ElementTag> getTimezoneSelectField() {
         return timezoneSelectField;
     }
-    
-    public void setFeedbackSessionNameForSessionList(String feedbackSessionNameForSessionList) {
-        this.feedbackSessionNameForSessionList = feedbackSessionNameForSessionList;
-    }
-    
+
     public FeedbackSessionsAdditionalSettingsFormSegment getAdditionalSettings() {
         return this.additionalSettings;
     }
@@ -323,10 +315,6 @@ public class FeedbackSessionsForm {
 
     public void setCourseIdEditable(boolean isCourseIdEditable) {
         this.isCourseIdEditable = isCourseIdEditable;
-    }
-
-    public String getFeedbackSessionNameForSessionList() {
-        return feedbackSessionNameForSessionList;
     }
 
     public void setShowNoCoursesMessage(boolean isShowNoCoursesMessage) {

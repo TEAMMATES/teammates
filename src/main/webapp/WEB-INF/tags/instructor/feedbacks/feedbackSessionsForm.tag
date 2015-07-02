@@ -241,7 +241,7 @@
             </div>
         </div>
         
-        <feedbacks:feedbackSessionsFormAdditionalSettings fsForm="${fsForm}"/>
+        <feedbacks:feedbackSessionsFormAdditionalSettings additionalSettings="${fsForm.additionalSettings}"/>
         
         <div class="form-group">
             <div class="row">
