@@ -1,6 +1,7 @@
 package teammates.ui.template;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +29,7 @@ public class InstructorFeedbackResultsSectionPanel {
         isDisplayingMissingParticipants = true;
         
         isTeamWithResponses = new HashMap<String, Boolean>();
-        participantPanels = new HashMap<String, List<InstructorResultsParticipantPanel>>();
+        participantPanels = new LinkedHashMap<String, List<InstructorResultsParticipantPanel>>();
     }
     
     

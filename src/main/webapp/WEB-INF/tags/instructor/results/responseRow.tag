@@ -9,14 +9,26 @@
 <tr <c:forEach items="${responseRow.rowAttributes.attributes}" var="attr">${attr.key}="${attr.value}"</c:forEach>>
     <c:if test="${responseRow.giverDisplayed}">
         <c:if test="${responseRow.giverProfilePictureAColumn}">
-            <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
-                <div class="profile-pic-icon-click align-center" data-link="${responseRow.giverProfilePictureLink}">
-                    <a class="student-profile-pic-view-link btn-link">
-                        View Photo
-                    </a>
-                    <img src="" alt="No Image Given" class="hidden">
-                </div>
-            </td>
+            <td class="middlealign">
+             <c:choose>
+                <c:when test="${responseRow.giverProfilePictureDisplayed}">
+                    <div class="profile-pic-icon-click align-center" data-link="${responseRow.giverProfilePictureLink}">
+                        <a class="student-profile-pic-view-link btn-link">
+                            View Photo
+                        </a>
+                        <img src="" alt="No Image Given" class="hidden">
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    
+                        <div class="align-center" data-link="">
+                            <a class="student-profile-pic-view-link btn-link">
+                                No Photo
+                            </a>
+                        </div>
+                </c:otherwise>
+             </c:choose>
+                </td>
         </c:if>
         <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
         <c:choose>
@@ -36,12 +48,25 @@
     <c:if test="${responseRow.recipientDisplayed}">
         <c:if test="${responseRow.recipientProfilePictureAColumn}">
             <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">
-                <div class="profile-pic-icon-click align-center" data-link="${responseRow.recipientProfilePictureLink}">
-                    <a class="student-profile-pic-view-link btn-link">
-                        View Photo
-                    </a>
-                    <img src="" alt="No Image Given" class="hidden">
-                </div>
+                <c:choose>
+                    <c:when test="${responseRow.recipientProfilePictureDisplayed}">
+                        <div class="profile-pic-icon-click align-center" data-link="${responseRow.recipientProfilePictureLink}">
+                            <a class="student-profile-pic-view-link btn-link">
+                                View Photo
+                            </a>
+                            <img src="" alt="No Image Given" class="hidden">
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        
+                            <div class="align-center" data-link="">
+                                <a class="student-profile-pic-view-link btn-link">
+                                    No Photo
+                                </a>
+                            </div>
+                       
+                    </c:otherwise>
+                </c:choose>
             </td>
         </c:if>
         <td class="middlealign<c:if test="${responseRow.rowGrey}"> color_neutral</c:if>">

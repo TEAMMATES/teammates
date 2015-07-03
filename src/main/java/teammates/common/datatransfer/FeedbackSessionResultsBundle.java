@@ -1343,7 +1343,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
         String giver = null;
         String questionId = null;
-        String giverName = null;
 
         for (FeedbackResponseAttributes response : responses) {
             if (giver == null || !response.giverEmail.equals(giver)) {
