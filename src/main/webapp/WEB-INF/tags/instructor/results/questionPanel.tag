@@ -62,7 +62,10 @@
                             <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                 <tr>
                                     <c:forEach items="${questionPanel.columns}" var="thElement">
-                                        <th <c:forEach items="${thElement.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach>> ${thElement.content} <span class="icon-sort unsorted"></span></th>
+                                        <th <c:forEach items="${thElement.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach>> 
+                                            ${thElement.content}
+                                            <c:if test="${questionPanel.isColumnSortable[thElement.content]}"><span class="icon-sort unsorted"></span></c:if>
+                                        </th>
                                     </c:forEach>
                                 </tr>
                             <thead>

@@ -476,13 +476,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         boolean isCollapsible = true;
         List<ElementTag> columnTags = new ArrayList<ElementTag>();
+        Map<String, Boolean> isSortable = new HashMap<String, Boolean>();
         
         switch(statisticsViewType) {
             case QUESTION:
-                buildTableColumnHeaderForQuestionView(columnTags);
+                buildTableColumnHeaderForQuestionView(columnTags, isSortable);
                 break;
             case GIVER_QUESTION_RECIPIENT:
-                buildTableColumnHeaderForGiverQuestionRecipientView(columnTags);
+                buildTableColumnHeaderForGiverQuestionRecipientView(columnTags, isSortable);
                 isCollapsible = false;
                 break;
             default:
@@ -493,7 +494,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                    responses, statisticsTable, 
                                                                    responseRows, question, 
                                                                    additionalInfoId, 
-                                                                   columnTags);
+                                                                   columnTags,
+                                                                   isSortable);
         questionTable.setCollapsible(isCollapsible);
         questionTable.setShowResponseRows(true);
         
@@ -502,7 +504,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return questionTable;
     }
 
-    private void buildTableColumnHeaderForQuestionView(List<ElementTag> columnTags) {
+    private void buildTableColumnHeaderForQuestionView(List<ElementTag> columnTags, 
+                                                       Map<String, Boolean> isSortable) {
         ElementTag giverElement = new ElementTag("Giver", "id", "button_sortFromName", "class", "button-sort-none", "onclick", "toggleSort(this,1)", "style", "width: 15%;");
         ElementTag giverTeamElement = new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-none", "onclick", "toggleSort(this,2)", "style", "width: 15%;");
         ElementTag recipientElement = new ElementTag("Recipient", "id", "button_sortToName", "class", "button-sort-none", "onclick", "toggleSort(this,3)", "style", "width: 15%;");
@@ -516,9 +519,16 @@ public class InstructorFeedbackResultsPageData extends PageData {
         columnTags.add(recipientTeamElement);
         columnTags.add(responseElement);
         columnTags.add(actionElement);
+        
+        isSortable.put("Giver", true);
+        isSortable.put("Team", true);
+        isSortable.put("Recipient", true);
+        isSortable.put("Feedback", true);
+        isSortable.put("Actions", false);
     }
     
-    private void buildTableColumnHeaderForGiverQuestionRecipientView(List<ElementTag> columnTags) {
+    private void buildTableColumnHeaderForGiverQuestionRecipientView(List<ElementTag> columnTags,
+                                                                     Map<String, Boolean> isSortable) {
         ElementTag photoElement = new ElementTag("Photo");
         ElementTag recipientElement = new ElementTag("Recipient", "id", "button_sortToName", "class", "button-sort-none", "onclick", "toggleSort(this,3)", "style", "width: 15%;");
         ElementTag recipientTeamElement = new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending", "onclick", "toggleSort(this,4)", "style", "width: 15%;");
@@ -528,6 +538,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
         columnTags.add(recipientElement);
         columnTags.add(recipientTeamElement);
         columnTags.add(responseElement);
+        
+        isSortable.put("Photo", false);
+        isSortable.put("Team", true);
+        isSortable.put("Recipient", true);
+        isSortable.put("Feedback", true);
 
     }
     

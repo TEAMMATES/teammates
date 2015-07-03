@@ -3,6 +3,7 @@ package teammates.ui.template;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
@@ -34,6 +35,7 @@ public class InstructorResultsQuestionTable {
     private boolean isBoldQuestionNumber;
 
     private List<ElementTag> columns;
+    private Map<String, Boolean> isColumnSortable;
 
     public InstructorResultsQuestionTable(InstructorFeedbackResultsPageData data,
                                           List<FeedbackResponseAttributes> responses,
@@ -41,20 +43,23 @@ public class InstructorResultsQuestionTable {
                                           List<InstructorResultsResponseRow> responseRows,
                                           FeedbackQuestionAttributes question,
                                           String additionalInfoId,
-                                          List<ElementTag> columns) {
+                                          List<ElementTag> columns,
+                                          Map<String, Boolean> isColumnSortable) {
         this.courseId = question.courseId;
         this.feedbackSessionName = question.feedbackSessionName;
         
         this.questionStatisticsHtml = questionStatisticsHtml;
         this.responses = responseRows;
         
-        this.isQuestionHasResponses = !responses.isEmpty(); //TODO; just use empty responses? 
+        this.isQuestionHasResponses = !responses.isEmpty(); //TODO: just check is response is empty in jsp? 
         
         this.question = question;
         
         this.questionText = data.bundle.getQuestionText(question.getId());
         
-        this.panelClass = responses.isEmpty() ? "panel-default" : "panel-info";
+        this.panelClass = responses.isEmpty() ? 
+                          "panel-default" : 
+                          "panel-info";
         
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
         this.additionalInfoText = questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, additionalInfoId);        
@@ -63,6 +68,7 @@ public class InstructorResultsQuestionTable {
         this.columns = columns;
         
         this.isBoldQuestionNumber = true;
+        this.isColumnSortable = isColumnSortable;
     }
 
     public String getQuestionStatisticsHtml() {
@@ -175,6 +181,14 @@ public class InstructorResultsQuestionTable {
 
     public void setBoldQuestionNumber(boolean isBoldQuestionNumber) {
         this.isBoldQuestionNumber = isBoldQuestionNumber;
+    }
+    
+    public Map<String, Boolean> getIsColumnSortable() {
+        return isColumnSortable;
+    }
+
+    public void setIsColumnSortable(Map<String, Boolean> isColumnSortable) {
+        this.isColumnSortable = isColumnSortable;
     }
 
     public static void sortByQuestionNumber(List<InstructorResultsQuestionTable> questionTables) {
