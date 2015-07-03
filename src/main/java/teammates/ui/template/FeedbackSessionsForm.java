@@ -18,7 +18,7 @@ import teammates.ui.controller.PageData;
  *
  */
 public class FeedbackSessionsForm {
-    private Url formSubmitAction;
+    private Url formSubmitActionLink;
     private String submitButtonText;
     
     // Default course id value
@@ -293,11 +293,11 @@ public class FeedbackSessionsForm {
     }
 
     public Url getFormSubmitAction() {
-        return formSubmitAction;
+        return formSubmitActionLink;
     }
 
     public void setFormSubmitAction(Url formSubmitAction) {
-        this.formSubmitAction = formSubmitAction;
+        this.formSubmitActionLink = formSubmitAction;
     }
 
     public boolean isFeedbackSessionTypeEditable() {

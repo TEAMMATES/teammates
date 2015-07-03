@@ -10,8 +10,8 @@ import teammates.common.util.Url;
  *
  */
 public class FeedbackQuestionEditForm {
-    //TODO switch the rest of the Strings to use Url if they are links
-    private Url action;
+    //TODO switch the rest of the Links to use Url if they are links
+    private Url actionLink;
     
     private String courseId;
     private String feedbackSessionName;
@@ -102,11 +102,11 @@ public class FeedbackQuestionEditForm {
     }
 
     public Url getAction() {
-        return action;
+        return actionLink;
     }
 
     public void setAction(Url action) {
-        this.action = action;
+        this.actionLink = action;
     }
 
     public String getQuestionTypeOptions() {
