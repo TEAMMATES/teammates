@@ -51,6 +51,14 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
             this.isArchived = status.booleanValue(); 
         }
     }
+
+    public String getId() {
+        return id;
+    }
+    
+    public String getName() {
+        return name;
+    }
     
     public List<String> getInvalidityInfo() {
         
@@ -82,7 +90,7 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
 
     @Override
     public String getIdentificationString() {
-        return this.id;
+        return id;
     }
 
     @Override
@@ -102,8 +110,8 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     
     @Override
     public void sanitizeForSaving() {
-        this.id = Sanitizer.sanitizeForHtml(id);
-        this.name = Sanitizer.sanitizeForHtml(name);
+        id = Sanitizer.sanitizeForHtml(id);
+        name = Sanitizer.sanitizeForHtml(name);
     }
 
     @Override
