@@ -222,7 +222,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
             
             // Construct InstructorFeedbackResultsGroupByQuestionPanel for the current giver
-            InstructorResultsModerationButton moderationButton = buildModerationButtonForGiver(null, giverIdentifier, "btn btn-primary btn-xs");
+            InstructorResultsModerationButton moderationButton = buildModerationButtonForGiver(
+                                                                      null, giverIdentifier,
+                                                                      "btn btn-primary btn-xs",
+                                                                      "Moderate Responses");
             InstructorFeedbackResultsGroupByQuestionPanel giverPanel = 
                                                                  buildInstructorFeedbackResultsGroupByQuestionPanel(
                                                                      validator, giverIdentifier, 
@@ -400,7 +403,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                              InstructorFeedbackResultsSectionPanel sectionPanel, 
                                                              String teamName, List<String> teamMembers) {
         for (String teamMember : teamMembers) {
-            InstructorResultsModerationButton moderationButton = buildModerationButtonForGiver(null, teamMember, "btn btn-default btn-xs");
+            InstructorResultsModerationButton moderationButton = buildModerationButtonForGiver(null, teamMember, 
+                                                                                               "btn btn-default btn-xs",
+                                                                                               "Moderate Responses");
             InstructorFeedbackResultsGroupByQuestionPanel giverPanel = 
                                             buildInstructorFeedbackResultsGroupByQuestionPanel(validator, teamMember, bundle.getFullNameFromRoster(teamMember),
                                                                                                null, new ArrayList<InstructorResultsQuestionTable>(), moderationButton, 
@@ -485,7 +490,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
                 InstructorResultsQuestionTable statsTable = buildQuestionTable(question, responsesGivenTeamAndQuestion,
                                                                                viewType, 
-                                                                               "questionAdditionalInfo-" + question.questionNumber + "-",
+                                                                               "",
                                                                                false);
                 statsTable.setShowResponseRows(false); 
                 statsTable.setCollapsible(false);
@@ -570,9 +575,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private void buildTableColumnHeaderForGiverQuestionRecipientView(List<ElementTag> columnTags,
                                                                      Map<String, Boolean> isSortable) {
         ElementTag photoElement = new ElementTag("Photo");
-        ElementTag recipientElement = new ElementTag("Recipient", "id", "button_sortTo", "class", "button-sort-none", "onclick", "toggleSort(this,3)", "style", "width: 15%;");
-        ElementTag recipientTeamElement = new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending", "onclick", "toggleSort(this,4)", "style", "width: 15%;");
-        ElementTag responseElement = new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick", "toggleSort(this,5)");
+        ElementTag recipientElement = new ElementTag("Recipient", "id", "button_sortTo", "class", "button-sort-none", "onclick", "toggleSort(this,2)", "style", "width: 15%;");
+        ElementTag recipientTeamElement = new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending", "onclick", "toggleSort(this,3)", "style", "width: 15%;");
+        ElementTag responseElement = new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick", "toggleSort(this,4)");
 
         columnTags.add(photoElement);
         columnTags.add(recipientElement);
@@ -720,7 +725,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             String textToDisplay = questionDetails.getNoResponseTextInHtml(giverIdentifier, possibleRecipient, bundle, question);
             
             if (questionDetails.shouldShowNoResponseText(giverIdentifier, possibleRecipient, question)) {
-                InstructorResultsModerationButton moderationButton = buildModerationButtonForGiver(question, giverIdentifier, "btn btn-default btn-xs");
+                InstructorResultsModerationButton moderationButton = buildModerationButtonForGiver(question, giverIdentifier, "btn btn-default btn-xs", "Moderate Response");
                 InstructorResultsResponseRow missingResponse = new InstructorResultsResponseRow(giverName, giverTeam, possibleRecipientName, possibleRecipientTeam, 
                                                                                                 textToDisplay, true, moderationButton, true);
                 missingResponse.setRowAttributes(new ElementTag("class", "pending_response_row"));
@@ -790,11 +795,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     private InstructorResultsModerationButton buildModerationButtonForExistingResponse(FeedbackQuestionAttributes question,
                                                                       FeedbackResponseAttributes response) {
-        return buildModerationButtonForGiver(question, response.giverEmail, "btn btn-default btn-xs");
+        return buildModerationButtonForGiver(question, response.giverEmail, "btn btn-default btn-xs", "Moderate Response");
     }
     
     private InstructorResultsModerationButton buildModerationButtonForGiver(FeedbackQuestionAttributes question,
-                                                                            String giverEmail, String className) {
+                                                                            String giverEmail, String className,
+                                                                            String buttonText) {
         boolean isAllowedToModerate = instructor.isAllowedForPrivilege(bundle.getSectionFromRoster(giverEmail), 
                                                      feedbackSessionName, 
                                                      Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
@@ -811,7 +817,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                  className,
                                                                  giverIdentifier, 
                                                                  courseId, feedbackSessionName, 
-                                                                 question);
+                                                                 question, buttonText);
         return moderationButton;
    }
     
