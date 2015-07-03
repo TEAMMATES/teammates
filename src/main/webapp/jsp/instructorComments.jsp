@@ -311,7 +311,7 @@
                                                         id="form_commentedit-<%= commentIdx %>">
                                                         <div id="commentBar-<%= commentIdx %>">
                                                             
-                                                            <span class="text-muted">To <b><%= data.getRecipientNames(comment.recipients) %></b> 
+                                                            <span class="text-muted">To <%= data.getRecipientNames(comment.recipients) %> 
                                                 [<%= Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt) %>] <%= comment.getEditedAtText(data.getGiverName(giverEmail).equals("Anonymous"), comment.lastEditorEmail, Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.lastEditedAt)) %>
                                                             </span>
                                                             <%
