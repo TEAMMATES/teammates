@@ -70,6 +70,12 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getGiveCommentButton().getContent());
         assertNotNull(pageData.getCourseDetails());
         assertNotNull(pageData.getCurrentInstructor());
+        assertEquals(null, pageData.getStudentsTable().getRows().get(0).getActions().get(0).getAttributes().get("disabled"));
+        assertEquals(null, pageData.getStudentsTable().getRows().get(0).getActions().get(1).getAttributes().get("disabled"));
+        assertEquals(null, pageData.getStudentsTable().getRows().get(0).getActions().get(2).getAttributes().get("disabled"));
+        assertEquals(null, pageData.getStudentsTable().getRows().get(0).getActions().get(3).getAttributes().get("disabled"));
+        assertEquals(null, pageData.getStudentsTable().getRows().get(0).getCommentActions().get(0).getAttributes().get("disabled"));
+        assertEquals(null, pageData.getStudentsTable().getRows().get(0).getCommentActions().get(1).getAttributes().get("disabled"));
         
         ______TS("test current instructor doesn't have any permission for the course");
         String[] allPrivileges = {
