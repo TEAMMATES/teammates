@@ -128,19 +128,14 @@
                                     id="form_commentedit-<%=commentIdx%>">
                                     <div id="commentBar-<%=commentIdx%>">
                                         <%
-                                        	InstructorAttributes instructor = data.roster.getInstructorForEmail(comment.giverEmail);
-                                                                                   String giverDisplay = comment.giverEmail;
-                                                                                   if(instructor != null){
-                                                                                       giverDisplay = instructor.displayedName + " " + instructor.name;
-                                                                                   }
-                                                                                   String lastEditorDisplay = null;
-                                                                                   if (comment.lastEditorEmail != null) {
-                                                                                        InstructorAttributes lastEditor = data.roster.getInstructorForEmail(comment.lastEditorEmail);
-                                                                                        lastEditorDisplay = lastEditor.displayedName + " " + lastEditor.name;
-                                                                                   }
+                                           InstructorAttributes instructor = data.roster.getInstructorForEmail(comment.giverEmail);
+                                           String giverDisplay = comment.giverEmail;
+                                           if(instructor != null){
+                                               giverDisplay = instructor.displayedName + " " + instructor.name;
+                                           }
                                         %>
                                         <span class="text-muted">From <b><%=giverDisplay%></b> 
-                                            [<%= Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt) %>] <%= comment.getEditedAtText(giverDisplay.equals("Anonymous"), lastEditorDisplay, Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.lastEditedAt)) %>
+                                            [<%= Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt) %>] <%= comment.getEditedAtText(giverDisplay.equals("Anonymous"), comment.lastEditorEmail, Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.lastEditedAt)) %>
                                         </span>
                                     </div>
                                     <div id="plainCommentText<%=commentIdx%>"><%=comment.commentText.getValue()%></div>
