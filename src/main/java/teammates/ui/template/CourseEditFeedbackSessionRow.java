@@ -7,9 +7,9 @@ public class CourseEditFeedbackSessionRow {
     private String feedbackSessionName;
     private List<ElementTag> permissionCheckBoxes;
     
-    public CourseEditFeedbackSessionRow(String feedbackSessionName) {
+    public CourseEditFeedbackSessionRow(String feedbackSessionName, List<ElementTag> checkBoxList) {
         this.feedbackSessionName = feedbackSessionName;
-        permissionCheckBoxes = new ArrayList<ElementTag>();
+        permissionCheckBoxes = checkBoxList;
     }
     
     public String getFeedbackSessionName() {
