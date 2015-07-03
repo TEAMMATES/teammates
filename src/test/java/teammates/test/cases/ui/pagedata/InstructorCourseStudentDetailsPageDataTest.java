@@ -144,25 +144,25 @@ public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
         inputStudentProfile = new StudentProfileAttributes(
                 null, shortName, email, institute, nationality, gender, moreInfo, pictureKey);
     }
-    
-    private void initCommonData() {
-        isAbleToAddComment = true;
-        hasSection = true;
-        commentRecipient = null;
-    }
 
     protected InstructorCourseStudentDetailsPageData createData() {
-        initCommonData();
+        createCommonData();
         
         return new InstructorCourseStudentDetailsPageData(
                 new AccountAttributes(), inputStudent, inputStudentProfile, isAbleToAddComment, hasSection, commentRecipient);
     }
     
     private InstructorCourseStudentDetailsPageData createData(String commentRecipient) {
-        initCommonData();
+        createCommonData();
         this.commentRecipient = commentRecipient;
         
         return new InstructorCourseStudentDetailsPageData(
                 new AccountAttributes(), inputStudent, inputStudentProfile, isAbleToAddComment, hasSection, commentRecipient);
+    }
+    
+    private void createCommonData() {
+        isAbleToAddComment = true;
+        hasSection = true;
+        commentRecipient = null;
     }
 }
