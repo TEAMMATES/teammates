@@ -24,6 +24,10 @@
     updateUncommonSettingsInfo();
     hideUncommonPanels();"
 </c:set>
+
+<c:set var="EMPTY_FEEDBACK_SESSION_MESSAGE">
+ <%= Const.StatusMessages.FEEDBACK_QUESTION_EMPTY %>
+</c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Feedback Session" jsIncludes="${jsIncludes}" bodyOnload="${onload}">
     
     <feedbacks:feedbackSessionsForm fsForm="${data.fsForm}" />
@@ -34,7 +38,7 @@
     
     <c:if test="${empty data.qnForms}">
             <br>
-            <div class="align-center bold" id="empty_message">${data.emptyFsMsg}</div>
+            <div class="align-center bold" id="empty_message">${EMPTY_FEEDBACK_SESSION_MESSAGE}</div>
             <br/>
     </c:if>
      <br/>

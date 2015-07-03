@@ -256,7 +256,6 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         assertTrue(additionalSettings.isSendOpeningEmailChecked());
         assertFalse(additionalSettings.isSendPublishedEmailChecked());
         
-        assertEquals("You have not created any questions for this feedback session yet. Click the button below to add a feedback question.", data.getEmptyFsMsg());
         
         questionForms = data.getQnForms();
         assertEquals(0, questionForms.size());
