@@ -22,7 +22,7 @@ public class StudentHomePageData extends PageData {
     
     public StudentHomePageData(AccountAttributes account,
                                List<CourseDetailsBundle> courses,
-                               Map<String, Boolean> sessionSubmissionStatusMap) {
+                               Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
         super(account);
         setCourseTables(courses, sessionSubmissionStatusMap);
     }
@@ -31,14 +31,13 @@ public class StudentHomePageData extends PageData {
         return courseTables;
     }
     
-    private void setCourseTables(List<CourseDetailsBundle> courses, Map<String, Boolean> sessionSubmissionStatusMap) {
+    private void setCourseTables(List<CourseDetailsBundle> courses, Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
         courseTables = new ArrayList<CourseTable>();
         int startingSessionIdx = 0; // incremented for each session row without resetting between courses
         for (CourseDetailsBundle courseDetails : courses) {
             CourseTable courseTable = new CourseTable(courseDetails.course,
                                                       createCourseTableLinks(courseDetails.course.id),
                                                       createSessionRows(courseDetails.feedbackSessions,
-                                                                        courseDetails.course.id,
                                                                         sessionSubmissionStatusMap,
                                                                         startingSessionIdx));
             startingSessionIdx += courseDetails.feedbackSessions.size();
@@ -57,13 +56,13 @@ public class StudentHomePageData extends PageData {
     }
     
     private List<Map<String, Object>> createSessionRows(List<FeedbackSessionDetailsBundle> feedbackSessions,
-            String courseId, Map<String, Boolean> sessionSubmissionStatusMap, int sessionIdx) {
+            Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap, int sessionIdx) {
         List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
         
         for (FeedbackSessionDetailsBundle session : feedbackSessions) {
             FeedbackSessionAttributes feedbackSession = session.feedbackSession;
             String sessionName = feedbackSession.feedbackSessionName;
-            boolean hasSubmitted = sessionSubmissionStatusMap.get(courseId + "%" + sessionName);
+            boolean hasSubmitted = sessionSubmissionStatusMap.get(feedbackSession);
             
             Map<String, Object> columns = new HashMap<String, Object>();
             columns.put("name", PageData.sanitizeForHtml(sessionName));

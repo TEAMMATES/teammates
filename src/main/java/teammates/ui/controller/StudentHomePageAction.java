@@ -26,7 +26,7 @@ public class StudentHomePageAction extends Action {
         String recentlyJoinedCourseId = getRequestParamValue(Const.ParamsNames.CHECK_PERSISTENCE_COURSE);        
         
         List<CourseDetailsBundle> courses = new ArrayList<CourseDetailsBundle>();
-        Map<String, Boolean> sessionSubmissionStatusMap = new HashMap<String, Boolean>();
+        Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap = new HashMap<>();
         
         try {
             courses = logic.getCourseDetailsListForStudent(account.googleId);
@@ -61,14 +61,14 @@ public class StudentHomePageAction extends Action {
         return response;
     }
     
-    private Map<String, Boolean> generateFeedbackSessionSubmissionStatusMap(
+    private Map<FeedbackSessionAttributes, Boolean> generateFeedbackSessionSubmissionStatusMap(
             List<CourseDetailsBundle> courses, String googleId) {
-        Map<String, Boolean> returnValue = new HashMap<String, Boolean>();
+        Map<FeedbackSessionAttributes, Boolean> returnValue = new HashMap<>();
         
         for(CourseDetailsBundle c : courses) {
             for(FeedbackSessionDetailsBundle fsb : c.feedbackSessions) {
                 FeedbackSessionAttributes f = fsb.feedbackSession;
-                returnValue.put(f.courseId + "%" + f.feedbackSessionName, getStudentStatusForSession(f, googleId));
+                returnValue.put(f, getStudentStatusForSession(f, googleId));
             }
         }
         return returnValue;
@@ -112,7 +112,7 @@ public class StudentHomePageAction extends Action {
     }
     
     private void addPlaceholderCourse(List<CourseDetailsBundle> courses, String courseId,
-            String googleId, Map<String, Boolean> sessionSubmissionStatusMap) {
+            String googleId, Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
         try {
             CourseDetailsBundle course = logic.getCourseDetails(courseId);
             courses.add(course);
@@ -127,10 +127,9 @@ public class StudentHomePageAction extends Action {
     } 
     
     private void addPlaceholderFeedbackSessions(CourseDetailsBundle course,
-                                                Map<String, Boolean> sessionSubmissionStatusMap) {
+                                                Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap) {
         for (FeedbackSessionDetailsBundle fsb: course.feedbackSessions){
-            FeedbackSessionAttributes f = fsb.feedbackSession;
-            sessionSubmissionStatusMap.put(f.courseId+"%" + f.feedbackSessionName, true);
+            sessionSubmissionStatusMap.put(fsb.feedbackSession, true);
         }
     }
 }

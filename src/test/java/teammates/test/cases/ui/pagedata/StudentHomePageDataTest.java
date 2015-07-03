@@ -5,7 +5,6 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -148,13 +147,13 @@ public class StudentHomePageDataTest {
         submittedClosedSession = createFeedbackSession("submitted closed session", -1, 0, 1);
         
         // Submission status
-        Map<String, Boolean> sessionSubmissionStatusMap = new HashMap<String, Boolean>();
-        sessionSubmissionStatusMap.put(course1.id + "%" + submittedSession.feedbackSessionName, true);
-        sessionSubmissionStatusMap.put(course1.id + "%" + pendingSession.feedbackSessionName, false);
-        sessionSubmissionStatusMap.put(course1.id + "%" + awaitingSession.feedbackSessionName, false);
-        sessionSubmissionStatusMap.put(course2.id + "%" + publishedSession.feedbackSessionName, false);
-        sessionSubmissionStatusMap.put(course2.id + "%" + closedSession.feedbackSessionName, false);
-        sessionSubmissionStatusMap.put(course2.id + "%" + submittedClosedSession.feedbackSessionName, true);
+        Map<FeedbackSessionAttributes, Boolean> sessionSubmissionStatusMap = new HashMap<>();
+        sessionSubmissionStatusMap.put(submittedSession, true);
+        sessionSubmissionStatusMap.put(pendingSession, false);
+        sessionSubmissionStatusMap.put(awaitingSession, false);
+        sessionSubmissionStatusMap.put(publishedSession, false);
+        sessionSubmissionStatusMap.put(closedSession, false);
+        sessionSubmissionStatusMap.put(submittedClosedSession, true);
         
         // Tooltip and button texts
         tooltipTextMap = new HashMap<FeedbackSessionAttributes, String>();
@@ -198,10 +197,8 @@ public class StudentHomePageDataTest {
     }
 
     private CourseDetailsBundle createCourseBundle(CourseAttributes course, FeedbackSessionAttributes... sesssions) {
-        String courseId = course.id;
         CourseDetailsBundle courseBundle = new CourseDetailsBundle(course);
         for (FeedbackSessionAttributes session : sesssions) {
-            session.courseId = courseId;
             courseBundle.feedbackSessions.add(new FeedbackSessionDetailsBundle(session));
         }
         return courseBundle;
