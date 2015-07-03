@@ -31,7 +31,7 @@ public class CourseEditInstructorPanel {
         }
         this.instructor = instructor;
         
-        createSectionRows(instructorIndex, sectionNames, feedbackNames);
+        sectionRows = createSectionRows(instructorIndex, sectionNames, feedbackNames);
         permissionInputGroup1 = createPermissionInputGroup1ForInstructorPanel();
         permissionInputGroup2 = createPermissionInputGroup2ForInstructorPanel();
         permissionInputGroup3 = createPermissionInputGroup3ForInstructorPanel();
@@ -50,17 +50,18 @@ public class CourseEditInstructorPanel {
         }
     }
 
-    private void createSectionRows(int instructorIndex, List<String> sectionNames, 
+    private List<CourseEditSectionRow> createSectionRows(int instructorIndex, List<String> sectionNames, 
                                    List<String> feedbackNames) {
-        sectionRows = new ArrayList<CourseEditSectionRow>();
+        List<CourseEditSectionRow> rows = new ArrayList<CourseEditSectionRow>();
         int sectionIndex = -1; 
         for (String sectionName : sectionNames) {
             sectionIndex++;
             CourseEditSectionRow sectionRow = new CourseEditSectionRow(sectionName, sectionNames, 
                                                                        sectionIndex, instructor, 
                                                                        instructorIndex, feedbackNames);
-            sectionRows.add(sectionRow);
+            rows.add(sectionRow);
         }
+        return rows;
     }
     
     public List<CourseEditSectionRow> getSectionRows() {

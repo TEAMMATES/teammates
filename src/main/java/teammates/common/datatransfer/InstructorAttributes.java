@@ -313,7 +313,7 @@ public class InstructorAttributes extends EntityAttributes {
     }
     
     public boolean isCustomRole() {
-        return (role != null) && role.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
+        return Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM.equals(role);
     }
     
     public String getCourseId() {
