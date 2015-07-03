@@ -22,7 +22,7 @@ public class FeedbackSessionsForm {
     private String submitButtonText;
     
     // Default course id value
-    private String courseIdForNewSession;
+    private String courseId;
     
     private boolean isEditFsButtonsVisible;
     private boolean isFeedbackSessionTypeEditable;
@@ -77,7 +77,7 @@ public class FeedbackSessionsForm {
         
         fsForm.setCopyToLink(new Url(data.getFeedbackSessionEditCopyLink()));
         
-        fsForm.setCourseIdForNewSession(newFeedbackSession.courseId);
+        fsForm.setCourseId(newFeedbackSession.courseId);
         
         fsForm.setFsNameEditable(false);
         fsForm.setFsName(newFeedbackSession.feedbackSessionName);
@@ -111,18 +111,17 @@ public class FeedbackSessionsForm {
         return fsForm;
     }
     
-    public static FeedbackSessionsForm getFormForNewFs(PageData data, 
-                                                       String defaultCourseId,
-                                                       Map<String, InstructorAttributes> instructors,
-                                                       FeedbackSessionAttributes feedbackSession, String feedbackSessionType,
-                                                       String feedbackSessionNameForSessionList, 
-                                                       List<String> courseIds, List<ElementTag> courseIdOptions,
+    public static FeedbackSessionsForm getFormForNewFs(PageData data,
+                                                       FeedbackSessionAttributes feedbackSession,
                                                        List<ElementTag> fsTypeOptions,
+                                                       String defaultCourseId,
+                                                       List<String> courseIds, List<ElementTag> courseIdOptions,
+                                                       Map<String, InstructorAttributes> instructors,
                                                        FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
         FeedbackSessionsForm newFsForm = new FeedbackSessionsForm();
         
         newFsForm.setIsShowNoCoursesMessage(courseIds.isEmpty());
-        newFsForm.setCourseIdForNewSession(defaultCourseId);
+        newFsForm.setCourseId(defaultCourseId);
         
         newFsForm.setFsNameEditable(true);
         newFsForm.setFsName(feedbackSession == null ? "" : feedbackSession.feedbackSessionName);
@@ -173,8 +172,8 @@ public class FeedbackSessionsForm {
         return newFsForm;
     }
     
-    public void setCourseIdForNewSession(String courseIdForNewSession) {
-        this.courseIdForNewSession = courseIdForNewSession;
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
     
     public void setFsName(String fsName) {
@@ -185,8 +184,8 @@ public class FeedbackSessionsForm {
         this.courses = courses;
     }
     
-    public String getCourseIdForNewSession() {
-        return courseIdForNewSession;
+    public String getCourseId() {
+        return courseId;
     }
     
     public List<String> getCourses() {

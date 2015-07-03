@@ -44,7 +44,7 @@
                                     </c:when>
                                     <c:otherwise>
                                             <div class="form-control-static">
-                                                    ${fsForm.courseIdForNewSession}
+                                                    ${fsForm.courseId}
                                             </div>
                                     </c:otherwise>
                                 </c:choose>
@@ -266,7 +266,7 @@
             <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${fsForm.fsName}">
         </c:if>
         <c:if test="${!fsForm.courseIdEditable}">
-            <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${fsForm.courseIdForNewSession}">
+            <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${fsForm.courseId}">
         </c:if>
         <input type="hidden"
             name="<%= Const.ParamsNames.USER_ID %>"

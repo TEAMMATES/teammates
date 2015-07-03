@@ -75,7 +75,7 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         // Test new fs form model
         FeedbackSessionsForm formModel = data.getNewFsForm();
         
-        assertNull(formModel.getCourseIdForNewSession());
+        assertNull(formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
         assertEquals("Team peer evaluation session", formModel.getFeedbackSessionTypeOptions().get(1).getContent());
@@ -157,7 +157,7 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         // Test new fs form model
         formModel = helperData.getNewFsForm();
         
-        assertNull(formModel.getCourseIdForNewSession());
+        assertNull(formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals("No active courses!", formModel.getCoursesSelectField().get(0).getContent());
         
@@ -243,7 +243,7 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         // Test new fs form model
         FeedbackSessionsForm formModel = data.getNewFsForm();
         
-        assertNull(formModel.getCourseIdForNewSession());
+        assertNull(formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
         assertEquals("Team peer evaluation session", formModel.getFeedbackSessionTypeOptions().get(1).getContent());
@@ -325,7 +325,7 @@ public class InstructorFeedbacksPageDataTest extends BaseComponentTestCase {
         
         FeedbackSessionsForm formModel = data.getNewFsForm();
         
-        assertEquals("idOfTypicalCourse1", formModel.getCourseIdForNewSession());
+        assertEquals("idOfTypicalCourse1", formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
         assertEquals("Session with your own questions", formModel.getFeedbackSessionTypeOptions().get(0).getContent());

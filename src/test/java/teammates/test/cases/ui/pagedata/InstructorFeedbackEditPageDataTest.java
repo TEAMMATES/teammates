@@ -72,7 +72,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         // Test fs form
         FeedbackSessionsForm fsForm = data.getFsForm();
         assertEquals((new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE).withUserId(instructor.googleId)).toString(), fsForm.getCopyToLink().toString());
-        assertEquals(fs.courseId, fsForm.getCourseIdForNewSession());
+        assertEquals(fs.courseId, fsForm.getCourseId());
         assertNull(fsForm.getCourses());
         assertNull(fsForm.getCoursesSelectField());
         assertFalse(fsForm.isFeedbackSessionTypeEditable());
@@ -231,7 +231,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
                   instructorList, instructor);
         fsForm = data.getFsForm();
         assertEquals((new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE).withUserId(instructor.googleId)).toString(), fsForm.getCopyToLink().toString());
-        assertEquals(fs.courseId, fsForm.getCourseIdForNewSession());
+        assertEquals(fs.courseId, fsForm.getCourseId());
         assertEquals(null, fsForm.getCourses());
         assertEquals(null, fsForm.getCoursesSelectField());
         assertEquals(false, fsForm.isFeedbackSessionTypeEditable());

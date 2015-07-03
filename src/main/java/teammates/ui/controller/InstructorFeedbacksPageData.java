@@ -155,14 +155,13 @@ public class InstructorFeedbacksPageData extends PageData {
                                                 FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
                                                 String feedbackSessionNameForSessionList, List<String> courseIds,
                                                 FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
-        return FeedbackSessionsForm.getFormForNewFs(this, 
-                                        courseIdForNewSession,
-                                        instructors,
-                                        newFeedbackSession, feedbackSessionType,
-                                        feedbackSessionNameForSessionList, courseIds,
-                                        getCourseIdOptions(courses,  courseIdForNewSession, 
-                                                           instructors, newFeedbackSession), 
+        return FeedbackSessionsForm.getFormForNewFs(this,
+                                        newFeedbackSession,
                                         getFeedbackSessionTypeOptions(feedbackSessionType),
+                                        courseIdForNewSession,
+                                        courseIds, getCourseIdOptions(courses,  courseIdForNewSession, 
+                                                           instructors, newFeedbackSession), 
+                                        instructors,
                                         additionalSettings);
     }
 
