@@ -70,9 +70,8 @@ public class InstructorCourseEditPageData extends PageData {
                                                             List<String> sectionNames, 
                                                             List<String> feedbackNames) {
         CourseEditInstructorPanel instructorPanel = new CourseEditInstructorPanel(instructorToShowIndex, 
-                                                                                  instructorIndex, instructor, 
-                                                                                  currentInstructor, sectionNames, 
-                                                                                  feedbackNames);
+                                                                          instructorIndex, currentInstructor,
+                                                                          sectionNames, feedbackNames);
         
         if (instructor != null) {
             String buttonContent = "<span class=\"glyphicon glyphicon-envelope\"></span> Resend Invite";
