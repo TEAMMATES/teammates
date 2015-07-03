@@ -21,10 +21,7 @@
     </div>
     <br>
     <br>
-    <course:courseEditInstructorList 
-            instructorPanelList="${data.instructorPanelList}" 
-            googleId="${data.account.googleId}"
-    />
+    <course:courseEditInstructorList instructorPanelList="${data.instructorPanelList}" />
     <course:courseEditAddInstructorPanel 
             addInstructorButton="${data.addInstructorButton}"
             courseId="${data.course.id}"
