@@ -6,7 +6,6 @@
 <%@ attribute name="editButton" type="teammates.ui.template.ElementTag" required="true" %>
 <%@ attribute name="deleteButton" type="teammates.ui.template.ElementTag" required="true" %>
 <%@ attribute name="instructor" type="teammates.common.datatransfer.InstructorAttributes" required="true" %>
-<%@ attribute name="googleId" required="true" %>
 
 <div class="panel-heading">
     <strong>Instructor ${index}:</strong>
@@ -25,7 +24,7 @@
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID %>" value="${instructor.courseId}">
             <input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>" value="${instructor.email}">
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_EDIT_MAIN_INDEX%>" value="${index}">
-            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${googleId}">
+            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
         </form>
     
         <a  <c:forEach items="${editButton.attributes}" var="attribute">

@@ -13,8 +13,7 @@
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Course Details" jsIncludes="${jsIncludes}">
     <course:courseEditCourseInfo 
             deleteCourseButton="${data.deleteCourseButton}" 
-            course="${data.course}" 
-            googleId="${data.account.googleId}" />
+            course="${data.course}" />
     <br>
     <t:statusMessage />
     <div class="pull-right">
@@ -28,7 +27,6 @@
     />
     <course:courseEditAddInstructorPanel 
             addInstructorButton="${data.addInstructorButton}"
-            googleId="${data.account.googleId}"
             courseId="${data.course.id}"
             addInstructorPanel="${data.addInstructorPanel}"
     />

@@ -3,7 +3,6 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.util.FieldValidator" %>
 <%@ attribute name="addInstructorButton" type="teammates.ui.template.ElementTag" required="true" %>
-<%@ attribute name="googleId" required="true" %>
 <%@ attribute name="courseId" required="true" %>
 <%@ attribute name="addInstructorPanel" type="teammates.ui.template.CourseEditInstructorPanel" required="true" %>
 
@@ -22,7 +21,7 @@
         <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_ADD%>" name="formAddInstructor" 
                 class="form form-horizontal" id="formAddInstructor">
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${courseId}">
-            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${googleId}">
+            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
             
             <div id="instructorAddTable">
                 <div class="form-group">
@@ -31,7 +30,7 @@
                         <input class="form-control" type="text"
                                 name="<%=Const.ParamsNames.INSTRUCTOR_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_NAME%>"
                                 data-toggle="tooltip" data-placement="top" title="Enter the name of the instructor."
-                                maxlength=<%=FieldValidator.PERSON_NAME_MAX_LENGTH%> tabindex=8/>
+                                maxlength=<%=FieldValidator.PERSON_NAME_MAX_LENGTH%> tabindex="8"/>
                     </div>
                 </div>
                 
@@ -40,7 +39,7 @@
                     <div class="col-sm-9"><input class="form-control" type="text"
                         name="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>" id="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>"
                         data-toggle="tooltip" data-placement="top" title="Enter the Email of the instructor."
-                        maxlength=<%=FieldValidator.EMAIL_MAX_LENGTH%> tabindex=9/>
+                        maxlength=<%=FieldValidator.EMAIL_MAX_LENGTH%> tabindex="9"/>
                     </div>
                 </div>
                 

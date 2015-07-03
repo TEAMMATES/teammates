@@ -4,7 +4,6 @@
 <%@ tag import="teammates.common.util.FieldValidator" %>
 <%@ attribute name="deleteCourseButton" type="teammates.ui.template.ElementTag" required="true" %>
 <%@ attribute name="course" type="teammates.common.datatransfer.CourseAttributes" required="true" %>
-<%@ attribute name="googleId" required="true" %>
 
 <div class="panel panel-primary">
     <div class="panel-heading">
@@ -19,7 +18,7 @@
     <div class="panel-body fill-plain">
         <form action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_SAVE%>" method="post" id="formEditcourse" class="form form-horizontal">
             <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${course.id}">
-            <input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="${googleId}">
+            <input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="${data.account.googleId}">
             
             <div class="form-group">
                 <label class="col-sm-3 control-label">Course ID:</label>
@@ -39,7 +38,7 @@
                             name="<%=Const.ParamsNames.COURSE_NAME%>" id="<%=Const.ParamsNames.COURSE_NAME%>"
                             value="${course.name}"
                             data-toggle="tooltip" data-placement="top" title="The name of the course, e.g. Software Engineering."
-                            maxlength=<%=FieldValidator.COURSE_NAME_MAX_LENGTH%> tabindex=2 disabled="disabled">
+                            maxlength=<%=FieldValidator.COURSE_NAME_MAX_LENGTH%> tabindex="2" disabled="disabled">
                 </div>
             </div>
             
@@ -50,7 +49,7 @@
                 </div>
             </div>
             
-            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${googleId}">
+            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
         </form>
     </div>
 </div>

@@ -5,7 +5,6 @@
 <%@ tag import="teammates.common.util.FieldValidator" %>
 
 <%@ attribute name="instructorPanel" type="teammates.ui.template.CourseEditInstructorPanel" required="true" %>
-<%@ attribute name="googleId" required="true" %>
 
 <div class="panel-body">
     <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_INSTRUCTOR_EDIT_SAVE%>"
@@ -14,7 +13,7 @@
         <c:if test="${not empty instructorPanel.instructor.googleId}" >
             <input type="hidden" name="<%=Const.ParamsNames.INSTRUCTOR_ID%>" value="${instructorPanel.instructor.googleId}">
         </c:if>
-        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${googleId}">
+        <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="${data.account.googleId}">
     
         <div id="instructorTable${instructorPanel.index}">
             <c:if test="${not empty instructorPanel.instructor.googleId}" >
@@ -23,7 +22,7 @@
                     <div class="col-sm-9">
                         <input class="form-control immutable" type="text" id="<%=Const.ParamsNames.INSTRUCTOR_ID%>${instructorPanel.index}"
                                 value="${instructorPanel.instructor.googleId}" maxlength=<%=FieldValidator.GOOGLE_ID_MAX_LENGTH%> 
-                                tabindex=3 disabled="disabled">
+                                tabindex="3" disabled="disabled">
                     </div>
                 </div>
             </c:if>
@@ -34,7 +33,7 @@
                     <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_NAME%>" 
                             id="<%=Const.ParamsNames.INSTRUCTOR_NAME%>${instructorPanel.index}" value="${instructorPanel.instructor.name}" 
                             data-toggle="tooltip" data-placement="top" title="Enter the name of the instructor." 
-                            maxlength=<%=FieldValidator.PERSON_NAME_MAX_LENGTH%> tabindex=4 disabled="disabled">
+                            maxlength=<%=FieldValidator.PERSON_NAME_MAX_LENGTH%> tabindex="4" disabled="disabled">
                 </div>
             </div>
         
@@ -44,7 +43,7 @@
                     <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>" 
                             id="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>${instructorPanel.index}" value="${instructorPanel.instructor.email}"
                             data-toggle="tooltip" data-placement="top" title="Enter the Email of the instructor." 
-                            maxlength=<%=FieldValidator.EMAIL_MAX_LENGTH%> tabindex=5 disabled="disabled"
+                            maxlength=<%=FieldValidator.EMAIL_MAX_LENGTH%> tabindex="5" disabled="disabled"
                             <c:if test="${empty instructorPanel.instructor.googleId}">
                                 readonly="readonly"
                             </c:if> >
