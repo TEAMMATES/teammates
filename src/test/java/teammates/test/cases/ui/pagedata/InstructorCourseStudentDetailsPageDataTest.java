@@ -20,7 +20,7 @@ import teammates.ui.template.StudentInfoTable;
 import teammates.ui.template.StudentProfile;
 
 public class InstructorCourseStudentDetailsPageDataTest extends BaseTestCase {
-    private String[] USERS_COMMENT_BOX_SHOWN_TO = {"student", "team", "section"};
+    private static final String[] USERS_COMMENT_BOX_SHOWN_TO = {"student", "team", "section"};
     
     private StudentAttributes inputStudent;
     private StudentProfileAttributes inputStudentProfile;
