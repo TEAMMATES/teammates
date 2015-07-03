@@ -5,6 +5,7 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -172,15 +173,11 @@ public class StudentHomePageDataTest {
         buttonTextMap.put(submittedClosedSession, "View Submission");
         
         // Packing into bundles
-        CourseDetailsBundle newCourseBundle = new CourseDetailsBundle(course1);
-        newCourseBundle.feedbackSessions.add(new FeedbackSessionDetailsBundle(submittedSession));
-        newCourseBundle.feedbackSessions.add(new FeedbackSessionDetailsBundle(pendingSession));
-        newCourseBundle.feedbackSessions.add(new FeedbackSessionDetailsBundle(awaitingSession));
+        CourseDetailsBundle newCourseBundle = createCourseBundle(
+                course1, submittedSession, pendingSession, awaitingSession);
         
-        CourseDetailsBundle oldCourseBundle = new CourseDetailsBundle(course2);
-        oldCourseBundle.feedbackSessions.add(new FeedbackSessionDetailsBundle(publishedSession));
-        oldCourseBundle.feedbackSessions.add(new FeedbackSessionDetailsBundle(closedSession));
-        oldCourseBundle.feedbackSessions.add(new FeedbackSessionDetailsBundle(submittedClosedSession));
+        CourseDetailsBundle oldCourseBundle = createCourseBundle(
+                course2, publishedSession, closedSession, submittedClosedSession);
         
         courses = new ArrayList<CourseDetailsBundle>();
         courses.add(newCourseBundle);
@@ -198,5 +195,15 @@ public class StudentHomePageDataTest {
         session.resultsVisibleFromTime = TimeHelper.getHoursOffsetToCurrentTime(offsetPublish);
         session.sessionVisibleFromTime = TimeHelper.getHoursOffsetToCurrentTime(-1);
         return session;
+    }
+
+    private CourseDetailsBundle createCourseBundle(CourseAttributes course, FeedbackSessionAttributes... sesssions) {
+        String courseId = course.id;
+        CourseDetailsBundle courseBundle = new CourseDetailsBundle(course);
+        for (FeedbackSessionAttributes session : sesssions) {
+            session.courseId = courseId;
+            courseBundle.feedbackSessions.add(new FeedbackSessionDetailsBundle(session));
+        }
+        return courseBundle;
     }
 }
