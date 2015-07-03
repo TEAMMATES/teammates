@@ -16,6 +16,7 @@ import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorCourseDetailsPageData;
 
@@ -49,6 +50,10 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
             }
         }
         
+        StudentAttributes unregisteredStudent = new StudentAttributes("None", "Team 1.1", "Unregistered Student", 
+                                                                      "unregisteredStudentInCourse1@gmail.tmt", "No comment", "idOfTypicalCourse1");
+        students.add(unregisteredStudent);
+        
         CourseDetailsBundle courseDetails = new CourseDetailsBundle(dataBundle.courses.get("typicalCourse1"));
         
         pageData.init(curInstructor, courseDetails, instructors, students);
@@ -63,6 +68,35 @@ public class InstructorCourseDetailsPageDataTest extends BaseTestCase {
         assertNotNull(pageData.getGiveCommentButton());
         assertFalse(pageData.getGiveCommentButton().getAttributes().isEmpty());
         assertNotNull(pageData.getGiveCommentButton().getContent());
+        assertNotNull(pageData.getCourseDetails());
+        assertNotNull(pageData.getCurrentInstructor());
         
+        ______TS("test current instructor doesn't have any permission for the course");
+        curInstructor.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS, false);
+        curInstructor.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, false);
+        curInstructor.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, false);
+        curInstructor.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, false);
+        curInstructor.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, false);
+        curInstructor.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS, false);
+        curInstructor.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS, false);
+        curInstructor.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS, false);
+        curInstructor.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS, false);
+        curInstructor.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS, false);
+        curInstructor.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS, false);
+        curInstructor.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, false);
+        pageData.init(curInstructor, courseDetails, instructors, students);
+
+        assertEquals(instructors.size(), pageData.getInstructors().size());
+        assertEquals(students.size(), pageData.getStudentsTable().getRows().size());
+        assertEquals(4, pageData.getStudentsTable().getRows().get(0).getActions().size());
+        assertEquals(2, pageData.getStudentsTable().getRows().get(0).getCommentActions().size());
+        assertNotNull(pageData.getCourseRemindButton());
+        assertFalse(pageData.getCourseRemindButton().getAttributes().isEmpty());
+        assertNull(pageData.getCourseRemindButton().getContent());
+        assertNotNull(pageData.getGiveCommentButton());
+        assertFalse(pageData.getGiveCommentButton().getAttributes().isEmpty());
+        assertNotNull(pageData.getGiveCommentButton().getContent());
+        assertNotNull(pageData.getCourseDetails());
+        assertNotNull(pageData.getCurrentInstructor());
     }
 }
