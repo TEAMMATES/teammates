@@ -26,26 +26,28 @@ public class InstructorCourseEditPageData extends PageData {
                                         InstructorAttributes currentInstructor, int instructorToShowIndex, 
                                         List<String> sectionNames, List<String> feedbackNames) {
         super(account);
-        instructorPanelList = new ArrayList<CourseEditInstructorPanel>();
         this.course = course;
         this.instructorToShowIndex = instructorToShowIndex;
         this.currentInstructor = currentInstructor;
         
         createButtons();
-        createInstructorPanelList(instructorList, sectionNames, feedbackNames);
+        
+        instructorPanelList = createInstructorPanelList(instructorList, sectionNames, feedbackNames);
         addInstructorPanel = createInstructorPanel(instructorPanelList.size() + 1, null, sectionNames, 
                                                    feedbackNames);
     }
 
-    private void createInstructorPanelList(List<InstructorAttributes> instructorList,
+    private List<CourseEditInstructorPanel> createInstructorPanelList(List<InstructorAttributes> instructorList,
                                            List<String> sectionNames, List<String> feedbackNames) {
+        List<CourseEditInstructorPanel> panelList = new ArrayList<CourseEditInstructorPanel>();
         int instructorIndex = 0;
         for (InstructorAttributes instructor : instructorList) {
             instructorIndex++;
             CourseEditInstructorPanel instructorPanel = createInstructorPanel(instructorIndex, instructor, 
                                                                               sectionNames, feedbackNames); 
-            instructorPanelList.add(instructorPanel);
+            panelList.add(instructorPanel);
         }
+        return panelList;
     }
 
     private void createButtons() {
