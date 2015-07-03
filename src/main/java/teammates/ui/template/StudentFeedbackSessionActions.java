@@ -5,9 +5,9 @@ import teammates.common.util.Const;
 
 public class StudentFeedbackSessionActions {
 
-    private boolean hasSubmitted;
-    private boolean sessionVisible;
-    private boolean sessionPublished;
+    private boolean isSubmitted;
+    private boolean isSessionVisible;
+    private boolean isSessionPublished;
     private String studentFeedbackResultsLink;
     private String studentFeedbackResponseEditLink;
     private String tooltipText;
@@ -15,9 +15,9 @@ public class StudentFeedbackSessionActions {
 
     public StudentFeedbackSessionActions(FeedbackSessionAttributes fs,
             String feedbackResultsLink, String feedbackResponseEditLink, boolean hasSubmitted) {
-        this.hasSubmitted = hasSubmitted;
-        this.sessionVisible = fs.isVisible();
-        this.sessionPublished = fs.isPublished();
+        this.isSubmitted = hasSubmitted;
+        this.isSessionVisible = fs.isVisible();
+        this.isSessionPublished = fs.isPublished();
         this.studentFeedbackResultsLink = feedbackResultsLink;
         this.studentFeedbackResponseEditLink = feedbackResponseEditLink;
         
@@ -41,16 +41,16 @@ public class StudentFeedbackSessionActions {
         }
     }
 
-    public boolean isHasSubmitted() {
-        return hasSubmitted;
+    public boolean isSubmitted() {
+        return isSubmitted;
     }
 
     public boolean isSessionVisible() {
-        return sessionVisible;
+        return isSessionVisible;
     }
 
     public boolean isSessionPublished() {
-        return sessionPublished;
+        return isSessionPublished;
     }
 
     public String getStudentFeedbackResultsLink() {

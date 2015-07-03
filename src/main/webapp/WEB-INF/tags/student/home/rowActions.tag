@@ -15,7 +15,7 @@
     View Responses
 </a>
 <c:choose>
-    <c:when test="${actions.hasSubmitted}">
+    <c:when test="${actions.submitted}">
         <a class="btn btn-default btn-xs btn-tm-actions"
            href="${actions.studentFeedbackResponseEditLink}"
            name="editFeedbackResponses${index}"
