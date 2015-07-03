@@ -1,6 +1,5 @@
 package teammates.ui.template;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CourseEditFeedbackSessionRow {

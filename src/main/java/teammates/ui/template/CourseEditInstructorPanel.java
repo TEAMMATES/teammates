@@ -20,8 +20,8 @@ public class CourseEditInstructorPanel {
     private List<CourseEditSectionRow> sectionRows;
     
     public CourseEditInstructorPanel(int instructorToShowIndex, int instructorIndex, 
-                                     InstructorAttributes instructor, InstructorAttributes currentInstructor,
-                                     List<String> sectionNames, List<String> feedbackNames) {
+                                     InstructorAttributes instructor, List<String> sectionNames, 
+                                     List<String> feedbackNames) {
         if (instructorToShowIndex == -1) { 
             index = instructorIndex;
             isAccessControlDisplayed = false;
@@ -32,9 +32,9 @@ public class CourseEditInstructorPanel {
         this.instructor = instructor;
         
         createSectionRows(instructorIndex, sectionNames, feedbackNames);
-        permissionInputGroup1 = createPermissionInputGroup1ForInstructorPanel(instructor);
-        permissionInputGroup2 = createPermissionInputGroup2ForInstructorPanel(instructor);
-        permissionInputGroup3 = createPermissionInputGroup3ForInstructorPanel(instructor);
+        permissionInputGroup1 = createPermissionInputGroup1ForInstructorPanel();
+        permissionInputGroup2 = createPermissionInputGroup2ForInstructorPanel();
+        permissionInputGroup3 = createPermissionInputGroup3ForInstructorPanel();
         
         if (instructor != null) {
             String style = null;
@@ -119,59 +119,59 @@ public class CourseEditInstructorPanel {
         return permissionInputGroup3;
     }
     
-    private List<ElementTag> createPermissionInputGroup3ForInstructorPanel(InstructorAttributes instructor) {
+    private List<ElementTag> createPermissionInputGroup3ForInstructorPanel() {
         List<ElementTag> permissionInputGroup = new ArrayList<ElementTag>();
         
-        permissionInputGroup.add(createCheckBox("Sessions: Submit Responses and Add Comments", instructor,
-                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+        permissionInputGroup.add(createCheckBox("Sessions: Submit Responses and Add Comments",
+                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
         
-        permissionInputGroup.add(createCheckBox("Sessions: View Responses and Comments", instructor,
-                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+        permissionInputGroup.add(createCheckBox("Sessions: View Responses and Comments",
+                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
         
         permissionInputGroup.add(createCheckBox(
-                                    "Sessions: Edit/Delete Responses/Comments by Others", instructor, 
+                                    "Sessions: Edit/Delete Responses/Comments by Others", 
                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         
         return permissionInputGroup;
     }
 
-    private List<ElementTag> createPermissionInputGroup2ForInstructorPanel(InstructorAttributes instructor) {
+    private List<ElementTag> createPermissionInputGroup2ForInstructorPanel() {
         List<ElementTag> permissionInputGroup = new ArrayList<ElementTag>();
         
-        permissionInputGroup.add(createCheckBox("View Students' Details", instructor, 
-                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
+        permissionInputGroup.add(createCheckBox("View Students' Details", 
+                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
         
-        permissionInputGroup.add(createCheckBox("Give Comments for Students", instructor, 
-                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
+        permissionInputGroup.add(createCheckBox("Give Comments for Students", 
+                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS));
         
-        permissionInputGroup.add(createCheckBox("View Others' Comments on Students", instructor,
-                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS));
+        permissionInputGroup.add(createCheckBox("View Others' Comments on Students",
+                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_COMMENT_IN_SECTIONS));
         
-        permissionInputGroup.add(createCheckBox("Edit/Delete Others' Comments on Students", instructor,
-                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS));
+        permissionInputGroup.add(createCheckBox("Edit/Delete Others' Comments on Students",
+                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS));
         
         return permissionInputGroup;
     }
 
-    private List<ElementTag> createPermissionInputGroup1ForInstructorPanel(InstructorAttributes instructor) {
+    private List<ElementTag> createPermissionInputGroup1ForInstructorPanel() {
         List<ElementTag> permissionInputGroup = new ArrayList<ElementTag>();
         
-        permissionInputGroup.add(createCheckBox("Edit/Delete Course", instructor,
-                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+        permissionInputGroup.add(createCheckBox("Edit/Delete Course",
+                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
         
-        permissionInputGroup.add(createCheckBox("Add/Edit/Delete Instructors", instructor,
-                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
+        permissionInputGroup.add(createCheckBox("Add/Edit/Delete Instructors",
+                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
         
-        permissionInputGroup.add(createCheckBox("Create/Edit/Delete Sessions", instructor,
-                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
+        permissionInputGroup.add(createCheckBox("Create/Edit/Delete Sessions",
+                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
         
-        permissionInputGroup.add(createCheckBox("Enroll/Edit/Delete Students", instructor,
-                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
+        permissionInputGroup.add(createCheckBox("Enroll/Edit/Delete Students",
+                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
         
         return permissionInputGroup;
     }
     
-    private ElementTag createCheckBox(String content, InstructorAttributes instructor, String privilege) {
+    private ElementTag createCheckBox(String content, String privilege) {
         boolean isChecked = (instructor == null) || instructor.isAllowedForPrivilege(privilege);
         ElementTag result = new ElementTag(content, "name", privilege, "type", "checkbox", "value", "true");
         if (isChecked) {
