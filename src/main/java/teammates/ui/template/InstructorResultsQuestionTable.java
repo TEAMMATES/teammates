@@ -17,6 +17,7 @@ public class InstructorResultsQuestionTable {
     
     private String questionStatisticsHtml;  
     private String panelClass;
+    private String responsesBodyClass;
     
     private List<InstructorResultsResponseRow> responses;
     
@@ -60,6 +61,10 @@ public class InstructorResultsQuestionTable {
         this.panelClass = responses.isEmpty() ? 
                           "panel-default" : 
                           "panel-info";
+        
+        this.responsesBodyClass = data.bundle.isComplete() && !data.isShouldCollapsed() ? 
+                                  "panel-collapse collapse in" :
+                                  "panel-collapse collapse";
         
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
         this.additionalInfoText = questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, additionalInfoId);        
@@ -189,6 +194,14 @@ public class InstructorResultsQuestionTable {
 
     public void setIsColumnSortable(Map<String, Boolean> isColumnSortable) {
         this.isColumnSortable = isColumnSortable;
+    }
+
+    public String getResponsesBodyClass() {
+        return responsesBodyClass;
+    }
+
+    public void setResponsesBodyClass(String responsesBodyClass) {
+        this.responsesBodyClass = responsesBodyClass;
     }
 
     public static void sortByQuestionNumber(List<InstructorResultsQuestionTable> questionTables) {

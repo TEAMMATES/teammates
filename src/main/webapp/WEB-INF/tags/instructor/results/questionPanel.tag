@@ -43,7 +43,7 @@
             </c:otherwise>
         </c:choose>
     </div>
-    <div class="<c:if test="${questionPanel.collapsible}">panel-collapse collapse <c:if test="${showAll && !shouldCollapsed}">in</c:if></c:if>">
+    <div <c:if test="${questionPanel.collapsible}">class="${questionPanel.responsesBodyClass}"</c:if>>
         <div class="panel-body padding-0" <c:if test="${questionIndex != null}">id="questionBody-${questionIndex}"</c:if>>
             
             <c:if test="${!questionPanel.questionHasResponses}">
