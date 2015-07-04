@@ -71,8 +71,6 @@ $(document).ready(function(){
 	
 	$("input[type=checkbox]").on( "click", visibilityOptionsHandler);
 	
-	String.prototype.contains = function(substr) { return this.indexOf(substr) != -1; };
-	
 	function visibilityOptionsHandler(e){
 		var visibilityOptions = [];
 		var _target = $(e.target);

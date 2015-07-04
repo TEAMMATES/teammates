@@ -238,13 +238,6 @@ function checkAllTeamsSelected() {
 }
 
 /**
- * Check whether a string contains the substr or not
- */
-String.prototype.contains = function(substr) {
-    return this.indexOf(substr) != -1;
-};
-
-/**
  * Go to the url with appended param and value pair
  */
 function gotoUrlWithParam(url, param, value) {

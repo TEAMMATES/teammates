@@ -192,10 +192,6 @@ function registerResponseCommentsEvent() {
     $("form[class*='responseCommentEditForm'] > div > a[id^='button_save_comment_for_edit']").click(editCommentHandler);
     $("form[class*='responseCommentDeleteForm'] > a[id^='commentdelete']").click(deleteCommentHandler);
     
-    String.prototype.contains = function(substr) {
-        return this.indexOf(substr) != -1;
-    };
-    
     registerResponseCommentCheckboxEvent();
     
     $("div[id^=plainCommentText]").css("margin-left","15px");

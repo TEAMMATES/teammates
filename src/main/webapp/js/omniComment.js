@@ -340,11 +340,6 @@ $(document).ready(function(){
         return urlBeforeParam + urlAfterParamValue;
     }
     
-    /**
-     * Check whether a string contains the substr or not
-     */
-    String.prototype.contains = function(substr) { return this.indexOf(substr) != -1; };
-    
     $('a[id^="visibility-options-trigger"]').click(function(){
     	var visibilityOptions = $(this).parent().next();
 		if(visibilityOptions.is(':visible')){
