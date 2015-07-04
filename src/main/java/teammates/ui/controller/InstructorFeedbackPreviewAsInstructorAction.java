@@ -52,16 +52,18 @@ public class InstructorFeedbackPreviewAsInstructorAction extends Action {
                       ".");
         }
         
-        data.isSessionOpenForSubmission = true;
-        data.isPreview = true;
-        data.isHeaderHidden = true;
-        data.previewInstructor = previewInstructor;
+        data.setSessionOpenForSubmission(true);
+        data.setPreview(true);
+        data.setHeaderHidden(true);
+        data.setPreviewInstructor(previewInstructor);
         data.bundle.resetAllResponses();
         
         statusToAdmin = "Preview feedback session as instructor (" + previewInstructor.email + ")<br>" +
                         "Session Name: " + feedbackSessionName + "<br>" +
                         "Course ID: " + courseId;
         
+        data.init("", "", courseId);
+
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT, data);
     }
 }

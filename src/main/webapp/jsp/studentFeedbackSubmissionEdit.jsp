@@ -1,119 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="teammates.common.util.Const"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib tagdir="/WEB-INF/tags/student" prefix="ts" %>
+<%@ taglib tagdir="/WEB-INF/tags/student/feedbackSubmissionEdit" prefix="feedbackSubmissionEdit" %>
 
-<%@ page import="teammates.common.util.Const" %>
-<%@ page import="teammates.common.util.Url" %>
-<%@ page import="teammates.ui.controller.FeedbackSubmissionEditPageData" %>
+<c:set var="jsIncludes">
+    <script type="text/javascript" src="/js/feedbackSubmissionsEdit.js"></script>
+    <script type="text/javascript" src="/js/student.js"></script>
+</c:set>
 
-<%
-    FeedbackSubmissionEditPageData data = (FeedbackSubmissionEditPageData)request.getAttribute("data");
-%>
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>TEAMMATES - Submit Feedback</title>
 
-	    <link rel="shortcut icon" href="/favicon.png" />
-	
-	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
-	    <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-	    <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>
-	    <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet"/>
-	
-	    <!--[if lt IE 9]>
-	        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-	        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-	    <![endif]-->
-	
-	    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-	    <script type="text/javascript" src="/js/jquery-minified.js"></script>
-	    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-	    <script type="text/javascript" src="/js/common.js"></script>
-	    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+<c:if test="${data.headerHidden}">
+    <c:set var="altHeader">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <c:choose>
+                <c:when test="${data.preview}">
+                    <h3 class="text-center">Previewing Session as Student ${data.studentToViewPageAs.name} (${data.studentToViewPageAs.email})</h3>
+                </c:when>
+                <c:when test="${data.moderation}">
+                    <h3 class="text-center">Moderating Responses for Student ${data.studentToViewPageAs.name} (${data.studentToViewPageAs.email})</h3>
+                </c:when>
+            </c:choose>
+        </nav>
+    </c:set>
+</c:if>
 
-        <jsp:include page="../enableJS.jsp"></jsp:include>
 
-        <script type="text/javascript" src="/js/feedbackSubmissionsEdit.js"></script>
-        <script type="text/javascript" src="/js/student.js"></script>
-    </head>
-
-    <body>
-        <%
-            if (!data.isHeaderHidden) {
-        %>
-                <jsp:include page="<%= Const.ViewURIs.STUDENT_HEADER %>" />
-                <jsp:include page="<%= Const.ViewURIs.STUDENT_MOTD %>" />
-        <%
-            } else if (data.isPreview) {
-        %>
-                <nav class="navbar navbar-default navbar-fixed-top">
-                    <h3 class="text-center">Previewing Session as Student <%= data.studentToViewPageAs.name %> (<%= data.studentToViewPageAs.email %>)</h3>
-                </nav>
-        <%
-            } else if (data.isModeration) {
-        %>
-                <nav class="navbar navbar-default navbar-fixed-top">
-                    <h3 class="text-center">Moderating Responses for Student <%= data.studentToViewPageAs.name %> (<%= data.studentToViewPageAs.email %>)</h3>
-                </nav>
-        <%
-            }
-        %>
-        <div class="container" id="mainContent">
-                <div id="topOfPage"></div>
-                <h1>Submit Feedback</h1>
-                <br>
-                <%
-                    if (data.account.googleId == null) {
-                        String joinUrl = new Url(Const.ActionURIs.STUDENT_COURSE_JOIN_NEW).
-                                            withRegistrationKey(request.getParameter(Const.ParamsNames.REGKEY)).
-                                            withStudentEmail(request.getParameter(Const.ParamsNames.STUDENT_EMAIL)).
-                                            withCourseId(request.getParameter(Const.ParamsNames.COURSE_ID)).
-                                            toString();
-
-                %>
-                    <div id="registerMessage" class="alert alert-info">
-                        <%= String.format(Const.StatusMessages.UNREGISTERED_STUDENT, data.student.name, joinUrl) %>
-                    </div>
-                <%
-                    }
-
-                    String submitAction = data.isModeration ?
-                                            Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE :
-                                            Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
-                %>
-                <form method="post" name="form_student_submit_response" action="<%= submitAction %>">
-                    <jsp:include page="<%= Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT %>" />
-
-                    <div class="bold align-center">
-                        <%
-                            if (data.isModeration) {
-                        %>
-                                <input name="moderatedstudent" value="<%= data.studentToViewPageAs.email %>" type="hidden">
-                        <%
-                            }
-
-                            boolean isSubmittable = data.isSessionOpenForSubmission || data.isModeration;
-                            if (data.bundle.questionResponseBundle.isEmpty()) {
-                        %>
-                                There are no questions for you to answer here!
-                        <%
-                            } else if (data.isPreview || !isSubmittable) {
-                        %>
-                                <input disabled="disabled" type="submit" class="btn btn-primary" id="response_submit_button" data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE %>" value="Submit Feedback" style="background: #66727A;">
-                        <%
-                            } else {
-                        %>
-                                <input type="submit" class="btn btn-primary" id="response_submit_button" data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE %>" value="Submit Feedback">
-                        <%
-                            }
-                        %>
-                    </div>
-                    <br><br>
-                </form>
+<ts:studentPageCustom bodyTitle="Submit Feedback" pageTitle="TEAMMATES - Submit Feedback" jsIncludes="${jsIncludes}" altNavBar="${altHeader}">
+    <c:if test="${not data.headerHidden}">
+        <ts:studentMessageOfTheDay/>
+    </c:if>
+       
+    <c:if test="${empty data.account.googleId}">
+        <div id="registerMessage" class="alert alert-info">
+            ${data.registerMessage}
         </div>
-
-        <jsp:include page="<%= Const.ViewURIs.FOOTER %>" />
-    </body>
-</html>
+    </c:if>
+    
+    <feedbackSubmissionEdit:feedbackSubmissionForm feedbackSubmissionForm="${data}"/>
+    
+</ts:studentPageCustom>
