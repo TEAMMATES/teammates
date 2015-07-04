@@ -222,7 +222,7 @@ $(document).ready(function(){
     	
     	//to show feedback question + feedback session panel
     	//if not all list elements are hidden within fbResponse, then show fbResponse
-    	if($(comment).prop("class").toString().contains(classNameForCommentsInFeedbackResponse)){
+    	if($(comment).prop("class").toString().includes(classNameForCommentsInFeedbackResponse)){
             if($(comment).parent().find('li[style*="display: none"]').length != $(comment).parent().find('li').length){
             	var commentListRegionForFeedbackResponse = $(comment).parent().parent().parent();
             	//a fbResponse in instructorCommentsPage (html) is made up of 4 rows as the followings
@@ -246,7 +246,7 @@ $(document).ready(function(){
             }
     	}
         //to show student comments (only works for Giver filter)
-        if ($(comment).prop("class").toString().contains(classNameForCommentsInStudentRecords)){
+        if ($(comment).prop("class").toString().includes(classNameForCommentsInStudentRecords)){
         	var studentCommentPanel = $(comment).parent().parent().parent();
         	var studentCommentPanelBody = $(comment).parent();
         	//if not all student comments are hidden, then show the student comments panel
@@ -265,7 +265,7 @@ $(document).ready(function(){
     	
     	//to hide feedback question + feedback session panel
     	//if all list elements are hidden within fbResponse, then hide fbResponse
-    	if($(comment).prop("class").toString().contains(classNameForCommentsInFeedbackResponse)){
+    	if($(comment).prop("class").toString().includes(classNameForCommentsInFeedbackResponse)){
             if($(comment).parent().find('li[style*="display: none"]').length == $(comment).parent().find('li').length){
             	var commentListRegionForFeedbackResponse = $(comment).parent().parent().parent();
             	//a fbResponse in instructorCommentsPage (html) is made up of 4 rows as the followings
@@ -289,7 +289,7 @@ $(document).ready(function(){
             }
     	}
     	//to hide student comments
-    	if ($(comment).prop("class").toString().contains(classNameForCommentsInStudentRecords)){
+    	if ($(comment).prop("class").toString().includes(classNameForCommentsInStudentRecords)){
         	var studentCommentPanel = $(comment).parent().parent().parent();
         	var studentCommentPanelBody = $(comment).parent();
         	//if all student comments are hidden, then hide the student comments panel
@@ -315,11 +315,11 @@ $(document).ready(function(){
      */
     function gotoUrlWithParam(url, param, value){
         var paramValuePair = param + "=" + value;
-        if(!url.contains("?")){
+        if(!url.includes("?")){
             window.location.href = url + "?" + paramValuePair;
-        } else if(!url.contains(param)){
+        } else if(!url.includes(param)){
             window.location.href = url + "&" + paramValuePair;
-        } else if(url.contains(paramValuePair)){
+        } else if(url.includes(paramValuePair)){
             window.location.href = url;
         } else{
             var urlWithoutParam = removeParamInUrl(url, param);
@@ -357,12 +357,12 @@ $(document).ready(function(){
     	var visibilityOptions = [];
     	var _target = $(e.target);
     	
-    	if (_target.prop("class").contains("answerCheckbox") && !_target.prop("checked")) {
+    	if (_target.prop("class").includes("answerCheckbox") && !_target.prop("checked")) {
     		_target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
     		_target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
     	}
-    	if ((_target.prop("class").contains("giverCheckbox") || 
-    			_target.prop("class").contains("recipientCheckbox")) && _target.prop("checked")) {
+    	if ((_target.prop("class").includes("giverCheckbox") || 
+    			_target.prop("class").includes("recipientCheckbox")) && _target.prop("checked")) {
     		_target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
     	}
     	

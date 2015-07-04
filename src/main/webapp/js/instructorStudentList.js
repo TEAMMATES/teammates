@@ -242,11 +242,11 @@ function checkAllTeamsSelected() {
  */
 function gotoUrlWithParam(url, param, value) {
     var paramValuePair = param + '=' + value;
-    if (!url.contains('?')) {
+    if (!url.includes('?')) {
         window.location.href = url + '?' + paramValuePair;
-    } else if (!url.contains(param)) {
+    } else if (!url.includes(param)) {
         window.location.href = url + '&' + paramValuePair;
-    } else if (url.contains(paramValuePair)) {
+    } else if (url.includes(paramValuePair)) {
         window.location.href = url;
     } else {
         var urlWithoutParam = removeParamInUrl(url, param);
