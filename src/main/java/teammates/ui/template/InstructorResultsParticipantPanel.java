@@ -15,7 +15,7 @@ public class InstructorResultsParticipantPanel {
     private String arrowClass;
     
     String mailtoStyle;
-    Url profilePictureLink;
+    String profilePictureLink;
     
     
     boolean isModerationButtonDisplayed;
@@ -77,11 +77,11 @@ public class InstructorResultsParticipantPanel {
         this.mailtoStyle = mailtoStyle;
     }
 
-    public Url getProfilePictureLink() {
+    public String getProfilePictureLink() {
         return profilePictureLink;
     }
 
-    public void setProfilePictureLink(Url profilePictureLink) {
+    public void setProfilePictureLink(String profilePictureLink) {
         this.profilePictureLink = profilePictureLink;
     }
 

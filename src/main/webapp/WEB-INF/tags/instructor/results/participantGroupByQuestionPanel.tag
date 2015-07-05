@@ -18,13 +18,13 @@
                     <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="${groupByQuestionPanel.profilePictureLink}">
                         <strong>${groupByQuestionPanel.name}</strong>
                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                        <a <c:if test="${not empty groupByQuestionPanel.questionTables}">class="link-in-dark-bg"</c:if> href="mailTo:${groupByQuestionPanel.participantIdentifier}" ${groupByQuestionPanel.mailtoStyle}>[${groupByQuestionPanel.participantIdentifier}]</a>
+                        <a <c:if test="${not empty groupByQuestionPanel.questionTables}">class="link-in-dark-bg"</c:if> href="mailto:${groupByQuestionPanel.participantIdentifier}" ${groupByQuestionPanel.mailtoStyle}>[${groupByQuestionPanel.participantIdentifier}]</a>
                     </div>
                 </c:when>
                 <c:otherwise>
                     <div class="inline panel-heading-text">
                         <strong>${groupByQuestionPanel.name}</strong>
-                        <a <c:if test="${not empty groupByQuestionPanel.questionTables}">class="link-in-dark-bg"</c:if> href="mailTo:${groupByQuestionPanel.participantIdentifier}" ${mailtoStyleAttr}>[${groupByQuestionPanel.participantIdentifier}]</a>
+                        <a <c:if test="${not empty groupByQuestionPanel.questionTables}">class="link-in-dark-bg"</c:if> href="mailto:${groupByQuestionPanel.participantIdentifier}" ${groupByQuestionPanel.mailtoStyle}>[${groupByQuestionPanel.participantIdentifier}]</a>
                     </div>
                 </c:otherwise>
             </c:choose>

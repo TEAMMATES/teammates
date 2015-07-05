@@ -38,7 +38,7 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorRes
         byQuestionPanel.setGiver(isGiver);
         
         byQuestionPanel.setEmailValid(isEmailValid);
-        byQuestionPanel.profilePictureLink = profilePictureLink;
+        byQuestionPanel.profilePictureLink = profilePictureLink.toString();
         byQuestionPanel.mailtoStyle = mailtoStyle;
         
         byQuestionPanel.questionTables = questionTables;
