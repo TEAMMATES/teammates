@@ -155,7 +155,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER, data);
             case "giver-question-recipient":
-                data.initForViewByGiverRecipientQuestion(data.bundle, data.sections);
+                data.initForViewByGiverQuestionRecipient(data.bundle, data.sections);
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT, data);
             default:
