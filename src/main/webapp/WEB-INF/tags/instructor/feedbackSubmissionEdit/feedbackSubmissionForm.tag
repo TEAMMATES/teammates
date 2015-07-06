@@ -1,4 +1,4 @@
-<%@ tag description="instructorFeedbackSubmissionEdit.jsp - Display instructor feedback submission form" %>
+<%@ tag description="Instructor feedback submission form for both instructorFeedbackSubmissionEdit and instructorFeedbackQuestionSubmissionEdit" %>
 <%@ tag import="teammates.common.util.Const"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/student/feedbackSubmissionEdit" prefix="feedbackSubmissionEdit" %>
