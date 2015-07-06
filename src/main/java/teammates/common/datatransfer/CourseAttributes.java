@@ -90,7 +90,7 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
 
     @Override
     public String getIdentificationString() {
-        return this.id;
+        return id;
     }
 
     @Override
@@ -110,8 +110,8 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     
     @Override
     public void sanitizeForSaving() {
-        this.id = Sanitizer.sanitizeForHtml(id);
-        this.name = Sanitizer.sanitizeForHtml(name);
+        id = Sanitizer.sanitizeForHtml(id);
+        name = Sanitizer.sanitizeForHtml(name);
     }
 
     @Override
