@@ -5,7 +5,7 @@
 
 <%@ attribute name="feedbackSubmissionForm" type="teammates.ui.controller.FeedbackSubmissionEditPageData" required="true" %>
 
-<form method="post" name="form_submit_response" action="${feedbackSubmissionForm.instructorSubmitAction}">
+<form method="post" name="form_submit_response" action="${feedbackSubmissionForm.instructorSubmitActionQuestion}">
     <jsp:include page="<%= Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT %>" />
     <div class="bold align-center"> 
         <c:choose>
