@@ -43,7 +43,7 @@
         <![endif]-->
         
         <script src="/js/googleAnalytics.js" type="text/javascript"></script>
-        <script src="/js/jquery-minified.js" type="text/javascript"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"type="text/javascript"></script>
         <script src="/js/common.js" type="text/javascript"></script>
         <script src="/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
