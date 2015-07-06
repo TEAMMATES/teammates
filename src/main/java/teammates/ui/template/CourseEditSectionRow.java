@@ -40,19 +40,19 @@ public class CourseEditSectionRow {
         toggleSessionLevelInSectionButton = createButton(content, "small col-sm-5", id, "javascript:;", null,
                                                          onClick, false);
         
+        String[] privileges = {Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
+                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS,
+                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS};
+        
         for (String feedbackName : feedbackNames) {
-            String[] privileges = {Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
-                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS,
-                                   Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS};
-            
             List<ElementTag> checkBoxList = new ArrayList<ElementTag>();
             for (String privilege : privileges) {
                 String name = privilege + Const.ParamsNames.INSTRUCTOR_SECTION_GROUP + sectionIndex 
                               + "feedback" + feedbackName;
-                  boolean isChecked = (instructor != null) && instructor.isAllowedForPrivilege(sectionName, 
-                                                                                               feedbackName,
-                                                                                               privilege);
-                  checkBoxList.add(createCheckBox(null, name, "true", isChecked));
+                boolean isChecked = (instructor != null) && instructor.isAllowedForPrivilege(sectionName, 
+                                                                                             feedbackName,
+                                                                                             privilege);
+                checkBoxList.add(createCheckBox(null, name, "true", isChecked));
             }
             
             CourseEditFeedbackSessionRow feedbackSessionRow = new CourseEditFeedbackSessionRow(feedbackName, 
