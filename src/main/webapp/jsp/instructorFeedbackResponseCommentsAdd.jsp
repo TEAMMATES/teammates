@@ -30,7 +30,7 @@
         <a type="button"
            id="commentedit-<%= data.commentId %>"
            class="btn btn-default btn-xs icon-button pull-right"
-           onclick="showResponseCommentEditForm(<%= data.commentId.replaceAll("-", ", ") %>)"
+           onclick="showResponseCommentEditForm(<%= data.commentId.replaceAll("-", ",") %>)"
            data-toggle="tooltip"
            data-placement="top"
            title="Edit this comment">
@@ -50,7 +50,7 @@
             </div>
             <a id="frComment-visibility-options-trigger-<%= data.commentId %>"
                class="btn btn-sm btn-info pull-right"
-               onclick="toggleVisibilityEditForm(<%= data.commentId.replaceAll("-", ", ") %>)">
+               onclick="toggleVisibilityEditForm(<%= data.commentId.replaceAll("-", ",") %>)">
                 <span class="glyphicon glyphicon-eye-close"></span>
                 Show Visibility Options
             </a>
@@ -222,7 +222,7 @@
             <input type="button"
                    class="btn btn-default"
                    value="Cancel"
-                   onclick="return hideResponseCommentEditForm(<%= data.commentId.replaceAll("-", ", ") %>);">
+                   onclick="return hideResponseCommentEditForm(<%= data.commentId.replaceAll("-", ",") %>);">
         </div>
         <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>" value="<%= data.comment.feedbackResponseId %>">
         <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="<%= data.comment.getId() %>">

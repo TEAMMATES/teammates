@@ -286,9 +286,7 @@
                                                     id="responseCommentRow-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                     <div id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                         <span class="text-muted">
-                                                            From:
-                                                            <%= frCommentGiver %>
-                                                            [<%= frc.createdAt %>] <%= frc.getEditedAtText(frCommentGiver.equals("Anonymous")) %>
+                                                            From: <%= frCommentGiver %> [<%= frc.createdAt %>] <%= frc.getEditedAtText(frCommentGiver.equals("Anonymous")) %>
                                                         </span>
                                                         <a type="button" href="<%=data.getInstructorCommentsLink() + "&" + Const.ParamsNames.COURSE_ID 
                                                         + "=" + frc.courseId + "#" + frc.getId()%>" target="_blank" class="btn btn-default btn-xs icon-button pull-right"
