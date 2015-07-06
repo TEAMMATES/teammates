@@ -13,9 +13,9 @@
     <c:set var="altHeader">
         <c:choose>
             <c:when test="${data.preview}">
-			    <nav class="navbar navbar-default navbar-fixed-top">
+                <nav class="navbar navbar-default navbar-fixed-top">
                     <h3 class="text-center">Previewing Session as Instructor ${data.previewInstructor.name} (${data.previewInstructor.email})</h3>
-			    </nav>
+                </nav>
             </c:when>
             <c:otherwise>
                 <%-- For when header is hidden but it is not a preview --%>
