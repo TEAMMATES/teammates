@@ -293,7 +293,7 @@
                                             style="display: none;" 
                                         <% } %>>
                                         <div class="panel-heading">
-                                            From <b><%= data.getGiverName(giverEmail) %></b>
+                                            From <b><%= data.getGiverName(giverEmail) %> (<%= data.courseId %>)</b>
                                         </div>
                                         <ul class="list-group comments">
                                             <%

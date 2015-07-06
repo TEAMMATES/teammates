@@ -155,7 +155,7 @@
                         <div class="panel-body">
                             <div class="panel panel-info" <%= data.comments.isEmpty() ? "style=\"display: none;\"" : "" %>>
                                 <div class="panel-heading">
-                                    From <b>You</b>
+                                    From <b>You (<%= data.courseId %>)</b>
                                     <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showAddCommentBox();" data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.COMMENT_ADD %>" <% if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS)) { %> disabled="disabled" <% } %>>
                                         <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                     </button>

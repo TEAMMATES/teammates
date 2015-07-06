@@ -118,7 +118,7 @@
                         %>
                         <div class="panel panel-info student-record-comments <%=recipientDisplay.equals("you")?"giver_display-to-you":"giver_display-to-others"%>">
                             <div class="panel-heading">
-                                From <b><%=giverDisplay%></b>
+                                From <b><%=giverDisplay%> (<%= data.courseId %>)</b>
                             </div>
                             <ul class="list-group comments">
                                 <%
