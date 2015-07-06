@@ -508,7 +508,7 @@
                                             %>
                                         <li class="list-group-item list-group-item-warning" id="responseCommentRow-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
                                             <div id="commentBar-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
-                                            <span class="text-muted">From: <%=comment.giverEmail%> [<%=comment.createdAt%>] <%=comment.getEditedAtTextForSessionsView(comment.giverEmail.equals("Anonymous"))%>
+                                            <span class="text-muted">From: <%=comment.giverEmail%> [<%=comment.createdAt%>] <%=comment.getEditedAtText(comment.giverEmail.equals("Anonymous"))%>
                                             </span>
                                             <!-- frComment delete Form -->
                                             <form class="responseCommentDeleteForm pull-right">
@@ -567,8 +567,7 @@
                                                     <div id="visibility-options-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>" class="panel panel-default"
                                                         style="display: none;">
                                                         <div class="panel-heading">Visibility Options</div>
-                                                        <table class="table text-center" style="color:#000;"
-                                                            style="background: #fff;">
+                                                        <table class="table text-center" style="color:#000;">
                                                             <tbody>
                                                                 <tr>
                                                                     <th class="text-center">User/Group</th>
