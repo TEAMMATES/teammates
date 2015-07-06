@@ -84,10 +84,6 @@ var seeMoreRequest = function(e) {
                         if ($(panelCollapse[0]).attr('class').indexOf("in") == -1) {
                             $(panelHeading).trigger('click');
                         }
-                        $('[data-toggle="tooltip"]').tooltip({
-                            html: true,
-                            container: 'body'
-                        });
                     }
                 });
             }

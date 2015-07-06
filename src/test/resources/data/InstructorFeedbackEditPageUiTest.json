@@ -108,6 +108,22 @@
       "feedbackSessionType" : "STANDARD",
       "sentOpenEmail" : true,
       "sentPublishedEmail" : false
+    },
+    "openSession2": {
+      "feedbackSessionName" : "Second Session",
+      "courseId" : "CFeedbackEditUiT.CS2104",
+      "creatorEmail" : "tmms.test@gmail.tmt",
+      "instructions": {"value" : "Instructions for Second session"},
+      "createdTime" : "2012-04-01 11:59 PM UTC",
+      "startTime" : "2012-04-01 11:59 PM UTC",
+      "endTime" : "2016-04-30 11:59 PM UTC",
+      "sessionVisibleFromTime" : "2012-04-01 11:59 PM UTC",
+      "resultsVisibleFromTime" : "2016-05-01 11:59 PM UTC",
+      "timeZone" : 2.0,
+      "gracePeriod": 10,
+      "feedbackSessionType" : "STANDARD",
+      "sentOpenEmail" : true,
+      "sentPublishedEmail" : false
     }
   }
 }
