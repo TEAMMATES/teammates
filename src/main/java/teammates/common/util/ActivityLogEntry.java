@@ -4,13 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.TeammatesException;
+import teammates.googleSendgridJava.Sendgrid;
 
 import com.google.appengine.api.log.AppLogLine;
 
@@ -444,7 +444,7 @@ public class ActivityLogEntry {
     }
 
 
-    public static String generateSystemErrorReportLogMessage(HttpServletRequest req, MimeMessage errorEmail) {
+    public static String generateSystemErrorReportLogMessage(HttpServletRequest req, Sendgrid errorEmail) {
         String[] actionTaken = req.getServletPath().split("/");
         String action = req.getServletPath();
         if(actionTaken.length > 0) {
@@ -459,7 +459,7 @@ public class ActivityLogEntry {
                   message += "<a href=\"#\" onclick=\"showHideErrorMessage('error" + errorEmail.hashCode() +"');\">Show/Hide Details >></a>";
                   message += "<br>";
                   message += "<span id=\"error" + errorEmail.hashCode() + "\" style=\"display: none;\">";
-                  message += errorEmail.getContent().toString();
+                  message += errorEmail.getHtml();
                   message += "</span>";
               } catch (Exception e) {
                   message = "System Error. Unable to retrieve Email Report";
