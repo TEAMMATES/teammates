@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.mail.internet.MimeMessage;
-
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.datatransfer.CommentAttributes;
@@ -47,6 +45,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
+import teammates.googleSendgridJava.Sendgrid;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.AdminEmailsLogic;
 import teammates.logic.core.CommentsLogic;
@@ -584,7 +583,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public MimeMessage sendRegistrationInviteToInstructor(String courseId, String instructorEmail) 
+    public Sendgrid sendRegistrationInviteToInstructor(String courseId, String instructorEmail) 
             throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -593,7 +592,7 @@ public class Logic {
         return instructorsLogic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
     }
     
-    public MimeMessage sendRegistrationInviteToInstructor(String courseId, InstructorAttributes instructor) 
+    public Sendgrid sendRegistrationInviteToInstructor(String courseId, InstructorAttributes instructor) 
             throws EntityDoesNotExistException {
         return instructorsLogic.sendRegistrationInviteToInstructor(courseId, instructor);
     }
@@ -1199,7 +1198,7 @@ public class Logic {
      * @return The list of emails sent. These can be used for
      *         verification.
      */
-    public List<MimeMessage> sendRegistrationInviteForCourse(String courseId) throws InvalidParametersException {
+    public List<Sendgrid> sendRegistrationInviteForCourse(String courseId) throws InvalidParametersException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return studentsLogic.sendRegistrationInviteForCourse(courseId);
     }
@@ -1208,7 +1207,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public MimeMessage sendRegistrationInviteToStudent(String courseId, String studentEmail) 
+    public Sendgrid sendRegistrationInviteToStudent(String courseId, String studentEmail) 
             throws EntityDoesNotExistException, InvalidParametersException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1226,7 +1225,7 @@ public class Logic {
      * @throws EntityDoesNotExistException
      * @throws InvalidParametersException
      */
-    public MimeMessage sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail) 
+    public Sendgrid sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail) 
            throws EntityDoesNotExistException, InvalidParametersException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -2613,7 +2612,7 @@ public class Logic {
     private void ____MISC_methods__________________________________________() {
     }
 
-    public MimeMessage emailErrorReport(String path, String params, Throwable error) {
+    public Sendgrid emailErrorReport(String path, String params, Throwable error) {
         return emailManager.sendErrorReport(path, params, error);
     }
 

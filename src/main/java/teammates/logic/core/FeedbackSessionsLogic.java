@@ -13,8 +13,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.mail.internet.MimeMessage;
-
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -46,6 +44,7 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
+import teammates.googleSendgridJava.Sendgrid;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
@@ -1375,7 +1374,7 @@ public class FeedbackSessionsLogic {
         updateFeedbackSession(sessionToUnpublish);
     }
 
-    public List<MimeMessage> sendReminderForFeedbackSession(String courseId,
+    public List<Sendgrid> sendReminderForFeedbackSession(String courseId,
             String feedbackSessionName) throws EntityDoesNotExistException {
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(
@@ -1409,7 +1408,7 @@ public class FeedbackSessionsLogic {
         }
 
         CourseAttributes course = coursesLogic.getCourse(courseId);
-        List<MimeMessage> emails;
+        List<Sendgrid> emails;
         Emails emailMgr = new Emails();
         try {
             emails = emailMgr.generateFeedbackSessionReminderEmails(course,
@@ -1423,7 +1422,7 @@ public class FeedbackSessionsLogic {
         return emails;
     }
     
-    public List<MimeMessage> sendReminderForFeedbackSessionParticularUsers(String courseId,
+    public List<Sendgrid> sendReminderForFeedbackSessionParticularUsers(String courseId,
             String feedbackSessionName, String[] usersToRemind) throws EntityDoesNotExistException {
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(
@@ -1454,7 +1453,7 @@ public class FeedbackSessionsLogic {
         }
 
         CourseAttributes course = coursesLogic.getCourse(courseId);
-        List<MimeMessage> emails;
+        List<Sendgrid> emails;
         Emails emailMgr = new Emails();
         try {
             emails = emailMgr.generateFeedbackSessionReminderEmails(course,

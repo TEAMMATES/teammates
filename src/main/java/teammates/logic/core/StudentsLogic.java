@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.mail.internet.MimeMessage;
-
 import com.google.gson.Gson;
 
 import teammates.common.datatransfer.CourseAttributes;
@@ -32,6 +30,7 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
+import teammates.googleSendgridJava.Sendgrid;
 import teammates.storage.api.StudentsDb;
 
 /**
@@ -508,7 +507,7 @@ public class StudentsLogic {
         
     }
 
-    public MimeMessage sendRegistrationInviteToStudent(String courseId, String studentEmail) 
+    public Sendgrid sendRegistrationInviteToStudent(String courseId, String studentEmail) 
             throws EntityDoesNotExistException {
         
         CourseAttributes course = coursesLogic.getCourse(courseId);
@@ -525,7 +524,7 @@ public class StudentsLogic {
         
         Emails emailMgr = new Emails();
         try {
-            MimeMessage email = emailMgr.generateStudentCourseJoinEmail(course, studentData);
+            Sendgrid email = emailMgr.generateStudentCourseJoinEmail(course, studentData);
             emailMgr.sendAndLogEmail(email);
             return email;
         } catch (Exception e) {
@@ -534,7 +533,7 @@ public class StudentsLogic {
         
     }
     
-    public MimeMessage sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail) 
+    public Sendgrid sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail) 
             throws EntityDoesNotExistException {
         
         CourseAttributes course = coursesLogic.getCourse(courseId);
@@ -551,7 +550,7 @@ public class StudentsLogic {
         
         Emails emailMgr = new Emails();
         try {
-            MimeMessage email = emailMgr.generateStudentCourseRejoinEmailAfterGoogleIdReset(course, studentData);
+            Sendgrid email = emailMgr.generateStudentCourseRejoinEmailAfterGoogleIdReset(course, studentData);
             emailMgr.sendAndLogEmail(email);
             return email;
         } catch (Exception e) {
@@ -560,15 +559,15 @@ public class StudentsLogic {
         
     }
     
-    public List<MimeMessage> sendRegistrationInviteForCourse(String courseId) {
+    public List<Sendgrid> sendRegistrationInviteForCourse(String courseId) {
         List<StudentAttributes> studentDataList = getUnregisteredStudentsForCourse(courseId);
         
-        ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
+        ArrayList<Sendgrid> emailsSent = new ArrayList<Sendgrid>();
     
         //TODO: sending mail should be moved to somewhere else.
         for (StudentAttributes s : studentDataList) {
             try {
-                MimeMessage email = sendRegistrationInviteToStudent(courseId, s.email);
+                Sendgrid email = sendRegistrationInviteToStudent(courseId, s.email);
                 emailsSent.add(email);
             } catch (EntityDoesNotExistException e) {
                 Assumption

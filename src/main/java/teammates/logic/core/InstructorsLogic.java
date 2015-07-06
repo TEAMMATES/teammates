@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.mail.internet.MimeMessage;
-
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
@@ -15,6 +13,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Utils;
+import teammates.googleSendgridJava.Sendgrid;
 import teammates.storage.api.InstructorsDb;
 
 
@@ -265,7 +264,7 @@ public class InstructorsLogic {
      * Sends a registration email to the instructor
      * Vulnerable to eventual consistency
      */
-    public MimeMessage sendRegistrationInviteToInstructor(String courseId, String instructorEmail) 
+    public Sendgrid sendRegistrationInviteToInstructor(String courseId, String instructorEmail) 
             throws EntityDoesNotExistException {
         
         CourseAttributes course = coursesLogic.getCourse(courseId);
@@ -282,7 +281,7 @@ public class InstructorsLogic {
 
         Emails emailMgr = new Emails();
         try {
-            MimeMessage email = emailMgr.generateInstructorCourseJoinEmail(course, instructorData);
+            Sendgrid email = emailMgr.generateInstructorCourseJoinEmail(course, instructorData);
             emailMgr.sendAndLogEmail(email);
             
             return email;
@@ -300,7 +299,7 @@ public class InstructorsLogic {
      * @throws InvalidParametersException
      * @throws EntityDoesNotExistException 
      */
-    public MimeMessage sendRegistrationInviteToInstructor(String courseId, InstructorAttributes instructor) 
+    public Sendgrid sendRegistrationInviteToInstructor(String courseId, InstructorAttributes instructor) 
             throws EntityDoesNotExistException {
         
         CourseAttributes course = coursesLogic.getCourse(courseId);
@@ -311,7 +310,7 @@ public class InstructorsLogic {
 
         Emails emailMgr = new Emails();
         try {
-            MimeMessage email = emailMgr.generateInstructorCourseJoinEmail(course, instructor);
+            Sendgrid email = emailMgr.generateInstructorCourseJoinEmail(course, instructor);
             emailMgr.sendAndLogEmail(email);
             
             return email;
@@ -329,7 +328,7 @@ public class InstructorsLogic {
         Emails emailMgr = new Emails();
 
         try {
-            MimeMessage email = emailMgr.generateNewInstructorAccountJoinEmail(instructor, shortName, institute);
+            Sendgrid email = emailMgr.generateNewInstructorAccountJoinEmail(instructor, shortName, institute);
             emailMgr.sendAndLogEmail(email);
             joinLink = emailMgr.generateNewInstructorAccountJoinLink(instructor, institute);
 
