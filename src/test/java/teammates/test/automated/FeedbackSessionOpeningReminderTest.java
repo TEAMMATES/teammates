@@ -6,8 +6,6 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.internet.MimeMessage;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -20,6 +18,7 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Const.ParamsNames;
+import teammates.googleSendgridJava.Sendgrid;
 import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionOpeningMailAction;
 import teammates.logic.core.Emails;
@@ -126,7 +125,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
     @Test
     public void testFeedbackSessionOpeningMailAction() throws Exception{
         
-        ______TS("MimeMessage Test : 2 sessions opened and emails sent, 1 session opened without emails sent, "
+        ______TS("Sendgrid Test : 2 sessions opened and emails sent, 1 session opened without emails sent, "
                 + "1 session opened without emails sent with sending open email disabled");
         // Modify session to set emails as unsent but still open
         // by closing and opening the session.
@@ -155,10 +154,10 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         int course1StudentCount = 5; 
         int course1InstructorCount = 4;
         
-        List<MimeMessage> preparedEmails = fsOpeningAction.getPreparedEmailsAndPerformSuccessOperations();
+        List<Sendgrid> preparedEmails = fsOpeningAction.getPreparedEmailsAndPerformSuccessOperations();
         assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());
 
-        for (MimeMessage m : preparedEmails) {
+        for (Sendgrid m : preparedEmails) {
             String subject = m.getSubject();
             assertTrue(subject.contains(session1.feedbackSessionName));
             assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));

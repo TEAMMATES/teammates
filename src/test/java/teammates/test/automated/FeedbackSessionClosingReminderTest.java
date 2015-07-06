@@ -6,8 +6,6 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.internet.MimeMessage;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -20,6 +18,7 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Const.ParamsNames;
+import teammates.googleSendgridJava.Sendgrid;
 import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionClosingMailAction;
 import teammates.logic.core.Emails;
@@ -153,10 +152,10 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         int course1StudentCount = 5-2; // 2 students have already completed the session 
         int course1InstructorCount = 4;
         
-        List<MimeMessage> preparedEmails = fsClosingAction.getPreparedEmailsAndPerformSuccessOperations();
+        List<Sendgrid> preparedEmails = fsClosingAction.getPreparedEmailsAndPerformSuccessOperations();
         assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());
         
-        for (MimeMessage m : preparedEmails) {
+        for (Sendgrid m : preparedEmails) {
             String subject = m.getSubject();
             assertTrue(subject.contains(session1.feedbackSessionName));
             assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));
@@ -192,7 +191,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         preparedEmails = fsClosingAction.getPreparedEmailsAndPerformSuccessOperations();
         assertEquals(course2StudentCount + course2InstructorCount, preparedEmails.size());
         
-        for (MimeMessage m : preparedEmails) {
+        for (Sendgrid m : preparedEmails) {
             String subject = m.getSubject();
             assertTrue(subject.contains(session2.feedbackSessionName));
             assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));

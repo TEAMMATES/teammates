@@ -7,8 +7,6 @@ import static org.testng.Assert.assertTrue;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.internet.MimeMessage;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -21,6 +19,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.googleSendgridJava.Sendgrid;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.InstructorsDb;
@@ -777,7 +776,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         
         InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
     
-        MimeMessage email = instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instructor.email);
+        Sendgrid email = instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instructor.email);
     
         TestHelper.verifyJoinInviteToInstructor(instructor, email);
     

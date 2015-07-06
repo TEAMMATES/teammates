@@ -6,8 +6,6 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.internet.MimeMessage;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -20,6 +18,7 @@ import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Const.ParamsNames;
+import teammates.googleSendgridJava.Sendgrid;
 import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionPublishedMailAction;
 import teammates.logic.core.Emails;
@@ -158,13 +157,13 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
     @Test
     public void testFeedbackSessionOpeningMailAction() throws Exception{
 
-        ______TS("MimeMessage Test : activate all sessions with mails sent");
+        ______TS("Sendgrid Test : activate all sessions with mails sent");
         for (FeedbackSessionAttributes fs : dataBundle.feedbackSessions.values()) {
             fs.sentPublishedEmail = true;
             fsLogic.updateFeedbackSession(fs);
             assertTrue(fsLogic.getFeedbackSession(fs.feedbackSessionName, fs.courseId).sentPublishedEmail);
         }
-        ______TS("MimeMessage Test : set session 1 to unsent emails and publish");
+        ______TS("Sendgrid Test : set session 1 to unsent emails and publish");
         // Modify session to set as published but emails unsent
         FeedbackSessionAttributes session1 = dataBundle.feedbackSessions.get("session1InCourse1");
         session1.resultsVisibleFromTime = TimeHelper.getDateOffsetToCurrentTime(-1);
@@ -176,10 +175,10 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         int course1StudentCount = 5; 
         int course1InstructorCount = 4;
         
-        List<MimeMessage> preparedEmails = fsPublishedAction.getPreparedEmailsAndPerformSuccessOperations();
+        List<Sendgrid> preparedEmails = fsPublishedAction.getPreparedEmailsAndPerformSuccessOperations();
         assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());
 
-        for (MimeMessage m : preparedEmails) {
+        for (Sendgrid m : preparedEmails) {
             String subject = m.getSubject();
             assertTrue(subject.contains(session1.feedbackSessionName));
             assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED));

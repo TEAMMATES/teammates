@@ -7,7 +7,6 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import javax.mail.internet.MimeMessage;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -34,6 +33,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
+import teammates.googleSendgridJava.Sendgrid;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.Emails;
@@ -332,7 +332,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         String studentEmail = student1InCourse1.email;
         String courseId = student1InCourse1.course;
-        MimeMessage msgToStudent = studentsLogic.sendRegistrationInviteToStudent(courseId, studentEmail);
+        Sendgrid msgToStudent = studentsLogic.sendRegistrationInviteToStudent(courseId, studentEmail);
         Emails emailMgr = new Emails();
         @SuppressWarnings("static-access")
         String emailInfo = emailMgr.getEmailInfo(msgToStudent);
@@ -1109,7 +1109,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
     
         // send registration key to a class in which all are registered
-        List<MimeMessage> emailsSent = studentsLogic
+        List<Sendgrid> emailsSent = studentsLogic
                 .sendRegistrationInviteForCourse(course1.id);
         assertEquals(0, emailsSent.size());
         
@@ -1125,7 +1125,7 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         invokeEnrollStudent(newsStudent1Info);
         invokeEnrollStudent(newsStudent2Info);
 
-        List<MimeMessage> msgsForCourse = studentsLogic.sendRegistrationInviteForCourse(courseId);
+        List<Sendgrid> msgsForCourse = studentsLogic.sendRegistrationInviteForCourse(courseId);
         assertEquals(3, msgsForCourse.size());
         Emails emailMgr = new Emails();
         @SuppressWarnings("static-access")
