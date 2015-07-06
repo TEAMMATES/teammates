@@ -4,8 +4,9 @@
 <%@ taglib tagdir="/WEB-INF/tags/student/feedbackSubmissionEdit" prefix="feedbackSubmissionEdit" %>
 
 <%@ attribute name="feedbackSubmissionForm" type="teammates.ui.controller.FeedbackSubmissionEditPageData" required="true" %>
+<%@ attribute name="feedbackSubmissionAction" required="true" %>
 
-<form method="post" name="form_submit_response" action="${feedbackSubmissionForm.instructorSubmitAction}">
+<form method="post" name="form_submit_response" action="${feedbackSubmissionAction}">
     <jsp:include page="<%= Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT %>" />
     <div class="bold align-center"> 
         <c:choose>

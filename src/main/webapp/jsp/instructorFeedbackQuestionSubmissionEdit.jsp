@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="teammates.common.util.Const"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
@@ -31,5 +32,5 @@
 </c:set>
 
 <ti:instructorPageCustom pageTitle="TEAMMATES - Submit Feedback Question" bodyTitle="Submit Feedback Question" jsIncludes="${jsIncludes}" altNavBar="${altHeader}" altFooter="${altFooter}">
-    <instructorFeedbackSubmissionEdit:feedbackSubmissionForm feedbackSubmissionForm="${data}"/>
+    <instructorFeedbackSubmissionEdit:feedbackSubmissionForm feedbackSubmissionForm="${data}" feedbackSubmissionAction="<%= Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE %>"/>
 </ti:instructorPageCustom>
