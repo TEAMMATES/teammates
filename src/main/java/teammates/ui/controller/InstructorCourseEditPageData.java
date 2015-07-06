@@ -70,7 +70,7 @@ public class InstructorCourseEditPageData extends PageData {
                                                             List<String> sectionNames, 
                                                             List<String> feedbackNames) {
         CourseEditInstructorPanel instructorPanel = new CourseEditInstructorPanel(instructorToShowIndex, 
-                                                                          instructorIndex, currentInstructor,
+                                                                          instructorIndex, instructor,
                                                                           sectionNames, feedbackNames);
         
         if (instructor != null) {
