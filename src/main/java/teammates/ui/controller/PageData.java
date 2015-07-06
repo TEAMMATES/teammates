@@ -911,6 +911,16 @@ public class PageData {
         }
     }
     
+    public String getPictureUrl(String pictureKey) {
+        if (pictureKey == null || pictureKey.isEmpty()) {
+            return Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
+        } else {
+            return Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?"
+                   + Const.ParamsNames.BLOB_KEY + "=" + pictureKey + "&"
+                   + Const.ParamsNames.USER_ID + "=" + account.googleId;
+        }
+    }
+    
     public String removeBracketsForArrayString(String arrayString) {
         return arrayString.substring(1, arrayString.length() - 1).trim();
     }
