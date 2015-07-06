@@ -61,7 +61,7 @@ public class Emails {
     private String senderName;
     private String replyTo;
     
-    Sendgrid mail = new Sendgrid(Const.SystemParams.SENDGRID_USERNAME, Const.SystemParams.SENDGRID_PASSWORD);
+    Sendgrid mail = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);
 
     public Emails() {
         senderEmail = "Admin@" + Config.inst().getAppId() + ".appspotmail.com";
@@ -563,7 +563,7 @@ public class Emails {
         
         //TODO: remove version parameter?
         
-        Sendgrid message = new Sendgrid(Const.SystemParams.SENDGRID_USERNAME, Const.SystemParams.SENDGRID_PASSWORD);
+        Sendgrid message = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);
         String errorMessage = error.getMessage();
         String stackTrace = TeammatesException.toStringWithStackTrace(error);
     
@@ -765,7 +765,7 @@ public class Emails {
     private Sendgrid getEmptyEmailAddressedToEmail(String email)
             throws UnsupportedEncodingException {
         
-        Sendgrid message = new Sendgrid(Const.SystemParams.SENDGRID_USERNAME, Const.SystemParams.SENDGRID_PASSWORD);
+        Sendgrid message = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);
         
         message.addTo(email);
         message.setFrom(senderEmail);

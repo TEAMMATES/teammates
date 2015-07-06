@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
+import teammates.common.util.Config;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.HttpRequestHelper;
 import teammates.googleSendgridJava.Sendgrid;
@@ -37,7 +37,7 @@ public class SendEmailWorkerServlet extends WorkerServlet {
                     .getValueFromRequestParameterMap(req, ParamsNames.EMAIL_REPLY_TO_ADDRESS);
             Assumption.assertNotNull(emailReply);
             
-            Sendgrid message = new Sendgrid(Const.SystemParams.SENDGRID_USERNAME, Const.SystemParams.SENDGRID_PASSWORD);
+            Sendgrid message = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);
             
             message.addTo(emailReceiver);
             message.setFrom(emailSender);

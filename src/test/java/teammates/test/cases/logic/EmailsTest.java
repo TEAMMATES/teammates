@@ -63,7 +63,7 @@ public class EmailsTest extends BaseComponentTestCase {
     @Test
     public void testGetEmailInfo() {
         
-        Sendgrid message = new Sendgrid(Const.SystemParams.SENDGRID_USERNAME, Const.SystemParams.SENDGRID_PASSWORD);
+        Sendgrid message = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);
 
         String email = "receiver@gmail.tmt";
         String from = "sender@gmail.tmt";
