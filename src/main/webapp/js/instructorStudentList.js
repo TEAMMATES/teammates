@@ -238,22 +238,15 @@ function checkAllTeamsSelected() {
 }
 
 /**
- * Check whether a string contains the substr or not
- */
-String.prototype.contains = function(substr) {
-    return this.indexOf(substr) != -1;
-};
-
-/**
  * Go to the url with appended param and value pair
  */
 function gotoUrlWithParam(url, param, value) {
     var paramValuePair = param + '=' + value;
-    if (!url.contains('?')) {
+    if (!url.includes('?')) {
         window.location.href = url + '?' + paramValuePair;
-    } else if (!url.contains(param)) {
+    } else if (!url.includes(param)) {
         window.location.href = url + '&' + paramValuePair;
-    } else if (url.contains(paramValuePair)) {
+    } else if (url.includes(paramValuePair)) {
         window.location.href = url;
     } else {
         var urlWithoutParam = removeParamInUrl(url, param);

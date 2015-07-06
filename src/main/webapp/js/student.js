@@ -4,7 +4,6 @@
  */
 
 $(document).ready(function() {
-    $('[data-toggle="tooltip"]').tooltip({html: true});
     $('[data-unreg].navLinks').click(function() {
         return confirm('You have to register using a google account '
                        + 'in order to access this page. Would you like to proceed and register?');
