@@ -614,3 +614,14 @@ function sanitizeForJs(string) {
     string = replaceAll(string, '\'', '\\\'');
     return string;
 }
+
+/**
+ * Polyfills the String.prototype.includes function finalized in ES6 for browsers that do not yet support
+ * the function.
+ */
+if (!String.prototype.includes) {
+    String.prototype.includes = function() {
+        'use strict';
+        return String.prototype.indexOf.apply(this, arguments) !== -1;
+    }
+}
