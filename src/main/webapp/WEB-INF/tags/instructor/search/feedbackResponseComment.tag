@@ -11,8 +11,9 @@
     
     <div id="commentBar-${fsIndx}-${qnIndx}-${responseIndex}-${responseCommentIndex}">    
         <span class="text-muted"> 
-            From: <b>${feedbackResponseCommentRow.giverDetails}</b>
-            on ${feedbackResponseCommentRow.creationTime}
+            From:
+                                                            ${feedbackResponseCommentRow.giverDetails}
+                                                            [${feedbackResponseCommentRow.creationTime}] ${feedbackResponseCommentRow.editedAtText}
         </span> 
         
         <a type="button" target="_blank" class="btn btn-default btn-xs icon-button pull-right"
