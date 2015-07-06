@@ -11,13 +11,18 @@
 
 <c:if test="${data.headerHidden}">
     <c:set var="altHeader">
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <c:choose>
-                <c:when test="${data.preview}">
+        <c:choose>
+            <c:when test="${data.preview}">
+			    <nav class="navbar navbar-default navbar-fixed-top">
                     <h3 class="text-center">Previewing Session as Instructor ${data.previewInstructor.name} (${data.previewInstructor.email})</h3>
-                </c:when>
-            </c:choose>
-        </nav>
+			    </nav>
+            </c:when>
+            <c:otherwise>
+                <%-- For when header is hidden but it is not a preview --%>
+                <nav class="navbar navbar-default navbar-fixed-top" style="display: none;">
+                </nav>
+            </c:otherwise>
+        </c:choose>
     </c:set>
 </c:if>
 
