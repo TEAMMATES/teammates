@@ -5,7 +5,7 @@
 
 <%@ attribute name="feedbackSubmissionForm" type="teammates.ui.controller.FeedbackSubmissionEditPageData" required="true" %>
 
-<form method="post" name="form_student_submit_response" action="${feedbackSubmissionForm.submitAction}">
+<form method="post" name="form_submit_response" action="${feedbackSubmissionForm.instructorSubmitAction}">
     <jsp:include page="<%= Const.ViewURIs.FEEDBACK_SUBMISSION_EDIT %>" />
     <div class="bold align-center"> 
         <c:choose>
@@ -13,12 +13,12 @@
                     There are no questions for you to answer here!
             </c:when>
             <c:otherwise>
-                <input type="submit" class="btn btn-primary"
+                <input type="submit" class="btn btn-primary center-block"
                        id="response_submit_button" data-toggle="tooltip"
                        data-placement="top" title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT_SAVE %>"
                        value="Submit Feedback"
                        <c:if test="${feedbackSubmissionForm.preview or (not feedbackSubmissionForm.submittable)}">
-                           disabled="disabled" style="background: #66727A;"
+                           disabled="disabled"
                        </c:if>>
             </c:otherwise>
         </c:choose>
