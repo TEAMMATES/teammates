@@ -55,9 +55,7 @@ public class InstructorFeedbacksPageAction extends Action {
             }
         }
         
-
-        data.initWithoutDefaultFormValues(courses, courseIdForNewSession, existingFeedbackSessions,
-                  instructors, feedbackSessionToHighlight);
+        Map<String, List<String>> courseIdToSectionName = logic.getCourseIdToSectionNamesMap(courses);
         
         if (courses.isEmpty()) {
             statusToUser.add(Const.StatusMessages.COURSE_EMPTY_IN_INSTRUCTOR_FEEDBACKS
@@ -65,6 +63,10 @@ public class InstructorFeedbacksPageAction extends Action {
         }
         
         statusToAdmin = "Number of feedback sessions: " + existingFeedbackSessions.size();
+        
+        
+        data.initWithoutDefaultFormValues(courses, courseIdForNewSession, existingFeedbackSessions,
+                                        instructors, feedbackSessionToHighlight, courseIdToSectionName);
         
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
