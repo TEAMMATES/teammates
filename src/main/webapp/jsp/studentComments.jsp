@@ -108,33 +108,28 @@
                             int studentIdx = 0;
                             for (CommentAttributes comment : data.comments) {//comment loop starts
                                 studentIdx++;
-                        %>
-                        <%
-                        	String recipientDisplay = data.getRecipientNames(comment.recipients);
+                            
+                                InstructorAttributes instructor = data.roster.getInstructorForEmail(comment.giverEmail);
+                                String giverDisplay = comment.giverEmail;
+                                if(instructor != null){
+                                    giverDisplay = instructor.displayedName + " " + instructor.name;
+                                }
+                                String recipientDisplay = data.getRecipientNames(comment.recipients);
                         %>
                         <div class="panel panel-info student-record-comments <%=recipientDisplay.equals("you")?"giver_display-to-you":"giver_display-to-others"%>">
                             <div class="panel-heading">
-                                To <b><%=recipientDisplay%></b>
+                                From <b><%=giverDisplay%></b>
                             </div>
                             <ul class="list-group comments">
                                 <%
-                                	CommentParticipantType recipientTypeForThisRecipient = CommentParticipantType.PERSON;//default value is PERSON
-                                                                    commentIdx++;
-                                                                    recipientTypeForThisRecipient = comment.recipientType;
+                                    commentIdx++;
                                 %>
                                 <li class="list-group-item list-group-item-warning"
                                     name="form_commentedit"
                                     class="form_comment"
                                     id="form_commentedit-<%=commentIdx%>">
                                     <div id="commentBar-<%=commentIdx%>">
-                                        <%
-                                           InstructorAttributes instructor = data.roster.getInstructorForEmail(comment.giverEmail);
-                                           String giverDisplay = comment.giverEmail;
-                                           if(instructor != null){
-                                               giverDisplay = instructor.displayedName + " " + instructor.name;
-                                           }
-                                        %>
-                                        <span class="text-muted">From <b><%=giverDisplay%></b> 
+                                        <span class="text-muted">To <b><%=recipientDisplay%></b> 
                                             [<%= Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt) %>] <%= comment.getEditedAtText(giverDisplay.equals("Anonymous")) %>
                                         </span>
                                     </div>
