@@ -1983,18 +1983,24 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
     };
 
-    // Sorts by recipientName
+    // Sorts by recipientName then by giverName
     public final Comparator<FeedbackResponseAttributes> compareByRecipientName =
             new Comparator<FeedbackResponseAttributes>() {
         @Override
         public int compare(FeedbackResponseAttributes o1,
                            FeedbackResponseAttributes o2) {
-            return compareByNames(getNameForEmail(o1.recipientEmail),
-                                  getNameForEmail(o2.recipientEmail));
+            int compareResult = compareByNames(getNameForEmail(o1.recipientEmail),
+                                               getNameForEmail(o2.recipientEmail));
+            if (compareResult == 0) {
+                return compareByNames(getNameForEmail(o1.giverEmail),
+                                      getNameForEmail(o2.giverEmail));
+            } else {
+                return compareResult;
+            }
         }
     };
 
-    // Sorts by recipientName
+    // Sorts by giverName
     public final Comparator<FeedbackResponseAttributes> compareByGiverName =
             new Comparator<FeedbackResponseAttributes>() {
         @Override
