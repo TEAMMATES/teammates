@@ -242,12 +242,12 @@
                                                     <div
                                                         id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                         <span class="text-muted">From:
-                                                            <b><%=frCommentGiver%></b>
-                                                            on <%=TimeHelper.formatDate(frc.createdAt)%> <%=frc.getEditedAtTextForStudent(frCommentGiver.equals("Anonymous"), lastEditorDisplay) %>
+                                                            <%= frc.giverEmail %>
+                                                            [<%= frc.createdAt %>] <%= frc.getEditedAtText(frc.giverEmail.equals("Anonymous")) %>
                                                         </span>
                                                     </div> <!-- frComment Content -->
                                                     <div
-                                                        id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>"><%=frc.commentText.getValue()%></div>
+                                                        id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>" style="margin-left: 15px;"><%=frc.commentText.getValue()%></div>
                                                 </li>
                                                 <%
                                                     }//FeedbackResponseComments loop ends

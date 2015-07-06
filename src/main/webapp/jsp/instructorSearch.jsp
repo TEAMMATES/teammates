@@ -278,14 +278,17 @@
                                                         responseCommentIndex++;
                                                         String frCommentGiver = data.feedbackResponseCommentSearchResultBundle
                                                                                          .commentGiverTable.get(frc.getId().toString());
+                                                        if (!frCommentGiver.equals("Anonymous")) {
+                                                            frCommentGiver = frc.giverEmail;
+                                                        }
                                                 %>
                                                 <li class="list-group-item list-group-item-warning"
                                                     id="responseCommentRow-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                     <div id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                         <span class="text-muted">
                                                             From:
-                                                            <b><%=frCommentGiver%></b>
-                                                            on <%=TimeHelper.formatTime(frc.createdAt)%>
+                                                            <%= frCommentGiver %>
+                                                            [<%= frc.createdAt %>] <%= frc.getEditedAtText(frCommentGiver.equals("Anonymous")) %>
                                                         </span>
                                                         <a type="button" href="<%=data.getInstructorCommentsLink() + "&" + Const.ParamsNames.COURSE_ID 
                                                         + "=" + frc.courseId + "#" + frc.getId()%>" target="_blank" class="btn btn-default btn-xs icon-button pull-right"
@@ -293,7 +296,7 @@
                                                             <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>
                                                         </a>
                                                     </div> <!-- frComment Content -->
-                                                    <div id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
+                                                    <div id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>" style="margin-left: 15px;">
                                                         <%=frc.commentText.getValue()%>
                                                     </div>
                                                 </li>
