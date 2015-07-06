@@ -9,7 +9,7 @@
     id="responseCommentRow-<%= data.commentId %>">
     <div id="commentBar-<%= data.commentId %>">
         <span class="text-muted">
-            From: <b>you</b> [<%= data.commentTime %>]
+            From: <%= data.comment.giverEmail %> [<%= data.comment.createdAt %>]
         </span>
         <form class="responseCommentDeleteForm pull-right">
             <a href="/page/instructorFeedbackResponseCommentDelete"
@@ -42,6 +42,10 @@
     <form style="display: none;" id="responseCommentEditForm-<%= data.commentId %>" class="responseCommentEditForm">
         <div class="form-group form-inline">
             <div class="form-group text-muted">
+                <p>
+                    Giver: <%= data.giverName %><br>
+                    Recipient: <%= data.recipientName %>
+                </p>
                 You may change comment's visibility using the visibility options on the right hand side.
             </div>
             <a id="frComment-visibility-options-trigger-<%= data.commentId %>"

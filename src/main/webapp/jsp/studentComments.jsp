@@ -39,7 +39,7 @@
     <![endif]-->
 
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-    <script type="text/javascript" src="/js/jquery-minified.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
@@ -242,12 +242,12 @@
                                                     <div
                                                         id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                                                         <span class="text-muted">From:
-                                                            <b><%=frCommentGiver%></b>
-                                                            on <%=TimeHelper.formatDate(frc.createdAt)%> <%=frc.getEditedAtTextForStudent(frCommentGiver.equals("Anonymous"), lastEditorDisplay) %>
+                                                            <%= frc.giverEmail %>
+                                                            [<%= frc.createdAt %>] <%= frc.getEditedAtText(frc.giverEmail.equals("Anonymous")) %>
                                                         </span>
                                                     </div> <!-- frComment Content -->
                                                     <div
-                                                        id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>"><%=frc.commentText.getValue()%></div>
+                                                        id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>" style="margin-left: 15px;"><%=frc.commentText.getValue()%></div>
                                                 </li>
                                                 <%
                                                     }//FeedbackResponseComments loop ends
