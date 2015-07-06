@@ -4,9 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
 import com.google.appengine.api.log.AppLogLine;
 import com.google.appengine.api.log.LogQuery;
 import com.google.appengine.api.log.LogService;
@@ -15,6 +12,7 @@ import com.google.appengine.api.log.LogServiceFactory;
 import com.google.appengine.api.log.RequestLogs;
 
 import teammates.common.util.Utils;
+import teammates.googleSendgridJava.Sendgrid;
 import teammates.logic.core.Emails;
 
 import java.util.logging.*;
@@ -64,11 +62,11 @@ public class CompileLogs {
     public void sendEmail(String logs) {
         if (!logs.isEmpty()) {
             Emails emails = new Emails();
-            MimeMessage message;
+            Sendgrid message;
             try {
                 message = emails.generateCompiledLogsEmail(logs);
                 emails.sendLogReport(message);
-            } catch (UnsupportedEncodingException | MessagingException e) {
+            } catch (UnsupportedEncodingException e) {
                 log.severe(e.getMessage());
             }
         } else {
