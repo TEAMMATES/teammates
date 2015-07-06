@@ -18,8 +18,8 @@
                 </nav>
             </c:when>
             <c:otherwise>
-                <nav class="navbar navbar-default navbar-fixed-top" style="display: none;">
-                </nav>
+                <%-- For when header is hidden but it is not a preview --%>
+                <span style="display:none"></span>
             </c:otherwise>
         </c:choose>
     </c:set>
