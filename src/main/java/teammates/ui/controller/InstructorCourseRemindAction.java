@@ -1,6 +1,5 @@
 package teammates.ui.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -8,8 +7,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.logging.Logger;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -18,6 +15,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
+import teammates.googleSendgridJava.Sendgrid;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -51,17 +49,17 @@ public class InstructorCourseRemindAction extends Action {
         }
         
         /* Process sending emails and setup status to be shown to user and admin */
-        List<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
+        List<Sendgrid> emailsSent = new ArrayList<Sendgrid>();
         String redirectUrl = "";
         try {
             if (studentEmail != null) {
-                MimeMessage emailSent = logic.sendRegistrationInviteToStudent(courseId, studentEmail);
+                Sendgrid emailSent = logic.sendRegistrationInviteToStudent(courseId, studentEmail);
                 emailsSent.add(emailSent);
                 
                 statusToUser.add(Const.StatusMessages.COURSE_REMINDER_SENT_TO+studentEmail);
                 redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
             } else if (instructorEmail != null) {
-                MimeMessage emailSent = logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
+                Sendgrid emailSent = logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
                 emailsSent.add(emailSent);
                 
                 statusToUser.add(Const.StatusMessages.COURSE_REMINDER_SENT_TO + instructorEmail);
@@ -86,7 +84,7 @@ public class InstructorCourseRemindAction extends Action {
 
     }
     
-    private String generateStatusToAdmin(List<MimeMessage> emailsSent, String courseId) {
+    private String generateStatusToAdmin(List<Sendgrid> emailsSent, String courseId) {
         String statusToAdmin = "Registration Key sent to the following users "
                 + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br/>";
         
@@ -106,20 +104,14 @@ public class InstructorCourseRemindAction extends Action {
         return statusToAdmin;
     }
 
-    private Map<String, JoinEmailData> extractEmailDataForLogging(List<MimeMessage> emails) {
+    private Map<String, JoinEmailData> extractEmailDataForLogging(List<Sendgrid> emails) {
         Map<String, JoinEmailData> logData = new TreeMap<String, JoinEmailData>();
         
-        for (MimeMessage email : emails) {
-            try {
-                String recipient = email.getAllRecipients()[0].toString();
-                String userName = extractUserName((String) email.getContent());
-                String regKey = extractRegistrationKey((String) email.getContent());
-                logData.put(recipient, new JoinEmailData(userName, regKey));
-            } catch (MessagingException e) {
-                Assumption.fail("Join email corrupted");
-            } catch (IOException e) {
-                Assumption.fail("Join email corrupted");
-            }
+        for (Sendgrid email : emails) {
+            String recipient = email.getTos().get(0);
+            String userName = extractUserName(email.getHtml());
+            String regKey = extractRegistrationKey(email.getHtml());
+            logData.put(recipient, new JoinEmailData(userName, regKey));
         }
         
         return logData;

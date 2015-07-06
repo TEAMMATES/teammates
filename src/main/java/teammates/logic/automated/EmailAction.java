@@ -11,8 +11,6 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.exception.EntityDoesNotExistException;
@@ -21,12 +19,13 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.ActivityLogEntry;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
+import teammates.googleSendgridJava.Sendgrid;
 import teammates.logic.core.Emails;
 
 public abstract class EmailAction {
 
     protected HttpServletRequest req;
-    protected List<MimeMessage> emailsToBeSent;
+    protected List<Sendgrid> emailsToBeSent;
 
     protected String actionName = "unspecified";
     protected String actionDescription = "unspecified";
@@ -62,7 +61,7 @@ public abstract class EmailAction {
             doPostProcessingForSuccesfulSend();
             
             //carry this out if mail is successfully sent
-            ArrayList<MimeMessage> emailList = new ArrayList<MimeMessage>();
+            ArrayList<Sendgrid> emailList = new ArrayList<Sendgrid>();
             emailList.addAll(emailsToBeSent);
             logActivitySuccess(req, emailList);
                 
@@ -85,8 +84,8 @@ public abstract class EmailAction {
     /*
      *  Used for testing
      */
-    public List<MimeMessage> getPreparedEmailsAndPerformSuccessOperations() {
-        List<MimeMessage> preparedMail = null;
+    public List<Sendgrid> getPreparedEmailsAndPerformSuccessOperations() {
+        List<Sendgrid> preparedMail = null;
         
         try {
             preparedMail = prepareMailToBeSent();
@@ -102,9 +101,9 @@ public abstract class EmailAction {
     protected void doPostProcessingForUnsuccesfulSend() throws EntityDoesNotExistException {
     }
     
-    protected abstract List<MimeMessage> prepareMailToBeSent() throws MessagingException, IOException, EntityDoesNotExistException;
+    protected abstract List<Sendgrid> prepareMailToBeSent() throws IOException, EntityDoesNotExistException;
     
-    protected void logActivitySuccess(HttpServletRequest req, ArrayList<MimeMessage> emails) {        
+    protected void logActivitySuccess(HttpServletRequest req, ArrayList<Sendgrid> emails) {        
         String url = HttpRequestHelper.getRequestedURL(req);
         String message;
         
@@ -130,7 +129,7 @@ public abstract class EmailAction {
         log.severe(e.getMessage());
     }
 
-    private String generateLogMessage(List<MimeMessage> emailsSent) throws Exception {
+    private String generateLogMessage(List<Sendgrid> emailsSent) throws Exception {
         String logMessage = "Emails sent to:<br/>";
         
         Iterator<Entry<String, EmailData>> extractedEmailIterator = 
@@ -152,13 +151,13 @@ public abstract class EmailAction {
         return logMessage;
     }
     
-    private Map<String, EmailData> extractEmailDataForLogging(List<MimeMessage> emails) throws Exception {
+    private Map<String, EmailData> extractEmailDataForLogging(List<Sendgrid> emails) throws Exception {
         Map<String, EmailData> logData = new TreeMap<String, EmailData>();
         
-        for (MimeMessage email : emails) {
-            String recipient = email.getAllRecipients()[0].toString();
-            String userName = extractUserName((String) email.getContent());
-            String regKey = extractRegistrationKey((String) email.getContent());
+        for (Sendgrid email : emails) {
+            String recipient = email.getTos().get(0);
+            String userName = extractUserName(email.getHtml());
+            String regKey = extractRegistrationKey(email.getHtml());
             logData.put(recipient, new EmailData(userName, regKey));
         }
         
