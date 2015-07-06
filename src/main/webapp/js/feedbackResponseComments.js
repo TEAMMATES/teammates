@@ -251,12 +251,6 @@ function enableHoverToDisplayEditOptions() {
     });
 }
 
-function enableTooltip() {
-    $(function() { 
-        $("[data-toggle='tooltip']").tooltip({html: true, container: 'body'}); 
-    });
-}
-
 $(document).ready(registerResponseCommentsEvent);
 
 function removeUnwantedVisibilityOptions(commentId) {
@@ -393,7 +387,6 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, sender) {
             registerResponseCommentsEvent();
             registerCheckboxEventForVisibilityOptions();
             enableHoverToDisplayEditOptions();
-            enableTooltip();
       } else {
           panelBody.find('div[class^="placeholder-error-msg"]').removeClass('hidden');
           panelBody.removeClass('hidden');
