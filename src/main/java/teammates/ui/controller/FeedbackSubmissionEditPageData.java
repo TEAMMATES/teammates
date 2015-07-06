@@ -102,14 +102,14 @@ public class FeedbackSubmissionEditPageData extends PageData {
         return isModeration ? Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE
                               : Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_SAVE;
     }
-
-    public String getInstructorSubmitAction() {
-        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_SAVE;
-    }
     
     public String getSubmitActionQuestion() {
         return isModeration ? Const.ActionURIs.INSTRUCTOR_EDIT_STUDENT_FEEDBACK_SAVE
                               : Const.ActionURIs.STUDENT_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE;
+    }
+
+    public String getInstructorSubmitActionQuestion() {
+        return Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT_SAVE;
     }
     
     public boolean isSubmittable() {

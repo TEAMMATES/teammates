@@ -21,6 +21,11 @@
     </c:set>
 </c:if>
 
+<c:set var="altFooter">
+    <%-- Cannot be empty to prevent default footer --%>
+    <span style="display:none"></span>
+</c:set>
+
 <ti:instructorPageCustom pageTitle="TEAMMATES - Submit Feedback Question" bodyTitle="Submit Feedback Question" jsIncludes="${jsIncludes}" altNavBar="${altHeader}">
     <instructorFeedbackSubmissionEdit:feedbackSubmissionForm feedbackSubmissionForm="${data}"/>
 </ti:instructorPageCustom>
