@@ -7,21 +7,11 @@
 
 <%@ attribute name="fqForm" type="teammates.ui.template.FeedbackQuestionEditForm" required="true"%>
 
-<c:set var="FEEDBACK_RECEIVER">
-    <%=FeedbackParticipantType.RECEIVER.name()%>
-</c:set>
-<c:set var="FEEDBACK_OWN_TEAM_MEMBERS">
-    <%=FeedbackParticipantType.OWN_TEAM_MEMBERS.name()%>
-</c:set>
-<c:set var="FEEDBACK_RECEIVER_TEAM_MEMBERS">
-    <%= FeedbackParticipantType.RECEIVER_TEAM_MEMBERS.name() %>
-</c:set>
-<c:set var="FEEDBACK_STUDENTS">
-    <%= FeedbackParticipantType.STUDENTS.name() %>
-</c:set>
-<c:set var="FEEDBACK_INSTRUCTORS">
-    <%= FeedbackParticipantType.INSTRUCTORS.name() %>
-</c:set>
+<c:set var="FEEDBACK_RECEIVER"><%=FeedbackParticipantType.RECEIVER.name()%></c:set>
+<c:set var="FEEDBACK_OWN_TEAM_MEMBERS"><%=FeedbackParticipantType.OWN_TEAM_MEMBERS.name()%></c:set>
+<c:set var="FEEDBACK_RECEIVER_TEAM_MEMBERS"><%=FeedbackParticipantType.RECEIVER_TEAM_MEMBERS.name()%></c:set>
+<c:set var="FEEDBACK_STUDENTS"><%=FeedbackParticipantType.STUDENTS.name()%></c:set>
+<c:set var="FEEDBACK_INSTRUCTORS"><%=FeedbackParticipantType.INSTRUCTORS.name()%></c:set>
 
 <div class="col-sm-12 padding-15px background-color-light-green">
     <div class="col-sm-12 padding-0">
