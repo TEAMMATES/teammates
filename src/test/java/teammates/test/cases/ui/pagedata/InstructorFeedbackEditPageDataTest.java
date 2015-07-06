@@ -6,9 +6,13 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.testng.annotations.Test;
 
@@ -28,6 +32,8 @@ import teammates.common.util.Url;
 import teammates.common.util.Utils;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorFeedbackEditPageData;
+import teammates.ui.template.FeedbackQuestionFeedbackPathSettings;
+import teammates.ui.template.FeedbackQuestionVisibilitySettings;
 import teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment;
 import teammates.ui.template.FeedbackQuestionCopyTable;
 import teammates.ui.template.FeedbackQuestionEditForm;
@@ -119,66 +125,56 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         assertEquals(fs.courseId, questionForms.get(0).getCourseId());
         assertEquals(fs.feedbackSessionName, questionForms.get(0).getFeedbackSessionName());
 
-        assertEquals(3, questionForms.get(0).getNumOfQuestionsOnPage());
         assertEquals(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1"), questionForms.get(0).getQuestion());
         assertEquals(3, questionForms.get(0).getQuestionNumberOptions().size());
         assertEquals("What is the best selling point of your product?", questionForms.get(0).getQuestionText());
-        assertEquals(false, questionForms.get(0).getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
-        assertEquals(1, questionForms.get(0).getFeedbackPathSettings().getNumOfEntitiesToGiveFeedbackToValue());
-        assertEquals(8, questionForms.get(0).getFeedbackPathSettings().getRecipientParticipantOptions().size());
-        assertEquals(4, questionForms.get(0).getFeedbackPathSettings().getGiverParticipantOptions().size());
+        
+        FeedbackQuestionFeedbackPathSettings feedbackPath = questionForms.get(0).getFeedbackPathSettings();
+        assertEquals(false, feedbackPath.isNumberOfEntitiesToGiveFeedbackToChecked());
+        assertEquals(1, feedbackPath.getNumOfEntitiesToGiveFeedbackToValue());
+        assertEquals(8, feedbackPath.getRecipientParticipantOptions().size());
+        assertEquals(4, feedbackPath.getGiverParticipantOptions().size());
         assertEquals("-1", questionForms.get(0).getQuestionNumberSuffix());
         
-        assertTrue(questionForms.get(0).getVisibilitySettings().getResponseVisibleFor().get(FeedbackParticipantType.INSTRUCTORS.name()));
-        assertFalse(questionForms.get(0).getVisibilitySettings().getResponseVisibleFor().containsKey(FeedbackParticipantType.RECEIVER.name()));
-        assertFalse(questionForms.get(0).getVisibilitySettings().getResponseVisibleFor().containsKey(FeedbackParticipantType.STUDENTS.name()));
-        
-        assertTrue(questionForms.get(0).getVisibilitySettings().getGiverNameVisibleFor().get(FeedbackParticipantType.INSTRUCTORS.name()));
-        assertFalse(questionForms.get(0).getVisibilitySettings().getGiverNameVisibleFor().containsKey(FeedbackParticipantType.RECEIVER.name()));
-        assertFalse(questionForms.get(0).getVisibilitySettings().getGiverNameVisibleFor().containsKey(FeedbackParticipantType.STUDENTS.name()));
-        
-        assertTrue(questionForms.get(0).getVisibilitySettings().getRecipientNameVisibleFor().get(FeedbackParticipantType.INSTRUCTORS.name()));
-        assertFalse(questionForms.get(0).getVisibilitySettings().getRecipientNameVisibleFor().containsKey(FeedbackParticipantType.RECEIVER.name()));
-        assertFalse(questionForms.get(0).getVisibilitySettings().getRecipientNameVisibleFor().containsKey(FeedbackParticipantType.STUDENTS.name()));
+        // Test visibility settings for the zero'th question form
+        FeedbackQuestionVisibilitySettings visibilitySettings = questionForms.get(0).getVisibilitySettings();
+        verifyMapContains(visibilitySettings.getResponseVisibleFor(), Arrays.asList(FeedbackParticipantType.INSTRUCTORS));
+        verifyMapContains(visibilitySettings.getGiverNameVisibleFor(), Arrays.asList(FeedbackParticipantType.INSTRUCTORS));
+        verifyMapContains(visibilitySettings.getRecipientNameVisibleFor(), Arrays.asList(FeedbackParticipantType.INSTRUCTORS));
         
         assertEquals("Rate 1 other student's product", questionForms.get(1).getQuestionText());
-        assertEquals(false, questionForms.get(1).getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
+        assertFalse(questionForms.get(1).getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
+       
         assertEquals(1, questionForms.get(1).getFeedbackPathSettings().getNumOfEntitiesToGiveFeedbackToValue());
         assertEquals(8, questionForms.get(1).getFeedbackPathSettings().getRecipientParticipantOptions().size());
         assertEquals(4, questionForms.get(1).getFeedbackPathSettings().getGiverParticipantOptions().size());
         
-        assertTrue(questionForms.get(1).getVisibilitySettings().getResponseVisibleFor().get(FeedbackParticipantType.INSTRUCTORS.name()));
-        assertTrue(questionForms.get(1).getVisibilitySettings().getResponseVisibleFor().get(FeedbackParticipantType.RECEIVER.name()));
-        assertFalse(questionForms.get(1).getVisibilitySettings().getResponseVisibleFor().containsKey(FeedbackParticipantType.STUDENTS.name()));
-        
-        assertTrue(questionForms.get(1).getVisibilitySettings().getGiverNameVisibleFor().get(FeedbackParticipantType.INSTRUCTORS.name()));
-        assertFalse(questionForms.get(1).getVisibilitySettings().getGiverNameVisibleFor().containsKey(FeedbackParticipantType.RECEIVER.name()));
-        assertFalse(questionForms.get(1).getVisibilitySettings().getGiverNameVisibleFor().containsKey(FeedbackParticipantType.STUDENTS.name()));
-        
-        assertTrue(questionForms.get(1).getVisibilitySettings().getRecipientNameVisibleFor().get(FeedbackParticipantType.INSTRUCTORS.name()));
-        assertTrue(questionForms.get(1).getVisibilitySettings().getRecipientNameVisibleFor().get(FeedbackParticipantType.RECEIVER.name()));
-        assertFalse(questionForms.get(1).getVisibilitySettings().getRecipientNameVisibleFor().containsKey(FeedbackParticipantType.STUDENTS.name()));
+        verifyMapContains(questionForms.get(1).getVisibilitySettings().getResponseVisibleFor(), Arrays.asList(FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.RECEIVER));
+        verifyMapContains(questionForms.get(1).getVisibilitySettings().getGiverNameVisibleFor(), Arrays.asList(FeedbackParticipantType.INSTRUCTORS));
+        verifyMapContains(questionForms.get(1).getVisibilitySettings().getRecipientNameVisibleFor(), Arrays.asList(FeedbackParticipantType.INSTRUCTORS, FeedbackParticipantType.RECEIVER));
         
         assertEquals("My comments on the class", questionForms.get(2).getQuestionText());
         
         assertEquals("-3", questionForms.get(2).getQuestionNumberSuffix());
         
-        assertEquals(true, questionForms.get(2).getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
+        assertTrue(questionForms.get(2).getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
         assertEquals(1, questionForms.get(2).getFeedbackPathSettings().getNumOfEntitiesToGiveFeedbackToValue());
         assertEquals(8, questionForms.get(2).getFeedbackPathSettings().getRecipientParticipantOptions().size());
         assertEquals(4, questionForms.get(2).getFeedbackPathSettings().getGiverParticipantOptions().size());
+                
+        verifyMapContains(questionForms.get(2).getVisibilitySettings().getResponseVisibleFor(), 
+                          Arrays.asList(FeedbackParticipantType.INSTRUCTORS, 
+                                        FeedbackParticipantType.RECEIVER, 
+                                        FeedbackParticipantType.STUDENTS));
+        verifyMapContains(questionForms.get(2).getVisibilitySettings().getGiverNameVisibleFor(), 
+                          Arrays.asList(FeedbackParticipantType.INSTRUCTORS, 
+                                        FeedbackParticipantType.RECEIVER, 
+                                        FeedbackParticipantType.STUDENTS));
+        verifyMapContains(questionForms.get(2).getVisibilitySettings().getRecipientNameVisibleFor(), 
+                          Arrays.asList(FeedbackParticipantType.INSTRUCTORS, 
+                                        FeedbackParticipantType.RECEIVER, 
+                                        FeedbackParticipantType.STUDENTS));
         
-        assertTrue(questionForms.get(2).getVisibilitySettings().getResponseVisibleFor().get(FeedbackParticipantType.INSTRUCTORS.name()));
-        assertTrue(questionForms.get(2).getVisibilitySettings().getResponseVisibleFor().get(FeedbackParticipantType.RECEIVER.name()));
-        assertTrue(questionForms.get(2).getVisibilitySettings().getResponseVisibleFor().get(FeedbackParticipantType.STUDENTS.name()));
-        
-        assertTrue(questionForms.get(2).getVisibilitySettings().getGiverNameVisibleFor().get(FeedbackParticipantType.INSTRUCTORS.name()));
-        assertTrue(questionForms.get(2).getVisibilitySettings().getGiverNameVisibleFor().get(FeedbackParticipantType.RECEIVER.name()));
-        assertTrue(questionForms.get(2).getVisibilitySettings().getGiverNameVisibleFor().get(FeedbackParticipantType.STUDENTS.name()));
-        
-        assertTrue(questionForms.get(2).getVisibilitySettings().getRecipientNameVisibleFor().get(FeedbackParticipantType.INSTRUCTORS.name()));
-        assertTrue(questionForms.get(2).getVisibilitySettings().getRecipientNameVisibleFor().get(FeedbackParticipantType.RECEIVER.name()));
-        assertTrue(questionForms.get(2).getVisibilitySettings().getRecipientNameVisibleFor().get(FeedbackParticipantType.STUDENTS.name()));
         //TODO test specific question edit form html after it is no longer html in java
         
         // test question add form
@@ -226,11 +222,11 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         
         instructor = getInstructorFromBundle("instructor1OfCourse1");
         
-        data.init(fs, questions, copiableQuestions, 
-                  questionHasResponses, studentList, 
-                  instructorList, instructor);
+        data.init(fs, questions, copiableQuestions, questionHasResponses, studentList, instructorList, instructor);
         fsForm = data.getFsForm();
-        assertEquals((new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE).withUserId(instructor.googleId)).toString(), fsForm.getCopyToLink().toString());
+        assertEquals((new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_COPY_PAGE)
+                          .withUserId(instructor.googleId)).toString(), 
+                      fsForm.getCopyToLink().toString());
         assertEquals(fs.courseId, fsForm.getCourseId());
         assertNull(fsForm.getCourses());
         assertNull(fsForm.getCoursesSelectField());
@@ -317,6 +313,23 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         return instructorAttributes;
     }
 
-
+    public void verifyMapContains(Map<String, Boolean> map, List<FeedbackParticipantType> list) {
+        for (FeedbackParticipantType participant : list) {
+            assertTrue(map.get(participant.name()));
+        }
+        Set<FeedbackParticipantType> allParticipantTypes =
+                                        EnumSet.allOf(FeedbackParticipantType.class);
+        Set<String> nonParticipants = new HashSet<String>();
+        for (FeedbackParticipantType participantType : allParticipantTypes) {
+            if (list.contains(participantType.name())) {
+                nonParticipants.add(participantType.name());
+            }
+        }
+        
+        for (String participant : nonParticipants) {
+            assertFalse(map.containsKey(participant));
+        }
+        
+    }
 
 }

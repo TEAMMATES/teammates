@@ -5,16 +5,16 @@ import java.util.List;
 public class FeedbackSessionsTable {
     
     private String feedbackSessionNameToHighlight;
-    private String courseIdForHighlight;
+    private String courseIdToHighlight;
     
     private List<FeedbackSessionsTableRow> existingFeedbackSessions;
         
     public FeedbackSessionsTable(List<FeedbackSessionsTableRow> existingFeedbackSessions, 
                                  String feedbackSessionNameToHighlight, 
-                                 String courseIdForHighlight) {
+                                 String courseIdToHighlight) {
         this.existingFeedbackSessions = existingFeedbackSessions;
         this.feedbackSessionNameToHighlight = feedbackSessionNameToHighlight;
-        this.courseIdForHighlight = courseIdForHighlight;
+        this.courseIdToHighlight = courseIdToHighlight;
     }
     
     public List<FeedbackSessionsTableRow> getExistingFeedbackSessions() {
@@ -26,7 +26,7 @@ public class FeedbackSessionsTable {
     }
 
     public String getCourseIdForHighlight() {
-        return courseIdForHighlight;
+        return courseIdToHighlight;
     }
 
 }

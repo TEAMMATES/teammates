@@ -128,22 +128,22 @@ public class InstructorFeedbacksPageData extends PageData {
     }
 
     private void buildFsList(String courseIdToHighlight, List<FeedbackSessionAttributes> existingFeedbackSessions,
-                             Map<String, InstructorAttributes> instructors, String feedbackSessionNameForSessionList, 
+                             Map<String, InstructorAttributes> instructors, String feedbackSessionNameToHighlight, 
                              Map<String, List<String>> courseIdToSectionNameMap) {
         
         List<FeedbackSessionsTableRow> existingFeedbackSessionsRow = convertFeedbackSessionAttributesToSessionRows(
                                                                              existingFeedbackSessions, instructors, 
-                                                                             feedbackSessionNameForSessionList, courseIdToHighlight,
+                                                                             feedbackSessionNameToHighlight, courseIdToHighlight,
                                                                              courseIdToSectionNameMap);
         fsList = new FeedbackSessionsTable(existingFeedbackSessionsRow, 
-                                           feedbackSessionNameForSessionList, 
+                                           feedbackSessionNameToHighlight, 
                                            courseIdToHighlight);
     }
 
     private void buildNewForm(List<CourseAttributes> courses, String courseIdForNewSession,
                               Map<String, InstructorAttributes> instructors,
                               FeedbackSessionAttributes newFeedbackSession, String feedbackSessionType,
-                              String feedbackSessionNameForSessionList) {
+                              String feedbackSessionName) {
         List<String> courseIds = new ArrayList<String>();
         for (CourseAttributes course : courses) {
             courseIds.add(course.id);
@@ -152,7 +152,7 @@ public class InstructorFeedbacksPageData extends PageData {
         FeedbackSessionsAdditionalSettingsFormSegment additionalSettings = buildFormAdditionalSettings(newFeedbackSession);
         newFsForm = buildBasicForm(courses, courseIdForNewSession, instructors, 
                                    newFeedbackSession, feedbackSessionType,
-                                   feedbackSessionNameForSessionList, courseIds,
+                                   feedbackSessionName, courseIds,
                                    additionalSettings);
     }
 

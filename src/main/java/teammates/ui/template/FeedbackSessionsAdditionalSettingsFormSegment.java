@@ -245,9 +245,9 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
                                             feedbackSession.sessionVisibleFromTime));
         
         additionalSettings.setSessionVisibleDateButtonChecked(hasSessionVisibleDate);
-        additionalSettings.setSessionVisibleDateValue(hasSessionVisibleDate ? 
-                                                      TimeHelper.formatDate(feedbackSession.sessionVisibleFromTime) :
-                                                      "");
+        additionalSettings.setSessionVisibleDateValue(hasSessionVisibleDate 
+                                                      ? TimeHelper.formatDate(feedbackSession.sessionVisibleFromTime) 
+                                                      : "");
         additionalSettings.setSessionVisibleDateDisabled(!hasSessionVisibleDate);
         additionalSettings.setSessionVisibleTimeOptions(data.getTimeOptionsAsElementTags(
                                                             hasSessionVisibleDate ?

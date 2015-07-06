@@ -9,6 +9,19 @@ public class FeedbackQuestionVisibilitySettings {
     private Map<String, Boolean> recipientNameVisibleFor;
     private Map<String, Boolean> responseVisibleFor;
     
+    public FeedbackQuestionVisibilitySettings() {
+    }
+    
+    public FeedbackQuestionVisibilitySettings(List<String> visibilityMessages,
+                                              Map<String, Boolean> responseVisibleFor,
+                                              Map<String, Boolean> giverNameVisibleFor,
+                                              Map<String, Boolean> recipientNameVisibleFor) {
+        this.visibilityMessages = visibilityMessages;
+        this.giverNameVisibleFor = giverNameVisibleFor;
+        this.recipientNameVisibleFor = recipientNameVisibleFor;
+        this.responseVisibleFor = responseVisibleFor;
+    }
+
     public List<String> getVisibilityMessages() {
         return visibilityMessages;
     }

@@ -1,8 +1,13 @@
 package teammates.ui.template;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.util.Const;
 import teammates.common.util.Url;
 
 /**
@@ -22,8 +27,6 @@ public class FeedbackQuestionEditForm {
     private String questionTypeOptions;
     private Url doneEditingLink;
     
-    private int numOfQuestionsOnPage;
-    
     private boolean isQuestionHasResponses;
     private List<ElementTag> questionNumberOptions;
     
@@ -36,6 +39,59 @@ public class FeedbackQuestionEditForm {
     private FeedbackQuestionFeedbackPathSettings feedbackPathSettings;
     private FeedbackQuestionVisibilitySettings visibilitySettings;
     
+    public static FeedbackQuestionEditForm getNewQnForm(Url doneEditingLink, FeedbackSessionAttributes feedbackSession,
+                                                        String questionTypeChoiceOptions, List<ElementTag> giverOptions,
+                                                        List<ElementTag> recipientOptions, List<ElementTag> qnNumOptions, String newQuestionEditForm) {
+        
+        FeedbackQuestionEditForm newQnForm = new FeedbackQuestionEditForm();
+        
+        newQnForm.setDoneEditingLink(doneEditingLink);
+        newQnForm.setAction(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD));
+        newQnForm.setCourseId(feedbackSession.courseId);
+        newQnForm.setFeedbackSessionName(feedbackSession.feedbackSessionName);
+        newQnForm.setQuestionNumberSuffix("");
+        
+        newQnForm.setQuestionTypeOptions(questionTypeChoiceOptions);
+        
+        newQnForm.setQuestionNumberOptions(qnNumOptions);
+      
+        FeedbackQuestionFeedbackPathSettings feedbackPathSettings = new FeedbackQuestionFeedbackPathSettings();
+        FeedbackQuestionVisibilitySettings visibilitySettings = new FeedbackQuestionVisibilitySettings();
+        
+        newQnForm.setFeedbackPathSettings(feedbackPathSettings);
+        newQnForm.setVisibilitySettings(visibilitySettings);
+        
+        feedbackPathSettings.setGiverParticipantOptions(giverOptions);
+        feedbackPathSettings.setRecipientParticipantOptions(recipientOptions);
+        feedbackPathSettings.setNumOfEntitiesToGiveFeedbackToValue(1);
+        
+        newQnForm.setQuestionSpecificEditFormHtml(newQuestionEditForm);
+        newQnForm.setEditable(true);
+        
+        setDefaultVisibilityOptions(visibilitySettings, feedbackPathSettings);
+        
+        return newQnForm;
+    }
+    
+    private static void setDefaultVisibilityOptions(FeedbackQuestionVisibilitySettings visibilityOptions,
+                                                    FeedbackQuestionFeedbackPathSettings feedbackPathSettings) {
+        Map<String, Boolean> isGiverNameVisible = new HashMap<String, Boolean>();
+        Map<String, Boolean> isRecipientNameVisible = new HashMap<String, Boolean>();
+        Map<String, Boolean> isResponsesVisible = new HashMap<String, Boolean>();
+        
+        FeedbackParticipantType[] participantTypes = { FeedbackParticipantType.INSTRUCTORS,
+                                                       FeedbackParticipantType.RECEIVER    };
+        
+        for (FeedbackParticipantType participant : participantTypes) {
+           isGiverNameVisible.put(participant.name(), true);
+           isRecipientNameVisible.put(participant.name(), true);
+           isResponsesVisible.put(participant.name(), true);
+        }
+        
+        visibilityOptions.setGiverNameVisibleFor(isGiverNameVisible);
+        visibilityOptions.setRecipientNameVisibleFor(isRecipientNameVisible);
+        visibilityOptions.setResponseVisibleFor(isResponsesVisible);
+    }
     
     public FeedbackQuestionEditForm() {
     }
@@ -63,14 +119,6 @@ public class FeedbackQuestionEditForm {
     
     public void setQuestion(FeedbackQuestionAttributes question) {
         this.question = question;
-    }
-    
-    public int getNumOfQuestionsOnPage() {
-        return numOfQuestionsOnPage;
-    }
-    
-    public void setNumOfQuestionsOnPage(int numOfQuestionsOnPage) {
-        this.numOfQuestionsOnPage = numOfQuestionsOnPage;
     }
     
     public boolean isQuestionHasResponses() {

@@ -8,6 +8,8 @@
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbackEdit" prefix="feedbackEdit" %>
 
 <%@ attribute name="fqForm" type="teammates.ui.template.FeedbackQuestionEditForm" required="true"%>
+<%@ attribute name="numQn" required="true"%>
+
 
 <form class="form-horizontal form_question" role="form" method="post"
     action="${fqForm.action}"
@@ -43,7 +45,7 @@
                             id="<%= Const.ParamsNames.FEEDBACK_QUESTION_EDITTEXT %>-${fqForm.question.questionNumber}"
                             data-toggle="tooltip" data-placement="top"
                             title="<%= Const.Tooltips.FEEDBACK_QUESTION_EDIT %>"
-                            onclick="enableEdit(${fqForm.question.questionNumber},${fqForm.numOfQuestionsOnPage})">
+                            onclick="enableEdit(${fqForm.question.questionNumber},${numQn})">
                             Edit
                         </a>
                         <a class="btn btn-primary btn-xs" style="display:none"
