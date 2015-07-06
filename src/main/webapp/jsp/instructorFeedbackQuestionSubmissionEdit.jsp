@@ -31,6 +31,6 @@
     <span style="display:none"></span>
 </c:set>
 
-<ti:instructorPageCustom pageTitle="TEAMMATES - Submit Feedback Question" bodyTitle="Submit Feedback Question" jsIncludes="${jsIncludes}" altNavBar="${altHeader}">
+<ti:instructorPageCustom pageTitle="TEAMMATES - Submit Feedback Question" bodyTitle="Submit Feedback Question" jsIncludes="${jsIncludes}" altNavBar="${altHeader}" altFooter="${altFooter}">
     <instructorFeedbackSubmissionEdit:feedbackQuestionSubmissionForm feedbackSubmissionForm="${data}"/>
 </ti:instructorPageCustom>
