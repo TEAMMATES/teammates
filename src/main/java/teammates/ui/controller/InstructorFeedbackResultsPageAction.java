@@ -134,7 +134,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
         }
 
         // Warning for section wise viewing in case of many responses.
-        if (data.selectedSection.equals(ALL_SECTION_OPTION) && data.bundle.isComplete == false) {
+        if (data.selectedSection.equals(ALL_SECTION_OPTION) && !data.bundle.isComplete) {
             // not tested because the test data is not large enough to make this happen
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING);
             isError = true;
@@ -142,6 +142,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         switch (data.sortType) {
             case "question":
+                data.initForViewByQuestion(data.bundle);
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
             case "recipient-giver-question":
@@ -154,6 +155,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER, data);
             case "giver-question-recipient":
+                data.initForViewByGiverQuestionRecipient(data.bundle, data.sections);
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT, data);
             default:
