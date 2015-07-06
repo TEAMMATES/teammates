@@ -123,8 +123,8 @@
                             id="responseCommentRow-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                             <div
                                 id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
-                                <span class="text-muted">From: <%= frc.giverEmail %>
-                                    [<%=frc.createdAt%>] <%=frc.getEditedAtText(frc.giverEmail.equals("Anonymous"))%>
+                                <span class="text-muted">
+                                    From: <%= frc.giverEmail %> [<%= frc.createdAt %>] <%= frc.getEditedAtText(frc.giverEmail.equals("Anonymous")) %>
                                 </span>
                                 <%
                                     if (isPublicResponseComment && bundle.feedbackSession.isPublished()) {
