@@ -82,7 +82,9 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY);
         }
         
-        data.initWithoutHighlightedRow(courses, null, feedbackSessions, instructors, fs, null);
+        Map<String, List<String>> courseIdToSectionName = logic.getCourseIdToSectionNamesMap(courses);
+        
+        data.initWithoutHighlightedRow(courses, null, feedbackSessions, instructors, fs, null, courseIdToSectionName);
        
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
