@@ -4,6 +4,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/feedbackSubmissionEdit" prefix="instructorFeedbackSubmissionEdit" %>
+
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/feedbackSubmissionsEdit.js"></script>
     <script type="text/javascript" src="/js/student.js"></script>
@@ -14,7 +15,7 @@
         <nav class="navbar navbar-default navbar-fixed-top">
             <c:choose>
                 <c:when test="${data.preview}">
-                    <h3 class="text-center">Previewing Session as Instructor ${data.getPreviewInstructor().name} (${data.getPreviewInstructor().email})</h3>
+                    <h3 class="text-center">Previewing Session as Instructor ${data.previewInstructor.name} (${data.previewInstructor.email})</h3>
                 </c:when>
             </c:choose>
         </nav>
