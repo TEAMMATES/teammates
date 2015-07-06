@@ -142,7 +142,7 @@ public class StudentHomePageDataTest {
         submittedSession = createFeedbackSession("submitted session", -1, 1, 1);
         pendingSession = createFeedbackSession("pending session", -1, 1, 1);
         awaitingSession = createFeedbackSession("awaiting session", 1, 2, 1);
-        publishedSession = createFeedbackSession("published sesssion", -1, -1, -1);
+        publishedSession = createFeedbackSession("published session", -1, -1, -1);
         closedSession = createFeedbackSession("closed session", -2, -1, 1);
         submittedClosedSession = createFeedbackSession("submitted closed session", -1, 0, 1);
         
@@ -196,9 +196,9 @@ public class StudentHomePageDataTest {
         return session;
     }
 
-    private CourseDetailsBundle createCourseBundle(CourseAttributes course, FeedbackSessionAttributes... sesssions) {
+    private CourseDetailsBundle createCourseBundle(CourseAttributes course, FeedbackSessionAttributes... sessions) {
         CourseDetailsBundle courseBundle = new CourseDetailsBundle(course);
-        for (FeedbackSessionAttributes session : sesssions) {
+        for (FeedbackSessionAttributes session : sessions) {
             courseBundle.feedbackSessions.add(new FeedbackSessionDetailsBundle(session));
         }
         return courseBundle;
