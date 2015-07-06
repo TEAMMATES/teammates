@@ -46,7 +46,6 @@ var addCommentHandler = function(e) {
                         newCommentRow.find("form[class*='responseCommentEditForm'] > div > a[id*='button_save_comment_for_edit']").click(editCommentHandler);
                         newCommentRow.find("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
                         registerResponseCommentCheckboxEvent();
-                        newCommentRow.find("[data-toggle='tooltip']").tooltip({html: true});
 
                         // Reset add comment form
                         formObject.find("textarea").prop("disabled", false);
