@@ -165,7 +165,7 @@
                                         <form method="post" action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT %>" name="form_commentedit" class="form_comment" id="form_commentedit-<%= commentIdx %>">
                                             <div id="commentBar<%= commentIdx %>">
                                                 <span class="text-muted">
-                                                    <%= Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt) %> <%= comment.getEditedAtText(false, comment.lastEditorEmail, Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.lastEditedAt)) %>
+                                                    <%= Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt) %> <%= comment.getEditedAtText(false) %>
                                                 </span>
                                                 <a type="button" id="commentdelete-<%= commentIdx %>" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('<%= commentIdx %>');" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_DELETE%>"> 
                                                     <span class="glyphicon glyphicon-trash glyphicon-primary"></span>

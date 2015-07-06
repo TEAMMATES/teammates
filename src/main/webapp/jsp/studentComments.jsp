@@ -135,7 +135,7 @@
                                            }
                                         %>
                                         <span class="text-muted">From <b><%=giverDisplay%></b> 
-                                            [<%= Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt) %>] <%= comment.getEditedAtText(giverDisplay.equals("Anonymous"), comment.lastEditorEmail, Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.lastEditedAt)) %>
+                                            [<%= Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt) %>] <%= comment.getEditedAtText(giverDisplay.equals("Anonymous")) %>
                                         </span>
                                     </div>
                                     <div id="plainCommentText<%=commentIdx%>"><%=comment.commentText.getValue()%></div>

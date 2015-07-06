@@ -305,11 +305,11 @@ public class CommentAttributes extends EntityAttributes
         return o.createdAt.compareTo(createdAt);
     }
 
-    public String getEditedAtText(Boolean isGiverAnonymous, String displayGiverAs,
-            String displayTimeAs) {
+    public String getEditedAtText(Boolean isGiverAnonymous) {
+        String displayTimeAs = Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(this.lastEditedAt);
         if (this.lastEditedAt != null && (!this.lastEditedAt.equals(this.createdAt))) {
             return "(last edited " +
-                    (isGiverAnonymous ? "" : "by " + displayGiverAs + " ") +
+                    (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ") +
                     "at " + displayTimeAs + ")";
         } else {
             return "";

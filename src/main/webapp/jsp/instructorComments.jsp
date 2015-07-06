@@ -312,7 +312,7 @@
                                                         <div id="commentBar-<%= commentIdx %>">
                                                             
                                                             <span class="text-muted">To <%= data.getRecipientNames(comment.recipients) %> 
-                                                [<%= Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt) %>] <%= comment.getEditedAtText(data.getGiverName(giverEmail).equals("Anonymous"), comment.lastEditorEmail, Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.lastEditedAt)) %>
+                                                [<%= Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt) %>] <%= comment.getEditedAtText(data.getGiverName(giverEmail).equals("Anonymous")) %>
                                                             </span>
                                                             <%
                                                                 if (comment.giverEmail.equals(data.instructorEmail)
