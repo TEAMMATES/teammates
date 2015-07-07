@@ -171,7 +171,7 @@
                                                 </span>
                                                 <% if (comment.showCommentTo.size() > 0) { 
                                                     String peopleCanSee = data.getTypeOfPeopleCanViewComment(comment); %>
-                                                    <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;" data-placement="top" title="This comment is public to <%= peopleCanSee %>"></span>
+                                                    <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;" data-placement="top" title="This comment is visible to <%= peopleCanSee %>"></span>
                                                 <% } %>
                                                 <a type="button" id="commentdelete-<%= commentIdx %>" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('<%= commentIdx %>');" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_DELETE%>"> 
                                                     <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
