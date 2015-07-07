@@ -56,7 +56,7 @@ for (SessionResultsBundle sessionResult: data.results) {
                                                 <div class="pull-left text-preserve-space"><%= feedback.getResponseAnswerHtml(singleResponse, question) %></div>
                                             </div>
                                             <% List<FeedbackResponseCommentAttributes> responseComments = feedback.responseComments.get(singleResponse.getId());
-                                            if (responseComments != null) { %>
+                                            if (responseComments != null && responseComments.size() > 0) { %>
                                                 <ul class="list-group" id="responseCommentTable-<%= fbIndex %>-<%= giverIndex %>-<%= qnIndx %>-GRQ" style="margin-top:15px;">
                                                     <% for (FeedbackResponseCommentAttributes comment : responseComments) { %>
                                                         <li class="list-group-item list-group-item-warning" id="responseCommentRow-<%= comment.getId() %>">
@@ -125,7 +125,7 @@ for (SessionResultsBundle sessionResult: data.results) {
                                                 <div class="pull-left text-preserve-space"><%= singleResponse.getResponseDetails().getAnswerHtml(questionDetails) %></div>
                                             </div>
                                             <% List<FeedbackResponseCommentAttributes> responseComments = feedback.responseComments.get(singleResponse.getId());
-                                            if (responseComments != null) { %>
+                                            if (responseComments != null && responseComments.size() > 0) { %>
                                                 <ul class="list-group" id="responseCommentTable-<%= fbIndex %>-<%= recipientIndex %>-<%= qnIndx %>-RGQ" style="margin-top:15px;">
                                                     <% for (FeedbackResponseCommentAttributes comment : responseComments) { %>
                                                         <li class="list-group-item list-group-item-warning" id="responseCommentRow-<%= comment.getId() %>">
