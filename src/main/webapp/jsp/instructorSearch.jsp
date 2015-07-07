@@ -122,8 +122,7 @@
                                     String recipientDisplay = data.commentSearchResultBundle.recipientTable.get(comment.getCommentId().toString());
                                     commentIdx++;
                             %>
-                            <li class="list-group-item list-group-item-warning"
-                                class="form_comment" id="form_commentedit-<%=commentIdx%>">
+                            <li class="list-group-item list-group-item-warning">
                                 <div id="commentBar-<%=commentIdx%>">
                                     <span class="text-muted">To <b><%=recipientDisplay%></b> 
                                         [<%= Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt) %>] <%= comment.getEditedAtText(data.commentSearchResultBundle.giverTable.get(giverEmailPlusCourseId).equals("Anonymous" + " (" + comment.courseId + ")")) %></span>

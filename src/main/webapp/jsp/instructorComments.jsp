@@ -302,8 +302,7 @@
                                                     commentIdx++;
                                                     recipientTypeForThisRecipient = comment.recipientType;
                                             %>
-                                                <li id="<%= comment.getCommentId() %>"
-                                                    class="list-group-item list-group-item-warning <%= comment.showCommentTo.size() > 0 ? "status_display-public" : "status_display-private" %>">
+                                                <li class="list-group-item list-group-item-warning status_display-<%= comment.showCommentTo.size() > 0 ? "public" : "private" %>">
                                                     <form method="post"
                                                         action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT %>"
                                                         name="form_commentedit"
