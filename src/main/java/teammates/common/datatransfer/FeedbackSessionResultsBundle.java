@@ -882,10 +882,12 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
     public String getNameForEmail(String email) {
         String name = emailNameTable.get(email);
-        if (name == null || name.equals(Const.USER_IS_TEAM)) {
-            return Const.USER_UNKNOWN_TEXT; // TODO: this doesn't look right
+        if (name == null) {
+            return Const.USER_UNKNOWN_TEXT;
         } else if (name.equals(Const.USER_IS_NOBODY)) {
             return Const.USER_NOBODY_TEXT;
+        } else if (name.equals(Const.USER_IS_TEAM)) {
+            return getTeamNameForEmail(email);
         } else {
             return PageData.sanitizeForHtml(name);
         }
@@ -893,10 +895,12 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
     public String getLastNameForEmail(String email) {
         String name = emailLastNameTable.get(email);
-        if (name == null || name.equals(Const.USER_IS_TEAM)) {
-            return Const.USER_UNKNOWN_TEXT; // TODO: this doesn't look right
+        if (name == null) {
+            return Const.USER_UNKNOWN_TEXT;
         } else if (name.equals(Const.USER_IS_NOBODY)) {
             return Const.USER_NOBODY_TEXT;
+        } else if (name.equals(Const.USER_IS_TEAM)) {
+            return getTeamNameForEmail(email);
         } else {
             return PageData.sanitizeForHtml(name);
         }
