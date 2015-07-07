@@ -407,7 +407,8 @@
                                                                                 </td>
                                                                                 <td>
                                                                                     <input 
-                                                                                        class="visibilityCheckbox answerCheckbox"
+                                                                                        class="visibilityCheckbox answerCheckbox centered"
+                                                                                        name="receiverLeaderCheckbox"
                                                                                         type="checkbox" value="<%= CommentParticipantType.PERSON %>"
                                                                                         <%= comment.showCommentTo.contains(CommentParticipantType.PERSON) ? "checked=\"checked\"" : "" %>>
                                                                                 </td>
@@ -463,7 +464,7 @@
                                                                                 <td class="text-left">
                                                                                     <div data-toggle="tooltip"
                                                                                         data-placement="top" title=""
-                                                                                        data-original-title="Control what students in the same section can view">
+                                                                                        data-original-title="Control what other students in the same section can view">
                                                                                         <%= comment.recipientType == CommentParticipantType.SECTION ? "Recipient Section" : "Recipient's Section" %></div>
                                                                                 </td>
                                                                                 <td>
