@@ -756,18 +756,6 @@ public class Logic {
         return coursesLogic.getArchivedCoursesForInstructor(googleId);
     }
     
-    /**
-     * Preconditions: <br>
-     * * All parameters are non-null.
-     * 
-     * @return true if the course has been archived by the instructor specified
-     */
-    public static boolean isCourseArchived(String courseId, String instructorGoogleId) {
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorGoogleId);
-        
-        return coursesLogic.isCourseArchived(courseId, instructorGoogleId);
-    }
     
     /**
      * Preconditions: <br>

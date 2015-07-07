@@ -126,7 +126,7 @@ public class InstructorAttributes extends EntityAttributes {
     public InstructorAttributes(Instructor instructor) {
         this.googleId = instructor.getGoogleId();
         this.courseId = instructor.getCourseId();
-        this.isArchived = instructor.getIsArchived();
+        this.isArchived = instructor.getIsArchived() == null ? false : instructor.getIsArchived();
         this.name = instructor.getName();
         this.email = instructor.getEmail();
         

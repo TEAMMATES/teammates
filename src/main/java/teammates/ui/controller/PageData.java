@@ -911,10 +911,6 @@ public class PageData {
         }
     }
     
-    public boolean isCourseArchived(String courseId, String googleId) {
-        return Logic.isCourseArchived(courseId, googleId);
-    }
-    
     @SuppressWarnings("unused")
     private void ___________methods_to_generate_feedback_response_comments() {
     //========================================================================    

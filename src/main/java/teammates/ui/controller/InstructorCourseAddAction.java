@@ -91,7 +91,7 @@ public class InstructorCourseAddAction extends Action {
 
             InstructorAttributes curInstructor = logic.getInstructorForGoogleId(course.id, account.googleId);
 
-            if (Logic.isCourseArchived(course.id, curInstructor.googleId)) {
+            if (curInstructor.isArchived) {
                 archivedCourses.add(course);
             }
         }

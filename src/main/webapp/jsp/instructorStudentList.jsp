@@ -106,7 +106,7 @@
                                 int courseIdx = -1;
                                 for (CourseAttributes course: data.courses) {
                                     InstructorAttributes instructor = data.instructors.get(course.id);
-                                    if (data.displayArchive || !data.isCourseArchived(course.id, instructor.googleId)) {
+                                    if (data.displayArchive || !instructor.isArchived) {
                                         courseIdx++; %>
                                         <div class="checkbox">
                                             <input id="course_check-<%= courseIdx %>" type="checkbox">
@@ -171,9 +171,9 @@
             courseIdx = -1;
             for (CourseAttributes course : data.courses) {
                 InstructorAttributes instructor = data.instructors.get(course.id);
-                if (data.displayArchive || !data.isCourseArchived(course.id, instructor.googleId)) {
+                if (data.displayArchive || !instructor.isArchived) {
                     courseIdx++; %>
-                    <div class='panel <%= data.isCourseArchived(course.id, instructor.googleId) ? "panel-default" : "panel-info" %>'>
+                    <div class='panel <%= instructor.isArchived ? "panel-default" : "panel-info" %>'>
                         <div class="panel-heading ajax_submit">
                             <form style="display:none;" id="seeMore-<%= courseIdx %>" class="seeMoreForm-<%= courseIdx %>" action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_LIST_AJAX_PAGE %>">
                                 <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="<%= course.id %>">

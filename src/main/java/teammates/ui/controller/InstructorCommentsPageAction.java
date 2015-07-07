@@ -15,7 +15,6 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
-import teammates.logic.api.Logic;
 
 /**
  * Action: Showing the InstructorCommentsPage for an instructor
@@ -124,7 +123,7 @@ public class InstructorCommentsPageAction extends Action {
         for (int i = 0; i < courses.size(); i++) {
             CourseAttributes course = courses.get(i);
             if (isDisplayArchivedCourse 
-             || !isCourseArchived(course, account.googleId) 
+             || !isCourseArchived(course.id, account.googleId) 
              || course.id.equals(courseId)) {
                 if (courseId == "") {
                     courseId = course.id;
@@ -144,7 +143,7 @@ public class InstructorCommentsPageAction extends Action {
     private void setPreviousPageLink(List<CourseAttributes> courses, int currentIndex) {
         for (int i = currentIndex - 1; i >= 0; i--) {
             CourseAttributes course = courses.get(i);
-            if (isDisplayArchivedCourse || !isCourseArchived(course, account.googleId)) {
+            if (isDisplayArchivedCourse || !isCourseArchived(course.id, account.googleId)) {
                 previousPageLink = new PageData(account).getInstructorCommentsLink() + "&courseid=" + course.id;
                 break;
             }
@@ -154,7 +153,7 @@ public class InstructorCommentsPageAction extends Action {
     private void setNextPageLink(List<CourseAttributes> courses, int currentIndex) {
         for (int i = currentIndex + 1; i < courses.size(); i++) {
             CourseAttributes course = courses.get(i);
-            if (isDisplayArchivedCourse || !isCourseArchived(course, account.googleId)) {
+            if (isDisplayArchivedCourse || !isCourseArchived(course.id, account.googleId)) {
                 nextPageLink = new PageData(account).getInstructorCommentsLink() + "&courseid=" + course.id;
                 break;
             }
@@ -209,7 +208,8 @@ public class InstructorCommentsPageAction extends Action {
         return fsList;
     }
     
-    private boolean isCourseArchived(CourseAttributes course, String googleId) {
-        return Logic.isCourseArchived(course.id, googleId);
+    private boolean isCourseArchived(String courseId, String googleId) {
+        InstructorAttributes courseInstructor = logic.getInstructorForGoogleId(courseId, googleId);
+        return courseInstructor.isArchived;
     }
 }

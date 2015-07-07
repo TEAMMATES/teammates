@@ -1,5 +1,6 @@
 package teammates.test.cases.ui.browsertests;
 
+import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertNull;
@@ -288,7 +289,8 @@ public class InstructorCoursesPageUiTest extends BaseUiTestCase {
                                                                                                 instructor1CS1101.courseId);
                                                                                                          
         //this is a old instructor whose archive status has no value 
-        assertNull(instructorWithNullArchiveStatus.isArchived);
+        // and is set to false by default
+        assertFalse(instructorWithNullArchiveStatus.isArchived);
         
         coursesPage.archiveCourse(courseId);
         coursesPage.verifyHtmlMainContent("/instructorCoursesArchiveSuccessful.html");
