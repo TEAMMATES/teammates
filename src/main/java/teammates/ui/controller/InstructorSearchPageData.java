@@ -20,7 +20,6 @@ import teammates.common.util.Url;
 import teammates.ui.template.CommentRow;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackResponseComment;
-import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.QuestionTable;
 import teammates.ui.template.ResponseRow;
@@ -275,11 +274,8 @@ public class InstructorSearchPageData extends PageData {
             if (!frCommentGiver.equals("Anonymous")) {
                 frCommentGiver = frc.giverEmail;
             }
-            String creationTime = frc.createdAt.toString();         
             String link = getInstructorCommentsLink() + "&" + Const.ParamsNames.COURSE_ID + "=" 
                               + frc.courseId + "#" + frc.getId();         
-            String editedAtText = frc.getEditedAtText(frCommentGiver.equals("Anonymous"));
-            ElementTag editButton = createEditButton(link, Const.Tooltips.COMMENT_EDIT_IN_COMMENTS_PAGE);
             
             FeedbackResponseComment frcDiv = new FeedbackResponseComment(frc, frCommentGiver);
             frcDiv.setLinkToCommentsPage(link);

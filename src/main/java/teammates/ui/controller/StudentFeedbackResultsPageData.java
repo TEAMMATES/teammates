@@ -19,7 +19,6 @@ import teammates.ui.template.FeedbackResultsQuestionDetails;
 import teammates.ui.template.FeedbackResultsResponse;
 import teammates.ui.template.FeedbackResultsResponseTable;
 import teammates.ui.template.StudentFeedbackResultsQuestionWithResponses;
-import teammates.ui.template.StudentFeedbackResultsResponseComment;
 
 public class StudentFeedbackResultsPageData extends PageData {
     private FeedbackSessionResultsBundle bundle = null;
