@@ -144,7 +144,7 @@ public class StudentCommentsPageData extends PageData {
             
             CommentRow commentRow = 
                     new StudentCommentsCommentRow(
-                                giverDetails, comment, recipientDetails, creationTime, editedAt);
+                            giverDetails, comment, recipientDetails, creationTime, editedAt);
             
             commentRows.add(commentRow);
         }
@@ -158,8 +158,8 @@ public class StudentCommentsPageData extends PageData {
             
             FeedbackSessionRow feedbackSessionRow = 
                     new FeedbackSessionRow(
-                            fsName, courseId, createFeedbackQuestionTables(feedbackResultBundles.get(fsName),
-                                                                           roster));
+                            fsName, courseId, createFeedbackQuestionTables(
+                                                      feedbackResultBundles.get(fsName), roster));
             
             feedbackSessionRows.add(feedbackSessionRow);
         }
@@ -183,8 +183,8 @@ public class StudentCommentsPageData extends PageData {
             
             QuestionTable feedbackQuestionTable = 
                     new QuestionTable(questionNumber, questionText, additionalInfo, 
-                                      createFeedbackResponseRows(feedbackResultBundle, questionDetails, 
-                                                                 responseEntries, roster));
+                                      createFeedbackResponseRows(
+                                              feedbackResultBundle, questionDetails, responseEntries, roster));
             feedbackQuestionTables.add(feedbackQuestionTable);
         }
         return feedbackQuestionTables;
@@ -197,8 +197,8 @@ public class StudentCommentsPageData extends PageData {
         List<ResponseRow> feedbackResponseRows = new ArrayList<ResponseRow>();
         
         for (FeedbackResponseAttributes responseEntry : responseEntries.getValue()) {
-            String giverName = feedbackResultBundle.getGiverNameForResponse(
-                                                            responseEntries.getKey(), responseEntry);
+            String giverName = 
+                    feedbackResultBundle.getGiverNameForResponse(responseEntries.getKey(), responseEntry);
             String giverTeamName = feedbackResultBundle.getTeamNameForEmail(responseEntry.giverEmail);
             giverName = feedbackResultBundle.appendTeamNameToName(giverName, giverTeamName);
 
