@@ -4,6 +4,7 @@
 <%@ tag import="teammates.common.datatransfer.FeedbackParticipantType" %>
 <%@ attribute name="frc" type="teammates.ui.template.FeedbackResponseComment" required="true" %>
 <%@ attribute name="commentId" %>
+<%@ attribute name="googleId" %>
 <%@ attribute name="firstIndex" %>
 <%@ attribute name="secondIndex" %>
 <%@ attribute name="thirdIndex" %>

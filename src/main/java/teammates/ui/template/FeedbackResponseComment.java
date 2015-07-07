@@ -11,6 +11,9 @@ public class FeedbackResponseComment {
     private String createdAt;
     private String editedAt;
     private String commentText;
+    private String feedbackResponseId;
+    private String courseId;
+    private String feedbackSessionName;
 
     private boolean withVisibilityIcon = false;
 
@@ -20,6 +23,8 @@ public class FeedbackResponseComment {
     private String linkToCommentsPage;
 
     private boolean editDeleteEnabled = false;
+    private boolean editDeleteEnabledOnlyOnHover = false;
+    private boolean instructorAllowedToDelete = false;
 
     public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay) {
         this.commentId = frc.getId();
@@ -27,6 +32,9 @@ public class FeedbackResponseComment {
         this.createdAt = frc.createdAt.toString();
         this.editedAt = frc.getEditedAtText(giverDisplay.equals("Anonymous"));
         this.commentText = frc.commentText.getValue();
+        this.feedbackResponseId = frc.feedbackResponseId;
+        this.courseId = frc.courseId;
+        this.feedbackSessionName = frc.feedbackSessionName;
     }
 
     public String getExtraClass() {
@@ -83,7 +91,27 @@ public class FeedbackResponseComment {
         return editDeleteEnabled;
     }
 
+    public boolean isEditDeleteEnabledOnlyOnHover() {
+        return editDeleteEnabledOnlyOnHover;
+    }
+    
+    public boolean isInstructorAllowedToDelete() {
+        return instructorAllowedToDelete;
+    }
+
     public void setEditDeleteEnabled(boolean isSettable) {
         this.editDeleteEnabled = isSettable;
+    }
+
+    public String getFeedbackResponseId() {
+        return feedbackResponseId;   
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public String getFeedbackSessionName() {
+        return feedbackSessionName;
     }
 }
