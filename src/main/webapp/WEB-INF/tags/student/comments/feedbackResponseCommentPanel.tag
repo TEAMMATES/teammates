@@ -6,10 +6,9 @@
 <%@ attribute name="responseCommentIndex" required="true" %>
 <li class="list-group-item list-group-item-warning" id="responseCommentRow-${fsIdx}-${qnIdx}-${responseIndex}-${responseCommentIndex}">
     <div id="commentBar-${fsIdx}-${qnIdx}-${responseIndex}-${responseCommentIndex}">
-        <span class="text-muted">From:
-            <b>${feedbackResponseCommentRow.giverDetails}</b>
-            on ${feedbackResponseCommentRow.creationTime} ${feedbackResponseCommentRow.editedAt}
+        <span class="text-muted">
+            From: ${feedbackResponseCommentRow.giverDisplay} [${feedbackResponseCommentRow.createdAt}] ${feedbackResponseCommentRow.editedAt}
         </span>
     </div>
-    <div id="plainCommentText-${fsIdx}-${qnIdx}-${responseIndex}-${responseCommentIndex}">${feedbackResponseCommentRow.comment}</div>
+    <div id="plainCommentText-${fsIdx}-${qnIdx}-${responseIndex}-${responseCommentIndex}">${feedbackResponseCommentRow.commentText}</div>
 </li>

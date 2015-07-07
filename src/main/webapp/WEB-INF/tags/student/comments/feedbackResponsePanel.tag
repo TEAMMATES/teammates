@@ -22,8 +22,8 @@
 <tr>
     <td>
         <ul class="list-group comments" id="responseCommentTable-${fsIdx}-${qnIdx}-${responseIndex}"
-            style="${not empty feedbackResponseRow.feedbackResponseCommentRows  ? '' : 'display:none'}">
-            <c:forEach items="${feedbackResponseRow.feedbackResponseCommentRows}" var="feedbackResponseCommentRow" varStatus="i">
+            style="${not empty feedbackResponseRow.feedbackResponseComments  ? '' : 'display:none'}">
+            <c:forEach items="${feedbackResponseRow.feedbackResponseComments}" var="feedbackResponseCommentRow" varStatus="i">
                 <comments:feedbackResponseCommentPanel feedbackResponseCommentRow="${feedbackResponseCommentRow}"
                  fsIdx="${fsIdx}" qnIdx="${qnIdx}" responseIndex="${responseIndex}" 
                  responseCommentIndex="${i.index + 1}"/>

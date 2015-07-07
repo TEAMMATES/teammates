@@ -226,13 +226,8 @@ public class StudentCommentsPageData extends PageData {
                 feedbackResultBundle.responseComments.get(responseEntry.getId());
         
         for (FeedbackResponseCommentAttributes frc : frcList) {
-            String frCommentGiver = frc.giverEmail;
-            InstructorAttributes instructor = roster.getInstructorForEmail(frc.giverEmail);
-            if (instructor != null) {
-                frCommentGiver = instructor.displayedName + " " + instructor.name;
-            }
             FeedbackResponseComment feedbackResponseCommentRow = 
-                    new FeedbackResponseComment(frc, frCommentGiver);
+                    new FeedbackResponseComment(frc, frc.giverEmail);
             
             feedbackResponseCommentRows.add(feedbackResponseCommentRow);
         }
