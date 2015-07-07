@@ -65,9 +65,7 @@ public class FeedbackSessionsForm {
     
     public static FeedbackSessionsForm getFsFormForExistingFs(FeedbackSessionAttributes existingFs,
                                                   FeedbackSessionsAdditionalSettingsFormSegment additionalSettings,
-                                                  String fsDeleteLink, String fsEditCopyLink, List<ElementTag> timezoneSelectField,
-                                                  List<ElementTag> fsStartTimeOptions, List<ElementTag> fsEndTimeOptions, 
-                                                  List<ElementTag> gracePeriodOptions) {
+                                                  String fsDeleteLink, String fsEditCopyLink) {
         FeedbackSessionsForm fsForm = new FeedbackSessionsForm();
         
         fsForm.fsDeleteLink = fsDeleteLink;
@@ -84,17 +82,17 @@ public class FeedbackSessionsForm {
         
         fsForm.isEditFsButtonsVisible = true;
       
-        fsForm.timezoneSelectField = timezoneSelectField;
+        fsForm.timezoneSelectField = PageData.getTimeZoneOptionsAsElementTags(existingFs.timeZone);
 
         fsForm.instructions = Sanitizer.sanitizeForHtml(existingFs.instructions.getValue());
         
         fsForm.fsStartDate = TimeHelper.formatDate(existingFs.startTime);
-        fsForm.fsStartTimeOptions = fsStartTimeOptions;
+        fsForm.fsStartTimeOptions = PageData.getTimeOptionsAsElementTags(existingFs.startTime);
         
         fsForm.fsEndDate = TimeHelper.formatDate(existingFs.endTime);
-        fsForm.fsEndTimeOptions = fsEndTimeOptions;
+        fsForm.fsEndTimeOptions = PageData.getTimeOptionsAsElementTags(existingFs.endTime);
         
-        fsForm.gracePeriodOptions = gracePeriodOptions;
+        fsForm.gracePeriodOptions = PageData.getGracePeriodOptionsAsElementTags(existingFs.gracePeriod);
         
         fsForm.isSubmitButtonDisabled = false;
         fsForm.isSubmitButtonVisible = false;
@@ -108,8 +106,7 @@ public class FeedbackSessionsForm {
         return fsForm;
     }
     
-    public static FeedbackSessionsForm getFormForNewFs(PageData data,
-                                                       FeedbackSessionAttributes feedbackSession,
+    public static FeedbackSessionsForm getFormForNewFs(FeedbackSessionAttributes feedbackSession,
                                                        List<ElementTag> fsTypeOptions,
                                                        String defaultCourseId,
                                                        List<String> courseIds, List<ElementTag> courseIdOptions,
@@ -132,7 +129,7 @@ public class FeedbackSessionsForm {
         newFsForm.isFeedbackSessionTypeEditable = true;
         newFsForm.feedbackSessionTypeOptions = fsTypeOptions;
 
-        newFsForm.timezoneSelectField = data.getTimeZoneOptionsAsElementTags(feedbackSession == null 
+        newFsForm.timezoneSelectField = PageData.getTimeZoneOptionsAsElementTags(feedbackSession == null 
                                                                             ? Const.DOUBLE_UNINITIALIZED 
                                                                             : feedbackSession.timeZone);
         
@@ -146,16 +143,16 @@ public class FeedbackSessionsForm {
         
         
         Date startDate = feedbackSession == null ? null : feedbackSession.startTime;
-        newFsForm.fsStartTimeOptions = data.getTimeOptionsAsElementTags(startDate);
+        newFsForm.fsStartTimeOptions = PageData.getTimeOptionsAsElementTags(startDate);
         
         newFsForm.fsEndDate = feedbackSession == null 
                             ? ""  
                             : TimeHelper.formatDate(feedbackSession.endTime);
         
         Date endDate = feedbackSession == null ? null : feedbackSession.endTime;
-        newFsForm.fsEndTimeOptions = data.getTimeOptionsAsElementTags(endDate);
+        newFsForm.fsEndTimeOptions = PageData.getTimeOptionsAsElementTags(endDate);
         
-        newFsForm.gracePeriodOptions = data.getGracePeriodOptionsAsElementTags(feedbackSession == null  
+        newFsForm.gracePeriodOptions = PageData.getGracePeriodOptionsAsElementTags(feedbackSession == null  
                                                                               ? Const.INT_UNINITIALIZED  
                                                                               : feedbackSession.gracePeriod);
         

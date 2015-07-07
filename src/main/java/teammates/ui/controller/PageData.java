@@ -228,7 +228,7 @@ public class PageData {
        return result;
     }
     
-    public List<ElementTag> getTimeZoneOptionsAsElementTags(double existingTimeZone) {
+    public static List<ElementTag> getTimeZoneOptionsAsElementTags(double existingTimeZone) {
         double[] options = new double[] {-12, -11, -10, -9, -8, -7, -6, -5, -4.5, -4, -3.5, -3, -2, -1, 0, 1, 2, 3, 
                                          3.5, 4, 4.5, 5, 5.5, 5.75, 6, 7, 8, 9, 10, 11, 12, 13};
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
@@ -250,7 +250,7 @@ public class PageData {
         return result;
     }
     
-    public ElementTag createOption(String text, String value, boolean isSelected) {
+    public static ElementTag createOption(String text, String value, boolean isSelected) {
         if (isSelected) {
             return new ElementTag(text, "value", value, "selected", "selected");
         } else {
@@ -258,7 +258,7 @@ public class PageData {
         }
     }
     
-    public ElementTag createOption(String text, String value) {
+    public static ElementTag createOption(String text, String value) {
         return new ElementTag(text, "value", value);
     }
     
@@ -275,7 +275,7 @@ public class PageData {
         return result;
     }
     
-    public List<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
+    public static List<ElementTag> getGracePeriodOptionsAsElementTags(int existingGracePeriod) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
         for(int i = 0; i <= 30; i += 5) {
             ElementTag option = createOption(String.valueOf(i) + " mins", String.valueOf(i), 
@@ -300,7 +300,7 @@ public class PageData {
         return result;
     }
     
-    public ArrayList<ElementTag> getTimeOptionsAsElementTags(Date timeToShowAsSelected) {
+    public static ArrayList<ElementTag> getTimeOptionsAsElementTags(Date timeToShowAsSelected) {
         ArrayList<ElementTag> result = new ArrayList<ElementTag>();
         for(int i = 1; i <= 24; i++) {
             ElementTag option = createOption(String.format("%04dH", i * 100 - (i == 24 ? 41 : 0)), 
@@ -804,7 +804,7 @@ public class PageData {
     }
 
     
-    private boolean isTimeToBeSelected(Date timeToShowAsSelected, int hourOfTheOption) {
+    private static boolean isTimeToBeSelected(Date timeToShowAsSelected, int hourOfTheOption) {
         boolean isEditingExistingFeedbackSession = (timeToShowAsSelected!=null);
         if (isEditingExistingFeedbackSession) {
             Calendar cal = GregorianCalendar.getInstance(TimeZone.getTimeZone("UTC"));
@@ -826,7 +826,7 @@ public class PageData {
         return false;
     }
 
-    private boolean isGracePeriodToBeSelected(int existingGracePeriodValue, int gracePeriodOptionValue) {
+    private static boolean isGracePeriodToBeSelected(int existingGracePeriodValue, int gracePeriodOptionValue) {
         int defaultGracePeriod = 15;
         boolean isEditingExistingEvaluation = (existingGracePeriodValue != Const.INT_UNINITIALIZED);
         if (isEditingExistingEvaluation) {
