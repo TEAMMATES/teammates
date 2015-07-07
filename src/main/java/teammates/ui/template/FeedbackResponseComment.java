@@ -25,6 +25,7 @@ public class FeedbackResponseComment {
     private boolean editDeleteEnabled = false;
     private boolean editDeleteEnabledOnlyOnHover = false;
     private boolean instructorAllowedToDelete = false;
+    private boolean instructorAllowedToEdit = false;
 
     public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay) {
         this.commentId = frc.getId();
@@ -97,6 +98,10 @@ public class FeedbackResponseComment {
     
     public boolean isInstructorAllowedToDelete() {
         return instructorAllowedToDelete;
+    }
+
+    public boolean isInstructorAllowedToEdit() {
+        return instructorAllowedToEdit;
     }
 
     public void setEditDeleteEnabled(boolean isSettable) {

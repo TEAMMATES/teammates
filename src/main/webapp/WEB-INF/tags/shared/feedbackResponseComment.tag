@@ -70,7 +70,7 @@
                 <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="${frc.commentId}">
                 <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${frc.courseId}">
                 <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${frc.feedbackSessionName}">
-                <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${frc.googleId}">
+                <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${googleId}">
             </form>
             <a type="button"
                id="commentedit-${divId}"
