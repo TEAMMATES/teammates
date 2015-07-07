@@ -334,8 +334,7 @@
                                                                 onclick="return deleteComment('<%= commentIdx %>');"
                                                                 data-toggle="tooltip"
                                                                 data-placement="top"
-                                                                title=""
-                                                                data-original-title="<%= Const.Tooltips.COMMENT_DELETE %>"
+                                                                title="<%= Const.Tooltips.COMMENT_DELETE %>"
                                                                 style="display: none;">
                                                                 <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                                                             </a> 
@@ -345,8 +344,7 @@
                                                                 onclick="return enableEdit('<%= commentIdx %>');"
                                                                 data-toggle="tooltip"
                                                                 data-placement="top"
-                                                                title=""
-                                                                data-original-title="<%= Const.Tooltips.COMMENT_EDIT %>"
+                                                                title="<%= Const.Tooltips.COMMENT_EDIT %>"
                                                                 style="display: none;">
                                                                 <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                                             </a>
