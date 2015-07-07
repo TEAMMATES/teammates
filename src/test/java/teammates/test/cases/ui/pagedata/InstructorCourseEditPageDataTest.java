@@ -131,6 +131,7 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
         
         pageData = new InstructorCourseEditPageData(account, course, instructorList, currentInstructor,
                                                     offset, sectionNames, feedbackSessionNames);
+        assertTrue(pageData.getInstructorPanelList().get(0).getSectionRows().get(0).isSectionSpecial());
         
         ______TS("test empty sectionNames");
         sectionNames = new ArrayList<String>();
@@ -140,8 +141,6 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
         panel = pageData.getInstructorPanelList().get(0);
         assertEquals("display: none;", panel.getAddSectionLevelForInstructorButton().getAttributes()
                                                                                         .get("style"));
-        
-        
         
     }
 }

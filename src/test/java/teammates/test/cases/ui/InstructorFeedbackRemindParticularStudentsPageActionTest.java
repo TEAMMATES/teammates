@@ -53,7 +53,7 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends
 
         InstructorFeedbackRemindParticularStudentsPageData pageData = 
                 (InstructorFeedbackRemindParticularStudentsPageData) r.data;
-        assertEquals(5, pageData.responseStatus.noResponse.size());
+        assertEquals(6, pageData.responseStatus.noResponse.size());
         
         assertFalse(pageData.responseStatus.noResponse.contains("student1InCourse1@gmail.tmt"));
         assertFalse(pageData.responseStatus.noResponse.contains("student2InCourse1@gmail.tmt"));

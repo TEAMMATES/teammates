@@ -1963,7 +1963,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 
         List<MimeMessage> emailsSent = 
                 fsLogic.sendReminderForFeedbackSession(fs.courseId, fs.feedbackSessionName);
-        assertEquals(9, emailsSent.size());
+        assertEquals(11, emailsSent.size());
 
         List<StudentAttributes> studentList = logic.getStudentsForCourse(fs.courseId);
         for (StudentAttributes s : studentList) {
@@ -2042,7 +2042,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         List<MimeMessage> emailsSent =
                 fsLogic.sendReminderForFeedbackSessionParticularUsers(
                         fs.courseId, fs.feedbackSessionName, usersToRemind);
-        assertEquals(6, emailsSent.size());
+        assertEquals(7, emailsSent.size());
 
         MimeMessage emailToStudent = TestHelper.getEmailToStudent(studentToRemind, emailsSent);
         String errorMessage = "No email sent to selected student " + studentToRemind.email;
