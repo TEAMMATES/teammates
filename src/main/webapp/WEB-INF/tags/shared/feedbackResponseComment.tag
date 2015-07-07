@@ -158,7 +158,7 @@
 		                        <td>
 		                            <input class="visibilityCheckbox giverCheckbox"
 		                                   type="checkbox"
-		                                   value=<%= FeedbackParticipantType.RECEIVER %>"
+		                                   value="<%= FeedbackParticipantType.RECEIVER %>"
 		                                   <c:if test="${frc.showGiverNameToResponseRecipient}">checked="checked"</c:if>>
 		                        </td>
 		                    </tr>

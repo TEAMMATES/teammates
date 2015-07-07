@@ -1,6 +1,9 @@
 package teammates.ui.template;
 
+import java.util.List;
+
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.FeedbackParticipantType;
 
 public class FeedbackResponseComment {
 
@@ -14,6 +17,12 @@ public class FeedbackResponseComment {
     private String feedbackResponseId;
     private String courseId;
     private String feedbackSessionName;
+    private String responseGiverName;
+    private String responseRecipientName;
+    private List<FeedbackParticipantType> showCommentTo;
+    private List<FeedbackParticipantType> showGiverNameTo;
+    private String showCommentToString;
+    private String showGiverNameToString;
 
     private boolean withVisibilityIcon = false;
 
@@ -36,6 +45,8 @@ public class FeedbackResponseComment {
         this.feedbackResponseId = frc.feedbackResponseId;
         this.courseId = frc.courseId;
         this.feedbackSessionName = frc.feedbackSessionName;
+        this.showCommentTo = frc.showCommentTo;
+        this.showGiverNameTo = frc.showGiverNameTo;
     }
 
     public String getExtraClass() {
@@ -118,5 +129,85 @@ public class FeedbackResponseComment {
 
     public String getFeedbackSessionName() {
         return feedbackSessionName;
+    }
+
+    public String getResponseGiverName() {
+        return responseGiverName;
+    }
+
+    public String getResponseRecipientName() {
+        return responseRecipientName;
+    }
+
+    public void setResponseGiverName(String giverName) {
+        this.responseGiverName = giverName;
+    }
+
+    public void setResponseRecipientName(String recipientName) {
+        this.responseRecipientName = recipientName;
+    }
+
+    public String getShowCommentToString() {
+        return showCommentToString;
+    }
+
+    public void setShowCommentToString(String showCommentToString) {
+        this.showCommentToString = showCommentToString;
+    }
+
+    public String getShowGiverNameToString() {
+        return showGiverNameToString;
+    }
+
+    public void setShowGiverNameToString(String showGiverNameToString) {
+        this.showGiverNameToString = showGiverNameToString;
+    }
+
+    public boolean isShowCommentToResponseGiver() {
+        return showCommentTo.indexOf(FeedbackParticipantType.GIVER) == -1;
+    }
+
+    public boolean isShowGiverNameToResponseGiver() {
+        return showGiverNameTo.indexOf(FeedbackParticipantType.GIVER) == -1;
+    }
+
+    public boolean isShowCommentToResponseRecipient() {
+        return showCommentTo.indexOf(FeedbackParticipantType.RECEIVER) == -1;
+    }
+
+    public boolean isShowGiverNameToResponseRecipient() {
+        return showGiverNameTo.indexOf(FeedbackParticipantType.RECEIVER) == -1;
+    }
+
+    public boolean isShowCommentToResponseGiverTeam() {
+        return showCommentTo.indexOf(FeedbackParticipantType.OWN_TEAM_MEMBERS) == -1;
+    }
+
+    public boolean isShowGiverNameToResponseGiverTeam() {
+        return showGiverNameTo.indexOf(FeedbackParticipantType.OWN_TEAM_MEMBERS) == -1;
+    }
+
+    public boolean isShowCommentToResponseRecipientTeam() {
+        return showCommentTo.indexOf(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) == -1;
+    }
+
+    public boolean isShowGiverNameToResponseRecipientTeam() {
+        return showGiverNameTo.indexOf(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) == -1;
+    }
+
+    public boolean isShowCommentToStudents() {
+        return showCommentTo.indexOf(FeedbackParticipantType.STUDENTS) == -1;
+    }
+
+    public boolean isShowGiverNameToStudents() {
+        return showGiverNameTo.indexOf(FeedbackParticipantType.STUDENTS) == -1;
+    }
+
+    public boolean isShowCommentToInstructors() {
+        return showCommentTo.indexOf(FeedbackParticipantType.INSTRUCTORS) == -1;
+    }
+
+    public boolean isShowGiverNameToInstructors() {
+        return showGiverNameTo.indexOf(FeedbackParticipantType.INSTRUCTORS) == -1;
     }
 }

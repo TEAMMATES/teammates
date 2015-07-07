@@ -26,6 +26,8 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public FeedbackResponseComment getComment() {
         FeedbackResponseComment frc = new FeedbackResponseComment(comment, comment.giverEmail);
         frc.setEditDeleteEnabled(true);
+        frc.setResponseGiverName(giverName);
+        frc.setResponseRecipientName(recipientName);
 
         return frc;
     }
