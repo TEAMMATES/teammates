@@ -37,7 +37,7 @@ for (SessionResultsBundle sessionResult: data.results) {
                         giverIndex++; %>
                         <div class="row <%= giverIndex == 1 ? "" : "border-top-gray" %>">
                             <div class="col-md-2">
-                                <strong>From: <%= responsesReceived.getKey() %></strong>
+                                From: <strong><%= responsesReceived.getKey() %></strong>
                             </div>
                             <div class="col-md-10">
                                 <% int qnIndx = 1;
@@ -105,8 +105,8 @@ for (SessionResultsBundle sessionResult: data.results) {
                     for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesGiven : given.entrySet()) {
                         recipientIndex++; %>
                         <div class="row <%= recipientIndex == 1 ? "" : "border-top-gray" %>">
-                            <div class="col-md-2"><strong>
-                                To: <%= responsesGiven.getKey() %></strong>
+                            <div class="col-md-2">
+                                To: <strong><%= responsesGiven.getKey() %></strong>
                             </div>
                             <div class="col-md-10">
                                 <% int qnIndx = 1;
