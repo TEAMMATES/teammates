@@ -380,7 +380,7 @@
                                                             <div id="visibility-options<%= commentIdx %>" class="panel panel-default"
                                                                 style="display: none;">
                                                                 <div class="panel-heading">Visibility Options</div>
-                                                                <table class="table text-center text-color-black">
+                                                                <table class="table text-center" style="color: #000;">
                                                                     <tbody>
                                                                         <tr>
                                                                             <th class="text-center">User/Group</th>
