@@ -38,7 +38,9 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("no responses");
 
         resultsPage = loginToStudentFeedbackResultsPage("Alice", "Empty Session");
-        resultsPage.verifyHtmlMainContent("/studentFeedbackResultsPageEmpty.html");
+
+        // This is the full HTML verification for Registered Student Feedback Results Page, the rest can all be verifyMainHtml
+        resultsPage.verifyHtml("/studentFeedbackResultsPageEmpty.html");
 
         ______TS("standard session results");
 
@@ -110,6 +112,8 @@ public class StudentFeedbackResultsPageUiTest extends BaseUiTestCase {
 
         // Mcq Session
         resultsPage = loginToStudentFeedbackResultsPage(unreg, "MCQ Session");
+
+        // This is the full HTML verification for Unregistered Student Feedback Results Page, the rest can all be verifyMainHtml
         resultsPage.verifyHtml("/unregisteredStudentFeedbackResultsPageMCQ.html");
     }
 

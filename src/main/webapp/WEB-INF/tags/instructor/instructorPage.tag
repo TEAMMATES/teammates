@@ -12,6 +12,9 @@
     <jsp:attribute name="navBar">
         <ti:navBar />
     </jsp:attribute>
+    <jsp:attribute name="bodyFooter">
+        <t:bodyFooter />
+    </jsp:attribute>
     <jsp:body>
         <jsp:doBody />
     </jsp:body>

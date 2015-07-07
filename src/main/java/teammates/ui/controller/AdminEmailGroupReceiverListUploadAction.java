@@ -41,7 +41,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
             log.info("Group Receiver List Upload Failed");
             statusToAdmin = "Group Receiver List Upload Failed";
             data.ajaxStatus = "Group receiver list upload failed. Please try again.";
-            return createAjaxResult(Const.ViewURIs.ADMIN_EMAIL, data);
+            return createAjaxResult(data);
         }
         
         try {
@@ -56,7 +56,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
                               + "Please make sure the txt file contains only email addresses "
                               + "separated by comma";
             deleteGroupReceiverListFile(blobInfo.getBlobKey());
-            return createAjaxResult(Const.ViewURIs.ADMIN_EMAIL, data);
+            return createAjaxResult(data);
         }     
         
         blobKey = blobInfo.getBlobKey();     
@@ -68,7 +68,7 @@ public class AdminEmailGroupReceiverListUploadAction extends Action {
         statusToAdmin = "New Group Receiver List Uploaded";  
         data.ajaxStatus = "Group receiver list successfully uploaded to Google Cloud Storage";
 
-        return createAjaxResult(Const.ViewURIs.ADMIN_EMAIL, data);
+        return createAjaxResult(data);
     }
     
     

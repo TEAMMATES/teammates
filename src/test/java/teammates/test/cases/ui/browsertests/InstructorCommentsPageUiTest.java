@@ -44,6 +44,7 @@ public class InstructorCommentsPageUiTest extends BaseUiTestCase {
 
         commentsPage = loginAdminToPage(browser, commentsPageUrl, InstructorCommentsPage.class);
         
+        // This is the full HTML verification for Instructor Comments Page, the rest can all be verifyMainHtml
         commentsPage.verifyHtml("/instructorCommentsPageForEmptyCourse.html");
         
         ______TS("content: course with no comment");

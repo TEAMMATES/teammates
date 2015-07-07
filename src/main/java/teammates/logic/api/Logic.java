@@ -3,6 +3,7 @@ package teammates.logic.api;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -1044,6 +1045,16 @@ public class Logic {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return coursesLogic.getSectionsNameForCourse(courseId);
     }
+    
+    /** 
+     * Preconditions: <br>
+     * * All parameters are non-null    
+     * @throws EntityDoesNotExistException 
+     */    
+    public Map<String, List<String>> getCourseIdToSectionNamesMap(List<CourseAttributes> courses) throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courses);
+        return coursesLogic.getCourseIdToSectionNamesMap(courses);
+    }
 
     /** 
      * Preconditions: <br>
@@ -1587,15 +1598,13 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public boolean hasStudentSubmittedFeedback(String courseId, String feedbackSessionName, String studentEmail)
+    public boolean hasStudentSubmittedFeedback(FeedbackSessionAttributes fsa, String studentEmail)
             throws InvalidParametersException, EntityDoesNotExistException {
         
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
-        Assumption.assertNotNull(ERROR_NULL_PARAMETER, feedbackSessionName);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, fsa);
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
     
-        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(
-                feedbackSessionName, courseId, studentEmail);
+        return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, studentEmail);
     }
     
     /**

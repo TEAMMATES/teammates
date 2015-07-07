@@ -73,4 +73,11 @@ public class CourseDetailsBundle {
         });
     }
 
+    public CourseStats getStats() {
+        return stats;
+    }
+    
+    public CourseAttributes getCourse() {
+        return course;
+    }
 }

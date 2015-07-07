@@ -42,7 +42,7 @@
     <![endif]-->
 
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-    <script type="text/javascript" src="/js/jquery-minified.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
@@ -489,7 +489,7 @@
                                             %>
                                         <li class="list-group-item list-group-item-warning" id="responseCommentRow-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
                                             <div id="commentBar-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>">
-                                            <span class="text-muted">From: <%=comment.giverEmail%> [<%=comment.createdAt%>] <%=comment.getEditedAtTextForSessionsView(comment.giverEmail.equals("Anonymous"))%>
+                                            <span class="text-muted">From: <%=comment.giverEmail%> [<%=comment.createdAt%>] <%=comment.getEditedAtText(comment.giverEmail.equals("Anonymous"))%>
                                             </span>
                                             <!-- frComment delete Form -->
                                             <form class="responseCommentDeleteForm pull-right">
@@ -547,8 +547,7 @@
                                                     <div id="visibility-options-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>" class="panel panel-default"
                                                         style="display: none;">
                                                         <div class="panel-heading">Visibility Options</div>
-                                                        <table class="table text-center" style="color:#000;"
-                                                            style="background: #fff;">
+                                                        <table class="table text-center" style="color:#000;">
                                                             <tbody>
                                                                 <tr>
                                                                     <th class="text-center">User/Group</th>

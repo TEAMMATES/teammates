@@ -1,5 +1,8 @@
 package teammates.ui.controller;
 
+import java.util.List;
+
+import teammates.common.datatransfer.CourseDetailsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -30,23 +33,21 @@ public class InstructorCourseDetailsPageAction extends Action {
         InstructorCourseDetailsPageData data = new InstructorCourseDetailsPageData(account);
 
         if (isHtmlTableNeeded) {
-            data.studentListHtmlTableAsString = StringHelper.csvToHtmlTable(
-                                                    logic.getCourseStudentListAsCsv(courseId, account.googleId));
+            String courseStudentListAsCsv = logic.getCourseStudentListAsCsv(courseId, account.googleId);
+            data.setStudentListHtmlTableAsString(StringHelper.csvToHtmlTable(courseStudentListAsCsv));
             
             statusToAdmin = "instructorCourseDetails Page Ajax Html table Load<br>" 
                             + "Viewing Student List Table for Course <span class=\"bold\">[" + courseId + "]</span>";
             
-            return createAjaxResult(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS, data);
-        } else {
-            data.studentListHtmlTableAsString = "";
+            return createAjaxResult(data);
         }
-              
-        data.currentInstructor = instructor;
-        data.courseDetails = logic.getCourseDetails(courseId);
-        data.students = logic.getStudentsForCourse(courseId);
-        data.instructors = logic.getInstructorsForCourse(courseId); 
-
-        StudentAttributes.sortByNameAndThenByEmail(data.students);
+        
+        CourseDetailsBundle courseDetails = logic.getCourseDetails(courseId);
+        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
+        List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
+        StudentAttributes.sortByNameAndThenByEmail(students);
+        
+        data.init(instructor, courseDetails, instructors, students);
         
         statusToAdmin = "instructorCourseDetails Page Load<br>" 
                         + "Viewing Course Details for Course <span class=\"bold\">[" + courseId + "]</span>";

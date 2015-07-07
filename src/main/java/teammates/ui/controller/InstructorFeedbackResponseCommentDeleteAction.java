@@ -46,7 +46,7 @@ public class InstructorFeedbackResponseCommentDeleteAction extends Action {
         InstructorFeedbackResponseCommentAjaxPageData data = 
                 new InstructorFeedbackResponseCommentAjaxPageData(account);
         
-        return createAjaxResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
+        return createAjaxResult(data);
     }
     
     private void verifyAccessibleForInstructorToFeedbackResponseComment(String feedbackSessionName,

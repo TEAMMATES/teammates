@@ -37,6 +37,8 @@ public class StudentCommentsPageUiTest extends BaseUiTestCase {
             .withUserId(testData.accounts.get("student1InCourse1").googleId);
 
         commentsPage = loginAdminToPage(browser, commentsPageUrl, StudentCommentsPage.class);
+
+        // This is the full HTML verification for Student Comments Page, the rest can all be verifyMainHtml
         commentsPage.verifyHtml("/studentCommentsPageForStudent1.html");
         
         commentsPageUrl = createUrl(Const.ActionURIs.STUDENT_COMMENTS_PAGE)
