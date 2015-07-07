@@ -166,7 +166,7 @@
                                        commentIdx++; %>
                                         <li class="list-group-item list-group-item-warning">
                                             <form method="post" action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT %>" name="form_commentedit" class="form_comment" id="form_commentedit-<%= commentIdx %>">
-                                                <div id="commentBar<%= commentIdx %>">
+                                                <div id="commentBar-<%= commentIdx %>">
                                                     <span class="text-muted">
                                                         To <b><%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name + " (" + data.student.team + ", " + data.student.email + ")")%></b> [<%= Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt) %>] <%= comment.getEditedAtText(false) %>
                                                     </span>
