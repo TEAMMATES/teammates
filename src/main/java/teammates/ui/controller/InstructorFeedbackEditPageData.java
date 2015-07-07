@@ -75,8 +75,21 @@ public class InstructorFeedbackEditPageData extends PageData {
         buildBasicFsForm(feedbackSession, buildFsFormAdditionalSettings(feedbackSession));
     }
     
-    private void buildBasicFsForm(FeedbackSessionAttributes newFeedbackSession, FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
-        fsForm = FeedbackSessionsForm.getFsFormForExistingFs(this, newFeedbackSession, additionalSettings);
+    private void buildBasicFsForm(FeedbackSessionAttributes fsa, FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
+        String fsDeleteLink = getInstructorFeedbackSessionDeleteLink(fsa.courseId,
+                                               fsa.feedbackSessionName, 
+                                               "");
+        String copyToLink = getFeedbackSessionEditCopyLink();
+        List<ElementTag> timezoneOptions = getTimeZoneOptionsAsElementTags(fsa.timeZone);
+        List<ElementTag> startTimeOptions = getTimeOptionsAsElementTags(fsa.startTime);
+        List<ElementTag> endTimeOptions = getTimeOptionsAsElementTags(fsa.endTime);
+        List<ElementTag> gracePeriodOptions = getGracePeriodOptionsAsElementTags(fsa.gracePeriod);
+        
+        
+        fsForm = FeedbackSessionsForm.getFsFormForExistingFs(
+                                        fsa, additionalSettings, fsDeleteLink, 
+                                        copyToLink, timezoneOptions, startTimeOptions, 
+                                        endTimeOptions, gracePeriodOptions);
     }
 
 
