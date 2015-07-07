@@ -249,13 +249,14 @@ public class InstructorSearchPageData extends PageData {
         for (CommentAttributes comment : commentSearchResultBundle.giverCommentTable.get(giverEmailPlusCourseId)) {            
             String recipientDetails = commentSearchResultBundle.recipientTable
                                                                    .get(comment.getCommentId().toString());
-            String creationTime = TimeHelper.formatTime(comment.createdAt);          
+            String creationTime = Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt);          
             
             String link = instructorCommentsLink + "&" + Const.ParamsNames.COURSE_ID 
                                             + "=" + comment.courseId + "#" + comment.getCommentId();           
+            String editedAtText = comment.getEditedAtText(giverDetails.startsWith("Anonymous"));
             ElementTag editButton = createEditButton(link, Const.Tooltips.COMMENT_EDIT_IN_COMMENTS_PAGE);
             
-            rows.add(new CommentRow(giverDetails, comment, recipientDetails, creationTime, editButton));
+            rows.add(new CommentRow(giverDetails, comment, recipientDetails, creationTime, editedAtText, editButton));
         }       
         return rows;
     }
