@@ -6,7 +6,7 @@ public class CoursePagination {
     private String previousPageLink;
     private String nextPageLink;
     private List<String> coursePaginationList;
-    private String activeCourse = "";
+    private String activeCourse;
     private String userCommentsLink;
     
     public CoursePagination(String previousPageLink, String nextPageLink, List<String> coursePaginationList, 
