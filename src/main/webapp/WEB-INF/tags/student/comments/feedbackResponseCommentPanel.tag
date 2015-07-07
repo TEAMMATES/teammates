@@ -1,5 +1,5 @@
 <%@ tag description="StudentComments - Feedback response comment" %>
-<%@ attribute name="feedbackResponseCommentRow" type="teammates.ui.template.FeedbackResponseCommentRow" required="true" %>
+<%@ attribute name="feedbackResponseCommentRow" type="teammates.ui.template.FeedbackResponseComment" required="true" %>
 <%@ attribute name="fsIdx" required="true" %>
 <%@ attribute name="qnIdx" required="true" %>
 <%@ attribute name="responseIndex" required="true" %>

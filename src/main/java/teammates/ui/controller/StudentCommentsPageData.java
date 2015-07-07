@@ -18,12 +18,11 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.TimeHelper;
 import teammates.ui.template.CommentRow;
 import teammates.ui.template.CoursePagination;
-import teammates.ui.template.FeedbackResponseCommentRow;
+import teammates.ui.template.FeedbackResponseComment;
 import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.QuestionTable;
 import teammates.ui.template.ResponseRow;
 import teammates.ui.template.StudentCommentsCommentRow;
-import teammates.ui.template.StudentCommentsFeedbackResponseCommentRow;
 
 /**
  * PageData: the data used in the StudentCommentsPage
@@ -219,10 +218,10 @@ public class StudentCommentsPageData extends PageData {
         return feedbackResponseRows;
     }
     
-    private List<FeedbackResponseCommentRow> createFeedbackResponseCommentRows(
+    private List<FeedbackResponseComment> createFeedbackResponseCommentRows(
             FeedbackSessionResultsBundle feedbackResultBundle, FeedbackResponseAttributes responseEntry,
             CourseRoster roster) {
-        List<FeedbackResponseCommentRow> feedbackResponseCommentRows = new ArrayList<FeedbackResponseCommentRow>();
+        List<FeedbackResponseComment> feedbackResponseCommentRows = new ArrayList<FeedbackResponseComment>();
         List<FeedbackResponseCommentAttributes> frcList = 
                 feedbackResultBundle.responseComments.get(responseEntry.getId());
         
@@ -232,17 +231,8 @@ public class StudentCommentsPageData extends PageData {
             if (instructor != null) {
                 frCommentGiver = instructor.displayedName + " " + instructor.name;
             }
-            String lastEditorDisplay = null;
-            if (frc.lastEditorEmail != null) {
-                InstructorAttributes lastEditor = roster.getInstructorForEmail(frc.lastEditorEmail);
-                lastEditorDisplay = lastEditor.displayedName + " " + lastEditor.name;
-            }
-            String creationTime = TimeHelper.formatDate(frc.createdAt);
-            String editedAt = frc.getEditedAtTextForStudent(frCommentGiver.equals("Anonymous"), lastEditorDisplay);
-            String comment = frc.commentText.getValue();
-            
-            StudentCommentsFeedbackResponseCommentRow feedbackResponseCommentRow = 
-                    new StudentCommentsFeedbackResponseCommentRow(frCommentGiver, comment, creationTime, editedAt);
+            FeedbackResponseComment feedbackResponseCommentRow = 
+                    new FeedbackResponseComment(frc, frCommentGiver);
             
             feedbackResponseCommentRows.add(feedbackResponseCommentRow);
         }
