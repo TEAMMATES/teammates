@@ -366,6 +366,9 @@
                                                              style="display: none;">
                                                             <div class="form-group form-inline">
                                                                 <div class="form-group text-muted">
+                                                                    <p>
+                                                                        Comment about <%= data.getRecipientNames(comment.recipients) %>:
+                                                                    </p>
                                                                     You may change comment's visibility using the visibility options on the right hand side.
                                                                 </div>
                                                                 <a id="visibility-options-trigger<%= commentIdx %>"
