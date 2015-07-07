@@ -42,7 +42,11 @@ public class StudentCommentsPageData extends PageData {
             } else if(courseId.equals(recipient)){ 
                 namesStringBuilder.append("All Students In This Course, ");
             } else if(student != null){
-                namesStringBuilder.append(student.name + ", ");
+                if (recipients.size() == 1) {
+                    namesStringBuilder.append(student.name + " (" + student.team + ", " + student.email + "), ");
+                } else {
+                    namesStringBuilder.append(student.name + ", ");
+                }
             } else {
                 namesStringBuilder.append(recipient + ", ");
             }

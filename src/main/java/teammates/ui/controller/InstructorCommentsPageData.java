@@ -108,8 +108,7 @@ public class InstructorCommentsPageData extends PageData {
                 namesStringBuilder.append("<b>All students in this course</b>, ");
             } else if (student != null) {
                 if (recipients.size() == 1) {
-                    namesStringBuilder.append("<b>" + student.name + "</b>" 
-                            + " (" + student.team + ", <a href=\"mailto:" + student.email + "\">" + student.email + "</a>), ");
+                    namesStringBuilder.append("<b>" + student.name + " (" + student.team + ", " + student.email + ")</b>, ");
                 } else {
                     namesStringBuilder.append("<b>" + student.name + "</b>" + ", ");
                 }
@@ -167,7 +166,7 @@ public class InstructorCommentsPageData extends PageData {
             String creationTime = TimeHelper.formatTime(commentsForGiver.get(i).createdAt);          
             Boolean isInstructorAllowedToModifyCommentInSection = commentModifyPermissions.get(giverEmail).get(i);
             String typeOfPeopleCanViewComment = getTypeOfPeopleCanViewComment(commentsForGiver.get(i));
-            String editedAt = commentsForGiver.get(i).getEditedAtTextForInstructor(giverName.equals("Anonymous"));
+            String editedAt = commentsForGiver.get(i).getEditedAtText(giverName.equals("Anonymous"));
             String showCommentsTo = getShowCommentsToForComment(commentsForGiver.get(i));
             String showGiverNameTo = getShowGiverNameToForComment(commentsForGiver.get(i));
             String showRecipientNameTo = getShowRecipientNameToForComment(commentsForGiver.get(i));
