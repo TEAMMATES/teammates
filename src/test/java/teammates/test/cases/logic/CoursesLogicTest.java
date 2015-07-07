@@ -734,7 +734,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
     
         // Get course details for student
         List<CourseDetailsBundle> courseList = coursesLogic
-                .getCourseDetailsListForStudent(studentInBothCourses.googleId);
+                .getCourseDetailsListForStudent(studentInBothCourses.googleId, new HashMap<String, StudentAttributes>());
     
         // Verify number of courses received
         assertEquals(2, courseList.size());
@@ -749,7 +749,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("non-existent student");
     
         try {
-            coursesLogic.getCourseDetailsListForStudent("non-existent-student");
+            coursesLogic.getCourseDetailsListForStudent("non-existent-student", new HashMap<String, StudentAttributes>());
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("does not exist",
@@ -759,7 +759,7 @@ public class CoursesLogicTest extends BaseComponentTestCase {
         ______TS("null parameter");
     
         try {
-            coursesLogic.getCourseDetailsListForStudent(null);
+            coursesLogic.getCourseDetailsListForStudent(null, new HashMap<String, StudentAttributes>());
             signalFailureToDetectException();
         } catch (AssertionError e) {
             assertEquals("Supplied parameter was null\n", e.getMessage());

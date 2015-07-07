@@ -3,6 +3,7 @@ package teammates.logic.api;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -785,16 +786,19 @@ public class Logic {
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
+     * <br>
+     * @param alreadyRetrievedData The previously obtained query results to be re-used
      * 
      * @return Details of courses the student is in. CourseData objects
      *         returned contain details of feedback sessions too (except the ones
      *         still AWAITING).
      */
-    public List<CourseDetailsBundle> getCourseDetailsListForStudent(String googleId)
-            throws EntityDoesNotExistException {
+    public List<CourseDetailsBundle> getCourseDetailsListForStudent(String googleId,
+                                              Map<String, StudentAttributes> alreadyRetrievedData)
+                                     throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, googleId);
-        return coursesLogic.getCourseDetailsListForStudent(googleId);
+        return coursesLogic.getCourseDetailsListForStudent(googleId, alreadyRetrievedData);
     }
     
     /**
