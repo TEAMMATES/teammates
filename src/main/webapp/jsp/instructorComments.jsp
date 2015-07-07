@@ -341,7 +341,7 @@
                                                             <a type="button"
                                                                 id="commentedit-<%= commentIdx %>"
                                                                 class="btn btn-default btn-xs icon-button pull-right"
-                                                                onclick="return enableEdit('<%= commentIdx %>');"
+                                                                onclick="return enableEdit('<%= commentIdx %>', '<%= data.comments.get(giverEmail).size() %>');"
                                                                 data-toggle="tooltip"
                                                                 data-placement="top"
                                                                 title="<%= Const.Tooltips.COMMENT_EDIT %>"
