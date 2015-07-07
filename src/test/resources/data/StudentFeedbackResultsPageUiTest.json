@@ -1785,6 +1785,8 @@
             "createdAt":"2016-03-01 11:59 PM UTC",
             "showCommentTo":[STUDENTS];
             "showGiverNameTo":[STUDENTS];
+            "lastEditorEmail":"SFResultsUiT.instr@gmail.tmt",
+            "lastEditedAt":"2016-03-02 11:59 PM UTC",
             "commentText":{
                 "value":"Instructor first comment to Alice"	
             }

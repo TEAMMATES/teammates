@@ -111,18 +111,20 @@
                                             String frCommentGiver = frc.giverEmail;
                                             if (frc.giverEmail.equals(data.instructorEmail)) {
                                                 frCommentGiver = "you";
-                                            } else if (data.roster.getInstructorForEmail(frc.giverEmail) != null) {
+                                            }/*
+                                            keep for reference on how to implement "you" and display name
+                                            else if (data.roster.getInstructorForEmail(frc.giverEmail) != null) {
                                                 frCommentGiver = data.roster.getInstructorForEmail(frc.giverEmail).name;
                                             }
+                                            */
                                             Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(frc);
                         %>
-                        <li id="<%=frc.getId()%>"
-                            class="list-group-item list-group-item-warning <%=frCommentGiver.equals("you") ? "giver_display-by-you" : "giver_display-by-others"%> <%=isPublicResponseComment && bundle.feedbackSession.isPublished() ? "status_display-public" : "status_display-private"%>"
+                        <li class="list-group-item list-group-item-warning <%=frCommentGiver.equals("you") ? "giver_display-by-you" : "giver_display-by-others"%> <%=isPublicResponseComment && bundle.feedbackSession.isPublished() ? "status_display-public" : "status_display-private"%>"
                             id="responseCommentRow-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                             <div
                                 id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
-                                <span class="text-muted">From: <b><%=frCommentGiver%></b>
-                                    [<%=frc.createdAt%>] <%=frc.getEditedAtTextForSessionsView(frCommentGiver.equals("Anonymous"))%>
+                                <span class="text-muted">
+                                    From: <%= frc.giverEmail %> [<%= frc.createdAt %>] <%= frc.getEditedAtText(frc.giverEmail.equals("Anonymous")) %>
                                 </span>
                                 <%
                                     if (isPublicResponseComment && bundle.feedbackSession.isPublished()) {
@@ -148,14 +150,14 @@
                                     }
                                 %>
                                 <%
-                                    if (frc.giverEmail.equals(data.instructorEmail)
+                                    Boolean isAllowedToEditOrDeleteComment = (frc.giverEmail.equals(data.instructorEmail)
                                                             || (data.currentInstructor != null &&
                                                                     data.currentInstructor.isAllowedForPrivilege(responseEntry.giverSection,
                                                                             responseEntry.feedbackSessionName,
                                                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
                                                                     && data.currentInstructor.isAllowedForPrivilege(responseEntry.recipientSection,
                                                                     responseEntry.feedbackSessionName,
-                                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS))) {//FeedbackResponseComment edit/delete control starts
+                                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)));
                                 %>
                                 <form
                                     class="responseCommentDeleteForm pull-right">
@@ -167,8 +169,11 @@
                                         data-toggle="tooltip"
                                         data-placement="top"
                                         title="<%=Const.Tooltips.COMMENT_DELETE%>"
-                                        style="display: none;"> <span
-                                        class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                                        style="display: none;"
+                                        <% if (!isAllowedToEditOrDeleteComment) { %>
+                                            disabled="disabled"
+                                        <% } %>>
+                                        <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                                     </a> <input type="hidden"
                                         name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID%>"
                                         value="<%=frc.feedbackResponseId%>">
@@ -192,12 +197,12 @@
                                     data-toggle="tooltip"
                                     data-placement="top"
                                     title="<%=Const.Tooltips.COMMENT_EDIT%>"
-                                    style="display: none;"> <span
-                                    class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                                    style="display: none;"
+                                    <% if (!isAllowedToEditOrDeleteComment) { %>
+                                        disabled="disabled"
+                                    <% } %>>
+                                    <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                 </a>
-                                <%
-                                    }//FeedbackResponseComment edit/delete control ends
-                                %>
                             </div> <!-- frComment Content -->
                             <div
                                 id="plainCommentText-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>"><%=frc.commentText.getValue()%></div>
@@ -233,8 +238,7 @@
                                         <div class="panel-heading">Visibility
                                             Options</div>
                                         <table class="table text-center"
-                                            style="color: #000;"
-                                            style="background: #fff;">
+                                            style="color: #000;">
                                             <tbody>
                                                 <tr>
                                                     <th
