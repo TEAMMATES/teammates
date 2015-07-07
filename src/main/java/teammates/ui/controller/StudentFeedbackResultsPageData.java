@@ -14,11 +14,11 @@ import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.Url;
+import teammates.ui.template.FeedbackResponseComment;
 import teammates.ui.template.FeedbackResultsQuestionDetails;
 import teammates.ui.template.FeedbackResultsResponse;
 import teammates.ui.template.FeedbackResultsResponseTable;
 import teammates.ui.template.StudentFeedbackResultsQuestionWithResponses;
-import teammates.ui.template.StudentFeedbackResultsResponseComment;
 
 public class StudentFeedbackResultsPageData extends PageData {
     private FeedbackSessionResultsBundle bundle = null;
@@ -180,7 +180,7 @@ public class StudentFeedbackResultsPageData extends PageData {
             }
             
             String answer = singleResponse.getResponseDetails().getAnswerHtml(question.getQuestionDetails());
-            List<StudentFeedbackResultsResponseComment> comments = createStudentFeedbackResultsResponseComments(
+            List<FeedbackResponseComment> comments = createStudentFeedbackResultsResponseComments(
                                                                                           singleResponse.getId());
             
             responses.add(new FeedbackResultsResponse(giverName, answer, comments));
@@ -193,18 +193,15 @@ public class StudentFeedbackResultsPageData extends PageData {
      * @param feedbackResponseId  Response ID for which comments are created
      * @return Comments for the response
      */
-    private List<StudentFeedbackResultsResponseComment> createStudentFeedbackResultsResponseComments(
+    private List<FeedbackResponseComment> createStudentFeedbackResultsResponseComments(
                                                                                String feedbackResponseId) {
         
-        List<StudentFeedbackResultsResponseComment> comments = new ArrayList<StudentFeedbackResultsResponseComment>();
+        List<FeedbackResponseComment> comments = new ArrayList<FeedbackResponseComment>();
         List<FeedbackResponseCommentAttributes> commentsBundle = bundle.responseComments.get(feedbackResponseId);
         
         if (commentsBundle != null) {
             for (FeedbackResponseCommentAttributes comment : commentsBundle) { 
-                comments.add(new StudentFeedbackResultsResponseComment(
-                                                comment.getId(), comment.giverEmail, comment.createdAt,
-                                                comment.getEditedAtText(comment.giverEmail.equals("Anonymous")),
-                                                comment.commentText.getValue()));
+                comments.add(new FeedbackResponseComment(comment, comment.giverEmail));
             }
         }        
         return comments;

@@ -1,6 +1,6 @@
 <%@ tag description="searchCommentFeedbackQuestion.tag - Feedback response"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib tagdir="/WEB-INF/tags/instructor/search" prefix="search"%>
+<%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared"%>
 <%@ attribute name="fsIndx" required="true" %>
 <%@ attribute name="qnIndx" required="true" %>
 <%@ attribute name="responseIndex" required="true" %>
@@ -26,12 +26,10 @@
 <tr>
     <td>
         <ul class="list-group comments" id="responseCommentTable-${fsIndx}-${qnIndx}-${responseIndex}"
-            <c:if test="${empty responseRow.feedbackResponseCommentRows}">style="display:none"</c:if>>
+            <c:if test="${empty responseRow.feedbackResponseComments}">style="display:none"</c:if>>
             
-            <c:forEach items="${responseRow.feedbackResponseCommentRows}" var="frcRow" varStatus="i">
-                <search:feedbackResponseComment qnIndx="${qnIndx}" responseIndex="${responseIndex}" 
-                                                responseCommentIndex="${i.count}" 
-                                                feedbackResponseCommentRow="${frcRow}" fsIndx="${fsIndx}" />
+            <c:forEach items="${responseRow.feedbackResponseComments}" var="frc" varStatus="i">
+                <shared:feedbackResponseComment frc="${frc}" firstIndex="${fsIndx}" secondIndex="${qnIndx}" thirdIndex="${responseIndex}" frcIndex="${i.count}" />
             </c:forEach>  
 
         </ul>
