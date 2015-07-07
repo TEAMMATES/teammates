@@ -9,7 +9,7 @@
     <div class="panel-body">
         <c:forEach items="${commentRows}" var="commentRow" varStatus="i">
             <c:set var="commentIdx" value="${i.index + 1}" />
-            <div class="panel panel-info student-record-comments ${commentRow.recipientDetails == 'you' ? 'giver_display-to-you' : 'giver_display-to-others'}">
+            <div class="panel panel-info student-record-comments giver_display-to-${commentRow.recipientDetails == 'you' ? 'you' : 'others'}">
                 <div class="panel-heading">
                     To <b>${commentRow.recipientDetails}</b>
                 </div>
