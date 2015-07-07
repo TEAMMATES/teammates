@@ -28,6 +28,8 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
         frc.setEditDeleteEnabled(true);
         frc.setResponseGiverName(giverName);
         frc.setResponseRecipientName(recipientName);
+        frc.setInstructorAllowedToDelete(true);
+        frc.setInstructorAllowedToEdit(true);
 
         return frc;
     }

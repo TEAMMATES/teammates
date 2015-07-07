@@ -106,9 +106,17 @@ public class FeedbackResponseComment {
     public boolean isEditDeleteEnabledOnlyOnHover() {
         return editDeleteEnabledOnlyOnHover;
     }
+
+    public void setInstructorAllowedToDelete(boolean isDeletable) {
+        this.instructorAllowedToDelete = isDeletable;
+    }
     
     public boolean isInstructorAllowedToDelete() {
         return instructorAllowedToDelete;
+    }
+
+    public void setInstructorAllowedToEdit(boolean isEditable) {
+        this.instructorAllowedToEdit = isEditable;
     }
 
     public boolean isInstructorAllowedToEdit() {
