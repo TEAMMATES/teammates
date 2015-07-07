@@ -26,4 +26,8 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
     public FeedbackResponseComment getComment() {
         return new FeedbackResponseComment(comment, comment.giverEmail);
     }
+
+    public String getCommentId() {
+        return commentId;
+    }
 }

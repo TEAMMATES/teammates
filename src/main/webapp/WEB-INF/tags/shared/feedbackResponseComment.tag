@@ -3,6 +3,7 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.datatransfer.FeedbackParticipantType" %>
 <%@ attribute name="frc" type="teammates.ui.template.FeedbackResponseComment" required="true" %>
+<%@ attribute name="commentId" %>
 <%@ attribute name="firstIndex" %>
 <%@ attribute name="secondIndex" %>
 <%@ attribute name="thirdIndex" %>
@@ -11,6 +12,10 @@
     <c:when test="${not empty firstIndex && not empty secondIndex && not empty thirdIndex && not empty frcIndex}">
         <c:set var="divId" value="${firstIndex}-${secondIndex}-${thirdIndex}-${frcIndex}" />
         <c:set var="divIdAsJsParams" value="${firstIndex},${secondIndex},${thirdIndex},${frcIndex}" />
+    </c:when>
+    <c:when test="${not empty commentId}">
+        <c:set var="divId" value="${commentId}" />
+        <c:set var="divIdAsJsParams" value="${commentId}" />
     </c:when>
     <c:otherwise>
         <c:set var="divId" value="${frc.commentId}" />
