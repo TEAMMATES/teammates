@@ -18,7 +18,6 @@ public class InstructorCourseEditPageData extends PageData {
     private CourseAttributes course;
     private List<CourseEditInstructorPanel> instructorPanelList;
     private CourseEditInstructorPanel addInstructorPanel;
-    private InstructorAttributes currentInstructor;
     private ElementTag addInstructorButton;
     
     public InstructorCourseEditPageData(AccountAttributes account, CourseAttributes course, 
@@ -28,29 +27,31 @@ public class InstructorCourseEditPageData extends PageData {
         super(account);
         this.course = course;
         this.instructorToShowIndex = instructorToShowIndex;
-        this.currentInstructor = currentInstructor;
         
-        createButtons();
+        createButtons(currentInstructor);
         
-        instructorPanelList = createInstructorPanelList(instructorList, sectionNames, feedbackNames);
-        addInstructorPanel = createInstructorPanel(instructorPanelList.size() + 1, null, sectionNames, 
-                                                   feedbackNames);
+        instructorPanelList = createInstructorPanelList(currentInstructor, instructorList, sectionNames,
+                                                        feedbackNames);
+        addInstructorPanel = createInstructorPanel(currentInstructor, instructorPanelList.size() + 1, null, 
+                                                   sectionNames, feedbackNames);
     }
 
-    private List<CourseEditInstructorPanel> createInstructorPanelList(List<InstructorAttributes> instructorList,
+    private List<CourseEditInstructorPanel> createInstructorPanelList(InstructorAttributes currentInstructor,
+                                           List<InstructorAttributes> instructorList,
                                            List<String> sectionNames, List<String> feedbackNames) {
         List<CourseEditInstructorPanel> panelList = new ArrayList<CourseEditInstructorPanel>();
         int instructorIndex = 0;
         for (InstructorAttributes instructor : instructorList) {
             instructorIndex++;
-            CourseEditInstructorPanel instructorPanel = createInstructorPanel(instructorIndex, instructor, 
+            CourseEditInstructorPanel instructorPanel = createInstructorPanel(currentInstructor, 
+                                                                              instructorIndex, instructor, 
                                                                               sectionNames, feedbackNames); 
             panelList.add(instructorPanel);
         }
         return panelList;
     }
 
-    private void createButtons() {
+    private void createButtons(InstructorAttributes currentInstructor) {
         boolean isDisabled = !currentInstructor.isAllowedForPrivilege(
                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE);
         String content = "<span class=\"glyphicon glyphicon-trash\"></span>Delete";
@@ -65,7 +66,8 @@ public class InstructorCourseEditPageData extends PageData {
                                            "showNewInstructorForm()", isDisabled);
     }
     
-    private CourseEditInstructorPanel createInstructorPanel(int instructorIndex, 
+    private CourseEditInstructorPanel createInstructorPanel(InstructorAttributes currentInstructor, 
+                                                            int instructorIndex, 
                                                             InstructorAttributes instructor,
                                                             List<String> sectionNames, 
                                                             List<String> feedbackNames) {
