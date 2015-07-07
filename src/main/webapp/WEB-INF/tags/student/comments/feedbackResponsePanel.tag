@@ -23,8 +23,8 @@
     <td>
         <ul class="list-group comments" id="responseCommentTable-${fsIdx}-${qnIdx}-${responseIndex}"
             style="${not empty feedbackResponseRow.feedbackResponseComments  ? '' : 'display:none'}">
-            <c:forEach items="${feedbackResponseRow.feedbackResponseComments}" var="feedbackResponseCommentRow" varStatus="i">
-                <comments:feedbackResponseCommentPanel feedbackResponseCommentRow="${feedbackResponseCommentRow}"
+            <c:forEach items="${feedbackResponseRow.feedbackResponseComments}" var="feedbackResponseComment" varStatus="i">
+                <comments:feedbackResponseCommentPanel feedbackResponseComment="${feedbackResponseComment}"
                  fsIdx="${fsIdx}" qnIdx="${qnIdx}" responseIndex="${responseIndex}" 
                  responseCommentIndex="${i.index + 1}"/>
             </c:forEach>
