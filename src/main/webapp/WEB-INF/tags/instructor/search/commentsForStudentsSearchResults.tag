@@ -25,7 +25,7 @@
                                     
                             <div id="commentBar-${indexCounter}">
                                 <span class="text-muted">
-                                    To <b>${commentRow.recipientDetails}</b> on ${commentRow.creationTime}
+                                    To <b>${commentRow.recipientDetails}</b> [${commentRow.creationTime}] ${commentRow.editedAtText}
                                 </span>
                                             
                                 <a type="button" target="_blank" class="btn btn-default btn-xs icon-button pull-right"
