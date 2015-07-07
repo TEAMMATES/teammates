@@ -1987,20 +1987,39 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
     };
 
-    // Sorts by recipientName then by giverName
+    // Sorts by recipientName > recipientEmail > giverName > giverEmail
     public final Comparator<FeedbackResponseAttributes> compareByRecipientName =
             new Comparator<FeedbackResponseAttributes>() {
         @Override
         public int compare(FeedbackResponseAttributes o1,
                            FeedbackResponseAttributes o2) {
-            int compareResult = compareByNames(getNameForEmail(o1.recipientEmail),
-                                               getNameForEmail(o2.recipientEmail));
-            if (compareResult == 0) {
-                return compareByNames(getNameForEmail(o1.giverEmail),
-                                      getNameForEmail(o2.giverEmail));
-            } else {
-                return compareResult;
+            // Compare by Recipient Name
+            int recipientNameCompareResult = compareByNames(getNameForEmail(o1.recipientEmail),
+                                                            getNameForEmail(o2.recipientEmail));
+            if (recipientNameCompareResult != 0) {
+                return recipientNameCompareResult;
             }
+            
+            // Compare by Recipient Email
+            int recipientEmailCompareResult = compareByNames(o1.recipientEmail, o2.recipientEmail);
+            if (recipientEmailCompareResult != 0) {
+                return recipientEmailCompareResult;
+            }
+            
+            // Compare by Giver Name            
+            int giverNameCompareResult = compareByNames(getNameForEmail(o1.giverEmail),
+                                                        getNameForEmail(o2.giverEmail));
+            if (giverNameCompareResult != 0) {
+                return giverNameCompareResult;
+            }
+            
+            // Compare by Giver Email
+            int giverEmailCompareResult = compareByNames(o1.giverEmail, o2.giverEmail);
+            if (giverEmailCompareResult != 0) {
+                return giverEmailCompareResult;
+            }
+            
+            return 0;
         }
     };
 
