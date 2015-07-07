@@ -31,38 +31,7 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
     public FeedbackSessionsAdditionalSettingsFormSegment() {
     }
 
-    public void setSessionVisibleDateButtonChecked(boolean isSessionVisibleDateButtonChecked) {
-        this.isSessionVisibleDateButtonChecked = isSessionVisibleDateButtonChecked;
-    }
 
-    public void setSessionVisibleDateValue(String sessionVisibleDateValue) {
-        this.sessionVisibleDateValue = sessionVisibleDateValue;
-    }
-
-    public void setSessionVisibleDateDisabled(boolean isSessionVisibleDateDisabled) {
-        this.isSessionVisibleDateDisabled = isSessionVisibleDateDisabled;
-    }
-
-    public void setSessionVisibleTimeOptions(List<ElementTag> sessionVisibleTimeOptions) {
-        this.sessionVisibleTimeOptions = sessionVisibleTimeOptions;
-    }
-
-    public void setSessionVisibleAtOpenChecked(boolean sessionVisibleAtOpenChecked) {
-        this.isSessionVisibleAtOpenChecked = sessionVisibleAtOpenChecked;
-    }
-
-    public void setSessionVisiblePrivateChecked(boolean isSessionVisiblePrivateChecked) {
-        this.isSessionVisiblePrivateChecked = isSessionVisiblePrivateChecked;
-    }
-
-    public void setResponseVisibleDateChecked(boolean isResponseVisibleDateChecked) {
-        this.isResponseVisibleDateChecked = isResponseVisibleDateChecked;
-    }
-
-    public void setResponseVisibleDateValue(String responseVisibleDateValue) {
-        this.responseVisibleDateValue = responseVisibleDateValue;
-    }
-    
     public boolean isSessionVisibleDateButtonChecked() {
         return isSessionVisibleDateButtonChecked;
     }
@@ -115,40 +84,12 @@ public class FeedbackSessionsAdditionalSettingsFormSegment {
         return isResponseVisibleNeverChecked;
     }
     
-    public void setResponseVisibleDateDisabled(boolean isResponseVisibleDisabled) {
-        this.isResponseVisibleDateDisabled = isResponseVisibleDisabled;
-    }
-
-    public void setResponseVisibleTimeOptions(List<ElementTag> responseVisibleTimeOptions) {
-        this.responseVisibleTimeOptions = responseVisibleTimeOptions;
-    }
-
-    public void setResponseVisibleImmediatelyChecked(boolean isResponseVisibleImmediatelyChecked) {
-        this.isResponseVisibleImmediatelyChecked = isResponseVisibleImmediatelyChecked;
-    }
-
-    public void setResponseVisiblePublishManuallyChecked(boolean isResponseVisiblePublishManuallyChecked) {
-        this.isResponseVisiblePublishManuallyChecked = isResponseVisiblePublishManuallyChecked;
-    }
-
-    public void setResponseVisibleNeverChecked(boolean isResponseVisibleNeverChecked) {
-        this.isResponseVisibleNeverChecked = isResponseVisibleNeverChecked;
-    }
-
     public boolean isSendClosingEmailChecked() {
         return isSendClosingEmailChecked;
     }
 
-    public void setSendClosingEmailChecked(boolean isSendClosingEmailChecked) {
-        this.isSendClosingEmailChecked = isSendClosingEmailChecked;
-    }
-
     public boolean isSendOpeningEmailChecked() {
         return isSendOpeningEmailChecked;
-    }
-
-    public void setSendOpeningEmailChecked(boolean isSendOpeningEmailChecked) {
-        this.isSendOpeningEmailChecked = isSendOpeningEmailChecked;
     }
 
     public boolean isSendPublishedEmailChecked() {

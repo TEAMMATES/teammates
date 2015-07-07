@@ -8,15 +8,13 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.Url;
 
 /**
  * Data model for adding/editing a single question 
  *
  */
 public class FeedbackQuestionEditForm {
-    //TODO switch the rest of the Links to use Url if they are links
-    private Url actionLink;
+    private String actionLink;
     
     private String courseId;
     private String feedbackSessionName;
@@ -25,7 +23,7 @@ public class FeedbackQuestionEditForm {
     
     // Used for adding a new question
     private String questionTypeOptions;
-    private Url doneEditingLink;
+    private String doneEditingLink;
     
     private boolean isQuestionHasResponses;
     private List<ElementTag> questionNumberOptions;
@@ -39,34 +37,34 @@ public class FeedbackQuestionEditForm {
     private FeedbackQuestionFeedbackPathSettings feedbackPathSettings;
     private FeedbackQuestionVisibilitySettings visibilitySettings;
     
-    public static FeedbackQuestionEditForm getNewQnForm(Url doneEditingLink, FeedbackSessionAttributes feedbackSession,
+    public static FeedbackQuestionEditForm getNewQnForm(String doneEditingLink, FeedbackSessionAttributes feedbackSession,
                                                         String questionTypeChoiceOptions, List<ElementTag> giverOptions,
                                                         List<ElementTag> recipientOptions, List<ElementTag> qnNumOptions, String newQuestionEditForm) {
         
         FeedbackQuestionEditForm newQnForm = new FeedbackQuestionEditForm();
         
-        newQnForm.setDoneEditingLink(doneEditingLink);
-        newQnForm.setAction(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD));
-        newQnForm.setCourseId(feedbackSession.courseId);
-        newQnForm.setFeedbackSessionName(feedbackSession.feedbackSessionName);
-        newQnForm.setQuestionNumberSuffix("");
+        newQnForm.doneEditingLink = doneEditingLink.toString();
+        newQnForm.actionLink = Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_ADD;
+        newQnForm.courseId = feedbackSession.courseId;
+        newQnForm.feedbackSessionName = feedbackSession.feedbackSessionName;
+        newQnForm.questionNumberSuffix = "";
         
-        newQnForm.setQuestionTypeOptions(questionTypeChoiceOptions);
+        newQnForm.questionTypeOptions = questionTypeChoiceOptions;
         
-        newQnForm.setQuestionNumberOptions(qnNumOptions);
+        newQnForm.questionNumberOptions = qnNumOptions;
       
         FeedbackQuestionFeedbackPathSettings feedbackPathSettings = new FeedbackQuestionFeedbackPathSettings();
         FeedbackQuestionVisibilitySettings visibilitySettings = new FeedbackQuestionVisibilitySettings();
         
-        newQnForm.setFeedbackPathSettings(feedbackPathSettings);
-        newQnForm.setVisibilitySettings(visibilitySettings);
+        newQnForm.feedbackPathSettings = feedbackPathSettings;
+        newQnForm.visibilitySettings = visibilitySettings;
         
         feedbackPathSettings.setGiverParticipantOptions(giverOptions);
         feedbackPathSettings.setRecipientParticipantOptions(recipientOptions);
         feedbackPathSettings.setNumOfEntitiesToGiveFeedbackToValue(1);
         
-        newQnForm.setQuestionSpecificEditFormHtml(newQuestionEditForm);
-        newQnForm.setEditable(true);
+        newQnForm.questionSpecificEditFormHtml = newQuestionEditForm;
+        newQnForm.isEditable = true;
         
         setDefaultVisibilityOptions(visibilitySettings, feedbackPathSettings);
         
@@ -149,11 +147,11 @@ public class FeedbackQuestionEditForm {
         return question.getQuestionDetails().questionText;
     }
 
-    public Url getAction() {
+    public String getAction() {
         return actionLink;
     }
 
-    public void setAction(Url action) {
+    public void setAction(String action) {
         this.actionLink = action;
     }
 
@@ -161,7 +159,7 @@ public class FeedbackQuestionEditForm {
         return questionTypeOptions;
     }
 
-    public Url getDoneEditingLink() {
+    public String getDoneEditingLink() {
         return doneEditingLink;
     }
 
@@ -181,7 +179,7 @@ public class FeedbackQuestionEditForm {
         this.questionNumberSuffix = questionNumberSuffix;
     }
 
-    public void setDoneEditingLink(Url doneEditingLink) {
+    public void setDoneEditingLink(String doneEditingLink) {
         this.doneEditingLink = doneEditingLink;
     }
 

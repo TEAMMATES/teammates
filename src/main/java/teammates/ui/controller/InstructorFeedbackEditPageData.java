@@ -126,7 +126,7 @@ public class InstructorFeedbackEditPageData extends PageData {
                                            Map<String, Boolean> questionHasResponses,
                                            String courseId, FeedbackQuestionAttributes question) {
         FeedbackQuestionEditForm qnForm = new FeedbackQuestionEditForm();
-        qnForm.setAction(new Url(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT));
+        qnForm.setAction(Const.ActionURIs.INSTRUCTOR_FEEDBACK_QUESTION_EDIT);
         qnForm.setCourseId(courseId);
         
         qnForm.setFeedbackSessionName(feedbackSessionName);
@@ -183,10 +183,10 @@ public class InstructorFeedbackEditPageData extends PageData {
                                 .withUserId(account.googleId)
                                 .withCourseId(feedbackSession.courseId)
                                 .withSessionName(feedbackSession.feedbackSessionName);
-        newQnForm = FeedbackQuestionEditForm.getNewQnForm(doneEditingLink, feedbackSession,
-                                              getQuestionTypeChoiceOptions(), getParticipantOptions(null, true),
-                                              getParticipantOptions(null, false), getQuestionNumberOptions(nextQnNum), 
-                                              getNewQuestionSpecificEditFormHtml());
+        newQnForm = FeedbackQuestionEditForm.getNewQnForm(doneEditingLink.toString(), feedbackSession,
+                                                          getQuestionTypeChoiceOptions(), getParticipantOptions(null, true),
+                                                          getParticipantOptions(null, false), getQuestionNumberOptions(nextQnNum), 
+                                                          getNewQuestionSpecificEditFormHtml());
     }
 
     /**
