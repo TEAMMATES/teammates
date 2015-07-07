@@ -308,6 +308,20 @@
                                                         <span class="text-muted">
                                                             To <b><%= data.getRecipientNames(comment.recipients) %></b> [<%= Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt) %>] <%= comment.getEditedAtText(data.getGiverName(giverEmail).equals("Anonymous")) %>
                                                         </span>
+                                                        <% if (comment.showCommentTo.size() > 0) { 
+                                                               String peopleCanSee = data.getTypeOfPeopleCanViewComment(comment);
+                                                        %>
+                                                            <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;"
+                                                                data-placement="top"
+                                                                title="This comment is visible to <%= peopleCanSee %>"></span>
+                                                        <% } %>
+                                                        <% 
+                                                           if (comment.sendingState == CommentSendingState.PENDING) { 
+                                                        %>
+                                                            <span class="glyphicon glyphicon-bell" data-toggle="tooltip" 
+                                                                data-placement="top"
+                                                                title="This comment is pending notification. i.e., you have not sent a notification about this comment yet"></span>
+                                                        <% } %>
                                                         <%
                                                             if (comment.giverEmail.equals(data.instructorEmail)
                                                         	    || (data.currentInstructor != null 
@@ -337,20 +351,6 @@
                                                                 <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                                             </a>
                                                         <% }//comment edit/delete control ends %>
-                                                        <% if (comment.showCommentTo.size() > 0) { 
-                                                               String peopleCanSee = data.getTypeOfPeopleCanViewComment(comment);
-                                                        %>
-                                                            <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;"
-                                                                data-placement="top"
-                                                                title="This comment is visible to <%= peopleCanSee %>"></span>
-                                                        <% } %>
-                                                        <% 
-                                                           if (comment.sendingState == CommentSendingState.PENDING) { 
-                                                        %>
-                                                            <span class="glyphicon glyphicon-bell" data-toggle="tooltip" 
-                                                                data-placement="top"
-                                                                title="This comment is pending notification. i.e., you have not sent a notification about this comment yet"></span>
-                                                        <% } %>
                                                     </div>
                                                     <div id="plainCommentText<%= commentIdx %>"><%= comment.commentText.getValue() %></div>
                                                     <%
