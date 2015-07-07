@@ -7,7 +7,6 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -130,7 +129,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         assertEquals("What is the best selling point of your product?", questionForms.get(0).getQuestionText());
         
         FeedbackQuestionFeedbackPathSettings feedbackPath = questionForms.get(0).getFeedbackPathSettings();
-        assertEquals(false, feedbackPath.isNumberOfEntitiesToGiveFeedbackToChecked());
+        assertEquals(true, feedbackPath.isNumberOfEntitiesToGiveFeedbackToChecked());
         assertEquals(1, feedbackPath.getNumOfEntitiesToGiveFeedbackToValue());
         assertEquals(8, feedbackPath.getRecipientParticipantOptions().size());
         assertEquals(4, feedbackPath.getGiverParticipantOptions().size());
@@ -143,7 +142,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         verifyMapContains(visibilitySettings.getRecipientNameVisibleFor(), Arrays.asList(FeedbackParticipantType.INSTRUCTORS));
         
         assertEquals("Rate 1 other student's product", questionForms.get(1).getQuestionText());
-        assertFalse(questionForms.get(1).getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
+        assertTrue(questionForms.get(1).getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
        
         assertEquals(1, questionForms.get(1).getFeedbackPathSettings().getNumOfEntitiesToGiveFeedbackToValue());
         assertEquals(8, questionForms.get(1).getFeedbackPathSettings().getRecipientParticipantOptions().size());
@@ -157,7 +156,7 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         
         assertEquals("-3", questionForms.get(2).getQuestionNumberSuffix());
         
-        assertTrue(questionForms.get(2).getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
+        assertFalse(questionForms.get(2).getFeedbackPathSettings().isNumberOfEntitiesToGiveFeedbackToChecked());
         assertEquals(1, questionForms.get(2).getFeedbackPathSettings().getNumOfEntitiesToGiveFeedbackToValue());
         assertEquals(8, questionForms.get(2).getFeedbackPathSettings().getRecipientParticipantOptions().size());
         assertEquals(4, questionForms.get(2).getFeedbackPathSettings().getGiverParticipantOptions().size());
@@ -165,15 +164,18 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         verifyMapContains(questionForms.get(2).getVisibilitySettings().getResponseVisibleFor(), 
                           Arrays.asList(FeedbackParticipantType.INSTRUCTORS, 
                                         FeedbackParticipantType.RECEIVER, 
-                                        FeedbackParticipantType.STUDENTS));
+                                        FeedbackParticipantType.STUDENTS,
+                                        FeedbackParticipantType.OWN_TEAM_MEMBERS));
         verifyMapContains(questionForms.get(2).getVisibilitySettings().getGiverNameVisibleFor(), 
                           Arrays.asList(FeedbackParticipantType.INSTRUCTORS, 
                                         FeedbackParticipantType.RECEIVER, 
-                                        FeedbackParticipantType.STUDENTS));
+                                        FeedbackParticipantType.STUDENTS,
+                                        FeedbackParticipantType.OWN_TEAM_MEMBERS));
         verifyMapContains(questionForms.get(2).getVisibilitySettings().getRecipientNameVisibleFor(), 
                           Arrays.asList(FeedbackParticipantType.INSTRUCTORS, 
                                         FeedbackParticipantType.RECEIVER, 
-                                        FeedbackParticipantType.STUDENTS));
+                                        FeedbackParticipantType.STUDENTS,
+                                        FeedbackParticipantType.OWN_TEAM_MEMBERS));
         
         //TODO test specific question edit form html after it is no longer html in java
         
@@ -317,19 +319,13 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         for (FeedbackParticipantType participant : list) {
             assertTrue(map.get(participant.name()));
         }
-        Set<FeedbackParticipantType> allParticipantTypes =
-                                        EnumSet.allOf(FeedbackParticipantType.class);
-        Set<String> nonParticipants = new HashSet<String>();
-        for (FeedbackParticipantType participantType : allParticipantTypes) {
-            if (list.contains(participantType.name())) {
-                nonParticipants.add(participantType.name());
-            }
-        }
+        Set<FeedbackParticipantType> nonParticipants = new HashSet<>(Arrays.asList(FeedbackParticipantType.values()));
+        nonParticipants.removeAll(list);
         
-        for (String participant : nonParticipants) {
-            assertFalse(map.containsKey(participant));
-        }
-        
+        for (FeedbackParticipantType nonParticipant : nonParticipants) {
+            System.out.println(nonParticipant.name());
+            assertFalse(map.containsKey(nonParticipant.name()));
+        }        
     }
 
 }
