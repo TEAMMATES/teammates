@@ -165,25 +165,23 @@
                                        for (CommentAttributes comment : data.comments) {
                                        commentIdx++; %>
                                         <li class="list-group-item list-group-item-warning">
+                                            <div id="commentBar-<%= commentIdx %>">
+                                                <span class="text-muted">
+                                                    To <b><%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name + " (" + data.student.team + ", " + data.student.email + ")")%></b> [<%= Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt) %>] <%= comment.getEditedAtText(false) %>
+                                                </span>
+                                                <a type="button" id="commentdelete-<%= commentIdx %>" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('<%= commentIdx %>');" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_DELETE%>"> 
+                                                    <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                                                </a>
+                                                <a type="button" id="commentedit-<%= commentIdx %>" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('<%= commentIdx %>', '<%= data.comments.size() %>');" data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.COMMENT_EDIT %>">
+                                                    <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                                                </a>
+                                                <% if (comment.showCommentTo.size() > 0) { 
+                                                    String peopleCanSee = data.getTypeOfPeopleCanViewComment(comment); %>
+                                                    <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;" data-placement="top" title="This comment is public to <%= peopleCanSee %>"></span>
+                                                <% } %>
+                                            </div>
+                                            <div id="plainCommentText<%= commentIdx %>"><%= comment.commentText.getValue() %></div>
                                             <form method="post" action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT %>" name="form_commentedit" class="form_comment" id="form_commentedit-<%= commentIdx %>">
-                                                <div id="commentBar-<%= commentIdx %>">
-                                                    <span class="text-muted">
-                                                        To <b><%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name + " (" + data.student.team + ", " + data.student.email + ")")%></b> [<%= Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt) %>] <%= comment.getEditedAtText(false) %>
-                                                    </span>
-                                                    <a type="button" id="commentdelete-<%= commentIdx %>" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('<%= commentIdx %>');" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_DELETE%>"> 
-                                                        <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                                    </a>
-                                                    <a type="button" id="commentedit-<%= commentIdx %>" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('<%= commentIdx %>', '<%= data.comments.size() %>');" data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.COMMENT_EDIT %>">
-                                                        <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-                                                    </a>
-                                                    <% if (comment.showCommentTo.size() > 0) { 
-                                                        String peopleCanSee = data.getTypeOfPeopleCanViewComment(comment); %>
-                                                        <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;" data-placement="top" title="This comment is public to <%= peopleCanSee %>"></span>
-                                                    <% } %>
-                                                </div>
-                                                <div id="plainCommentText<%= commentIdx %>">
-                                                    <%= comment.commentText.getValue() %>
-                                                </div>
                                                 <div id="commentTextEdit<%= commentIdx %>" style="display: none;">
                                                     <div class="form-group form-inline">
                                                         <div class="form-group text-muted">

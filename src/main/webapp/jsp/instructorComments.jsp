@@ -303,67 +303,67 @@
                                                     recipientTypeForThisRecipient = comment.recipientType;
                                             %>
                                                 <li class="list-group-item list-group-item-warning status_display-<%= comment.showCommentTo.size() > 0 ? "public" : "private" %>">
-                                                    <form method="post"
-                                                        action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT %>"
-                                                        name="form_commentedit"
-                                                        class="form_comment"
-                                                        id="form_commentedit-<%= commentIdx %>">
-                                                        <div id="commentBar-<%= commentIdx %>">
-                                                            
-                                                            <span class="text-muted">
-                                                                To <b><%= data.getRecipientNames(comment.recipients) %></b> [<%= Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt) %>] <%= comment.getEditedAtText(data.getGiverName(giverEmail).equals("Anonymous")) %>
-                                                            </span>
-                                                            <%
-                                                                if (comment.giverEmail.equals(data.instructorEmail)
-                                                                    || (data.currentInstructor != null 
-                                                                    && data.isInstructorAllowedForPrivilegeOnComment(comment, 
-                                                                                                                     Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS))) {//comment edit/delete control starts
-                                                            %>
-                                                                <a type="button"
-                                                                    id="commentdelete-<%= commentIdx %>"
-                                                                    class="btn btn-default btn-xs icon-button pull-right"
-                                                                    onclick="return deleteComment('<%= commentIdx %>');"
-                                                                    data-toggle="tooltip"
-                                                                    data-placement="top"
-                                                                    title=""
-                                                                    data-original-title="<%= Const.Tooltips.COMMENT_DELETE %>"
-                                                                    style="display: none;">
-                                                                    <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                                                </a> 
-                                                                <a type="button"
-                                                                    id="commentedit-<%= commentIdx %>"
-                                                                    class="btn btn-default btn-xs icon-button pull-right"
-                                                                    onclick="return enableEdit('<%= commentIdx %>');"
-                                                                    data-toggle="tooltip"
-                                                                    data-placement="top"
-                                                                    title=""
-                                                                    data-original-title="<%= Const.Tooltips.COMMENT_EDIT %>"
-                                                                    style="display: none;">
-                                                                    <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-                                                                </a>
-                                                            <% }//comment edit/delete control ends %>
-                                                            <% if (comment.showCommentTo.size() > 0) { 
-                                                                   String peopleCanSee = data.getTypeOfPeopleCanViewComment(comment);
-                                                            %>
-                                                                <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;"
-                                                                    data-placement="top"
-                                                                    title="This comment is visible to <%= peopleCanSee %>"></span>
-                                                            <% } %>
-                                                            <% 
-                                                               if (comment.sendingState == CommentSendingState.PENDING) { 
-                                                            %>
-                                                                <span class="glyphicon glyphicon-bell" data-toggle="tooltip" 
-                                                                    data-placement="top"
-                                                                    title="This comment is pending notification. i.e., you have not sent a notification about this comment yet"></span>
-                                                            <% } %>
-                                                        </div>
-                                                        <div id="plainCommentText<%= commentIdx %>"><%= comment.commentText.getValue() %></div>
+                                                    <div id="commentBar-<%= commentIdx %>">
+                                                        
+                                                        <span class="text-muted">
+                                                            To <b><%= data.getRecipientNames(comment.recipients) %></b> [<%= Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt) %>] <%= comment.getEditedAtText(data.getGiverName(giverEmail).equals("Anonymous")) %>
+                                                        </span>
                                                         <%
                                                             if (comment.giverEmail.equals(data.instructorEmail)
                                                         	    || (data.currentInstructor != null 
                                                         	    && data.isInstructorAllowedForPrivilegeOnComment(comment, 
                                                                                                                  Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS))) {//comment edit/delete control starts
                                                         %>
+                                                            <a type="button"
+                                                                id="commentdelete-<%= commentIdx %>"
+                                                                class="btn btn-default btn-xs icon-button pull-right"
+                                                                onclick="return deleteComment('<%= commentIdx %>');"
+                                                                data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                title=""
+                                                                data-original-title="<%= Const.Tooltips.COMMENT_DELETE %>"
+                                                                style="display: none;">
+                                                                <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                                                            </a> 
+                                                            <a type="button"
+                                                                id="commentedit-<%= commentIdx %>"
+                                                                class="btn btn-default btn-xs icon-button pull-right"
+                                                                onclick="return enableEdit('<%= commentIdx %>');"
+                                                                data-toggle="tooltip"
+                                                                data-placement="top"
+                                                                title=""
+                                                                data-original-title="<%= Const.Tooltips.COMMENT_EDIT %>"
+                                                                style="display: none;">
+                                                                <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                                                            </a>
+                                                        <% }//comment edit/delete control ends %>
+                                                        <% if (comment.showCommentTo.size() > 0) { 
+                                                               String peopleCanSee = data.getTypeOfPeopleCanViewComment(comment);
+                                                        %>
+                                                            <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;"
+                                                                data-placement="top"
+                                                                title="This comment is visible to <%= peopleCanSee %>"></span>
+                                                        <% } %>
+                                                        <% 
+                                                           if (comment.sendingState == CommentSendingState.PENDING) { 
+                                                        %>
+                                                            <span class="glyphicon glyphicon-bell" data-toggle="tooltip" 
+                                                                data-placement="top"
+                                                                title="This comment is pending notification. i.e., you have not sent a notification about this comment yet"></span>
+                                                        <% } %>
+                                                    </div>
+                                                    <div id="plainCommentText<%= commentIdx %>"><%= comment.commentText.getValue() %></div>
+                                                    <%
+                                                        if (comment.giverEmail.equals(data.instructorEmail)
+                                                    	    || (data.currentInstructor != null 
+                                                    	    && data.isInstructorAllowedForPrivilegeOnComment(comment, 
+                                                                                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COMMENT_IN_SECTIONS))) {//comment edit/delete control starts
+                                                    %>
+                                                        <form method="post"
+                                                            action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT %>"
+                                                            name="form_commentedit"
+                                                            class="form_comment"
+                                                            id="form_commentedit-<%= commentIdx %>">
                                                         <div id="commentTextEdit<%= commentIdx %>"
                                                              style="display: none;">
                                                             <div class="form-group form-inline">
