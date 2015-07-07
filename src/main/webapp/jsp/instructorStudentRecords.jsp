@@ -303,7 +303,7 @@
                                                         <textarea class="form-control" rows="3" placeholder="Your comment about this student" name=<%= Const.ParamsNames.COMMENT_TEXT %> id="commentText<%= commentIdx %>"><%= comment.commentText.getValue() %></textarea>
                                                     </div>
                                                     <div class="col-sm-offset-5">
-                                                        <input id="commentsave-<%= commentIdx %>" title="Save comment" onclick="return submitCommentForm('<%= commentIdx %>');" type="submit" class="btn btn-primary" id="button_save_comment" value="Save">
+                                                        <input id="commentsave-<%= commentIdx %>" title="Save comment" onclick="return submitCommentForm('<%= commentIdx %>');" type="submit" class="btn btn-primary" value="Save">
                                                         <input type="button" class="btn btn-default" value="Cancel" onclick="return disableComment('<%= commentIdx %>');">
                                                     </div>
                                                 </div>
