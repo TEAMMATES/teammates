@@ -202,7 +202,9 @@ public class StudentFeedbackResultsPageData extends PageData {
         if (commentsBundle != null) {
             for (FeedbackResponseCommentAttributes comment : commentsBundle) { 
                 comments.add(new StudentFeedbackResultsResponseComment(
-                                                comment.giverEmail, comment.createdAt, comment.commentText.getValue()));
+                                                comment.getId(), comment.giverEmail, comment.createdAt,
+                                                comment.getEditedAtText(comment.giverEmail.equals("Anonymous")),
+                                                comment.commentText.getValue()));
             }
         }        
         return comments;

@@ -18,9 +18,11 @@
         <td>
             <ul class="list-group comment-list">                                                                           
                 <c:forEach items="${response.comments}" var="comment">                                                                            
-                    <li class="list-group-item list-group-item-warning">
-                        <span class="text-muted">From: ${comment.giverEmail} [${comment.createdAt}]</span>
-                        <div>${comment.commentText}</div>
+                    <li class="list-group-item list-group-item-warning" id="responseCommentRow-${comment.frcId}">
+                        <div id="commentBar-${comment.frcId}">
+                            <span class="text-muted">From: ${comment.giverEmail} [${comment.createdAt}] ${comment.editedAtText}</span>
+                        </div>
+                        <div id="plainCommentText-${comment.frcId}" style="margin-left: 15px;">${comment.commentText}</div>
                     </li>
                 </c:forEach>                                                                                   
             </ul>
