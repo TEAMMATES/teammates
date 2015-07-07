@@ -31,7 +31,7 @@
                 </div>
                 <c:if test="${not empty data.commentRows}">
                     <br>
-                    <comments:commentsForStudentsPanel commentRows="${data.commentRows}"/>
+                    <comments:commentsForStudentsPanel commentRows="${data.commentRows}" courseId="${data.courseId}"/>
                 </c:if>
                 <c:forEach items="${data.feedbackSessionRows}" var="feedbackSessionRow" varStatus="i">
                     <br>

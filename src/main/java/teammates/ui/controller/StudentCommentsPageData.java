@@ -15,7 +15,7 @@ import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.util.TimeHelper;
+import teammates.common.util.Const;
 import teammates.ui.template.CommentRow;
 import teammates.ui.template.CoursePagination;
 import teammates.ui.template.FeedbackResponseComment;
@@ -137,7 +137,7 @@ public class StudentCommentsPageData extends PageData {
             if (instructor != null) {
                 giverDetails = instructor.displayedName + " " + instructor.name;
             }
-            String creationTime = TimeHelper.formatDate(comment.createdAt);
+            String creationTime = Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt);
             String editedAt = comment.getEditedAtText(giverDetails.equals("Anonymous"));
             
             CommentRow commentRow = 
