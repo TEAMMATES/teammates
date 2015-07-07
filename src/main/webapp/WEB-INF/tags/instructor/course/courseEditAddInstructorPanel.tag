@@ -30,7 +30,7 @@
                         <input class="form-control" type="text"
                                 name="<%=Const.ParamsNames.INSTRUCTOR_NAME%>" id="<%=Const.ParamsNames.INSTRUCTOR_NAME%>"
                                 data-toggle="tooltip" data-placement="top" title="Enter the name of the instructor."
-                                maxlength=<%=FieldValidator.PERSON_NAME_MAX_LENGTH%> tabindex="8"/>
+                                maxlength="<%=FieldValidator.PERSON_NAME_MAX_LENGTH%>" tabindex="8"/>
                     </div>
                 </div>
                 
@@ -39,7 +39,7 @@
                     <div class="col-sm-9"><input class="form-control" type="text"
                         name="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>" id="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>"
                         data-toggle="tooltip" data-placement="top" title="Enter the Email of the instructor."
-                        maxlength=<%=FieldValidator.EMAIL_MAX_LENGTH%> tabindex="9"/>
+                        maxlength="<%=FieldValidator.EMAIL_MAX_LENGTH%>" tabindex="9"/>
                     </div>
                 </div>
                 

@@ -27,7 +27,7 @@
                             name="<%=Const.ParamsNames.COURSE_ID%>" id="<%=Const.ParamsNames.COURSE_ID%>"
                             value="${course.id}"
                             data-toggle="tooltip" data-placement="top" title="Identifier of the course, e.g.CS3215-Sem1."
-                            maxlength=<%=FieldValidator.COURSE_ID_MAX_LENGTH%> tabindex="1" disabled="disabled">
+                            maxlength="<%=FieldValidator.COURSE_ID_MAX_LENGTH%>" tabindex="1" disabled="disabled">
                 </div>
             </div>
             
@@ -38,7 +38,7 @@
                             name="<%=Const.ParamsNames.COURSE_NAME%>" id="<%=Const.ParamsNames.COURSE_NAME%>"
                             value="${course.name}"
                             data-toggle="tooltip" data-placement="top" title="The name of the course, e.g. Software Engineering."
-                            maxlength=<%=FieldValidator.COURSE_NAME_MAX_LENGTH%> tabindex="2" disabled="disabled">
+                            maxlength="<%=FieldValidator.COURSE_NAME_MAX_LENGTH%>" tabindex="2" disabled="disabled">
                 </div>
             </div>
             

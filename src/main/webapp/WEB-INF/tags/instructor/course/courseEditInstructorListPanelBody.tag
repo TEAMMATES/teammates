@@ -21,7 +21,7 @@
                     <label class="col-sm-3 control-label">Google ID:</label>
                     <div class="col-sm-9">
                         <input class="form-control immutable" type="text" id="<%=Const.ParamsNames.INSTRUCTOR_ID%>${instructorPanel.index}"
-                                value="${instructorPanel.instructor.googleId}" maxlength=<%=FieldValidator.GOOGLE_ID_MAX_LENGTH%> 
+                                value="${instructorPanel.instructor.googleId}" maxlength="<%=FieldValidator.GOOGLE_ID_MAX_LENGTH%>" 
                                 tabindex="3" disabled="disabled">
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                     <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_NAME%>" 
                             id="<%=Const.ParamsNames.INSTRUCTOR_NAME%>${instructorPanel.index}" value="${instructorPanel.instructor.name}" 
                             data-toggle="tooltip" data-placement="top" title="Enter the name of the instructor." 
-                            maxlength=<%=FieldValidator.PERSON_NAME_MAX_LENGTH%> tabindex="4" disabled="disabled">
+                            maxlength="<%=FieldValidator.PERSON_NAME_MAX_LENGTH%>" tabindex="4" disabled="disabled">
                 </div>
             </div>
         
@@ -43,7 +43,7 @@
                     <input class="form-control" type="text" name="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>" 
                             id="<%=Const.ParamsNames.INSTRUCTOR_EMAIL%>${instructorPanel.index}" value="${instructorPanel.instructor.email}"
                             data-toggle="tooltip" data-placement="top" title="Enter the Email of the instructor." 
-                            maxlength=<%=FieldValidator.EMAIL_MAX_LENGTH%> tabindex="5" disabled="disabled"
+                            maxlength="<%=FieldValidator.EMAIL_MAX_LENGTH%>" tabindex="5" disabled="disabled"
                             <c:if test="${empty instructorPanel.instructor.googleId}">
                                 readonly="readonly"
                             </c:if> >
