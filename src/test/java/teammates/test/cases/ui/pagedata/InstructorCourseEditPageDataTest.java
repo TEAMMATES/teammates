@@ -89,6 +89,11 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
         assertEquals(feedbackSessionNames.size(), sectionRow.getFeedbackSessions().size());
         assertNotNull(sectionRow.getToggleSessionLevelInSectionButton());
         assertFalse(sectionRow.isSectionSpecial());
+        /* 
+         * Comment for below Assertion:
+         * These sections are separated by a group of 3 so here is the formula to get the number
+         * of groups.
+         */
         assertEquals((sectionNames.size() - 1) / 3 + 1, sectionRow.getSpecialSections().size());
         
         assertNotNull(pageData.getAddInstructorPanel());
