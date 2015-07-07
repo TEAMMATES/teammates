@@ -583,6 +583,15 @@
                                                         <input type="hidden"
                                                             name="<%= Const.ParamsNames.FROM_COMMENTS_PAGE %>"
                                                             value="true"> 
+                                                        <input type="hidden"
+                                                            name="<%= Const.ParamsNames.STUDENT_EMAIL %>"
+                                                            value="">
+                                                        <input type="hidden"
+                                                            name="<%= Const.ParamsNames.RECIPIENT_TYPE %>"
+                                                            value="">
+                                                        <input type="hidden"
+                                                            name="<%= Const.ParamsNames.RECIPIENTS %>"
+                                                            value="">
                                                         <input type="hidden" 
                                                             name="<%= Const.ParamsNames.COMMENTS_SHOWCOMMENTSTO %>"
                                                             value="<%= data.removeBracketsForArrayString(comment.showCommentTo.toString()) %>">

@@ -310,6 +310,7 @@
                                                 <input type="hidden" name="<%= Const.ParamsNames.COMMENT_EDITTYPE %>" id="<%= Const.ParamsNames.COMMENT_EDITTYPE %>-<%= commentIdx %>" value="edit">
                                                 <input type="hidden" name="<%= Const.ParamsNames.COMMENT_ID %>" value="<%= comment.getCommentId() %>">
                                                 <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="<%= data.courseId %>">
+                                                <input type="hidden" name="<%= Const.ParamsNames.FROM_COMMENTS_PAGE %>" value="false">
                                                 <input type="hidden" name="<%= Const.ParamsNames.STUDENT_EMAIL %>" value="<%= data.student.email %>">
                                                 <input type="hidden" name="<%= Const.ParamsNames.RECIPIENT_TYPE %>" value="<%= comment.recipientType %>">
                                                 <input type="hidden" name="<%= Const.ParamsNames.RECIPIENTS %>" value="<%= data.removeBracketsForArrayString(comment.recipients.toString()) %>">
