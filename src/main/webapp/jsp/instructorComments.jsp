@@ -383,13 +383,18 @@
                                                                 <table class="table text-center" style="color: #000;">
                                                                     <tbody>
                                                                         <tr>
-                                                                            <th class="text-center">User/Group</th>
-                                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
+                                                                            <th class="text-center">
+                                                                                User/Group
+                                                                            </th>
+                                                                            <th class="text-center">
+                                                                                Can see your comment
+                                                                            </th>
+                                                                            <th class="text-center">
+                                                                                Can see giver's name
+                                                                            </th>
+                                                                            <th class="text-center">
+                                                                                Can see recipient's name
+                                                                            </th>
                                                                         </tr>
                                                                         <% if (comment.recipientType == CommentParticipantType.PERSON) { %>
                                                                             <tr id="recipient-person<%= commentIdx %>">
