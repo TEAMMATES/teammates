@@ -37,7 +37,7 @@ for (SessionResultsBundle sessionResult: data.results) {
                         giverIndex++; %>
                         <div class="row <%= giverIndex == 1 ? "" : "border-top-gray" %>">
                             <div class="col-md-2">
-                                <strong>From: <%= responsesReceived.getKey() %></strong>
+                                From: <strong><%= responsesReceived.getKey() %></strong>
                             </div>
                             <div class="col-md-10">
                                 <% int qnIndx = 1;
@@ -56,8 +56,8 @@ for (SessionResultsBundle sessionResult: data.results) {
                                                 <div class="pull-left text-preserve-space"><%= feedback.getResponseAnswerHtml(singleResponse, question) %></div>
                                             </div>
                                             <% List<FeedbackResponseCommentAttributes> responseComments = feedback.responseComments.get(singleResponse.getId());
-                                            if (responseComments != null) { %>
-                                                <ul class="list-group comment-list">
+                                            if (responseComments != null && responseComments.size() > 0) { %>
+                                                <ul class="list-group" id="responseCommentTable-<%= fbIndex %>-<%= giverIndex %>-<%= qnIndx %>-GRQ" style="margin-top:15px;">
                                                     <% for (FeedbackResponseCommentAttributes comment : responseComments) { %>
                                                         <li class="list-group-item list-group-item-warning" id="responseCommentRow-<%= comment.getId() %>">
                                                             <div id="commentBar-<%= comment.getId() %>">
@@ -105,8 +105,8 @@ for (SessionResultsBundle sessionResult: data.results) {
                     for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesGiven : given.entrySet()) {
                         recipientIndex++; %>
                         <div class="row <%= recipientIndex == 1 ? "" : "border-top-gray" %>">
-                            <div class="col-md-2"><strong>
-                                To: <%= responsesGiven.getKey() %></strong>
+                            <div class="col-md-2">
+                                To: <strong><%= responsesGiven.getKey() %></strong>
                             </div>
                             <div class="col-md-10">
                                 <% int qnIndx = 1;
@@ -125,16 +125,16 @@ for (SessionResultsBundle sessionResult: data.results) {
                                                 <div class="pull-left text-preserve-space"><%= singleResponse.getResponseDetails().getAnswerHtml(questionDetails) %></div>
                                             </div>
                                             <% List<FeedbackResponseCommentAttributes> responseComments = feedback.responseComments.get(singleResponse.getId());
-                                            if (responseComments != null) { %>
-                                                <ul class="list-group comment-list">
+                                            if (responseComments != null && responseComments.size() > 0) { %>
+                                                <ul class="list-group" id="responseCommentTable-<%= fbIndex %>-<%= recipientIndex %>-<%= qnIndx %>-RGQ" style="margin-top:15px;">
                                                     <% for (FeedbackResponseCommentAttributes comment : responseComments) { %>
-                                                        <li class="list-group-item list-group-item-warning" id="">
-                                                            <div id="">
+                                                        <li class="list-group-item list-group-item-warning" id="responseCommentRow-<%= comment.getId() %>">
+                                                            <div id="commentBar-<%= comment.getId() %>">
                                                                 <span class="text-muted">
                                                                     From: <%= comment.giverEmail %> [<%= comment.createdAt %>] <%= comment.getEditedAtText(comment.giverEmail.equals("Anonymous")) %>
                                                                 </span>
                                                             </div>
-                                                            <div id="" style="margin-left: 15px;">
+                                                            <div id="plainCommentText-<%= comment.getId() %>" style="margin-left: 15px;">
                                                                 <%= comment.commentText.getValue() %>
                                                             </div>
                                                         </li>

@@ -102,8 +102,12 @@ public class StudentCommentsPageData extends PageData {
                 namesStringBuilder.append("you, ");
             } else if (courseId.equals(recipient)) { 
                 namesStringBuilder.append("All Students In This Course, ");
-            } else if (student != null) {
-                namesStringBuilder.append(student.name + ", ");
+            } else if(student != null){
+                if (recipients.size() == 1) {
+                    namesStringBuilder.append(student.name + " (" + student.team + ", " + student.email + "), ");
+                } else {
+                    namesStringBuilder.append(student.name + ", ");
+                }
             } else {
                 namesStringBuilder.append(recipient + ", ");
             }
@@ -133,13 +137,8 @@ public class StudentCommentsPageData extends PageData {
             if (instructor != null) {
                 giverDetails = instructor.displayedName + " " + instructor.name;
             }
-            String lastEditorDisplay = null;
-            if (comment.lastEditorEmail != null) {
-                 InstructorAttributes lastEditor = roster.getInstructorForEmail(comment.lastEditorEmail);
-                 lastEditorDisplay = lastEditor.displayedName + " " + lastEditor.name;
-            }
             String creationTime = TimeHelper.formatDate(comment.createdAt);
-            String editedAt = comment.getEditedAtTextForStudent(giverDetails.equals("Anonymous"), lastEditorDisplay);
+            String editedAt = comment.getEditedAtText(giverDetails.equals("Anonymous"));
             
             CommentRow commentRow = 
                     new StudentCommentsCommentRow(
