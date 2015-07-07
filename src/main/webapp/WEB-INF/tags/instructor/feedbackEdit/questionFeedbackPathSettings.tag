@@ -59,7 +59,7 @@
             <div class="col-sm-6">
                 <input class="nonDestructive" type="radio"
                     name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE %>"
-                    <c:if test="isNumberOfEntitiesToGiveFeedbackToChecked">checked="checked"</c:if>
+                    <c:if test="${fqForm.feedbackPathSettings.numberOfEntitiesToGiveFeedbackToChecked}">checked="checked"</c:if>
                     value="custom" <c:if test="${!fqForm.editable}">disabled="disabled"</c:if>>
                 <input class="nonDestructive numberOfEntitiesBox" type="number"
                     name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIES %>"
@@ -70,7 +70,7 @@
             <div class="col-sm-6">
                 <input class="nonDestructive" type="radio"
                     name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBEROFENTITIESTYPE %>"
-                    <c:if test="${!isNumberOfEntitiesToGiveFeedbackToChecked}">checked="checked"</c:if>
+                    <c:if test="${!fqForm.feedbackPathSettings.numberOfEntitiesToGiveFeedbackToChecked}">checked="checked"</c:if>
                     value="max" <c:if test="${!fqForm.editable}">disabled="disabled"</c:if>>
                 <span class="">Unlimited</span>
             </div>

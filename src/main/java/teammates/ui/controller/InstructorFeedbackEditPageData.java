@@ -84,6 +84,10 @@ public class InstructorFeedbackEditPageData extends PageData {
         fsForm = FeedbackSessionsForm.getFsFormForExistingFs(fsa, additionalSettings, 
                                                              fsDeleteLink, copyToLink);
     }
+    
+    private FeedbackSessionsAdditionalSettingsFormSegment buildFsFormAdditionalSettings(FeedbackSessionAttributes newFeedbackSession) {
+        return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(this, newFeedbackSession); 
+    }   
 
 
     private void buildCopyQnForm(FeedbackSessionAttributes feedbackSession,
@@ -131,6 +135,12 @@ public class InstructorFeedbackEditPageData extends PageData {
         FeedbackQuestionFeedbackPathSettings feedbackPathSettings = new FeedbackQuestionFeedbackPathSettings();
         feedbackPathSettings.setGiverParticipantOptions(getParticipantOptions(question, true));
         feedbackPathSettings.setRecipientParticipantOptions(getParticipantOptions(question, false));
+        
+        boolean isNumberOfEntitiesToGiveFeedbackToChecked = question.numberOfEntitiesToGiveFeedbackTo != Const.MAX_POSSIBLE_RECIPIENTS;
+        feedbackPathSettings.setNumberOfEntitiesToGiveFeedbackToChecked(isNumberOfEntitiesToGiveFeedbackToChecked);
+        feedbackPathSettings.setNumOfEntitiesToGiveFeedbackToValue(isNumberOfEntitiesToGiveFeedbackToChecked
+                                                                   ?  question.numberOfEntitiesToGiveFeedbackTo
+                                                                   :  1);
         qnForm.setFeedbackPathSettings(feedbackPathSettings);
         
         
@@ -156,11 +166,6 @@ public class InstructorFeedbackEditPageData extends PageData {
                                                                         isRecipientNameVisibleFor);
         qnForm.setVisibilitySettings(visibilitySettings);
         
-        boolean isNumberOfEntitiesToGiveFeedbackToChecked = question.numberOfEntitiesToGiveFeedbackTo == Const.MAX_POSSIBLE_RECIPIENTS;
-        feedbackPathSettings.setNumberOfEntitiesToGiveFeedbackToChecked(isNumberOfEntitiesToGiveFeedbackToChecked);
-        feedbackPathSettings.setNumOfEntitiesToGiveFeedbackToValue(isNumberOfEntitiesToGiveFeedbackToChecked
-                                                                   ?  1 
-                                                                   :  question.numberOfEntitiesToGiveFeedbackTo);
         qnForm.setQuestionHasResponses(questionHasResponses.get(question.getId()));
         
         qnForm.setQuestionSpecificEditFormHtml(question.getQuestionDetails().getQuestionSpecificEditFormHtml(question.questionNumber));
@@ -214,12 +219,6 @@ public class InstructorFeedbackEditPageData extends PageData {
         return result;
     }
 
-    
-    
-    private FeedbackSessionsAdditionalSettingsFormSegment buildFsFormAdditionalSettings(FeedbackSessionAttributes newFeedbackSession) {
-        
-        return FeedbackSessionsAdditionalSettingsFormSegment.getFormSegmentWithExistingValues(this, newFeedbackSession); 
-    }   
     
     private List<ElementTag> getQuestionNumberOptions(int numQuestions) {
         List<ElementTag> options = new ArrayList<ElementTag>();
