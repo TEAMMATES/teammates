@@ -32,7 +32,19 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
         return frc;
     }
 
-    public String getCommentId() {
-        return commentId;
+    public String getCommentIdFirstIndex() {
+        return commentId.split("-")[0];
+    }
+
+    public String getCommentIdSecondIndex() {
+        return commentId.split("-")[1];
+    }
+
+    public String getCommentIdThirdIndex() {
+        return commentId.split("-")[2];
+    }
+
+    public String getCommentIdFrcIndex() {
+        return commentId.split("-")[3];
     }
 }
