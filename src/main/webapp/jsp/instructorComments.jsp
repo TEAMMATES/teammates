@@ -293,7 +293,7 @@
                                             style="display: none;" 
                                         <% } %>>
                                         <div class="panel-heading">
-                                            From <b><%= data.getGiverName(giverEmail) %></b>
+                                            From <b><%= data.getGiverName(giverEmail) %> (<%= data.courseId %>)</b>
                                         </div>
                                         <ul class="list-group comments">
                                             <%
@@ -311,8 +311,8 @@
                                                         id="form_commentedit-<%= commentIdx %>">
                                                         <div id="commentBar-<%= commentIdx %>">
                                                             
-                                                            <span class="text-muted">To <%= data.getRecipientNames(comment.recipients) %> on
-                                                <%= TimeHelper.formatTime(comment.createdAt) %> <%= comment.getEditedAtTextForInstructor(data.getGiverName(giverEmail).equals("Anonymous")) %>
+                                                            <span class="text-muted">To <%= data.getRecipientNames(comment.recipients) %> 
+                                                [<%= Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt) %>] <%= comment.getEditedAtText(data.getGiverName(giverEmail).equals("Anonymous")) %>
                                                             </span>
                                                             <%
                                                                 if (comment.giverEmail.equals(data.instructorEmail)

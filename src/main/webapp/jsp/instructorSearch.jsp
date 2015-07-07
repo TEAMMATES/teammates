@@ -117,7 +117,7 @@
                             From <b><%=data.commentSearchResultBundle.giverTable.get(giverEmailPlusCourseId)%></b>
                         </div>
                         <ul class="list-group comments">
-                            <%
+                            <% 
                                 for (CommentAttributes comment : data.commentSearchResultBundle.giverCommentTable.get(giverEmailPlusCourseId)) {
                                     String recipientDisplay = data.commentSearchResultBundle.recipientTable.get(comment.getCommentId().toString());
                                     commentIdx++;
@@ -125,8 +125,8 @@
                             <li class="list-group-item list-group-item-warning"
                                 class="form_comment" id="form_commentedit-<%=commentIdx%>">
                                 <div id="commentBar-<%=commentIdx%>">
-                                    <span class="text-muted">To <b><%=recipientDisplay%></b> on
-                                        <%=TimeHelper.formatTime(comment.createdAt)%></span>
+                                    <span class="text-muted">To <b><%=recipientDisplay%></b> 
+                                        [<%= Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt) %>] <%= comment.getEditedAtText(data.commentSearchResultBundle.giverTable.get(giverEmailPlusCourseId).equals("Anonymous" + " (" + comment.courseId + ")")) %></span>
                                     <a type="button" href="<%=data.getInstructorCommentsLink() + "&" + Const.ParamsNames.COURSE_ID 
                                     + "=" + comment.courseId + "#" + comment.getCommentId()%>" target="_blank" class="btn btn-default btn-xs icon-button pull-right"
                                     data-toggle="tooltip" data-placement="top" data-original-title="Edit comment in the Comments page" style="display:none;">

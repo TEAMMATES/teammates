@@ -64,8 +64,7 @@ public class InstructorCommentsPageData extends PageData {
                 namesStringBuilder.append("<b>All students in this course</b>, ");
             } else if (student != null) {
                 if (recipients.size() == 1) {
-                    namesStringBuilder.append("<b>" + student.name + "</b>" 
-                            + " (" + student.team + ", <a href=\"mailto:" + student.email + "\">" + student.email + "</a>), ");
+                    namesStringBuilder.append("<b>" + student.name + " (" + student.team + ", " + student.email + ")</b>, ");
                 } else {
                     namesStringBuilder.append("<b>" + student.name + "</b>" + ", ");
                 }
