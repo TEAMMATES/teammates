@@ -1,16 +1,16 @@
 package teammates.ui.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -40,6 +40,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
         FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
+        FeedbackQuestionAttributes question = logic.getFeedbackQuestion(feedbackQuestionId);
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         Assumption.assertNotNull(response);
         boolean isCreatorOnly = true;
@@ -52,6 +53,18 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         InstructorFeedbackResponseCommentAjaxPageData data = 
                 new InstructorFeedbackResponseCommentAjaxPageData(account);
         
+        String giverEmail = response.giverEmail;
+        String recipientEmail = response.recipientEmail;
+        FeedbackSessionResultsBundle bundle = logic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, instructor.email);
+
+        String giverName = bundle.getGiverNameForResponse(question, response);
+        String giverTeamName = bundle.getTeamNameForEmail(giverEmail);
+        data.giverName = bundle.appendTeamNameToName(giverName, giverTeamName);
+
+        String recipientName = bundle.getRecipientNameForResponse(question, response);
+        String recipientTeamName = bundle.getTeamNameForEmail(recipientEmail);
+        data.recipientName = bundle.appendTeamNameToName(recipientName, recipientTeamName);
+
         //Set up comment text
         String commentText = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_TEXT);
         Assumption.assertNotNull("null comment text", commentText);
@@ -108,10 +121,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         }
         
         data.comment = createdComment;
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz YYYY");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         data.commentId = commentId;
-        data.commentTime = sdf.format(createdComment.createdAt);
         data.showCommentToString = joinParticipantTypes(createdComment.showCommentTo, ",");
         data.showGiverNameToString = joinParticipantTypes(createdComment.showGiverNameTo, ",");
         

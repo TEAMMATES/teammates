@@ -323,11 +323,7 @@ public class PageData {
      * @return "Yet to Join" or "Joined"
      */
     public String getStudentStatus(StudentAttributes student) {
-        if (student.googleId == null || student.googleId.equals("")) {
-            return Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
-        } else {
-            return Const.STUDENT_COURSE_STATUS_JOINED;
-        }
+        return student.getStudentStatus();
     }
     
     /**
@@ -912,6 +908,16 @@ public class PageData {
             return getResponseCommentGiverNameVisibilityString(qn);
         } else {
             return removeBracketsForArrayString(frComment.showGiverNameTo.toString());
+        }
+    }
+    
+    public String getPictureUrl(String pictureKey) {
+        if (pictureKey == null || pictureKey.isEmpty()) {
+            return Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
+        } else {
+            return Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?"
+                   + Const.ParamsNames.BLOB_KEY + "=" + pictureKey + "&"
+                   + Const.ParamsNames.USER_ID + "=" + account.googleId;
         }
     }
     

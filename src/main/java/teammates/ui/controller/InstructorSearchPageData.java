@@ -271,13 +271,17 @@ public class InstructorSearchPageData extends PageData {
         for (FeedbackResponseCommentAttributes frc : frcList) {
             String frCommentGiver = frcSearchResultBundle
                                             .commentGiverTable.get(frc.getId().toString());
-            String creationTime = TimeHelper.formatTime(frc.createdAt);         
+            if (!frCommentGiver.equals("Anonymous")) {
+                frCommentGiver = frc.giverEmail;
+            }
+            String creationTime = frc.createdAt.toString();         
             String link = getInstructorCommentsLink() + "&" + Const.ParamsNames.COURSE_ID + "=" 
                               + frc.courseId + "#" + frc.getId();         
+            String editedAtText = frc.getEditedAtText(frCommentGiver.equals("Anonymous"));
             ElementTag editButton = createEditButton(link, Const.Tooltips.COMMENT_EDIT_IN_COMMENTS_PAGE);
             
             rows.add(new FeedbackResponseCommentRow(frCommentGiver, frc.commentText.getValue(), 
-                                                        creationTime, editButton));
+                                                    creationTime, editButton, editedAtText));
         } 
         return rows;
     }
