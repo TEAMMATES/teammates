@@ -83,4 +83,7 @@ public class FeedbackResponseComment {
         return editDeleteEnabled;
     }
 
+    public void setEditDeleteEnabled(boolean isSettable) {
+        this.editDeleteEnabled = isSettable;
+    }
 }
