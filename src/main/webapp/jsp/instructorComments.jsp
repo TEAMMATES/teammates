@@ -571,26 +571,26 @@
                                                             </div>
                                                         </div>
                                                         <input type="hidden"
-                                                            name=<%= Const.ParamsNames.COMMENT_EDITTYPE %>
+                                                            name="<%= Const.ParamsNames.COMMENT_EDITTYPE %>"
                                                             id="<%= Const.ParamsNames.COMMENT_EDITTYPE %>-<%= commentIdx %>"
                                                             value="edit">
                                                         <input type="hidden"
-                                                            name=<%= Const.ParamsNames.COMMENT_ID %>
+                                                            name="<%= Const.ParamsNames.COMMENT_ID %>"
                                                             value="<%= comment.getCommentId() %>">
                                                         <input type="hidden"
-                                                            name=<%= Const.ParamsNames.COURSE_ID %>
+                                                            name="<%= Const.ParamsNames.COURSE_ID %>"
                                                             value="<%= data.courseId %>">
                                                         <input type="hidden"
-                                                            name=<%= Const.ParamsNames.FROM_COMMENTS_PAGE %>
+                                                            name="<%= Const.ParamsNames.FROM_COMMENTS_PAGE %>"
                                                             value="true"> 
                                                         <input type="hidden" 
-                                                            name=<%= Const.ParamsNames.COMMENTS_SHOWCOMMENTSTO %> 
+                                                            name="<%= Const.ParamsNames.COMMENTS_SHOWCOMMENTSTO %>"
                                                             value="<%= data.removeBracketsForArrayString(comment.showCommentTo.toString()) %>">
                                                         <input type="hidden" 
-                                                            name=<%= Const.ParamsNames.COMMENTS_SHOWGIVERTO %> 
+                                                            name="<%= Const.ParamsNames.COMMENTS_SHOWGIVERTO %>"
                                                             value="<%= data.removeBracketsForArrayString(comment.showGiverNameTo.toString()) %>">
                                                         <input type="hidden" 
-                                                            name=<%= Const.ParamsNames.COMMENTS_SHOWRECIPIENTTO %> 
+                                                            name="<%= Const.ParamsNames.COMMENTS_SHOWRECIPIENTTO %>"
                                                             value="<%= data.removeBracketsForArrayString(comment.showRecipientNameTo.toString()) %>">
                                                         <input type="hidden"
                                                             name="<%= Const.ParamsNames.USER_ID %>"

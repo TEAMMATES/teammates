@@ -307,15 +307,15 @@
                                                         <input type="button" class="btn btn-default" value="Cancel" onclick="return disableComment('<%= commentIdx %>');">
                                                     </div>
                                                 </div>
-                                                <input type="hidden" name=<%= Const.ParamsNames.COMMENT_EDITTYPE %> id="<%= Const.ParamsNames.COMMENT_EDITTYPE %>-<%= commentIdx %>" value="edit">
-                                                <input type="hidden" name=<%= Const.ParamsNames.COMMENT_ID %> value="<%= comment.getCommentId() %>">
-                                                <input type="hidden" name=<%= Const.ParamsNames.COURSE_ID %> value="<%= data.courseId %>">
-                                                <input type="hidden" name=<%= Const.ParamsNames.STUDENT_EMAIL %> value="<%= data.student.email %>">
-                                                <input type="hidden" name=<%= Const.ParamsNames.RECIPIENT_TYPE %> value="<%= comment.recipientType %>">
-                                                <input type="hidden" name=<%= Const.ParamsNames.RECIPIENTS %> value="<%= data.removeBracketsForArrayString(comment.recipients.toString()) %>">
-                                                <input type="hidden" name=<%= Const.ParamsNames.COMMENTS_SHOWCOMMENTSTO %> value="<%= data.removeBracketsForArrayString(comment.showCommentTo.toString()) %>">
-                                                <input type="hidden" name=<%= Const.ParamsNames.COMMENTS_SHOWGIVERTO %> value="<%= data.removeBracketsForArrayString(comment.showGiverNameTo.toString()) %>">
-                                                <input type="hidden" name=<%= Const.ParamsNames.COMMENTS_SHOWRECIPIENTTO %> value="<%= data.removeBracketsForArrayString(comment.showRecipientNameTo.toString()) %>">
+                                                <input type="hidden" name="<%= Const.ParamsNames.COMMENT_EDITTYPE %>" id="<%= Const.ParamsNames.COMMENT_EDITTYPE %>-<%= commentIdx %>" value="edit">
+                                                <input type="hidden" name="<%= Const.ParamsNames.COMMENT_ID %>" value="<%= comment.getCommentId() %>">
+                                                <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="<%= data.courseId %>">
+                                                <input type="hidden" name="<%= Const.ParamsNames.STUDENT_EMAIL %>" value="<%= data.student.email %>">
+                                                <input type="hidden" name="<%= Const.ParamsNames.RECIPIENT_TYPE %>" value="<%= comment.recipientType %>">
+                                                <input type="hidden" name="<%= Const.ParamsNames.RECIPIENTS %>" value="<%= data.removeBracketsForArrayString(comment.recipients.toString()) %>">
+                                                <input type="hidden" name="<%= Const.ParamsNames.COMMENTS_SHOWCOMMENTSTO %>" value="<%= data.removeBracketsForArrayString(comment.showCommentTo.toString()) %>">
+                                                <input type="hidden" name="<%= Const.ParamsNames.COMMENTS_SHOWGIVERTO %>" value="<%= data.removeBracketsForArrayString(comment.showGiverNameTo.toString()) %>">
+                                                <input type="hidden" name="<%= Const.ParamsNames.COMMENTS_SHOWRECIPIENTTO %>" value="<%= data.removeBracketsForArrayString(comment.showRecipientNameTo.toString()) %>">
                                                 <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="<%= data.account.googleId %>">
                                             </form>
                                         </li>
