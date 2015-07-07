@@ -19,6 +19,7 @@ import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.ui.template.CommentRow;
 import teammates.ui.template.ElementTag;
+import teammates.ui.template.FeedbackResponseComment;
 import teammates.ui.template.FeedbackResponseCommentRow;
 import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.QuestionTable;
@@ -260,11 +261,11 @@ public class InstructorSearchPageData extends PageData {
         return rows;
     }
     
-    private List<FeedbackResponseCommentRow> createFeedbackResponseCommentRows(
+    private List<FeedbackResponseComment> createFeedbackResponseCommentRows(
                                     FeedbackResponseAttributes responseEntry,
                                     FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
         
-        List<FeedbackResponseCommentRow> rows = new ArrayList<FeedbackResponseCommentRow>();
+        List<FeedbackResponseComment> rows = new ArrayList<FeedbackResponseComment>();
         List<FeedbackResponseCommentAttributes> frcList = frcSearchResultBundle
                                                               .comments.get(responseEntry.getId());
         
@@ -280,8 +281,10 @@ public class InstructorSearchPageData extends PageData {
             String editedAtText = frc.getEditedAtText(frCommentGiver.equals("Anonymous"));
             ElementTag editButton = createEditButton(link, Const.Tooltips.COMMENT_EDIT_IN_COMMENTS_PAGE);
             
-            rows.add(new FeedbackResponseCommentRow(frCommentGiver, frc.commentText.getValue(), 
-                                                    creationTime, editButton, editedAtText));
+            FeedbackResponseComment frcDiv = new FeedbackResponseComment(frc, frCommentGiver);
+            frcDiv.setLinkToCommentsPage(link);
+            
+            rows.add(frcDiv);
         } 
         return rows;
     }
