@@ -8,13 +8,19 @@ import org.testng.annotations.Test;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertNull;
+import static org.testng.AssertJUnit.assertTrue;
+import static org.testng.AssertJUnit.assertFalse;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.util.Const;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.InstructorCourseEditPageData;
+import teammates.ui.template.CourseEditInstructorPanel;
+import teammates.ui.template.CourseEditSectionRow;
 
 public class InstructorCourseEditPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
@@ -35,6 +41,8 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
         instructorList.add(dataBundle.instructors.get("instructor1OfCourse1"));
         instructorList.add(dataBundle.instructors.get("instructor2OfCourse1"));
         instructorList.add(dataBundle.instructors.get("helperOfCourse1"));
+        instructorList.add(dataBundle.instructors.get("instructorNotYetJoinCourse1"));
+        
         
         InstructorAttributes currentInstructor = dataBundle.instructors.get("instructor1OfCourse1");
         
@@ -58,23 +66,82 @@ public class InstructorCourseEditPageDataTest extends BaseTestCase {
                                                                                  offset, sectionNames, 
                                                                                  feedbackSessionNames);
         
+        assertEquals("idOfTypicalCourse1", pageData.getCourse().id);
+        assertEquals(-1, pageData.getInstructorToShowIndex());
         assertNotNull(pageData.getDeleteCourseButton());
         assertNotNull(pageData.getAddInstructorButton());
         
         assertNotNull(pageData.getInstructorPanelList());
         assertEquals(instructorList.size(), pageData.getInstructorPanelList().size());
-        assertEquals(4, pageData.getInstructorPanelList().get(0).getPermissionInputGroup1().size());
-        assertEquals(4, pageData.getInstructorPanelList().get(0).getPermissionInputGroup2().size());
-        assertEquals(3, pageData.getInstructorPanelList().get(0).getPermissionInputGroup3().size());
-        assertEquals(sectionNames.size(), pageData.getInstructorPanelList().get(0).getSectionRows().size());
-        assertEquals(feedbackSessionNames.size(), pageData.getInstructorPanelList().get(0).getSectionRows().get(0).getFeedbackSessions().size());
+        
+        CourseEditInstructorPanel panel = pageData.getInstructorPanelList().get(0);
+        assertEquals(4, panel.getPermissionInputGroup1().size());
+        assertEquals(4, panel.getPermissionInputGroup2().size());
+        assertEquals(3, panel.getPermissionInputGroup3().size());
+        assertEquals("idOfInstructor1OfCourse1", panel.getInstructor().googleId);
+        assertNotNull(panel.getDeleteButton());
+        assertNotNull(panel.getEditButton());
+        assertNull(panel.getResendInviteButton());
+        assertEquals(sectionNames.size(), panel.getSectionRows().size());
+        CourseEditSectionRow sectionRow = panel.getSectionRows().get(0);
+        assertEquals(4, sectionRow.getPermissionInputGroup2().size());
+        assertEquals(3, sectionRow.getPermissionInputGroup3().size());
+        assertEquals(feedbackSessionNames.size(), sectionRow.getFeedbackSessions().size());
+        assertNotNull(sectionRow.getToggleSessionLevelInSectionButton());
+        assertFalse(sectionRow.isSectionSpecial());
+        assertEquals((sectionNames.size() - 1) / 3 + 1, sectionRow.getSpecialSections().size());
         
         assertNotNull(pageData.getAddInstructorPanel());
-        assertEquals(4, pageData.getAddInstructorPanel().getPermissionInputGroup1().size());
-        assertEquals(4, pageData.getAddInstructorPanel().getPermissionInputGroup2().size());
-        assertEquals(3, pageData.getAddInstructorPanel().getPermissionInputGroup3().size());
-        assertEquals(sectionNames.size(), pageData.getAddInstructorPanel().getSectionRows().size());
-        assertEquals(feedbackSessionNames.size(), pageData.getAddInstructorPanel().getSectionRows().get(0).getFeedbackSessions().size());
+        CourseEditInstructorPanel addInstructorPanel = pageData.getAddInstructorPanel();
+        assertEquals(4, addInstructorPanel.getPermissionInputGroup1().size());
+        assertEquals(4, addInstructorPanel.getPermissionInputGroup2().size());
+        assertEquals(3, addInstructorPanel.getPermissionInputGroup3().size());
+        assertEquals(sectionNames.size(), addInstructorPanel.getSectionRows().size());
+        sectionRow = addInstructorPanel.getSectionRows().get(0);
+        assertEquals(feedbackSessionNames.size(), sectionRow.getFeedbackSessions().size());
+        
+        ______TS("test case when current instructor has no privilege");
+        
+        String[] privileges = {Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE,
+                               Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR,
+                               Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
+                               Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS,
+                               Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS};
+        
+        for (String privilege : privileges) {
+            currentInstructor.privileges.updatePrivilege(privilege, false);
+        }
+        
+        pageData = new InstructorCourseEditPageData(account, course, instructorList, currentInstructor,
+                                                    offset, sectionNames, feedbackSessionNames);
+        assertEquals("disabled", pageData.getDeleteCourseButton().getAttributes().get("disabled"));
+        assertEquals("disabled", pageData.getAddInstructorButton().getAttributes().get("disabled"));
+        
+        ______TS("test showing only one instructor");
+        offset = 1;
+        pageData = new InstructorCourseEditPageData(account, course, instructorList, currentInstructor,
+                                                    offset, sectionNames, feedbackSessionNames);
+        assertNotNull(pageData.getAddInstructorPanel());
+        assertTrue(pageData.getInstructorPanelList().get(0).isAccessControlDisplayed());
+        
+        ______TS("test specialSection");
+        InstructorAttributes instructor = instructorList.get(0);
+        instructor.privileges.addSessionWithDefaultPrivileges("Section 1", "First feedback session");
+        
+        
+        pageData = new InstructorCourseEditPageData(account, course, instructorList, currentInstructor,
+                                                    offset, sectionNames, feedbackSessionNames);
+        
+        ______TS("test empty sectionNames");
+        sectionNames = new ArrayList<String>();
+        pageData = new InstructorCourseEditPageData(account, course, instructorList, currentInstructor,
+                                                    offset, sectionNames, feedbackSessionNames);
+        assertNotNull(pageData.getAddInstructorPanel());
+        panel = pageData.getInstructorPanelList().get(0);
+        assertEquals("display: none;", panel.getAddSectionLevelForInstructorButton().getAttributes()
+                                                                                        .get("style"));
+        
+        
         
     }
 }

@@ -37,12 +37,11 @@ public class CourseEditSectionRow {
         }
         
         String id = "toggleSessionLevelInSection" + sectionIndex + "ForInstructor" + instructorIndex;
-        toggleSessionLevelInSectionButton = createButton(content, "small col-sm-5", id, "javascript:;", null,
-                                                         onClick, false);
+        toggleSessionLevelInSectionButton = createButton(content, "small col-sm-5", id, "javascript:;", onClick);
         
         String[] privileges = {Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
-                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS,
-                                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS};
+                               Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS,
+                               Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS};
         
         for (String feedbackName : feedbackNames) {
             List<ElementTag> checkBoxList = new ArrayList<ElementTag>();
@@ -162,8 +161,7 @@ public class CourseEditSectionRow {
         return result;
     }
     
-    private ElementTag createButton(String content, String buttonClass, String id, String href, 
-                                    String title, String onClick, boolean isDisabled) {
+    private ElementTag createButton(String content, String buttonClass, String id, String href, String onClick) {
         ElementTag button = new ElementTag(content);
         
         if (buttonClass != null) {
@@ -178,19 +176,10 @@ public class CourseEditSectionRow {
             button.setAttribute("href", href);
         }
         
-        if (title != null) {
-            button.setAttribute("title", title);
-            button.setAttribute("data-toggle", "tooltip");
-            button.setAttribute("data-placement", "top");
-        }
-        
         if (onClick != null) {
             button.setAttribute("onclick", onClick);
         }
         
-        if (isDisabled) {
-            button.setAttribute("disabled", "disabled");
-        }
         return button;
     }
 }
