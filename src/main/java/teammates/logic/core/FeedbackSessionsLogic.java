@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.mail.internet.MimeMessage;
+
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -1373,6 +1375,54 @@ public class FeedbackSessionsLogic {
 
         updateFeedbackSession(sessionToUnpublish);
     }
+    
+    public List<MimeMessage> sendReminderForFeedbackSessionWithoutSendgrid(String courseId,
+                                    String feedbackSessionName) throws EntityDoesNotExistException {
+        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
+            throw new EntityDoesNotExistException(
+                    "Trying to remind non-existent feedback session "
+                            + courseId + "/" + feedbackSessionName);
+        }
+
+        FeedbackSessionAttributes session = getFeedbackSession(
+                feedbackSessionName, courseId);
+        List<StudentAttributes> studentList = studentsLogic
+                .getStudentsForCourse(courseId);
+        List<InstructorAttributes> instructorList = instructorsLogic
+                .getInstructorsForCourse(courseId);
+
+        // Filter out students who have submitted the feedback session
+        List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
+        for (StudentAttributes student : studentList) {
+            if (!isFeedbackSessionCompletedByStudent(session, student.email)) {
+                studentsToRemindList.add(student);
+            }
+        }
+
+        // Filter out instructors who have submitted the feedback session
+        List<InstructorAttributes> instructorsToRemindList = new ArrayList<InstructorAttributes>();
+        for (InstructorAttributes instructor : instructorList) {
+            if (!isFeedbackSessionCompletedByInstructor(
+                    session.feedbackSessionName, session.courseId,
+                    instructor.email)) {
+                instructorsToRemindList.add(instructor);
+            }
+        }
+
+        CourseAttributes course = coursesLogic.getCourse(courseId);
+        List<MimeMessage> emails;
+        Emails emailMgr = new Emails();
+        try {
+            emails = emailMgr.generateFeedbackSessionReminderEmailsWithoutSendgrid(course,
+                    session, studentsToRemindList, instructorsToRemindList,
+                    instructorList);
+            emailMgr.sendEmailsWithoutSendgrid(emails);
+        } catch (Exception e) {
+            throw new RuntimeException("Error while sending emails :", e);
+        }
+
+        return emails;
+    }
 
     public List<Sendgrid> sendReminderForFeedbackSession(String courseId,
             String feedbackSessionName) throws EntityDoesNotExistException {
@@ -1415,6 +1465,51 @@ public class FeedbackSessionsLogic {
                     session, studentsToRemindList, instructorsToRemindList,
                     instructorList);
             emailMgr.sendEmails(emails);
+        } catch (Exception e) {
+            throw new RuntimeException("Error while sending emails :", e);
+        }
+
+        return emails;
+    }
+
+    public List<MimeMessage> sendReminderForFeedbackSessionParticularUsersWithoutSendgrid(String courseId,
+                                    String feedbackSessionName, String[] usersToRemind) throws EntityDoesNotExistException {
+        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
+            throw new EntityDoesNotExistException(
+                    "Trying to remind non-existent feedback session "
+                            + courseId + "/" + feedbackSessionName);
+        }
+
+        FeedbackSessionAttributes session = getFeedbackSession(
+                feedbackSessionName, courseId);
+        
+        List<InstructorAttributes> instructorList = instructorsLogic
+                .getInstructorsForCourse(courseId);
+        List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
+        List<InstructorAttributes> instructorsToRemindList = new ArrayList<InstructorAttributes>();
+
+        for (String userEmail : usersToRemind) {
+            StudentAttributes student = studentsLogic
+                    .getStudentForEmail(courseId, userEmail);
+            if (student != null) {
+                studentsToRemindList.add(student);
+            }
+
+            InstructorAttributes instructor = instructorsLogic
+                    .getInstructorForEmail(courseId, userEmail);
+            if (instructor != null) {
+                instructorsToRemindList.add(instructor);
+            }
+        }
+
+        CourseAttributes course = coursesLogic.getCourse(courseId);
+        List<MimeMessage> emails;
+        Emails emailMgr = new Emails();
+        try {
+            emails = emailMgr.generateFeedbackSessionReminderEmailsWithoutSendgrid(course,
+                    session, studentsToRemindList, instructorsToRemindList,
+                    instructorList);
+            emailMgr.sendEmailsWithoutSendgrid(emails);
         } catch (Exception e) {
             throw new RuntimeException("Error while sending emails :", e);
         }
