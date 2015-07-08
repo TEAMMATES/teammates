@@ -18,7 +18,7 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID); 
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String moderatedEntityIdentifier = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_STUDENT);
         String moderatedQuestionNumber = getRequestParamValue("moderatedquestion");
@@ -68,13 +68,13 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         
         Assumption.assertNotNull(data.bundle);
         
-        data.isSessionOpenForSubmission = true;
-        data.isModeration = true;
-        data.isHeaderHidden = true;
-        data.studentToViewPageAs = studentUnderModeration;
+        data.setSessionOpenForSubmission(true);
+        data.setModeration(true);
+        data.setHeaderHidden(true);
+        data.setStudentToViewPageAs(studentUnderModeration);
         
         if (moderatedQuestionNumber != null) {
-          data.moderatedQuestion = moderatedQuestionNumber;
+          data.setModeratedQuestion(moderatedQuestionNumber);
         }
         
         hideQuestionsWithAnonymousResponses(data.bundle);
@@ -82,6 +82,8 @@ public class InstructorEditStudentFeedbackPageAction extends Action {
         statusToAdmin = "Moderating feedback session for student (" + studentUnderModeration.email + ")<br>" +
                 "Session Name: " + feedbackSessionName + "<br>" +
                 "Course ID: " + courseId;
+        
+        data.init("", "", courseId);
         
         return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT, data);
     }

@@ -1,8 +1,10 @@
 package teammates.common.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 
 /**
@@ -29,6 +31,12 @@ public class Const {
         
         /** e.g. "2014-04-01 11:59 PM UTC" */
         public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
+        /** Used for formatting date times for comments */
+        public static final SimpleDateFormat COMMENTS_SIMPLE_DATE_FORMATTER =
+                new SimpleDateFormat("EEE, dd MMM YYYY, HH:mm:ss zzz");
+        static {
+            COMMENTS_SIMPLE_DATE_FORMATTER.setTimeZone(TimeZone.getTimeZone("UTC"));
+        }
         /** Number to trim the Google ID when displaying to the user*/
         public static final int USER_ID_MAX_DISPLAY_LENGTH = 23;
         /** Maximum number to do Batching puts/delete documents from a index in the appengine  */
@@ -280,6 +288,7 @@ public class Const {
         
         public static final String COURSE_ID = "courseid";
         public static final String COURSE_NAME = "coursename";
+        public static final String COURSE_INDEX = "courseidx";
         public static final String COURSE_EDIT_MAIN_INDEX = "courseeditmainindex";
         public static final String INSTRUCTOR_SHORT_NAME = "instructorshortname";
         public static final String INSTRUCTOR_ID = "instructorid";
@@ -573,6 +582,7 @@ public class Const {
         public static final String INSTRUCTOR_STUDENT_LIST_AJAX_PAGE = "/page/instructorStudentListAjaxPage"; 
 
         public static final String INSTRUCTOR_STUDENT_RECORDS_PAGE = "/page/instructorStudentRecordsPage";
+        public static final String INSTRUCTOR_STUDENT_RECORDS_AJAX_PAGE = "/page/instructorStudentRecordsAjaxPage";
         public static final String INSTRUCTOR_STUDENT_COMMENT_ADD = "/page/instructorStudentCommentAdd";
         public static final String INSTRUCTOR_STUDENT_COMMENT_EDIT = "/page/instructorStudentCommentEdit";
         public static final String INSTRUCTOR_STUDENT_COMMENT_CLEAR_PENDING = "/page/instructorStudentCommentClearPending";
@@ -708,6 +718,7 @@ public class Const {
     
         public static final String INSTRUCTOR_HOME = "/jsp/instructorHome.jsp";
         public static final String INSTRUCTOR_COMMENTS = "/jsp/instructorComments.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD = "/jsp/instructorFeedbackResponseCommentsAdd.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_LOAD = "/jsp/instructorFeedbackResponseCommentsLoad.jsp";
         public static final String INSTRUCTOR_COURSES = "/jsp/instructorCourses.jsp"; 
         public static final String INSTRUCTOR_COURSE_EDIT = "/jsp/instructorCourseEdit.jsp"; 
@@ -718,6 +729,8 @@ public class Const {
         public static final String INSTRUCTOR_COURSE_ENROLL_RESULT = "/jsp/instructorCourseEnrollResult.jsp";
         public static final String INSTRUCTOR_COURSE_JOIN_CONFIRMATION = "/jsp/instructorCourseJoinConfirmation.jsp";
         public static final String INSTRUCTOR_FEEDBACKS = "/jsp/instructorFeedbacks.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_COPY_MODAL = "/jsp/instructorFeedbackCopyModal.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_AJAX_REMIND_PARTICULAR_STUDENTS_MODAL = "/jsp/instructorFeedbackAjaxRemindParticularStudentsModal.jsp";
         public static final String INSTRUCTOR_FEEDBACK_EDIT = "/jsp/instructorFeedbackEdit.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_TOP = "/jsp/instructorFeedbackResultsTop.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BOTTOM = "/jsp/instructorFeedbackResultsBottom.jsp";
@@ -728,10 +741,11 @@ public class Const {
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION = "/jsp/instructorFeedbackResultsByQuestion.jsp"; 
         public static final String INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT = "/jsp/instructorFeedbackSubmissionEdit.jsp"; 
         public static final String INSTRUCTOR_FEEDBACK_QUESTION_SUBMISSION_EDIT = "/jsp/instructorFeedbackQuestionSubmissionEdit.jsp"; 
-        public static final String INSTRUCTOR_FEEDBACK_STATS = "/jsp/instructorFeedbackStats.jsp";
         public static final String INSTRUCTOR_SEARCH = "/jsp/instructorSearch.jsp";
         public static final String INSTRUCTOR_STUDENT_LIST = "/jsp/instructorStudentList.jsp";
+        public static final String INSTRUCTOR_STUDENT_LIST_AJAX = "/jsp/instructorStudentListAjax.jsp";
         public static final String INSTRUCTOR_STUDENT_RECORDS = "/jsp/instructorStudentRecords.jsp";
+        public static final String INSTRUCTOR_STUDENT_RECORDS_AJAX = "/jsp/instructorStudentRecordsAjax.jsp";
         
         public static final String STUDENT_HOME = "/jsp/studentHome.jsp";
         public static final String STUDENT_COURSE_JOIN_CONFIRMATION = "/jsp/studentCourseJoinConfirmation.jsp";
@@ -760,8 +774,7 @@ public class Const {
         public static final String ERROR_PAGE = "/errorPage.jsp"; 
         public static final String DEADLINE_EXCEEDED_ERROR_PAGE = "/deadlineExceededErrorPage.jsp"; 
         public static final String ENTITY_NOT_FOUND_PAGE = "/entityNotFoundPage.jsp"; 
-        public static final String ACTION_NOT_FOUND_PAGE = "/pageNotFound.jsp"; 
-        public static final String MAINTENANCE_PAGE = "/maintenance.jsp";
+        public static final String ACTION_NOT_FOUND_PAGE = "/pageNotFound.jsp";
         
         public static final String MASHUP = "/dev/mashup.jsp";
     

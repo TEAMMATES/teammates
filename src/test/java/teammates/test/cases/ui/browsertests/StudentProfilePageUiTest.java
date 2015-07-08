@@ -55,7 +55,9 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         // assumes it is run after NavLinks Test
         // (ie already logged in as studentWithEmptyProfile
         ______TS("Typical case: empty profile values");
-        profilePage.verifyHtmlMainContent("/studentProfilePageDefault.html");
+
+        // This is the full HTML verification for Registered Student Profile Submit Page, the rest can all be verifyMainHtml
+        profilePage.verifyHtml("/studentProfilePageDefault.html");
 
         ______TS("Typical case: existing profile values");
         // this test uses actual user accounts
@@ -87,14 +89,28 @@ public class StudentProfilePageUiTest extends BaseUiTestCase {
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality",
                                          "female", "this is enough!$%&*</>");
 
+        ______TS("Failure case: script injection");
+
+        StudentProfileAttributes spa = new StudentProfileAttributes("valid.id",
+                                                                    "<script>alert(\"Hello world!\");</script>",
+                                                                    "e@email.tmt", " inst", "Usual Nationality",
+                                                                    "male", "this is enough!$%&*</>", "");
+        profilePage.editProfileThroughUi(spa.googleId, spa.shortName, spa.email, spa.institute, spa.nationality,
+                                         spa.gender, spa.moreInfo);
+        profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality",
+                                          "female", "this is enough!$%&*</>");
+        profilePage.verifyStatus(StringHelper.toString(spa.getInvalidityInfo(), " ")
+                                             // de-sanitize
+                                             .replace("&lt;", "<").replace("&gt;", ">")
+                                             .replace("&quot;", "\"").replace("&#x2f;", "/"));
+        
         ______TS("Failure case: invalid data");
 
-        StudentProfileAttributes spa = new StudentProfileAttributes("valid.id", "$$short.name",
-                                                                    "e@email.tmt", " inst  ",
-                                                                    StringHelper.generateStringOfLength(54),
-                                                                    "male", "this is enough!$%&*</>", "");
-        profilePage.editProfileThroughUi("", spa.shortName, spa.email, spa.institute,
-                                         spa.nationality, spa.gender, spa.moreInfo);
+        spa = new StudentProfileAttributes("valid.id", "$$short.name", "e@email.tmt", " inst  ",
+                                           StringHelper.generateStringOfLength(54),
+                                           "male", "this is enough!$%&*</>", "");
+        profilePage.editProfileThroughUi("", spa.shortName, spa.email, spa.institute, spa.nationality,
+                                         spa.gender, spa.moreInfo);
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "Usual Nationality",
                                           "female", "this is enough!$%&*</>");
         profilePage.verifyStatus(StringHelper.toString(spa.getInvalidityInfo(), " "));

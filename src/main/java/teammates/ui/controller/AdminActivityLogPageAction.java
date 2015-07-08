@@ -57,7 +57,7 @@ public class AdminActivityLogPageAction extends Action {
         
         if(isLoadingLocalTimeAjax){
             data.logLocalTime = getLocalTimeInfo();
-            return createAjaxResult(Const.ViewURIs.ADMIN_ACTIVITY_LOG, data);
+            return createAjaxResult(data);
         }
         
 //      This parameter determines whether the logs with requests contained in "excludedLogRequestURIs" in AdminActivityLogPageData
@@ -91,7 +91,7 @@ public class AdminActivityLogPageAction extends Action {
             return createShowPageResult(Const.ViewURIs.ADMIN_ACTIVITY_LOG, data);
         }
         
-        return createAjaxResult(Const.ViewURIs.ADMIN_ACTIVITY_LOG, data);
+        return createAjaxResult(data);
     }
     
     private LogQuery buildQuery(String offset, boolean includeAppLogs, List<String> versions) {

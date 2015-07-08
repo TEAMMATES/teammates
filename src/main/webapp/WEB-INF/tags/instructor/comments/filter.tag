@@ -10,8 +10,7 @@
             <div class="checkbox">
                 <input id="option-check" type="checkbox">
                 <label for="option-check">
-                    Show More
-                    Options
+                    Show More Options
                 </label>
             </div>
         </div>
@@ -21,8 +20,7 @@
                     type="checkbox"
                     ${displayArchive ? 'checked=\"checked\"' : ''}>
                 <label for="displayArchivedCourses_check">
-                    Include
-                    Archived Courses
+                    Include Archived Courses
                 </label>
                 <div id="displayArchivedCourses_link" style="display:none;">
                     <a href="${instructorCommentsLink}">link back to the page</a>

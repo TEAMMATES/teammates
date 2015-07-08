@@ -27,8 +27,8 @@ public class StudentFeedbackSubmissionEditPageAction extends FeedbackSubmissionE
     }
 
     @Override
-    protected void verifyAccesibleForSpecificUser() {
-        new GateKeeper().verifyAccessible(getStudent(), logic.getFeedbackSession(feedbackSessionName, courseId));
+    protected void verifyAccesibleForSpecificUser(FeedbackSessionAttributes fsa) {
+        new GateKeeper().verifyAccessible(getStudent(), fsa);
     }
 
     @Override

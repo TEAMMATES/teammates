@@ -10,18 +10,10 @@
     <script type="text/javascript" src="/js/instructorFeedbackAjaxRemindModal.js"></script>
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Instructor Home" jsIncludes="${jsIncludes}">
-    <div class="row">
-        <div class="col-md-2 pull-right">
-            <a class="btn btn-primary btn-md" href="${data.instructorCourseLink}" 
-                id="addNewCourse">Add New Course</a>
-        </div>
-        <div class="col-md-6 pull-right">
-            <home:search />
-        </div>
-    </div>
+    <home:search />
     <br />
     <t:statusMessage />
-    <ti:remindModal />
+    <ti:remindParticularStudentsModal />
     <c:if test="${data.account.instructor}">
         <c:if test="${data.unarchivedCoursesCount > 1}">
             <div class="row">

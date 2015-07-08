@@ -14,18 +14,18 @@
         ${viewingDraft ? 'Your comments that are not finished:' : ''}
         <c:set var="commentIdx" value="0" />
         <c:forEach items="${commentsForStudentsTables}" var="commentsForStudentsTable"> <%--recipient loop starts--%>
-            <div class="panel panel-info student-record-comments ${commentsForStudentsTable.giverDetails == '0you' ? 'giver_display-by-you' : 'giver_display-by-others'}"
+            <div class="panel panel-info student-record-comments ${commentsForStudentsTable.giverEmail == '0you' ? 'giver_display-by-you' : 'giver_display-by-others'}"
                 <c:if test="${empty commentsForStudentsTable.rows}"> 
                     style="display: none;" 
                 </c:if>>
                 <div class="panel-heading">
-                    From <b>${commentsForStudentsTable.giverDetails}</b>
+                    From <b>${commentsForStudentsTable.giverName} (${courseId})</b>
                 </div>
                 <ul class="list-group comments">
                     <c:forEach items="${commentsForStudentsTable.rows}" var="commentRow"> <%--student comments loop starts--%>
                         <c:set var="commentIdx" value="${commentIdx + 1}" />
                         <li id="${commentRow.comment.commentId}"
-                            class="list-group-item list-group-item-warning ${not empty comment.showCommentTo ? 'status_display-public' : 'status_display-private'}">
+                            class="list-group-item list-group-item-warning ${not empty commentRow.comment.showCommentTo ? 'status_display-public' : 'status_display-private'}">
                             <form method="post"
                                 action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT %>"
                                 name="form_commentedit"
@@ -33,9 +33,7 @@
                                 id="form_commentedit-${commentIdx}">
                                 <div id="commentBar-${commentIdx}">
                                     
-                                    <span class="text-muted">To ${commentRow.recipientDetails} on
-                                       ${commentRow.creationTime} ${commentRow.editedAt} 
-                                    </span>
+                                    <span class="text-muted">To ${commentRow.recipientDetails} [${commentRow.creationTime}] ${commentRow.editedAt}</span>
                                     <c:if test="${commentRow.instructorAllowedToModifyCommentInSection}"> <%-- comment edit/delete control starts --%>
                                         <a type="button"
                                             id="commentdelete-${commentIdx}"

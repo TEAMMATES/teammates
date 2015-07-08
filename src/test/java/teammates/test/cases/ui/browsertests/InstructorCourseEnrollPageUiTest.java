@@ -56,7 +56,9 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         .withCourseId(testData.courses.get("CCEnrollUiT.CS2104").id);
         
         enrollPage = loginAdminToPage(browser, enrollUrl, InstructorCourseEnrollPage.class);
-        enrollPage.verifyHtmlMainContent("/InstructorCourseEnrollPage.html");
+
+        // This is the full HTML verification for Instructor Course Enroll Page, the rest can all be verifyMainHtml
+        enrollPage.verifyHtml("/InstructorCourseEnrollPage.html");
     }
 
     private void testSampleLink() throws Exception {
@@ -99,7 +101,9 @@ public class InstructorCourseEnrollPageUiTest extends BaseUiTestCase {
         enrollString += "Section 1 | Team 1|José Gómez | jose.gomez.tmns@gmail.tmt | This student name contains accented characters\n";
 
         InstructorCourseEnrollResultPage resultsPage = enrollPage.enroll(enrollString);
-        resultsPage.verifyHtmlMainContent("/InstructorCourseEnrollPageResult.html");
+
+        // This is the full HTML verification for Instructor Course Enroll Results Page, the rest can all be verifyMainHtml
+        resultsPage.verifyHtml("/InstructorCourseEnrollPageResult.html");
 
         // Check 'Edit' link
         enrollPage = resultsPage.clickEditLink();

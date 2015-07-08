@@ -243,26 +243,35 @@ public class InstructorFeedbacksPage extends AppPage {
         clickSubmitButton();
     }
     
-    public void copyFeedbackSession(String feedbackSessionName, String courseId) {
-        
-        clickCopyButton();
-        
-        this.waitForElementVisible(copiedFsNameTextBox);
-        
-        fillTextBox(copiedFsNameTextBox, feedbackSessionName);
-        
+    public void copyFeedbackSession(String feedbackSessionName, String courseId) {        
+        clickCopyButton();        
+        this.waitForElementVisible(copiedFsNameTextBox);        
+        fillTextBox(copiedFsNameTextBox, feedbackSessionName);       
         selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
         
-        clickCopyTableAtRow(0);
-        
+        clickCopyTableAtRow(0);       
         clickCopySubmitButton();
     }
     
+    public void copyFeedbackSessionTestButtons(String feedbackSessionName, String courseId) {       
+        clickCopyButton();       
+        this.waitForElementVisible(copiedFsNameTextBox);       
+        fillTextBox(copiedFsNameTextBox, feedbackSessionName);        
+        selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
+    }
+
     public void clickCopyTableAtRow(int rowIndex) {
         WebElement row = browser.driver.findElement(By.id("copyTableModal"))
                                        .findElements(By.tagName("tr"))
                                        .get(rowIndex + 1);
         row.click();
+    }
+    
+    public void clickCopyTableRadioButtonAtRow(int rowIndex) {
+        WebElement button = browser.driver.findElement(By.id("copyTableModal"))
+                                       .findElements(By.tagName("tr"))
+                                       .get(rowIndex + 1).findElement(By.tagName("input"));
+        button.click();
     }
     
     public void fillStartTime (Date startTime) {
@@ -346,6 +355,26 @@ public class InstructorFeedbacksPage extends AppPage {
     
     public String getTimeZone() {
         return timezoneDropdown.getAttribute("value");
+    }
+    
+    public boolean isRowSelected(int rowIndex) {
+        WebElement row = browser.driver.findElement(By.id("copyTableModal"))
+                                        .findElements(By.tagName("tr"))
+                                        .get(rowIndex + 1);
+        
+        return row.getAttribute("class").contains("row-selected");
+    }
+    
+    public boolean isRadioButtonChecked(int rowIndex) {
+        WebElement button = browser.driver.findElement(By.id("copyTableModal"))
+                                        .findElements(By.tagName("tr"))
+                                        .get(rowIndex + 1).findElement(By.tagName("input"));
+        
+        return button.isSelected();
+    }
+    
+    public boolean isCopySubmitButtonEnabled() {
+        return copySubmitButton.isEnabled();
     }
     
     public String getClientTimeZone() {
@@ -453,6 +482,11 @@ public class InstructorFeedbacksPage extends AppPage {
     public boolean verifyVisible (By locator) {
         return browser.driver.findElement(locator).isDisplayed();
     }
+    
+    public boolean isContainingCssClass(By locator, String className) {
+        return browser.driver.findElement(locator).getAttribute("class").matches(".*\\b" + className + "\\b.*");
+    }
+    
     
     public InstructorFeedbackResultsPage loadViewResultsLink (String courseId, String fsName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);

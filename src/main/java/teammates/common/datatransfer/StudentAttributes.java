@@ -151,7 +151,23 @@ public class StudentAttributes extends EntityAttributes {
     public String getEmail() {
         return email;
     }
-
+    
+    public String getKey() {
+        return key;
+    }
+    
+    public String getSection() {
+        return section;
+    }
+    
+    public String getTeam() {
+        return team;
+    }
+    
+    public String getComments() {
+        return comments;
+    }
+    
     public boolean isEnrollInfoSameAs(StudentAttributes otherStudent) {
         return (otherStudent != null) && otherStudent.email.equals(this.email)
                 && otherStudent.course.equals(this.course)
@@ -319,19 +335,27 @@ public class StudentAttributes extends EntityAttributes {
 
     @Override
     public void sanitizeForSaving() {
-        this.googleId = Sanitizer.sanitizeGoogleId(this.googleId);
-        this.email = Sanitizer.sanitizeEmail(this.email);
-        this.course = Sanitizer.sanitizeTitle(this.course);
-        this.name = Sanitizer.sanitizeName(this.name);
-        this.team = Sanitizer.sanitizeTitle(this.team);
-        this.section = Sanitizer.sanitizeTitle(this.section);
-        this.comments = Sanitizer.sanitizeTextField(this.comments);
-        this.googleId = Sanitizer.sanitizeForHtml(this.googleId);
-        this.email = Sanitizer.sanitizeForHtml(this.email);
-        this.course = Sanitizer.sanitizeForHtml(this.course);
-        this.name = Sanitizer.sanitizeForHtml(this.name);
-        this.team = Sanitizer.sanitizeForHtml(this.team);
-        this.section = Sanitizer.sanitizeForHtml(this.section);
-        this.comments = Sanitizer.sanitizeForHtml(this.comments);
+        googleId = Sanitizer.sanitizeGoogleId(googleId);
+        email = Sanitizer.sanitizeEmail(email);
+        course = Sanitizer.sanitizeTitle(course);
+        name = Sanitizer.sanitizeName(name);
+        team = Sanitizer.sanitizeTitle(team);
+        section = Sanitizer.sanitizeTitle(section);
+        comments = Sanitizer.sanitizeTextField(comments);
+        googleId = Sanitizer.sanitizeForHtml(googleId);
+        email = Sanitizer.sanitizeForHtml(email);
+        course = Sanitizer.sanitizeForHtml(course);
+        name = Sanitizer.sanitizeForHtml(name);
+        team = Sanitizer.sanitizeForHtml(team);
+        section = Sanitizer.sanitizeForHtml(section);
+        comments = Sanitizer.sanitizeForHtml(comments);
+    }
+    
+    public String getStudentStatus() {
+        if (isRegistered()) {
+            return Const.STUDENT_COURSE_STATUS_JOINED;
+        } else {
+            return Const.STUDENT_COURSE_STATUS_YET_TO_JOIN;
+        }
     }
 }

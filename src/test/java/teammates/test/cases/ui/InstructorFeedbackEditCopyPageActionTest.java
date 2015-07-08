@@ -14,9 +14,9 @@ import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackEditCopyPageAction;
 import teammates.ui.controller.InstructorFeedbackEditCopyPageData;
+import teammates.ui.controller.ShowPageResult;
 
 
 public class InstructorFeedbackEditCopyPageActionTest extends
@@ -42,18 +42,23 @@ public class InstructorFeedbackEditCopyPageActionTest extends
         
         ______TS("Successful case");
         
-        InstructorFeedbackEditCopyPageAction a = getAction();
-        AjaxResult r = getAjaxResult(a);
+        String[] submissionParams = {
+                Const.ParamsNames.COURSE_ID, "valid course id",
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "valid fs name"
+        };
+        
+        InstructorFeedbackEditCopyPageAction a = getAction(submissionParams);
+        ShowPageResult r = getShowPageResult(a);
         
         assertFalse(r.isError);
 
         InstructorFeedbackEditCopyPageData pageData = (InstructorFeedbackEditCopyPageData) r.data;
-        assertEquals(4, pageData.courses.size());
+        assertEquals(4, pageData.getCourses().size());
  
         
         List<String> idOfCourses = new ArrayList<String>();
         
-        for (CourseAttributes course: pageData.courses) {
+        for (CourseAttributes course: pageData.getCourses()) {
             idOfCourses.add(course.id);
         }
         

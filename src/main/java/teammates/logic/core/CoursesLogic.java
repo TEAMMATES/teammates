@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -164,9 +165,11 @@ public class CoursesLogic {
                 Assumption.assertNotNull("Student should not be null at this point.", s);
             }
             
+            // Skip the course existence check since the course ID is obtained from a
+            // valid CourseAttributes resulting from query
             List<FeedbackSessionAttributes> feedbackSessionList = 
-                    feedbackSessionsLogic.getFeedbackSessionsForUserInCourse(c.id, s.email);
-            
+                    feedbackSessionsLogic.getFeedbackSessionsForUserInCourseSkipCheck(c.id, s.email);
+
             CourseDetailsBundle cdd = new CourseDetailsBundle(c);
             
             for (FeedbackSessionAttributes fs : feedbackSessionList) {
@@ -463,16 +466,12 @@ public class CoursesLogic {
             throw new EntityDoesNotExistException("Student with Google ID " + googleId + " does not exist");
         }
         
-        ArrayList<CourseAttributes> courseList = new ArrayList<CourseAttributes>();
-
+        List<String> courseIds = new ArrayList<String>();
         for (StudentAttributes s : studentDataList) {
-            CourseAttributes course = coursesDb.getCourse(s.course);
-            if (course == null) {
-                log.warning("Course was deleted but the Student still exists :" + Const.EOL + s.toString());
-            } else {
-                courseList.add(course);
-            }
+            courseIds.add(s.course);
         }
+        List<CourseAttributes> courseList = coursesDb.getCourses(courseIds);
+        
         return courseList;
     }
 
@@ -718,5 +717,39 @@ public class CoursesLogic {
     public boolean isCourseArchived(CourseAttributes course, InstructorAttributes instructor) {
         boolean isCourseArchived = (instructor.isArchived != null) ? instructor.isArchived : course.isArchived;
         return isCourseArchived;
+    }
+    
+    public Map<String, List<String>> getCourseIdToSectionNamesMap(List<CourseAttributes> courses)
+                                    throws EntityDoesNotExistException {
+        Map<String, List<String>> courseIdToSectionName = new HashMap<String, List<String>>();
+        for (CourseAttributes course : courses) {
+            List<String> sections = getSectionsNameForCourse(course.id);
+            courseIdToSectionName.put(course.id, sections);
+        }
+        
+        return courseIdToSectionName;
+    }
+    
+    // TODO: Optimize extractActiveCourses() and extractArchivedCourses() to reduce the number of repeated calls of
+    // isCourseArchived(), which retrieves information from the database
+    
+    public List<CourseDetailsBundle> extractActiveCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
+        List<CourseDetailsBundle> result = new ArrayList<CourseDetailsBundle>();
+        for (CourseDetailsBundle courseBundle : courseBundles) {
+            if (!isCourseArchived(courseBundle.course.id, googleId)) {
+                result.add(courseBundle);
+            }
+        }
+        return result;
+    }
+    
+    public List<CourseDetailsBundle> extractArchivedCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
+        List<CourseDetailsBundle> result = new ArrayList<CourseDetailsBundle>();
+        for (CourseDetailsBundle courseBundle : courseBundles) {
+            if (isCourseArchived(courseBundle.course.id, googleId)) {
+                result.add(courseBundle);
+            }
+        }
+        return result;
     }
 }

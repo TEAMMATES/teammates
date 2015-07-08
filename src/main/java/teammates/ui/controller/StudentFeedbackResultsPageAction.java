@@ -1,5 +1,10 @@
 package teammates.ui.controller;
 
+import java.util.List;
+import java.util.Map;
+
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -26,20 +31,22 @@ public class StudentFeedbackResultsPageAction extends Action {
         StudentFeedbackResultsPageData data = new StudentFeedbackResultsPageData(account, student);
 
         data.student = getCurrentStudent(courseId);
-        data.bundle = logic.getFeedbackSessionResultsForStudent(feedbackSessionName, courseId, data.student.email);
+        data.setBundle(logic.getFeedbackSessionResultsForStudent(feedbackSessionName, courseId, data.student.email));
+        Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionsWithResponses =
+                                                                            data.getBundle().getQuestionResponseMapSortedByRecipient();
 
-        if (data.bundle == null) {
+        if (data.getBundle() == null) {
             // not covered because GateKeeper will detect this as unauthorized exception, but we can
             // leave this here as a safety net on the off cases that GateKeeper fails to catch the Exception
             throw new EntityDoesNotExistException("Feedback session " + feedbackSessionName
                                                   + " does not exist in " + courseId + ".");
         }
 
-        if (data.bundle.feedbackSession.isPublished() == false) {
+        if (data.getBundle().feedbackSession.isPublished() == false) {
             throw new UnauthorizedAccessException("This feedback session is not yet visible.");
         }
 
-        if (data.bundle.isStudentHasSomethingNewToSee(data.student)) {
+        if (data.getBundle().isStudentHasSomethingNewToSee(data.student)) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESULTS_SOMETHINGNEW);
         } else {
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESULTS_NOTHINGNEW);
@@ -48,6 +55,8 @@ public class StudentFeedbackResultsPageAction extends Action {
         statusToAdmin = "Show student feedback result page<br>"
                         + "Session Name: " + feedbackSessionName + "<br>"
                         + "Course ID: " + courseId;
+        
+        data.init(questionsWithResponses);
         return createShowPageResult(Const.ViewURIs.STUDENT_FEEDBACK_RESULTS, data);
     }
 

@@ -1,11 +1,10 @@
-<div id="frameBodyWrapper" class="container">
+<div class="container" id="mainContent">
             <div id="topOfPage"></div>
-            <div class="inner-container">
+            <h1>Comments from Instructors</h1>
+            <br>
+            <div class="well well-plain">
                 <div class="row">
-                    <div class="col-sm-6">
-                        <h1>Comments from Instructors</h1>
-                    </div>
-                    <div class="col-sm-6 instructor-header-bar">
+                    <div class="col-md-12">
                         <form method="get" action="/page/instructorSearchPage?user=comments.idOfInstructor1OfCourse1" name="search_form">
                             <div class="input-group">
                                 <input name="searchkey" title="Search for comment" class="form-control" placeholder="Any info related to comments" id="searchBox" type="text"> 
@@ -17,6 +16,92 @@
                             <input name="searchcommentforresponses" value="true" type="hidden">
                             <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
                         </form>
+                        <div class="well well-plain">
+			                <div class="row">
+			                    <div class="col-md-2">
+			                        <div class="checkbox">
+			                            <input id="option-check" type="checkbox">
+			                            <label for="option-check">Show More Options</label>
+			                        </div>
+			                    </div>
+			                    <div class="col-md-3">
+			                        <div class="checkbox">
+			                            <input id="displayArchivedCourses_check" type="checkbox">
+			                            <label for="displayArchivedCourses_check">Include Archived Courses</label>
+			                            <div id="displayArchivedCourses_link" style="display:none;">
+			                                <a href="/page/instructorCommentsPage?user=comments.idOfInstructor1OfCourse1">link back to the page</a>
+			                            </div>
+			                        </div>
+			                    </div>
+			                </div>
+			                <div class="row">
+			                    <div style="display: block;" id="more-options" class="well well-plain">
+			                        <form class="form-horizontal" role="form">
+			                            <div class="row">
+			                                <div class="col-sm-4">
+			                                    <div class="text-color-primary">
+			                                        <strong>Show comments for: </strong>
+			                                    </div>
+			                                    <br>
+			                                    <div class="checkbox">
+			                                        <input id="panel_all" checked="checked" type="checkbox"> <label for="panel_all"><strong>All</strong></label>
+			                                    </div>
+			                                    <br>
+			                                    
+			                                    
+			                                    <div class="checkbox">
+			                                        <input id="panel_check-1" checked="checked" type="checkbox"> <label for="panel_check-1">
+			                                            Students </label>
+			                                    </div>
+			                                    
+			                                    
+			                                    <div class="checkbox">
+			                                        <input id="panel_check-2" checked="checked" type="checkbox"> <label for="panel_check-2">
+			                                            Session: comments.First feedback session </label>
+			                                    </div>
+			                                    
+			                                </div>
+			                                <div style="display: block;" class="col-sm-4">
+			                                    <div class="text-color-primary">
+			                                        <strong>Show comments from: </strong>
+			                                    </div>
+			                                    <br>
+			                                    <div class="checkbox">
+			                                        <input value="" id="giver_all" checked="checked" type="checkbox"> <label for="giver_all"><strong>All</strong></label>
+			                                    </div>
+			                                    <br>
+			                                    <div class="checkbox">
+			                                        <input id="giver_check-by-you" checked="checked" type="checkbox"> <label for="giver_check-by-you">
+			                                            You </label>
+			                                    </div>
+			                                    <div class="checkbox">
+			                                        <input id="giver_check-by-others" checked="checked" type="checkbox"> <label for="giver_check-by-others">
+			                                            Others </label>
+			                                    </div>
+			                                </div>
+			                                <div style="display: block;" class="col-sm-4">
+			                                    <div class="text-color-primary">
+			                                        <strong>Show comments with status: </strong>
+			                                    </div>
+			                                    <br>
+			                                    <div class="checkbox">
+			                                        <input disabled="" value="" id="status_all" checked="checked" type="checkbox"> <label for="status_all"><strong>All</strong></label>
+			                                    </div>
+			                                    <br>
+			                                    <div class="checkbox">
+			                                        <input disabled="" id="status_check-public" checked="checked" type="checkbox"> <label for="status_check-public">
+			                                            Public </label>
+			                                    </div>
+			                                    <div class="checkbox">
+			                                        <input disabled="" id="status_check-private" checked="checked" type="checkbox"> <label for="status_check-private">
+			                                            Private </label>
+			                                    </div>
+			                                </div>
+			                            </div>
+			                        </form>
+			                    </div>
+			                </div>
+			            </div>
                     </div>
                 </div>
             </div>
@@ -28,94 +113,7 @@
 
     <div id="statusMessage" style="display: none;"></div>
 
-            <div class="well well-plain">
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="checkbox">
-                            <input id="option-check" type="checkbox">
-                            <label for="option-check">Show More
-                                Options</label>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="checkbox">
-                            <input id="displayArchivedCourses_check" type="checkbox">
-                            <label for="displayArchivedCourses_check">Include
-                                Archived Courses</label>
-                            <div id="displayArchivedCourses_link" style="display:none;">
-                                <a href="/page/instructorCommentsPage?user=comments.idOfInstructor1OfCourse1">link back to the page</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div style="display: block;" id="more-options" class="well well-plain">
-                        <form class="form-horizontal" role="form">
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <div class="text-color-primary">
-                                        <strong>Show comments for: </strong>
-                                    </div>
-                                    <br>
-                                    <div class="checkbox">
-                                        <input id="panel_all" checked="checked" type="checkbox"> <label for="panel_all"><strong>All</strong></label>
-                                    </div>
-                                    <br>
-                                    
-                                    
-                                    <div class="checkbox">
-                                        <input id="panel_check-1" checked="checked" type="checkbox"> <label for="panel_check-1">
-                                            Students </label>
-                                    </div>
-                                    
-                                    
-                                    <div class="checkbox">
-                                        <input id="panel_check-2" checked="checked" type="checkbox"> <label for="panel_check-2">
-                                            Session: comments.First feedback session </label>
-                                    </div>
-                                    
-                                </div>
-                                <div style="display: block;" class="col-sm-4">
-                                    <div class="text-color-primary">
-                                        <strong>Show comments from: </strong>
-                                    </div>
-                                    <br>
-                                    <div class="checkbox">
-                                        <input value="" id="giver_all" checked="checked" type="checkbox"> <label for="giver_all"><strong>All</strong></label>
-                                    </div>
-                                    <br>
-                                    <div class="checkbox">
-                                        <input id="giver_check-by-you" checked="checked" type="checkbox"> <label for="giver_check-by-you">
-                                            You </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <input id="giver_check-by-others" checked="checked" type="checkbox"> <label for="giver_check-by-others">
-                                            Others </label>
-                                    </div>
-                                </div>
-                                <div style="display: block;" class="col-sm-4">
-                                    <div class="text-color-primary">
-                                        <strong>Show comments with status: </strong>
-                                    </div>
-                                    <br>
-                                    <div class="checkbox">
-                                        <input disabled="" value="" id="status_all" checked="checked" type="checkbox"> <label for="status_all"><strong>All</strong></label>
-                                    </div>
-                                    <br>
-                                    <div class="checkbox">
-                                        <input disabled="" id="status_check-public" checked="checked" type="checkbox"> <label for="status_check-public">
-                                            Public </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <input disabled="" id="status_check-private" checked="checked" type="checkbox"> <label for="status_check-private">
-                                            Private </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            
             
             <ul class="pagination">
                 <li><a href="javascript:;">«</a></li>
@@ -163,7 +161,7 @@
                         
                         <div style="display: block;" class="panel panel-info student-record-comments giver_display-by-you">
                             <div class="panel-heading">
-                                From <b>You</b>
+                                From <b>You (comments.idOfTypicalCourse1)</b>
                             </div>
                             <ul class="list-group comments">
                                 
@@ -171,8 +169,8 @@
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-1">
                                         <div id="commentBar-1">
                                             
-                                            <span class="text-muted">To <b>All students in this course</b> on
-                                                Fri, 01 Jun 2012, 19:20 
+                                            <span class="text-muted">To <b>All students in this course</b> 
+                                                [Fri, 01 Jun 2012, 19:20:00 UTC] 
                                             </span>
                                             
                                             <a type="button" id="commentdelete-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
@@ -204,12 +202,12 @@
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
+                                                            
+                                                                <th class="text-center">Can see your comment</th>
+                                                            
+                                                                <th class="text-center">Can see giver's name</th>
+                                                            
+                                                                <th class="text-center">Can see recipient's name</th>
                                                         </tr>
                                                         
                                                         
@@ -253,8 +251,8 @@
                                         <input name="commentid" value="{*}" type="hidden">
                                         <input name="courseid" value="comments.idOfTypicalCourse1" type="hidden">
                                         <input name="commentpage" value="true" type="hidden"> 
-                                        <input name="showcommentsto" value="" type="hidden">
-                                        <input name="showgiverto" value="" type="hidden">
+                                        <input name="showcommentsto" value="COURSE" type="hidden">
+                                        <input name="showgiverto" value="COURSE" type="hidden">
                                         <input name="showrecipientto" value="" type="hidden">
                                         <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
                                         
@@ -265,8 +263,8 @@
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-2">
                                         <div id="commentBar-2">
                                             
-                                            <span class="text-muted">To <b>Team 1.1</b> on
-                                                Mon, 07 May 2012, 08:54 
+                                            <span class="text-muted">To <b>Team 1.1</b> 
+                                                [Mon, 07 May 2012, 08:54:00 UTC] 
                                             </span>
                                             
                                             <a type="button" id="commentdelete-2" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('2');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
@@ -298,12 +296,12 @@
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
+                                                            
+                                                                <th class="text-center">Can see your comment</th>
+                                                            
+                                                                <th class="text-center">Can see giver's name</th>
+                                                            
+                                                                <th class="text-center">Can see recipient's name</th>
                                                         </tr>
                                                         
                                                         
@@ -373,7 +371,7 @@
                                         <input name="commentid" value="{*}" type="hidden">
                                         <input name="courseid" value="comments.idOfTypicalCourse1" type="hidden">
                                         <input name="commentpage" value="true" type="hidden"> 
-                                        <input name="showcommentsto" value="" type="hidden">
+                                        <input name="showcommentsto" value="TEAM" type="hidden">
                                         <input name="showgiverto" value="" type="hidden">
                                         <input name="showrecipientto" value="" type="hidden">
                                         <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
@@ -385,8 +383,8 @@
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-3">
                                         <div id="commentBar-3">
                                             
-                                            <span class="text-muted">To <b>student1 In Course1</b> (Team 1.1, <a href="mailto:comments.student1InCourse1@gmail.tmt">comments.student1InCourse1@gmail.tmt</a>) on
-                                                Sun, 06 May 2012, 08:55 
+                                            <span class="text-muted">To <b>student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt)</b> 
+                                                [Sun, 06 May 2012, 08:55:00 UTC] 
                                             </span>
                                             
                                             <a type="button" id="commentdelete-3" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('3');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
@@ -418,12 +416,12 @@
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
+                                                            
+                                                                <th class="text-center">Can see your comment</th>
+                                                            
+                                                                <th class="text-center">Can see giver's name</th>
+                                                            
+                                                                <th class="text-center">Can see recipient's name</th>
                                                         </tr>
                                                         
                                                         <tr id="recipient-person3">
@@ -505,7 +503,7 @@
                                         <input name="commentid" value="{*}" type="hidden">
                                         <input name="courseid" value="comments.idOfTypicalCourse1" type="hidden">
                                         <input name="commentpage" value="true" type="hidden"> 
-                                        <input name="showcommentsto" value="" type="hidden">
+                                        <input name="showcommentsto" value="COURSE" type="hidden">
                                         <input name="showgiverto" value="" type="hidden">
                                         <input name="showrecipientto" value="" type="hidden">
                                         <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
@@ -517,8 +515,8 @@
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-4">
                                         <div id="commentBar-4">
                                             
-                                            <span class="text-muted">To <b>Team 1.1</b> on
-                                                Sat, 05 May 2012, 08:53 (last edited by comments.instructor1@course1.tmt at Sat, 05 May 2012, 08:54)
+                                            <span class="text-muted">To <b>Team 1.1</b> 
+                                                [Sat, 05 May 2012, 08:53:00 UTC] (last edited by comments.instructor1@course1.tmt at Sat, 05 May 2012, 08:54:00 UTC)
                                             </span>
                                             
                                             <a type="button" id="commentdelete-4" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('4');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
@@ -550,12 +548,12 @@
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
+                                                            
+                                                                <th class="text-center">Can see your comment</th>
+                                                            
+                                                                <th class="text-center">Can see giver's name</th>
+                                                            
+                                                                <th class="text-center">Can see recipient's name</th>
                                                         </tr>
                                                         
                                                         
@@ -625,8 +623,8 @@
                                         <input name="commentid" value="{*}" type="hidden">
                                         <input name="courseid" value="comments.idOfTypicalCourse1" type="hidden">
                                         <input name="commentpage" value="true" type="hidden"> 
-                                        <input name="showcommentsto" value="" type="hidden">
-                                        <input name="showgiverto" value="" type="hidden">
+                                        <input name="showcommentsto" value="TEAM" type="hidden">
+                                        <input name="showgiverto" value="TEAM" type="hidden">
                                         <input name="showrecipientto" value="" type="hidden">
                                         <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
                                         
@@ -637,8 +635,8 @@
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-5">
                                         <div id="commentBar-5">
                                             
-                                            <span class="text-muted">To <b>student1 In Course1</b> (Team 1.1, <a href="mailto:comments.student1InCourse1@gmail.tmt">comments.student1InCourse1@gmail.tmt</a>) on
-                                                Fri, 04 May 2012, 08:52 
+                                            <span class="text-muted">To <b>student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt)</b> 
+                                                [Fri, 04 May 2012, 08:52:00 UTC] 
                                             </span>
                                             
                                             <a type="button" id="commentdelete-5" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('5');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
@@ -670,12 +668,12 @@
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
+                                                            
+                                                                <th class="text-center">Can see your comment</th>
+                                                            
+                                                                <th class="text-center">Can see giver's name</th>
+                                                            
+                                                                <th class="text-center">Can see recipient's name</th>
                                                         </tr>
                                                         
                                                         <tr id="recipient-person5">
@@ -757,7 +755,7 @@
                                         <input name="commentid" value="{*}" type="hidden">
                                         <input name="courseid" value="comments.idOfTypicalCourse1" type="hidden">
                                         <input name="commentpage" value="true" type="hidden"> 
-                                        <input name="showcommentsto" value="" type="hidden">
+                                        <input name="showcommentsto" value="TEAM" type="hidden">
                                         <input name="showgiverto" value="" type="hidden">
                                         <input name="showrecipientto" value="" type="hidden">
                                         <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
@@ -769,8 +767,8 @@
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-6">
                                         <div id="commentBar-6">
                                             
-                                            <span class="text-muted">To <b>student1 In Course1</b> (Team 1.1, <a href="mailto:comments.student1InCourse1@gmail.tmt">comments.student1InCourse1@gmail.tmt</a>) on
-                                                Thu, 03 May 2012, 08:51 
+                                            <span class="text-muted">To <b>student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt)</b> 
+                                                [Thu, 03 May 2012, 08:51:00 UTC] 
                                             </span>
                                             
                                             <a type="button" id="commentdelete-6" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('6');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
@@ -802,12 +800,12 @@
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
+                                                            
+                                                                <th class="text-center">Can see your comment</th>
+                                                            
+                                                                <th class="text-center">Can see giver's name</th>
+                                                            
+                                                                <th class="text-center">Can see recipient's name</th>
                                                         </tr>
                                                         
                                                         <tr id="recipient-person6">
@@ -889,9 +887,9 @@
                                         <input name="commentid" value="{*}" type="hidden">
                                         <input name="courseid" value="comments.idOfTypicalCourse1" type="hidden">
                                         <input name="commentpage" value="true" type="hidden"> 
-                                        <input name="showcommentsto" value="" type="hidden">
-                                        <input name="showgiverto" value="" type="hidden">
-                                        <input name="showrecipientto" value="" type="hidden">
+                                        <input name="showcommentsto" value="TEAM" type="hidden">
+                                        <input name="showgiverto" value="TEAM" type="hidden">
+                                        <input name="showrecipientto" value="TEAM" type="hidden">
                                         <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
                                         
                                     </form>
@@ -901,8 +899,8 @@
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-7">
                                         <div id="commentBar-7">
                                             
-                                            <span class="text-muted">To <b>student1 In Course1</b> (Team 1.1, <a href="mailto:comments.student1InCourse1@gmail.tmt">comments.student1InCourse1@gmail.tmt</a>) on
-                                                Wed, 02 May 2012, 08:50 (last edited by comments.instructor1@course1.tmt at Wed, 02 May 2012, 08:51)
+                                            <span class="text-muted">To <b>student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt)</b> 
+                                                [Wed, 02 May 2012, 08:50:00 UTC] (last edited by comments.instructor1@course1.tmt at Wed, 02 May 2012, 08:51:00 UTC)
                                             </span>
                                             
                                             <a type="button" id="commentdelete-7" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('7');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
@@ -934,12 +932,12 @@
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
+                                                            
+                                                                <th class="text-center">Can see your comment</th>
+                                                            
+                                                                <th class="text-center">Can see giver's name</th>
+                                                            
+                                                                <th class="text-center">Can see recipient's name</th>
                                                         </tr>
                                                         
                                                         <tr id="recipient-person7">
@@ -1021,7 +1019,7 @@
                                         <input name="commentid" value="{*}" type="hidden">
                                         <input name="courseid" value="comments.idOfTypicalCourse1" type="hidden">
                                         <input name="commentpage" value="true" type="hidden"> 
-                                        <input name="showcommentsto" value="" type="hidden">
+                                        <input name="showcommentsto" value="PERSON" type="hidden">
                                         <input name="showgiverto" value="" type="hidden">
                                         <input name="showrecipientto" value="" type="hidden">
                                         <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
@@ -1033,8 +1031,8 @@
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-8">
                                         <div id="commentBar-8">
                                             
-                                            <span class="text-muted">To <b>student1 In Course1</b> (Team 1.1, <a href="mailto:comments.student1InCourse1@gmail.tmt">comments.student1InCourse1@gmail.tmt</a>) on
-                                                Tue, 01 May 2012, 08:49 
+                                            <span class="text-muted">To <b>student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt)</b> 
+                                                [Tue, 01 May 2012, 08:49:00 UTC] 
                                             </span>
                                             
                                             <a type="button" id="commentdelete-8" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('8');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
@@ -1066,12 +1064,12 @@
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
+                                                            
+                                                                <th class="text-center">Can see your comment</th>
+                                                            
+                                                                <th class="text-center">Can see giver's name</th>
+                                                            
+                                                                <th class="text-center">Can see recipient's name</th>
                                                         </tr>
                                                         
                                                         <tr id="recipient-person8">
@@ -1153,8 +1151,8 @@
                                         <input name="commentid" value="{*}" type="hidden">
                                         <input name="courseid" value="comments.idOfTypicalCourse1" type="hidden">
                                         <input name="commentpage" value="true" type="hidden"> 
-                                        <input name="showcommentsto" value="" type="hidden">
-                                        <input name="showgiverto" value="" type="hidden">
+                                        <input name="showcommentsto" value="PERSON" type="hidden">
+                                        <input name="showgiverto" value="PERSON" type="hidden">
                                         <input name="showrecipientto" value="" type="hidden">
                                         <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
                                         
@@ -1165,8 +1163,8 @@
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-9">
                                         <div id="commentBar-9">
                                             
-                                            <span class="text-muted">To <b>student1 In Course1</b> (Team 1.1, <a href="mailto:comments.student1InCourse1@gmail.tmt">comments.student1InCourse1@gmail.tmt</a>) on
-                                                Sun, 01 Apr 2012, 23:59 
+                                            <span class="text-muted">To <b>student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt)</b> 
+                                                [Sun, 01 Apr 2012, 23:59:00 UTC] 
                                             </span>
                                             
                                             <a type="button" id="commentdelete-9" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('9');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
@@ -1196,12 +1194,12 @@
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
+                                                            
+                                                                <th class="text-center">Can see your comment</th>
+                                                            
+                                                                <th class="text-center">Can see giver's name</th>
+                                                            
+                                                                <th class="text-center">Can see recipient's name</th>
                                                         </tr>
                                                         
                                                         <tr id="recipient-person9">
@@ -1296,7 +1294,7 @@
                         
                         <div style="display: none;" class="panel panel-info student-record-comments giver_display-by-others">
                             <div class="panel-heading">
-                                From <b>Anonymous</b>
+                                From <b>Anonymous (comments.idOfTypicalCourse1)</b>
                             </div>
                             <ul class="list-group comments">
                                 
@@ -1304,8 +1302,8 @@
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-10">
                                         <div id="commentBar-10">
                                             
-                                            <span class="text-muted">To <b>Anonymous</b> on
-                                                Sat, 02 Jun 2012, 19:21 (last edited at Sat, 02 Jun 2012, 19:22)
+                                            <span class="text-muted">To <b>Anonymous</b> 
+                                                [Sat, 02 Jun 2012, 19:21:00 UTC] (last edited at Sat, 02 Jun 2012, 19:22:00 UTC)
                                             </span>
                                             
                                             <a type="button" id="commentdelete-10" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('10');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
@@ -1337,12 +1335,12 @@
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
+                                                            
+                                                                <th class="text-center">Can see your comment</th>
+                                                            
+                                                                <th class="text-center">Can see giver's name</th>
+                                                            
+                                                                <th class="text-center">Can see recipient's name</th>
                                                         </tr>
                                                         
                                                         
@@ -1386,7 +1384,7 @@
                                         <input name="commentid" value="{*}" type="hidden">
                                         <input name="courseid" value="comments.idOfTypicalCourse1" type="hidden">
                                         <input name="commentpage" value="true" type="hidden"> 
-                                        <input name="showcommentsto" value="" type="hidden">
+                                        <input name="showcommentsto" value="INSTRUCTOR" type="hidden">
                                         <input name="showgiverto" value="" type="hidden">
                                         <input name="showrecipientto" value="" type="hidden">
                                         <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
@@ -1399,7 +1397,7 @@
                         
                         <div style="display: none;" class="panel panel-info student-record-comments giver_display-by-others">
                             <div class="panel-heading">
-                                From <b>Instructor Instructor2 Course1</b>
+                                From <b>Instructor Instructor2 Course1 (comments.idOfTypicalCourse1)</b>
                             </div>
                             <ul class="list-group comments">
                                 
@@ -1407,8 +1405,8 @@
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-11">
                                         <div id="commentBar-11">
                                             
-                                            <span class="text-muted">To <b>All students in this course</b> on
-                                                Sat, 02 Jun 2012, 19:20 
+                                            <span class="text-muted">To <b>All students in this course</b> 
+                                                [Sat, 02 Jun 2012, 19:20:00 UTC]
                                             </span>
                                             
                                             <a type="button" id="commentdelete-11" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('11');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
@@ -1440,12 +1438,12 @@
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
+                                                            
+                                                                <th class="text-center">Can see your comment</th>
+                                                            
+                                                                <th class="text-center">Can see giver's name</th>
+                                                            
+                                                                <th class="text-center">Can see recipient's name</th>
                                                         </tr>
                                                         
                                                         
@@ -1489,9 +1487,9 @@
                                         <input name="commentid" value="{*}" type="hidden">
                                         <input name="courseid" value="comments.idOfTypicalCourse1" type="hidden">
                                         <input name="commentpage" value="true" type="hidden"> 
-                                        <input name="showcommentsto" value="" type="hidden">
-                                        <input name="showgiverto" value="" type="hidden">
-                                        <input name="showrecipientto" value="" type="hidden">
+                                        <input name="showcommentsto" value="INSTRUCTOR" type="hidden">
+                                        <input name="showgiverto" value="INSTRUCTOR" type="hidden">
+                                        <input name="showrecipientto" value="INSTRUCTOR" type="hidden">
                                         <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
                                         
                                     </form>
@@ -1572,8 +1570,8 @@
                         
                         <li style="display: block;" id="{*}" class="list-group-item list-group-item-warning giver_display-by-you status_display-private">
                             <div id="commentBar-1-1-1-1">
-                                <span class="text-muted">From: <b>you</b>
-                                    [Tue Mar 01 23:59:00 UTC 2016] (last edited by comments.instructor1@course1.tmt at Wed Mar 02 23:59:00 UTC 2016)
+                                <span class="text-muted">
+                                    From: comments.instructor1@course1.tmt [Tue Mar 01 23:59:00 UTC 2016] (last edited by comments.instructor1@course1.tmt at Wed Mar 02 23:59:00 UTC 2016)
                                 </span>
                                 
                                 
@@ -1781,8 +1779,8 @@ Multiline test.
                         
                         <li style="display: block;" id="{*}" class="list-group-item list-group-item-warning giver_display-by-you status_display-private">
                             <div id="commentBar-1-2-1-1">
-                                <span class="text-muted">From: <b>you</b>
-                                    [Mon Feb 01 23:59:00 UTC 2016] 
+                                <span class="text-muted">
+                                    From: comments.instructor1@course1.tmt [Mon Feb 01 23:59:00 UTC 2016] 
                                 </span>
                                 
                                 
@@ -1915,8 +1913,8 @@ Multiline test.
                         
                         <li style="display: none;" id="{*}" class="list-group-item list-group-item-warning giver_display-by-others status_display-public">
                             <div id="commentBar-1-2-1-2">
-                                <span class="text-muted">From: <b>Anonymous</b>
-                                    [Tue Feb 02 23:59:00 UTC 2016] 
+                                <span class="text-muted">
+                                    From: Anonymous [Tue Feb 02 23:59:00 UTC 2016] 
                                 </span>
                                 
                                 <span data-original-title="This response comment is visible to other students in this course, and instructors" class="glyphicon glyphicon-eye-open" data-toggle="tooltip" data-placement="top" style="margin-left: 5px;" title=""></span>
@@ -2051,8 +2049,8 @@ Multiline test.
                         
                         <li style="display: none;" id="{*}" class="list-group-item list-group-item-warning giver_display-by-others status_display-public">
                             <div id="commentBar-1-2-1-3">
-                                <span class="text-muted">From: <b>Instructor2 Course1</b>
-                                    [Wed Feb 03 23:59:00 UTC 2016] 
+                                <span class="text-muted">
+                                    From: comments.instructor2@course1.tmt [Wed Feb 03 23:59:00 UTC 2016] 
                                 </span>
                                 
                                 <span data-original-title="This response comment is visible to response giver, response recipient, other students in this course, and instructors" class="glyphicon glyphicon-eye-open" data-toggle="tooltip" data-placement="top" style="margin-left: 5px;" title=""></span>

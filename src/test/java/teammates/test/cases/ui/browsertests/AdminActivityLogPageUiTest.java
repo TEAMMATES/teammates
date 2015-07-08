@@ -30,6 +30,7 @@ public class AdminActivityLogPageUiTest extends BaseUiTestCase {
         testContent();
         testViewActionsLink();
         testInputValidation();
+        // Full page content check is omitted because this is an internal page. 
     }
     
     

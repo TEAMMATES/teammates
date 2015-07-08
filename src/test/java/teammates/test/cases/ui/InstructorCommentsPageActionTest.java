@@ -66,7 +66,7 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         assertEquals(1, data.getCoursePaginationList().size());
         assertEquals("javascript:;", data.getPreviousPageLink());
         assertEquals("javascript:;", data.getNextPageLink());
-        assertEquals(2, data.getComments().get(InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST).size());
+        assertEquals(5, data.getComments().get(InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST).size());
         
         ______TS("instructor with courses but without comments");
         gaeSimulation.loginAsInstructor(dataBundle.accounts.get("instructor2OfCourse1").googleId);

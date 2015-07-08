@@ -1,22 +1,61 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.SectionDetailsBundle;
+import teammates.common.util.Const;
+import teammates.ui.template.InstructorStudentListAjaxSectionData;
 
 public class InstructorStudentListAjaxPageData extends PageData {
 
-    public InstructorStudentListAjaxPageData(AccountAttributes account) {
+    private String courseId;
+    private int courseIndex;
+    private boolean hasSection;
+    private List<InstructorStudentListAjaxSectionData> sections;
+
+    public InstructorStudentListAjaxPageData(AccountAttributes account, String courseId, int courseIndex,
+                                             boolean hasSection, List<SectionDetailsBundle> sections,
+                                             Map<String, Map<String, Boolean>> sectionPrivileges,
+                                             Map<String, String> emailPhotoUrlMapping) {
         super(account);
+        this.courseId = courseId;
+        this.courseIndex = courseIndex;
+        this.hasSection = hasSection;
+        List<InstructorStudentListAjaxSectionData> sectionsDetails =
+                                        new ArrayList<InstructorStudentListAjaxSectionData>();
+        for (SectionDetailsBundle section: sections) {
+            boolean isAllowedToViewStudentInSection = sectionPrivileges.get(section.name)
+                                            .get(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
+            boolean isAllowedToModifyStudent = sectionPrivileges.get(section.name)
+                                            .get(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
+            boolean isAllowedToGiveCommentInSection = sectionPrivileges.get(section.name)
+                                            .get(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
+            sectionsDetails.add(new InstructorStudentListAjaxSectionData(section, isAllowedToViewStudentInSection,
+                                                                         isAllowedToModifyStudent,
+                                                                         isAllowedToGiveCommentInSection,
+                                                                         emailPhotoUrlMapping,
+                                                                         account.googleId));
+        }
+        this.sections = sectionsDetails;
     }
 
-    public List<SectionDetailsBundle> courseSectionDetails;
-    public CourseAttributes course;
-    public boolean hasSection;
-    public Map<String, String> emailPhotoUrlMapping;
-    public Map<String, Map<String, Boolean>> sectionPrivileges;
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public int getCourseIndex() {
+        return courseIndex;
+    }
+
+    public boolean isHasSection() {
+        return hasSection;
+    }
+
+    public List<InstructorStudentListAjaxSectionData> getSections() {
+        return sections;
+    }
 
 }

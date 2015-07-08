@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="commentsForStudentsTables" type="java.util.Collection" required="true" %>
 
-<br>
 <div class="panel panel-primary">
     <div class="panel-heading">
         <strong><jsp:doBody/></strong>
@@ -21,12 +20,12 @@
                     <c:forEach items="${commentsForStudentsTable.rows}" var="commentRow">
                         <c:set var="indexCounter" value="${indexCounter + 1}" />
                         
-                        <li class="list-group-item list-group-item-warning form_comment" 
-                            id="form_commentedit-${indexCounter}>">
+                        <li class="list-group-item list-group-item-warning" 
+                            id="form_commentedit-${indexCounter}">
                                     
                             <div id="commentBar-${indexCounter}">
                                 <span class="text-muted">
-                                    To <b>${commentRow.recipientDetails}</b> on ${commentRow.creationTime}
+                                    To <b>${commentRow.recipientDetails}</b> [${commentRow.creationTime}] ${commentRow.editedAt}
                                 </span>
                                             
                                 <a type="button" target="_blank" class="btn btn-default btn-xs icon-button pull-right"
