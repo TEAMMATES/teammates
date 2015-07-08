@@ -31,26 +31,29 @@ public class InstructorCourseEditPageAction extends Action {
         new GateKeeper().verifyAccessible(instructor, courseToEdit);
         
         /* Setup page data for 'Edit' page of a course for an instructor */
-        InstructorCourseEditPageData data = new InstructorCourseEditPageData(account);
-        data.course = courseToEdit;
+        List<InstructorAttributes> instructorList = new ArrayList<InstructorAttributes>();
+        
+        int instructorToShowIndex  = -1;    // -1 means showing all instructors
+        
         if (instructorEmail == null) {
-            data.instructorList = logic.getInstructorsForCourse(courseId);
-            data.isAccessControlDisplayed = false;   
+            instructorList = logic.getInstructorsForCourse(courseId);
         } else {
-            data.instructorList = new ArrayList<InstructorAttributes>();
-            data.instructorList.add(logic.getInstructorForEmail(courseId, instructorEmail));
-            data.index = Integer.parseInt(index);        
-            data.isAccessControlDisplayed = true;
+            instructorList.add(logic.getInstructorForEmail(courseId, instructorEmail));
+            instructorToShowIndex = Integer.parseInt(index);        
         }
         
-        data.currentInstructor = instructor;
-        data.sectionNames = logic.getSectionNamesForCourse(courseId);
-        data.feedbackNames = new ArrayList<String>();
+        List<String> sectionNames = logic.getSectionNamesForCourse(courseId);
+        List<String> feedbackNames = new ArrayList<String>();
         
         List<FeedbackSessionAttributes> feedbacks = logic.getFeedbackSessionsForCourse(courseId);
         for (FeedbackSessionAttributes feedback : feedbacks) {
-            data.feedbackNames.add(feedback.feedbackSessionName);
+            feedbackNames.add(feedback.feedbackSessionName);
         }
+        
+        InstructorCourseEditPageData data = new InstructorCourseEditPageData(account, courseToEdit, 
+                                                                             instructorList, instructor, 
+                                                                             instructorToShowIndex, 
+                                                                             sectionNames, feedbackNames);
         
         statusToAdmin = "instructorCourseEdit Page Load<br>"
                         + "Editing information for Course <span class=\"bold\">[" + courseId + "]</span>";

@@ -228,7 +228,7 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         String courseId = "idOfTypicalCourse1";
         
         List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(courseId);
-        assertEquals(4, instructors.size());
+        assertEquals(5, instructors.size());
         
         HashMap<String, Boolean> idMap = new HashMap<String, Boolean>();
         idMap.put("idOfInstructor1OfCourse1", false);

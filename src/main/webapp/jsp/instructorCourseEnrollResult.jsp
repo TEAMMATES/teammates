@@ -1,125 +1,62 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="teammates.common.util.Const" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
+<%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 
-<%@ page import="java.util.List" %>
-<%@ page import="teammates.common.util.Const"%>
-<%@ page import="teammates.common.datatransfer.StudentAttributes"%>
-<%@ page import="static teammates.ui.controller.PageData.sanitizeForHtml"%>
-<%@ page import="teammates.ui.controller.InstructorCourseEnrollResultPageData"%>
-<%
-    InstructorCourseEnrollResultPageData data = (InstructorCourseEnrollResultPageData)request.getAttribute("data");
-%>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>TEAMMATES - Instructor</title>
-
-    <link rel="shortcut icon" href="/favicon.png" />
-
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-    <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>
-    <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet"/>
-
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/js/common.js"></script>
-    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
-
-    <jsp:include page="../enableJS.jsp"></jsp:include>
-
-    <script type="text/javascript" src="/js/date.js"></script>
+<c:set var="jsIncludes">
     <script type="text/javascript" src="/js/instructor.js"></script>
-</head>
+</c:set>
 
-<body>
-    <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
+<c:set var="COURSE_ID">
+    <%=Const.ParamsNames.COURSE_ID%>
+</c:set>
 
-    <div class="container" id="mainContent">
-        <div id="topOfPage"></div>
-        <h1>Enrollment Results for <%=sanitizeForHtml(data.courseId)%></h1>
-        <br>
+<c:set var="STUDENTS_ENROLLMENT_INFO">
+    <%=Const.ParamsNames.STUDENTS_ENROLLMENT_INFO%>
+</c:set>
 
-        <div class="alert alert-success">
-        <form name='goBack' action="<%=data.getInstructorCourseEnrollLink(data.courseId)%>" method="post" role="form"> 
+<ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Enrollment Results for ${data.courseId}" jsIncludes="${jsIncludes}">
+    <div class="alert alert-success">
+        <form name='goBack' action="${data.instructorCourseEnrollLink}" method="post" role="form"> 
             Enrollment Successful. Summary given below. Click <a id="edit_enroll" href="javascript:document.forms['goBack'].submit()">here</a> to do further changes to the student list.
-            
-        <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.courseId%>">
-        <input type="hidden" name="<%=Const.ParamsNames.STUDENTS_ENROLLMENT_INFO%>" value="<%=data.enrollStudents%>">
+            <input type="hidden" name="${COURSE_ID}" value="${data.courseId}">
+            <input type="hidden" name="${STUDENTS_ENROLLMENT_INFO}" value="${data.enrollStudents}">
         </form>
-        </div>
-        
-        <%
-            for(int i=0; i < 6; i++){
-                List<StudentAttributes> students = data.students[i];
-        %>
-            <%
-                if(students.size()>0){
-            %>  
-                <% if(i == 0){ %>
-                <div class="panel panel-danger">
-                <% } else if(i == 1){ %>
-                <div class="panel panel-primary">
-                <% } else if(i == 2){ %>
-                <div class="panel panel-warning">
-                <% } else if(i == 3){ %>
-                <div class="panel panel-info">
-                <% } else if(i == 4){ %>
-                <div class="panel panel-default">
-                <% } else{ %>
-                <div class="panel panel-danger">
-                <% } %>
+    </div>
+    
+    <c:forEach items="${data.enrollResultPanelList}" var="enrollResultPanel">
+        <c:if test="${not empty enrollResultPanel.studentList}">
+            <div class="panel ${enrollResultPanel.panelClass}">
                 <div class="panel-heading">
-                <%=data.getMessageForEnrollmentStatus(i)%>
+                    ${enrollResultPanel.messageForEnrollmentStatus}
                 </div>
                 <table class="table table-striped table-bordered">
-                <tr> 
-                    <% if(data.hasSection){ %>
-                        <th>Section</th>
-                    <% } %>
-                    <th>Team</th>
-                    <th>Student Name</th>
-                    <th>E-mail address</th>
-                    <th>Comments</th>
-                </tr>
-                <%
-                    for(StudentAttributes student: students){
-                %>
-                    <tr>
-                        <% if(data.hasSection) { %>
-                            <td><%=sanitizeForHtml(student.section)%></td>
-                        <% } %>
-                        <td><%=sanitizeForHtml(student.team)%></td>
-                        <td><%=sanitizeForHtml(student.name)%></td>
-                        <td><%=sanitizeForHtml(student.email)%></td>
-                        <td><%=sanitizeForHtml(student.comments)%></td>
+                    <tr> 
+                        <c:if test="${data.hasSection}">
+                            <th>Section</th>
+                        </c:if>
+                        <th>Team</th>
+                        <th>Student Name</th>
+                        <th>E-mail address</th>
+                        <th>Comments</th>
                     </tr>
-                <%
-                    }
-                %>
+                    <c:forEach items="${enrollResultPanel.studentList}" var="student">
+                        <tr>
+                            <c:if test="${data.hasSection}">
+                                <td>${student.section}</td>
+                            </c:if>
+                            <td>${student.team}</td>
+                            <td>${student.name}</td>
+                            <td>${student.email}</td>
+                            <td>${student.comments}</td>
+                        </tr>
+                    </c:forEach>
                 </table>
-                </div>
-                <br>
-                <br>
-            <%
-                }
-            %>
-        <%
-            }
-        %>
-        
-        <div id="instructorCourseEnrollmentButtons">
-        </div>
-    </div>
-
-    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-
-</body>
-</html>
+            </div>
+            <br>
+            <br>
+        </c:if>
+    </c:forEach>
+    <div id="instructorCourseEnrollmentButtons"></div>
+</ti:instructorPage>

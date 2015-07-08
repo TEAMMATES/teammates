@@ -1956,8 +1956,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         if (Config.isUsingSendgrid()) {
             List<Sendgrid> emailsSent = fsLogic.sendReminderForFeedbackSession(fs.courseId,
                                                                             fs.feedbackSessionName);
-            assertEquals(9, emailsSent.size());
-
+            assertEquals(11, emailsSent.size());
             fs = fsLogic.getFeedbackSession(fs.feedbackSessionName, fs.courseId);
 
             List<StudentAttributes> studentList = logic.getStudentsForCourse(fs.courseId);
@@ -2109,7 +2108,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         List<Sendgrid> emailsSent =
                 fsLogic.sendReminderForFeedbackSessionParticularUsers(
                         fs.courseId, fs.feedbackSessionName, usersToRemind);
-        assertEquals(6, emailsSent.size());
+        assertEquals(7, emailsSent.size());
 
         Sendgrid emailToStudent = TestHelper.getEmailToStudent(studentToRemind, emailsSent);
         String errorMessage = "No email sent to selected student " + studentToRemind.email;

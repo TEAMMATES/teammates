@@ -1,5 +1,6 @@
 package teammates.ui.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -8,27 +9,80 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
+import teammates.ui.template.EnrollResultPanel;
 
 /**
  * PageData: page data for the 'Result' page after enrollment for a course
  */
 public class InstructorCourseEnrollResultPageData extends PageData {
-    
-    public InstructorCourseEnrollResultPageData(AccountAttributes account) {
-        super(account);
-    }
-
     protected static final Logger log = Utils.getLogger();
     
-    public String courseId;
-
-    public List<StudentAttributes>[] students;
+    private String courseId;
+    private List<StudentAttributes>[] students;
+    private boolean hasSection;
+    private String enrollStudents;
+    private List<EnrollResultPanel> enrollResultPanelList;
     
-    public boolean hasSection;
-
-    public String enrollStudents;
-
-    public String getMessageForEnrollmentStatus(int enrollmentStatus) {
+    public InstructorCourseEnrollResultPageData(AccountAttributes account, String courseId, 
+                                                List<StudentAttributes>[] students, boolean hasSection, 
+                                                String enrollStudents) {
+        super(account);
+        this.courseId = courseId;
+        this.students = students;
+        this.hasSection = hasSection;
+        this.enrollStudents = enrollStudents;
+        enrollResultPanelList = new ArrayList<EnrollResultPanel>();
+        
+        for (int i = 0; i < UpdateStatus.STATUS_COUNT; i++) {
+            String panelClass = "";
+            
+            switch (UpdateStatus.enumRepresentation(i)) {
+                case ERROR :
+                    panelClass = "panel-danger";
+                    break;
+                case NEW :
+                    panelClass = "panel-primary";
+                    break;
+                case MODIFIED :
+                    panelClass = "panel-warning";
+                    break;
+                case UNMODIFIED :
+                    panelClass = "panel-info";
+                    break;
+                case NOT_IN_ENROLL_LIST :
+                    panelClass = "panel-default";
+                    break;
+                case UNKNOWN :
+                    panelClass = "panel-danger";
+                    break;
+                default :
+                    log.severe("Unknown Enrollment status " + i);
+                    break;
+            }
+            
+            String messageForEnrollmentStatus = getMessageForEnrollmentStatus(i);
+            EnrollResultPanel enrollResultPanel = new EnrollResultPanel(panelClass, messageForEnrollmentStatus, students[i]);
+            enrollResultPanelList.add(enrollResultPanel);
+        }
+    }
+    
+    public String getCourseId() {
+        return courseId;
+    }
+    
+    public boolean isHasSection() {
+        return hasSection;
+    }
+    
+    public String getEnrollStudents() {
+        return enrollStudents;
+    }
+    
+    public List<EnrollResultPanel> getEnrollResultPanelList() {
+        return enrollResultPanelList;
+    }
+    
+    private String getMessageForEnrollmentStatus(int enrollmentStatus) {
 
         UpdateStatus status = UpdateStatus.enumRepresentation(enrollmentStatus);
 
@@ -56,5 +110,8 @@ public class InstructorCourseEnrollResultPageData extends PageData {
             return "There are students:";
         }
     }
-
+    
+    public String getInstructorCourseEnrollLink() {
+        return getInstructorCourseEnrollLink(courseId);
+    }
 }

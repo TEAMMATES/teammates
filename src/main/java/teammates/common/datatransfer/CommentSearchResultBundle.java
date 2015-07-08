@@ -61,6 +61,8 @@ public class CommentSearchResultBundle extends SearchResultBundle {
             if(!isGiver && !comment.showGiverNameTo.contains(CommentParticipantType.INSTRUCTOR)){
                 giverAsKey = "Anonymous" + comment.courseId;
                 giverName = "Anonymous" + " (" + comment.courseId + ")";
+            } else if (isGiver) {
+                giverName = "You (" + comment.courseId + ")";
             } else {
                 giverName = extractContentFromQuotedString(giverName) + " (" + comment.courseId + ")";
             }

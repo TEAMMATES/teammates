@@ -88,15 +88,8 @@ public class InstructorSearchPageAction extends Action {
         }
         
         InstructorSearchPageData data = new InstructorSearchPageData(account);
-        data.searchKey = searchKey;
-        data.commentSearchResultBundle = commentSearchResults;
-        data.feedbackResponseCommentSearchResultBundle = frCommentSearchResults;
-        data.studentSearchResultBundle = studentSearchResults;
-        data.totalResultsSize = totalResultsSize;
-        //TODO: put the followings into a map
-        data.isSearchCommentForStudents = isSearchCommentForStudents;
-        data.isSearchCommentForResponses = isSearchCommentForResponses;
-        data.isSearchForStudents = isSearchForStudents;
+        data.init(commentSearchResults, frCommentSearchResults, studentSearchResults, searchKey, 
+                      isSearchCommentForStudents, isSearchCommentForResponses, isSearchForStudents);
 
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_SEARCH, data);
     }

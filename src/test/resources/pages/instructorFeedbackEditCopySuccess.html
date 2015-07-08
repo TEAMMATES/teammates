@@ -4,7 +4,7 @@
         <br>
         
             <div class="well well-plain">
-                <form name="form_addfeedbacksession" action="/page/instructorFeedbackAdd" method="post" class="form-group">
+                <form id="form_feedbacksession" action="/page/instructorFeedbackAdd" method="post" class="form-group">
                     <div class="row">
                         <h4 class="label-control col-md-2 text-md">Create new </h4>
                         <div class="col-md-5">
@@ -444,12 +444,13 @@
                     
                     <input type="hidden" value="FeedbackEditCopyinstructor" name="user" />
                 </form>
-                <form action="/page/instructorFeedbacksPage" class="ajaxForSessionsForm" id="ajaxForSessions" style="display:none;">
+                
+            </div>
+            <form action="/page/instructorFeedbacksPage" class="ajaxForSessionsForm" id="ajaxForSessions" style="display:none;">
                     <input type="hidden" value="FeedbackEditCopyinstructor" name="user" />
                     <input type="hidden" value="on" name="isusingAjax" />
                     
                 </form>
-            </div>
         
 
         <br />
@@ -463,7 +464,7 @@
         </div>
         
         <script type="text/javascript">
-            document.getElementById( 'statusMessage' ).scrollIntoView();
+            document.getElementById('statusMessage').scrollIntoView();
         </script>
 
         <br />
@@ -665,8 +666,7 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div aria-hidden="true" aria-labelledby="fsCopyModal" role="dialog" tabindex="-1" id="fsCopyModal" class="modal fade">
+        <div aria-hidden="true" aria-labelledby="fsCopyModal" role="dialog" tabindex="-1" id="fsCopyModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form action="/page/instructorFeedbackEditCopy" role="form" name="form_copy_list" method="post">
@@ -692,5 +692,8 @@
                 </form>
             </div>
         </div>
+
     </div>
+    </div>
+
 

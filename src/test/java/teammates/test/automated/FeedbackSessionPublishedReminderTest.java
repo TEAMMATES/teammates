@@ -176,7 +176,7 @@ public class FeedbackSessionPublishedReminderTest extends BaseComponentUsingTask
         HashMap<String, String> paramMap = createParamMapForAction(session1);
         EmailAction fsPublishedAction = new FeedbackSessionPublishedMailAction(paramMap);
         int course1StudentCount = 5; 
-        int course1InstructorCount = 4;
+        int course1InstructorCount = 5;
         
         if (Config.isUsingSendgrid()) {
             List<Sendgrid> preparedEmails = fsPublishedAction.getPreparedEmailsAndPerformSuccessOperations();

@@ -493,10 +493,10 @@ public class EmailsTest extends BaseComponentTestCase {
         ______TS("feedback session opening emails");
         String prefix;
         String status;
-
+        
         if (Config.isUsingSendgrid()) { 
             List<Sendgrid> emails = new Emails().generateFeedbackSessionOpeningEmails(fsa);
-            assertEquals(9, emails.size());
+            assertEquals(10, emails.size());
         
             prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING;
             status = "is now open";
@@ -504,7 +504,7 @@ public class EmailsTest extends BaseComponentTestCase {
             verifyEmail(s2, emails.get(1), prefix, status);
         } else {
             List<MimeMessage> emails = new Emails().generateFeedbackSessionOpeningEmailsWithoutSendgrid(fsa);
-            assertEquals(9, emails.size());
+            assertEquals(10, emails.size());
         
             prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING;
             status = "is now open";
@@ -516,7 +516,7 @@ public class EmailsTest extends BaseComponentTestCase {
 
         if (Config.isUsingSendgrid()) {
             List<Sendgrid> emails = new Emails().generateFeedbackSessionReminderEmails(c, fsa, students, instructors, instructors);
-            assertEquals(13, emails.size());
+            assertEquals(15, emails.size());
 
             prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER;
             status = "is still open for submissions";
@@ -524,7 +524,7 @@ public class EmailsTest extends BaseComponentTestCase {
             verifyEmail(i2, emails.get(2), prefix, status);
         } else {
             List<MimeMessage> emails = new Emails().generateFeedbackSessionReminderEmailsWithoutSendgrid(c, fsa, students, instructors, instructors);
-            assertEquals(13, emails.size());
+            assertEquals(15, emails.size());
 
             prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER;
             status = "is still open for submissions";
@@ -537,7 +537,7 @@ public class EmailsTest extends BaseComponentTestCase {
         
         if (Config.isUsingSendgrid()) {
             List<Sendgrid> emails = new Emails().generateFeedbackSessionClosingEmails(fsa);
-            assertEquals(7, emails.size());
+            assertEquals(8, emails.size());
 
             prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING;
             status = "is closing soon";
@@ -548,7 +548,7 @@ public class EmailsTest extends BaseComponentTestCase {
             verifyEmail(s3, emails.get(1), prefix, ignoreEmailMsg);
         } else {
             List<MimeMessage> emails = new Emails().generateFeedbackSessionClosingEmailsWithoutSendgrid(fsa);
-            assertEquals(7, emails.size());
+            assertEquals(8, emails.size());
 
             prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING;
             status = "is closing soon";
@@ -563,7 +563,7 @@ public class EmailsTest extends BaseComponentTestCase {
         
         if (Config.isUsingSendgrid()) {
             List<Sendgrid> emails = new Emails().generateFeedbackSessionPublishedEmails(fsa);
-            assertEquals(9, emails.size());
+            assertEquals(10, emails.size());
 
             prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED;
             status = "The feedback responses for the following feedback session is now open for viewing.";
@@ -571,7 +571,7 @@ public class EmailsTest extends BaseComponentTestCase {
             verifyEmail(s2, emails.get(1), prefix, status);
         } else {
             List<MimeMessage> emails = new Emails().generateFeedbackSessionPublishedEmailsWithoutSendgrid(fsa);
-            assertEquals(9, emails.size());
+            assertEquals(10, emails.size());
 
             prefix = Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED;
             status = "The feedback responses for the following feedback session is now open for viewing.";

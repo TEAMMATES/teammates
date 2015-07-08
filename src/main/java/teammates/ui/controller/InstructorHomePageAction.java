@@ -27,60 +27,66 @@ public class InstructorHomePageAction extends Action {
         new GateKeeper().verifyInstructorPrivileges(account);
         
         data = new InstructorHomePageData(account);
-        data.sortCriteria = getRequestParamValue(Const.ParamsNames.COURSE_SORTING_CRITERIA);
-        if (data.sortCriteria == null) {
-            data.sortCriteria = Const.DEFAULT_SORT_CRITERIA;
-        }
         
         boolean omitArchived = true;
         HashMap<String, CourseSummaryBundle> courses = logic.getCourseSummariesWithoutStatsForInstructor(
                                                                  account.googleId, omitArchived);
         
         ArrayList<CourseSummaryBundle> courseList = new ArrayList<CourseSummaryBundle>(courses.values());
-        data.courses = courseList;
         
-        switch (data.sortCriteria) {
-            case Const.SORT_BY_COURSE_ID:
-                CourseSummaryBundle.sortSummarizedCoursesByCourseId(data.courses);
-                break;
-            case Const.SORT_BY_COURSE_NAME:
-                CourseSummaryBundle.sortSummarizedCoursesByCourseName(data.courses);
-                break;
-            case Const.SORT_BY_COURSE_CREATION_DATE:
-                CourseSummaryBundle.sortSummarizedCoursesByCreationDate(data.courses);
-                break;
-            default:
-                throw new RuntimeException("Invalid course sorting criteria.");
-        }
+        String sortCriteria = getSortCriteria(courseList,
+                                              getRequestParamValue(Const.ParamsNames.COURSE_SORTING_CRITERIA));
         
-        data.instructors = new HashMap<String, InstructorAttributes>();
-        data.numberOfPendingComments = new HashMap<String, Integer>();
-        
-        for (CourseSummaryBundle course : data.courses) {
+        HashMap<String, Integer> numberOfPendingComments = new HashMap<String, Integer>();
+        HashMap<String, InstructorAttributes> instructors = new HashMap<String, InstructorAttributes>();
+        for (CourseSummaryBundle course : courseList) {
             String courseId = course.course.id;
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, account.googleId);
-            data.instructors.put(courseId, instructor);
+            instructors.put(courseId, instructor);
             
-            int numberOfCommentsForSendingState = logic.getCommentsForSendingState(
-                                                            courseId, CommentSendingState.PENDING).size();
+            int numberOfCommentsForSendingState =
+                    logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
             
-            int numberOfFeedbackResponseCommentsForSendingState = logic.getFeedbackResponseCommentsForSendingState(
-                                                                            courseId, CommentSendingState.PENDING).size();
+            int numberOfFeedbackResponseCommentsForSendingState =
+                    logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING)
+                         .size();
             
             int numberOfPendingCommentsForThisCourse = numberOfCommentsForSendingState
                                                        + numberOfFeedbackResponseCommentsForSendingState;
             
-            data.numberOfPendingComments.put(courseId, numberOfPendingCommentsForThisCourse);
+            numberOfPendingComments.put(courseId, numberOfPendingCommentsForThisCourse);
             
             FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(course.feedbackSessions);
         }
         
+        data.init(courseList, sortCriteria, instructors, numberOfPendingComments);
+        
         if (logic.isNewInstructor(account.googleId)) {
             statusToUser.add(StatusMessages.HINT_FOR_NEW_INSTRUCTOR);
         }
-        statusToAdmin = "instructorHome Page Load<br>" + "Total Courses: " + data.courses.size();
+        statusToAdmin = "instructorHome Page Load<br>" + "Total Courses: " + courseList.size();
         
         ShowPageResult response = createShowPageResult(Const.ViewURIs.INSTRUCTOR_HOME, data);
         return response;
+    }
+
+    private String getSortCriteria(ArrayList<CourseSummaryBundle> courseList, String sortCriteria) {
+        if (sortCriteria == null) {
+            sortCriteria = Const.DEFAULT_SORT_CRITERIA;
+        }
+        switch (sortCriteria) {
+            case Const.SORT_BY_COURSE_ID:
+                CourseSummaryBundle.sortSummarizedCoursesByCourseId(courseList);
+                break;
+            case Const.SORT_BY_COURSE_NAME:
+                CourseSummaryBundle.sortSummarizedCoursesByCourseName(courseList);
+                break;
+            case Const.SORT_BY_COURSE_CREATION_DATE:
+                CourseSummaryBundle.sortSummarizedCoursesByCreationDate(courseList);
+                break;
+            default:
+                throw new RuntimeException("Invalid course sorting criteria.");
+        }
+        return sortCriteria;
     }    
 }

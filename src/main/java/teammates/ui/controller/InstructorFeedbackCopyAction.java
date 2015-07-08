@@ -2,7 +2,9 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -36,13 +38,13 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
         
         InstructorFeedbacksPageData data = new InstructorFeedbacksPageData(account);
         
+        FeedbackSessionAttributes fs = null;
         try {
-            FeedbackSessionAttributes fs = logic.copyFeedbackSession(copiedFeedbackSessionName,
-                                                                     copiedCourseId,
-                                                                     feedbackSessionName,
-                                                                     courseId,
-                                                                     instructor.email);
-            data.newFeedbackSession = fs;
+            fs = logic.copyFeedbackSession(copiedFeedbackSessionName,
+                                           copiedCourseId,
+                                           feedbackSessionName,
+                                           courseId,
+                                           instructor.email);
             
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_COPIED);
             statusToAdmin =
@@ -68,18 +70,22 @@ public class InstructorFeedbackCopyAction extends InstructorFeedbacksPageAction 
         // isError == true if an exception occurred above
         
         boolean omitArchived = true;
-        data.instructors = loadCourseInstructorMap(omitArchived);
+        Map<String, InstructorAttributes> instructors = loadCourseInstructorMap(omitArchived);
         List<InstructorAttributes> instructorList =
-                new ArrayList<InstructorAttributes>(data.instructors.values());
-        data.courses = loadCoursesList(instructorList);
-        data.existingFeedbackSessions = loadFeedbackSessionsList(instructorList);
+                new ArrayList<InstructorAttributes>(instructors.values());
+        List<CourseAttributes> courses = loadCoursesList(instructorList);
         
-        if (data.existingFeedbackSessions.isEmpty()) {
+        List<FeedbackSessionAttributes> feedbackSessions = loadFeedbackSessionsList(instructorList);
+        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(feedbackSessions);
+        
+        if (feedbackSessions.isEmpty()) {
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_ADD_DB_INCONSISTENCY);
         }
         
-        FeedbackSessionAttributes.sortFeedbackSessionsByCreationTimeDescending(data.existingFeedbackSessions);
+        Map<String, List<String>> courseIdToSectionName = logic.getCourseIdToSectionNamesMap(courses);
         
+        data.initWithoutHighlightedRow(courses, null, feedbackSessions, instructors, fs, null, courseIdToSectionName);
+       
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACKS, data);
     }
 
