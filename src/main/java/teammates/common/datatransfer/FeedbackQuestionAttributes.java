@@ -76,10 +76,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public String getId() {
         return feedbackQuestionId;
     }
-    
-    public FeedbackQuestionType getQuestionType() {
-        return questionType;
-    }
 
     /** NOTE: Only use this to match and search for the ID of a known existing question entity. */
     public void setId(String id) {
@@ -522,4 +518,57 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     private Class<? extends FeedbackQuestionDetails> getFeedbackQuestionDetailsClass() {
         return questionType.getQuestionDetailsClass();
     }
+
+    public String getFeedbackQuestionId() {
+        return feedbackQuestionId;
+    }
+
+    public String getFeedbackSessionName() {
+        return feedbackSessionName;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public String getCreatorEmail() {
+        return creatorEmail;
+    }
+
+    public Text getQuestionMetaData() {
+        return questionMetaData;
+    }
+
+    public int getQuestionNumber() {
+        return questionNumber;
+    }
+
+    public FeedbackQuestionType getQuestionType() {
+        return questionType;
+    }
+
+    public FeedbackParticipantType getGiverType() {
+        return giverType;
+    }
+
+    public FeedbackParticipantType getRecipientType() {
+        return recipientType;
+    }
+
+    public int getNumberOfEntitiesToGiveFeedbackTo() {
+        return numberOfEntitiesToGiveFeedbackTo;
+    }
+
+    public List<FeedbackParticipantType> getShowResponsesTo() {
+        return showResponsesTo;
+    }
+
+    public List<FeedbackParticipantType> getShowGiverNameTo() {
+        return showGiverNameTo;
+    }
+
+    public List<FeedbackParticipantType> getShowRecipientNameTo() {
+        return showRecipientNameTo;
+    }
+    
 }

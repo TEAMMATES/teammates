@@ -25,7 +25,7 @@ public class StudentCommentsPageUiTest extends BaseUiTestCase {
     }
     
     @Test 
-    public void allTests() throws Exception{
+    public void allTests() throws Exception {
         testConent();
     }
 

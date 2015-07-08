@@ -12,6 +12,7 @@ import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
+import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.ui.template.CommentRow;
 import teammates.ui.template.InstructorCommentsCommentRow;
@@ -108,8 +109,7 @@ public class InstructorCommentsPageData extends PageData {
                 namesStringBuilder.append("<b>All students in this course</b>, ");
             } else if (student != null) {
                 if (recipients.size() == 1) {
-                    namesStringBuilder.append("<b>" + student.name + "</b>" 
-                            + " (" + student.team + ", <a href=\"mailto:" + student.email + "\">" + student.email + "</a>), ");
+                    namesStringBuilder.append("<b>" + student.name + " (" + student.team + ", " + student.email + ")</b>, ");
                 } else {
                     namesStringBuilder.append("<b>" + student.name + "</b>" + ", ");
                 }
@@ -164,10 +164,11 @@ public class InstructorCommentsPageData extends PageData {
         List<CommentAttributes> commentsForGiver = comments.get(giverEmail);
         for (int i = 0; i < commentsForGiver.size(); i++) {            
             String recipientDetails = getRecipientNames(commentsForGiver.get(i).recipients);
-            String creationTime = TimeHelper.formatTime(commentsForGiver.get(i).createdAt);          
+            String creationTime = 
+                    Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(commentsForGiver.get(i).createdAt);          
             Boolean isInstructorAllowedToModifyCommentInSection = commentModifyPermissions.get(giverEmail).get(i);
             String typeOfPeopleCanViewComment = getTypeOfPeopleCanViewComment(commentsForGiver.get(i));
-            String editedAt = commentsForGiver.get(i).getEditedAtTextForInstructor(giverName.equals("Anonymous"));
+            String editedAt = commentsForGiver.get(i).getEditedAtText(giverName.equals("Anonymous"));
             String showCommentsTo = getShowCommentsToForComment(commentsForGiver.get(i));
             String showGiverNameTo = getShowGiverNameToForComment(commentsForGiver.get(i));
             String showRecipientNameTo = getShowRecipientNameToForComment(commentsForGiver.get(i));
