@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import javax.mail.MessagingException;       
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.CommentSendingState;
@@ -55,6 +57,26 @@ public class PendingCommentClearedMailAction extends EmailAction {
         commentsLogic.updateCommentsSendingState(courseId, CommentSendingState.SENDING, CommentSendingState.PENDING);
     }
 
+    @Override
+    protected List<MimeMessage> prepareMailToBeSentWithoutSendgrid()
+            throws MessagingException, IOException, EntityDoesNotExistException {
+        Emails emailManager = new Emails();
+        List<MimeMessage> preparedEmails = null;
+        
+        log.info("Fetching recipient emails for pending comments in course : "
+                + courseId);
+        Set<String> recipients = commentsLogic.getRecipientEmailsForSendingComments(courseId);
+        
+        if(recipients != null) {
+            preparedEmails = emailManager
+                              .generatePendingCommentsClearedEmailsWithoutSendgrid(courseId, recipients);
+        } else {
+            log.severe("Recipient emails for pending comments in course : " + courseId +
+                       " could not be fetched");
+        }
+        return preparedEmails;
+    }
+    
     @Override
     protected List<Sendgrid> prepareMailToBeSent()
             throws IOException, EntityDoesNotExistException {

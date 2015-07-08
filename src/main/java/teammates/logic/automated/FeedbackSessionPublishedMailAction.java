@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.mail.MessagingException;       
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -54,6 +56,32 @@ public class FeedbackSessionPublishedMailAction extends EmailAction {
         FeedbackSessionsLogic.inst().updateFeedbackSession(feedbackObject);
     }
 
+    @Override
+    protected List<MimeMessage> prepareMailToBeSentWithoutSendgrid() 
+                                    throws MessagingException, IOException, EntityDoesNotExistException {
+        Emails emailManager = new Emails();
+        List<MimeMessage> preparedEmails = null;
+        
+        FeedbackSessionAttributes feedbackObject = FeedbackSessionsLogic.inst()
+                .getFeedbackSession(feedbackSessionName, courseId);
+        log.info("Fetching feedback session object for feedback session name : "
+                + feedbackSessionName + " and course : " + courseId);
+        
+        if(feedbackObject != null) {
+             /*
+              * Check if feedback session was deleted between scheduling
+              * and the actual sending of emails
+              */
+            preparedEmails = emailManager
+                              .generateFeedbackSessionPublishedEmailsWithoutSendgrid(feedbackObject);
+        } else {
+            log.severe("Feedback session object for feedback session name : " + feedbackSessionName +
+                       " for course : " + courseId +" could not be fetched" );
+        }
+        return preparedEmails;
+        
+    }
+    
     @Override
     protected List<Sendgrid> prepareMailToBeSent() throws IOException, EntityDoesNotExistException {
         Emails emailManager = new Emails();
