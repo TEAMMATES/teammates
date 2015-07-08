@@ -3,6 +3,7 @@ package teammates.ui.controller;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import teammates.common.exception.NullPostParameterException;
 import teammates.common.exception.PageNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.ActivityLogEntry;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
@@ -106,12 +108,18 @@ public class ControllerServlet extends HttpServlet {
                 resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
             }
         } catch (Throwable e) {
-            Sendgrid email = new Logic().emailErrorReport(
-                    req.getServletPath(), 
-                    HttpRequestHelper.printRequestParameters(req), 
-                    e);
+            if (Config.isUsingSendgrid()) {
+                Sendgrid email = new Logic().emailErrorReport(
+                                      req.getServletPath(), HttpRequestHelper.printRequestParameters(req), e);
 
-            log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email)); 
+                log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email)); 
+            } else {
+                MimeMessage email = new Logic().emailErrorReportWithoutSendgrid(
+                                         req.getServletPath(), HttpRequestHelper.printRequestParameters(req), e);
+
+                log.severe(ActivityLogEntry.generateSystemErrorReportLogMessage(req, email)); 
+            }
+            
             cleanUpStatusMessageInSession(req);
             resp.sendRedirect(Const.ViewURIs.ERROR_PAGE);
         }  
