@@ -250,6 +250,9 @@ public class PageData {
         return result;
     }
     
+    /**
+     * Returns an element tag representing a HTML option
+     */
     public static ElementTag createOption(String text, String value, boolean isSelected) {
         if (isSelected) {
             return new ElementTag(text, "value", value, "selected", "selected");
@@ -258,6 +261,9 @@ public class PageData {
         }
     }
     
+    /**
+     * Returns an element tag representing a HTML option
+     */
     public static ElementTag createOption(String text, String value) {
         return new ElementTag(text, "value", value);
     }

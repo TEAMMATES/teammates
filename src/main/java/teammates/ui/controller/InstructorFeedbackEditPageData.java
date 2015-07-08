@@ -206,7 +206,7 @@ public class InstructorFeedbackEditPageData extends PageData {
                 boolean isSelected = false;
                 // for existing questions
                 if (question != null) {
-                    boolean isGiverType     = isValidGiver     && question.giverType == option;
+                    boolean isGiverType = isValidGiver && question.giverType == option;
                     boolean isRecipientType = isValidRecipient && question.recipientType == option;
                     
                     isSelected = (isGiverType || isRecipientType); 
