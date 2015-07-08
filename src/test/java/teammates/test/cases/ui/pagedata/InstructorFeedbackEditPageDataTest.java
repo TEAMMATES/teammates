@@ -323,7 +323,6 @@ public class InstructorFeedbackEditPageDataTest extends BaseTestCase{
         nonParticipants.removeAll(list);
         
         for (FeedbackParticipantType nonParticipant : nonParticipants) {
-            System.out.println(nonParticipant.name());
             assertFalse(map.containsKey(nonParticipant.name()));
         }        
     }
