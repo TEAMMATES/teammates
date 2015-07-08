@@ -53,12 +53,12 @@ public class InstructorFeedbackEditCopyPageActionTest extends
         assertFalse(r.isError);
 
         InstructorFeedbackEditCopyPageData pageData = (InstructorFeedbackEditCopyPageData) r.data;
-        assertEquals(4, pageData.courses.size());
+        assertEquals(4, pageData.getCourses().size());
  
         
         List<String> idOfCourses = new ArrayList<String>();
         
-        for (CourseAttributes course: pageData.courses) {
+        for (CourseAttributes course: pageData.getCourses()) {
             idOfCourses.add(course.id);
         }
         

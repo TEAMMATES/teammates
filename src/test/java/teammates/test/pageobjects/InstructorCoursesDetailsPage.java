@@ -11,7 +11,7 @@ public class InstructorCoursesDetailsPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Course Details");
+        return getPageSource().contains("<h1>Course Details</h1>");
     }
     
     public int getStudentCountForCourse(String courseId) {

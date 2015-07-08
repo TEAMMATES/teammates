@@ -36,9 +36,9 @@ public class InstructorCommentsPage extends AppPage {
             ;//do nothing
         }
     }
-    
+
     public void clickSendEmailNotificationButton(){
-        browser.driver.findElement(By.xpath("//*[@id=\"mainContent\"]/div[5]/div[1]/div/a")).click();
+        browser.driver.findElement(By.xpath("//*[@id=\"mainContent\"]/div[4]/div[1]/div/a")).click();
         waitForPageToLoad();
     }
     

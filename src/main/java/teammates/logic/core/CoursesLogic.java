@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import teammates.common.datatransfer.AccountAttributes;
@@ -716,5 +717,39 @@ public class CoursesLogic {
     public boolean isCourseArchived(CourseAttributes course, InstructorAttributes instructor) {
         boolean isCourseArchived = (instructor.isArchived != null) ? instructor.isArchived : course.isArchived;
         return isCourseArchived;
+    }
+    
+    public Map<String, List<String>> getCourseIdToSectionNamesMap(List<CourseAttributes> courses)
+                                    throws EntityDoesNotExistException {
+        Map<String, List<String>> courseIdToSectionName = new HashMap<String, List<String>>();
+        for (CourseAttributes course : courses) {
+            List<String> sections = getSectionsNameForCourse(course.id);
+            courseIdToSectionName.put(course.id, sections);
+        }
+        
+        return courseIdToSectionName;
+    }
+    
+    // TODO: Optimize extractActiveCourses() and extractArchivedCourses() to reduce the number of repeated calls of
+    // isCourseArchived(), which retrieves information from the database
+    
+    public List<CourseDetailsBundle> extractActiveCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
+        List<CourseDetailsBundle> result = new ArrayList<CourseDetailsBundle>();
+        for (CourseDetailsBundle courseBundle : courseBundles) {
+            if (!isCourseArchived(courseBundle.course.id, googleId)) {
+                result.add(courseBundle);
+            }
+        }
+        return result;
+    }
+    
+    public List<CourseDetailsBundle> extractArchivedCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
+        List<CourseDetailsBundle> result = new ArrayList<CourseDetailsBundle>();
+        for (CourseDetailsBundle courseBundle : courseBundles) {
+            if (isCourseArchived(courseBundle.course.id, googleId)) {
+                result.add(courseBundle);
+            }
+        }
+        return result;
     }
 }
