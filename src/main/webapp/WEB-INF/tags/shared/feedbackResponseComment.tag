@@ -3,6 +3,8 @@
 <%@ tag import="teammates.common.util.Const" %>
 <%@ tag import="teammates.common.datatransfer.FeedbackParticipantType" %>
 <%@ attribute name="frc" type="teammates.ui.template.FeedbackResponseComment" required="true" %>
+<%@ attribute name="commentId" %>
+<%@ attribute name="googleId" %>
 <%@ attribute name="firstIndex" %>
 <%@ attribute name="secondIndex" %>
 <%@ attribute name="thirdIndex" %>
@@ -64,7 +66,7 @@
                 <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="${frc.commentId}">
                 <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${frc.courseId}">
                 <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${frc.feedbackSessionName}">
-                <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${frc.googleId}">
+                <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${googleId}">
             </form>
             <a type="button"
                id="commentedit-${divId}"
@@ -132,127 +134,117 @@
                                        <c:if test="${frc.showGiverNameToResponseGiver}">checked="checked"</c:if>>
                             </td>
                         </tr>
-                        <c:if test="${frc.responseVisibleToRecipient}">
-		                    <tr id="response-recipient-${divId}">
-		                        <td class="text-left">
-		                            <div data-toggle="tooltip"
-		                                 data-placement="top"
-		                                 title=""
-		                                 data-original-title="Control what response recipient(s) can view">
-		                                Response Recipient(s)
-		                            </div>
-		                        </td>
-		                        <td>
-		                            <input class="visibilityCheckbox answerCheckbox centered"
-		                                   name="receiverLeaderCheckbox"
-		                                   type="checkbox"
-		                                   value="<%= FeedbackParticipantType.RECEIVER %>"
-		                                   <c:if test="${frc.showCommentToResponseRecipient}">checked="checked"</c:if>>
-		                        </td>
-		                        <td>
-		                            <input class="visibilityCheckbox giverCheckbox"
-		                                   type="checkbox"
-		                                   value=<%= FeedbackParticipantType.RECEIVER %>"
-		                                   <c:if test="${frc.showGiverNameToResponseRecipient}">checked="checked"</c:if>>
-		                        </td>
-		                    </tr>
-		                </c:if>
-                        <c:if test="${frc.responseVisibleToGiverTeam}">
-	                        <tr id="response-giver-team-${divId}">
-	                            <td class="text-left">
-	                                <div data-toggle="tooltip"
-	                                     data-placement="top"
-	                                     title=""
-	                                     data-original-title="Control what team members of response giver can view">
-	                                    Response Giver's Team Members
-	                                </div>
-	                            </td>
-	                            <td>
-	                                <input class="visibilityCheckbox answerCheckbox"
-	                                       type="checkbox"
-	                                       value="<%= FeedbackParticipantType.OWN_TEAM_MEMBERS %>"
-	                                       <c:if test="${frc.showCommentToResponseGiverTeam}">checked="checked"</c:if>>
-	                            </td>
-	                            <td>
-	                                <input class="visibilityCheckbox giverCheckbox"
-	                                       type="checkbox"
-	                                       value="<%= FeedbackParticipantType.OWN_TEAM_MEMBERS %>"
-	                                       <c:if test="${frc.showGiverNameToResponseGiverTeam}">checked="checked"</c:if>>
-	                            </td>
-	                        </tr>
-	                    </c:if>
-                        <c:if test="${frc.responseVisibleToRecipientTeam}">
-	                        <tr id="response-recipient-team-${divId}">
-	                            <td class="text-left">
-	                                <div data-toggle="tooltip"
-	                                     data-placement="top"
-	                                     title=""
-	                                     data-original-title="Control what team members of response recipient(s) can view">
-	                                    Response Recipient's Team Members
-	                                </div>
-	                            </td>
-	                            <td>
-	                                <input class="visibilityCheckbox answerCheckbox"
-	                                       type="checkbox"
-	                                       value="<%= FeedbackParticipantType.RECEIVER_TEAM_MEMBERS %>"
-	                                       <c:if test="${frc.showCommentToResponseRecipientTeam}">checked="checked"</c:if>>
-	                            </td>
-	                            <td>
-	                                <input class="visibilityCheckbox giverCheckbox"
-	                                       type="checkbox"
-	                                       value="<%= FeedbackParticipantType.RECEIVER_TEAM_MEMBERS %>"
-	                                       <c:if test="${frc.showGiverNameToResponseRecipientTeam}">checked="checked"</c:if>>
-	                            </td>
-	                        </tr>
-	                    </c:if>
-                        <c:if test="${frc.responseVisibleToStudents}">
-	                        <tr id="response-students-${divId}">
-	                            <td class="text-left">
-	                                <div data-toggle="tooltip"
-	                                     data-placement="top"
-	                                     title=""
-	                                     data-original-title="Control what other students in this course can view">
-	                                    Other students in this course
-	                                </div>
-	                            </td>
-	                            <td>
-	                                <input class="visibilityCheckbox answerCheckbox"
-	                                       type="checkbox"
-	                                       value="<%= FeedbackParticipantType.STUDENTS %>"
-	                                       <c:if test="${frc.showCommentToStudents}">checked="checked"</c:if>>
-	                            </td>
-	                            <td>
-	                                <input class="visibilityCheckbox giverCheckbox"
-	                                       type="checkbox"
-	                                       value="<%= FeedbackParticipantType.STUDENTS %>"
-	                                       <c:if test="${frc.showGiverNameToStudents}">checked="checked"</c:if>>
-	                            </td>
-	                        </tr>
-	                    </c:if>
-                        <c:if test="${frc.responseVisibleToInstructors}">
-	                        <tr id="response-instructors-${divId}">
-	                            <td class="text-left">
-	                                <div data-toggle="tooltip"
-	                                     data-placement="top"
-	                                     title=""
-	                                     data-original-title="Control what instructors can view">
-	                                    Instructors
-	                                </div>
-	                            </td>
-	                            <td>
-	                                <input class="visibilityCheckbox answerCheckbox"
-	                                       type="checkbox"
-	                                       value="<%= FeedbackParticipantType.INSTRUCTORS %>"
-	                                       <c:if test="${frc.showCommentToInstructors}">checked="checked"</c:if>>
-	                            </td>
-	                            <td>
-	                                <input class="visibilityCheckbox giverCheckbox"
-	                                       type="checkbox"
-	                                       value="<%= FeedbackParticipantType.INSTRUCTORS %>"
-	                                       <c:if test="${frc.showGiverNameToInstructors}">checked="checked"</c:if>>
-	                            </td>
-	                        </tr>
-	                    </c:if>
+	                    <tr id="response-recipient-${divId}">
+	                        <td class="text-left">
+	                            <div data-toggle="tooltip"
+	                                 data-placement="top"
+	                                 title=""
+	                                 data-original-title="Control what response recipient(s) can view">
+	                                Response Recipient(s)
+	                            </div>
+	                        </td>
+	                        <td>
+	                            <input class="visibilityCheckbox answerCheckbox centered"
+	                                   name="receiverLeaderCheckbox"
+	                                   type="checkbox"
+	                                   value="<%= FeedbackParticipantType.RECEIVER %>"
+	                                   <c:if test="${frc.showCommentToResponseRecipient}">checked="checked"</c:if>>
+	                        </td>
+	                        <td>
+	                            <input class="visibilityCheckbox giverCheckbox"
+	                                   type="checkbox"
+	                                   value="<%= FeedbackParticipantType.RECEIVER %>"
+	                                   <c:if test="${frc.showGiverNameToResponseRecipient}">checked="checked"</c:if>>
+	                        </td>
+	                    </tr>
+                        <tr id="response-giver-team-${divId}">
+                            <td class="text-left">
+                                <div data-toggle="tooltip"
+                                     data-placement="top"
+                                     title=""
+                                     data-original-title="Control what team members of response giver can view">
+                                    Response Giver's Team Members
+                                </div>
+                            </td>
+                            <td>
+                                <input class="visibilityCheckbox answerCheckbox"
+                                       type="checkbox"
+                                       value="<%= FeedbackParticipantType.OWN_TEAM_MEMBERS %>"
+                                       <c:if test="${frc.showCommentToResponseGiverTeam}">checked="checked"</c:if>>
+                            </td>
+                            <td>
+                                <input class="visibilityCheckbox giverCheckbox"
+                                       type="checkbox"
+                                       value="<%= FeedbackParticipantType.OWN_TEAM_MEMBERS %>"
+                                       <c:if test="${frc.showGiverNameToResponseGiverTeam}">checked="checked"</c:if>>
+                            </td>
+                        </tr>
+                        <tr id="response-recipient-team-${divId}">
+                            <td class="text-left">
+                                <div data-toggle="tooltip"
+                                     data-placement="top"
+                                     title=""
+                                     data-original-title="Control what team members of response recipient(s) can view">
+                                    Response Recipient's Team Members
+                                </div>
+                            </td>
+                            <td>
+                                <input class="visibilityCheckbox answerCheckbox"
+                                       type="checkbox"
+                                       value="<%= FeedbackParticipantType.RECEIVER_TEAM_MEMBERS %>"
+                                       <c:if test="${frc.showCommentToResponseRecipientTeam}">checked="checked"</c:if>>
+                            </td>
+                            <td>
+                                <input class="visibilityCheckbox giverCheckbox"
+                                       type="checkbox"
+                                       value="<%= FeedbackParticipantType.RECEIVER_TEAM_MEMBERS %>"
+                                       <c:if test="${frc.showGiverNameToResponseRecipientTeam}">checked="checked"</c:if>>
+                            </td>
+                        </tr>
+                        <tr id="response-students-${divId}">
+                            <td class="text-left">
+                                <div data-toggle="tooltip"
+                                     data-placement="top"
+                                     title=""
+                                     data-original-title="Control what other students in this course can view">
+                                    Other students in this course
+                                </div>
+                            </td>
+                            <td>
+                                <input class="visibilityCheckbox answerCheckbox"
+                                       type="checkbox"
+                                       value="<%= FeedbackParticipantType.STUDENTS %>"
+                                       <c:if test="${frc.showCommentToStudents}">checked="checked"</c:if>>
+                            </td>
+                            <td>
+                                <input class="visibilityCheckbox giverCheckbox"
+                                       type="checkbox"
+                                       value="<%= FeedbackParticipantType.STUDENTS %>"
+                                       <c:if test="${frc.showGiverNameToStudents}">checked="checked"</c:if>>
+                            </td>
+                        </tr>
+                        <tr id="response-instructors-${divId}">
+                            <td class="text-left">
+                                <div data-toggle="tooltip"
+                                     data-placement="top"
+                                     title=""
+                                     data-original-title="Control what instructors can view">
+                                    Instructors
+                                </div>
+                            </td>
+                            <td>
+                                <input class="visibilityCheckbox answerCheckbox"
+                                       type="checkbox"
+                                       value="<%= FeedbackParticipantType.INSTRUCTORS %>"
+                                       <c:if test="${frc.showCommentToInstructors}">checked="checked"</c:if>>
+                            </td>
+                            <td>
+                                <input class="visibilityCheckbox giverCheckbox"
+                                       type="checkbox"
+                                       value="<%= FeedbackParticipantType.INSTRUCTORS %>"
+                                       <c:if test="${frc.showGiverNameToInstructors}">checked="checked"</c:if>>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -279,7 +271,7 @@
             <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="${frc.commentId}">
             <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="${frc.courseId}">
             <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>" value="${frc.feedbackSessionName}">
-            <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${frc.googleId}">
+            <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="${googleId}">
             <input type="hidden" name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO %>" value="${frc.showCommentToString}">
             <input type="hidden" name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO %>" value="${frc.showGiverNameToString}">
         </form>
