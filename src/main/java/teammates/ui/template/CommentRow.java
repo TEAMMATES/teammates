@@ -7,6 +7,7 @@ public class CommentRow {
     protected CommentAttributes comment;
     protected String recipientDetails;
     protected String creationTime;
+    protected String editedAt;
     protected ElementTag editButton;
    
     public CommentRow() {
@@ -14,11 +15,12 @@ public class CommentRow {
     }
     
     public CommentRow(String giverDetails, CommentAttributes comment,
-                      String recipientDetails, String creationTime, ElementTag editButton) {
+                      String recipientDetails, String creationTime, String editedAt, ElementTag editButton) {
         this.giverDetails = giverDetails;
         this.comment = comment;
         this.recipientDetails = recipientDetails;
         this.creationTime = creationTime;
+        this.editedAt = editedAt;
         this.editButton = editButton;
     }
     
@@ -36,6 +38,10 @@ public class CommentRow {
     
     public String getCreationTime() {
         return creationTime;
+    }
+    
+    public String getEditedAt() {
+        return editedAt;
     }
     
     public ElementTag getEditButton() {

@@ -19,7 +19,7 @@
                     style="display: none;" 
                 </c:if>>
                 <div class="panel-heading">
-                    From <b>${commentsForStudentsTable.giverName}</b>
+                    From <b>${commentsForStudentsTable.giverName} (${courseId})</b>
                 </div>
                 <ul class="list-group comments">
                     <c:forEach items="${commentsForStudentsTable.rows}" var="commentRow"> <%--student comments loop starts--%>
@@ -33,7 +33,7 @@
                                 id="form_commentedit-${commentIdx}">
                                 <div id="commentBar-${commentIdx}">
                                     
-                                    <span class="text-muted">To ${commentRow.recipientDetails} on ${commentRow.creationTime} ${commentRow.editedAt}</span>
+                                    <span class="text-muted">To ${commentRow.recipientDetails} [${commentRow.creationTime}] ${commentRow.editedAt}</span>
                                     <c:if test="${commentRow.instructorAllowedToModifyCommentInSection}"> <%-- comment edit/delete control starts --%>
                                         <a type="button"
                                             id="commentdelete-${commentIdx}"

@@ -19,7 +19,7 @@ import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.ui.template.CommentRow;
 import teammates.ui.template.ElementTag;
-import teammates.ui.template.FeedbackResponseCommentRow;
+import teammates.ui.template.FeedbackResponseComment;
 import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.QuestionTable;
 import teammates.ui.template.ResponseRow;
@@ -249,35 +249,38 @@ public class InstructorSearchPageData extends PageData {
         for (CommentAttributes comment : commentSearchResultBundle.giverCommentTable.get(giverEmailPlusCourseId)) {            
             String recipientDetails = commentSearchResultBundle.recipientTable
                                                                    .get(comment.getCommentId().toString());
-            String creationTime = TimeHelper.formatTime(comment.createdAt);          
-            
+            String creationTime = Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt);          
+            String editedAt = comment.getEditedAtText(giverDetails.equals("Anonymous (" + comment.courseId + ")"));
             String link = instructorCommentsLink + "&" + Const.ParamsNames.COURSE_ID 
                                             + "=" + comment.courseId + "#" + comment.getCommentId();           
             ElementTag editButton = createEditButton(link, Const.Tooltips.COMMENT_EDIT_IN_COMMENTS_PAGE);
             
-            rows.add(new CommentRow(giverDetails, comment, recipientDetails, creationTime, editButton));
+            rows.add(new CommentRow(giverDetails, comment, recipientDetails, creationTime, editedAt, editButton));
         }       
         return rows;
     }
     
-    private List<FeedbackResponseCommentRow> createFeedbackResponseCommentRows(
+    private List<FeedbackResponseComment> createFeedbackResponseCommentRows(
                                     FeedbackResponseAttributes responseEntry,
                                     FeedbackResponseCommentSearchResultBundle frcSearchResultBundle) {
         
-        List<FeedbackResponseCommentRow> rows = new ArrayList<FeedbackResponseCommentRow>();
+        List<FeedbackResponseComment> rows = new ArrayList<FeedbackResponseComment>();
         List<FeedbackResponseCommentAttributes> frcList = frcSearchResultBundle
                                                               .comments.get(responseEntry.getId());
         
         for (FeedbackResponseCommentAttributes frc : frcList) {
             String frCommentGiver = frcSearchResultBundle
                                             .commentGiverTable.get(frc.getId().toString());
-            String creationTime = TimeHelper.formatTime(frc.createdAt);         
+            if (!frCommentGiver.equals("Anonymous")) {
+                frCommentGiver = frc.giverEmail;
+            }
             String link = getInstructorCommentsLink() + "&" + Const.ParamsNames.COURSE_ID + "=" 
                               + frc.courseId + "#" + frc.getId();         
-            ElementTag editButton = createEditButton(link, Const.Tooltips.COMMENT_EDIT_IN_COMMENTS_PAGE);
             
-            rows.add(new FeedbackResponseCommentRow(frCommentGiver, frc.commentText.getValue(), 
-                                                        creationTime, editButton));
+            FeedbackResponseComment frcDiv = new FeedbackResponseComment(frc, frCommentGiver);
+            frcDiv.setLinkToCommentsPage(link);
+            
+            rows.add(frcDiv);
         } 
         return rows;
     }

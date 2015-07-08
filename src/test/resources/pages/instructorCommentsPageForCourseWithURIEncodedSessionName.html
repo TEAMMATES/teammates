@@ -2,9 +2,9 @@
             <div id="topOfPage"></div>
             <h1>Comments from Instructors</h1>
             <br>
-            <div class="inner-container">
+            <div class="well well-plain">
                 <div class="row">
-                    <div class="col-sm-6 instructor-header-bar">
+                    <div class="col-md-12">
                         <form method="get" action="/page/instructorSearchPage?user=comments.idOfInstructorOfCourseWithUriChars" name="search_form">
                             <div class="input-group">
                                 <input name="searchkey" title="Search for comment" class="form-control" placeholder="Any info related to comments" id="searchBox" type="text"> 
@@ -16,6 +16,92 @@
                             <input name="searchcommentforresponses" value="true" type="hidden">
                             <input name="user" value="comments.idOfInstructorOfCourseWithUriChars" type="hidden">
                         </form>
+                        <div class="well well-plain">
+			                <div class="row">
+			                    <div class="col-md-2">
+			                        <div class="checkbox">
+			                            <input id="option-check" type="checkbox">
+			                            <label for="option-check">Show More Options</label>
+			                        </div>
+			                    </div>
+			                    <div class="col-md-3">
+			                        <div class="checkbox">
+			                            <input id="displayArchivedCourses_check" type="checkbox">
+			                            <label for="displayArchivedCourses_check">Include Archived Courses</label>
+			                            <div id="displayArchivedCourses_link" style="display:none;">
+			                                <a href="/page/instructorCommentsPage?user=comments.idOfInstructorOfCourseWithUriChars">link back to the page</a>
+			                            </div>
+			                        </div>
+			                    </div>
+			                </div>
+			                <div class="row">
+			                    <div id="more-options" class="well well-plain">
+			                        <form class="form-horizontal" role="form">
+			                            <div class="row">
+			                                <div class="col-sm-4">
+			                                    <div class="text-color-primary">
+			                                        <strong>Show comments for: </strong>
+			                                    </div>
+			                                    <br>
+			                                    <div class="checkbox">
+			                                        <input id="panel_all" checked="checked" type="checkbox"> <label for="panel_all"><strong>All</strong></label>
+			                                    </div>
+			                                    <br>
+			                                    
+			                                    
+			                                    <div class="checkbox">
+			                                        <input id="panel_check-1" checked="checked" type="checkbox"> <label for="panel_check-1">
+			                                            Students </label>
+			                                    </div>
+			                                    
+			                                    
+			                                    <div class="checkbox">
+			                                        <input id="panel_check-2" checked="checked" type="checkbox"> <label for="panel_check-2">
+			                                            Session: comments.Session with name ,?:@=+$# </label>
+			                                    </div>
+			                                    
+			                                </div>
+			                                <div class="col-sm-4">
+			                                    <div class="text-color-primary">
+			                                        <strong>Show comments from: </strong>
+			                                    </div>
+			                                    <br>
+			                                    <div class="checkbox">
+			                                        <input value="" id="giver_all" checked="checked" type="checkbox"> <label for="giver_all"><strong>All</strong></label>
+			                                    </div>
+			                                    <br>
+			                                    <div class="checkbox">
+			                                        <input id="giver_check-by-you" checked="checked" type="checkbox"> <label for="giver_check-by-you">
+			                                            You </label>
+			                                    </div>
+			                                    <div class="checkbox">
+			                                        <input id="giver_check-by-others" checked="checked" type="checkbox"> <label for="giver_check-by-others">
+			                                            Others </label>
+			                                    </div>
+			                                </div>
+			                                <div class="col-sm-4">
+			                                    <div class="text-color-primary">
+			                                        <strong>Show comments with status: </strong>
+			                                    </div>
+			                                    <br>
+			                                    <div class="checkbox">
+			                                        <input value="" id="status_all" checked="checked" type="checkbox"> <label for="status_all"><strong>All</strong></label>
+			                                    </div>
+			                                    <br>
+			                                    <div class="checkbox">
+			                                        <input id="status_check-public" checked="checked" type="checkbox"> <label for="status_check-public">
+			                                            Public </label>
+			                                    </div>
+			                                    <div class="checkbox">
+			                                        <input id="status_check-private" checked="checked" type="checkbox"> <label for="status_check-private">
+			                                            Private </label>
+			                                    </div>
+			                                </div>
+			                            </div>
+			                        </form>
+			                    </div>
+			                </div>
+			            </div>
                     </div>
                 </div>
             </div>
@@ -27,92 +113,7 @@
 
     <div id="statusMessage" style="display: none;"></div>
 
-            <div class="well well-plain">
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="checkbox">
-                            <input id="option-check" type="checkbox">
-                            <label for="option-check">Show More Options</label>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="checkbox">
-                            <input id="displayArchivedCourses_check" type="checkbox">
-                            <label for="displayArchivedCourses_check">Include Archived Courses</label>
-                            <div id="displayArchivedCourses_link" style="display:none;">
-                                <a href="/page/instructorCommentsPage?user=comments.idOfInstructorOfCourseWithUriChars">link back to the page</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div id="more-options" class="well well-plain">
-                        <form class="form-horizontal" role="form">
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <div class="text-color-primary">
-                                        <strong>Show comments for: </strong>
-                                    </div>
-                                    <br>
-                                    <div class="checkbox">
-                                        <input id="panel_all" checked="checked" type="checkbox"> <label for="panel_all"><strong>All</strong></label>
-                                    </div>
-                                    <br>
-                                    
-                                    
-                                    <div class="checkbox">
-                                        <input id="panel_check-1" checked="checked" type="checkbox"> <label for="panel_check-1">
-                                            Students </label>
-                                    </div>
-                                    
-                                    
-                                    <div class="checkbox">
-                                        <input id="panel_check-2" checked="checked" type="checkbox"> <label for="panel_check-2">
-                                            Session: comments.Session with name ,?:@=+$# </label>
-                                    </div>
-                                    
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="text-color-primary">
-                                        <strong>Show comments from: </strong>
-                                    </div>
-                                    <br>
-                                    <div class="checkbox">
-                                        <input value="" id="giver_all" checked="checked" type="checkbox"> <label for="giver_all"><strong>All</strong></label>
-                                    </div>
-                                    <br>
-                                    <div class="checkbox">
-                                        <input id="giver_check-by-you" checked="checked" type="checkbox"> <label for="giver_check-by-you">
-                                            You </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <input id="giver_check-by-others" checked="checked" type="checkbox"> <label for="giver_check-by-others">
-                                            Others </label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="text-color-primary">
-                                        <strong>Show comments with status: </strong>
-                                    </div>
-                                    <br>
-                                    <div class="checkbox">
-                                        <input value="" id="status_all" checked="checked" type="checkbox"> <label for="status_all"><strong>All</strong></label>
-                                    </div>
-                                    <br>
-                                    <div class="checkbox">
-                                        <input id="status_check-public" checked="checked" type="checkbox"> <label for="status_check-public">
-                                            Public </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <input id="status_check-private" checked="checked" type="checkbox"> <label for="status_check-private">
-                                            Private </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            
             
             <ul class="pagination">
                 <li><a href="javascript:;">«</a></li>
@@ -160,7 +161,7 @@
                         
                         <div class="panel panel-info student-record-comments giver_display-by-you">
                             <div class="panel-heading">
-                                From <b>You</b>
+                                From <b>You (comments.idOfUriCharsCourse)</b>
                             </div>
                             <ul class="list-group comments">
                                 
@@ -168,7 +169,9 @@
                                     <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-1">
                                         <div id="commentBar-1">
                                             
-                                            <span class="text-muted">To <b>Team #.1</b> on Mon, 07 May 2012, 08:54</span>
+                                            <span class="text-muted">To <b>Team #.1</b> 
+                                                [Mon, 07 May 2012, 08:54:00 UTC] 
+                                            </span>
                                             
                                             <a type="button" id="commentdelete-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
                                                 <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
@@ -354,8 +357,7 @@
                         
                         <li id="{*}" class="list-group-item list-group-item-warning giver_display-by-you status_display-private">
                             <div id="commentBar-1-1-1-1">
-                                <span class="text-muted">From: <b>you</b>
-                                    [Tue Mar 01 23:59:00 UTC 2016] 
+                                <span class="text-muted">From: comments.instructor@courseuri.tmt [Tue Mar 01 23:59:00 UTC 2016] 
                                 </span>
                                 
                                 

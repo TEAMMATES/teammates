@@ -9,7 +9,7 @@
     id="responseCommentRow-<%= data.commentId %>">
     <div id="commentBar-<%= data.commentId %>">
         <span class="text-muted">
-            From: <b>you</b> [<%= data.commentTime %>]
+            From: <%= data.comment.giverEmail %> [<%= data.comment.createdAt %>]
         </span>
         <form class="responseCommentDeleteForm pull-right">
             <a href="/page/instructorFeedbackResponseCommentDelete"
@@ -30,7 +30,7 @@
         <a type="button"
            id="commentedit-<%= data.commentId %>"
            class="btn btn-default btn-xs icon-button pull-right"
-           onclick="showResponseCommentEditForm(<%= data.commentId.replaceAll("-", ", ") %>)"
+           onclick="showResponseCommentEditForm(<%= data.commentId.replaceAll("-", ",") %>)"
            data-toggle="tooltip"
            data-placement="top"
            title="Edit this comment">
@@ -42,11 +42,15 @@
     <form style="display: none;" id="responseCommentEditForm-<%= data.commentId %>" class="responseCommentEditForm">
         <div class="form-group form-inline">
             <div class="form-group text-muted">
+                <p>
+                    Giver: <%= data.giverName %><br>
+                    Recipient: <%= data.recipientName %>
+                </p>
                 You may change comment's visibility using the visibility options on the right hand side.
             </div>
             <a id="frComment-visibility-options-trigger-<%= data.commentId %>"
                class="btn btn-sm btn-info pull-right"
-               onclick="toggleVisibilityEditForm(<%= data.commentId.replaceAll("-", ", ") %>)">
+               onclick="toggleVisibilityEditForm(<%= data.commentId.replaceAll("-", ",") %>)">
                 <span class="glyphicon glyphicon-eye-close"></span>
                 Show Visibility Options
             </a>
@@ -218,7 +222,7 @@
             <input type="button"
                    class="btn btn-default"
                    value="Cancel"
-                   onclick="return hideResponseCommentEditForm(<%= data.commentId.replaceAll("-", ", ") %>);">
+                   onclick="return hideResponseCommentEditForm(<%= data.commentId.replaceAll("-", ",") %>);">
         </div>
         <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>" value="<%= data.comment.feedbackResponseId %>">
         <input type="hidden" name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID %>" value="<%= data.comment.getId() %>">
