@@ -5,10 +5,19 @@
 <%@ attribute name="commentIdx" required="true" %>
 <%@ attribute name="commentRow" type="teammates.ui.template.CommentRow" required="true" %>
 <%@ attribute name="courseId" required="true" %>
+<%@ attribute name="recipientName" required="true" %>
+<form method="post"
+    action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT %>"
+    name="form_commentedit"
+    class="form_comment"
+    id="form_commentedit-${commentIdx}">
 <div id="commentTextEdit${commentIdx}"
      style="display: none;">
     <div class="form-group form-inline">
         <div class="form-group text-muted">
+            <p>
+                Comment about ${recipientName}:
+            </p>
             You may change comment's visibility using the visibility options on the right hand side.
         </div>
         <a id="visibility-options-trigger${commentIdx}"
@@ -20,7 +29,7 @@
     <div id="visibility-options${commentIdx}" class="panel panel-default"
         style="display: none;">
         <div class="panel-heading">Visibility Options</div>
-        <table class="table text-center text-color-black">
+        <table class="table text-center" style="color: #000;">
             <tbody>
                 <tr>
                     <th class="text-center">User/Group</th>
@@ -39,7 +48,8 @@
                         </td>
                         <td>
                             <input 
-                                class="visibilityCheckbox answerCheckbox"
+                                class="visibilityCheckbox answerCheckbox centered"
+                                name="receiverLeaderCheckbox"
                                 type="checkbox" value="<%= CommentParticipantType.PERSON %>"
                                 ${commentRow.visibilityCheckboxes.visibilitySettingsForRecipient[0] ? 'checked=\"checked\"' : ''}>
                         </td>
@@ -180,7 +190,7 @@
         </table>
     </div>
     <div class="form-group">
-       <!-- Do not add whitespace between the opening and closing tags-->
+        <!-- Do not add whitespace between the opening and closing tags-->
         <textarea
             class="form-control"
             rows="3"
@@ -203,27 +213,28 @@
     </div>
 </div>
 <input type="hidden"
-    name=<%= Const.ParamsNames.COMMENT_EDITTYPE %>
+    name="<%= Const.ParamsNames.COMMENT_EDITTYPE %>"
     id="<%= Const.ParamsNames.COMMENT_EDITTYPE %>-${commentIdx}"
     value="edit">
 <input type="hidden"
-    name=<%= Const.ParamsNames.COMMENT_ID %>
+    name="<%= Const.ParamsNames.COMMENT_ID %>"
     value="${commentRow.comment.commentId}">
 <input type="hidden"
-    name=<%= Const.ParamsNames.COURSE_ID %>
+    name="<%= Const.ParamsNames.COURSE_ID %>"
     value="${courseId}">
 <input type="hidden"
-    name=<%= Const.ParamsNames.FROM_COMMENTS_PAGE %>
+    name="<%= Const.ParamsNames.FROM_COMMENTS_PAGE %>"
     value="true"> 
 <input type="hidden" 
-    name=<%= Const.ParamsNames.COMMENTS_SHOWCOMMENTSTO %> 
+    name="<%= Const.ParamsNames.COMMENTS_SHOWCOMMENTSTO %>"
     value="${commentRow.showCommentsTo}">
 <input type="hidden" 
-    name=<%= Const.ParamsNames.COMMENTS_SHOWGIVERTO %> 
+    name="<%= Const.ParamsNames.COMMENTS_SHOWGIVERTO %>"
     value="${commentRow.showGiverNameTo}">
 <input type="hidden" 
-    name=<%= Const.ParamsNames.COMMENTS_SHOWRECIPIENTTO %> 
+    name="<%= Const.ParamsNames.COMMENTS_SHOWRECIPIENTTO %>"
     value="${commentRow.showRecipientNameTo}">
 <input type="hidden"
     name="<%= Const.ParamsNames.USER_ID %>"
     value="${data.account.googleId}">
+</form>
