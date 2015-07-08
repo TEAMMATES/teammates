@@ -54,7 +54,7 @@
                                         <a type="button"
                                             id="commentedit-${commentIdx}"
                                             class="btn btn-default btn-xs icon-button pull-right"
-                                            onclick="return enableEdit('${commentIdx}');"
+                                            onclick="return enableEdit('${commentIdx}', '0');"
                                             data-toggle="tooltip"
                                             data-placement="top"
                                             title="<%= Const.Tooltips.COMMENT_EDIT %>"
