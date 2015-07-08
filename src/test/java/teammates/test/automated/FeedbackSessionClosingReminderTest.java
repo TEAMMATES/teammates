@@ -6,6 +6,8 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.mail.internet.MimeMessage;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -14,6 +16,7 @@ import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
@@ -152,15 +155,27 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         int course1StudentCount = 5-2; // 2 students have already completed the session 
         int course1InstructorCount = 4;
         
+        List<MimeMessage> preparedEmailsWithoutSendgrid = fsClosingAction.getPreparedEmailsAndPerformSuccessOperationsWithoutSendgrid();
         List<Sendgrid> preparedEmails = fsClosingAction.getPreparedEmailsAndPerformSuccessOperations();
-        assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());
         
-        for (Sendgrid m : preparedEmails) {
-            String subject = m.getSubject();
-            assertTrue(subject.contains(session1.feedbackSessionName));
-            assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));
+        if (Config.isUsingSendgrid()) {
+            assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());
+            
+            for (Sendgrid m : preparedEmails) {
+                String subject = m.getSubject();
+                assertTrue(subject.contains(session1.feedbackSessionName));
+                assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));
+            }
+        } else {
+            assertEquals(course1StudentCount + course1InstructorCount, preparedEmailsWithoutSendgrid.size());
+            
+            for (MimeMessage m : preparedEmailsWithoutSendgrid) {
+                String subject = m.getSubject();
+                assertTrue(subject.contains(session1.feedbackSessionName));
+                assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));
+            }
         }
-        
+      
         // Reuse an existing session to create a new one that is
         // closing in 24 hours.
         FeedbackSessionAttributes session2 = dataBundle.feedbackSessions

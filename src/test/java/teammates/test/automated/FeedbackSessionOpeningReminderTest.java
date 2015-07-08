@@ -6,6 +6,8 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.mail.internet.MimeMessage;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -14,6 +16,7 @@ import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
@@ -125,7 +128,7 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
     @Test
     public void testFeedbackSessionOpeningMailAction() throws Exception{
         
-        ______TS("Sendgrid Test : 2 sessions opened and emails sent, 1 session opened without emails sent, "
+        ______TS("MimeMessage/Sendgrid Test : 2 sessions opened and emails sent, 1 session opened without emails sent, "
                 + "1 session opened without emails sent with sending open email disabled");
         // Modify session to set emails as unsent but still open
         // by closing and opening the session.
@@ -154,14 +157,25 @@ public class FeedbackSessionOpeningReminderTest extends BaseComponentUsingTaskQu
         int course1StudentCount = 5; 
         int course1InstructorCount = 4;
         
-        List<Sendgrid> preparedEmails = fsOpeningAction.getPreparedEmailsAndPerformSuccessOperations();
-        assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());
+        if (Config.isUsingSendgrid()) {
+            List<Sendgrid> preparedEmails = fsOpeningAction.getPreparedEmailsAndPerformSuccessOperations();
+            assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());
 
-        for (Sendgrid m : preparedEmails) {
-            String subject = m.getSubject();
-            assertTrue(subject.contains(session1.feedbackSessionName));
-            assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
-        }
+            for (Sendgrid m : preparedEmails) {
+                String subject = m.getSubject();
+                assertTrue(subject.contains(session1.feedbackSessionName));
+                assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
+            }
+        } else {
+            List<MimeMessage> preparedEmails = fsOpeningAction.getPreparedEmailsAndPerformSuccessOperationsWithoutSendgrid();
+            assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());
+
+            for (MimeMessage m : preparedEmails) {
+                String subject = m.getSubject();
+                assertTrue(subject.contains(session1.feedbackSessionName));
+                assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
+            }
+        }       
         
         ______TS("testing whether no more mails are sent");
         FeedbackSessionOpeningCallback.resetTaskCount();
