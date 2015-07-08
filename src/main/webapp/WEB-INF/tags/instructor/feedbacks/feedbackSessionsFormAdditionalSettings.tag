@@ -47,7 +47,7 @@
                             <c:if test="${additionalSettings.sessionVisibleDateDisabled}">disabled="disabled"</c:if>
                         >
                             <c:forEach items="${additionalSettings.sessionVisibleTimeOptions}" var="option">
-                                <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
+                                <option ${option.attributesToString}>
                                     ${option.content}
                                 </option>
                             </c:forEach>
@@ -132,7 +132,7 @@
                             <c:if test="${additionalSettings.responseVisibleDateDisabled}">disabled="disabled"</c:if>
                         >
                             <c:forEach items="${additionalSettings.responseVisibleTimeOptions}" var="option">
-                                <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
+                                <option ${option.attributesToString}>
                                     ${option.content}
                                 </option>
                             </c:forEach>

@@ -30,8 +30,7 @@
                             name="<%= Const.ParamsNames.COPIED_COURSE_ID %>"
                             id="modalCopiedCourseId">
                             <c:forEach items="${copyFromModal.coursesSelectField}" var="option">
-                                <option <c:forEach items="${option.attributes}" var="attr"
-                                > ${attr.key}="${attr.value}"</c:forEach> >${option.content}</option>
+                                <option ${option.attributesToString}>${option.content}</option>
                             </c:forEach>
                         </select>
                     </div>

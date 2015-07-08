@@ -56,7 +56,7 @@
                 name="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>"
                 id="<%= Const.ParamsNames.FEEDBACK_QUESTION_NUMBER %>">
                 <c:forEach items="${fqForm.questionNumberOptions}" var="option">
-                    <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
+                    <option ${option.attributesToString}>
                         ${option.content}
                     </option>
                 </c:forEach>

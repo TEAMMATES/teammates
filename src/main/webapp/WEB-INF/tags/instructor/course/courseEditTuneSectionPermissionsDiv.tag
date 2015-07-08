@@ -22,9 +22,7 @@
                         <div class="col-sm-12">
                             <c:forEach items="${specialSectionSmallGroup}" var="specialSection">
                                 <div class="col-sm-4">
-                                    <input  <c:forEach items="${specialSection.attributes}" var="attribute">
-                                                ${attribute.key}="${attribute.value}"
-                                            </c:forEach> > 
+                                    <input ${specialSection.attributesToString}> 
                                     ${specialSection.content}
                                 </div>
                             </c:forEach>
@@ -53,10 +51,7 @@
             <br>
             <div class="col-sm-6 border-right-gray">
                 <c:forEach items="${sectionRow.permissionInputGroup2}" var="checkbox">
-                    <input  <c:forEach items="${checkbox.attributes}" var="attribute">
-                                ${attribute.key}="${attribute.value}"
-                            </c:forEach>
-                    /> ${checkbox.content}
+                    <input ${checkbox.attributesToString} /> ${checkbox.content}
                     <br>
                 </c:forEach>
                 <br>
@@ -64,18 +59,13 @@
             
             <div class="col-sm-5 col-sm-offset-1">
                 <c:forEach items="${sectionRow.permissionInputGroup3}" var="checkbox">
-                    <input  <c:forEach items="${checkbox.attributes}" var="attribute">
-                                ${attribute.key}="${attribute.value}"
-                            </c:forEach>
-                    /> ${checkbox.content}
+                    <input ${checkbox.attributesToString} /> ${checkbox.content}
                     <br>
                 </c:forEach>
                 <br>
             </div>
           
-            <a  <c:forEach items="${sectionRow.toggleSessionLevelInSectionButton.attributes}" var="attribute">
-                    ${attribute.key}="${attribute.value}"
-                </c:forEach> >
+            <a ${sectionRow.toggleSessionLevelInSectionButton.attributesToString}>
                 ${sectionRow.toggleSessionLevelInSectionButton.content}
             </a>
             

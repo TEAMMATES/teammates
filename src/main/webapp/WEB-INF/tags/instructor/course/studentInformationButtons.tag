@@ -8,9 +8,7 @@
 <div class="form-group">
     <div class="align-center">
         <input type="button" tabindex="1" value="Remind Students to Join"
-                <c:forEach items="${courseRemindButton.attributes}" var="attribute" >
-                    ${attribute.key}="${attribute.value}"
-                </c:forEach> >
+                ${courseRemindButton.attributesToString}>
                              
         <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_LIST_DOWNLOAD%>" style="display:inline;">
             <input id="button_download" type="submit" class="btn btn-primary"

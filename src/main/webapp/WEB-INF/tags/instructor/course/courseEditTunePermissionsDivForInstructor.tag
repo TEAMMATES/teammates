@@ -14,10 +14,7 @@
                 <div class="panel-body">
                     <c:forEach items="${instructorPanel.permissionInputGroup1}" var="permissionCheckbox">
                         <div class="col-sm-3">
-                            <input  <c:forEach items="${permissionCheckbox.attributes}" var="attribute">
-                                        ${attribute.key}="${attribute.value}"
-                                    </c:forEach> 
-                            > ${permissionCheckbox.content}
+                            <input ${permissionCheckbox.attributesToString}> ${permissionCheckbox.content}
                         </div>
                     </c:forEach>
                     <br>
@@ -25,20 +22,14 @@
                     
                     <div class="col-sm-6 border-right-gray">
                         <c:forEach items="${instructorPanel.permissionInputGroup2}" var="permissionCheckbox">
-                            <input  <c:forEach items="${permissionCheckbox.attributes}" var="attribute">
-                                        ${attribute.key}="${attribute.value}"
-                                    </c:forEach> 
-                            > ${permissionCheckbox.content}
+                            <input ${permissionCheckbox.attributesToString}> ${permissionCheckbox.content}
                             <br>
                         </c:forEach>
                     </div>
                     
                     <div class="col-sm-5 col-sm-offset-1">
                         <c:forEach items="${instructorPanel.permissionInputGroup3}" var="permissionCheckbox">
-                            <input  <c:forEach items="${permissionCheckbox.attributes}" var="attribute">
-                                        ${attribute.key}="${attribute.value}"
-                                    </c:forEach> 
-                            > ${permissionCheckbox.content}
+                            <input ${permissionCheckbox.attributesToString}> ${permissionCheckbox.content}
                             <br>
                         </c:forEach>
                     </div>
@@ -54,9 +45,7 @@
                     />
                 </c:forEach>
                 
-                <a  <c:forEach items="${instructorPanel.addSectionLevelForInstructorButton.attributes}" var="attribute">
-                        ${attribute.key}="${attribute.value}"
-                    </c:forEach> >
+                <a ${instructorPanel.addSectionLevelForInstructorButton.attributesToString}>
                     ${instructorPanel.addSectionLevelForInstructorButton.content}
                 </a>
             </c:if>

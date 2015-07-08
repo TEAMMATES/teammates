@@ -37,8 +37,7 @@
                                             name="<%= Const.ParamsNames.COURSE_ID %>"
                                             id="<%= Const.ParamsNames.COURSE_ID %>">
                                             <c:forEach items="${fsForm.coursesSelectField}" var="option">
-                                                <option <c:forEach items="${option.attributes}" var="attr"
-                                                > ${attr.key}="${attr.value}"</c:forEach> >${option.content}</option>
+                                                <option ${option.attributesToString}>${option.content}</option>
                                             </c:forEach>
                                         </select>
                                     </c:when>
@@ -67,7 +66,7 @@
                                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_TIMEZONE %>">
                                     <c:forEach items="${fsForm.timezoneSelectField}" var="option">
-                                        <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
+                                        <option ${option.attributesToString}>
                                             ${option.content}
                                         </option>
                                     </c:forEach>
@@ -163,7 +162,7 @@
                                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_STARTTIME %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_STARTTIME %>">
                                      <c:forEach items="${fsForm.fsStartTimeOptions}" var="option">
-                                        <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
+                                        <option ${option.attributesToString}>
                                             ${option.content}
                                         </option>
                                     </c:forEach>
@@ -196,7 +195,7 @@
                                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_ENDTIME %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_ENDTIME %>">
                                     <c:forEach items="${fsForm.fsEndTimeOptions}" var="option">
-                                        <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
+                                        <option ${option.attributesToString}>
                                             ${option.content}
                                         </option>
                                     </c:forEach>
@@ -222,7 +221,7 @@
                                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD %>"
                                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_GRACEPERIOD %>">
                                     <c:forEach items="${fsForm.gracePeriodOptions}" var="option">
-                                        <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
+                                        <option ${option.attributesToString}>
                                             ${option.content}
                                         </option>
                                     </c:forEach>
@@ -236,7 +235,7 @@
         <div class="row" id="uncommonSettingsInfo">
             <div class="col-md-12 text-muted">
                 <span id="uncommonSettingsInfoText"></span>
-                <a id="editUncommonSettingsButton" data-edit="[Edit]" data-done="[Done]" <c:forEach items="${fsForm.editButtonTags.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach>>[Edit]</a>
+                <a id="editUncommonSettingsButton" data-edit="[Edit]" data-done="[Done]" ${fsForm.editButtonTags.attributesToString}>[Edit]</a>
                 <br><br>
             </div>
         </div>
