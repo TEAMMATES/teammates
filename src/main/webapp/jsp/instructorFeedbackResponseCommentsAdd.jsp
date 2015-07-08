@@ -5,4 +5,4 @@
                                 secondIndex="${data.commentIdSecondIndex}"
                                 thirdIndex="${data.commentIdThirdIndex}"
                                 frcIndex="${data.commentIdFrcIndex}"
-                                googleId="${data.account.googleId}"/>
+                                googleId="${data.account.googleId}" />
