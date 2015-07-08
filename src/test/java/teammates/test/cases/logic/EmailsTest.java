@@ -304,7 +304,7 @@ public class EmailsTest extends BaseComponentTestCase {
         template = EmailTemplates.USER_FEEDBACK_SESSION;
         
         if (Config.isUsingSendgrid()) {
-            Sendgrid email = new Emails().generateFeedbackSessionEmailBaseForStudents(c, fsa, s, template);
+            Sendgrid email = new Emails().generateFeedbackSessionEmailBaseForInstructors(c, fsa, i, template);
             emailBody = email.getHtml();
             
             assertFalse(emailBody.contains("${joinFragment}"));
@@ -318,7 +318,7 @@ public class EmailsTest extends BaseComponentTestCase {
                                             , emailBody);
             printEmail(email);
         } else {
-            MimeMessage email = new Emails().generateFeedbackSessionEmailBaseForStudentsWithoutSendgrid(c, fsa, s, template);
+            MimeMessage email = new Emails().generateFeedbackSessionEmailBaseForInstructorsWithoutSendgrid(c, fsa, i, template);
             emailBody = email.getContent().toString();
             
             assertFalse(emailBody.contains("${joinFragment}"));
@@ -338,7 +338,7 @@ public class EmailsTest extends BaseComponentTestCase {
         template = EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED;
         
         if (Config.isUsingSendgrid()) {
-            Sendgrid email = new Emails().generateFeedbackSessionEmailBaseForStudents(c, fsa, s, template);
+            Sendgrid email = new Emails().generateFeedbackSessionEmailBaseForInstructors(c, fsa, i, template);
             emailBody = email.getHtml();
             
             assertFalse(emailBody.contains("${joinFragment}"));
@@ -352,7 +352,7 @@ public class EmailsTest extends BaseComponentTestCase {
                                             emailBody);
             printEmail(email);
         } else {
-            MimeMessage email = new Emails().generateFeedbackSessionEmailBaseForStudentsWithoutSendgrid(c, fsa, s, template);
+            MimeMessage email = new Emails().generateFeedbackSessionEmailBaseForInstructorsWithoutSendgrid(c, fsa, i, template);
             emailBody = email.getContent().toString();
             
             assertFalse(emailBody.contains("${joinFragment}"));
