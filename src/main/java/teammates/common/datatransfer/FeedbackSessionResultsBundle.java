@@ -1073,7 +1073,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
 
         for (List<FeedbackResponseAttributes> responsesForQuestion : sortedMap.values()) {
-            Collections.sort(responsesForQuestion, compareByRecipientName);
+            Collections.sort(responsesForQuestion, compareByRecipientNameEmailGiverNameEmail);
         }
 
         return sortedMap;
@@ -1988,7 +1988,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     };
 
     // Sorts by recipientName > recipientEmail > giverName > giverEmail
-    public final Comparator<FeedbackResponseAttributes> compareByRecipientName =
+    public final Comparator<FeedbackResponseAttributes> compareByRecipientNameEmailGiverNameEmail =
             new Comparator<FeedbackResponseAttributes>() {
         @Override
         public int compare(FeedbackResponseAttributes o1,
