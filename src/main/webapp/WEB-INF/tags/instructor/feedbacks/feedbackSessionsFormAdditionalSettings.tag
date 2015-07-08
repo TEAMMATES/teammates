@@ -4,7 +4,7 @@
 <%@ tag import="teammates.common.util.FieldValidator" %>
 <%@ tag import="teammates.logic.core.Emails.EmailType" %>
 
-<%@ attribute name="fsForm" type="teammates.ui.template.FeedbackSessionsForm" required="true"%>
+<%@ attribute name="additionalSettings" type="teammates.ui.template.FeedbackSessionsAdditionalSettingsFormSegment" required="true"%>
 <div class="panel panel-primary" style="display:none;" id="sessionResponsesVisiblePanel">
     <div class="panel-body">
         <div class="row">
@@ -29,24 +29,24 @@
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>_custom"
                             value="<%= Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_CUSTOM %>"
-                            <c:if test="${fsForm.additionalSettings.sessionVisibleDateButtonChecked}">checked="checked"</c:if>
+                            <c:if test="${additionalSettings.sessionVisibleDateButtonChecked}">checked="checked"</c:if>
                         >
                     </div>
                     <div class="col-md-5">
                         <input class="form-control col-sm-2" type="text"
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE %>"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLEDATE %>"
-                            value="${fsForm.additionalSettings.sessionVisibleDateValue}"
-                            <c:if test="${fsForm.additionalSettings.sessionVisibleDateDisabled}">disabled="disabled"</c:if>
+                            value="${additionalSettings.sessionVisibleDateValue}"
+                            <c:if test="${additionalSettings.sessionVisibleDateDisabled}">disabled="disabled"</c:if>
                         >
                     </div>
                     <div class="col-md-4">
                         <select class="form-control"
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME %>"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_VISIBLETIME %>"
-                            <c:if test="${fsForm.additionalSettings.sessionVisibleDateDisabled}">disabled="disabled"</c:if>
+                            <c:if test="${additionalSettings.sessionVisibleDateDisabled}">disabled="disabled"</c:if>
                         >
-                            <c:forEach items="${fsForm.additionalSettings.sessionVisibleTimeOptions}" var="option">
+                            <c:forEach items="${additionalSettings.sessionVisibleTimeOptions}" var="option">
                                 <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
                                     ${option.content}
                                 </option>
@@ -66,7 +66,7 @@
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>_atopen"
                             value="<%= Const.INSTRUCTOR_FEEDBACK_SESSION_VISIBLE_TIME_ATOPEN %>"
-                            <c:if test="${fsForm.additionalSettings.sessionVisibleAtOpenChecked}">checked="checked"</c:if>
+                            <c:if test="${additionalSettings.sessionVisibleAtOpenChecked}">checked="checked"</c:if>
                          >
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_SESSIONVISIBLEBUTTON %>_never"
                             value="never"
-                            <c:if test="${fsForm.additionalSettings.sessionVisiblePrivateChecked}">checked="checked"</c:if>
+                            <c:if test="${additionalSettings.sessionVisiblePrivateChecked}">checked="checked"</c:if>
                             >
                     </div>
                 </div>
@@ -110,7 +110,7 @@
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_custom"
                             value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_CUSTOM %>"
-                            <c:if test="${fsForm.additionalSettings.responseVisibleDateChecked}">checked="checked"</c:if>
+                            <c:if test="${additionalSettings.responseVisibleDateChecked}">checked="checked"</c:if>
                         >
                     </div>
                     <div class="col-md-5">
@@ -118,8 +118,8 @@
                             type="text"
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE %>"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE %>"
-                            value="${fsForm.additionalSettings.responseVisibleDateValue}"
-                            <c:if test="${fsForm.additionalSettings.responseVisibleDisabled}">disabled="disabled"</c:if>
+                            value="${additionalSettings.responseVisibleDateValue}"
+                            <c:if test="${additionalSettings.responseVisibleDateDisabled}">disabled="disabled"</c:if>
                         >
                     </div>
                     <div class="col-md-4">
@@ -129,9 +129,9 @@
                             title="<%= Const.Tooltips.FEEDBACK_SESSION_PUBLISHDATE %>"
                             data-toggle="tooltip"
                             data-placement="top"
-                            <c:if test="${fsForm.additionalSettings.responseVisibleDisabled}">disabled="disabled"</c:if>
+                            <c:if test="${additionalSettings.responseVisibleDateDisabled}">disabled="disabled"</c:if>
                         >
-                            <c:forEach items="${fsForm.additionalSettings.responseVisibleTimeOptions}" var="option">
+                            <c:forEach items="${additionalSettings.responseVisibleTimeOptions}" var="option">
                                 <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
                                     ${option.content}
                                 </option>
@@ -152,7 +152,7 @@
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_atvisible"
                             value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_ATVISIBLE %>"
-                            <c:if test="${fsForm.additionalSettings.responseVisibleImmediatelyChecked}">checked="checked"</c:if>
+                            <c:if test="${additionalSettings.responseVisibleImmediatelyChecked}">checked="checked"</c:if>
                         >
                     </div>
                 </div>
@@ -167,7 +167,7 @@
                         <input type="radio" name="resultsVisibleFromButton"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_later"
                             value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_LATER %>"
-                            <c:if test="${fsForm.additionalSettings.responseVisiblePublishManuallyChecked}">checked="checked"</c:if>
+                            <c:if test="${additionalSettings.responseVisiblePublishManuallyChecked}">checked="checked"</c:if>
                         >
                     </div>
                 </div>
@@ -183,7 +183,7 @@
                             name="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>"
                             id="<%= Const.ParamsNames.FEEDBACK_SESSION_RESULTSVISIBLEBUTTON %>_never"
                             value="<%= Const.INSTRUCTOR_FEEDBACK_RESULTS_VISIBLE_TIME_NEVER %>"
-                            <c:if test="${fsForm.additionalSettings.responseVisibleNeverChecked}">checked="checked"</c:if>
+                            <c:if test="${additionalSettings.responseVisibleNeverChecked}">checked="checked"</c:if>
                         >
                     </div>
                  </div>
@@ -205,9 +205,10 @@
                 data-placement="top">
                 <div class="checkbox">
                     <label>Session opening reminder</label>
-                    <input type="checkbox" checked="checked"
+                    <input type="checkbox"
                         name="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>"
                         id="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_open"
+                        <c:if test="${additionalSettings.sendOpeningEmailChecked}">checked="checked"</c:if>
                         value="<%= EmailType.FEEDBACK_OPENING.toString() %>" disabled="disabled">
                 </div>
             </div>
@@ -219,9 +220,10 @@
                     <label for="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_closing">
                         Session closing reminder
                     </label>
-                    <input type="checkbox" checked="checked"
+                    <input type="checkbox" 
                         name="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>"
                         id="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_closing"
+                        <c:if test="${additionalSettings.sendClosingEmailChecked}">checked="checked"</c:if>
                         value="<%= EmailType.FEEDBACK_CLOSING.toString() %>">
                 </div>
             </div>
@@ -233,9 +235,10 @@
                     <label for="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_published">
                         Results published announcement
                     </label>
-                    <input type="checkbox" checked="checked"
+                    <input type="checkbox" 
                         name="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>"
                         id="<%= Const.ParamsNames.FEEDBACK_SESSION_SENDREMINDEREMAIL %>_published"
+                        <c:if test="${additionalSettings.sendPublishedEmailChecked}">checked="checked"</c:if>
                         value="<%= EmailType.FEEDBACK_PUBLISHED.toString() %>">
                 </div>
             </div>

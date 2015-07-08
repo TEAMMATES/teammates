@@ -1,20 +1,37 @@
 package teammates.ui.template;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.util.Const;
+import teammates.common.util.Sanitizer;
+import teammates.common.util.TimeHelper;
+import teammates.ui.controller.PageData;
+
 
 /**
- * Data model for the form for creating a new feedback session.
+ * Data model for the form for creating/editing a feedback session.
  *
  */
 public class FeedbackSessionsForm {
-
+    private String formSubmitActionLink;
+    private String submitButtonText;
+    
     // Default course id value
-    private String courseIdForNewSession;
+    private String courseId;
     
-    private String feedbackSessionNameForSessionList;
-    
+    private boolean isEditFsButtonsVisible;
+    private boolean isFeedbackSessionTypeEditable;
     // List of options for feedback session type
     private List<ElementTag> feedbackSessionTypeOptions;
+    
+    private String fsDeleteLink;
+    private String copyToLink;
+    
+    private boolean isCourseIdEditable;
     // options for selecting which course to make a fs in
     private List<ElementTag> coursesSelectField;
     
@@ -23,11 +40,10 @@ public class FeedbackSessionsForm {
     // List of course ids to populate the dropdown with
     private List<String> courses;
 
-    
-    // Default feedback session name in the new session form
+    private boolean isFsNameEditable;
+
     private String fsName;
 
-    // Default instructions for the form
     private String instructions;
     
     private String fsStartDate;
@@ -36,27 +52,126 @@ public class FeedbackSessionsForm {
     private List<ElementTag> fsEndTimeOptions;
     private List<ElementTag> gracePeriodOptions;
     
+    private boolean isShowNoCoursesMessage;
     private boolean isSubmitButtonDisabled;
+    private boolean isSubmitButtonVisible;
     
-    private AdditionalSettingsFormSegment additionalSettings;
+    private ElementTag editButtonTags;
+    private FeedbackSessionsAdditionalSettingsFormSegment additionalSettings;
     
     public FeedbackSessionsForm() {
     }
     
-    public void setCourseIdForNewSession(String courseIdForNewSession) {
-        this.courseIdForNewSession = courseIdForNewSession;
+    
+    public static FeedbackSessionsForm getFsFormForExistingFs(FeedbackSessionAttributes existingFs,
+                                                  FeedbackSessionsAdditionalSettingsFormSegment additionalSettings,
+                                                  String fsDeleteLink, String fsEditCopyLink) {
+        FeedbackSessionsForm fsForm = new FeedbackSessionsForm();
+        
+        fsForm.fsDeleteLink = fsDeleteLink;
+        
+        fsForm.copyToLink = fsEditCopyLink;
+        
+        fsForm.courseId = existingFs.courseId;
+        
+        fsForm.isFsNameEditable = false;
+        fsForm.fsName = existingFs.feedbackSessionName;
+        
+        fsForm.isCourseIdEditable = false;
+        fsForm.isFeedbackSessionTypeEditable = false;
+        
+        fsForm.isEditFsButtonsVisible = true;
+      
+        fsForm.timezoneSelectField = PageData.getTimeZoneOptionsAsElementTags(existingFs.timeZone);
+
+        fsForm.instructions = Sanitizer.sanitizeForHtml(existingFs.instructions.getValue());
+        
+        fsForm.fsStartDate = TimeHelper.formatDate(existingFs.startTime);
+        fsForm.fsStartTimeOptions = PageData.getTimeOptionsAsElementTags(existingFs.startTime);
+        
+        fsForm.fsEndDate = TimeHelper.formatDate(existingFs.endTime);
+        fsForm.fsEndTimeOptions = PageData.getTimeOptionsAsElementTags(existingFs.endTime);
+        
+        fsForm.gracePeriodOptions = PageData.getGracePeriodOptionsAsElementTags(existingFs.gracePeriod);
+        
+        fsForm.isSubmitButtonDisabled = false;
+        fsForm.isSubmitButtonVisible = false;
+        fsForm.formSubmitActionLink = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_SAVE;
+        fsForm.submitButtonText = "Save Changes";
+        
+        fsForm.editButtonTags = new ElementTag("onclick", "enableEditFS()");
+        
+        fsForm.additionalSettings = additionalSettings;
+        
+        return fsForm;
+    }
+    
+    public static FeedbackSessionsForm getFormForNewFs(FeedbackSessionAttributes feedbackSession,
+                                                       List<ElementTag> fsTypeOptions,
+                                                       String defaultCourseId,
+                                                       List<String> courseIds, List<ElementTag> courseIdOptions,
+                                                       Map<String, InstructorAttributes> instructors,
+                                                       FeedbackSessionsAdditionalSettingsFormSegment additionalSettings) {
+        FeedbackSessionsForm newFsForm = new FeedbackSessionsForm();
+        
+        newFsForm.isShowNoCoursesMessage = courseIds.isEmpty();
+        newFsForm.courseId = defaultCourseId;
+        
+        newFsForm.isFsNameEditable = true;
+        newFsForm.fsName = feedbackSession == null ? "" : feedbackSession.feedbackSessionName;
+        
+        newFsForm.isCourseIdEditable = true;
+        newFsForm.courses = courseIds;
+        
+        newFsForm.coursesSelectField = courseIdOptions;
+        
+        newFsForm.isEditFsButtonsVisible = false;
+        newFsForm.isFeedbackSessionTypeEditable = true;
+        newFsForm.feedbackSessionTypeOptions = fsTypeOptions;
+
+        newFsForm.timezoneSelectField = PageData.getTimeZoneOptionsAsElementTags(feedbackSession == null 
+                                                                            ? Const.DOUBLE_UNINITIALIZED 
+                                                                            : feedbackSession.timeZone);
+        
+        newFsForm.instructions = feedbackSession == null 
+                               ? "Please answer all the given questions." 
+                               : Sanitizer.sanitizeForHtml(feedbackSession.instructions.getValue());
+        
+        newFsForm.fsStartDate = feedbackSession == null 
+                              ? TimeHelper.formatDate(TimeHelper.getNextHour()) 
+                              : TimeHelper.formatDate(feedbackSession.startTime);
+        
+        
+        Date startDate = feedbackSession == null ? null : feedbackSession.startTime;
+        newFsForm.fsStartTimeOptions = PageData.getTimeOptionsAsElementTags(startDate);
+        
+        newFsForm.fsEndDate = feedbackSession == null 
+                            ? ""  
+                            : TimeHelper.formatDate(feedbackSession.endTime);
+        
+        Date endDate = feedbackSession == null ? null : feedbackSession.endTime;
+        newFsForm.fsEndTimeOptions = PageData.getTimeOptionsAsElementTags(endDate);
+        
+        newFsForm.gracePeriodOptions = PageData.getGracePeriodOptionsAsElementTags(feedbackSession == null  
+                                                                              ? Const.INT_UNINITIALIZED  
+                                                                              : feedbackSession.gracePeriod);
+        
+        newFsForm.isSubmitButtonDisabled= courseIds.isEmpty();
+        newFsForm.formSubmitActionLink = Const.ActionURIs.INSTRUCTOR_FEEDBACK_ADD;
+        newFsForm.submitButtonText = "Create Feedback Session";
+        newFsForm.isSubmitButtonVisible = true;
+        
+        newFsForm.additionalSettings = additionalSettings;
+        
+        return newFsForm;
     }
     
     public void setFsName(String fsName) {
         this.fsName = fsName;
     }
     
-    public void setCourses(List<String> courses) {
-        this.courses = courses;
-    }
-    
-    public String getCourseIdForNewSession() {
-        return courseIdForNewSession;
+    public String getCourseId() {
+        return courseId;
     }
     
     public List<String> getCourses() {
@@ -66,47 +181,11 @@ public class FeedbackSessionsForm {
     public List<ElementTag> getFeedbackSessionTypeOptions() {
         return feedbackSessionTypeOptions;
     }
-
-    public void setFeedbackSessionTypeOptions(List<ElementTag> feedbackSessionTypeOptions) {
-        this.feedbackSessionTypeOptions = feedbackSessionTypeOptions;
-    }
-
-    public void setCoursesSelectField(List<ElementTag> coursesSelectField) {
-        this.coursesSelectField = coursesSelectField;
-    }
-
-    public void setTimezoneSelectField(List<ElementTag> timezoneSelectField) {
-        this.timezoneSelectField = timezoneSelectField;
-    }
-
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
-    }
-
-    public void setFsStartDate(String fsStartDate) {
-        this.fsStartDate = fsStartDate;
-    }
-
-    public void setFsStartTimeOptions(List<ElementTag> fsStartTimeOptions) {
-        this.fsStartTimeOptions = fsStartTimeOptions;
-    }
-
-    public void setFsEndDate(String fsEndDate) {
-        this.fsEndDate = fsEndDate;
-    }
-
-    public void setFsEndTimeOptions(List<ElementTag> fsEndTimeOptions) {
-        this.fsEndTimeOptions = fsEndTimeOptions;
-    }
-
     
-
-    public void setGracePeriodOptions(List<ElementTag> gracePeriodOptions) {
-        this.gracePeriodOptions = gracePeriodOptions;
+    public boolean isShowNoCoursesMessage() {
+        return isShowNoCoursesMessage;
     }
-    
-    
-    
+
     public String getFsName() {
         return fsName;
     }
@@ -135,8 +214,6 @@ public class FeedbackSessionsForm {
         return gracePeriodOptions;
     }
 
-   
-
     public List<ElementTag> getCoursesSelectField() {
         return coursesSelectField;
     }
@@ -144,31 +221,60 @@ public class FeedbackSessionsForm {
     public List<ElementTag> getTimezoneSelectField() {
         return timezoneSelectField;
     }
-    
-    public void setFeedbackSessionNameForSessionList(String feedbackSessionNameForSessionList) {
-        this.feedbackSessionNameForSessionList = feedbackSessionNameForSessionList;
-    }
-    
-    public String getfeedbackSessionNameForSessionList() {
-        return this.feedbackSessionNameForSessionList;
-    }
 
-    public AdditionalSettingsFormSegment getAdditionalSettings() {
+    public FeedbackSessionsAdditionalSettingsFormSegment getAdditionalSettings() {
         return this.additionalSettings;
     }
-    
-    public void setAdditionalSettings(AdditionalSettingsFormSegment additionalSettings) {
-        this.additionalSettings = additionalSettings;
-    }
-    
 
     public boolean isSubmitButtonDisabled() {
         return isSubmitButtonDisabled;
     }
-    
-    
 
-    public void setSubmitButtonDisabled(boolean isSubmitButtonDisabled) {
-        this.isSubmitButtonDisabled = isSubmitButtonDisabled;
+    public String getFormSubmitAction() {
+        return formSubmitActionLink;
     }
+
+    public boolean isFeedbackSessionTypeEditable() {
+        return isFeedbackSessionTypeEditable;
+    }
+
+    public boolean isCourseIdEditable() {
+        return isCourseIdEditable;
+    }
+
+    public boolean isFsNameEditable() {
+        return isFsNameEditable;
+    }
+
+    public String getSubmitButtonText() {
+        return submitButtonText;
+    }
+
+    public boolean isSubmitButtonVisible() {
+        return isSubmitButtonVisible;
+    }
+
+    public void setSubmitButtonVisible(boolean isSubmitButtonVisible) {
+        this.isSubmitButtonVisible = isSubmitButtonVisible;
+    }
+
+    public String getFsDeleteLink() {
+        return fsDeleteLink;
+    }
+
+
+    public String getCopyToLink() {
+        return copyToLink;
+    }
+
+
+    public boolean isEditFsButtonsVisible() {
+        return isEditFsButtonsVisible;
+    }
+
+
+    public ElementTag getEditButtonTags() {
+        return editButtonTags;
+    }
+    
 }
