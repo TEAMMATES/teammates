@@ -1,40 +1,34 @@
-<%--
-    - @(#)
-    - Description: This jsp file is for message of the day on student pages
- --%>
-
-<%@ page import="teammates.common.util.Const" %>
-<%@ page import="teammates.common.util.Config" %>
-<%@ page import="teammates.ui.controller.PageData" %>
-<%
-    PageData data = (PageData)request.getAttribute("data");
-    String motdUrl = Config.inst().STUDENT_MOTD_URL;
-%>
-
-<% if (motdUrl != null && !motdUrl.isEmpty()) { %>
+<%@ tag description="Student Message of the day" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ tag import="teammates.common.util.Config" %>
+<c:set var="motdUrl" value="<%= Config.inst().STUDENT_MOTD_URL %>" />
+<c:if test="${not empty motdUrl}">
     <script>
-        var url = window.location.origin + "/" + "<%= motdUrl%>";
+        var url = window.location.origin + '/' + '<c:out value="${motdUrl}" />';
+
         $.ajax({
-            type: "GET",
+            type: 'GET',
             url: url,
-            success: function(data){
-                $("#student-motd").html(data);
+            success: function(data) {
+                $('#student-motd').html(data);
             },
-            error: function(jqXHR, textStatus, errorThrown){
+            error: function(jqXHR, textStatus, errorThrown) {
                 console.log('AJAX request failed');
             }
         });
+
         function closeMotd() {
-            $("#student-motd-container").hide();
+            $('#student-motd-container').hide();
         }
     </script>
+
     <div class="container theme-showcase" id="student-motd-container">
         <div class="row">
             <div class="col-sm-12">
                 <div class="panel panel-default">
                     <div class="panel-body padding-top-0">
                         <div class="row">
-                            <div "col-sm-12">
+                            <div class="col-sm-12">
                                 <p class="padding-15px margin-0">
                                     <b class="text-color-gray">TEAMMATES Message of the day</b>
                                     &nbsp;
@@ -54,4 +48,4 @@
             </div>
         </div>
     </div>
-<% } %>
+</c:if>

@@ -251,10 +251,10 @@ function enableHoverToDisplayEditOptions() {
     });
 }
 
-function enableTooltip() {
-    $(function() { 
-        $("[data-toggle='tooltip']").tooltip({html: true, container: 'body'}); 
-    });
+function enableTooltip() {      
+    $(function() {         
+        $("[data-toggle='tooltip']").tooltip({html: true, container: 'body'});         
+    });        
 }
 
 $(document).ready(registerResponseCommentsEvent);

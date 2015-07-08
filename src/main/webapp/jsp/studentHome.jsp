@@ -1,136 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
+<%@ taglib tagdir="/WEB-INF/tags/student" prefix="ts" %>
+<%@ taglib tagdir="/WEB-INF/tags/student/home" prefix="home" %>
 <%@ page import="teammates.common.util.Const" %>
-<%@ page import="teammates.common.util.TimeHelper" %>
-<%@ page import="teammates.common.datatransfer.CourseDetailsBundle" %>
-<%@ page import="teammates.common.datatransfer.FeedbackSessionDetailsBundle"%>
-<%@ page import="teammates.ui.controller.PageData"%>
-<%@ page import="teammates.ui.controller.StudentHomePageData"%>
-<%
-    StudentHomePageData data = (StudentHomePageData)request.getAttribute("data");
-%>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>TEAMMATES - Student</title>
-
-    <link rel="shortcut icon" href="/favicon.png" />
-
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-    <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>
-    <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet"/>
-
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/js/common.js"></script>
-    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
-
-    <jsp:include page="../enableJS.jsp"></jsp:include>
-
+<c:set var="jsIncludes">
     <script type="text/javascript" src="/js/student.js"></script>
     <script type="text/javascript" src="/js/studentHome.js"></script>
-</head>
-
-<body>
-    <jsp:include page="<%=Const.ViewURIs.STUDENT_HEADER%>" />
-
-    <div class="container" id="mainContent">
-        <div id="topOfPage"></div>
-        <h1>Student Home</h1>
-        <br>
-
-        <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-        <br>
-
-        <%
-            int courseIdx = -1;
-            int sessionIdx = -1;
-            for (CourseDetailsBundle courseDetails : data.courses) {
-                courseIdx++;
-        %>
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <strong>
-                    [<%=courseDetails.course.id%>] : <%=PageData.sanitizeForHtml(
-                            courseDetails.course.name)%>
-                </strong>
-                <span class="pull-right">
-                    <a class="btn btn-primary btn-xs"
-                       href="<%=data.getStudentCourseDetailsLink(courseDetails.course.id)%>"
-                       data-toggle="tooltip" data-placement="top" 
-                       title="<%=Const.Tooltips.STUDENT_COURSE_DETAILS%>"
-                       >View Team</a>
-                </span>
-            </div>
-            
-            <table class="table-responsive table table-striped">
-            <%
-                if (courseDetails.feedbackSessions.size() > 0) {
-            %>
-                <thead>
-                    <tr>
-                        <th>Session Name</th>
-                        <th>Deadline</th>
-                        <th>Status</th>
-                        <th class="studentHomeActions">Action(s)</th>
-                    </tr>
-                </thead>
-                <%
-                            
-                    for (FeedbackSessionDetailsBundle fsd : courseDetails.feedbackSessions) {
-                        sessionIdx++;
-                %>
-                    <tr class="home_evaluations_row" id="evaluation<%=sessionIdx%>">
-                        <td>
-                            <%=PageData.sanitizeForHtml(fsd.feedbackSession.feedbackSessionName)%>
-                        </td>
-                        
-                        <td>
-                            <%=TimeHelper.formatTime(fsd.feedbackSession.endTime)%>
-                        </td>
-                        
-                        <td>
-                            <span data-toggle="tooltip" data-placement="top" 
-                                  title="<%=data.getStudentHoverMessageForSession(
-                                          fsd.feedbackSession)%>">
-                                <%=data.getStudentStatusForSession(fsd.feedbackSession)%>
-                            </span>
-                        </td>
-                        
-                        <td class="studentHomeActions">
-                            <%=data.getStudentFeedbackSessionActions(fsd.feedbackSession,sessionIdx)%>
-                        </td>
-                    </tr>
-            <%
-                    }
-                } else {
-            %>
-                    <tr>
-                        <th class="align-center bold color_white">
-                            Currently, there are no open evaluation/feedback sessions in this course. When a session is open for submission you will be notified.
-                        </th>
-                    </tr>
-            <%
-                }
-            %>
-            </table>
-        </div>
-        <br>
-        <br>
-        <%
-                out.flush();
-            }
-        %>
-    </div>
-    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-</body>
-</html>
+</c:set>
+<ts:studentPage pageTitle="TEAMMATES - Student" bodyTitle="Student Home" jsIncludes="${jsIncludes}">
+    <t:statusMessage />
+    <br />
+    <c:forEach items="${data.courseTables}" var="courseTable">
+        <home:coursePanel courseTable="${courseTable}">
+            <home:courseTable sessionRows="${courseTable.rows}" />
+        </home:coursePanel>
+        <br /><br />
+    </c:forEach>
+</ts:studentPage>

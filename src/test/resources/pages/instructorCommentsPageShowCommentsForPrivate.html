@@ -2,9 +2,9 @@
             <div id="topOfPage"></div>
             <h1>Comments from Instructors</h1>
             <br>
-            <div class="inner-container">
+            <div class="well well-plain">
                 <div class="row">
-                    <div class="col-sm-6 instructor-header-bar">
+                    <div class="col-md-12">
                         <form method="get" action="/page/instructorSearchPage?user=comments.idOfInstructor1OfCourse1" name="search_form">
                             <div class="input-group">
                                 <input name="searchkey" title="Search for comment" class="form-control" placeholder="Any info related to comments" id="searchBox" type="text"> 
@@ -16,6 +16,92 @@
                             <input name="searchcommentforresponses" value="true" type="hidden">
                             <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
                         </form>
+                        <div class="well well-plain">
+			                <div class="row">
+			                    <div class="col-md-2">
+			                        <div class="checkbox">
+			                            <input id="option-check" type="checkbox">
+			                            <label for="option-check">Show More Options</label>
+			                        </div>
+			                    </div>
+			                    <div class="col-md-3">
+			                        <div class="checkbox">
+			                            <input id="displayArchivedCourses_check" type="checkbox">
+			                            <label for="displayArchivedCourses_check">Include Archived Courses</label>
+			                            <div id="displayArchivedCourses_link" style="display:none;">
+			                                <a href="/page/instructorCommentsPage?user=comments.idOfInstructor1OfCourse1">link back to the page</a>
+			                            </div>
+			                        </div>
+			                    </div>
+			                </div>
+			                <div class="row">
+			                    <div style="display: block;" id="more-options" class="well well-plain">
+			                        <form class="form-horizontal" role="form">
+			                            <div class="row">
+			                                <div class="col-sm-4">
+			                                    <div class="text-color-primary">
+			                                        <strong>Show comments for: </strong>
+			                                    </div>
+			                                    <br>
+			                                    <div class="checkbox">
+			                                        <input id="panel_all" checked="checked" type="checkbox"> <label for="panel_all"><strong>All</strong></label>
+			                                    </div>
+			                                    <br>
+			                                    
+			                                    
+			                                    <div class="checkbox">
+			                                        <input id="panel_check-1" checked="checked" type="checkbox"> <label for="panel_check-1">
+			                                            Students </label>
+			                                    </div>
+			                                    
+			                                    
+			                                    <div class="checkbox">
+			                                        <input id="panel_check-2" checked="checked" type="checkbox"> <label for="panel_check-2">
+			                                            Session: comments.First feedback session </label>
+			                                    </div>
+			                                    
+			                                </div>
+			                                <div style="display: block;" class="col-sm-4">
+			                                    <div class="text-color-primary">
+			                                        <strong>Show comments from: </strong>
+			                                    </div>
+			                                    <br>
+			                                    <div class="checkbox">
+			                                        <input value="" id="giver_all" checked="checked" type="checkbox"> <label for="giver_all"><strong>All</strong></label>
+			                                    </div>
+			                                    <br>
+			                                    <div class="checkbox">
+			                                        <input id="giver_check-by-you" checked="checked" type="checkbox"> <label for="giver_check-by-you">
+			                                            You </label>
+			                                    </div>
+			                                    <div class="checkbox">
+			                                        <input id="giver_check-by-others" checked="checked" type="checkbox"> <label for="giver_check-by-others">
+			                                            Others </label>
+			                                    </div>
+			                                </div>
+			                                <div style="display: block;" class="col-sm-4">
+			                                    <div class="text-color-primary">
+			                                        <strong>Show comments with status: </strong>
+			                                    </div>
+			                                    <br>
+			                                    <div class="checkbox">
+			                                        <input value="" id="status_all" checked="checked" type="checkbox"> <label for="status_all"><strong>All</strong></label>
+			                                    </div>
+			                                    <br>
+			                                    <div class="checkbox">
+			                                        <input id="status_check-public" checked="checked" type="checkbox"> <label for="status_check-public">
+			                                            Public </label>
+			                                    </div>
+			                                    <div class="checkbox">
+			                                        <input id="status_check-private" checked="checked" type="checkbox"> <label for="status_check-private">
+			                                            Private </label>
+			                                    </div>
+			                                </div>
+			                            </div>
+			                        </form>
+			                    </div>
+			                </div>
+			            </div>
                     </div>
                 </div>
             </div>
@@ -27,94 +113,7 @@
 
     <div id="statusMessage" style="display: none;"></div>
 
-            <div class="well well-plain">
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="checkbox">
-                            <input id="option-check" type="checkbox">
-                            <label for="option-check">Show More
-                                Options</label>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="checkbox">
-                            <input id="displayArchivedCourses_check" type="checkbox">
-                            <label for="displayArchivedCourses_check">Include
-                                Archived Courses</label>
-                            <div id="displayArchivedCourses_link" style="display:none;">
-                                <a href="/page/instructorCommentsPage?user=comments.idOfInstructor1OfCourse1">link back to the page</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div style="display: block;" id="more-options" class="well well-plain">
-                        <form class="form-horizontal" role="form">
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <div class="text-color-primary">
-                                        <strong>Show comments for: </strong>
-                                    </div>
-                                    <br>
-                                    <div class="checkbox">
-                                        <input id="panel_all" checked="checked" type="checkbox"> <label for="panel_all"><strong>All</strong></label>
-                                    </div>
-                                    <br>
-                                    
-                                    
-                                    <div class="checkbox">
-                                        <input id="panel_check-1" checked="checked" type="checkbox"> <label for="panel_check-1">
-                                            Students </label>
-                                    </div>
-                                    
-                                    
-                                    <div class="checkbox">
-                                        <input id="panel_check-2" checked="checked" type="checkbox"> <label for="panel_check-2">
-                                            Session: comments.First feedback session </label>
-                                    </div>
-                                    
-                                </div>
-                                <div style="display: block;" class="col-sm-4">
-                                    <div class="text-color-primary">
-                                        <strong>Show comments from: </strong>
-                                    </div>
-                                    <br>
-                                    <div class="checkbox">
-                                        <input value="" id="giver_all" checked="checked" type="checkbox"> <label for="giver_all"><strong>All</strong></label>
-                                    </div>
-                                    <br>
-                                    <div class="checkbox">
-                                        <input id="giver_check-by-you" checked="checked" type="checkbox"> <label for="giver_check-by-you">
-                                            You </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <input id="giver_check-by-others" checked="checked" type="checkbox"> <label for="giver_check-by-others">
-                                            Others </label>
-                                    </div>
-                                </div>
-                                <div style="display: block;" class="col-sm-4">
-                                    <div class="text-color-primary">
-                                        <strong>Show comments with status: </strong>
-                                    </div>
-                                    <br>
-                                    <div class="checkbox">
-                                        <input value="" id="status_all" checked="checked" type="checkbox"> <label for="status_all"><strong>All</strong></label>
-                                    </div>
-                                    <br>
-                                    <div class="checkbox">
-                                        <input id="status_check-public" checked="checked" type="checkbox"> <label for="status_check-public">
-                                            Public </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <input id="status_check-private" checked="checked" type="checkbox"> <label for="status_check-private">
-                                            Private </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            
             
             <ul class="pagination">
                 <li><a href="javascript:;">«</a></li>
@@ -203,12 +202,12 @@
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
+                                                            
+                                                                <th class="text-center">Can see your comment</th>
+                                                            
+                                                                <th class="text-center">Can see giver's name</th>
+                                                            
+                                                                <th class="text-center">Can see recipient's name</th>
                                                         </tr>
                                                         
                                                         
@@ -252,8 +251,8 @@
                                         <input name="commentid" value="{*}" type="hidden">
                                         <input name="courseid" value="comments.idOfTypicalCourse1" type="hidden">
                                         <input name="commentpage" value="true" type="hidden"> 
-                                        <input name="showcommentsto" value="" type="hidden">
-                                        <input name="showgiverto" value="" type="hidden">
+                                        <input name="showcommentsto" value="COURSE" type="hidden">
+                                        <input name="showgiverto" value="COURSE" type="hidden">
                                         <input name="showrecipientto" value="" type="hidden">
                                         <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
                                         
@@ -297,12 +296,12 @@
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
+                                                            
+                                                                <th class="text-center">Can see your comment</th>
+                                                            
+                                                                <th class="text-center">Can see giver's name</th>
+                                                            
+                                                                <th class="text-center">Can see recipient's name</th>
                                                         </tr>
                                                         
                                                         
@@ -372,7 +371,7 @@
                                         <input name="commentid" value="{*}" type="hidden">
                                         <input name="courseid" value="comments.idOfTypicalCourse1" type="hidden">
                                         <input name="commentpage" value="true" type="hidden"> 
-                                        <input name="showcommentsto" value="" type="hidden">
+                                        <input name="showcommentsto" value="TEAM" type="hidden">
                                         <input name="showgiverto" value="" type="hidden">
                                         <input name="showrecipientto" value="" type="hidden">
                                         <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
@@ -417,12 +416,12 @@
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
+                                                            
+                                                                <th class="text-center">Can see your comment</th>
+                                                            
+                                                                <th class="text-center">Can see giver's name</th>
+                                                            
+                                                                <th class="text-center">Can see recipient's name</th>
                                                         </tr>
                                                         
                                                         <tr id="recipient-person3">
@@ -504,7 +503,7 @@
                                         <input name="commentid" value="{*}" type="hidden">
                                         <input name="courseid" value="comments.idOfTypicalCourse1" type="hidden">
                                         <input name="commentpage" value="true" type="hidden"> 
-                                        <input name="showcommentsto" value="" type="hidden">
+                                        <input name="showcommentsto" value="COURSE" type="hidden">
                                         <input name="showgiverto" value="" type="hidden">
                                         <input name="showrecipientto" value="" type="hidden">
                                         <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
@@ -549,12 +548,12 @@
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
+                                                            
+                                                                <th class="text-center">Can see your comment</th>
+                                                            
+                                                                <th class="text-center">Can see giver's name</th>
+                                                            
+                                                                <th class="text-center">Can see recipient's name</th>
                                                         </tr>
                                                         
                                                         
@@ -624,8 +623,8 @@
                                         <input name="commentid" value="{*}" type="hidden">
                                         <input name="courseid" value="comments.idOfTypicalCourse1" type="hidden">
                                         <input name="commentpage" value="true" type="hidden"> 
-                                        <input name="showcommentsto" value="" type="hidden">
-                                        <input name="showgiverto" value="" type="hidden">
+                                        <input name="showcommentsto" value="TEAM" type="hidden">
+                                        <input name="showgiverto" value="TEAM" type="hidden">
                                         <input name="showrecipientto" value="" type="hidden">
                                         <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
                                         
@@ -669,12 +668,12 @@
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
+                                                            
+                                                                <th class="text-center">Can see your comment</th>
+                                                            
+                                                                <th class="text-center">Can see giver's name</th>
+                                                            
+                                                                <th class="text-center">Can see recipient's name</th>
                                                         </tr>
                                                         
                                                         <tr id="recipient-person5">
@@ -756,7 +755,7 @@
                                         <input name="commentid" value="{*}" type="hidden">
                                         <input name="courseid" value="comments.idOfTypicalCourse1" type="hidden">
                                         <input name="commentpage" value="true" type="hidden"> 
-                                        <input name="showcommentsto" value="" type="hidden">
+                                        <input name="showcommentsto" value="TEAM" type="hidden">
                                         <input name="showgiverto" value="" type="hidden">
                                         <input name="showrecipientto" value="" type="hidden">
                                         <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
@@ -771,7 +770,7 @@
                                             <span class="text-muted">To <b>student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt)</b> 
                                                 [Thu, 03 May 2012, 08:51:00 UTC] 
                                             </span>
-                                            
+
                                             <a type="button" id="commentdelete-6" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('6');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
                                                 <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                                             </a> <a type="button" id="commentedit-6" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('6');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
@@ -801,12 +800,12 @@
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
+                                                            
+                                                                <th class="text-center">Can see your comment</th>
+                                                            
+                                                                <th class="text-center">Can see giver's name</th>
+                                                            
+                                                                <th class="text-center">Can see recipient's name</th>
                                                         </tr>
                                                         
                                                         <tr id="recipient-person6">
@@ -888,9 +887,9 @@
                                         <input name="commentid" value="{*}" type="hidden">
                                         <input name="courseid" value="comments.idOfTypicalCourse1" type="hidden">
                                         <input name="commentpage" value="true" type="hidden"> 
-                                        <input name="showcommentsto" value="" type="hidden">
-                                        <input name="showgiverto" value="" type="hidden">
-                                        <input name="showrecipientto" value="" type="hidden">
+                                        <input name="showcommentsto" value="TEAM" type="hidden">
+                                        <input name="showgiverto" value="TEAM" type="hidden">
+                                        <input name="showrecipientto" value="TEAM" type="hidden">
                                         <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
                                         
                                     </form>
@@ -933,12 +932,12 @@
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
+                                                            
+                                                                <th class="text-center">Can see your comment</th>
+                                                            
+                                                                <th class="text-center">Can see giver's name</th>
+                                                            
+                                                                <th class="text-center">Can see recipient's name</th>
                                                         </tr>
                                                         
                                                         <tr id="recipient-person7">
@@ -1020,7 +1019,7 @@
                                         <input name="commentid" value="{*}" type="hidden">
                                         <input name="courseid" value="comments.idOfTypicalCourse1" type="hidden">
                                         <input name="commentpage" value="true" type="hidden"> 
-                                        <input name="showcommentsto" value="" type="hidden">
+                                        <input name="showcommentsto" value="PERSON" type="hidden">
                                         <input name="showgiverto" value="" type="hidden">
                                         <input name="showrecipientto" value="" type="hidden">
                                         <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
@@ -1065,12 +1064,12 @@
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
+                                                            
+                                                                <th class="text-center">Can see your comment</th>
+                                                            
+                                                                <th class="text-center">Can see giver's name</th>
+                                                            
+                                                                <th class="text-center">Can see recipient's name</th>
                                                         </tr>
                                                         
                                                         <tr id="recipient-person8">
@@ -1152,8 +1151,8 @@
                                         <input name="commentid" value="{*}" type="hidden">
                                         <input name="courseid" value="comments.idOfTypicalCourse1" type="hidden">
                                         <input name="commentpage" value="true" type="hidden"> 
-                                        <input name="showcommentsto" value="" type="hidden">
-                                        <input name="showgiverto" value="" type="hidden">
+                                        <input name="showcommentsto" value="PERSON" type="hidden">
+                                        <input name="showgiverto" value="PERSON" type="hidden">
                                         <input name="showrecipientto" value="" type="hidden">
                                         <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
                                         
@@ -1195,12 +1194,12 @@
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
+                                                            
+                                                                <th class="text-center">Can see your comment</th>
+                                                            
+                                                                <th class="text-center">Can see giver's name</th>
+                                                            
+                                                                <th class="text-center">Can see recipient's name</th>
                                                         </tr>
                                                         
                                                         <tr id="recipient-person9">
@@ -1336,12 +1335,12 @@
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
+                                                            
+                                                                <th class="text-center">Can see your comment</th>
+                                                            
+                                                                <th class="text-center">Can see giver's name</th>
+                                                            
+                                                                <th class="text-center">Can see recipient's name</th>
                                                         </tr>
                                                         
                                                         
@@ -1385,7 +1384,7 @@
                                         <input name="commentid" value="{*}" type="hidden">
                                         <input name="courseid" value="comments.idOfTypicalCourse1" type="hidden">
                                         <input name="commentpage" value="true" type="hidden"> 
-                                        <input name="showcommentsto" value="" type="hidden">
+                                        <input name="showcommentsto" value="INSTRUCTOR" type="hidden">
                                         <input name="showgiverto" value="" type="hidden">
                                         <input name="showrecipientto" value="" type="hidden">
                                         <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
@@ -1439,12 +1438,12 @@
                                                     <tbody>
                                                         <tr>
                                                             <th class="text-center">User/Group</th>
-                                                            <th class="text-center">Can see
-                                                                your comment</th>
-                                                            <th class="text-center">Can see
-                                                                giver's name</th>
-                                                            <th class="text-center">Can see
-                                                                recipient's name</th>
+                                                            
+                                                                <th class="text-center">Can see your comment</th>
+                                                            
+                                                                <th class="text-center">Can see giver's name</th>
+                                                            
+                                                                <th class="text-center">Can see recipient's name</th>
                                                         </tr>
                                                         
                                                         
@@ -1488,9 +1487,9 @@
                                         <input name="commentid" value="{*}" type="hidden">
                                         <input name="courseid" value="comments.idOfTypicalCourse1" type="hidden">
                                         <input name="commentpage" value="true" type="hidden"> 
-                                        <input name="showcommentsto" value="" type="hidden">
-                                        <input name="showgiverto" value="" type="hidden">
-                                        <input name="showrecipientto" value="" type="hidden">
+                                        <input name="showcommentsto" value="INSTRUCTOR" type="hidden">
+                                        <input name="showgiverto" value="INSTRUCTOR" type="hidden">
+                                        <input name="showrecipientto" value="INSTRUCTOR" type="hidden">
                                         <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
                                         
                                     </form>

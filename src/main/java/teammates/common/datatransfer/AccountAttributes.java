@@ -6,8 +6,10 @@ import java.util.Date;
 import java.util.List;
 
 import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
@@ -65,6 +67,26 @@ public class AccountAttributes extends EntityAttributes {
         this.studentProfile.googleId = this.googleId;        
     }
     
+    public boolean isInstructor() {
+        return isInstructor;
+    }
+    
+    public String getGoogleId() {
+        return googleId;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+    
+    public String getTruncatedGoogleId() {
+        return StringHelper.truncate(googleId, Const.SystemParams.USER_ID_MAX_DISPLAY_LENGTH);
+    }
+
+    public String getInstitute() {
+        return institute;
+    }
+
     public List<String> getInvalidityInfo() {
         FieldValidator validator = new FieldValidator();
         List<String> errors = new ArrayList<String>();
