@@ -25,13 +25,19 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
 
     public FeedbackResponseComment getComment() {
         FeedbackResponseComment frc = new FeedbackResponseComment(comment, comment.giverEmail);
+
+        frc.setResponseVisibleToRecipient(true);
+        frc.setResponseVisibleToGiverTeam(true);
+        frc.setResponseVisibleToRecipientTeam(true);
+        frc.setResponseVisibleToStudents(true);
+        frc.setResponseVisibleToInstructors(true);
         frc.setEditDeleteEnabled(true);
+        frc.setInstructorAllowedToDelete(true);
+        frc.setInstructorAllowedToEdit(true);
         frc.setResponseGiverName(giverName);
         frc.setResponseRecipientName(recipientName);
         frc.setShowCommentToString(showCommentToString);
         frc.setShowGiverNameToString(showGiverNameToString);
-        frc.setInstructorAllowedToDelete(true);
-        frc.setInstructorAllowedToEdit(true);
 
         return frc;
     }

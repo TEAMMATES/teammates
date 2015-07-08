@@ -6,10 +6,8 @@ import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
 
 public class FeedbackResponseComment {
-
-    private String extraClass = "";
-
     private Long commentId;
+    private String extraClass = "";
     private String giverDisplay;
     private String createdAt;
     private String editedAt;
@@ -19,22 +17,23 @@ public class FeedbackResponseComment {
     private String feedbackSessionName;
     private String responseGiverName;
     private String responseRecipientName;
-    private List<FeedbackParticipantType> showCommentTo;
-    private List<FeedbackParticipantType> showGiverNameTo;
     private String showCommentToString;
     private String showGiverNameToString;
-
-    private boolean withVisibilityIcon = false;
-
-    private boolean withNotificationIcon = false;
-
-    private boolean withLinkToCommentsPage = false;
     private String linkToCommentsPage;
-
+    private List<FeedbackParticipantType> showCommentTo;
+    private List<FeedbackParticipantType> showGiverNameTo;
+    private boolean withVisibilityIcon = false;
+    private boolean withNotificationIcon = false;
+    private boolean withLinkToCommentsPage = false;
     private boolean editDeleteEnabled = false;
     private boolean editDeleteEnabledOnlyOnHover = false;
     private boolean instructorAllowedToDelete = false;
     private boolean instructorAllowedToEdit = false;
+    private boolean responseVisibleToRecipient = false;
+    private boolean responseVisibleToGiverTeam = false;
+    private boolean responseVisibleToRecipientTeam = false;
+    private boolean responseVisibleToStudents = false;
+    private boolean responseVisibleToInstructors = false;
 
     public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay) {
         this.commentId = frc.getId();
@@ -123,8 +122,48 @@ public class FeedbackResponseComment {
         return instructorAllowedToEdit;
     }
 
-    public void setEditDeleteEnabled(boolean isSettable) {
-        this.editDeleteEnabled = isSettable;
+    public void setEditDeleteEnabled(boolean isEditDeleteEnabled) {
+        this.editDeleteEnabled = isEditDeleteEnabled;
+    }
+
+    public boolean isResponseVisibleToRecipient() {
+        return responseVisibleToRecipient;
+    }
+
+    public void setResponseVisibleToRecipient(boolean isResponseVisibleToRecipient) {
+        this.responseVisibleToRecipient = isResponseVisibleToRecipient;
+    }
+
+    public boolean isResponseVisibleToGiverTeam() {
+        return responseVisibleToGiverTeam;
+    }
+
+    public void setResponseVisibleToGiverTeam(boolean isResponseVisibleToGiverTeam) {
+        this.responseVisibleToGiverTeam = isResponseVisibleToGiverTeam;
+    }
+
+    public boolean isResponseVisibleToRecipientTeam() {
+        return responseVisibleToRecipientTeam;
+    }
+
+    public void setResponseVisibleToRecipientTeam(boolean isResponseVisibleToRecipientTeam) {
+        this.responseVisibleToRecipientTeam = isResponseVisibleToRecipientTeam;
+    }
+
+    public boolean isResponseVisibleToStudents() {
+        return responseVisibleToStudents;
+    }
+
+    public void setResponseVisibleToStudents(boolean isResponseVisibleToStudents) {
+        this.responseVisibleToStudents = isResponseVisibleToStudents;
+    }
+
+    public boolean isResponseVisibleToInstructors() {
+        return responseVisibleToInstructors;
+    }
+
+    public void setResponseVisibleToInstructors(boolean isResponseVisibleToInstructors) {
+        this.responseVisibleToInstructors = isResponseVisibleToInstructors;
     }
 
     public String getFeedbackResponseId() {
