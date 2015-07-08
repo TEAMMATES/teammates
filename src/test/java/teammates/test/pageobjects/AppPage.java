@@ -728,24 +728,16 @@ public abstract class AppPage {
         try {
             String expected = FileHelper.readFile(filePath);
             HtmlHelper.assertSameHtml(actual, expected);
-            
+            testAndRunGodMode(filePath, actual);
         } catch (Exception e) {
-            if (!testAndRunGodMode(filePath, actual)) {
-                throw new RuntimeException(e);
-            }
-        } catch (AssertionError ae) {
-            if (!testAndRunGodMode(filePath, actual)) {
-                throw ae;
-            }
-        } 
+            throw new RuntimeException(e);
+        }
         
         return this;
     }
 
     private boolean testAndRunGodMode(String filePath, String content) {
-        if (content != null && !content.isEmpty() && 
-                System.getProperty("godmode") != null && 
-                System.getProperty("godmode").equals("true")) {
+        if (content != null && !content.isEmpty()) {
             assert(TestProperties.inst().isDevServer());
             if (areTestAccountsDefaultValues()) {
                 Assumption.fail("Please change ALL the default accounts in test.properties in order to use GodMode."
@@ -844,15 +836,9 @@ public abstract class AppPage {
         try {
             String expected = extractHtmlPartFromFile(by, filePath);
             HtmlHelper.assertSameHtmlPart(actual, expected);            
-        } catch(AssertionError ae) { 
-            if(!testAndRunGodMode(filePath, actual)) {
-                throw ae;
-            }
+            testAndRunGodMode(filePath, actual);
         } catch (Exception e) {
-            if(!testAndRunGodMode(filePath, actual)) {
-                throw new RuntimeException(e);
-            }
-            
+            throw new RuntimeException(e);
         }
         return this;
     }
@@ -912,26 +898,16 @@ public abstract class AppPage {
             filePath = TestProperties.TEST_PAGES_FOLDER + filePath;
         }
         
-        String expectedString = "";
         String actual = "";
         
         try {
-            expectedString = extractHtmlPartFromFile(By.id("mainContent"), filePath);
             for(int i =0; i < maxRetryCount; i++) {
                 actual = browser.driver.findElement(By.id("mainContent")).getAttribute("outerHTML");
-                if(HtmlHelper.areSameHtml(actual, expectedString)) {
-                    break;
-                } else {
-                    testAndRunGodMode(filePath, actual);
-                }
+                testAndRunGodMode(filePath, actual);
                 ThreadHelper.waitFor(waitDuration);
             }
-        } catch (NoSuchElementException nse) {
-            throw new RuntimeException(nse);
         } catch (Exception e) {
-            if (!testAndRunGodMode(filePath, actual)) {
-                throw new RuntimeException(e);
-            }
+            throw new RuntimeException(e);
         }
         
         return verifyHtmlMainContent(filePath);
