@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
     <title>TEAMMATES - Instructor</title>
 
-    <link rel="shortcut icon" href="/favicon.png" />
+    <link href="/favicon.png" rel="shortcut icon" />
 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-    <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-    <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>
-    <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" />
 
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -18,15 +17,13 @@
     <![endif]-->
 
     <script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script src="/js/googleAnalytics.js" type="text/javascript"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/js/common.js"></script>
-    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="/js/common.js" type="text/javascript"></script>
+    <script src="/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 
-    <script src="/js/instructor.js" type="text/javascript"></script>
-    <script src="/js/instructorCourses.js" type="text/javascript"></script>
-    <noscript>
-
+    
+<noscript>
     &lt;div id="noscript-warning"&gt;
         &lt;h1&gt;
             TEAMMATES works best with JavaScript enabled. &lt;br&gt; You may
@@ -184,23 +181,22 @@
             &lt;/div&gt;
         &lt;/div&gt;
         &lt;p&gt;
-            As taken from:  
+            As taken from:
+        &lt;/p&gt;
         &lt;ol&gt;
             &lt;li&gt;&lt;a href="http://activatejavascript.org/en/instructions/"&gt;http://activatejavascript.org/en/instructions/&lt;/a&gt;&lt;/li&gt;
             &lt;li&gt;&lt;a href="http://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-pages"&gt;
                          http://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-page&lt;/a&gt;&lt;/li&gt;
         &lt;/ol&gt;
-        
-        &lt;/p&gt;
     &lt;/div&gt;
 </noscript>
-    
-</head>
 
+
+    <script src="/js/instructor.js" type="text/javascript"></script>
+    <script src="/js/instructorCourses.js" type="text/javascript"></script>
+</head>
 <body>
     
- 
-
 
 
 <div role="navigation" class="navbar navbar-inverse navbar-fixed-top">
@@ -252,107 +248,128 @@
         </div>
     </div>
 </div>
-
     <div id="mainContent" class="container">
-        <div id="topOfPage"></div>
-        <h1>Add New Course</h1>
-        <br />
         
-        <div class="panel panel-primary">
-            <div class="panel-body fill-plain">
-                <form class="form form-horizontal" name="form_addcourse" action="/page/instructorCourseAdd" method="get">
-                    <input type="hidden" value="CCAddUiTest.instr2" name="instructorid" id="instructorid" />
-                    <input type="hidden" value="CCAddUiTest.instr2" name="user" />
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Course ID:</label>
-                        <div class="col-sm-3"><input type="text" placeholder="e.g. CS3215-2013Semester1" tabindex="1" maxlength="40" title="" data-placement="top" data-toggle="tooltip" value="" id="courseid" name="courseid" class="form-control" data-original-title="Enter the identifier of the course, e.g.CS3215-2013Semester1." />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Course Name:</label>
-                        <div class="col-sm-9"><input type="text" placeholder="e.g. Software Engineering" tabindex="2" maxlength="64" title="" data-placement="top" data-toggle="tooltip" value="" id="coursename" name="coursename" class="form-control" data-original-title="Enter the name of the course, e.g. Software Engineering." />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-sm-offset-3 col-sm-9"><input type="submit" tabindex="3" value="Add Course" onclick="return verifyCourseData();" class="btn btn-primary" id="btnAddCourse" />
-                        </div>
-                    </div>
-                </form>
+
+
+<div id="topOfPage"></div>
+
+    <h1>Add New Course</h1>
+    <br />
+
+        
+        
+    
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+    <div class="panel-body fill-plain">
+        <form class="form form-horizontal" name="form_addcourse" action="/page/instructorCourseAdd" method="get">
+            <input type="hidden" value="CCAddUiTest.instr2" name="instructorid" id="instructorid" />
+            <input type="hidden" value="CCAddUiTest.instr2" name="user" />
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Course ID:</label>
+                <div class="col-sm-3">
+                    <input type="text" placeholder="e.g. CS3215-2013Semester1" tabindex="1" maxlength="40" title="" data-placement="top" data-toggle="tooltip" value="" id="courseid" name="courseid" class="form-control" data-original-title="Enter the identifier of the course, e.g.CS3215-2013Semester1." />
+                </div>
             </div>
-        </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Course Name:</label>
+                <div class="col-sm-9">
+                    <input type="text" placeholder="e.g. Software Engineering" tabindex="2" maxlength="64" title="" data-placement="top" data-toggle="tooltip" value="" id="coursename" name="coursename" class="form-control" data-original-title="Enter the name of the course, e.g. Software Engineering." />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <input type="submit" tabindex="3" value="Add Course" onclick="return verifyCourseData();" class="btn btn-primary" id="btnAddCourse" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+    <br />
+    
 
-        <br />
-        
 
 
 
 
+    
         <div class="alert alert-warning" id="statusMessage">
             You have not created any courses yet. Use the form above to create a course.
         </div>
-        
         <script type="text/javascript">
             document.getElementById('statusMessage').scrollIntoView();
         </script>
+    
+    
 
-        <br />
-        
-        <h2>Active courses</h2>
-        
-        <table class="table table-bordered table-striped">
-            <thead class="fill-primary">
-                <tr>
-                    <th class="button-sort-ascending" id="button_sortcourseid" onclick="toggleSort(this,1);">
-                        Course ID<span class="icon-sort sorted-ascending"></span>
-                    </th>
-                    <th class="button-sort-none" id="button_sortcoursename" onclick="toggleSort(this,2);">
-                        Course Name<span class="icon-sort unsorted"></span>
-                    </th>
-                    <th>
-                        Sections
-                    </th>
-                    <th>
-                        Teams
-                    </th>
-                    <th>
-                        Total Students
-                    </th>
-                    <th>
-                        Total Unregistered
-                    </th>
-                    <th class="align-center no-print">
-                        Action(s)
-                    </th>
-                </tr>
-            </thead>
-            
-                <tbody>
-            
+    <br />
+    
+    
+
+
+
+<h2>Active courses</h2>
+<table class="table table-bordered table-striped">
+    <thead class="fill-primary">
         <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr></tbody></table>
+            <th class="button-sort-ascending" id="button_sortcourseid" onclick="toggleSort(this,1);">
+                Course ID<span class="icon-sort sorted-ascending"></span>
+            </th>
+            <th class="button-sort-none" id="button_sortcoursename" onclick="toggleSort(this,2);">
+                Course Name<span class="icon-sort unsorted"></span>
+            </th>
+            <th>
+                Sections
+            </th>
+            <th>
+                Teams
+            </th>
+            <th>
+                Total Students
+            </th>
+            <th>
+                Total Unregistered
+            </th>
+            <th class="align-center no-print">
+                Action(s)
+            </th>
+        </tr>
+    </thead>
+    
+    
+    
+        <tbody>
+    
+<tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr></tbody></table>
+    <br />
+    <br />
+    
+        No records found. <br />
         <br />
-        <br />
-        
-            No records found. <br />
-            <br />
-        
-        <br />
-        <br />
-        
-        
+    
+    <br />
+    <br />
+    
+    
+
+    
     </div>
-
-        
-
-
-
+    
 
 
 <div class="container-fluid" id="footerComponent">
@@ -362,9 +379,7 @@
                 <span>[<a href="/index.html">TEAMMATES</a> V{$version}]</span>
             </div>
             <div class="col-md-8">
-                
-                        [for <span class="highlight-white">TEAMMATES Test Institute with Long Long Long Name</span>]
-                
+                [for <span class="highlight-white">TEAMMATES Test Institute with Long Long Long Name</span>]
             </div>
             <div class="col-md-2">
                 <span>[Send <a target="_blank" href="../contact.html" class="link">Feedback</a>]</span>
@@ -372,5 +387,6 @@
         </div>
     </div>
 </div>
+
 
 </body></html>
