@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.mail.internet.MimeMessage;
+
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.datatransfer.CommentAttributes;
@@ -579,6 +581,24 @@ public class Logic {
     }
 
 
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public MimeMessage sendRegistrationInviteToInstructorWithoutSendgrid(String courseId, String instructorEmail) 
+            throws EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorEmail);
+    
+        return instructorsLogic.sendRegistrationInviteToInstructorWithoutSendgrid(courseId, instructorEmail);
+    }
+    
+    public MimeMessage sendRegistrationInviteToInstructorWithout(String courseId, InstructorAttributes instructor) 
+            throws EntityDoesNotExistException {
+        return instructorsLogic.sendRegistrationInviteToInstructorWithoutSendgrid(courseId, instructor);
+    }
+    
     /**
      * Preconditions: <br>
      * * All parameters are non-null.
@@ -1188,6 +1208,50 @@ public class Logic {
     
         return studentsLogic.enrollStudents(enrollLines.trim(), courseId);
     
+    }
+    
+    /**
+     * Sends the registration invite to unregistered students in the course.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * 
+     * @return The list of emails sent. These can be used for
+     *         verification.
+     */
+    public List<MimeMessage> sendRegistrationInviteForCourseWithoutSendgrid(String courseId) throws InvalidParametersException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        return studentsLogic.sendRegistrationInviteForCourseWithoutSendgrid(courseId);
+    }
+
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public MimeMessage sendRegistrationInviteToStudentWithoutSendgrid(String courseId, String studentEmail) 
+            throws EntityDoesNotExistException, InvalidParametersException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
+    
+        return studentsLogic.sendRegistrationInviteToStudentWithoutSendgrid(courseId, studentEmail);
+    }
+    
+    /**
+     * Send rejoin email to student after google id has been reset.<br>
+     * Should only be used by admin in AdminStudentGoogleIdResetAction 
+     * @param courseId
+     * @param studentEmail
+     * @return
+     * @throws EntityDoesNotExistException
+     * @throws InvalidParametersException
+     */
+    public MimeMessage sendRegistrationInviteToStudentAfterGoogleIdResetWithoutSendgrid(String courseId, String studentEmail) 
+           throws EntityDoesNotExistException, InvalidParametersException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
+    
+        return studentsLogic.sendRegistrationInviteToStudentAfterGoogleIdResetWithoutSendgrid(courseId, studentEmail);
     }
 
     /**
@@ -2610,6 +2674,10 @@ public class Logic {
     
     @SuppressWarnings("unused")
     private void ____MISC_methods__________________________________________() {
+    }
+    
+    public MimeMessage emailErrorReportWithoutSendgrid(String path, String params, Throwable error) {
+        return emailManager.sendErrorReportWithoutSendgrid(path, params, error);
     }
 
     public Sendgrid emailErrorReport(String path, String params, Throwable error) {
