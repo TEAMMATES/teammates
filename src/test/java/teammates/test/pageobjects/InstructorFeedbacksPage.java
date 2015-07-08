@@ -294,11 +294,13 @@ public class InstructorFeedbacksPage extends AppPage {
         fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, publishTime, publishTimeDropdown, js);
     }
     
-    public void fillTimeValueIfNotNull(String timeId, Date timeValue, WebElement timeDropdown, JavascriptExecutor js) {
-        if (timeValue != null) {
-            js.executeScript("$('#" + timeId + "')[0].value='" + TimeHelper.formatDate(timeValue) + "';");
-            selectDropdownByVisibleValue(timeDropdown,
-                                         TimeHelper.convertToDisplayValueInTimeDropDown(timeValue));
+    public void fillTimeValueIfNotNull(String dateId, Date datetimeValue, WebElement timeDropdown, JavascriptExecutor js) {
+        if (datetimeValue != null) {
+            js.executeScript("$('#" + dateId + "').val('" + TimeHelper.formatDate(datetimeValue) + "');");
+            
+            String timeDropdownId = timeDropdown.getAttribute("id");
+            String timeDropdownVal = TimeHelper.convertToOptionValueInTimeDropDown(datetimeValue);
+            js.executeScript("$('#" + timeDropdownId + "').val(" + timeDropdownVal + ")");
         }
     }
     
