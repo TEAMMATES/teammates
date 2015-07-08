@@ -2,6 +2,8 @@ package teammates.common.util;
 
 import java.util.Calendar;
 import java.util.TimeZone;
+import javax.mail.Message;
+import javax.mail.internet.MimeMessage;
 
 import teammates.googleSendgridJava.Sendgrid;
 
@@ -16,6 +18,12 @@ public class EmailLogEntry {
     private long time;
     
     public String logInfoAsHtml;
+    
+    public EmailLogEntry(MimeMessage msg) throws Exception{
+        this.receiver = msg.getRecipients(Message.RecipientType.TO)[0].toString();
+        this.subject = msg.getSubject();
+        this.content = (String) msg.getContent();
+    }
     
     public EmailLogEntry(Sendgrid msg) throws Exception{
         
