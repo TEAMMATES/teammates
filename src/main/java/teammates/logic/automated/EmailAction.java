@@ -11,12 +11,17 @@ import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.mail.MessagingException;       
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+
+import com.google.appengine.labs.repackaged.org.json.JSONException;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.ActivityLogEntry;
+import teammates.common.util.Config;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Utils;
 import teammates.googleSendgridJava.Sendgrid;
@@ -26,6 +31,7 @@ public abstract class EmailAction {
 
     protected HttpServletRequest req;
     protected List<Sendgrid> emailsToBeSent;
+    protected List<MimeMessage> emailsToBeSentWithoutSendgrid;
 
     protected String actionName = "unspecified";
     protected String actionDescription = "unspecified";
@@ -53,18 +59,32 @@ public abstract class EmailAction {
     
     public void sendEmails() {
         try {
-            emailsToBeSent = prepareMailToBeSent();
-            
-            //actually send the mail
-            Emails emailManager = new Emails();
-            emailManager.sendEmails(emailsToBeSent);
-            doPostProcessingForSuccesfulSend();
-            
-            //carry this out if mail is successfully sent
-            ArrayList<Sendgrid> emailList = new ArrayList<Sendgrid>();
-            emailList.addAll(emailsToBeSent);
-            logActivitySuccess(req, emailList);
+            if (Config.isUsingSendgrid()) {
+                emailsToBeSent = prepareMailToBeSent();
                 
+                //actually send the mail
+                Emails emailManager = new Emails();
+                emailManager.sendEmails(emailsToBeSent);
+                doPostProcessingForSuccesfulSend();
+                
+                //carry this out if mail is successfully sent
+                ArrayList<Sendgrid> emailList = new ArrayList<Sendgrid>();
+                emailList.addAll(emailsToBeSent);
+                logActivitySuccess(req, emailList);
+                
+            } else {
+                emailsToBeSentWithoutSendgrid = prepareMailToBeSentWithoutSendgrid();
+                
+                //actually send the mail
+                Emails emailManager = new Emails();
+                emailManager.sendEmailsWithoutSendgrid(emailsToBeSentWithoutSendgrid);
+                doPostProcessingForSuccesfulSend();
+                
+                //carry this out if mail is successfully sent
+                ArrayList<MimeMessage> emailList = new ArrayList<MimeMessage>();
+                emailList.addAll(emailsToBeSentWithoutSendgrid);
+                logActivitySuccessWithoutSendgrid(req, emailList);
+            }                          
         } catch (Exception e) {
             isError = true;
             logActivityFailure(req, e);    
@@ -84,6 +104,18 @@ public abstract class EmailAction {
     /*
      *  Used for testing
      */
+    public List<MimeMessage> getPreparedEmailsAndPerformSuccessOperationsWithoutSendgrid() {
+        List<MimeMessage> preparedMail = null;
+        
+        try {
+            preparedMail = prepareMailToBeSentWithoutSendgrid();
+            doPostProcessingForSuccesfulSend();
+        } catch (Exception e) {
+            log.severe("Unexpected error " + TeammatesException.toStringWithStackTrace(e));
+        }
+        return preparedMail;
+    }
+    
     public List<Sendgrid> getPreparedEmailsAndPerformSuccessOperations() {
         List<Sendgrid> preparedMail = null;
         
@@ -101,7 +133,24 @@ public abstract class EmailAction {
     protected void doPostProcessingForUnsuccesfulSend() throws EntityDoesNotExistException {
     }
     
-    protected abstract List<Sendgrid> prepareMailToBeSent() throws IOException, EntityDoesNotExistException;
+    protected abstract List<MimeMessage> prepareMailToBeSentWithoutSendgrid() throws MessagingException, IOException, EntityDoesNotExistException;
+    
+    protected abstract List<Sendgrid> prepareMailToBeSent() throws JSONException, IOException, EntityDoesNotExistException;
+    
+    protected void logActivitySuccessWithoutSendgrid(HttpServletRequest req, ArrayList<MimeMessage> emails) {        
+        String url = HttpRequestHelper.getRequestedURL(req);
+        String message;
+        
+        try {
+            message = generateLogMessageWithoutSendgrid(emails);
+        } catch (Exception e) {
+            message = "<span class=\"color_red\">Unable to retrieve email targets in "
+                            + actionName + ": " + actionDescription + ".</span>";
+        }
+        
+        ActivityLogEntry activityLogEntry = new ActivityLogEntry(actionName, actionDescription, null, message, url);
+        log.log(Level.INFO, activityLogEntry.generateLogMessage());
+    }
     
     protected void logActivitySuccess(HttpServletRequest req, ArrayList<Sendgrid> emails) {        
         String url = HttpRequestHelper.getRequestedURL(req);
@@ -128,6 +177,28 @@ public abstract class EmailAction {
         log.log(Level.INFO, activityLogEntry.generateLogMessage());
         log.severe(e.getMessage());
     }
+    
+    private String generateLogMessageWithoutSendgrid(List<MimeMessage> emailsSent) throws Exception {
+        String logMessage = "Emails sent to:<br/>";
+        
+        Iterator<Entry<String, EmailData>> extractedEmailIterator = 
+                extractEmailDataForLoggingWithoutSendgrid(emailsSent).entrySet().iterator();
+        
+        while (extractedEmailIterator.hasNext()) {
+            Entry<String, EmailData> extractedEmail = extractedEmailIterator.next();
+            
+            String userEmail = extractedEmail.getKey();
+            EmailData emailData = extractedEmail.getValue();
+            
+            logMessage += emailData.userName + "<span class=\"bold\"> (" 
+                                + userEmail + ")</span>.<br/>";
+            if (!emailData.regKey.isEmpty()) {
+                logMessage += emailData.regKey + "<br/>";
+            }
+        }
+        
+        return logMessage;
+    }
 
     private String generateLogMessage(List<Sendgrid> emailsSent) throws Exception {
         String logMessage = "Emails sent to:<br/>";
@@ -149,6 +220,19 @@ public abstract class EmailAction {
         }
         
         return logMessage;
+    }
+    
+    private Map<String, EmailData> extractEmailDataForLoggingWithoutSendgrid(List<MimeMessage> emails) throws Exception {
+        Map<String, EmailData> logData = new TreeMap<String, EmailData>();
+        
+        for (MimeMessage email : emails) {
+            String recipient = email.getAllRecipients()[0].toString();
+            String userName = extractUserName((String) email.getContent());
+            String regKey = extractRegistrationKey((String) email.getContent());
+            logData.put(recipient, new EmailData(userName, regKey));
+        }
+        
+        return logData;
     }
     
     private Map<String, EmailData> extractEmailDataForLogging(List<Sendgrid> emails) throws Exception {
