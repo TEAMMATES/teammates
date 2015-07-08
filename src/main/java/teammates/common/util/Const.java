@@ -1,8 +1,10 @@
 package teammates.common.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 
 /**
@@ -29,6 +31,12 @@ public class Const {
         
         /** e.g. "2014-04-01 11:59 PM UTC" */
         public static final String DEFAULT_DATE_TIME_FORMAT = "yyyy-MM-dd h:mm a Z";
+        /** Used for formatting date times for comments */
+        public static final SimpleDateFormat COMMENTS_SIMPLE_DATE_FORMATTER =
+                new SimpleDateFormat("EEE, dd MMM YYYY, HH:mm:ss zzz");
+        static {
+            COMMENTS_SIMPLE_DATE_FORMATTER.setTimeZone(TimeZone.getTimeZone("UTC"));
+        }
         /** Number to trim the Google ID when displaying to the user*/
         public static final int USER_ID_MAX_DISPLAY_LENGTH = 23;
         /** Maximum number to do Batching puts/delete documents from a index in the appengine  */
@@ -235,6 +243,7 @@ public class Const {
         
         public static final String COMMENT_ADD = "Add comment";
         public static final String COMMENT_EDIT = "Edit this comment";
+        public static final String COMMENT_EDIT_IN_COMMENTS_PAGE = "Edit comment in the Comments page";
         public static final String COMMENT_DELETE = "Delete this comment";
         
         public static final String SEARCH_STUDENT = "Search for student's name";
@@ -707,7 +716,7 @@ public class Const {
         
         /* We omit adding the 'page' prefix to views because all of them are "pages" */
     
-        public static final String INSTRUCTOR_HOME = "/jsp/instructorHome.jsp"; 
+        public static final String INSTRUCTOR_HOME = "/jsp/instructorHome.jsp";
         public static final String INSTRUCTOR_COMMENTS = "/jsp/instructorComments.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_ADD = "/jsp/instructorFeedbackResponseCommentsAdd.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_LOAD = "/jsp/instructorFeedbackResponseCommentsLoad.jsp";
@@ -721,7 +730,7 @@ public class Const {
         public static final String INSTRUCTOR_COURSE_JOIN_CONFIRMATION = "/jsp/instructorCourseJoinConfirmation.jsp";
         public static final String INSTRUCTOR_FEEDBACKS = "/jsp/instructorFeedbacks.jsp";
         public static final String INSTRUCTOR_FEEDBACK_COPY_MODAL = "/jsp/instructorFeedbackCopyModal.jsp";
-        public static final String INSTRUCTOR_FEEDBACK_REMIND_MODAL = "/jsp/instructorFeedbackRemindModal.jsp";
+        public static final String INSTRUCTOR_FEEDBACK_AJAX_REMIND_PARTICULAR_STUDENTS_MODAL = "/jsp/instructorFeedbackAjaxRemindParticularStudentsModal.jsp";
         public static final String INSTRUCTOR_FEEDBACK_EDIT = "/jsp/instructorFeedbackEdit.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_TOP = "/jsp/instructorFeedbackResultsTop.jsp";
         public static final String INSTRUCTOR_FEEDBACK_RESULTS_BOTTOM = "/jsp/instructorFeedbackResultsBottom.jsp";

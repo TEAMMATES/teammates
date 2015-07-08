@@ -2,7 +2,66 @@
         <div id="topOfPage"></div>
         <h1>Submit Feedback</h1>
         <br>
-        
+        <script>
+         var url = window.location.origin + &#39;&#x2f;&#39; + &#39;test-student-motd.html&#39;;
+
+        $.ajax({
+            type: &#39;GET&#39;,
+            url: url,
+            success: function(data) {
+                $(&#39;#student-motd&#39;).html(data);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(&#39;AJAX request failed&#39;);
+            }
+        });
+
+        function closeMotd() {
+            $(&#39;#student-motd-container&#39;).hide();
+        }
+      </script>
+      <div class="container theme-showcase" id="student-motd-container">
+         <div class="row">
+            <div class="col-sm-12">
+               <div class="panel panel-default">
+                  <div class="panel-body padding-top-0">
+                     <div class="row">
+                        <div class="col-sm-12">
+                           <p class="padding-15px margin-0">
+                              <b class="text-color-gray">
+                                 TEAMMATES Message of the day
+                              </b>
+                               
+                              <button aria-label="Close" class="close" onclick="closeMotd();" type="button">
+                                 <span aria-hidden="true">
+                                    ×
+                                 </span>
+                              </button>
+                           </p>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-sm-12" id="student-motd">
+                        <link href="&#x2f;favicon.png" rel="shortcut icon"/>
+                                                      <meta content="text&#x2f;html; charset=UTF-8" http-equiv="Content-Type"/>
+                                                      <title>
+                              TEAMMATES
+                           </title>
+                           <div class="col-sm-12">
+                              <h1>
+                                 Test student Message of the day! =)
+                              </h1>
+                              <h1>
+                                 <img alt="Overview of TEAMMATES - anonymous peer feedback and confidential peer evaluations" src="&#x2f;images&#x2f;overview.png" width="350px"/>
+                                                               </h1>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
             <div id="registerMessage" class="alert alert-info">
                 You are submitting feedback as <span class="text-danger text-bold text-large">Drop out</span>. You may submit feedback and view results without logging in. To access other features you need <a href="/page/studentCourseJoinAuthentication?key={*}&amp;studentemail=drop.out%40gmail.tmt&amp;courseid=SFSubmitUiT.CS2104" class="link">to login using a google account</a> (recommended).
             </div>
@@ -35,7 +94,7 @@
         </div>
         
         <script type="text/javascript">
-            document.getElementById( 'statusMessage' ).scrollIntoView();
+            document.getElementById('statusMessage').scrollIntoView();
         </script>
 
     <div class="well well-plain" id="course1">
@@ -140,7 +199,7 @@
         
                 <br>
                 <div class="form-group margin-0">
-                    <div class="col-sm-4 form-inline" style="text-align:right;">
+                    <div class="col-sm-4 form-inline" style="text-align:right">
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="responserecipient-2-0" style="width:275px;max-width:275px">
                         <option value=""></option>
@@ -161,7 +220,7 @@
         
                 <br>
                 <div class="form-group margin-0">
-                    <div class="col-sm-4 form-inline" style="text-align:right;">
+                    <div class="col-sm-4 form-inline" style="text-align:right">
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="responserecipient-2-1" style="width:275px;max-width:275px">
                         <option value=""></option>
@@ -182,7 +241,7 @@
         
                 <br>
                 <div class="form-group margin-0">
-                    <div class="col-sm-4 form-inline" style="text-align:right;">
+                    <div class="col-sm-4 form-inline" style="text-align:right">
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="responserecipient-2-2" style="width:275px;max-width:275px">
                         <option value=""></option>
@@ -256,7 +315,7 @@
         
                 <br>
                 <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" style="text-align:right;">
+                    <div class="col-sm-2 form-inline" style="text-align:right">
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="responserecipient-4-0" style="display:none;max-width:125px">
                         <option value=""></option>
@@ -427,7 +486,7 @@
         
                 <br>
                 <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" style="text-align:right;">
+                    <div class="col-sm-2 form-inline" style="text-align:right">
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="responserecipient-7-0" style="display:none;max-width:125px">
                         <option value=""></option>
@@ -563,7 +622,7 @@
         
                 <br>
                 <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" style="text-align:right;">
+                    <div class="col-sm-2 form-inline" style="text-align:right">
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="responserecipient-9-0" style="display:none;max-width:125px">
                         <option value=""></option>
@@ -1328,7 +1387,7 @@
         
                 <br>
                 <div class="form-group margin-0">
-                    <div class="col-sm-2 form-inline" style="text-align:right;">
+                    <div class="col-sm-2 form-inline" style="text-align:right">
                         <label for="input">To: </label>
                         <select class="participantSelect middlealign form-control" name="responserecipient-20-0" style="display:none;max-width:125px">
                         <option value=""></option>

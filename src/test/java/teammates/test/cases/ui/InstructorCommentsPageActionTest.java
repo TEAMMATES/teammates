@@ -43,10 +43,10 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
                 action.getLogMessage());
 
         InstructorCommentsPageData data = (InstructorCommentsPageData) result.data;
-        assertEquals("", data.courseName);
-        assertEquals(0, data.coursePaginationList.size());
-        assertEquals("javascript:;", data.previousPageLink);
-        assertEquals("javascript:;", data.nextPageLink);
+        assertEquals("", data.getCourseName());
+        assertEquals(0, data.getCoursePaginationList().size());
+        assertEquals("javascript:;", data.getPreviousPageLink());
+        assertEquals("javascript:;", data.getNextPageLink());
         
         ______TS("instructor with courses and comments");
         AccountAttributes instructorWithCoursesAndComments = dataBundle.accounts.get("instructor1OfCourse1");
@@ -62,11 +62,11 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
                 action.getLogMessage());
         
         data = (InstructorCommentsPageData) result.data;
-        assertEquals("idOfTypicalCourse1 : Typical Course 1 with 2 Evals", data.courseName);
-        assertEquals(1, data.coursePaginationList.size());
-        assertEquals("javascript:;", data.previousPageLink);
-        assertEquals("javascript:;", data.nextPageLink);
-        assertEquals(5, data.comments.get(InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST).size());
+        assertEquals("idOfTypicalCourse1 : Typical Course 1 with 2 Evals", data.getCourseName());
+        assertEquals(1, data.getCoursePaginationList().size());
+        assertEquals("javascript:;", data.getPreviousPageLink());
+        assertEquals("javascript:;", data.getNextPageLink());
+        assertEquals(5, data.getComments().get(InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST).size());
         
         ______TS("instructor with courses but without comments");
         gaeSimulation.loginAsInstructor(dataBundle.accounts.get("instructor2OfCourse1").googleId);
@@ -81,11 +81,11 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
                 action.getLogMessage());
         
         data = (InstructorCommentsPageData) result.data;
-        assertEquals("idOfTypicalCourse1 : Typical Course 1 with 2 Evals", data.courseName);
-        assertEquals(1, data.coursePaginationList.size());
-        assertEquals("javascript:;", data.previousPageLink);
-        assertEquals("javascript:;", data.nextPageLink);
-        assertEquals(0, data.comments.size());
+        assertEquals("idOfTypicalCourse1 : Typical Course 1 with 2 Evals", data.getCourseName());
+        assertEquals(1, data.getCoursePaginationList().size());
+        assertEquals("javascript:;", data.getPreviousPageLink());
+        assertEquals("javascript:;", data.getNextPageLink());
+        assertEquals(0, data.getComments().size());
     }
     
     private InstructorCommentsPageAction getAction(String... params) throws Exception{

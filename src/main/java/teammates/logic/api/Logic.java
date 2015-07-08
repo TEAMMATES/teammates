@@ -3,6 +3,7 @@ package teammates.logic.api;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -1043,6 +1044,16 @@ public class Logic {
     public List<String> getSectionNamesForCourse(String courseId) throws EntityDoesNotExistException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return coursesLogic.getSectionsNameForCourse(courseId);
+    }
+    
+    /** 
+     * Preconditions: <br>
+     * * All parameters are non-null    
+     * @throws EntityDoesNotExistException 
+     */    
+    public Map<String, List<String>> getCourseIdToSectionNamesMap(List<CourseAttributes> courses) throws EntityDoesNotExistException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courses);
+        return coursesLogic.getCourseIdToSectionNamesMap(courses);
     }
 
     /** 
@@ -2619,5 +2630,17 @@ public class Logic {
 
     @SuppressWarnings("unused")
     private void ____helper_methods________________________________________() {
+    }
+    
+    public List<CourseDetailsBundle> extractActiveCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
+        Assumption.assertNotNull(courseBundles);
+        Assumption.assertNotNull(googleId);
+        return coursesLogic.extractActiveCourses(courseBundles, googleId);
+    }
+    
+    public List<CourseDetailsBundle> extractArchivedCourses(List<CourseDetailsBundle> courseBundles, String googleId) {
+        Assumption.assertNotNull(courseBundles);
+        Assumption.assertNotNull(googleId);
+        return coursesLogic.extractArchivedCourses(courseBundles, googleId);
     }
 }

@@ -17,6 +17,7 @@ import teammates.test.driver.AssertHelper;
 import teammates.ui.controller.InstructorCourseEditPageAction;
 import teammates.ui.controller.InstructorCourseEditPageData;
 import teammates.ui.controller.ShowPageResult;
+import teammates.ui.template.CourseEditInstructorPanel;
 
 public class InstructorCourseEditPageActionTest extends BaseActionTest {
 
@@ -53,8 +54,8 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         assertEquals("", pageResult.getStatusMessage());
         
         InstructorCourseEditPageData data = (InstructorCourseEditPageData) pageResult.data;
-        assertEquals(CoursesLogic.inst().getCourse(courseId).toString(), data.course.toString());
-        verifySameInstructorList(InstructorsLogic.inst().getInstructorsForCourse(courseId), data.instructorList);
+        assertEquals(CoursesLogic.inst().getCourse(courseId).toString(), data.getCourse().toString());
+        verifySameInstructorList(InstructorsLogic.inst().getInstructorsForCourse(courseId), data.getInstructorPanelList());
         
         String expectedLogSegment = "instructorCourseEdit Page Load<br>"
                                     + "Editing information for Course <span class=\"bold\">[" + courseId + "]</span>";
@@ -75,8 +76,8 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         assertEquals("", pageResult.getStatusMessage());
         
         data = (InstructorCourseEditPageData) pageResult.data;
-        assertEquals(CoursesLogic.inst().getCourse(courseId).toString(), data.course.toString());
-        assertEquals(1, data.instructorList.size());
+        assertEquals(CoursesLogic.inst().getCourse(courseId).toString(), data.getCourse().toString());
+        assertEquals(1, data.getInstructorPanelList().size());
         
         expectedLogSegment = "instructorCourseEdit Page Load<br>"
                              + "Editing information for Course <span class=\"bold\">[" + courseId + "]</span>";
@@ -103,8 +104,8 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         assertEquals("", pageResult.getStatusMessage());
         
         data = (InstructorCourseEditPageData) pageResult.data;
-        assertEquals(CoursesLogic.inst().getCourse(courseId).toString(), data.course.toString());
-        verifySameInstructorList(InstructorsLogic.inst().getInstructorsForCourse(courseId), data.instructorList);
+        assertEquals(CoursesLogic.inst().getCourse(courseId).toString(), data.getCourse().toString());
+        verifySameInstructorList(InstructorsLogic.inst().getInstructorsForCourse(courseId), data.getInstructorPanelList());
         
         expectedLogSegment = "instructorCourseEdit Page Load<br>"
                              + "Editing information for Course <span class=\"bold\">[" + courseId + "]</span>";
@@ -126,19 +127,17 @@ public class InstructorCourseEditPageActionTest extends BaseActionTest {
         } catch (UnauthorizedAccessException e) {
             assertEquals("Trying to access system using a non-existent instructor entity", e.getMessage());
         }
-
     }
-
+    
     private InstructorCourseEditPageAction getAction(String... params) throws Exception {
         return (InstructorCourseEditPageAction) (gaeSimulation.getActionObject(uri, params));
     }
     
-    private void verifySameInstructorList(List<InstructorAttributes> list1, List<InstructorAttributes> list2) {
-        
+    private void verifySameInstructorList(List<InstructorAttributes> list1, List<CourseEditInstructorPanel> list2) {
         assertEquals(list1.size(), list2.size());
         
         for (int i = 0; i < list1.size(); i++) {
-            assertEquals(list1.get(i).toString(), list2.get(i).toString());
+            assertEquals(list1.get(i).toString(), list2.get(i).getInstructor().toString());
         }
     }
 }

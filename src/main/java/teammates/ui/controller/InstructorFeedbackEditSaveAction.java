@@ -34,24 +34,24 @@ public class InstructorFeedbackEditSaveAction extends Action {
                 Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         
         InstructorFeedbackEditPageData data = new InstructorFeedbackEditPageData(account);
-        data.session = extractFeedbackSessionData();
+        FeedbackSessionAttributes feedbackSession = extractFeedbackSessionData();
         
         // A session opening reminder email is always sent as students
         // without accounts need to receive the email to be able to respond
-        data.session.isOpeningEmailEnabled = true;
+        feedbackSession.isOpeningEmailEnabled = true;
         
         try {
-            logic.updateFeedbackSession(data.session);
+            logic.updateFeedbackSession(feedbackSession);
             statusToUser.add(Const.StatusMessages.FEEDBACK_SESSION_EDITED);
             statusToAdmin =
                     "Updated Feedback Session "
-                    + "<span class=\"bold\">(" + data.session.feedbackSessionName + ")</span> for Course "
-                    + "<span class=\"bold\">[" + data.session.courseId + "]</span> created.<br>"
-                    + "<span class=\"bold\">From:</span> " + data.session.startTime
-                    + "<span class=\"bold\"> to</span> " + data.session.endTime
-                    + "<br><span class=\"bold\">Session visible from:</span> " + data.session.sessionVisibleFromTime
-                    + "<br><span class=\"bold\">Results visible from:</span> " + data.session.resultsVisibleFromTime
-                    + "<br><br><span class=\"bold\">Instructions:</span> " + data.session.instructions;
+                    + "<span class=\"bold\">(" + feedbackSession.feedbackSessionName + ")</span> for Course "
+                    + "<span class=\"bold\">[" + feedbackSession.courseId + "]</span> created.<br>"
+                    + "<span class=\"bold\">From:</span> " + feedbackSession.startTime
+                    + "<span class=\"bold\"> to</span> " + feedbackSession.endTime
+                    + "<br><span class=\"bold\">Session visible from:</span> " + feedbackSession.sessionVisibleFromTime
+                    + "<br><span class=\"bold\">Results visible from:</span> " + feedbackSession.resultsVisibleFromTime
+                    + "<br><br><span class=\"bold\">Instructions:</span> " + feedbackSession.instructions;
         } catch (InvalidParametersException e) {
             setStatusForException(e);
         }
