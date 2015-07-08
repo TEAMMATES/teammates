@@ -77,7 +77,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         // Test new fs form model
         FeedbackSessionsForm formModel = data.getNewFsForm();
         
-        assertNull(formModel.getCourseIdForNewSession());
+        assertNull(formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
         assertEquals("Team peer evaluation session", formModel.getFeedbackSessionTypeOptions().get(1).getContent());
@@ -109,7 +109,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleDateChecked());
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleImmediatelyChecked());
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleNeverChecked());
-        assertTrue(formModel.getAdditionalSettings().isResponseVisibleDisabled());
+        assertTrue(formModel.getAdditionalSettings().isResponseVisibleDateDisabled());
        
         assertTrue(formModel.getAdditionalSettings().isSessionVisibleAtOpenChecked());
         assertTrue(formModel.getAdditionalSettings().isSessionVisibleDateDisabled());
@@ -160,7 +160,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         // Test new fs form model
         formModel = helperData.getNewFsForm();
         
-        assertNull(formModel.getCourseIdForNewSession());
+        assertNull(formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals("No active courses!", formModel.getCoursesSelectField().get(0).getContent());
         
@@ -247,7 +247,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         // Test new fs form model
         FeedbackSessionsForm formModel = data.getNewFsForm();
         
-        assertNull(formModel.getCourseIdForNewSession());
+        assertNull(formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
         assertEquals("Team peer evaluation session", formModel.getFeedbackSessionTypeOptions().get(1).getContent());
@@ -276,7 +276,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         assertTrue(formModel.getAdditionalSettings().isResponseVisibleDateChecked());
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleImmediatelyChecked());
         assertFalse(formModel.getAdditionalSettings().isResponseVisibleNeverChecked());
-        assertFalse(formModel.getAdditionalSettings().isResponseVisibleDisabled());
+        assertFalse(formModel.getAdditionalSettings().isResponseVisibleDateDisabled());
        
         assertFalse(formModel.getAdditionalSettings().isSessionVisibleAtOpenChecked());
         assertFalse(formModel.getAdditionalSettings().isSessionVisibleDateDisabled());
@@ -330,7 +330,7 @@ public class InstructorFeedbacksPageDataTest extends BaseTestCase {
         
         FeedbackSessionsForm formModel = data.getNewFsForm();
         
-        assertEquals("idOfTypicalCourse1", formModel.getCourseIdForNewSession());
+        assertEquals("idOfTypicalCourse1", formModel.getCourseId());
         assertEquals(1, formModel.getCoursesSelectField().size());
         assertEquals(2, formModel.getFeedbackSessionTypeOptions().size());
         assertEquals("Session with your own questions", formModel.getFeedbackSessionTypeOptions().get(0).getContent());

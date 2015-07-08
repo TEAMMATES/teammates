@@ -54,7 +54,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         assertEquals(2, pageData.getNewFsForm().getCourses().size());
         assertEquals(6, pageData.getFsList().getExistingFeedbackSessions().size());
         assertEquals("", pageData.getNewFsForm().getFsName());
-        assertEquals(null, pageData.getNewFsForm().getCourseIdForNewSession());
+        assertEquals(null, pageData.getNewFsForm().getCourseId());
         
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage|||"
@@ -82,7 +82,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         assertEquals(2, pageData.getNewFsForm().getCourses().size());
         assertEquals(0, pageData.getFsList().getExistingFeedbackSessions().size());
         assertEquals("", pageData.getNewFsForm().getFsName());
-        assertEquals(instructor1ofCourse1.courseId, pageData.getNewFsForm().getCourseIdForNewSession());
+        assertEquals(instructor1ofCourse1.courseId, pageData.getNewFsForm().getCourseId());
         
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage|||"
