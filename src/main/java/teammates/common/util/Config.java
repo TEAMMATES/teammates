@@ -125,5 +125,9 @@ public class Config {
     private String getSendgridPassword() {
         return props.getProperty("app.sendgrid.password");
     }
+    
+    public static boolean isUsingSendgrid() {
+        return SENDGRID_USERNAME != null && !SENDGRID_USERNAME.trim().isEmpty();
+    }
 
 }
