@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.internet.MimeMessage;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -36,6 +38,7 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.ThreadHelper;
@@ -1949,57 +1952,131 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         ______TS("typical success case");
         
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-
-        List<Sendgrid> emailsSent = 
-                fsLogic.sendReminderForFeedbackSession(fs.courseId, fs.feedbackSessionName);
-        assertEquals(9, emailsSent.size());
-
-        fs = fsLogic.getFeedbackSession(fs.feedbackSessionName, fs.courseId);
-
-        List<StudentAttributes> studentList = logic.getStudentsForCourse(fs.courseId);
-        for (StudentAttributes s : studentList) {
-            Sendgrid emailToStudent = TestHelper.getEmailToStudent(s, emailsSent);
-            if (fsLogic.isFeedbackSessionCompletedByStudent(fs, s.email)) {
-                String errorMessage = "Email sent to " + s.email + " when he already completed the session.";
-                assertNull(errorMessage, emailToStudent);
-            } else {
-                String errorMessage = "No email sent to " + s.email + " when he hasn't completed the session.";
-                assertNotNull(errorMessage, emailToStudent);
-                AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
-                        emailToStudent.getSubject());
-                AssertHelper.assertContains(fs.feedbackSessionName, emailToStudent.getSubject());
-            }
-        }
         
-        List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(fs.courseId);
-        String notificationHeader = "The email below has been sent to students of course: " + fs.courseId;
-        for (InstructorAttributes i : instructorList) {
-            List<Sendgrid> emailsToInstructor = TestHelper.getEmailsToInstructor(i, emailsSent);
+        if (Config.isUsingSendgrid()) {
+            List<Sendgrid> emailsSent = fsLogic.sendReminderForFeedbackSession(fs.courseId,
+                                                                            fs.feedbackSessionName);
+            assertEquals(9, emailsSent.size());
+
+            fs = fsLogic.getFeedbackSession(fs.feedbackSessionName, fs.courseId);
+
+            List<StudentAttributes> studentList = logic.getStudentsForCourse(fs.courseId);
             
-            if(fsLogic.isFeedbackSessionCompletedByInstructor(fs.feedbackSessionName, fs.courseId, i.email)) {
-                // Only send notification (no reminder) if instructor already completed the session
-                assertEquals(1, emailsToInstructor.size());
-                AssertHelper.assertContains(notificationHeader, emailsToInstructor.get(0).getHtml());
-                AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
-                        emailsToInstructor.get(0).getSubject());
-                AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(0).getSubject());
-            } else {
-                // Send both notification and reminder if the instructor hasn't completed the session
-                assertEquals(2, emailsToInstructor.size());
+            for (StudentAttributes s : studentList) {
+                Sendgrid emailToStudent = TestHelper.getEmailToStudent(s, emailsSent);
                 
-                assertTrue(emailsToInstructor.get(0).getHtml().contains(notificationHeader) 
-                            || emailsToInstructor.get(1).getHtml().contains(notificationHeader));
-                assertTrue(!emailsToInstructor.get(0).getHtml().contains(notificationHeader) 
-                            || !emailsToInstructor.get(1).getHtml().contains(notificationHeader));
-                AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
-                        emailsToInstructor.get(0).getSubject());
-                AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(0).getSubject());
-                AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
-                        emailsToInstructor.get(1).getSubject());
-                AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(1).getSubject());
+                if (fsLogic.isFeedbackSessionCompletedByStudent(fs, s.email)) {
+                    String errorMessage = "Email sent to " + s.email
+                                                    + " when he already completed the session.";
+                    assertNull(errorMessage, emailToStudent);
+                } else {
+                    String errorMessage = "No email sent to " + s.email
+                                                    + " when he hasn't completed the session.";
+                    assertNotNull(errorMessage, emailToStudent);
+                    AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
+                                                    emailToStudent.getSubject());
+                    AssertHelper.assertContains(fs.feedbackSessionName, emailToStudent.getSubject());
+                }
             }
-            
-            
+
+            List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(fs.courseId);
+            String notificationHeader = "The email below has been sent to students of course: " + fs.courseId;
+            for (InstructorAttributes i : instructorList) {
+                List<Sendgrid> emailsToInstructor = TestHelper.getEmailsToInstructor(i, emailsSent);
+
+                if (fsLogic.isFeedbackSessionCompletedByInstructor(fs.feedbackSessionName, fs.courseId,
+                                                i.email)) {
+                    // Only send notification (no reminder) if instructor
+                    // already completed the session
+                    assertEquals(1, emailsToInstructor.size());
+                    AssertHelper.assertContains(notificationHeader, emailsToInstructor.get(0).getHtml());
+                    AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
+                                                    emailsToInstructor.get(0).getSubject());
+                    AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(0)
+                                                    .getSubject());
+                } else {
+                    // Send both notification and reminder if the instructor
+                    // hasn't completed the session
+                    assertEquals(2, emailsToInstructor.size());
+
+                    assertTrue(emailsToInstructor.get(0).getHtml().contains(notificationHeader)
+                                                    || emailsToInstructor.get(1)
+                                                                                    .getHtml()
+                                                                                    .contains(notificationHeader));
+                    assertTrue(!emailsToInstructor.get(0).getHtml().contains(notificationHeader)
+                                                    || !emailsToInstructor.get(1)
+                                                                                    .getHtml()
+                                                                                    .contains(notificationHeader));
+                    AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
+                                                    emailsToInstructor.get(0).getSubject());
+                    AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(0)
+                                                    .getSubject());
+                    AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
+                                                    emailsToInstructor.get(1).getSubject());
+                    AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(1)
+                                                    .getSubject());
+                }
+            }
+        } else {
+            List<MimeMessage> emailsSent = fsLogic.sendReminderForFeedbackSessionWithoutSendgrid(fs.courseId,
+                                                                                           fs.feedbackSessionName);
+            assertEquals(9, emailsSent.size());
+
+            fs = fsLogic.getFeedbackSession(fs.feedbackSessionName, fs.courseId);
+
+            List<StudentAttributes> studentList = logic.getStudentsForCourse(fs.courseId);
+
+            for (StudentAttributes s : studentList) {
+                MimeMessage emailToStudent = TestHelper.getEmailToStudentWithoutSendgrid(s, emailsSent);
+
+                if (fsLogic.isFeedbackSessionCompletedByStudent(fs, s.email)) {
+                    String errorMessage = "Email sent to " + s.email
+                                        + " when he already completed the session.";
+                    assertNull(errorMessage, emailToStudent);
+                } else {
+                    String errorMessage = "No email sent to " + s.email
+                                        + " when he hasn't completed the session.";
+                    assertNotNull(errorMessage, emailToStudent);
+                    AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
+                                        emailToStudent.getSubject());
+                    AssertHelper.assertContains(fs.feedbackSessionName, emailToStudent.getSubject());
+                }
+            }
+
+            List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(fs.courseId);
+            String notificationHeader = "The email below has been sent to students of course: " + fs.courseId;
+            for (InstructorAttributes i : instructorList) {
+                List<MimeMessage> emailsToInstructor = TestHelper.getEmailsToInstructorWithoutSendgrid(i, emailsSent);
+
+                if (fsLogic.isFeedbackSessionCompletedByInstructor(fs.feedbackSessionName, fs.courseId, i.email)) {
+                    // Only send notification (no reminder) if instructor
+                    // already completed the session
+                    assertEquals(1, emailsToInstructor.size());
+                    AssertHelper.assertContains(notificationHeader, emailsToInstructor.get(0).getContent().toString());
+                    AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
+                    emailsToInstructor.get(0).getSubject());
+                    AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(0).getSubject());
+                } else {
+                    // Send both notification and reminder if the instructor
+                    // hasn't completed the session
+                    assertEquals(2, emailsToInstructor.size());
+                    
+                    assertTrue(emailsToInstructor.get(0).getContent().toString().contains(notificationHeader)
+                                        || emailsToInstructor.get(1).getContent().toString()
+                                                                        .contains(notificationHeader));
+                    assertTrue(!emailsToInstructor.get(0).getContent().toString().contains(notificationHeader)
+                                        || !emailsToInstructor.get(1).getContent().toString()
+                                                                        .contains(notificationHeader));
+                    AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
+                                        emailsToInstructor.get(0).getSubject());
+                    AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(0)
+                                        .getSubject());
+                    AssertHelper.assertContains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER,
+                                        emailsToInstructor.get(1).getSubject());
+                    AssertHelper.assertContains(fs.feedbackSessionName, emailsToInstructor.get(1)
+                                        .getSubject());
+                }
+            }
         }
         
         ______TS("failure: non-existent Feedback session");

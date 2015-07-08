@@ -8,6 +8,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.mail.internet.MimeMessage;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -29,6 +31,7 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -332,20 +335,35 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         String studentEmail = student1InCourse1.email;
         String courseId = student1InCourse1.course;
-        Sendgrid msgToStudent = studentsLogic.sendRegistrationInviteToStudent(courseId, studentEmail);
-        Emails emailMgr = new Emails();
-        @SuppressWarnings("static-access")
-        String emailInfo = emailMgr.getEmailInfo(msgToStudent);
+        
         String expectedEmailInfo = "[Email sent]to=student1InCourse1@gmail.tmt|from=" + 
-                "TEAMMATES Admin <Admin@null.appspotmail.com>|subject=TEAMMATES:" + 
-                " Invitation to join course [Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
-        assertEquals(expectedEmailInfo, emailInfo);
+                                   "TEAMMATES Admin <Admin@null.appspotmail.com>|subject=TEAMMATES:" + 
+                                   " Invitation to join course [Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
+        
+        if (Config.isUsingSendgrid()) {
+            Sendgrid msgToStudent = studentsLogic.sendRegistrationInviteToStudent(courseId, studentEmail);
+            Emails emailMgr = new Emails();
+            @SuppressWarnings("static-access")
+            String emailInfo = emailMgr.getEmailInfo(msgToStudent);           
+            assertEquals(expectedEmailInfo, emailInfo);
+        } else {
+            MimeMessage msgToStudent = studentsLogic.sendRegistrationInviteToStudentWithoutSendgrid(courseId, studentEmail);
+            Emails emailMgr = new Emails();
+            @SuppressWarnings("static-access")
+            String emailInfo = emailMgr.getEmailInfo(msgToStudent);           
+            assertEquals(expectedEmailInfo, emailInfo);
+        }      
         
         ______TS("invalid course id");
         
         String invalidCourseId = "invalidCourseId";
         try {
-            studentsLogic.sendRegistrationInviteToStudent(invalidCourseId, studentEmail);
+            if (Config.isUsingSendgrid()) {
+                studentsLogic.sendRegistrationInviteToStudent(invalidCourseId, studentEmail);
+            } else {
+                studentsLogic.sendRegistrationInviteToStudentWithoutSendgrid(invalidCourseId, studentEmail);
+            }
+            
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             String expectedMsg = "Course does not exist [" + invalidCourseId + 
@@ -358,7 +376,12 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         
         String invalidStudentEmail = "invalidStudentEmail";
         try {
-            studentsLogic.sendRegistrationInviteToStudent(courseId, invalidStudentEmail);
+            if (Config.isUsingSendgrid()) {
+                studentsLogic.sendRegistrationInviteToStudent(courseId, invalidStudentEmail);
+            } else {
+                studentsLogic.sendRegistrationInviteToStudentWithoutSendgrid(courseId, invalidStudentEmail);
+            }
+            
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             String expectedMsg = "Student [" + invalidStudentEmail + "] does not exist in course [" + courseId + "]";
@@ -1109,10 +1132,14 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         CourseAttributes course1 = dataBundle.courses.get("typicalCourse1");
     
         // send registration key to a class in which all are registered
-        List<Sendgrid> emailsSent = studentsLogic
-                .sendRegistrationInviteForCourse(course1.id);
-        assertEquals(0, emailsSent.size());
-        
+        if (Config.isUsingSendgrid()) {
+            List<Sendgrid> emailsSent = studentsLogic.sendRegistrationInviteForCourse(course1.id);
+            assertEquals(0, emailsSent.size());
+        } else {
+            List<MimeMessage> emailsSent = studentsLogic.sendRegistrationInviteForCourseWithoutSendgrid(course1.id);
+            assertEquals(0, emailsSent.size());
+        }
+             
         ______TS("typical case: send invite to one student");
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
@@ -1124,28 +1151,53 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         invokeEnrollStudent(newsStudent0Info);
         invokeEnrollStudent(newsStudent1Info);
         invokeEnrollStudent(newsStudent2Info);
-
-        List<Sendgrid> msgsForCourse = studentsLogic.sendRegistrationInviteForCourse(courseId);
-        assertEquals(3, msgsForCourse.size());
-        Emails emailMgr = new Emails();
-        @SuppressWarnings("static-access")
-        String emailInfo0 = emailMgr.getEmailInfo(msgsForCourse.get(0));
+        
         String expectedEmailInfoForEmail0 = "[Email sent]to=e0@google.tmt|from=TEAMMATES Admin " + 
-                "<Admin@null.appspotmail.com>|subject=TEAMMATES: Invitation to join course " + 
-                "[Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
-        assertEquals(expectedEmailInfoForEmail0, emailInfo0);
-        @SuppressWarnings("static-access")
-        String emailInfo1 = emailMgr.getEmailInfo(msgsForCourse.get(1));
+                                        "<Admin@null.appspotmail.com>|subject=TEAMMATES: Invitation to join course " + 
+                                        "[Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
+        
         String expectedEmailInfoForEmail1 = "[Email sent]to=e1@google.tmt|from=TEAMMATES Admin " + 
-                "<Admin@null.appspotmail.com>|subject=TEAMMATES: Invitation to join course " + 
-                "[Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
-        assertEquals(expectedEmailInfoForEmail1, emailInfo1);
-        @SuppressWarnings("static-access")
-        String emailInfo2 = emailMgr.getEmailInfo(msgsForCourse.get(2));
+                                        "<Admin@null.appspotmail.com>|subject=TEAMMATES: Invitation to join course " + 
+                                        "[Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
+        
         String expectedEmailInfoForEmail2 = "[Email sent]to=e2@google.tmt|from=" + 
-                "TEAMMATES Admin <Admin@null.appspotmail.com>|subject=TEAMMATES:" + 
-                " Invitation to join course [Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
-        assertEquals(expectedEmailInfoForEmail2, emailInfo2);
+                                        "TEAMMATES Admin <Admin@null.appspotmail.com>|subject=TEAMMATES:" + 
+                                        " Invitation to join course [Typical Course 1 with 2 Evals][Course ID: idOfTypicalCourse1]";
+        
+        if (Config.isUsingSendgrid()) {
+            List<Sendgrid> msgsForCourse = studentsLogic.sendRegistrationInviteForCourse(courseId);
+            assertEquals(3, msgsForCourse.size());
+            Emails emailMgr = new Emails();
+            
+            @SuppressWarnings("static-access")
+            String emailInfo0 = emailMgr.getEmailInfo(msgsForCourse.get(0));         
+            assertEquals(expectedEmailInfoForEmail0, emailInfo0);
+            
+            @SuppressWarnings("static-access")
+            String emailInfo1 = emailMgr.getEmailInfo(msgsForCourse.get(1));           
+            assertEquals(expectedEmailInfoForEmail1, emailInfo1);
+            
+            @SuppressWarnings("static-access")
+            String emailInfo2 = emailMgr.getEmailInfo(msgsForCourse.get(2));         
+            assertEquals(expectedEmailInfoForEmail2, emailInfo2);
+            
+        } else {
+            List<MimeMessage> msgsForCourse = studentsLogic.sendRegistrationInviteForCourseWithoutSendgrid(courseId);
+            assertEquals(3, msgsForCourse.size());
+            Emails emailMgr = new Emails();
+            
+            @SuppressWarnings("static-access")
+            String emailInfo0 = emailMgr.getEmailInfo(msgsForCourse.get(0));
+            assertEquals(expectedEmailInfoForEmail0, emailInfo0);
+            
+            @SuppressWarnings("static-access")
+            String emailInfo1 = emailMgr.getEmailInfo(msgsForCourse.get(1));
+            assertEquals(expectedEmailInfoForEmail1, emailInfo1);
+            
+            @SuppressWarnings("static-access")
+            String emailInfo2 = emailMgr.getEmailInfo(msgsForCourse.get(2));
+            assertEquals(expectedEmailInfoForEmail2, emailInfo2);
+        }     
         
         studentsLogic.updateStudentCascadeWithoutDocument(student1InCourse1.email, student1InCourse1);
         studentsLogic.updateStudentCascadeWithoutDocument(student2InCourse1.email, student2InCourse1);
@@ -1156,7 +1208,12 @@ public class StudentsLogicTest extends BaseComponentTestCase{
         ______TS("null parameters");
     
         try {
-            studentsLogic.sendRegistrationInviteForCourse(null);
+            if (Config.isUsingSendgrid()) {
+                studentsLogic.sendRegistrationInviteForCourse(null);
+            } else {
+                studentsLogic.sendRegistrationInviteForCourseWithoutSendgrid(null);
+            }
+            
             signalFailureToDetectException();
         } catch (AssertionError a) {
             assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, a.getMessage());
