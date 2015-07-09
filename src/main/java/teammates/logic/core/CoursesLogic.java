@@ -632,7 +632,7 @@ public class CoursesLogic {
         studentsLogic.deleteStudentsForCourse(courseId);
         instructorsLogic.deleteInstructorsForCourse(courseId);
         commentsLogic.deleteCommentsForCourse(courseId);
-        feedbackSessionsLogic.deleteFeedbackSessionsForCourse(courseId);
+        feedbackSessionsLogic.deleteFeedbackSessionsForCourseCascade(courseId);
         coursesDb.deleteCourse(courseId);
     }
     

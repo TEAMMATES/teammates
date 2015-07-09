@@ -685,6 +685,15 @@ public class FeedbackResponsesLogic {
     }
 
     /**
+     * Deletes all feedback responses in every feedback session in 
+     * the specified course. This is a non-cascade delete and the 
+     * feedback response comments are not deleted, and should be handled. 
+     */
+    public void deleteFeedbackResponsesForCourse(String courseId) {
+        frDb.deleteFeedbackResponsesForCourse(courseId);
+    }
+
+    /**
      * Adds {@link FeedbackResponseAttributes} in {@code newResponses} that are
      * not already in to {@code existingResponses} to {@code existingResponses}.
      */
