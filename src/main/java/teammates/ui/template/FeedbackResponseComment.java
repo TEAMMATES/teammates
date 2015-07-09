@@ -22,18 +22,18 @@ public class FeedbackResponseComment {
     private String linkToCommentsPage;
     private List<FeedbackParticipantType> showCommentTo;
     private List<FeedbackParticipantType> showGiverNameTo;
-    private boolean withVisibilityIcon = false;
-    private boolean withNotificationIcon = false;
-    private boolean withLinkToCommentsPage = false;
-    private boolean editDeleteEnabled = false;
-    private boolean editDeleteEnabledOnlyOnHover = false;
-    private boolean instructorAllowedToDelete = false;
-    private boolean instructorAllowedToEdit = false;
-    private boolean responseVisibleToRecipient = false;
-    private boolean responseVisibleToGiverTeam = false;
-    private boolean responseVisibleToRecipientTeam = false;
-    private boolean responseVisibleToStudents = false;
-    private boolean responseVisibleToInstructors = false;
+    private boolean withVisibilityIcon;
+    private boolean withNotificationIcon;
+    private boolean withLinkToCommentsPage;
+    private boolean editDeleteEnabled;
+    private boolean editDeleteEnabledOnlyOnHover;
+    private boolean instructorAllowedToDelete;
+    private boolean instructorAllowedToEdit;
+    private boolean responseVisibleToRecipient;
+    private boolean responseVisibleToGiverTeam;
+    private boolean responseVisibleToRecipientTeam;
+    private boolean responseVisibleToStudents;
+    private boolean responseVisibleToInstructors;
 
     public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay) {
         this.commentId = frc.getId();
