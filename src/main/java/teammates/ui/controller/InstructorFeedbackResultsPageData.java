@@ -23,8 +23,8 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
-import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
+import teammates.ui.template.InstructorFeedbackResultsSessionPanel;
 import teammates.ui.template.InstructorResultsParticipantPanel;
 import teammates.ui.template.InstructorFeedbackResultsGroupByQuestionPanel;
 import teammates.ui.template.InstructorFeedbackResultsSectionPanel;
@@ -57,6 +57,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public String feedbackSessionName = null;
     public String ajaxStatus = null;
     public String sessionResultsHtmlTableAsString = null;
+    
 
     // TODO multiple page data classes for each view type
     
@@ -888,76 +889,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * The next three methods are not covered in action test, but covered in UI tests.
      */
 
-    /*
-    public FeedbackSessionPublishButton getInstructorFeedbackSessionPublishAndUnpublishAction(
+    private FeedbackSessionPublishButton getInstructorFeedbackSessionPublishAndUnpublishAction(
                                                                         FeedbackSessionAttributes session,
                                                                         boolean isHome,
                                                                         InstructorAttributes instructor) {
         return new FeedbackSessionPublishButton(this, session, isHome, instructor, "btn-primary btn-block");
     }
-    */
-
-    /**
-     * TODO: re-use {@link FeedbackSessionPublishButton} when migrating this to JSTL.<br>
-     * As a shortcut, un-comment the above method, making necessary changes, and remove this one.
-     */
-    public String getInstructorFeedbackSessionPublishAndUnpublishAction(FeedbackSessionAttributes session,
-                                                                        boolean isHome,
-                                                                        InstructorAttributes instructor) {
-        boolean hasPublish = !session.isWaitingToOpen() && !session.isPublished();
-        boolean hasUnpublish = !session.isWaitingToOpen() && session.isPublished();
-        String disabledStr = "disabled=\"disabled\"";
-        String disableUnpublishSessionStr = 
-                instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" 
-                                                                                                         : disabledStr;
-        String disablePublishSessionStr = 
-                instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" 
-                                                                                                         : disabledStr;
-        String result = "";
-        if (hasUnpublish) {
-            result =
-                "<a class=\"btn btn-primary btn-block btn-tm-actions session-unpublish-for-test\""
-                    + "href=\"" + getInstructorFeedbackSessionUnpublishLink(session.courseId, 
-                                                                            session.feedbackSessionName, 
-                                                                            isHome) + "\" " 
-                    + "title=\"" + Const.Tooltips.FEEDBACK_SESSION_UNPUBLISH + "\" data-toggle=\"tooltip\" "
-                    + "data-placement=\"top\" onclick=\"return toggleUnpublishEvaluation('" 
-                    + session.feedbackSessionName + "');\" " + disableUnpublishSessionStr + ">Unpublish Results</a> ";
-        } else {
-            result = "<a class=\"btn btn-primary btn-block btn-tm-actions session-publish-for-test" 
-                   + (hasPublish ? "\"" : DISABLED) + "href=\""
-                   + getInstructorFeedbackSessionPublishLink(session.courseId, session.feedbackSessionName,
-                                                             isHome) 
-                   + "\" " + "title=\""
-                   + (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH 
-                                 : Const.Tooltips.FEEDBACK_SESSION_AWAITING)
-                   + "\" " + "data-toggle=\"tooltip\" data-placement=\"top\""
-                   + (hasPublish ? "onclick=\"return togglePublishEvaluation('" + session.feedbackSessionName + "', " 
-                                                                                + session.isPublishedEmailEnabled + ");\" " 
-                                              : " ") 
-                   + disablePublishSessionStr + ">Publish Results</a> ";
-        }
-        return result;
-    }
-
-    public String getResultsVisibleFromText() {
-        if (bundle.feedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
-            if (bundle.feedbackSession.sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
-                return TimeHelper.formatTime(bundle.feedbackSession.startTime);
-            } else if (bundle.feedbackSession.sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER)) {
-                return "Never";
-            } else {
-                return TimeHelper.formatTime(bundle.feedbackSession.sessionVisibleFromTime);
-            }
-        } else if (bundle.feedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER)) {
-            return "I want to manually publish the results.";
-        } else if (bundle.feedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER)) {
-            return "Never";
-        } else {
-            return TimeHelper.formatTime(bundle.feedbackSession.resultsVisibleFromTime);
-        }
-    }
-
+    
     public String getProfilePictureLink(String studentEmail) {
         return Const.ActionURIs.STUDENT_PROFILE_PICTURE
                 + "?" + Const.ParamsNames.STUDENT_EMAIL + "="
@@ -1004,11 +942,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     public String getCourseId() {
-        return courseId;
+        return sanitizeForHtml(courseId);
     }
 
     public String getFeedbackSessionName() {
-        return feedbackSessionName;
+        return sanitizeForHtml(feedbackSessionName);
     }
 
     public String getAjaxStatus() {
@@ -1039,8 +977,17 @@ public class InstructorFeedbackResultsPageData extends PageData {
         this.sectionPanels = sectionPanels;
     }
 
+    private String getInstructorFeedbackSessionEditLink() {
+        return instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)
+               ? getInstructorFeedbackSessionEditLink(courseId, feedbackSessionName)
+               : null;
+    }
     
-    
-    
+    public InstructorFeedbackResultsSessionPanel getSessionPanel() {
+        return new InstructorFeedbackResultsSessionPanel(bundle.feedbackSession,
+                                                         getInstructorFeedbackSessionEditLink(),
+                                                         getInstructorFeedbackSessionPublishAndUnpublishAction(bundle.feedbackSession, false, instructor),
+                                                         selectedSection);
+    }
     
 }

@@ -10,87 +10,10 @@
     InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData)request.getAttribute("data");
     boolean showAll = data.bundle.isComplete;
     boolean shouldCollapsed = data.bundle.responses.size() > 500;
+    boolean noResponses = data.bundle.responses.isEmpty();
 %>
 
-<div class="well well-plain padding-0">
-    <div class="form-horizontal">
-        <div class="panel-heading">
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">Course ID:</label>
-                      <div class="col-sm-10">
-                        <p class="form-control-static"><%=InstructorFeedbackResultsPageData.sanitizeForHtml(data.bundle.feedbackSession.courseId)%></p>
-                      </div>
-                  </div>
-                  <div class="form-group">
-                      <label class="col-sm-2 control-label">Session:</label>
-                      <div class="col-sm-10">
-                        <p class="form-control-static"><%=InstructorFeedbackResultsPageData.sanitizeForHtml(data.bundle.feedbackSession.feedbackSessionName)%> 
-                          <% if (data.instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) { %>
-                              <a href="<%=data.getInstructorFeedbackSessionEditLink(data.bundle.feedbackSession.courseId, data.bundle.feedbackSession.feedbackSessionName)%>">
-                              [Edit]</a>
-                          <% } %>
-                      </p>
-                    </div>
-                  </div>
-              </div>
-              <div class="col-sm-6">
-                  <div class="form-group">
-                    <label class="col-sm-4 control-label">Session duration:</label>
-                    <div class="col-sm-8">
-                      <p class="form-control-static"><%=TimeHelper.formatTime(data.bundle.feedbackSession.startTime)%>&nbsp;&nbsp;&nbsp;<b>to</b>&nbsp;&nbsp;&nbsp;<%=TimeHelper.formatTime(data.bundle.feedbackSession.endTime)%></p>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-4 control-label">Results visible from:</label>
-                    <div class="col-sm-8">
-                        <p class="form-control-static">
-                            <%=data.getResultsVisibleFromText()%>
-                            <%boolean noResponses = data.bundle.responses.isEmpty();%>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-2">
-                <div class="form-group">
-                    <div class="col-sm-12">
-                        <form method="post" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD%>">
-                            <div id="feedbackDataButtons">
-                                <input id="button_download" type="submit" class="btn btn-primary btn-block"
-                                    name="<%=Const.ParamsNames.FEEDBACK_RESULTS_UPLOADDOWNLOADBUTTON%>"
-                                    value="Download Results">
-                            </div>
-                            <input type="hidden" name="<%=Const.ParamsNames.USER_ID%>" value="<%=data.account.googleId%>">
-                            <input type="hidden" name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>" value="<%=data.bundle.feedbackSession.feedbackSessionName%>">
-                            <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="<%=data.bundle.feedbackSession.courseId%>">
-                            <input type="hidden" name="<%=Const.ParamsNames.SECTION_NAME %>" value="<%=data.selectedSection%>">
-                        </form><br>
-                        
-                        <div>
-                            <%=data.getInstructorFeedbackSessionPublishAndUnpublishAction(data.bundle.feedbackSession, false, data.instructor)%>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-            <div class="row">
-                <span class="help-block align-center">
-
-                    Non-English characters not displayed properly in the
-                    downloaded file?<span class="btn-link"
-                    data-toggle="modal"
-                    data-target="#fsResultsTableWindow"
-                    onclick="submitFormAjax()"> click here </span>
-            </div>
-        </div>
-    </div>
-    
-</div>
-
-<r:copyPasteModal courseId="${data.courseId}"
-                  feedbackSession="${data.feedbackSessionName}"
-                  selectedSection="${data.selectedSection}" />
+<r:sessionPanel sessionPanel="${data.sessionPanel}" />
 
 <%
 	if (noResponses == false || !data.selectedSection.equals("All")
