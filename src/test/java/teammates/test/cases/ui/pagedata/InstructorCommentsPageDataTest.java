@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseAttributes;
@@ -81,7 +82,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         assertFalse(data.isViewingDraft());
         assertEquals(courseId, data.getCourseId());
         assertEquals(courseName, data.getCourseName());
-        TestHelper.isSameContentIgnoreOrder(coursePaginationList, data.getCoursePaginationList());
+        assertTrue(TestHelper.isSameContentIgnoreOrder(coursePaginationList, data.getCoursePaginationList()));
         
         Map<String, List<CommentAttributes>> actualComments = data.getComments();
         Map<String, List<CommentAttributes>> expectedComments = comments;
@@ -91,12 +92,12 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         List<String> expectedGivers = new ArrayList<String>();
         expectedGivers.addAll(expectedComments.keySet());
         
-        TestHelper.isSameContentIgnoreOrder(expectedGivers, actualGivers);
+        assertTrue(TestHelper.isSameContentIgnoreOrder(expectedGivers, actualGivers));
         for (String email : expectedGivers) {
-            TestHelper.isSameContentIgnoreOrder(expectedComments.get(email), actualComments.get(email));
+            assertTrue(TestHelper.isSameContentIgnoreOrder(expectedComments.get(email), actualComments.get(email)));
         }
         // TODO: not sure if feedbackSessions can be compared like this
-        TestHelper.isSameContentIgnoreOrder(feedbackSessions, data.getFeedbackSessions());
+        assertTrue(TestHelper.isSameContentIgnoreOrder(feedbackSessions, data.getFeedbackSessions()));
         String expectedNextPageLink = data.getInstructorCommentsLink() + "&courseid=" + course2.id;
         String expectedPreviousPageLink = "javascript:;";
         
@@ -111,7 +112,8 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         List<InstructorCommentsForStudentsTable> actualCommentsForStudentsTables =
                 data.getCommentsForStudentsTables();
         // TODO: use a different method of comparing 
-        TestHelper.isSameContentIgnoreOrder(expectedCommentsForStudentsTables, actualCommentsForStudentsTables);
+        assertTrue(TestHelper.isSameContentIgnoreOrder(
+                                      expectedCommentsForStudentsTables, actualCommentsForStudentsTables));
         
         ______TS("instructor is in second course page");
         
@@ -143,7 +145,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         assertFalse(data.isViewingDraft());
         assertEquals(courseId, data.getCourseId());
         assertEquals(courseName, data.getCourseName());
-        TestHelper.isSameContentIgnoreOrder(coursePaginationList, data.getCoursePaginationList());
+        assertTrue(TestHelper.isSameContentIgnoreOrder(coursePaginationList, data.getCoursePaginationList()));
         
         actualComments = data.getComments();
         expectedComments = comments;
@@ -153,12 +155,12 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         expectedGivers = new ArrayList<String>();
         expectedGivers.addAll(expectedComments.keySet());
         
-        TestHelper.isSameContentIgnoreOrder(expectedGivers, actualGivers);
+        assertTrue(TestHelper.isSameContentIgnoreOrder(expectedGivers, actualGivers));
         for (String email : expectedGivers) {
-            TestHelper.isSameContentIgnoreOrder(expectedComments.get(email), actualComments.get(email));
+            assertTrue(TestHelper.isSameContentIgnoreOrder(expectedComments.get(email), actualComments.get(email)));
         }
         // TODO: not sure if feedbackSessions can be compared like this
-        TestHelper.isSameContentIgnoreOrder(feedbackSessions, data.getFeedbackSessions());
+        assertTrue(TestHelper.isSameContentIgnoreOrder(feedbackSessions, data.getFeedbackSessions()));
         expectedNextPageLink = "javascript:;";
         expectedPreviousPageLink = data.getInstructorCommentsLink() + "&courseid=" + course1.id;
         assertEquals(data.getNextPageLink(), expectedNextPageLink);
@@ -172,7 +174,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         actualCommentsForStudentsTables =
                 data.getCommentsForStudentsTables();
         // TODO: use a different method of comparing 
-        TestHelper.isSameContentIgnoreOrder(expectedCommentsForStudentsTables, actualCommentsForStudentsTables);
+        assertTrue(TestHelper.isSameContentIgnoreOrder(expectedCommentsForStudentsTables, actualCommentsForStudentsTables));
     }
 
     private List<CommentRow> createCommentRows(
