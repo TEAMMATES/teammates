@@ -382,12 +382,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                       "btn btn-primary btn-xs",
                                                                       "Moderate Responses");
             InstructorFeedbackResultsGroupByQuestionPanel recipientPanel = 
-                                                                 buildInstructorFeedbackResultsGroupByQuestionPanel(
-                                                                     validator, recipientIdentifier, 
-                                                                     bundle.getNameForEmail(recipientIdentifier),
-                                                                     questionForRecipient, questionTables, moderationButton, 
-                                                                     bundle.isParticipantIdentifierStudent(recipientIdentifier),
-                                                                     false);
+                                                             buildInstructorFeedbackResultsGroupByQuestionPanel(
+                                                                 validator, recipientIdentifier, 
+                                                                 bundle.getNameForEmail(recipientIdentifier),
+                                                                 questionForRecipient, questionTables, moderationButton, 
+                                                                 bundle.isParticipantIdentifierStudent(recipientIdentifier),
+                                                                 false);
             
             recipientPanel.setModerationButtonDisplayed(bundle.isParticipantIdentifierStudent(recipientIdentifier));
             
@@ -536,6 +536,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         Set<String> sectionsWithNoResponseReceived = new HashSet<String>(sectionsInCourse);
         sectionsWithNoResponseReceived.removeAll(receivingSections);
         
+        // TODO introduce enums for this, because this causes problems if there is a section named "All"
         if (selectedSection.equals("All")) {
             List<String> sectionsWithNoResponseReceivedList = new ArrayList<String>(sectionsWithNoResponseReceived);
             Collections.sort(sectionsWithNoResponseReceivedList);
@@ -596,10 +597,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                                                "btn btn-default btn-xs",
                                                                                                "Moderate Responses");
             InstructorFeedbackResultsGroupByQuestionPanel giverPanel = 
-                                            buildInstructorFeedbackResultsGroupByQuestionPanel(validator, teamMember, bundle.getFullNameFromRoster(teamMember),
-                                                                                               null, new ArrayList<InstructorResultsQuestionTable>(), moderationButton, 
-                                                                                               true, true);
-                        
+                    buildInstructorFeedbackResultsGroupByQuestionPanel(validator, teamMember, bundle.getFullNameFromRoster(teamMember),
+                                                                       null, new ArrayList<InstructorResultsQuestionTable>(), moderationButton, 
+                                                                       true, true);
+
             
             addParticipantPanelToSectionPanel(sectionPanel, teamName, giverPanel);
         }
@@ -621,9 +622,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     private void buildTeamStatisticsTables(
                         FeedbackSessionResultsBundle bundle,
-                        List<String> sections,
-                        ViewType viewType,
-                        Map<String, FeedbackQuestionAttributes> questions,
+                        List<String> sections, ViewType viewType, Map<String, FeedbackQuestionAttributes> questions,
                         LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam) {
         for (String section : sections) {
             if (sectionPanels.containsKey(section)) {
@@ -653,18 +652,18 @@ public class InstructorFeedbackResultsPageData extends PageData {
         panel.setArrowClass("glyphicon-chevron-up");
         panel.setPanelClass("panel-success");
         switch (viewType) {
-        case GIVER_QUESTION_RECIPIENT:
-            panel.setStatisticsHeaderText("Statistics for Given Responses");
-            panel.setDetailedResponsesHeaderText("Detailed Responses");
-            
-            break;
-        case RECIPIENT_QUESTION_GIVER:
-            panel.setStatisticsHeaderText("Received Responses Statistics");
-            panel.setDetailedResponsesHeaderText("Detailed Responses");
-            
-            break;
-        default:
-            Assumption.fail("Team statistics table should not be used for this view");
+            case GIVER_QUESTION_RECIPIENT:
+                panel.setStatisticsHeaderText("Statistics for Given Responses");
+                panel.setDetailedResponsesHeaderText("Detailed Responses");
+                
+                break;
+            case RECIPIENT_QUESTION_GIVER:
+                panel.setStatisticsHeaderText("Received Responses Statistics");
+                panel.setDetailedResponsesHeaderText("Detailed Responses");
+                
+                break;
+            default:
+                Assumption.fail("Team statistics table should not be used for this view");
         }
         
         constructStatisticsTablesForTeams(viewType, questions, responsesGroupedByTeam, panel, teamsInSection);
@@ -742,10 +741,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         InstructorResultsQuestionTable questionTable = new InstructorResultsQuestionTable(this, 
                                                                    responses, statisticsTable, 
-                                                                   responseRows, question, 
-                                                                   additionalInfoId, 
-                                                                   columnTags,
-                                                                   isSortable);
+                                                                   responseRows, question, additionalInfoId, 
+                                                                   columnTags, isSortable);
         questionTable.setCollapsible(isCollapsible);
         questionTable.setShowResponseRows(true);
         
@@ -770,11 +767,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
         columnTags.add(responseElement);
         columnTags.add(actionElement);
         
-        isSortable.put("Giver", true);
-        isSortable.put("Team", true);
-        isSortable.put("Recipient", true);
-        isSortable.put("Feedback", true);
-        isSortable.put("Actions", false);
+        isSortable.put(giverElement.getContent(), true);
+        isSortable.put(giverTeamElement.getContent(), true);
+        isSortable.put(recipientElement.getContent(), true);
+        isSortable.put(responseElement.getContent(), true);
+        isSortable.put(actionElement.getContent(), false);
     }
     
     private void buildTableColumnHeaderForGiverQuestionRecipientView(List<ElementTag> columnTags,
@@ -802,16 +799,19 @@ public class InstructorFeedbackResultsPageData extends PageData {
         ElementTag giverElement = new ElementTag("Giver", "id", "button_sortFromName", "class", "button-sort-none", "onclick", "toggleSort(this,2)", "style", "width: 15%;");
         ElementTag giverTeamElement = new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending", "onclick", "toggleSort(this,3)", "style", "width: 15%;");
         ElementTag responseElement = new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick", "toggleSort(this,4)");
+        ElementTag actionElement = new ElementTag("Actions");
         
         columnTags.add(photoElement);
         columnTags.add(giverElement);
         columnTags.add(giverTeamElement);
         columnTags.add(responseElement);
+        columnTags.add(actionElement);
         
         isSortable.put(photoElement.getContent(), false);
         isSortable.put(giverTeamElement.getContent(), true);
         isSortable.put(giverElement.getContent(), true);
         isSortable.put(responseElement.getContent(), true);
+        isSortable.put(actionElement.getContent(), false);
         
     }
     
@@ -935,7 +935,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 responseRow.setGiverProfilePictureAColumn(true);
                 responseRow.setGiverProfilePictureDisplayed(question.isGiverAStudent());
                 responseRow.setGiverProfilePictureLink(new Url(getProfilePictureLink(giver)));
-                responseRow.setActionsDisplayed(false);
+                responseRow.setActionsDisplayed(true);
                 break;
             default:
                 Assumption.fail();            
@@ -1047,8 +1047,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
         
         InstructorResultsModerationButton moderationButton = new InstructorResultsModerationButton(isAllowedToModerate, isDisabled,
-                                                                 className,
-                                                                 giverIdentifier, 
+                                                                 className, giverIdentifier, 
                                                                  courseId, feedbackSessionName, 
                                                                  question, buttonText);
         return moderationButton;
