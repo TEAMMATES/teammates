@@ -145,6 +145,8 @@ public class HtmlHelper {
                 //ignore tool tip
             }
             return;
+        } else if (isMotdComponent(currentNode)) {
+            return;
         }
 
         //Add the start of opening tag
@@ -219,7 +221,29 @@ public class HtmlHelper {
         
         return false;
     }
-
+    
+    private static boolean isMotdComponent(Node currentNode) {      
+        if (currentNode.getNodeName().equalsIgnoreCase("script")) {
+            return currentNode.getTextContent().contains("closeMotd");
+            
+        } else if (currentNode.getNodeName().equalsIgnoreCase("div")) {
+            NamedNodeMap attributes = currentNode.getAttributes();
+            
+            if(attributes == null){ 
+                return false;
+            }
+                
+            for (int i = 0; i < attributes.getLength(); i++) {
+                Node attribute = attributes.item(i);
+                if(attribute.getNodeName().equalsIgnoreCase("id")
+                        && attribute.getNodeValue().contains("student-motd-container")){
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
 
     private static List<Node> getAttributesAsNodeList(NamedNodeMap actualAttributeList) {
         List<Node> nodesList= new ArrayList<Node>();
