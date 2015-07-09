@@ -16,7 +16,6 @@ function linkAjaxForResponseRate(){
                                .attr('data-placement', 'top')
                                .prop('title', 'Error occured while trying to fetch response rate. Click to retry.')
                                .html('Try again?')
-                               .tooltip({html: true})
                                .click(responseRateClickHandler);
             },
             success: function(data) {
