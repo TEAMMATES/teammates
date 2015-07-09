@@ -791,6 +791,14 @@ public abstract class AppPage {
                 .replaceAll("([a-zA-Z0-9-_]){62,}","{*}")
                 //commentid
                 .replaceAll("\\\"([0-9]){16}\\\"", "\\\"{*}\\\"")
+                // comment div ids (added after standardization)
+                .replaceAll("responseCommentRow-[0-9]{16}", "responseCommentRow-{*}")
+                .replaceAll("commentBar-[0-9]{16}", "commentBar-{*}")
+                .replaceAll("plainCommentText-[0-9]{16}", "plainCommentText-{*}")
+                .replaceAll("commentdelete-[0-9]{16}", "commentdelete-{*}")
+                // tooltip style
+                .replaceAll("style=\"top: [0-9]{2,4}px; left: [0-9]{2,4}px; display: block;\"",
+                            "style=\"top: {*}px; left: {*}px; display: block;\"")                
                 //commentid in url
                 .replaceAll("#[0-9]{16}", "#{*}")
                 // the test accounts/ email
@@ -802,6 +810,8 @@ public abstract class AppPage {
                 .replace(Config.SUPPORT_EMAIL, "{$support.email}")
                 // today's date
                 .replace(TimeHelper.formatDate(now), "{*}")
+                // now (used in comments last edited date) e.g. [Thu, 07 May 2015, 07:52:13 UTC]
+                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC", "{*}")
                 // now (used in opening time/closing time Grace period)
                 .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}", "{*}")
                 // now (used in comments last edited date) e.g. [Thu May 07 07:52:13 UTC 2015]

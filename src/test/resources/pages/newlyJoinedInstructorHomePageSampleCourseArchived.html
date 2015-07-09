@@ -1,36 +1,37 @@
-<div id="mainContent" class="container">
+<div class="container" id="mainContent">
         
+
 
 <div id="topOfPage"></div>
-<h1>
-    Instructor Home
-</h1>
-<br/>
+
+    <h1>Instructor Home</h1>
+    <br>
+
         
         
-    <div class="well well-plain">
-        <div class="row">
+    
+
+
+<div class="well well-plain">
+    <div class="row">
         <div class="col-md-12">
-            
-
-
-<form method="get" action="/page/instructorSearchPage?user={$test.instructor}" name="search_form">
-    <div class="input-group">
-        <input data-original-title="Search for student's name" id="searchbox" title="" name="searchkey" class="form-control" data-toggle="tooltip" data-placement="top" placeholder="Student Name" type="text">
-        <span class="input-group-btn">
-            <button class="btn btn-default" type="submit" value="Search" id="buttonSearch">
-                Search
-            </button>
-        </span> 
-    </div>
-    <input name="searchstudents" value="true" type="hidden">
-    <input name="searchcommentforstudents" value="false" type="hidden">
-    <input name="searchcommentforresponses" value="false" type="hidden">
-    <input name="user" value="{$test.instructor}" type="hidden">
-</form>
-        </div>
-        </div>
-    </div>
+			<form method="get" action="/page/instructorSearchPage?user={$test.instructor}" name="search_form">
+			    <div class="input-group">
+			        <input data-original-title="Search for student's name" id="searchbox" title="" name="searchkey" class="form-control" data-toggle="tooltip" data-placement="top" placeholder="Student Name" type="text">
+			        <span class="input-group-btn">
+			            <button class="btn btn-default" type="submit" value="Search" id="buttonSearch">
+			                Search
+			            </button>
+			        </span> 
+			    </div>
+			    <input name="searchstudents" value="true" type="hidden">
+			    <input name="searchcommentforstudents" value="false" type="hidden">
+			    <input name="searchcommentforresponses" value="false" type="hidden">
+			    <input name="user" value="{$test.instructor}" type="hidden">
+			</form>
+		</div>
+	</div>
+</div>
     <br>
     
 
