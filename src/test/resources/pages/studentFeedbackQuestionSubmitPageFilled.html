@@ -1,16 +1,27 @@
-<div id="mainContent" class="container">
-                <div id="topOfPage"></div>
-                <h1>Submit Feedback Question</h1>
-                <br>
-                
-                <form method="post" name="form_student_submit_response" action="/page/studentFeedbackQuestionSubmissionEditSave">
-                    
+<div class="container" id="mainContent">
+        
+
+
+<div id="topOfPage"></div>
+
+    <h1>Submit Feedback Question</h1>
+    <br>
+
+        
+        
+    
+    
+    
+    
+    
 
 
 
 
 
 
+<form method="post" name="form_student_submit_response" action="/page/studentFeedbackQuestionSubmissionEditSave">
+    
 
 
 
@@ -19,7 +30,11 @@
 <input name="fsname" value="Open Session" type="hidden">
 <input name="courseid" value="SFQSubmitUiT.CS2104" type="hidden">
 
+
+    
         <input name="user" value="SFQSubmitUiT.alice.b" type="hidden">
+    
+    
 
 
 
@@ -27,50 +42,60 @@
 
 
 
+
+    
         <div id="statusMessage" class="alert alert-warning">
             All responses submitted succesfully!
         </div>
-        
         <script type="text/javascript">
             document.getElementById('statusMessage').scrollIntoView();
         </script>
+    
+    
+
+
+
 
 
 <div class="well well-plain" id="course1">
     <div class="panel-body">
         <div class="form-horizontal">
-            <div class="panel-heading">
+            <div class="panel-heading">               
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Course ID:</label>
                     <div class="col-sm-10">
                         <p class="form-control-static">SFQSubmitUiT.CS2104</p>
                     </div>
                 </div>
+                
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Session:</label>
                     <div class="col-sm-10">
                         <p class="form-control-static">Open Session</p>
                     </div>
                 </div>
+                
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Opening time:</label>
                     <div class="col-sm-10">
                         <p class="form-control-static">Sun, 01 Apr 2012, 23:59</p>
                     </div>
                 </div>
+                
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Closing time:</label>
                     <div class="col-sm-10">
                         <p class="form-control-static">Sat, 30 Apr 2016, 23:59</p>
                     </div>
-                </div>
+                </div>             
+                
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Instructions:</label>
-                    <div class="col-sm-10">
-                        <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                    <div class="col-sm-10">                   
+                        <!--Note: When an element has class text-preserve-space, do not insert HTML spaces-->
                         <p class="form-control-static text-preserve-space">Instructions for first session</p>
                     </div>
-                </div>
+                </div>             
             </div>
         </div>
     </div>
@@ -78,59 +103,112 @@
 <br>
 
 
-        <input name="questiontype-1" value="TEXT" type="hidden">
-        <input name="questionid-1" value="{*}" type="hidden">
-        <input name="questionresponsetotal-1" value="1" type="hidden">
-        <div class="form-horizontal">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Question 1:
-                    <br>
-                    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                    <span class="text-preserve-space">What is the best selling point of your product?</span>
-                </div>
-                <div class="panel-body">
-                    <p class="text-muted">Only the following persons can see your responses: </p>
-                    <ul class="text-muted">
-                        
-                                <li class="unordered">You can see your own feedback in the results page later on.</li>
-                        
-                                <li class="unordered">Your team members can see your response, but not the name of the recipient, or your name.</li>
-                        
-                                <li class="unordered">Other students in the course can see your response, but not the name of the recipient, or your name.</li>
-                        
-                                <li class="unordered">Instructors in this course can see your response, the name of the recipient, and your name.</li>
-                        
-                    </ul>
-                    
-                            <br>
-                            <div class="form-group margin-0">
-                                <div class="col-sm-2 form-inline" style="display:none">
-                                    <label for="input">To: </label>
-                                    <select class="participantSelect middlealign form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
-                                        <option value=""></option>
-<option value="SFQSubmitUiT.alice.b@gmail.tmt" selected="selected">Myself</option>
 
-                                    </select><span> Myself</span>
-                                </div>
-                                <div class="col-sm-12">
-                                    <textarea rows="4" cols="100%" class="form-control" name="responsetext-1-0">Edited self feedback.</textarea>
-                                    <input name="responseid-1-0" value="{*}" type="hidden">
-                                </div>
-                            </div>
-                    
-                    
-                </div>
-            </div>
+
+
+    
+        
+
+
+
+
+
+
+
+
+<input name="questiontype-1" value="TEXT" type="hidden">
+                     
+<input name="questionid-1" value="{*}" type="hidden">
+                     
+<input name="questionresponsetotal-1" value="1" type="hidden">
+
+<div class="form-horizontal">
+    <div class="panel panel-primary">
+    
+        <div class="panel-heading">Question 1:
+            <br>
+            <!--Note: When an element has class text-preserve-space, do not insert HTML spaces-->
+            <span class="text-preserve-space">What is the best selling point of your product?</span>
         </div>
-        <br><br>
+        
+        <div class="panel-body">
+            <p class="text-muted">Only the following persons can see your responses: </p>
+            <ul class="text-muted">
+                
+                    
+                
+                    <li class="unordered">You can see your own feedback in the results page later on.</li>
+                
+                    <li class="unordered">Your team members can see your response, but not the name of the recipient, or your name.</li>
+                
+                    <li class="unordered">Other students in the course can see your response, but not the name of the recipient, or your name.</li>
+                
+                    <li class="unordered">Instructors in this course can see your response, the name of the recipient, and your name.</li>
+                
+            </ul>
+                
+            
+                
 
 
 
-                    <div class="bold align-center">
-                        
-                                <input data-original-title="You can save your responses at any time and come back later to continue." class="btn btn-primary" id="response_submit_button" data-toggle="tooltip" data-placement="top" title="" value="Submit Feedback" type="submit">
-                        
-                    </div>
-                    <br><br>
-                </form>
-            </div>
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br>
+<div class="form-group margin-0">
+    <div class="col-sm-2 form-inline" style="display:none">
+         
+        <label for="input">To: </label>
+        
+        <select class="participantSelect middlealign form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
+                
+                
+                    <option value=""></option>
+                
+                    <option value="SFQSubmitUiT.alice.b@gmail.tmt" selected="selected">Myself</option>
+                
+        </select><span>Myself</span>
+    </div>
+    <div class="col-sm-12">
+        <textarea rows="4" cols="100%" class="form-control" name="responsetext-1-0">Edited self feedback.</textarea>
+        
+            <input name="responseid-1-0" value="{*}" type="hidden">
+                                            
+    </div>
+</div>
+                         
+        </div>
+    </div>
+</div>
+<br><br>
+    
+
+
+    
+    <div class="bold align-center"> 
+        
+
+        
+            
+            
+                <input data-original-title="You can save your responses at any time and come back later to continue." class="btn btn-primary" id="response_submit_button" data-toggle="tooltip" data-placement="top" title="" value="Submit Feedback" type="submit">
+            
+        
+    </div>
+    <br> 
+    <br>
+</form>
+
+    
+    </div>

@@ -31,9 +31,7 @@
         <c:choose>
             <c:when test="${not empty fsList.existingFeedbackSessions}">
                 <c:forEach items="${fsList.existingFeedbackSessions}" var="sessionRow" varStatus="i">
-                     <tr id="session${i.index}"
-                        <c:forEach items="${sessionRow.rowAttributes.attributes}" var="attr"
-                        > ${attr.key}="${attr.value}"</c:forEach>  >
+                     <tr id="session${i.index}" ${sessionRow.rowAttributes.attributesToString}>
                         <td>${sessionRow.courseId}</td>
                         <td>${sessionRow.name}</td>
                         <td>

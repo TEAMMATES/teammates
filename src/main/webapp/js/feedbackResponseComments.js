@@ -33,40 +33,37 @@ var addCommentHandler = function(e) {
             submitButton.text("Add");
         },
         success: function(data) {
-            setTimeout(function() {
-                if (!data.isError) {
-                    if(isInCommentsPage()) {
-                        panelHeading.click();
-                    } else {
-                        // Inject new comment row
-                        addFormRow.parent().attr("class", "list-group");
-                        addFormRow.before(data);
-                        removeUnwantedVisibilityOptions(commentId);
-                        var newCommentRow = addFormRow.prev();
-                        newCommentRow.find("form[class*='responseCommentEditForm'] > div > a[id*='button_save_comment_for_edit']").click(editCommentHandler);
-                        newCommentRow.find("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
-                        registerResponseCommentCheckboxEvent();
-                        newCommentRow.find("[data-toggle='tooltip']").tooltip({html: true});
-
-                        // Reset add comment form
-                        formObject.find("textarea").prop("disabled", false);
-                        formObject.find("textarea").val("");
-                        submitButton.text("Add");
-                        submitButton.prop("disabled", false);
-                        cancelButton.prop("disabled", false);
-                        removeFormErrorMessage(submitButton);
-                        addFormRow.prev().find("div[id^=plainCommentText]").css("margin-left","15px");
-                        addFormRow.prev().show();
-                        addFormRow.hide();
-                    }
+            if (!data.isError) {
+                if (isInCommentsPage()) {
+                    panelHeading.click();
                 } else {
+                    // Inject new comment row
+                    addFormRow.parent().attr("class", "list-group");
+                    addFormRow.before(data);
+                    removeUnwantedVisibilityOptions(commentId);
+                    var newCommentRow = addFormRow.prev();
+                    newCommentRow.find("form[class*='responseCommentEditForm'] > div > a[id*='button_save_comment_for_edit']").click(editCommentHandler);
+                    newCommentRow.find("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
+                    registerResponseCommentCheckboxEvent();
+
+                    // Reset add comment form
                     formObject.find("textarea").prop("disabled", false);
-                    setFormErrorMessage(submitButton, data.errorMessage);
+                    formObject.find("textarea").val("");
                     submitButton.text("Add");
                     submitButton.prop("disabled", false);
                     cancelButton.prop("disabled", false);
+                    removeFormErrorMessage(submitButton);
+                    addFormRow.prev().find("div[id^=plainCommentText]").css("margin-left","15px");
+                    addFormRow.prev().show();
+                    addFormRow.hide();
                 }
-            }, 500);
+            } else {
+                formObject.find("textarea").prop("disabled", false);
+                setFormErrorMessage(submitButton, data.errorMessage);
+                submitButton.text("Add");
+                submitButton.prop("disabled", false);
+                cancelButton.prop("disabled", false);
+            }
         }
     });
 };
@@ -251,12 +248,6 @@ function enableHoverToDisplayEditOptions() {
     });
 }
 
-function enableTooltip() {      
-    $(function() {         
-        $("[data-toggle='tooltip']").tooltip({html: true, container: 'body'});         
-    });        
-}
-
 $(document).ready(registerResponseCommentsEvent);
 
 function removeUnwantedVisibilityOptions(commentId) {
@@ -393,7 +384,6 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, sender) {
             registerResponseCommentsEvent();
             registerCheckboxEventForVisibilityOptions();
             enableHoverToDisplayEditOptions();
-            enableTooltip();
       } else {
           panelBody.find('div[class^="placeholder-error-msg"]').removeClass('hidden');
           panelBody.removeClass('hidden');

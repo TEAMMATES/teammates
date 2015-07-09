@@ -172,6 +172,10 @@ public class FeedbackResponseCommentsLogic {
         return frcDb.search(queryString, googleId, cursorString);
     }
     
+    public void deleteFeedbackResponseCommentsForCourse(String courseId) {
+        frcDb.deleteFeedbackResponseCommentsForCourse(courseId);
+    }
+    
     public void deleteFeedbackResponseCommentsForResponse(String responseId) {
         frcDb.deleteFeedbackResponseCommentsForResponse(responseId);
     }

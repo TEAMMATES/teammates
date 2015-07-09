@@ -668,6 +668,16 @@ public class FeedbackQuestionsLogic {
     }
     
     /**
+     * Deletes all feedback questions in all sessions of the course specified. This is 
+     * a non-cascade delete. The responses to the questions and the comments of these responses
+     * should be handled.
+     * 
+     */
+    public void deleteFeedbackQuestionsForCourse(String courseId) {
+        fqDb.deleteFeedbackQuestionsForCourse(courseId);
+    }
+    
+    /**
      * Deletes a question.<br> Question is identified by it's question number, and
      * the feedback session name and course ID of the question.<br>
      * Can be used when the question ID is unknown. <br>

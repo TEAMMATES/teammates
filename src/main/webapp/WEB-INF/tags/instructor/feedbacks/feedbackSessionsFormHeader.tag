@@ -16,7 +16,7 @@
                     name="<%= Const.ParamsNames.FEEDBACK_SESSION_TYPE %>"
                     id="<%= Const.ParamsNames.FEEDBACK_SESSION_TYPE %>">
                     <c:forEach items="${fsForm.feedbackSessionTypeOptions}" var="option">
-                        <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
+                        <option ${option.attributesToString}>
                             ${option.content}
                         </option>
                     </c:forEach>
@@ -44,7 +44,7 @@
                 <a class="btn btn-primary btn-sm" id="fsEditLink"
                     title="<%= Const.Tooltips.FEEDBACK_SESSION_EDIT %>"
                     data-toggle="tooltip" data-placement="top"
-                    <c:forEach items="${fsForm.editButtonTags.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach>>
+                    ${fsForm.editButtonTags.attributesToString}>
                     Edit
                 </a>
                 <button type="submit" id="fsSaveLink" style="display:none;" class="btn btn-primary btn-sm" onclick="return checkEditFeedbackSession(this.form);">
