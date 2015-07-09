@@ -11,7 +11,6 @@ import org.openqa.selenium.support.FindBy;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.test.driver.TestProperties;
 
 public class StudentProfilePage extends AppPage {
 
@@ -158,7 +157,7 @@ public class StudentProfilePage extends AppPage {
 
     public void uploadPicture() {
         uploadPictureSubmit.click();
-        browser.selenium.waitForPageToLoad(TestProperties.inst().TEST_TIMEOUT_PAGELOAD);
+        waitForPageToLoad();
     }
 
     public void editProfilePhoto() {

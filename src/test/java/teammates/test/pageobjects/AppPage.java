@@ -209,7 +209,7 @@ public abstract class AppPage {
     /**
      * Waits until the page is fully loaded. Times out after 15 seconds.
      */
-    protected void waitForPageToLoad() {
+    public void waitForPageToLoad() {
         browser.selenium.waitForPageToLoad(TestProperties.inst().TEST_TIMEOUT_PAGELOAD);
     }
     

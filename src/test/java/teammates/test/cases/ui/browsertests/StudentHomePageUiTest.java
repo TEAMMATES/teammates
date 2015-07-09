@@ -182,7 +182,7 @@ public class StudentHomePageUiTest extends BaseUiTestCase {
         
         BackDoor.deleteFeedbackSession("First Feedback Session", "SHomeUiT.CS2104");     
         studentHomePage.getSubmitFeedbackButton("First Feedback Session").click();
-        browser.selenium.waitForPageToLoad("15000");
+        studentHomePage.waitForPageToLoad();
         studentHomePage.verifyHtmlMainContent("/studentHomeFeedbackDeletedHTML.html");
         
     }
