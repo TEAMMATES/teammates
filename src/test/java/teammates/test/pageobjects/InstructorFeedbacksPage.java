@@ -19,6 +19,7 @@ import org.testng.Assert;
 
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.test.driver.TestProperties;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -178,13 +179,13 @@ public class InstructorFeedbacksPage extends AppPage {
     
     public void clickCopySubmitButton(){
         copySubmitButton.click();
-        browser.selenium.waitForPageToLoad("15000");
+        browser.selenium.waitForPageToLoad(TestProperties.inst().TEST_TIMEOUT_PAGELOAD);
     }
     
     
     public void clickViewResponseLink(String courseId, String sessionName) {
         getViewResponseLink(courseId,sessionName).click();
-        browser.selenium.waitForPageToLoad("15000");
+        browser.selenium.waitForPageToLoad(TestProperties.inst().TEST_TIMEOUT_PAGELOAD);
     }
     
     public void toggleSendOpenEmailCheckbox() {

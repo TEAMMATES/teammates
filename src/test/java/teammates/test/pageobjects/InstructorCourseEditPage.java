@@ -6,6 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import teammates.test.driver.TestProperties;
+
 
 public class InstructorCourseEditPage extends AppPage {
     
@@ -164,7 +166,7 @@ public class InstructorCourseEditPage extends AppPage {
                 " > div:nth-child(1) > div.col-sm-9 > a:nth-child(" + cssLinkNum + ")"));
         
         viewLink.click();
-        browser.selenium.waitForPageToLoad("500");
+        browser.selenium.waitForPageToLoad(TestProperties.inst().TEST_TIMEOUT_PAGELOAD);
     }
     
     public void closeModal() {
