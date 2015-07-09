@@ -718,6 +718,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 buildTableColumnHeaderForGiverQuestionRecipientView(columnTags, isSortable);
                 isCollapsible = false;
                 break;
+            case RECIPIENT_QUESTION_GIVER:
+                buildTableColumnHeaderForRecipientQuestionGiverView(columnTags, isSortable);
+                isCollapsible = false;
+                break;
             default:
                 Assumption.fail("Invalid view type");
         }
@@ -771,11 +775,30 @@ public class InstructorFeedbackResultsPageData extends PageData {
         columnTags.add(recipientTeamElement);
         columnTags.add(responseElement);
         
-        isSortable.put("Photo", false);
-        isSortable.put("Team", true);
-        isSortable.put("Recipient", true);
-        isSortable.put("Feedback", true);
+        isSortable.put(photoElement.getContent(), false);
+        isSortable.put(recipientTeamElement.getContent(), true);
+        isSortable.put(recipientElement.getContent(), true);
+        isSortable.put(responseElement.getContent(), true);
 
+    }
+    
+    private void buildTableColumnHeaderForRecipientQuestionGiverView(List<ElementTag> columnTags,
+                                    Map<String, Boolean> isSortable) {
+        ElementTag photoElement = new ElementTag("Photo");
+        ElementTag giverElement = new ElementTag("Giver", "id", "button_sortFromName", "class", "button-sort-none", "onclick", "toggleSort(this,2)", "style", "width: 15%;");
+        ElementTag giverTeamElement = new ElementTag("Team", "id", "button_sortFromTeam", "class", "button-sort-ascending", "onclick", "toggleSort(this,3)", "style", "width: 15%;");
+        ElementTag responseElement = new ElementTag("Feedback", "id", "button_sortFeedback", "class", "button-sort-none", "onclick", "toggleSort(this,4)");
+        
+        columnTags.add(photoElement);
+        columnTags.add(giverElement);
+        columnTags.add(giverTeamElement);
+        columnTags.add(responseElement);
+        
+        isSortable.put(photoElement.getContent(), false);
+        isSortable.put(giverTeamElement.getContent(), true);
+        isSortable.put(giverElement.getContent(), true);
+        isSortable.put(responseElement.getContent(), true);
+        
     }
     
     /**
@@ -889,6 +912,15 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 responseRow.setRecipientProfilePictureAColumn(true);
                 responseRow.setRecipientProfilePictureDisplayed(question.isRecipientAStudent());
                 responseRow.setRecipientProfilePictureLink(new Url(getProfilePictureLink(recipient)));
+                responseRow.setActionsDisplayed(false);
+                break;
+            case RECIPIENT_QUESTION_GIVER:
+                responseRow.setRecipientDisplayed(false);
+                responseRow.setRecipientProfilePictureDisplayed(false);
+                
+                responseRow.setGiverProfilePictureAColumn(true);
+                responseRow.setGiverProfilePictureDisplayed(question.isGiverAStudent());
+                responseRow.setGiverProfilePictureLink(new Url(getProfilePictureLink(giver)));
                 responseRow.setActionsDisplayed(false);
                 break;
             default:
