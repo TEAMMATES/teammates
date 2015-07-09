@@ -40,6 +40,7 @@ public class FeedbackResponseComment {
         this.giverDisplay = giverDisplay;
         this.createdAt = frc.createdAt.toString();
         this.editedAt = frc.getEditedAtText(giverDisplay.equals("Anonymous"));
+        this.commentText = frc.commentText.getValue();
     }
 
     // Used in InstructorFeedbackResponseCommentAjaxPageData for instructorFeedbackResponseCommentsAdd.jsp
