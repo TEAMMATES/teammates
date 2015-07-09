@@ -66,7 +66,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     LinkedHashMap<String, InstructorFeedbackResultsSectionPanel> sectionPanels;
     
     enum ViewType {
-        QUESTION, GIVER_QUESTION_RECIPIENT;
+        QUESTION, GIVER_QUESTION_RECIPIENT, RECIPIENT_QUESTION_GIVER;
         
         public String toString() {
             return name().toLowerCase().replaceAll("_", "-");
