@@ -69,7 +69,13 @@
     </c:forEach>
     <c:if test="${empty studentsTable.rows}">
         <tr>
-            <td colspan="5"><center><b>No student is enrolled.</b></center></td>
+            <c:if test="${hasSection}">
+                <td></td>
+            </c:if>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
     </c:if>
 </table>
