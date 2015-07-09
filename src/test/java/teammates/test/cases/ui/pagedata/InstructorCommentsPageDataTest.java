@@ -49,10 +49,6 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
     
     @Test
     public void testAll() {
-        testInit();
-    }
-    
-    private void testInit() {
         
         ______TS("typical success case");
         
