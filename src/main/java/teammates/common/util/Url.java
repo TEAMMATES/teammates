@@ -16,40 +16,38 @@ public class Url {
      * such parameter.
      */
     public String get(String parameterName) {
-        String returnValue = null;
-        String startIndicator = "?"+parameterName+"=";
-        
-        int startIndicationLoaction = urlString.indexOf(startIndicator);
-        if(startIndicationLoaction<0){
-            startIndicator = "&"+parameterName+"=";
-            startIndicationLoaction = urlString.indexOf(startIndicator);
+        String startIndicator = "?" + parameterName + "=";
+
+        int startIndicationLocation = urlString.indexOf(startIndicator);
+        if (startIndicationLocation < 0) {
+            startIndicator = "&" + parameterName + "=";
+            startIndicationLocation = urlString.indexOf(startIndicator);
         }
-        
-        if(startIndicationLoaction<0){
+
+        if (startIndicationLocation < 0) {
             return null;
         }
-        
-        int startIndex = startIndicationLoaction+parameterName.length()+2;
+
+        int startIndex = startIndicationLocation + parameterName.length() + 2;
         String prefixStripped = urlString.substring(startIndex);
         int endIndex = prefixStripped.indexOf('&');
-        if(endIndex>0){
-            returnValue = prefixStripped.substring(0, endIndex);
-        }else{
-            returnValue = prefixStripped;
+        if (endIndex > 0) {
+            return prefixStripped.substring(0, endIndex);
+        } else {
+            return prefixStripped;
         }
-        return returnValue;
     }
-    
+
     public Url withUserId(String userId) {
         this.urlString = Url.addParamToUrl(this.urlString, Const.ParamsNames.USER_ID, userId);
         return this;
     }
-    
+
     public Url withRegistrationKey(String key) {
         this.urlString = Url.addParamToUrl(this.urlString, Const.ParamsNames.REGKEY, key);
         return this;
     }
-    
+
     public Url withCourseId(String courseId) {
         this.urlString = Url.addParamToUrl(this.urlString, Const.ParamsNames.COURSE_ID, courseId);
         return this;
@@ -74,7 +72,7 @@ public class Url {
         this.urlString = Url.addParamToUrl(this.urlString, Const.ParamsNames.COURSE_NAME, courseName);
         return this;
     }
-    
+
     public Url withParam(String paramName, String paramValue) {
         this.urlString = Url.addParamToUrl(this.urlString, paramName, paramValue);
         return this;
@@ -83,10 +81,10 @@ public class Url {
     /**
      * Converts a string to be put in URL (replaces some characters)
      */
-    public static String convertForURL(String str){
+    public static String convertForURL(String str) {
         try {
             return URLEncoder.encode(str, Const.SystemParams.ENCODING);
-        } catch (UnsupportedEncodingException e){
+        } catch (UnsupportedEncodingException e) {
             return str;
         }
     }
@@ -105,10 +103,14 @@ public class Url {
      * </ul>
      */
     public static String addParamToUrl(String url, String key, String value) {
-        if (key == null || value == null)
+        if (key == null || value == null) {
+            // return the url if any of the key or the value is null
             return url;
-        if (url.contains("?" + key + "=") || url.contains("&" + key + "="))
+        }
+        if (url.contains("?" + key + "=") || url.contains("&" + key + "=")) {
+            // return the url if the key is already included in the url
             return url;
+        }
         url += url.indexOf('?') >= 0 ? '&' : '?';
         url += key + "=" + Url.convertForURL(value);
         return url;
@@ -119,14 +121,14 @@ public class Url {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return urlString;
     }
 
     public static void main(String[] args) {
         System.out.println(new Url("http://teammates.com/page/instructorHome?user=abc").get(Const.ParamsNames.USER_ID));
         System.out.println(new Url("http://teammates.com/page/instructorHome?user=abc&course=course1").get(Const.ParamsNames.USER_ID));
-        System.out.println(new Url ("http://teammates.com/page/instructorHome?error=true&user=abc&course=course1").get(Const.ParamsNames.USER_ID));
+        System.out.println(new Url("http://teammates.com/page/instructorHome?error=true&user=abc&course=course1").get(Const.ParamsNames.USER_ID));
     }
 
 }
