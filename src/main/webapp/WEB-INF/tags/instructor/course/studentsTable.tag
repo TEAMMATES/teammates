@@ -67,4 +67,9 @@
             <% out.flush(); %>
         </c:if>
     </c:forEach>
+    <c:if test="${empty studentsTable.rows}">
+        <tr>
+            <td colspan="5"><center><b>No student is enrolled.</b></center></td>
+        </tr>
+    </c:if>
 </table>
