@@ -79,7 +79,7 @@ public class StudentProfilePage extends AppPage {
 
     public void showPictureEditor() throws Exception {
         uploadPopupButton.click();
-        waitForElementVisible(browser.driver.findElement(By.id("studentPhotoUploader")));
+        waitForElementVisibility(browser.driver.findElement(By.id("studentPhotoUploader")));
     }
 
     public void fillShortName(String shortName) {

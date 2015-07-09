@@ -119,7 +119,7 @@ public class InstructorCourseEditPage extends AppPage {
         boolean isEditable;
         if (instrNum == 1) {
             editInstructorLink.click();
-            waitForElementVisible(saveInstructorButton);
+            waitForElementVisibility(saveInstructorButton);
             isEditable = editInstructorNameTextBox.isEnabled()
                         && editInstructorEmailTextBox.isEnabled()
                         && saveInstructorButton.isDisplayed();
@@ -129,7 +129,7 @@ public class InstructorCourseEditPage extends AppPage {
             editLink.click();
             
             WebElement saveButton = browser.driver.findElement(By.id("btnSaveInstructor" + instructorNum));
-            waitForElementVisible(saveButton);
+            waitForElementVisibility(saveButton);
             
             WebElement editInstructorNameTextBox = browser.driver.findElement(By.id("instructorname" + instructorNum));
             WebElement editInstructorEmailTextBox = browser.driver.findElement(By.id("instructoremail" + instructorNum));
@@ -260,7 +260,7 @@ public class InstructorCourseEditPage extends AppPage {
         
         WebElement viewDetailsModal = browser.driver.findElement(By.cssSelector(
                                             "div#tunePermissionsDivForInstructorAll"));
-        waitForElementVisible(viewDetailsModal);
+        waitForElementVisibility(viewDetailsModal);
         
         if (viewDetailsModal.getAttribute("style").equals("display: block;")) {
             closeModal();

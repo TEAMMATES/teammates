@@ -245,7 +245,7 @@ public class InstructorFeedbacksPage extends AppPage {
     
     public void copyFeedbackSession(String feedbackSessionName, String courseId) {        
         clickCopyButton();        
-        this.waitForElementVisible(copiedFsNameTextBox);        
+        this.waitForElementVisibility(copiedFsNameTextBox);        
         fillTextBox(copiedFsNameTextBox, feedbackSessionName);       
         selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
         
@@ -255,7 +255,7 @@ public class InstructorFeedbacksPage extends AppPage {
     
     public void copyFeedbackSessionTestButtons(String feedbackSessionName, String courseId) {       
         clickCopyButton();       
-        this.waitForElementVisible(copiedFsNameTextBox);       
+        this.waitForElementVisibility(copiedFsNameTextBox);       
         fillTextBox(copiedFsNameTextBox, feedbackSessionName);        
         selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
     }

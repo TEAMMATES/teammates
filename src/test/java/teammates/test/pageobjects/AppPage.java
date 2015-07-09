@@ -212,7 +212,7 @@ public abstract class AppPage {
         browser.selenium.waitForPageToLoad(TestProperties.inst().TEST_TIMEOUT_PAGELOAD);
     }
     
-    public void waitForElementVisible(WebElement element){
+    public void waitForElementVisibility(WebElement element){
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.visibilityOf(element));
     }
@@ -931,7 +931,7 @@ public abstract class AppPage {
             if(!expectedStatus.equals("")){
                 this.waitForElementPresence(By.id("statusMessage"));
                 if(!statusMessage.isDisplayed()){
-                    this.waitForElementVisible(statusMessage);
+                    this.waitForElementVisibility(statusMessage);
                 }
             }
         }
@@ -957,7 +957,7 @@ public abstract class AppPage {
 
         while (currentRetryCount < maxRetryCount) {
             if (!statusMessage.isDisplayed()) {
-                this.waitForElementVisible(statusMessage);
+                this.waitForElementVisibility(statusMessage);
             }
 
             if (expectedStatus.equals(this.getStatus())) {
