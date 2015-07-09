@@ -34,7 +34,7 @@ public class InstructorFeedbackResponseCommentAjaxPageData extends PageData {
         return frc;
     }
 
-    public String[] getCommendIds() {
+    public String[] getCommentIds() {
         return commentIds;
     }
 }
