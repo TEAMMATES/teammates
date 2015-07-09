@@ -18,11 +18,8 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-
+        // this variable is used as a flag for tests
         String needAjax = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX);
-
-        // this is for ajax loading of the htm table in the modal
-        boolean isHtmlTableNeeded = getRequestParamAsBoolean(Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED);
 
         int queryRange;
         if (needAjax != null) {
@@ -50,35 +47,22 @@ public class InstructorFeedbackResultsPageAction extends Action {
         data.selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
 
         data.instructor = instructor;
+        data.courseId = courseId;
+        data.feedbackSessionName = feedbackSessionName;
         data.showStats = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS);
         data.groupByTeam = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYTEAM);
         data.sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
-        data.courseId = courseId;
-        data.feedbackSessionName = feedbackSessionName;
 
         if (data.selectedSection == null) {
             data.selectedSection = ALL_SECTION_OPTION;
         }
-
-        if (isHtmlTableNeeded) {
-            try {
-                if (!data.selectedSection.contentEquals(ALL_SECTION_OPTION)) {
-                    data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(
-                            logic.getFeedbackSessionResultSummaryInSectionAsCsv(courseId, feedbackSessionName,
-                                                                                instructor.email, data.selectedSection));
-                } else {
-                    data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(
-                            logic.getFeedbackSessionResultSummaryAsCsv(courseId, feedbackSessionName,
-                                                                       instructor.email));
-                }
-            } catch (ExceedingRangeException e) {
-                // not tested as the test file is not large enough to reach this catch block
-                data.sessionResultsHtmlTableAsString = "";
-                data.ajaxStatus = "There are too many responses. Please download the feedback results by section.";
-            }
-
-            return createAjaxResult(data);
-
+        
+        // this is for ajax loading of the html table in the modal 
+        // "(Non-English characters not displayed properly in the downloaded file? click here)"
+        // TODO move into another action and another page data class 
+        boolean isLoadingCsvResultsAsHtml = getRequestParamAsBoolean(Const.ParamsNames.CSV_TO_HTML_TABLE_NEEDED);
+        if (isLoadingCsvResultsAsHtml) {
+            return createAjaxResultForCsvTableLoadedInHtml(courseId, feedbackSessionName, instructor, data);
         } else {
             data.sessionResultsHtmlTableAsString = "";
             data.ajaxStatus = "";
@@ -95,19 +79,23 @@ public class InstructorFeedbackResultsPageAction extends Action {
             data.groupByTeam = new String("on");
             data.sortType = new String("question");
         }
+        
         data.sections = logic.getSectionNamesForCourse(courseId);
         String questionNumStr = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
         if (data.selectedSection.equals(ALL_SECTION_OPTION) && questionNumStr == null) {
+            // bundle for all questions and all sections  
             data.bundle = logic
                     .getFeedbackSessionResultsForInstructorWithinRangeFromView(feedbackSessionName, courseId,
                                                                                data.instructor.email,
                                                                                queryRange, data.sortType);
         } else if (data.sortType.equals("question")) {
             if (questionNumStr == null) {
+                // bundle for all questions, with a selected section
                 data.bundle = logic.getFeedbackSessionResultsForInstructorInSection(feedbackSessionName, courseId,
                                                                                     data.instructor.email,
                                                                                     data.selectedSection);
             } else {
+                // bundle for a specific question, with a selected section
                 int questionNum = Integer.parseInt(questionNumStr);
                 data.bundle = logic.getFeedbackSessionResultsForInstructorFromQuestion(feedbackSessionName, courseId, 
                                                                                        data.instructor.email, questionNum);
@@ -142,7 +130,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         switch (data.sortType) {
             case "question":
-                data.initForViewByQuestion(data.bundle);
+                data.initForViewByQuestion();
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
             case "recipient-giver-question":
@@ -152,10 +140,11 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION, data);
             case "recipient-question-giver":
+                data.initForViewByRecipientQuestionGiver();
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER, data);
             case "giver-question-recipient":
-                data.initForViewByGiverQuestionRecipient(data.bundle, data.sections);
+                data.initForViewByGiverQuestionRecipient();
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT, data);
             default:
@@ -163,6 +152,28 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
         }
+    }
+
+    private ActionResult createAjaxResultForCsvTableLoadedInHtml(String courseId, String feedbackSessionName,
+                                    InstructorAttributes instructor, InstructorFeedbackResultsPageData data)
+                                    throws EntityDoesNotExistException {
+        try {
+            if (!data.selectedSection.contentEquals(ALL_SECTION_OPTION)) {
+                data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(
+                        logic.getFeedbackSessionResultSummaryInSectionAsCsv(courseId, feedbackSessionName,
+                                                                            instructor.email, data.selectedSection));
+            } else {
+                data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(
+                        logic.getFeedbackSessionResultSummaryAsCsv(courseId, feedbackSessionName,
+                                                                   instructor.email));
+            }
+        } catch (ExceedingRangeException e) {
+            // not tested as the test file is not large enough to reach this catch block
+            data.sessionResultsHtmlTableAsString = "";
+            data.ajaxStatus = "There are too many responses. Please download the feedback results by section.";
+        }
+
+        return createAjaxResult(data);
     }
 
 }
