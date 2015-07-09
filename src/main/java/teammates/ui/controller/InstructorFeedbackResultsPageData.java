@@ -185,14 +185,18 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         Set<String> sectionsInCourse = bundle.rosterSectionTeamNameTable.keySet();
         Set<String> sectionsWithResponses = new HashSet<String>();
+        
+        // Maintain previous section and previous team while iterating through the loop
+        // initialize the previous section to "None"
+        String prevSection = Const.DEFAULT_SECTION;
         Set<String> teamsInSection = new HashSet<String>();
         Set<String> teamsWithResponses = new HashSet<String>();
+        
+        String prevTeam = "";
         Set<String> teamMembersInTeam = new HashSet<String>();
         Set<String> teamMembersWithResponses = new HashSet<String>();                                
         
         int giverIndex = this.startIndex;
-        String prevSection = Const.DEFAULT_SECTION;
-        String prevTeam = "";
         for (Map.Entry<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesFromGiver : 
                                                                     sortedResponses.entrySet()) {
             giverIndex += 1;
@@ -208,6 +212,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     createMissingParticipantPanelsForPrevTeamAndResetVariables(bundle, validator, sectionPanel,
                                                     prevTeam, teamsWithResponses, teamMembersWithResponses,
                                                     teamMembersInTeam, currentTeam);
+                    teamsWithResponses.add(currentTeam);
                 }
                 prevTeam = currentTeam;
             }
@@ -215,6 +220,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             // Change in section
             if (!prevSection.equals(currentSection)) {
                 boolean isFirstSection = sectionPanel.getParticipantPanels().isEmpty();
+                
                 if (!isFirstSection) {
                     createTeamAndParticipantPanelsForPrevSectionAndResetVariables(bundle,
                                                     validator, sectionPanel, prevSection, sectionsWithResponses,
@@ -281,12 +287,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
         
         // for the last section
-        createTeamAndParticipantPanelsForLastSection(bundle, validator, sectionPanel, prevSection, prevTeam,
+        createTeamAndParticipantPanelsForLastParticipantSection(bundle, validator, sectionPanel, prevSection, prevTeam,
                                                      sectionsWithResponses, teamsWithResponses, teamsInSection,
-                                                     teamMembersWithResponses, teamMembersInTeam);
+                                                     teamMembersWithResponses);
 
         // display missing sections
         createSectionPanelsForMissingSections(bundle, validator, sectionsInCourse, sectionsWithResponses);
+        
         return responsesGroupedByTeam;
     }
     
@@ -303,14 +310,18 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         Set<String> sectionsInCourse = bundle.rosterSectionTeamNameTable.keySet();
         Set<String> sectionsWithResponses = new HashSet<String>();
+        // Maintain previous section and previous team while iterating through the loop
+        // initialize the previous section to "None"
+        String prevSection = Const.DEFAULT_SECTION;
         Set<String> teamsInSection = new HashSet<String>();
         Set<String> teamsWithResponses = new HashSet<String>();
+        
+        String prevTeam = "";
         Set<String> teamMembersInTeam = new HashSet<String>();
-        Set<String> teamMembersWithResponses = new HashSet<String>();                                
+        Set<String> teamMembersWithResponses = new HashSet<String>();      
         
         int recipientIndex = this.startIndex;
-        String prevSection = Const.DEFAULT_SECTION;
-        String prevTeam = "";
+  
         for (Map.Entry<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesToRecipient : 
                                                                     sortedResponses.entrySet()) {
             recipientIndex += 1;
@@ -326,6 +337,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     createMissingParticipantPanelsForPrevTeamAndResetVariables(bundle, validator, sectionPanel,
                                                     prevTeam, teamsWithResponses, teamMembersWithResponses,
                                                     teamMembersInTeam, currentTeam);
+                    teamsWithResponses.add(currentTeam);
                 }
                 prevTeam = currentTeam;
             }
@@ -399,9 +411,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
         
         // for the last section
-        createTeamAndParticipantPanelsForLastSection(bundle, validator, sectionPanel, prevSection, prevTeam,
+        createTeamAndParticipantPanelsForLastParticipantSection(bundle, validator, sectionPanel, prevSection, prevTeam,
                                                      sectionsWithResponses, teamsWithResponses, teamsInSection,
-                                                     teamMembersWithResponses, teamMembersInTeam);
+                                                     teamMembersWithResponses);
 
         // display missing sections
         createSectionPanelsForMissingSections(bundle, validator, sectionsInCourse, sectionsWithResponses);
@@ -434,12 +446,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
     }
 
-    private void createTeamAndParticipantPanelsForLastSection(FeedbackSessionResultsBundle bundle,
+    private void createTeamAndParticipantPanelsForLastParticipantSection(FeedbackSessionResultsBundle bundle,
                                     FieldValidator validator,
                                     InstructorFeedbackResultsSectionPanel sectionPanel, String prevSection,
                                     String prevTeam, Set<String> receivingSections,
                                     Set<String> receivingTeams, Set<String> teamsInSection,
-                                    Set<String> teamMembersWithResponses, Set<String> teamMembersEmail) {
+                                    Set<String> teamMembersWithResponses) {
         receivingTeams.add(prevTeam);
         
         sectionPanel.setSectionName(prevSection.equals(Const.DEFAULT_SECTION) ? "Not in a Section" : prevSection);
@@ -447,10 +459,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
         sectionPanels.put(prevSection, sectionPanel);
         receivingSections.add(prevSection);
         
-        Set<String> teamMembersWithoutResponses = new HashSet<String>(teamMembersEmail);
+        Set<String> teamMembersWithoutResponses = new HashSet<String>(bundle.getTeamMembersFromRoster(prevTeam));
         teamMembersWithoutResponses.removeAll(teamMembersWithResponses);
         
-        // for printing the participants without responses in the last team 
+        // for printing the participants without responses in the last response participant's team 
         List<String> sortedTeamMembersWithoutResponses = new ArrayList<String>(teamMembersWithoutResponses);
         Collections.sort(sortedTeamMembersWithoutResponses);
         addMissingParticipantsForTeamToSectionPanel(validator, sectionPanel, prevTeam,
@@ -511,6 +523,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                             Set<String> teamMembersEmail, String currentTeam) {
         boolean isFirstTeam = prevTeam.isEmpty();
         if (!isFirstTeam) {
+            teamMembersEmail.clear();
+            teamMembersEmail.addAll(bundle.getTeamMembersFromRoster(prevTeam));
+            
             Set<String> teamMembersWithoutResponses = new HashSet<String>(teamMembersEmail);
             teamMembersWithoutResponses.removeAll(teamMembersWithResponses);
             
@@ -522,10 +537,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
 
         teamMembersWithResponses.clear();
-        teamMembersEmail.clear();
-        teamMembersEmail.addAll(bundle.getTeamMembersFromRoster(currentTeam));
         
-        receivingTeams.add(currentTeam);
         
     }
 
