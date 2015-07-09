@@ -1,9 +1,5 @@
 package teammates.ui.template;
 
-import java.util.List;
-import java.util.Map;
-
-import teammates.common.util.Url;
 
 public class InstructorResultsParticipantPanel {
     private boolean isGiver; // if false, then participant is a recipient

@@ -268,7 +268,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                      validator, giverIdentifier, 
                                                                      bundle.getNameForEmail(giverIdentifier),
                                                                      questionForGiver, questionTables, moderationButton, 
-                                                                     bundle.isParticipantIdentifierStudent(giverIdentifier));
+                                                                     bundle.isParticipantIdentifierStudent(giverIdentifier),
+                                                                     true);
             
             giverPanel.setModerationButtonDisplayed(bundle.isParticipantIdentifierStudent(giverIdentifier));
             
@@ -313,9 +314,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
         for (Map.Entry<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesToRecipient : 
                                                                     sortedResponses.entrySet()) {
             recipientIndex += 1;
-            String recipientidentifier = responsesToRecipient.getKey();
+            String recipientIdentifier = responsesToRecipient.getKey();
             
-            String currentTeam = getCurrentTeam(bundle, recipientidentifier);
+            String currentTeam = getCurrentTeam(bundle, recipientIdentifier);
             String currentSection = getCurrentSection(responsesToRecipient);
             
             // Change in team
@@ -346,13 +347,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
             // questionForGiver is used to keep track of any question, 
             // this is used to determine the giver type later
             // TODO #2857
-            FeedbackQuestionAttributes questionForGiver = null;
+            FeedbackQuestionAttributes questionForRecipient = null;
             List<InstructorResultsQuestionTable> questionTables = new ArrayList<InstructorResultsQuestionTable>();
             
             int questionIndex = 0;
-            for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesFromGiverForQuestion : 
+            for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesToRecipientForQuestion : 
                                                                                          responsesToRecipient.getValue().entrySet()) {
-                if (responsesFromGiverForQuestion.getValue().isEmpty()) {
+                if (responsesToRecipientForQuestion.getValue().isEmpty()) {
                     // participant has no responses for the current question
                     continue;
                 }
@@ -360,8 +361,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 questionIndex += 1;
                 
                 // keep track of current question
-                FeedbackQuestionAttributes currentQuestion = responsesFromGiverForQuestion.getKey();
-                List<FeedbackResponseAttributes> responsesForQuestion = responsesFromGiverForQuestion.getValue();
+                FeedbackQuestionAttributes currentQuestion = responsesToRecipientForQuestion.getKey();
+                List<FeedbackResponseAttributes> responsesForQuestion = responsesToRecipientForQuestion.getValue();
                 
                 sectionPanel.getIsTeamWithResponses().put(currentTeam, true);
 
@@ -372,26 +373,27 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 questionTable.setBoldQuestionNumber(false);
                 questionTables.add(questionTable);
                 
-                questionForGiver = currentQuestion;
+                questionForRecipient = currentQuestion;
             }
             
             // Construct InstructorFeedbackResultsGroupByQuestionPanel for the current giver
             InstructorResultsModerationButton moderationButton = buildModerationButtonForGiver(
-                                                                      null, recipientidentifier,
+                                                                      null, recipientIdentifier,
                                                                       "btn btn-primary btn-xs",
                                                                       "Moderate Responses");
-            InstructorFeedbackResultsGroupByQuestionPanel giverPanel = 
+            InstructorFeedbackResultsGroupByQuestionPanel recipientPanel = 
                                                                  buildInstructorFeedbackResultsGroupByQuestionPanel(
-                                                                     validator, recipientidentifier, 
-                                                                     bundle.getNameForEmail(recipientidentifier),
-                                                                     questionForGiver, questionTables, moderationButton, 
-                                                                     bundle.isParticipantIdentifierStudent(recipientidentifier));
+                                                                     validator, recipientIdentifier, 
+                                                                     bundle.getNameForEmail(recipientIdentifier),
+                                                                     questionForRecipient, questionTables, moderationButton, 
+                                                                     bundle.isParticipantIdentifierStudent(recipientIdentifier),
+                                                                     false);
             
-            giverPanel.setModerationButtonDisplayed(bundle.isParticipantIdentifierStudent(recipientidentifier));
+            recipientPanel.setModerationButtonDisplayed(bundle.isParticipantIdentifierStudent(recipientIdentifier));
             
             // add constructed InstructorFeedbackResultsGroupByQuestionPanel into section's participantPanels            
-            addParticipantPanelToSectionPanel(sectionPanel, currentTeam, giverPanel);
-            teamMembersWithResponses.add(recipientidentifier);
+            addParticipantPanelToSectionPanel(sectionPanel, currentTeam, recipientPanel);
+            teamMembersWithResponses.add(recipientIdentifier);
             
             prevSection = currentSection;
         }
@@ -596,7 +598,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             InstructorFeedbackResultsGroupByQuestionPanel giverPanel = 
                                             buildInstructorFeedbackResultsGroupByQuestionPanel(validator, teamMember, bundle.getFullNameFromRoster(teamMember),
                                                                                                null, new ArrayList<InstructorResultsQuestionTable>(), moderationButton, 
-                                                                                               true);
+                                                                                               true, true);
                         
             
             addParticipantPanelToSectionPanel(sectionPanel, teamName, giverPanel);
@@ -650,8 +652,20 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         panel.setArrowClass("glyphicon-chevron-up");
         panel.setPanelClass("panel-success");
-        panel.setStatisticsHeaderText("Statistics for Given Responses");
-        panel.setDetailedResponsesHeaderText("Detailed Responses");
+        switch (viewType) {
+        case GIVER_QUESTION_RECIPIENT:
+            panel.setStatisticsHeaderText("Statistics for Given Responses");
+            panel.setDetailedResponsesHeaderText("Detailed Responses");
+            
+            break;
+        case RECIPIENT_QUESTION_GIVER:
+            panel.setStatisticsHeaderText("Received Responses Statistics");
+            panel.setDetailedResponsesHeaderText("Detailed Responses");
+            
+            break;
+        default:
+            Assumption.fail("Team statistics table should not be used for this view");
+        }
         
         constructStatisticsTablesForTeams(viewType, questions, responsesGroupedByTeam, panel, teamsInSection);
     }
@@ -1045,7 +1059,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                                                             FeedbackQuestionAttributes question, 
                                                                                                             List<InstructorResultsQuestionTable> questionTables,
                                                                                                             InstructorResultsModerationButton moderationButton, 
-                                                                                                            boolean isModerationButtonDisplayed) {
+                                                                                                            boolean isModerationButtonDisplayed,
+                                                                                                            boolean isGiver) {
        boolean isEmailValid = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, participantIdentifier).isEmpty();
     
        Url profilePictureLink = new Url(getProfilePictureLink(participantIdentifier));
@@ -1053,10 +1068,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
        String mailtoStyle = "";
        if (question != null) {
            mailtoStyle = (question.giverType == FeedbackParticipantType.NONE 
-                                           || question.giverType == FeedbackParticipantType.TEAMS 
-                                           || participantIdentifier.contains("@@")) ? 
-                                            "style=\"display:none;\"" :
-                                            "";
+                       || question.giverType == FeedbackParticipantType.TEAMS 
+                       || participantIdentifier.contains("@@")) ? "style=\"display:none;\""
+                                                                   : "";
        }
        
        InstructorResultsQuestionTable.sortByQuestionNumber(questionTables);
@@ -1064,7 +1078,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                     InstructorFeedbackResultsGroupByQuestionPanel.buildInstructorFeedbackResultsGroupByQuestionPanel(
                                                                     bundle,
                                                                     questionTables, isEmailValid, profilePictureLink, 
-                                                                    mailtoStyle, true, participantIdentifier, participantName,
+                                                                    mailtoStyle, isGiver, participantIdentifier, participantName,
                                                                     moderationButton, isModerationButtonDisplayed);
     
        return giverPanel;

@@ -1210,7 +1210,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
         String recipient = null;
         String questionId = null;
-        String recipientName = null;
 
         for (FeedbackResponseAttributes response : responses) {
             if (recipient == null || !response.recipientEmail.equals(recipient)) {
@@ -1220,11 +1219,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                                                  responsesForOneRecipientOneQuestion);
                 }
                 if (recipient != null && responsesForOneRecipient != null) {
-                    sortedMap.put(recipientName, responsesForOneRecipient);
+                    sortedMap.put(recipient, responsesForOneRecipient);
                 }
                 responsesForOneRecipient = new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
                 recipient = response.recipientEmail;
-                recipientName = this.getRecipientNameForResponse(questions.get(response.feedbackQuestionId), response);
+                
                 questionId = null;
             }
             if (questionId == null || !response.feedbackQuestionId.equals(questionId)) {
@@ -1243,7 +1242,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                                          responsesForOneRecipientOneQuestion);
         }
         if (recipient != null && responsesForOneRecipient != null) {
-            sortedMap.put(recipientName, responsesForOneRecipient);
+            sortedMap.put(recipient, responsesForOneRecipient);
         }
 
         return sortedMap;
