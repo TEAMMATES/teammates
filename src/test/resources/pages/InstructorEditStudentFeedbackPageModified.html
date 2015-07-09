@@ -1,10 +1,40 @@
-        <div id="mainContent" class="container">
-                <div id="topOfPage"></div>
-                <h1>Submit Feedback</h1>
-                <br />
-                
-                <form action="/page/instructorEditStudentFeedbackSave" name="form_student_submit_response" method="post">
-                    
+<div class="container" id="mainContent">
+        
+
+
+<div id="topOfPage"></div>
+
+    <h1>Submit Feedback</h1>
+    <br>
+
+        
+        
+    
+       
+    
+    
+    
+
+
+
+
+
+
+<form method="post" name="form_student_submit_response" action="/page/instructorEditStudentFeedbackSave">
+    
+
+
+
+
+
+<input name="fsname" value="First feedback session" type="hidden">
+<input name="courseid" value="IESFPTCourse" type="hidden">
+
+
+    
+        <input name="user" value="IESFPTCourseinstr" type="hidden">
+    
+    
 
 
 
@@ -13,175 +43,266 @@
 
 
 
-
-
-
-<input type="hidden" value="First feedback session" name="fsname" />
-<input type="hidden" value="IESFPTCourse" name="courseid" />
-
-        <input type="hidden" value="IESFPTCourseinstr" name="user" />
-
-
-
-
-
-
-
-        <div class="alert alert-warning" id="statusMessage">
+    
+        <div id="statusMessage" class="alert alert-warning">
             All responses submitted succesfully!
         </div>
-        
         <script type="text/javascript">
             document.getElementById('statusMessage').scrollIntoView();
         </script>
+    
+    
 
 
-<div id="course1" class="well well-plain">
+
+
+
+<div class="well well-plain" id="course1">
     <div class="panel-body">
         <div class="form-horizontal">
-            <div class="panel-heading">
+            <div class="panel-heading">               
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Course ID:</label>
                     <div class="col-sm-10">
                         <p class="form-control-static">IESFPTCourse</p>
                     </div>
                 </div>
+                
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Session:</label>
                     <div class="col-sm-10">
                         <p class="form-control-static">First feedback session</p>
                     </div>
                 </div>
+                
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Opening time:</label>
                     <div class="col-sm-10">
                         <p class="form-control-static">Sun, 01 Apr 2012, 23:59</p>
                     </div>
                 </div>
+                
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Closing time:</label>
                     <div class="col-sm-10">
                         <p class="form-control-static">Sun, 30 Apr 2017, 23:59</p>
                     </div>
-                </div>
+                </div>             
+                
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Instructions:</label>
-                    <div class="col-sm-10">
-                        <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                    <div class="col-sm-10">                   
+                        <!--Note: When an element has class text-preserve-space, do not insert HTML spaces-->
                         <p class="form-control-static text-preserve-space">Please please fill in the following questions.</p>
                     </div>
-                </div>
+                </div>             
             </div>
         </div>
     </div>
 </div>
-<br />
+<br>
 
-        <div class="row">
-            <span class="help-block align-center">
-                Some questions may be hidden due to visibility options
-            </span>
+
+
+    <div class="row">
+        <span class="help-block align-center">
+            Some questions may be hidden due to visibility options
+        </span>
+    </div>
+
+
+
+    
+        
+
+
+
+
+
+
+
+
+<input name="questiontype-1" value="TEXT" type="hidden">
+                     
+<input name="questionid-1" value="{*}" type="hidden">
+                     
+<input name="questionresponsetotal-1" value="1" type="hidden">
+
+<div class="form-horizontal">
+    <div class="panel panel-primary">
+    
+        <div class="panel-heading">Question 1:
+            <br>
+            <!--Note: When an element has class text-preserve-space, do not insert HTML spaces-->
+            <span class="text-preserve-space">What is the best selling point of your product?</span>
         </div>
+        
+        <div class="panel-body">
+            <p class="text-muted">Only the following persons can see your responses: </p>
+            <ul class="text-muted">
+                
+                    
+                
+                    <li class="unordered">Instructors in this course can see your response, the name of the recipient, and your name.</li>
+                
+            </ul>
+                
+            
+                
 
 
-        <input type="hidden" value="TEXT" name="questiontype-1" />
-        <input type="hidden" value="{*}" name="questionid-1" />
-        <input type="hidden" value="1" name="questionresponsetotal-1" />
-        <div class="form-horizontal">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Question 1:
-                    <br />
-                    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                    <span class="text-preserve-space">What is the best selling point of your product?</span>
-                </div>
-                <div class="panel-body">
-                    <p class="text-muted">Only the following persons can see your responses: </p>
-                    <ul class="text-muted">
-                        
-                                <li class="unordered">Instructors in this course can see your response, the name of the recipient, and your name.</li>
-                        
-                    </ul>
-                    
-                            <br />
-                            <div class="form-group margin-0">
-                                <div style="display:none" class="col-sm-2 form-inline">
-                                    <label for="input">To: </label>
-                                    <select style="display:none;max-width:125px" name="responserecipient-1-0" class="participantSelect middlealign form-control">
-                                        <option value=""></option>
-<option selected="selected" value="student1InIESFPTCourse@gmail.tmt">Myself</option>
 
-                                    </select><span>Myself</span>
-                                </div>
-                                <div class="col-sm-12">
-                                    <textarea name="responsetext-1-0" class="form-control" cols="100%" rows="4">Good design</textarea>
-                                    <input type="hidden" value="{*}" name="responseid-1-0" />
-                                </div>
-                            </div>
-                    
-                    
-                </div>
-            </div>
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br>
+<div class="form-group margin-0">
+    <div class="col-sm-2 form-inline" style="display:none">
+         
+        <label for="input">To: </label>
+        
+        <select class="participantSelect middlealign form-control" name="responserecipient-1-0" style="display:none;max-width:125px">
+                
+                
+                    <option value=""></option>
+                
+                    <option value="student1InIESFPTCourse@gmail.tmt" selected="selected">Myself</option>
+                
+        </select><span>Myself</span>
+    </div>
+    <div class="col-sm-12">
+        <textarea rows="4" cols="100%" class="form-control" name="responsetext-1-0">Good design</textarea>
+        
+            <input name="responseid-1-0" value="{*}" type="hidden">
+                                            
+    </div>
+</div>
+                         
         </div>
-        <br /><br />
+    </div>
+</div>
+<br><br>
+    
 
-        <input type="hidden" value="NUMSCALE" name="questiontype-2" />
-        <input type="hidden" value="{*}" name="questionid-2" />
-        <input type="hidden" value="1" name="questionresponsetotal-2" />
-        <div class="form-horizontal">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Question 2:
-                    <br />
-                    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                    <span class="text-preserve-space">Rate your product.</span>
-                </div>
-                <div class="panel-body">
-                    <p class="text-muted">Only the following persons can see your responses: </p>
-                    <ul class="text-muted">
-                        
-                                <li class="unordered">Instructors in this course can see your response, the name of the recipient, and your name.</li>
-                        
-                                <li class="unordered">You can see your own feedback in the results page later on.</li>
-                        
-                    </ul>
+    
+        
+
+
+
+
+
+
+
+
+<input name="questiontype-2" value="NUMSCALE" type="hidden">
+                     
+<input name="questionid-2" value="{*}" type="hidden">
+                     
+<input name="questionresponsetotal-2" value="1" type="hidden">
+
+<div class="form-horizontal">
+    <div class="panel panel-primary">
+    
+        <div class="panel-heading">Question 2:
+            <br>
+            <!--Note: When an element has class text-preserve-space, do not insert HTML spaces-->
+            <span class="text-preserve-space">Rate your product.</span>
+        </div>
+        
+        <div class="panel-body">
+            <p class="text-muted">Only the following persons can see your responses: </p>
+            <ul class="text-muted">
+                
                     
-                            <br />
-                            <div class="form-group margin-0">
-                                <div style="display:none" class="col-sm-2 form-inline">
-                                    <label for="input">To: </label>
-                                    <select style="display:none;max-width:125px" name="responserecipient-2-0" class="participantSelect middlealign form-control">
-                                        <option value=""></option>
-<option selected="selected" value="student1InIESFPTCourse@gmail.tmt">Myself</option>
+                
+                    <li class="unordered">Instructors in this course can see your response, the name of the recipient, and your name.</li>
+                
+                    <li class="unordered">You can see your own feedback in the results page later on.</li>
+                
+            </ul>
+                
+            
+                
 
-                                    </select><span>Myself</span>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div class="col-sm-3"><input type="number" name="responsetext-2-0" value="4" step="0.5" max="5" min="1" onchange="validateNumScaleAnswer(2, 0)" class="numScaleAnswerBox form-control col-sm-2" /> 
-<input type="hidden" value="1" name="numscalemin-2-0" />
-<input type="hidden" value="5" name="numscalemax-2-0" />
-<input type="hidden" value="0.5" name="numscalestep-2-0" />
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br>
+<div class="form-group margin-0">
+    <div class="col-sm-2 form-inline" style="display:none">
+         
+        <label for="input">To: </label>
+        
+        <select class="participantSelect middlealign form-control" name="responserecipient-2-0" style="display:none;max-width:125px">
+                
+                
+                    <option value=""></option>
+                
+                    <option value="student1InIESFPTCourse@gmail.tmt" selected="selected">Myself</option>
+                
+        </select><span>Myself</span>
+    </div>
+    <div class="col-sm-12">
+        <div class="col-sm-3"><input class="numScaleAnswerBox form-control col-sm-2" onchange="validateNumScaleAnswer(2, 0)" min="1" max="5" step="0.5" value="4" name="responsetext-2-0" type="number"> 
+<input name="numscalemin-2-0" value="1" type="hidden">
+<input name="numscalemax-2-0" value="5" type="hidden">
+<input name="numscalestep-2-0" value="0.5" type="hidden">
 </div>
 <div class="text-muted form-control-static">
 [Possible values: 1, 1.5, 2, ..., 4, 4.5, 5]
 </div>
-                                    <input type="hidden" value="{*}" name="responseid-2-0" />
-                                </div>
-                            </div>
-                    
-                    
-                </div>
-            </div>
+        
+            <input name="responseid-2-0" value="{*}" type="hidden">
+                                            
+    </div>
+</div>
+                         
         </div>
-        <br /><br />
+    </div>
+</div>
+<br><br>
+    
 
 
+    
+    <div class="bold align-center"> 
+               
+            <input name="moderatedstudent" value="student1InIESFPTCourse@gmail.tmt" type="hidden">
+        
 
-                    <div class="bold align-center">
-                        
-                                <input type="hidden" value="student1InIESFPTCourse@gmail.tmt" name="moderatedstudent" />
-                        
-                                <input type="submit" value="Submit Feedback" title="" data-placement="top" data-toggle="tooltip" id="response_submit_button" class="btn btn-primary" data-original-title="You can save your responses at any time and come back later to continue." />
-                        
-                    </div>
-                    <br /><br />
-                </form>
-        </div>
+        
+            
+            
+                <input data-original-title="You can save your responses at any time and come back later to continue." class="btn btn-primary" id="response_submit_button" data-toggle="tooltip" data-placement="top" title="" value="Submit Feedback" type="submit">
+            
+        
+    </div>
+    <br> 
+    <br>
+</form>
+    
+
+    
+    </div>

@@ -2166,7 +2166,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
     public void testDeleteFeedbackSessionsForCourse() throws Exception {
         
         assertFalse(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1").isEmpty());
-        fsLogic.deleteFeedbackSessionsForCourse("idOfTypicalCourse1");
+        fsLogic.deleteFeedbackSessionsForCourseCascade("idOfTypicalCourse1");
         assertTrue(fsLogic.getFeedbackSessionsForCourse("idOfTypicalCourse1").isEmpty());
     }
     
