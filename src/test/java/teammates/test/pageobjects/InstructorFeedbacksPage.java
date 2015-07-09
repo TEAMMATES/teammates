@@ -561,7 +561,7 @@ public class InstructorFeedbacksPage extends AppPage {
         By fsCopyButtonElement = By.id("button_fscopy" + "-" + courseId + "-" + feedbackSessionName);
         
         // give it some time to load as it is loaded via AJAX
-        waitForElementPresence(fsCopyButtonElement, 5);
+        waitForElementPresence(fsCopyButtonElement);
         
         WebElement fsCopyButton = browser.driver.findElement(fsCopyButtonElement);
         
@@ -569,7 +569,7 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     public void waitForModalToLoad() {
-        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME), 5);
+        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
     }
     
     public void clickFsCopySubmitButton() {

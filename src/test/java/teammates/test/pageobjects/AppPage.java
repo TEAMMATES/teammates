@@ -255,9 +255,9 @@ public abstract class AppPage {
     /**
      * Waits for the element to appear in the page, up to the timeout specified.
      */
-    public void waitForElementPresence(By element, int timeOutInSeconds){
-        WebDriverWait wait = new WebDriverWait(browser.driver, timeOutInSeconds);
-        wait.until(presenceOfElementLocated(element));
+    public void waitForElementPresence(By by){
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        wait.until(presenceOfElementLocated(by));
     }
     
     /**
@@ -956,7 +956,7 @@ public abstract class AppPage {
             assertEquals(expectedStatus, this.getStatus());
         } catch(Exception e){
             if(!expectedStatus.equals("")){
-                this.waitForElementPresence(By.id("statusMessage"), 15);
+                this.waitForElementPresence(By.id("statusMessage"));
                 if(!statusMessage.isDisplayed()){
                     this.waitForElementVisible(statusMessage);
                 }
