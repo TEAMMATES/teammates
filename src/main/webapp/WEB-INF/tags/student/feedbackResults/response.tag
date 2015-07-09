@@ -1,5 +1,6 @@
 <%@ tag description="responseTable.tag - Responses given to a particular recipient" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared"%>
 <%@ attribute name="response" type="teammates.ui.template.FeedbackResultsResponse" required="true" %>
 
 <tr class="resultSubheader">
@@ -17,11 +18,8 @@
     <tr>
         <td>
             <ul class="list-group comment-list">                                                                           
-                <c:forEach items="${response.comments}" var="comment">                                                                            
-                    <li class="list-group-item list-group-item-warning">
-                        <span class="text-muted">From: ${comment.giverEmail} [${comment.createdAt}]</span>
-                        <div>${comment.commentText}</div>
-                    </li>
+                <c:forEach items="${response.comments}" var="comment">
+                    <shared:feedbackResponseComment frc="${comment}" />
                 </c:forEach>                                                                                   
             </ul>
         </td>

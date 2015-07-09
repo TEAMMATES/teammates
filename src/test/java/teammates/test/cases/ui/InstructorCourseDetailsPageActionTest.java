@@ -45,7 +45,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         assertEquals("", pageResult.getStatusMessage());
         
         InstructorCourseDetailsPageData pageData = (InstructorCourseDetailsPageData) pageResult.data;
-        assertEquals(4, pageData.getInstructors().size());
+        assertEquals(5, pageData.getInstructors().size());
 
         assertEquals("idOfTypicalCourse1", pageData.getCourseDetails().course.id);
         assertEquals("Typical Course 1 with 2 Evals", pageData.getCourseDetails().course.name);

@@ -25,12 +25,12 @@
                                     
                             <div id="commentBar-${indexCounter}">
                                 <span class="text-muted">
-                                    To <b>${commentRow.recipientDetails}</b> on ${commentRow.creationTime}
+                                    To <b>${commentRow.recipientDetails}</b> [${commentRow.creationTime}] ${commentRow.editedAt}
                                 </span>
                                             
                                 <a type="button" target="_blank" class="btn btn-default btn-xs icon-button pull-right"
                                     data-toggle="tooltip" data-placement="top" style="display:none;"
-                                    <c:forEach items="${commentRow.editButton.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach>>
+                                    ${commentRow.editButton.attributesToString}>
                                     <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>                                       
                                 </a>                                    
                             </div>

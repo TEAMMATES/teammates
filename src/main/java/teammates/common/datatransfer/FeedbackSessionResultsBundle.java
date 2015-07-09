@@ -883,10 +883,12 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
     public String getNameForEmail(String email) {
         String name = emailNameTable.get(email);
-        if (name == null || name.equals(Const.USER_IS_TEAM)) {
-            return Const.USER_UNKNOWN_TEXT; // TODO: this doesn't look right
+        if (name == null) {
+            return Const.USER_UNKNOWN_TEXT;
         } else if (name.equals(Const.USER_IS_NOBODY)) {
             return Const.USER_NOBODY_TEXT;
+        } else if (name.equals(Const.USER_IS_TEAM)) {
+            return getTeamNameForEmail(email);
         } else {
             return PageData.sanitizeForHtml(name);
         }
@@ -894,10 +896,12 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
     public String getLastNameForEmail(String email) {
         String name = emailLastNameTable.get(email);
-        if (name == null || name.equals(Const.USER_IS_TEAM)) {
-            return Const.USER_UNKNOWN_TEXT; // TODO: this doesn't look right
+        if (name == null) {
+            return Const.USER_UNKNOWN_TEXT;
         } else if (name.equals(Const.USER_IS_NOBODY)) {
             return Const.USER_NOBODY_TEXT;
+        } else if (name.equals(Const.USER_IS_TEAM)) {
+            return getTeamNameForEmail(email);
         } else {
             return PageData.sanitizeForHtml(name);
         }
@@ -1070,7 +1074,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
 
         for (List<FeedbackResponseAttributes> responsesForQuestion : sortedMap.values()) {
-            Collections.sort(responsesForQuestion, compareByRecipientName);
+            Collections.sort(responsesForQuestion, compareByRecipientNameEmailGiverNameEmail);
         }
 
         return sortedMap;
@@ -1982,18 +1986,43 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
     };
 
-    // Sorts by recipientName
-    public final Comparator<FeedbackResponseAttributes> compareByRecipientName =
+    // Sorts by recipientName > recipientEmail > giverName > giverEmail
+    public final Comparator<FeedbackResponseAttributes> compareByRecipientNameEmailGiverNameEmail =
             new Comparator<FeedbackResponseAttributes>() {
         @Override
         public int compare(FeedbackResponseAttributes o1,
                            FeedbackResponseAttributes o2) {
-            return compareByNames(getNameForEmail(o1.recipientEmail),
-                                  getNameForEmail(o2.recipientEmail));
+            // Compare by Recipient Name
+            int recipientNameCompareResult = compareByNames(getNameForEmail(o1.recipientEmail),
+                                                            getNameForEmail(o2.recipientEmail));
+            if (recipientNameCompareResult != 0) {
+                return recipientNameCompareResult;
+            }
+            
+            // Compare by Recipient Email
+            int recipientEmailCompareResult = compareByNames(o1.recipientEmail, o2.recipientEmail);
+            if (recipientEmailCompareResult != 0) {
+                return recipientEmailCompareResult;
+            }
+            
+            // Compare by Giver Name            
+            int giverNameCompareResult = compareByNames(getNameForEmail(o1.giverEmail),
+                                                        getNameForEmail(o2.giverEmail));
+            if (giverNameCompareResult != 0) {
+                return giverNameCompareResult;
+            }
+            
+            // Compare by Giver Email
+            int giverEmailCompareResult = compareByNames(o1.giverEmail, o2.giverEmail);
+            if (giverEmailCompareResult != 0) {
+                return giverEmailCompareResult;
+            }
+            
+            return 0;
         }
     };
 
-    // Sorts by recipientName
+    // Sorts by giverName
     public final Comparator<FeedbackResponseAttributes> compareByGiverName =
             new Comparator<FeedbackResponseAttributes>() {
         @Override

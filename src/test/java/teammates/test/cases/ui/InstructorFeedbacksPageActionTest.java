@@ -54,7 +54,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         assertEquals(2, pageData.getNewFsForm().getCourses().size());
         assertEquals(6, pageData.getFsList().getExistingFeedbackSessions().size());
         assertEquals("", pageData.getNewFsForm().getFsName());
-        assertEquals(null, pageData.getNewFsForm().getCourseIdForNewSession());
+        assertEquals(null, pageData.getNewFsForm().getCourseId());
         
         String expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage|||"
@@ -65,7 +65,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         
         ______TS("0 sessions");
         
-        FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourse(instructor1ofCourse1.courseId);
+        FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourseCascade(instructor1ofCourse1.courseId);
         
         submissionParams = new String[]{Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId,
                                         Const.ParamsNames.IS_USING_AJAX, "true"};
@@ -82,7 +82,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         assertEquals(2, pageData.getNewFsForm().getCourses().size());
         assertEquals(0, pageData.getFsList().getExistingFeedbackSessions().size());
         assertEquals("", pageData.getNewFsForm().getFsName());
-        assertEquals(instructor1ofCourse1.courseId, pageData.getNewFsForm().getCourseIdForNewSession());
+        assertEquals(instructor1ofCourse1.courseId, pageData.getNewFsForm().getCourseId());
         
         expectedLogMessage =
                 "TEAMMATESLOG|||instructorFeedbacksPage|||instructorFeedbacksPage|||"

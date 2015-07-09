@@ -55,7 +55,7 @@ public class CourseAttributes extends EntityAttributes implements Comparable<Cou
     public String getId() {
         return id;
     }
-    
+
     public String getName() {
         return name;
     }

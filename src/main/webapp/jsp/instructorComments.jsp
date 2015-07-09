@@ -11,16 +11,9 @@
     <script src="/js/omniComment.js"></script>
 </c:set>
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Comments from Instructors" jsIncludes="${jsIncludes}">
-    <div class="inner-container">
-        <div class="row">
-            <div class="col-sm-6 instructor-header-bar">
-                <comments:search instructorSearchLink="${data.instructorSearchLink}"/>
-            </div>
-        </div>
-    </div>
+    <comments:search instructorSearchLink="${data.instructorSearchLink}"/>
     <br>
     <t:statusMessage />
-    <comments:filter displayArchive="${data.displayArchive}" instructorCommentsLink="${data.instructorCommentsLink}" comments="${data.comments}" feedbackSessions="${data.feedbackSessions}"/>
     <c:choose>
     <c:when test="${not empty data.coursePaginationList}">
         <comments:pagination previousPageLink="${data.previousPageLink}" coursePaginationList="${data.coursePaginationList}"

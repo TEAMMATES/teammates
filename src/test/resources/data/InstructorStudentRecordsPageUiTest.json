@@ -524,6 +524,8 @@
             "giverEmail":"teammates.test@gmail.tmt",
             "feedbackResponseId":"2%alice.b.tmms@gmail.tmt%benny.c.tmms@gmail.tmt",
             "createdAt":"2016-03-01 11:59 PM UTC",
+            "lastEditorEmail":"teammates.test@gmail.tmt",
+            "lastEditedAt":"2016-03-02 11:59 PM UTC",
             "commentText":{
                 "value":"Instructor first comment to Alice about feedback to Benny"	
             }

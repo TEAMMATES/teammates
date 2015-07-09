@@ -483,6 +483,11 @@ public class InstructorFeedbacksPage extends AppPage {
         return browser.driver.findElement(locator).isDisplayed();
     }
     
+    public boolean isContainingCssClass(By locator, String className) {
+        return browser.driver.findElement(locator).getAttribute("class").matches(".*\\b" + className + "\\b.*");
+    }
+    
+    
     public InstructorFeedbackResultsPage loadViewResultsLink (String courseId, String fsName) {
         int sessionRowId = getFeedbackSessionRowId(courseId, fsName);
         String className = "session-view-for-test";

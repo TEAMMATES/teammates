@@ -312,8 +312,19 @@ public class InstructorAttributes extends EntityAttributes {
         }
     }
     
+    public boolean isCustomRole() {
+        return Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM.equals(role);
+    }
+    
+    public String getCourseId() {
+        return courseId;
+    }
+    
+    public String getGoogleId() {
+        return googleId;
+    }
+    
     public String getRole() {
         return role;
     }
-    
 }

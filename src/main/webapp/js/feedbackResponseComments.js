@@ -192,10 +192,6 @@ function registerResponseCommentsEvent() {
     $("form[class*='responseCommentEditForm'] > div > a[id^='button_save_comment_for_edit']").click(editCommentHandler);
     $("form[class*='responseCommentDeleteForm'] > a[id^='commentdelete']").click(deleteCommentHandler);
     
-    String.prototype.contains = function(substr) {
-        return this.indexOf(substr) != -1;
-    };
-    
     registerResponseCommentCheckboxEvent();
     
     $("div[id^=plainCommentText]").css("margin-left","15px");
@@ -208,12 +204,12 @@ function registerResponseCommentCheckboxEvent() {
         var visibilityOptions = [];
         var _target = $(e.target);
         
-        if (_target.prop("class").contains("answerCheckbox") && !_target.prop("checked")) {
+        if (_target.prop("class").includes("answerCheckbox") && !_target.prop("checked")) {
             _target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
             _target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
         }
-        if ((_target.prop("class").contains("giverCheckbox") || 
-             _target.prop("class").contains("recipientCheckbox")) &&
+        if ((_target.prop("class").includes("giverCheckbox") || 
+             _target.prop("class").includes("recipientCheckbox")) &&
              _target.prop("checked")) {
             _target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
         }
@@ -255,10 +251,10 @@ function enableHoverToDisplayEditOptions() {
     });
 }
 
-function enableTooltip() {
-    $(function() { 
-        $("[data-toggle='tooltip']").tooltip({html: true, container: 'body'}); 
-    });
+function enableTooltip() {      
+    $(function() {         
+        $("[data-toggle='tooltip']").tooltip({html: true, container: 'body'});         
+    });        
 }
 
 $(document).ready(registerResponseCommentsEvent);
@@ -423,12 +419,12 @@ function registerCheckboxEventForVisibilityOptions() {
         var visibilityOptions = [];
         var _target = $(e.target);
         
-        if (_target.prop("class").contains("answerCheckbox") && !_target.prop("checked")) {
+        if (_target.prop("class").includes("answerCheckbox") && !_target.prop("checked")) {
             _target.parent().parent().find("input[class*=giverCheckbox]").prop("checked", false);
             _target.parent().parent().find("input[class*=recipientCheckbox]").prop("checked", false);
         }
-        if ((_target.prop("class").contains("giverCheckbox") || 
-             _target.prop("class").contains("recipientCheckbox")) &&
+        if ((_target.prop("class").includes("giverCheckbox") || 
+             _target.prop("class").includes("recipientCheckbox")) &&
              _target.prop("checked")) {
             _target.parent().parent().find("input[class*=answerCheckbox]").prop("checked", true);
         }

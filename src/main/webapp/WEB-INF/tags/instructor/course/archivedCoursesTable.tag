@@ -23,9 +23,7 @@
             <td id="coursename${i.index + fn:length(activeCourses.rows)}">${archivedCourse.courseName}</td>
             <td class="align-center no-print">
                 <c:forEach items="${archivedCourse.actions}" var="button">
-                    <a  <c:forEach items="${button.attributes}" var="attribute">
-                            ${attribute.key}="${attribute.value}"
-                        </c:forEach> >
+                    <a ${button.attributesToString}>
                         ${button.content}
                     </a>
                 </c:forEach>
