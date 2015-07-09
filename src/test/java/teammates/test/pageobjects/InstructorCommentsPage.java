@@ -31,7 +31,7 @@ public class InstructorCommentsPage extends AppPage {
         browser.driver.findElement(By.xpath("//*[@id=\"panel_display-2\"]/div/div[1]")).click();
         waitForPageToLoad();
         try{
-            waitForElementToAppear(By.xpath("//*[@id=\"panel_display-2\"]/div/div[2]/div[1]/div"));
+            waitForElementPresence(By.xpath("//*[@id=\"panel_display-2\"]/div/div[2]/div[1]/div"));
         } catch (StaleElementReferenceException e){
             ;//do nothing
         }
