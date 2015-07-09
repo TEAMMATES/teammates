@@ -237,23 +237,24 @@
                 <ul class="list-group comments">
                      
                         
-                        <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
-                            <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-1">
+                        <li class="list-group-item list-group-item-warning status_display--public">
                                 <div id="commentBar-1">
                                     
-                                    <span class="text-muted">To <b>Team 1.1</b> [Mon, 07 May 2012, 08:54:00 UTC] </span>
-                                     
-                                        <a type="button" id="commentdelete-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
-                                            <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                        </a> 
-                                        <a type="button" id="commentedit-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
-                                            <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-                                        </a>
-                                     
+                                    <span class="text-muted">
+                                        To <b>Team 1.1</b> [Mon, 07 May 2012, 08:54:00 UTC] 
+                                    </span>
                                     
                                         <span data-original-title="This comment is visible to recipient team" class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;" data-placement="top" title=""></span>
                                     
                                     
+                                     
+                                        <a data-original-title="Delete this comment" type="button" id="commentdelete-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('1');" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
+                                            <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                                        </a> 
+                                        <a data-original-title="Edit this comment" type="button" id="commentedit-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('1', '0');" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
+                                            <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                                        </a>
+                                     
                                 </div>
                                 <div style="margin-left: 15px;" id="plainCommentText1">team can see this comment without giver's name</div>
                                  
@@ -264,9 +265,14 @@
 
 
 
+
+<form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-1">
 <div id="commentTextEdit1" style="display: none;">
     <div class="form-group form-inline">
         <div class="form-group text-muted">
+            <p>
+                Comment about Team 1.1:
+            </p>
             You may change comment's visibility using the visibility options on the right hand side.
         </div>
         <a id="visibility-options-trigger1" class="btn btn-sm btn-info pull-right">
@@ -276,7 +282,7 @@
     </div>
     <div id="visibility-options1" class="panel panel-default" style="display: none;">
         <div class="panel-heading">Visibility Options</div>
-        <table class="table text-center text-color-black">
+        <table class="table text-center" style="color: #000;">
             <tbody>
                 <tr>
                     <th class="text-center">User/Group</th>
@@ -354,7 +360,7 @@
         </table>
     </div>
     <div class="form-group">
-       <!-- Do not add whitespace between the opening and closing tags-->
+        <!-- Do not add whitespace between the opening and closing tags-->
         <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText1">team can see this comment without giver's name</textarea>
     </div>
     <div class="col-sm-offset-5">
@@ -370,28 +376,29 @@
 <input name="showgiverto" value="" type="hidden">
 <input name="showrecipientto" value="" type="hidden">
 <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
+</form>
                                  
-                            </form>
                         </li>
                      
                         
-                        <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
-                            <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-2">
+                        <li class="list-group-item list-group-item-warning status_display--public">
                                 <div id="commentBar-2">
                                     
-                                    <span class="text-muted">To <b>student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt)</b> [Sun, 06 May 2012, 08:55:00 UTC] </span>
-                                     
-                                        <a type="button" id="commentdelete-2" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('2');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
-                                            <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                        </a> 
-                                        <a type="button" id="commentedit-2" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('2');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
-                                            <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-                                        </a>
-                                     
+                                    <span class="text-muted">
+                                        To <b>student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt)</b> [Sun, 06 May 2012, 08:55:00 UTC] 
+                                    </span>
                                     
                                         <span data-original-title="This comment is visible to other students in this course" class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;" data-placement="top" title=""></span>
                                     
                                     
+                                     
+                                        <a data-original-title="Delete this comment" type="button" id="commentdelete-2" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('2');" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
+                                            <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                                        </a> 
+                                        <a data-original-title="Edit this comment" type="button" id="commentedit-2" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('2', '0');" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
+                                            <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                                        </a>
+                                     
                                 </div>
                                 <div style="margin-left: 15px;" id="plainCommentText2">Other students in this course can see this comment without giver and recipient's name</div>
                                  
@@ -402,9 +409,14 @@
 
 
 
+
+<form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-2">
 <div id="commentTextEdit2" style="display: none;">
     <div class="form-group form-inline">
         <div class="form-group text-muted">
+            <p>
+                Comment about student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt):
+            </p>
             You may change comment's visibility using the visibility options on the right hand side.
         </div>
         <a id="visibility-options-trigger2" class="btn btn-sm btn-info pull-right">
@@ -414,7 +426,7 @@
     </div>
     <div id="visibility-options2" class="panel panel-default" style="display: none;">
         <div class="panel-heading">Visibility Options</div>
-        <table class="table text-center text-color-black">
+        <table class="table text-center" style="color: #000;">
             <tbody>
                 <tr>
                     <th class="text-center">User/Group</th>
@@ -430,7 +442,7 @@
                             </div>
                         </td>
                         <td>
-                            <input class="visibilityCheckbox answerCheckbox" value="PERSON" type="checkbox">
+                            <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="PERSON" type="checkbox">
                         </td>
                         <td><input class="visibilityCheckbox giverCheckbox" value="PERSON" type="checkbox">
                         </td>
@@ -508,7 +520,7 @@
         </table>
     </div>
     <div class="form-group">
-       <!-- Do not add whitespace between the opening and closing tags-->
+        <!-- Do not add whitespace between the opening and closing tags-->
         <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText2">Other students in this course can see this comment without giver and recipient's name</textarea>
     </div>
     <div class="col-sm-offset-5">
@@ -524,28 +536,29 @@
 <input name="showgiverto" value="" type="hidden">
 <input name="showrecipientto" value="" type="hidden">
 <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
+</form>
                                  
-                            </form>
                         </li>
                      
                         
-                        <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
-                            <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-3">
+                        <li class="list-group-item list-group-item-warning status_display--public">
                                 <div id="commentBar-3">
                                     
-                                    <span class="text-muted">To <b>Team 1.1</b> [Sat, 05 May 2012, 08:53:00 UTC] (last edited by comments.instructor1@course1.tmt at Sat, 05 May 2012, 08:54:00 UTC)</span>
-                                     
-                                        <a type="button" id="commentdelete-3" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('3');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
-                                            <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                        </a> 
-                                        <a type="button" id="commentedit-3" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('3');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
-                                            <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-                                        </a>
-                                     
+                                    <span class="text-muted">
+                                        To <b>Team 1.1</b> [Sat, 05 May 2012, 08:53:00 UTC] (last edited by comments.instructor1@course1.tmt at Sat, 05 May 2012, 08:54:00 UTC)
+                                    </span>
                                     
                                         <span data-original-title="This comment is visible to recipient team" class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;" data-placement="top" title=""></span>
                                     
                                     
+                                     
+                                        <a data-original-title="Delete this comment" type="button" id="commentdelete-3" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('3');" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
+                                            <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                                        </a> 
+                                        <a data-original-title="Edit this comment" type="button" id="commentedit-3" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('3', '0');" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
+                                            <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                                        </a>
+                                     
                                 </div>
                                 <div style="margin-left: 15px;" id="plainCommentText3">team can see this comment with giver and recipient's name</div>
                                  
@@ -556,9 +569,14 @@
 
 
 
+
+<form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-3">
 <div id="commentTextEdit3" style="display: none;">
     <div class="form-group form-inline">
         <div class="form-group text-muted">
+            <p>
+                Comment about Team 1.1:
+            </p>
             You may change comment's visibility using the visibility options on the right hand side.
         </div>
         <a id="visibility-options-trigger3" class="btn btn-sm btn-info pull-right">
@@ -568,7 +586,7 @@
     </div>
     <div id="visibility-options3" class="panel panel-default" style="display: none;">
         <div class="panel-heading">Visibility Options</div>
-        <table class="table text-center text-color-black">
+        <table class="table text-center" style="color: #000;">
             <tbody>
                 <tr>
                     <th class="text-center">User/Group</th>
@@ -646,7 +664,7 @@
         </table>
     </div>
     <div class="form-group">
-       <!-- Do not add whitespace between the opening and closing tags-->
+        <!-- Do not add whitespace between the opening and closing tags-->
         <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText3">team can see this comment with giver and recipient's name</textarea>
     </div>
     <div class="col-sm-offset-5">
@@ -662,28 +680,29 @@
 <input name="showgiverto" value="TEAM" type="hidden">
 <input name="showrecipientto" value="" type="hidden">
 <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
+</form>
                                  
-                            </form>
                         </li>
                      
                         
-                        <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
-                            <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-4">
+                        <li class="list-group-item list-group-item-warning status_display--public">
                                 <div id="commentBar-4">
                                     
-                                    <span class="text-muted">To <b>student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt)</b> [Fri, 04 May 2012, 08:52:00 UTC] </span>
-                                     
-                                        <a type="button" id="commentdelete-4" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('4');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
-                                            <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                        </a> 
-                                        <a type="button" id="commentedit-4" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('4');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
-                                            <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-                                        </a>
-                                     
+                                    <span class="text-muted">
+                                        To <b>student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt)</b> [Fri, 04 May 2012, 08:52:00 UTC] 
+                                    </span>
                                     
                                         <span data-original-title="This comment is visible to recipient's team" class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;" data-placement="top" title=""></span>
                                     
                                     
+                                     
+                                        <a data-original-title="Delete this comment" type="button" id="commentdelete-4" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('4');" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
+                                            <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                                        </a> 
+                                        <a data-original-title="Edit this comment" type="button" id="commentedit-4" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('4', '0');" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
+                                            <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                                        </a>
+                                     
                                 </div>
                                 <div style="margin-left: 15px;" id="plainCommentText4">teammates can see this comment without giver and recipient's name</div>
                                  
@@ -694,9 +713,14 @@
 
 
 
+
+<form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-4">
 <div id="commentTextEdit4" style="display: none;">
     <div class="form-group form-inline">
         <div class="form-group text-muted">
+            <p>
+                Comment about student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt):
+            </p>
             You may change comment's visibility using the visibility options on the right hand side.
         </div>
         <a id="visibility-options-trigger4" class="btn btn-sm btn-info pull-right">
@@ -706,7 +730,7 @@
     </div>
     <div id="visibility-options4" class="panel panel-default" style="display: none;">
         <div class="panel-heading">Visibility Options</div>
-        <table class="table text-center text-color-black">
+        <table class="table text-center" style="color: #000;">
             <tbody>
                 <tr>
                     <th class="text-center">User/Group</th>
@@ -722,7 +746,7 @@
                             </div>
                         </td>
                         <td>
-                            <input class="visibilityCheckbox answerCheckbox" value="PERSON" type="checkbox">
+                            <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="PERSON" type="checkbox">
                         </td>
                         <td><input class="visibilityCheckbox giverCheckbox" value="PERSON" type="checkbox">
                         </td>
@@ -800,7 +824,7 @@
         </table>
     </div>
     <div class="form-group">
-       <!-- Do not add whitespace between the opening and closing tags-->
+        <!-- Do not add whitespace between the opening and closing tags-->
         <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText4">teammates can see this comment without giver and recipient's name</textarea>
     </div>
     <div class="col-sm-offset-5">
@@ -816,28 +840,29 @@
 <input name="showgiverto" value="" type="hidden">
 <input name="showrecipientto" value="" type="hidden">
 <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
+</form>
                                  
-                            </form>
                         </li>
                      
                         
-                        <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
-                            <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-5">
+                        <li class="list-group-item list-group-item-warning status_display--public">
                                 <div id="commentBar-5">
                                     
-                                    <span class="text-muted">To <b>student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt)</b> [Thu, 03 May 2012, 08:51:00 UTC] </span>
-                                     
-                                        <a type="button" id="commentdelete-5" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('5');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
-                                            <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                        </a> 
-                                        <a type="button" id="commentedit-5" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('5');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
-                                            <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-                                        </a>
-                                     
+                                    <span class="text-muted">
+                                        To <b>student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt)</b> [Thu, 03 May 2012, 08:51:00 UTC] 
+                                    </span>
                                     
                                         <span data-original-title="This comment is visible to recipient's team" class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;" data-placement="top" title=""></span>
                                     
                                     
+                                     
+                                        <a data-original-title="Delete this comment" type="button" id="commentdelete-5" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('5');" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
+                                            <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                                        </a> 
+                                        <a data-original-title="Edit this comment" type="button" id="commentedit-5" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('5', '0');" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
+                                            <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                                        </a>
+                                     
                                 </div>
                                 <div style="margin-left: 15px;" id="plainCommentText5">teammates can see this comment with giver and recipient's name</div>
                                  
@@ -848,9 +873,14 @@
 
 
 
+
+<form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-5">
 <div id="commentTextEdit5" style="display: none;">
     <div class="form-group form-inline">
         <div class="form-group text-muted">
+            <p>
+                Comment about student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt):
+            </p>
             You may change comment's visibility using the visibility options on the right hand side.
         </div>
         <a id="visibility-options-trigger5" class="btn btn-sm btn-info pull-right">
@@ -860,7 +890,7 @@
     </div>
     <div id="visibility-options5" class="panel panel-default" style="display: none;">
         <div class="panel-heading">Visibility Options</div>
-        <table class="table text-center text-color-black">
+        <table class="table text-center" style="color: #000;">
             <tbody>
                 <tr>
                     <th class="text-center">User/Group</th>
@@ -876,7 +906,7 @@
                             </div>
                         </td>
                         <td>
-                            <input class="visibilityCheckbox answerCheckbox" value="PERSON" type="checkbox">
+                            <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="PERSON" type="checkbox">
                         </td>
                         <td><input class="visibilityCheckbox giverCheckbox" value="PERSON" type="checkbox">
                         </td>
@@ -954,7 +984,7 @@
         </table>
     </div>
     <div class="form-group">
-       <!-- Do not add whitespace between the opening and closing tags-->
+        <!-- Do not add whitespace between the opening and closing tags-->
         <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText5">teammates can see this comment with giver and recipient's name</textarea>
     </div>
     <div class="col-sm-offset-5">
@@ -970,28 +1000,29 @@
 <input name="showgiverto" value="TEAM" type="hidden">
 <input name="showrecipientto" value="TEAM" type="hidden">
 <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
+</form>
                                  
-                            </form>
                         </li>
                      
                         
-                        <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
-                            <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-6">
+                        <li class="list-group-item list-group-item-warning status_display--public">
                                 <div id="commentBar-6">
                                     
-                                    <span class="text-muted">To <b>student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt)</b> [Wed, 02 May 2012, 08:50:00 UTC] (last edited by comments.instructor1@course1.tmt at Wed, 02 May 2012, 08:51:00 UTC)</span>
-                                     
-                                        <a type="button" id="commentdelete-6" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('6');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
-                                            <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                        </a> 
-                                        <a type="button" id="commentedit-6" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('6');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
-                                            <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-                                        </a>
-                                     
+                                    <span class="text-muted">
+                                        To <b>student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt)</b> [Wed, 02 May 2012, 08:50:00 UTC] (last edited by comments.instructor1@course1.tmt at Wed, 02 May 2012, 08:51:00 UTC)
+                                    </span>
                                     
                                         <span data-original-title="This comment is visible to recipient" class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;" data-placement="top" title=""></span>
                                     
                                     
+                                     
+                                        <a data-original-title="Delete this comment" type="button" id="commentdelete-6" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('6');" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
+                                            <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                                        </a> 
+                                        <a data-original-title="Edit this comment" type="button" id="commentedit-6" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('6', '0');" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
+                                            <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                                        </a>
+                                     
                                 </div>
                                 <div style="margin-left: 15px;" id="plainCommentText6">recipient can see this comment without giver's name</div>
                                  
@@ -1002,9 +1033,14 @@
 
 
 
+
+<form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-6">
 <div id="commentTextEdit6" style="display: none;">
     <div class="form-group form-inline">
         <div class="form-group text-muted">
+            <p>
+                Comment about student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt):
+            </p>
             You may change comment's visibility using the visibility options on the right hand side.
         </div>
         <a id="visibility-options-trigger6" class="btn btn-sm btn-info pull-right">
@@ -1014,7 +1050,7 @@
     </div>
     <div id="visibility-options6" class="panel panel-default" style="display: none;">
         <div class="panel-heading">Visibility Options</div>
-        <table class="table text-center text-color-black">
+        <table class="table text-center" style="color: #000;">
             <tbody>
                 <tr>
                     <th class="text-center">User/Group</th>
@@ -1030,7 +1066,7 @@
                             </div>
                         </td>
                         <td>
-                            <input class="visibilityCheckbox answerCheckbox" value="PERSON" checked="checked" type="checkbox">
+                            <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="PERSON" checked="checked" type="checkbox">
                         </td>
                         <td><input class="visibilityCheckbox giverCheckbox" value="PERSON" type="checkbox">
                         </td>
@@ -1108,7 +1144,7 @@
         </table>
     </div>
     <div class="form-group">
-       <!-- Do not add whitespace between the opening and closing tags-->
+        <!-- Do not add whitespace between the opening and closing tags-->
         <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText6">recipient can see this comment without giver's name</textarea>
     </div>
     <div class="col-sm-offset-5">
@@ -1124,28 +1160,29 @@
 <input name="showgiverto" value="" type="hidden">
 <input name="showrecipientto" value="" type="hidden">
 <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
+</form>
                                  
-                            </form>
                         </li>
                      
                         
-                        <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
-                            <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-7">
+                        <li class="list-group-item list-group-item-warning status_display--public">
                                 <div id="commentBar-7">
                                     
-                                    <span class="text-muted">To <b>student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt)</b> [Tue, 01 May 2012, 08:49:00 UTC] </span>
-                                     
-                                        <a type="button" id="commentdelete-7" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('7');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
-                                            <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                        </a> 
-                                        <a type="button" id="commentedit-7" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('7');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
-                                            <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-                                        </a>
-                                     
+                                    <span class="text-muted">
+                                        To <b>student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt)</b> [Tue, 01 May 2012, 08:49:00 UTC] 
+                                    </span>
                                     
                                         <span data-original-title="This comment is visible to recipient" class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;" data-placement="top" title=""></span>
                                     
                                     
+                                     
+                                        <a data-original-title="Delete this comment" type="button" id="commentdelete-7" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('7');" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
+                                            <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                                        </a> 
+                                        <a data-original-title="Edit this comment" type="button" id="commentedit-7" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('7', '0');" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
+                                            <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                                        </a>
+                                     
                                 </div>
                                 <div style="margin-left: 15px;" id="plainCommentText7">recipient can see this comment with giver and recipient's name</div>
                                  
@@ -1156,9 +1193,14 @@
 
 
 
+
+<form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-7">
 <div id="commentTextEdit7" style="display: none;">
     <div class="form-group form-inline">
         <div class="form-group text-muted">
+            <p>
+                Comment about student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt):
+            </p>
             You may change comment's visibility using the visibility options on the right hand side.
         </div>
         <a id="visibility-options-trigger7" class="btn btn-sm btn-info pull-right">
@@ -1168,7 +1210,7 @@
     </div>
     <div id="visibility-options7" class="panel panel-default" style="display: none;">
         <div class="panel-heading">Visibility Options</div>
-        <table class="table text-center text-color-black">
+        <table class="table text-center" style="color: #000;">
             <tbody>
                 <tr>
                     <th class="text-center">User/Group</th>
@@ -1184,7 +1226,7 @@
                             </div>
                         </td>
                         <td>
-                            <input class="visibilityCheckbox answerCheckbox" value="PERSON" checked="checked" type="checkbox">
+                            <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="PERSON" checked="checked" type="checkbox">
                         </td>
                         <td><input class="visibilityCheckbox giverCheckbox" value="PERSON" checked="checked" type="checkbox">
                         </td>
@@ -1262,7 +1304,7 @@
         </table>
     </div>
     <div class="form-group">
-       <!-- Do not add whitespace between the opening and closing tags-->
+        <!-- Do not add whitespace between the opening and closing tags-->
         <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText7">recipient can see this comment with giver and recipient's name</textarea>
     </div>
     <div class="col-sm-offset-5">
@@ -1278,26 +1320,27 @@
 <input name="showgiverto" value="PERSON" type="hidden">
 <input name="showrecipientto" value="" type="hidden">
 <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
+</form>
                                  
-                            </form>
                         </li>
                      
                         
-                        <li id="{*}" class="list-group-item list-group-item-warning status_display-private">
-                            <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-8">
+                        <li class="list-group-item list-group-item-warning status_display--private">
                                 <div id="commentBar-8">
                                     
-                                    <span class="text-muted">To <b>student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt)</b> [Sun, 01 Apr 2012, 23:59:00 UTC] </span>
+                                    <span class="text-muted">
+                                        To <b>student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt)</b> [Sun, 01 Apr 2012, 23:59:00 UTC] 
+                                    </span>
+                                    
+                                    
                                      
-                                        <a type="button" id="commentdelete-8" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('8');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
+                                        <a data-original-title="Delete this comment" type="button" id="commentdelete-8" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('8');" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
                                             <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                                         </a> 
-                                        <a type="button" id="commentedit-8" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('8');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
+                                        <a data-original-title="Edit this comment" type="button" id="commentedit-8" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('8', '0');" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
                                             <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                         </a>
                                      
-                                    
-                                    
                                 </div>
                                 <div style="margin-left: 15px;" id="plainCommentText8">private comment</div>
                                  
@@ -1308,9 +1351,14 @@
 
 
 
+
+<form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-8">
 <div id="commentTextEdit8" style="display: none;">
     <div class="form-group form-inline">
         <div class="form-group text-muted">
+            <p>
+                Comment about student1 In Course1 (Team 1.1, comments.student1InCourse1@gmail.tmt):
+            </p>
             You may change comment's visibility using the visibility options on the right hand side.
         </div>
         <a id="visibility-options-trigger8" class="btn btn-sm btn-info pull-right">
@@ -1320,7 +1368,7 @@
     </div>
     <div id="visibility-options8" class="panel panel-default" style="display: none;">
         <div class="panel-heading">Visibility Options</div>
-        <table class="table text-center text-color-black">
+        <table class="table text-center" style="color: #000;">
             <tbody>
                 <tr>
                     <th class="text-center">User/Group</th>
@@ -1336,7 +1384,7 @@
                             </div>
                         </td>
                         <td>
-                            <input class="visibilityCheckbox answerCheckbox" value="PERSON" type="checkbox">
+                            <input class="visibilityCheckbox answerCheckbox centered" name="receiverLeaderCheckbox" value="PERSON" type="checkbox">
                         </td>
                         <td><input class="visibilityCheckbox giverCheckbox" value="PERSON" type="checkbox">
                         </td>
@@ -1414,7 +1462,7 @@
         </table>
     </div>
     <div class="form-group">
-       <!-- Do not add whitespace between the opening and closing tags-->
+        <!-- Do not add whitespace between the opening and closing tags-->
         <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText8">private comment</textarea>
     </div>
     <div class="col-sm-offset-5">
@@ -1430,8 +1478,8 @@
 <input name="showgiverto" value="" type="hidden">
 <input name="showrecipientto" value="" type="hidden">
 <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
+</form>
                                  
-                            </form>
                         </li>
                      
                 </ul>
@@ -1444,23 +1492,24 @@
                 <ul class="list-group comments">
                      
                         
-                        <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
-                            <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-9">
+                        <li class="list-group-item list-group-item-warning status_display--public">
                                 <div id="commentBar-9">
                                     
-                                    <span class="text-muted">To <b>Anonymous</b> [Sat, 02 Jun 2012, 19:21:00 UTC] (last edited at {*})</span>
-                                     
-                                        <a type="button" id="commentdelete-9" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('9');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
-                                            <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                        </a> 
-                                        <a type="button" id="commentedit-9" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('9');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
-                                            <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-                                        </a>
-                                     
+                                    <span class="text-muted">
+                                        To <b>Anonymous</b> [Sat, 02 Jun 2012, 19:21:00 UTC] (last edited at {*})
+                                    </span>
                                     
                                         <span data-original-title="This comment is visible to instructors" class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;" data-placement="top" title=""></span>
                                     
                                     
+                                     
+                                        <a data-original-title="Delete this comment" type="button" id="commentdelete-9" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('9');" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
+                                            <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                                        </a> 
+                                        <a data-original-title="Edit this comment" type="button" id="commentedit-9" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('9', '0');" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
+                                            <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                                        </a>
+                                     
                                 </div>
                                 <div style="margin-left: 15px;" id="plainCommentText9">Other instructors in this course can see this comment without names</div>
                                  
@@ -1471,9 +1520,14 @@
 
 
 
+
+<form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-9">
 <div id="commentTextEdit9" style="display: none;">
     <div class="form-group form-inline">
         <div class="form-group text-muted">
+            <p>
+                Comment about Anonymous:
+            </p>
             You may change comment's visibility using the visibility options on the right hand side.
         </div>
         <a id="visibility-options-trigger9" class="btn btn-sm btn-info pull-right">
@@ -1483,7 +1537,7 @@
     </div>
     <div id="visibility-options9" class="panel panel-default" style="display: none;">
         <div class="panel-heading">Visibility Options</div>
-        <table class="table text-center text-color-black">
+        <table class="table text-center" style="color: #000;">
             <tbody>
                 <tr>
                     <th class="text-center">User/Group</th>
@@ -1529,7 +1583,7 @@
         </table>
     </div>
     <div class="form-group">
-       <!-- Do not add whitespace between the opening and closing tags-->
+        <!-- Do not add whitespace between the opening and closing tags-->
         <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText9">Other instructors in this course can see this comment without names</textarea>
     </div>
     <div class="col-sm-offset-5">
@@ -1545,8 +1599,8 @@
 <input name="showgiverto" value="" type="hidden">
 <input name="showrecipientto" value="" type="hidden">
 <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
+</form>
                                  
-                            </form>
                         </li>
                      
                 </ul>
@@ -1559,23 +1613,24 @@
                 <ul class="list-group comments">
                      
                         
-                        <li id="{*}" class="list-group-item list-group-item-warning status_display-public">
-                            <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-10">
+                        <li class="list-group-item list-group-item-warning status_display--public">
                                 <div id="commentBar-10">
                                     
-                                    <span class="text-muted">To <b>All students in this course</b> [Sat, 02 Jun 2012, 19:20:00 UTC] </span>
-                                     
-                                        <a type="button" id="commentdelete-10" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('10');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
-                                            <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                        </a> 
-                                        <a type="button" id="commentedit-10" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('10');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
-                                            <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-                                        </a>
-                                     
+                                    <span class="text-muted">
+                                        To <b>All students in this course</b> [Sat, 02 Jun 2012, 19:20:00 UTC] 
+                                    </span>
                                     
                                         <span data-original-title="This comment is visible to instructors" class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;" data-placement="top" title=""></span>
                                     
                                     
+                                     
+                                        <a data-original-title="Delete this comment" type="button" id="commentdelete-10" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('10');" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
+                                            <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                                        </a> 
+                                        <a data-original-title="Edit this comment" type="button" id="commentedit-10" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('10', '0');" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
+                                            <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                                        </a>
+                                     
                                 </div>
                                 <div style="margin-left: 15px;" id="plainCommentText10">Other instructors in this course can see this comment</div>
                                  
@@ -1586,9 +1641,14 @@
 
 
 
+
+<form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-10">
 <div id="commentTextEdit10" style="display: none;">
     <div class="form-group form-inline">
         <div class="form-group text-muted">
+            <p>
+                Comment about All students in this course:
+            </p>
             You may change comment's visibility using the visibility options on the right hand side.
         </div>
         <a id="visibility-options-trigger10" class="btn btn-sm btn-info pull-right">
@@ -1598,7 +1658,7 @@
     </div>
     <div id="visibility-options10" class="panel panel-default" style="display: none;">
         <div class="panel-heading">Visibility Options</div>
-        <table class="table text-center text-color-black">
+        <table class="table text-center" style="color: #000;">
             <tbody>
                 <tr>
                     <th class="text-center">User/Group</th>
@@ -1644,7 +1704,7 @@
         </table>
     </div>
     <div class="form-group">
-       <!-- Do not add whitespace between the opening and closing tags-->
+        <!-- Do not add whitespace between the opening and closing tags-->
         <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText10">Other instructors in this course can see this comment</textarea>
     </div>
     <div class="col-sm-offset-5">
@@ -1660,8 +1720,8 @@
 <input name="showgiverto" value="INSTRUCTOR" type="hidden">
 <input name="showrecipientto" value="INSTRUCTOR" type="hidden">
 <input name="user" value="comments.idOfInstructor1OfCourse1" type="hidden">
+</form>
                                  
-                            </form>
                         </li>
                      
                 </ul>
