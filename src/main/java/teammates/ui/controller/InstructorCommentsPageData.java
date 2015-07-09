@@ -13,7 +13,6 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 import teammates.ui.template.CommentRow;
 import teammates.ui.template.InstructorCommentsCommentRow;
 import teammates.ui.template.InstructorCommentsForStudentsTable;
@@ -97,31 +96,6 @@ public class InstructorCommentsPageData extends PageData {
         return previousPageLink;
     }
     
-    public String getRecipientNames(Set<String> recipients) {
-        StringBuilder namesStringBuilder = new StringBuilder();
-        int i = 0;
-        for (String recipient : recipients) {
-            if (i == recipients.size() - 1 && recipients.size() > 1) {
-                namesStringBuilder.append("and ");
-            }
-            StudentAttributes student = roster.getStudentForEmail(recipient);
-            if (courseId.equals(recipient)) { 
-                namesStringBuilder.append("<b>All students in this course</b>, ");
-            } else if (student != null) {
-                if (recipients.size() == 1) {
-                    namesStringBuilder.append("<b>" + student.name + " (" + student.team + ", " + student.email + ")</b>, ");
-                } else {
-                    namesStringBuilder.append("<b>" + student.name + "</b>" + ", ");
-                }
-            } else {
-                namesStringBuilder.append("<b>" + recipient + "</b>" + ", ");
-            }
-            i++;
-        }
-        String namesString = namesStringBuilder.toString();
-        return removeEndComma(namesString);
-    }
-    
     public String getShowCommentsToForComment(CommentAttributes comment) {
         return removeBracketsForArrayString(comment.showCommentTo.toString());
     }
@@ -145,6 +119,31 @@ public class InstructorCommentsPageData extends PageData {
     public boolean isViewingDraft() {
         return isViewingDraft;
     }        
+
+    private String getRecipientNames(Set<String> recipients) {
+        StringBuilder namesStringBuilder = new StringBuilder();
+        int i = 0;
+        for (String recipient : recipients) {
+            if (i == recipients.size() - 1 && recipients.size() > 1) {
+                namesStringBuilder.append("and ");
+            }
+            StudentAttributes student = roster.getStudentForEmail(recipient);
+            if (courseId.equals(recipient)) { 
+                namesStringBuilder.append("<b>All students in this course</b>, ");
+            } else if (student != null) {
+                if (recipients.size() == 1) {
+                    namesStringBuilder.append("<b>" + student.name + " (" + student.team + ", " + student.email + ")</b>, ");
+                } else {
+                    namesStringBuilder.append("<b>" + student.name + "</b>" + ", ");
+                }
+            } else {
+                namesStringBuilder.append("<b>" + recipient + "</b>" + ", ");
+            }
+            i++;
+        }
+        String namesString = namesStringBuilder.toString();
+        return removeEndComma(namesString);
+    }
 
     private void setCommentsForStudentsTables() {
         Map<String, String> giverEmailToGiverNameMap = getGiverEmailToGiverNameMap();
