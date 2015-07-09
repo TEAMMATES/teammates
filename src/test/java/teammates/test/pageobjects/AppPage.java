@@ -1,6 +1,5 @@
 package teammates.test.pageobjects;
 
-import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.io.BufferedReader;
@@ -231,7 +230,7 @@ public abstract class AppPage {
      */
     public void waitForElementPresence(By by){
         WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
-        wait.until(presenceOfElementLocated(by));
+        wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
     
     /**
