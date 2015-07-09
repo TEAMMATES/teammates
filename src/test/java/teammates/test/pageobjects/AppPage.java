@@ -240,7 +240,7 @@ public abstract class AppPage {
     }
     
     public void waitForElementVisible(WebElement element){
-        WebDriverWait wait = new WebDriverWait(browser.driver, 10);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.visibilityOf(element));
     }
     
@@ -248,7 +248,7 @@ public abstract class AppPage {
      * Waits for element to be invisible or not present, or timeout.
      */
     public void waitForElementToDisappear(By by){
-        WebDriverWait wait = new WebDriverWait(browser.driver, 10);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
     }
     
