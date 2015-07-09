@@ -211,50 +211,50 @@ public class FeedbackResponseComment {
     }
 
     public boolean isShowCommentToResponseGiver() {
-        return showCommentTo.indexOf(FeedbackParticipantType.GIVER) != -1;
+        return showCommentTo.contains(FeedbackParticipantType.GIVER);
     }
 
-    public boolean isShowGiverNameToResponseGiver() {
-        return showGiverNameTo.indexOf(FeedbackParticipantType.GIVER) != -1;
+    public boolean contains() {
+        return showGiverNameTo.contains(FeedbackParticipantType.GIVER);
     }
 
     public boolean isShowCommentToResponseRecipient() {
-        return showCommentTo.indexOf(FeedbackParticipantType.RECEIVER) != -1;
+        return showCommentTo.contains(FeedbackParticipantType.RECEIVER);
     }
 
     public boolean isShowGiverNameToResponseRecipient() {
-        return showGiverNameTo.indexOf(FeedbackParticipantType.RECEIVER) != -1;
+        return showGiverNameTo.contains(FeedbackParticipantType.RECEIVER);
     }
 
     public boolean isShowCommentToResponseGiverTeam() {
-        return showCommentTo.indexOf(FeedbackParticipantType.OWN_TEAM_MEMBERS) != -1;
+        return showCommentTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS);
     }
 
     public boolean isShowGiverNameToResponseGiverTeam() {
-        return showGiverNameTo.indexOf(FeedbackParticipantType.OWN_TEAM_MEMBERS) != -1;
+        return showGiverNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS);
     }
 
     public boolean isShowCommentToResponseRecipientTeam() {
-        return showCommentTo.indexOf(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) != -1;
+        return showCommentTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
     }
 
     public boolean isShowGiverNameToResponseRecipientTeam() {
-        return showGiverNameTo.indexOf(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) != -1;
+        return showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
     }
 
     public boolean isShowCommentToStudents() {
-        return showCommentTo.indexOf(FeedbackParticipantType.STUDENTS) != -1;
+        return showCommentTo.contains(FeedbackParticipantType.STUDENTS);
     }
 
     public boolean isShowGiverNameToStudents() {
-        return showGiverNameTo.indexOf(FeedbackParticipantType.STUDENTS) != -1;
+        return showGiverNameTo.contains(FeedbackParticipantType.STUDENTS);
     }
 
     public boolean isShowCommentToInstructors() {
-        return showCommentTo.indexOf(FeedbackParticipantType.INSTRUCTORS) != -1;
+        return showCommentTo.contains(FeedbackParticipantType.INSTRUCTORS);
     }
 
     public boolean isShowGiverNameToInstructors() {
-        return showGiverNameTo.indexOf(FeedbackParticipantType.INSTRUCTORS) != -1;
+        return showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
     }
 }
