@@ -1,43 +1,65 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
-<%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
-<%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
-
-<%@ page import="java.util.Set" %>
-<%@ page import="java.util.HashSet" %>
-<%@ page import="java.util.Map" %>
-<%@ page import="java.util.Collections" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.List" %>
-<%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes" %>
-<%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes" %>
-<%@ page import="teammates.common.datatransfer.FeedbackQuestionDetails" %>
-<%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes" %>
-<%@ page import="teammates.common.datatransfer.FeedbackParticipantType" %>
-<%@ page import="teammates.common.util.Const" %>
-<%@ page import="teammates.common.util.FieldValidator" %>
-<%@ page import="teammates.ui.controller.InstructorFeedbackResultsPageData" %>
-
-<c:set var="jsIncludes">    
-    <script type="text/javascript" src="/js/instructor.js"></script>
-    <script type="text/javascript" src="/js/instructorFeedbackResults.js"></script>
-    <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxByGQR.js"></script>
-    <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxResponseRate.js"></script>
-    <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
-</c:set>
-
-<ti:instructorPage pageTitle="TEAMMATES - Feedback Session Results" bodyTitle="Session Results" jsIncludes="${jsIncludes}">
-</ti:instructorPage>
-
+<%@ page import="java.util.Map"%>
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.Set"%>
+<%@ page import="java.util.HashSet"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.Collections"%>
+<%@ page import="teammates.common.util.Const"%>
+<%@ page import="teammates.common.util.FieldValidator"%>
+<%@ page import="teammates.common.datatransfer.FeedbackParticipantType"%>
+<%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackSessionResponseStatus" %>
+<%@ page import="teammates.ui.controller.InstructorFeedbackResultsPageData"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%
-    InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData) request.getAttribute("data");
+	InstructorFeedbackResultsPageData data = (InstructorFeedbackResultsPageData) request.getAttribute("data");
     FieldValidator validator = new FieldValidator();
     boolean showAll = data.bundle.isComplete;
     boolean shouldCollapsed = data.bundle.responses.size() > 500;
     boolean groupByTeamEnabled = (data.groupByTeam == null || !data.groupByTeam.equals("on")) ? false : true;
 %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TEAMMATES - Feedback Session Results</title>
+
+    <link rel="shortcut icon" href="/favicon.png" />
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>
+    <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet"/>
+
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
+    <script type="text/javascript" src="/js/jquery-minified.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+    
+    <jsp:include page="../enableJS.jsp"></jsp:include>
+
+    <script type="text/javascript" src="/js/instructor.js"></script>
+    <script type="text/javascript" src="/js/instructorFeedbackResults.js"></script>
+    <script type="text/javascript" src="/js/feedbackResponseComments.js"></script>
+    <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
+    <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxByGRQ.js"></script>
+    <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxResponseRate.js"></script>
+</head>
+
+<body>
+    <jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_HEADER%>" />
+
         <div class="container" id="mainContent">
             <div id="topOfPage"></div>
             <h1>Session Results</h1>
@@ -1198,4 +1220,6 @@
         </div>
     </div>
 
-
+    <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
+</body>
+</html>
