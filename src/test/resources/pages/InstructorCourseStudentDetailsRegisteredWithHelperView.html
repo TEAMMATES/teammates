@@ -1,8 +1,7 @@
-<div class="container theme-showcase" id="frameBodyWrapper">
+<div class="container" id="mainContent">
         <div id="topOfPage"></div>
-        <div id="headerOperation">
-            <h1>Student Details</h1>
-        </div>
+        <h1>Student Details</h1>
+        <br>
 
         
 
@@ -13,24 +12,6 @@
 
         
         
-                <div class="modal fade" id="studentProfileMoreInfo" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h4 class="modal-title">José Gómez's Profile - More Info</h4>
-                            </div>
-                            <div class="modal-body">
-                                <br>
-                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                <p class="text-preserve-space height-fixed-md">This is a lot of info...</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                            </div>
-                        </div><!-- /.modal-content -->
-                    </div><!-- /.modal-dialog -->
-                </div><!-- /.modal -->
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="row" id="studentProfile">
@@ -47,10 +28,7 @@
                                     <tbody>
                                         <tr>
                                             <td class="text-bold">Short Name (Gender)</td>
-                                            <td>Jose 
-                                            (<i>
-                                                <span class="text-muted">Not Specified</span>
-                                            </i>)</td>
+                                            <td>Jose (<i><span class="text-muted">Not Specified</span></i>)</td>
                                         </tr>
                                         <tr>
                                             <td class="text-bold">Personal Email</td>
@@ -77,23 +55,20 @@
             </button>
             <div class="form form-horizontal" id="studentInfomationTable">
                 <div class="form-group">
-                    <label class="col-sm-1 control-label">Student
-                        Name:</label>
+                    <label class="col-sm-1 control-label">Student Name:</label>
                     <div class="col-sm-11" id="studentname">
                         <p class="form-control-static">José Gómez</p>
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <label class="col-sm-1 control-label">Team
-                        Name:</label>
+                    <label class="col-sm-1 control-label">Team Name:</label>
                     <div class="col-sm-11" id="teamname">
                         <p class="form-control-static">Team 1</p>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label">Official Email
-                        Address:</label>
+                    <label class="col-sm-1 control-label">Official Email Address:</label>
                     <div class="col-sm-11" id="studentemail">
                         <p class="form-control-static">CCSDetailsUiT.jose.tmms@gmail.tmt</p>
                     </div>
@@ -128,12 +103,9 @@
                         <tbody>
                             <tr>
                                 <th class="text-center">User/Group</th>
-                                <th class="text-center">Can see
-                                    your comment</th>
-                                <th class="text-center">Can see
-                                    giver's name</th>
-                                <th class="text-center">Can see
-                                    recipient's name</th>
+                                <th class="text-center">Can see your comment</th>
+                                <th class="text-center">Can see giver's name</th>
+                                <th class="text-center">Can see recipient's name</th>
                             </tr>
                             <tr id="recipient-person">
                                 <td class="text-left">
@@ -203,6 +175,24 @@
             </form>
         </div>
         
+                <div class="modal fade" id="studentProfileMoreInfo" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title">José Gómez's Profile - More Info</h4>
+                            </div>
+                            <div class="modal-body">
+                                <br>
+                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                <p class="text-preserve-space height-fixed-md">This is a lot of info...</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="panel panel-default">

@@ -35,7 +35,7 @@ public class AdminEmailImageUploadAction extends Action {
             log.info("Image Upload Failed");
             statusToAdmin = "Image Upload Failed";
             
-            return createAjaxResult(Const.ViewURIs.ADMIN_EMAIL, data);
+            return createAjaxResult(data);
         }
         
         
@@ -54,7 +54,7 @@ public class AdminEmailImageUploadAction extends Action {
                         data.fileSrcUrl + "</a>";
         data.ajaxStatus = "Image Successfully Uploaded to Google Cloud Storage";
 
-        return createAjaxResult(Const.ViewURIs.ADMIN_EMAIL, data);
+        return createAjaxResult(data);
     }
 
     private BlobInfo extractImageKey() {

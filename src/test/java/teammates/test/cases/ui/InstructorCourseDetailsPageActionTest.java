@@ -45,14 +45,14 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         assertEquals("", pageResult.getStatusMessage());
         
         InstructorCourseDetailsPageData pageData = (InstructorCourseDetailsPageData) pageResult.data;
-        assertEquals(4, pageData.instructors.size());
+        assertEquals(5, pageData.getInstructors().size());
 
-        assertEquals("idOfTypicalCourse1", pageData.courseDetails.course.id);
-        assertEquals("Typical Course 1 with 2 Evals", pageData.courseDetails.course.name);
-        assertEquals(2, pageData.courseDetails.stats.teamsTotal);
-        assertEquals(5, pageData.courseDetails.stats.studentsTotal);
-        assertEquals(0, pageData.courseDetails.stats.unregisteredTotal);
-        assertEquals(0, pageData.courseDetails.feedbackSessions.size());
+        assertEquals("idOfTypicalCourse1", pageData.getCourseDetails().course.id);
+        assertEquals("Typical Course 1 with 2 Evals", pageData.getCourseDetails().course.name);
+        assertEquals(2, pageData.getCourseDetails().stats.teamsTotal);
+        assertEquals(5, pageData.getCourseDetails().stats.studentsTotal);
+        assertEquals(0, pageData.getCourseDetails().stats.unregisteredTotal);
+        assertEquals(0, pageData.getCourseDetails().feedbackSessions.size());
 
         String expectedLogMessage = "TEAMMATESLOG|||instructorCourseDetailsPage|||instructorCourseDetailsPage|||true"
                                     + "|||Instructor|||Instructor 1 of Course 1|||idOfInstructor1OfCourse1"
@@ -76,14 +76,14 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         assertEquals("", pageResult.getStatusMessage());
         
         pageData = (InstructorCourseDetailsPageData) pageResult.data;
-        assertEquals(1, pageData.instructors.size());
+        assertEquals(1, pageData.getInstructors().size());
 
-        assertEquals("idOfCourseNoEvals", pageData.courseDetails.course.id);
-        assertEquals("Typical Course 3 with 0 Evals", pageData.courseDetails.course.name);
-        assertEquals(0, pageData.courseDetails.stats.teamsTotal);
-        assertEquals(0, pageData.courseDetails.stats.studentsTotal);
-        assertEquals(0, pageData.courseDetails.stats.unregisteredTotal);
-        assertEquals(0, pageData.courseDetails.feedbackSessions.size());
+        assertEquals("idOfCourseNoEvals", pageData.getCourseDetails().course.id);
+        assertEquals("Typical Course 3 with 0 Evals", pageData.getCourseDetails().course.name);
+        assertEquals(0, pageData.getCourseDetails().stats.teamsTotal);
+        assertEquals(0, pageData.getCourseDetails().stats.studentsTotal);
+        assertEquals(0, pageData.getCourseDetails().stats.unregisteredTotal);
+        assertEquals(0, pageData.getCourseDetails().feedbackSessions.size());
 
         expectedLogMessage = "TEAMMATESLOG|||instructorCourseDetailsPage|||instructorCourseDetailsPage|||true|||"
                              + "Instructor(M)|||Instructor 4 of CourseNoEvals|||idOfInstructor4|||"
@@ -103,8 +103,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
         pageAction = getAction(submissionParams);
         AjaxResult ajaxResult = this.getAjaxResult(pageAction);
 
-        assertEquals(Const.ViewURIs.INSTRUCTOR_COURSE_DETAILS + "?error=false&user=idOfInstructor1OfCourse1", 
-                     ajaxResult.getDestinationWithParams());
+        assertEquals("?error=false&user=idOfInstructor1OfCourse1", ajaxResult.getDestinationWithParams());
         assertEquals(false, pageResult.isError);
         assertEquals("", ajaxResult.getStatusMessage());
         
@@ -168,7 +167,7 @@ public class InstructorCourseDetailsPageActionTest extends BaseActionTest {
                              + "<td>student5InCourse1@gmail.tmt</td>\n"
                          + "</tr>"
                      + "</table>", 
-                     pageData.studentListHtmlTableAsString);
+                     pageData.getStudentListHtmlTableAsString());
     }
 
     private InstructorCourseDetailsPageAction getAction(String... params) throws Exception {

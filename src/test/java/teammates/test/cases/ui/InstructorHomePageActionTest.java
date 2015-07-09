@@ -8,7 +8,6 @@ import static org.testng.Assert.fail;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.util.Const;
 import teammates.logic.api.Logic;
@@ -53,7 +52,7 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         assertEquals(Const.StatusMessages.HINT_FOR_NEW_INSTRUCTOR, r.getStatusMessage());
         
         InstructorHomePageData data = (InstructorHomePageData) r.data;
-        assertEquals(0, data.courses.size());
+        assertEquals(0, data.getCourseTables().size());
         
         String expectedLogMessage = "TEAMMATESLOG|||instructorHomePage|||instructorHomePage"
                                      + "|||true|||Instructor|||Instructor Without Courses"
@@ -90,17 +89,17 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         assertEquals("",r.getStatusMessage());
         
         data = (InstructorHomePageData)r.data;
-        assertEquals(3, data.courses.size());
+        assertEquals(3, data.getCourseTables().size());
         String expectedCourse1IdAfterSortByCourseId = "idOfTypicalCourse";
         String expectedCourse2IdAfterSortByCourseId = "idOfTypicalCourse1";
         String expectedCourse3IdAfterSortByCourseId = "idOfTypicalCourse2";
-        CourseAttributes actualCourse1AfterSortByCourseId = data.courses.get(0).course;
-        CourseAttributes actualCourse2AfterSortByCourseId = data.courses.get(1).course;
-        CourseAttributes actualCourse3AfterSortByCourseId = data.courses.get(2).course;
-        assertEquals(expectedCourse1IdAfterSortByCourseId, actualCourse1AfterSortByCourseId.id);
-        assertEquals(expectedCourse2IdAfterSortByCourseId, actualCourse2AfterSortByCourseId.id);
-        assertEquals(expectedCourse3IdAfterSortByCourseId, actualCourse3AfterSortByCourseId.id);
-        assertEquals(Const.SORT_BY_COURSE_ID, data.sortCriteria);
+        String actualCourse1AfterSortByCourseId = data.getCourseTables().get(0).getCourseId();
+        String actualCourse2AfterSortByCourseId = data.getCourseTables().get(1).getCourseId();
+        String actualCourse3AfterSortByCourseId = data.getCourseTables().get(2).getCourseId();
+        assertEquals(expectedCourse1IdAfterSortByCourseId, actualCourse1AfterSortByCourseId);
+        assertEquals(expectedCourse2IdAfterSortByCourseId, actualCourse2AfterSortByCourseId);
+        assertEquals(expectedCourse3IdAfterSortByCourseId, actualCourse3AfterSortByCourseId);
+        assertEquals(Const.SORT_BY_COURSE_ID, data.getSortCriteria());
         
         expectedLogMessage = "TEAMMATESLOG|||instructorHomePage|||instructorHomePage|||true"
                               + "|||Instructor(M)|||Instructor 3 of Course 1 and 2"
@@ -125,17 +124,17 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         assertEquals("",r.getStatusMessage());
         
         data = (InstructorHomePageData)r.data;
-        assertEquals(3, data.courses.size());
+        assertEquals(3, data.getCourseTables().size());
         String expectedCourse1IdAfterSortByCourseName = "idOfTypicalCourse1";
         String expectedCourse2IdAfterSortByCourseName = "idOfTypicalCourse2";
         String expectedCourse3IdAfterSortByCourseName = "idOfTypicalCourse";
-        CourseAttributes actualCourse1AfterSortByCourseName = data.courses.get(0).course;
-        CourseAttributes actualCourse2AfterSortByCourseName = data.courses.get(1).course;
-        CourseAttributes actualCourse3AfterSortByCourseName = data.courses.get(2).course;
-        assertEquals(expectedCourse1IdAfterSortByCourseName, actualCourse1AfterSortByCourseName.id);
-        assertEquals(expectedCourse2IdAfterSortByCourseName, actualCourse2AfterSortByCourseName.id);
-        assertEquals(expectedCourse3IdAfterSortByCourseName, actualCourse3AfterSortByCourseName.id);
-        assertEquals(Const.SORT_BY_COURSE_NAME, data.sortCriteria);
+        String actualCourse1AfterSortByCourseName = data.getCourseTables().get(0).getCourseId();
+        String actualCourse2AfterSortByCourseName = data.getCourseTables().get(1).getCourseId();
+        String actualCourse3AfterSortByCourseName = data.getCourseTables().get(2).getCourseId();
+        assertEquals(expectedCourse1IdAfterSortByCourseName, actualCourse1AfterSortByCourseName);
+        assertEquals(expectedCourse2IdAfterSortByCourseName, actualCourse2AfterSortByCourseName);
+        assertEquals(expectedCourse3IdAfterSortByCourseName, actualCourse3AfterSortByCourseName);
+        assertEquals(Const.SORT_BY_COURSE_NAME, data.getSortCriteria());
         
         
         ______TS("instructor with multiple courses, sort by course name, masquerade mode");
@@ -167,17 +166,17 @@ public class InstructorHomePageActionTest extends BaseActionTest {
         assertEquals("",r.getStatusMessage());
         
         data = (InstructorHomePageData)r.data;
-        assertEquals(3, data.courses.size());
+        assertEquals(3, data.getCourseTables().size());
         String expectedCourse1IdAfterSortByCourseCreationDate = "idOfTypicalCourse";
         String expectedCourse2IdAfterSortByCourseCreationDate = "idOfTypicalCourse2";
         String expectedCourse3IdAfterSortByCourseCreationDate = "idOfTypicalCourse1";
-        CourseAttributes actualCourse1AfterSortByCourseCreationDate = data.courses.get(0).course;
-        CourseAttributes actualCourse2AfterSortByCourseCreationDate = data.courses.get(1).course;
-        CourseAttributes actualCourse3AfterSortByCourseCreationDate = data.courses.get(2).course;
-        assertEquals(expectedCourse1IdAfterSortByCourseCreationDate, actualCourse1AfterSortByCourseCreationDate.id);
-        assertEquals(expectedCourse2IdAfterSortByCourseCreationDate, actualCourse2AfterSortByCourseCreationDate.id);
-        assertEquals(expectedCourse3IdAfterSortByCourseCreationDate, actualCourse3AfterSortByCourseCreationDate.id);
-        assertEquals(Const.SORT_BY_COURSE_CREATION_DATE, data.sortCriteria);
+        String actualCourse1AfterSortByCourseCreationDate = data.getCourseTables().get(0).getCourseId();
+        String actualCourse2AfterSortByCourseCreationDate = data.getCourseTables().get(1).getCourseId();
+        String actualCourse3AfterSortByCourseCreationDate = data.getCourseTables().get(2).getCourseId();
+        assertEquals(expectedCourse1IdAfterSortByCourseCreationDate, actualCourse1AfterSortByCourseCreationDate);
+        assertEquals(expectedCourse2IdAfterSortByCourseCreationDate, actualCourse2AfterSortByCourseCreationDate);
+        assertEquals(expectedCourse3IdAfterSortByCourseCreationDate, actualCourse3AfterSortByCourseCreationDate);
+        assertEquals(Const.SORT_BY_COURSE_CREATION_DATE, data.getSortCriteria());
         
         // delete the new course
         CoursesLogic.inst().deleteCourseCascade(newCourseIdForSorting);

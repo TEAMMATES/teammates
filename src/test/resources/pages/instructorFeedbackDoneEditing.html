@@ -1,9 +1,10 @@
-<div id="frameBodyWrapper" class="container theme-showcase">
+<div class="container" id="mainContent">
         <div id="topOfPage"></div>
         <h1>Add New Feedback Session</h1>
+        <br>
         
         <div class="well well-plain">
-            <form class="form-group" method="post" action="/page/instructorFeedbackAdd" name="form_addfeedbacksession">
+            <form class="form-group" method="post" action="/page/instructorFeedbackAdd" id="form_feedbacksession">
                 <div class="row">
                     <h4 class="label-control col-md-2 text-md">Create new </h4>
                     <div class="col-md-5">
@@ -119,10 +120,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-primary" id="timeFramePanel">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div data-original-title="Please select the date and time for which users can start submitting responses for the feedback session." class="col-md-5" title="" data-toggle="tooltip" data-placement="top">
+               <div class="panel panel-primary" id="timeFramePanel">
+               <div class="panel-body">
+                  <div class="row">
+                     <div data-original-title="Please select the date and time for which users can start submitting responses for the feedback session." class="col-md-5" title="" data-toggle="tooltip" data-placement="top">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="startdate" class="label-control">
@@ -409,15 +410,16 @@
                 
                 <input name="user" value="CFeedbackEditUiT.instructor" type="hidden">
             </form>
-            <form style="display:none;" id="ajaxForSessions" class="ajaxForSessionsForm" action="/page/instructorFeedbacksPage">
-                <input name="user" value="CFeedbackEditUiT.instructor" type="hidden">
-                <input name="isusingAjax" value="on" type="hidden">
-                
-                    <input name="fsname" value="First Session" type="hidden">
-                    <input name="courseid" value="CFeedbackEditUiT.CS2104" type="hidden">
-                
-            </form>
+            
         </div>
+        <form style="display:none;" id="ajaxForSessions" class="ajaxForSessionsForm" action="/page/instructorFeedbacksPage">
+            <input name="user" value="CFeedbackEditUiT.instructor" type="hidden">
+            <input name="isusingAjax" value="on" type="hidden">
+            
+                <input name="fsname" value="First Session" type="hidden">
+                <input name="courseid" value="CFeedbackEditUiT.CS2104" type="hidden">
+            
+        </form>
         
 
         <br>
@@ -545,4 +547,35 @@
             </div>
           </div>
         </div>
+        <div aria-hidden="true" aria-labelledby="fsCopyModal" class="modal fade" id="fsCopyModal" role="dialog" tabindex="-1">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <form action="&#x2f;page&#x2f;instructorFeedbackEditCopy" method="post" name="form_copy_list" role="form">
+                  <div class="modal-header">
+                     <button aria-hidden="true" class="close" data-dismiss="modal" type="button">
+                        ×
+                     </button>
+                     <h4 class="modal-title">
+                        Copy this feedback session to other courses
+                        <br/>
+                                                <small>
+                           (Select the course(s) you want to copy this feedback session to)
+                        </small>
+                     </h4>
+                  </div>
+                  <div class="modal-body">
+                     <div class="form-group" id="courseList">
+                     </div>
+                  </div>
+                  <div class="modal-footer">
+                     <button class="btn btn-default" data-dismiss="modal" type="button">
+                        Cancel
+                     </button>
+                     <input class="btn btn-primary" id="fscopy_submit" type="submit" value="Copy"/>
+                                          <input name="user" type="hidden" value="CFeedbackEditUiT.instructor"/>
+                                       </div>
+               </form>
+            </div>
+         </div>
+      </div>
     </div>

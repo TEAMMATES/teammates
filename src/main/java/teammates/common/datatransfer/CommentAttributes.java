@@ -8,11 +8,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
 import teammates.common.util.FieldValidator.FieldType;
 import teammates.storage.entity.Comment;
@@ -76,6 +74,22 @@ public class CommentAttributes extends EntityAttributes
 
     public Long getCommentId() {
         return this.commentId;
+    }
+    
+    public String getCommentText() {
+        return commentText.getValue();
+    }
+    
+    public CommentParticipantType getRecipientType() {
+        return this.recipientType;
+    }
+
+    public List<CommentParticipantType> getShowCommentTo() {
+        return showCommentTo;
+    }
+
+    public boolean isPendingNotification() {
+        return sendingState.equals(CommentSendingState.PENDING);
     }
 
     // Use only to match existing and known Comment
@@ -307,24 +321,14 @@ public class CommentAttributes extends EntityAttributes
         return o.createdAt.compareTo(createdAt);
     }
 
-    private String getEditedAtText(Boolean isGiverAnonymous, String displayGiverAs,
-            String displayTimeAs) {
+    public String getEditedAtText(Boolean isGiverAnonymous) {
+        String displayTimeAs = Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(this.lastEditedAt);
         if (this.lastEditedAt != null && (!this.lastEditedAt.equals(this.createdAt))) {
             return "(last edited " +
-                    (isGiverAnonymous ? "" : "by " + displayGiverAs + " ") +
+                    (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ") +
                     "at " + displayTimeAs + ")";
         } else {
             return "";
         }
-    }
-
-    public String getEditedAtTextForInstructor(Boolean isGiverAnonymous) {
-        return getEditedAtText(isGiverAnonymous, this.lastEditorEmail,
-                TimeHelper.formatTime(this.lastEditedAt));
-    }
-
-    public String getEditedAtTextForStudent(Boolean isGiverAnonymous, String displayGiverAs) {
-        return getEditedAtText(isGiverAnonymous, displayGiverAs,
-                TimeHelper.formatDate(this.lastEditedAt));
     }
 }

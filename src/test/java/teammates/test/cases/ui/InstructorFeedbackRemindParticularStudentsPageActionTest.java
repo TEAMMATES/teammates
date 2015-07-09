@@ -12,9 +12,9 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.ui.controller.AjaxResult;
 import teammates.ui.controller.InstructorFeedbackRemindParticularStudentsPageAction;
 import teammates.ui.controller.InstructorFeedbackRemindParticularStudentsPageData;
+import teammates.ui.controller.ShowPageResult;
 
 public class InstructorFeedbackRemindParticularStudentsPageActionTest extends
         BaseActionTest {
@@ -46,27 +46,27 @@ public class InstructorFeedbackRemindParticularStudentsPageActionTest extends
         };
         
         InstructorFeedbackRemindParticularStudentsPageAction a = getAction(submissionParams);
-        AjaxResult r = getAjaxResult(a);
+        ShowPageResult r = getShowPageResult(a);
         
         assertFalse(r.isError);
         assertEquals("", r.getStatusMessage());
 
         InstructorFeedbackRemindParticularStudentsPageData pageData = 
                 (InstructorFeedbackRemindParticularStudentsPageData) r.data;
-        assertEquals(5, pageData.responseStatus.noResponse.size());
+        assertEquals(6, pageData.getResponseStatus().noResponse.size());
         
-        assertFalse(pageData.responseStatus.noResponse.contains("student1InCourse1@gmail.tmt"));
-        assertFalse(pageData.responseStatus.noResponse.contains("student2InCourse1@gmail.tmt"));
-        assertFalse(pageData.responseStatus.noResponse.contains("student3InCourse1@gmail.tmt"));
-        assertTrue(pageData.responseStatus.noResponse.contains("student4InCourse1@gmail.tmt"));
-        assertTrue(pageData.responseStatus.noResponse.contains("student5InCourse1@gmail.tmt"));
-        assertFalse(pageData.responseStatus.noResponse.contains("student6InCourse1@gmail.tmt"));
+        assertFalse(pageData.getResponseStatus().noResponse.contains("student1InCourse1@gmail.tmt"));
+        assertFalse(pageData.getResponseStatus().noResponse.contains("student2InCourse1@gmail.tmt"));
+        assertFalse(pageData.getResponseStatus().noResponse.contains("student3InCourse1@gmail.tmt"));
+        assertTrue(pageData.getResponseStatus().noResponse.contains("student4InCourse1@gmail.tmt"));
+        assertTrue(pageData.getResponseStatus().noResponse.contains("student5InCourse1@gmail.tmt"));
+        assertFalse(pageData.getResponseStatus().noResponse.contains("student6InCourse1@gmail.tmt"));
         
-        assertFalse(pageData.responseStatus.noResponse.contains("instructor1@course1.tmt"));
-        assertTrue(pageData.responseStatus.noResponse.contains("instructor2@course1.tmt"));
-        assertTrue(pageData.responseStatus.noResponse.contains("instructor3@course1.tmt"));
-        assertFalse(pageData.responseStatus.noResponse.contains("instructor4@course1.tmt"));
-        assertTrue(pageData.responseStatus.noResponse.contains("helper@course1.tmt"));
+        assertFalse(pageData.getResponseStatus().noResponse.contains("instructor1@course1.tmt"));
+        assertTrue(pageData.getResponseStatus().noResponse.contains("instructor2@course1.tmt"));
+        assertTrue(pageData.getResponseStatus().noResponse.contains("instructor3@course1.tmt"));
+        assertFalse(pageData.getResponseStatus().noResponse.contains("instructor4@course1.tmt"));
+        assertTrue(pageData.getResponseStatus().noResponse.contains("helper@course1.tmt"));
     }
     
     private InstructorFeedbackRemindParticularStudentsPageAction getAction(String... params)

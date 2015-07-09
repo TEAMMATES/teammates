@@ -1899,21 +1899,11 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
         StudentAttributes student = dataBundle.students.get("student2InCourse1");
         
-        ______TS("failure: non-existent feedback session for student");
-        
-        try {
-            fsLogic.isFeedbackSessionCompletedByStudent(fs.courseId, "nonExistentFSName","random.student@email");
-            signalFailureToDetectException();
-        } catch (EntityDoesNotExistException edne) {
-            assertEquals("Trying to check a feedback session that does not exist.",
-                         edne.getMessage());
-        }
-        
         ______TS("success: empty session");
         
         fs = dataBundle.feedbackSessions.get("empty.session");
         
-        assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs.feedbackSessionName, fs.courseId, student.email));
+        assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.email));
     }
     
     public void testIsFeedbackSessionFullyCompletedByStudent() throws Exception {
@@ -1963,13 +1953,14 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
 
         List<MimeMessage> emailsSent = 
                 fsLogic.sendReminderForFeedbackSession(fs.courseId, fs.feedbackSessionName);
-        assertEquals(9, emailsSent.size());
+        assertEquals(11, emailsSent.size());
+
+        fs = fsLogic.getFeedbackSession(fs.feedbackSessionName, fs.courseId);
 
         List<StudentAttributes> studentList = logic.getStudentsForCourse(fs.courseId);
         for (StudentAttributes s : studentList) {
             MimeMessage emailToStudent = TestHelper.getEmailToStudent(s, emailsSent);
-            
-            if(fsLogic.isFeedbackSessionCompletedByStudent(fs.feedbackSessionName, fs.courseId, s.email)) {
+            if (fsLogic.isFeedbackSessionCompletedByStudent(fs, s.email)) {
                 String errorMessage = "Email sent to " + s.email + " when he already completed the session.";
                 assertNull(errorMessage, emailToStudent);
             } else {
@@ -2042,7 +2033,7 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         List<MimeMessage> emailsSent =
                 fsLogic.sendReminderForFeedbackSessionParticularUsers(
                         fs.courseId, fs.feedbackSessionName, usersToRemind);
-        assertEquals(6, emailsSent.size());
+        assertEquals(7, emailsSent.size());
 
         MimeMessage emailToStudent = TestHelper.getEmailToStudent(studentToRemind, emailsSent);
         String errorMessage = "No email sent to selected student " + studentToRemind.email;
