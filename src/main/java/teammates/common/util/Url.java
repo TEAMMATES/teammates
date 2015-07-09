@@ -1,8 +1,5 @@
 package teammates.common.util;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 public class Url {
 
     private String urlString;
@@ -79,17 +76,6 @@ public class Url {
     }
 
     /**
-     * Converts a string to be put in URL (replaces some characters)
-     */
-    public static String convertForURL(String str) {
-        try {
-            return URLEncoder.encode(str, Const.SystemParams.ENCODING);
-        } catch (UnsupportedEncodingException e) {
-            return str;
-        }
-    }
-
-    /**
      * Returns the URL with the specified key-value pair parameter added.
      * Unchanged if either the key or value is null, or the key already exists<br />
      * Example:
@@ -112,7 +98,7 @@ public class Url {
             return url;
         }
         url += url.indexOf('?') >= 0 ? '&' : '?';
-        url += key + "=" + convertForURL(value);
+        url += key + "=" + Sanitizer.sanitizeForUri(value);
         return url;
     }
 
