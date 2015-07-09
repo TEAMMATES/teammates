@@ -42,7 +42,7 @@
     <![endif]-->
 
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-    <script type="text/javascript" src="/js/jquery-minified.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
@@ -81,9 +81,9 @@
                                         </div>
                                         <div class="col-sm-3">
                                             <div class="pull-right">
-                                                <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%=groupByTeamEnabled ? "team" : "student"%> panels. You can also click on the panel heading to toggle each one individually.' style="display:none;">
+                                                <a class="btn btn-success btn-xs" id="collapse-panels-button-section-<%=sectionIndex%>" data-toggle="tooltip" title='Collapse or expand all <%=groupByTeamEnabled == true ? "team" : "student"%> panels. You can also click on the panel heading to toggle each one individually.' style="display:none;">
                                                     Expand
-                                                    <%=groupByTeamEnabled ? " Teams" : " Students"%>
+                                                    <%=groupByTeamEnabled == true ? " Teams" : " Students"%>
                                                 </a>
                                                 &nbsp;
                                                 <div class="display-icon" style="display:inline;">
@@ -567,8 +567,7 @@
                                                     <div id="visibility-options-<%=recipientIndex%>-<%=giverIndex%>-<%=qnIndx%>-<%=responseCommentIndex%>" class="panel panel-default"
                                                         style="display: none;">
                                                         <div class="panel-heading">Visibility Options</div>
-                                                        <table class="table text-center" style="color:#000;"
-                                                            style="background: #fff;">
+                                                        <table class="table text-center" style="color:#000;">
                                                             <tbody>
                                                                 <tr>
                                                                     <th class="text-center">User/Group</th>
