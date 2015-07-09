@@ -24,7 +24,7 @@
                 <c:if test="${!fqForm.editable}">disabled="disabled"</c:if>
                 onchange="feedbackGiverUpdateVisibilityOptions(this)">
                 <c:forEach items="${fqForm.feedbackPathSettings.giverParticipantOptions}" var="option">
-                    <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
+                    <option ${option.attributesToString}>
                         ${option.content}
                     </option>
                 </c:forEach>
@@ -42,7 +42,7 @@
                 name="<%= Const.ParamsNames.FEEDBACK_QUESTION_RECIPIENTTYPE %>"
                 <c:if test="${!fqForm.editable}">disabled="disabled"</c:if> onchange="feedbackRecipientUpdateVisibilityOptions(this);getVisibilityMessageIfPreviewIsActive(this);">
                 <c:forEach items="${fqForm.feedbackPathSettings.recipientParticipantOptions}" var="option">
-                    <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
+                    <option ${option.attributesToString}>
                         ${option.content}
                     </option>
                 </c:forEach>

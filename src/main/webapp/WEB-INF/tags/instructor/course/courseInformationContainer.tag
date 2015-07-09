@@ -9,9 +9,7 @@
 
 <div class="well well-plain" id="courseInformationHeader">
     <button type="button" data-original-title="Give a comment about all students in the course"
-            <c:forEach items="${giveCommentButton.attributes}" var="attribute" >
-                ${attribute.key}="${attribute.value}"
-            </c:forEach> >
+            ${giveCommentButton.attributesToString}>
         ${giveCommentButton.content}
     </button>
             
