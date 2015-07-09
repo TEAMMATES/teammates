@@ -125,10 +125,4 @@ public class Url {
         return urlString;
     }
 
-    public static void main(String[] args) {
-        System.out.println(new Url("http://teammates.com/page/instructorHome?user=abc").get(Const.ParamsNames.USER_ID));
-        System.out.println(new Url("http://teammates.com/page/instructorHome?user=abc&course=course1").get(Const.ParamsNames.USER_ID));
-        System.out.println(new Url("http://teammates.com/page/instructorHome?error=true&user=abc&course=course1").get(Const.ParamsNames.USER_ID));
-    }
-
 }
