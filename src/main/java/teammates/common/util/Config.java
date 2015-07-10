@@ -127,7 +127,7 @@ public class Config {
     }
     
     public static boolean isUsingSendgrid() {
-        return SENDGRID_USERNAME != null && !SENDGRID_USERNAME.trim().isEmpty();
+        return SENDGRID_USERNAME != null && !SENDGRID_USERNAME.isEmpty();
     }
 
 }
