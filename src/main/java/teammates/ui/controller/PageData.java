@@ -70,8 +70,10 @@ public class PageData {
         boolean isDevEnvironment = Boolean.parseBoolean(System.getProperty("isDevEnvironment"));
 
         if (isDevEnvironment) {
-            jQueryFilePath = "/js/lib/jquery-1.11.3.min.js";
-            jQueryUiFilePath = "/js/lib/jquery-ui-1.11.4.min.js";
+            // V1.11.3
+            jQueryFilePath = "/js/lib/jquery.min.js";
+            // V1.11.4
+            jQueryUiFilePath = "/js/lib/jquery-ui.min.js";
         } else {
             jQueryFilePath = "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js";
             jQueryUiFilePath = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js";
