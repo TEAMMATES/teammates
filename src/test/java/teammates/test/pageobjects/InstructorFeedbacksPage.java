@@ -178,13 +178,13 @@ public class InstructorFeedbacksPage extends AppPage {
     
     public void clickCopySubmitButton(){
         copySubmitButton.click();
-        browser.selenium.waitForPageToLoad("15000");
+        waitForPageToLoad();
     }
     
     
     public void clickViewResponseLink(String courseId, String sessionName) {
         getViewResponseLink(courseId,sessionName).click();
-        browser.selenium.waitForPageToLoad("15000");
+        waitForPageToLoad();
     }
     
     public void toggleSendOpenEmailCheckbox() {
@@ -245,7 +245,7 @@ public class InstructorFeedbacksPage extends AppPage {
     
     public void copyFeedbackSession(String feedbackSessionName, String courseId) {        
         clickCopyButton();        
-        this.waitForElementVisible(copiedFsNameTextBox);        
+        this.waitForElementVisibility(copiedFsNameTextBox);        
         fillTextBox(copiedFsNameTextBox, feedbackSessionName);       
         selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
         
@@ -255,7 +255,7 @@ public class InstructorFeedbacksPage extends AppPage {
     
     public void copyFeedbackSessionTestButtons(String feedbackSessionName, String courseId) {       
         clickCopyButton();       
-        this.waitForElementVisible(copiedFsNameTextBox);       
+        this.waitForElementVisibility(copiedFsNameTextBox);       
         fillTextBox(copiedFsNameTextBox, feedbackSessionName);        
         selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
     }
@@ -561,7 +561,7 @@ public class InstructorFeedbacksPage extends AppPage {
         By fsCopyButtonElement = By.id("button_fscopy" + "-" + courseId + "-" + feedbackSessionName);
         
         // give it some time to load as it is loaded via AJAX
-        waitForElementPresence(fsCopyButtonElement, 5);
+        waitForElementPresence(fsCopyButtonElement);
         
         WebElement fsCopyButton = browser.driver.findElement(fsCopyButtonElement);
         
@@ -569,7 +569,7 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     public void waitForModalToLoad() {
-        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME), 5);
+        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
     }
     
     public void clickFsCopySubmitButton() {

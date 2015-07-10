@@ -435,7 +435,12 @@
 
     
     
-        <div style="display: none;" id="statusMessage"></div>
+        <div class="alert alert-warning" id="statusMessage">
+               There are no students in this course
+            </div>
+            <script type="text/javascript">
+               document.getElementById('statusMessage').scrollIntoView();
+            </script>
     
 
     <br />
@@ -465,7 +470,12 @@
             </th>
         </tr>
     </thead>
-    
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
     
 </table>
     <br />
