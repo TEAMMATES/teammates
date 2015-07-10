@@ -2,7 +2,6 @@ package teammates.ui.template;
 
 import java.util.List;
 
-import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.util.Url;
 
 
@@ -18,14 +17,10 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorRes
     
     boolean isEmailValid;
     
-    
     public InstructorFeedbackResultsGroupByQuestionPanel() {
-        
-    
     }
     
     public static InstructorFeedbackResultsGroupByQuestionPanel buildInstructorFeedbackResultsGroupByQuestionPanel(
-                                                                    FeedbackSessionResultsBundle bundle,
                                                                     List<InstructorResultsQuestionTable> questionTables,
                                                                     boolean isEmailValid, Url profilePictureLink, String mailtoStyle,
                                                                     boolean isGiver, String participantIdentifier, String participantName,
