@@ -843,7 +843,7 @@ public class Emails {
         return data;
     }
     
-    private Sendgrid parseMimeMessageToSendgrid(MimeMessage message) throws MessagingException, JSONException, IOException {
+    public Sendgrid parseMimeMessageToSendgrid(MimeMessage message) throws MessagingException, JSONException, IOException {
         Sendgrid email = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);
         
         for (int i = 0; i < message.getRecipients(Message.RecipientType.TO).length; i++) {
