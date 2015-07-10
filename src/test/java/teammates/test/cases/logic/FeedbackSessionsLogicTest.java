@@ -1189,8 +1189,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
                 session.feedbackSessionName, session.courseId, instructor.email);
         
 
-        System.out.println(export);
-        
         /*This is how the export should look like
         =======================================
         Course,"FSQTT.idOfTypicalCourse1"
@@ -1265,8 +1263,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
                 session.feedbackSessionName, session.courseId, instructor.email);
 
-        System.out.println(export);
-        
         /*This is how the export should look like
         =======================================
         Course,"FSQTT.idOfTypicalCourse1"
@@ -1344,8 +1340,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
                 session.feedbackSessionName, session.courseId, instructor.email);
         
-        System.out.println(export);
-        
         /*This is how the export should look like
         =======================================
         Course,"FSQTT.idOfTypicalCourse1"
@@ -1421,8 +1415,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
                 session.feedbackSessionName, session.courseId, instructor.email);
-        
-        System.out.println(export);
         
         /*This is how the export should look like
         =======================================
@@ -1537,7 +1529,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
                 session.feedbackSessionName, session.courseId, instructor.email);
         
         exportLines = export.split(Const.EOL);
-        System.out.println(export);
         assertEquals(22, exportLines.length);
         assertEquals(exportLines[0], "Course,\"" + session.courseId + "\"");
         assertEquals(exportLines[1], "Session Name,\"" + session.feedbackSessionName + "\"");
@@ -1549,8 +1540,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
                 session.feedbackSessionName, session.courseId, instructor.email);
-        
-        System.out.println(export);
         
         /*This is how the export should look like
         =======================================
@@ -1618,8 +1607,6 @@ public class FeedbackSessionsLogicTest extends BaseComponentUsingTaskQueueTestCa
         
         export = fsLogic.getFeedbackSessionResultsSummaryAsCsv(
                 session.feedbackSessionName, session.courseId, instructor.email);
-        
-        System.out.println(export);
         
         /*This is how the export should look like
         =======================================
