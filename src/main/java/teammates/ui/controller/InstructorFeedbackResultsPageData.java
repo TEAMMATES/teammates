@@ -983,6 +983,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
                : null;
     }
     
+    public String getInstructorFeedbackSessionResultsLink() {
+        return getInstructorFeedbackSessionResultsLink(courseId, feedbackSessionName);
+    }
+    
     public InstructorFeedbackResultsSessionPanel getSessionPanel() {
         return new InstructorFeedbackResultsSessionPanel(bundle.feedbackSession,
                                                          getInstructorFeedbackSessionEditLink(),
