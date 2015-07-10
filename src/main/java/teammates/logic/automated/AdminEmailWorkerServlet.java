@@ -1,11 +1,13 @@
 package teammates.logic.automated;
 
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.appengine.labs.repackaged.org.json.JSONException;
 
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.util.Assumption;
@@ -51,13 +53,13 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
         try {
             sendAdminEmail(emailContent, emailSubject, receiverEmail);
             log.info("email sent to " + receiverEmail);
-        } catch (UnsupportedEncodingException | MessagingException e) {
+        } catch (MessagingException | JSONException | IOException e) {
             log.severe("Unexpected error while sending admin emails " + e.getMessage());
         }
 
     }
     
-    private void sendAdminEmail(String emailContent, String subject, String receiverEmail) throws UnsupportedEncodingException, MessagingException{
+    private void sendAdminEmail(String emailContent, String subject, String receiverEmail) throws MessagingException, JSONException, IOException{
         
         Emails emailsManager = new Emails();
         
