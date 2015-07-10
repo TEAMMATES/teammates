@@ -192,8 +192,10 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         assertEquals(true, courseEditPage.displayedToStudentCheckBox(1).isSelected());
         // not displayed to students
         courseEditPage.clickDisplayedToStudentCheckBox(1);
-        // select the role as Observer for instr1
+        // select the role as Custom for instr1
         courseEditPage.selectRoleForInstructor(1, "Custom");
+        
+        // deselect some privileges from Co-owner default values
         courseEditPage.clickCourseLevelPrivilegesLink(1, 1);
         courseEditPage.clickCourseLevelPrivilegesLink(1, 2);
         courseEditPage.clickCourseLevelPrivilegesLink(1, 8);
