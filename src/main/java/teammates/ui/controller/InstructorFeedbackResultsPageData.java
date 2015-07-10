@@ -889,11 +889,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * The next three methods are not covered in action test, but covered in UI tests.
      */
 
-    private FeedbackSessionPublishButton getInstructorFeedbackSessionPublishAndUnpublishAction(
-                                                                        FeedbackSessionAttributes session,
-                                                                        boolean isHome,
-                                                                        InstructorAttributes instructor) {
-        return new FeedbackSessionPublishButton(this, session, isHome, instructor, "btn-primary btn-block");
+    private FeedbackSessionPublishButton getInstructorFeedbackSessionPublishAndUnpublishAction() {
+        boolean isHome = false;
+        return new FeedbackSessionPublishButton(this,
+                                                bundle.feedbackSession,
+                                                isHome,
+                                                instructor,
+                                                "btn-primary btn-block");
     }
     
     public String getProfilePictureLink(String studentEmail) {
@@ -988,10 +990,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
     
     public InstructorFeedbackResultsSessionPanel getSessionPanel() {
-        return new InstructorFeedbackResultsSessionPanel(bundle.feedbackSession,
-                                                         getInstructorFeedbackSessionEditLink(),
-                                                         getInstructorFeedbackSessionPublishAndUnpublishAction(bundle.feedbackSession, false, instructor),
-                                                         selectedSection);
+        return new InstructorFeedbackResultsSessionPanel(
+                bundle.feedbackSession,
+                getInstructorFeedbackSessionEditLink(),
+                getInstructorFeedbackSessionPublishAndUnpublishAction(),
+                selectedSection);
     }
     
 }
