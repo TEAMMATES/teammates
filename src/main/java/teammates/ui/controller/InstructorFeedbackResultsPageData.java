@@ -955,8 +955,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                     ViewType viewType) {
         List<InstructorResultsResponseRow> responseRows = new ArrayList<InstructorResultsResponseRow>();
         
-        String prevGiver = "";
-        
         for (FeedbackResponseAttributes response : responses) {
             InstructorResultsModerationButton moderationButton = buildModerationButtonForExistingResponse(question, response);
             
@@ -965,7 +963,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                    bundle.getRecipientNameForResponse(question, response), bundle.getTeamNameForEmail(response.recipientEmail), 
                                    bundle.getResponseAnswerHtml(response, question), 
                                    bundle.isGiverVisible(response), moderationButton);
-            configureResponseRowForViewType(question, viewType, prevGiver, response.recipientEmail, responseRow);
+            configureResponseRowForViewType(question, viewType, response.giverEmail, response.recipientEmail, responseRow);
             
             
             responseRows.add(responseRow);
@@ -983,12 +981,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         switch (statisticsViewType) {
             case QUESTION:
-                responseRow.setGiverProfilePictureDisplayed(question.isGiverAStudent() 
-                                                           && validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, giver).isEmpty());
+                responseRow.setGiverProfilePictureDisplayed(validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, giver).isEmpty());
                 responseRow.setGiverProfilePictureLink(new Url(getProfilePictureLink(giver)));
                 
-                responseRow.setRecipientProfilePictureDisplayed(question.isRecipientAStudent()
-                                                                && validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, recipient).isEmpty());
+                responseRow.setRecipientProfilePictureDisplayed(validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, recipient).isEmpty());
                 responseRow.setRecipientProfilePictureLink(new Url(getProfilePictureLink(recipient)));
                 responseRow.setActionsDisplayed(true);
                 break;
@@ -997,8 +993,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 responseRow.setGiverProfilePictureDisplayed(false);
                 
                 responseRow.setRecipientProfilePictureAColumn(true);
-                responseRow.setRecipientProfilePictureDisplayed(question.isRecipientAStudent() 
-                                                                && validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, recipient).isEmpty());
+                responseRow.setRecipientProfilePictureDisplayed(validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, recipient).isEmpty());
                 responseRow.setRecipientProfilePictureLink(new Url(getProfilePictureLink(recipient)));
                 responseRow.setActionsDisplayed(false);
                 break;
@@ -1007,8 +1002,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 responseRow.setRecipientProfilePictureDisplayed(false);
                 
                 responseRow.setGiverProfilePictureAColumn(true);
-                responseRow.setGiverProfilePictureDisplayed(question.isGiverAStudent()
-                                                            && validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, giver).isEmpty());
+                responseRow.setGiverProfilePictureDisplayed(validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, giver).isEmpty());
                 responseRow.setGiverProfilePictureLink(new Url(getProfilePictureLink(giver)));
                 responseRow.setActionsDisplayed(true);
                 break;
