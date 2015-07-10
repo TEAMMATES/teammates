@@ -94,14 +94,15 @@ Important: When a version is specified, please install that version instead of t
     Firefox 38.0.5 (latest release as at 7th June 2015) is supported.
    
 2. Before running the test suite, both the server and the test environment 
-   should be using the UTC time zone. Here is the procedure.
+   should be using the UTC time zone. The server and the test environment should 
+   also server the CDN files locally instead. Here is the procedure.
     
     a. Stop the dev server, if it is running already.
 
     b. Specify timezone as a VM argument: 
        * Go to the `run configuration` Eclipse created when you started the dev server
         (`Run → Run configurations ...` and select the appropriate one).
-       * Click on the `Arguments` tab and add `-Duser.timezone=UTC` to the `VM arguments` text box.
+       * Click on the `Arguments` tab and add `-Duser.timezone=UTC` and '-DisDevEnvironment-"true"' to the `VM arguments` text box.
        * Save the configuration for future use: Go to the `Common` tab (the last one) 
        and make sure you have selected `Save as → Local file` and 
        `Display in favorites menu →  Run, Debug`.
