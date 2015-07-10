@@ -30,7 +30,7 @@
                             <div class="panel panel-info">
                                 <div class="panel-heading">
                                     From <b>You (ISR.CS2104)</b>
-                                    <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showAddCommentBox();" data-toggle="tooltip" data-placement="top" title="" disabled="disabled">
+                                    <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showAddCommentBox();" data-toggle="tooltip" data-placement="top" title="Add comment" disabled="disabled">
                                         <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                     </button>
                                 </div>
@@ -42,14 +42,14 @@
                                                     To <b>Benny Charlés (Team 1, benny.c.tmms@gmail.tmt)</b> [Tue, 01 May 2012, 08:51:00 UTC] 
                                                 </span>
                                                 
-                                                <a data-original-title="Delete this comment" type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title=""> 
+                                                <a type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title="Delete this comment"> 
                                                     <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                                                 </a>
-                                                <a data-original-title="Edit this comment" type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="">
+                                                <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="Edit this comment">
                                                     <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                                 </a>
                                             </div>
-                                            <div style="margin-left: 15px;" id="plainCommentText0">Comment 1 from ISR.CS2104 teammates.test Instructor to Benny</div>
+                                            <div id="plainCommentText0">Comment 1 from ISR.CS2104 teammates.test Instructor to Benny</div>
                                             <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-0">
                                                 <div id="commentTextEdit0" style="display: none;">
                                                     <div class="form-group form-inline">

@@ -17,8 +17,8 @@
     <![endif]-->
 
     <script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script src="/js/googleAnalytics.js" type="text/javascript"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="/js/lib/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script src="/js/lib/jquery-ui-1.11.4.min.js" type="text/javascript"></script>
     <script src="/js/common.js" type="text/javascript"></script>
     <script src="/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 
@@ -273,13 +273,13 @@
 	    <div class="panel-body">
 	        <p>
 	            You are currently logged in as <span><strong>{$test.student1}</strong></span>. 
-	            <br />If this is not you please <a href="{*}">log out</a> and re-login using your own Google account.
+	            <br />If this is not you please <a href="/_ah/logout?continue=%2Fpage%2FstudentCourseJoinAuthenticated%3Fkey%3D{*}%26next%3D%2Fpage%2FstudentHomePage">log out</a> and re-login using your own Google account.
 	            <br />If this is you, please confirm below to complete your registration.
 	            <br />
 	        </p>
 	        <div class="align-center">
 	            <a id="button_confirm" class="btn btn-success" href="/page/studentCourseJoinAuthenticated?key={*}&amp;next=/page/studentHomePage">Yes, this is my account</a>
-	            <a id="button_cancel" class="btn btn-danger" href="{*}">No, this is not my account</a>
+	            <a id="button_cancel" class="btn btn-danger" href="/_ah/logout?continue=%2Fpage%2FstudentCourseJoinAuthenticated%3Fkey%3D{*}%26next%3D%2Fpage%2FstudentHomePage">No, this is not my account</a>
 	        </div>
 	        
 	    </div>
