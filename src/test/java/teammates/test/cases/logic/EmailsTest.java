@@ -23,6 +23,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.google.appengine.labs.repackaged.org.json.JSONException;
+
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -43,10 +45,13 @@ import teammates.test.cases.BaseComponentTestCase;
 import teammates.test.cases.ui.browsertests.SystemErrorEmailReportTest;
 import teammates.test.driver.AssertHelper;
 import teammates.test.driver.TestProperties;
+import teammates.googleSendgridJava.Sendgrid;
 
 public class EmailsTest extends BaseComponentTestCase {
     
-    private String from;
+    private String from; // For MimeMessage testing
+    private String fromEmail; // For Sendgrid testing
+    private String fromName;  // For Sendgrid testing
     private String replyTo;
     
     @BeforeClass
