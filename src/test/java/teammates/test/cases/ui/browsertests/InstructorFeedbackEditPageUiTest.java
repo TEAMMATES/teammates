@@ -448,16 +448,6 @@ public class InstructorFeedbackEditPageUiTest extends BaseUiTestCase {
         assertNull(BackDoor.getFeedbackSession(courseId, feedbackSessionName));
     }
 
-    public static void printTestClassHeader() {
-        print("[============================="
-              + Thread.currentThread().getStackTrace()[2].getClassName()
-              + "=============================]");
-    }
-
-    protected static void print(String message) {
-        System.out.println(message);
-    }
-
     private static InstructorFeedbackEditPage getFeedbackEditPage() {
         Url feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE)
                                     .withUserId(instructorId)
