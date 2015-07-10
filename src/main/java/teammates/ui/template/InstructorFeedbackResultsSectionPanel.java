@@ -1,5 +1,8 @@
 package teammates.ui.template;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -128,6 +131,16 @@ public class InstructorFeedbackResultsSectionPanel {
 
     public void setLoadSectionResponsesByAjax(boolean isLoadSectionResponsesByAjax) {
         this.isLoadSectionResponsesByAjax = isLoadSectionResponsesByAjax;
+    }
+    
+    public List<InstructorResultsParticipantPanel> getParticipantPanelsInSortedOrder() {
+        List<InstructorResultsParticipantPanel> sortedPanels = new ArrayList<InstructorResultsParticipantPanel>();
+        for (Collection<InstructorResultsParticipantPanel> participantsPanels : participantPanels.values()) {
+            sortedPanels.addAll(participantsPanels);
+        }
+        Collections.sort(sortedPanels);
+        
+        return sortedPanels;
     }
     
 }

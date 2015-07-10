@@ -80,10 +80,10 @@
                     </c:forEach>
                 </c:when>
                 <c:otherwise>
-                    <c:forEach var="participantPanels" items="${sectionPanel.participantPanels}" varStatus="i">
-                        <c:forEach var="participantPanel" items="${participantPanels.value}">
+                    <c:forEach var="participantPanel" items="${sectionPanel.participantPanelsInSortedOrder}">
+                        
                             <results:participantGroupByQuestionPanel showAll="${showAll}" groupByQuestionPanel="${participantPanel}" shouldCollapsed="${shouldCollapsed}"/>
-                        </c:forEach>
+                        
                     </c:forEach>
                 </c:otherwise>
             </c:choose>

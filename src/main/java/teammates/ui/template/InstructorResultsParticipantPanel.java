@@ -1,7 +1,7 @@
 package teammates.ui.template;
 
 
-public class InstructorResultsParticipantPanel {
+public class InstructorResultsParticipantPanel implements Comparable<InstructorResultsParticipantPanel>{
     private boolean isGiver; // if false, then participant is a recipient
     private String participantIdentifier; // email, team name, or %GENERAL%
     private String name; 
@@ -95,6 +95,15 @@ public class InstructorResultsParticipantPanel {
 
     public void setModerationButtonDisplayed(boolean isModerationButtonDisplayed) {
         this.isModerationButtonDisplayed = isModerationButtonDisplayed;
+    }
+
+    @Override
+    public int compareTo(InstructorResultsParticipantPanel o) {
+        if (isHasResponses != o.isHasResponses) {
+            return isHasResponses ? 1 : 0;
+        } else {
+            return name.compareTo(o.name);
+        }
     }
     
 }

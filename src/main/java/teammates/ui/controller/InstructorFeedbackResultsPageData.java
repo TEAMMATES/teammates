@@ -663,7 +663,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                        null, new ArrayList<InstructorResultsQuestionTable>(), moderationButton, 
                                                                        true, true);
 
-            
+            giverPanel.setHasResponses(false);
             addParticipantPanelToSectionPanel(sectionPanel, teamName, giverPanel);
         }
     }
@@ -677,7 +677,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             buildInstructorFeedbackResultsGroupByQuestionPanel(validator, teamMember, bundle.getFullNameFromRoster(teamMember),
                                                           null, new ArrayList<InstructorResultsQuestionTable>(), null, 
                                                           false, false);
-            
+            giverPanel.setHasResponses(false);
             
             addParticipantPanelToSectionPanel(sectionPanel, teamName, giverPanel);
         }
@@ -1130,14 +1130,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return moderationButton;
    }
     
-   private InstructorFeedbackResultsGroupByQuestionPanel buildInstructorFeedbackResultsGroupByQuestionPanel(FieldValidator validator, 
-                                                                                                            String participantIdentifier, String participantName, 
-                                                                                                            FeedbackQuestionAttributes question, 
-                                                                                                            List<InstructorResultsQuestionTable> questionTables,
-                                                                                                            InstructorResultsModerationButton moderationButton, 
-                                                                                                            boolean isModerationButtonDisplayed,
-                                                                                                            boolean isGiver) {
-       boolean isEmailValid = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, participantIdentifier).isEmpty();
+   private InstructorFeedbackResultsGroupByQuestionPanel buildInstructorFeedbackResultsGroupByQuestionPanel(
+                                                             FieldValidator validator, 
+                                                             String participantIdentifier, String participantName, 
+                                                             FeedbackQuestionAttributes question, 
+                                                             List<InstructorResultsQuestionTable> questionTables,
+                                                             InstructorResultsModerationButton moderationButton, 
+                                                             boolean isModerationButtonDisplayed, boolean isGiver) {
+   boolean isEmailValid = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, participantIdentifier).isEmpty();
     
        Url profilePictureLink = new Url(getProfilePictureLink(participantIdentifier));
     
@@ -1155,6 +1155,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                     questionTables, isEmailValid, profilePictureLink, 
                                                                     mailtoStyle, isGiver, participantIdentifier, participantName,
                                                                     moderationButton, isModerationButtonDisplayed);
+       giverPanel.setHasResponses(true);
     
        return giverPanel;
    }
