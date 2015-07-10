@@ -451,6 +451,79 @@ public class EmailsTest extends BaseComponentTestCase {
     public void testNoExceptionThrownWhenNoMessagesToSend() {
         new Emails().sendEmails(new ArrayList<MimeMessage>());
     }
+    
+    @Test
+    public void testParseMimeMessageToSendgrid() throws MessagingException, JSONException, IOException {
+        if (Config.isUsingSendgrid()) {
+            FeedbackSessionAttributes fsa = new FeedbackSessionAttributes();
+            fsa.feedbackSessionName = "Feedback Session Name";
+            fsa.endTime = TimeHelper.getDateOffsetToCurrentTime(0);
+
+            CourseAttributes c = new CourseAttributes();
+            c.id = "course-id";
+            c.name = "Course Name";
+
+            StudentAttributes s = new StudentAttributes();
+            s.name = "Student Name";
+            s.key = "skxxxxxxxxxks";
+            s.email = "student@email.tmt";
+            
+            ______TS("Generate feedback email base");
+
+            String template = EmailTemplates.USER_FEEDBACK_SESSION;
+            MimeMessage email = new Emails().generateFeedbackSessionEmailBaseForStudents(
+                                                                          c, fsa, s, template);
+            Sendgrid sendgridEmail = new Emails().parseMimeMessageToSendgrid(email);
+
+            testEmailAttributes(email, sendgridEmail);
+            
+            ______TS("Generate student course join email");
+            email = new Emails().generateStudentCourseJoinEmail(c, s);
+            sendgridEmail = new Emails().parseMimeMessageToSendgrid(email);
+            
+            testEmailAttributes(email, sendgridEmail);
+            
+            ______TS("System crash report email");
+            AssertionError error = new AssertionError("invalid parameter");
+            StackTraceElement s1 = new StackTraceElement(
+                    SystemErrorEmailReportTest.class.getName(), 
+                    "testSystemCrashReportEmailContent", 
+                    "SystemErrorEmailReportTest.java", 
+                    89);
+            error.setStackTrace(new StackTraceElement[] {s1});
+            String requestPath = "/page/studentHome";
+            String requestParam = "{}";
+
+            email = new Emails().generateSystemErrorEmail(
+                                   error, requestPath, requestParam, TestProperties.inst().TEAMMATES_VERSION);
+            sendgridEmail = new Emails().parseMimeMessageToSendgrid(email);
+
+            testEmailAttributes(email, sendgridEmail);
+        }
+    }
+
+    private void testEmailAttributes(MimeMessage email, Sendgrid sendgridEmail) throws MessagingException,
+                                    IOException {
+        // check receiver
+        assertEquals(email.getAllRecipients()[0].toString(), sendgridEmail.getTos().get(0));
+
+        // check sender
+        String from = email.getFrom()[0].toString();
+        // From name and email in the format: Name <Email>
+        if (from.contains("<") && from.contains(">")) {
+            from = from.substring(from.indexOf("<") + 1, from.indexOf(">"));
+        }
+        assertEquals(from, sendgridEmail.getFrom());
+        
+        //check replyTo
+        assertEquals(email.getReplyTo()[0].toString(), sendgridEmail.getReplyTo());
+
+        // check subject
+        assertEquals(email.getSubject(), sendgridEmail.getSubject());
+
+        // check email body
+        assertEquals(email.getContent().toString(), sendgridEmail.getHtml());
+    }
 
     @AfterClass()
     public static void classTearDown() throws Exception {
