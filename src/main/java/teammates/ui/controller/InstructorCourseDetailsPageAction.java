@@ -49,7 +49,7 @@ public class InstructorCourseDetailsPageAction extends Action {
         
         data.init(instructor, courseDetails, instructors, students);
         
-        if (students.size() == 0) {
+        if (students.isEmpty()) {
             statusToUser.add(Const.StatusMessages.INSTRUCTOR_COURSE_EMPTY);
         }
         
