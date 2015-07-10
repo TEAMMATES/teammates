@@ -1,5 +1,6 @@
 <%@ tag description="Generic TEAMMATES Page" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
+<%@ tag import="teammates.common.util.LocalLibrariesFilePathHelper" %>
 <%@ attribute name="pageTitle" required="true" %>
 <%@ attribute name="jsIncludes" fragment="true" %>
 <%@ attribute name="navBar" required="true" fragment="true" %>
