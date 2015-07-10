@@ -48,6 +48,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
+import teammates.googleSendgridJava.Sendgrid;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.AdminEmailsLogic;
 import teammates.logic.core.CommentsLogic;
@@ -585,7 +586,25 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public MimeMessage sendRegistrationInviteToInstructor(String courseId, String instructorEmail) 
+    public MimeMessage sendRegistrationInviteToInstructorWithoutSendgrid(String courseId, String instructorEmail) 
+            throws EntityDoesNotExistException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, instructorEmail);
+    
+        return instructorsLogic.sendRegistrationInviteToInstructorWithoutSendgrid(courseId, instructorEmail);
+    }
+    
+    public MimeMessage sendRegistrationInviteToInstructorWithout(String courseId, InstructorAttributes instructor) 
+            throws EntityDoesNotExistException {
+        return instructorsLogic.sendRegistrationInviteToInstructorWithoutSendgrid(courseId, instructor);
+    }
+    
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public Sendgrid sendRegistrationInviteToInstructor(String courseId, String instructorEmail) 
             throws EntityDoesNotExistException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -594,7 +613,7 @@ public class Logic {
         return instructorsLogic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
     }
     
-    public MimeMessage sendRegistrationInviteToInstructor(String courseId, InstructorAttributes instructor) 
+    public Sendgrid sendRegistrationInviteToInstructor(String courseId, InstructorAttributes instructor) 
             throws EntityDoesNotExistException {
         return instructorsLogic.sendRegistrationInviteToInstructor(courseId, instructor);
     }
@@ -1201,6 +1220,50 @@ public class Logic {
         return studentsLogic.enrollStudents(enrollLines.trim(), courseId);
     
     }
+    
+    /**
+     * Sends the registration invite to unregistered students in the course.
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     * 
+     * @return The list of emails sent. These can be used for
+     *         verification.
+     */
+    public List<MimeMessage> sendRegistrationInviteForCourseWithoutSendgrid(String courseId) throws InvalidParametersException {
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        return studentsLogic.sendRegistrationInviteForCourseWithoutSendgrid(courseId);
+    }
+
+    /**
+     * Preconditions: <br>
+     * * All parameters are non-null.
+     */
+    public MimeMessage sendRegistrationInviteToStudentWithoutSendgrid(String courseId, String studentEmail) 
+            throws EntityDoesNotExistException, InvalidParametersException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
+    
+        return studentsLogic.sendRegistrationInviteToStudentWithoutSendgrid(courseId, studentEmail);
+    }
+    
+    /**
+     * Send rejoin email to student after google id has been reset.<br>
+     * Should only be used by admin in AdminStudentGoogleIdResetAction 
+     * @param courseId
+     * @param studentEmail
+     * @return
+     * @throws EntityDoesNotExistException
+     * @throws InvalidParametersException
+     */
+    public MimeMessage sendRegistrationInviteToStudentAfterGoogleIdResetWithoutSendgrid(String courseId, String studentEmail) 
+           throws EntityDoesNotExistException, InvalidParametersException {
+        
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
+        Assumption.assertNotNull(ERROR_NULL_PARAMETER, studentEmail);
+    
+        return studentsLogic.sendRegistrationInviteToStudentAfterGoogleIdResetWithoutSendgrid(courseId, studentEmail);
+    }
 
     /**
      * Sends the registration invite to unregistered students in the course.
@@ -1210,7 +1273,7 @@ public class Logic {
      * @return The list of emails sent. These can be used for
      *         verification.
      */
-    public List<MimeMessage> sendRegistrationInviteForCourse(String courseId) throws InvalidParametersException {
+    public List<Sendgrid> sendRegistrationInviteForCourse(String courseId) throws InvalidParametersException {
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
         return studentsLogic.sendRegistrationInviteForCourse(courseId);
     }
@@ -1219,7 +1282,7 @@ public class Logic {
      * Preconditions: <br>
      * * All parameters are non-null.
      */
-    public MimeMessage sendRegistrationInviteToStudent(String courseId, String studentEmail) 
+    public Sendgrid sendRegistrationInviteToStudent(String courseId, String studentEmail) 
             throws EntityDoesNotExistException, InvalidParametersException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -1237,7 +1300,7 @@ public class Logic {
      * @throws EntityDoesNotExistException
      * @throws InvalidParametersException
      */
-    public MimeMessage sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail) 
+    public Sendgrid sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail) 
            throws EntityDoesNotExistException, InvalidParametersException {
         
         Assumption.assertNotNull(ERROR_NULL_PARAMETER, courseId);
@@ -2623,8 +2686,12 @@ public class Logic {
     @SuppressWarnings("unused")
     private void ____MISC_methods__________________________________________() {
     }
+    
+    public MimeMessage emailErrorReportWithoutSendgrid(String path, String params, Throwable error) {
+        return emailManager.sendErrorReportWithoutSendgrid(path, params, error);
+    }
 
-    public MimeMessage emailErrorReport(String path, String params, Throwable error) {
+    public Sendgrid emailErrorReport(String path, String params, Throwable error) {
         return emailManager.sendErrorReport(path, params, error);
     }
 

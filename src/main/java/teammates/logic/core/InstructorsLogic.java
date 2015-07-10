@@ -13,8 +13,10 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Utils;
+import teammates.googleSendgridJava.Sendgrid;
 import teammates.storage.api.InstructorsDb;
 
 
@@ -265,7 +267,7 @@ public class InstructorsLogic {
      * Sends a registration email to the instructor
      * Vulnerable to eventual consistency
      */
-    public MimeMessage sendRegistrationInviteToInstructor(String courseId, String instructorEmail) 
+    public MimeMessage sendRegistrationInviteToInstructorWithoutSendgrid(String courseId, String instructorEmail) 
             throws EntityDoesNotExistException {
         
         CourseAttributes course = coursesLogic.getCourse(courseId);
@@ -282,7 +284,38 @@ public class InstructorsLogic {
 
         Emails emailMgr = new Emails();
         try {
-            MimeMessage email = emailMgr.generateInstructorCourseJoinEmail(course, instructorData);
+            MimeMessage email = emailMgr.generateInstructorCourseJoinEmailWithoutSendgrid(course, instructorData);
+            emailMgr.sendAndLogEmail(email);
+            
+            return email;
+        } catch (Exception e) {
+            throw new RuntimeException("Unexpected error while sending email", e);
+        }
+        
+    }
+    
+    /**
+     * Sends a registration email to the instructor
+     * Vulnerable to eventual consistency
+     */
+    public Sendgrid sendRegistrationInviteToInstructor(String courseId, String instructorEmail) 
+            throws EntityDoesNotExistException {
+        
+        CourseAttributes course = coursesLogic.getCourse(courseId);
+        if (course == null) {
+            throw new EntityDoesNotExistException(
+                    "Course does not exist [" + courseId + "], trying to send invite email to student [" + instructorEmail + "]");
+        }
+        
+        InstructorAttributes instructorData = getInstructorForEmail(courseId, instructorEmail);
+        if (instructorData == null) {
+            throw new EntityDoesNotExistException(
+                    "Instructor [" + instructorEmail + "] does not exist in course [" + courseId + "]");
+        }
+
+        Emails emailMgr = new Emails();
+        try {
+            Sendgrid email = emailMgr.generateInstructorCourseJoinEmail(course, instructorData);
             emailMgr.sendAndLogEmail(email);
             
             return email;
@@ -297,10 +330,9 @@ public class InstructorsLogic {
      * object from the datastore
      * @param courseId
      * @param instructor InstructorAttributes object containing the details of the instructor
-     * @throws InvalidParametersException
      * @throws EntityDoesNotExistException 
      */
-    public MimeMessage sendRegistrationInviteToInstructor(String courseId, InstructorAttributes instructor) 
+    public MimeMessage sendRegistrationInviteToInstructorWithoutSendgrid(String courseId, InstructorAttributes instructor) 
             throws EntityDoesNotExistException {
         
         CourseAttributes course = coursesLogic.getCourse(courseId);
@@ -311,7 +343,35 @@ public class InstructorsLogic {
 
         Emails emailMgr = new Emails();
         try {
-            MimeMessage email = emailMgr.generateInstructorCourseJoinEmail(course, instructor);
+            MimeMessage email = emailMgr.generateInstructorCourseJoinEmailWithoutSendgrid(course, instructor);
+            emailMgr.sendAndLogEmail(email);
+            
+            return email;
+        } catch (Exception e) {
+            throw new RuntimeException("Unexpected error while sending email", e);
+        }
+        
+    }
+    
+    /**
+     * Sends a registration email using the instructor attributes provided instead of retrieving the instructor
+     * object from the datastore
+     * @param courseId
+     * @param instructor InstructorAttributes object containing the details of the instructor
+     * @throws EntityDoesNotExistException 
+     */
+    public Sendgrid sendRegistrationInviteToInstructor(String courseId, InstructorAttributes instructor) 
+            throws EntityDoesNotExistException {
+        
+        CourseAttributes course = coursesLogic.getCourse(courseId);
+        if (course == null) {
+            throw new EntityDoesNotExistException(
+                    "Course does not exist [" + courseId + "], trying to send invite email to student [" + instructor.email + "]");
+        }
+
+        Emails emailMgr = new Emails();
+        try {
+            Sendgrid email = emailMgr.generateInstructorCourseJoinEmail(course, instructor);
             emailMgr.sendAndLogEmail(email);
             
             return email;
@@ -329,8 +389,13 @@ public class InstructorsLogic {
         Emails emailMgr = new Emails();
 
         try {
-            MimeMessage email = emailMgr.generateNewInstructorAccountJoinEmail(instructor, shortName, institute);
-            emailMgr.sendAndLogEmail(email);
+            if (Config.isUsingSendgrid()) {
+                Sendgrid email = emailMgr.generateNewInstructorAccountJoinEmail(instructor, shortName, institute);
+                emailMgr.sendAndLogEmail(email);
+            } else {
+                MimeMessage email = emailMgr.generateNewInstructorAccountJoinEmailWithoutSendgrid(instructor, shortName, institute);
+                emailMgr.sendAndLogEmail(email);           
+            }
             joinLink = emailMgr.generateNewInstructorAccountJoinLink(instructor, institute);
 
         } catch (Exception e) {

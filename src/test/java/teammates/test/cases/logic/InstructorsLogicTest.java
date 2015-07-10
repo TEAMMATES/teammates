@@ -19,8 +19,10 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.googleSendgridJava.Sendgrid;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.storage.api.InstructorsDb;
@@ -776,24 +778,36 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         ______TS("success: send invite to instructor using instructor email");
         
         InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
-    
-        MimeMessage email = instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instructor.email);
-    
-        TestHelper.verifyJoinInviteToInstructor(instructor, email);
-    
         
-        ______TS("success: send invite to instructor using instructor attributes");
+        if (Config.isUsingSendgrid()) {
+            Sendgrid email = instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instructor.email);
+            TestHelper.verifyJoinInviteToInstructor(instructor, email);
+        } else {
+            MimeMessage email = instructorsLogic.sendRegistrationInviteToInstructorWithoutSendgrid(instructor.courseId, instructor.email);
+            TestHelper.verifyJoinInviteToInstructor(instructor, email);
+        }
 
-        email = instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instructor);
-    
-        TestHelper.verifyJoinInviteToInstructor(instructor, email);
+        ______TS("success: send invite to instructor using instructor attributes");
+        
+        if (Config.isUsingSendgrid()) {
+            Sendgrid email = instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instructor);
+            TestHelper.verifyJoinInviteToInstructor(instructor, email);
+        } else {
+            MimeMessage email = instructorsLogic.sendRegistrationInviteToInstructorWithoutSendgrid(instructor.courseId, instructor);
+            TestHelper.verifyJoinInviteToInstructor(instructor, email);
+        }       
         
         ______TS("failure: send to non-existing instructor");
     
         String instrEmail = "non-existing-instr@email.tmt";
         
         try {
-            instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instrEmail);
+            if (Config.isUsingSendgrid()) {
+                instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instrEmail);
+            } else {
+                instructorsLogic.sendRegistrationInviteToInstructorWithoutSendgrid(instructor.courseId, instrEmail);
+            }
+            
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("Instructor [" + instrEmail + "] does not exist in course",
@@ -803,7 +817,12 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         ______TS("failure: send invitation for a non-existent course");
 
         try {
-            instructorsLogic.sendRegistrationInviteToInstructor("non-existent-courseId", instructor.email);
+            if (Config.isUsingSendgrid()) {
+                instructorsLogic.sendRegistrationInviteToInstructor("non-existent-courseId", instructor.email);
+            } else {
+                instructorsLogic.sendRegistrationInviteToInstructorWithoutSendgrid("non-existent-courseId", instructor.email);
+            }
+            
             signalFailureToDetectException();
         } catch (EntityDoesNotExistException e) {
             AssertHelper.assertContains("Course does not exist [non-existent-courseId]", e.getMessage());
@@ -812,7 +831,12 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         ______TS("failure: null parameters");
         
         try {
-            instructorsLogic.sendRegistrationInviteToInstructor(null, instructor.email);
+            if (Config.isUsingSendgrid()) {
+                instructorsLogic.sendRegistrationInviteToInstructor(null, instructor.email);
+            } else {
+                instructorsLogic.sendRegistrationInviteToInstructorWithoutSendgrid(null, instructor.email);
+            }
+            
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());
@@ -820,7 +844,12 @@ public class InstructorsLogicTest extends BaseComponentTestCase{
         
         try {
             String instructorEmail = null;
-            instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instructorEmail);
+            if (Config.isUsingSendgrid()) {
+                instructorsLogic.sendRegistrationInviteToInstructor(instructor.courseId, instructorEmail);
+            } else {
+                instructorsLogic.sendRegistrationInviteToInstructorWithoutSendgrid(instructor.courseId, instructorEmail);
+            }
+            
             signalFailureToDetectException();
         } catch (AssertionError e) {
             AssertHelper.assertContains("Supplied parameter was null", e.getMessage());

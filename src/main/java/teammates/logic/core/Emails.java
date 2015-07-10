@@ -14,11 +14,15 @@ import java.util.logging.Logger;
 import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
+import javax.mail.Session;     
+import javax.mail.Transport;       
+import javax.mail.internet.AddressException;       
+import javax.mail.internet.InternetAddress;        
 import javax.mail.internet.MimeMessage;
+
+import org.jsoup.Jsoup;
+
+import com.google.appengine.labs.repackaged.org.json.JSONException;
 
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -36,6 +40,7 @@ import teammates.common.util.EmailTemplates;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
+import teammates.googleSendgridJava.Sendgrid;
 
 /**
  * Handles operations related to sending e-mails.
@@ -65,22 +70,40 @@ public class Emails {
     private String senderEmail;
     private String senderName;
     private String replyTo;
+    
+    Sendgrid mail;
 
     public Emails() {
         senderEmail = "Admin@" + Config.inst().getAppId() + ".appspotmail.com";
         senderName = "TEAMMATES Admin";
         replyTo = "teammates@comp.nus.edu.sg";
+        
+        if (Config.isUsingSendgrid()) {
+            mail = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);
+        }
     }
-
-    public static String getEmailInfo(MimeMessage message)
-            throws MessagingException {
+    
+    public static String getEmailInfo(MimeMessage message) throws MessagingException {
         StringBuilder messageInfo = new StringBuilder();
         messageInfo.append("[Email sent]");
-        messageInfo
-                .append("to="
-                        + message.getRecipients(Message.RecipientType.TO)[0]
-                                .toString());
+        messageInfo.append("to=" + message.getRecipients(Message.RecipientType.TO)[0].toString());        
         messageInfo.append("|from=" + message.getFrom()[0].toString());
+        
+        messageInfo.append("|subject=" + message.getSubject());
+        return messageInfo.toString();
+    }
+
+    public static String getEmailInfo(Sendgrid message) {
+        StringBuilder messageInfo = new StringBuilder();
+        messageInfo.append("[Email sent]");
+        messageInfo.append("to=" + message.getTos().get(0));
+        
+        if (message.getFromName() == null) {
+            messageInfo.append("|from=" + message.getFrom());
+        } else {
+            messageInfo.append("|from=" + message.getFromName() + " <" + message.getFrom() + ">");
+        }
+        
         messageInfo.append("|subject=" + message.getSubject());
         return messageInfo.toString();
     }
@@ -110,8 +133,43 @@ public class Emails {
                 Const.ActionURIs.EMAIL_WORKER, paramMap);
     }
     
-    public List<MimeMessage> generateFeedbackSessionOpeningEmails(FeedbackSessionAttributes session) 
-                    throws EntityDoesNotExistException, MessagingException, IOException {
+    public List<MimeMessage> generateFeedbackSessionOpeningEmailsWithoutSendgrid(
+                                    FeedbackSessionAttributes session)
+                                    throws EntityDoesNotExistException, MessagingException, IOException {
+
+        String template = EmailTemplates.USER_FEEDBACK_SESSION;
+        StudentsLogic studentsLogic = StudentsLogic.inst();
+        CoursesLogic coursesLogic = CoursesLogic.inst();
+        InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+        FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+
+        CourseAttributes course = coursesLogic
+                                        .getCourse(session.courseId);
+        List<InstructorAttributes> instructors = instructorsLogic
+                                        .getInstructorsForCourse(session.courseId);
+        List<StudentAttributes> students;
+
+        if (fsLogic.isFeedbackSessionForStudentsToAnswer(session)) {
+            students = studentsLogic.getStudentsForCourse(session.courseId);
+        } else {
+            students = new ArrayList<StudentAttributes>();
+        }
+
+        List<MimeMessage> emails = generateFeedbackSessionEmailBasesWithoutSendgrid(course,
+                                        session, students, instructors, template);
+
+        for (MimeMessage email : emails) {
+            email.setSubject(email.getSubject().replace("${subjectPrefix}",
+                                            SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
+            email.setContent(email.getContent().toString()
+                                            .replace("${status}", "is now open"), "text/html");
+        }
+
+        return emails;
+    }
+    
+    public List<Sendgrid> generateFeedbackSessionOpeningEmails(FeedbackSessionAttributes session) 
+                    throws EntityDoesNotExistException, IOException {
         
         String template = EmailTemplates.USER_FEEDBACK_SESSION;
         StudentsLogic studentsLogic = StudentsLogic.inst();
@@ -131,57 +189,112 @@ public class Emails {
             students = new ArrayList<StudentAttributes>();
         }
         
-        List<MimeMessage> emails = generateFeedbackSessionEmailBases(course,
+        List<Sendgrid> emails = generateFeedbackSessionEmailBases(course,
                 session, students, instructors, template);
         
-        for (MimeMessage email : emails) {
+        for (Sendgrid email : emails) {
             email.setSubject(email.getSubject().replace("${subjectPrefix}",
                     SUBJECT_PREFIX_FEEDBACK_SESSION_OPENING));
-            email.setContent(
-                    email.getContent().toString()
-                            .replace("${status}", "is now open"), "text/html");
+            email.setHtml(email.getHtml().replace("${status}", "is now open"));
         }
         
         return emails;
     }
     
-    public List<MimeMessage> generateFeedbackSessionReminderEmails(
+    public List<MimeMessage> generateFeedbackSessionReminderEmailsWithoutSendgrid(
+            CourseAttributes course,
+            FeedbackSessionAttributes session,
+            List<StudentAttributes> students,
+            List<InstructorAttributes> instructorsToRemind,
+            List<InstructorAttributes> instructorsToNotify)
+                    throws MessagingException, IOException {
+
+        String template = EmailTemplates.USER_FEEDBACK_SESSION;
+        List<MimeMessage> emails = generateFeedbackSessionEmailBasesForInstructorRemindersWithoutSendgrid(
+                                        course, session, instructorsToRemind, template);
+        emails.addAll(generateFeedbackSessionEmailBasesWithoutSendgrid(course,
+                                        session, students, instructorsToNotify, template));
+
+        for (MimeMessage email : emails) {
+            email.setSubject(email.getSubject().replace("${subjectPrefix}",
+                                            SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER));
+            email.setContent(email.getContent().toString().replace("${status}", "is still open for submissions"), "text/html");
+        }
+        return emails;
+    }
+    
+    public List<Sendgrid> generateFeedbackSessionReminderEmails(
             CourseAttributes course, 
             FeedbackSessionAttributes session,
             List<StudentAttributes> students,
             List<InstructorAttributes> instructorsToRemind,
             List<InstructorAttributes> instructorsToNotify) 
-                    throws MessagingException, IOException {
+                    throws IOException {
 
         String template = EmailTemplates.USER_FEEDBACK_SESSION;
-        List<MimeMessage> emails = generateFeedbackSessionEmailBasesForInstructorReminders(
+        List<Sendgrid> emails = generateFeedbackSessionEmailBasesForInstructorReminders(
                 course, session, instructorsToRemind, template);
         emails.addAll(generateFeedbackSessionEmailBases(course,
                 session, students, instructorsToNotify, template));
         
-        for (MimeMessage email : emails) {
+        for (Sendgrid email : emails) {
             email.setSubject(email.getSubject().replace("${subjectPrefix}",
                     SUBJECT_PREFIX_FEEDBACK_SESSION_REMINDER));
-            email.setContent(
-                    email.getContent()
-                            .toString()
-                            .replace("${status}",
-                                    "is still open for submissions"),
-                    "text/html");
+            email.setHtml(email.getHtml().replace("${status}",
+                                    "is still open for submissions"));
         }
         return emails;
     }
     
-    public List<MimeMessage> generateFeedbackSessionClosingEmails(
-            FeedbackSessionAttributes session)
-                    throws MessagingException, IOException, EntityDoesNotExistException {
-        
+    public List<MimeMessage> generateFeedbackSessionClosingEmailsWithoutSendgrid(
+                                    FeedbackSessionAttributes session)
+                                    throws MessagingException, IOException, EntityDoesNotExistException {
+
         StudentsLogic studentsLogic = StudentsLogic.inst();
         CoursesLogic coursesLogic = CoursesLogic.inst();
         InstructorsLogic instructorsLogic = InstructorsLogic.inst();
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
         String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSING;
         List<MimeMessage> emails = null;
+
+        CourseAttributes course = coursesLogic
+                                        .getCourse(session.courseId);
+        List<InstructorAttributes> instructors = instructorsLogic
+                                        .getInstructorsForCourse(session.courseId);
+        List<StudentAttributes> students = new ArrayList<StudentAttributes>();
+
+        if (fsLogic.isFeedbackSessionForStudentsToAnswer(session)) {
+            List<StudentAttributes> allStudents = studentsLogic.
+                                            getStudentsForCourse(session.courseId);
+
+            for (StudentAttributes student : allStudents) {
+                if (!fsLogic.isFeedbackSessionFullyCompletedByStudent(
+                                                session.feedbackSessionName, session.courseId,
+                                                student.email)) {
+                    students.add(student);
+                }
+            }
+        }
+        emails = generateFeedbackSessionEmailBasesWithoutSendgrid(
+                                        course, session, students, instructors, template);
+        for (MimeMessage email : emails) {
+            email.setSubject(email.getSubject().replace("${subjectPrefix}",
+                                            SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));
+            email.setContent(email.getContent().toString().replace("${status}", "is closing soon"), "text/html");
+        }
+        return emails;
+    }
+    
+    public List<Sendgrid> generateFeedbackSessionClosingEmails(
+            FeedbackSessionAttributes session)
+                    throws IOException, EntityDoesNotExistException {
+        
+        StudentsLogic studentsLogic = StudentsLogic.inst();
+        CoursesLogic coursesLogic = CoursesLogic.inst();
+        InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+        FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+        String template = EmailTemplates.USER_FEEDBACK_SESSION_CLOSING;
+        List<Sendgrid> emails = null;
         
         CourseAttributes course = coursesLogic
                 .getCourse(session.courseId);
@@ -203,19 +316,44 @@ public class Emails {
         }
         emails = generateFeedbackSessionEmailBases(
                 course, session, students, instructors, template);
-        for (MimeMessage email : emails) {
+        for (Sendgrid email : emails) {
             email.setSubject(email.getSubject().replace("${subjectPrefix}",
                     SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));
-            email.setContent(
-                    email.getContent().toString()
-                            .replace("${status}", "is closing soon"),
-                    "text/html");
+            email.setHtml(
+                    email.getHtml()
+                            .replace("${status}", "is closing soon"));
         }
         return emails;
     }
     
-    public List<MimeMessage> generatePendingCommentsClearedEmails(String courseId, Set<String> recipients) 
-            throws EntityDoesNotExistException, MessagingException, UnsupportedEncodingException{
+    public List<MimeMessage> generatePendingCommentsClearedEmailsWithoutSendgrid(String courseId, Set<String> recipients)
+                                    throws EntityDoesNotExistException, MessagingException, UnsupportedEncodingException {
+        CourseAttributes course = CoursesLogic.inst().getCourse(courseId);
+        List<StudentAttributes> students = StudentsLogic.inst().getStudentsForCourse(courseId);
+        Map<String, StudentAttributes> emailStudentTable = new HashMap<String, StudentAttributes>();
+        for (StudentAttributes s : students) {
+            emailStudentTable.put(s.email, s);
+        }
+
+        String template = EmailTemplates.USER_PENDING_COMMENTS_CLEARED;
+
+        ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
+        for (String recipientEmail : recipients) {
+            StudentAttributes s = emailStudentTable.get(recipientEmail);
+            if (s == null)
+                continue;
+            emails.add(generatePendingCommentsClearedEmailBaseForStudentWithoutSendgrid(course, s,
+                                            template));
+        }
+        for (MimeMessage email : emails) {
+            email.setSubject(email.getSubject().replace("${subjectPrefix}",
+                                            SUBJECT_PREFIX_PENDING_COMMENTS_CLEARED));
+        }
+        return emails;
+    }
+    
+    public List<Sendgrid> generatePendingCommentsClearedEmails(String courseId, Set<String> recipients) 
+            throws EntityDoesNotExistException, UnsupportedEncodingException{
         CourseAttributes course = CoursesLogic.inst().getCourse(courseId);
         List<StudentAttributes> students = StudentsLogic.inst().getStudentsForCourse(courseId);
         Map<String, StudentAttributes> emailStudentTable = new HashMap<String, StudentAttributes>();
@@ -225,24 +363,53 @@ public class Emails {
         
         String template = EmailTemplates.USER_PENDING_COMMENTS_CLEARED;
         
-        ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
+        ArrayList<Sendgrid> emails = new ArrayList<Sendgrid>();
         for (String recipientEmail : recipients) {
             StudentAttributes s = emailStudentTable.get(recipientEmail);
             if(s == null) continue;
             emails.add(generatePendingCommentsClearedEmailBaseForStudent(course, s,
                     template));
         }
-        for (MimeMessage email : emails) {
+        for (Sendgrid email : emails) {
             email.setSubject(email.getSubject().replace("${subjectPrefix}",
                     SUBJECT_PREFIX_PENDING_COMMENTS_CLEARED));
         }
         return emails;
     }
     
-    public MimeMessage generatePendingCommentsClearedEmailBaseForStudent(CourseAttributes course,
+    public MimeMessage generatePendingCommentsClearedEmailBaseForStudentWithoutSendgrid(CourseAttributes course,
+                                    StudentAttributes student, String template)
+                                    throws MessagingException, UnsupportedEncodingException {
+        MimeMessage message = getEmptyEmailAddressedToEmailWithoutSendgrid(student.email);
+
+        message.setSubject(String.format("${subjectPrefix} [Course: %s]", course.id));
+
+        String emailBody = template;
+
+        if (isYetToJoinCourse(student)) {
+            emailBody = fillUpStudentJoinFragment(student, emailBody);
+        } else {
+            emailBody = emailBody.replace("${joinFragment}", "");
+        }
+
+        emailBody = emailBody.replace("${userName}", student.name);
+        emailBody = emailBody.replace("${courseName}", course.name);
+        emailBody = emailBody.replace("${courseId}", course.id);
+
+        String commentsPageUrl = Config.APP_URL
+                                        + Const.ActionURIs.STUDENT_COMMENTS_PAGE;
+        commentsPageUrl = Url.addParamToUrl(commentsPageUrl, Const.ParamsNames.COURSE_ID,
+                                        course.id);
+        emailBody = emailBody.replace("${commentsPageUrl}", commentsPageUrl);
+
+        message.setContent(emailBody, "text/html");
+        return message;
+    }
+    
+    public Sendgrid generatePendingCommentsClearedEmailBaseForStudent(CourseAttributes course,
             StudentAttributes student, String template) 
-                    throws MessagingException, UnsupportedEncodingException{
-        MimeMessage message = getEmptyEmailAddressedToEmail(student.email);
+                    throws UnsupportedEncodingException{
+        Sendgrid message = getEmptyEmailAddressedToEmail(student.email);
 
         message.setSubject(String
                 .format("${subjectPrefix} [Course: %s]",
@@ -266,20 +433,52 @@ public class Emails {
                 course.id);
         emailBody = emailBody.replace("${commentsPageUrl}", commentsPageUrl);
 
-        message.setContent(emailBody, "text/html");
+        message.setHtml(emailBody);
         return message;
     }
     
-    public List<MimeMessage> generateFeedbackSessionPublishedEmails(
-            FeedbackSessionAttributes session)
-                    throws MessagingException, IOException, EntityDoesNotExistException {
-        
+    public List<MimeMessage> generateFeedbackSessionPublishedEmailsWithoutSendgrid(
+                                    FeedbackSessionAttributes session)
+                                    throws MessagingException, IOException, EntityDoesNotExistException {
+
         StudentsLogic studentsLogic = StudentsLogic.inst();
         CoursesLogic coursesLogic = CoursesLogic.inst();
         InstructorsLogic instructorsLogic = InstructorsLogic.inst();
         FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
         String template = EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED;
         List<MimeMessage> emails = null;
+
+        CourseAttributes course = coursesLogic
+                                        .getCourse(session.courseId);
+        List<StudentAttributes> students;
+        List<InstructorAttributes> instructors = instructorsLogic
+                                        .getInstructorsForCourse(session.courseId);
+
+        if (fsLogic.isFeedbackSessionViewableToStudents(session)) {
+            students = studentsLogic.getStudentsForCourse(session.courseId);
+        } else {
+            students = new ArrayList<StudentAttributes>();
+        }
+        emails = generateFeedbackSessionEmailBasesWithoutSendgrid(course,
+                                        session, students, instructors, template);
+
+        for (MimeMessage email : emails) {
+            email.setSubject(email.getSubject().replace("${subjectPrefix}",
+                                            SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED));
+        }
+        return emails;
+    }
+    
+    public List<Sendgrid> generateFeedbackSessionPublishedEmails(
+            FeedbackSessionAttributes session)
+                    throws EntityDoesNotExistException, UnsupportedEncodingException {
+        
+        StudentsLogic studentsLogic = StudentsLogic.inst();
+        CoursesLogic coursesLogic = CoursesLogic.inst();
+        InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+        FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+        String template = EmailTemplates.USER_FEEDBACK_SESSION_PUBLISHED;
+        List<Sendgrid> emails = null;
 
         CourseAttributes course = coursesLogic
                 .getCourse(session.courseId);
@@ -295,22 +494,42 @@ public class Emails {
         emails = generateFeedbackSessionEmailBases(course,
                 session, students, instructors, template);
         
-        for (MimeMessage email : emails) {
+        for (Sendgrid email : emails) {
             email.setSubject(email.getSubject().replace("${subjectPrefix}",
                     SUBJECT_PREFIX_FEEDBACK_SESSION_PUBLISHED));
         }
         return emails;
     }
     
-    public List<MimeMessage> generateFeedbackSessionEmailBases(
+    public List<MimeMessage> generateFeedbackSessionEmailBasesWithoutSendgrid(
+            CourseAttributes course,
+            FeedbackSessionAttributes session,
+            List<StudentAttributes> students,
+            List<InstructorAttributes> instructors,
+            String template)
+                    throws MessagingException, UnsupportedEncodingException {
+
+        ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
+        for (StudentAttributes s : students) {
+            emails.add(generateFeedbackSessionEmailBaseForStudentsWithoutSendgrid(
+                                            course, session, s, template));
+        }
+        for (InstructorAttributes i : instructors) {
+            emails.add(generateFeedbackSessionEmailBaseForInstructorsWithoutSendgrid(
+                                            course, session, i, template));
+        }
+        return emails;
+    }
+    
+    public List<Sendgrid> generateFeedbackSessionEmailBases(
             CourseAttributes course,
             FeedbackSessionAttributes session, 
             List<StudentAttributes> students,
             List<InstructorAttributes> instructors,
             String template) 
-                    throws MessagingException, UnsupportedEncodingException {
+                    throws UnsupportedEncodingException {
         
-        ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
+        ArrayList<Sendgrid> emails = new ArrayList<Sendgrid>();
         for (StudentAttributes s : students) {
             emails.add(generateFeedbackSessionEmailBaseForStudents(course, session, s,
                     template));
@@ -322,29 +541,88 @@ public class Emails {
         return emails;
     }
     
-    public List<MimeMessage> generateFeedbackSessionEmailBasesForInstructorReminders(
+    public List<MimeMessage> generateFeedbackSessionEmailBasesForInstructorRemindersWithoutSendgrid(
+            CourseAttributes course,
+            FeedbackSessionAttributes session,
+            List<InstructorAttributes> instructors,
+            String template)
+                    throws MessagingException, UnsupportedEncodingException {
+
+        ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
+        for (InstructorAttributes i : instructors) {
+            emails.add(generateFeedbackSessionEmailBaseForInstructorRemindersWithoutSendgrid(course, session, i,
+                                            template));
+        }
+        return emails;
+    }
+    
+    public List<Sendgrid> generateFeedbackSessionEmailBasesForInstructorReminders(
             CourseAttributes course,
             FeedbackSessionAttributes session, 
             List<InstructorAttributes> instructors,
             String template) 
-                    throws MessagingException, UnsupportedEncodingException {
+                    throws UnsupportedEncodingException {
         
-        ArrayList<MimeMessage> emails = new ArrayList<MimeMessage>();
+        ArrayList<Sendgrid> emails = new ArrayList<Sendgrid>();
         for (InstructorAttributes i : instructors) {
             emails.add(generateFeedbackSessionEmailBaseForInstructorReminders(course, session, i,
                     template));
         }
         return emails;
     }
-
-    public MimeMessage generateFeedbackSessionEmailBaseForStudents(
+    
+    public MimeMessage generateFeedbackSessionEmailBaseForStudentsWithoutSendgrid(
             CourseAttributes c,
-            FeedbackSessionAttributes fs, 
+            FeedbackSessionAttributes fs,
             StudentAttributes s,
             String template)
                     throws MessagingException, UnsupportedEncodingException {
 
-        MimeMessage message = getEmptyEmailAddressedToEmail(s.email);
+        MimeMessage message = getEmptyEmailAddressedToEmailWithoutSendgrid(s.email);
+
+        message.setSubject(String.format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
+                                                                        c.name, fs.feedbackSessionName));
+
+        String emailBody = template;
+
+        emailBody = emailBody.replace("${userName}", s.name);
+        emailBody = emailBody.replace("${courseName}", c.name);
+        emailBody = emailBody.replace("${courseId}", c.id);
+        emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
+        emailBody = emailBody.replace("${joinFragment}", "");
+        emailBody = emailBody.replace("${deadline}",
+                                        TimeHelper.formatTime(fs.endTime));
+        emailBody = emailBody.replace("${instructorFragment}", "");
+
+        String submitUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE)
+                                        .withCourseId(c.id)
+                                        .withSessionName(fs.feedbackSessionName)
+                                        .withRegistrationKey(StringHelper.encrypt(s.key))
+                                        .withStudentEmail(s.email)
+                                        .toString();
+        emailBody = emailBody.replace("${submitUrl}", submitUrl);
+
+        String reportUrl = new Url(Config.APP_URL + Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE)
+                                        .withCourseId(c.id)
+                                        .withSessionName(fs.feedbackSessionName)
+                                        .withRegistrationKey(StringHelper.encrypt(s.key))
+                                        .withStudentEmail(s.email)
+                                        .toString();
+        emailBody = emailBody.replace("${reportUrl}", reportUrl);
+
+        message.setContent(emailBody, "text/html");
+
+        return message;
+    }
+
+    public Sendgrid generateFeedbackSessionEmailBaseForStudents(
+            CourseAttributes c,
+            FeedbackSessionAttributes fs, 
+            StudentAttributes s,
+            String template)
+                    throws UnsupportedEncodingException {
+
+        Sendgrid message = getEmptyEmailAddressedToEmail(s.email);
 
         message.setSubject(String
                 .format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
@@ -377,19 +655,55 @@ public class Emails {
                             .toString();
         emailBody = emailBody.replace("${reportUrl}", reportUrl);
 
+        message.setHtml(emailBody);
+
+        return message;
+    }
+    
+    public MimeMessage generateFeedbackSessionEmailBaseForInstructorsWithoutSendgrid(
+            CourseAttributes c,
+            FeedbackSessionAttributes fs,
+            InstructorAttributes i,
+            String template)
+                    throws MessagingException, UnsupportedEncodingException {
+
+        MimeMessage message = getEmptyEmailAddressedToEmailWithoutSendgrid(i.email);
+
+        message.setSubject(String.format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
+                                                                        c.name, fs.feedbackSessionName));
+
+        String emailBody = template;
+
+        emailBody = emailBody.replace("${joinFragment}", "");
+        emailBody = emailBody.replace("${userName}", i.name);
+        emailBody = emailBody.replace("${courseName}", c.name);
+        emailBody = emailBody.replace("${courseId}", c.id);
+        emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
+        emailBody = emailBody.replace("${deadline}",
+                                        TimeHelper.formatTime(fs.endTime));
+        emailBody = emailBody.replace("${instructorFragment}",
+                                        "The email below has been sent to students of course: " + c.id
+                                                                        + ".<p/><br/>");
+
+        String submitUrl = "{The student's unique submission url appears here}";
+        emailBody = emailBody.replace("${submitUrl}", submitUrl);
+
+        String reportUrl = "{The student's unique results url appears here}";
+        emailBody = emailBody.replace("${reportUrl}", reportUrl);
+
         message.setContent(emailBody, "text/html");
 
         return message;
     }
 
-    public MimeMessage generateFeedbackSessionEmailBaseForInstructors(
+    public Sendgrid generateFeedbackSessionEmailBaseForInstructors(
             CourseAttributes c,
             FeedbackSessionAttributes fs, 
             InstructorAttributes i,
             String template)
-                    throws MessagingException, UnsupportedEncodingException {
+                    throws UnsupportedEncodingException {
 
-        MimeMessage message = getEmptyEmailAddressedToEmail(i.email);
+        Sendgrid message = getEmptyEmailAddressedToEmail(i.email);
 
         message.setSubject(String
                 .format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
@@ -412,19 +726,63 @@ public class Emails {
         String reportUrl = "{The student's unique results url appears here}";
         emailBody = emailBody.replace("${reportUrl}", reportUrl);
 
+        message.setHtml(emailBody);
+
+        return message;
+    }
+    
+    public MimeMessage generateFeedbackSessionEmailBaseForInstructorRemindersWithoutSendgrid(
+            CourseAttributes c,
+            FeedbackSessionAttributes fs,
+            InstructorAttributes i,
+            String template)
+                    throws MessagingException, UnsupportedEncodingException {
+
+        MimeMessage message = getEmptyEmailAddressedToEmailWithoutSendgrid(i.email);
+
+        message.setSubject(String.format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
+                                                                        c.name, fs.feedbackSessionName));
+
+        String emailBody = template;
+
+        emailBody = emailBody.replace("${joinFragment}", "");
+        emailBody = emailBody.replace("${userName}", i.name);
+        emailBody = emailBody.replace("${courseName}", c.name);
+        emailBody = emailBody.replace("${courseId}", c.id);
+        emailBody = emailBody.replace("${feedbackSessionName}", fs.feedbackSessionName);
+        emailBody = emailBody.replace("${deadline}",
+                                        TimeHelper.formatTime(fs.endTime));
+        emailBody = emailBody.replace("${instructorFragment}", "");
+
+        String submitUrl = Config.APP_URL
+                                        + Const.ActionURIs.INSTRUCTOR_FEEDBACK_SUBMISSION_EDIT_PAGE;
+        submitUrl = Url.addParamToUrl(submitUrl, Const.ParamsNames.COURSE_ID,
+                                        c.id);
+        submitUrl = Url.addParamToUrl(submitUrl,
+                                        Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
+        emailBody = emailBody.replace("${submitUrl}", submitUrl);
+
+        String reportUrl = Config.APP_URL
+                                        + Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE;
+        reportUrl = Url.addParamToUrl(reportUrl, Const.ParamsNames.COURSE_ID,
+                                        c.id);
+        reportUrl = Url.addParamToUrl(reportUrl,
+                                        Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
+        emailBody = emailBody.replace("${reportUrl}", reportUrl);
+
         message.setContent(emailBody, "text/html");
 
         return message;
     }
     
-    public MimeMessage generateFeedbackSessionEmailBaseForInstructorReminders(
+    public Sendgrid generateFeedbackSessionEmailBaseForInstructorReminders(
             CourseAttributes c,
             FeedbackSessionAttributes fs, 
             InstructorAttributes i,
             String template)
-                    throws MessagingException, UnsupportedEncodingException {
+                    throws UnsupportedEncodingException {
 
-        MimeMessage message = getEmptyEmailAddressedToEmail(i.email);
+        Sendgrid message = getEmptyEmailAddressedToEmail(i.email);
 
         message.setSubject(String
                 .format("${subjectPrefix} [Course: %s][Feedback Session: %s]",
@@ -457,18 +815,18 @@ public class Emails {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName);
         emailBody = emailBody.replace("${reportUrl}", reportUrl);
 
-        message.setContent(emailBody, "text/html");
+        message.setHtml(emailBody);
 
         return message;
     }
     
-    public MimeMessage generateStudentCourseJoinEmail(
-            CourseAttributes course, StudentAttributes student) 
-                    throws AddressException, MessagingException, UnsupportedEncodingException {
+    public MimeMessage generateStudentCourseJoinEmailWithoutSendgrid(
+                        CourseAttributes course, StudentAttributes student)
+                                        throws MessagingException, UnsupportedEncodingException {
 
-        MimeMessage message = getEmptyEmailAddressedToEmail(student.email);
+        MimeMessage message = getEmptyEmailAddressedToEmailWithoutSendgrid(student.email);
         message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_COURSE_JOIN
-                + " [%s][Course ID: %s]", course.name, course.id));
+                                        + " [%s][Course ID: %s]", course.name, course.id));
 
         String emailBody = EmailTemplates.USER_COURSE_JOIN;
         emailBody = fillUpStudentJoinFragment(student, emailBody);
@@ -479,24 +837,47 @@ public class Emails {
         return message;
     }
     
-    public MimeMessage generateAdminEmail(String content, String subject, String sendTo) throws MessagingException, UnsupportedEncodingException 
-    {
+    public Sendgrid generateStudentCourseJoinEmail(
+            CourseAttributes course, StudentAttributes student) 
+                    throws UnsupportedEncodingException {
 
-        MimeMessage message = getEmptyEmailAddressedToEmail(sendTo);
+        Sendgrid message = getEmptyEmailAddressedToEmail(student.email);
+        message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_COURSE_JOIN
+                + " [%s][Course ID: %s]", course.name, course.id));
+
+        String emailBody = EmailTemplates.USER_COURSE_JOIN;
+        emailBody = fillUpStudentJoinFragment(student, emailBody);
+        emailBody = emailBody.replace("${userName}", student.name);
+        emailBody = emailBody.replace("${courseName}", course.name);
+
+        message.setHtml(emailBody);
+        return message;
+    }
+    
+    public MimeMessage generateAdminEmailWithoutSendgrid(String content, String subject, String sendTo) 
+                                    throws MessagingException, UnsupportedEncodingException {
+        MimeMessage message = getEmptyEmailAddressedToEmailWithoutSendgrid(sendTo);
         message.setSubject(subject);
 
         message.setContent(content, "text/html");
         return message;
     }
     
+    public Sendgrid generateAdminEmail(String content, String subject, String sendTo) throws UnsupportedEncodingException {
+        Sendgrid message = getEmptyEmailAddressedToEmail(sendTo);
+        message.setSubject(subject);
 
-    public MimeMessage generateStudentCourseRejoinEmailAfterGoogleIdReset(
-            CourseAttributes course, StudentAttributes student) 
-                    throws AddressException, MessagingException, UnsupportedEncodingException {
+        message.setHtml(content);
+        return message;
+    }
+    
+    public MimeMessage generateStudentCourseRejoinEmailAfterGoogleIdResetWithoutSendgrid(
+                                    CourseAttributes course, StudentAttributes student)
+                                    throws MessagingException, UnsupportedEncodingException {
 
-        MimeMessage message = getEmptyEmailAddressedToEmail(student.email);
+        MimeMessage message = getEmptyEmailAddressedToEmailWithoutSendgrid(student.email);
         message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET
-                + " [%s][Course ID: %s]", course.name, course.id));
+                                        + " [%s][Course ID: %s]", course.name, course.id));
 
         String emailBody = EmailTemplates.USER_COURSE_JOIN;
         emailBody = fillUpStudentRejoinAfterGoogleIdResetFragment(student, emailBody);
@@ -506,12 +887,48 @@ public class Emails {
         message.setContent(emailBody, "text/html");
         return message;
     }
-    
-    public MimeMessage generateNewInstructorAccountJoinEmail(InstructorAttributes instructor,String shortName, String institute) 
-                             throws AddressException,MessagingException,UnsupportedEncodingException {
 
-        MimeMessage messageToUser = getEmptyEmailAddressedToEmail(instructor.email);
+    public Sendgrid generateStudentCourseRejoinEmailAfterGoogleIdReset(
+            CourseAttributes course, StudentAttributes student) 
+                    throws UnsupportedEncodingException {
+
+        Sendgrid message = getEmptyEmailAddressedToEmail(student.email);
+        message.setSubject(String.format(SUBJECT_PREFIX_STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET
+                + " [%s][Course ID: %s]", course.name, course.id));
+
+        String emailBody = EmailTemplates.USER_COURSE_JOIN;
+        emailBody = fillUpStudentRejoinAfterGoogleIdResetFragment(student, emailBody);
+        emailBody = emailBody.replace("${userName}", student.name);
+        emailBody = emailBody.replace("${courseName}", course.name);
+
+        message.setHtml(emailBody);
+        return message;
+    }
+    
+    public MimeMessage generateNewInstructorAccountJoinEmailWithoutSendgrid(
+                                    InstructorAttributes instructor, String shortName, String institute)
+                                    throws AddressException, MessagingException, UnsupportedEncodingException {
+
+        MimeMessage messageToUser = getEmptyEmailAddressedToEmailWithoutSendgrid(instructor.email);
         messageToUser = addBccRecipientToEmail(messageToUser, Config.SUPPORT_EMAIL);
+
+        messageToUser.setSubject(String.format(SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT + " " + shortName));
+        String joinUrl = generateNewInstructorAccountJoinLink(instructor, institute);
+
+        String emailBody = EmailTemplates.NEW_INSTRCUTOR_ACCOUNT_WELCOME;
+        emailBody = emailBody.replace("${userName}", shortName);
+        emailBody = emailBody.replace("${joinUrl}", joinUrl);
+        messageToUser.setContent(emailBody, "text/html");
+
+        return messageToUser;
+
+    }
+    
+    public Sendgrid generateNewInstructorAccountJoinEmail(InstructorAttributes instructor,String shortName, String institute) 
+                             throws UnsupportedEncodingException, JSONException {
+
+        Sendgrid messageToUser = getEmptyEmailAddressedToEmail(instructor.email);
+        messageToUser = setBccRecipientToEmail(messageToUser, Config.SUPPORT_EMAIL);
         
         messageToUser.setSubject(String.format(SUBJECT_PREFIX_NEW_INSTRUCTOR_ACCOUNT + " " + shortName));      
         String joinUrl = generateNewInstructorAccountJoinLink(instructor, institute);
@@ -519,7 +936,7 @@ public class Emails {
         String emailBody = EmailTemplates.NEW_INSTRCUTOR_ACCOUNT_WELCOME;
         emailBody = emailBody.replace("${userName}", shortName);
         emailBody = emailBody.replace("${joinUrl}",joinUrl);
-        messageToUser.setContent(emailBody, "text/html");
+        messageToUser.setHtml(emailBody);
 
         return messageToUser;
 
@@ -544,12 +961,28 @@ public class Emails {
         return joinUrl;
     }
     
+    public MimeMessage generateInstructorCourseJoinEmailWithoutSendgrid(
+                  CourseAttributes course, InstructorAttributes instructor)
+                                    throws AddressException, MessagingException, UnsupportedEncodingException {
+
+        MimeMessage message = getEmptyEmailAddressedToEmailWithoutSendgrid(instructor.email);
+        message.setSubject(String.format(SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN
+                                        + " [%s][Course ID: %s]", course.name, course.id));
+
+        String emailBody = EmailTemplates.USER_COURSE_JOIN;
+        emailBody = fillUpInstructorJoinFragment(instructor, emailBody);
+        emailBody = emailBody.replace("${userName}", instructor.name);
+        emailBody = emailBody.replace("${courseName}", course.name);
+
+        message.setContent(emailBody, "text/html");
+        return message;
+    }
     
-    public MimeMessage generateInstructorCourseJoinEmail(
+    public Sendgrid generateInstructorCourseJoinEmail(
             CourseAttributes course, InstructorAttributes instructor) 
-                    throws AddressException, MessagingException, UnsupportedEncodingException {
+                    throws UnsupportedEncodingException {
         
-        MimeMessage message = getEmptyEmailAddressedToEmail(instructor.email);    
+        Sendgrid message = getEmptyEmailAddressedToEmail(instructor.email);    
         message.setSubject(String.format(SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN
                 + " [%s][Course ID: %s]", course.name, course.id));
 
@@ -558,21 +991,62 @@ public class Emails {
         emailBody = emailBody.replace("${userName}", instructor.name);
         emailBody = emailBody.replace("${courseName}", course.name);
 
-        message.setContent(emailBody, "text/html");  
+        message.setHtml(emailBody);  
         return message;
     }
     
-    public MimeMessage generateSystemErrorEmail(
+    public MimeMessage generateSystemErrorEmailWithoutSendgrid(
+            Throwable error,
+            String requestPath,
+            String requestParam,
+            String version)
+            throws AddressException, MessagingException, UnsupportedEncodingException {
+
+        // TODO: remove version parameter?
+
+        Session session = Session.getDefaultInstance(new Properties(), null);
+        MimeMessage message = new MimeMessage(session);
+        String errorMessage = error.getMessage();
+        String stackTrace = TeammatesException.toStringWithStackTrace(error);
+
+        // if the error doesn't contain a short description,
+        // retrieve the first line of stack trace.
+        // truncate stack trace at first "at" string
+        if (errorMessage == null) {
+            int msgTruncateIndex = stackTrace.indexOf("at");
+            if (msgTruncateIndex > 0) {
+                errorMessage = stackTrace.substring(0, msgTruncateIndex);
+            } else {
+                errorMessage = "";
+            }
+        }
+        String recipient = Config.SUPPORT_EMAIL;
+        message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+        message.setFrom(new InternetAddress(senderEmail, senderName));
+        message.setSubject(String.format(SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR,
+                                        version, errorMessage));
+
+        String emailBody = EmailTemplates.SYSTEM_ERROR;
+
+        emailBody = emailBody.replace("${requestPath}", requestPath);
+        emailBody = emailBody.replace("${requestParameters}", requestParam);
+        emailBody = emailBody.replace("${errorMessage}", errorMessage);
+        emailBody = emailBody.replace("${stackTrace}", stackTrace);
+        message.setContent(emailBody, "text/html");
+
+        return message;
+    }
+    
+    public Sendgrid generateSystemErrorEmail(
             Throwable error,
             String requestPath, 
             String requestParam, 
             String version)
-            throws AddressException, MessagingException, UnsupportedEncodingException {
+            throws UnsupportedEncodingException {
         
         //TODO: remove version parameter?
         
-        Session session = Session.getDefaultInstance(new Properties(), null);
-        MimeMessage message = new MimeMessage(session);
+        Sendgrid message = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);
         String errorMessage = error.getMessage();
         String stackTrace = TeammatesException.toStringWithStackTrace(error);
     
@@ -588,9 +1062,9 @@ public class Emails {
             }
         }
         String recipient = Config.SUPPORT_EMAIL;
-        message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-                recipient));
-        message.setFrom(new InternetAddress(senderEmail, senderName));
+        message.addTo(recipient);
+        message.setFrom(senderEmail);
+        message.setFromName(senderName);
         message.setSubject(String.format(SUBJECT_PREFIX_ADMIN_SYSTEM_ERROR,
                 version, errorMessage));
     
@@ -600,15 +1074,15 @@ public class Emails {
         emailBody = emailBody.replace("${requestParameters}", requestParam);
         emailBody = emailBody.replace("${errorMessage}", errorMessage);
         emailBody = emailBody.replace("${stackTrace}", stackTrace);
-        message.setContent(emailBody, "text/html");
+        message.setHtml(emailBody);
     
         return message;
     }
+    
+    public MimeMessage generateCompiledLogsEmailWithoutSendgrid(String logs)
+                                    throws AddressException, MessagingException, UnsupportedEncodingException {
 
-    public MimeMessage generateCompiledLogsEmail(String logs)
-            throws AddressException, MessagingException, UnsupportedEncodingException {
-        
-        MimeMessage message = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
+        MimeMessage message = getEmptyEmailAddressedToEmailWithoutSendgrid(Config.SUPPORT_EMAIL);
         message.setSubject("Severe Error Logs Compilation");
 
         String emailBody = logs;
@@ -616,8 +1090,20 @@ public class Emails {
         message.setContent(emailBody, "text/html");
         return message;
     }
+
+    public Sendgrid generateCompiledLogsEmail(String logs)
+            throws UnsupportedEncodingException {
+        
+        Sendgrid message = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
+        message.setSubject("Severe Error Logs Compilation");
+
+        String emailBody = logs;
+
+        message.setHtml(emailBody);
+        return message;
+    }
     
-    public void sendEmails(List<MimeMessage> messages) {
+    public void sendEmailsWithoutSendgrid(List<MimeMessage> messages) {
         if (messages.isEmpty()) {
             return;
         }
@@ -642,7 +1128,33 @@ public class Emails {
         }
 
     }
+    
+    public void sendEmails(List<Sendgrid> messages) {
+        if (messages.isEmpty()) {
+            return;
+        }
+        
+        // Equally spread out the emails to be sent over 1 hour
+        int numberOfEmailsSent = 0;
+        int emailIntervalMillis = (1000 * 60 * 60) / messages.size();
 
+        // Sets interval to a maximum of 5 seconds if the interval is too large
+        int maxIntervalMillis = 5000;
+        emailIntervalMillis = emailIntervalMillis > maxIntervalMillis ? maxIntervalMillis : emailIntervalMillis;
+
+        for (Sendgrid m : messages) {
+            try {
+                long emailDelayTimer = numberOfEmailsSent * emailIntervalMillis;
+                addEmailToTaskQueue(m, emailDelayTimer);
+                numberOfEmailsSent++;
+            } catch (Exception e) {
+                log.severe("Error in sending : " + m.toString()
+                        + " Cause : " + e.getMessage());
+            }
+        }
+
+    }
+    
     public void addEmailToTaskQueue(MimeMessage message, long emailDelayTimer) throws MessagingException {
         try {
             HashMap<String, String> paramMap = new HashMap<String, String>();
@@ -658,22 +1170,45 @@ public class Emails {
         } catch (Exception e) {
             log.severe("Error when adding email to task queue: " + e.getMessage());
         } 
-        
     }
 
-    public void sendEmail(MimeMessage message) throws MessagingException {
-        log.info(getEmailInfo(message));
-        Transport.send(message);        
+    public void addEmailToTaskQueue(Sendgrid message, long emailDelayTimer) {
+        try {
+            HashMap<String, String> paramMap = new HashMap<String, String>();
+            paramMap.put(ParamsNames.EMAIL_SUBJECT, message.getSubject());
+            paramMap.put(ParamsNames.EMAIL_CONTENT, message.getHtml());
+            paramMap.put(ParamsNames.EMAIL_SENDER, message.getFrom());
+            paramMap.put(ParamsNames.EMAIL_RECEIVER, message.getTos().get(0));
+            paramMap.put(ParamsNames.EMAIL_REPLY_TO_ADDRESS, message.getReplyTo());
+            
+            TaskQueuesLogic taskQueueLogic = TaskQueuesLogic.inst();
+            taskQueueLogic.createAndAddDeferredTask(SystemParams.SEND_EMAIL_TASK_QUEUE,
+                    Const.ActionURIs.SEND_EMAIL_WORKER, paramMap, emailDelayTimer);
+        } catch (Exception e) {
+            log.severe("Error when adding email to task queue: " + e.getMessage());
+        } 
     }
     
+    public void sendEmail(MimeMessage message) throws MessagingException {
+        log.info(getEmailInfo(message));
+        Transport.send(message);         
+    }
+
+    public void sendEmail(Sendgrid message) throws JSONException {
+        log.info(getEmailInfo(message));
+        if (message.getText() == null) {
+            message.setText(generatePlainTextFromHtml(message.getHtml()));
+        }
+        message.send();        
+    }
     
     /**
      * This method sends the email as well as logs its receiver, subject and content 
      * @param message
-     * @throws MessagingException
+     * @throws MessagingException 
      */
     public void sendAndLogEmail(MimeMessage message) throws MessagingException {
-        log.info(getEmailInfo(message));
+        log.info(getEmailInfo(message));  
         Transport.send(message);
         
         try {
@@ -687,8 +1222,47 @@ public class Emails {
         
     }
     
-    public MimeMessage sendErrorReport(String path, String params, Throwable error) {
+    /**
+     * This method sends the email as well as logs its receiver, subject and content 
+     * @param message
+     * @throws JSONException 
+     */
+    public void sendAndLogEmail(Sendgrid message) throws JSONException {
+        log.info(getEmailInfo(message));
+        
+        if (message.getText() == null) {
+            message.setText(generatePlainTextFromHtml(message.getHtml()));
+        }
+        message.send();
+        
+        try {
+            EmailLogEntry newEntry = new EmailLogEntry(message);
+            String emailLogInfo = newEntry.generateLogMessage();
+            log.log(Level.INFO, emailLogInfo);
+        } catch (Exception e) {
+            log.severe("Failed to generate log for email: " + getEmailInfo(message));
+            e.printStackTrace();
+        }
+        
+    }
+    
+    public MimeMessage sendErrorReportWithoutSendgrid(String path, String params, Throwable error) {
         MimeMessage email = null;
+        try {
+            email = generateSystemErrorEmailWithoutSendgrid(error, path, params,
+                    Config.inst().getAppVersion());
+            sendEmail(email);
+            log.severe("Sent crash report: " + Emails.getEmailInfo(email));
+        } catch (Exception e) {
+            log.severe("Error in sending crash report: "
+                    + (email == null ? "" : email.toString()));
+        }
+    
+        return email;
+    }
+
+    public Sendgrid sendErrorReport(String path, String params, Throwable error) {
+        Sendgrid email = null;
         try {
             email = generateSystemErrorEmail(error, path, params,
                     Config.inst().getAppVersion());
@@ -701,9 +1275,21 @@ public class Emails {
     
         return email;
     }
-
+    
     public MimeMessage sendLogReport(MimeMessage message) {
         MimeMessage email = null;
+        try {
+            sendEmail(message);
+        } catch (Exception e) {
+            log.severe("Error in sending log report: "
+                    + (email == null ? "" : email.toString()));
+        }
+    
+        return email;
+    }
+
+    public Sendgrid sendLogReport(Sendgrid message) {
+        Sendgrid email = null;
         try {
             sendEmail(message);
         } catch (Exception e) {
@@ -762,24 +1348,39 @@ public class Emails {
         emailBody = emailBody.replace("${joinUrl}", joinUrl);
         return emailBody;
     }
-
-    private MimeMessage getEmptyEmailAddressedToEmail(String email)
-            throws MessagingException, AddressException,
-            UnsupportedEncodingException {
+    
+    private MimeMessage getEmptyEmailAddressedToEmailWithoutSendgrid(String email)
+                                    throws MessagingException, AddressException, UnsupportedEncodingException {
         Session session = Session.getDefaultInstance(new Properties(), null);
         MimeMessage message = new MimeMessage(session);
-
-        message.addRecipient(Message.RecipientType.TO, new InternetAddress(
-                email));
+        
+        message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
         message.setFrom(new InternetAddress(senderEmail, senderName));
         message.setReplyTo(new Address[] { new InternetAddress(replyTo) });
+
+        return message;
+    }
+
+    private Sendgrid getEmptyEmailAddressedToEmail(String email)
+            throws UnsupportedEncodingException {
+        
+        Sendgrid message = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);
+        
+        message.addTo(email);
+        message.setFrom(senderEmail);
+        message.setFromName(senderName);
+        message.setReplyTo(replyTo);
+        
         return message;
     }
     
+    private MimeMessage addBccRecipientToEmail(MimeMessage mail, String newAddress) throws AddressException, MessagingException {
+        mail.addRecipient(Message.RecipientType.BCC, new InternetAddress(newAddress));          
+        return mail;
+    }
     
-    private MimeMessage addBccRecipientToEmail(MimeMessage mail, String newAddress) throws AddressException, MessagingException{
-        
-        mail.addRecipient(Message.RecipientType.BCC, new InternetAddress(newAddress));     
+    private Sendgrid setBccRecipientToEmail(Sendgrid mail, String newAddress) throws JSONException { 
+        mail.setBcc(newAddress);
         return mail;
     }
     
@@ -791,7 +1392,7 @@ public class Emails {
      * Generate email recipient list for the automated reminders sent.
      * Used for AdminActivityLog
      */
-    public static ArrayList<Object> extractRecipientsList(ArrayList<MimeMessage> emails){
+    public static ArrayList<Object> extractRecipientsListWithoutSendgrid(ArrayList<MimeMessage> emails){
     
         ArrayList<Object> data = new ArrayList<Object>();
         
@@ -807,5 +1408,31 @@ public class Emails {
         }
         
         return data;
+    }
+    
+    /**
+     * Generate email recipient list for the automated reminders sent.
+     * Used for AdminActivityLog
+     */
+    public static ArrayList<Object> extractRecipientsList(ArrayList<Sendgrid> emails){
+    
+        ArrayList<Object> data = new ArrayList<Object>();
+        
+        try{
+            for (int i = 0; i < emails.size(); i++){
+                ArrayList<String> recipients = emails.get(i).getTos();
+                for (int j = 0; j < recipients.size(); j++){
+                    data.add(recipients.get(j));
+                }
+            }
+        } catch (Exception e){
+            throw new RuntimeException("Unexpected exception during generation of log messages for automated reminders",e);
+        }
+        
+        return data;
+    }
+    
+    private String generatePlainTextFromHtml(String html) {
+        return Jsoup.parse(html).text();
     }
 }

@@ -46,6 +46,7 @@ import teammates.common.util.Sanitizer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Utils;
+import teammates.googleSendgridJava.Sendgrid;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
@@ -1374,9 +1375,9 @@ public class FeedbackSessionsLogic {
 
         updateFeedbackSession(sessionToUnpublish);
     }
-
-    public List<MimeMessage> sendReminderForFeedbackSession(String courseId,
-            String feedbackSessionName) throws EntityDoesNotExistException {
+    
+    public List<MimeMessage> sendReminderForFeedbackSessionWithoutSendgrid(String courseId,
+                                    String feedbackSessionName) throws EntityDoesNotExistException {
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(
                     "Trying to remind non-existent feedback session "
@@ -1412,6 +1413,54 @@ public class FeedbackSessionsLogic {
         List<MimeMessage> emails;
         Emails emailMgr = new Emails();
         try {
+            emails = emailMgr.generateFeedbackSessionReminderEmailsWithoutSendgrid(course,
+                    session, studentsToRemindList, instructorsToRemindList,
+                    instructorList);
+            emailMgr.sendEmailsWithoutSendgrid(emails);
+        } catch (Exception e) {
+            throw new RuntimeException("Error while sending emails :", e);
+        }
+
+        return emails;
+    }
+
+    public List<Sendgrid> sendReminderForFeedbackSession(String courseId,
+            String feedbackSessionName) throws EntityDoesNotExistException {
+        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
+            throw new EntityDoesNotExistException(
+                    "Trying to remind non-existent feedback session "
+                            + courseId + "/" + feedbackSessionName);
+        }
+
+        FeedbackSessionAttributes session = getFeedbackSession(
+                feedbackSessionName, courseId);
+        List<StudentAttributes> studentList = studentsLogic
+                .getStudentsForCourse(courseId);
+        List<InstructorAttributes> instructorList = instructorsLogic
+                .getInstructorsForCourse(courseId);
+
+        // Filter out students who have submitted the feedback session
+        List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
+        for (StudentAttributes student : studentList) {
+            if (!isFeedbackSessionCompletedByStudent(session, student.email)) {
+                studentsToRemindList.add(student);
+            }
+        }
+
+        // Filter out instructors who have submitted the feedback session
+        List<InstructorAttributes> instructorsToRemindList = new ArrayList<InstructorAttributes>();
+        for (InstructorAttributes instructor : instructorList) {
+            if (!isFeedbackSessionCompletedByInstructor(
+                    session.feedbackSessionName, session.courseId,
+                    instructor.email)) {
+                instructorsToRemindList.add(instructor);
+            }
+        }
+
+        CourseAttributes course = coursesLogic.getCourse(courseId);
+        List<Sendgrid> emails;
+        Emails emailMgr = new Emails();
+        try {
             emails = emailMgr.generateFeedbackSessionReminderEmails(course,
                     session, studentsToRemindList, instructorsToRemindList,
                     instructorList);
@@ -1422,9 +1471,9 @@ public class FeedbackSessionsLogic {
 
         return emails;
     }
-    
-    public List<MimeMessage> sendReminderForFeedbackSessionParticularUsers(String courseId,
-            String feedbackSessionName, String[] usersToRemind) throws EntityDoesNotExistException {
+
+    public List<MimeMessage> sendReminderForFeedbackSessionParticularUsersWithoutSendgrid(String courseId,
+                                    String feedbackSessionName, String[] usersToRemind) throws EntityDoesNotExistException {
         if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
             throw new EntityDoesNotExistException(
                     "Trying to remind non-existent feedback session "
@@ -1455,6 +1504,51 @@ public class FeedbackSessionsLogic {
 
         CourseAttributes course = coursesLogic.getCourse(courseId);
         List<MimeMessage> emails;
+        Emails emailMgr = new Emails();
+        try {
+            emails = emailMgr.generateFeedbackSessionReminderEmailsWithoutSendgrid(course,
+                    session, studentsToRemindList, instructorsToRemindList,
+                    instructorList);
+            emailMgr.sendEmailsWithoutSendgrid(emails);
+        } catch (Exception e) {
+            throw new RuntimeException("Error while sending emails :", e);
+        }
+
+        return emails;
+    }
+    
+    public List<Sendgrid> sendReminderForFeedbackSessionParticularUsers(String courseId,
+            String feedbackSessionName, String[] usersToRemind) throws EntityDoesNotExistException {
+        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
+            throw new EntityDoesNotExistException(
+                    "Trying to remind non-existent feedback session "
+                            + courseId + "/" + feedbackSessionName);
+        }
+
+        FeedbackSessionAttributes session = getFeedbackSession(
+                feedbackSessionName, courseId);
+        
+        List<InstructorAttributes> instructorList = instructorsLogic
+                .getInstructorsForCourse(courseId);
+        List<StudentAttributes> studentsToRemindList = new ArrayList<StudentAttributes>();
+        List<InstructorAttributes> instructorsToRemindList = new ArrayList<InstructorAttributes>();
+
+        for (String userEmail : usersToRemind) {
+            StudentAttributes student = studentsLogic
+                    .getStudentForEmail(courseId, userEmail);
+            if (student != null) {
+                studentsToRemindList.add(student);
+            }
+
+            InstructorAttributes instructor = instructorsLogic
+                    .getInstructorForEmail(courseId, userEmail);
+            if (instructor != null) {
+                instructorsToRemindList.add(instructor);
+            }
+        }
+
+        CourseAttributes course = coursesLogic.getCourse(courseId);
+        List<Sendgrid> emails;
         Emails emailMgr = new Emails();
         try {
             emails = emailMgr.generateFeedbackSessionReminderEmails(course,

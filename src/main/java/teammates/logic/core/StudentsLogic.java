@@ -32,6 +32,7 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.SystemParams;
+import teammates.googleSendgridJava.Sendgrid;
 import teammates.storage.api.StudentsDb;
 
 /**
@@ -507,8 +508,34 @@ public class StudentsLogic {
                 Const.ActionURIs.FEEDBACK_SUBMISSION_ADJUSTMENT_WORKER, paramMap);
         
     }
+    
+    public MimeMessage sendRegistrationInviteToStudentWithoutSendgrid(String courseId, String studentEmail) 
+             throws EntityDoesNotExistException {
+        
+        CourseAttributes course = coursesLogic.getCourse(courseId);
+        if (course == null) {
+            throw new EntityDoesNotExistException(
+                    "Course does not exist [" + courseId + "], trying to send invite email to student [" + studentEmail + "]");
+        }
+        
+        StudentAttributes studentData = getStudentForEmail(courseId, studentEmail);
+        if (studentData == null) {
+            throw new EntityDoesNotExistException(
+                    "Student [" + studentEmail + "] does not exist in course [" + courseId + "]");
+        }
+        
+        Emails emailMgr = new Emails();
+        try {
+            MimeMessage email = emailMgr.generateStudentCourseJoinEmailWithoutSendgrid(course, studentData);
+            emailMgr.sendAndLogEmail(email);
+            return email;
+        } catch (Exception e) {
+            throw new RuntimeException("Unexpected error while sending email", e);
+        }
+        
+    }
 
-    public MimeMessage sendRegistrationInviteToStudent(String courseId, String studentEmail) 
+    public Sendgrid sendRegistrationInviteToStudent(String courseId, String studentEmail) 
             throws EntityDoesNotExistException {
         
         CourseAttributes course = coursesLogic.getCourse(courseId);
@@ -525,7 +552,7 @@ public class StudentsLogic {
         
         Emails emailMgr = new Emails();
         try {
-            MimeMessage email = emailMgr.generateStudentCourseJoinEmail(course, studentData);
+            Sendgrid email = emailMgr.generateStudentCourseJoinEmail(course, studentData);
             emailMgr.sendAndLogEmail(email);
             return email;
         } catch (Exception e) {
@@ -534,7 +561,7 @@ public class StudentsLogic {
         
     }
     
-    public MimeMessage sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail) 
+    public MimeMessage sendRegistrationInviteToStudentAfterGoogleIdResetWithoutSendgrid(String courseId, String studentEmail) 
             throws EntityDoesNotExistException {
         
         CourseAttributes course = coursesLogic.getCourse(courseId);
@@ -551,7 +578,7 @@ public class StudentsLogic {
         
         Emails emailMgr = new Emails();
         try {
-            MimeMessage email = emailMgr.generateStudentCourseRejoinEmailAfterGoogleIdReset(course, studentData);
+            MimeMessage email = emailMgr.generateStudentCourseRejoinEmailAfterGoogleIdResetWithoutSendgrid(course, studentData);
             emailMgr.sendAndLogEmail(email);
             return email;
         } catch (Exception e) {
@@ -560,7 +587,33 @@ public class StudentsLogic {
         
     }
     
-    public List<MimeMessage> sendRegistrationInviteForCourse(String courseId) {
+    public Sendgrid sendRegistrationInviteToStudentAfterGoogleIdReset(String courseId, String studentEmail) 
+            throws EntityDoesNotExistException {
+        
+        CourseAttributes course = coursesLogic.getCourse(courseId);
+        if (course == null) {
+            throw new EntityDoesNotExistException(
+                    "Course does not exist [" + courseId + "], trying to send invite email to student [" + studentEmail + "]");
+        }
+        
+        StudentAttributes studentData = getStudentForEmail(courseId, studentEmail);
+        if (studentData == null) {
+            throw new EntityDoesNotExistException(
+                    "Student [" + studentEmail + "] does not exist in course [" + courseId + "]");
+        }
+        
+        Emails emailMgr = new Emails();
+        try {
+            Sendgrid email = emailMgr.generateStudentCourseRejoinEmailAfterGoogleIdReset(course, studentData);
+            emailMgr.sendAndLogEmail(email);
+            return email;
+        } catch (Exception e) {
+            throw new RuntimeException("Unexpected error while sending email", e);
+        }
+        
+    }
+    
+    public List<MimeMessage> sendRegistrationInviteForCourseWithoutSendgrid(String courseId) {
         List<StudentAttributes> studentDataList = getUnregisteredStudentsForCourse(courseId);
         
         ArrayList<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
@@ -568,7 +621,26 @@ public class StudentsLogic {
         //TODO: sending mail should be moved to somewhere else.
         for (StudentAttributes s : studentDataList) {
             try {
-                MimeMessage email = sendRegistrationInviteToStudent(courseId, s.email);
+                MimeMessage email = sendRegistrationInviteToStudentWithoutSendgrid(courseId, s.email);
+                emailsSent.add(email);
+            } catch (EntityDoesNotExistException e) {
+                Assumption
+                        .fail("Unexpected EntitiyDoesNotExistException thrown when sending registration email"
+                                + TeammatesException.toStringWithStackTrace(e));
+            }
+        }
+        return emailsSent;
+    }
+    
+    public List<Sendgrid> sendRegistrationInviteForCourse(String courseId) {
+        List<StudentAttributes> studentDataList = getUnregisteredStudentsForCourse(courseId);
+        
+        ArrayList<Sendgrid> emailsSent = new ArrayList<Sendgrid>();
+    
+        //TODO: sending mail should be moved to somewhere else.
+        for (StudentAttributes s : studentDataList) {
+            try {
+                Sendgrid email = sendRegistrationInviteToStudent(courseId, s.email);
                 emailsSent.add(email);
             } catch (EntityDoesNotExistException e) {
                 Assumption

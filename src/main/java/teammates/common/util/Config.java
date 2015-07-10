@@ -39,6 +39,12 @@ public class Config {
     
     /** The value of the "app.student.motd.url" in build.properties file */
     public static String STUDENT_MOTD_URL;
+    
+    /** The value of the "app.sendgrid.username" in build.properties file */
+    public static String SENDGRID_USERNAME;
+    
+    /** The value of the "app.sendgrid.password" in build.properties file */
+    public static String SENDGRID_PASSWORD;
 
     public static Config inst() {
         if (instance == null) {
@@ -80,6 +86,8 @@ public class Config {
         PERSISTENCE_CHECK_DURATION = instance.getPersistenceCheckduration();
         SUPPORT_EMAIL = instance.getSupportEmail();
         STUDENT_MOTD_URL = instance.getStudentMotdUrl();
+        SENDGRID_USERNAME = instance.getSendgridUsername();
+        SENDGRID_PASSWORD = instance.getSendgridPassword();
     }
 
     private String getGcsBucketname() {
@@ -108,6 +116,18 @@ public class Config {
 
     private String getStudentMotdUrl() {
         return props.getProperty("app.student.motd.url");
+    }
+    
+    private String getSendgridUsername() {
+        return props.getProperty("app.sendgrid.username");
+    }
+    
+    private String getSendgridPassword() {
+        return props.getProperty("app.sendgrid.password");
+    }
+    
+    public static boolean isUsingSendgrid() {
+        return SENDGRID_USERNAME != null && !SENDGRID_USERNAME.trim().isEmpty();
     }
 
 }

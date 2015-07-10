@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.mail.MessagingException;
+import javax.mail.MessagingException;       
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,6 +15,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.HttpRequestHelper;
+import teammates.googleSendgridJava.Sendgrid;
 import teammates.logic.core.Emails;
 import teammates.logic.core.FeedbackSessionsLogic;
 
@@ -54,12 +55,37 @@ public class FeedbackSessionOpeningMailAction extends EmailAction {
         feedbackObject.sentOpenEmail = true;
         FeedbackSessionsLogic.inst().updateFeedbackSession(feedbackObject);
     }
-
+    
     @Override
-    protected List<MimeMessage> prepareMailToBeSent() 
+    protected List<MimeMessage> prepareMailToBeSentWithoutSendgrid() 
             throws MessagingException, IOException, EntityDoesNotExistException {
         Emails emailManager = new Emails();
         List<MimeMessage> preparedEmails = null;
+        
+        FeedbackSessionAttributes feedbackObject = FeedbackSessionsLogic.inst()
+                .getFeedbackSession(feedbackSessionName, courseId);
+        log.info("Fetching feedback session object for feedback session name : "
+                + feedbackSessionName + " and course : " + courseId);
+        
+        if(feedbackObject != null) {
+             /*
+              * Check if feedback session was deleted between scheduling
+              * and the actual sending of emails
+              */
+            preparedEmails = emailManager
+                              .generateFeedbackSessionOpeningEmailsWithoutSendgrid(feedbackObject);
+        } else {
+            log.severe("Feedback session object for feedback session name : " + feedbackSessionName +
+                       " for course : " + courseId +" could not be fetched" );
+        }
+        return preparedEmails;
+    }
+
+    @Override
+    protected List<Sendgrid> prepareMailToBeSent() 
+            throws IOException, EntityDoesNotExistException {
+        Emails emailManager = new Emails();
+        List<Sendgrid> preparedEmails = null;
         
         FeedbackSessionAttributes feedbackObject = FeedbackSessionsLogic.inst()
                 .getFeedbackSession(feedbackSessionName, courseId);

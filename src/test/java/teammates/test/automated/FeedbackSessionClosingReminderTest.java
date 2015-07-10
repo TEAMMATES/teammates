@@ -16,10 +16,12 @@ import com.google.appengine.api.urlfetch.URLFetchServicePb.URLFetchRequest;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Const.ParamsNames;
+import teammates.googleSendgridJava.Sendgrid;
 import teammates.logic.automated.EmailAction;
 import teammates.logic.automated.FeedbackSessionClosingMailAction;
 import teammates.logic.core.Emails;
@@ -153,15 +155,27 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         int course1StudentCount = 5-2; // 2 students have already completed the session 
         int course1InstructorCount = 5;
         
-        List<MimeMessage> preparedEmails = fsClosingAction.getPreparedEmailsAndPerformSuccessOperations();
-        assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());
+        List<MimeMessage> preparedEmailsWithoutSendgrid = fsClosingAction.getPreparedEmailsAndPerformSuccessOperationsWithoutSendgrid();
+        List<Sendgrid> preparedEmails = fsClosingAction.getPreparedEmailsAndPerformSuccessOperations();
         
-        for (MimeMessage m : preparedEmails) {
-            String subject = m.getSubject();
-            assertTrue(subject.contains(session1.feedbackSessionName));
-            assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));
+        if (Config.isUsingSendgrid()) {
+            assertEquals(course1StudentCount + course1InstructorCount, preparedEmails.size());
+            
+            for (Sendgrid m : preparedEmails) {
+                String subject = m.getSubject();
+                assertTrue(subject.contains(session1.feedbackSessionName));
+                assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));
+            }
+        } else {
+            assertEquals(course1StudentCount + course1InstructorCount, preparedEmailsWithoutSendgrid.size());
+            
+            for (MimeMessage m : preparedEmailsWithoutSendgrid) {
+                String subject = m.getSubject();
+                assertTrue(subject.contains(session1.feedbackSessionName));
+                assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));
+            }
         }
-        
+      
         // Reuse an existing session to create a new one that is
         // closing in 24 hours.
         FeedbackSessionAttributes session2 = dataBundle.feedbackSessions
@@ -192,7 +206,7 @@ public class FeedbackSessionClosingReminderTest extends BaseComponentUsingTaskQu
         preparedEmails = fsClosingAction.getPreparedEmailsAndPerformSuccessOperations();
         assertEquals(course2StudentCount + course2InstructorCount, preparedEmails.size());
         
-        for (MimeMessage m : preparedEmails) {
+        for (Sendgrid m : preparedEmails) {
             String subject = m.getSubject();
             assertTrue(subject.contains(session2.feedbackSessionName));
             assertTrue(subject.contains(Emails.SUBJECT_PREFIX_FEEDBACK_SESSION_CLOSING));

@@ -8,7 +8,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.logging.Logger;
-import javax.mail.MessagingException;
+
+import javax.mail.MessagingException;       
 import javax.mail.internet.MimeMessage;
 
 import teammates.common.datatransfer.CourseAttributes;
@@ -16,8 +17,10 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Utils;
+import teammates.googleSendgridJava.Sendgrid;
 import teammates.logic.api.GateKeeper;
 
 /**
@@ -51,29 +54,53 @@ public class InstructorCourseRemindAction extends Action {
         }
         
         /* Process sending emails and setup status to be shown to user and admin */
-        List<MimeMessage> emailsSent = new ArrayList<MimeMessage>();
+        List<MimeMessage> emailsSentWithoutSendgrid = new ArrayList<MimeMessage>();
+        List<Sendgrid> emailsSent = new ArrayList<Sendgrid>();
         String redirectUrl = "";
         try {
             if (studentEmail != null) {
-                MimeMessage emailSent = logic.sendRegistrationInviteToStudent(courseId, studentEmail);
-                emailsSent.add(emailSent);
                 
-                statusToUser.add(Const.StatusMessages.COURSE_REMINDER_SENT_TO+studentEmail);
+                if (Config.isUsingSendgrid()) {
+                    Sendgrid emailSent = logic.sendRegistrationInviteToStudent(courseId, studentEmail);
+                    emailsSent.add(emailSent);
+                } else {
+                    MimeMessage emailSent = logic.sendRegistrationInviteToStudentWithoutSendgrid(courseId, studentEmail);
+                    emailsSentWithoutSendgrid.add(emailSent);
+                }        
+                
+                statusToUser.add(Const.StatusMessages.COURSE_REMINDER_SENT_TO + studentEmail);
                 redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
+                
             } else if (instructorEmail != null) {
-                MimeMessage emailSent = logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
-                emailsSent.add(emailSent);
+                
+                if (Config.isUsingSendgrid()) {
+                    Sendgrid emailSent = logic.sendRegistrationInviteToInstructor(courseId, instructorEmail);
+                    emailsSent.add(emailSent);
+                } else {
+                    MimeMessage emailSent = logic.sendRegistrationInviteToInstructorWithoutSendgrid(courseId, instructorEmail);
+                    emailsSentWithoutSendgrid.add(emailSent);
+                }
                 
                 statusToUser.add(Const.StatusMessages.COURSE_REMINDER_SENT_TO + instructorEmail);
                 redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_EDIT_PAGE;
+                
             } else {
-                emailsSent = logic.sendRegistrationInviteForCourse(courseId);
+                if (Config.isUsingSendgrid()) {
+                    emailsSent = logic.sendRegistrationInviteForCourse(courseId);
+                } else {
+                    emailsSentWithoutSendgrid = logic.sendRegistrationInviteForCourseWithoutSendgrid(courseId);
+                }              
                 
                 statusToUser.add(Const.StatusMessages.COURSE_REMINDERS_SENT);
                 redirectUrl = Const.ActionURIs.INSTRUCTOR_COURSE_DETAILS_PAGE;
             }
             
-            statusToAdmin = generateStatusToAdmin(emailsSent, courseId);
+            if (Config.isUsingSendgrid()) {
+                statusToAdmin = generateStatusToAdmin(emailsSent, courseId);
+            } else {
+                statusToAdmin = generateStatusToAdminWithoutSendgrid(emailsSentWithoutSendgrid, courseId);
+            }
+            
         } catch (InvalidParametersException e) {
             Assumption.fail("InvalidParametersException not expected at this point");
         }
@@ -86,7 +113,27 @@ public class InstructorCourseRemindAction extends Action {
 
     }
     
-    private String generateStatusToAdmin(List<MimeMessage> emailsSent, String courseId) {
+    private String generateStatusToAdminWithoutSendgrid(List<MimeMessage> emailsSent, String courseId) {
+        String statusToAdmin = "Registration Key sent to the following users "
+                + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br/>";
+        
+        Iterator<Entry<String, JoinEmailData>> extractedEmailIterator = 
+                extractEmailDataForLoggingWithoutSendgrid(emailsSent).entrySet().iterator();
+        
+        while (extractedEmailIterator.hasNext()) {
+            Entry<String, JoinEmailData> extractedEmail = extractedEmailIterator.next();
+            
+            String userEmail = extractedEmail.getKey();
+            JoinEmailData joinEmailData = extractedEmail.getValue();
+            
+            statusToAdmin += joinEmailData.userName + "<span class=\"bold\"> (" + userEmail + ")"
+                    + "</span>.<br/>" + joinEmailData.regKey + "<br/>";
+        }
+        
+        return statusToAdmin;
+    }
+    
+    private String generateStatusToAdmin(List<Sendgrid> emailsSent, String courseId) {
         String statusToAdmin = "Registration Key sent to the following users "
                 + "in Course <span class=\"bold\">[" + courseId + "]</span>:<br/>";
         
@@ -105,21 +152,34 @@ public class InstructorCourseRemindAction extends Action {
         
         return statusToAdmin;
     }
-
-    private Map<String, JoinEmailData> extractEmailDataForLogging(List<MimeMessage> emails) {
+    
+    private Map<String, JoinEmailData> extractEmailDataForLoggingWithoutSendgrid(List<MimeMessage> emails) {
         Map<String, JoinEmailData> logData = new TreeMap<String, JoinEmailData>();
         
-        for (MimeMessage email : emails) {
-            try {
+        try {
+            for (MimeMessage email : emails) {
                 String recipient = email.getAllRecipients()[0].toString();
                 String userName = extractUserName((String) email.getContent());
                 String regKey = extractRegistrationKey((String) email.getContent());
                 logData.put(recipient, new JoinEmailData(userName, regKey));
-            } catch (MessagingException e) {
-                Assumption.fail("Join email corrupted");
-            } catch (IOException e) {
-                Assumption.fail("Join email corrupted");
             }
+        } catch (MessagingException e) {        
+            Assumption.fail("Join email corrupted");       
+        } catch (IOException e) {      
+            Assumption.fail("Join email corrupted");       
+        }
+
+        return logData;
+    }
+
+    private Map<String, JoinEmailData> extractEmailDataForLogging(List<Sendgrid> emails) {
+        Map<String, JoinEmailData> logData = new TreeMap<String, JoinEmailData>();
+        
+        for (Sendgrid email : emails) {
+            String recipient = email.getTos().get(0);
+            String userName = extractUserName(email.getHtml());
+            String regKey = extractRegistrationKey(email.getHtml());
+            logData.put(recipient, new JoinEmailData(userName, regKey));
         }
         
         return logData;

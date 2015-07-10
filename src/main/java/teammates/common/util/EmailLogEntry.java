@@ -5,6 +5,8 @@ import java.util.TimeZone;
 import javax.mail.Message;
 import javax.mail.internet.MimeMessage;
 
+import teammates.googleSendgridJava.Sendgrid;
+
 import com.google.appengine.api.log.AppLogLine;
 
 /** A log entry which contains info about subject, receiver, content and sent date of a sent email*/
@@ -18,10 +20,16 @@ public class EmailLogEntry {
     public String logInfoAsHtml;
     
     public EmailLogEntry(MimeMessage msg) throws Exception{
+        this.receiver = msg.getRecipients(Message.RecipientType.TO)[0].toString();
+        this.subject = msg.getSubject();
+        this.content = (String) msg.getContent();
+    }
+    
+    public EmailLogEntry(Sendgrid msg) throws Exception{
         
-            this.receiver = msg.getRecipients(Message.RecipientType.TO)[0].toString();
+            this.receiver = msg.getTos().get(0);
             this.subject = msg.getSubject();
-            this.content = (String) msg.getContent(); 
+            this.content = msg.getHtml(); 
     }
     
     public EmailLogEntry(AppLogLine appLog){

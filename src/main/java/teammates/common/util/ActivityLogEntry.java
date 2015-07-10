@@ -11,6 +11,7 @@ import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.UserType;
 import teammates.common.exception.TeammatesException;
+import teammates.googleSendgridJava.Sendgrid;
 
 import com.google.appengine.api.log.AppLogLine;
 
@@ -443,7 +444,6 @@ public class ActivityLogEntry {
         return exceptionLog.generateLogMessage();
     }
 
-
     public static String generateSystemErrorReportLogMessage(HttpServletRequest req, MimeMessage errorEmail) {
         String[] actionTaken = req.getServletPath().split("/");
         String action = req.getServletPath();
@@ -460,6 +460,33 @@ public class ActivityLogEntry {
                   message += "<br>";
                   message += "<span id=\"error" + errorEmail.hashCode() + "\" style=\"display: none;\">";
                   message += errorEmail.getContent().toString();
+                  message += "</span>";
+              } catch (Exception e) {
+                  message = "System Error. Unable to retrieve Email Report";
+              }
+          }
+        
+        ActivityLogEntry emailReportLog = new ActivityLogEntry(action, Const.ACTION_RESULT_SYSTEM_ERROR_REPORT, null, message, url);
+        
+        return emailReportLog.generateLogMessage();
+    }
+
+    public static String generateSystemErrorReportLogMessage(HttpServletRequest req, Sendgrid errorEmail) {
+        String[] actionTaken = req.getServletPath().split("/");
+        String action = req.getServletPath();
+        if(actionTaken.length > 0) {
+            action = actionTaken[actionTaken.length-1]; //retrieve last segment in path
+        }
+        String url = HttpRequestHelper.getRequestedURL(req);
+        
+        String message = "";
+        if(errorEmail != null){
+            try {
+                  message += "<span class=\"text-danger\">" + errorEmail.getSubject() + "</span><br>";
+                  message += "<a href=\"#\" onclick=\"showHideErrorMessage('error" + errorEmail.hashCode() +"');\">Show/Hide Details >></a>";
+                  message += "<br>";
+                  message += "<span id=\"error" + errorEmail.hashCode() + "\" style=\"display: none;\">";
+                  message += errorEmail.getHtml();
                   message += "</span>";
               } catch (Exception e) {
                   message = "System Error. Unable to retrieve Email Report";

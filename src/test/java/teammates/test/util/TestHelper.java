@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import javax.mail.MessagingException;
+import javax.mail.MessagingException;       
 import javax.mail.internet.MimeMessage;
 
 import org.testng.Assert;
@@ -29,6 +29,7 @@ import teammates.common.datatransfer.StudentAttributes.UpdateStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Utils;
+import teammates.googleSendgridJava.Sendgrid;
 import teammates.logic.api.Logic;
 import teammates.logic.core.Emails;
 import teammates.storage.api.CommentsDb;
@@ -60,12 +61,11 @@ public class TestHelper extends BaseComponentTestCase{
 
     private static Gson gson = Utils.getTeammatesGson();
 
-    
-    public static MimeMessage getEmailToStudent(StudentAttributes s,
-            List<MimeMessage> emailsSent) throws MessagingException {
+    public static MimeMessage getEmailToStudentWithoutSendgrid(
+                                    StudentAttributes s, List<MimeMessage> emailsSent) throws MessagingException {
         for (MimeMessage m : emailsSent) {
-            boolean emailSentToThisStudent = m.getAllRecipients()[0].toString()
-                    .equalsIgnoreCase(s.email);
+            boolean emailSentToThisStudent = m.getAllRecipients()[0].toString().equalsIgnoreCase(s.email);
+            
             if (emailSentToThisStudent) {
                 print("email sent to:" + s.email);
                 return m;
@@ -74,11 +74,37 @@ public class TestHelper extends BaseComponentTestCase{
         return null;
     }
     
-    public static List<MimeMessage> getEmailsToInstructor(InstructorAttributes i,
-            List<MimeMessage> emailsSent) throws MessagingException {
+    public static Sendgrid getEmailToStudent(StudentAttributes s, List<Sendgrid> emailsSent) {
+        for (Sendgrid m : emailsSent) {
+            boolean emailSentToThisStudent = m.getTos().get(0).equalsIgnoreCase(s.email);
+            
+            if (emailSentToThisStudent) {
+                print("email sent to:" + s.email);
+                return m;
+            }
+        }
+        return null;
+    }
+    
+    public static List<MimeMessage> getEmailsToInstructorWithoutSendgrid(InstructorAttributes i,
+                                                          List<MimeMessage> emailsSent) throws MessagingException {
         List<MimeMessage> emailsToInstructor = new ArrayList<MimeMessage>();
+        
         for (MimeMessage m : emailsSent) {
-            boolean emailSentToThisInstructor = m.getAllRecipients()[0].toString()
+            boolean emailSentToThisInstructor = m.getAllRecipients()[0].toString().equalsIgnoreCase(i.email);
+            
+            if (emailSentToThisInstructor) {
+                print("email sent to:" + i.email);
+                emailsToInstructor.add(m);
+            }
+        }      
+        return emailsToInstructor;
+    }
+    
+    public static List<Sendgrid> getEmailsToInstructor(InstructorAttributes i, List<Sendgrid> emailsSent) {
+        List<Sendgrid> emailsToInstructor = new ArrayList<Sendgrid>();
+        for (Sendgrid m : emailsSent) {
+            boolean emailSentToThisInstructor = m.getTos().get(0)
                     .equalsIgnoreCase(i.email);
             if (emailSentToThisInstructor) {
                 print("email sent to:" + i.email);
@@ -87,18 +113,32 @@ public class TestHelper extends BaseComponentTestCase{
         }
         return emailsToInstructor;
     }
-
-    public static void verifyJoinInviteToStudent(StudentAttributes student,
-            MimeMessage email) throws MessagingException {
-        assertEquals(student.email, email.getAllRecipients()[0].toString());
+    
+    public static void verifyJoinInviteToStudent(StudentAttributes student, MimeMessage email) 
+                                                                            throws MessagingException {
+        assertEquals(student.email, email.getAllRecipients()[0].toString());;
         AssertHelper.assertContains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN,
                 email.getSubject());
         AssertHelper.assertContains(student.course, email.getSubject());
     }
     
-    public static void verifyJoinInviteToInstructor(InstructorAttributes instr,
-            MimeMessage email) throws MessagingException {
+    public static void verifyJoinInviteToInstructor(InstructorAttributes instr, MimeMessage email) 
+                                                                            throws MessagingException {
         assertEquals(instr.email, email.getAllRecipients()[0].toString());
+        AssertHelper.assertContains(Emails.SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN,
+                email.getSubject());
+        AssertHelper.assertContains(instr.courseId, email.getSubject());
+    }
+
+    public static void verifyJoinInviteToStudent(StudentAttributes student, Sendgrid email) {
+        assertEquals(student.email, email.getTos().get(0));
+        AssertHelper.assertContains(Emails.SUBJECT_PREFIX_STUDENT_COURSE_JOIN,
+                email.getSubject());
+        AssertHelper.assertContains(student.course, email.getSubject());
+    }
+    
+    public static void verifyJoinInviteToInstructor(InstructorAttributes instr, Sendgrid email) {
+        assertEquals(instr.email, email.getTos().get(0));
         AssertHelper.assertContains(Emails.SUBJECT_PREFIX_INSTRUCTOR_COURSE_JOIN,
                 email.getSubject());
         AssertHelper.assertContains(instr.courseId, email.getSubject());

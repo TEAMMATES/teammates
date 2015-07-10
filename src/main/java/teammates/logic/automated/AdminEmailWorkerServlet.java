@@ -2,16 +2,20 @@ package teammates.logic.automated;
 
 import java.io.UnsupportedEncodingException;
 
-import javax.mail.MessagingException;
+import javax.mail.MessagingException;       
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.labs.repackaged.org.json.JSONException;
+
 import teammates.common.datatransfer.AdminEmailAttributes;
 import teammates.common.util.Assumption;
+import teammates.common.util.Config;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.StringHelper;
+import teammates.googleSendgridJava.Sendgrid;
 import teammates.logic.core.AdminEmailsLogic;
 import teammates.logic.core.Emails;
 
@@ -51,19 +55,22 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
         try {
             sendAdminEmail(emailContent, emailSubject, receiverEmail);
             log.info("email sent to " + receiverEmail);
-        } catch (UnsupportedEncodingException | MessagingException e) {
+        } catch (UnsupportedEncodingException | MessagingException | JSONException e) {
             log.severe("Unexpected error while sending admin emails " + e.getMessage());
         }
 
     }
     
-    private void sendAdminEmail(String emailContent, String subject, String receiverEmail) throws UnsupportedEncodingException, MessagingException{
+    private void sendAdminEmail(String emailContent, String subject, String receiverEmail) throws UnsupportedEncodingException, MessagingException, JSONException {
         
         Emails emailsManager = new Emails();
         
-        MimeMessage email = emailsManager.generateAdminEmail(StringHelper.recoverFromSanitizedText(emailContent), subject, receiverEmail);
-        emailsManager.sendEmail(email);
-       
+        if (Config.isUsingSendgrid()) {
+            Sendgrid email = emailsManager.generateAdminEmail(StringHelper.recoverFromSanitizedText(emailContent), subject, receiverEmail);
+            emailsManager.sendEmail(email);
+        } else {
+            MimeMessage email = emailsManager.generateAdminEmailWithoutSendgrid(StringHelper.recoverFromSanitizedText(emailContent), subject, receiverEmail);
+            emailsManager.sendEmail(email);
+        }       
     }
-
 }
