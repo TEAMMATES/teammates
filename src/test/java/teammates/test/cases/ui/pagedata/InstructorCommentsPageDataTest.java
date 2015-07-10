@@ -44,8 +44,8 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         printTestClassHeader();
         course1 = dataBundle.courses.get("typicalCourse1");
         course2 = dataBundle.courses.get("typicalCourse2");
-        instructor1 = dataBundle.instructors.get("instructor1OfCourse1");
-        instructor2 = dataBundle.instructors.get("instructor3OfCourse1");
+        instructor1 = dataBundle.instructors.get("instructor3OfCourse1");
+        instructor2 = dataBundle.instructors.get("instructor1OfCourse1");
     }
     
     @Test
@@ -82,7 +82,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         assertFalse(data.isViewingDraft());
         assertEquals(courseId, data.getCourseId());
         assertEquals(courseName, data.getCourseName());
-        assertTrue(TestHelper.isSameContentIgnoreOrder(coursePaginationList, data.getCoursePaginationList()));
+        assertTrue(coursePaginationList.equals(data.getCoursePaginationList()));
         
         Map<String, List<CommentAttributes>> actualComments = data.getComments();
         Map<String, List<CommentAttributes>> expectedComments = comments;
@@ -94,10 +94,10 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         
         assertTrue(TestHelper.isSameContentIgnoreOrder(expectedGivers, actualGivers));
         for (String email : expectedGivers) {
-            assertTrue(TestHelper.isSameContentIgnoreOrder(expectedComments.get(email), actualComments.get(email)));
+            assertEquals(expectedComments.get(email), actualComments.get(email));
         }
-        // TODO: not sure if feedbackSessions can be compared like this
-        assertTrue(TestHelper.isSameContentIgnoreOrder(feedbackSessions, data.getFeedbackSessions()));
+
+        assertEquals(feedbackSessions, data.getFeedbackSessions());
         String expectedNextPageLink = data.getInstructorCommentsLink() + "&courseid=" + course2.id;
         String expectedPreviousPageLink = "javascript:;";
         
@@ -111,9 +111,12 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
                 getCommentsForStudentsTables(courseId, commentModifyPermissions, roster, comments, data);
         List<InstructorCommentsForStudentsTable> actualCommentsForStudentsTables =
                 data.getCommentsForStudentsTables();
-        // TODO: use a different method of comparing 
-        assertTrue(TestHelper.isSameContentIgnoreOrder(
-                                      expectedCommentsForStudentsTables, actualCommentsForStudentsTables));
+        
+        assertEquals(expectedCommentsForStudentsTables.size(), actualCommentsForStudentsTables.size());
+        for(int i = 0; i < expectedCommentsForStudentsTables.size(); i++) {
+            assertTrue(isCommentsForStudentsTablesEqual(
+                               expectedCommentsForStudentsTables.get(i), actualCommentsForStudentsTables.get(i)));
+        }
         
         ______TS("instructor is in second course page");
         
@@ -145,7 +148,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         assertFalse(data.isViewingDraft());
         assertEquals(courseId, data.getCourseId());
         assertEquals(courseName, data.getCourseName());
-        assertTrue(TestHelper.isSameContentIgnoreOrder(coursePaginationList, data.getCoursePaginationList()));
+        assertEquals(coursePaginationList, data.getCoursePaginationList());
         
         actualComments = data.getComments();
         expectedComments = comments;
@@ -157,10 +160,9 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         
         assertTrue(TestHelper.isSameContentIgnoreOrder(expectedGivers, actualGivers));
         for (String email : expectedGivers) {
-            assertTrue(TestHelper.isSameContentIgnoreOrder(expectedComments.get(email), actualComments.get(email)));
+            assertEquals(expectedComments.get(email), actualComments.get(email));
         }
-        // TODO: not sure if feedbackSessions can be compared like this
-        assertTrue(TestHelper.isSameContentIgnoreOrder(feedbackSessions, data.getFeedbackSessions()));
+        assertEquals(feedbackSessions, data.getFeedbackSessions());
         expectedNextPageLink = "javascript:;";
         expectedPreviousPageLink = data.getInstructorCommentsLink() + "&courseid=" + course1.id;
         assertEquals(data.getNextPageLink(), expectedNextPageLink);
@@ -173,8 +175,12 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
                 getCommentsForStudentsTables(courseId, commentModifyPermissions, roster, comments, data);
         actualCommentsForStudentsTables =
                 data.getCommentsForStudentsTables();
-        // TODO: use a different method of comparing 
-        assertTrue(TestHelper.isSameContentIgnoreOrder(expectedCommentsForStudentsTables, actualCommentsForStudentsTables));
+        
+        assertEquals(expectedCommentsForStudentsTables.size(), actualCommentsForStudentsTables.size());
+        for(int i = 0; i < expectedCommentsForStudentsTables.size(); i++) {
+            assertTrue(isCommentsForStudentsTablesEqual(
+                               expectedCommentsForStudentsTables.get(i), actualCommentsForStudentsTables.get(i)));
+        }
     }
 
     private List<CommentRow> createCommentRows(
@@ -224,10 +230,8 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         for (String giverEmail : comments.keySet()) {
             String giverName = giverEmailToGiverNameMap.get(giverEmail);
             commentsForStudentsTables
-                    .add(new InstructorCommentsForStudentsTable(
-                                 giverEmail, 
-                                 giverName, 
-                                 createCommentRows(courseId, giverEmail, giverName, 
+                    .add(new InstructorCommentsForStudentsTable(giverEmail, giverName, 
+                                 createCommentRows(courseId, giverEmail, giverName,
                                                    commentModifyPermissions, roster, comments, data)));
         }
         return commentsForStudentsTables;
@@ -324,5 +328,65 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         }
         commentModifyPermissions.put(key, canModifyCommentList);
         comments.put(key, commentsForGiverList);   
+    }
+    
+    private boolean isCommentsForStudentsTablesEqual(
+            InstructorCommentsForStudentsTable expected, InstructorCommentsForStudentsTable actual) {
+        boolean result = expected.getGiverEmail().equals(actual.getGiverEmail());
+        result = result && expected.getGiverName().equals(actual.getGiverName());
+        List<CommentRow> expectedCommentRows = expected.getRows();
+        List<CommentRow> actualCommentRows = actual.getRows();
+        result = result && expectedCommentRows.size() == actualCommentRows.size();
+        for(int i = 0; i < expectedCommentRows.size() && result; i++) {
+            InstructorCommentsCommentRow expectedInstructorCommentsCommentRow =
+                    (InstructorCommentsCommentRow) expectedCommentRows.get(i);
+            InstructorCommentsCommentRow actualInstructorCommentsCommentRow =
+                    (InstructorCommentsCommentRow) actualCommentRows.get(i);
+            result = result && isCommentRowsEqual(
+                                       expectedInstructorCommentsCommentRow, actualInstructorCommentsCommentRow);
+        }
+        return result;
+    }
+    
+    private boolean isCommentRowsEqual(InstructorCommentsCommentRow expected, InstructorCommentsCommentRow actual) {
+        boolean result = expected.isInstructorAllowedToModifyCommentInSection() 
+                         == actual.isInstructorAllowedToModifyCommentInSection();
+        result = result && expected.getTypeOfPeopleCanViewComment().equals(actual.getTypeOfPeopleCanViewComment());
+        result = result && expected.getEditedAt().equals(actual.getEditedAt());
+        result = result && isVisibilityCheckboxesEqual(
+                                   expected.getVisibilityCheckboxes(), actual.getVisibilityCheckboxes());
+        result = result && expected.getShowCommentsTo().equals(actual.getShowCommentsTo());
+        result = result && expected.getShowGiverNameTo().equals(actual.getShowGiverNameTo());
+        result = result && expected.getShowRecipientNameTo().equals(actual.getShowRecipientNameTo());
+        return result;
+    }
+    
+    private boolean isVisibilityCheckboxesEqual(VisibilityCheckboxes expected, VisibilityCheckboxes actual) {
+        boolean result = true;
+        List<Boolean> expectedVisibilitySettingsForRecipient = expected.getVisibilitySettingsForRecipient();
+        List<Boolean> expectedVisibilitySettingsForRecipientTeam = expected.getVisibilitySettingsForRecipientTeam();
+        List<Boolean> expectedVisibilitySettingsForRecipientSection = expected.getVisibilitySettingsForRecipientSection();
+        List<Boolean> expectedVisibilitySettingsForCourseStudents = expected.getVisibilitySettingsForCourseStudents();
+        List<Boolean> expectedVisibilitySettingsForInstructors = expected.getVisibilitySettingsForInstructors();
+        
+        List<Boolean> actualVisibilitySettingsForRecipient = actual.getVisibilitySettingsForRecipient();
+        List<Boolean> actualVisibilitySettingsForRecipientTeam = actual.getVisibilitySettingsForRecipientTeam();
+        List<Boolean> actualVisibilitySettingsForRecipientSection = actual.getVisibilitySettingsForRecipientSection();
+        List<Boolean> actualVisibilitySettingsForCourseStudents = actual.getVisibilitySettingsForCourseStudents();
+        List<Boolean> actualVisibilitySettingsForInstructors = actual.getVisibilitySettingsForInstructors();
+        int typesOfVisibilitySettings = 3;
+        for (int i = 0; i < typesOfVisibilitySettings; i++) {
+            result = result && expectedVisibilitySettingsForRecipient
+                                       .get(i).equals(actualVisibilitySettingsForRecipient.get(i));
+            result = result && expectedVisibilitySettingsForRecipientTeam
+                                       .get(i).equals(actualVisibilitySettingsForRecipientTeam.get(i));
+            result = result && expectedVisibilitySettingsForRecipientSection
+                                       .get(i).equals(actualVisibilitySettingsForRecipientSection.get(i));
+            result = result && expectedVisibilitySettingsForCourseStudents
+                                       .get(i).equals(actualVisibilitySettingsForCourseStudents.get(i));
+            result = result && expectedVisibilitySettingsForInstructors
+                                       .get(i).equals(actualVisibilitySettingsForInstructors.get(i));
+        }
+        return result;
     }
 }
