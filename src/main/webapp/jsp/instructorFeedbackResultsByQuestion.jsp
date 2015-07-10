@@ -13,5 +13,7 @@
 </c:set>
 
 <ti:instructorPage pageTitle="TEAMMATES - Feedback Session Results" bodyTitle="Session Results" jsIncludes="${jsIncludes}">
-    <results:byQuestionResults showAll="${data.bundle.complete}" shouldCollapsed="${data.shouldCollapsed}" data="${data}" />    
+    <results:resultsPage>
+        <results:byQuestionResults showAll="${data.bundle.complete}" shouldCollapsed="${data.shouldCollapsed}" data="${data}" />
+    </results:resultsPage>    
 </ti:instructorPage>
