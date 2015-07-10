@@ -312,7 +312,13 @@ function bindChangingRole(index){
 		var idAttr = $(this).attr('id');
 		var instrNum = parseInt(idAttr.substring(27));
 		var role = $(this).attr("value");
-		checkPrivilegesOfRoleForInstructor(instrNum, role);
+		if ((role === "Custom") && (INSTRUCTOR_COURSE_EDIT_INSTRUCTOR_ACCESS_LEVEL_WHEN_LOADING_PAGE[index - 1] !== "Custom")) {
+			role = INSTRUCTOR_COURSE_EDIT_INSTRUCTOR_ACCESS_LEVEL_WHEN_LOADING_PAGE[index - 1];
+			checkPrivilegesOfRoleForInstructor(instrNum, role);
+			showTunePermissionsDiv(instrNum);
+		} else {
+			checkPrivilegesOfRoleForInstructor(instrNum, role);
+		}
 	});
 }
 
