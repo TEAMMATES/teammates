@@ -1,6 +1,6 @@
 // global parameter to remember settings for custom access level
 
-var INSTRUCTOR_COURSE_EDIT_INSTRUCTOR_ACCESS_LEVEL_WHEN_LOADING_PAGE = [];
+var instructorCourseEditInstructorAccessLevelWhenLoadingPage = [];
 
 /**
  * Enable the user to edit one instructor and disable editting for other instructors
@@ -197,8 +197,8 @@ function checkPrivilegesOfTutorForInstructor(instrNum) {
 
 function checkPrivilegesOfCustomForInstructor(instrNum) {
 	var numOfInstr = $("form[id^='formEditInstructor']").length;
-	if (instrNum <= numOfInstr && INSTRUCTOR_COURSE_EDIT_INSTRUCTOR_ACCESS_LEVEL_WHEN_LOADING_PAGE.length >= instrNum 
-			&& INSTRUCTOR_COURSE_EDIT_INSTRUCTOR_ACCESS_LEVEL_WHEN_LOADING_PAGE[instrNum-1] === "Custom") {
+	if (instrNum <= numOfInstr && instructorCourseEditInstructorAccessLevelWhenLoadingPage.length >= instrNum 
+			&& instructorCourseEditInstructorAccessLevelWhenLoadingPage[instrNum-1] === "Custom") {
 		$("#tunePermissionsDivForInstructor" + 1 + " input[checked='checked']").prop("checked", true);
 		$("#tunePermissionsDivForInstructor" + 1 + " input[checked!='checked']").prop("checked", false);
 	} else {
@@ -312,8 +312,8 @@ function bindChangingRole(index){
 		var idAttr = $(this).attr('id');
 		var instrNum = parseInt(idAttr.substring(27));
 		var role = $(this).attr("value");
-		if ((role === "Custom") && (INSTRUCTOR_COURSE_EDIT_INSTRUCTOR_ACCESS_LEVEL_WHEN_LOADING_PAGE[index - 1] !== "Custom")) {
-			role = INSTRUCTOR_COURSE_EDIT_INSTRUCTOR_ACCESS_LEVEL_WHEN_LOADING_PAGE[index - 1];
+		if ((role === "Custom") && (instructorCourseEditInstructorAccessLevelWhenLoadingPage[index - 1] !== "Custom")) {
+			role = instructorCourseEditInstructorAccessLevelWhenLoadingPage[index - 1];
 			checkPrivilegesOfRoleForInstructor(instrNum, role);
 			showTunePermissionsDiv(instrNum);
 		} else {
@@ -327,7 +327,7 @@ $(function(){
 	for (var i = 0; i < numOfInstr; i++) {
 		var instrNum = i + 1;
 		var instrRole = $("#accessControlInfoForInstr" + instrNum + " div div p span").html().trim();
-		INSTRUCTOR_COURSE_EDIT_INSTRUCTOR_ACCESS_LEVEL_WHEN_LOADING_PAGE.push(instrRole);
+		instructorCourseEditInstructorAccessLevelWhenLoadingPage.push(instrRole);
 		checkTheRoleThatApplies(i + 1);
 	}
 });
