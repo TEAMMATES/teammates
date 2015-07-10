@@ -49,6 +49,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public String showStats = null;
     public int startIndex;
     private boolean shouldCollapsed;
+    
+    private FieldValidator validator = new FieldValidator();
 
 
     // used for html table ajax loading
@@ -211,7 +213,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 boolean isFirstSection = sectionPanel.getParticipantPanels().isEmpty();
                 
                 if (!isFirstSection) {
-                    buildTeamStatisticsTableForSectionPanel(sectionPanel, prevSection, viewType, 
+                    buildTeamsStatisticsTableForSectionPanel(sectionPanel, prevSection, viewType, 
                                                     questions, responsesGroupedByTeam, 
                                                     teamsWithResponses);
                     createMissingTeamAndParticipantPanelsForPrevSectionAndResetVariables(
@@ -279,12 +281,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
             prevSection = currentSection;
         }
         
-        buildTeamStatisticsTableForSectionPanel(sectionPanel, prevSection, viewType, 
+        buildTeamsStatisticsTableForSectionPanel(sectionPanel, prevSection, viewType, 
                                         questions, responsesGroupedByTeam, 
                                         teamsWithResponses);
         
         // for the last section
-        createTeamAndParticipantPanelsForLastParticipantSection(bundle, validator, sectionPanel, prevSection, prevTeam,
+        createTeamAndParticipantPanelsForLastParticipantSection(validator, sectionPanel, prevSection, prevTeam,
                                                      sectionsWithResponses, teamsWithResponses, teamsInSection,
                                                      teamMembersWithResponses);
 
@@ -346,7 +348,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             if (!prevSection.equals(currentSection)) {
                 boolean isFirstSection = sectionPanel.getParticipantPanels().isEmpty();
                 if (!isFirstSection) {
-                    buildTeamStatisticsTableForSectionPanel(sectionPanel, prevSection, viewType, 
+                    buildTeamsStatisticsTableForSectionPanel(sectionPanel, prevSection, viewType, 
                                                     questions, responsesGroupedByTeam, 
                                                     teamsWithResponses);
                     createMissingTeamAndParticipantPanelsForPrevSectionAndResetVariables(
@@ -359,7 +361,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 teamsInSection = bundle.getTeamsInSectionFromRoster(currentSection);                
             }
             
-            // questionForGiver is used to keep track of any question, 
+            // questionForRecipient is used to keep track of any question, 
             // this is used to determine the giver type later
             // TODO #2857
             FeedbackQuestionAttributes questionForRecipient = null;
@@ -411,12 +413,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
             prevSection = currentSection;
         }
         
-        buildTeamStatisticsTableForSectionPanel(sectionPanel, prevSection, viewType, 
+        buildTeamsStatisticsTableForSectionPanel(sectionPanel, prevSection, viewType, 
                                         questions, responsesGroupedByTeam, 
                                         teamsWithResponses);
         
         // for the last section
-        createTeamAndParticipantPanelsForLastParticipantSection(bundle, validator, sectionPanel, prevSection, prevTeam,
+        createTeamAndParticipantPanelsForLastParticipantSection(validator, sectionPanel, prevSection, prevTeam,
                                                      sectionsWithResponses, teamsWithResponses, teamsInSection,
                                                      teamMembersWithResponses);
 
@@ -455,7 +457,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
     }
 
-    private void createTeamAndParticipantPanelsForLastParticipantSection(FeedbackSessionResultsBundle bundle,
+    private void createTeamAndParticipantPanelsForLastParticipantSection(
                                     FieldValidator validator,
                                     InstructorFeedbackResultsSectionPanel sectionPanel, String prevSection,
                                     String prevTeam, Set<String> receivingSections,
@@ -719,7 +721,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
     }*/
     
-    private void buildTeamStatisticsTableForSectionPanel(InstructorFeedbackResultsSectionPanel sectionPanel, 
+    private void buildTeamsStatisticsTableForSectionPanel(InstructorFeedbackResultsSectionPanel sectionPanel, 
                                                          String section, ViewType viewType,
                                                          Map<String, FeedbackQuestionAttributes> questions,
                                                          LinkedHashMap<String, Map<FeedbackQuestionAttributes,
@@ -772,7 +774,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 statsTable.setShowResponseRows(false); 
                 statsTable.setCollapsible(false);
                 
-                if (!statsTable.getQuestionStatisticsHtml().isEmpty()) {
+                if (!statsTable.getQuestionStatisticsTable().isEmpty()) {
                     statisticsTablesForTeam.add(statsTable);
                 }
             }
@@ -787,10 +789,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                               List<FeedbackResponseAttributes> responses,
                                                               ViewType statisticsViewType, String additionalInfoId,
                                                               boolean isIncludeMissingResponses) {
-        
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
         String statisticsTable = questionDetails.getQuestionResultStatisticsHtml(responses, question, 
-                                                                                 this, bundle, statisticsViewType.name());
+                                                                                 this, bundle, statisticsViewType.toString());
+
         List<InstructorResultsResponseRow> responseRows = isIncludeMissingResponses ? 
                                                           buildResponseRowsForQuestion(question, responses, statisticsViewType) :
                                                           buildResponseRowsForQuestionWithoutMissingResponses(
@@ -987,12 +989,15 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                  ViewType statisticsViewType, 
                                                  String giver, String recipient,
                                                  InstructorResultsResponseRow responseRow) {
+        
         switch (statisticsViewType) {
             case QUESTION:
-                responseRow.setGiverProfilePictureDisplayed(question.isGiverAStudent());
+                responseRow.setGiverProfilePictureDisplayed(question.isGiverAStudent() 
+                                                           && validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, giver).isEmpty());
                 responseRow.setGiverProfilePictureLink(new Url(getProfilePictureLink(giver)));
                 
-                responseRow.setRecipientProfilePictureDisplayed(question.isRecipientAStudent());
+                responseRow.setRecipientProfilePictureDisplayed(question.isRecipientAStudent()
+                                                                && validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, recipient).isEmpty());
                 responseRow.setRecipientProfilePictureLink(new Url(getProfilePictureLink(recipient)));
                 responseRow.setActionsDisplayed(true);
                 break;
@@ -1001,7 +1006,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 responseRow.setGiverProfilePictureDisplayed(false);
                 
                 responseRow.setRecipientProfilePictureAColumn(true);
-                responseRow.setRecipientProfilePictureDisplayed(question.isRecipientAStudent());
+                responseRow.setRecipientProfilePictureDisplayed(question.isRecipientAStudent() 
+                                                                && validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, recipient).isEmpty());
                 responseRow.setRecipientProfilePictureLink(new Url(getProfilePictureLink(recipient)));
                 responseRow.setActionsDisplayed(false);
                 break;
@@ -1010,7 +1016,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 responseRow.setRecipientProfilePictureDisplayed(false);
                 
                 responseRow.setGiverProfilePictureAColumn(true);
-                responseRow.setGiverProfilePictureDisplayed(question.isGiverAStudent());
+                responseRow.setGiverProfilePictureDisplayed(question.isGiverAStudent()
+                                                            && validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, giver).isEmpty());
                 responseRow.setGiverProfilePictureLink(new Url(getProfilePictureLink(giver)));
                 responseRow.setActionsDisplayed(true);
                 break;

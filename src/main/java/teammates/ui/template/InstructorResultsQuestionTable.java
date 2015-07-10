@@ -15,7 +15,6 @@ public class InstructorResultsQuestionTable {
     private String courseId;
     private String feedbackSessionName;
     
-    private String questionStatisticsHtml;  
     private String panelClass;
     private String responsesBodyClass;
     
@@ -49,7 +48,7 @@ public class InstructorResultsQuestionTable {
         this.courseId = question.courseId;
         this.feedbackSessionName = question.feedbackSessionName;
         
-        this.questionStatisticsHtml = questionStatisticsHtml;
+        this.questionStatisticsTable = questionStatisticsHtml;
         this.responses = responseRows;
         
         this.isQuestionHasResponses = !responses.isEmpty(); //TODO: just check is response is empty in jsp? 
@@ -67,17 +66,12 @@ public class InstructorResultsQuestionTable {
                                   "panel-collapse collapse";
         
         FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
-        this.additionalInfoText = questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, additionalInfoId);        
-        this.questionStatisticsTable = questionDetails.getQuestionResultStatisticsHtml(responses, question, data, data.bundle, "question");
+        this.additionalInfoText = questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, additionalInfoId);
         
         this.columns = columns;
         
         this.isBoldQuestionNumber = true;
         this.isColumnSortable = isColumnSortable;
-    }
-
-    public String getQuestionStatisticsHtml() {
-        return questionStatisticsHtml;
     }
 
     public List<InstructorResultsResponseRow> getResponses() {
@@ -138,10 +132,6 @@ public class InstructorResultsQuestionTable {
 
     public void setFeedbackSessionName(String feedbackSessionName) {
         this.feedbackSessionName = feedbackSessionName;
-    }
-
-    public void setQuestionStatisticsHtml(String questionStatisticsHtml) {
-        this.questionStatisticsHtml = questionStatisticsHtml;
     }
 
     public void setPanelClass(String panelClass) {
