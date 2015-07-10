@@ -1,17 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
-<%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/results" prefix="results" %>
 <c:set var="jsIncludes">    
-    <script type="text/javascript" src="/js/instructor.js"></script>
-    <script type="text/javascript" src="/js/instructorFeedbackResults.js"></script>
     <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxByRQG.js"></script>
-    <script type="text/javascript" src="/js/instructorFeedbackResultsAjaxResponseRate.js"></script>
-    <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
 </c:set>
 
-<ti:instructorPage pageTitle="TEAMMATES - Feedback Session Results" bodyTitle="Session Results" jsIncludes="${jsIncludes}">
+<results:resultsPage pageTitle="TEAMMATES - Feedback Session Results" bodyTitle="Session Results" jsIncludes="${jsIncludes}" data="${data}">
     <results:byGiverQuestionRecipient showAll="${data.bundle.complete}" shouldCollapsed="${data.shouldCollapsed}" />    
-</ti:instructorPage>
+</results:resultsPage>

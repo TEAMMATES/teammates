@@ -8,11 +8,8 @@
 <%@ attribute name="showAll" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="shouldCollapsed" type="java.lang.Boolean" required="true" %>
 
-<jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_TOP%>" />
 <br>
 
 <c:forEach items="${data.questionPanels}" var="questionPanel" varStatus="i">
     <results:questionPanel questionIndex="${i.index}" showAll="${showAll}" questionPanel="${questionPanel}" shouldCollapsed="${shouldCollapsed}"/>
 </c:forEach>
-
-<jsp:include page="<%=Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BOTTOM%>" />
