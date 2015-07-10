@@ -842,4 +842,36 @@ public class Emails {
         
         return data;
     }
+    
+    private Sendgrid parseMimeMessageToSendgrid(MimeMessage message) throws MessagingException, JSONException, IOException {
+        Sendgrid email = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);
+        
+        for (int i = 0; i < message.getRecipients(Message.RecipientType.TO).length; i++) {
+            email.addTo(message.getRecipients(Message.RecipientType.TO)[i].toString());
+        }
+        
+        String from = message.getFrom()[0].toString();
+        String html = message.getContent().toString();
+        
+        // From name and email in the format: Name <Email>
+        if (from.contains("<") && from.contains(">")) {
+            from = from.substring(from.indexOf("<") + 1, from.indexOf(">"));
+        }
+        
+        email.setFrom(from)
+             .setSubject(message.getSubject())
+             .setHtml(html)
+             .setText(Jsoup.parse(html).text());
+        
+        if (message.getRecipients(Message.RecipientType.BCC) != null 
+                                        && message.getRecipients(Message.RecipientType.BCC).length > 0) {
+            email.setBcc(message.getRecipients(Message.RecipientType.BCC)[0].toString());
+        }
+        
+        if (message.getReplyTo() != null && message.getReplyTo().length > 0) {
+            email.setReplyTo(message.getReplyTo()[0].toString());
+        }
+        
+        return email;
+    }
 }
