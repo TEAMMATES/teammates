@@ -17,7 +17,8 @@ Important: When a version is specified, please install that version instead of t
    follow the instructions at https://developers.google.com/eclipse/docs/install-from-zip.
 7. Install Google App Engine SDK version 1.9.4 (this is not the latest version)<br>
    Download link to the SDK is https://console.developers.google.com/m/cloudstorage/b/appengine-sdks/o/deprecated/194/appengine-java-sdk-1.9.4.zip.<br>
-   Instructions for installing are at https://developers.google.com/eclipse/docs/using_sdks.
+   Although we are using the deprecated version, we can still install the latest Google App Engine Java SDK via Eclipse's "Install New Software", and later, in "Preferences", specify the deprecated SDK version to use.
+   Further instructions for installing can be found at https://developers.google.com/eclipse/docs/using_sdks.
 8. Install the latest [TestNG Eclipse plugin](http://testng.org/doc/eclipse.html).
 
 ##Setting up the dev server
