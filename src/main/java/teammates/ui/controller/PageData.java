@@ -41,12 +41,16 @@ public class PageData {
     public AccountAttributes account;
     public StudentAttributes student;
 
+    private String jQueryFilePath;
+    private String jQueryUiFilePath;
+
     /**
      * @param account The account for the nominal user.
      */
     public PageData(AccountAttributes account) {
         this.account = account;
         this.student = null;
+        initCustomFilePaths();
     }
     
     /**
@@ -55,6 +59,23 @@ public class PageData {
     public PageData(AccountAttributes account, StudentAttributes student) {
         this.account = account;
         this.student = student;
+        initCustomFilePaths();
+    }
+    
+    /**
+     * Here is where we can initiate custom file paths for files that should be served via CDN on staging /
+     * live but through local files on Dev server to allow local testing without internet.
+     */
+    private void initCustomFilePaths() {
+        boolean isDevEnvironment = Boolean.parseBoolean(System.getProperty("isDevEnvironment"));
+
+        if (isDevEnvironment) {
+            jQueryFilePath = "/js/lib/jquery-1.11.3.min.js";
+            jQueryUiFilePath = "/js/lib/jquery-ui-1.11.4.min.js";
+        } else {
+            jQueryFilePath = "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js";
+            jQueryUiFilePath = "//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js";
+        }
     }
     
     public AccountAttributes getAccount() {
@@ -933,5 +954,13 @@ public class PageData {
     
     public String removeBracketsForArrayString(String arrayString) {
         return arrayString.substring(1, arrayString.length() - 1).trim();
+    }
+
+    public String getjQueryFilePath() {
+        return jQueryFilePath;
+    }
+
+    public String getjQueryUiFilePath() {
+        return jQueryUiFilePath;
     }
 }
