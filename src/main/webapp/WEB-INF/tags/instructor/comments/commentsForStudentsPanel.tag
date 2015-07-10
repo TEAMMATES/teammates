@@ -24,7 +24,7 @@
                 <ul class="list-group comments">
                     <c:forEach items="${commentsForStudentsTable.rows}" var="commentRow"> <%--student comments loop starts--%>
                         <c:set var="commentIdx" value="${commentIdx + 1}" />
-                        <li class="list-group-item list-group-item-warning status_display-${not empty commentRow.comment.showCommentTo ? '-public' : '-private'}">
+                        <li class="list-group-item list-group-item-warning status_display-${not empty commentRow.comment.showCommentTo ? 'public' : 'private'}">
                                 <div id="commentBar-${commentIdx}">
                                     
                                     <span class="text-muted">
