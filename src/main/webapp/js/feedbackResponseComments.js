@@ -33,40 +33,37 @@ var addCommentHandler = function(e) {
             submitButton.text("Add");
         },
         success: function(data) {
-            setTimeout(function() {
-                if (!data.isError) {
-                    if(isInCommentsPage()) {
-                        panelHeading.click();
-                    } else {
-                        // Inject new comment row
-                        addFormRow.parent().attr("class", "list-group");
-                        addFormRow.before(data);
-                        removeUnwantedVisibilityOptions(commentId);
-                        var newCommentRow = addFormRow.prev();
-                        newCommentRow.find("form[class*='responseCommentEditForm'] > div > a[id*='button_save_comment_for_edit']").click(editCommentHandler);
-                        newCommentRow.find("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
-                        registerResponseCommentCheckboxEvent();
-                        newCommentRow.find("[data-toggle='tooltip']").tooltip({html: true});
-
-                        // Reset add comment form
-                        formObject.find("textarea").prop("disabled", false);
-                        formObject.find("textarea").val("");
-                        submitButton.text("Add");
-                        submitButton.prop("disabled", false);
-                        cancelButton.prop("disabled", false);
-                        removeFormErrorMessage(submitButton);
-                        addFormRow.prev().find("div[id^=plainCommentText]").css("margin-left","15px");
-                        addFormRow.prev().show();
-                        addFormRow.hide();
-                    }
+            if (!data.isError) {
+                if (isInCommentsPage()) {
+                    panelHeading.click();
                 } else {
+                    // Inject new comment row
+                    addFormRow.parent().attr("class", "list-group");
+                    addFormRow.before(data);
+                    removeUnwantedVisibilityOptions(commentId);
+                    var newCommentRow = addFormRow.prev();
+                    newCommentRow.find("form[class*='responseCommentEditForm'] > div > a[id*='button_save_comment_for_edit']").click(editCommentHandler);
+                    newCommentRow.find("form[class*='responseCommentDeleteForm'] > a").click(deleteCommentHandler);
+                    registerResponseCommentCheckboxEvent();
+
+                    // Reset add comment form
                     formObject.find("textarea").prop("disabled", false);
-                    setFormErrorMessage(submitButton, data.errorMessage);
+                    formObject.find("textarea").val("");
                     submitButton.text("Add");
                     submitButton.prop("disabled", false);
                     cancelButton.prop("disabled", false);
+                    removeFormErrorMessage(submitButton);
+                    addFormRow.prev().find("div[id^=plainCommentText]").css("margin-left","15px");
+                    addFormRow.prev().show();
+                    addFormRow.hide();
                 }
-            }, 500);
+            } else {
+                formObject.find("textarea").prop("disabled", false);
+                setFormErrorMessage(submitButton, data.errorMessage);
+                submitButton.text("Add");
+                submitButton.prop("disabled", false);
+                cancelButton.prop("disabled", false);
+            }
         }
     });
 };
@@ -100,34 +97,32 @@ var editCommentHandler = function(e) {
             cancelButton.prop("disabled", false);
         },
         success: function(data) {
-            setTimeout(function() {
-                if (!data.isError) {
-                    if(isInCommentsPage()) {
-                        panelHeading.click();
-                    } else {
-                        // Update editted comment
-                        displayedText.html(data.comment.commentText.value);
-                        updateVisibilityOptionsForResponseComment(formObject, data);
-                        commentBar.show();
-                        
-                        // Reset edit comment form
-                        formObject.find("textarea").prop("disabled", false);
-                        formObject.find("textarea").val(data.comment.commentText.value);
-                        submitButton.text("Save");
-                        submitButton.prop("disabled", false);
-                        cancelButton.prop("disabled", false);
-                        removeFormErrorMessage(submitButton);
-                        formObject.hide();
-                        displayedText.show();
-                    }
+            if (!data.isError) {
+                if(isInCommentsPage()) {
+                    panelHeading.click();
                 } else {
+                    // Update editted comment
+                    displayedText.html(data.comment.commentText.value);
+                    updateVisibilityOptionsForResponseComment(formObject, data);
+                    commentBar.show();
+                    
+                    // Reset edit comment form
                     formObject.find("textarea").prop("disabled", false);
-                    setFormErrorMessage(submitButton, data.errorMessage);
+                    formObject.find("textarea").val(data.comment.commentText.value);
                     submitButton.text("Save");
                     submitButton.prop("disabled", false);
                     cancelButton.prop("disabled", false);
+                    removeFormErrorMessage(submitButton);
+                    formObject.hide();
+                    displayedText.show();
                 }
-            }, 500);
+            } else {
+                formObject.find("textarea").prop("disabled", false);
+                setFormErrorMessage(submitButton, data.errorMessage);
+                submitButton.text("Save");
+                submitButton.prop("disabled", false);
+                cancelButton.prop("disabled", false);
+            }
         }
     });
 };
@@ -159,30 +154,28 @@ var deleteCommentHandler = function(e) {
             submitButton.html("<span class=\"glyphicon glyphicon-trash glyphicon-primary\"></span>");
         },
         success: function(data) {
-            setTimeout(function() {
-                if (!data.isError) {
-                    if (isInCommentsPage()) {
-                        panelHeading.click();
-                    } else {
-                        var numberOfItemInFrCommentList = deletedCommentRow.parent().children('li');
-                        if (numberOfItemInFrCommentList.length <= 2) {
-                            deletedCommentRow.parent().hide();
-                        }
-                        if (frCommentList.find("li").length <= 1) {
-                            frCommentList.hide();
-                        }
-                        deletedCommentRow.remove();
-                        frCommentList.parent().find("div.delete_error_msg").remove();
-                    }
+            if (!data.isError) {
+                if (isInCommentsPage()) {
+                    panelHeading.click();
                 } else {
-                    if (editForm.is(':visible')) {
-                        setFormErrorMessage(editForm.find("div > a"), data.errorMessage);
-                    } else if (frCommentList.parent().find("div.delete_error_msg").length == 0) {
-                        frCommentList.after("<div class=\"delete_error_msg alert alert-danger\">" + data.errorMessage + "</div>");
+                    var numberOfItemInFrCommentList = deletedCommentRow.parent().children('li');
+                    if (numberOfItemInFrCommentList.length <= 2) {
+                        deletedCommentRow.parent().hide();
                     }
-                    submitButton.html("<span class=\"glyphicon glyphicon-trash glyphicon-primary\"></span>");
+                    if (frCommentList.find("li").length <= 1) {
+                        frCommentList.hide();
+                    }
+                    deletedCommentRow.remove();
+                    frCommentList.parent().find("div.delete_error_msg").remove();
                 }
-            }, 500);
+            } else {
+                if (editForm.is(':visible')) {
+                    setFormErrorMessage(editForm.find("div > a"), data.errorMessage);
+                } else if (frCommentList.parent().find("div.delete_error_msg").length == 0) {
+                    frCommentList.after("<div class=\"delete_error_msg alert alert-danger\">" + data.errorMessage + "</div>");
+                }
+                submitButton.html("<span class=\"glyphicon glyphicon-trash glyphicon-primary\"></span>");
+            }
         }
     });
 };
@@ -249,12 +242,6 @@ function enableHoverToDisplayEditOptions() {
     }, function() {
         $("a[type='button']", this).hide();
     });
-}
-
-function enableTooltip() {      
-    $(function() {         
-        $("[data-toggle='tooltip']").tooltip({html: true, container: 'body'});         
-    });        
 }
 
 $(document).ready(registerResponseCommentsEvent);
@@ -393,7 +380,6 @@ function loadFeedbackResponseComments(user, courseId, fsName, fsIndx, sender) {
             registerResponseCommentsEvent();
             registerCheckboxEventForVisibilityOptions();
             enableHoverToDisplayEditOptions();
-            enableTooltip();
       } else {
           panelBody.find('div[class^="placeholder-error-msg"]').removeClass('hidden');
           panelBody.removeClass('hidden');

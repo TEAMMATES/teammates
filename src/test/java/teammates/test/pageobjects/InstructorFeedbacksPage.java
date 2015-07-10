@@ -178,13 +178,13 @@ public class InstructorFeedbacksPage extends AppPage {
     
     public void clickCopySubmitButton(){
         copySubmitButton.click();
-        browser.selenium.waitForPageToLoad("15000");
+        waitForPageToLoad();
     }
     
     
     public void clickViewResponseLink(String courseId, String sessionName) {
         getViewResponseLink(courseId,sessionName).click();
-        browser.selenium.waitForPageToLoad("15000");
+        waitForPageToLoad();
     }
     
     public void toggleSendOpenEmailCheckbox() {
@@ -245,7 +245,7 @@ public class InstructorFeedbacksPage extends AppPage {
     
     public void copyFeedbackSession(String feedbackSessionName, String courseId) {        
         clickCopyButton();        
-        this.waitForElementVisible(copiedFsNameTextBox);        
+        this.waitForElementVisibility(copiedFsNameTextBox);        
         fillTextBox(copiedFsNameTextBox, feedbackSessionName);       
         selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
         
@@ -255,7 +255,7 @@ public class InstructorFeedbacksPage extends AppPage {
     
     public void copyFeedbackSessionTestButtons(String feedbackSessionName, String courseId) {       
         clickCopyButton();       
-        this.waitForElementVisible(copiedFsNameTextBox);       
+        this.waitForElementVisibility(copiedFsNameTextBox);       
         fillTextBox(copiedFsNameTextBox, feedbackSessionName);        
         selectDropdownByVisibleValue(copiedCourseIdDropdown, courseId);
     }
@@ -294,11 +294,13 @@ public class InstructorFeedbacksPage extends AppPage {
         fillTimeValueIfNotNull(Const.ParamsNames.FEEDBACK_SESSION_PUBLISHDATE, publishTime, publishTimeDropdown, js);
     }
     
-    public void fillTimeValueIfNotNull(String timeId, Date timeValue, WebElement timeDropdown, JavascriptExecutor js) {
-        if (timeValue != null) {
-            js.executeScript("$('#" + timeId + "')[0].value='" + TimeHelper.formatDate(timeValue) + "';");
-            selectDropdownByVisibleValue(timeDropdown,
-                                         TimeHelper.convertToDisplayValueInTimeDropDown(timeValue));
+    public void fillTimeValueIfNotNull(String dateId, Date datetimeValue, WebElement timeDropdown, JavascriptExecutor js) {
+        if (datetimeValue != null) {
+            js.executeScript("$('#" + dateId + "').val('" + TimeHelper.formatDate(datetimeValue) + "');");
+            
+            String timeDropdownId = timeDropdown.getAttribute("id");
+            String timeDropdownVal = TimeHelper.convertToOptionValueInTimeDropDown(datetimeValue);
+            js.executeScript("$('#" + timeDropdownId + "').val(" + timeDropdownVal + ")");
         }
     }
     
@@ -559,7 +561,7 @@ public class InstructorFeedbacksPage extends AppPage {
         By fsCopyButtonElement = By.id("button_fscopy" + "-" + courseId + "-" + feedbackSessionName);
         
         // give it some time to load as it is loaded via AJAX
-        waitForElementPresence(fsCopyButtonElement, 5);
+        waitForElementPresence(fsCopyButtonElement);
         
         WebElement fsCopyButton = browser.driver.findElement(fsCopyButtonElement);
         
@@ -567,7 +569,7 @@ public class InstructorFeedbacksPage extends AppPage {
     }
     
     public void waitForModalToLoad() {
-        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME), 5);
+        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
     }
     
     public void clickFsCopySubmitButton() {

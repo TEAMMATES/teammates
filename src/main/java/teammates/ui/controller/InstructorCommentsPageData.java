@@ -95,7 +95,7 @@ public class InstructorCommentsPageData extends PageData {
     public String getPreviousPageLink() {
         return previousPageLink;
     }
-    
+
     public String getShowCommentsToForComment(CommentAttributes comment) {
         return removeBracketsForArrayString(comment.showCommentTo.toString());
     }

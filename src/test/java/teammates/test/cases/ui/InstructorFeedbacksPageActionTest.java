@@ -65,7 +65,7 @@ public class InstructorFeedbacksPageActionTest extends BaseActionTest {
         
         ______TS("0 sessions");
         
-        FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourse(instructor1ofCourse1.courseId);
+        FeedbackSessionsLogic.inst().deleteFeedbackSessionsForCourseCascade(instructor1ofCourse1.courseId);
         
         submissionParams = new String[]{Const.ParamsNames.COURSE_ID, instructor1ofCourse1.courseId,
                                         Const.ParamsNames.IS_USING_AJAX, "true"};

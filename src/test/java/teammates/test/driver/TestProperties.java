@@ -42,6 +42,9 @@ public class TestProperties {
     public String SELENIUMRC_HOST;
     public int SELENIUMRC_PORT;
     
+    public int TEST_TIMEOUT;
+    public String TEST_TIMEOUT_PAGELOAD;
+    
     private static TestProperties instance;
     private Properties prop;
     public static final String TEST_PAGES_FOLDER = "src/test/resources/pages";
@@ -89,6 +92,9 @@ public class TestProperties {
             FIREFOX_PATH = prop.getProperty("test.firefox.path");
             SELENIUMRC_HOST = prop.getProperty("test.selenium.host");
             SELENIUMRC_PORT = Integer.parseInt(prop.getProperty("test.selenium.port"));
+            
+            TEST_TIMEOUT = Integer.parseInt(prop.getProperty("test.timeout"));
+            TEST_TIMEOUT_PAGELOAD = prop.getProperty("test.timeout") + "000";
 
         } catch (IOException e) {
             e.printStackTrace();

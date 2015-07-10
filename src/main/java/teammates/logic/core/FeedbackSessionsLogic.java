@@ -1537,13 +1537,28 @@ public class FeedbackSessionsLogic {
         }
     }
 
+    /**
+     * Deletes the feedback sessions in the course specified. The delete 
+     * is cascaded, and feedback questions, feedback responses, and 
+     * feedback response comments in the course are deleted.
+     * @param courseId
+     */
+    public void deleteFeedbackSessionsForCourseCascade(String courseId) {
+        frcLogic.deleteFeedbackResponseCommentsForCourse(courseId);
+        frLogic.deleteFeedbackResponsesForCourse(courseId);
+        fqLogic.deleteFeedbackQuestionsForCourse(courseId);
+        deleteFeedbackSessionsForCourse(courseId);
+    }
+    
+    /**
+     * Deletes all feedback sessions the course specified. This is 
+     * a non-cascade delete.
+     *  
+     * The responses, questions and the comments of the responses
+     * should be handled.
+     */
     public void deleteFeedbackSessionsForCourse(String courseId) {
-        List<FeedbackSessionAttributes> sessionsToDelete =
-                fsDb.getFeedbackSessionsForCourse(courseId);
-
-        for (FeedbackSessionAttributes session : sessionsToDelete) {
-            deleteFeedbackSessionCascade(session.feedbackSessionName, session.courseId);
-        }
+        fsDb.deleteFeedbackSessionsForCourse(courseId);
     }
 
     /**
@@ -2466,4 +2481,6 @@ public class FeedbackSessionsLogic {
         emails.addFeedbackSessionReminderToEmailsQueue(session,
                 Emails.EmailType.FEEDBACK_PUBLISHED);
     }
+    
+    
 }

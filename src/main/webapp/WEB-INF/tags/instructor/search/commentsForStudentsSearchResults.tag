@@ -20,8 +20,7 @@
                     <c:forEach items="${commentsForStudentsTable.rows}" var="commentRow">
                         <c:set var="indexCounter" value="${indexCounter + 1}" />
                         
-                        <li class="list-group-item list-group-item-warning" 
-                            id="form_commentedit-${indexCounter}">
+                        <li class="list-group-item list-group-item-warning">
                                     
                             <div id="commentBar-${indexCounter}">
                                 <span class="text-muted">
@@ -30,7 +29,7 @@
                                             
                                 <a type="button" target="_blank" class="btn btn-default btn-xs icon-button pull-right"
                                     data-toggle="tooltip" data-placement="top" style="display:none;"
-                                    <c:forEach items="${commentRow.editButton.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach>>
+                                    ${commentRow.editButton.attributesToString}>
                                     <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>                                       
                                 </a>                                    
                             </div>

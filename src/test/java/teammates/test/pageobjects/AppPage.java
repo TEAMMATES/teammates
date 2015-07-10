@@ -1,6 +1,5 @@
 package teammates.test.pageobjects;
 
-import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
 import static org.testng.AssertJUnit.assertEquals;
 
 import java.io.BufferedReader;
@@ -209,38 +208,12 @@ public abstract class AppPage {
     /**
      * Waits until the page is fully loaded. Times out after 15 seconds.
      */
-    protected void waitForPageToLoad() {
-        browser.selenium.waitForPageToLoad("15000");
+    public void waitForPageToLoad() {
+        browser.selenium.waitForPageToLoad(TestProperties.inst().TEST_TIMEOUT_PAGELOAD);
     }
     
-    protected void waitForElementToBecomeVisible(String elementId) throws Exception {
-        int timeOut = 3000;
-        while (!browser.driver.findElement(By.id(elementId)).isDisplayed()
-                && timeOut > 0) {
-            Thread.sleep(100);
-            timeOut -= 100;
-        }
-        return;
-    }
-    
-    protected void waitForElementToAppear(By by) throws Exception {
-        int timeOut = 3000;
-        while (timeOut > 0) {
-            try {
-                if (browser.driver.findElement(by).isDisplayed()) {
-                    break;
-                }
-            } catch (NoSuchElementException e) {
-                // ignore exception
-            }
-            Thread.sleep(100);
-            timeOut -= 100;
-        }
-        return;
-    }
-    
-    public void waitForElementVisible(WebElement element){
-        WebDriverWait wait = new WebDriverWait(browser.driver, 10);
+    public void waitForElementVisibility(WebElement element){
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.visibilityOf(element));
     }
     
@@ -248,16 +221,16 @@ public abstract class AppPage {
      * Waits for element to be invisible or not present, or timeout.
      */
     public void waitForElementToDisappear(By by){
-        WebDriverWait wait = new WebDriverWait(browser.driver, 10);
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
     }
     
     /**
      * Waits for the element to appear in the page, up to the timeout specified.
      */
-    public void waitForElementPresence(By element, int timeOutInSeconds){
-        WebDriverWait wait = new WebDriverWait(browser.driver, timeOutInSeconds);
-        wait.until(presenceOfElementLocated(element));
+    public void waitForElementPresence(By by){
+        WebDriverWait wait = new WebDriverWait(browser.driver, TestProperties.inst().TEST_TIMEOUT);
+        wait.until(ExpectedConditions.presenceOfElementLocated(by));
     }
     
     /**
@@ -791,6 +764,14 @@ public abstract class AppPage {
                 .replaceAll("([a-zA-Z0-9-_]){62,}","{*}")
                 //commentid
                 .replaceAll("\\\"([0-9]){16}\\\"", "\\\"{*}\\\"")
+                // comment div ids (added after standardization)
+                .replaceAll("responseCommentRow-[0-9]{16}", "responseCommentRow-{*}")
+                .replaceAll("commentBar-[0-9]{16}", "commentBar-{*}")
+                .replaceAll("plainCommentText-[0-9]{16}", "plainCommentText-{*}")
+                .replaceAll("commentdelete-[0-9]{16}", "commentdelete-{*}")
+                // tooltip style
+                .replaceAll("style=\"top: [0-9]{2,4}px; left: [0-9]{2,4}px; display: block;\"",
+                            "style=\"top: {*}px; left: {*}px; display: block;\"")                
                 //commentid in url
                 .replaceAll("#[0-9]{16}", "#{*}")
                 // the test accounts/ email
@@ -802,6 +783,8 @@ public abstract class AppPage {
                 .replace(Config.SUPPORT_EMAIL, "{$support.email}")
                 // today's date
                 .replace(TimeHelper.formatDate(now), "{*}")
+                // now (used in comments last edited date) e.g. [Thu, 07 May 2015, 07:52:13 UTC]
+                .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC", "{*}")
                 // now (used in opening time/closing time Grace period)
                 .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}", "{*}")
                 // now (used in comments last edited date) e.g. [Thu May 07 07:52:13 UTC 2015]
@@ -946,9 +929,9 @@ public abstract class AppPage {
             assertEquals(expectedStatus, this.getStatus());
         } catch(Exception e){
             if(!expectedStatus.equals("")){
-                this.waitForElementPresence(By.id("statusMessage"), 15);
+                this.waitForElementPresence(By.id("statusMessage"));
                 if(!statusMessage.isDisplayed()){
-                    this.waitForElementVisible(statusMessage);
+                    this.waitForElementVisibility(statusMessage);
                 }
             }
         }
@@ -974,7 +957,7 @@ public abstract class AppPage {
 
         while (currentRetryCount < maxRetryCount) {
             if (!statusMessage.isDisplayed()) {
-                this.waitForElementVisible(statusMessage);
+                this.waitForElementVisibility(statusMessage);
             }
 
             if (expectedStatus.equals(this.getStatus())) {

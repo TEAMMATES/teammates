@@ -8,9 +8,7 @@
 <div class="panel panel-primary">
     <div class="panel-heading">
         <strong>Course:</strong>
-        <a  <c:forEach items="${deleteCourseButton.attributes}" var="attribute" >
-                ${attribute.key}="${attribute.value}"
-            </c:forEach> >
+        <a ${deleteCourseButton.attributesToString}>
             ${deleteCourseButton.content}
         </a>
     </div>

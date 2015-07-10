@@ -20,7 +20,7 @@
                     <div class="col-sm-6">
                         <select class="form-control" name="<%= Const.ParamsNames.PREVIEWAS %>">
                             <c:forEach items="${previewForm.studentToPreviewAsOptions}" var="option">
-                                <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
+                                <option ${option.attributesToString}>
                                     ${option.content}
                                 </option>
                             </c:forEach>
@@ -43,7 +43,7 @@
                     <div class="col-sm-6">
                         <select class="form-control" name="<%= Const.ParamsNames.PREVIEWAS %>">
                             <c:forEach items="${previewForm.instructorToPreviewAsOptions}" var="option">
-                                <option <c:forEach items="${option.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach> >
+                                <option ${option.attributesToString}>
                                     ${option.content}
                                 </option>
                             </c:forEach>

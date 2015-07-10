@@ -1,6 +1,7 @@
 package teammates.test.cases.logic;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
@@ -61,6 +62,7 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         testUpdateFeedbackResponsesForChangingEmail();
         testDeleteFeedbackResponsesForStudent();
         testSpecialCharactersInTeamName();
+        testDeleteFeedbackResponsesForCourse();
     }
 
     public void testSpecialCharactersInTeamName() throws Exception {
@@ -503,6 +505,28 @@ public class FeedbackResponsesLogicTest extends BaseComponentTestCase {
         remainingResponses.addAll(frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.course, "Team 1.2"));
 
         assertEquals(remainingResponses.size(),0);    
+    }
+    
+    public void testDeleteFeedbackResponsesForCourse() {
+        ______TS("standard delete");
+        
+        // test that responses are deleted
+        String courseId = "idOfTypicalCourse1";
+        assertNotEquals(0, frLogic.getFeedbackResponsesForSession("First feedback session", courseId).size());
+        assertNotEquals(0, frLogic.getFeedbackResponsesForSession("Grace Period Session", courseId).size());
+        assertNotEquals(0, frLogic.getFeedbackResponsesForSession("Closed Session", courseId).size());
+        frLogic.deleteFeedbackResponsesForCourse(courseId);
+        
+        assertEquals(0, frLogic.getFeedbackResponsesForSession("First feedback session", courseId).size());
+        assertEquals(0, frLogic.getFeedbackResponsesForSession("Grace Period Session", courseId).size());
+        assertEquals(0, frLogic.getFeedbackResponsesForSession("Closed Session", courseId).size());
+        
+        // test that responses from other courses are unaffected
+        String otherCourse = "idOfTypicalCourse2";
+        assertNotEquals(0, frLogic.getFeedbackResponsesForSession("Instructor feedback session", otherCourse).size());
+        assertNotEquals(0, frLogic.getFeedbackResponsesForSession("Private feedback session", otherCourse).size());
+        
+        
     }
     
     private FeedbackQuestionAttributes getQuestionFromDatastore(String jsonId) {

@@ -158,5 +158,3 @@ jQuery(document).ready(function() {
 		return false;
 	});
 });
-
-$(function () { $("[data-toggle='tooltip']").tooltip(); });

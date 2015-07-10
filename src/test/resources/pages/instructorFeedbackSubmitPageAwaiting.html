@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
-        <title>TEAMMATES - Submit Feedback</title>
+    <title>TEAMMATES - Submit Feedback</title>
 
-	    <link href="/favicon.png" rel="shortcut icon" />
-	
-	    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-	    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-	
-	    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css" />
-	    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css" />
-	    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" />
-	
-	    <!--[if lt IE 9]>
-	        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-	        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-	    <![endif]-->
-	
-	    <script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script src="/js/googleAnalytics.js" type="text/javascript"></script>
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js" type="text/javascript"></script>
-	    <script src="/js/common.js" type="text/javascript"></script>
-	    <script src="/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <link href="/favicon.png" rel="shortcut icon" />
 
-        <noscript>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="/stylesheets/teammatesCommon.css" type="text/css" />
+
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script src="/js/googleAnalytics.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="/js/common.js" type="text/javascript"></script>
+    <script src="/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+
+    
+<noscript>
     &lt;div id="noscript-warning"&gt;
         &lt;h1&gt;
             TEAMMATES works best with JavaScript enabled. &lt;br&gt; You may
@@ -181,31 +181,22 @@
             &lt;/div&gt;
         &lt;/div&gt;
         &lt;p&gt;
-            As taken from:  
+            As taken from:
+        &lt;/p&gt;
         &lt;ol&gt;
             &lt;li&gt;&lt;a href="http://activatejavascript.org/en/instructions/"&gt;http://activatejavascript.org/en/instructions/&lt;/a&gt;&lt;/li&gt;
             &lt;li&gt;&lt;a href="http://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-pages"&gt;
                          http://support.mozilla.org/en-US/kb/javascript-settings-for-interactive-web-page&lt;/a&gt;&lt;/li&gt;
         &lt;/ol&gt;
-        
-        &lt;/p&gt;
     &lt;/div&gt;
 </noscript>
 
 
-	    
-        <script src="/js/feedbackSubmissionsEdit.js" type="text/javascript"></script>
-        <script src="/js/student.js" type="text/javascript"></script>
-    </head>
-
-    <body>
-        
-                
- 
-
-
-
-<div role="navigation" class="navbar navbar-inverse navbar-fixed-top">
+    <script src="/js/feedbackSubmissionsEdit.js" type="text/javascript"></script>
+    <script src="/js/student.js" type="text/javascript"></script>
+</head>
+<body>
+    <div role="navigation" class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <button data-target="#contentLinks" data-toggle="collapse" class="navbar-toggle" type="button">
@@ -254,22 +245,27 @@
         </div>
     </div>
 </div>
+    <div id="mainContent" class="container">
         
 
-        <div id="mainContent" class="container">
-            <div id="topOfPage"></div>
-            <h1>Submit Feedback</h1>
-            <br />
 
-            <form name="form_submit_response" action="/page/instructorFeedbackSubmissionEditSave" method="post">
+<div id="topOfPage"></div>
 
-                
+    <h1>Submit Feedback</h1>
+    <br />
 
-
-
+        
+        
+    
 
 
 
+
+
+
+
+<form action="/page/instructorFeedbackSubmissionEditSave" name="form_submit_response" method="post">
+    
 
 
 
@@ -278,7 +274,11 @@
 <input type="hidden" value="Fourth Session" name="fsname" />
 <input type="hidden" value="IFSubmitUiT.CS2104" name="courseid" />
 
+
+    
         <input type="hidden" value="IFSubmitUiT.instr" name="user" />
+    
+    
 
 
 
@@ -286,50 +286,60 @@
 
 
 
+
+    
         <div class="alert alert-warning" id="statusMessage">
             You can view the questions and any submitted responses for this feedback session but cannot submit new responses as the session is not currently open for submission.
         </div>
-        
         <script type="text/javascript">
             document.getElementById('statusMessage').scrollIntoView();
         </script>
+    
+    
+
+
+
 
 
 <div id="course1" class="well well-plain">
     <div class="panel-body">
         <div class="form-horizontal">
-            <div class="panel-heading">
+            <div class="panel-heading">               
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Course ID:</label>
                     <div class="col-sm-10">
                         <p class="form-control-static">IFSubmitUiT.CS2104</p>
                     </div>
                 </div>
+                
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Session:</label>
                     <div class="col-sm-10">
                         <p class="form-control-static">Fourth Session</p>
                     </div>
                 </div>
+                
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Opening time:</label>
                     <div class="col-sm-10">
                         <p class="form-control-static">Mon, 02 Apr 2035, 23:59</p>
                     </div>
                 </div>
+                
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Closing time:</label>
                     <div class="col-sm-10">
                         <p class="form-control-static">Mon, 30 Apr 2035, 23:59</p>
                     </div>
-                </div>
+                </div>             
+                
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Instructions:</label>
-                    <div class="col-sm-10">
-                        <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                    <div class="col-sm-10">                   
+                        <!--Note: When an element has class text-preserve-space, do not insert HTML spaces-->
                         <p class="form-control-static text-preserve-space">Please please fill in the second feedback session</p>
                     </div>
-                </div>
+                </div>             
             </div>
         </div>
     </div>
@@ -337,129 +347,251 @@
 <br />
 
 
-        <input type="hidden" value="TEXT" name="questiontype-1" />
-        <input type="hidden" value="{*}" name="questionid-1" />
-        <input type="hidden" value="4" name="questionresponsetotal-1" />
-        <div class="form-horizontal">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Question 1:
-                    <br />
-                    <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                    <span class="text-preserve-space">Give feedback to your instructors</span>
-                </div>
-                <div class="panel-body">
-                    <p class="text-muted">Only the following persons can see your responses: </p>
-                    <ul class="text-muted">
-                        
-                                <li class="unordered">The receiving instructors can see your response, and your name.</li>
-                        
-                    </ul>
-                    
-                    
-                            <br />
-                            <div class="form-group margin-0">
-                                <div style="text-align:right" class="col-sm-2 form-inline">
-                                    <label for="input">To:</label>
-                                    <select disabled="disabled" style="display:none;max-width:125px" name="responserecipient-1-0" class="participantSelect middlealign newResponse form-control">
-                                    <option selected="selected" value=""></option>
-<option value="IFSubmitUiT.instr2@gmail.tmt">Teammates Test2</option>
-<option value="IFSubmitUiT.instr3@gmail.tmt" style="display: none;">Teammates Test3</option>
-<option value="IFSubmitUiT.instr4@gmail.tmt" style="display: none;">Teammates Test4</option>
-<option value="IFSubmitUiT.instr5@gmail.tmt" style="display: none;">Teammates Test5</option>
 
-                                    </select><span>Teammates Test2</span>
-                                </div>
-                                <div class="col-sm-10">
-                                <textarea name="responsetext-1-0" disabled="disabled" class="form-control" cols="100%" rows="4"></textarea>
-                                </div>
-                            </div>
-                    
-                            <br />
-                            <div class="form-group margin-0">
-                                <div style="text-align:right" class="col-sm-2 form-inline">
-                                    <label for="input">To:</label>
-                                    <select disabled="disabled" style="display:none;max-width:125px" name="responserecipient-1-1" class="participantSelect middlealign newResponse form-control">
-                                    <option selected="selected" value=""></option>
-<option value="IFSubmitUiT.instr2@gmail.tmt" style="display: none;">Teammates Test2</option>
-<option value="IFSubmitUiT.instr3@gmail.tmt">Teammates Test3</option>
-<option value="IFSubmitUiT.instr4@gmail.tmt" style="display: none;">Teammates Test4</option>
-<option value="IFSubmitUiT.instr5@gmail.tmt" style="display: none;">Teammates Test5</option>
 
-                                    </select><span>Teammates Test3</span>
-                                </div>
-                                <div class="col-sm-10">
-                                <textarea name="responsetext-1-1" disabled="disabled" class="form-control" cols="100%" rows="4"></textarea>
-                                </div>
-                            </div>
-                    
-                            <br />
-                            <div class="form-group margin-0">
-                                <div style="text-align:right" class="col-sm-2 form-inline">
-                                    <label for="input">To:</label>
-                                    <select disabled="disabled" style="display:none;max-width:125px" name="responserecipient-1-2" class="participantSelect middlealign newResponse form-control">
-                                    <option selected="selected" value=""></option>
-<option value="IFSubmitUiT.instr2@gmail.tmt" style="display: none;">Teammates Test2</option>
-<option value="IFSubmitUiT.instr3@gmail.tmt" style="display: none;">Teammates Test3</option>
-<option value="IFSubmitUiT.instr4@gmail.tmt">Teammates Test4</option>
-<option value="IFSubmitUiT.instr5@gmail.tmt" style="display: none;">Teammates Test5</option>
 
-                                    </select><span>Teammates Test4</span>
-                                </div>
-                                <div class="col-sm-10">
-                                <textarea name="responsetext-1-2" disabled="disabled" class="form-control" cols="100%" rows="4"></textarea>
-                                </div>
-                            </div>
-                    
-                            <br />
-                            <div class="form-group margin-0">
-                                <div style="text-align:right" class="col-sm-2 form-inline">
-                                    <label for="input">To:</label>
-                                    <select disabled="disabled" style="display:none;max-width:125px" name="responserecipient-1-3" class="participantSelect middlealign newResponse form-control">
-                                    <option selected="selected" value=""></option>
-<option value="IFSubmitUiT.instr2@gmail.tmt" style="display: none;">Teammates Test2</option>
-<option value="IFSubmitUiT.instr3@gmail.tmt" style="display: none;">Teammates Test3</option>
-<option value="IFSubmitUiT.instr4@gmail.tmt" style="display: none;">Teammates Test4</option>
-<option value="IFSubmitUiT.instr5@gmail.tmt">Teammates Test5</option>
+    
+        
 
-                                    </select><span>Teammates Test5</span>
-                                </div>
-                                <div class="col-sm-10">
-                                <textarea name="responsetext-1-3" disabled="disabled" class="form-control" cols="100%" rows="4"></textarea>
-                                </div>
-                            </div>
-                    
-                </div>
-            </div>
+
+
+
+
+
+
+
+<input type="hidden" value="TEXT" name="questiontype-1" />
+                     
+<input type="hidden" value="{*}" name="questionid-1" />
+                     
+<input type="hidden" value="4" name="questionresponsetotal-1" />
+
+<div class="form-horizontal">
+    <div class="panel panel-primary">
+    
+        <div class="panel-heading">Question 1:
+            <br />
+            <!--Note: When an element has class text-preserve-space, do not insert HTML spaces-->
+            <span class="text-preserve-space">Give feedback to your instructors</span>
         </div>
-        <br /><br />
-
-
-
-                <div class="bold align-center">
+        
+        <div class="panel-body">
+            <p class="text-muted">Only the following persons can see your responses: </p>
+            <ul class="text-muted">
+                
                     
-                            <input type="submit" value="Submit Feedback" title="" data-placement="top" data-toggle="tooltip" id="response_submit_button" class="btn btn-primary center-block" disabled="disabled" data-original-title="You can save your responses at any time and come back later to continue." />
-                    
-                </div>
-                <br /><br />
-            </form>
-        </div>
-
+                
+                    <li class="unordered">The receiving instructors can see your response, and your name.</li>
+                
+            </ul>
+                
             
+                
 
 
 
 
 
-<div class="container-fluid" id="footerComponent">
+
+
+
+
+
+
+    
+    
+    
+
+
+<br />
+<div class="form-group margin-0">
+    <div style="text-align:right" class="col-sm-2 form-inline">
+         
+        <label for="input">To: </label>
+        
+        <select disabled="disabled" style="display:none;max-width:125px" name="responserecipient-1-0" class="participantSelect middlealign newResponse form-control">
+                
+                
+                    <option selected="selected" value=""></option>
+                
+                    <option value="IFSubmitUiT.instr2@gmail.tmt">Teammates Test2</option>
+                
+                    <option value="IFSubmitUiT.instr3@gmail.tmt" style="display: none;">Teammates Test3</option>
+                
+                    <option value="IFSubmitUiT.instr4@gmail.tmt" style="display: none;">Teammates Test4</option>
+                
+                    <option value="IFSubmitUiT.instr5@gmail.tmt" style="display: none;">Teammates Test5</option>
+                
+        </select><span>Teammates Test2</span>
+    </div>
+    <div class="col-sm-10">
+        <textarea name="responsetext-1-0" disabled="disabled" class="form-control" cols="100%" rows="4"></textarea>
+                                            
+    </div>
+</div>
+            
+                
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br />
+<div class="form-group margin-0">
+    <div style="text-align:right" class="col-sm-2 form-inline">
+         
+        <label for="input">To: </label>
+        
+        <select disabled="disabled" style="display:none;max-width:125px" name="responserecipient-1-1" class="participantSelect middlealign newResponse form-control">
+                
+                
+                    <option selected="selected" value=""></option>
+                
+                    <option value="IFSubmitUiT.instr2@gmail.tmt" style="display: none;">Teammates Test2</option>
+                
+                    <option value="IFSubmitUiT.instr3@gmail.tmt">Teammates Test3</option>
+                
+                    <option value="IFSubmitUiT.instr4@gmail.tmt" style="display: none;">Teammates Test4</option>
+                
+                    <option value="IFSubmitUiT.instr5@gmail.tmt" style="display: none;">Teammates Test5</option>
+                
+        </select><span>Teammates Test3</span>
+    </div>
+    <div class="col-sm-10">
+        <textarea name="responsetext-1-1" disabled="disabled" class="form-control" cols="100%" rows="4"></textarea>
+                                            
+    </div>
+</div>
+            
+                
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br />
+<div class="form-group margin-0">
+    <div style="text-align:right" class="col-sm-2 form-inline">
+         
+        <label for="input">To: </label>
+        
+        <select disabled="disabled" style="display:none;max-width:125px" name="responserecipient-1-2" class="participantSelect middlealign newResponse form-control">
+                
+                
+                    <option selected="selected" value=""></option>
+                
+                    <option value="IFSubmitUiT.instr2@gmail.tmt" style="display: none;">Teammates Test2</option>
+                
+                    <option value="IFSubmitUiT.instr3@gmail.tmt" style="display: none;">Teammates Test3</option>
+                
+                    <option value="IFSubmitUiT.instr4@gmail.tmt">Teammates Test4</option>
+                
+                    <option value="IFSubmitUiT.instr5@gmail.tmt" style="display: none;">Teammates Test5</option>
+                
+        </select><span>Teammates Test4</span>
+    </div>
+    <div class="col-sm-10">
+        <textarea name="responsetext-1-2" disabled="disabled" class="form-control" cols="100%" rows="4"></textarea>
+                                            
+    </div>
+</div>
+            
+                
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+
+
+<br />
+<div class="form-group margin-0">
+    <div style="text-align:right" class="col-sm-2 form-inline">
+         
+        <label for="input">To: </label>
+        
+        <select disabled="disabled" style="display:none;max-width:125px" name="responserecipient-1-3" class="participantSelect middlealign newResponse form-control">
+                
+                
+                    <option selected="selected" value=""></option>
+                
+                    <option value="IFSubmitUiT.instr2@gmail.tmt" style="display: none;">Teammates Test2</option>
+                
+                    <option value="IFSubmitUiT.instr3@gmail.tmt" style="display: none;">Teammates Test3</option>
+                
+                    <option value="IFSubmitUiT.instr4@gmail.tmt" style="display: none;">Teammates Test4</option>
+                
+                    <option value="IFSubmitUiT.instr5@gmail.tmt">Teammates Test5</option>
+                
+        </select><span>Teammates Test5</span>
+    </div>
+    <div class="col-sm-10">
+        <textarea name="responsetext-1-3" disabled="disabled" class="form-control" cols="100%" rows="4"></textarea>
+                                            
+    </div>
+</div>
+                         
+        </div>
+    </div>
+</div>
+<br /><br />
+    
+
+
+    <div class="bold align-center"> 
+        
+            
+            
+                <input type="submit" disabled="disabled" value="Submit Feedback" title="" data-placement="top" data-toggle="tooltip" id="response_submit_button" class="btn btn-primary center-block" data-original-title="You can save your responses at any time and come back later to continue." />
+            
+        
+    </div>
+    <br /> 
+    <br />
+</form>
+
+
+    
+    </div>
+    <div class="container-fluid" id="footerComponent">
     <div class="container">
         <div class="row">
             <div class="col-md-2">
                 <span>[<a href="/index.html">TEAMMATES</a> V{$version}]</span>
             </div>
             <div class="col-md-8">
-                
-                        [for <span class="highlight-white">TEAMMATES Test Institute 1</span>]
-                
+                [for <span class="highlight-white">TEAMMATES Test Institute 1</span>]
             </div>
             <div class="col-md-2">
                 <span>[Send <a target="_blank" href="../contact.html" class="link">Feedback</a>]</span>
@@ -468,6 +600,5 @@
     </div>
 </div>
 
-    
 
 </body></html>

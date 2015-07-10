@@ -39,18 +39,14 @@
             <td class="align-center">${row.student.studentStatus}</td>
             <td class="align-center no-print">
                 <c:forEach items="${row.actions}" var="action">
-                    <a  <c:forEach items="${action.attributes}" var="attribute">
-                            ${attribute.key}="${attribute.value}"
-                        </c:forEach> >
+                    <a ${action.attributesToString}>
                         ${action.content}
                     </a>
                 </c:forEach>
                 
                 <div class="btn-group">
                     <c:forEach items="${row.commentActions}" var="action">
-                        <a  <c:forEach items="${action.attributes}" var="attribute">
-                                ${attribute.key}="${attribute.value}"
-                            </c:forEach> >
+                        <a ${action.attributesToString}>
                             ${action.content}
                         </a>
                     </c:forEach>
@@ -58,9 +54,7 @@
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="text-align:left;">
                         <c:forEach items="${row.commentRecipientOptions}" var="option">
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1"    <c:forEach items="${option.attributes}" var="attribute">
-                                                                        ${attribute.key}="${attribute.value}"
-                                                                    </c:forEach> >
+                                <a role="menuitem" tabindex="-1" ${option.attributesToString}>
                                     ${option.content}
                                 </a>
                             </li>
@@ -73,4 +67,15 @@
             <% out.flush(); %>
         </c:if>
     </c:forEach>
+    <c:if test="${empty studentsTable.rows}">
+        <tr>
+            <c:if test="${hasSection}">
+                <td></td>
+            </c:if>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </c:if>
 </table>

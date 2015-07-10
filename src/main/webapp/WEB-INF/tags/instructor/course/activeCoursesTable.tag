@@ -39,9 +39,7 @@
             <td class="align-center">${activeCourse.unregisteredStudentNum}</td>
             <td class="align-center no-print">
                 <c:forEach items="${activeCourse.actions}" var="button">
-                    <a  <c:forEach items="${button.attributes}" var="attribute">
-                            ${attribute.key}="${attribute.value}"
-                        </c:forEach> />
+                    <a ${button.attributesToString}>
                         ${button.content}
                     </a>
                 </c:forEach>
