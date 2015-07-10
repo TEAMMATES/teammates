@@ -165,25 +165,23 @@
                                        for (CommentAttributes comment : data.comments) {
                                        commentIdx++; %>
                                         <li class="list-group-item list-group-item-warning">
+                                            <div id="commentBar-<%= commentIdx %>">
+                                                <span class="text-muted">
+                                                    To <b><%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name + " (" + data.student.team + ", " + data.student.email + ")")%></b> [<%= Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt) %>] <%= comment.getEditedAtText(false) %>
+                                                </span>
+                                                <% if (comment.showCommentTo.size() > 0) { 
+                                                    String peopleCanSee = data.getTypeOfPeopleCanViewComment(comment); %>
+                                                    <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;" data-placement="top" title="This comment is visible to <%= peopleCanSee %>"></span>
+                                                <% } %>
+                                                <a type="button" id="commentdelete-<%= commentIdx %>" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('<%= commentIdx %>');" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_DELETE%>"> 
+                                                    <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                                                </a>
+                                                <a type="button" id="commentedit-<%= commentIdx %>" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('<%= commentIdx %>', '<%= data.comments.size() %>');" data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.COMMENT_EDIT %>">
+                                                    <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                                                </a>
+                                            </div>
+                                            <div id="plainCommentText<%= commentIdx %>"><%= comment.commentText.getValue() %></div>
                                             <form method="post" action="<%= Const.ActionURIs.INSTRUCTOR_STUDENT_COMMENT_EDIT %>" name="form_commentedit" class="form_comment" id="form_commentedit-<%= commentIdx %>">
-                                                <div id="commentBar<%= commentIdx %>">
-                                                    <span class="text-muted">
-                                                        To <b><%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name + " (" + data.student.team + ", " + data.student.email + ")")%></b> [<%= Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt) %>] <%= comment.getEditedAtText(false) %>
-                                                    </span>
-                                                    <a type="button" id="commentdelete-<%= commentIdx %>" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('<%= commentIdx %>');" data-toggle="tooltip" data-placement="top" title="<%=Const.Tooltips.COMMENT_DELETE%>"> 
-                                                        <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                                    </a>
-                                                    <a type="button" id="commentedit-<%= commentIdx %>" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('<%= commentIdx %>', '<%= data.comments.size() %>');" data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.COMMENT_EDIT %>">
-                                                        <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-                                                    </a>
-                                                    <% if (comment.showCommentTo.size() > 0) { 
-                                                        String peopleCanSee = data.getTypeOfPeopleCanViewComment(comment); %>
-                                                        <span class="glyphicon glyphicon-eye-open" data-toggle="tooltip" style="margin-left: 5px;" data-placement="top" title="This comment is public to <%= peopleCanSee %>"></span>
-                                                    <% } %>
-                                                </div>
-                                                <div id="plainCommentText<%= commentIdx %>">
-                                                    <%= comment.commentText.getValue() %>
-                                                </div>
                                                 <div id="commentTextEdit<%= commentIdx %>" style="display: none;">
                                                     <div class="form-group form-inline">
                                                         <div class="form-group text-muted">
@@ -305,19 +303,20 @@
                                                         <textarea class="form-control" rows="3" placeholder="Your comment about this student" name=<%= Const.ParamsNames.COMMENT_TEXT %> id="commentText<%= commentIdx %>"><%= comment.commentText.getValue() %></textarea>
                                                     </div>
                                                     <div class="col-sm-offset-5">
-                                                        <input id="commentsave-<%= commentIdx %>" title="Save comment" onclick="return submitCommentForm('<%= commentIdx %>');" type="submit" class="btn btn-primary" id="button_save_comment" value="Save">
+                                                        <input id="commentsave-<%= commentIdx %>" title="Save comment" onclick="return submitCommentForm('<%= commentIdx %>');" type="submit" class="btn btn-primary" value="Save">
                                                         <input type="button" class="btn btn-default" value="Cancel" onclick="return disableComment('<%= commentIdx %>');">
                                                     </div>
                                                 </div>
-                                                <input type="hidden" name=<%= Const.ParamsNames.COMMENT_EDITTYPE %> id="<%= Const.ParamsNames.COMMENT_EDITTYPE %>-<%= commentIdx %>" value="edit">
-                                                <input type="hidden" name=<%= Const.ParamsNames.COMMENT_ID %> value="<%= comment.getCommentId() %>">
-                                                <input type="hidden" name=<%= Const.ParamsNames.COURSE_ID %> value="<%= data.courseId %>">
-                                                <input type="hidden" name=<%= Const.ParamsNames.STUDENT_EMAIL %> value="<%= data.student.email %>">
-                                                <input type="hidden" name=<%= Const.ParamsNames.RECIPIENT_TYPE %> value="<%= comment.recipientType %>">
-                                                <input type="hidden" name=<%= Const.ParamsNames.RECIPIENTS %> value="<%= data.removeBracketsForArrayString(comment.recipients.toString()) %>">
-                                                <input type="hidden" name=<%= Const.ParamsNames.COMMENTS_SHOWCOMMENTSTO %> value="<%= data.removeBracketsForArrayString(comment.showCommentTo.toString()) %>">
-                                                <input type="hidden" name=<%= Const.ParamsNames.COMMENTS_SHOWGIVERTO %> value="<%= data.removeBracketsForArrayString(comment.showGiverNameTo.toString()) %>">
-                                                <input type="hidden" name=<%= Const.ParamsNames.COMMENTS_SHOWRECIPIENTTO %> value="<%= data.removeBracketsForArrayString(comment.showRecipientNameTo.toString()) %>">
+                                                <input type="hidden" name="<%= Const.ParamsNames.COMMENT_EDITTYPE %>" id="<%= Const.ParamsNames.COMMENT_EDITTYPE %>-<%= commentIdx %>" value="edit">
+                                                <input type="hidden" name="<%= Const.ParamsNames.COMMENT_ID %>" value="<%= comment.getCommentId() %>">
+                                                <input type="hidden" name="<%= Const.ParamsNames.COURSE_ID %>" value="<%= data.courseId %>">
+                                                <input type="hidden" name="<%= Const.ParamsNames.FROM_COMMENTS_PAGE %>" value="false">
+                                                <input type="hidden" name="<%= Const.ParamsNames.STUDENT_EMAIL %>" value="<%= data.student.email %>">
+                                                <input type="hidden" name="<%= Const.ParamsNames.RECIPIENT_TYPE %>" value="<%= comment.recipientType %>">
+                                                <input type="hidden" name="<%= Const.ParamsNames.RECIPIENTS %>" value="<%= data.removeBracketsForArrayString(comment.recipients.toString()) %>">
+                                                <input type="hidden" name="<%= Const.ParamsNames.COMMENTS_SHOWCOMMENTSTO %>" value="<%= data.removeBracketsForArrayString(comment.showCommentTo.toString()) %>">
+                                                <input type="hidden" name="<%= Const.ParamsNames.COMMENTS_SHOWGIVERTO %>" value="<%= data.removeBracketsForArrayString(comment.showGiverNameTo.toString()) %>">
+                                                <input type="hidden" name="<%= Const.ParamsNames.COMMENTS_SHOWRECIPIENTTO %>" value="<%= data.removeBracketsForArrayString(comment.showRecipientNameTo.toString()) %>">
                                                 <input type="hidden" name="<%= Const.ParamsNames.USER_ID %>" value="<%= data.account.googleId %>">
                                             </form>
                                         </li>
