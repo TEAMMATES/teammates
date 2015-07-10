@@ -198,7 +198,7 @@ function checkPrivilegesOfTutorForInstructor(instrNum) {
 function checkPrivilegesOfCustomForInstructor(instrNum) {
 	var numOfInstr = $("form[id^='formEditInstructor']").length;
 	if (instrNum <= numOfInstr && instructorCourseEditInstructorAccessLevelWhenLoadingPage.length >= instrNum 
-			&& instructorCourseEditInstructorAccessLevelWhenLoadingPage[instrNum-1] === "Custom") {
+			&& instructorCourseEditInstructorAccessLevelWhenLoadingPage[instrNum-1] === 'Custom') {
 		$("#tunePermissionsDivForInstructor" + 1 + " input[checked='checked']").prop("checked", true);
 		$("#tunePermissionsDivForInstructor" + 1 + " input[checked!='checked']").prop("checked", false);
 	} else {
@@ -312,7 +312,7 @@ function bindChangingRole(index){
 		var idAttr = $(this).attr('id');
 		var instrNum = parseInt(idAttr.substring(27));
 		var role = $(this).attr("value");
-		if ((role === "Custom") && (instructorCourseEditInstructorAccessLevelWhenLoadingPage[index - 1] !== "Custom")) {
+		if ((role === 'Custom') && (instructorCourseEditInstructorAccessLevelWhenLoadingPage[index - 1] !== 'Custom')) {
 			role = instructorCourseEditInstructorAccessLevelWhenLoadingPage[index - 1];
 			checkPrivilegesOfRoleForInstructor(instrNum, role);
 			showTunePermissionsDiv(instrNum);
