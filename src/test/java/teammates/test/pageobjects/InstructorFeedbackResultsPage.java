@@ -272,7 +272,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         Actions actions = new Actions(browser.driver);
 
         actions.moveToElement(photoCell).perform();
-        waitForElementToAppear(By.cssSelector(".popover-content > img"));
+        waitForElementPresence(By.cssSelector(".popover-content > img"));
 
         List<WebElement> photos = browser.driver.findElements(By.cssSelector(".popover-content > img"));
         AssertHelper.assertContainsRegex(urlRegex, photos.get(photos.size() - 1).getAttribute("src"));
@@ -288,12 +288,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
         jsExecutor.executeScript("arguments[0].scrollIntoView(true);", photoDiv);
         Actions actions = new Actions(browser.driver);
         actions.moveToElement(photoDiv).perform();
-        waitForElementToAppear(By.cssSelector(".popover-content"));
+        waitForElementPresence(By.cssSelector(".popover-content"));
 
         jsExecutor.executeScript("document.getElementsByClassName('popover-content')[0]"
                                  + ".getElementsByTagName('a')[0].click();");
 
-        waitForElementToAppear(By.cssSelector(".popover-content > img"));
+        waitForElementPresence(By.cssSelector(".popover-content > img"));
 
         AssertHelper.assertContainsRegex(urlRegex,
                                          browser.driver.findElements(By.cssSelector(".popover-content > img"))
@@ -312,7 +312,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         Actions actions = new Actions(browser.driver);
         actions.moveToElement(photoLink).perform();
 
-        waitForElementToAppear(By.cssSelector(".popover-content > img"));
+        waitForElementPresence(By.cssSelector(".popover-content > img"));
         ThreadHelper.waitFor(500);
 
         AssertHelper.assertContainsRegex(urlRegex, browser.driver.findElements(By.cssSelector(".popover-content > img"))
@@ -337,12 +337,12 @@ public class InstructorFeedbackResultsPage extends AppPage {
                                            ".querySelectorAll('td')['" + tableCol + "']" +
                                            ".getElementsByClassName('profile-pic-icon-hover')).mouseenter()");
         
-        waitForElementToAppear(By.cssSelector(".popover-content"));
+        waitForElementPresence(By.cssSelector(".popover-content"));
         
         jsExecutor.executeScript("document.getElementsByClassName('popover-content')[0]" +
                                            ".getElementsByTagName('a')[0].click();");
 
-        waitForElementToAppear(By.cssSelector(".popover-content > img"));
+        waitForElementPresence(By.cssSelector(".popover-content > img"));
 
         AssertHelper.assertContainsRegex(urlRegex, browser.driver.findElements(By.cssSelector(".popover-content > img"))
                                                                  .get(0)

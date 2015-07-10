@@ -355,7 +355,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
     
     public void waitForModalToLoad() {
-        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME), 5);
+        waitForElementPresence(By.id(Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME));
     }
     
     public void fillCopyToOtherCoursesForm(String newName) {
