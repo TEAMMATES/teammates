@@ -136,13 +136,6 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         data.init(isViewingDraft, isDisplayArchive, courseId, courseName, coursePaginationList, 
                   comments, commentModifyPermissions, roster, feedbackSessions, numberOfPendingComments);
         
-        expectedNextPageLink = "javascript:;";
-        expectedPreviousPageLink = data.getInstructorCommentsLink() + "&courseid=" + course1.id;
-        assertEquals(data.getNextPageLink(), expectedNextPageLink);
-        assertEquals(data.getPreviousPageLink(), expectedPreviousPageLink);
-        
-        assertEquals(data.getNumberOfPendingComments(), numberOfPendingComments);
-        
         /******************** Assertions for pageData data ********************/
         assertFalse(data.isDisplayArchive());
         assertFalse(data.isViewingDraft());
