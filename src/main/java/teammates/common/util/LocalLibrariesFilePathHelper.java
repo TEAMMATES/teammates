@@ -8,11 +8,11 @@ public class LocalLibrariesFilePathHelper {
         boolean isDevEnvironment = Boolean.parseBoolean(System.getProperty("isDevEnvironment"));
         
         if (isDevEnvironment) {
-            jQueryFilePath = "<script type=\"text/javascript\" src=\"/js/lib/jquery-1.11.3.min.js\"></script>";
-            jQueryUiFilePath = "<script type=\"text/javascript\" src=\"/js/lib/jquery-ui-1.11.4.min.js\"></script>";
+            jQueryFilePath = "/js/lib/jquery-1.11.3.min.js";
+            jQueryUiFilePath = "/js/lib/jquery-ui-1.11.4.min.js";
         } else {
-            jQueryFilePath = "<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js\"></script>";
-            jQueryUiFilePath = "<script type=\"text/javascript\" src=\"//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js\"></script>";
+            jQueryFilePath = "https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js";
+            jQueryUiFilePath = "//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js";
         }
     }
 
