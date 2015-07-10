@@ -61,7 +61,7 @@
                     </form><br>
                     
                     <div>
-                    <a class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&amp;fsname=First+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFResultsUiT.helper2&amp;user=CFResultsUiT.helper2" title="Make responses no longer visible" data-toggle="tooltip" data-placement="top" onclick="return toggleUnpublishEvaluation('First Session');" disabled="disabled">Unpublish Results</a> 
+                    <a data-original-title="Make responses no longer visible" class="btn btn-primary btn-block btn-tm-actions session-unpublish-for-test" href="/page/instructorFeedbackUnpublish?courseid=CFResultsUiT.CS2104&amp;fsname=First+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFResultsUiT.helper2&amp;user=CFResultsUiT.helper2" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleUnpublishEvaluation('First Session');" disabled="disabled">Unpublish Results</a> 
                     </div>
                   </div>
               </div>
@@ -124,7 +124,7 @@
     <div class="panel panel-info margin-0">
         <div class="panel-body">
             <div class="row">
-                <div class="col-sm-5" data-toggle="tooltip" title="View results in different formats">
+                <div data-original-title="View results in different formats" class="col-sm-5" data-toggle="tooltip" title="">
                     <div class="form-group">
                         <label for="viewSelect" class="col-sm-2 control-label">
                             View:
@@ -150,7 +150,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-5" data-toggle="tooltip" title="Filter the results in the current view">
+                <div data-original-title="Filter the results in the current view" class="col-sm-5" data-toggle="tooltip" title="">
                     <div class="form-group">
                         <label for="viewSelect" class="col-sm-2 control-label">
                             Filter:
@@ -164,14 +164,14 @@
                     </div>
                 </div>
                 <div class="col-sm-2 pull-right">
-                  <div class="col-sm-12" data-toggle="tooltip" title="Group results in the current view by team">
+                  <div data-original-title="Group results in the current view by team" class="col-sm-12" data-toggle="tooltip" title="">
                       <div class="checkbox padding-top-0 min-height-0">
                           <label class="text-strike">
                               <input name="frgroupbyteam" id="frgroupbyteam" checked="checked" type="checkbox"> Group by Teams
                           </label>
                       </div>
                   </div>
-                  <div class="col-sm-12" data-toggle="tooltip" title="Show statistics">
+                  <div data-original-title="Show statistics" class="col-sm-12" data-toggle="tooltip" title="">
                       <div class="checkbox padding-top-0 min-height-0">
                           <label>
                               <input id="show-stats-checkbox" name="frshowstats" checked="checked" type="checkbox"> Show Statistics
@@ -182,7 +182,7 @@
             </div>
             <div class="row">
                 
-                <div class="col-sm-5" data-toggle="tooltip" title="View results by sections">
+                <div data-original-title="View results by sections" class="col-sm-5" data-toggle="tooltip" title="">
                     <div class="form-group">
                         <label for="sectionSelect" class="col-sm-2 control-label">
                             Section:
@@ -208,7 +208,7 @@
                 
                 <div class="col-sm-7 pull-right" style="padding-top:8px;">
                     
-                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" data-toggle="tooltip" title="Collapse all panels. You can also click on the panel heading to toggle each one individually.">
+                    <a data-original-title="Collapse all panels. You can also click on the panel heading to toggle each one individually." class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" data-toggle="tooltip" title="">
                         Collapse Questions
                     </a>
                     
@@ -237,7 +237,7 @@
             
             <div class="panel panel-info">
             
-                <div class="panel-heading">
+                <div style="cursor: pointer;" id="panelHeading-1" data-target="#panelBodyCollapse-1" class="panel-heading">
                     <form style="display:none;" id="seeMore-1" class="seeMoreForm-1" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                         <input name="fsname" value="First Session" type="hidden">
@@ -256,7 +256,7 @@
                         <span class="text-preserve-space">Rate 3 other students' products</span>
                     </div>
                 </div>
-                <div class="panel-collapse collapse in">
+                <div id="panelBodyCollapse-1" class="panel-collapse collapse in">
                 <div class="panel-body padding-0" id="questionBody-0">
                                     
                     <div class="resultStatistics">
@@ -298,7 +298,7 @@
                                             <tr>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Alice Betsy
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>             
@@ -307,7 +307,7 @@
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Benny Charles
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>   
@@ -319,7 +319,7 @@
                                                 <td>
                                                     
                                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                        <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                         <input name="fsname" value="First Session" type="hidden">
                                                         <input name="moderatedquestion" value="1" type="hidden">
@@ -336,7 +336,7 @@
                                             <tr>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Alice Betsy
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>             
@@ -345,7 +345,7 @@
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Drop out
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>   
@@ -357,7 +357,7 @@
                                                 <td>
                                                     
                                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                        <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                         <input name="fsname" value="First Session" type="hidden">
                                                         <input name="moderatedquestion" value="1" type="hidden">
@@ -374,7 +374,7 @@
                                             <tr>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Benny Charles
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>             
@@ -383,7 +383,7 @@
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Charlie Dávis
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>   
@@ -395,7 +395,7 @@
                                                 <td>
                                                     
                                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                        <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                         <input name="fsname" value="First Session" type="hidden">
                                                         <input name="moderatedquestion" value="1" type="hidden">
@@ -412,7 +412,7 @@
                                             <tr>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Benny Charles
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>             
@@ -421,7 +421,7 @@
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Danny Engrid
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>   
@@ -433,7 +433,7 @@
                                                 <td>
                                                     
                                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                        <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                         <input name="fsname" value="First Session" type="hidden">
                                                         <input name="moderatedquestion" value="1" type="hidden">
@@ -450,7 +450,7 @@
                                             <tr>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Drop out
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>             
@@ -459,7 +459,7 @@
                                                 <td class="middlealign">Team 2</td>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Alice Betsy
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>   
@@ -471,7 +471,7 @@
                                                 <td>
                                                     
                                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                        <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                         <input name="fsname" value="First Session" type="hidden">
                                                         <input name="moderatedquestion" value="1" type="hidden">
@@ -488,7 +488,7 @@
                                             <tr>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Drop out
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>             
@@ -497,7 +497,7 @@
                                                 <td class="middlealign">Team 2</td>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Benny Charles
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>   
@@ -509,7 +509,7 @@
                                                 <td>
                                                     
                                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                        <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                         <input name="fsname" value="First Session" type="hidden">
                                                         <input name="moderatedquestion" value="1" type="hidden">
@@ -526,7 +526,7 @@
                                             <tr>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Drop out
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>             
@@ -535,7 +535,7 @@
                                                 <td class="middlealign">Team 2</td>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Danny Engrid
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>   
@@ -547,7 +547,7 @@
                                                 <td>
                                                     
                                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                        <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                         <input name="fsname" value="First Session" type="hidden">
                                                         <input name="moderatedquestion" value="1" type="hidden">
@@ -570,7 +570,7 @@
             
             <div class="panel panel-info">
             
-                <div class="panel-heading">
+                <div style="cursor: pointer;" id="panelHeading-2" data-target="#panelBodyCollapse-2" class="panel-heading">
                     <form style="display:none;" id="seeMore-2" class="seeMoreForm-2" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                         <input name="fsname" value="First Session" type="hidden">
@@ -589,7 +589,7 @@
                         <span class="text-preserve-space">What is the best selling point of your product?</span>
                     </div>
                 </div>
-                <div class="panel-collapse collapse in">
+                <div id="panelBodyCollapse-2" class="panel-collapse collapse in">
                 <div class="panel-body padding-0" id="questionBody-1">
                                     
                     <div class="resultStatistics">
@@ -631,7 +631,7 @@
                                             <tr>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Alice Betsy
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>             
@@ -640,7 +640,7 @@
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Alice Betsy
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>   
@@ -652,7 +652,7 @@
                                                 <td>
                                                     
                                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                        <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                         <input name="fsname" value="First Session" type="hidden">
                                                         <input name="moderatedquestion" value="2" type="hidden">
@@ -667,7 +667,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Benny Charles
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -676,7 +676,7 @@
                                                               <td class="middlealign color_neutral">Team 1</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Benny Charles
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -688,7 +688,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="2" type="hidden">
@@ -702,7 +702,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Charlie Dávis
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -711,7 +711,7 @@
                                                               <td class="middlealign color_neutral">Team 2</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Charlie Dávis
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -723,7 +723,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="2" type="hidden">
@@ -737,7 +737,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Danny Engrid
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -746,7 +746,7 @@
                                                               <td class="middlealign color_neutral">Team 2</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Danny Engrid
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -758,7 +758,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="2" type="hidden">
@@ -772,7 +772,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Drop out
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -781,7 +781,7 @@
                                                               <td class="middlealign color_neutral">Team 2</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Drop out
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -793,7 +793,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="2" type="hidden">
@@ -807,7 +807,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Extra guy
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -816,7 +816,7 @@
                                                               <td class="middlealign color_neutral">Team 2</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Extra guy
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -828,7 +828,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="2" type="hidden">
@@ -842,7 +842,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Emily
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -851,7 +851,7 @@
                                                               <td class="middlealign color_neutral">Team 3</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Emily
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -863,7 +863,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" disabled="disabled" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" disabled="disabled" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="2" type="hidden">
@@ -885,7 +885,7 @@
             
             <div class="panel panel-default">
             
-                <div class="panel-heading">
+                <div style="cursor: pointer;" id="panelHeading-3" data-target="#panelBodyCollapse-3" class="panel-heading">
                     <form style="display:none;" id="seeMore-3" class="seeMoreForm-3" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                         <input name="fsname" value="First Session" type="hidden">
@@ -904,7 +904,7 @@
                         <span class="text-preserve-space">My comments on the class</span>
                     </div>
                 </div>
-                <div class="panel-collapse collapse in">
+                <div id="panelBodyCollapse-3" class="panel-collapse collapse in">
                 <div class="panel-body padding-0" id="questionBody-2">
                     
                         <div class="col-sm-12">
@@ -918,7 +918,7 @@
             
             <div class="panel panel-info">
             
-                <div class="panel-heading">
+                <div style="cursor: pointer;" id="panelHeading-4" data-target="#panelBodyCollapse-4" class="panel-heading">
                     <form style="display:none;" id="seeMore-4" class="seeMoreForm-4" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                         <input name="fsname" value="First Session" type="hidden">
@@ -937,7 +937,7 @@
                         <span class="text-preserve-space">Give feedback to 3 other teams.</span>
                     </div>
                 </div>
-                <div class="panel-collapse collapse in">
+                <div id="panelBodyCollapse-4" class="panel-collapse collapse in">
                 <div class="panel-body padding-0" id="questionBody-3">
                                     
                     <div class="resultStatistics">
@@ -994,7 +994,7 @@
                                                 <td>
                                                     
                                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                        <input class="btn btn-default btn-xs" value="Moderate Response" disabled="disabled" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" disabled="disabled" data-toggle="tooltip" title="" type="submit">
                                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                         <input name="fsname" value="First Session" type="hidden">
                                                         <input name="moderatedquestion" value="4" type="hidden">
@@ -1017,7 +1017,7 @@
             
             <div class="panel panel-default">
             
-                <div class="panel-heading">
+                <div style="cursor: pointer;" id="panelHeading-5" data-target="#panelBodyCollapse-5" class="panel-heading">
                     <form style="display:none;" id="seeMore-5" class="seeMoreForm-5" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                         <input name="fsname" value="First Session" type="hidden">
@@ -1036,7 +1036,7 @@
                         <span class="text-preserve-space">Give feedback to your team mates</span>
                     </div>
                 </div>
-                <div class="panel-collapse collapse in">
+                <div id="panelBodyCollapse-5" class="panel-collapse collapse in">
                 <div class="panel-body padding-0" id="questionBody-4">
                     
                         <div class="col-sm-12">
@@ -1050,7 +1050,7 @@
             
             <div class="panel panel-default">
             
-                <div class="panel-heading">
+                <div style="cursor: pointer;" id="panelHeading-6" data-target="#panelBodyCollapse-6" class="panel-heading">
                     <form style="display:none;" id="seeMore-6" class="seeMoreForm-6" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                         <input name="fsname" value="First Session" type="hidden">
@@ -1069,7 +1069,7 @@
                         <span class="text-preserve-space">This question should be hidden.</span>
                     </div>
                 </div>
-                <div class="panel-collapse collapse in">
+                <div id="panelBodyCollapse-6" class="panel-collapse collapse in">
                 <div class="panel-body padding-0" id="questionBody-5">
                     
                         <div class="col-sm-12">
@@ -1083,7 +1083,7 @@
             
             <div class="panel panel-info">
             
-                <div class="panel-heading">
+                <div style="cursor: pointer;" id="panelHeading-7" data-target="#panelBodyCollapse-7" class="panel-heading">
                     <form style="display:none;" id="seeMore-7" class="seeMoreForm-7" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                         <input name="fsname" value="First Session" type="hidden">
@@ -1107,7 +1107,7 @@
 </span></span>
                     </div>
                 </div>
-                <div class="panel-collapse collapse in">
+                <div id="panelBodyCollapse-7" class="panel-collapse collapse in">
                 <div class="panel-body padding-0" id="questionBody-6">
                                     
                     <div class="resultStatistics">
@@ -1219,7 +1219,7 @@
                                             <tr>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Alice Betsy
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>             
@@ -1228,7 +1228,7 @@
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Alice Betsy
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>   
@@ -1240,7 +1240,7 @@
                                                 <td>
                                                     
                                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                        <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                         <input name="fsname" value="First Session" type="hidden">
                                                         <input name="moderatedquestion" value="7" type="hidden">
@@ -1257,7 +1257,7 @@
                                             <tr>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Drop out
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>             
@@ -1266,7 +1266,7 @@
                                                 <td class="middlealign">Team 2</td>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Drop out
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>   
@@ -1278,7 +1278,7 @@
                                                 <td>
                                                     
                                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                        <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                         <input name="fsname" value="First Session" type="hidden">
                                                         <input name="moderatedquestion" value="7" type="hidden">
@@ -1293,7 +1293,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Benny Charles
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -1302,7 +1302,7 @@
                                                               <td class="middlealign color_neutral">Team 1</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Benny Charles
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -1314,7 +1314,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="7" type="hidden">
@@ -1328,7 +1328,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Charlie Dávis
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -1337,7 +1337,7 @@
                                                               <td class="middlealign color_neutral">Team 2</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Charlie Dávis
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -1349,7 +1349,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="7" type="hidden">
@@ -1363,7 +1363,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Danny Engrid
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -1372,7 +1372,7 @@
                                                               <td class="middlealign color_neutral">Team 2</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Danny Engrid
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -1384,7 +1384,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="7" type="hidden">
@@ -1398,7 +1398,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Extra guy
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -1407,7 +1407,7 @@
                                                               <td class="middlealign color_neutral">Team 2</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Extra guy
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -1419,7 +1419,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="7" type="hidden">
@@ -1433,7 +1433,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Emily
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -1442,7 +1442,7 @@
                                                               <td class="middlealign color_neutral">Team 3</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Emily
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -1454,7 +1454,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" disabled="disabled" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" disabled="disabled" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="7" type="hidden">
@@ -1476,7 +1476,7 @@
             
             <div class="panel panel-info">
             
-                <div class="panel-heading">
+                <div style="cursor: pointer;" id="panelHeading-8" data-target="#panelBodyCollapse-8" class="panel-heading">
                     <form style="display:none;" id="seeMore-8" class="seeMoreForm-8" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                         <input name="fsname" value="First Session" type="hidden">
@@ -1500,7 +1500,7 @@
 </span></span>
                     </div>
                 </div>
-                <div class="panel-collapse collapse in">
+                <div id="panelBodyCollapse-8" class="panel-collapse collapse in">
                 <div class="panel-body padding-0" id="questionBody-7">
                                     
                     <div class="resultStatistics">
@@ -1612,7 +1612,7 @@
                                             <tr>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Alice Betsy
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>             
@@ -1621,7 +1621,7 @@
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Alice Betsy
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>   
@@ -1633,7 +1633,7 @@
                                                 <td>
                                                     
                                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                        <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                         <input name="fsname" value="First Session" type="hidden">
                                                         <input name="moderatedquestion" value="8" type="hidden">
@@ -1650,7 +1650,7 @@
                                             <tr>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Benny Charles
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>             
@@ -1659,7 +1659,7 @@
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Benny Charles
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>   
@@ -1671,7 +1671,7 @@
                                                 <td>
                                                     
                                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                        <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                         <input name="fsname" value="First Session" type="hidden">
                                                         <input name="moderatedquestion" value="8" type="hidden">
@@ -1686,7 +1686,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Charlie Dávis
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -1695,7 +1695,7 @@
                                                               <td class="middlealign color_neutral">Team 2</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Charlie Dávis
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -1707,7 +1707,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="8" type="hidden">
@@ -1721,7 +1721,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Danny Engrid
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -1730,7 +1730,7 @@
                                                               <td class="middlealign color_neutral">Team 2</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Danny Engrid
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -1742,7 +1742,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="8" type="hidden">
@@ -1756,7 +1756,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Drop out
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -1765,7 +1765,7 @@
                                                               <td class="middlealign color_neutral">Team 2</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Drop out
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -1777,7 +1777,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="8" type="hidden">
@@ -1791,7 +1791,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Extra guy
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -1800,7 +1800,7 @@
                                                               <td class="middlealign color_neutral">Team 2</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Extra guy
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -1812,7 +1812,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="8" type="hidden">
@@ -1826,7 +1826,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Emily
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -1835,7 +1835,7 @@
                                                               <td class="middlealign color_neutral">Team 3</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Emily
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -1847,7 +1847,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" disabled="disabled" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" disabled="disabled" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="8" type="hidden">
@@ -1869,7 +1869,7 @@
             
             <div class="panel panel-info">
             
-                <div class="panel-heading">
+                <div style="cursor: pointer;" id="panelHeading-9" data-target="#panelBodyCollapse-9" class="panel-heading">
                     <form style="display:none;" id="seeMore-9" class="seeMoreForm-9" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                         <input name="fsname" value="First Session" type="hidden">
@@ -1893,7 +1893,7 @@
 </span></span>
                     </div>
                 </div>
-                <div class="panel-collapse collapse in">
+                <div id="panelBodyCollapse-9" class="panel-collapse collapse in">
                 <div class="panel-body padding-0" id="questionBody-8">
                                     
                     <div class="resultStatistics">
@@ -1975,7 +1975,7 @@
                                             <tr>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Alice Betsy
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>             
@@ -1984,7 +1984,7 @@
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Alice Betsy
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>   
@@ -1996,7 +1996,7 @@
                                                 <td>
                                                     
                                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                        <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                         <input name="fsname" value="First Session" type="hidden">
                                                         <input name="moderatedquestion" value="9" type="hidden">
@@ -2011,7 +2011,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Benny Charles
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -2020,7 +2020,7 @@
                                                               <td class="middlealign color_neutral">Team 1</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Benny Charles
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -2032,7 +2032,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="9" type="hidden">
@@ -2046,7 +2046,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Charlie Dávis
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -2055,7 +2055,7 @@
                                                               <td class="middlealign color_neutral">Team 2</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Charlie Dávis
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -2067,7 +2067,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="9" type="hidden">
@@ -2081,7 +2081,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Danny Engrid
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -2090,7 +2090,7 @@
                                                               <td class="middlealign color_neutral">Team 2</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Danny Engrid
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -2102,7 +2102,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="9" type="hidden">
@@ -2116,7 +2116,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Drop out
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -2125,7 +2125,7 @@
                                                               <td class="middlealign color_neutral">Team 2</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Drop out
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -2137,7 +2137,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="9" type="hidden">
@@ -2151,7 +2151,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Extra guy
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -2160,7 +2160,7 @@
                                                               <td class="middlealign color_neutral">Team 2</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Extra guy
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -2172,7 +2172,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="9" type="hidden">
@@ -2186,7 +2186,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Emily
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -2195,7 +2195,7 @@
                                                               <td class="middlealign color_neutral">Team 3</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Emily
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -2207,7 +2207,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" disabled="disabled" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" disabled="disabled" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="9" type="hidden">
@@ -2229,7 +2229,7 @@
             
             <div class="panel panel-info">
             
-                <div class="panel-heading">
+                <div style="cursor: pointer;" id="panelHeading-10" data-target="#panelBodyCollapse-10" class="panel-heading">
                     <form style="display:none;" id="seeMore-10" class="seeMoreForm-10" action="/page/instructorFeedbackResultsPage">
                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                         <input name="fsname" value="First Session" type="hidden">
@@ -2253,7 +2253,7 @@
 </span></span>
                     </div>
                 </div>
-                <div class="panel-collapse collapse in">
+                <div id="panelBodyCollapse-10" class="panel-collapse collapse in">
                 <div class="panel-body padding-0" id="questionBody-9">
                                     
                     <div class="resultStatistics">
@@ -2345,7 +2345,7 @@
                                             <tr>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Alice Betsy
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>             
@@ -2354,7 +2354,7 @@
                                                 <td class="middlealign">Team 1</td>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Alice Betsy
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>   
@@ -2366,7 +2366,7 @@
                                                 <td>
                                                     
                                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                        <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                         <input name="fsname" value="First Session" type="hidden">
                                                         <input name="moderatedquestion" value="10" type="hidden">
@@ -2383,7 +2383,7 @@
                                             <tr>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Drop out
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>             
@@ -2392,7 +2392,7 @@
                                                 <td class="middlealign">Team 2</td>
                                                 <td class="middlealign">
                                                     
-                                                    <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                    <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                         Drop out
                                                         <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                     </div>   
@@ -2404,7 +2404,7 @@
                                                 <td>
                                                     
                                                     <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                        <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                        <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                         <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                         <input name="fsname" value="First Session" type="hidden">
                                                         <input name="moderatedquestion" value="10" type="hidden">
@@ -2419,7 +2419,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Benny Charles
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -2428,7 +2428,7 @@
                                                               <td class="middlealign color_neutral">Team 1</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Benny Charles
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -2440,7 +2440,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="10" type="hidden">
@@ -2454,7 +2454,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Charlie Dávis
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -2463,7 +2463,7 @@
                                                               <td class="middlealign color_neutral">Team 2</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Charlie Dávis
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -2475,7 +2475,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="10" type="hidden">
@@ -2489,7 +2489,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Danny Engrid
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -2498,7 +2498,7 @@
                                                               <td class="middlealign color_neutral">Team 2</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Danny Engrid
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -2510,7 +2510,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="10" type="hidden">
@@ -2524,7 +2524,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Extra guy
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -2533,7 +2533,7 @@
                                                               <td class="middlealign color_neutral">Team 2</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Extra guy
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -2545,7 +2545,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="10" type="hidden">
@@ -2559,7 +2559,7 @@
                                                           <tr class="pending_response_row">
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Emily
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -2568,7 +2568,7 @@
                                                               <td class="middlealign color_neutral">Team 3</td>
                                                               <td class="middlealign color_neutral">
                                                                   
-                                                                  <div class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
+                                                                  <div title="" data-original-title="" class="profile-pic-icon-hover" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.helper2">
                                                                       Emily
                                                                       <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                   </div>
@@ -2580,7 +2580,7 @@
                                                               <td>
                                                                 
                                                                 <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.helper2" target="_blank"> 
-                                                                    <input class="btn btn-default btn-xs" value="Moderate Response" disabled="disabled" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                    <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Response" disabled="disabled" data-toggle="tooltip" title="" type="submit">
                                                                     <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                     <input name="fsname" value="First Session" type="hidden">
                                                                     <input name="moderatedquestion" value="10" type="hidden">
@@ -2610,7 +2610,7 @@
 
 
   <div class="panel panel-warning">
-      <div class="panel-heading">
+      <div style="cursor: pointer;" id="panelHeading-11" data-target="#panelBodyCollapse-11" class="panel-heading">
           <form style="display:none;" id="responseRate" class="responseRateForm" action="/page/instructorFeedbackResultsPage">
               <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
               <input name="fsname" value="First Session" type="hidden">
@@ -2621,7 +2621,7 @@
           <span class="glyphicon glyphicon-chevron-up pull-right"></span>
           </div>
           Participants who have not responded to any question</div>
-      <div class="panel-collapse collapse in" id="responseStatus">
+      <div class="panel-collapse collapse in" id="panelBodyCollapse-11">
             
           <div class="panel-body padding-0">
               <table class="table table-striped table-bordered margin-0">

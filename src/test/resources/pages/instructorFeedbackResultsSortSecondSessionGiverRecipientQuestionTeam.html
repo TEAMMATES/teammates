@@ -64,7 +64,7 @@
                     </form><br>
                     
                     <div>
-                    <a class="btn btn-primary btn-block btn-tm-actions session-publish-for-test" href="/page/instructorFeedbackPublish?courseid=CFResultsUiT.CS2104&amp;fsname=Second+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFResultsUiT.instr&amp;user=CFResultsUiT.instr" title="Make session responses available for viewing" data-toggle="tooltip" data-placement="top" onclick="return togglePublishEvaluation('Second Session', true);">Publish Results</a> 
+                    <a data-original-title="Make session responses available for viewing" class="btn btn-primary btn-block btn-tm-actions session-publish-for-test" href="/page/instructorFeedbackPublish?courseid=CFResultsUiT.CS2104&amp;fsname=Second+Session&amp;next=%2Fpage%2FinstructorFeedbacksPage%3Fuser%3DCFResultsUiT.instr&amp;user=CFResultsUiT.instr" title="" data-toggle="tooltip" data-placement="top" onclick="return togglePublishEvaluation('Second Session', true);">Publish Results</a> 
                     </div>
                   </div>
               </div>
@@ -127,7 +127,7 @@
     <div class="panel panel-info margin-0">
         <div class="panel-body">
             <div class="row">
-                <div class="col-sm-5" data-toggle="tooltip" title="View results in different formats">
+                <div data-original-title="View results in different formats" class="col-sm-5" data-toggle="tooltip" title="">
                     <div class="form-group">
                         <label for="viewSelect" class="col-sm-2 control-label">
                             View:
@@ -153,7 +153,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-5" data-toggle="tooltip" title="Filter the results in the current view">
+                <div data-original-title="Filter the results in the current view" class="col-sm-5" data-toggle="tooltip" title="">
                     <div class="form-group">
                         <label for="viewSelect" class="col-sm-2 control-label">
                             Filter:
@@ -167,14 +167,14 @@
                     </div>
                 </div>
                 <div class="col-sm-2 pull-right">
-                  <div class="col-sm-12" data-toggle="tooltip" title="Group results in the current view by team">
+                  <div data-original-title="Group results in the current view by team" class="col-sm-12" data-toggle="tooltip" title="">
                       <div class="checkbox padding-top-0 min-height-0">
                           <label>
                               <input name="frgroupbyteam" id="frgroupbyteam" onchange="this.form.submit()" type="checkbox"> Group by Teams
                           </label>
                       </div>
                   </div>
-                  <div class="col-sm-12" data-toggle="tooltip" title="Show statistics">
+                  <div data-original-title="Show statistics" class="col-sm-12" data-toggle="tooltip" title="">
                       <div class="checkbox padding-top-0 min-height-0">
                           <label class="text-strike">
                               <input id="show-stats-checkbox" name="frshowstats" checked="checked" type="checkbox"> Show Statistics
@@ -185,7 +185,7 @@
             </div>
             <div class="row">
                 
-                <div class="col-sm-5" data-toggle="tooltip" title="View results by sections">
+                <div data-original-title="View results by sections" class="col-sm-5" data-toggle="tooltip" title="">
                     <div class="form-group">
                         <label for="sectionSelect" class="col-sm-2 control-label">
                             Section:
@@ -211,7 +211,7 @@
                 
                 <div class="col-sm-7 pull-right" style="padding-top:8px;">
                     
-                    <a class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" data-toggle="tooltip" title="Collapse all panels. You can also click on the panel heading to toggle each one individually.">
+                    <a data-original-title="Collapse all panels. You can also click on the panel heading to toggle each one individually." class="btn btn-default btn-xs pull-right" id="collapse-panels-button" onclick="toggleCollapse(this)" data-toggle="tooltip" title="">
                         Collapse Sections
                     </a>
                     
@@ -247,14 +247,14 @@
 
             
                     <div class="panel panel-success">
-                        <div class="panel-heading">
+                        <div style="cursor: pointer;" id="panelHeading-1" data-target="#panelBodyCollapse-1" class="panel-heading">
                             <div class="row">
                                 <div class="col-sm-9 panel-heading-text">
                                     <strong>Section A</strong>                        
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="pull-right">
-                                        <a class="btn btn-success btn-xs" id="collapse-panels-button-section-0" data-toggle="tooltip" title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">
+                                        <a data-original-title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually." class="btn btn-success btn-xs" id="collapse-panels-button-section-0" data-toggle="tooltip" title="">
                                             Collapse 
                                             Students
                                         </a>
@@ -264,17 +264,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="panel-collapse collapse in">
+                        <div id="panelBodyCollapse-1" class="panel-collapse collapse in">
                         <div class="panel-body" id="sectionBody-0">
             
 
             
 
             <div class="panel panel-primary">
-                <div class="panel-heading">
+                <div style="cursor: pointer;" id="panelHeading-2" data-target="#panelBodyCollapse-2" class="panel-heading">
                     From: 
                       
-                            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                            <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                 <strong>Alice Betsy (Team 1)</strong>
                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                 <a class="link-in-dark-bg" href="mailTo:CFResultsUiT.alice.b@gmail.tmt ">[CFResultsUiT.alice.b@gmail.tmt]</a>
@@ -283,7 +283,7 @@
 			        <div class="pull-right">
                     
                             <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" target="_blank">                             
-                                <input class="btn btn-primary btn-xs" value="Moderate Responses" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                <input data-original-title="Edit the responses given by this student" class="btn btn-primary btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" type="submit">
                                 <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                 <input name="fsname" value="Second Session" type="hidden">
                                 <input name="moderatedstudent" value="CFResultsUiT.alice.b@gmail.tmt" type="hidden">
@@ -295,7 +295,7 @@
                         </div>                
                     </div>
                </div>
-                <div class="panel-collapse collapse in">
+                <div id="panelBodyCollapse-2" class="panel-collapse collapse in">
                 <div class="panel-body">
                 
                     <div class="row ">
@@ -303,7 +303,7 @@
                                 <div class="col-md-12">
                                     To:
                                     
-                                            <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                            <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                 <strong>Alice Betsy (Team 1)</strong>
                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                             </div>
@@ -312,7 +312,7 @@
                                 <div class="col-md-12 text-muted small"><br>
                                     From:
                                     
-                                        <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                        <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                             Alice Betsy (Team 1)
                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                         </div>
@@ -333,7 +333,7 @@
                                             <div style="clear:both; overflow: hidden">
                                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                 <div class="pull-left text-preserve-space"><ul class="selectedOptionsList"><li>Danny</li></ul></div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,0,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,0,1)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -448,7 +448,7 @@
                                             <div style="clear:both; overflow: hidden">
                                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                 <div class="pull-left text-preserve-space"><ul class="selectedOptionsList"><li>Team 1</li><li>Team 2</li></ul></div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,0,2)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,0,2)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -562,7 +562,7 @@
                                             <div style="clear:both; overflow: hidden">
                                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                 <div class="pull-left text-preserve-space">3.5</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,0,3)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,0,3)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -655,7 +655,7 @@
                                             <div style="clear:both; overflow: hidden">
                                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                 <div class="pull-left text-preserve-space"><ul><li>Grades: 45</li><li>Fun: 55</li></ul></div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,0,4)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,0,4)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -747,7 +747,7 @@
                                             <div style="clear:both; overflow: hidden">
                                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                 <div class="pull-left text-preserve-space">110</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,0,5)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,0,5)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -850,7 +850,7 @@
                                             <div style="clear:both; overflow: hidden">
                                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                 <div class="pull-left text-preserve-space"><span class="color-positive">Equal Share +11%</span><span>&nbsp;&nbsp;[Perceived Contribution: <span class="color_neutral">N/A</span>]</span></div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,0,6)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,0,6)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -978,7 +978,7 @@
                                 <div class="col-md-12 text-muted small"><br>
                                     From:
                                     
-                                        <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                        <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                             Alice Betsy (Team 1)
                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                         </div>
@@ -998,7 +998,7 @@
                                             <div style="clear:both; overflow: hidden">
                                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                 <div class="pull-left text-preserve-space">3</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(2,0,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(2,0,1)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -1093,7 +1093,7 @@
                                 <div class="col-md-12 text-muted small"><br>
                                     From:
                                     
-                                        <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                        <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                             Alice Betsy (Team 1)
                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                         </div>
@@ -1113,7 +1113,7 @@
                                             <div style="clear:both; overflow: hidden">
                                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                 <div class="pull-left text-preserve-space">4</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(3,0,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(3,0,1)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -1201,7 +1201,7 @@
                                 <div class="col-md-12">
                                     To:
                                     
-                                            <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                            <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                 <strong>Benny Charles (Team 1)</strong>
                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                             </div>
@@ -1210,7 +1210,7 @@
                                 <div class="col-md-12 text-muted small"><br>
                                     From:
                                     
-                                        <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                        <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                             Alice Betsy (Team 1)
                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                         </div>
@@ -1230,7 +1230,7 @@
                                             <div style="clear:both; overflow: hidden">
                                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                 <div class="pull-left text-preserve-space">90</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(4,0,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(4,0,1)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -1333,7 +1333,7 @@
                                             <div style="clear:both; overflow: hidden">
                                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                 <div class="pull-left text-preserve-space"><span class="color_neutral">Equal Share</span></div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(4,0,2)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(4,0,2)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -1454,7 +1454,7 @@
                                 <div class="col-md-12">
                                     To:
                                     
-                                            <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                            <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                 <strong>Charlie Dávis (Team 2)</strong>
                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                             </div>
@@ -1463,7 +1463,7 @@
                                 <div class="col-md-12 text-muted small"><br>
                                     From:
                                     
-                                        <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                        <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                             Alice Betsy (Team 1)
                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                         </div>
@@ -1483,7 +1483,7 @@
                                             <div style="clear:both; overflow: hidden">
                                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                 <div class="pull-left text-preserve-space">50</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(5,0,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(5,0,1)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -1582,7 +1582,7 @@
                                 <div class="col-md-12">
                                     To:
                                     
-                                            <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                            <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                 <strong>Danny Engrid (Team 2)</strong>
                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                             </div>
@@ -1591,7 +1591,7 @@
                                 <div class="col-md-12 text-muted small"><br>
                                     From:
                                     
-                                        <div class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                        <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline-block" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                             Alice Betsy (Team 1)
                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                         </div>
@@ -1611,7 +1611,7 @@
                                             <div style="clear:both; overflow: hidden">
                                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                 <div class="pull-left text-preserve-space">150</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(6,0,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(6,0,1)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -1711,10 +1711,10 @@
             
             
                                 <div class="panel panel-default">
-                                <div class="panel-heading">
+                                <div style="cursor: pointer;" id="panelHeading-3" data-target="#panelBodyCollapse-3" class="panel-heading">
                                     From: 
                                     
-                                            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                            <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                 <strong>Benny Charles</strong>
                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                 <a href="mailTo:CFResultsUiT.benny.c@gmail.tmt">[CFResultsUiT.benny.c@gmail.tmt]</a>
@@ -1724,7 +1724,7 @@
                                     
                                         <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" target="_blank"> 
                                         
-                                            <input class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                            <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" type="submit">
                                             <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                             <input name="fsname" value="Second Session" type="hidden">
                                             <input name="moderatedstudent" value="CFResultsUiT.benny.c@gmail.tmt" type="hidden">
@@ -1736,7 +1736,7 @@
                                         </div>                
                                     </div>
                                 </div>
-                                <div class="panel-collapse collapse in">
+                                <div id="panelBodyCollapse-3" class="panel-collapse collapse in">
                                     <div class="panel-body"> 
                                         <i>There are no responses given by this user</i> 
                                     </div>
@@ -1751,7 +1751,7 @@
             
 
             <div class="panel panel-primary">
-                <div class="panel-heading">
+                <div style="cursor: pointer;" id="panelHeading-4" data-target="#panelBodyCollapse-4" class="panel-heading">
                     From: 
                     
                         <div class="inline panel-heading-text">
@@ -1767,7 +1767,7 @@
                         </div>                
                     </div>
                </div>
-                <div class="panel-collapse collapse in">
+                <div id="panelBodyCollapse-4" class="panel-collapse collapse in">
                 <div class="panel-body">
                 
                     <div class="row ">
@@ -1799,7 +1799,7 @@
                                             <div style="clear:both; overflow: hidden">
                                                 <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
                                                 <div class="pull-left text-preserve-space">-0.5</div>
-                                                <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,1,1)" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                                <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showResponseCommentAddForm(1,1,1)" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                                 </button>
                                             </div>
@@ -1889,10 +1889,10 @@
 
             
                                              <div class="panel panel-default">
-                                                <div class="panel-heading">
+                                                <div style="cursor: pointer;" id="panelHeading-5" data-target="#panelBodyCollapse-5" class="panel-heading">
                                                     From: 
                                                     
-                                                            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                            <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                                 <strong>Charlie Dávis</strong>
                                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                 <a href="mailTo:CFResultsUiT.charlie.d@gmail.tmt">[CFResultsUiT.charlie.d@gmail.tmt]</a>
@@ -1902,7 +1902,7 @@
                                                         
                                                             <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" target="_blank"> 
                                                             
-                                                                <input class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" type="submit">
                                                                 <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                 <input name="fsname" value="Second Session" type="hidden">
                                                                 <input name="moderatedstudent" value="CFResultsUiT.charlie.d@gmail.tmt" type="hidden">
@@ -1914,7 +1914,7 @@
                                                             </div>                
                                                      </div>
                                                 </div>
-                                                <div class="panel-collapse collapse in">
+                                                <div id="panelBodyCollapse-5" class="panel-collapse collapse in">
                                                     <div class="panel-body"> 
                                                         <i>There are no responses given by this user</i> 
                                                     </div>
@@ -1923,10 +1923,10 @@
                                         
                                          
                                              <div class="panel panel-default">
-                                                <div class="panel-heading">
+                                                <div style="cursor: pointer;" id="panelHeading-6" data-target="#panelBodyCollapse-6" class="panel-heading">
                                                     From: 
                                                     
-                                                            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                            <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                                 <strong>Danny Engrid</strong>
                                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                 <a href="mailTo:CFResultsUiT.danny.e@gmail.tmt">[CFResultsUiT.danny.e@gmail.tmt]</a>
@@ -1936,7 +1936,7 @@
                                                         
                                                             <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" target="_blank"> 
                                                             
-                                                                <input class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" type="submit">
                                                                 <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                 <input name="fsname" value="Second Session" type="hidden">
                                                                 <input name="moderatedstudent" value="CFResultsUiT.danny.e@gmail.tmt" type="hidden">
@@ -1948,7 +1948,7 @@
                                                             </div>                
                                                      </div>
                                                 </div>
-                                                <div class="panel-collapse collapse in">
+                                                <div id="panelBodyCollapse-6" class="panel-collapse collapse in">
                                                     <div class="panel-body"> 
                                                         <i>There are no responses given by this user</i> 
                                                     </div>
@@ -1957,10 +1957,10 @@
                                         
                                          
                                              <div class="panel panel-default">
-                                                <div class="panel-heading">
+                                                <div style="cursor: pointer;" id="panelHeading-7" data-target="#panelBodyCollapse-7" class="panel-heading">
                                                     From: 
                                                     
-                                                            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                            <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                                 <strong>Drop out</strong>
                                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                 <a href="mailTo:drop.out@gmail.tmt">[drop.out@gmail.tmt]</a>
@@ -1970,7 +1970,7 @@
                                                         
                                                             <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" target="_blank"> 
                                                             
-                                                                <input class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" type="submit">
                                                                 <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                 <input name="fsname" value="Second Session" type="hidden">
                                                                 <input name="moderatedstudent" value="drop.out@gmail.tmt" type="hidden">
@@ -1982,7 +1982,7 @@
                                                             </div>                
                                                      </div>
                                                 </div>
-                                                <div class="panel-collapse collapse in">
+                                                <div id="panelBodyCollapse-7" class="panel-collapse collapse in">
                                                     <div class="panel-body"> 
                                                         <i>There are no responses given by this user</i> 
                                                     </div>
@@ -1991,10 +1991,10 @@
                                         
                                          
                                              <div class="panel panel-default">
-                                                <div class="panel-heading">
+                                                <div style="cursor: pointer;" id="panelHeading-8" data-target="#panelBodyCollapse-8" class="panel-heading">
                                                     From: 
                                                     
-                                                            <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                            <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                                 <strong>Extra guy</strong>
                                                                 <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                 <a href="mailTo:extra.guy@gmail.tmt">[extra.guy@gmail.tmt]</a>
@@ -2004,7 +2004,7 @@
                                                         
                                                             <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" target="_blank"> 
                                                             
-                                                                <input class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" type="submit">
                                                                 <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                 <input name="fsname" value="Second Session" type="hidden">
                                                                 <input name="moderatedstudent" value="extra.guy@gmail.tmt" type="hidden">
@@ -2016,7 +2016,7 @@
                                                             </div>                
                                                      </div>
                                                 </div>
-                                                <div class="panel-collapse collapse in">
+                                                <div id="panelBodyCollapse-8" class="panel-collapse collapse in">
                                                     <div class="panel-body"> 
                                                         <i>There are no responses given by this user</i> 
                                                     </div>
@@ -2030,20 +2030,20 @@
                 </div>
             
                                 <div class="panel panel-success">
-                                    <div class="panel-heading">
+                                    <div style="cursor: pointer;" id="panelHeading-9" data-target="#panelBodyCollapse-9" class="panel-heading">
                                         <div class="inline panel-heading-text">
                                             <strong> Section B</strong>
                                         </div>
                                         <span class="glyphicon pull-right glyphicon-chevron-up"></span>
                                     </div>
-                                    <div class="panel-collapse collapse in" id="panelBodyCollapse-2" style="height: auto;">
+                                    <div class="panel-collapse collapse in" id="panelBodyCollapse-9" style="height: auto;">
                                         <div class="panel-body">
                                             
                                                              <div class="panel panel-default">
-                                                                <div class="panel-heading">
+                                                                <div style="cursor: pointer;" id="panelHeading-10" data-target="#panelBodyCollapse-10" class="panel-heading">
                                                                     From: 
                                                                     
-                                                                        <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
+                                                                        <div title="" data-original-title="" class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CFResultsUiT.instr">
                                                                             <strong>Emily</strong>
                                                                             <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
                                                                             <a href="mailTo:CFResultsUiT.emily.f@gmail.tmt">[CFResultsUiT.emily.f@gmail.tmt]</a>
@@ -2053,7 +2053,7 @@
                                                                         
                                                                             <form class="inline" method="post" action="/page/instructorEditStudentFeedbackPage?user=CFResultsUiT.instr" target="_blank"> 
                                                                             
-                                                                                <input class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="Edit the responses given by this student" type="submit">
+                                                                                <input data-original-title="Edit the responses given by this student" class="btn btn-default btn-xs" value="Moderate Responses" data-toggle="tooltip" title="" type="submit">
                                                                                 <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
                                                                                 <input name="fsname" value="Second Session" type="hidden">
                                                                                 <input name="moderatedstudent" value="CFResultsUiT.emily.f@gmail.tmt" type="hidden">
@@ -2065,7 +2065,7 @@
                                                                             </div>                
                                                                      </div>
                                                                 </div>
-                                                                <div class="panel-collapse collapse in">
+                                                                <div id="panelBodyCollapse-10" class="panel-collapse collapse in">
                                                                     <div class="panel-body"> 
                                                                         <i>There are no responses given by this user</i> 
                                                                     </div>
@@ -2089,7 +2089,7 @@
 
 
   <div class="panel panel-warning">
-      <div class="panel-heading">
+      <div style="cursor: pointer;" id="panelHeading-11" data-target="#panelBodyCollapse-11" class="panel-heading">
           <form style="display:none;" id="responseRate" class="responseRateForm" action="/page/instructorFeedbackResultsPage">
               <input name="courseid" value="CFResultsUiT.CS2104" type="hidden">
               <input name="fsname" value="Second Session" type="hidden">
@@ -2100,7 +2100,7 @@
           <span class="glyphicon glyphicon-chevron-up pull-right"></span>
           </div>
           Participants who have not responded to any question</div>
-      <div class="panel-collapse collapse in" id="responseStatus">
+      <div class="panel-collapse collapse in" id="panelBodyCollapse-11">
             
           <div class="panel-body padding-0">
               <table class="table table-striped table-bordered margin-0">
