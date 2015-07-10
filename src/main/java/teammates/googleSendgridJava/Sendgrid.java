@@ -1,3 +1,10 @@
+/**
+ * Imported from https://github.com/sendgrid/sendgrid-google-java
+ * 
+ * The link to the Github repo is provided in the documentation for Bulk Mail With Analytics
+ * via Sendgrid for Java: https://cloud.google.com/appengine/docs/java/mail/sendgrid
+ */
+
 package teammates.googleSendgridJava;
 
 import java.net.HttpURLConnection;
