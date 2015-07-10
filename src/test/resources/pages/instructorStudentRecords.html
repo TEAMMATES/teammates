@@ -107,7 +107,7 @@
                             <div class="panel panel-info">
                                 <div class="panel-heading">
                                     From <b>You (ISR.CS2104)</b>
-                                    <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showAddCommentBox();" data-toggle="tooltip" data-placement="top" title="Add comment">
+                                    <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showAddCommentBox();" data-toggle="tooltip" data-placement="top" title="">
                                         <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                     </button>
                                 </div>
@@ -119,14 +119,14 @@
                                                     To <b>Benny Charlés (Team 1, benny.c.tmms@gmail.tmt)</b> [Fri, 01 Jun 2012, 19:20:00 UTC] 
                                                 </span>
                                                 
-                                                <a type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title="Delete this comment"> 
+                                                <a data-original-title="Delete this comment" type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title=""> 
                                                     <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                                                 </a>
-                                                <a type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '2');" data-toggle="tooltip" data-placement="top" title="Edit this comment">
+                                                <a data-original-title="Edit this comment" type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '2');" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                                 </a>
                                             </div>
-                                            <div id="plainCommentText0">Comment 2 from ISR.CS2104 teammates.test Instructor to Benny</div>
+                                            <div style="margin-left: 15px;" id="plainCommentText0">Comment 2 from ISR.CS2104 teammates.test Instructor to Benny</div>
                                             <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-0">
                                                 <div id="commentTextEdit0" style="display: none;">
                                                     <div class="form-group form-inline">
@@ -256,14 +256,14 @@
                                                     To <b>Benny Charlés (Team 1, benny.c.tmms@gmail.tmt)</b> [Tue, 01 May 2012, 08:51:00 UTC] 
                                                 </span>
                                                 
-                                                <a type="button" id="commentdelete-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('1');" data-toggle="tooltip" data-placement="top" title="Delete this comment"> 
+                                                <a data-original-title="Delete this comment" type="button" id="commentdelete-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('1');" data-toggle="tooltip" data-placement="top" title=""> 
                                                     <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                                                 </a>
-                                                <a type="button" id="commentedit-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('1', '2');" data-toggle="tooltip" data-placement="top" title="Edit this comment">
+                                                <a data-original-title="Edit this comment" type="button" id="commentedit-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('1', '2');" data-toggle="tooltip" data-placement="top" title="">
                                                     <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                                 </a>
                                             </div>
-                                            <div id="plainCommentText1">Comment 1 from ISR.CS2104 teammates.test Instructor to Benny</div>
+                                            <div style="margin-left: 15px;" id="plainCommentText1">Comment 1 from ISR.CS2104 teammates.test Instructor to Benny</div>
                                             <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-1">
                                                 <div id="commentTextEdit1" style="display: none;">
                                                     <div class="form-group form-inline">
@@ -513,7 +513,7 @@
                     </div>
                     <br>
                     
-                            <div class="well well-plain student_feedback" id="studentFeedback-0" onclick="loadFeedbackSession('ISR.CS2104', 'benny.c.tmms@gmail.tmt', 'ISR.teammates.test','First feedback session', this)">
+                            <div class="well well-plain student_feedback" id="studentFeedback-0">
                                 <div class="text-primary">
                                     <h2 id="feedback_name-0">
                                         <strong>Feedback Session : First feedback session</strong>
@@ -521,11 +521,137 @@
                                 </div>
                                 <div class="placeholder-img-loading"></div>
                                 <div id="target-feedback-0">
-                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <br>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    To: <strong>Benny Charlés (Team 1)</strong>
+                </div>
+                <div class="panel-body">
+                    
+                        <div class="row ">
+                            <div class="col-md-2">
+                                From: <strong>Alice Betsy (Team 2)</strong>
+                            </div>
+                            <div class="col-md-10">
+                                
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Question 2: <span class="text-preserve-space">Rate 5 other students' products</span>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space">Benny is a good student.</div>
+                                            </div>
+                                            
+                                                <ul class="list-group" id="responseCommentTable-0-1-1-GRQ" style="margin-top:15px;">
+                                                    
+                                                        <li class="list-group-item list-group-item-warning" id="responseCommentRow-{*}">
+                                                            <div id="commentBar-{*}">
+                                                                <span class="text-muted">
+                                                                    From: teammates.test@gmail.tmt [Tue Mar 01 23:59:00 UTC 2016] (last edited by teammates.test@gmail.tmt at Wed Mar 02 23:59:00 UTC 2016)
+                                                                </span>
+                                                            </div>
+                                                            <div id="plainCommentText-{*}" style="margin-left: 15px;">
+                                                                Instructor first comment to Alice about feedback to Benny
+                                                            </div>
+                                                        </li>
+                                                    
+                                                        <li class="list-group-item list-group-item-warning" id="responseCommentRow-{*}">
+                                                            <div id="commentBar-{*}">
+                                                                <span class="text-muted">
+                                                                    From: teammates.test@gmail.tmt [Wed Mar 02 23:59:00 UTC 2016] 
+                                                                </span>
+                                                            </div>
+                                                            <div id="plainCommentText-{*}" style="margin-left: 15px;">
+                                                                Instructor second comment to Alice about feedback to Benny
+                                                            </div>
+                                                        </li>
+                                                    
+                                                </ul>
+                                            
+                                        </div>
+                                    </div>
+                                
+                            </div>
+                        </div>
+                    <br>
+                    
+                </div>
+            </div>
+        
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    From: <strong>Benny Charlés (Team 1)</strong>
+                </div>
+                <div class="panel-body">
+                    
+                        <div class="row ">
+                            <div class="col-md-2">
+                                To: <strong>Charlie Davis (Team 1)</strong>
+                            </div>
+                            <div class="col-md-10">
+                                
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Question 2: <span class="text-preserve-space">Rate 5 other students' products</span>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space">Charlie did alot of work.</div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                
+                            </div>
+                        </div>
+                        <br>
+                    
+                        <div class="row border-top-gray">
+                            <div class="col-md-2">
+                                To: <strong>Danny Engrid (Team 2)</strong>
+                            </div>
+                            <div class="col-md-10">
+                                
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Question 2: <span class="text-preserve-space">Rate 5 other students' products</span>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div style="clear:both; overflow: hidden">
+                                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                                <div class="pull-left text-preserve-space">Danny starts with D.</div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                
+                            </div>
+                        </div>
+                        <br>
+                    
+                </div>
+            </div>
+         </div>
                             </div>
                         <br>
                         
-                            <div class="well well-plain student_feedback" id="studentFeedback-1" onclick="loadFeedbackSession('ISR.CS2104', 'benny.c.tmms@gmail.tmt', 'ISR.teammates.test','Second feedback session', this)">
+                            <div class="well well-plain student_feedback" id="studentFeedback-1">
                                 <div class="text-primary">
                                     <h2 id="feedback_name-1">
                                         <strong>Feedback Session : Second feedback session</strong>
@@ -533,11 +659,37 @@
                                 </div>
                                 <div class="placeholder-img-loading"></div>
                                 <div id="target-feedback-1">
-                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <br>
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    No feedback for Benny Charlés found
+                </div>
+            </div>
+        
+            <br>
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    No feedback by Benny Charlés found
+                </div>
+            </div>
+         </div>
                             </div>
                         <br>
                         
-                            <div class="well well-plain student_feedback" id="studentFeedback-2" onclick="loadFeedbackSession('ISR.CS2104', 'benny.c.tmms@gmail.tmt', 'ISR.teammates.test','3rd feedback session', this)">
+                            <div class="well well-plain student_feedback" id="studentFeedback-2">
                                 <div class="text-primary">
                                     <h2 id="feedback_name-2">
                                         <strong>Feedback Session : 3rd feedback session</strong>
@@ -545,7 +697,33 @@
                                 </div>
                                 <div class="placeholder-img-loading"></div>
                                 <div id="target-feedback-2">
-                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <br>
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    No feedback for Benny Charlés found
+                </div>
+            </div>
+        
+            <br>
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    No feedback by Benny Charlés found
+                </div>
+            </div>
+         </div>
                             </div>
                         <br>
                         
