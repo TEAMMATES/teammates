@@ -95,7 +95,8 @@ Important: When a version is specified, please install that version instead of t
    
 2. Before running the test suite, both the server and the test environment 
    should be using the UTC time zone. The server and the test environment should 
-   also serve the CDN files locally instead. Here is the procedure.
+   also serve the CDN files (files that we off-load to servers such as Google's servers)
+   locally instead. Here is the procedure.
     
     a. Stop the dev server, if it is running already.
 
