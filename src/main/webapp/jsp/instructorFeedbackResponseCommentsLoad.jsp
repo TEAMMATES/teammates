@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <%@page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@page import="teammates.common.datatransfer.CommentSendingState"%>
 <%@page import="teammates.common.datatransfer.InstructorAttributes"%>
@@ -5,8 +7,6 @@
 <%@page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
 <%@page import="teammates.common.datatransfer.StudentAttributes"%>
 <%@page import="teammates.common.datatransfer.CommentStatus"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
 
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
@@ -119,6 +119,7 @@
                                             */
                                             Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(frc);
                         %>
+                        <!-- This is the start of the shared tag -->
                         <li class="list-group-item list-group-item-warning <%=frCommentGiver.equals("you") ? "giver_display-by-you" : "giver_display-by-others"%> <%=isPublicResponseComment && bundle.feedbackSession.isPublished() ? "status_display-public" : "status_display-private"%>"
                             id="responseCommentRow-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
                             <div
@@ -483,6 +484,7 @@
                                     value="<%=data.getResponseCommentGiverNameVisibilityString(frc, question)%>">
                             </form>
                         </li>
+                        <!-- This is the end of the shared tag -->
                         <%
                             }//FeedbackResponseComments loop ends
                         %>
