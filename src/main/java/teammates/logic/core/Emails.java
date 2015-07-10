@@ -89,7 +89,15 @@ public class Emails {
         messageInfo.append("|subject=" + message.getSubject());
         return messageInfo.toString();
     }
-
+    
+    public static String getEmailInfo(Sendgrid message) {
+        StringBuilder messageInfo = new StringBuilder();
+        messageInfo.append("[Email sent]");
+        messageInfo.append("to=" + message.getTos().get(0));
+        messageInfo.append("|from=" + message.getFrom());
+        messageInfo.append("|subject=" + message.getSubject());
+        return messageInfo.toString();
+    }
     
     public void addFeedbackSessionReminderToEmailsQueue(FeedbackSessionAttributes feedback,
             EmailType typeOfEmail) {
