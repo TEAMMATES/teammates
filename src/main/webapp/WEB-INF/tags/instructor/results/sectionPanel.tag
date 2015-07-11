@@ -8,6 +8,7 @@
 
 <%@ attribute name="showAll" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="sectionIndex" type="java.lang.Integer" required="true" %>
+<%@ attribute name="teamIndexOffset" type="java.lang.Integer" required="true" %>
 <%@ attribute name="shouldCollapsed" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="sectionPanel" type="teammates.ui.template.InstructorFeedbackResultsSectionPanel" required="true" %>
 <%@ attribute name="courseId" required="true" %>
@@ -63,12 +64,14 @@
             </div>
         </c:otherwise>
     </c:choose>
+    
     <div class="panel-collapse collapse <c:if test="${!shouldCollapsed}">in</c:if>">
         <div class="panel-body" id="sectionBody-${sectionIndex}">
+            <c:set var="teamIndex" value="${teamIndexOffset}"/>
             <c:choose>
                 <c:when test="${groupByTeamEnabled}">
-                    <c:forEach var="teamPanel" items="${sectionPanel.participantPanels}" varStatus="i">
-                           <results:teamPanel teamName="${teamPanel.key}" teamIndex="${i.index}" 
+                    <c:forEach var="teamPanel" items="${sectionPanel.participantPanels}">
+                           <results:teamPanel teamName="${teamPanel.key}" teamIndex="${teamIndex}" 
                                               showAll="${showAll}" shouldCollapsed="${shouldCollapsed}" 
                                               statsTables="${sectionPanel.teamStatisticsTable[teamPanel.key]}"
                                               detailedResponsesHeaderText="${sectionPanel.detailedResponsesHeaderText}" 
@@ -77,13 +80,15 @@
                                               isDisplayingTeamStatistics="${sectionPanel.displayingTeamStatistics}"
                                               isDisplayingMissingParticipants="${sectionPanel.displayingMissingParticipants}"
                                               participantPanels="${teamPanel.value}"/>  
+                        <c:set var="teamIndex" value="${teamIndex + 1}"/>
+                    
                     </c:forEach>
                 </c:when>
                 <c:otherwise>
                     <c:forEach var="participantPanel" items="${sectionPanel.participantPanelsInSortedOrder}">
-                        
-                            <results:participantGroupByQuestionPanel showAll="${showAll}" groupByQuestionPanel="${participantPanel}" shouldCollapsed="${shouldCollapsed}"/>
-                        
+                            <results:participantGroupByQuestionPanel showAll="${showAll}" 
+                                                                     groupByQuestionPanel="${participantPanel}" 
+                                                                     shouldCollapsed="${shouldCollapsed}"/>
                     </c:forEach>
                 </c:otherwise>
             </c:choose>
