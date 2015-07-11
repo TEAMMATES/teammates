@@ -50,7 +50,7 @@ Important: When a version is specified, please install that version instead of t
    * `src/main/webapp/WEB-INF/appengine-web.xml`<br>
    Create it using `appengine-web.template.xml`. 
    For now, property values can remain as they are.
-4. Download [this zip file](http://www.comp.nus.edu.sg/~seer/teammates-libs/libsV5.46.zip)
+4. Download [this zip file](http://www.comp.nus.edu.sg/~seer/teammates-libs/libsV5.47.zip)
    containing the required library files and unzip it into
    your project folder. Note that this will overwrite some existing library files,
    which is what we want. If you unzipped it into the right location, you should now see
