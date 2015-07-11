@@ -300,7 +300,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
         ViewType viewType = ViewType.RECIPIENT_QUESTION_GIVER;
         
         LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam 
-                = bundle.getQuestionResponseMapByGiverTeam();
+                = bundle.getQuestionResponseMapByRecipientTeam();
+        
         Map<String, FeedbackQuestionAttributes> questions = bundle.questions;
         
         
@@ -691,26 +692,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return teamsMembersPanels;
     }
 
-    /*private void buildTeamStatisticsTables(
-                        FeedbackSessionResultsBundle bundle,
-                        List<String> sections, ViewType viewType, Map<String, FeedbackQuestionAttributes> questions,
-                        LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam) {
-        for (String section : sections) {
-            if (sectionPanels.containsKey(section)) {
-                buildTeamStatisticsTableForSectionPanel(sectionPanels.get(section), section, viewType, 
-                                                        questions, responsesGroupedByTeam, 
-                                                        bundle.getTeamsInSectionFromRoster(section));
-            }
-        }
-        
-        // handle "None" ("Not in a section") separately since it should not be considered a section of the course
-        // TODO use enum 
-        if (sectionPanels.containsKey(Const.DEFAULT_SECTION)) {
-            buildTeamStatisticsTableForSectionPanel(sectionPanels.get(Const.DEFAULT_SECTION), Const.DEFAULT_SECTION,
-                                                    viewType, questions, responsesGroupedByTeam,
-                                                    Arrays.asList(Const.USER_TEAM_FOR_INSTRUCTOR));
-        }
-    }*/
     
     private void buildTeamsStatisticsTableForSectionPanel(InstructorFeedbackResultsSectionPanel sectionPanel, 
                                                          String section, ViewType viewType,
@@ -735,7 +716,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
             default:
                 Assumption.fail("Team statistics table should not be used for this view");
         }
-        
         constructStatisticsTablesForTeams(viewType, questions, responsesGroupedByTeam, sectionPanel, teamsInSection);
     }
 

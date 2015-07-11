@@ -1080,9 +1080,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return sortedMap;
     }
 
-    public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
+    public LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
             getQuestionResponseMapByRecipientTeam() {
-        Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
+        LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
                 new LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>();
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesForOneRecipient = null;
         List<FeedbackResponseAttributes> responsesForOneRecipientOneQuestion = null;
