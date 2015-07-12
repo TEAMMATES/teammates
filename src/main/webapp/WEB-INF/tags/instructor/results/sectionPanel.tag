@@ -44,6 +44,10 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="pull-right">
+                            <a class="btn btn-success btn-xs" style="display:none" id="collapse-panels-button-section-${sectionIndex}" data-toggle="tooltip" title='Collapse or expand all ${groupByTeamEnabled? "team" : "student"} panels. You can also click on the panel heading to toggle each one individually.'>
+                                ${shouldCollapsed ? "Expand " : "Collapse "}${groupByTeamEnabled ? "Teams" : "Students"}
+                            </a>
+                            &nbsp;
                             <div class="display-icon" style="display:inline;">
                                 <span class="glyphicon glyphicon-chevron-down"></span>
                             </div>
