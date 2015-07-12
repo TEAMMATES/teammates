@@ -108,7 +108,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
   
         if (!bundle.isComplete) {
             // results page to be loaded by ajax instead 
-            buildSectionPanelsForGiverQuestionRecipientForAjaxLoading(sections);
+            buildSectionPanelsForForAjaxLoading(sections);
             return;
         }
         
@@ -140,7 +140,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
         if (!bundle.isComplete) {
             // results page to be loaded by ajax instead 
-            buildSectionPanelsForGiverQuestionRecipientForAjaxLoading(sections);
+            buildSectionPanelsForForAjaxLoading(sections);
             return;
         }
         
@@ -639,7 +639,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
     }
 
-    private void buildSectionPanelsForGiverQuestionRecipientForAjaxLoading(List<String> sections) {
+    private void buildSectionPanelsForForAjaxLoading(List<String> sections) {
         setShouldCollapsed(true);
         
         // TODO 
@@ -655,6 +655,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 
                 sectionPanels.put(section, sectionPanel);
             }
+            
+            InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
+            sectionPanel.setSectionName("Not in a section");
+            sectionPanel.setLoadSectionResponsesByAjax(true);
+            
+            sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);
             
         } else {
             sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
