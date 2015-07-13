@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class CommentsForStudentsTable {
     private String giverDetails;
+    private String extraClass = "";
     private List<Comment> rows;
     
     public CommentsForStudentsTable(String giverDetails, List<Comment> rows) {
@@ -22,5 +23,13 @@ public class CommentsForStudentsTable {
     
     public List<Comment> getRows() {
         return rows;
+    }
+    
+    public String getExtraClass() {
+        return extraClass;
+    }
+    
+    public void withExtraClass(String extraClass) {
+        this.extraClass = " " + extraClass;
     }
 }
