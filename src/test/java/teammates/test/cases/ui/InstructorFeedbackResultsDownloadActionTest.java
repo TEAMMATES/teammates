@@ -135,6 +135,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         full testing of file content is 
         in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
         */
+        System.out.println(fileContent);
 
         String[] exportLines = fileContent.split(Const.EOL);
         assertEquals("Course,\"" + session.courseId + "\"",
@@ -172,7 +173,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         full testing of file content is 
         in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
         */
-        // System.out.println(fileContent); // commented out. why do we need this?
+        System.out.println(fileContent);
         
         String[] exportLines = fileContent.split(Const.EOL);
         assertEquals("Course,\"" + session.courseId + "\"", 
@@ -211,6 +212,7 @@ public class InstructorFeedbackResultsDownloadActionTest extends BaseActionTest 
         full testing of file content is 
         in FeedbackSessionsLogicTest.testGetFeedbackSessionResultsSummaryAsCsv()
         */
+        System.out.println(fileContent);
         
         String[] exportLines = fileContent.split(Const.EOL);
         assertEquals("Course,\"" + session.courseId + "\"", 

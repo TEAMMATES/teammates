@@ -120,9 +120,12 @@ public class Sanitizer {
                 .replaceAll("&(?!(amp;)|(lt;)|(gt;)|(quot;)|(#x2f;)|(#39;))", "&amp;");
     }
     
+    /**
+     * Converts a string to be put in URL (replaces some characters)
+     */
     public static String sanitizeForUri(String uri) {
         try {
-            return URLEncoder.encode(uri, "UTF-8");
+            return URLEncoder.encode(uri, Const.SystemParams.ENCODING);
         } catch (UnsupportedEncodingException wonthappen) {
             return uri;
         }
