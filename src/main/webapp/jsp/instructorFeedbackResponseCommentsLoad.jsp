@@ -1,39 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-<%@page import="teammates.common.datatransfer.FeedbackParticipantType"%>
-<%@page import="teammates.common.datatransfer.CommentSendingState"%>
-<%@page import="teammates.common.datatransfer.InstructorAttributes"%>
-<%@page import="teammates.common.datatransfer.CommentParticipantType"%>
-<%@page import="teammates.common.datatransfer.FeedbackSessionAttributes"%>
-<%@page import="teammates.common.datatransfer.StudentAttributes"%>
-<%@page import="teammates.common.datatransfer.CommentStatus"%>
-
+<%@ page import="teammates.common.datatransfer.FeedbackParticipantType" %>
+<%@ page import="teammates.common.datatransfer.CommentSendingState" %>
+<%@ page import="teammates.common.datatransfer.InstructorAttributes" %>
+<%@ page import="teammates.common.datatransfer.CommentParticipantType" %>
+<%@ page import="teammates.common.datatransfer.FeedbackSessionAttributes" %>
+<%@ page import="teammates.common.datatransfer.StudentAttributes" %>
+<%@ page import="teammates.common.datatransfer.CommentStatus" %>
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.List"%>
 <%@ page import="teammates.common.util.Const"%>
 <%@ page import="teammates.common.util.TimeHelper"%>
 <%@ page import="teammates.common.datatransfer.CommentAttributes"%>
-<%@ page
-    import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
-<%@ page
-    import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
-<%@ page
-    import="teammates.common.datatransfer.FeedbackSessionResultsBundle"%>
-<%@ page
-    import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
-<%@ page
-    import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackResponseAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackResponseCommentAttributes"%>
+<%@ page import="teammates.common.datatransfer.FeedbackSessionResultsBundle"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionDetails"%>
+<%@ page import="teammates.common.datatransfer.FeedbackQuestionAttributes"%>
 <%@ page import="teammates.common.datatransfer.SessionResultsBundle"%>
-<%@ page
-    import="teammates.ui.controller.InstructorFeedbackResponseCommentsLoadPageData"%>
+<%@ page import="teammates.ui.controller.InstructorFeedbackResponseCommentsLoadPageData"%>
 <%@ page import="static teammates.ui.controller.PageData.sanitizeForJs"%>
+<% InstructorFeedbackResponseCommentsLoadPageData data = (InstructorFeedbackResponseCommentsLoadPageData) request.getAttribute("data"); %>
 
-<%
-	InstructorFeedbackResponseCommentsLoadPageData data = (InstructorFeedbackResponseCommentsLoadPageData) request.getAttribute("data");
-%>
-
-<div class="hidden number-of-pending-comments"><%=data.numberOfPendingComments%></div>
+<div class="hidden number-of-pending-comments">${data.numberOfPendingComments}</div>
 
 <c:choose>
     <c:when test="${empty data.feedbackResultBundles}">
@@ -122,12 +111,7 @@
 	                                                    String frCommentGiver = frc.giverEmail;
 	                                                    if (frc.giverEmail.equals(data.instructorEmail)) {
 	                                                        frCommentGiver = "you";
-	                                                    }/*
-	                                                    keep for reference on how to implement "you" and display name
-	                                                    else if (data.roster.getInstructorForEmail(frc.giverEmail) != null) {
-	                                                        frCommentGiver = data.roster.getInstructorForEmail(frc.giverEmail).name;
 	                                                    }
-	                                                    */
 	                                                    Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(frc);
 	                                %>
 	                            </ul>
@@ -137,7 +121,6 @@
                 </div>
             </c:forEach>
         </c:forEach>
-        <!-- This is where we put in the stuff to load when there are feedback sessions -->
     </c:otherwise>
 </c:choose>
 

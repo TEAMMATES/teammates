@@ -30,4 +30,8 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
     public Map<String, FeedbackSessionResultsBundle> getFeedbackResultBundles() {
         return feedbackResultBundles;
     }
+
+    public int getNumberOfPendingComments() {
+        return numberOfPendingComments;
+    }
 }
