@@ -49,10 +49,10 @@
 				        <%= bundle.getQuestionText(responseEntries.getKey().getId()) %>
 				        <%
 				            Map<String, FeedbackQuestionAttributes> questions = bundle.questions;
-                            FeedbackQuestionAttributes question = questions.get(responseEntries.getKey().getId());
-                            FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
-                            out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
-				        %>
+				            FeedbackQuestionAttributes question = questions.get(responseEntries.getKey().getId());
+				            FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
+				            out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
+                        %>
 				    </div>
 				    <table class="table">
                         <tbody>
@@ -111,6 +111,8 @@
 	                                                }
 	                                                Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(frc);
 	                                            %>
+	                                            <!-- This part needs to be specially handled for using the shared tag -->
+	                                            <!-- Still yet to construct the proper frc that the shared tag expects -->
 	                                            <shared:feedbackResponseComment frc="${frc}"
 	                                                                            firstIndex="${fsrbStatus.index}"
 	                                                                            secondIndex="${responseEntriesStatus.count}"
@@ -216,6 +218,7 @@
                                             */
                                             Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(frc);
                         %>
+                        <!-- Stopped here -->
                         <!-- This is the start of the shared tag -->
                         <li class="list-group-item list-group-item-warning <%=frCommentGiver.equals("you") ? "giver_display-by-you" : "giver_display-by-others"%> <%=isPublicResponseComment && bundle.feedbackSession.isPublished() ? "status_display-public" : "status_display-private"%>"
                             id="responseCommentRow-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
@@ -585,7 +588,6 @@
                         <%
                             }//FeedbackResponseComments loop ends
                         %>
-                        <!-- Stopped here -->
                         <!-- frComment Add form -->
                         <li
                             class="list-group-item list-group-item-warning"
