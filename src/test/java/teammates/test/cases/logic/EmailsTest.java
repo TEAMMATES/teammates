@@ -80,7 +80,7 @@ public class EmailsTest extends BaseComponentTestCase {
         String from = "sender@gmail.tmt";
         String subject = "email subject";
 
-        /* Test Sendgrid message */
+        ______TS("Sendgrid message");
         Sendgrid message = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);
 
         message.addTo(email);
@@ -91,7 +91,7 @@ public class EmailsTest extends BaseComponentTestCase {
         assertEquals("[Email sent]to=receiver@gmail.tmt|from=sender@gmail.tmt|subject=email subject",
                                         Emails.getEmailInfo(message));
 
-        /* Test mime message */
+        ______TS("MimeMessage");
         Session session = Session.getDefaultInstance(new Properties(), null);
         MimeMessage mimeMessage = new MimeMessage(session);
 
