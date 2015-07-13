@@ -885,7 +885,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
    }
 
     /* 
-     * The next three methods are not covered in action test, but covered in UI tests.
+     * getInstructorFeedbackSessionPublishAndUnpublishAction()
+     * is not covered in action test, but covered in UI tests.
      */
 
     private FeedbackSessionPublishButton getInstructorFeedbackSessionPublishAndUnpublishAction() {
