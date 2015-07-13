@@ -48,9 +48,9 @@
 				        <%= bundle.getQuestionText(responseEntries.getKey().getId()) %>
 				        <%
 				            Map<String, FeedbackQuestionAttributes> questions = bundle.questions;
-				                            FeedbackQuestionAttributes question = questions.get(responseEntries.getKey().getId());
-				                            FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
-				                            out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
+                            FeedbackQuestionAttributes question = questions.get(responseEntries.getKey().getId());
+                            FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
+                            out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
 				        %>
 				    </div>
 				    <table class="table">
@@ -101,16 +101,17 @@
 		                                <ul class="list-group comments"
 		                                    id="responseCommentTable-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>"
 		                                    style="<%=frcList != null && frcList.size() > 0 ? "" : "display:none"%>">
-		                                    <%
-		                                        int responseCommentIndex = 0;
-		                                                    for (FeedbackResponseCommentAttributes frc : frcList) {//FeedbackResponseComments loop starts
-		                                                        responseCommentIndex++;
-		                                                        String frCommentGiver = frc.giverEmail;
-		                                                        if (frc.giverEmail.equals(data.instructorEmail)) {
-		                                                            frCommentGiver = "you";
-		                                                        }
-		                                                        Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(frc);
-		                                    %>
+		                                    <c:forEach var="frc" items="${frcList}" varStatus="frcStatus">
+                                                <%-- use ${theCount.count} to start counting at 1 --%>
+	                                            <%
+	                                                String frCommentGiver = frc.giverEmail;
+	                                                if (frc.giverEmail.equals(data.instructorEmail)) {
+	                                                    frCommentGiver = "you";
+	                                                }
+	                                                Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(frc);
+	                                            %>
+                                            </c:forEach>
+                                            <!-- This should be where we pass in some information and used the shared tag -->
 		                                </ul>
 		                            </td>
 		                        </tr>
