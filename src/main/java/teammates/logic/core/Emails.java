@@ -850,13 +850,8 @@ public class Emails {
             email.addTo(message.getRecipients(Message.RecipientType.TO)[i].toString());
         }
         
-        String from = message.getFrom()[0].toString();
+        String from = extractSenderEmail(message.getFrom()[0].toString());
         String html = message.getContent().toString();
-        
-        // From name and email in the format: Name <Email>
-        if (from.contains("<") && from.contains(">")) {
-            from = from.substring(from.indexOf("<") + 1, from.indexOf(">"));
-        }
         
         email.setFrom(from)
              .setSubject(message.getSubject())
@@ -873,5 +868,17 @@ public class Emails {
         }
         
         return email;
+    }
+
+    /**
+     * Extracts sender email from the string with name and email in the format: Name <Email>
+     * @param from String with sender information in the format: Name <Email>
+     * @return Sender email
+     */
+    public String extractSenderEmail(String from) {
+        if (from.contains("<") && from.contains(">")) {
+            from = from.substring(from.indexOf("<") + 1, from.indexOf(">"));
+        }
+        return from;
     }
 }
