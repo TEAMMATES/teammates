@@ -15,10 +15,7 @@
                     From <b>${commentRow.giverDetails} (${courseId})</b>
                 </div>
                 <ul class="list-group comments">
-                    <li class="list-group-item list-group-item-warning"
-                        name="form_commentedit"
-                        class="form_comment"
-                        id="form_commentedit-${commentIdx}">
+                    <li class="list-group-item list-group-item-warning">
                         <div id="commentBar-${commentIdx}">
                             <span class="text-muted">
                                  To <b>${commentRow.recipientDetails}</b> [${commentRow.creationTime}] ${commentRow.editedAt}

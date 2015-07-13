@@ -49,6 +49,10 @@ public class InstructorCourseDetailsPageAction extends Action {
         
         data.init(instructor, courseDetails, instructors, students);
         
+        if (students.isEmpty()) {
+            statusToUser.add(Const.StatusMessages.INSTRUCTOR_COURSE_EMPTY);
+        }
+        
         statusToAdmin = "instructorCourseDetails Page Load<br>" 
                         + "Viewing Course Details for Course <span class=\"bold\">[" + courseId + "]</span>";
         

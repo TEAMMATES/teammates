@@ -37,22 +37,20 @@
                                 <ul class="list-group">
                                     
                                         <li class="list-group-item list-group-item-warning">
+                                            <div id="commentBar-0">
+                                                <span class="text-muted">
+                                                    To <b>Benny Charlés (Team 1, benny.c.tmms@gmail.tmt)</b> [Tue, 01 May 2012, 08:51:00 UTC] 
+                                                </span>
+                                                
+                                                <a data-original-title="Delete this comment" type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title=""> 
+                                                    <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
+                                                </a>
+                                                <a data-original-title="Edit this comment" type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="">
+                                                    <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
+                                                </a>
+                                            </div>
+                                            <div style="margin-left: 15px;" id="plainCommentText0">Comment 1 from ISR.CS2104 teammates.test Instructor to Benny</div>
                                             <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-0">
-                                                <div id="commentBar0">
-                                                    <span class="text-muted">
-                                                        To <b>Benny Charlés (Team 1, benny.c.tmms@gmail.tmt)</b> [Tue, 01 May 2012, 08:51:00 UTC] 
-                                                    </span>
-                                                    <a data-original-title="Delete this comment" type="button" id="commentdelete-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('0');" data-toggle="tooltip" data-placement="top" title=""> 
-                                                        <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
-                                                    </a>
-                                                    <a data-original-title="Edit this comment" type="button" id="commentedit-0" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('0', '1');" data-toggle="tooltip" data-placement="top" title="">
-                                                        <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
-                                                    </a>
-                                                    
-                                                </div>
-                                                <div style="margin-left: 15px;" id="plainCommentText0">
-                                                    Comment 1 from ISR.CS2104 teammates.test Instructor to Benny
-                                                </div>
                                                 <div id="commentTextEdit0" style="display: none;">
                                                     <div class="form-group form-inline">
                                                         <div class="form-group text-muted">
@@ -164,6 +162,7 @@
                                                 <input name="commentedittype" id="commentedittype-0" value="edit" type="hidden">
                                                 <input name="commentid" value="{*}" type="hidden">
                                                 <input name="courseid" value="ISR.CS2104" type="hidden">
+                                                <input name="commentpage" value="false" type="hidden">
                                                 <input name="studentemail" value="benny.c.tmms@gmail.tmt" type="hidden">
                                                 <input name="recipienttype" value="PERSON" type="hidden">
                                                 <input name="recipients" value="benny.c.tmms@gmail.tmt" type="hidden">

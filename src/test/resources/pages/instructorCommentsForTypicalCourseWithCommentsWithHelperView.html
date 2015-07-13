@@ -237,21 +237,22 @@
                 <ul class="list-group comments">
                      
                         
-                        <li id="{*}" class="list-group-item list-group-item-warning status_display-private">
-                            <form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-1">
+                        <li class="list-group-item list-group-item-warning status_display-private">
                                 <div id="commentBar-1">
                                     
-                                    <span class="text-muted">To <b>All students in this course</b> [Sat, 02 Jun 2012, 19:22:00 UTC] </span>
+                                    <span class="text-muted">
+                                        To <b>All students in this course</b> [Sat, 02 Jun 2012, 19:22:00 UTC] 
+                                    </span>
+                                    
+                                    
                                      
-                                        <a type="button" id="commentdelete-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete this comment" style="display: none;">
+                                        <a data-original-title="Delete this comment" type="button" id="commentdelete-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return deleteComment('1');" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
                                             <span class="glyphicon glyphicon-trash glyphicon-primary"></span>
                                         </a> 
-                                        <a type="button" id="commentedit-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('1');" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit this comment" style="display: none;">
+                                        <a data-original-title="Edit this comment" type="button" id="commentedit-1" class="btn btn-default btn-xs icon-button pull-right" onclick="return enableEdit('1', '0');" data-toggle="tooltip" data-placement="top" title="" style="display: none;">
                                             <span class="glyphicon glyphicon-pencil glyphicon-primary"></span>
                                         </a>
                                      
-                                    
-                                    
                                 </div>
                                 <div style="margin-left: 15px;" id="plainCommentText1">This is a private comment--cannot seen by other instructors</div>
                                  
@@ -262,9 +263,14 @@
 
 
 
+
+<form method="post" action="/page/instructorStudentCommentEdit" name="form_commentedit" class="form_comment" id="form_commentedit-1">
 <div id="commentTextEdit1" style="display: none;">
     <div class="form-group form-inline">
         <div class="form-group text-muted">
+            <p>
+                Comment about All students in this course:
+            </p>
             You may change comment's visibility using the visibility options on the right hand side.
         </div>
         <a id="visibility-options-trigger1" class="btn btn-sm btn-info pull-right">
@@ -274,7 +280,7 @@
     </div>
     <div id="visibility-options1" class="panel panel-default" style="display: none;">
         <div class="panel-heading">Visibility Options</div>
-        <table class="table text-center text-color-black">
+        <table class="table text-center" style="color: #000;">
             <tbody>
                 <tr>
                     <th class="text-center">User/Group</th>
@@ -320,7 +326,7 @@
         </table>
     </div>
     <div class="form-group">
-       <!-- Do not add whitespace between the opening and closing tags-->
+        <!-- Do not add whitespace between the opening and closing tags-->
         <textarea class="form-control" rows="3" placeholder="Your comment about this student" name="commenttext" id="commentText1">This is a private comment--cannot seen by other instructors</textarea>
     </div>
     <div class="col-sm-offset-5">
@@ -336,8 +342,8 @@
 <input name="showgiverto" value="" type="hidden">
 <input name="showrecipientto" value="" type="hidden">
 <input name="user" value="comments.idOfHelperOfCourse1" type="hidden">
+</form>
                                  
-                            </form>
                         </li>
                      
                 </ul>

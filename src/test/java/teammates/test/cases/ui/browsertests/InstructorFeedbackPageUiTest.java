@@ -999,7 +999,7 @@ public class InstructorFeedbackPageUiTest extends BaseUiTestCase {
     private static InstructorFeedbacksPage getFeedbackPageForInstructor(String instructorId) {
         Url feedbackPageLink = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE).withUserId(instructorId);    
         InstructorFeedbacksPage page = loginAdminToPage(browser, feedbackPageLink, InstructorFeedbacksPage.class);
-        page.waitForElementPresence(By.id("table-sessions"), 5);
+        page.waitForElementPresence(By.id("table-sessions"));
         return page;
     }
 

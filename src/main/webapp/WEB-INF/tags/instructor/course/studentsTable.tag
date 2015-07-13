@@ -67,4 +67,15 @@
             <% out.flush(); %>
         </c:if>
     </c:forEach>
+    <c:if test="${empty studentsTable.rows}">
+        <tr>
+            <c:if test="${hasSection}">
+                <td></td>
+            </c:if>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </c:if>
 </table>
