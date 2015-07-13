@@ -96,6 +96,7 @@ for (SessionResultsBundle sessionResult: data.results) {
             </div>
         <% }
         if (given != null) { %>
+            <br>
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     From: <strong><%= giverName %></strong>
