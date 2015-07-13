@@ -16,15 +16,12 @@ import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.util.Const;
 import teammates.ui.template.Comment;
-import teammates.ui.template.CommentRow;
 import teammates.ui.template.CoursePagination;
 import teammates.ui.template.FeedbackResponseComment;
 import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.QuestionTable;
 import teammates.ui.template.ResponseRow;
-import teammates.ui.template.StudentCommentsCommentRow;
 import teammates.ui.template.StudentCommentsForStudentsTable;
 
 /**
@@ -187,8 +184,6 @@ public class StudentCommentsPageData extends PageData {
             if (instructor != null) {
                 giverDetails = instructor.displayedName + " " + instructor.name;
             }
-            String creationTime = Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt);
-            String editedAt = comment.getEditedAtText(giverDetails.equals("Anonymous"));
             
             Comment commentRow = new Comment(comment, giverDetails, recipientDetails);
             

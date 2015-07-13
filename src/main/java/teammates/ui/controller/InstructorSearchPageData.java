@@ -15,11 +15,8 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.ui.template.Comment;
-import teammates.ui.template.CommentRow;
-import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackResponseComment;
 import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.QuestionTable;
@@ -250,11 +247,8 @@ public class InstructorSearchPageData extends PageData {
         for (CommentAttributes comment : commentSearchResultBundle.giverCommentTable.get(giverEmailPlusCourseId)) {            
             String recipientDetails = commentSearchResultBundle.recipientTable
                                                                    .get(comment.getCommentId().toString());
-            String creationTime = Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt);          
-            String editedAt = comment.getEditedAtText(giverDetails.equals("Anonymous (" + comment.courseId + ")"));
             String link = instructorCommentsLink + "&" + Const.ParamsNames.COURSE_ID 
                                             + "=" + comment.courseId + "#" + comment.getCommentId();           
-            ElementTag editButton = createEditButton(link, Const.Tooltips.COMMENT_EDIT_IN_COMMENTS_PAGE);
             Comment commentRow = new Comment(comment, giverDetails, recipientDetails);
             commentRow.withLinkToCommentsPage(link);
             
@@ -339,10 +333,6 @@ public class InstructorSearchPageData extends PageData {
         return students;
     }
 
-    private ElementTag createEditButton(String href, String tooltip) {
-        return new ElementTag("href", href, "title", tooltip);
-    }
-    
     /**
      * Returns HTML string for student action links - view, edit, delete, all records, add comment
      * when an instructor searches for a student

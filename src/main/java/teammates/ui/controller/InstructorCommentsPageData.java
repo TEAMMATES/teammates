@@ -12,11 +12,7 @@ import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.util.Const;
-import teammates.common.util.TimeHelper;
 import teammates.ui.template.Comment;
-import teammates.ui.template.CommentRow;
-import teammates.ui.template.InstructorCommentsCommentRow;
 import teammates.ui.template.InstructorCommentsForStudentsTable;
 
 /**
