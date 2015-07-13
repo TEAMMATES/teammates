@@ -940,8 +940,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return "on".equals(groupByTeam); 
     }
 
-    public String getShowStats() {
-        return showStats;
+    public boolean isStatsShown() {
+        return !showStats.isEmpty();
     }
 
     public int getStartIndex() {

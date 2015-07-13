@@ -65,7 +65,7 @@
                   <div class="col-sm-12" data-toggle="tooltip" title="Show statistics">
                       <div class="checkbox padding-top-0 min-height-0">
                           <label<c:if test="${sortType == 'recipient-giver-question' or sortType == 'giver-recipient-question'}"> class="text-strike"</c:if>>
-                              <input type="checkbox" id="show-stats-checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>"<c:if test="${not empty showStats}"> checked="checked"</c:if>> Show Statistics
+                              <input type="checkbox" id="show-stats-checkbox" name="<%=Const.ParamsNames.FEEDBACK_RESULTS_SHOWSTATS%>"<c:if test="${showStats}"> checked="checked"</c:if>> Show Statistics
                           </label>
                       </div>
                   </div>

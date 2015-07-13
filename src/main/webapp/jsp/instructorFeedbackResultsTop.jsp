@@ -10,7 +10,7 @@
 <r:sessionPanel sessionPanel="${data.sessionPanel}" />
 
 <c:if test="${not (noResponses and data.allSectionsSelected and showAll)}">
-    <r:filterPanel showStats="${data.showStats}"
+    <r:filterPanel showStats="${data.statsShown}"
                    shouldCollapse="${data.shouldCollapsed}"
                    feedbackSession="${data.bundle.feedbackSession}"
                    resultsLink="${data.instructorFeedbackSessionResultsLink}"
