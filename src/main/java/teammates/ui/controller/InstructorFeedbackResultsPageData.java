@@ -23,6 +23,7 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
+import teammates.ui.template.InstructorFeedbackResultsFilterPanel;
 import teammates.ui.template.InstructorFeedbackResultsSessionPanel;
 import teammates.ui.template.InstructorResultsParticipantPanel;
 import teammates.ui.template.InstructorFeedbackResultsGroupByQuestionPanel;
@@ -951,11 +952,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     public String getCourseId() {
-        return sanitizeForHtml(courseId);
+        return courseId;
     }
 
     public String getFeedbackSessionName() {
-        return sanitizeForHtml(feedbackSessionName);
+        return feedbackSessionName;
     }
 
     public String getAjaxStatus() {
@@ -992,7 +993,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                : null;
     }
     
-    public String getInstructorFeedbackSessionResultsLink() {
+    private String getInstructorFeedbackSessionResultsLink() {
         return getInstructorFeedbackSessionResultsLink(courseId, feedbackSessionName);
     }
     
@@ -1000,12 +1001,16 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return "All".equals(selectedSection);
     }
     
-    // TODO: place below methods for template objects in some init method common to all views
+    // TODO: place below getter methods for template objects in some init method common to all views
     public InstructorFeedbackResultsSessionPanel getSessionPanel() {
         return new InstructorFeedbackResultsSessionPanel(
-                bundle.feedbackSession,
-                getInstructorFeedbackSessionEditLink(),
-                getInstructorFeedbackSessionPublishAndUnpublishAction(),
-                selectedSection);
+                bundle.feedbackSession, getInstructorFeedbackSessionEditLink(),
+                getInstructorFeedbackSessionPublishAndUnpublishAction(), selectedSection);
+    }
+    
+    public InstructorFeedbackResultsFilterPanel getFilterPanel() {
+        return new InstructorFeedbackResultsFilterPanel(
+                isStatsShown(), shouldCollapsed, bundle.feedbackSession, isAllSectionsSelected(), selectedSection,
+                isGroupedByTeam(), sortType, getInstructorFeedbackSessionResultsLink(), sections);
     }
 }
