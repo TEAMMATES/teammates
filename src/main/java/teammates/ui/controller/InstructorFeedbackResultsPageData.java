@@ -162,7 +162,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                     Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponses) {
         ViewType viewType = ViewType.GIVER_QUESTION_RECIPIENT;
         
-        boolean isGiver = true;
+        final boolean isGiver = true;
         
         LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam 
                 = bundle.getQuestionResponseMapByGiverTeam();
@@ -253,7 +253,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
                 InstructorResultsQuestionTable questionTable 
                     = buildQuestionTableAndResponseRows(currentQuestion, responsesForQuestion,
-                                         viewType, "giver-" + giverIndex + "-question-" + questionIndex);
+                                                        viewType, "giver-" + giverIndex + "-question-" + questionIndex, giverIdentifier, true);
                 questionTable.setBoldQuestionNumber(false);
                 questionTables.add(questionTable);
                 
@@ -298,14 +298,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
     
     private LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> buildResponsesPanelsForRecipientQuestionGiver(
                                     Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponses) {
-        ViewType viewType = ViewType.RECIPIENT_QUESTION_GIVER;
+        final ViewType viewType = ViewType.RECIPIENT_QUESTION_GIVER;
         
         LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam 
                 = bundle.getQuestionResponseMapByRecipientTeam();
-        
-        Map<String, FeedbackQuestionAttributes> questions = bundle.questions;
-        
-        boolean isGiver = false;
+       
+        final boolean isGiver = false;
         
         
         // Initialize section Panels. TODO abstract into method
@@ -352,7 +350,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 boolean isFirstSection = sectionPanel.getParticipantPanels().isEmpty();
                 if (!isFirstSection) {
                     buildTeamsStatisticsTableForSectionPanel(sectionPanel, prevSection, viewType, 
-                                                    questions, responsesGroupedByTeam, 
+                                                    bundle.questions, responsesGroupedByTeam, 
                                                     teamsWithResponses);
                     createMissingTeamAndParticipantPanelsForPrevSectionAndResetVariables(
                                                     sectionPanel, prevSection, sectionsWithResponses,
@@ -416,7 +414,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
         
         buildTeamsStatisticsTableForSectionPanel(sectionPanel, prevSection, viewType, 
-                                        questions, responsesGroupedByTeam, 
+                                        bundle.questions, responsesGroupedByTeam, 
                                         teamsWithResponses);
         
         // for the last section
@@ -468,7 +466,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         receivingTeams.add(prevTeam);
         
         sectionPanel.setSectionName(prevSection);
-        sectionPanel.setSectionNameForDisplay(prevSection.equals(Const.DEFAULT_SECTION) ? "Not in a Section" 
+        sectionPanel.setSectionNameForDisplay(prevSection.equals(Const.DEFAULT_SECTION) ? "Not in a section" 
                                                                                         : prevSection);
         sectionPanel.setDisplayingTeamStatistics(true);
         sectionPanels.put(prevSection, sectionPanel);
@@ -817,55 +815,45 @@ public class InstructorFeedbackResultsPageData extends PageData {
         String statisticsTable = questionDetails.getQuestionResultStatisticsHtml(responses, question, 
                                                                                  this, bundle, statisticsViewType.toString());
 
+        List<ElementTag> columnTags = new ArrayList<ElementTag>();
+        Map<String, Boolean> isSortable = new HashMap<String, Boolean>();
+        boolean isCollapsible = true;
         List<InstructorResultsResponseRow> responseRows = null;
+        
         if (isShowingResponseRows) {
             switch (statisticsViewType) {
                 case QUESTION:
                     responseRows = buildResponseRowsForQuestion(question, responses, statisticsViewType);
+                    buildTableColumnHeaderForQuestionView(columnTags, isSortable);
                     break;
                 case GIVER_QUESTION_RECIPIENT:
-                    responseRows = buildResponseRowsForQuestionWithoutMissingResponses(
-                                                    question, responses, statisticsViewType);
-                    
+                    buildTableColumnHeaderForGiverQuestionRecipientView(columnTags, isSortable);
+                    responseRows = buildResponseRowsForQuestionForSingleParticipant(question, responses, 
+                                                                                statisticsViewType, participantIdentifier, 
+                                                                                true);
+                    isCollapsible = false;
                     break;
                 case RECIPIENT_QUESTION_GIVER:
-                    responseRows = buildResponseRowsForQuestionForSingleParticipant(question, responses, statisticsViewType, participantIdentifier, false);
+                    buildTableColumnHeaderForRecipientQuestionGiverView(columnTags, isSortable);
+                    responseRows = buildResponseRowsForQuestionForSingleParticipant(question, responses, 
+                                                                                statisticsViewType, participantIdentifier, 
+                                                                                false);
+                    isCollapsible = false;
                     break;
                 default:
                     Assumption.fail("Invalid view type");
             }
                                                             
         }
-        
-        boolean isCollapsible = true;
-        
-        List<ElementTag> columnTags = new ArrayList<ElementTag>();
-        Map<String, Boolean> isSortable = new HashMap<String, Boolean>();
+
         
         InstructorResultsQuestionTable questionTable = new InstructorResultsQuestionTable(this, 
-                                        responses, statisticsTable, 
-                                        responseRows, question, additionalInfoId, 
-                                        columnTags, isSortable);
+                                                            responses, statisticsTable, 
+                                                            responseRows, question, additionalInfoId, 
+                                                            columnTags, isSortable);
         
         questionTable.setShowResponseRows(isShowingResponseRows);
-        
-        switch (statisticsViewType) {
-            case QUESTION:
-                buildTableColumnHeaderForQuestionView(columnTags, isSortable);
-                break;
-            case GIVER_QUESTION_RECIPIENT:
-                buildTableColumnHeaderForGiverQuestionRecipientView(columnTags, isSortable);
-                isCollapsible = false;
-                break;
-            case RECIPIENT_QUESTION_GIVER:
-                buildTableColumnHeaderForRecipientQuestionGiverView(columnTags, isSortable);
-                isCollapsible = false;
-                break;
-            default:
-                Assumption.fail("Invalid view type");
-        }
         questionTable.setCollapsible(isCollapsible);
-        
         questionTable.setColumns(columnTags);
         
         return questionTable;
@@ -1051,29 +1039,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return responseRows;
     }
     
-    private List<InstructorResultsResponseRow> buildResponseRowsForQuestionWithoutMissingResponses(FeedbackQuestionAttributes question,
-                                                    List<FeedbackResponseAttributes> responses,
-                                                    ViewType viewType) {
-        List<InstructorResultsResponseRow> responseRows = new ArrayList<InstructorResultsResponseRow>();
-        
-        for (FeedbackResponseAttributes response : responses) {
-            InstructorResultsModerationButton moderationButton = buildModerationButtonForExistingResponse(question, response);
-            
-            InstructorResultsResponseRow responseRow = new InstructorResultsResponseRow(
-                                   bundle.getGiverNameForResponse(question, response), bundle.getTeamNameForEmail(response.giverEmail), 
-                                   bundle.getRecipientNameForResponse(question, response), bundle.getTeamNameForEmail(response.recipientEmail), 
-                                   bundle.getResponseAnswerHtml(response, question), 
-                                   bundle.isGiverVisible(response), moderationButton);
-            configureResponseRowForViewType(question, viewType, response.giverEmail, response.recipientEmail, responseRow);
-            
-            
-            responseRows.add(responseRow);
-        }
-        
-
-        
-        return responseRows;
-    }
 
     private void configureResponseRowForViewType(FeedbackQuestionAttributes question,
                                                  ViewType statisticsViewType, 
