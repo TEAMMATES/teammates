@@ -95,7 +95,7 @@ public class InstructorHomePageData extends PageData {
     }
     
     private String getInstructorFeedbacksPageLinkForCourse(String courseID) {
-        String link = super.getInstructorFeedbacksPageLink();
+        String link = super.getInstructorFeedbacksLink();
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
         return link;
     }
@@ -153,7 +153,7 @@ public class InstructorHomePageData extends PageData {
             ElementTag pending = createButton(
                     pendingGraphic,
                     className + "notify-pending-comments-for-test",
-                    getInstructorClearPendingCommentsLink(courseId),
+                    getInstructorStudentCommentClearPendingLink(courseId),
                     "Send email notification to recipients of " + pendingCommentsForThisCourseCount
                         + " pending " + (pendingCommentsForThisCourseCount > 1 ? "comments" : "comment"));
     
@@ -184,7 +184,7 @@ public class InstructorHomePageData extends PageData {
             columns.put("name", sanitizeForHtml(session.feedbackSessionName));
             columns.put("tooltip", getInstructorHoverMessageForFeedbackSession(session));
             columns.put("status", getInstructorStatusForFeedbackSession(session));
-            columns.put("href", getFeedbackSessionStatsLink(session.courseId, session.feedbackSessionName));
+            columns.put("href", getInstructorFeedbackStatsLink(session.courseId, session.feedbackSessionName));
             
             if (session.isOpened() || session.isWaitingToOpen()) {
                 columns.put("recent", " recent");

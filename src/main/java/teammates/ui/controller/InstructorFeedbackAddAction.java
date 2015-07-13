@@ -79,7 +79,7 @@ public class InstructorFeedbackAddAction extends InstructorFeedbacksPageAction {
             //TODO: add a condition to include the status due to inconsistency problem of database 
             //      (similar to the one below)
             return createRedirectResult(
-                    new PageData(account).getInstructorFeedbackSessionEditLink(
+                    new PageData(account).getInstructorFeedbackEditLink(
                             fs.courseId, fs.feedbackSessionName));
             
         } catch (EntityAlreadyExistsException e) {

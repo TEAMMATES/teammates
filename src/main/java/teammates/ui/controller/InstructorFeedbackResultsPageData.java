@@ -70,17 +70,15 @@ public class InstructorFeedbackResultsPageData extends PageData {
         if (hasUnpublish) {
             result =
                 "<a class=\"btn btn-primary btn-block btn-tm-actions session-unpublish-for-test\""
-                    + "href=\"" + getInstructorFeedbackSessionUnpublishLink(session.courseId, 
-                                                                            session.feedbackSessionName, 
-                                                                            isHome) + "\" " 
+                    + "href=\"" + getInstructorFeedbackUnpublishLink(session.courseId, session.feedbackSessionName, 
+                                                                     isHome) + "\" " 
                     + "title=\"" + Const.Tooltips.FEEDBACK_SESSION_UNPUBLISH + "\" data-toggle=\"tooltip\" "
                     + "data-placement=\"top\" onclick=\"return toggleUnpublishEvaluation('" 
                     + session.feedbackSessionName + "');\" " + disableUnpublishSessionStr + ">Unpublish Results</a> ";
         } else {
             result = "<a class=\"btn btn-primary btn-block btn-tm-actions session-publish-for-test" 
                    + (hasPublish ? "\"" : DISABLED) + "href=\""
-                   + getInstructorFeedbackSessionPublishLink(session.courseId, session.feedbackSessionName,
-                                                             isHome) 
+                   + getInstructorFeedbackPublishLink(session.courseId, session.feedbackSessionName, isHome) 
                    + "\" " + "title=\""
                    + (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH 
                                  : Const.Tooltips.FEEDBACK_SESSION_AWAITING)
