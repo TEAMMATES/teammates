@@ -53,6 +53,88 @@
             <%-- use ${theCount.index} to start counting at 0 --%>
             <c:forEach var="responseEntries" items="${feedbackSessionResultsBundle.responseComments}" varStatus="responseEntriesStatus">
                 <%-- use ${theCount.count} to start counting at 1 --%>
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+				        <b>Question ${responseEntries.key.questionNumber}</b>:
+				        <%=bundle.getQuestionText(responseEntries.getKey().getId())%>
+				        <%
+				            Map<String, FeedbackQuestionAttributes> questions = bundle.questions;
+				                            FeedbackQuestionAttributes question = questions.get(responseEntries.getKey().getId());
+				                            FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
+				                            out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
+				        %>
+				    </div>
+				    <table class="table">
+                        <tbody>
+				            <%
+				                int responseIndex = 0;
+				                        for (FeedbackResponseAttributes responseEntry : responseEntries.getValue()) {//FeedbackResponse loop starts
+				                            responseIndex++;
+				                            String giverName = bundle.getGiverNameForResponse(responseEntries.getKey(), responseEntry);
+				                            String giverTeamName = bundle.getTeamNameForEmail(responseEntry.giverEmail);
+				                            giverName = bundle.appendTeamNameToName(giverName, giverTeamName);
+				
+				                            String recipientName = bundle.getRecipientNameForResponse(responseEntries.getKey(), responseEntry);
+				                            String recipientTeamName = bundle.getTeamNameForEmail(responseEntry.recipientEmail);
+				                            recipientName = bundle.appendTeamNameToName(recipientName, recipientTeamName);
+				            %>
+				            <tr>
+				                <td><b>From:</b> <%=giverName%> <b>To:</b> <%=recipientName%></td>
+				            </tr>
+				            <tr>
+				                <td><strong>Response: </strong><%=responseEntry.getResponseDetails().getAnswerHtml(questionDetails)%>
+				                </td>
+				            </tr>
+			            </tbody>
+			            <tr class="active">
+	                        <td>Comment(s):
+	                            <button type="button"
+	                                class="btn btn-default btn-xs icon-button pull-right"
+	                                id="button_add_comment-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>"
+	                                onclick="showResponseCommentAddForm(<%=fsIndx%>,<%=qnIndx%>,<%=responseIndex%>)"
+	                                data-toggle="tooltip" data-placement="top"
+	                                title="<%=Const.Tooltips.COMMENT_ADD%>"
+	                                <%if ((data.currentInstructor == null) ||
+	                                        (!data.currentInstructor.isAllowedForPrivilege(responseEntry.giverSection,
+	                                                responseEntry.feedbackSessionName,
+	                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
+	                                        || !data.currentInstructor.isAllowedForPrivilege(responseEntry.recipientSection,
+	                                                responseEntry.feedbackSessionName,
+	                                                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS))) {%>
+	                                disabled="disabled" <%}%>>
+	                                <span
+	                                    class="glyphicon glyphicon-comment glyphicon-primary"></span>
+	                            </button>
+	                        </td>
+	                    </tr>
+	                    <tr>
+	                        <td>
+	                            <%
+	                                List<FeedbackResponseCommentAttributes> frcList = bundle.responseComments.get(responseEntry.getId());
+	                            %>
+	                            <ul class="list-group comments"
+	                                id="responseCommentTable-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>"
+	                                style="<%=frcList != null && frcList.size() > 0 ? "" : "display:none"%>">
+	                                <%
+	                                    int responseCommentIndex = 0;
+	                                                for (FeedbackResponseCommentAttributes frc : frcList) {//FeedbackResponseComments loop starts
+	                                                    responseCommentIndex++;
+	                                                    String frCommentGiver = frc.giverEmail;
+	                                                    if (frc.giverEmail.equals(data.instructorEmail)) {
+	                                                        frCommentGiver = "you";
+	                                                    }/*
+	                                                    keep for reference on how to implement "you" and display name
+	                                                    else if (data.roster.getInstructorForEmail(frc.giverEmail) != null) {
+	                                                        frCommentGiver = data.roster.getInstructorForEmail(frc.giverEmail).name;
+	                                                    }
+	                                                    */
+	                                                    Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(frc);
+	                                %>
+	                            </ul>
+	                        </td>
+	                    </tr>
+		            </table>
+                </div>
             </c:forEach>
         </c:forEach>
         <!-- This is where we put in the stuff to load when there are feedback sessions -->
@@ -146,6 +228,7 @@
                                             */
                                             Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(frc);
                         %>
+                        <!-- Stopped here -->
                         <!-- This is the start of the shared tag -->
                         <li class="list-group-item list-group-item-warning <%=frCommentGiver.equals("you") ? "giver_display-by-you" : "giver_display-by-others"%> <%=isPublicResponseComment && bundle.feedbackSession.isPublished() ? "status_display-public" : "status_display-private"%>"
                             id="responseCommentRow-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
