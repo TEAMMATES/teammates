@@ -16,7 +16,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Assumption;
@@ -994,6 +993,11 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return getInstructorFeedbackSessionResultsLink(courseId, feedbackSessionName);
     }
     
+    public boolean isAllSectionsSelected() {
+        return "All".equals(selectedSection);
+    }
+    
+    // TODO: place below methods for template objects in some init method common to all views
     public InstructorFeedbackResultsSessionPanel getSessionPanel() {
         return new InstructorFeedbackResultsSessionPanel(
                 bundle.feedbackSession,
@@ -1001,5 +1005,4 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 getInstructorFeedbackSessionPublishAndUnpublishAction(),
                 selectedSection);
     }
-    
 }
