@@ -75,7 +75,7 @@ public class EmailsTest extends BaseComponentTestCase {
     }
 
     @Test
-    public void testGetEmailInfo() throws MessagingException {
+    public void testGetEmailInfo() throws MessagingException, JSONException {
         String email = "receiver@gmail.tmt";
         String from = "sender@gmail.tmt";
         String subject = "email subject";
