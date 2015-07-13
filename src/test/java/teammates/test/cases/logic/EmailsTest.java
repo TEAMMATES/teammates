@@ -80,28 +80,29 @@ public class EmailsTest extends BaseComponentTestCase {
         String from = "sender@gmail.tmt";
         String subject = "email subject";
 
-        if (Config.isUsingSendgrid()) {
-            Sendgrid message = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);
-            
-            message.addTo(email);
-            message.setFrom(from);
-            message.setSubject(subject);
-            message.setHtml("<h1>email body</h1>");
+        /* Test Sendgrid message */
+        Sendgrid message = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);
 
-            assertEquals("[Email sent]to=receiver@gmail.tmt|from=sender@gmail.tmt|subject=email subject",
-                                           Emails.getEmailInfo(message));
-        } else {
-            Session session = Session.getDefaultInstance(new Properties(), null);
-            MimeMessage message = new MimeMessage(session);
-            
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-            message.setFrom(new InternetAddress(from));
-            message.setSubject(subject);
-            message.setContent("<h1>email body</h1>", "text/html");
-            
-            assertEquals("[Email sent]to=receiver@gmail.tmt|from=sender@gmail.tmt|subject=email subject",
-                                            Emails.getEmailInfo(message));
-        }        
+        message.addTo(email);
+        message.setFrom(from);
+        message.setSubject(subject);
+        message.setHtml("<h1>email body</h1>");
+
+        assertEquals("[Email sent]to=receiver@gmail.tmt|from=sender@gmail.tmt|subject=email subject",
+                                        Emails.getEmailInfo(message));
+
+        /* Test mime message */
+        Session session = Session.getDefaultInstance(new Properties(), null);
+        MimeMessage mimeMessage = new MimeMessage(session);
+
+        mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+        mimeMessage.setFrom(new InternetAddress(from));
+        mimeMessage.setSubject(subject);
+        mimeMessage.setContent("<h1>email body</h1>", "text/html");
+
+        assertEquals("[Email sent]to=receiver@gmail.tmt|from=sender@gmail.tmt|subject=email subject",
+                                        Emails.getEmailInfo(mimeMessage));
+
     }
     
     @Test
