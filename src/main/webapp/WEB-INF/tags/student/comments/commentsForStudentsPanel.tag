@@ -1,6 +1,6 @@
 <%@ tag description="StudentComments - Comments for students" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib tagdir="/WEB-INF/tags/student/comments" prefix="comments" %>
+<%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 <%@ attribute name="commentsForStudentsTables" type="java.util.Collection" required="true" %>
 <%@ attribute name="courseId" required="true" %>
 <div class="panel panel-primary">
@@ -17,14 +17,7 @@
                 <ul class="list-group comments">
                     <c:forEach items="${commentsForStudentsTable.rows}" var="commentRow">
                         <c:set var="commentIdx" value="${commentIdx + 1}" />
-                        <li class="list-group-item list-group-item-warning">
-                            <div id="commentBar-${commentIdx}">
-                                <span class="text-muted">
-                                     To <b>${commentRow.recipientDetails}</b> [${commentRow.creationTime}] ${commentRow.editedAt}
-                                </span>
-                            </div>
-                            <div id="plainCommentText${commentIdx}">${commentRow.comment.commentText}</div>
-                        </li>
+                        <shared:comment comment="${commentRow}" commentIndex="${commentIdx}" />
                     </c:forEach>
                 </ul>
             </div>

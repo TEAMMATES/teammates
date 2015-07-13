@@ -17,6 +17,7 @@ import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.ui.template.Comment;
 import teammates.ui.template.CommentRow;
 import teammates.ui.template.CoursePagination;
 import teammates.ui.template.FeedbackResponseComment;
@@ -176,8 +177,8 @@ public class StudentCommentsPageData extends PageData {
         return giverEmailToGiverNameMap;
     }
 
-    private List<CommentRow> createCommentRows(String studentEmail, CourseRoster roster, List<CommentAttributes> comments) {
-        List<CommentRow> commentRows = new ArrayList<CommentRow>();
+    private List<Comment> createCommentRows(String studentEmail, CourseRoster roster, List<CommentAttributes> comments) {
+        List<Comment> commentRows = new ArrayList<Comment>();
         
         for (CommentAttributes comment : comments) {
             String recipientDetails = getRecipientNames(comment.recipients, studentEmail, roster);
@@ -189,9 +190,7 @@ public class StudentCommentsPageData extends PageData {
             String creationTime = Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(comment.createdAt);
             String editedAt = comment.getEditedAtText(giverDetails.equals("Anonymous"));
             
-            CommentRow commentRow = 
-                    new StudentCommentsCommentRow(
-                            giverDetails, comment, recipientDetails, creationTime, editedAt);
+            Comment commentRow = new Comment(comment, giverDetails, recipientDetails);
             
             commentRows.add(commentRow);
         }
