@@ -109,13 +109,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
     }
 
+    // TODO remove this entirely and use PageData method directly
     public String getProfilePictureLink(String studentEmail) {
-        return Const.ActionURIs.STUDENT_PROFILE_PICTURE
-                + "?" + Const.ParamsNames.STUDENT_EMAIL + "="
-                + StringHelper.encrypt(studentEmail)
-                + "&" + Const.ParamsNames.COURSE_ID + "="
-                + StringHelper.encrypt(instructor.courseId)
-                + "&" + Const.ParamsNames.USER_ID + "=" + account.googleId;
+        return getStudentProfilePictureLink(StringHelper.encrypt(studentEmail),
+                                            StringHelper.encrypt(instructor.courseId));
     }
 
 }
