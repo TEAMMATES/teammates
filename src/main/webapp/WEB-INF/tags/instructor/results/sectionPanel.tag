@@ -1,4 +1,4 @@
-<%@ tag description="instructorFeedbackResults - by question" %>
+<%@ tag description="instructorFeedbackResults - section Panel that nests team panels/participant panels" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
  <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 

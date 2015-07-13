@@ -7,5 +7,5 @@
 </c:set>
 
 <results:resultsPage pageTitle="TEAMMATES - Feedback Session Results" bodyTitle="Session Results" jsIncludes="${jsIncludes}" data="${data}">
-    <results:byGiverQuestionRecipient showAll="${data.bundle.complete}" shouldCollapsed="${data.shouldCollapsed}" />    
+    <results:byParticipantQuestionParticipant showAll="${data.bundle.complete}" shouldCollapsed="${data.shouldCollapsed}" />    
 </results:resultsPage>
