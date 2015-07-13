@@ -508,12 +508,7 @@ public class EmailsTest extends BaseComponentTestCase {
         assertEquals(email.getAllRecipients()[0].toString(), sendgridEmail.getTos().get(0));
 
         // check sender
-        String from = email.getFrom()[0].toString();
-        // From name and email in the format: Name <Email>
-        if (from.contains("<") && from.contains(">")) {
-            from = from.substring(from.indexOf("<") + 1, from.indexOf(">"));
-        }
-        assertEquals(from, sendgridEmail.getFrom());
+        assertEquals(new Emails().extractSenderEmail(email.getFrom()[0].toString()), sendgridEmail.getFrom());
         
         //check replyTo
         assertEquals(email.getReplyTo()[0].toString(), sendgridEmail.getReplyTo());
