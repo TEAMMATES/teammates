@@ -35,7 +35,7 @@ for (SessionResultsBundle sessionResult: data.results) {
                     <% int giverIndex = 0;
                     for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesReceived : received.entrySet()) {
                         giverIndex++; %>
-                        <div class="row <%= giverIndex == 1 ? "" : "border-top-gray" %>">
+                        <div class="row<%= giverIndex == 1 ? "" : " border-top-gray" %>">
                             <div class="col-md-2">
                                 From: <strong><%= responsesReceived.getKey() %></strong>
                             </div>
@@ -104,7 +104,7 @@ for (SessionResultsBundle sessionResult: data.results) {
                     <% int recipientIndex = 0;
                     for (Map.Entry<String, List<FeedbackResponseAttributes>> responsesGiven : given.entrySet()) {
                         recipientIndex++; %>
-                        <div class="row <%= recipientIndex == 1 ? "" : "border-top-gray" %>">
+                        <div class="row<%= recipientIndex == 1 ? "" : " border-top-gray" %>">
                             <div class="col-md-2">
                                 To: <strong><%= responsesGiven.getKey() %></strong>
                             </div>
