@@ -15,15 +15,15 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
-import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
-import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
+import teammates.ui.template.InstructorFeedbackResultsFilterPanel;
+import teammates.ui.template.InstructorFeedbackResultsSessionPanel;
 import teammates.ui.template.InstructorResultsParticipantPanel;
 import teammates.ui.template.InstructorFeedbackResultsGroupByQuestionPanel;
 import teammates.ui.template.InstructorFeedbackResultsSectionPanel;
@@ -58,6 +58,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public String feedbackSessionName = null;
     public String ajaxStatus = null;
     public String sessionResultsHtmlTableAsString = null;
+    
 
     // TODO multiple page data classes for each view type
     
@@ -1247,79 +1248,19 @@ public class InstructorFeedbackResultsPageData extends PageData {
    }
 
     /* 
-     * The next three methods are not covered in action test, but covered in UI tests.
+     * getInstructorFeedbackSessionPublishAndUnpublishAction()
+     * is not covered in action test, but covered in UI tests.
      */
 
-    /*
-    public FeedbackSessionPublishButton getInstructorFeedbackSessionPublishAndUnpublishAction(
-                                                                        FeedbackSessionAttributes session,
-                                                                        boolean isHome,
-                                                                        InstructorAttributes instructor) {
-        return new FeedbackSessionPublishButton(this, session, isHome, instructor, "btn-primary btn-block");
+    private FeedbackSessionPublishButton getInstructorFeedbackSessionPublishAndUnpublishAction() {
+        boolean isHome = false;
+        return new FeedbackSessionPublishButton(this,
+                                                bundle.feedbackSession,
+                                                isHome,
+                                                instructor,
+                                                "btn-primary btn-block");
     }
-    */
-
-    /**
-     * TODO: re-use {@link FeedbackSessionPublishButton} when migrating this to JSTL.<br>
-     * As a shortcut, un-comment the above method, making necessary changes, and remove this one.
-     */
-    public String getInstructorFeedbackSessionPublishAndUnpublishAction(FeedbackSessionAttributes session,
-                                                                        boolean isHome,
-                                                                        InstructorAttributes instructor) {
-        boolean hasPublish = !session.isWaitingToOpen() && !session.isPublished();
-        boolean hasUnpublish = !session.isWaitingToOpen() && session.isPublished();
-        String disabledStr = "disabled=\"disabled\"";
-        String disableUnpublishSessionStr = 
-                instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" 
-                                                                                                         : disabledStr;
-        String disablePublishSessionStr = 
-                instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION) ? "" 
-                                                                                                         : disabledStr;
-        String result = "";
-        if (hasUnpublish) {
-            result =
-                "<a class=\"btn btn-primary btn-block btn-tm-actions session-unpublish-for-test\""
-                    + "href=\"" + getInstructorFeedbackSessionUnpublishLink(session.courseId, 
-                                                                            session.feedbackSessionName, 
-                                                                            isHome) + "\" " 
-                    + "title=\"" + Const.Tooltips.FEEDBACK_SESSION_UNPUBLISH + "\" data-toggle=\"tooltip\" "
-                    + "data-placement=\"top\" onclick=\"return toggleUnpublishEvaluation('" 
-                    + session.feedbackSessionName + "');\" " + disableUnpublishSessionStr + ">Unpublish Results</a> ";
-        } else {
-            result = "<a class=\"btn btn-primary btn-block btn-tm-actions session-publish-for-test" 
-                   + (hasPublish ? "\"" : DISABLED) + "href=\""
-                   + getInstructorFeedbackSessionPublishLink(session.courseId, session.feedbackSessionName,
-                                                             isHome) 
-                   + "\" " + "title=\""
-                   + (hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH 
-                                 : Const.Tooltips.FEEDBACK_SESSION_AWAITING)
-                   + "\" " + "data-toggle=\"tooltip\" data-placement=\"top\""
-                   + (hasPublish ? "onclick=\"return togglePublishEvaluation('" + session.feedbackSessionName + "', " 
-                                                                                + session.isPublishedEmailEnabled + ");\" " 
-                                              : " ") 
-                   + disablePublishSessionStr + ">Publish Results</a> ";
-        }
-        return result;
-    }
-
-    public String getResultsVisibleFromText() {
-        if (bundle.feedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_VISIBLE)) {
-            if (bundle.feedbackSession.sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_FOLLOW_OPENING)) {
-                return TimeHelper.formatTime(bundle.feedbackSession.startTime);
-            } else if (bundle.feedbackSession.sessionVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER)) {
-                return "Never";
-            } else {
-                return TimeHelper.formatTime(bundle.feedbackSession.sessionVisibleFromTime);
-            }
-        } else if (bundle.feedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_LATER)) {
-            return "I want to manually publish the results.";
-        } else if (bundle.feedbackSession.resultsVisibleFromTime.equals(Const.TIME_REPRESENTS_NEVER)) {
-            return "Never";
-        } else {
-            return TimeHelper.formatTime(bundle.feedbackSession.resultsVisibleFromTime);
-        }
-    }
-
+    
     public String getProfilePictureLink(String studentEmail) {
         return Const.ActionURIs.STUDENT_PROFILE_PICTURE
                 + "?" + Const.ParamsNames.STUDENT_EMAIL + "="
@@ -1353,12 +1294,19 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return sortType;
     }
 
+    @Deprecated
     public String getGroupByTeam() {
         return groupByTeam != null? groupByTeam : "null";
     }
+    
+    // TODO: swap groupByTeam to a normal boolean
+    public boolean isGroupedByTeam() {
+        return "on".equals(groupByTeam); 
+    }
 
-    public String getShowStats() {
-        return showStats;
+    // TODO: swap showStats to a normal boolean
+    private boolean isStatsShown() {
+        return !showStats.isEmpty();
     }
 
     public int getStartIndex() {
@@ -1401,8 +1349,30 @@ public class InstructorFeedbackResultsPageData extends PageData {
         this.sectionPanels = sectionPanels;
     }
 
+    private String getInstructorFeedbackSessionEditLink() {
+        return instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)
+               ? getInstructorFeedbackSessionEditLink(courseId, feedbackSessionName)
+               : null;
+    }
     
+    private String getInstructorFeedbackSessionResultsLink() {
+        return getInstructorFeedbackSessionResultsLink(courseId, feedbackSessionName);
+    }
     
+    public boolean isAllSectionsSelected() {
+        return "All".equals(selectedSection);
+    }
     
+    // TODO: place below getter methods for template objects in some init method common to all views
+    public InstructorFeedbackResultsSessionPanel getSessionPanel() {
+        return new InstructorFeedbackResultsSessionPanel(
+                bundle.feedbackSession, getInstructorFeedbackSessionEditLink(),
+                getInstructorFeedbackSessionPublishAndUnpublishAction(), selectedSection);
+    }
     
+    public InstructorFeedbackResultsFilterPanel getFilterPanel() {
+        return new InstructorFeedbackResultsFilterPanel(
+                isStatsShown(), shouldCollapsed, bundle.feedbackSession, isAllSectionsSelected(), selectedSection,
+                isGroupedByTeam(), sortType, getInstructorFeedbackSessionResultsLink(), sections);
+    }
 }
