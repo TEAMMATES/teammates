@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%@page import="teammates.common.datatransfer.FeedbackParticipantType"%>
 <%@page import="teammates.common.datatransfer.CommentSendingState"%>
@@ -31,7 +32,27 @@
 <%
 	InstructorFeedbackResponseCommentsLoadPageData data = (InstructorFeedbackResponseCommentsLoadPageData) request.getAttribute("data");
 %>
+
 <div class="hidden number-of-pending-comments"><%=data.numberOfPendingComments%></div>
+
+<c:choose>
+    <c:when test="${not empty data.feedbackResultBundles}">
+        <div id="no-comment-panel" style="">
+	        <br>
+	        <div class="panel panel-info">
+	            <ul class="list-group comments">
+	                <li class="list-group-item list-group-item-warning">
+	                    You don't have any comment in this session.
+	                </li>
+	            </ul>
+	        </div>
+	    </div>
+    </c:when>
+    <c:otherwise>
+        <!-- This is where we put in the stuff to load when there are feedback sessions -->
+    </c:otherwise>
+</c:choose>
+
 <%
 	int fsIndx = data.feedbackSessionIndex-1;
     for (String fsName : data.feedbackResultBundles.keySet()) {//FeedbackSession loop starts
@@ -781,16 +802,4 @@
     }//FeedbackQuestion loop ends
 
     }//FeedbackSession loop ends
-    if(data.feedbackResultBundles.keySet().size() == 0){
 %>
-<div id="no-comment-panel" style="">
-    <br>
-    <div class="panel panel-info">
-        <ul class="list-group comments">
-            <li class="list-group-item list-group-item-warning">
-                You don't have any comment in this session.
-            </li>
-        </ul>
-    </div>
-</div>
-<% } %>

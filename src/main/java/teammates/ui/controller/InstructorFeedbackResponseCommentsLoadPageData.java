@@ -26,4 +26,8 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
     public boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
         return comment.showCommentTo.size() > 0;
     }
+
+    public Map<String, FeedbackSessionResultsBundle> getFeedbackResultBundles() {
+        return feedbackResultBundles;
+    }
 }
