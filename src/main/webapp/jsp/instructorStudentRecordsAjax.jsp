@@ -91,7 +91,7 @@ for (SessionResultsBundle sessionResult: data.results) {
             <br>
             <div class="panel panel-info">
                 <div class="panel-body">
-                    No feedback for <%= InstructorStudentRecordsAjaxPageData.sanitizeForHtml(data.student.name) %> found
+                    No feedback for <%= recipientName %> found
                 </div>
             </div>
         <% }
@@ -161,7 +161,7 @@ for (SessionResultsBundle sessionResult: data.results) {
             <br>
             <div class="panel panel-info">
                 <div class="panel-body">
-                    No feedback by <%= InstructorStudentRecordsAjaxPageData.sanitizeForHtml(data.student.name) %> found
+                    No feedback by <%= giverName %> found
                 </div>
             </div>
         <% }
