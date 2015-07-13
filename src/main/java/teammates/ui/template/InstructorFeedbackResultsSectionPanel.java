@@ -15,6 +15,7 @@ public class InstructorFeedbackResultsSectionPanel {
     private boolean isLoadSectionResponsesByAjax;
     
     private String sectionName;
+    private String sectionNameForDisplay;
     private String arrowClass;
     
     private String statisticsHeaderText;
@@ -133,6 +134,14 @@ public class InstructorFeedbackResultsSectionPanel {
         this.isLoadSectionResponsesByAjax = isLoadSectionResponsesByAjax;
     }
     
+    public String getSectionNameForDisplay() {
+        return sectionNameForDisplay;
+    }
+
+    public void setSectionNameForDisplay(String sectionNameForDisplay) {
+        this.sectionNameForDisplay = sectionNameForDisplay;
+    }
+
     public List<InstructorResultsParticipantPanel> getParticipantPanelsInSortedOrder() {
         List<InstructorResultsParticipantPanel> sortedPanels = new ArrayList<InstructorResultsParticipantPanel>();
         for (Collection<InstructorResultsParticipantPanel> participantsPanels : participantPanels.values()) {

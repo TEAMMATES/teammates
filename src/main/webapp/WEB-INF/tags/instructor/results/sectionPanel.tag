@@ -22,7 +22,7 @@
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-sm-9 panel-heading-text">
-                        <strong>${sectionPanel.sectionName}</strong>                        
+                        <strong>${sectionPanel.sectionNameForDisplay}</strong>                        
                     </div>
                     <div class="col-sm-3">
                         <div class="pull-right">
@@ -40,7 +40,7 @@
             <div class="panel-heading ajax_submit">
                 <div class="row">
                     <div class="col-sm-9 panel-heading-text">
-                        <strong>${sectionPanel.sectionName}</strong>
+                        <strong>${sectionPanel.sectionNameForDisplay}</strong>
                     </div>
                     <div class="col-sm-3">
                         <div class="pull-right">

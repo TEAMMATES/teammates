@@ -434,7 +434,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                     Set<String> receivingSections, Set<String> receivingTeams,
                                     Set<String> teamsInSection, String currentTeam, 
                                     boolean isWithModerationButton, boolean isGiver) {
-        sectionPanel.setSectionName(prevSection.equals(Const.DEFAULT_SECTION) ? "Not in a section" : prevSection);
+        sectionPanel.setSectionName(prevSection);
+        sectionPanel.setSectionNameForDisplay(prevSection.equals(Const.DEFAULT_SECTION) ? "Not in a section" : prevSection);
         sectionPanel.setDisplayingTeamStatistics(true);
         sectionPanels.put(prevSection, sectionPanel);
         
@@ -466,8 +467,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                     Set<String> teamMembersWithResponses, boolean isGiver) {
         receivingTeams.add(prevTeam);
         
-        sectionPanel.setSectionName(prevSection.equals(Const.DEFAULT_SECTION) ? "Not in a Section" 
-                                                                              : prevSection);
+        sectionPanel.setSectionName(prevSection);
+        sectionPanel.setSectionNameForDisplay(prevSection.equals(Const.DEFAULT_SECTION) ? "Not in a Section" 
+                                                                                        : prevSection);
         sectionPanel.setDisplayingTeamStatistics(true);
         sectionPanels.put(prevSection, sectionPanel);
         receivingSections.add(prevSection);
@@ -615,7 +617,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
             
             for (String sectionWithNoResponseReceived: sectionsWithNoResponseReceivedList) {
                 sectionPanel = new InstructorFeedbackResultsSectionPanel();
-                sectionPanel.setSectionName(sectionWithNoResponseReceived.equals(Const.DEFAULT_SECTION) ? "Not in a Section" : sectionWithNoResponseReceived);
+                sectionPanel.setSectionName(sectionWithNoResponseReceived);
+                sectionPanel.setSectionNameForDisplay(sectionWithNoResponseReceived.equals(Const.DEFAULT_SECTION) ? "Not in a Section" : sectionWithNoResponseReceived);
                 sectionPanel.setDisplayingTeamStatistics(true);
                 sectionPanels.put(sectionWithNoResponseReceived, sectionPanel);
                 
@@ -651,13 +654,15 @@ public class InstructorFeedbackResultsPageData extends PageData {
             for (String section : sections) {
                 InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
                 sectionPanel.setSectionName(section);
+                sectionPanel.setSectionNameForDisplay(section);
                 sectionPanel.setLoadSectionResponsesByAjax(true);
                 
                 sectionPanels.put(section, sectionPanel);
             }
             
             InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
-            sectionPanel.setSectionName("Not in a section");
+            sectionPanel.setSectionName(Const.DEFAULT_SECTION);
+            sectionPanel.setSectionNameForDisplay("Not in a section");
             sectionPanel.setLoadSectionResponsesByAjax(true);
             
             sectionPanels.put(Const.DEFAULT_SECTION, sectionPanel);
