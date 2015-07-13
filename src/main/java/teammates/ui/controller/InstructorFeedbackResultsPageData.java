@@ -931,8 +931,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return sortType;
     }
 
+    @Deprecated
     public String getGroupByTeam() {
         return groupByTeam != null? groupByTeam : "null";
+    }
+    
+    public boolean isGroupedByTeam() {
+        return "on".equals(groupByTeam); 
     }
 
     public String getShowStats() {
