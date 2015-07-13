@@ -36,7 +36,7 @@
 <div class="hidden number-of-pending-comments"><%=data.numberOfPendingComments%></div>
 
 <c:choose>
-    <c:when test="${not empty data.feedbackResultBundles}">
+    <c:when test="${empty data.feedbackResultBundles}">
         <div id="no-comment-panel" style="">
 	        <br>
 	        <div class="panel panel-info">
