@@ -231,6 +231,7 @@ Troubleshooting instructions are given [in this document](https://docs.google.co
   The DataNucleus Access Platform provides persistence and retrieval of data to a range of datastores using a range of APIs, with a range of query languages.
   Comes with App Engine SDK.
 * **Xerces XML Parser** [version 2.9.1]: This library is required to parse the XML config files. This library may not be needed on some platforms as it may already come packaged on some JREs (particulary windows)
+* **SendGrid** Alternative framework to JavaMail for sending emails. If you want to use Sendgrid for developing and testing email features, create a free SendGrid account and update your username and password in `build.properties`
 
 ####Tools used in testing
 
