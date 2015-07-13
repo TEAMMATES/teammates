@@ -111,7 +111,7 @@
 	                                                }
 	                                                Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(frc);
 	                                            %>
-	                                            <shared:feedbackResponseComment frc="${frcList}"
+	                                            <shared:feedbackResponseComment frc="${frc}"
 	                                                                            firstIndex="${fsrbStatus.index}"
 	                                                                            secondIndex="${responseEntriesStatus.count}"
 	                                                                            thirdIndex="${responseEntryStatus.count}"
