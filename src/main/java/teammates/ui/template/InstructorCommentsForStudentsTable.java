@@ -5,9 +5,9 @@ import java.util.List;
 public class InstructorCommentsForStudentsTable {
     private String giverEmail;
     private String giverName;
-    private List<CommentRow> rows;
+    private List<Comment> rows;
     
-    public InstructorCommentsForStudentsTable(String giverEmail, String giverName, List<CommentRow> rows) {
+    public InstructorCommentsForStudentsTable(String giverEmail, String giverName, List<Comment> rows) {
         this.giverEmail = giverEmail;
         this.giverName = giverName;
         this.rows = rows;
@@ -21,7 +21,7 @@ public class InstructorCommentsForStudentsTable {
         return giverName;
     }
     
-    public List<CommentRow> getRows() {
+    public List<Comment> getRows() {
         return rows;
     }
 }

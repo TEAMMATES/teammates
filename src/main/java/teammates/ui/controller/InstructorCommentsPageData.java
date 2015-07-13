@@ -14,10 +14,10 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
+import teammates.ui.template.Comment;
 import teammates.ui.template.CommentRow;
 import teammates.ui.template.InstructorCommentsCommentRow;
 import teammates.ui.template.InstructorCommentsForStudentsTable;
-import teammates.ui.template.VisibilityCheckboxes;
 
 /**
  * PageData: the data to be used in the InstructorCommentsPage
@@ -158,33 +158,36 @@ public class InstructorCommentsPageData extends PageData {
         }
     }
     
-    private List<CommentRow> createCommentRows(String giverEmail, String giverName) {
+    private List<Comment> createCommentRows(String giverEmail, String giverName) {
         
-        List<CommentRow> rows = new ArrayList<CommentRow>();
+        List<Comment> rows = new ArrayList<Comment>();
         List<CommentAttributes> commentsForGiver = comments.get(giverEmail);
         for (int i = 0; i < commentsForGiver.size(); i++) {            
-            String recipientDetails = getRecipientNames(commentsForGiver.get(i).recipients);
-            String creationTime = 
-                    Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(commentsForGiver.get(i).createdAt);          
+            CommentAttributes comment = commentsForGiver.get(i);
+            String recipientDetails = getRecipientNames(comment.recipients);
             Boolean isInstructorAllowedToModifyCommentInSection = commentModifyPermissions.get(giverEmail).get(i);
-            String typeOfPeopleCanViewComment = getTypeOfPeopleCanViewComment(commentsForGiver.get(i));
-            String editedAt = commentsForGiver.get(i).getEditedAtText(giverName.equals("Anonymous"));
-            String showCommentsTo = getShowCommentsToForComment(commentsForGiver.get(i));
-            String showGiverNameTo = getShowGiverNameToForComment(commentsForGiver.get(i));
-            String showRecipientNameTo = getShowRecipientNameToForComment(commentsForGiver.get(i));
-            VisibilityCheckboxes visibilityCheckboxes = createVisibilityCheckboxes(commentsForGiver.get(i));
+            String typeOfPeopleCanViewComment = getTypeOfPeopleCanViewComment(comment);
+            Comment commentDiv = new Comment(comment, giverName, recipientDetails);
+            String extraClass;
+            if (comment.showCommentTo.isEmpty()) {
+                extraClass = "status_display-private";
+            } else {
+                extraClass = "status_display-public";
+            }
+            commentDiv.withExtraClass(extraClass);
+            commentDiv.setVisibilityIcon(typeOfPeopleCanViewComment);
+            commentDiv.setNotificationIcon(comment.isPendingNotification());
+            if (isInstructorAllowedToModifyCommentInSection) {
+                commentDiv.setEditDeleteEnabled(true);
+                commentDiv.setFromCommentsPage();
+                commentDiv.setPlaceholderNumComments();
+            }
             
-            rows.add(new InstructorCommentsCommentRow(giverEmail, commentsForGiver.get(i), recipientDetails, creationTime, 
-                                 isInstructorAllowedToModifyCommentInSection, typeOfPeopleCanViewComment, editedAt,
-                                 visibilityCheckboxes, showCommentsTo, showGiverNameTo, showRecipientNameTo));
+            rows.add(commentDiv);
         }       
         return rows;
     }
     
-    private VisibilityCheckboxes createVisibilityCheckboxes(CommentAttributes comment) {
-        return new VisibilityCheckboxes(comment);
-    }
-
     private String retrievePreviousPageLink() {
         int courseIdx = coursePaginationList.indexOf(courseId);
         String previousPageLink = "javascript:;";
