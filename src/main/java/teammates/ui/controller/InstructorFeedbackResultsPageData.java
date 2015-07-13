@@ -936,11 +936,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return groupByTeam != null? groupByTeam : "null";
     }
     
+    // TODO: swap groupByTeam to a normal boolean
     public boolean isGroupedByTeam() {
         return "on".equals(groupByTeam); 
     }
 
-    public boolean isStatsShown() {
+    // TODO: swap showStats to a normal boolean
+    private boolean isStatsShown() {
         return !showStats.isEmpty();
     }
 
