@@ -105,7 +105,7 @@
                         <td class="text-left">
                             <div data-toggle="tooltip"
                                 data-placement="top" title=""
-                                data-original-title="Control what students in the same section can view">
+                                data-original-title="Control what other students in the same section can view">
                                 ${commentRow.comment.recipientType == 'SECTION' ? "Recipient Section" : "Recipient's Section"}</div>
                         </td>
                         <td>
