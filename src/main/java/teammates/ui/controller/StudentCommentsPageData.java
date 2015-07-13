@@ -1,6 +1,7 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,6 +24,7 @@ import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.QuestionTable;
 import teammates.ui.template.ResponseRow;
 import teammates.ui.template.StudentCommentsCommentRow;
+import teammates.ui.template.StudentCommentsForStudentsTable;
 
 /**
  * PageData: the data used in the StudentCommentsPage
@@ -33,8 +35,9 @@ public class StudentCommentsPageData extends PageData {
     private String courseName;
     
     private CoursePagination coursePagination;
-    private List<CommentRow> commentRows;
     private List<FeedbackSessionRow> feedbackSessionRows;
+
+    private List<StudentCommentsForStudentsTable> commentsForStudentsTables;
     
     public StudentCommentsPageData(AccountAttributes account) {
         super(account);
@@ -47,7 +50,7 @@ public class StudentCommentsPageData extends PageData {
         this.courseName = courseName;
         
         setCoursePagination(coursePaginationList);
-        setCommentRows(studentEmail, roster, comments);
+        setCommentsForStudentsTables(studentEmail, roster, comments);
         createFeedbackSessionRows(feedbackResultBundles, roster);
     }
 
@@ -63,8 +66,8 @@ public class StudentCommentsPageData extends PageData {
         return coursePagination;
     }
     
-    public List<CommentRow> getCommentRows() {
-        return commentRows;
+    public List<StudentCommentsForStudentsTable> getCommentsForStudentsTables() {
+        return commentsForStudentsTables;
     }
     
     public List<FeedbackSessionRow> getFeedbackSessionRows() {
@@ -127,8 +130,54 @@ public class StudentCommentsPageData extends PageData {
                                                 activeCourse, userCommentsLink);
     }
     
-    private void setCommentRows(String studentEmail, CourseRoster roster, List<CommentAttributes> comments) {
-        commentRows = new ArrayList<CommentRow>();
+    private void setCommentsForStudentsTables(String studentEmail, CourseRoster roster,
+                                              List<CommentAttributes> comments) {
+        Map<String, String> giverEmailToGiverNameMap = getGiverEmailToGiverNameMap(roster, comments);
+        Map<String, List<CommentAttributes>> giverEmailToCommentsMap = getGiverEmailToCommentsMap(comments);
+        commentsForStudentsTables = new ArrayList<StudentCommentsForStudentsTable>();      
+          
+        for (String giverEmail : giverEmailToGiverNameMap.keySet()) {
+            String giverName = giverEmailToGiverNameMap.get(giverEmail);
+            List<CommentAttributes> commentsForGiverEmail = giverEmailToCommentsMap.get(giverEmail);
+            commentsForStudentsTables
+                    .add(new StudentCommentsForStudentsTable(
+                                 giverEmail, giverName, createCommentRows(studentEmail, roster, commentsForGiverEmail)));
+        }
+    }
+    
+    private Map<String, List<CommentAttributes>> getGiverEmailToCommentsMap(List<CommentAttributes> comments) {
+        Map<String, List<CommentAttributes>> giverEmailToCommentsMap = new HashMap<String, List<CommentAttributes>>();
+        for (CommentAttributes comment : comments) {
+            String giverEmail = comment.giverEmail;
+            if (!giverEmailToCommentsMap.containsKey(giverEmail)) {
+                giverEmailToCommentsMap.put(giverEmail, new ArrayList<CommentAttributes>());
+            }
+            giverEmailToCommentsMap.get(giverEmail).add(comment);
+        }
+        return giverEmailToCommentsMap;
+    }
+
+    private Map<String, String> getGiverEmailToGiverNameMap(CourseRoster roster, List<CommentAttributes> comments) {
+        
+        Map<String, String> giverEmailToGiverNameMap = new HashMap<String, String>();
+        for (CommentAttributes comment : comments) {
+            String giverEmail = comment.giverEmail;
+            InstructorAttributes instructor = roster.getInstructorForEmail(giverEmail);
+            String giverDisplay = giverEmail;
+            if (giverEmail.equals(InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST)) {
+                giverDisplay = "You";
+            } else if (instructor != null) {
+                String title = instructor.displayedName;
+                giverDisplay = title + " " + instructor.name;
+            }
+            
+            giverEmailToGiverNameMap.put(giverEmail, giverDisplay);
+        }
+        return giverEmailToGiverNameMap;
+    }
+
+    private List<CommentRow> createCommentRows(String studentEmail, CourseRoster roster, List<CommentAttributes> comments) {
+        List<CommentRow> commentRows = new ArrayList<CommentRow>();
         
         for (CommentAttributes comment : comments) {
             String recipientDetails = getRecipientNames(comment.recipients, studentEmail, roster);
@@ -146,6 +195,8 @@ public class StudentCommentsPageData extends PageData {
             
             commentRows.add(commentRow);
         }
+        
+        return commentRows;
     }
     
     private void createFeedbackSessionRows(

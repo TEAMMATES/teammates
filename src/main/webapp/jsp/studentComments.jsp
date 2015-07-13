@@ -21,7 +21,7 @@
                         </strong>
                     </h4>
                 </div>
-                <div id="no-comment-panel" style="${empty data.commentRows && empty data.feedbackSessionRows ? '' : 'display:none;'}">
+                <div id="no-comment-panel" style="${empty data.commentsForStudentsTables && empty data.feedbackSessionRows ? '' : 'display:none;'}">
                     <br>
                     <div class="panel">
                         <div class="panel-body">
@@ -29,9 +29,9 @@
                         </div>
                     </div>
                 </div>
-                <c:if test="${not empty data.commentRows}">
+                <c:if test="${not empty data.commentsForStudentsTables}">
                     <br>
-                    <comments:commentsForStudentsPanel commentRows="${data.commentRows}" courseId="${data.courseId}"/>
+                    <comments:commentsForStudentsPanel commentsForStudentsTables="${data.commentsForStudentsTables}" courseId="${data.courseId}"/>
                 </c:if>
                 <c:forEach items="${data.feedbackSessionRows}" var="feedbackSessionRow" varStatus="i">
                     <br>
