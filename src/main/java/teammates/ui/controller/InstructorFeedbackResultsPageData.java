@@ -120,8 +120,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         setShouldCollapsed(bundle.responses.size() > 500);
         
         Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponses 
-                     = bundle.getResponsesSortedByGiverQuestionRecipient(groupByTeam == null 
-                                                                      || groupByTeam.equals("on"));
+                     = bundle.getResponsesSortedByGiverQuestionRecipient(true);
         
         buildResponsesPanelsForGiverQuestionRecipient(sortedResponses);
         
@@ -152,8 +151,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         setShouldCollapsed(bundle.responses.size() > 500);
         
         Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponses 
-                     = bundle.getResponsesSortedByRecipientQuestionGiver(groupByTeam == null 
-                                                                      || groupByTeam.equals("on"));
+                     = bundle.getResponsesSortedByRecipientQuestionGiver(true);
        
         buildResponsesPanelsForRecipientQuestionGiver(sortedResponses);
         
@@ -168,7 +166,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam 
                 = bundle.getQuestionResponseMapByGiverTeam();
-        Map<String, FeedbackQuestionAttributes> questions = bundle.questions;
         
         // Initialize section Panels. TODO abstract into method
         sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
@@ -200,7 +197,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
             if (!prevTeam.equals(currentTeam)) {
                 boolean isFirstTeam = prevTeam.equals("");
                 if (!isFirstTeam) {
-                    createMissingParticipantPanelsWithModerationButtonForPrevTeamAndResetVariables(sectionPanel,
+                    // TODO refactor this into 2 methods?
+                    createMissingParticipantPanelsWithModerationButtonForPrevTeamAndResetVariables(
+                                                    sectionPanel,
                                                     prevTeam, teamsWithResponses, teamMembersWithResponses,
                                                     teamMembersInTeam, isGiver);
                 }
@@ -215,7 +214,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 
                 if (!isFirstSection) {
                     buildTeamsStatisticsTableForSectionPanel(sectionPanel, prevSection, viewType, 
-                                                    questions, responsesGroupedByTeam, 
+                                                    bundle.questions, responsesGroupedByTeam, 
                                                     teamsWithResponses);
                     createMissingTeamAndParticipantPanelsForPrevSectionAndResetVariables(
                                                     sectionPanel, prevSection, sectionsWithResponses,
@@ -283,8 +282,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
         
         buildTeamsStatisticsTableForSectionPanel(sectionPanel, prevSection, viewType, 
-                                        questions, responsesGroupedByTeam, 
-                                        teamsWithResponses);
+                                                 bundle.questions, responsesGroupedByTeam, 
+                                                 teamsWithResponses);
         
         // for the last section
         createTeamAndParticipantPanelsForLastParticipantSection(sectionPanel, prevSection, prevTeam,
@@ -339,7 +338,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
             if (!prevTeam.equals(currentTeam)) {
                 boolean isFirstTeam = prevTeam.equals("");
                 if (!isFirstTeam) {
-                    createMissingParticipantPanelsWithoutModerationButtonForPrevTeamAndResetVariables(sectionPanel,
+                    createMissingParticipantPanelsWithoutModerationButtonForPrevTeamAndResetVariables(
+                                                    sectionPanel,
                                                     prevTeam, teamsWithResponses, teamMembersWithResponses,
                                                     teamMembersInTeam, isGiver);
                 }
