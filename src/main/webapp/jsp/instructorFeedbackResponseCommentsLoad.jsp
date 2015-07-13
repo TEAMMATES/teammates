@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="teammates.common.datatransfer.FeedbackParticipantType" %>
 <%@ page import="teammates.common.datatransfer.CommentSendingState" %>
@@ -77,18 +78,18 @@
 		                            <td>Comment(s):
 		                                <button type="button"
 		                                        class="btn btn-default btn-xs icon-button pull-right"
-		                                        id="button_add_comment-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>"
-		                                        onclick="showResponseCommentAddForm(<%=fsIndx%>,<%=qnIndx%>,<%=responseIndex%>)"
+		                                        id="button_add_comment-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}"
+		                                        onclick="showResponseCommentAddForm(${fsrbStatus.index},${responseEntriesStatus.count},${responseEntryStatus.count})"
 		                                        data-toggle="tooltip" data-placement="top"
 		                                        title="<%= Const.Tooltips.COMMENT_ADD %>"
-		                                    <%if ((data.currentInstructor == null) ||
-		                                            (!data.currentInstructor.isAllowedForPrivilege(responseEntry.giverSection,
-		                                                    responseEntry.feedbackSessionName,
-		                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
-		                                            || !data.currentInstructor.isAllowedForPrivilege(responseEntry.recipientSection,
-		                                                    responseEntry.feedbackSessionName,
-		                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS))) {%>
-		                                    disabled="disabled" <%}%>>
+			                                    <% if ((data.currentInstructor == null) ||
+			                                            (!data.currentInstructor.isAllowedForPrivilege(responseEntry.giverSection,
+			                                                    responseEntry.feedbackSessionName,
+			                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
+			                                            || !data.currentInstructor.isAllowedForPrivilege(responseEntry.recipientSection,
+			                                                    responseEntry.feedbackSessionName,
+			                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS))) {%>
+			                                    disabled="disabled" <%}%>>
 		                                    <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
 		                                </button>
 		                            </td>
@@ -99,8 +100,8 @@
 		                                    List<FeedbackResponseCommentAttributes> frcList = bundle.responseComments.get(responseEntry.getId());
 		                                %>
 		                                <ul class="list-group comments"
-		                                    id="responseCommentTable-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>"
-		                                    style="<%=frcList != null && frcList.size() > 0 ? "" : "display:none"%>">
+		                                    id="responseCommentTable-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}"
+		                                    <c:if test='${not empty frcList}'">style="display:none"</c:if>>
 		                                    <c:forEach var="frc" items="${frcList}" varStatus="frcStatus">
                                                 <%-- use ${theCount.count} to start counting at 1 --%>
 	                                            <%
@@ -110,8 +111,12 @@
 	                                                }
 	                                                Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(frc);
 	                                            %>
+	                                            <shared:feedbackResponseComment frc="${frcList}"
+	                                                                            firstIndex="${fsrbStatus.index}"
+	                                                                            secondIndex="${responseEntriesStatus.count}"
+	                                                                            thirdIndex="${responseEntryStatus.count}"
+	                                                                            frcIndex="${frcStatus.count}" />
                                             </c:forEach>
-                                            <!-- This should be where we pass in some information and used the shared tag -->
 		                                </ul>
 		                            </td>
 		                        </tr>
@@ -211,7 +216,6 @@
                                             */
                                             Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(frc);
                         %>
-                        <!-- Stopped here -->
                         <!-- This is the start of the shared tag -->
                         <li class="list-group-item list-group-item-warning <%=frCommentGiver.equals("you") ? "giver_display-by-you" : "giver_display-by-others"%> <%=isPublicResponseComment && bundle.feedbackSession.isPublished() ? "status_display-public" : "status_display-private"%>"
                             id="responseCommentRow-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
@@ -581,6 +585,7 @@
                         <%
                             }//FeedbackResponseComments loop ends
                         %>
+                        <!-- Stopped here -->
                         <!-- frComment Add form -->
                         <li
                             class="list-group-item list-group-item-warning"
