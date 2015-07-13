@@ -1306,7 +1306,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     // TODO: swap showStats to a normal boolean
     private boolean isStatsShown() {
-        return !showStats.isEmpty();
+        return showStats != null;
     }
 
     public int getStartIndex() {
