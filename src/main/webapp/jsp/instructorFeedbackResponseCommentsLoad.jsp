@@ -49,6 +49,12 @@
 	    </div>
     </c:when>
     <c:otherwise>
+        <c:forEach var="feedbackSessionResultsBundle" items="${data.feedbackResultBundles}" varStatus="fsrbStatus">
+            <%-- use ${theCount.index} to start counting at 0 --%>
+            <c:forEach var="responseEntries" items="${feedbackSessionResultsBundle.responseComments}" varStatus="responseEntriesStatus">
+                <%-- use ${theCount.count} to start counting at 1 --%>
+            </c:forEach>
+        </c:forEach>
         <!-- This is where we put in the stuff to load when there are feedback sessions -->
     </c:otherwise>
 </c:choose>

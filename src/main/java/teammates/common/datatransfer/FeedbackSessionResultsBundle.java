@@ -1024,6 +1024,11 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                                                  .questionText);
     }
 
+    // Intended: For use by JSTL
+    public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> getResponseComments() {
+        return getQuestionResponseMap();
+    }
+
     // TODO: make responses to the student calling this method always on top.
     /**
      * Gets the questions and responses in this bundle as a map. 
