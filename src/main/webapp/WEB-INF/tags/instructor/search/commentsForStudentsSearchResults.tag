@@ -1,5 +1,6 @@
 <%@ tag description="instructorSearch.jsp - Search comments for students" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 <%@ attribute name="commentsForStudentsTables" type="java.util.Collection" required="true" %>
 
 <div class="panel panel-primary">
@@ -19,22 +20,7 @@
                 <ul class="list-group comments"> 
                     <c:forEach items="${commentsForStudentsTable.rows}" var="commentRow">
                         <c:set var="indexCounter" value="${indexCounter + 1}" />
-                        
-                        <li class="list-group-item list-group-item-warning">
-                                    
-                            <div id="commentBar-${indexCounter}">
-                                <span class="text-muted">
-                                    To <b>${commentRow.recipientDetails}</b> [${commentRow.creationTime}] ${commentRow.editedAt}
-                                </span>
-                                            
-                                <a type="button" target="_blank" class="btn btn-default btn-xs icon-button pull-right"
-                                    data-toggle="tooltip" data-placement="top" style="display:none;"
-                                    ${commentRow.editButton.attributesToString}>
-                                    <span class="glyphicon glyphicon-new-window glyphicon-primary"></span>                                       
-                                </a>                                    
-                            </div>
-                            <div id="plainCommentText${indexCounter}">${commentRow.comment.commentText}</div>                                   
-                        </li>                      
+                        <shared:comment comment="${commentRow}" commentIndex="${indexCounter}" />
                     </c:forEach>                            
                 </ul>
                 

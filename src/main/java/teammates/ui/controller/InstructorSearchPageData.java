@@ -17,6 +17,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
+import teammates.ui.template.Comment;
 import teammates.ui.template.CommentRow;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.FeedbackResponseComment;
@@ -238,11 +239,11 @@ public class InstructorSearchPageData extends PageData {
         return rows;
     }
     
-    private List<CommentRow> createCommentRows(
+    private List<Comment> createCommentRows(
                                     String giverEmailPlusCourseId, 
                                     CommentSearchResultBundle commentSearchResultBundle) {
         
-        List<CommentRow> rows = new ArrayList<CommentRow>();
+        List<Comment> rows = new ArrayList<Comment>();
         String giverDetails = commentSearchResultBundle.giverTable.get(giverEmailPlusCourseId);
         String instructorCommentsLink = getInstructorCommentsLink();
         
@@ -254,8 +255,10 @@ public class InstructorSearchPageData extends PageData {
             String link = instructorCommentsLink + "&" + Const.ParamsNames.COURSE_ID 
                                             + "=" + comment.courseId + "#" + comment.getCommentId();           
             ElementTag editButton = createEditButton(link, Const.Tooltips.COMMENT_EDIT_IN_COMMENTS_PAGE);
+            Comment commentRow = new Comment(comment, giverDetails, recipientDetails);
+            commentRow.withLinkToCommentsPage(link);
             
-            rows.add(new CommentRow(giverDetails, comment, recipientDetails, creationTime, editedAt, editButton));
+            rows.add(commentRow);
         }       
         return rows;
     }
