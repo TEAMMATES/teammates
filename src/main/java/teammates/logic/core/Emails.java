@@ -678,7 +678,13 @@ public class Emails {
         if (Config.isUsingSendgrid()) {
             Sendgrid email = parseMimeMessageToSendgrid(message);
             log.info(getEmailInfo(email));
-            email.send();
+            
+            try {               
+                email.send();
+            } catch (Exception e) {
+                log.severe("Sendgrid failed, sending with GAE mail");
+                Transport.send(message);  
+            }          
         } else {
             log.info(getEmailInfo(message));
             Transport.send(message);     
