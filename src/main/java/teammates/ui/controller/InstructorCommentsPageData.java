@@ -118,18 +118,6 @@ public class InstructorCommentsPageData extends PageData {
         return removeEndComma(namesString);
     }
     
-    public String getShowCommentsToForComment(CommentAttributes comment) {
-        return removeBracketsForArrayString(comment.showCommentTo.toString());
-    }
-    
-    public String getShowGiverNameToForComment(CommentAttributes comment) {
-        return removeBracketsForArrayString(comment.showGiverNameTo.toString());
-    }
-    
-    public String getShowRecipientNameToForComment(CommentAttributes comment) {
-        return removeBracketsForArrayString(comment.showRecipientNameTo.toString());
-    }
-    
     public List<CommentsForStudentsTable> getCommentsForStudentsTables() {
         return commentsForStudentsTables;
     }
