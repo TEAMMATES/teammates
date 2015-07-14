@@ -51,7 +51,6 @@ public class SessionAttributesTest extends BaseTestCase {
         
         Collections.sort(testList, SessionAttributes.ASCENDING_ORDER);
         for(int i = 0; i < testList.size(); i++){
-            System.out.println(i);
             AssertJUnit.assertEquals(expected.get(i), testList.get(i));
         }
         
@@ -65,7 +64,6 @@ public class SessionAttributesTest extends BaseTestCase {
         
         Collections.sort(testList, SessionAttributes.DESCENDING_ORDER);
         for(int i = 0; i < testList.size(); i++){
-            System.out.println(i);
             AssertJUnit.assertEquals(expected.get(i), testList.get(i));
         }
     }

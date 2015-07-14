@@ -113,10 +113,6 @@ public class InstructorFeedbackSubmissionEditPageActionTest extends BaseActionTe
         a = getAction(submissionParams);
         RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
 
-        System.out.println(rr.getDestinationWithParams());
-        System.out.println(rr.isError);
-        System.out.println(rr.getStatusMessage());
-
         assertEquals(Const.ActionURIs.INSTRUCTOR_HOME_PAGE + "?error=false"
                      + "&" + Const.ParamsNames.USER_ID + "=" + instructor.googleId,
                      rr.getDestinationWithParams());

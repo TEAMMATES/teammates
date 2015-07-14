@@ -33,8 +33,8 @@
     <![endif]-->
 
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="<%= data.getjQueryFilePath() %>"></script>
+    <script type="text/javascript" src="<%= data.getjQueryUiFilePath() %>"></script>
     <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 
@@ -246,24 +246,22 @@
                                                                         <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%= CommentParticipantType.TEAM %>" <%= comment.showRecipientNameTo.contains(CommentParticipantType.TEAM) ?" checked=\"checked\"" : "" %>>
                                                                     </td>
                                                                 </tr>
-                                                                <% if (comment.showCommentTo.contains(CommentParticipantType.SECTION)) { %>
-                                                                    <tr id="recipient-section<%=commentIdx%>">
-                                                                        <td class="text-left">
-                                                                            <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students in the same section can view">
-                                                                                Recipient's Section
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%= CommentParticipantType.SECTION %>" <%= comment.showCommentTo.contains(CommentParticipantType.SECTION) ? "checked=\"checked\"" : "" %>>
-                                                                        </td>
-                                                                        <td>
-                                                                            <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%= CommentParticipantType.SECTION %>" <%= comment.showGiverNameTo.contains(CommentParticipantType.SECTION) ? "checked=\"checked\"" : "" %>>
-                                                                        </td>
-                                                                        <td>
-                                                                            <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%= CommentParticipantType.SECTION %>" <%= comment.showRecipientNameTo.contains(CommentParticipantType.SECTION) ? "checked=\"checked\"" : "" %>>
-                                                                        </td>
-                                                                    </tr>
-                                                                <% } %>
+                                                                <tr id="recipient-section<%=commentIdx%>">
+                                                                    <td class="text-left">
+                                                                        <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students in the same section can view">
+                                                                            Recipient's Section
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%= CommentParticipantType.SECTION %>" <%= comment.showCommentTo.contains(CommentParticipantType.SECTION) ? "checked=\"checked\"" : "" %>>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%= CommentParticipantType.SECTION %>" <%= comment.showGiverNameTo.contains(CommentParticipantType.SECTION) ? "checked=\"checked\"" : "" %>>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%= CommentParticipantType.SECTION %>" <%= comment.showRecipientNameTo.contains(CommentParticipantType.SECTION) ? "checked=\"checked\"" : "" %>>
+                                                                    </td>
+                                                                </tr>
                                                                 <tr id="recipient-course<%= commentIdx %>">
                                                                     <td class="text-left">
                                                                         <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students in this course can view">
@@ -390,6 +388,22 @@
                                                             </td>
                                                             <td>
                                                                 <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%= CommentParticipantType.TEAM %>">
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="recipient-section<%=commentIdx%>">
+                                                            <td class="text-left">
+                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students in the same section can view">
+                                                                    Recipient's Section
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <input class="visibilityCheckbox answerCheckbox" type="checkbox" value="<%= CommentParticipantType.SECTION %>">
+                                                            </td>
+                                                            <td>
+                                                                <input class="visibilityCheckbox giverCheckbox" type="checkbox" value="<%= CommentParticipantType.SECTION %>">
+                                                            </td>
+                                                            <td>
+                                                                <input class="visibilityCheckbox recipientCheckbox" type="checkbox" value="<%= CommentParticipantType.SECTION %>">
                                                             </td>
                                                         </tr>
                                                         <tr id="recipient-course<%= commentIdx %>">

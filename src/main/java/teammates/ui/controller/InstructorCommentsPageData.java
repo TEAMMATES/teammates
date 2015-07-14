@@ -12,11 +12,8 @@ import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
-import teammates.common.util.Const;
-import teammates.ui.template.CommentRow;
-import teammates.ui.template.InstructorCommentsCommentRow;
-import teammates.ui.template.InstructorCommentsForStudentsTable;
-import teammates.ui.template.VisibilityCheckboxes;
+import teammates.ui.template.Comment;
+import teammates.ui.template.CommentsForStudentsTable;
 
 /**
  * PageData: the data to be used in the InstructorCommentsPage
@@ -37,7 +34,7 @@ public class InstructorCommentsPageData extends PageData {
     private String nextPageLink;
     private int numberOfPendingComments = 0;
     
-    private List<InstructorCommentsForStudentsTable> commentsForStudentsTables;
+    private List<CommentsForStudentsTable> commentsForStudentsTables;
     
     public InstructorCommentsPageData(AccountAttributes account) {
         super(account);
@@ -95,20 +92,8 @@ public class InstructorCommentsPageData extends PageData {
     public String getPreviousPageLink() {
         return previousPageLink;
     }
-
-    public String getShowCommentsToForComment(CommentAttributes comment) {
-        return removeBracketsForArrayString(comment.showCommentTo.toString());
-    }
     
-    public String getShowGiverNameToForComment(CommentAttributes comment) {
-        return removeBracketsForArrayString(comment.showGiverNameTo.toString());
-    }
-    
-    public String getShowRecipientNameToForComment(CommentAttributes comment) {
-        return removeBracketsForArrayString(comment.showRecipientNameTo.toString());
-    }
-    
-    public List<InstructorCommentsForStudentsTable> getCommentsForStudentsTables() {
+    public List<CommentsForStudentsTable> getCommentsForStudentsTables() {
         return commentsForStudentsTables;
     }
     
@@ -147,43 +132,53 @@ public class InstructorCommentsPageData extends PageData {
 
     private void setCommentsForStudentsTables() {
         Map<String, String> giverEmailToGiverNameMap = getGiverEmailToGiverNameMap();
-        commentsForStudentsTables = new ArrayList<InstructorCommentsForStudentsTable>();      
+        commentsForStudentsTables = new ArrayList<CommentsForStudentsTable>();      
           
         for (String giverEmail : comments.keySet()) {
             String giverName = giverEmailToGiverNameMap.get(giverEmail);
-            commentsForStudentsTables
-                    .add(new InstructorCommentsForStudentsTable(
-                                 giverEmail, giverName, createCommentRows(giverEmail, giverName)));
+            CommentsForStudentsTable table = new CommentsForStudentsTable(giverName,
+                                                                          createCommentRows(giverEmail, giverName));
+            String extraClass;
+            if (giverEmail.equals(COMMENT_GIVER_NAME_THAT_COMES_FIRST)) {
+                extraClass = "giver_display-by-you";
+            } else {
+                extraClass = "giver_display-by-others";
+            }
+            table.withExtraClass(extraClass);
+            commentsForStudentsTables.add(table);
         }
     }
     
-    private List<CommentRow> createCommentRows(String giverEmail, String giverName) {
+    private List<Comment> createCommentRows(String giverEmail, String giverName) {
         
-        List<CommentRow> rows = new ArrayList<CommentRow>();
+        List<Comment> rows = new ArrayList<Comment>();
         List<CommentAttributes> commentsForGiver = comments.get(giverEmail);
         for (int i = 0; i < commentsForGiver.size(); i++) {            
-            String recipientDetails = getRecipientNames(commentsForGiver.get(i).recipients);
-            String creationTime = 
-                    Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(commentsForGiver.get(i).createdAt);          
+            CommentAttributes comment = commentsForGiver.get(i);
+            String recipientDetails = getRecipientNames(comment.recipients);
             Boolean isInstructorAllowedToModifyCommentInSection = commentModifyPermissions.get(giverEmail).get(i);
-            String typeOfPeopleCanViewComment = getTypeOfPeopleCanViewComment(commentsForGiver.get(i));
-            String editedAt = commentsForGiver.get(i).getEditedAtText(giverName.equals("Anonymous"));
-            String showCommentsTo = getShowCommentsToForComment(commentsForGiver.get(i));
-            String showGiverNameTo = getShowGiverNameToForComment(commentsForGiver.get(i));
-            String showRecipientNameTo = getShowRecipientNameToForComment(commentsForGiver.get(i));
-            VisibilityCheckboxes visibilityCheckboxes = createVisibilityCheckboxes(commentsForGiver.get(i));
+            String typeOfPeopleCanViewComment = getTypeOfPeopleCanViewComment(comment);
+            Comment commentDiv = new Comment(comment, giverName, recipientDetails);
+            String extraClass;
+            if (comment.showCommentTo.isEmpty()) {
+                extraClass = "status_display-private";
+            } else {
+                extraClass = "status_display-public";
+            }
+            commentDiv.withExtraClass(extraClass);
+            commentDiv.setVisibilityIcon(typeOfPeopleCanViewComment);
+            commentDiv.setNotificationIcon(comment.isPendingNotification());
+            if (isInstructorAllowedToModifyCommentInSection) {
+                commentDiv.setEditDeleteEnabled(true);
+                commentDiv.setFromCommentsPage();
+                commentDiv.setPlaceholderNumComments();
+            }
             
-            rows.add(new InstructorCommentsCommentRow(giverEmail, commentsForGiver.get(i), recipientDetails, creationTime, 
-                                 isInstructorAllowedToModifyCommentInSection, typeOfPeopleCanViewComment, editedAt,
-                                 visibilityCheckboxes, showCommentsTo, showGiverNameTo, showRecipientNameTo));
+            rows.add(commentDiv);
         }       
         return rows;
     }
     
-    private VisibilityCheckboxes createVisibilityCheckboxes(CommentAttributes comment) {
-        return new VisibilityCheckboxes(comment);
-    }
-
     private String retrievePreviousPageLink() {
         int courseIdx = coursePaginationList.indexOf(courseId);
         String previousPageLink = "javascript:;";
