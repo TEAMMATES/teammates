@@ -17,14 +17,14 @@
             <th class="no-print">Action(s)</th>
         </tr>
     </thead>
-	<c:if test="${empty sessionRows}">
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
-	</c:if>
+    <c:if test="${empty sessionRows}">
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </c:if>
     <c:forEach items="${sessionRows}" var="sessionRow" varStatus="i">
         <tr id="session${i.index}">
             <td>
