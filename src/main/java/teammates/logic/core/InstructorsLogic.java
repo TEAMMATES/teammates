@@ -283,7 +283,7 @@ public class InstructorsLogic {
         Emails emailMgr = new Emails();
         try {
             MimeMessage email = emailMgr.generateInstructorCourseJoinEmail(course, instructorData);
-            emailMgr.sendAndLogEmail(email);
+            emailMgr.sendEmail(email, true);
             
             return email;
         } catch (Exception e) {
@@ -312,7 +312,7 @@ public class InstructorsLogic {
         Emails emailMgr = new Emails();
         try {
             MimeMessage email = emailMgr.generateInstructorCourseJoinEmail(course, instructor);
-            emailMgr.sendAndLogEmail(email);
+            emailMgr.sendEmail(email, true);
             
             return email;
         } catch (Exception e) {
@@ -330,7 +330,7 @@ public class InstructorsLogic {
 
         try {
             MimeMessage email = emailMgr.generateNewInstructorAccountJoinEmail(instructor, shortName, institute);
-            emailMgr.sendAndLogEmail(email);
+            emailMgr.sendEmail(email, true);
             joinLink = emailMgr.generateNewInstructorAccountJoinLink(instructor, institute);
 
         } catch (Exception e) {

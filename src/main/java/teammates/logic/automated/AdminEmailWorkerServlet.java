@@ -64,7 +64,7 @@ public class AdminEmailWorkerServlet extends WorkerServlet {
         Emails emailsManager = new Emails();
         
         MimeMessage email = emailsManager.generateAdminEmail(StringHelper.recoverFromSanitizedText(emailContent), subject, receiverEmail);
-        emailsManager.sendEmail(email);
+        emailsManager.sendEmail(email, false);
        
     }
 
