@@ -180,7 +180,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         assertEquals(true, courseEditPage.clickEditInstructorLink(instructorIndex));
         
-     // Manager
+        // Manager
         courseEditPage.clickViewDetailsLinkForInstructor(instructorIndex, 2);
         assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifycourse"));
         assertTrue(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifyinstructor"));
@@ -227,13 +227,8 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         // this should be click co-owner role
         courseEditPage.clickViewDetailsLinkForInstructor(instructorIndex, 1);
-        // what for the animation to finish
-        //System.setProperty("godmode", "true");
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesModal.html");
-        //System.clearProperty("godmode");
         courseEditPage.closeModal();
-        
-        
         
         ______TS("success: edit an instructor with privileges");
         //courseEditPage.clickEditInstructorLink(instructorIndex);
