@@ -47,12 +47,7 @@
                     <div class="panel-heading">
 				        <b>Question ${responseEntries.key.questionNumber}</b>:
 				        ${feedbackSessionResultsBundle.questions[responseEntries.key.id].questionDetails.questionText}
-				        <%
-				            Map<String, FeedbackQuestionAttributes> questions = bundle.questions;
-				            FeedbackQuestionAttributes question = questions.get(responseEntries.getKey().getId());
-				            FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
-				            out.print(questionDetails.getQuestionAdditionalInfoHtml(question.questionNumber, ""));
-                        %>
+				        ${feedbackSessionResultsBundle.questions[responseEntries.key.id].questionAdditionalInfoHtml}
 				    </div>
 				    <table class="table">
                         <tbody>
