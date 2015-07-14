@@ -682,7 +682,7 @@ public class Emails {
      * @throws IOException 
      * @throws JSONException 
      */
-    public void sendEmail(MimeMessage message, boolean isWithLogging) throws MessagingException, JSONException, IOException {
+    private void sendEmail(MimeMessage message, boolean isWithLogging) throws MessagingException, JSONException, IOException {
         if (Config.isUsingSendgrid()) {
             sendUsingSendgrid(message);
             
