@@ -147,9 +147,9 @@ function checkTheRoleThatApplies(instrNum) {
 	if (instrRole === "Custom") {
 		// Save original values of Custom Role
 		instructorCourseEditDefaultPrivilegeValuesForCustomRole[instrNum] = [];
-		for (var j = 0; j < instructorPrivilegeValues.length; j++) {
-			var checkValue = $("#tunePermissionsDivForInstructor" + instrNum + " input[name='" + instructorPrivilegeValues[j] + "']").prop("checked");
-			instructorCourseEditDefaultPrivilegeValuesForCustomRole[instrNum][instructorPrivilegeValues[j]] = checkValue;
+		for (var i = 0; i < instructorPrivilegeValues.length; i++) {
+			var checkValue = $("#tunePermissionsDivForInstructor" + instrNum + " input[name='" + instructorPrivilegeValues[i] + "']").prop("checked");
+			instructorCourseEditDefaultPrivilegeValuesForCustomRole[instrNum][instructorPrivilegeValues[i]] = checkValue;
 		}
 		
 		checkPrivilegesOfRoleForInstructor(instrNum, instrRole);
@@ -219,12 +219,10 @@ function checkPrivilegesOfCustomForInstructor(instrNum) {
 			for (var i = 0; i < instructorPrivilegeValues.length; i++) {
 				var privilege = instructorPrivilegeValues[i];
 				var valueToSet = instructorCourseEditDefaultPrivilegeValuesForCustomRole[instrNum][privilege];
-				console.log(valueToSet);
 				$("#tunePermissionsDivForInstructor" + instrNum + " input[name='" + privilege + "']").prop("checked", valueToSet);
 			}
 		} else {
 			// 'Not Custom' => 'Custom'
-			console.log(originalRole);
 			checkPrivilegesOfRoleForInstructor(instrNum, originalRole);
 		}
 	} else {
