@@ -53,6 +53,7 @@
                         <tbody>
                             <c:forEach var="responseEntry" items="${responseEntries.value}" varStatus="responseEntryStatus">
                                 <%-- use ${theCount.count} to start counting at 1 --%>
+                                <c:set var="something" value="${2000*2}"/>
 	                            <%
 	                                String giverName = bundle.getGiverNameForResponse(responseEntries.getKey(), responseEntry);
 	                                String giverTeamName = bundle.getTeamNameForEmail(responseEntry.giverEmail);
@@ -841,19 +842,19 @@
                                         onclick="hideResponseCommentAddForm(<%=fsIndx%>,<%=qnIndx%>,<%=responseIndex%>)">
                                     <input type="hidden"
                                         name="<%=Const.ParamsNames.COURSE_ID%>"
-                                        value="<%=responseEntry.courseId%>">
+                                        value="${responseEntry.courseId}">
                                     <input type="hidden"
                                         name="<%=Const.ParamsNames.FEEDBACK_SESSION_NAME%>"
-                                        value="<%=responseEntry.feedbackSessionName%>">
+                                        value="${responseEntry.feedbackSessionName}">
                                     <input type="hidden"
                                         name="<%=Const.ParamsNames.FEEDBACK_QUESTION_ID%>"
-                                        value="<%=responseEntry.feedbackQuestionId%>">
+                                        value="${responseEntry.feedbackQuestionId}">
                                     <input type="hidden"
                                         name="<%=Const.ParamsNames.FEEDBACK_RESPONSE_ID%>"
-                                        value="<%=responseEntry.getId()%>">
+                                        value="${responseEntry.id}">
                                     <input type="hidden"
                                         name="<%=Const.ParamsNames.USER_ID%>"
-                                        value="<%=data.account.googleId%>">
+                                        value="${data.account.googleId}">
                                     <input type="hidden"
                                         name="<%=Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO%>"
                                         value="<%=data.getResponseCommentVisibilityString(question)%>">

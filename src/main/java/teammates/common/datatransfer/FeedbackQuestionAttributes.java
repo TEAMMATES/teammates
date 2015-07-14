@@ -32,7 +32,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public List<FeedbackParticipantType> showResponsesTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public List<FeedbackParticipantType> showRecipientNameTo;
-    private String questionAdditionalInfoHtml;
 
     public FeedbackQuestionAttributes() {
         
