@@ -95,8 +95,4 @@ public class FeedbackSessionResponseStatus {
     public Map<String, String> getEmailNameTable() {
         return emailNameTable;
     }
-    
-    public Map<String, String> getEmailTeamNameTable() {
-        return emailTeamNameTable;
-    }
 }
