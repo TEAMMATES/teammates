@@ -33,6 +33,6 @@ $(document).ready(function() {
  * @returns a boolean to either continue or stop the action from continuing
  */
 function toggleArchiveCourseConfirmation(courseId) {
-    return confirm('Are you sure you want to archive ' + courseId + '? This action can be reverted'
-                   + 'by going to the "courses" tab and unarchiving the desired course(s).');
+    return confirm('Are you sure you want to archive ' + courseId + '? This action can be reverted' +
+                   ' by going to the "courses" tab and unarchiving the desired course(s).');
 }
