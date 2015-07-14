@@ -147,18 +147,18 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-primary">
-                        <div id="studentComments" class="panel-heading">
+                        <div class="panel-heading">
                             <strong>Comments for <%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name)%></strong>
                         </div>
                         <div class="panel-body">
-                            <div class="panel panel-info">
+                            <div class="panel panel-info student-record-comments">
                                 <div class="panel-heading">
                                     From <b>You (<%= data.courseId %>)</b>
                                     <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showAddCommentBox();" data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.COMMENT_ADD %>" <% if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS)) { %> disabled="disabled" <% } %>>
                                         <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                     </button>
                                 </div>
-                                <ul class="list-group">
+                                <ul class="list-group comments">
                                     <% int commentIdx = -1;
                                        for (CommentAttributes comment : data.comments) {
                                        commentIdx++; %>
