@@ -674,49 +674,45 @@ public class Emails {
         
     }
 
-    public void sendEmail(MimeMessage message) throws MessagingException, JSONException, IOException {
-        if (Config.isUsingSendgrid()) {
-            Sendgrid email = parseMimeMessageToSendgrid(message);
-            log.info(getEmailInfo(email));
-            
-            try {               
-                email.send();
-            } catch (Exception e) {
-                log.severe("Sendgrid failed, sending with GAE mail");
-                Transport.send(message);  
-            }          
-        } else {
-            log.info(getEmailInfo(message));
-            Transport.send(message);     
-        }       
-    }
-
     /**
-     * This method sends the email as well as logs its receiver, subject and content 
+     * This method sends the email and has an option to log its receiver, subject and content 
      * @param message
+     * @param isWithLogging
      * @throws MessagingException
      * @throws IOException 
      * @throws JSONException 
      */
-    public void sendAndLogEmail(MimeMessage message) throws MessagingException, JSONException, IOException {
+    public void sendEmail(MimeMessage message, boolean isWithLogging) throws MessagingException, JSONException, IOException {
         if (Config.isUsingSendgrid()) {
-            Sendgrid email = parseMimeMessageToSendgrid(message);
-            log.info(getEmailInfo(email));
+            sendUsingSendgrid(message);
             
-            try { 
-                email.send();           
-            } catch (Exception e) {
-                log.severe("Sendgrid failed, sending with GAE mail");
-                Transport.send(message);            
-            }
-            
-            generateLogReport(email);
-            
+            if (isWithLogging) {
+                generateLogReport(parseMimeMessageToSendgrid(message));
+            }           
         } else {
-            log.info(getEmailInfo(message));
-            Transport.send(message);           
-            generateLogReport(message);
+            sendUsingGae(message);
+            
+            if (isWithLogging) {
+                generateLogReport(message);
+            }
         }          
+    }
+    
+    private void sendUsingGae(MimeMessage message) throws MessagingException {
+        log.info(getEmailInfo(message));
+        Transport.send(message);
+    }
+
+    private void sendUsingSendgrid(MimeMessage message) throws MessagingException, JSONException, IOException {
+        Sendgrid email = parseMimeMessageToSendgrid(message);
+        log.info(getEmailInfo(email));
+        
+        try {               
+            email.send();
+        } catch (Exception e) {
+            log.severe("Sendgrid failed, sending with GAE mail");
+            Transport.send(message);  
+        }
     }
     
     private void generateLogReport(Sendgrid message) {
