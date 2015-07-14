@@ -159,7 +159,7 @@
                                     </button>
                                 </div>
                                 <ul class="list-group comments">
-                                    <% int commentIdx = -1;
+                                    <% int commentIdx = 0;
                                        for (CommentAttributes comment : data.comments) {
                                        commentIdx++; %>
                                         <li class="list-group-item list-group-item-warning">
@@ -317,7 +317,7 @@
                                             </form>
                                         </li>
                                     <% }
-                                    if (commentIdx == -1) { %>
+                                    if (commentIdx == 0) { %>
                                         <li class="list-group-item list-group-item-warning">
                                             You don't have any comments on this student.
                                         </li>
