@@ -11,7 +11,6 @@ import teammates.logic.api.GateKeeper;
 
 public class InstructorFeedbackResultsPageAction extends Action {
 
-    private static final String ALL_SECTION_OPTION = "All";
     private static final int DEFAULT_QUERY_RANGE = 1000;
     private static final int DEFAULT_SECTION_QUERY_RANGE = 2500;
     private static final int QUERY_RANGE_FOR_AJAX_TESTING = 5;
@@ -54,7 +53,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
         data.sortType = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_SORTTYPE);
 
         if (data.selectedSection == null) {
-            data.selectedSection = ALL_SECTION_OPTION;
+            data.selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         }
         
         // this is for ajax loading of the html table in the modal 
@@ -82,7 +81,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
         
         data.sections = logic.getSectionNamesForCourse(courseId);
         String questionNumStr = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER);
-        if (data.selectedSection.equals(ALL_SECTION_OPTION) && questionNumStr == null) {
+        if (data.selectedSection.equals(InstructorFeedbackResultsPageData.ALL_SECTION_OPTION) && questionNumStr == null) {
             // bundle for all questions and all sections  
             data.bundle = logic
                     .getFeedbackSessionResultsForInstructorWithinRangeFromView(feedbackSessionName, courseId,
@@ -122,7 +121,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
         }
 
         // Warning for section wise viewing in case of many responses.
-        if (data.selectedSection.equals(ALL_SECTION_OPTION) && !data.bundle.isComplete) {
+        if (data.selectedSection.equals(InstructorFeedbackResultsPageData.ALL_SECTION_OPTION) && !data.bundle.isComplete) {
             // not tested because the test data is not large enough to make this happen
             statusToUser.add(Const.StatusMessages.FEEDBACK_RESULTS_SECTIONVIEWWARNING);
             isError = true;
@@ -158,7 +157,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                                     InstructorAttributes instructor, InstructorFeedbackResultsPageData data)
                                     throws EntityDoesNotExistException {
         try {
-            if (!data.selectedSection.contentEquals(ALL_SECTION_OPTION)) {
+            if (!data.selectedSection.contentEquals(InstructorFeedbackResultsPageData.ALL_SECTION_OPTION)) {
                 data.sessionResultsHtmlTableAsString = StringHelper.csvToHtmlTable(
                         logic.getFeedbackSessionResultSummaryInSectionAsCsv(courseId, feedbackSessionName,
                                                                             instructor.email, data.selectedSection));
