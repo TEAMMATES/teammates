@@ -184,7 +184,7 @@
                                                     <div class="form-group form-inline">
                                                         <div class="form-group text-muted">
                                                             <p>
-                                                                Comment about <%= InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name) %>:
+                                                                Comment about <%= InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name + " (" + data.student.team + ", " + data.student.email + ")") %>:
                                                             </p>
                                                             You may change comment's visibility using the visibility options on the right hand side.
                                                         </div>
