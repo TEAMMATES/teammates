@@ -673,6 +673,14 @@ public class Emails {
         } 
         
     }
+    
+    public void sendEmailWithLogging(MimeMessage message) throws MessagingException, JSONException, IOException {
+        sendEmail(message, true);
+    }
+    
+    public void sendEmailWithoutLogging(MimeMessage message) throws MessagingException, JSONException, IOException {
+        sendEmail(message, false);
+    }
 
     /**
      * This method sends the email and has an option to log its receiver, subject and content 
