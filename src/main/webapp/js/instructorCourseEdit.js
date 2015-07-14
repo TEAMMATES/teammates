@@ -1,7 +1,14 @@
 // global parameter to remember settings for custom access level
 
+// to store the role of instructors (Co-owner, Manager, Observer, Tutor or Custom)
 var instructorCourseEditInstructorAccessLevelWhenLoadingPage = [];
+/**
+ * to store the map of privilege values for Custom role only because the privilege
+ * values of Custom role is set by user. So we have to save them first to retrieve
+ * those values later.
+ */
 var instructorCourseEditDefaultPrivilegeValuesForCustomRole = [];
+
 var instructorPrivilegeValues = [
 		'canmodifycourse',
 		'canmodifyinstructor',
@@ -146,7 +153,7 @@ function checkTheRoleThatApplies(instrNum) {
 	$("input[id='instructorroleforinstructor" + instrNum + "']").filter("[value='" + instrRole + "']").prop("checked", true);
 	if (instrRole === "Custom") {
 		// Save original values of Custom Role
-		instructorCourseEditDefaultPrivilegeValuesForCustomRole[instrNum] = [];
+		instructorCourseEditDefaultPrivilegeValuesForCustomRole[instrNum] = {};
 		for (var i = 0; i < instructorPrivilegeValues.length; i++) {
 			var checkValue = $("#tunePermissionsDivForInstructor" + instrNum + " input[name='" + instructorPrivilegeValues[i] + "']").prop("checked");
 			instructorCourseEditDefaultPrivilegeValuesForCustomRole[instrNum][instructorPrivilegeValues[i]] = checkValue;
