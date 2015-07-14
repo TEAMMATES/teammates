@@ -216,7 +216,7 @@ public class Comment {
         return comment.showRecipientNameTo.contains(INSTRUCTOR);
     }
 
-    public String removeBracketsForArrayString(String arrayString) {
+    private String removeBracketsForArrayString(String arrayString) {
         return arrayString.substring(1, arrayString.length() - 1).trim();
     }
 
