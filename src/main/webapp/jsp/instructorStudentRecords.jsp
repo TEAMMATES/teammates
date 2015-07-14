@@ -56,26 +56,6 @@
         </h1>
         <br>
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-        <% if (data.studentProfile != null) { %>
-            <div class="modal fade" id="studentProfileMoreInfo" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title"><%= InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name) %>'s Profile - More Info</h4>
-                        </div>
-                        <div class="modal-body">
-                            <br>
-                            <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                            <p class="text-preserve-space height-fixed-md"><%= data.studentProfile.moreInfo.isEmpty() ? "<i class=\"text-muted\">" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.moreInfo %></p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-        <% } %>
         <div class="container-fluid">
             <% if (data.studentProfile != null) {
                 String pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?blob-key=" + data.studentProfile.pictureKey + "&user="+data.account.googleId;
@@ -131,16 +111,34 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <span data-toggle="modal" data-target="#studentProfileMoreInfo" class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
-                                        <h5>More Info </h5>
-                                        <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                        <p class="text-preserve-space height-fixed-md"><%=data.studentProfile.moreInfo.isEmpty() ? "<i class=\"text-muted\">" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.moreInfo%></p>
-                                    </div>
-                                </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="studentProfileMoreInfo" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title"><%= InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name) %>'s Profile - More Info</h4>
+                            </div>
+                            <div class="modal-body">
+                                <br>
+                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                <p class="text-preserve-space height-fixed-md"><%= data.studentProfile.moreInfo.isEmpty() ? "<i class=\"text-muted\">" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.moreInfo %></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <span data-toggle="modal" data-target="#studentProfileMoreInfo" class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
+                                <h5>More Info </h5>
+                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                <p class="text-preserve-space height-fixed-md"><%=data.studentProfile.moreInfo.isEmpty() ? "<i class=\"text-muted\">" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.moreInfo%></p>
                             </div>
                         </div>
                     </div>
