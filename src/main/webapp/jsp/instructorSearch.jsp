@@ -3,6 +3,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/search" prefix="search" %>
+<%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 
 <c:set var="jsIncludes">
     <link href="&#x2f;stylesheets&#x2f;omniComment.css" rel="stylesheet"/>
@@ -18,9 +19,7 @@
     <t:statusMessage />
     
     <c:if test="${not data.commentsForStudentsEmpty}">
-        <search:commentsForStudentsSearchResults commentsForStudentsTables="${data.searchCommentsForStudentsTables}">
-            Comments for students
-        </search:commentsForStudentsSearchResults>
+        <shared:commentsPanel commentsForStudentsTables="${data.searchCommentsForStudentsTables}" />
     </c:if>
     
     <c:if test="${not data.commentsForResponsesEmpty}">

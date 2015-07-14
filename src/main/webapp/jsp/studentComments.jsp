@@ -3,6 +3,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/student" prefix="ts" %>
 <%@ taglib tagdir="/WEB-INF/tags/student/comments" prefix="comments" %>
+<%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/student.js"></script>
     <script type="text/javascript" src="/js/studentComments.js"></script>
@@ -31,7 +32,7 @@
                 </div>
                 <c:if test="${not empty data.commentsForStudentsTables}">
                     <br>
-                    <comments:commentsForStudentsPanel commentsForStudentsTables="${data.commentsForStudentsTables}" courseId="${data.courseId}"/>
+                    <shared:commentsPanel commentsForStudentsTables="${data.commentsForStudentsTables}" courseId="${data.courseId}" />
                 </c:if>
                 <c:forEach items="${data.feedbackSessionRows}" var="feedbackSessionRow" varStatus="i">
                     <br>

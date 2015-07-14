@@ -13,7 +13,7 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.ui.template.Comment;
-import teammates.ui.template.InstructorCommentsForStudentsTable;
+import teammates.ui.template.CommentsForStudentsTable;
 
 /**
  * PageData: the data to be used in the InstructorCommentsPage
@@ -34,7 +34,7 @@ public class InstructorCommentsPageData extends PageData {
     private String nextPageLink;
     private int numberOfPendingComments = 0;
     
-    private List<InstructorCommentsForStudentsTable> commentsForStudentsTables;
+    private List<CommentsForStudentsTable> commentsForStudentsTables;
     
     public InstructorCommentsPageData(AccountAttributes account) {
         super(account);
@@ -130,7 +130,7 @@ public class InstructorCommentsPageData extends PageData {
         return removeBracketsForArrayString(comment.showRecipientNameTo.toString());
     }
     
-    public List<InstructorCommentsForStudentsTable> getCommentsForStudentsTables() {
+    public List<CommentsForStudentsTable> getCommentsForStudentsTables() {
         return commentsForStudentsTables;
     }
     
@@ -144,13 +144,20 @@ public class InstructorCommentsPageData extends PageData {
 
     private void setCommentsForStudentsTables() {
         Map<String, String> giverEmailToGiverNameMap = getGiverEmailToGiverNameMap();
-        commentsForStudentsTables = new ArrayList<InstructorCommentsForStudentsTable>();      
+        commentsForStudentsTables = new ArrayList<CommentsForStudentsTable>();      
           
         for (String giverEmail : comments.keySet()) {
             String giverName = giverEmailToGiverNameMap.get(giverEmail);
-            commentsForStudentsTables
-                    .add(new InstructorCommentsForStudentsTable(
-                                 giverEmail, giverName, createCommentRows(giverEmail, giverName)));
+            CommentsForStudentsTable table = new CommentsForStudentsTable(giverName,
+                                                                          createCommentRows(giverEmail, giverName));
+            String extraClass;
+            if (giverEmail.equals(COMMENT_GIVER_NAME_THAT_COMES_FIRST)) {
+                extraClass = "giver_display-by-you";
+            } else {
+                extraClass = "giver_display-by-others";
+            }
+            table.withExtraClass(extraClass);
+            commentsForStudentsTables.add(table);
         }
     }
     

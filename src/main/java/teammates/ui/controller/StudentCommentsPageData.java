@@ -17,12 +17,12 @@ import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.ui.template.Comment;
+import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.CoursePagination;
 import teammates.ui.template.FeedbackResponseComment;
 import teammates.ui.template.FeedbackSessionRow;
 import teammates.ui.template.QuestionTable;
 import teammates.ui.template.ResponseRow;
-import teammates.ui.template.StudentCommentsForStudentsTable;
 
 /**
  * PageData: the data used in the StudentCommentsPage
@@ -35,7 +35,7 @@ public class StudentCommentsPageData extends PageData {
     private CoursePagination coursePagination;
     private List<FeedbackSessionRow> feedbackSessionRows;
 
-    private List<StudentCommentsForStudentsTable> commentsForStudentsTables;
+    private List<CommentsForStudentsTable> commentsForStudentsTables;
     
     public StudentCommentsPageData(AccountAttributes account) {
         super(account);
@@ -64,7 +64,7 @@ public class StudentCommentsPageData extends PageData {
         return coursePagination;
     }
     
-    public List<StudentCommentsForStudentsTable> getCommentsForStudentsTables() {
+    public List<CommentsForStudentsTable> getCommentsForStudentsTables() {
         return commentsForStudentsTables;
     }
     
@@ -132,14 +132,14 @@ public class StudentCommentsPageData extends PageData {
                                               List<CommentAttributes> comments) {
         Map<String, String> giverEmailToGiverNameMap = getGiverEmailToGiverNameMap(roster, comments);
         Map<String, List<CommentAttributes>> giverEmailToCommentsMap = getGiverEmailToCommentsMap(comments);
-        commentsForStudentsTables = new ArrayList<StudentCommentsForStudentsTable>();      
+        commentsForStudentsTables = new ArrayList<CommentsForStudentsTable>();      
           
         for (String giverEmail : giverEmailToGiverNameMap.keySet()) {
             String giverName = giverEmailToGiverNameMap.get(giverEmail);
             List<CommentAttributes> commentsForGiverEmail = giverEmailToCommentsMap.get(giverEmail);
             commentsForStudentsTables
-                    .add(new StudentCommentsForStudentsTable(
-                                 giverEmail, giverName, createCommentRows(studentEmail, roster, commentsForGiverEmail)));
+                    .add(new CommentsForStudentsTable(giverName,
+                                                      createCommentRows(studentEmail, roster, commentsForGiverEmail)));
         }
     }
     
