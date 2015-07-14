@@ -20,7 +20,7 @@ public class InstructorResultsQuestionTable {
     
     private List<InstructorResultsResponseRow> responses;
     
-    // store the details of the question for the non-display purposes 
+    // store the attributes of the question for the non-display purposes 
     // such as form inputs
     private FeedbackQuestionAttributes question;
 

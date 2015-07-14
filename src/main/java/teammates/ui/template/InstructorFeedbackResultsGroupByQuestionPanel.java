@@ -22,7 +22,7 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorRes
     
     public static InstructorFeedbackResultsGroupByQuestionPanel buildInstructorFeedbackResultsGroupByQuestionPanel(
                                                                     List<InstructorResultsQuestionTable> questionTables,
-                                                                    boolean isEmailValid, Url profilePictureLink, String mailtoStyle,
+                                                                    boolean isEmailValid, Url profilePictureLink, 
                                                                     boolean isGiver, String participantIdentifier, String participantName,
                                                                     InstructorResultsModerationButton moderationButton, 
                                                                     boolean isModerationButtonDisplayed) {
@@ -34,12 +34,13 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorRes
         
         byQuestionPanel.setEmailValid(isEmailValid);
         byQuestionPanel.profilePictureLink = profilePictureLink.toString();
-        byQuestionPanel.mailtoStyle = mailtoStyle;
         
         byQuestionPanel.questionTables = questionTables;
         
         byQuestionPanel.setModerationButton(moderationButton);
         byQuestionPanel.setModerationButtonDisplayed(isModerationButtonDisplayed);
+        
+        byQuestionPanel.setHasResponses(true);
         
         return byQuestionPanel;
     }

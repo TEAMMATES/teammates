@@ -44,11 +44,15 @@ public class InstructorResultsResponseRow {
                                         InstructorResultsModerationButton moderationButton, boolean isRowGrey) {
         this.giverDisplayableIdentifier = giverDisplayableIdentifier;
         this.giverTeam = giverTeam;
+        
         this.recipientDisplayableIdentifier = recipientDisplayableIdentifier;
         this.recipientTeam = recipientTeam;
+        
         this.displayableResponse = displayableResponse;
+        
         this.isModerationsButtonDisplayed = isModerationsButtonShown;
         this.moderationButton = moderationButton;
+        
         this.isRowGrey = isRowGrey;
     }
     
