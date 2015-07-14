@@ -1017,6 +1017,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return outputName;
     }
 
+    public Map<String, FeedbackQuestionAttributes> getQuestions() {
+        return questions;
+    }
+
     // TODO consider removing this to increase cohesion
     public String getQuestionText(String feedbackQuestionId) {
         return PageData.sanitizeForHtml(questions.get(feedbackQuestionId)

@@ -32,6 +32,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
     public List<FeedbackParticipantType> showResponsesTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public List<FeedbackParticipantType> showRecipientNameTo;
+    private FeedbackQuestionDetails questionDetails;
 
     public FeedbackQuestionAttributes() {
         
@@ -503,11 +504,13 @@ public class FeedbackQuestionAttributes extends EntityAttributes implements Comp
         // For Text questions, the questionText simply contains the question, not a JSON
         // This is due to legacy data in the data store before there are multiple question types
         if (questionType == FeedbackQuestionType.TEXT) {
-            return new FeedbackTextQuestionDetails(questionMetaData.getValue());
+            questionDetails = new FeedbackTextQuestionDetails(questionMetaData.getValue());
         } else {
             Gson gson = teammates.common.util.Utils.getTeammatesGson();
-            return gson.fromJson(questionMetaData.getValue(), getFeedbackQuestionDetailsClass());
+            questionDetails = gson.fromJson(questionMetaData.getValue(), getFeedbackQuestionDetailsClass());
         }
+        
+        return questionDetails;
     }
 
     /** 
