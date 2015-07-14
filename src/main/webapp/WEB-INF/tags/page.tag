@@ -26,8 +26,8 @@
     <![endif]-->
 
     <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="${data.jQueryFilePath}"></script>
+    <script type="text/javascript" src="${data.jQueryUiFilePath}"></script>
     <script type="text/javascript" src="/js/common.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 
