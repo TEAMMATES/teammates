@@ -695,36 +695,50 @@ public class Emails {
      * This method sends the email as well as logs its receiver, subject and content 
      * @param message
      * @throws MessagingException
-     * @throws JSONException 
      * @throws IOException 
+     * @throws JSONException 
      */
     public void sendAndLogEmail(MimeMessage message) throws MessagingException, JSONException, IOException {
         if (Config.isUsingSendgrid()) {
             Sendgrid email = parseMimeMessageToSendgrid(message);
             log.info(getEmailInfo(email));
-            email.send();
             
-            try {
-                EmailLogEntry newEntry = new EmailLogEntry(email);
-                String emailLogInfo = newEntry.generateLogMessage();
-                log.log(Level.INFO, emailLogInfo);
+            try { 
+                email.send();           
             } catch (Exception e) {
-                log.severe("Failed to generate log for email: " + getEmailInfo(email));
-                e.printStackTrace();
+                log.severe("Sendgrid failed, sending with GAE mail");
+                Transport.send(message);            
             }
+            
+            generateLogReport(email);
+            
         } else {
             log.info(getEmailInfo(message));
-            Transport.send(message);
-            
-            try {
-                EmailLogEntry newEntry = new EmailLogEntry(message);
-                String emailLogInfo = newEntry.generateLogMessage();
-                log.log(Level.INFO, emailLogInfo);
-            } catch (Exception e) {
-                log.severe("Failed to generate log for email: " + getEmailInfo(message));
-                e.printStackTrace();
-            }
+            Transport.send(message);           
+            generateLogReport(message);
         }          
+    }
+    
+    private void generateLogReport(Sendgrid message) {
+        try {
+            EmailLogEntry newEntry = new EmailLogEntry(message);
+            String emailLogInfo = newEntry.generateLogMessage();
+            log.log(Level.INFO, emailLogInfo);
+        } catch (Exception e) {
+            log.severe("Failed to generate log for email: " + getEmailInfo(message));
+            e.printStackTrace();
+        }
+    }
+    
+    private void generateLogReport(MimeMessage message) throws MessagingException {
+        try {
+            EmailLogEntry newEntry = new EmailLogEntry(message);
+            String emailLogInfo = newEntry.generateLogMessage();
+            log.log(Level.INFO, emailLogInfo);
+        } catch (Exception e) {
+            log.severe("Failed to generate log for email: " + getEmailInfo(message));
+            e.printStackTrace();
+        }
     }
     
     public MimeMessage sendErrorReport(String path, String params, Throwable error) {
