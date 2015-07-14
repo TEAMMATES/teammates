@@ -32,6 +32,8 @@ public class InstructorFeedbackResultsSectionPanel {
         panelClass = "panel-success";
         isDisplayingMissingParticipants = true;
         
+        arrowClass = "glyphicon-chevron-up";        
+        
         isTeamWithResponses = new HashMap<String, Boolean>();
         participantPanels = new LinkedHashMap<String, List<InstructorResultsParticipantPanel>>();
     }
