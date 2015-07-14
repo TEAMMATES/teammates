@@ -231,7 +231,6 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.closeModal();
         
         ______TS("success: edit an instructor with privileges");
-        //courseEditPage.clickEditInstructorLink(instructorIndex);
         
         assertEquals(true, courseEditPage.displayedToStudentCheckBox(instructorIndex).isSelected());
         // not displayed to students
