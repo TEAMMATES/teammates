@@ -85,7 +85,7 @@
                                         </tr>
                                         <tr>
                                             <td class="text-bold">
-                                                Email
+                                                Personal Email
                                             </td>
                                             <td>
                                                 <%= data.studentProfile.email.isEmpty() ? "<i class=\"text-muted\">" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.email %>
