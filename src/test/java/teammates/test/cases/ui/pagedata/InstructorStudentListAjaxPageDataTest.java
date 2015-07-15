@@ -17,9 +17,9 @@ import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.common.util.Url;
 import teammates.ui.controller.InstructorStudentListAjaxPageData;
-import teammates.ui.template.InstructorStudentListAjaxSectionData;
-import teammates.ui.template.InstructorStudentListAjaxStudentData;
-import teammates.ui.template.InstructorStudentListAjaxTeamData;
+import teammates.ui.template.StudentListSectionData;
+import teammates.ui.template.StudentListStudentData;
+import teammates.ui.template.StudentListTeamData;
 
 public class InstructorStudentListAjaxPageDataTest {
 
@@ -38,12 +38,12 @@ public class InstructorStudentListAjaxPageDataTest {
     @Test
     public void allTests() {
         islapd = initializeData();
-        for (InstructorStudentListAjaxSectionData section : islapd.getSections()) {
+        for (StudentListSectionData section : islapd.getSections()) {
             testSectionContent(section);
         }
     }
 
-    private void testSectionContent(InstructorStudentListAjaxSectionData section) {
+    private void testSectionContent(StudentListSectionData section) {
         assertEquals(Sanitizer.sanitizeForHtml(sampleSection.name), section.getSectionName());
         assertEquals(sectionPrivileges.get(sampleSection.name)
                                       .get(Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS)
@@ -57,19 +57,19 @@ public class InstructorStudentListAjaxPageDataTest {
                                       .get(Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS)
                                       .booleanValue(),
                      section.isAllowedToGiveCommentInSection());
-        for (InstructorStudentListAjaxTeamData team : section.getTeams()) {
+        for (StudentListTeamData team : section.getTeams()) {
             testTeamContent(team);
         }
     }
 
-    private void testTeamContent(InstructorStudentListAjaxTeamData team) {
+    private void testTeamContent(StudentListTeamData team) {
         assertEquals(Sanitizer.sanitizeForHtml(sampleTeam.name), team.getTeamName());
-        for (InstructorStudentListAjaxStudentData student : team.getStudents()) {
+        for (StudentListStudentData student : team.getStudents()) {
             testStudentContent(student);
         }
     }
 
-    private void testStudentContent(InstructorStudentListAjaxStudentData student) {
+    private void testStudentContent(StudentListStudentData student) {
         assertEquals(Sanitizer.sanitizeForHtml(sampleStudent.name), student.getStudentName());
         assertEquals(Sanitizer.sanitizeForHtml(sampleStudent.email), student.getStudentEmail());
         assertEquals("'" + Sanitizer.sanitizeForJs(sampleStudent.course) + "','"
