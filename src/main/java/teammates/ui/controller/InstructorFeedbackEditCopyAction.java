@@ -65,7 +65,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
                 
                 return createRedirectToEditPageWithErrorMsg(originalFeedbackSessionName,
                                                             originalCourseId,
-                                                            errorToUser);
+                                                            errorToUser, currentPage);
             }
             
             FeedbackSessionAttributes fs = null;
@@ -106,10 +106,10 @@ public class InstructorFeedbackEditCopyAction extends Action {
         } catch (EntityAlreadyExistsException e) {
             // If conflicts are checked above, this will only occur via race condition
             setStatusForException(e, Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
-            return createRedirectToEditPageWithError(originalFeedbackSessionName, originalCourseId);
+            return createRedirectToEditPageWithError(originalFeedbackSessionName, originalCourseId, currentPage);
         } catch (InvalidParametersException e) {
             setStatusForException(e);
-            return createRedirectToEditPageWithError(originalFeedbackSessionName, originalCourseId);
+            return createRedirectToEditPageWithError(originalFeedbackSessionName, originalCourseId, currentPage);
         }
         
     }
