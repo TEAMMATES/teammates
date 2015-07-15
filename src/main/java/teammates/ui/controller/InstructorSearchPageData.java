@@ -1,7 +1,9 @@
 package teammates.ui.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
@@ -11,8 +13,10 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.SectionDetailsBundle;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
+import teammates.common.datatransfer.TeamDetailsBundle;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
 import teammates.ui.template.Comment;
@@ -23,7 +27,7 @@ import teammates.ui.template.ResponseRow;
 import teammates.ui.template.CommentsForStudentsTable;
 import teammates.ui.template.SearchStudentsTable;
 import teammates.ui.template.SearchCommentsForResponsesTable;
-import teammates.ui.template.StudentRow;
+import teammates.ui.template.StudentListSectionData;
 
 /**
  * PageData: the data to be used in the InstructorSearchPage
@@ -247,18 +251,55 @@ public class InstructorSearchPageData extends PageData {
     }
     
     /*************** Create data structures for student search results ********************/
-    private List<StudentRow> createStudentRows(String courseId, 
-                                               StudentSearchResultBundle studentSearchResultBundle) {
-        List<StudentRow> rows = new ArrayList<StudentRow>();      
+    private List<StudentListSectionData> createStudentRows(String courseId, 
+                                                           StudentSearchResultBundle studentSearchResultBundle) {
+        List<StudentListSectionData> rows = new ArrayList<StudentListSectionData>();      
         List<StudentAttributes> studentsInCourse = filterStudentsByCourse(
                                                        courseId, studentSearchResultBundle);
-        
+        Map<String, List<String>> sectionNameToTeamNameMap = new HashMap<String, List<String>>();
+        Map<String, List<StudentAttributes>> teamNameToStudentsMap = new HashMap<String, List<StudentAttributes>>();
+        Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
         for (StudentAttributes student : studentsInCourse) {
-            String viewPhotoLink = addUserIdToUrl(student.getPublicProfilePictureUrl());        
-            String actions = getStudentActions(student, studentSearchResultBundle);
-
-            rows.add(new StudentRow(viewPhotoLink, student.section, student.team, 
-                                            student.name, student.email, actions));
+            String teamName = student.team;
+            String sectionName = student.section;
+            String viewPhotoLink = addUserIdToUrl(student.getPublicProfilePictureUrl());
+            emailPhotoUrlMapping.put(student.email, viewPhotoLink);
+            if (!teamNameToStudentsMap.containsKey(teamName)) {
+                teamNameToStudentsMap.put(teamName, new ArrayList<StudentAttributes>());
+            }
+            teamNameToStudentsMap.get(teamName).add(student);
+            if (!sectionNameToTeamNameMap.containsKey(sectionName)) {
+                sectionNameToTeamNameMap.put(sectionName, new ArrayList<String>());
+            }
+            if (!sectionNameToTeamNameMap.get(sectionName).contains(teamName)) {
+                sectionNameToTeamNameMap.get(sectionName).add(teamName);
+            }
+        }
+        List<SectionDetailsBundle> sections = new ArrayList<SectionDetailsBundle>();
+        for (String sectionName : sectionNameToTeamNameMap.keySet()) {
+            SectionDetailsBundle sdb = new SectionDetailsBundle();
+            sdb.name = sectionName;
+            ArrayList<TeamDetailsBundle> teams = new ArrayList<TeamDetailsBundle>();
+            for (String teamName : sectionNameToTeamNameMap.get(sectionName)) {
+                TeamDetailsBundle tdb = new TeamDetailsBundle();
+                tdb.name = teamName;
+                tdb.students = teamNameToStudentsMap.get(teamName);
+                teams.add(tdb);
+            }
+            sdb.teams = teams;
+            sections.add(sdb);
+        }
+        for (SectionDetailsBundle section : sections) {
+            InstructorAttributes instructor = studentSearchResultBundle.instructors.get(courseId);
+            boolean isAllowedToViewStudentInSection =
+                                            instructor.isAllowedForPrivilege(section.name, Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
+            boolean isAllowedToModifyStudent =
+                                            instructor.isAllowedForPrivilege(section.name, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
+            boolean isAllowedToGiveCommentInSection =
+                                            instructor.isAllowedForPrivilege(section.name, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
+            rows.add(new StudentListSectionData(section, isAllowedToViewStudentInSection,
+                                                isAllowedToModifyStudent, isAllowedToGiveCommentInSection,
+                                                emailPhotoUrlMapping, account.googleId));
         }
         return rows;
     }

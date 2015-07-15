@@ -26,9 +26,11 @@
                     </th>
                     <th>Action(s)</th>
                 </tr>
-                <tr id="searchNoResults-${courseIndex}" class="hidden">
-                    <th class="align-center color_white bold">Cannot find students in this course</th>
-                </tr>
+                <c:if test="${fromStudentListPage}">
+                    <tr id="searchNoResults-${courseIndex}" class="hidden">
+                        <th class="align-center color_white bold">Cannot find students in this course</th>
+                    </tr>
+                </c:if>
             </thead>
             <tbody>
                 <c:set var="teamIndex" value="${-1}" />
