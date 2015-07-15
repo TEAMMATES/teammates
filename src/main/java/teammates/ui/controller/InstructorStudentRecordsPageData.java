@@ -22,6 +22,7 @@ public class InstructorStudentRecordsPageData extends PageData {
     private String googleId;
     private String showCommentBox;
     private StudentProfile studentProfile;
+    public StudentProfileAttributes spa; // used for testing admin message
     private List<CommentsForStudentsTable> commentsForStudentTable;
     private List<String> sessionNames;
 
@@ -36,6 +37,7 @@ public class InstructorStudentRecordsPageData extends PageData {
         this.googleId = account.googleId;
         this.showCommentBox = showCommentBox;
         if (spa != null) {
+            this.spa = spa;
             String pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE
                               + "?" + Const.ParamsNames.BLOB_KEY + "=" + spa.pictureKey
                               + "&" + Const.ParamsNames.USER_ID + "=" + account.googleId;
