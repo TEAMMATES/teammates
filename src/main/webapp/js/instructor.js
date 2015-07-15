@@ -132,10 +132,22 @@ function setupFsCopyModal() {
         var actionlink = button.data('actionlink');
         var courseid = button.data('courseid');
         var fsname = button.data('fsname');
+        var currentPageUrl = window.location.href;
+        
+        var currentPage;
+        
+        if (currentPageUrl.includes('instructorHomePage')) {
+            currentPage = 'instructorHomePage';
+        } else if (currentPageUrl.includes('instructorFeedbacksPage')) {
+            currentPage = 'instructorFeedbacksPage';
+        } else {
+            currentPage = 'instructorFeedbackEditPage';
+        }
         
         $.ajax({
             type: 'GET',
-            url: actionlink + '&courseid=' + encodeURIComponent(courseid) + '&fsname=' + encodeURIComponent(fsname),
+            url: actionlink + '&courseid=' + encodeURIComponent(courseid) + '&fsname=' + encodeURIComponent(fsname)
+                 + '&currentPage=' + currentPage,
             beforeSend: function() {
                 $('#courseList').html("<img class='margin-center-horizontal' src='/images/ajax-loader.gif'/>");
             },
