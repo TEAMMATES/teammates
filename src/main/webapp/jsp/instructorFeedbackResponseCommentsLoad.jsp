@@ -19,24 +19,27 @@
 	    </div>
     </c:when>
     <c:otherwise>
-        <c:forEach var="feedbackSessionResultsBundle" items="${data.feedbackResultBundles}" varStatus="fsrbStatus">
+        <c:set var="ifrc" value="${data.instructorFeedbackResponseComment}"/>
+        <c:forEach var="feedbackSessionResultsBundle" items="${data.feedbackResultBundles}" varStatus="fsrbStatus">  
             <c:forEach var="responseEntries" items="${feedbackSessionResultsBundle.responseComments}" varStatus="responseEntriesStatus">
                 <div class="panel panel-info">
                     <div class="panel-heading">
+                        <c:set var="question" value="${feedbackSessionResultsBundle.questions[responseEntries.key.id]}"/>
+                        <c:set var="questionDetails" value="${question.questionDetails}"/>
 				        <b>Question ${responseEntries.key.questionNumber}</b>:
-				        ${feedbackSessionResultsBundle.questions[responseEntries.key.id].questionDetails.questionText}
-				        ${feedbackSessionResultsBundle.questions[responseEntries.key.id].questionAdditionalInfoHtml}
+				        ${questionDetails.questionText}
+				        ${question.questionAdditionalInfoHtml}
 				    </div>
 				    <table class="table">
                         <tbody>
                             <c:forEach var="responseEntry" items="${responseEntries.value}" varStatus="responseEntryStatus">
-                                <c:set var="giverName" value="${data.instructorFeedbackResponseComment.giverNames[responseEntry.giverEmail]}"/>
-                                <c:set var="recipientName" value="${data.instructorFeedbackResponseComment.recipientNames[responseEntry.recipientEmail]}"/>
+                                <c:set var="giverName" value="${ifrc.giverNames[responseEntry.giverEmail]}"/>
+                                <c:set var="recipientName" value="${ifrc.recipientNames[responseEntry.recipientEmail]}"/>
 	                            <tr>
 	                                <td><b>From:</b> ${giverName} <b>To:</b> ${recipientName}</td>
 	                            </tr>
 	                            <tr>
-	                                <td><strong>Response: </strong><%-- ${responseEntry.responseDetails.getAnswerHtml(questionDetails)} --%></td>
+	                                <td><strong>Response: </strong>${ifrc.responseEntryAnswerHtmls.get(questionDetails)}</td>
 	                            </tr>
 	                            <tr class="active">
 		                            <td>Comment(s):
