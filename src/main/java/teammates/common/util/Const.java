@@ -714,6 +714,12 @@ public class Const {
         public static final String PUBLIC_IMAGE_SERVE_ACTION = "publicImageServeAction";
     }
     
+    public class PageNames {
+        public static final String INSTRUCTOR_HOME_PAGE = "instructorHomePage";
+        public static final String INSTRUCTOR_FEEDBACKS_PAGE = "instructorFeedbacksPage";
+        public static final String INSTRUCTOR_FEEDBACK_EDIT_PAGE = "instructorFeedbackEditPage";
+    }
+    
     public class ViewURIs{
         
         /* We omit adding the 'page' prefix to views because all of them are "pages" */
