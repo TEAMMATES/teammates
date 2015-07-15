@@ -324,6 +324,8 @@ public class Const {
         
         public static final String COURSE_ARCHIVE_STATUS = "archive";
         
+        public static final String CURRENT_PAGE = "currentPage";
+        
         public static final String ADMIN_SEARCH_KEY = "searchkey";
         public static final String ADMIN_SEARCH_BUTTON_HIT = "searchbuttonhit";
         
