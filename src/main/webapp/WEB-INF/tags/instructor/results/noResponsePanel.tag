@@ -1,4 +1,4 @@
-<%@ tag description="instructorFeedbackResultsTop - Feedback Session Information Table" %>
+<%@ tag description="instructorFeedbackResultsBottom - Users with No Response Panel" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ tag import="teammates.common.util.Const"%>
 <%@ attribute name="noResponsePanel" type="teammates.ui.template.InstructorFeedbackResultsNoResponsePanel" required="true" %>
