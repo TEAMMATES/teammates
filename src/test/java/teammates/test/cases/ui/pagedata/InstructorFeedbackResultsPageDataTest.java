@@ -57,7 +57,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         data.feedbackSessionName, data.courseId, instructor.email, 
                                         1000, "question");
-        data.initForViewByQuestion();
+        data.initForViewByQuestion(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION, "question", "on");
         
         List<InstructorResultsQuestionTable> questionPanels = data.getQuestionPanels();
         assertEquals(4, questionPanels.size());
@@ -148,7 +148,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         data.selectedSection = "Section 1";
         data.bundle = logic.getFeedbackSessionResultsForInstructorInSection(data.feedbackSessionName, data.courseId, 
                                                                             instructor.email, data.selectedSection);
-        data.initForViewByQuestion();
+        data.initForViewByQuestion(instructor, "Section 1", null, "on");
         
         List<InstructorResultsQuestionTable> sectionQuestionPanels = data.getQuestionPanels();
         assertEquals(4, sectionQuestionPanels.size());
@@ -177,7 +177,8 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         data.bundle = logic.getFeedbackSessionResultsForInstructorFromQuestion(data.feedbackSessionName, data.courseId, 
                                                                                data.instructor.email, 2);
         
-        data.initForViewByQuestion();
+        data.initForViewByQuestion(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION, 
+                                   "on", "on");
             
         List<InstructorResultsQuestionTable> singleQuestionPanelList = data.getQuestionPanels();
         assertEquals(1, singleQuestionPanelList.size());
@@ -241,7 +242,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         data.feedbackSessionName, data.courseId, instructor.email, 
                                         1, "question");
-        data.initForViewByQuestion();
+        data.initForViewByQuestion(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION, "on", "on");
         assertFalse(data.bundle.isComplete());
         
         List<InstructorResultsQuestionTable> ajaxQuestionPanels = data.getQuestionPanels();
