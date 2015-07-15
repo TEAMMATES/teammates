@@ -8,6 +8,7 @@ import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.ui.template.InstructorFeedbackResponseComment;
 
 public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
 
@@ -18,9 +19,12 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
     public CourseRoster roster = null;
     public int numberOfPendingComments = 0;
     public int feedbackSessionIndex = 0;
+    private InstructorFeedbackResponseComment instructorFeedbackResponseComment;
     
     public InstructorFeedbackResponseCommentsLoadPageData(AccountAttributes account) {
         super(account);
+
+        this.instructorFeedbackResponseComment = new InstructorFeedbackResponseComment(feedbackResultBundles);
     }
 
     public boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
@@ -33,5 +37,9 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
 
     public int getNumberOfPendingComments() {
         return numberOfPendingComments;
+    }
+    
+    public InstructorFeedbackResponseComment getInstructorFeedbackResponseComment() {
+        return instructorFeedbackResponseComment;
     }
 }

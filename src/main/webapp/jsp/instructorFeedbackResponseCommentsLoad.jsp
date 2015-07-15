@@ -20,9 +20,7 @@
     </c:when>
     <c:otherwise>
         <c:forEach var="feedbackSessionResultsBundle" items="${data.feedbackResultBundles}" varStatus="fsrbStatus">
-            <%-- use ${theCount.index} to start counting at 0 --%>
             <c:forEach var="responseEntries" items="${feedbackSessionResultsBundle.responseComments}" varStatus="responseEntriesStatus">
-                <%-- use ${theCount.count} to start counting at 1 --%>
                 <div class="panel panel-info">
                     <div class="panel-heading">
 				        <b>Question ${responseEntries.key.questionNumber}</b>:
@@ -32,21 +30,13 @@
 				    <table class="table">
                         <tbody>
                             <c:forEach var="responseEntry" items="${responseEntries.value}" varStatus="responseEntryStatus">
-                                <%-- use ${theCount.count} to start counting at 1 --%>
-                                <c:set var="giverName" value="${feedbackSessionResultsBundle.emailNameTable[responseEntry.giverEmail]}"/>
-                                <c:set var="giverTeamName" value="${feedbackSessionResultsBundle.emailTeamNameTable[responseEntry.giverEmail]}"/>
-                                <!-- Remember to make a template class to append these together -->
-	                            <%-- <% giverName = bundle.appendTeamNameToName(giverName, giverTeamName); %> --%>
-                                <c:set var="recipientName" value="${feedbackSessionResultsBundle.emailNameTable[responseEntry.recipientEmail]}"/>
-                                <c:set var="recipientTeamName" value="${feedbackSessionResultsBundle.emailTeamNameTable[responseEntry.recipientEmail]}"/>
-                                <!-- Remember to make a template class to append these together -->
-	                            <%-- <% recipientName = bundle.appendTeamNameToName(recipientName, recipientTeamName); %> --%>
+                                <c:set var="giverName" value="${data.instructorFeedbackResponseComment.giverNames[responseEntry.giverEmail]}"/>
+                                <c:set var="recipientName" value="${data.instructorFeedbackResponseComment.recipientNames[responseEntry.recipientEmail]}"/>
 	                            <tr>
 	                                <td><b>From:</b> ${giverName} <b>To:</b> ${recipientName}</td>
 	                            </tr>
 	                            <tr>
-	                                <td><strong>Response: </strong><%-- ${responseEntry.responseDetails.getAnswerHtml(questionDetails)} --%>
-                                    <!-- Remember to make a template class to build this up and display--></td>
+	                                <td><strong>Response: </strong><%-- ${responseEntry.responseDetails.getAnswerHtml(questionDetails)} --%></td>
 	                            </tr>
 	                            <tr class="active">
 		                            <td>Comment(s):
@@ -75,7 +65,6 @@
 		                                    id="responseCommentTable-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}"
 		                                    <c:if test="${not empty frcList}">style="display:none"</c:if>>
 		                                    <c:forEach var="frc" items="${frcList}" varStatus="frcStatus">
-                                                <%-- use ${theCount.count} to start counting at 1 --%>
 	                                            <%
 	                                                String frCommentGiver = frc.giverEmail;
 	                                                if (frc.giverEmail.equals(data.instructorEmail)) {
