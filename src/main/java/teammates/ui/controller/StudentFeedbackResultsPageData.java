@@ -150,7 +150,7 @@ public class StudentFeedbackResultsPageData extends PageData {
         
         List<FeedbackResultsResponse> responses = new ArrayList<FeedbackResultsResponse>();
         String recipientName = responsesBundleForRecipient == null || responsesBundleForRecipient.isEmpty() ?
-                                 "" : bundle.getRecipientNameForResponse(question, responsesBundleForRecipient.get(0));
+                                 "" : bundle.getRecipientNameForResponse(responsesBundleForRecipient.get(0));
      
         for (FeedbackResponseAttributes singleResponse : responsesBundleForRecipient) {
             String giverName = bundle.getGiverNameForResponse(singleResponse);

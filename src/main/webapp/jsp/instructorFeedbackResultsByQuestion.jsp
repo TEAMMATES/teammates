@@ -163,7 +163,7 @@
                                                 String giverName = data.bundle.getGiverNameForResponse(responseEntry);
                                                 String giverTeamName = data.bundle.getTeamNameForEmail(responseEntry.giverEmail);
             
-                                                String recipientName = data.bundle.getRecipientNameForResponse(question, responseEntry);
+                                                String recipientName = data.bundle.getRecipientNameForResponse(responseEntry);
                                                 String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
                                                 
                                                 Boolean isGiverVisible = data.bundle.isGiverVisible(responseEntry);

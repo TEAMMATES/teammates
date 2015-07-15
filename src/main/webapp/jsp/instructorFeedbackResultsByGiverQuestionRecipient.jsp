@@ -514,7 +514,7 @@
                                         %>
                                             <tr>
                                         <%
-                                            	String recipientName = data.bundle.getRecipientNameForResponse(question, responseEntry);
+                                            	String recipientName = data.bundle.getRecipientNameForResponse(responseEntry);
                                                 String recipientTeamName = data.bundle.getTeamNameForEmail(responseEntry.recipientEmail);
                                                 
                                                 if (question.recipientType == FeedbackParticipantType.TEAMS) {

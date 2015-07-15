@@ -54,16 +54,16 @@
                             <c:forEach var="responseEntry" items="${responseEntries.value}" varStatus="responseEntryStatus">
                                 <%-- use ${theCount.count} to start counting at 1 --%>
                                 <c:set var="giverName" value="${feedbackSessionResultsBundle.emailNameTable[responseEntry.giverEmail]}"/>
-	                            <%
-	                                String giverTeamName = bundle.getTeamNameForEmail(responseEntry.giverEmail);
-	                                giverName = bundle.appendTeamNameToName(giverName, giverTeamName);
-	    
-	                                String recipientName = bundle.getRecipientNameForResponse(responseEntries.getKey(), responseEntry);
-	                                String recipientTeamName = bundle.getTeamNameForEmail(responseEntry.recipientEmail);
-	                                recipientName = bundle.appendTeamNameToName(recipientName, recipientTeamName);
-	                            %>
+                                <c:set var="giverTeamName" value="${feedbackSessionResultsBundle.emailTeamNameTable[responseEntry.giverEmail]}"/>
+	                            <% giverName = bundle.appendTeamNameToName(giverName, giverTeamName); %>
+                                <c:set var="recipientName" value="${feedbackSessionResultsBundle.emailNameTable[responseEntry.giverEmail]}"/>
+                                <%
+                                    String recipientName = bundle.getRecipientNameForResponse(responseEntry);
+                                    String recipientTeamName = bundle.getTeamNameForEmail(responseEntry.recipientEmail);
+                                %>
+	                            <% recipientName = bundle.appendTeamNameToName(recipientName, recipientTeamName); %>
 	                            <tr>
-	                                <td><b>From:</b> <%=giverName%> <b>To:</b> <%=recipientName%></td>
+	                                <td><b>From:</b> ${giverName} <b>To:</b> ${recipientName}</td>
 	                            </tr>
 	                            <tr>
 	                                <td><strong>Response: </strong><%=responseEntry.getResponseDetails().getAnswerHtml(questionDetails)%>
@@ -96,7 +96,7 @@
 		                                %>
 		                                <ul class="list-group comments"
 		                                    id="responseCommentTable-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}"
-		                                    <c:if test='${not empty frcList}'">style="display:none"</c:if>>
+		                                    <c:if test="${not empty frcList}">style="display:none"</c:if>>
 		                                    <c:forEach var="frc" items="${frcList}" varStatus="frcStatus">
                                                 <%-- use ${theCount.count} to start counting at 1 --%>
 	                                            <%
@@ -158,7 +158,7 @@
                             String giverTeamName = bundle.getTeamNameForEmail(responseEntry.giverEmail);
                             giverName = bundle.appendTeamNameToName(giverName, giverTeamName);
 
-                            String recipientName = bundle.getRecipientNameForResponse(responseEntries.getKey(), responseEntry);
+                            String recipientName = bundle.getRecipientNameForResponse(responseEntry);
                             String recipientTeamName = bundle.getTeamNameForEmail(responseEntry.recipientEmail);
                             recipientName = bundle.appendTeamNameToName(recipientName, recipientTeamName);
             %>
