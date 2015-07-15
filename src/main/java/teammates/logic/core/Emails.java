@@ -771,7 +771,7 @@ public class Emails {
         try {
             email = generateSystemErrorEmail(error, path, params,
                     Config.inst().getAppVersion());
-            sendEmail(email, false);
+            forceSendEmailThroughGaeWithoutLogging(email);
             log.severe("Sent crash report: " + Emails.getEmailInfo(email));
         } catch (Exception e) {
             log.severe("Error in sending crash report: "
@@ -784,7 +784,7 @@ public class Emails {
     public MimeMessage sendLogReport(MimeMessage message) {
         MimeMessage email = null;
         try {
-            sendEmail(message, false);
+            forceSendEmailThroughGaeWithoutLogging(message);
         } catch (Exception e) {
             log.severe("Error in sending log report: "
                     + (email == null ? "" : email.toString()));
