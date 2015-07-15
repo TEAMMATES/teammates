@@ -85,7 +85,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
 
         assertEquals(courseId, data.getCourseId());
         assertEquals(courseName, data.getCourseName());
-        assertTrue(coursePaginationList.equals(data.getCoursePaginationList()));
+        assertEquals(coursePaginationList, data.getCoursePaginationList());
         assertEquals(feedbackSessions, data.getFeedbackSessions());
         String expectedNextPageLink = data.getInstructorCommentsLink() + "&courseid=" + course2.id;
         String expectedPreviousPageLink = "javascript:;";
