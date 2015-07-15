@@ -136,10 +136,11 @@ public class InstructorFeedbackEditCopyAction extends Action {
         return courses;
     }    
     
-    private RedirectResult createRedirectToEditPageWithError(String feedbackSessionName, String courseId) {
-        isError = true;
-        
-        RedirectResult redirectResult = createRedirectResult(Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE);
+    private RedirectResult createRedirectToEditPageWithError(String feedbackSessionName, String courseId, String currentPage) {
+        isError = true;      
+        String redirectUrl = getRedirectUrl(currentPage);
+
+        RedirectResult redirectResult = createRedirectResult(redirectUrl);
         redirectResult.responseParams.put(Const.ParamsNames.COURSE_ID, courseId);
         redirectResult.responseParams.put(Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName);
         redirectResult.responseParams.put(Const.ParamsNames.USER_ID, account.googleId);
