@@ -106,10 +106,10 @@ public class InstructorFeedbackEditCopyAction extends Action {
         } catch (EntityAlreadyExistsException e) {
             // If conflicts are checked above, this will only occur via race condition
             setStatusForException(e, Const.StatusMessages.FEEDBACK_SESSION_EXISTS);
-            return createRedirectToEditPageWithError(originalFeedbackSessionName, originalCourseId, currentPage);
+            return createRedirectWithError(originalFeedbackSessionName, originalCourseId, currentPage);
         } catch (InvalidParametersException e) {
             setStatusForException(e);
-            return createRedirectToEditPageWithError(originalFeedbackSessionName, originalCourseId, currentPage);
+            return createRedirectWithError(originalFeedbackSessionName, originalCourseId, currentPage);
         }
         
     }
@@ -136,7 +136,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
         return courses;
     }    
     
-    private RedirectResult createRedirectToEditPageWithError(String feedbackSessionName, String courseId, String currentPage) {
+    private RedirectResult createRedirectWithError(String feedbackSessionName, String courseId, String currentPage) {
         isError = true;      
         String redirectUrl = getRedirectUrl(currentPage);
 
@@ -151,7 +151,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
     private RedirectResult createRedirectToEditPageWithErrorMsg(
             String feedbackSessionName, String courseId, String errorToUser, String currentPage) {
         statusToUser.add(errorToUser);
-        return createRedirectToEditPageWithError(feedbackSessionName, courseId, currentPage);
+        return createRedirectWithError(feedbackSessionName, courseId, currentPage);
     }
     
     private String getRedirectUrl(String currentPage) {
