@@ -89,7 +89,6 @@
                                        <c:if test="${not section.allowedToViewStudentInSection}">disabled="disabled"</c:if>>
                                         View
                                     </a>
-                                    &nbsp;
                                     <a class="btn btn-default btn-xs student-edit-for-test"
                                        href="${student.courseStudentEditLink}"
                                        title="<%= Const.Tooltips.COURSE_STUDENT_EDIT %>"
@@ -99,7 +98,6 @@
                                        <c:if test="${not section.allowedToModifyStudent}">disabled="disabled"</c:if>>
                                         Edit
                                     </a>
-                                    &nbsp;
                                     <a class="btn btn-default btn-xs student-delete-for-test"
                                        href="${student.courseStudentDeleteLink}"
                                        onclick="return toggleDeleteStudentConfirmation(${student.toggleDeleteConfirmationParams})"
@@ -109,7 +107,6 @@
                                        <c:if test="${not section.allowedToModifyStudent}">disabled="disabled"</c:if>>
                                         Delete
                                     </a>
-                                    &nbsp;
                                     <a class="btn btn-default btn-xs student-records-for-test"
                                        href="${student.courseStudentRecordsLink}"
                                        title="<%= Const.Tooltips.COURSE_STUDENT_RECORDS %>"
@@ -118,7 +115,6 @@
                                        data-placement="top">
                                         All Records
                                     </a>
-                                    &nbsp;
                                     <div class="dropdown inline">
                                         <a class="btn btn-default btn-xs dropdown-toggle"
                                            href="javascript:;"
