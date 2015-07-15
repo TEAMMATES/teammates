@@ -34,6 +34,9 @@ import teammates.ui.template.InstructorResultsResponseRow;
 import teammates.ui.template.InstructorResultsModerationButton;
 
 public class InstructorFeedbackResultsPageData extends PageData {
+    // TODO find out why it's 500
+    private static final int RESPONSE_LIMIT_FOR_COLLAPSING_PANEL = 500;
+
     public static final String EXCEEDING_RESPONSES_ERROR_MESSAGE = "Sorry, we could not retrieve results. "
                                                                  + "Please try again in a few minutes. If you continue to see this message, it could be because the report you are trying to display contains too much data to display in one page. e.g. more than 2,500 entries."
                                                                  + "<ul><li>If that is the case, you can still use the 'By question' report to view responses. You can also download the results as a spreadsheet. If you would like to see the responses in other formats (e.g. 'Group by - Giver'), you can try to divide the course into smaller sections so that we can display responses one section at a time.</li>"
@@ -51,7 +54,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private boolean isPanelsCollapsed;
     
     private FieldValidator validator = new FieldValidator();
-
 
     // used for html table ajax loading
     public String courseId = null;
@@ -86,8 +88,15 @@ public class InstructorFeedbackResultsPageData extends PageData {
         startIndex = -1;
     }
     
-    public void initForViewByQuestion() {
+    public void initForViewByQuestion(InstructorAttributes instructor, 
+                                      String selectedSection, String showStats, 
+                                      String groupByTeam) {
         viewType = ViewType.QUESTION;
+        
+        this.instructor = instructor;
+        this.selectedSection = selectedSection;
+        this.showStats = showStats;
+        this.groupByTeam = groupByTeam;
         
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> questionToResponseMap = bundle.getQuestionResponseMap();
         questionPanels = new ArrayList<InstructorResultsQuestionTable>();
@@ -110,7 +119,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * 
      * TODO: simplify the logic in this method
      */
-    public void initForViewByGiverQuestionRecipient() {
+    public void initForViewByGiverQuestionRecipient(InstructorAttributes instructor, 
+                                    String selectedSection, String showStats, 
+                                    String groupByTeam) {
+        this.instructor = instructor;
+        this.selectedSection = selectedSection;
+        this.showStats = showStats;
+        this.groupByTeam = groupByTeam;
         
         if (!bundle.isComplete) {
             // results page to be loaded by ajax instead 
@@ -118,12 +133,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
             return;
         }
         
+        // Note that if the page needs to load by ajax, then responses will be empty too,
+        // therefore the check whether the bundle needs to come before this
         if (bundle.responses.isEmpty()) {
             // no responses, nothing to initialize
             return;
         }
         
-        setShouldCollapsed(bundle.responses.size() > 500);
+        setShouldCollapsed(bundle.responses.size() > RESPONSE_LIMIT_FOR_COLLAPSING_PANEL);
         
         Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponses 
                      = bundle.getResponsesSortedByGiverQuestionRecipient(true);
@@ -140,7 +157,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
      * 
      * TODO: simplify the logic in this method
      */
-    public void initForViewByRecipientQuestionGiver() {
+    public void initForViewByRecipientQuestionGiver(InstructorAttributes instructor, 
+                                    String selectedSection, String showStats, 
+                                    String groupByTeam) {
+        
+        this.instructor = instructor;
+        this.selectedSection = selectedSection;
+        this.showStats = showStats;
+        this.groupByTeam = groupByTeam;
         
         if (!bundle.isComplete) {
             // results page to be loaded by ajax instead 
@@ -153,7 +177,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             return;
         }
         
-        setShouldCollapsed(bundle.responses.size() > 500);
+        setShouldCollapsed(bundle.responses.size() > RESPONSE_LIMIT_FOR_COLLAPSING_PANEL);
         
         Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponses 
                      = bundle.getResponsesSortedByRecipientQuestionGiver(true);
@@ -1304,6 +1328,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return EXCEEDING_RESPONSES_ERROR_MESSAGE;
     }
 
+    public void setBundle(FeedbackSessionResultsBundle bundle) {
+        this.bundle = bundle;
+    }
+    
     public FeedbackSessionResultsBundle getBundle() {
         return bundle;
     }

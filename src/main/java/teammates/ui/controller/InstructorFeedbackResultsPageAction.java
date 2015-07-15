@@ -130,7 +130,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
         switch (data.sortType) {
             case "question":
-                data.initForViewByQuestion();
+                data.initForViewByQuestion(instructor, data.selectedSection, data.showStats, data.groupByTeam);
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
             case "recipient-giver-question":
@@ -140,11 +140,11 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_RECIPIENT_QUESTION, data);
             case "recipient-question-giver":
-                data.initForViewByRecipientQuestionGiver();
+                data.initForViewByRecipientQuestionGiver(instructor, data.selectedSection, data.showStats, data.groupByTeam);
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_QUESTION_GIVER, data);
             case "giver-question-recipient":
-                data.initForViewByGiverQuestionRecipient();
+                data.initForViewByGiverQuestionRecipient(instructor, data.selectedSection, data.showStats, data.groupByTeam);
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_GIVER_QUESTION_RECIPIENT, data);
             default:
