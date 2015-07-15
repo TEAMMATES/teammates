@@ -56,11 +56,8 @@
                                 <c:set var="giverName" value="${feedbackSessionResultsBundle.emailNameTable[responseEntry.giverEmail]}"/>
                                 <c:set var="giverTeamName" value="${feedbackSessionResultsBundle.emailTeamNameTable[responseEntry.giverEmail]}"/>
 	                            <% giverName = bundle.appendTeamNameToName(giverName, giverTeamName); %>
-                                <c:set var="recipientName" value="${feedbackSessionResultsBundle.emailNameTable[responseEntry.giverEmail]}"/>
-                                <%
-                                    String recipientName = bundle.getRecipientNameForResponse(responseEntry);
-                                    String recipientTeamName = bundle.getTeamNameForEmail(responseEntry.recipientEmail);
-                                %>
+                                <c:set var="recipientName" value="${feedbackSessionResultsBundle.emailNameTable[responseEntry.recipientEmail]}"/>
+                                <c:set var="recipientTeamName" value="${feedbackSessionResultsBundle.emailTeamNameTable[responseEntry.recipientEmail]}"/>
 	                            <% recipientName = bundle.appendTeamNameToName(recipientName, recipientTeamName); %>
 	                            <tr>
 	                                <td><b>From:</b> ${giverName} <b>To:</b> ${recipientName}</td>

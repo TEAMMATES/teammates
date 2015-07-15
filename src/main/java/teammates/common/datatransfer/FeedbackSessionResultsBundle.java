@@ -1034,7 +1034,6 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                                                  .questionText);
     }
 
-    // Intended: For use by JSTL
     public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> getResponseComments() {
         return getQuestionResponseMap();
     }
