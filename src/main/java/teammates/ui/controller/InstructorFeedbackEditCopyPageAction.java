@@ -24,6 +24,8 @@ public class InstructorFeedbackEditCopyPageAction extends Action {
         List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(account.googleId);
         Assumption.assertNotNull(instructors);
         
+        String currentPage = getRequestParamValue(Const.ParamsNames.CURRENT_PAGE);
+        
         List<CourseAttributes> allCourses = logic.getCoursesForInstructor(account.googleId);
         
         List<CourseAttributes> coursesToAddToData = new ArrayList<CourseAttributes>();
