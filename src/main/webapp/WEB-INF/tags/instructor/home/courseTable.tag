@@ -19,7 +19,11 @@
     </thead>
     <c:if test="${empty sessionRows}">
         <tr>
-            <td></td>
+            <td>
+                <span class="col-md-12 text-muted">
+                    You have not created any sessions yet.
+                </span>
+            </td>
             <td></td>
             <td></td>
             <td></td>
