@@ -27,11 +27,14 @@ public class InstructorFeedbackEditCopyAction extends Action {
         Assumption.assertNotNull("null fs name", originalFeedbackSessionName);
         Assumption.assertNotNull("null copied fs name", newFeedbackSessionName);
         
+        String currentPage = getRequestParamValue(Const.ParamsNames.CURRENT_PAGE);
+        
         if (coursesIdToCopyTo == null || coursesIdToCopyTo.length == 0) {
             return createRedirectToEditPageWithErrorMsg(
                     originalFeedbackSessionName,
                     originalCourseId,
-                    Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED);
+                    Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED,
+                    currentPage);
         }
         
         InstructorAttributes instructor = logic.getInstructorForGoogleId(originalCourseId, account.googleId); 
