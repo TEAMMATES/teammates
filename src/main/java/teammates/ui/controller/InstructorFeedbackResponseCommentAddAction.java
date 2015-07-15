@@ -57,7 +57,7 @@ public class InstructorFeedbackResponseCommentAddAction extends Action {
         String recipientEmail = response.recipientEmail;
         FeedbackSessionResultsBundle bundle = logic.getFeedbackSessionResultsForInstructor(feedbackSessionName, courseId, instructor.email);
 
-        String giverName = bundle.getGiverNameForResponse(question, response);
+        String giverName = bundle.getGiverNameForResponse(response);
         String giverTeamName = bundle.getTeamNameForEmail(giverEmail);
         data.giverName = bundle.appendTeamNameToName(giverName, giverTeamName);
 

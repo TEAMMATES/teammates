@@ -477,7 +477,7 @@
                                         %>
                                                 <tr>
                                         <%
-                                            	String giverName = data.bundle.getGiverNameForResponse(question, responseEntry);
+                                            	String giverName = data.bundle.getGiverNameForResponse(responseEntry);
                                                 String giverTeamName = data.bundle.getTeamNameForEmail(responseEntry.giverEmail);
                                                 
                                                 if (!data.bundle.isGiverVisible(responseEntry)) {

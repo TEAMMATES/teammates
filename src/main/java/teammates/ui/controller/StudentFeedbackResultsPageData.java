@@ -153,7 +153,7 @@ public class StudentFeedbackResultsPageData extends PageData {
                                  "" : bundle.getRecipientNameForResponse(question, responsesBundleForRecipient.get(0));
      
         for (FeedbackResponseAttributes singleResponse : responsesBundleForRecipient) {
-            String giverName = bundle.getGiverNameForResponse(question, singleResponse);
+            String giverName = bundle.getGiverNameForResponse(singleResponse);
 
             /* Change display name to 'You' or 'Your team' if necessary */
             if (question.giverType == FeedbackParticipantType.TEAMS) {

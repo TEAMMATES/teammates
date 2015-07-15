@@ -994,8 +994,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
     }
 
-    public String getGiverNameForResponse(FeedbackQuestionAttributes question,
-                                          FeedbackResponseAttributes response) {
+    public String getGiverNameForResponse(FeedbackResponseAttributes response) {
         String name = emailNameTable.get(response.giverEmail);
         if (name == null || name.equals(Const.USER_IS_TEAM)) {
             return Const.USER_UNKNOWN_TEXT;
@@ -1324,7 +1323,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
             recipientTeamName = this.getTeamNameForEmail(response.recipientEmail);
             recipientName = this.appendTeamNameToName(recipientName,
                                                       recipientTeamName);
-            giverName = this.getGiverNameForResponse(questions.get(response.feedbackQuestionId), response);
+            giverName = this.getGiverNameForResponse(response);
             giverTeamName = this.getTeamNameForEmail(response.giverEmail);
             giverName = this.appendTeamNameToName(giverName, giverTeamName);
         }
@@ -1373,8 +1372,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                 }
                 responsesFromOneGiver = new LinkedHashMap<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>();
                 giver = response.giverEmail;
-                giverName = this.getGiverNameForResponse(questions.get(response.feedbackQuestionId),
-                                                         response);
+                giverName = this.getGiverNameForResponse(response);
                 questionId = null;
             }
             if (questionId == null || !response.feedbackQuestionId.equals(questionId)) {
@@ -1461,8 +1459,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                                                              response);
             recipientTeamName = this.getTeamNameForEmail(response.recipientEmail);
             recipientName = this.appendTeamNameToName(recipientName, recipientTeamName);
-            giverName = this.getGiverNameForResponse(questions.get(response.feedbackQuestionId),
-                                                     response);
+            giverName = this.getGiverNameForResponse(response);
             giverTeamName = this.getTeamNameForEmail(response.giverEmail);
             giverName = this.appendTeamNameToName(giverName, giverTeamName);
         }

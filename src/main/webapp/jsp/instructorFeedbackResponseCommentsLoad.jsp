@@ -55,7 +55,7 @@
                                 <%-- use ${theCount.count} to start counting at 1 --%>
                                 <c:set var="something" value="${2000*2}"/>
 	                            <%
-	                                String giverName = bundle.getGiverNameForResponse(responseEntries.getKey(), responseEntry);
+	                                String giverName = bundle.getGiverNameForResponse(responseEntry);
 	                                String giverTeamName = bundle.getTeamNameForEmail(responseEntry.giverEmail);
 	                                giverName = bundle.appendTeamNameToName(giverName, giverTeamName);
 	    
@@ -155,7 +155,7 @@
                 int responseIndex = 0;
                         for (FeedbackResponseAttributes responseEntry : responseEntries.getValue()) {//FeedbackResponse loop starts
                             responseIndex++;
-                            String giverName = bundle.getGiverNameForResponse(responseEntries.getKey(), responseEntry);
+                            String giverName = bundle.getGiverNameForResponse(responseEntry);
                             String giverTeamName = bundle.getTeamNameForEmail(responseEntry.giverEmail);
                             giverName = bundle.appendTeamNameToName(giverName, giverTeamName);
 

@@ -160,7 +160,7 @@
                                 %>
                                             
                                 <%
-                                                String giverName = data.bundle.getGiverNameForResponse(question, responseEntry);
+                                                String giverName = data.bundle.getGiverNameForResponse(responseEntry);
                                                 String giverTeamName = data.bundle.getTeamNameForEmail(responseEntry.giverEmail);
             
                                                 String recipientName = data.bundle.getRecipientNameForResponse(question, responseEntry);
