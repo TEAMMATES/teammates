@@ -320,6 +320,7 @@ public class InstructorSearchPageData extends PageData {
         result.append("<a class=\"btn btn-default btn-xs student-view-for-test\" "
                        + "href=\"" + getInstructorCourseStudentDetailsLink(student.course, student.email) + "\" "
                        + "title=\"" + Const.Tooltips.COURSE_STUDENT_DETAILS + "\" "
+                       + "target=\"_blank\""
                        + "data-toggle=\"tooltip\" data-placement=\"top\" "
                        + disabledStr + ">");
         result.append("View");
@@ -335,6 +336,7 @@ public class InstructorSearchPageData extends PageData {
         result.append("<a class=\"btn btn-default btn-xs student-edit-for-test\" "
                        + "href=\"" + getInstructorCourseStudentDetailsEditLink(student.course, student.email) + "\" "
                        + "title=\"" + Const.Tooltips.COURSE_STUDENT_EDIT + "\" "
+                       + "target=\"_blank\""
                        + "data-toggle=\"tooltip\" data-placement=\"top\" "
                        + disabledStr + ">");
         result.append("Edit");
@@ -361,6 +363,7 @@ public class InstructorSearchPageData extends PageData {
         result.append("<a class=\"btn btn-default btn-xs student-records-for-test\" "
                        + "href=\"" + getInstructorStudentRecordsLink(student.course, student.email) + "\" "
                        + "title=\"" + Const.Tooltips.COURSE_STUDENT_RECORDS + "\" "
+                       + "target=\"_blank\""
                        + "data-toggle=\"tooltip\" data-placement=\"top\" >");
         result.append("All Records");
         result.append("</a> ");
@@ -372,7 +375,7 @@ public class InstructorSearchPageData extends PageData {
             disabledStr = "";
         }
         
-        result.append("<div class=\"dropdown\" style=\"display: inline;\">"
+        result.append("<div class=\"dropdown inline\">"
                           + "<a class=\"btn btn-default btn-xs dropdown-toggle\" "
                              + "href=\"javascript:;\" "
                              + "data-toggle=\"dropdown\""
@@ -381,9 +384,9 @@ public class InstructorSearchPageData extends PageData {
         result.append("</a>");
         
         // Add comment dropdown
-        result.append("<ul class=\"dropdown-menu\" role=\"menu\" aria-labelledby=\"dLabel\" style=\"text-align: left;\">"
+        result.append("<ul class=\"dropdown-menu align-left\" role=\"menu\" aria-labelledby=\"dLabel\">"
                           + "<li role=\"presentation\">"
-                              + "<a role=\"menuitem\" tabindex=\"-1\" "
+                              + "<a target=\"_blank\" role=\"menuitem\" tabindex=\"-1\" "
                                   + "href=\"" + getInstructorCourseStudentDetailsLink(student.course, student.email, "student") 
                                               + "\">"
                                   + "Comment on " + PageData.sanitizeForHtml(student.name)
@@ -391,7 +394,7 @@ public class InstructorSearchPageData extends PageData {
                           + "</li>"
                               
                           + "<li role=\"presentation\">"
-                              + "<a role=\"menuitem\" tabindex=\"-1\" "
+                              + "<a target=\"_blank\" role=\"menuitem\" tabindex=\"-1\" "
                                   + "href=\"" + getInstructorCourseStudentDetailsLink(student.course, student.email, "team") 
                                               + "\">"
                                   + "Comment on " + PageData.sanitizeForHtml(student.team)
@@ -401,7 +404,7 @@ public class InstructorSearchPageData extends PageData {
                 
         if (!student.section.equals(Const.DEFAULT_SECTION)) {
             result.append("<li role=\"presentation\">"
-                              + "<a role=\"menuitem\" tabindex=\"-1\" "
+                              + "<a target=\"_blank\" role=\"menuitem\" tabindex=\"-1\" "
                                   + "href=\"" + getInstructorCourseStudentDetailsLink(student.course, student.email, "section") 
                                               + "\">"
                                   + "Comment on " + PageData.sanitizeForHtml(student.section)

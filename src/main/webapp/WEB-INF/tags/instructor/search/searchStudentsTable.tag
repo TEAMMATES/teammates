@@ -12,18 +12,18 @@
     <div class="panel-body padding-0">
         <table class="table table-responsive table-striped table-bordered margin-0">
             <thead class="background-color-medium-gray text-color-gray font-weight-normal">
-                <tr>
+                <tr id="resultsHeader-${courseIdx}">
                     <th>Photo</th>
-                    <th id="button_sortsection-${courseIdx}" class="button-sort-none" onclick="toggleSort(this, 1)">
+                    <th id="button_sortsection-${courseIdx}" class="button-sort-none" onclick="toggleSort(this,2)">
                         Section <span class="icon-sort unsorted"></span>
                     </th>
-                    <th id="button_sortteam-${courseIdx}" class="button-sort-none" onclick="toggleSort(this, 2)">
+                    <th id="button_sortteam-${courseIdx}" class="button-sort-none" onclick="toggleSort(this,3)">
                         Team <span class="icon-sort unsorted"></span>
                     </th>
-                    <th id="button_sortname-${courseIdx}" class="button-sort-none" onclick="toggleSort(this, 3)">
+                    <th id="button_sortstudentname-${courseIdx}" class="button-sort-none" onclick="toggleSort(this,4)">
                         Student Name <span class="icon-sort unsorted"></span>
                     </th>
-                    <th id="button_sortemail-${courseIdx}" class="button-sort-none" onclick="toggleSort(this, 4)">
+                    <th id="button_sortemail-${courseIdx}" class="button-sort-none" onclick="toggleSort(this,5)">
                         Email <span class="icon-sort unsorted"></span>
                     </th>
                     <th>Action(s)</th>

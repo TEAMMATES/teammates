@@ -3,7 +3,7 @@
 <%@ attribute name="courseIdx" required="true" %>
 <%@ attribute name="studentIdx" required="true" %>
 
-<tr id="student-c${courseIdx}.${studentIdx}" style="display: table-row;">
+<tr id="student-c${courseIdx}.${studentIdx}">
     <td id="studentphoto-c${courseIdx}.${studentIdx}">
         <div class="profile-pic-icon-click align-center" data-link="${student.viewPhotoLink}">
             <a class="student-profile-pic-view-link btn-link">View Photo</a>
