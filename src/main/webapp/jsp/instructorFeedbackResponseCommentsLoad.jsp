@@ -49,7 +49,9 @@
 		                                        onclick="showResponseCommentAddForm(${fsrbStatus.index},${responseEntriesStatus.count},${responseEntryStatus.count})"
 		                                        data-toggle="tooltip" data-placement="top"
 		                                        title="<%= Const.Tooltips.COMMENT_ADD %>"
-			                                    <% if ((data.currentInstructor == null) ||
+			                                    <% 
+                                                 // continue from here
+			                                     if ((data.currentInstructor == null) ||
 			                                            (!data.currentInstructor.isAllowedForPrivilege(responseEntry.giverSection,
 			                                                    responseEntry.feedbackSessionName,
 			                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)

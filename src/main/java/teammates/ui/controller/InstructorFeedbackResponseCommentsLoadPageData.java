@@ -24,7 +24,8 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
     public InstructorFeedbackResponseCommentsLoadPageData(AccountAttributes account) {
         super(account);
 
-        this.instructorFeedbackResponseComment = new InstructorFeedbackResponseComment(feedbackResultBundles);
+        this.instructorFeedbackResponseComment = 
+                new InstructorFeedbackResponseComment(feedbackResultBundles, currentInstructor);
     }
 
     public boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {

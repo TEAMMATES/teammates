@@ -7,15 +7,19 @@ import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
+import teammates.common.datatransfer.InstructorAttributes;
 
 public class InstructorFeedbackResponseComment {
     private Map<String, FeedbackSessionResultsBundle> feedbackResultBundles;
     private Map<String, String> giverNames;
     private Map<String, String> recipientNames;
     private Map<FeedbackQuestionDetails, String> responseEntryAnswerHtmls;
+    private InstructorAttributes currentInstructor;
 
-    public InstructorFeedbackResponseComment(Map<String, FeedbackSessionResultsBundle> feedbackResultBundles) {
+    public InstructorFeedbackResponseComment(Map<String, FeedbackSessionResultsBundle> feedbackResultBundles,
+                                             InstructorAttributes currentInstructor) {
         this.feedbackResultBundles = feedbackResultBundles;
+        this.currentInstructor = currentInstructor;
 
         initializeValues();
     }
