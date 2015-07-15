@@ -1,5 +1,6 @@
 package teammates.logic.automated;
 
+import java.io.IOException;
 import java.util.Properties;
 
 import javax.mail.Address;
@@ -10,6 +11,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.appengine.labs.repackaged.org.json.JSONException;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.HttpRequestHelper;
@@ -54,8 +57,8 @@ public class SendEmailWorkerServlet extends WorkerServlet {
             message.setReplyTo(new Address[] { new InternetAddress(emailReply) });
             
             Emails emailManager = new Emails();
-            emailManager.sendAndLogEmail(message);
-        } catch (MessagingException e) {
+            emailManager.sendEmailWithLogging(message);
+        } catch (MessagingException | JSONException | IOException e) {
             log.severe("Error while sending emails via servlet: " + e.getMessage());
             resp.setStatus(responseCodeForRetry);
         }
