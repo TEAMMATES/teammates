@@ -37,7 +37,7 @@ public class InstructorStudentListAjaxStudentData {
         link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, course);
         link = Url.addParamToUrl(link, Const.ParamsNames.STUDENT_EMAIL, studentEmail);
         link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, googleId);
-        return link.replace("%40", "@");
+        return link;
     }
 
     public String getStudentName() {
