@@ -53,9 +53,8 @@
                         <tbody>
                             <c:forEach var="responseEntry" items="${responseEntries.value}" varStatus="responseEntryStatus">
                                 <%-- use ${theCount.count} to start counting at 1 --%>
-                                <c:set var="something" value="${2000*2}"/>
+                                <c:set var="giverName" value="${feedbackSessionResultsBundle.emailNameTable[responseEntry.giverEmail]}"/>
 	                            <%
-	                                String giverName = bundle.getGiverNameForResponse(responseEntry);
 	                                String giverTeamName = bundle.getTeamNameForEmail(responseEntry.giverEmail);
 	                                giverName = bundle.appendTeamNameToName(giverName, giverTeamName);
 	    

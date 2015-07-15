@@ -221,5 +221,8 @@ public class FeedbackResponseAttributes extends EntityAttributes {
             }
         });
     }
-    
+
+    public String getGiverEmail() {
+        return giverEmail;
+    }
 }

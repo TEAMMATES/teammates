@@ -1005,6 +1005,10 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         }
     }
 
+    public Map<String, String> getEmailNameTable() {
+        return emailNameTable;
+    }
+
     public String appendTeamNameToName(String name, String teamName) {
         String outputName;
         if (name.contains("Anonymous") || name.equals(Const.USER_UNKNOWN_TEXT)
