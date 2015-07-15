@@ -2,10 +2,8 @@ package teammates.test.cases.ui.pagedata;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 import org.testng.annotations.BeforeClass;
@@ -25,7 +23,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.test.cases.BaseTestCase;
 import teammates.test.util.TestHelper;
 import teammates.ui.controller.InstructorCommentsPageData;
-import teammates.ui.controller.PageData;
 import teammates.ui.template.Comment;
 import teammates.ui.template.CommentsForStudentsTable;
 
@@ -35,7 +32,6 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
     private static CourseAttributes course1;
     private static CourseAttributes course2;
     private static InstructorAttributes instructor1;
-    private static InstructorAttributes instructor2;
     
     @BeforeClass
     public void classSetUp() throws Exception {
@@ -43,7 +39,6 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         course1 = dataBundle.courses.get("typicalCourse1");
         course2 = dataBundle.courses.get("typicalCourse2");
         instructor1 = dataBundle.instructors.get("instructor3OfCourse1");
-        instructor2 = dataBundle.instructors.get("instructor1OfCourse1");
     }
     
     @Test
@@ -69,18 +64,11 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         // Setup instructor comments
         String giverEmail = instructor1.email;
         setInstructorComments(giverEmail, instructor1.email, courseId, comments, commentModifyPermissions);
-        giverEmail = instructor2.email;
-        setInstructorComments(giverEmail, instructor1.email, courseId, comments, commentModifyPermissions);
         
         data.init(isViewingDraft, isDisplayArchive, courseId, courseName, coursePaginationList, 
                   comments, commentModifyPermissions, roster, feedbackSessions, numberOfPendingComments);
         
         /******************** Assertions for pageData data ********************/
-        assertFalse(data.isDisplayArchive());
-        assertFalse(data.isViewingDraft());
-        assertEquals(courseId, data.getCourseId());
-        assertEquals(courseName, data.getCourseName());
-        assertTrue(coursePaginationList.equals(data.getCoursePaginationList()));
         
         Map<String, List<CommentAttributes>> actualComments = data.getComments();
         Map<String, List<CommentAttributes>> expectedComments = comments;
@@ -89,26 +77,59 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         actualGivers.addAll(actualComments.keySet());
         List<String> expectedGivers = new ArrayList<String>();
         expectedGivers.addAll(expectedComments.keySet());
-        
         assertTrue(TestHelper.isSameContentIgnoreOrder(expectedGivers, actualGivers));
+        
         for (String email : expectedGivers) {
             assertEquals(expectedComments.get(email), actualComments.get(email));
         }
 
+        assertEquals(courseId, data.getCourseId());
+        assertEquals(courseName, data.getCourseName());
+        assertTrue(coursePaginationList.equals(data.getCoursePaginationList()));
         assertEquals(feedbackSessions, data.getFeedbackSessions());
         String expectedNextPageLink = data.getInstructorCommentsLink() + "&courseid=" + course2.id;
         String expectedPreviousPageLink = "javascript:;";
-        
         assertEquals(expectedNextPageLink, data.getNextPageLink());
         assertEquals(expectedPreviousPageLink, data.getPreviousPageLink());
-        
         assertEquals(numberOfPendingComments, data.getNumberOfPendingComments());
+        assertFalse(data.isDisplayArchive());
+        assertFalse(data.isViewingDraft());
         
         /******************** Assertions for data structures ********************/
-        List<CommentsForStudentsTable> expectedCommentsForStudentsTables =
-                getCommentsForStudentsTables(comments, roster, data, commentModifyPermissions);
-        List<CommentsForStudentsTable> actualCommentsForStudentsTables =
-                data.getCommentsForStudentsTables();
+        
+        String giverDetails = "You";
+        List<Comment> commentRows = new ArrayList<Comment>();
+        
+        // Create first expected comment row
+        String recipientDisplay = "<b>student2 In Course1 (Team 1.1, student2InCourse1@gmail.tmt)</b>";
+        CommentAttributes comment = dataBundle.comments.get("comment1FromI3C1toS2C1");
+        Comment commentRow = new Comment(comment, giverDetails, recipientDisplay);
+        commentRow.withExtraClass("status_display-private");
+        commentRow.setVisibilityIcon("");
+        commentRow.setNotificationIcon(comment.isPendingNotification());
+        commentRow.setEditDeleteEnabled(true);
+        commentRow.setFromCommentsPage();
+        commentRow.setPlaceholderNumComments();
+        commentRows.add(commentRow);
+        
+        // Create second expected comment row
+        recipientDisplay = "<b>All students in this course</b>";
+        comment = dataBundle.comments.get("comment1FromI3C1toC1");
+        commentRow = new Comment(comment, giverDetails, recipientDisplay);
+        commentRow.withExtraClass("status_display-private");
+        commentRow.setVisibilityIcon("");
+        commentRow.setNotificationIcon(comment.isPendingNotification());
+        commentRow.setEditDeleteEnabled(true);
+        commentRow.setFromCommentsPage();
+        commentRow.setPlaceholderNumComments();
+        commentRows.add(commentRow);
+        
+        // Create expected comments table
+        List<CommentsForStudentsTable> expectedCommentsForStudentsTables = new ArrayList<CommentsForStudentsTable>();
+        CommentsForStudentsTable commentsForStudentsTable = new CommentsForStudentsTable(giverDetails, commentRows);
+        commentsForStudentsTable.withExtraClass("giver_display-by-you");
+        expectedCommentsForStudentsTables.add(commentsForStudentsTable);
+        List<CommentsForStudentsTable> actualCommentsForStudentsTables = data.getCommentsForStudentsTables();
         
         assertEquals(expectedCommentsForStudentsTables.size(), actualCommentsForStudentsTables.size());
         for(int i = 0; i < expectedCommentsForStudentsTables.size(); i++) {
@@ -135,83 +156,34 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
                   comments, commentModifyPermissions, roster, feedbackSessions, numberOfPendingComments);
         
         /******************** Assertions for pageData data ********************/
-        assertFalse(data.isDisplayArchive());
-        assertFalse(data.isViewingDraft());
+        
+        actualComments = data.getComments();
+        assertEquals(1, actualComments.size());
+        assertEquals(0, actualComments.get(COMMENT_GIVER_NAME_THAT_COMES_FIRST).size());
         assertEquals(courseId, data.getCourseId());
         assertEquals(courseName, data.getCourseName());
         assertEquals(coursePaginationList, data.getCoursePaginationList());
-        
-        actualComments = data.getComments();
-        expectedComments = comments;
-        
-        actualGivers = new ArrayList<String>();
-        actualGivers.addAll(actualComments.keySet());
-        expectedGivers = new ArrayList<String>();
-        expectedGivers.addAll(expectedComments.keySet());
-        
-        assertTrue(TestHelper.isSameContentIgnoreOrder(expectedGivers, actualGivers));
-        for (String email : expectedGivers) {
-            assertEquals(expectedComments.get(email), actualComments.get(email));
-        }
         assertEquals(feedbackSessions, data.getFeedbackSessions());
         expectedNextPageLink = "javascript:;";
         expectedPreviousPageLink = data.getInstructorCommentsLink() + "&courseid=" + course1.id;
         assertEquals(data.getNextPageLink(), expectedNextPageLink);
-        assertEquals(data.getPreviousPageLink(), expectedPreviousPageLink);
-        
+        assertEquals(data.getPreviousPageLink(), expectedPreviousPageLink);        
         assertEquals(numberOfPendingComments, data.getNumberOfPendingComments());
+        assertFalse(data.isDisplayArchive());
+        assertFalse(data.isViewingDraft());
         
         /******************** Assertions for data structures ********************/
-        expectedCommentsForStudentsTables =
-                getCommentsForStudentsTables(comments, roster, data, commentModifyPermissions);
-        actualCommentsForStudentsTables =
-                data.getCommentsForStudentsTables();
         
-        assertEquals(expectedCommentsForStudentsTables.size(), actualCommentsForStudentsTables.size());
-        for(int i = 0; i < expectedCommentsForStudentsTables.size(); i++) {
-            isCommentsForStudentsTablesEqual(
-                    expectedCommentsForStudentsTables.get(i), actualCommentsForStudentsTables.get(i));
-        }
+        actualCommentsForStudentsTables = data.getCommentsForStudentsTables();
+        assertEquals(1, actualCommentsForStudentsTables.size());
+        assertEquals(0, actualCommentsForStudentsTables.get(0).getRows().size());
     }
 
     private boolean checkEqual(Object a, Object b) {
-        if (a == null && b == null) {
-            return true;
+        if (a == null || b == null){
+            return a == b;
         }
         return a.equals(b);
-    }
-
-    private List<Comment> createCommentRows(
-            String giverEmail, String giverName, Map<String, List<CommentAttributes>> comments,
-            InstructorCommentsPageData data, Map<String, List<Boolean>> commentModifyPermissions, 
-            CourseRoster roster) {
-        
-        List<Comment> rows = new ArrayList<Comment>();
-        List<CommentAttributes> commentsForGiver = comments.get(giverEmail);
-        for (int i = 0; i < commentsForGiver.size(); i++) {            
-            CommentAttributes comment = commentsForGiver.get(i);
-            String recipientDetails = getRecipientNames(data, comment.courseId, comment.recipients, roster);
-            Boolean isInstructorAllowedToModifyCommentInSection = commentModifyPermissions.get(giverEmail).get(i);
-            String typeOfPeopleCanViewComment = data.getTypeOfPeopleCanViewComment(comment);
-            Comment commentDiv = new Comment(comment, giverName, recipientDetails);
-            String extraClass;
-            if (comment.showCommentTo.isEmpty()) {
-                extraClass = "status_display-private";
-            } else {
-                extraClass = "status_display-public";
-            }
-            commentDiv.withExtraClass(extraClass);
-            commentDiv.setVisibilityIcon(typeOfPeopleCanViewComment);
-            commentDiv.setNotificationIcon(comment.isPendingNotification());
-            if (isInstructorAllowedToModifyCommentInSection) {
-                commentDiv.setEditDeleteEnabled(true);
-                commentDiv.setFromCommentsPage();
-                commentDiv.setPlaceholderNumComments();
-            }
-            
-            rows.add(commentDiv);
-        }       
-        return rows;
     }
 
     private List<CommentAttributes> getCommentsForGiverInCourse(String giverEmail, String courseId) {
@@ -222,30 +194,6 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
             }
         }
         return commentsForGiverInCourseList;
-    }
-    
-    private List<CommentsForStudentsTable> getCommentsForStudentsTables( 
-            Map<String, List<CommentAttributes>> comments, CourseRoster roster, 
-            InstructorCommentsPageData data, Map<String, List<Boolean>> commentModifyPermissions) {
-        Map<String, String> giverEmailToGiverNameMap = getGiverEmailToGiverNameMap(comments, roster);
-        List<CommentsForStudentsTable> commentsForStudentsTables = new ArrayList<CommentsForStudentsTable>();      
-          
-        for (String giverEmail : comments.keySet()) {
-            String giverName = giverEmailToGiverNameMap.get(giverEmail);
-            CommentsForStudentsTable table = 
-                    new CommentsForStudentsTable(
-                            giverName, createCommentRows(
-                                               giverEmail, giverName, comments, data, commentModifyPermissions, roster));
-            String extraClass;
-            if (giverEmail.equals(COMMENT_GIVER_NAME_THAT_COMES_FIRST)) {
-                extraClass = "giver_display-by-you";
-            } else {
-                extraClass = "giver_display-by-others";
-            }
-            table.withExtraClass(extraClass);
-            commentsForStudentsTables.add(table);
-        }
-        return commentsForStudentsTables;
     }
 
     private List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
@@ -258,26 +206,6 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         return feedbackSessionsInCourse;
     }
 
-    private Map<String, String> getGiverEmailToGiverNameMap(
-            Map<String, List<CommentAttributes>> comments, CourseRoster roster) {
-    
-        Map<String, String> giverEmailToGiverNameMap = new HashMap<String, String>();
-        for (String giverEmail : comments.keySet()) {
-    
-            InstructorAttributes instructor = roster.getInstructorForEmail(giverEmail);
-            String giverDisplay = giverEmail;
-            if (giverEmail.equals(InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST)) {
-                giverDisplay = "You";
-            } else if (instructor != null) {
-                String title = instructor.displayedName;
-                giverDisplay = title + " " + instructor.name;
-            }
-    
-            giverEmailToGiverNameMap.put(giverEmail, giverDisplay);
-        }
-        return giverEmailToGiverNameMap;
-    }
-
     private List<InstructorAttributes> getInstructorsInCourse(String courseId) {
         List<InstructorAttributes> instructorsInCourse = new ArrayList<InstructorAttributes>();
         for (InstructorAttributes instructor : dataBundle.instructors.values()) {
@@ -286,31 +214,6 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
             }
         }
         return instructorsInCourse;
-    }
-    
-    private String getRecipientNames(PageData data, String courseId, Set<String> recipients, CourseRoster roster) {
-        StringBuilder namesStringBuilder = new StringBuilder();
-        int i = 0;
-        for (String recipient : recipients) {
-            if (i == recipients.size() - 1 && recipients.size() > 1) {
-                namesStringBuilder.append("and ");
-            }
-            StudentAttributes student = roster.getStudentForEmail(recipient);
-            if (courseId.equals(recipient)) { 
-                namesStringBuilder.append("<b>All students in this course</b>, ");
-            } else if (student != null) {
-                if (recipients.size() == 1) {
-                    namesStringBuilder.append("<b>" + student.name + " (" + student.team + ", " + student.email + ")</b>, ");
-                } else {
-                    namesStringBuilder.append("<b>" + student.name + "</b>" + ", ");
-                }
-            } else {
-                namesStringBuilder.append("<b>" + recipient + "</b>" + ", ");
-            }
-            i++;
-        }
-        String namesString = namesStringBuilder.toString();
-        return data.removeEndComma(namesString);
     }
 
     private List<StudentAttributes> getStudentsInCourse(String courseId) {
@@ -323,18 +226,15 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         return studentsInCourse;
     }
     
-    private void isCommentsForStudentsTablesEqual(
-            CommentsForStudentsTable expected, CommentsForStudentsTable actual) {
+    private void isCommentsForStudentsTablesEqual(CommentsForStudentsTable expected, CommentsForStudentsTable actual) {
         assertTrue(checkEqual(expected.getGiverDetails(), actual.getGiverDetails()));
         assertTrue(checkEqual(expected.getExtraClass(), actual.getExtraClass()));
         List<Comment> expectedCommentRows = expected.getRows();
         List<Comment> actualCommentRows = actual.getRows();
         assertEquals(expectedCommentRows.size(), actualCommentRows.size());
         for(int i = 0; i < expectedCommentRows.size(); i++) {
-            Comment expectedCommentRow =
-                    (Comment) expectedCommentRows.get(i);
-            Comment actualCommentRow =
-                    (Comment) actualCommentRows.get(i);
+            Comment expectedCommentRow = expectedCommentRows.get(i);
+            Comment actualCommentRow = actualCommentRows.get(i);
             isCommentRowsEqual(expectedCommentRow, actualCommentRow);
         }
     }
@@ -381,8 +281,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
 
     private void setInstructorComments(
             String giverEmail, String currentInstructorEmail, String courseId, 
-            Map<String, List<CommentAttributes>> comments,
-            Map<String, List<Boolean>> commentModifyPermissions) {
+            Map<String, List<CommentAttributes>> comments, Map<String, List<Boolean>> commentModifyPermissions) {
         List<CommentAttributes> commentsForGiverList;
         List<Boolean> canModifyCommentList = new ArrayList<Boolean>();
         commentsForGiverList = getCommentsForGiverInCourse(giverEmail, courseId);
