@@ -30,7 +30,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
         String currentPage = getRequestParamValue(Const.ParamsNames.CURRENT_PAGE);
         
         if (coursesIdToCopyTo == null || coursesIdToCopyTo.length == 0) {
-            return createRedirectToEditPageWithErrorMsg(
+            return createRedirectWithErrorMsg(
                     originalFeedbackSessionName,
                     originalCourseId,
                     Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED,
@@ -63,7 +63,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
                                                    newFeedbackSessionName,
                                                    commaSeparatedListOfCourses);
                 
-                return createRedirectToEditPageWithErrorMsg(originalFeedbackSessionName,
+                return createRedirectWithErrorMsg(originalFeedbackSessionName,
                                                             originalCourseId,
                                                             errorToUser, currentPage);
             }
@@ -148,7 +148,7 @@ public class InstructorFeedbackEditCopyAction extends Action {
         return redirectResult;
     }
     
-    private RedirectResult createRedirectToEditPageWithErrorMsg(
+    private RedirectResult createRedirectWithErrorMsg(
             String feedbackSessionName, String courseId, String errorToUser, String currentPage) {
         statusToUser.add(errorToUser);
         return createRedirectWithError(feedbackSessionName, courseId, currentPage);
