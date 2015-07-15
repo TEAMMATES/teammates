@@ -101,7 +101,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         List<Comment> commentRows = new ArrayList<Comment>();
         
         // Create first expected comment row
-        String recipientDisplay = "<b>student2 In Course1 (Team 1.1, student2InCourse1@gmail.tmt)</b>";
+        String recipientDisplay = "student2 In Course1 (Team 1.1, student2InCourse1@gmail.tmt)";
         CommentAttributes comment = dataBundle.comments.get("comment1FromI3C1toS2C1");
         Comment commentRow = new Comment(comment, giverDetails, recipientDisplay);
         commentRow.withExtraClass("status_display-private");
@@ -113,7 +113,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         commentRows.add(commentRow);
         
         // Create second expected comment row
-        recipientDisplay = "<b>All students in this course</b>";
+        recipientDisplay = "All students in this course";
         comment = dataBundle.comments.get("comment1FromI3C1toC1");
         commentRow = new Comment(comment, giverDetails, recipientDisplay);
         commentRow.withExtraClass("status_display-private");
