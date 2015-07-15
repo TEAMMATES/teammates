@@ -17,6 +17,7 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Sanitizer;
 import teammates.logic.api.Logic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.ui.controller.InstructorFeedbackResultsPageData;
@@ -162,11 +163,11 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         assertEquals("Response from student 3 &quot;to&quot; student 2.\r\nMultiline test.", sectionResponseRow.getDisplayableResponse());
         
         
-        ______TS("all sections, question 1 of Second feedback session");
+        ______TS("all sections, question 2");
         data.instructor = instructor;
         data.courseId = instructor.courseId;
         data.feedbackSessionName = dataBundle.feedbackSessions
-                                             .get("session2InCourse1")
+                                             .get("session1InCourse1")
                                              .feedbackSessionName;
         
         data.showStats = "on";
@@ -174,7 +175,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         data.sortType = "question";
         data.selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
         data.bundle = logic.getFeedbackSessionResultsForInstructorFromQuestion(data.feedbackSessionName, data.courseId, 
-                                        data.instructor.email, 1);
+                                                                               data.instructor.email, 2);
         
         data.initForViewByQuestion();
             
@@ -184,7 +185,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         InstructorResultsQuestionTable singleQuestionPanel = singleQuestionPanelList.get(0);
         assertEquals("", singleQuestionPanel.getAdditionalInfoText());
         assertEquals("panel-info", singleQuestionPanel.getPanelClass());
-        assertEquals(dataBundle.feedbackQuestions.get("qn1InSession2InCourse1").questionMetaData.getValue(), 
+        assertEquals(Sanitizer.sanitizeForHtml(dataBundle.feedbackQuestions.get("qn2InSession1InCourse1").questionMetaData.getValue()), 
                                         singleQuestionPanel.getQuestionText());
         assertTrue(singleQuestionPanel.getResponsesBodyClass().matches(".*\\bpanel-collapse\\b.*"));
         assertTrue(singleQuestionPanel.getResponsesBodyClass().matches(".*\\bcollapse\\b.*"));
@@ -195,16 +196,16 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         assertTrue(isValuesInMapTrue(singleQuestionPanel.getIsColumnSortable(), 
                                      Arrays.asList("Giver", "Team", "Recipient", "Feedback")));
         assertTrue(isValuesInMapFalse(singleQuestionPanel.getIsColumnSortable(), 
-                                        Arrays.asList("Actions")));
+                                      Arrays.asList("Actions")));
         
         List<InstructorResultsResponseRow> singleQuestionResponseRows = singleQuestionPanel.getResponses();
-        assertEquals(5, singleQuestionResponseRows.size());
-        // first response
-        InstructorResultsResponseRow singleQuestionResponseRow = singleQuestionResponseRows.get(0);
-        assertEquals("Student 1 self feedback.", singleQuestionResponseRow.getDisplayableResponse());
+        assertEquals(3, singleQuestionResponseRows.size());
+        // just verify any response
+        InstructorResultsResponseRow singleQuestionResponseRow = singleQuestionResponseRows.get(1);
+        assertEquals("Response from student 2 to student 1.", singleQuestionResponseRow.getDisplayableResponse());
         
+        assertEquals("student2 In Course1", singleQuestionResponseRow.getGiverDisplayableIdentifier());
         assertEquals("Team 1.1", singleQuestionResponseRow.getGiverTeam());
-        assertEquals("student1 In Course1", singleQuestionResponseRow.getGiverDisplayableIdentifier());
         assertEquals("student1 In Course1", singleQuestionResponseRow.getRecipientDisplayableIdentifier());
         assertEquals("Team 1.1", singleQuestionResponseRow.getRecipientTeam());
         
@@ -215,15 +216,15 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         assertTrue(singleQuestionResponseRow.isRecipientDisplayed());
         assertTrue(singleQuestionResponseRow.isModerationsButtonDisplayed());
         
-        modButton = responseRow.getModerationButton();
+        modButton = singleQuestionResponseRow.getModerationButton();
         assertEquals("Moderate Response", modButton.getButtonText());
         assertTrue(modButton.getClassName().matches(".*\\bbtn\\b.*"));
         assertTrue(modButton.getClassName().matches(".*\\bbtn-default\\b.*"));
         assertTrue(modButton.getClassName().matches(".*\\bbtn-xs\\b.*"));
         assertEquals("idOfTypicalCourse1", modButton.getCourseId());
         assertEquals("First feedback session", modButton.getFeedbackSessionName());
-        assertEquals("student1InCourse1@gmail.tmt", modButton.getGiverIdentifier());
-        assertEquals(1, modButton.getQuestionNumber());
+        assertEquals("student2InCourse1@gmail.tmt", modButton.getGiverIdentifier());
+        assertEquals(2, modButton.getQuestionNumber());
         assertTrue(modButton.isAllowedToModerate());
         assertFalse(modButton.isDisabled());
         
@@ -242,6 +243,15 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
                                         1, "question");
         data.initForViewByQuestion();
         assertFalse(data.bundle.isComplete());
+        
+        List<InstructorResultsQuestionTable> ajaxQuestionPanels = data.getQuestionPanels();
+        assertEquals(4, ajaxQuestionPanels.size());
+        InstructorResultsQuestionTable ajaxQuestionPanel = ajaxQuestionPanels.get(0);
+        assertEquals("panel-default", ajaxQuestionPanel.getPanelClass());
+        assertTrue(ajaxQuestionPanel.isCollapsible());
+        assertTrue(ajaxQuestionPanel.getResponsesBodyClass().matches(".*\\bpanel-collapse\\b.*"));
+        assertTrue(ajaxQuestionPanel.getResponsesBodyClass().matches(".*\\bcollapse\\b.*"));
+        
     }
     
     public <K, V> boolean isKeysOfMap(Map<K, V> map, List<K> keys) {
