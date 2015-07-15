@@ -112,8 +112,8 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         
         assertEquals(expectedCommentsForStudentsTables.size(), actualCommentsForStudentsTables.size());
         for(int i = 0; i < expectedCommentsForStudentsTables.size(); i++) {
-            assertTrue(isCommentsForStudentsTablesEqual(
-                               expectedCommentsForStudentsTables.get(i), actualCommentsForStudentsTables.get(i)));
+            isCommentsForStudentsTablesEqual(
+                     expectedCommentsForStudentsTables.get(i), actualCommentsForStudentsTables.get(i));
         }
         
         ______TS("instructor is in second course page");
@@ -169,9 +169,49 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         
         assertEquals(expectedCommentsForStudentsTables.size(), actualCommentsForStudentsTables.size());
         for(int i = 0; i < expectedCommentsForStudentsTables.size(); i++) {
-            assertTrue(isCommentsForStudentsTablesEqual(
-                               expectedCommentsForStudentsTables.get(i), actualCommentsForStudentsTables.get(i)));
+            isCommentsForStudentsTablesEqual(
+                    expectedCommentsForStudentsTables.get(i), actualCommentsForStudentsTables.get(i));
         }
+    }
+
+    private boolean checkEqual(Object a, Object b) {
+        if (a == null && b == null) {
+            return true;
+        }
+        return a.equals(b);
+    }
+
+    private List<Comment> createCommentRows(
+            String giverEmail, String giverName, Map<String, List<CommentAttributes>> comments,
+            InstructorCommentsPageData data, Map<String, List<Boolean>> commentModifyPermissions, 
+            CourseRoster roster) {
+        
+        List<Comment> rows = new ArrayList<Comment>();
+        List<CommentAttributes> commentsForGiver = comments.get(giverEmail);
+        for (int i = 0; i < commentsForGiver.size(); i++) {            
+            CommentAttributes comment = commentsForGiver.get(i);
+            String recipientDetails = getRecipientNames(data, comment.courseId, comment.recipients, roster);
+            Boolean isInstructorAllowedToModifyCommentInSection = commentModifyPermissions.get(giverEmail).get(i);
+            String typeOfPeopleCanViewComment = data.getTypeOfPeopleCanViewComment(comment);
+            Comment commentDiv = new Comment(comment, giverName, recipientDetails);
+            String extraClass;
+            if (comment.showCommentTo.isEmpty()) {
+                extraClass = "status_display-private";
+            } else {
+                extraClass = "status_display-public";
+            }
+            commentDiv.withExtraClass(extraClass);
+            commentDiv.setVisibilityIcon(typeOfPeopleCanViewComment);
+            commentDiv.setNotificationIcon(comment.isPendingNotification());
+            if (isInstructorAllowedToModifyCommentInSection) {
+                commentDiv.setEditDeleteEnabled(true);
+                commentDiv.setFromCommentsPage();
+                commentDiv.setPlaceholderNumComments();
+            }
+            
+            rows.add(commentDiv);
+        }       
+        return rows;
     }
 
     private List<CommentAttributes> getCommentsForGiverInCourse(String giverEmail, String courseId) {
@@ -283,6 +323,62 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         return studentsInCourse;
     }
     
+    private void isCommentsForStudentsTablesEqual(
+            CommentsForStudentsTable expected, CommentsForStudentsTable actual) {
+        assertTrue(checkEqual(expected.getGiverDetails(), actual.getGiverDetails()));
+        assertTrue(checkEqual(expected.getExtraClass(), actual.getExtraClass()));
+        List<Comment> expectedCommentRows = expected.getRows();
+        List<Comment> actualCommentRows = actual.getRows();
+        assertEquals(expectedCommentRows.size(), actualCommentRows.size());
+        for(int i = 0; i < expectedCommentRows.size(); i++) {
+            Comment expectedCommentRow =
+                    (Comment) expectedCommentRows.get(i);
+            Comment actualCommentRow =
+                    (Comment) actualCommentRows.get(i);
+            isCommentRowsEqual(expectedCommentRow, actualCommentRow);
+        }
+    }
+
+    private void isCommentRowsEqual(Comment expected, Comment actual) {
+        assertTrue(checkEqual(expected.getCreatedAt(), actual.getCreatedAt()));
+        assertTrue(checkEqual(expected.getEditedAt(), actual.getEditedAt()));
+        assertTrue(checkEqual(expected.getCommentText(), actual.getCommentText()));
+        assertTrue(checkEqual(expected.getRecipientDisplay(), actual.getRecipientDisplay()));
+        assertTrue(checkEqual(expected.getExtraClass(), actual.getExtraClass()));
+        assertTrue(checkEqual(expected.isWithVisibilityIcon(), actual.isWithVisibilityIcon()));
+        assertTrue(checkEqual(expected.getWhoCanSeeComment(), actual.getWhoCanSeeComment()));
+        assertTrue(checkEqual(expected.isWithNotificationIcon(), actual.isWithNotificationIcon()));
+        assertTrue(checkEqual(expected.isWithLinkToCommentsPage(), actual.isWithLinkToCommentsPage()));
+        assertTrue(checkEqual(expected.getLinkToCommentsPage(), actual.getLinkToCommentsPage()));
+        assertTrue(checkEqual(expected.isEditDeleteEnabled(), actual.isEditDeleteEnabled()));
+        assertTrue(checkEqual(expected.isEditDeleteEnabledOnlyOnHover(), actual.isEditDeleteEnabledOnlyOnHover()));
+        assertTrue(checkEqual(expected.isFromCommentsPage(), actual.isFromCommentsPage()));
+        assertTrue(checkEqual(expected.getNumComments(), actual.getNumComments()));
+        assertTrue(checkEqual(expected.getCommentId(), actual.getCommentId()));
+        assertTrue(checkEqual(expected.getCourseId(), actual.getCourseId()));
+        assertTrue(checkEqual(expected.isCommentForPerson(), actual.isCommentForPerson()));
+        assertTrue(checkEqual(expected.isCommentForTeam(), actual.isCommentForTeam()));
+        assertTrue(checkEqual(expected.isCommentForSection(), actual.isCommentForSection()));
+        assertTrue(checkEqual(expected.isCommentForCourse(), actual.isCommentForCourse()));
+        assertTrue(checkEqual(expected.getShowCommentToString(), actual.getShowCommentToString()));
+        assertTrue(checkEqual(expected.getShowGiverNameToString(), actual.getShowGiverNameToString()));
+        assertTrue(checkEqual(expected.getShowRecipientNameToString(), actual.getShowRecipientNameToString()));
+        assertTrue(checkEqual(expected.isShowCommentToRecipient(), actual.isShowCommentToRecipient()));
+        assertTrue(checkEqual(expected.isShowGiverNameToRecipient(), actual.isShowGiverNameToRecipient()));
+        assertTrue(checkEqual(expected.isShowCommentToRecipientTeam(), actual.isShowCommentToRecipientTeam()));
+        assertTrue(checkEqual(expected.isShowGiverNameToRecipientTeam(), actual.isShowGiverNameToRecipientTeam()));
+        assertTrue(checkEqual(expected.isShowRecipientNameToRecipientTeam(), actual.isShowRecipientNameToRecipientTeam()));
+        assertTrue(checkEqual(expected.isShowCommentToRecipientSection(), actual.isShowCommentToRecipientSection()));
+        assertTrue(checkEqual(expected.isShowGiverNameToRecipientSection(), actual.isShowGiverNameToRecipientSection()));
+        assertTrue(checkEqual(expected.isShowRecipientNameToRecipientSection(), actual.isShowRecipientNameToRecipientSection()));
+        assertTrue(checkEqual(expected.isShowCommentToCourse(), actual.isShowCommentToCourse()));
+        assertTrue(checkEqual(expected.isShowGiverNameToCourse(), actual.isShowGiverNameToCourse()));
+        assertTrue(checkEqual(expected.isShowRecipientNameToCourse(), actual.isShowRecipientNameToCourse()));
+        assertTrue(checkEqual(expected.isShowCommentToInstructors(), actual.isShowCommentToInstructors()));
+        assertTrue(checkEqual(expected.isShowGiverNameToInstructors(), actual.isShowGiverNameToInstructors()));
+        assertTrue(checkEqual(expected.isShowRecipientNameToInstructors(), actual.isShowRecipientNameToInstructors()));
+    }
+
     private void setInstructorComments(
             String giverEmail, String currentInstructorEmail, String courseId, 
             Map<String, List<CommentAttributes>> comments,
@@ -299,70 +395,5 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         }
         commentModifyPermissions.put(key, canModifyCommentList);
         comments.put(key, commentsForGiverList);   
-    }
-    
-    private boolean isCommentsForStudentsTablesEqual(
-            CommentsForStudentsTable expected, CommentsForStudentsTable actual) {
-        boolean result = expected.getGiverDetails().equals(actual.getGiverDetails());
-        result = result && expected.getExtraClass().equals(actual.getExtraClass());
-        List<Comment> expectedCommentRows = expected.getRows();
-        List<Comment> actualCommentRows = actual.getRows();
-        result = result && (expectedCommentRows.size() == actualCommentRows.size());
-        for(int i = 0; i < expectedCommentRows.size() && result; i++) {
-            Comment expectedInstructorCommentsCommentRow =
-                    (Comment) expectedCommentRows.get(i);
-            Comment actualInstructorCommentsCommentRow =
-                    (Comment) actualCommentRows.get(i);
-            //TODO: Below
-           // result = result && isCommentRowsEqual(
-             //                          expectedInstructorCommentsCommentRow, actualInstructorCommentsCommentRow);
-        }
-        return result;
-    }
-    
-    private boolean isCommentRowsEqual(Comment expected, Comment actual) {
-        /*boolean result = expected.isInstructorAllowedToModifyCommentInSection() 
-                         == actual.isInstructorAllowedToModifyCommentInSection();
-        result = result && expected.getTypeOfPeopleCanViewComment().equals(actual.getTypeOfPeopleCanViewComment());
-        result = result && expected.getEditedAt().equals(actual.getEditedAt());
-        result = result && isVisibilityCheckboxesEqual(
-                                   expected.getVisibilityCheckboxes(), actual.getVisibilityCheckboxes());
-        result = result && expected.getShowCommentsTo().equals(actual.getShowCommentsTo());
-        result = result && expected.getShowGiverNameTo().equals(actual.getShowGiverNameTo());
-        result = result && expected.getShowRecipientNameTo().equals(actual.getShowRecipientNameTo());*/
-        return true;
-    }
-    
-    private List<Comment> createCommentRows(
-            String giverEmail, String giverName, Map<String, List<CommentAttributes>> comments,
-            InstructorCommentsPageData data, Map<String, List<Boolean>> commentModifyPermissions, 
-            CourseRoster roster) {
-        
-        List<Comment> rows = new ArrayList<Comment>();
-        List<CommentAttributes> commentsForGiver = comments.get(giverEmail);
-        for (int i = 0; i < commentsForGiver.size(); i++) {            
-            CommentAttributes comment = commentsForGiver.get(i);
-            String recipientDetails = getRecipientNames(data, comment.courseId, comment.recipients, roster);
-            Boolean isInstructorAllowedToModifyCommentInSection = commentModifyPermissions.get(giverEmail).get(i);
-            String typeOfPeopleCanViewComment = data.getTypeOfPeopleCanViewComment(comment);
-            Comment commentDiv = new Comment(comment, giverName, recipientDetails);
-            String extraClass;
-            if (comment.showCommentTo.isEmpty()) {
-                extraClass = "status_display-private";
-            } else {
-                extraClass = "status_display-public";
-            }
-            commentDiv.withExtraClass(extraClass);
-            commentDiv.setVisibilityIcon(typeOfPeopleCanViewComment);
-            commentDiv.setNotificationIcon(comment.isPendingNotification());
-            if (isInstructorAllowedToModifyCommentInSection) {
-                commentDiv.setEditDeleteEnabled(true);
-                commentDiv.setFromCommentsPage();
-                commentDiv.setPlaceholderNumComments();
-            }
-            
-            rows.add(commentDiv);
-        }       
-        return rows;
     }
 }
