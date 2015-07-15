@@ -21,7 +21,7 @@
         <tr>
             <td>
                 <span class="col-md-12 text-muted">
-                    You have not created any sessions yet.
+                    This course does not have any sessions yet.
                 </span>
             </td>
             <td></td>
