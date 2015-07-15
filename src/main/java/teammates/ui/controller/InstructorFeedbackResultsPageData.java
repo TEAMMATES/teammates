@@ -73,6 +73,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
         public String toString() {
             return name().toLowerCase().replaceAll("_", "-");
         }
+        
+        public boolean isFirstGroupedByGiver() {
+            return this == GIVER_QUESTION_RECIPIENT;
+        }
     }
     
     
@@ -107,14 +111,15 @@ public class InstructorFeedbackResultsPageData extends PageData {
      */
     public void initForViewByGiverQuestionRecipient() {
   
-        if (bundle.responses.isEmpty()) {
-            // no responses, nothing to initialize
-            return;
-        }
         
         if (!bundle.isComplete) {
             // results page to be loaded by ajax instead 
             buildSectionPanelsForForAjaxLoading(sections);
+            return;
+        }
+        
+        if (bundle.responses.isEmpty()) {
+            // no responses, nothing to initialize
             return;
         }
         
@@ -137,14 +142,15 @@ public class InstructorFeedbackResultsPageData extends PageData {
      */
     public void initForViewByRecipientQuestionGiver() {
 
-        if (bundle.responses.isEmpty()) {
-            // no responses, nothing to initialize
-            return;
-        }
         
         if (!bundle.isComplete) {
             // results page to be loaded by ajax instead 
             buildSectionPanelsForForAjaxLoading(sections);
+            return;
+        }
+        
+        if (bundle.responses.isEmpty()) {
+            // no responses, nothing to initialize
             return;
         }
         
@@ -160,7 +166,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                     Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponses) {
         final ViewType viewType = ViewType.GIVER_QUESTION_RECIPIENT;
         
-        final boolean isGiver = true;
         final String additionalInfoId = "giver-%s-question-%s";
         
         LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam 
@@ -192,9 +197,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
             if (!prevTeam.equals(currentTeam)) {
                 boolean isFirstTeam = prevTeam.isEmpty();
                 if (!isFirstTeam) {
-                    createMissingParticipantPanelsWithModerationButtonForPrevTeam(
+                    buildMissingParticipantPanelsWithModerationButtonForPrevTeam(
                                                     sectionPanel, prevTeam, teamMembersWithResponses,
-                                                    isGiver);
+                                                    viewType.isFirstGroupedByGiver());
                     teamMembersWithResponses.clear(); 
                 }
                 
@@ -218,10 +223,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                                                                     : prevSection);
                     sectionPanel.setDisplayingTeamStatistics(true);
                     sectionPanels.put(prevSection, sectionPanel);
-                    createMissingTeamAndParticipantPanelsWithModerationButtonForSection(
+                    buildMissingTeamAndParticipantPanelsWithModerationButtonForSection(
                                                     sectionPanel, prevSection, 
                                                     teamsWithResponses, currentTeam, 
-                                                    isGiver);
+                                                    viewType.isFirstGroupedByGiver());
                     sectionsWithResponses.add(prevSection);
                     
                     teamsWithResponses.clear();
@@ -290,12 +295,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
         teamsWithResponses.add(prevTeam);
         sectionsWithResponses.add(prevSection);
         
-        createTeamAndParticipantPanelsForLastParticipantSection(sectionPanel, prevSection, prevTeam,
+        buildTeamAndParticipantPanelsForLastParticipantSection(sectionPanel, prevSection, prevTeam,
                                                      sectionsWithResponses, teamsWithResponses,
-                                                     teamMembersWithResponses, isGiver);
+                                                     teamMembersWithResponses, viewType.isFirstGroupedByGiver());
 
         // display missing sections
-        createSectionPanelsForMissingSections(sectionsWithResponses, isGiver);
+        buildSectionPanelsForMissingSections(sectionsWithResponses, viewType.isFirstGroupedByGiver());
         
     }
     
@@ -336,7 +341,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             if (!prevTeam.equals(currentTeam)) {
                 boolean isFirstTeam = prevTeam.isEmpty();
                 if (!isFirstTeam) {
-                    createMissingParticipantPanelsWithoutModerationButtonForteam(
+                    buildMissingParticipantPanelsWithoutModerationButtonForteam(
                                                     sectionPanel, prevTeam, 
                                                     teamMembersWithResponses, isGiver);
                     teamMembersWithResponses.clear(); 
@@ -363,7 +368,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     sectionPanel.setDisplayingTeamStatistics(true);
                     sectionPanels.put(prevSection, sectionPanel);
                     
-                    createMissingTeamAndParticipantPanelsWithoutModerationButtonForSection(
+                    buildMissingTeamAndParticipantPanelsWithoutModerationButtonForSection(
                                                     sectionPanel, prevSection,  
                                                     teamsWithResponses, currentTeam, isGiver);
                     sectionsWithResponses.add(prevSection);
@@ -402,17 +407,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 
             }
             
-            // Construct InstructorFeedbackResultsGroupByQuestionPanel for the current giver
-            InstructorResultsModerationButton moderationButton = buildModerationButtonForGiver(
-                                                                      null, recipientIdentifier,
-                                                                      "btn btn-primary btn-xs",
-                                                                      "Moderate Responses");
+            // Construct InstructorFeedbackResultsGroupByQuestionPanel for the current recipient
+       
             InstructorFeedbackResultsGroupByQuestionPanel recipientPanel = 
-                                                             buildInstructorFeedbackResultsGroupByQuestionPanel(
+                                            buildInstructorFeedbackResultsGroupByQuestionPanelWithoutModerationButton(
                                                                  recipientIdentifier, 
                                                                  bundle.getNameForEmail(recipientIdentifier),
-                                                                 questionTables, moderationButton, 
-                                                                 false, false);
+                                                                 questionTables, false);
             
             
             // add constructed InstructorFeedbackResultsGroupByQuestionPanel into section's participantPanels            
@@ -434,35 +435,35 @@ public class InstructorFeedbackResultsPageData extends PageData {
         sectionPanels.put(prevSection, sectionPanel);
         teamsWithResponses.add(prevTeam);
         sectionsWithResponses.add(prevSection);
-        createTeamAndParticipantPanelsForLastParticipantSection(sectionPanel, prevSection, prevTeam,
+        buildTeamAndParticipantPanelsForLastParticipantSection(sectionPanel, prevSection, prevTeam,
                                                      sectionsWithResponses, teamsWithResponses,
                                                      teamMembersWithResponses, isGiver);
 
         // display missing sections
-        createSectionPanelsForMissingSections(sectionsWithResponses, isGiver);
+        buildSectionPanelsForMissingSections(sectionsWithResponses, isGiver);
     }
 
-    private void createMissingTeamAndParticipantPanelsWithoutModerationButtonForSection(
+    private void buildMissingTeamAndParticipantPanelsWithoutModerationButtonForSection(
                                     InstructorFeedbackResultsSectionPanel sectionPanel, String section,
                                     Set<String> receivingTeams, String currentTeam, 
                                     boolean isGiver) {
-        createMissingTeamAndParticipantPanelsForSection(
+        buildMissingTeamAndParticipantPanelsForSection(
                                         sectionPanel, section,
                                         receivingTeams, currentTeam, 
                                         false, isGiver);
     }
     
-    private void createMissingTeamAndParticipantPanelsWithModerationButtonForSection(
+    private void buildMissingTeamAndParticipantPanelsWithModerationButtonForSection(
                                     InstructorFeedbackResultsSectionPanel sectionPanel, String section,
                                     Set<String> receivingTeams, String currentTeam, 
                                     boolean isGiver) {
-        createMissingTeamAndParticipantPanelsForSection(
+        buildMissingTeamAndParticipantPanelsForSection(
                                         sectionPanel, section,
                                         receivingTeams, currentTeam, 
                                         true, isGiver);
     }
     
-    private void createMissingTeamAndParticipantPanelsForSection(
+    private void buildMissingTeamAndParticipantPanelsForSection(
                                     InstructorFeedbackResultsSectionPanel sectionPanel, String prevSection,
                                     Set<String> receivingTeams, String currentTeam, 
                                     boolean isWithModerationButton, boolean isGiver) {
@@ -486,7 +487,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
     }
 
-    private void createTeamAndParticipantPanelsForLastParticipantSection(
+    private void buildTeamAndParticipantPanelsForLastParticipantSection(
                                     InstructorFeedbackResultsSectionPanel sectionPanel, String prevSection,
                                     String prevTeam, Set<String> receivingSections, Set<String> receivingTeams, 
                                     Set<String> teamMembersWithResponses, boolean isGiver) {
@@ -575,26 +576,26 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return currentSection;
     }
 
-    private void createMissingParticipantPanelsWithModerationButtonForPrevTeam(
+    private void buildMissingParticipantPanelsWithModerationButtonForPrevTeam(
                                             InstructorFeedbackResultsSectionPanel sectionPanel, String prevTeam,
                                             Set<String> teamMembersWithResponses,
-                                            boolean isGiver) {
-        createMissingParticipantPanelsForTeam(sectionPanel, prevTeam, 
-                                                  teamMembersWithResponses, true, isGiver);
+                                            boolean isFirstGroupedByGiver) {
+        buildMissingParticipantPanelsForTeam(sectionPanel, prevTeam, 
+                                                  teamMembersWithResponses, true, isFirstGroupedByGiver);
     }
     
-    private void createMissingParticipantPanelsWithoutModerationButtonForteam(
+    private void buildMissingParticipantPanelsWithoutModerationButtonForteam(
                                     InstructorFeedbackResultsSectionPanel sectionPanel, String team,
                                     Set<String> teamMembersWithResponses,
-                                    boolean isGiver) {
-        createMissingParticipantPanelsForTeam(sectionPanel, team, 
-                                                  teamMembersWithResponses, false, isGiver);
+                                    boolean isFirstGroupedByGiver) {
+        buildMissingParticipantPanelsForTeam(sectionPanel, team, 
+                                                  teamMembersWithResponses, false, isFirstGroupedByGiver);
     }    
     
-    private void createMissingParticipantPanelsForTeam(
+    private void buildMissingParticipantPanelsForTeam(
                                     InstructorFeedbackResultsSectionPanel sectionPanel, String team,
                                     Set<String> teamMembersWithResponses,
-                                    boolean isDisplayingModerationButton, boolean isGiver) {
+                                    boolean isDisplayingModerationButton, boolean isFirstGroupedByGiver) {
         
         Set<String> teamMembersEmail = new HashSet<String>();
         teamMembersEmail.addAll(bundle.getTeamMembersFromRoster(team));
@@ -608,15 +609,15 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         if (isDisplayingModerationButton) {
             addMissingParticipantsForTeamToSectionPanelWithModerationButton(sectionPanel, 
-                                                        team, sortedTeamMembersWithoutResponses, isGiver);
+                                                        team, sortedTeamMembersWithoutResponses, isFirstGroupedByGiver);
         } else {
             addMissingParticipantsForTeamToSectionPanelWithoutModerationButton(sectionPanel, 
-                                                        team, sortedTeamMembersWithoutResponses, isGiver);
+                                                        team, sortedTeamMembersWithoutResponses, isFirstGroupedByGiver);
         }
         
     }
 
-    private void createSectionPanelsForMissingSections(Set<String> receivingSections,
+    private void buildSectionPanelsForMissingSections(Set<String> receivingSections,
                                                        boolean isGiver) {
         InstructorFeedbackResultsSectionPanel sectionPanel;
         
@@ -695,7 +696,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     private void addMissingParticipantsForTeamToSectionPanelWithModerationButton(
                                                              InstructorFeedbackResultsSectionPanel sectionPanel, 
-                                                             String teamName, List<String> teamMembers, boolean isGiver) {
+                                                             String teamName, List<String> teamMembers, boolean isFirstGroupedByGiver) {
         for (String teamMember : teamMembers) {
             InstructorResultsModerationButton moderationButton = buildModerationButtonForGiver(null, teamMember, 
                                                                            "btn btn-default btn-xs",
@@ -703,7 +704,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             InstructorFeedbackResultsGroupByQuestionPanel giverPanel = 
                     buildInstructorFeedbackResultsGroupByQuestionPanel(teamMember, bundle.getFullNameFromRoster(teamMember),
                                                                        new ArrayList<InstructorResultsQuestionTable>(), moderationButton, 
-                                                                       true, isGiver);
+                                                                       true, isFirstGroupedByGiver);
 
             giverPanel.setHasResponses(false);
             addParticipantPanelToSectionPanel(sectionPanel, teamName, giverPanel);
@@ -712,12 +713,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
     
     private void addMissingParticipantsForTeamToSectionPanelWithoutModerationButton(
                                     InstructorFeedbackResultsSectionPanel sectionPanel, 
-                                    String teamName, List<String> teamMembers, boolean isGiver) {
+                                    String teamName, List<String> teamMembers, boolean isFirstGroupedByGiver) {
         for (String teamMember : teamMembers) {
             InstructorFeedbackResultsGroupByQuestionPanel giverPanel = 
             buildInstructorFeedbackResultsGroupByQuestionPanel(teamMember, bundle.getFullNameFromRoster(teamMember),
                                                           new ArrayList<InstructorResultsQuestionTable>(), null, 
-                                                          false, isGiver);
+                                                          false, isFirstGroupedByGiver);
             giverPanel.setHasResponses(false);
             
             addParticipantPanelToSectionPanel(sectionPanel, teamName, giverPanel);
@@ -725,18 +726,19 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
     
 
-    private List<InstructorResultsParticipantPanel> addParticipantPanelToSectionPanel(
+    private void addParticipantPanelToSectionPanel(
                                     InstructorFeedbackResultsSectionPanel sectionPanel, String currentTeam,
                                     InstructorFeedbackResultsGroupByQuestionPanel giverPanel) {
         List<InstructorResultsParticipantPanel> teamsMembersPanels;
+        
         if (sectionPanel.getParticipantPanels().containsKey(currentTeam)) {
             teamsMembersPanels = sectionPanel.getParticipantPanels().get(currentTeam);
         } else {
             teamsMembersPanels = new ArrayList<InstructorResultsParticipantPanel>();
             sectionPanel.getParticipantPanels().put(currentTeam, teamsMembersPanels);
         }
+        
         teamsMembersPanels.add(giverPanel);
-        return teamsMembersPanels;
     }
 
     /**
@@ -1024,10 +1026,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private List<InstructorResultsResponseRow> buildResponseRowsForQuestionForSingleParticipant(
                                     FeedbackQuestionAttributes question,
                                     List<FeedbackResponseAttributes> responses,
-                                    ViewType viewType, String participantIdentifier, boolean isGiver) {
+                                    ViewType viewType, String participantIdentifier, boolean isFirstGroupedByGiver) {
         List<InstructorResultsResponseRow> responseRows = new ArrayList<InstructorResultsResponseRow>();
         
-        List<String> possibleParticipantsWithoutResponses = isGiver ? bundle.getPossibleRecipients(question, participantIdentifier)
+        List<String> possibleParticipantsWithoutResponses = isFirstGroupedByGiver ? bundle.getPossibleRecipients(question, participantIdentifier)
                                                                     : bundle.getPossibleGivers(question, participantIdentifier);
         
         for (FeedbackResponseAttributes response : responses) {
@@ -1036,8 +1038,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
             
             // keep track of possible participant who did not give/receive a response to/from the participantIdentifier 
-            String participantWithResponse =          isGiver ? response.recipientEmail : response.giverEmail;
-            FeedbackParticipantType participantType = isGiver ? question.recipientType  : question.giverType; 
+            String participantWithResponse =          isFirstGroupedByGiver ? response.recipientEmail : response.giverEmail;
+            FeedbackParticipantType participantType = isFirstGroupedByGiver ? question.recipientType  : question.giverType; 
             removeParticipantIdentifierFromList(participantType, possibleParticipantsWithoutResponses, 
                                                 participantWithResponse);
             
@@ -1054,7 +1056,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             responseRows.add(responseRow);
         }
 
-        if (isGiver) {
+        if (isFirstGroupedByGiver) {
             responseRows.addAll(buildMissingResponseRowsBetweenGiverAndPossibleRecipients(
                                             question, possibleParticipantsWithoutResponses, participantIdentifier, 
                                             bundle.getNameForEmail(participantIdentifier), 
@@ -1265,11 +1267,20 @@ public class InstructorFeedbackResultsPageData extends PageData {
         return moderationButton;
    }
     
+    private InstructorFeedbackResultsGroupByQuestionPanel buildInstructorFeedbackResultsGroupByQuestionPanelWithoutModerationButton(
+                                    String participantIdentifier, String participantName, 
+                                    List<InstructorResultsQuestionTable> questionTables,
+                                    boolean isFirstGroupedGiver) {
+        return buildInstructorFeedbackResultsGroupByQuestionPanel(
+                                        participantIdentifier,  participantName, 
+                                        questionTables, null, false, isFirstGroupedGiver);
+    }
+    
    private InstructorFeedbackResultsGroupByQuestionPanel buildInstructorFeedbackResultsGroupByQuestionPanel(
                                                              String participantIdentifier, String participantName, 
                                                              List<InstructorResultsQuestionTable> questionTables,
                                                              InstructorResultsModerationButton moderationButton, 
-                                                             boolean isModerationButtonDisplayed, boolean isGiver) {
+                                                             boolean isModerationButtonDisplayed, boolean isFirstGroupedGiver) {
        boolean isEmailValid = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, participantIdentifier).isEmpty();
        Url profilePictureLink = new Url(getProfilePictureLink(participantIdentifier));
        
@@ -1277,7 +1288,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
        InstructorFeedbackResultsGroupByQuestionPanel giverPanel = 
                                     InstructorFeedbackResultsGroupByQuestionPanel.buildInstructorFeedbackResultsGroupByQuestionPanel(
                                                                     questionTables, isEmailValid, profilePictureLink, 
-                                                                    isGiver, participantIdentifier, participantName,
+                                                                    isFirstGroupedGiver, participantIdentifier, participantName,
                                                                     moderationButton, isModerationButtonDisplayed);
        
        return giverPanel;
