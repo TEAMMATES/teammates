@@ -681,6 +681,27 @@ public class Emails {
     public void sendEmailWithoutLogging(MimeMessage message) throws MessagingException, JSONException, IOException {
         sendEmail(message, false);
     }
+    
+    /**
+     * Sends email through GAE irrespective of config properties
+     * Does not generate log report
+     * @param message
+     * @throws MessagingException
+     */
+    public void forceSendEmailThroughGaeWithoutLogging(MimeMessage message) throws MessagingException {
+        sendUsingGae(message);
+    }
+    
+    /**
+     * Sends email through GAE irrespective of config properties
+     * Generates log report
+     * @param message
+     * @throws MessagingException
+     */
+    public void forceSendEmailThroughGaeWithLogging(MimeMessage message) throws MessagingException {
+        sendUsingGae(message);
+        generateLogReport(message);
+    }
 
     /**
      * This method sends the email and has an option to log its receiver, subject and content 
