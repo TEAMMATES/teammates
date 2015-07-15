@@ -148,9 +148,22 @@ public class InstructorFeedbackEditCopyAction extends Action {
     }
     
     private RedirectResult createRedirectToEditPageWithErrorMsg(
-            String feedbackSessionName, String courseId, String errorToUser) {
+            String feedbackSessionName, String courseId, String errorToUser, String currentPage) {
         statusToUser.add(errorToUser);
-        return createRedirectToEditPageWithError(feedbackSessionName, courseId);
+        return createRedirectToEditPageWithError(feedbackSessionName, courseId, currentPage);
     }
-
+    
+    private String getRedirectUrl(String currentPage) {
+        switch (currentPage) {
+            case Const.PageNames.INSTRUCTOR_HOME_PAGE:
+                return Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
+                
+            case Const.PageNames.INSTRUCTOR_FEEDBACKS_PAGE:
+                return Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+                
+            case Const.PageNames.INSTRUCTOR_FEEDBACK_EDIT_PAGE:
+            default:
+                return Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE;
+        }
+    }
 }
