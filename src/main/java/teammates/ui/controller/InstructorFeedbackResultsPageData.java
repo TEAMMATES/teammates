@@ -1361,9 +1361,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
     
     public InstructorFeedbackResultsNoResponsePanel getNoResponsePanel() {
-        return new InstructorFeedbackResultsNoResponsePanel(
-                bundle.responseStatus.getStudentsWhoDidNotRespondToAnyQuestion(),
-                bundle.responseStatus.emailNameTable,
-                bundle.responseStatus.emailTeamNameTable);
+        return new InstructorFeedbackResultsNoResponsePanel(bundle.responseStatus);
     }
 }

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import teammates.common.datatransfer.FeedbackSessionResponseStatus;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 
@@ -14,12 +15,10 @@ public class InstructorFeedbackResultsNoResponsePanel {
     private Map<String, String> names;
     private Map<String, String> teams;
     
-    public InstructorFeedbackResultsNoResponsePanel(List<String> emails,
-                                                    Map<String, String> emailNameTable,
-                                                    Map<String, String> emailTeamNameTable) {
-        this.names = Collections.unmodifiableMap(emailNameTable);
-        this.emails = getFilteredEmails(emails);
-        this.teams = getTeamsWithInstructorTeam(emailTeamNameTable,
+    public InstructorFeedbackResultsNoResponsePanel(FeedbackSessionResponseStatus responseStatus) {
+        this.names = Collections.unmodifiableMap(responseStatus.emailNameTable);
+        this.emails = getFilteredEmails(responseStatus.getStudentsWhoDidNotRespondToAnyQuestion());
+        this.teams = getTeamsWithInstructorTeam(responseStatus.emailTeamNameTable,
                                                 "<i>" + Const.USER_TEAM_FOR_INSTRUCTOR + "</i>");
     }
 
