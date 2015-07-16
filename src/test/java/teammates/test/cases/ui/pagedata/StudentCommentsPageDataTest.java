@@ -24,7 +24,6 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionResponseStatus;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
-import teammates.common.datatransfer.SessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Const;
@@ -88,13 +87,9 @@ public class StudentCommentsPageDataTest extends BaseTestCase{
         Map<String, boolean[]> visibilityTable = new HashMap<String, boolean[]>();
         Map<String, List<FeedbackResponseCommentAttributes>> responseComments =
                 new HashMap<String, List<FeedbackResponseCommentAttributes>>();
-        try {
-            addEmailNamePairsToTable(emailNameTable, response, question, roster);
-            addEmailLastNamePairsToTable(emailLastNameTable, response, question, roster);
-            addEmailTeamNamePairsToTable(emailTeamNameTable, response, question, roster);
-        } catch (EntityDoesNotExistException e) {
-            e.printStackTrace();
-        }
+        emailNameTable.put(student1.email, student1.name);
+        emailLastNameTable.put(student1.email, student1.lastName);
+        emailTeamNameTable.put(student1.email, student1.team);
         boolean[] visibility = {true, true};
         visibilityTable.put(response.getId(), visibility);
         FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
@@ -134,111 +129,5 @@ public class StudentCommentsPageDataTest extends BaseTestCase{
         assertEquals(expectedCoursePaginationList, actualCoursePagination.getCoursePaginationList());
         assertEquals(expectedActiveCourse, actualCoursePagination.getActiveCourse());
         assertEquals(expectedLink, actualCoursePagination.getUserCommentsLink());
-    }
-    
-    private static void addEmailNamePairsToTable(Map<String, String> emailNameTable,
-            FeedbackResponseAttributes response,
-            FeedbackQuestionAttributes question, CourseRoster roster)
-            throws EntityDoesNotExistException {
-        addEmailNamePairsToTable(emailNameTable, response, question, roster,
-                EMAIL_NAME_PAIR);
-    }
-    
-    private static void addEmailLastNamePairsToTable(Map<String, String> emailLastNameTable,
-            FeedbackResponseAttributes response,
-            FeedbackQuestionAttributes question, CourseRoster roster)
-            throws EntityDoesNotExistException {
-        addEmailNamePairsToTable(emailLastNameTable, response, question, roster,
-                EMAIL_LASTNAME_PAIR);
-    }
-
-    private static void addEmailTeamNamePairsToTable(
-            Map<String, String> emailTeamNameTable,
-            FeedbackResponseAttributes response,
-            FeedbackQuestionAttributes question, CourseRoster roster)
-            throws EntityDoesNotExistException {
-        addEmailNamePairsToTable(emailTeamNameTable, response, question,
-                roster, EMAIL_TEAMNAME_PAIR);
-    }
-    
-    private static void addEmailNamePairsToTable(Map<String, String> emailNameTable,
-            FeedbackResponseAttributes response,
-            FeedbackQuestionAttributes question, CourseRoster roster,
-            int pairType) throws EntityDoesNotExistException {
-        if (question.giverType == FeedbackParticipantType.TEAMS) {
-            if (emailNameTable.containsKey(response.giverEmail
-                    + Const.TEAM_OF_EMAIL_OWNER) == false) {
-                emailNameTable.put(
-                        response.giverEmail + Const.TEAM_OF_EMAIL_OWNER,
-                        getNameTeamNamePairForEmail(question.giverType,
-                                response.giverEmail, roster)[pairType]);
-            }
-        } else if (emailNameTable.containsKey(response.giverEmail) == false) {
-            emailNameTable.put(
-                    response.giverEmail,
-                    getNameTeamNamePairForEmail(question.giverType,
-                            response.giverEmail, roster)[pairType]);
-        }
-    
-        if (emailNameTable.containsKey(response.recipientEmail) == false) {
-            emailNameTable.put(
-                    response.recipientEmail,
-                    getNameTeamNamePairForEmail(question.recipientType,
-                            response.recipientEmail, roster)[pairType]);
-        }
-    }
-    
-    private static String[] getNameTeamNamePairForEmail(FeedbackParticipantType type,
-            String email, CourseRoster roster)
-            throws EntityDoesNotExistException {
-        String giverRecipientName = null;
-        String giverRecipientLastName = null;
-        String teamName = null;
-        String name = null;
-        String lastName = null;
-        String team = null;
-    
-        StudentAttributes student = roster.getStudentForEmail(email);
-        if (student != null) {
-            name = student.name;
-            team = student.team;
-            lastName = student.lastName;
-        } else {
-            InstructorAttributes instructor = roster
-                    .getInstructorForEmail(email);
-            if (instructor == null) {
-                if (email.equals(Const.GENERAL_QUESTION)) {
-                    // Email represents that there is no specific recipient.
-                    name = Const.USER_IS_NOBODY;
-                    lastName = Const.USER_IS_NOBODY;
-                    team = email;
-                } else {
-                    // Assume that the email is actually a team name.
-                    name = Const.USER_IS_TEAM;
-                    lastName = Const.USER_IS_TEAM;
-                    team = email;
-                }
-            } else {
-                name = instructor.name;
-                lastName = instructor.name;
-                team = Const.USER_TEAM_FOR_INSTRUCTOR;
-            }
-        }
-    
-        if (type == FeedbackParticipantType.TEAMS
-                || type == FeedbackParticipantType.OWN_TEAM) {
-            giverRecipientName = team;
-            giverRecipientLastName = team;
-            teamName = "";
-        } else if (name != Const.USER_IS_NOBODY && name != Const.USER_IS_TEAM) {
-            giverRecipientName = name;
-            giverRecipientLastName = lastName;
-            teamName = team;
-        } else {
-            giverRecipientName = name;
-            giverRecipientLastName = lastName;
-            teamName = "";
-        }
-        return new String[] { giverRecipientName, giverRecipientLastName, teamName };
     }
 }
