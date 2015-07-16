@@ -13,7 +13,7 @@
 			               class="form-control"
 			               data-toggle="tooltip"
 			               data-placement="top"
-			               placeholder="Student Name">
+			               placeholder="e.g. Charles Shultz, charles@gmail.tmt">
 			        <span class="input-group-btn">
 			            <button class="btn btn-default" type="submit" value="Search" id="buttonSearch">
 			                Search
