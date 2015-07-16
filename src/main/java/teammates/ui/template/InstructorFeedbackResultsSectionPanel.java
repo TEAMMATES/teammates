@@ -16,7 +16,6 @@ public class InstructorFeedbackResultsSectionPanel {
     
     private String sectionName;
     private String sectionNameForDisplay;
-    private String arrowClass;
     
     private String statisticsHeaderText;
     private String detailedResponsesHeaderText;
@@ -31,8 +30,6 @@ public class InstructorFeedbackResultsSectionPanel {
     public InstructorFeedbackResultsSectionPanel() {
         panelClass = "panel-success";
         isDisplayingMissingParticipants = true;
-        
-        arrowClass = "glyphicon-chevron-up";        
         
         isTeamWithResponses = new HashMap<String, Boolean>();
         participantPanels = new LinkedHashMap<String, List<InstructorResultsParticipantPanel>>();
@@ -61,14 +58,6 @@ public class InstructorFeedbackResultsSectionPanel {
 
     public void setSectionName(String sectionName) {
         this.sectionName = sectionName;
-    }
-
-    public String getArrowClass() {
-        return arrowClass;
-    }
-
-    public void setArrowClass(String arrowClass) {
-        this.arrowClass = arrowClass;
     }
 
     public Map<String, List<InstructorResultsParticipantPanel>> getParticipantPanels() {

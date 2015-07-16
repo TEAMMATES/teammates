@@ -8,11 +8,8 @@ public class InstructorResultsParticipantPanel implements Comparable<InstructorR
     
     private boolean isHasResponses;
     private String className;
-    private String arrowClass;
     
-    String mailtoStyle;
     String profilePictureLink;
-    
     
     boolean isModerationButtonDisplayed;
     InstructorResultsModerationButton moderationButton;
@@ -55,22 +52,6 @@ public class InstructorResultsParticipantPanel implements Comparable<InstructorR
 
     public void setClassName(String className) {
         this.className = className;
-    }
-
-    public String getArrowClass() {
-        return arrowClass;
-    }
-
-    public void setArrowClass(String arrowClass) {
-        this.arrowClass = arrowClass;
-    }
-
-    public String getMailtoStyle() {
-        return mailtoStyle;
-    }
-
-    public void setMailtoStyle(String mailtoStyle) {
-        this.mailtoStyle = mailtoStyle;
     }
 
     public String getProfilePictureLink() {
