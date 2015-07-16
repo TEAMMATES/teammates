@@ -105,9 +105,19 @@ public class InstructorFeedbackResponseComment {
                     for (FeedbackResponseCommentAttributes frca : feedbackResponseCommentsList) {
                         String whoCanSeeComment = ifrclpd.getTypeOfPeopleCanViewComment(frca, question);
 
+                        boolean allowedToEditAndDeleteComment =
+                                    frca.giverEmail.equals(instructorEmail)
+                                    || (currentInstructor != null
+                                        && currentInstructor.isAllowedForPrivilege(
+                                            responseEntry.giverSection, responseEntry.feedbackSessionName,
+                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS)
+                                        && currentInstructor.isAllowedForPrivilege(
+                                            responseEntry.recipientSection, responseEntry.feedbackSessionName,
+                                            Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+
                         FeedbackResponseComment frc = new FeedbackResponseComment(
                             frca, frca.giverEmail, instructorEmail, bundle.feedbackSession, question,
-                            whoCanSeeComment);
+                            whoCanSeeComment, allowedToEditAndDeleteComment);
 
                         frcList.add(frc);
                     }

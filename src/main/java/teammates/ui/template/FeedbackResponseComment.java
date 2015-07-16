@@ -53,7 +53,8 @@ public class FeedbackResponseComment {
     // InstructorFeedbackResponseCommentsLoadPageData
     public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay,
                                    String instructorEmail, FeedbackSessionAttributes feedbackSession,
-                                   FeedbackQuestionAttributes question, String whoCanSeeComment) {
+                                   FeedbackQuestionAttributes question, String whoCanSeeComment,
+                                   boolean isAllowedToEditAndDeleteComment) {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.createdAt = frc.createdAt.toString();
@@ -65,6 +66,7 @@ public class FeedbackResponseComment {
         this.whoCanSeeComment = whoCanSeeComment;
         checkIfShouldDisplayVisibilityIcon();
         checkIfShouldDisplayNotificationIcon(frc);
+        updateEditDeleteAccessibility(isAllowedToEditAndDeleteComment);
     }
 
     // Used in InstructorFeedbackResponseCommentAjaxPageData for instructorFeedbackResponseCommentsAdd.jsp
@@ -127,6 +129,14 @@ public class FeedbackResponseComment {
     private void checkIfShouldDisplayNotificationIcon(FeedbackResponseCommentAttributes frc) {
         if (frc.sendingState == CommentSendingState.PENDING && feedbackSessionPublished) {
             withNotificationIcon = true;
+        }
+    }
+
+    private void updateEditDeleteAccessibility(boolean isAllowedToEditAndDeleteComment) {
+        if (isAllowedToEditAndDeleteComment) {
+            editDeleteEnabled = true;
+            instructorAllowedToDelete = true;
+            instructorAllowedToEdit = true;
         }
     }
 
