@@ -24,7 +24,8 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
         super(account);
 
         this.instructorFeedbackResponseComment = 
-                new InstructorFeedbackResponseComment(feedbackResultBundles, currentInstructor);
+                new InstructorFeedbackResponseComment(
+                        feedbackResultBundles, currentInstructor, instructorEmail);
     }
 
     public Map<String, FeedbackSessionResultsBundle> getFeedbackResultBundles() {

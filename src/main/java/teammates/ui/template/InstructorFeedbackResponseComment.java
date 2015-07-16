@@ -22,15 +22,17 @@ public class InstructorFeedbackResponseComment {
     private Map<FeedbackQuestionDetails, String> responseEntryAnswerHtmls;
     private InstructorAttributes currentInstructor;
     private boolean instructorAllowedToSubmit;
+    private String instructorEmail;
 
     public InstructorFeedbackResponseComment(Map<String, FeedbackSessionResultsBundle> feedbackResultBundles,
-                                             InstructorAttributes currentInstructor) {
+                                             InstructorAttributes currentInstructor, String instructorEmail) {
         this.feedbackResultBundles = feedbackResultBundles;
         this.currentInstructor = currentInstructor;
         this.giverNames = new HashMap<String, String>();
         this.recipientNames = new HashMap<String, String>();
         this.feedbackResponseCommentsLists = new HashMap<String, List<FeedbackResponseComment>>();
         this.responseEntryAnswerHtmls = new HashMap<FeedbackQuestionDetails, String>();
+        this.instructorEmail = instructorEmail;
 
         initializeValues();
     }
@@ -97,7 +99,8 @@ public class InstructorFeedbackResponseComment {
                     List<FeedbackResponseComment> frcList = new ArrayList<FeedbackResponseComment>();
 
                     for (FeedbackResponseCommentAttributes frca : feedbackResponseCommentsList) {
-                        FeedbackResponseComment frc = new FeedbackResponseComment(frca, frca.giverEmail);
+                        FeedbackResponseComment frc = new FeedbackResponseComment(
+                            frca, frca.giverEmail, instructorEmail, bundle.feedbackSession);
 
                         frcList.add(frc);
                     }
@@ -126,9 +129,5 @@ public class InstructorFeedbackResponseComment {
 
     public Map<String, List<FeedbackResponseComment>> getFeedbackResponseCommentsList() {
         return feedbackResponseCommentsLists;
-    }
-
-    public boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
-        return comment.showCommentTo.size() > 0;
     }
 }

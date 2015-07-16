@@ -63,27 +63,13 @@
 		                                    <c:if test="${empty frcList}">style="display: none;"</c:if>>
 		                                    <c:forEach var="frc" items="${frcList}" varStatus="frcStatus">
 	                                            <%
-	                                                String frCommentGiver = frc.giverEmail;
-	                                                if (frc.giverEmail.equals(data.instructorEmail)) {
-	                                                    frCommentGiver = "you";
-	                                                }
-	                                            %>
-	                                            <%
 	                                                Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(frc);
 	                                            %>
-	                                            <!-- Still yet to construct the proper frc that the shared tag expects -->
 	                                            <shared:feedbackResponseComment frc="${frc}"
 	                                                                            firstIndex="${fsrbStatus.index}"
 	                                                                            secondIndex="${responseEntriesStatus.count}"
 	                                                                            thirdIndex="${responseEntryStatus.count}"
 	                                                                            frcIndex="${frcStatus.count}" />
-	                                            <li class="list-group-item list-group-item-warning <%=frCommentGiver.equals("you") ? "giver_display-by-you" : "giver_display-by-others"%> <%=isPublicResponseComment && bundle.feedbackSession.isPublished() ? "status_display-public" : "status_display-private"%>"
-						                            id="responseCommentRow-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
-						                            <div
-						                                id="commentBar-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
-						                                <span class="text-muted">
-						                                    From: <%= frc.giverEmail %> [<%= frc.createdAt %>] <%= frc.getEditedAtText(frc.giverEmail.equals("Anonymous")) %>
-						                                </span>
 						                                <%
 						                                    if (isPublicResponseComment && bundle.feedbackSession.isPublished()) {
 						                                                        String whoCanSee = data.getTypeOfPeopleCanViewComment(frc, question);

@@ -4,6 +4,7 @@ import java.util.List;
 
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackSessionAttributes;
 
 public class FeedbackResponseComment {
     private Long commentId;
@@ -34,6 +35,8 @@ public class FeedbackResponseComment {
     private boolean responseVisibleToRecipientTeam;
     private boolean responseVisibleToStudents;
     private boolean responseVisibleToInstructors;
+    private boolean responseCommentPublicToRecipient;
+    private boolean feedbackSessionPublished;
 
     public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay) {
         this.commentId = frc.getId();
@@ -41,6 +44,20 @@ public class FeedbackResponseComment {
         this.createdAt = frc.createdAt.toString();
         this.editedAt = frc.getEditedAtText(giverDisplay.equals("Anonymous"));
         this.commentText = frc.commentText.getValue();
+    }
+
+    // Used in InstructorFeedbackResponseComment which is part of 
+    // InstructorFeedbackResponseCommentsLoadPageData
+    public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay,
+                                   String instructorEmail, FeedbackSessionAttributes feedbackSession) {
+        this.commentId = frc.getId();
+        this.giverDisplay = giverDisplay;
+        this.createdAt = frc.createdAt.toString();
+        this.editedAt = frc.getEditedAtText(giverDisplay.equals("Anonymous"));
+        this.commentText = frc.commentText.getValue();
+        this.responseCommentPublicToRecipient = frc.showCommentTo.size() > 0 ? true : false;
+        this.feedbackSessionPublished = feedbackSession.isPublished();
+        instructorFeedbackResponseCommentsLoadSetExtraClassIfNeeded(frc.giverEmail, instructorEmail);
     }
 
     // Used in InstructorFeedbackResponseCommentAjaxPageData for instructorFeedbackResponseCommentsAdd.jsp
@@ -73,6 +90,25 @@ public class FeedbackResponseComment {
         this.editDeleteEnabled = isEditDeleteEnabled;
         this.instructorAllowedToDelete = isInstructorAllowedToDelete;
         this.instructorAllowedToEdit = isInstructorAllowedToEdit;
+    }
+
+    public void instructorFeedbackResponseCommentsLoadSetExtraClassIfNeeded(
+            String giverEmail, String instructorEmail) {
+        String extraClassToSet = "";
+
+        if (giverEmail.equals(instructorEmail)) {
+            extraClassToSet += "giver_display-by-you";
+        } else {
+            extraClassToSet += "giver_display-by-others";
+        }
+
+        if (responseCommentPublicToRecipient && feedbackSessionPublished) {
+            extraClassToSet += " status_display-public";
+        } else {
+            extraClassToSet += " status_display-private";
+        }
+
+        setExtraClass(extraClassToSet);
     }
 
     public String getExtraClass() {
