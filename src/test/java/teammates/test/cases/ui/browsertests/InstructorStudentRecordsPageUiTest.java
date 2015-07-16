@@ -131,7 +131,7 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
         viewPage.verifyAddCommentButtonClick();
 
         ______TS("edit comment button");
-        viewPage.verifyEditCommentButtonClick(0);
+        viewPage.verifyEditCommentButtonClick(1);
     }
 
     private void testAction() throws Exception {
@@ -143,24 +143,24 @@ public class InstructorStudentRecordsPageUiTest extends BaseUiTestCase {
 
         ______TS("delete comment: cancel");
 
-        viewPage.clickDeleteCommentAndCancel(0);
+        viewPage.clickDeleteCommentAndCancel(1);
 
         ______TS("delete comment: success");
 
-        viewPage.clickDeleteCommentAndConfirm(0).verifyStatus("Comment deleted");
+        viewPage.clickDeleteCommentAndConfirm(1).verifyStatus("Comment deleted");
         
         ______TS("edit comment then cancel: success");
         
-        viewPage.clickEditCommentAndCancel(0);
-        viewPage.verifyCommentEditBoxNotVisible(0);
+        viewPage.clickEditCommentAndCancel(1);
+        viewPage.verifyCommentEditBoxNotVisible(1);
 
         ______TS("edit comment: success");
 
-        viewPage.editComment(0, "Edited comment 2 from CS2104 teammates.test Instructor to Benny")
+        viewPage.editComment(1, "Edited comment 2 from CS2104 teammates.test Instructor to Benny")
                 .verifyStatus("Comment edited");
 
         // Edit back so that restoreDataBundle can identify and delete the comment.
-        viewPage.editComment(0, "Comment 2 from ISR.CS2104 teammates.test Instructor to Benny");
+        viewPage.editComment(1, "Comment 2 from ISR.CS2104 teammates.test Instructor to Benny");
 
     }
 
