@@ -44,7 +44,7 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
         assertEquals(false, result.isError);
         
         StudentCommentsPageData data = (StudentCommentsPageData) result.data;
-        assertEquals(2, data.getCommentRows().size());
+        assertEquals(2, data.getCommentsForStudentsTables().size());
         assertEquals(1, data.getCoursePagination().getCoursePaginationList().size());
         
         String expectedLogMessage = "TEAMMATESLOG|||studentCommentsPage|||studentCommentsPage|||true|||Student"
@@ -64,7 +64,7 @@ public class StudentCommentsPageActionTest extends BaseActionTest {
         assertEquals(false, result.isError);
         
         data = (StudentCommentsPageData) result.data;
-        assertEquals(0, data.getCommentRows().size());
+        assertEquals(0, data.getCommentsForStudentsTables().size());
         assertEquals(2, data.getCoursePagination().getCoursePaginationList().size());
         
         expectedLogMessage = "TEAMMATESLOG|||studentCommentsPage|||studentCommentsPage|||true|||Student(M)|||"

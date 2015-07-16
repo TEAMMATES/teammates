@@ -157,10 +157,16 @@ public class InstructorCourseEditPage extends AppPage {
     }
     
     public void clickViewDetailsLinkForInstructor(int instrNum, int viewLinkNum) {
-        // there is one link before view details link group
-        int cssLinkNum = viewLinkNum + 1;
+        /*
+         *  There are groups of 3 elements:
+         *  <input>: radio button
+         *  <a>: the details link
+         *  <br>: break line
+         *  Therefore the formula for the position of the details link of the group i-th (count from 1) is i * 3 - 1
+         */
+        int cssLinkNum = viewLinkNum * 3 - 1;
         WebElement viewLink = browser.driver.findElement(By.cssSelector("#accessControlEditDivForInstr" + instrNum +
-                " > div:nth-child(1) > div.col-sm-9 > a:nth-child(" + cssLinkNum + ")"));
+                " > div.form-group > div.col-sm-9 > a:nth-child(" + cssLinkNum + ")"));
         
         viewLink.click();
         waitForPageToLoad();
@@ -174,6 +180,20 @@ public class InstructorCourseEditPage extends AppPage {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
         }
+    }
+    
+    public boolean isPrivilegeCheckboxInModalChecked(String privilege) {
+        By selector = By.cssSelector("#tunePermissionsDivForInstructorAll input[type='checkbox'][name='" 
+                                     + privilege + "']");
+        WebElement checkbox = browser.driver.findElement(selector);
+        return checkbox.isSelected();
+    }
+    
+    public boolean isPrivilegeCheckboxInPermissionDivChecked(int instructorIndex, String privilege) {
+        By selector = By.cssSelector("#tunePermissionsDivForInstructor" + instructorIndex 
+                                     + " input[type='checkbox'][name='" + privilege + "']");
+        WebElement checkbox = browser.driver.findElement(selector);
+        return checkbox.isSelected();
     }
     
     public WebElement courseLevelPanel(int instrNum) {

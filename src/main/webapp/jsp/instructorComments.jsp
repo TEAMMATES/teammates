@@ -3,6 +3,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/comments" prefix="comments" %>
+<%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 <c:set var="jsIncludes">
     <link href="/stylesheets/omniComment.css" rel="stylesheet">
     <script type="text/javascript" src="/js/additionalQuestionInfo.js"></script>
@@ -41,7 +42,7 @@
                 <c:set var="panelIdx" value="${panelIdx + 1}" />
                 <div id="panel_display-${panelIdx}">
                     <br>
-                    <comments:commentsForStudentsPanel courseId="${data.courseId}" commentsForStudentsTables="${data.commentsForStudentsTables}" viewingDraft="${data.viewingDraft}" />
+                    <shared:commentsPanel courseId="${data.courseId}" commentsForStudentsTables="${data.commentsForStudentsTables}" viewingDraft="${data.viewingDraft}" />
                 </div>
             </c:if> <%--check student comments ends --%>
             <c:set var="fsIdx" value="0" />
