@@ -111,8 +111,8 @@ function hideAddCommentBox() {
  * disables the others
  */
 function enableEdit(commentIdx, maxComments) {
-    var i = 0;
-    while (i < maxComments) {
+    var i = 1;
+    while (i <= maxComments) {
         if (commentIdx == i) {
             enableComment(i);
         } else {
@@ -124,7 +124,7 @@ function enableEdit(commentIdx, maxComments) {
 }
 
 function enableComment(commentIdx) {
-    $('#' + 'commentBar' + commentIdx).hide();
+    $('#' + 'commentBar-' + commentIdx).hide();
     $('#' + 'plainCommentText' + commentIdx).hide();
     $('div[id="commentTextEdit' + commentIdx + '"]').show();
     $('textarea[id="commentText' + commentIdx + '"]').val($('#plainCommentText' + commentIdx).text());
@@ -132,7 +132,7 @@ function enableComment(commentIdx) {
 }
 
 function disableComment(commentIdx) {
-    $('#' + 'commentBar' + commentIdx).show();
+    $('#' + 'commentBar-' + commentIdx).show();
     $('#' + 'plainCommentText' + commentIdx).show();
     $('div[id="commentTextEdit' + commentIdx + '"]').hide();
 }
