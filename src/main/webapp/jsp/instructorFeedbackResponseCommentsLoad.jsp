@@ -68,7 +68,6 @@
 	                                                                            thirdIndex="${responseEntryStatus.count}"
 	                                                                            frcIndex="${frcStatus.count}" />
                                             </c:forEach>
-                                            <!-- frComment Add form -->
 					                        <li class="list-group-item list-group-item-warning"
 					                            id="showResponseCommentAddForm-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}"
 					                            style="display: none;">
@@ -128,161 +127,134 @@
 					                                                              <%-- <%=data.isResponseCommentGiverNameVisibleTo(question, FeedbackParticipantType.GIVER) ? "checked=\"checked\"" : ""%> --%>>
 					                                                    </td>
 					                                                </tr>
-					                                                <%
-					                                                    if (question.recipientType != FeedbackParticipantType.SELF
-	                                                                        && question.recipientType != FeedbackParticipantType.NONE
-	                                                                        && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
-					                                                %>
-							                                                <tr id="response-recipient-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}">
-							                                                    <td class="text-left">
-							                                                        <div data-toggle="tooltip"
-							                                                             data-placement="top"
-							                                                             title=""
-							                                                             data-original-title="Control what response recipient(s) can view">
-							                                                            Response
-							                                                            Recipient(s)
-							                                                        </div>
-							                                                    </td>
-							                                                    <td>
-                                                                                    <input class="visibilityCheckbox answerCheckbox centered"
-                                                                                           name="receiverLeaderCheckbox"
-                                                                                           type="checkbox"
-                                                                                           value="<%= FeedbackParticipantType.RECEIVER %>"
-                                                                                           <%-- <%=data.isResponseCommentVisibleTo(question, FeedbackParticipantType.RECEIVER) ? "checked=\"checked\"" : ""%> --%>>
-							                                                    </td>
-							                                                    <td>
-                                                                                    <input class="visibilityCheckbox giverCheckbox"
-                                                                                           type="checkbox"
-                                                                                           value="<%= FeedbackParticipantType.RECEIVER %>"
-                                                                                           <%-- <%=data.isResponseCommentGiverNameVisibleTo(question, FeedbackParticipantType.RECEIVER) ? "checked=\"checked\"" : ""%> --%>>
-							                                                    </td>
-							                                                </tr>
-					                                                <%
-					                                                    }
-					                                                %>
-					                                                <%
-					                                                    if (question.giverType != FeedbackParticipantType.INSTRUCTORS
-	                                                                        && question.giverType != FeedbackParticipantType.SELF
-	                                                                        && question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
-					                                                %>
-							                                                <tr id="response-giver-team-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}">
-							                                                    <td class="text-left">
-							                                                        <div data-toggle="tooltip"
-							                                                             data-placement="top"
-							                                                             title=""
-							                                                             data-original-title="Control what team members of response giver can view">
-							                                                            Response
-							                                                            Giver's Team
-							                                                            Members
-							                                                        </div>
-							                                                    </td>
-							                                                    <td>
-                                                                                    <input class="visibilityCheckbox answerCheckbox"
-                                                                                           type="checkbox"
-                                                                                           value="<%= FeedbackParticipantType.OWN_TEAM_MEMBERS %>"
-                                                                                           <%-- <%=data.isResponseCommentVisibleTo(question, FeedbackParticipantType.OWN_TEAM_MEMBERS) ? "checked=\"checked\"" : ""%> --%>>
-							                                                    </td>
-							                                                    <td>
-                                                                                    <input class="visibilityCheckbox giverCheckbox"
-                                                                                           type="checkbox"
-                                                                                           value="<%= FeedbackParticipantType.OWN_TEAM_MEMBERS %>"
-                                                                                           <%-- <%=data.isResponseCommentGiverNameVisibleTo(question, FeedbackParticipantType.OWN_TEAM_MEMBERS) ? "checked=\"checked\"" : ""%> --%>>
-							                                                    </td>
-							                                                </tr>
-					                                                <%
-					                                                    }
-					                                                %>
-					                                                <%
-					                                                    if (question.recipientType != FeedbackParticipantType.INSTRUCTORS
-	                                                                        && question.recipientType != FeedbackParticipantType.SELF
-	                                                                        && question.recipientType != FeedbackParticipantType.NONE
-	                                                                        && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)) {
-					                                                %>
-							                                                <tr id="response-recipient-team-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}">
-							                                                    <td class="text-left">
-							                                                        <div data-toggle="tooltip"
-							                                                             data-placement="top"
-							                                                             title=""
-							                                                             data-original-title="Control what team members of response recipient(s) can view">
-							                                                            Response
-							                                                            Recipient's
-							                                                            Team Members
-							                                                        </div>
-							                                                    </td>
-							                                                    <td>
-                                                                                    <input class="visibilityCheckbox answerCheckbox"
-                                                                                           type="checkbox"
-                                                                                           value="<%= FeedbackParticipantType.RECEIVER_TEAM_MEMBERS %>"
-                                                                                           <%-- <%=data.isResponseCommentVisibleTo(question, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) ? "checked=\"checked\"" : ""%> --%>>
-							                                                    </td>
-							                                                    <td>
-                                                                                    <input class="visibilityCheckbox giverCheckbox"
-                                                                                           type="checkbox"
-                                                                                           value="<%= FeedbackParticipantType.RECEIVER_TEAM_MEMBERS %>"
-                                                                                           <%-- <%=data.isResponseCommentGiverNameVisibleTo(question, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) ? "checked=\"checked\"" : ""%> --%>>
-							                                                    </td>
-							                                                </tr>
-					                                                <%
-					                                                    }
-					                                                %>
-					                                                <%
-					                                                    if (question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
-					                                                %>
-							                                                <tr id="response-students-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}">
-							                                                    <td class="text-left">
-							                                                        <div data-toggle="tooltip"
-							                                                             data-placement="top"
-							                                                             title=""
-							                                                             data-original-title="Control what other students in this course can view">
-							                                                            Other
-							                                                            students in
-							                                                            this course
-							                                                         </div>
-							                                                    </td>
-							                                                    <td>
-                                                                                    <input class="visibilityCheckbox answerCheckbox"
-                                                                                           type="checkbox"
-                                                                                           value="<%= FeedbackParticipantType.STUDENTS %>"
-                                                                                           <%-- <%=data.isResponseCommentVisibleTo(question, FeedbackParticipantType.STUDENTS) ? "checked=\"checked\"" : ""%> --%>>
-							                                                    </td>
-							                                                    <td>
-                                                                                    <input class="visibilityCheckbox giverCheckbox"
-                                                                                           type="checkbox"
-                                                                                           value="<%= FeedbackParticipantType.STUDENTS %>"
-                                                                                           <%-- <%=data.isResponseCommentGiverNameVisibleTo(question, FeedbackParticipantType.STUDENTS) ? "checked=\"checked\"" : ""%> --%>>
-							                                                    </td>
-							                                                </tr>
-					                                                <%
-					                                                    }
-					                                                %>
-					                                                <%
-					                                                    if (question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)) {
-					                                                %>
-							                                                <tr id="response-instructors-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}">
-							                                                    <td class="text-left">
-							                                                        <div data-toggle="tooltip"
-							                                                             data-placement="top"
-							                                                             title=""
-							                                                             data-original-title="Control what instructors can view">
-							                                                            Instructors
-							                                                        </div>
-							                                                    </td>
-							                                                    <td>
-                                                                                    <input class="visibilityCheckbox answerCheckbox"
-                                                                                           type="checkbox"
-                                                                                           value="<%= FeedbackParticipantType.INSTRUCTORS %>"
-                                                                                           <%-- <%=data.isResponseCommentVisibleTo(question, FeedbackParticipantType.INSTRUCTORS) ? "checked=\"checked\"" : ""%> --%>>
-							                                                    </td>
-							                                                    <td>
-                                                                                    <input class="visibilityCheckbox giverCheckbox"
-                                                                                           type="checkbox"
-                                                                                           value="<%= FeedbackParticipantType.INSTRUCTORS %>"
-                                                                                           <%-- <%=data.isResponseCommentGiverNameVisibleTo(question, FeedbackParticipantType.INSTRUCTORS) ? "checked=\"checked\"" : ""%> --%>>
-							                                                    </td>
-							                                                </tr>
-					                                                <%
-					                                                    }
-					                                                %>
+					                                                <c:if test="${ifrc.responseVisibleToRecipient}">
+						                                                <tr id="response-recipient-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}">
+						                                                    <td class="text-left">
+						                                                        <div data-toggle="tooltip"
+						                                                             data-placement="top"
+						                                                             title=""
+						                                                             data-original-title="Control what response recipient(s) can view">
+						                                                            Response
+						                                                            Recipient(s)
+						                                                        </div>
+						                                                    </td>
+						                                                    <td>
+                                                                                <input class="visibilityCheckbox answerCheckbox centered"
+                                                                                       name="receiverLeaderCheckbox"
+                                                                                       type="checkbox"
+                                                                                       value="<%= FeedbackParticipantType.RECEIVER %>"
+                                                                                       <%-- <%=data.isResponseCommentVisibleTo(question, FeedbackParticipantType.RECEIVER) ? "checked=\"checked\"" : ""%> --%>>
+						                                                    </td>
+						                                                    <td>
+                                                                                <input class="visibilityCheckbox giverCheckbox"
+                                                                                       type="checkbox"
+                                                                                       value="<%= FeedbackParticipantType.RECEIVER %>"
+                                                                                       <%-- <%=data.isResponseCommentGiverNameVisibleTo(question, FeedbackParticipantType.RECEIVER) ? "checked=\"checked\"" : ""%> --%>>
+						                                                    </td>
+						                                                </tr>
+					                                                </c:if>
+                                                                    <c:if test="${ifrc.responseVisibleToGiverTeam}">
+						                                                <tr id="response-giver-team-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}">
+						                                                    <td class="text-left">
+						                                                        <div data-toggle="tooltip"
+						                                                             data-placement="top"
+						                                                             title=""
+						                                                             data-original-title="Control what team members of response giver can view">
+						                                                            Response
+						                                                            Giver's Team
+						                                                            Members
+						                                                        </div>
+						                                                    </td>
+						                                                    <td>
+                                                                                <input class="visibilityCheckbox answerCheckbox"
+                                                                                       type="checkbox"
+                                                                                       value="<%= FeedbackParticipantType.OWN_TEAM_MEMBERS %>"
+                                                                                       <%-- <%=data.isResponseCommentVisibleTo(question, FeedbackParticipantType.OWN_TEAM_MEMBERS) ? "checked=\"checked\"" : ""%> --%>>
+						                                                    </td>
+						                                                    <td>
+                                                                                <input class="visibilityCheckbox giverCheckbox"
+                                                                                       type="checkbox"
+                                                                                       value="<%= FeedbackParticipantType.OWN_TEAM_MEMBERS %>"
+                                                                                       <%-- <%=data.isResponseCommentGiverNameVisibleTo(question, FeedbackParticipantType.OWN_TEAM_MEMBERS) ? "checked=\"checked\"" : ""%> --%>>
+						                                                    </td>
+						                                                </tr>
+						                                            </c:if>
+                                                                    <c:if test="${ifrc.responseVisibleToRecipientTeam}">
+						                                                <tr id="response-recipient-team-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}">
+						                                                    <td class="text-left">
+						                                                        <div data-toggle="tooltip"
+						                                                             data-placement="top"
+						                                                             title=""
+						                                                             data-original-title="Control what team members of response recipient(s) can view">
+						                                                            Response
+						                                                            Recipient's
+						                                                            Team Members
+						                                                        </div>
+						                                                    </td>
+						                                                    <td>
+                                                                                <input class="visibilityCheckbox answerCheckbox"
+                                                                                       type="checkbox"
+                                                                                       value="<%= FeedbackParticipantType.RECEIVER_TEAM_MEMBERS %>"
+                                                                                       <%-- <%=data.isResponseCommentVisibleTo(question, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) ? "checked=\"checked\"" : ""%> --%>>
+						                                                    </td>
+						                                                    <td>
+                                                                                <input class="visibilityCheckbox giverCheckbox"
+                                                                                       type="checkbox"
+                                                                                       value="<%= FeedbackParticipantType.RECEIVER_TEAM_MEMBERS %>"
+                                                                                       <%-- <%=data.isResponseCommentGiverNameVisibleTo(question, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) ? "checked=\"checked\"" : ""%> --%>>
+						                                                    </td>
+						                                                </tr>
+                                                                    </c:if>
+                                                                    <c:if test="${ifrc.responseVisibleToStudents}">
+						                                                <tr id="response-students-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}">
+						                                                    <td class="text-left">
+						                                                        <div data-toggle="tooltip"
+						                                                             data-placement="top"
+						                                                             title=""
+						                                                             data-original-title="Control what other students in this course can view">
+						                                                            Other
+						                                                            students in
+						                                                            this course
+						                                                         </div>
+						                                                    </td>
+						                                                    <td>
+                                                                                <input class="visibilityCheckbox answerCheckbox"
+                                                                                       type="checkbox"
+                                                                                       value="<%= FeedbackParticipantType.STUDENTS %>"
+                                                                                       <%-- <%=data.isResponseCommentVisibleTo(question, FeedbackParticipantType.STUDENTS) ? "checked=\"checked\"" : ""%> --%>>
+						                                                    </td>
+						                                                    <td>
+                                                                                <input class="visibilityCheckbox giverCheckbox"
+                                                                                       type="checkbox"
+                                                                                       value="<%= FeedbackParticipantType.STUDENTS %>"
+                                                                                       <%-- <%=data.isResponseCommentGiverNameVisibleTo(question, FeedbackParticipantType.STUDENTS) ? "checked=\"checked\"" : ""%> --%>>
+						                                                    </td>
+						                                                </tr>
+					                                                </c:if>
+                                                                    <c:if test="${ifrc.responseVisibleToInstructors}">
+						                                                <tr id="response-instructors-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}">
+						                                                    <td class="text-left">
+						                                                        <div data-toggle="tooltip"
+						                                                             data-placement="top"
+						                                                             title=""
+						                                                             data-original-title="Control what instructors can view">
+						                                                            Instructors
+						                                                        </div>
+						                                                    </td>
+						                                                    <td>
+                                                                                <input class="visibilityCheckbox answerCheckbox"
+                                                                                       type="checkbox"
+                                                                                       value="<%= FeedbackParticipantType.INSTRUCTORS %>"
+                                                                                       <%-- <%=data.isResponseCommentVisibleTo(question, FeedbackParticipantType.INSTRUCTORS) ? "checked=\"checked\"" : ""%> --%>>
+						                                                    </td>
+						                                                    <td>
+                                                                                <input class="visibilityCheckbox giverCheckbox"
+                                                                                       type="checkbox"
+                                                                                       value="<%= FeedbackParticipantType.INSTRUCTORS %>"
+                                                                                       <%-- <%=data.isResponseCommentGiverNameVisibleTo(question, FeedbackParticipantType.INSTRUCTORS) ? "checked=\"checked\"" : ""%> --%>>
+						                                                    </td>
+						                                                </tr>
+						                                            </c:if>
 					                                            </tbody>
 					                                        </table>
 					                                    </div>

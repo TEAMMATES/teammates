@@ -25,6 +25,11 @@ public class InstructorFeedbackResponseComment {
     private Map<FeedbackQuestionDetails, String> responseEntryAnswerHtmls;
     private InstructorAttributes currentInstructor;
     private boolean instructorAllowedToSubmit;
+    private boolean responseVisibleToRecipient;
+    private boolean responseVisibleToGiverTeam;
+    private boolean responseVisibleToRecipientTeam;
+    private boolean responseVisibleToStudents;
+    private boolean responseVisibleToInstructors;
     private String instructorEmail;
 
     public InstructorFeedbackResponseComment(Map<String, FeedbackSessionResultsBundle> feedbackResultBundles,
@@ -119,23 +124,23 @@ public class InstructorFeedbackResponseComment {
                         String showCommentToString = joinParticipantTypes(frca.showCommentTo, ",");
                         String showGiverNameToString = joinParticipantTypes(frca.showGiverNameTo, ",");
 
-                        boolean responseVisibleToRecipient =
-                                    question.recipientType != FeedbackParticipantType.SELF
-                                    && question.recipientType != FeedbackParticipantType.NONE
-                                    && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER);
-                        boolean responseVisibleToGiverTeam =
-                                    question.giverType != FeedbackParticipantType.INSTRUCTORS
-                                    && question.giverType != FeedbackParticipantType.SELF
-                                    && question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
-                        boolean responseVisibleToRecipientTeam =
-                                    question.recipientType != FeedbackParticipantType.INSTRUCTORS
-                                    && question.recipientType != FeedbackParticipantType.SELF
-                                    && question.recipientType != FeedbackParticipantType.NONE
-                                    && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-                        boolean responseVisibleToStudents = 
-                                    question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS);
-                        boolean responseVisibleToInstructors = 
-                                    question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+                        responseVisibleToRecipient =
+                            question.recipientType != FeedbackParticipantType.SELF
+                            && question.recipientType != FeedbackParticipantType.NONE
+                            && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER);
+                        responseVisibleToGiverTeam =
+                            question.giverType != FeedbackParticipantType.INSTRUCTORS
+                            && question.giverType != FeedbackParticipantType.SELF
+                            && question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+                        responseVisibleToRecipientTeam =
+                            question.recipientType != FeedbackParticipantType.INSTRUCTORS
+                            && question.recipientType != FeedbackParticipantType.SELF
+                            && question.recipientType != FeedbackParticipantType.NONE
+                            && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+                        responseVisibleToStudents = 
+                            question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS);
+                        responseVisibleToInstructors = 
+                            question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
 
                         FeedbackResponseComment frc = new FeedbackResponseComment(
                             frca, frca.giverEmail, instructorEmail, bundle.feedbackSession, question,
