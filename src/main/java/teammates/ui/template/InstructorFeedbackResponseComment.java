@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
@@ -115,9 +116,33 @@ public class InstructorFeedbackResponseComment {
                                             responseEntry.recipientSection, responseEntry.feedbackSessionName,
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
 
+                        String showCommentToString = joinParticipantTypes(frca.showCommentTo, ",");
+                        String showGiverNameToString = joinParticipantTypes(frca.showGiverNameTo, ",");
+
+                        boolean responseVisibleToRecipient =
+                                    question.recipientType != FeedbackParticipantType.SELF
+                                    && question.recipientType != FeedbackParticipantType.NONE
+                                    && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER);
+                        boolean responseVisibleToGiverTeam =
+                                    question.giverType != FeedbackParticipantType.INSTRUCTORS
+                                    && question.giverType != FeedbackParticipantType.SELF
+                                    && question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+                        boolean responseVisibleToRecipientTeam =
+                                    question.recipientType != FeedbackParticipantType.INSTRUCTORS
+                                    && question.recipientType != FeedbackParticipantType.SELF
+                                    && question.recipientType != FeedbackParticipantType.NONE
+                                    && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+                        boolean responseVisibleToStudents = 
+                                    question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS);
+                        boolean responseVisibleToInstructors = 
+                                    question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+
                         FeedbackResponseComment frc = new FeedbackResponseComment(
                             frca, frca.giverEmail, instructorEmail, bundle.feedbackSession, question,
-                            whoCanSeeComment, allowedToEditAndDeleteComment);
+                            whoCanSeeComment, showCommentToString, showGiverNameToString,
+                            allowedToEditAndDeleteComment, responseVisibleToRecipient,
+                            responseVisibleToGiverTeam, responseVisibleToRecipientTeam,
+                            responseVisibleToStudents, responseVisibleToInstructors);
 
                         frcList.add(frc);
                     }
@@ -125,6 +150,18 @@ public class InstructorFeedbackResponseComment {
                     feedbackResponseCommentsLists.put(responseEntry.getId(), frcList);
                 }
             }
+        }
+    }
+
+    private String joinParticipantTypes(List<FeedbackParticipantType> participants, String joiner) {
+        if (participants.isEmpty()) {
+            return "";
+        } else {
+            String result = "";
+            for (FeedbackParticipantType fpt: participants) {
+                result += fpt + joiner;
+            }
+            return result.substring(0, result.length() - joiner.length());
         }
     }
 

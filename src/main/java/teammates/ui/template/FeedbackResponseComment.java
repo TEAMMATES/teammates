@@ -54,7 +54,11 @@ public class FeedbackResponseComment {
     public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay,
                                    String instructorEmail, FeedbackSessionAttributes feedbackSession,
                                    FeedbackQuestionAttributes question, String whoCanSeeComment,
-                                   boolean isAllowedToEditAndDeleteComment) {
+                                   String showCommentToString, String showGiverNameToString,
+                                   boolean isAllowedToEditAndDeleteComment,
+                                   boolean responseVisibleToRecipient, boolean responseVisibleToGiverTeam,
+                                   boolean responseVisibleToRecipientTeam, boolean responseVisibleToStudents,
+                                   boolean responseVisibleToInstructors) {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.createdAt = frc.createdAt.toString();
@@ -66,7 +70,14 @@ public class FeedbackResponseComment {
         this.whoCanSeeComment = whoCanSeeComment;
         checkIfShouldDisplayVisibilityIcon();
         checkIfShouldDisplayNotificationIcon(frc);
+        this.showCommentToString = showCommentToString;
+        this.showGiverNameToString = showGiverNameToString;
         updateEditDeleteAccessibility(isAllowedToEditAndDeleteComment);
+        this.responseVisibleToRecipient = responseVisibleToRecipient;
+        this.responseVisibleToGiverTeam = responseVisibleToGiverTeam;
+        this.responseVisibleToRecipientTeam = responseVisibleToRecipientTeam;
+        this.responseVisibleToStudents = responseVisibleToStudents;
+        this.responseVisibleToInstructors = responseVisibleToInstructors;
     }
 
     // Used in InstructorFeedbackResponseCommentAjaxPageData for instructorFeedbackResponseCommentsAdd.jsp
