@@ -51,16 +51,16 @@ public class InstructorFeedbackSessionActions {
         this.courseId = Sanitizer.sanitizeForHtml(courseId);
         this.fsName = Sanitizer.sanitizeForHtml(feedbackSessionName);
 
-        this.resultsLink = data.getInstructorFeedbackSessionResultsLink(courseId, feedbackSessionName);
-        this.editLink = data.getInstructorFeedbackSessionEditLink(courseId, feedbackSessionName);
-        this.deleteLink = data.getInstructorFeedbackSessionDeleteLink(courseId, feedbackSessionName,
+        this.resultsLink = data.getInstructorFeedbackResultsLink(courseId, feedbackSessionName);
+        this.editLink = data.getInstructorFeedbackEditLink(courseId, feedbackSessionName);
+        this.deleteLink = data.getInstructorFeedbackDeleteLink(courseId, feedbackSessionName,
                                                                       (isHome ? Const.ActionURIs.INSTRUCTOR_HOME_PAGE 
                                                                               : Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE));
-        this.submitLink = data.getInstructorFeedbackSessionSubmitLink(courseId, feedbackSessionName);
-        this.remindLink = data.getInstructorFeedbackSessionRemindLink(courseId, feedbackSessionName);
-        this.remindParticularStudentsLink = data.getInstructorFeedbackSessionRemindParticularStudentsPageLink(courseId,
+        this.submitLink = data.getInstructorFeedbackSubmissionEditLink(courseId, feedbackSessionName);
+        this.remindLink = data.getInstructorFeedbackRemindLink(courseId, feedbackSessionName);
+        this.remindParticularStudentsLink = data.getInstructorFeedbackRemindParticularStudentsLink(courseId,
                                                                                                      feedbackSessionName);
-        this.editCopyLink = data.getFeedbackSessionEditCopyLink();
+        this.editCopyLink = data.getInstructorFeedbackEditCopyLink();
 
         this.allowedToEdit = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         this.allowedToDelete = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
