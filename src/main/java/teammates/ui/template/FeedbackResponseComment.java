@@ -2,6 +2,7 @@ package teammates.ui.template;
 
 import java.util.List;
 
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -21,6 +22,7 @@ public class FeedbackResponseComment {
     private String showCommentToString;
     private String showGiverNameToString;
     private String linkToCommentsPage;
+    private String whoCanSeeComment;
     private List<FeedbackParticipantType> showCommentTo;
     private List<FeedbackParticipantType> showGiverNameTo;
     private boolean withVisibilityIcon;
@@ -49,7 +51,8 @@ public class FeedbackResponseComment {
     // Used in InstructorFeedbackResponseComment which is part of 
     // InstructorFeedbackResponseCommentsLoadPageData
     public FeedbackResponseComment(FeedbackResponseCommentAttributes frc, String giverDisplay,
-                                   String instructorEmail, FeedbackSessionAttributes feedbackSession) {
+                                   String instructorEmail, FeedbackSessionAttributes feedbackSession,
+                                   FeedbackQuestionAttributes question, String whoCanSeeComment) {
         this.commentId = frc.getId();
         this.giverDisplay = giverDisplay;
         this.createdAt = frc.createdAt.toString();
@@ -58,6 +61,8 @@ public class FeedbackResponseComment {
         this.responseCommentPublicToRecipient = frc.showCommentTo.size() > 0 ? true : false;
         this.feedbackSessionPublished = feedbackSession.isPublished();
         instructorFeedbackResponseCommentsLoadSetExtraClassIfNeeded(frc.giverEmail, instructorEmail);
+        this.whoCanSeeComment = whoCanSeeComment;
+        checkIfShouldDisplayVisibilityIcon();
     }
 
     // Used in InstructorFeedbackResponseCommentAjaxPageData for instructorFeedbackResponseCommentsAdd.jsp
@@ -109,6 +114,12 @@ public class FeedbackResponseComment {
         }
 
         setExtraClass(extraClassToSet);
+    }
+
+    public void checkIfShouldDisplayVisibilityIcon() {
+        if (responseCommentPublicToRecipient && feedbackSessionPublished) {
+            withVisibilityIcon = true;
+        }
     }
 
     public String getExtraClass() {
@@ -169,6 +180,10 @@ public class FeedbackResponseComment {
 
     public String getShowGiverNameToString() {
         return showGiverNameToString;
+    }
+
+    public String getWhoCanSeeComment() {
+        return whoCanSeeComment;
     }
 
     public boolean isWithVisibilityIcon() {

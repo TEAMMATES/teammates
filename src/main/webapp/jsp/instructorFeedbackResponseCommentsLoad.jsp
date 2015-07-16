@@ -62,27 +62,11 @@
 		                                    id="responseCommentTable-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}"
 		                                    <c:if test="${empty frcList}">style="display: none;"</c:if>>
 		                                    <c:forEach var="frc" items="${frcList}" varStatus="frcStatus">
-	                                            <%
-	                                                Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(frc);
-	                                            %>
 	                                            <shared:feedbackResponseComment frc="${frc}"
 	                                                                            firstIndex="${fsrbStatus.index}"
 	                                                                            secondIndex="${responseEntriesStatus.count}"
 	                                                                            thirdIndex="${responseEntryStatus.count}"
 	                                                                            frcIndex="${frcStatus.count}" />
-						                                <%
-						                                    if (isPublicResponseComment && bundle.feedbackSession.isPublished()) {
-						                                                        String whoCanSee = data.getTypeOfPeopleCanViewComment(frc, question);
-						                                %>
-						                                <span
-						                                    class="glyphicon glyphicon-eye-open"
-						                                    data-toggle="tooltip"
-						                                    data-placement="top"
-						                                    style="margin-left: 5px;"
-						                                    title="This response comment is visible to <%=whoCanSee%>"></span>
-						                                <%
-						                                    }
-						                                %>
 						                                <%
 						                                    if (frc.sendingState == CommentSendingState.PENDING && bundle.feedbackSession.isPublished()) {
 						                                %>

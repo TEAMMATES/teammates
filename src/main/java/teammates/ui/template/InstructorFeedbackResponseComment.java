@@ -12,9 +12,11 @@ import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.ui.controller.InstructorFeedbackResponseCommentsLoadPageData;
 import teammates.ui.template.FeedbackResponseComment;
 
 public class InstructorFeedbackResponseComment {
+    private InstructorFeedbackResponseCommentsLoadPageData ifrclpd;
     private Map<String, FeedbackSessionResultsBundle> feedbackResultBundles;
     private Map<String, String> giverNames;
     private Map<String, String> recipientNames;
@@ -25,7 +27,8 @@ public class InstructorFeedbackResponseComment {
     private String instructorEmail;
 
     public InstructorFeedbackResponseComment(Map<String, FeedbackSessionResultsBundle> feedbackResultBundles,
-                                             InstructorAttributes currentInstructor, String instructorEmail) {
+                                             InstructorAttributes currentInstructor, String instructorEmail,
+                                             InstructorFeedbackResponseCommentsLoadPageData ifrclpd) {
         this.feedbackResultBundles = feedbackResultBundles;
         this.currentInstructor = currentInstructor;
         this.giverNames = new HashMap<String, String>();
@@ -33,6 +36,7 @@ public class InstructorFeedbackResponseComment {
         this.feedbackResponseCommentsLists = new HashMap<String, List<FeedbackResponseComment>>();
         this.responseEntryAnswerHtmls = new HashMap<FeedbackQuestionDetails, String>();
         this.instructorEmail = instructorEmail;
+        this.ifrclpd = ifrclpd;
 
         initializeValues();
     }
@@ -99,8 +103,11 @@ public class InstructorFeedbackResponseComment {
                     List<FeedbackResponseComment> frcList = new ArrayList<FeedbackResponseComment>();
 
                     for (FeedbackResponseCommentAttributes frca : feedbackResponseCommentsList) {
+                        String whoCanSeeComment = ifrclpd.getTypeOfPeopleCanViewComment(frca, question);
+
                         FeedbackResponseComment frc = new FeedbackResponseComment(
-                            frca, frca.giverEmail, instructorEmail, bundle.feedbackSession);
+                            frca, frca.giverEmail, instructorEmail, bundle.feedbackSession, question,
+                            whoCanSeeComment);
 
                         frcList.add(frc);
                     }
