@@ -25,7 +25,7 @@
                 <div class="col-sm-10">
                   <p class="form-control-static"><%=InstructorFeedbackResultsPageData.sanitizeForHtml(data.bundle.feedbackSession.feedbackSessionName)%> 
                       <% if (data.instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)) { %>
-                          <a href="<%=data.getInstructorFeedbackSessionEditLink(data.bundle.feedbackSession.courseId, data.bundle.feedbackSession.feedbackSessionName)%>">
+                          <a href="<%=data.getInstructorFeedbackEditLink(data.bundle.feedbackSession.courseId, data.bundle.feedbackSession.feedbackSessionName)%>">
                           [Edit]</a>
                       <% } %>
                   </p>
@@ -133,7 +133,7 @@
 			|| !showAll) {
 %>
 
-<form class="form-horizontal" role="form" method="post" action="<%=data.getInstructorFeedbackSessionResultsLink(
+<form class="form-horizontal" role="form" method="post" action="<%=data.getInstructorFeedbackResultsLink(
 						data.bundle.feedbackSession.courseId,
 						data.bundle.feedbackSession.feedbackSessionName)%>">
     <div class="panel panel-info margin-0">

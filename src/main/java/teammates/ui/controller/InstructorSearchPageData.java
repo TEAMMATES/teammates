@@ -15,7 +15,6 @@ import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.util.Const;
 import teammates.common.util.Sanitizer;
-import teammates.common.util.Url;
 import teammates.ui.template.Comment;
 import teammates.ui.template.FeedbackResponseComment;
 import teammates.ui.template.FeedbackSessionRow;
@@ -115,41 +114,6 @@ public class InstructorSearchPageData extends PageData {
         return searchStudentsTables;
     }
 
-    
-    public String getCourseStudentDetailsLink(String courseId, StudentAttributes student){
-        String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
-        link = Url.addParamToUrl(link,Const.ParamsNames.STUDENT_EMAIL,student.email);
-        link = addUserIdToUrl(link);
-        return link;
-    }
-    
-    public String getCourseStudentEditLink(String courseId, StudentAttributes student){
-        String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
-        link = Url.addParamToUrl(link,Const.ParamsNames.STUDENT_EMAIL,student.email);
-        link = addUserIdToUrl(link);
-        return link;
-    }
-    
-    //TODO: create another delete action which redirects to studentListPage?
-    public String getCourseStudentDeleteLink(String courseId, StudentAttributes student){
-        String link = Const.ActionURIs.INSTRUCTOR_COURSE_STUDENT_DELETE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
-        link = Url.addParamToUrl(link,Const.ParamsNames.STUDENT_EMAIL,student.email);
-        link = addUserIdToUrl(link);
-        return link;
-    }
-    
-    public String getStudentRecordsLink(String courseId, StudentAttributes student){
-        String link = Const.ActionURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
-        link = Url.addParamToUrl(link,Const.ParamsNames.STUDENT_EMAIL,student.email);
-        link = addUserIdToUrl(link);
-        return link;
-    }
-    
-    
     /*************** Set results tables *********************/
     private void setSearchCommentsForStudentsTables(
                                     CommentSearchResultBundle commentSearchResultBundle) {
@@ -354,7 +318,7 @@ public class InstructorSearchPageData extends PageData {
         }
         
         result.append("<a class=\"btn btn-default btn-xs student-view-for-test\" "
-                       + "href=\"" + getCourseStudentDetailsLink(student.course, student) + "\" "
+                       + "href=\"" + getInstructorCourseStudentDetailsLink(student.course, student.email) + "\" "
                        + "title=\"" + Const.Tooltips.COURSE_STUDENT_DETAILS + "\" "
                        + "data-toggle=\"tooltip\" data-placement=\"top\" "
                        + disabledStr + ">");
@@ -369,7 +333,7 @@ public class InstructorSearchPageData extends PageData {
         }
 
         result.append("<a class=\"btn btn-default btn-xs student-edit-for-test\" "
-                       + "href=\"" + getCourseStudentEditLink(student.course, student) + "\" "
+                       + "href=\"" + getInstructorCourseStudentDetailsEditLink(student.course, student.email) + "\" "
                        + "title=\"" + Const.Tooltips.COURSE_STUDENT_EDIT + "\" "
                        + "data-toggle=\"tooltip\" data-placement=\"top\" "
                        + disabledStr + ">");
@@ -384,7 +348,7 @@ public class InstructorSearchPageData extends PageData {
         }
 
         result.append("<a class=\"btn btn-default btn-xs student-delete-for-test\" "
-                       + "href=\"" + getCourseStudentDeleteLink(student.course, student) + "\" "
+                       + "href=\"" + getInstructorCourseStudentDeleteLink(student.course, student.email) + "\" "
                        + "onclick=\"return toggleDeleteStudentConfirmation('" 
                                          + Sanitizer.sanitizeForJs(student.course) + "','" + Sanitizer.sanitizeForJs(student.name) + "')\""
                        + "title=\"" + Const.Tooltips.COURSE_STUDENT_DELETE + "\" "
@@ -395,7 +359,7 @@ public class InstructorSearchPageData extends PageData {
         
         // All records
         result.append("<a class=\"btn btn-default btn-xs student-records-for-test\" "
-                       + "href=\"" + getStudentRecordsLink(student.course, student) + "\" "
+                       + "href=\"" + getInstructorStudentRecordsLink(student.course, student.email) + "\" "
                        + "title=\"" + Const.Tooltips.COURSE_STUDENT_RECORDS + "\" "
                        + "data-toggle=\"tooltip\" data-placement=\"top\" >");
         result.append("All Records");
@@ -420,16 +384,16 @@ public class InstructorSearchPageData extends PageData {
         result.append("<ul class=\"dropdown-menu\" role=\"menu\" aria-labelledby=\"dLabel\" style=\"text-align: left;\">"
                           + "<li role=\"presentation\">"
                               + "<a role=\"menuitem\" tabindex=\"-1\" "
-                                  + "href=\"" + getCourseStudentDetailsLink(student.course, student) 
-                                              +"&"+ Const.ParamsNames.SHOW_COMMENT_BOX+"=student\">"
+                                  + "href=\"" + getInstructorCourseStudentDetailsLink(student.course, student.email, "student") 
+                                              + "\">"
                                   + "Comment on " + PageData.sanitizeForHtml(student.name)
                               + "</a>"
                           + "</li>"
                               
                           + "<li role=\"presentation\">"
                               + "<a role=\"menuitem\" tabindex=\"-1\" "
-                                  + "href=\"" + getCourseStudentDetailsLink(student.course, student) 
-                                              +"&"+ Const.ParamsNames.SHOW_COMMENT_BOX+"=team\">"
+                                  + "href=\"" + getInstructorCourseStudentDetailsLink(student.course, student.email, "team") 
+                                              + "\">"
                                   + "Comment on " + PageData.sanitizeForHtml(student.team)
                               + "</a>"
                           + "</li>");
@@ -438,8 +402,8 @@ public class InstructorSearchPageData extends PageData {
         if (!student.section.equals(Const.DEFAULT_SECTION)) {
             result.append("<li role=\"presentation\">"
                               + "<a role=\"menuitem\" tabindex=\"-1\" "
-                                  + "href=\"" + getCourseStudentDetailsLink(student.course, student) 
-                                              +"&"+ Const.ParamsNames.SHOW_COMMENT_BOX+"=section\">"
+                                  + "href=\"" + getInstructorCourseStudentDetailsLink(student.course, student.email, "section") 
+                                              + "\">"
                                   + "Comment on " + PageData.sanitizeForHtml(student.section)
                               + "</a>"
                          + "</li>");

@@ -18,10 +18,10 @@
                     <a class='nav home' data-link="instructorHome" href="${data.instructorHomeLink}">Home</a>
                 </li>
                 <li<c:if test="${fn:contains(data.class,'InstructorCourse') && !fn:contains(data.class, 'CourseStudent')}"> class="active"</c:if>>
-                    <a class='nav courses' data-link="instructorCourse" href="${data.instructorCourseLink}">Courses</a>
+                    <a class='nav courses' data-link="instructorCourse" href="${data.instructorCoursesLink}">Courses</a>
                 </li>
                 <li<c:if test="${fn:contains(data.class,'Feedback')}"> class="active"</c:if>>
-                    <a class='nav evaluations' data-link="instructorEval" href="${data.instructorFeedbackSessionLink}">Sessions</a>
+                    <a class='nav evaluations' data-link="instructorEval" href="${data.instructorFeedbacksLink}">Sessions</a>
                 </li>
                 <li<c:if test="${fn:contains(data.class,'Student')}"> class="active"</c:if>>
                     <a class='nav students' data-link="instructorStudent" href="${data.instructorStudentListLink}">Students</a>

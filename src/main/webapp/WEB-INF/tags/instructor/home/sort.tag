@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <a class="btn btn-primary btn-md pull-right" href="${data.instructorCourseLink}" 
+            <a class="btn btn-primary btn-md pull-right" href="${data.instructorCoursesLink}" 
                 id="addNewCourse">Add New Course</a>
         </div>
     </div>

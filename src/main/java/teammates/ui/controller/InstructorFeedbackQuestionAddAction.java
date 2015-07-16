@@ -59,8 +59,7 @@ public class InstructorFeedbackQuestionAddAction extends Action {
                 isError = true;
             }
         }
-        return createRedirectResult(new PageData(account).getInstructorFeedbackSessionEditLink(courseId,
-                                                                                               feedbackSessionName));
+        return createRedirectResult(new PageData(account).getInstructorFeedbackEditLink(courseId, feedbackSessionName));
     }
 
     private String validateQuestionGiverRecipientVisibility(FeedbackQuestionAttributes feedbackQuestion) {
