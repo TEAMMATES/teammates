@@ -17,8 +17,8 @@
     <![endif]-->
 
     <script type="text/javascript" async="" src="https://ssl.google-analytics.com/ga.js"></script><script src="/js/googleAnalytics.js" type="text/javascript"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="{*}/jquery.min.js" type="text/javascript"></script>
+    <script src="{*}/jquery-ui.min.js" type="text/javascript"></script>
     <script src="/js/common.js" type="text/javascript"></script>
     <script src="/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 
@@ -314,88 +314,72 @@
     </div>
     <div class="panel-body">
         
-            
-            <div class="panel panel-info student-record-comments giver_display-to-others">
-                <div class="panel-heading">
-                    From <b>Instructor Instructor1 Course1 (comments.idOfTypicalCourse1)</b>
-                </div>
-                <ul class="list-group comments">
-                    <li class="list-group-item list-group-item-warning">
-                        <div id="commentBar-1">
-                            <span class="text-muted">
-                                 To <b>All Students In This Course</b> [Fri, 01 Jun 2012, 19:20:00 UTC] 
-                            </span>
-                        </div>
-                        <div id="plainCommentText1" style="margin-left: 15px;">Students in this course can see this comment</div>
-                    </li>
-                </ul>
-            </div>
         
-            
-            <div class="panel panel-info student-record-comments giver_display-to-others">
+            <div class="panel panel-info student-record-comments">
                 <div class="panel-heading">
                     From <b>Anonymous (comments.idOfTypicalCourse1)</b>
                 </div>
                 <ul class="list-group comments">
-                    <li class="list-group-item list-group-item-warning">
-                        <div id="commentBar-2">
-                            <span class="text-muted">
-                                 To <b>Team 1.1</b> [Mon, 07 May 2012, 08:54:00 UTC] 
-                            </span>
-                        </div>
-                        <div id="plainCommentText2" style="margin-left: 15px;">team can see this comment without giver's name</div>
-                    </li>
+                    
+                        
+                        <li class="list-group-item list-group-item-warning">
+                            <div id="commentBar-1">
+                                <span class="text-muted">
+                                     To <b>Team 1.1</b> [Mon, 07 May 2012, 08:54:00 UTC] 
+                                </span>
+                            </div>
+                            <div id="plainCommentText1" style="margin-left: 15px;">team can see this comment without giver's name</div>
+                        </li>
+                    
+                        
+                        <li class="list-group-item list-group-item-warning">
+                            <div id="commentBar-2">
+                                <span class="text-muted">
+                                     To <b>you</b> [Wed, 02 May 2012, 08:50:00 UTC] (last edited at Wed, 02 May 2012, 08:51:00 UTC)
+                                </span>
+                            </div>
+                            <div id="plainCommentText2" style="margin-left: 15px;">recipient can see this comment without giver's name</div>
+                        </li>
+                    
                 </ul>
             </div>
         
-            
-            <div class="panel panel-info student-record-comments giver_display-to-others">
+            <div class="panel panel-info student-record-comments">
                 <div class="panel-heading">
                     From <b>Instructor Instructor1 Course1 (comments.idOfTypicalCourse1)</b>
                 </div>
                 <ul class="list-group comments">
-                    <li class="list-group-item list-group-item-warning">
-                        <div id="commentBar-3">
-                            <span class="text-muted">
-                                 To <b>Team 1.1</b> [Sat, 05 May 2012, 08:53:00 UTC] (last edited by comments.instructor1@course1.tmt at Sat, 05 May 2012, 08:54:00 UTC)
-                            </span>
-                        </div>
-                        <div id="plainCommentText3" style="margin-left: 15px;">team can see this comment with giver and recipient's name</div>
-                    </li>
-                </ul>
-            </div>
-        
-            
-            <div class="panel panel-info student-record-comments giver_display-to-you">
-                <div class="panel-heading">
-                    From <b>Anonymous (comments.idOfTypicalCourse1)</b>
-                </div>
-                <ul class="list-group comments">
-                    <li class="list-group-item list-group-item-warning">
-                        <div id="commentBar-4">
-                            <span class="text-muted">
-                                 To <b>you</b> [Wed, 02 May 2012, 08:50:00 UTC] (last edited at Wed, 02 May 2012, 08:51:00 UTC)
-                            </span>
-                        </div>
-                        <div id="plainCommentText4" style="margin-left: 15px;">recipient can see this comment without giver's name</div>
-                    </li>
-                </ul>
-            </div>
-        
-            
-            <div class="panel panel-info student-record-comments giver_display-to-you">
-                <div class="panel-heading">
-                    From <b>Instructor Instructor1 Course1 (comments.idOfTypicalCourse1)</b>
-                </div>
-                <ul class="list-group comments">
-                    <li class="list-group-item list-group-item-warning">
-                        <div id="commentBar-5">
-                            <span class="text-muted">
-                                 To <b>you</b> [Tue, 01 May 2012, 08:49:00 UTC] 
-                            </span>
-                        </div>
-                        <div id="plainCommentText5" style="margin-left: 15px;">recipient can see this comment with giver and recipient's name</div>
-                    </li>
+                    
+                        
+                        <li class="list-group-item list-group-item-warning">
+                            <div id="commentBar-3">
+                                <span class="text-muted">
+                                     To <b>All Students In This Course</b> [Fri, 01 Jun 2012, 19:20:00 UTC] 
+                                </span>
+                            </div>
+                            <div id="plainCommentText3" style="margin-left: 15px;">Students in this course can see this comment</div>
+                        </li>
+                    
+                        
+                        <li class="list-group-item list-group-item-warning">
+                            <div id="commentBar-4">
+                                <span class="text-muted">
+                                     To <b>Team 1.1</b> [Sat, 05 May 2012, 08:53:00 UTC] (last edited by comments.instructor1@course1.tmt at Sat, 05 May 2012, 08:54:00 UTC)
+                                </span>
+                            </div>
+                            <div id="plainCommentText4" style="margin-left: 15px;">team can see this comment with giver and recipient's name</div>
+                        </li>
+                    
+                        
+                        <li class="list-group-item list-group-item-warning">
+                            <div id="commentBar-5">
+                                <span class="text-muted">
+                                     To <b>you</b> [Tue, 01 May 2012, 08:49:00 UTC] 
+                                </span>
+                            </div>
+                            <div id="plainCommentText5" style="margin-left: 15px;">recipient can see this comment with giver and recipient's name</div>
+                        </li>
+                    
                 </ul>
             </div>
         

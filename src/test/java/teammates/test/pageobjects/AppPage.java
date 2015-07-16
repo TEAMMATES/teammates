@@ -788,7 +788,15 @@ public abstract class AppPage {
                 // now (used in opening time/closing time Grace period)
                 .replaceAll(new SimpleDateFormat("EEE, dd MMM yyyy, ").format(now) + "[0-9]{2}:[0-9]{2}", "{*}")
                 // now (used in comments last edited date) e.g. [Thu May 07 07:52:13 UTC 2015]
-                .replaceAll(new SimpleDateFormat("EEE MMM dd ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC [0-9]{4}", "{*}");
+                .replaceAll(new SimpleDateFormat("EEE MMM dd ").format(now) + "[0-9]{2}:[0-9]{2}:[0-9]{2} UTC [0-9]{4}", "{*}")
+                // jQuery local
+                .replace("/js/lib/jquery.min.js", "{*}/jquery.min.js")
+                // jQuery CDN
+                .replace("https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js", "{*}/jquery.min.js")
+                // jQuery-ui local
+                .replace("/js/lib/jquery-ui.min.js", "{*}/jquery-ui.min.js")
+                // jQuery-ui CDN
+                .replace("https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js", "{*}/jquery-ui.min.js");
     }
 
     private boolean areTestAccountsDefaultValues() {

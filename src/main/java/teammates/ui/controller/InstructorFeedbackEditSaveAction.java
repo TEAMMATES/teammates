@@ -56,7 +56,7 @@ public class InstructorFeedbackEditSaveAction extends Action {
             setStatusForException(e);
         }
         
-        return createRedirectResult(data.getInstructorFeedbackSessionEditLink(courseId, feedbackSessionName));
+        return createRedirectResult(data.getInstructorFeedbackEditLink(courseId, feedbackSessionName));
     }
     
     private FeedbackSessionAttributes extractFeedbackSessionData() {
