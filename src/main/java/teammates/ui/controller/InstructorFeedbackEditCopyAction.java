@@ -155,16 +155,12 @@ public class InstructorFeedbackEditCopyAction extends Action {
     }
     
     private String getRedirectUrl(String currentPage) {
-        switch (currentPage) {
-            case Const.PageNames.INSTRUCTOR_HOME_PAGE:
-                return Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
-                
-            case Const.PageNames.INSTRUCTOR_FEEDBACKS_PAGE:
-                return Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
-                
-            case Const.PageNames.INSTRUCTOR_FEEDBACK_EDIT_PAGE:
-            default:
-                return Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE;
+        if (currentPage.contains(Const.PageNames.INSTRUCTOR_HOME_PAGE)) {
+            return Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
+        } else if (currentPage.contains(Const.PageNames.INSTRUCTOR_FEEDBACKS_PAGE)) {
+            return Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
+        } else {
+            return Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE;
         }
     }
 }
