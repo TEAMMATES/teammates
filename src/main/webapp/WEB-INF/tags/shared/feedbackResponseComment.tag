@@ -17,7 +17,7 @@
         <c:set var="divIdAsJsParams" value="" />
     </c:otherwise>
 </c:choose>
-<li class="list-group-item list-group-item-warning${frc.extraClass}" id="responseCommentRow-${divId}">
+<li class="list-group-item list-group-item-warning<c:if test="${not empty frc.extraClass}"> ${frc.extraClass}</c:if>" id="responseCommentRow-${divId}">
     <div id="commentBar-${divId}">
         <span class="text-muted">
             From: ${frc.giverDisplay} [${frc.createdAt}] ${frc.editedAt}
