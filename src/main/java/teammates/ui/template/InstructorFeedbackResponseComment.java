@@ -8,6 +8,7 @@ import teammates.common.datatransfer.FeedbackQuestionDetails;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.util.Const;
 
 public class InstructorFeedbackResponseComment {
     private Map<String, FeedbackSessionResultsBundle> feedbackResultBundles;
@@ -15,6 +16,7 @@ public class InstructorFeedbackResponseComment {
     private Map<String, String> recipientNames;
     private Map<FeedbackQuestionDetails, String> responseEntryAnswerHtmls;
     private InstructorAttributes currentInstructor;
+    private boolean instructorAllowedToSubmit;
 
     public InstructorFeedbackResponseComment(Map<String, FeedbackSessionResultsBundle> feedbackResultBundles,
                                              InstructorAttributes currentInstructor) {
@@ -27,6 +29,7 @@ public class InstructorFeedbackResponseComment {
     // Initializes giverNames
     // Initializes recipientNames
     // Initializes responseEntryAnswerHtml
+    // Initializes instructorAllowedToSubmit
     private void initializeValues() {
         for (String bundleKey : feedbackResultBundles.keySet()) {
             FeedbackSessionResultsBundle bundle = feedbackResultBundles.get(bundleKey);
@@ -59,6 +62,19 @@ public class InstructorFeedbackResponseComment {
                             responseEntry.getResponseDetails().getAnswerHtml(questionDetails);
 
                     responseEntryAnswerHtmls.put(questionDetails, responseEntryAnswerHtml);
+
+                    // instructorAllowedToSubmit is initialized here
+                    if (currentInstructor == null
+                        || !currentInstructor.isAllowedForPrivilege(
+                               responseEntry.giverSection, responseEntry.feedbackSessionName,
+                               Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
+                        || !currentInstructor.isAllowedForPrivilege(
+                               responseEntry.recipientSection, responseEntry.feedbackSessionName,
+                               Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
+                        instructorAllowedToSubmit = false;
+                    } else {
+                        instructorAllowedToSubmit = true;
+                    }
                 }
             }
         }
@@ -74,5 +90,9 @@ public class InstructorFeedbackResponseComment {
 
     public Map<FeedbackQuestionDetails, String> getResponseEntryAnswerHtmls() {
         return responseEntryAnswerHtmls;
+    }
+
+    public boolean isInstructorAllowedToSubmit() {
+        return instructorAllowedToSubmit;
     }
 }

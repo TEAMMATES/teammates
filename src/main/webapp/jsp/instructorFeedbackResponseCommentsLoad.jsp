@@ -49,16 +49,7 @@
 		                                        onclick="showResponseCommentAddForm(${fsrbStatus.index},${responseEntriesStatus.count},${responseEntryStatus.count})"
 		                                        data-toggle="tooltip" data-placement="top"
 		                                        title="<%= Const.Tooltips.COMMENT_ADD %>"
-			                                    <% 
-                                                 // continue from here
-			                                     if ((data.currentInstructor == null) ||
-			                                            (!data.currentInstructor.isAllowedForPrivilege(responseEntry.giverSection,
-			                                                    responseEntry.feedbackSessionName,
-			                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)
-			                                            || !data.currentInstructor.isAllowedForPrivilege(responseEntry.recipientSection,
-			                                                    responseEntry.feedbackSessionName,
-			                                                    Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS))) {%>
-			                                    disabled="disabled" <%}%>>
+		                                        <c:if test="${not ifrc.instructorAllowedToSubmit}">disabled="disabled"</c:if>>
 		                                    <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
 		                                </button>
 		                            </td>
@@ -68,7 +59,7 @@
                                         <c:set var="frcList" value="${feedbackSessionResultsBundle.responseComments[responseEntry.id]}"/>
 		                                <ul class="list-group comments"
 		                                    id="responseCommentTable-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}"
-		                                    <c:if test="${not empty frcList}">style="display:none"</c:if>>
+		                                    <c:if test="${not empty frcList}">style="display: none;"</c:if>>
 		                                    <c:forEach var="frc" items="${frcList}" varStatus="frcStatus">
 	                                            <%
 	                                                String frCommentGiver = frc.giverEmail;
@@ -77,13 +68,12 @@
 	                                                }
 	                                                Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(frc);
 	                                            %>
-	                                            <!-- This part needs to be specially handled for using the shared tag -->
 	                                            <!-- Still yet to construct the proper frc that the shared tag expects -->
-	                                            <%-- <shared:feedbackResponseComment frc="${frc}"
+	                                            <shared:feedbackResponseComment frc="${frc}"
 	                                                                            firstIndex="${fsrbStatus.index}"
 	                                                                            secondIndex="${responseEntriesStatus.count}"
 	                                                                            thirdIndex="${responseEntryStatus.count}"
-	                                                                            frcIndex="${frcStatus.count}" /> --%>
+	                                                                            frcIndex="${frcStatus.count}" />
 	                                            <li class="list-group-item list-group-item-warning <%=frCommentGiver.equals("you") ? "giver_display-by-you" : "giver_display-by-others"%> <%=isPublicResponseComment && bundle.feedbackSession.isPublished() ? "status_display-public" : "status_display-private"%>"
 						                            id="responseCommentRow-<%=fsIndx%>-<%=qnIndx%>-<%=responseIndex%>-<%=responseCommentIndex%>">
 						                            <div
