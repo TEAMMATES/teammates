@@ -2,6 +2,7 @@ package teammates.ui.template;
 
 import java.util.List;
 
+import teammates.common.datatransfer.CommentSendingState;
 import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -63,6 +64,7 @@ public class FeedbackResponseComment {
         instructorFeedbackResponseCommentsLoadSetExtraClassIfNeeded(frc.giverEmail, instructorEmail);
         this.whoCanSeeComment = whoCanSeeComment;
         checkIfShouldDisplayVisibilityIcon();
+        checkIfShouldDisplayNotificationIcon(frc);
     }
 
     // Used in InstructorFeedbackResponseCommentAjaxPageData for instructorFeedbackResponseCommentsAdd.jsp
@@ -97,7 +99,7 @@ public class FeedbackResponseComment {
         this.instructorAllowedToEdit = isInstructorAllowedToEdit;
     }
 
-    public void instructorFeedbackResponseCommentsLoadSetExtraClassIfNeeded(
+    private void instructorFeedbackResponseCommentsLoadSetExtraClassIfNeeded(
             String giverEmail, String instructorEmail) {
         String extraClassToSet = "";
 
@@ -116,9 +118,15 @@ public class FeedbackResponseComment {
         setExtraClass(extraClassToSet);
     }
 
-    public void checkIfShouldDisplayVisibilityIcon() {
+    private void checkIfShouldDisplayVisibilityIcon() {
         if (responseCommentPublicToRecipient && feedbackSessionPublished) {
             withVisibilityIcon = true;
+        }
+    }
+
+    private void checkIfShouldDisplayNotificationIcon(FeedbackResponseCommentAttributes frc) {
+        if (frc.sendingState == CommentSendingState.PENDING && feedbackSessionPublished) {
+            withNotificationIcon = true;
         }
     }
 

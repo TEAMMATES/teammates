@@ -68,16 +68,6 @@
 	                                                                            thirdIndex="${responseEntryStatus.count}"
 	                                                                            frcIndex="${frcStatus.count}" />
 						                                <%
-						                                    if (frc.sendingState == CommentSendingState.PENDING && bundle.feedbackSession.isPublished()) {
-						                                %>
-						                                <span class="glyphicon glyphicon-bell"
-						                                    data-toggle="tooltip"
-						                                    data-placement="top"
-						                                    title="This comment is pending to notify recipients"></span>
-						                                <%
-						                                    }
-						                                %>
-						                                <%
 						                                    Boolean isAllowedToEditOrDeleteComment = (frc.giverEmail.equals(data.instructorEmail)
 						                                                            || (data.currentInstructor != null &&
 						                                                                    data.currentInstructor.isAllowedForPrivilege(responseEntry.giverSection,
