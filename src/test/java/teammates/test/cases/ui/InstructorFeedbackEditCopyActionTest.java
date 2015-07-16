@@ -45,15 +45,56 @@ public class InstructorFeedbackEditCopyActionTest extends
         verifyAssumptionFailure();
 
         
-        ______TS("Failure case: Courses not passed in");
+        ______TS("Failure case: Courses not passed in, instructor home page");
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name"
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
+                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_HOME_PAGE
         };
         
         InstructorFeedbackEditCopyAction a = getAction(params);
         RedirectResult rr = (RedirectResult) a.executeAndPostProcess();
+        
+        expectedString = Const.ActionURIs.INSTRUCTOR_HOME_PAGE
+                         + "?error=true"
+                         + "&user=" + instructor.googleId
+                         + "&courseid=" + instructor.courseId
+                         + "&fsname=First+Session";
+        assertEquals(expectedString, rr.getDestinationWithParams());
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED, rr.getStatusMessage());
+        
+        ______TS("Failure case: Courses not passed in, instructor feedbacks page");
+        params = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, instructor.courseId,
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
+                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_FEEDBACKS_PAGE
+        };
+        
+        a = getAction(params);
+        rr = (RedirectResult) a.executeAndPostProcess();
+        
+        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE
+                         + "?error=true"
+                         + "&user=" + instructor.googleId
+                         + "&courseid=" + instructor.courseId
+                         + "&fsname=First+Session";
+        assertEquals(expectedString, rr.getDestinationWithParams());
+        
+        assertEquals(Const.StatusMessages.FEEDBACK_SESSION_COPY_NONESELECTED, rr.getStatusMessage());
+        
+        ______TS("Failure case: Courses not passed in, instructor feedback edit page");
+        params = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
+                Const.ParamsNames.COURSE_ID, instructor.courseId,
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
+                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_FEEDBACK_EDIT_PAGE
+        };
+        
+        a = getAction(params);
+        rr = (RedirectResult) a.executeAndPostProcess();
         
         expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE
                          + "?error=true"
@@ -70,7 +111,8 @@ public class InstructorFeedbackEditCopyActionTest extends
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, "FeedbackEditCopy.CS2107",
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
-                Const.ParamsNames.COPIED_COURSES_ID, course.id
+                Const.ParamsNames.COPIED_COURSES_ID, course.id,
+                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_FEEDBACK_EDIT_PAGE
         };
         
         a = getAction(params);
@@ -83,14 +125,14 @@ public class InstructorFeedbackEditCopyActionTest extends
                              + "[tmms.instr@course.tmt] for privilege [canmodifysession]"; 
             assertEquals(expectedString, uae.getMessage());
         }
-        
         
         ______TS("Failure case: copying to course with insufficient permission");
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, course.id,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
-                Const.ParamsNames.COPIED_COURSES_ID, "FeedbackEditCopy.CS2107"
+                Const.ParamsNames.COPIED_COURSES_ID, "FeedbackEditCopy.CS2107",
+                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_FEEDBACK_EDIT_PAGE
         };
         
         a = getAction(params);
@@ -104,13 +146,13 @@ public class InstructorFeedbackEditCopyActionTest extends
             assertEquals(expectedString, uae.getMessage());
         }
         
-        
         ______TS("Failure case: copying non-existing fs");
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "non.existing.fs",
                 Const.ParamsNames.COURSE_ID, course.id,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
-                Const.ParamsNames.COPIED_COURSES_ID, course.id
+                Const.ParamsNames.COPIED_COURSES_ID, course.id,
+                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_FEEDBACK_EDIT_PAGE
         };
         
         a = getAction(params);
@@ -122,13 +164,14 @@ public class InstructorFeedbackEditCopyActionTest extends
             assertEquals("Trying to access system using a non-existent feedback session entity",
                          uae.getMessage());
         }
-
+        
         ______TS("Failure case: copying to non-existing course");
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.feedbackSessionName,
                 Const.ParamsNames.COURSE_ID, course.id,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "valid name",
-                Const.ParamsNames.COPIED_COURSES_ID, "non.existing.course"
+                Const.ParamsNames.COPIED_COURSES_ID, "non.existing.course",
+                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_FEEDBACK_EDIT_PAGE
         };
         
         a = getAction(params);
@@ -141,8 +184,7 @@ public class InstructorFeedbackEditCopyActionTest extends
                          uae.getMessage());
         }
         
-        
-        ______TS("Failure case: course already has feedback session with same name");
+        ______TS("Failure case: course already has feedback session with same name, instructor home page");
         
         CourseAttributes course6 = dataBundle.courses.get("course6");
         params = new String[] {
@@ -150,7 +192,58 @@ public class InstructorFeedbackEditCopyActionTest extends
                 Const.ParamsNames.COURSE_ID, course.id,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "First Session",
                 Const.ParamsNames.COPIED_COURSES_ID, course.id,
-                Const.ParamsNames.COPIED_COURSES_ID, course6.id
+                Const.ParamsNames.COPIED_COURSES_ID, course6.id,
+                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_HOME_PAGE
+        };
+        
+        a = getAction(params);
+        rr = (RedirectResult) a.executeAndPostProcess();
+        
+        expectedString = Const.ActionURIs.INSTRUCTOR_HOME_PAGE
+                         + "?error=true"
+                         + "&user=" + instructor.googleId
+                         + "&courseid=" + instructor.courseId
+                         + "&fsname=First+Session";
+        assertEquals(expectedString, rr.getDestinationWithParams());
+        
+        expectedString = "A feedback session with the name \"First Session\" already exists in "
+                         + "the following course(s): FeedbackEditCopy.CS2104."; 
+        assertEquals(expectedString, rr.getStatusMessage());
+        
+        ______TS("Failure case: course already has feedback session with same name, instructor feedbacks page");
+         
+        params = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
+                Const.ParamsNames.COURSE_ID, course.id,
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "First Session",
+                Const.ParamsNames.COPIED_COURSES_ID, course.id,
+                Const.ParamsNames.COPIED_COURSES_ID, course6.id,
+                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_FEEDBACKS_PAGE
+        };
+        
+        a = getAction(params);
+        rr = (RedirectResult) a.executeAndPostProcess();
+        
+        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE
+                         + "?error=true"
+                         + "&user=" + instructor.googleId
+                         + "&courseid=" + instructor.courseId
+                         + "&fsname=First+Session";
+        assertEquals(expectedString, rr.getDestinationWithParams());
+        
+        expectedString = "A feedback session with the name \"First Session\" already exists in "
+                         + "the following course(s): FeedbackEditCopy.CS2104."; 
+        assertEquals(expectedString, rr.getStatusMessage());
+        
+        ______TS("Failure case: course already has feedback session with same name, instructor feedback edit page");
+        
+        params = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
+                Const.ParamsNames.COURSE_ID, course.id,
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "First Session",
+                Const.ParamsNames.COPIED_COURSES_ID, course.id,
+                Const.ParamsNames.COPIED_COURSES_ID, course6.id,
+                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_FEEDBACK_EDIT_PAGE
         };
         
         a = getAction(params);
@@ -167,15 +260,83 @@ public class InstructorFeedbackEditCopyActionTest extends
                          + "the following course(s): FeedbackEditCopy.CS2104."; 
         assertEquals(expectedString, rr.getStatusMessage());
         
-        
-        ______TS("Failure case: empty name");
+        ______TS("Failure case: empty name, instructor home page");
         
         params = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
                 Const.ParamsNames.COURSE_ID, course.id,
                 Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "",
                 Const.ParamsNames.COPIED_COURSES_ID, course.id,
-                Const.ParamsNames.COPIED_COURSES_ID, course6.id
+                Const.ParamsNames.COPIED_COURSES_ID, course6.id,
+                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_HOME_PAGE
+        };
+        
+        a = getAction(params);
+        rr = (RedirectResult) a.executeAndPostProcess();
+        
+        expectedString = Const.ActionURIs.INSTRUCTOR_HOME_PAGE
+                         + "?error=true"
+                         + "&user=" + instructor.googleId
+                         + "&courseid=" + instructor.courseId
+                         + "&fsname=First+Session"; 
+        assertEquals(expectedString, rr.getDestinationWithParams());
+        
+        expectedString = "\"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
+                         + "The value of feedback session name should be no longer than 38 characters. "
+                         + "It should not be empty.";
+        assertEquals(expectedString, rr.getStatusMessage());
+        
+        expectedString =
+                "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
+                + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
+                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
+                + "The value of feedback session name should be no longer than 38 characters. "
+                + "It should not be empty.|||/page/instructorFeedbackEditCopy";
+        assertEquals(expectedString, a.getLogMessage());
+        
+        ______TS("Failure case: empty name, instructor feedbacks page");
+        
+        params = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
+                Const.ParamsNames.COURSE_ID, course.id,
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "",
+                Const.ParamsNames.COPIED_COURSES_ID, course.id,
+                Const.ParamsNames.COPIED_COURSES_ID, course6.id,
+                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_FEEDBACKS_PAGE
+        };
+        
+        a = getAction(params);
+        rr = (RedirectResult) a.executeAndPostProcess();
+        
+        expectedString = Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE
+                         + "?error=true"
+                         + "&user=" + instructor.googleId
+                         + "&courseid=" + instructor.courseId
+                         + "&fsname=First+Session"; 
+        assertEquals(expectedString, rr.getDestinationWithParams());
+        
+        expectedString = "\"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
+                         + "The value of feedback session name should be no longer than 38 characters. "
+                         + "It should not be empty.";
+        assertEquals(expectedString, rr.getStatusMessage());
+        
+        expectedString =
+                "TEAMMATESLOG|||instructorFeedbackEditCopy|||instructorFeedbackEditCopy|||true|||"
+                + "Instructor|||Instructor 2|||FeedbackEditCopyinstructor2|||tmms.instr@gmail.tmt|||"
+                + "Servlet Action Failure : \"\" is not acceptable to TEAMMATES as feedback session name because it is empty. "
+                + "The value of feedback session name should be no longer than 38 characters. "
+                + "It should not be empty.|||/page/instructorFeedbackEditCopy";
+        assertEquals(expectedString, a.getLogMessage());
+        
+        ______TS("Failure case: empty name, instructor feedback edit page");
+        
+        params = new String[] {
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, "First Session",
+                Const.ParamsNames.COURSE_ID, course.id,
+                Const.ParamsNames.COPIED_FEEDBACK_SESSION_NAME, "",
+                Const.ParamsNames.COPIED_COURSES_ID, course.id,
+                Const.ParamsNames.COPIED_COURSES_ID, course6.id,
+                Const.ParamsNames.CURRENT_PAGE, Const.PageNames.INSTRUCTOR_FEEDBACK_EDIT_PAGE
         };
         
         a = getAction(params);
