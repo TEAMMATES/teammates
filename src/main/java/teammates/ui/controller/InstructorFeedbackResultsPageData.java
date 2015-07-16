@@ -1315,13 +1315,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                                 "btn-primary btn-block");
     }
     
+    // TODO remove this entirely and use PageData method directly
     public String getProfilePictureLink(String studentEmail) {
-        return Const.ActionURIs.STUDENT_PROFILE_PICTURE
-                + "?" + Const.ParamsNames.STUDENT_EMAIL + "="
-                + StringHelper.encrypt(studentEmail)
-                + "&" + Const.ParamsNames.COURSE_ID + "="
-                + StringHelper.encrypt(instructor.courseId)
-                + "&" + Const.ParamsNames.USER_ID + "=" + account.googleId;
+        return getStudentProfilePictureLink(StringHelper.encrypt(studentEmail),
+                                            StringHelper.encrypt(instructor.courseId));
     }
 
     public static String getExceedingResponsesErrorMessage() {
@@ -1409,13 +1406,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     private String getInstructorFeedbackSessionEditLink() {
         return instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION)
-               ? getInstructorFeedbackSessionEditLink(bundle.feedbackSession.courseId, 
+               ? getInstructorFeedbackEditLink(bundle.feedbackSession.courseId, 
                                                       bundle.feedbackSession.feedbackSessionName)
                : null;
     }
     
     private String getInstructorFeedbackSessionResultsLink() {
-        return getInstructorFeedbackSessionResultsLink(bundle.feedbackSession.courseId, bundle.feedbackSession.feedbackSessionName);
+        return getInstructorFeedbackResultsLink(bundle.feedbackSession.courseId, bundle.feedbackSession.feedbackSessionName);
     }
     
     public boolean isAllSectionsSelected() {

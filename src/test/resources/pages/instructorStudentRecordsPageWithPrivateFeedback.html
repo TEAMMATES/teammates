@@ -11,26 +11,6 @@
 
         <div id="statusMessage" style="display: none;"></div>
 
-        
-            <div class="modal fade" id="studentProfileMoreInfo" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title">Teammates Test's Profile - More Info</h4>
-                        </div>
-                        <div class="modal-body">
-                            <br>
-                            <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                            <p class="text-preserve-space height-fixed-md"><i class="text-muted">Not Specified</i></p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-        
         <div class="container-fluid">
             
                 <div class="row">
@@ -56,7 +36,7 @@
                                         </tr>
                                         <tr>
                                             <td class="text-bold">
-                                                Email
+                                                Personal Email
                                             </td>
                                             <td>
                                                 <i class="text-muted">Not Specified</i>
@@ -82,16 +62,34 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <span data-toggle="modal" data-target="#studentProfileMoreInfo" class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
-                                        <h5>More Info </h5>
-                                        <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                        <p class="text-preserve-space height-fixed-md"><i class="text-muted">Not Specified</i></p>
-                                    </div>
-                                </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="studentProfileMoreInfo" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title">Teammates Test's Profile - More Info</h4>
+                            </div>
+                            <div class="modal-body">
+                                <br>
+                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                <p class="text-preserve-space height-fixed-md"><i class="text-muted">Not Specified</i></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <span data-toggle="modal" data-target="#studentProfileMoreInfo" class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
+                                <h5>More Info </h5>
+                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                <p class="text-preserve-space height-fixed-md"><i class="text-muted">Not Specified</i></p>
                             </div>
                         </div>
                     </div>
@@ -100,18 +98,18 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-primary">
-                        <div id="studentComments" class="panel-heading">
+                        <div class="panel-heading">
                             <strong>Comments for Teammates Test</strong>
                         </div>
                         <div class="panel-body">
-                            <div class="panel panel-info">
+                            <div class="panel panel-info student-record-comments">
                                 <div class="panel-heading">
                                     From <b>You (ISR.CS1101)</b>
                                     <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showAddCommentBox();" data-toggle="tooltip" data-placement="top" title="">
                                         <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                     </button>
                                 </div>
-                                <ul class="list-group">
+                                <ul class="list-group comments">
                                     
                                         <li class="list-group-item list-group-item-warning">
                                             You don't have any comments on this student.
@@ -126,12 +124,12 @@
                                                     </p>
                                                     The default visibility for your comment is private. You may change it using the visibility options. 
                                                 </div>
-                                                <a id="visibility-options-trigger-1" class="btn btn-sm btn-info pull-right">
+                                                <a id="visibility-options-trigger0" class="btn btn-sm btn-info pull-right">
                                                     <span class="glyphicon glyphicon-eye-close"></span>
                                                     Show Visibility Options
                                                 </a>
                                             </div>
-                                            <div id="visibility-options-1" class="panel panel-default" style="display: none;">
+                                            <div id="visibility-options0" class="panel panel-default" style="display: none;">
                                                 <div class="panel-heading">
                                                     Visibility Options
                                                 </div>
@@ -151,7 +149,7 @@
                                                                 Can see recipient's name
                                                             </th>
                                                         </tr>
-                                                        <tr id="recipient-person-1">
+                                                        <tr id="recipient-person0">
                                                             <td class="text-left">
                                                                 <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what comment recipient(s) can view">
                                                                     Recipient(s)
@@ -167,7 +165,7 @@
                                                                 <input class="visibilityCheckbox recipientCheckbox" name="receiverFollowerCheckbox" value="PERSON" disabled="disabled" type="checkbox">
                                                             </td>
                                                         </tr>
-                                                        <tr id="recipient-team-1">
+                                                        <tr id="recipient-team0">
                                                             <td class="text-left">
                                                                 <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of comment recipients can view">
                                                                     Recipient's Team
@@ -183,7 +181,23 @@
                                                                 <input class="visibilityCheckbox recipientCheckbox" value="TEAM" type="checkbox">
                                                             </td>
                                                         </tr>
-                                                        <tr id="recipient-course-1">
+                                                        <tr id="recipient-section0">
+                                                            <td class="text-left">
+                                                                <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students in the same section can view">
+                                                                    Recipient's Section
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <input class="visibilityCheckbox answerCheckbox" value="SECTION" type="checkbox">
+                                                            </td>
+                                                            <td>
+                                                                <input class="visibilityCheckbox giverCheckbox" value="SECTION" type="checkbox">
+                                                            </td>
+                                                            <td>
+                                                                <input class="visibilityCheckbox recipientCheckbox" value="SECTION" type="checkbox">
+                                                            </td>
+                                                        </tr>
+                                                        <tr id="recipient-course0">
                                                             <td class="text-left">
                                                                 <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students in this course can view">
                                                                     Other students in this course
