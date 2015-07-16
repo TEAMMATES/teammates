@@ -1,10 +1,10 @@
 package teammates.test.cases.ui.pagedata;
 
+import static org.testng.AssertJUnit.assertEquals;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,14 +16,22 @@ import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
+import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
+import teammates.common.datatransfer.FeedbackSessionResponseStatus;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.SessionAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.util.Const;
+import teammates.common.util.Url;
 import teammates.test.cases.BaseTestCase;
 import teammates.ui.controller.StudentCommentsPageData;
+import teammates.ui.template.CoursePagination;
 
 public class StudentCommentsPageDataTest extends BaseTestCase{
     private static DataBundle dataBundle = getTypicalDataBundle();
@@ -31,6 +39,9 @@ public class StudentCommentsPageDataTest extends BaseTestCase{
     private static CourseAttributes course1;
     private static StudentAttributes student1;
     private static InstructorAttributes instructor1;
+    private static final int EMAIL_NAME_PAIR = 0;
+    private static final int EMAIL_LASTNAME_PAIR = 1;
+    private static final int EMAIL_TEAMNAME_PAIR = 2;
     
     @BeforeClass
     public static void classSetUp() throws Exception {
@@ -46,7 +57,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase{
         
         ______TS("typical success case");
         
-        AccountAttributes account = dataBundle.accounts.get("student1InCourse1");      
+        AccountAttributes account = dataBundle.accounts.get("student1InCourse1");
         data = new StudentCommentsPageData(account);
         
         String courseId = course1.id;
@@ -59,14 +70,175 @@ public class StudentCommentsPageDataTest extends BaseTestCase{
         List<InstructorAttributes> instructors = Arrays.asList(instructor1);
         CourseRoster roster = new CourseRoster(students, instructors);
         String studentEmail = student1.email;
+        
+        // create feedbackResultBundles for init (creates a single feedbackResultBundle)
         Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = 
                 new HashMap<String, FeedbackSessionResultsBundle>();
-        FeedbackSessionAttributes feedbackSession = dataBundle.feedbackSessions.get("session1InCourse1");
-        String fsName = feedbackSession.feedbackSessionName;
-        FeedbackSessionResultsBundle feedbackSessionResultsBundle = 
+        FeedbackSessionAttributes session = dataBundle.feedbackSessions.get("session1InCourse1");
+        FeedbackResponseAttributes response = dataBundle.feedbackResponses.get("response1ForQ1S1C1"); 
+        response.setId("1");
+        List<FeedbackResponseAttributes> responses = Arrays.asList(response);
+        Map<String, FeedbackQuestionAttributes> relevantQuestions = new HashMap<String, FeedbackQuestionAttributes>();
+        FeedbackQuestionAttributes question = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        question.setId("1");
+        relevantQuestions.put(question.getId(), question);
+        Map<String, String> emailNameTable = new HashMap<String, String>();
+        Map<String, String> emailLastNameTable = new HashMap<String, String>();
+        Map<String, String> emailTeamNameTable = new HashMap<String, String>();
+        Map<String, boolean[]> visibilityTable = new HashMap<String, boolean[]>();
+        Map<String, List<FeedbackResponseCommentAttributes>> responseComments =
+                new HashMap<String, List<FeedbackResponseCommentAttributes>>();
+        try {
+            addEmailNamePairsToTable(emailNameTable, response, question, roster);
+            addEmailLastNamePairsToTable(emailLastNameTable, response, question, roster);
+            addEmailTeamNamePairsToTable(emailTeamNameTable, response, question, roster);
+        } catch (EntityDoesNotExistException e) {
+            e.printStackTrace();
+        }
+        boolean[] visibility = {true, true};
+        visibilityTable.put(response.getId(), visibility);
+        FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
+        responseStatus.emailNameTable.put(student1.email, student1.name);
+        responseStatus.emailTeamNameTable.put(student1.email, student1.team);
+        FeedbackResponseCommentAttributes responseComment = 
+                dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");
+        List<FeedbackResponseCommentAttributes> responseCommentsList = Arrays.asList(responseComment);
+        responseComments.put(response.getId(), responseCommentsList);
+        boolean isComplete = true;
+        FeedbackSessionResultsBundle results =
                 new FeedbackSessionResultsBundle(
-                        feedbackSession, Arrays.asList(dataBundle.feedbackResponses.get("response1ForQ1S1C1")), 
-                        null, null, null, null, null, null, roster, null);
+                        session, responses, relevantQuestions,
+                        emailNameTable, emailLastNameTable, emailTeamNameTable,
+                        visibilityTable, responseStatus, roster, responseComments, isComplete);
+        feedbackResultBundles.put(session.feedbackSessionName, results);
+        
+        data.init(courseId, courseName, coursePaginationList, comments, roster, studentEmail, feedbackResultBundles);
+        
+        /**************************** Assertions ****************************/
+        String expectedCourseId = courseId;
+        String actualCourseId = data.getCourseId();
+        assertEquals(expectedCourseId, actualCourseId);
+        String expectedCourseName = courseName;
+        String actualCourseName = data.getCourseName();
+        assertEquals(expectedCourseName, actualCourseName);
+        String expectedPreviousPageLink;
+        String expectedNextPageLink;
+        expectedPreviousPageLink = expectedNextPageLink = "javascript:;";
+        List<String> expectedCoursePaginationList = coursePaginationList;
+        String expectedActiveCourse = course1.id;
+        String expectedLink = Const.ActionURIs.STUDENT_COMMENTS_PAGE;
+        expectedLink = Url.addParamToUrl(expectedLink, Const.ParamsNames.USER_ID, account.googleId);
+        CoursePagination actualCoursePagination = data.getCoursePagination();
+        assertEquals(expectedPreviousPageLink, actualCoursePagination.getPreviousPageLink());
+        assertEquals(expectedNextPageLink, actualCoursePagination.getNextPageLink());
+        assertEquals(expectedCoursePaginationList, actualCoursePagination.getCoursePaginationList());
+        assertEquals(expectedActiveCourse, actualCoursePagination.getActiveCourse());
+        assertEquals(expectedLink, actualCoursePagination.getUserCommentsLink());
     }
     
+    private static void addEmailNamePairsToTable(Map<String, String> emailNameTable,
+            FeedbackResponseAttributes response,
+            FeedbackQuestionAttributes question, CourseRoster roster)
+            throws EntityDoesNotExistException {
+        addEmailNamePairsToTable(emailNameTable, response, question, roster,
+                EMAIL_NAME_PAIR);
+    }
+    
+    private static void addEmailLastNamePairsToTable(Map<String, String> emailLastNameTable,
+            FeedbackResponseAttributes response,
+            FeedbackQuestionAttributes question, CourseRoster roster)
+            throws EntityDoesNotExistException {
+        addEmailNamePairsToTable(emailLastNameTable, response, question, roster,
+                EMAIL_LASTNAME_PAIR);
+    }
+
+    private static void addEmailTeamNamePairsToTable(
+            Map<String, String> emailTeamNameTable,
+            FeedbackResponseAttributes response,
+            FeedbackQuestionAttributes question, CourseRoster roster)
+            throws EntityDoesNotExistException {
+        addEmailNamePairsToTable(emailTeamNameTable, response, question,
+                roster, EMAIL_TEAMNAME_PAIR);
+    }
+    
+    private static void addEmailNamePairsToTable(Map<String, String> emailNameTable,
+            FeedbackResponseAttributes response,
+            FeedbackQuestionAttributes question, CourseRoster roster,
+            int pairType) throws EntityDoesNotExistException {
+        if (question.giverType == FeedbackParticipantType.TEAMS) {
+            if (emailNameTable.containsKey(response.giverEmail
+                    + Const.TEAM_OF_EMAIL_OWNER) == false) {
+                emailNameTable.put(
+                        response.giverEmail + Const.TEAM_OF_EMAIL_OWNER,
+                        getNameTeamNamePairForEmail(question.giverType,
+                                response.giverEmail, roster)[pairType]);
+            }
+        } else if (emailNameTable.containsKey(response.giverEmail) == false) {
+            emailNameTable.put(
+                    response.giverEmail,
+                    getNameTeamNamePairForEmail(question.giverType,
+                            response.giverEmail, roster)[pairType]);
+        }
+    
+        if (emailNameTable.containsKey(response.recipientEmail) == false) {
+            emailNameTable.put(
+                    response.recipientEmail,
+                    getNameTeamNamePairForEmail(question.recipientType,
+                            response.recipientEmail, roster)[pairType]);
+        }
+    }
+    
+    private static String[] getNameTeamNamePairForEmail(FeedbackParticipantType type,
+            String email, CourseRoster roster)
+            throws EntityDoesNotExistException {
+        String giverRecipientName = null;
+        String giverRecipientLastName = null;
+        String teamName = null;
+        String name = null;
+        String lastName = null;
+        String team = null;
+    
+        StudentAttributes student = roster.getStudentForEmail(email);
+        if (student != null) {
+            name = student.name;
+            team = student.team;
+            lastName = student.lastName;
+        } else {
+            InstructorAttributes instructor = roster
+                    .getInstructorForEmail(email);
+            if (instructor == null) {
+                if (email.equals(Const.GENERAL_QUESTION)) {
+                    // Email represents that there is no specific recipient.
+                    name = Const.USER_IS_NOBODY;
+                    lastName = Const.USER_IS_NOBODY;
+                    team = email;
+                } else {
+                    // Assume that the email is actually a team name.
+                    name = Const.USER_IS_TEAM;
+                    lastName = Const.USER_IS_TEAM;
+                    team = email;
+                }
+            } else {
+                name = instructor.name;
+                lastName = instructor.name;
+                team = Const.USER_TEAM_FOR_INSTRUCTOR;
+            }
+        }
+    
+        if (type == FeedbackParticipantType.TEAMS
+                || type == FeedbackParticipantType.OWN_TEAM) {
+            giverRecipientName = team;
+            giverRecipientLastName = team;
+            teamName = "";
+        } else if (name != Const.USER_IS_NOBODY && name != Const.USER_IS_TEAM) {
+            giverRecipientName = name;
+            giverRecipientLastName = lastName;
+            teamName = team;
+        } else {
+            giverRecipientName = name;
+            giverRecipientLastName = lastName;
+            teamName = "";
+        }
+        return new String[] { giverRecipientName, giverRecipientLastName, teamName };
+    }
 }
