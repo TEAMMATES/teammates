@@ -22,10 +22,10 @@
     <c:otherwise>
         <c:set var="ifrc" value="${data.instructorFeedbackResponseComment}"/>
         <c:forEach var="feedbackSessionResultsBundle" items="${data.feedbackResultBundles}" varStatus="fsrbStatus">  
-            <c:forEach var="responseEntries" items="${feedbackSessionResultsBundle.questionResponseMap}" varStatus="responseEntriesStatus">
+            <c:forEach var="responseEntries" items="${feedbackSessionResultsBundle.value.questionResponseMap}" varStatus="responseEntriesStatus">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <c:set var="question" value="${feedbackSessionResultsBundle.questions[responseEntries.key.id]}"/>
+                        <c:set var="question" value="${feedbackSessionResultsBundle.value.questions[responseEntries.key.id]}"/>
                         <c:set var="questionDetails" value="${question.questionDetails}"/>
 				        <b>Question ${responseEntries.key.questionNumber}</b>:
 				        ${questionDetails.questionText}
@@ -40,7 +40,7 @@
 	                                <td><b>From:</b> ${giverName} <b>To:</b> ${recipientName}</td>
 	                            </tr>
 	                            <tr>
-	                                <td><strong>Response: </strong>${ifrc.responseEntryAnswerHtmls.get(questionDetails)}</td>
+	                                <td><strong>Response: </strong>${ifrc.responseEntryAnswerHtmls[questionDetails]}</td>
 	                            </tr>
 	                            <tr class="active">
 		                            <td>Comment(s):
@@ -277,16 +277,16 @@
 					                                           onclick="hideResponseCommentAddForm(${fsrbStatus.index},${responseEntriesStatus.count},${responseEntryStatus.count})">
 					                                    <input type="hidden"
 					                                           name="<%= Const.ParamsNames.COURSE_ID %>"
-					                                           value="${responseEntry.courseId}">
+					                                           value="${question.courseId}">
 					                                    <input type="hidden"
 					                                           name="<%= Const.ParamsNames.FEEDBACK_SESSION_NAME %>"
-					                                           value="${responseEntry.feedbackSessionName}">
+					                                           value="${question.feedbackSessionName}">
 					                                    <input type="hidden"
 					                                           name="<%= Const.ParamsNames.FEEDBACK_QUESTION_ID %>"
-					                                           value="${responseEntry.feedbackQuestionId}">
+					                                           value="${question.feedbackQuestionId}">
 					                                    <input type="hidden"
 					                                           name="<%= Const.ParamsNames.FEEDBACK_RESPONSE_ID %>"
-					                                           value="${responseEntry.id}">
+					                                           value="${question.id}">
 					                                    <input type="hidden"
 					                                           name="<%= Const.ParamsNames.USER_ID %>"
 					                                           value="${data.account.googleId}">

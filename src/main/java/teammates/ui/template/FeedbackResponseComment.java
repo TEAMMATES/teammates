@@ -70,6 +70,8 @@ public class FeedbackResponseComment {
         this.whoCanSeeComment = whoCanSeeComment;
         checkIfShouldDisplayVisibilityIcon();
         checkIfShouldDisplayNotificationIcon(frc);
+        this.showCommentTo = frc.showCommentTo;
+        this.showGiverNameTo = frc.showGiverNameTo;
         this.showCommentToString = showCommentToString;
         this.showGiverNameToString = showGiverNameToString;
         updateEditDeleteAccessibility(isAllowedToEditAndDeleteComment);

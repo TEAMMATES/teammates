@@ -86,7 +86,8 @@
             <div class="form-group form-inline">
                 <div class="form-group text-muted">
                     <p>
-                        Giver: ${frc.responseGiverName}<br>
+                        Giver: ${frc.responseGiverName}
+                        <br>
                         Recipient: ${frc.responseRecipientName}
                     </p>
                     You may change comment's visibility using the visibility options on the right hand side.

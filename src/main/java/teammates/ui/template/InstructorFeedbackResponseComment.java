@@ -126,7 +126,13 @@ public class InstructorFeedbackResponseComment {
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
 
                         showCommentTo = frca.showCommentTo;
+                        if (showCommentTo == null) {
+                            showCommentTo = new ArrayList<FeedbackParticipantType>();
+                        }
                         showGiverNameTo = frca.showGiverNameTo;
+                        if (showGiverNameTo == null) {
+                            showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+                        }
 
                         showCommentToString = joinParticipantTypes(showCommentTo, ",");
                         showGiverNameToString = joinParticipantTypes(showGiverNameTo, ",");
@@ -144,9 +150,9 @@ public class InstructorFeedbackResponseComment {
                             && question.recipientType != FeedbackParticipantType.SELF
                             && question.recipientType != FeedbackParticipantType.NONE
                             && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-                        responseVisibleToStudents = 
+                        responseVisibleToStudents =
                             question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS);
-                        responseVisibleToInstructors = 
+                        responseVisibleToInstructors =
                             question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
 
                         FeedbackResponseComment frc = new FeedbackResponseComment(
@@ -226,10 +232,16 @@ public class InstructorFeedbackResponseComment {
     }
 
     public boolean isShowCommentToResponseGiver() {
+        if (showCommentTo == null) {
+            showCommentTo = new ArrayList<FeedbackParticipantType>();
+        }
         return showCommentTo.contains(FeedbackParticipantType.GIVER);
     }
 
     public boolean isShowGiverNameToResponseGiver() {
+        if (showGiverNameTo == null) {
+            showGiverNameTo = new ArrayList<FeedbackParticipantType>();
+        }
         return showGiverNameTo.contains(FeedbackParticipantType.GIVER);
     }
 

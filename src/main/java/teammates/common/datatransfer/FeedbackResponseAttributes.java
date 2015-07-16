@@ -82,6 +82,10 @@ public class FeedbackResponseAttributes extends EntityAttributes {
     public String getId() {
         return feedbackResponseId;
     }
+
+    public String getRecipientEmail() {
+        return recipientEmail;
+    }
     
     public void setId(String feedbackResponseId) {
         this.feedbackResponseId = feedbackResponseId;
