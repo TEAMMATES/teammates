@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
@@ -335,6 +336,7 @@ public class InstructorHomePage extends AppPage {
     }
     
     public void clickFsCopySubmitButton() {
+        new WebDriverWait(browser.driver, 300);
         WebElement fsCopySubmitButton = browser.driver.findElement(By.id("fscopy_submit"));
         
         fsCopySubmitButton.click();
