@@ -1034,8 +1034,8 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
                                                  .questionText);
     }
 
-    public Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> getResponseComments() {
-        return getQuestionResponseMap();
+    public Map<String, List<FeedbackResponseCommentAttributes>> getResponseComments() {
+        return responseComments;
     }
 
     // TODO: make responses to the student calling this method always on top.

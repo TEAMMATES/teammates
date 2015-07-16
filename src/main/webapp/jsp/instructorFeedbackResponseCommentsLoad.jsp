@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="teammates.common.datatransfer.FeedbackParticipantType" %>
 <%@ page import="teammates.common.util.Const" %>
 <%@ taglib tagdir="/WEB-INF/tags/shared" prefix="shared" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -21,7 +22,7 @@
     <c:otherwise>
         <c:set var="ifrc" value="${data.instructorFeedbackResponseComment}"/>
         <c:forEach var="feedbackSessionResultsBundle" items="${data.feedbackResultBundles}" varStatus="fsrbStatus">  
-            <c:forEach var="responseEntries" items="${feedbackSessionResultsBundle.responseComments}" varStatus="responseEntriesStatus">
+            <c:forEach var="responseEntries" items="${feedbackSessionResultsBundle.questionResponseMap}" varStatus="responseEntriesStatus">
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <c:set var="question" value="${feedbackSessionResultsBundle.questions[responseEntries.key.id]}"/>
@@ -56,16 +57,18 @@
 		                        </tr>
 		                        <tr>
 		                            <td>
-                                        <c:set var="frcList" value="${feedbackSessionResultsBundle.responseComments[responseEntry.id]}"/>
+                                        <c:set var="frcList" value="${ifrc.feedbackResponseCommentsList[responseEntry.id]}"/>
 		                                <ul class="list-group comments"
 		                                    id="responseCommentTable-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}"
-		                                    <c:if test="${not empty frcList}">style="display: none;"</c:if>>
+		                                    <c:if test="${empty frcList}">style="display: none;"</c:if>>
 		                                    <c:forEach var="frc" items="${frcList}" varStatus="frcStatus">
 	                                            <%
 	                                                String frCommentGiver = frc.giverEmail;
 	                                                if (frc.giverEmail.equals(data.instructorEmail)) {
 	                                                    frCommentGiver = "you";
 	                                                }
+	                                            %>
+	                                            <%
 	                                                Boolean isPublicResponseComment = data.isResponseCommentPublicToRecipient(frc);
 	                                            %>
 	                                            <!-- Still yet to construct the proper frc that the shared tag expects -->

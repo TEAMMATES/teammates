@@ -5,7 +5,6 @@ import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.FeedbackSessionResultsBundle;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.ui.template.InstructorFeedbackResponseComment;
@@ -26,10 +25,6 @@ public class InstructorFeedbackResponseCommentsLoadPageData extends PageData {
 
         this.instructorFeedbackResponseComment = 
                 new InstructorFeedbackResponseComment(feedbackResultBundles, currentInstructor);
-    }
-
-    public boolean isResponseCommentPublicToRecipient(FeedbackResponseCommentAttributes comment) {
-        return comment.showCommentTo.size() > 0;
     }
 
     public Map<String, FeedbackSessionResultsBundle> getFeedbackResultBundles() {
