@@ -31,6 +31,10 @@ public class InstructorFeedbackResponseComment {
     private boolean responseVisibleToStudents;
     private boolean responseVisibleToInstructors;
     private String instructorEmail;
+    private String showCommentToString;
+    private String showGiverNameToString;
+    private List<FeedbackParticipantType> showCommentTo;
+    private List<FeedbackParticipantType> showGiverNameTo;
 
     public InstructorFeedbackResponseComment(Map<String, FeedbackSessionResultsBundle> feedbackResultBundles,
                                              InstructorAttributes currentInstructor, String instructorEmail,
@@ -121,8 +125,11 @@ public class InstructorFeedbackResponseComment {
                                             responseEntry.recipientSection, responseEntry.feedbackSessionName,
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
 
-                        String showCommentToString = joinParticipantTypes(frca.showCommentTo, ",");
-                        String showGiverNameToString = joinParticipantTypes(frca.showGiverNameTo, ",");
+                        showCommentTo = frca.showCommentTo;
+                        showGiverNameTo = frca.showGiverNameTo;
+
+                        showCommentToString = joinParticipantTypes(showCommentTo, ",");
+                        showGiverNameToString = joinParticipantTypes(showGiverNameTo, ",");
 
                         responseVisibleToRecipient =
                             question.recipientType != FeedbackParticipantType.SELF
@@ -182,11 +189,87 @@ public class InstructorFeedbackResponseComment {
         return responseEntryAnswerHtmls;
     }
 
+    public Map<String, List<FeedbackResponseComment>> getFeedbackResponseCommentsList() {
+        return feedbackResponseCommentsLists;
+    }
+
+    public String getShowCommentToString() {
+        return showCommentToString;
+    }
+
+    public String getShowGiverNameToString() {
+        return showGiverNameToString;
+    }
+
     public boolean isInstructorAllowedToSubmit() {
         return instructorAllowedToSubmit;
     }
 
-    public Map<String, List<FeedbackResponseComment>> getFeedbackResponseCommentsList() {
-        return feedbackResponseCommentsLists;
+    public boolean isResponseVisibleToRecipient() {
+        return responseVisibleToRecipient;
+    }
+
+    public boolean isResponseVisibleToGiverTeam() {
+        return responseVisibleToGiverTeam;
+    }
+
+    public boolean isResponseVisibleToRecipientTeam() {
+        return responseVisibleToRecipientTeam;
+    }
+
+    public boolean isResponseVisibleToStudents() {
+        return responseVisibleToStudents;
+    }
+
+    public boolean isResponseVisibleToInstructors() {
+        return responseVisibleToInstructors;
+    }
+
+    public boolean isShowCommentToResponseGiver() {
+        return showCommentTo.contains(FeedbackParticipantType.GIVER);
+    }
+
+    public boolean isShowGiverNameToResponseGiver() {
+        return showGiverNameTo.contains(FeedbackParticipantType.GIVER);
+    }
+
+    public boolean isShowCommentToResponseRecipient() {
+        return showCommentTo.contains(FeedbackParticipantType.RECEIVER);
+    }
+
+    public boolean isShowGiverNameToResponseRecipient() {
+        return showGiverNameTo.contains(FeedbackParticipantType.RECEIVER);
+    }
+
+    public boolean isShowCommentToResponseGiverTeam() {
+        return showCommentTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+    }
+
+    public boolean isShowGiverNameToResponseGiverTeam() {
+        return showGiverNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+    }
+
+    public boolean isShowCommentToResponseRecipientTeam() {
+        return showCommentTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+    }
+
+    public boolean isShowGiverNameToResponseRecipientTeam() {
+        return showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+    }
+
+    public boolean isShowCommentToStudents() {
+        return showCommentTo.contains(FeedbackParticipantType.STUDENTS);
+    }
+
+    public boolean isShowGiverNameToStudents() {
+        return showGiverNameTo.contains(FeedbackParticipantType.STUDENTS);
+    }
+
+    public boolean isShowCommentToInstructors() {
+        return showCommentTo.contains(FeedbackParticipantType.INSTRUCTORS);
+    }
+
+    public boolean isShowGiverNameToInstructors() {
+        return showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
     }
 }

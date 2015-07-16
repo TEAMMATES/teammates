@@ -118,13 +118,13 @@
 					                                                              name="receiverLeaderCheckbox"
 					                                                              type="checkbox"
 					                                                              value="<%= FeedbackParticipantType.GIVER %>"
-					                                                              <%-- <%=data.isResponseCommentVisibleTo(question, FeedbackParticipantType.GIVER) ? "checked=\"checked\"" : ""%> --%>>
+					                                                              <c:if test="${ifrc.showCommentToResponseGiver}">checked="checked"</c:if>>
 					                                                    </td>
 					                                                    <td>
 					                                                       <input class="visibilityCheckbox giverCheckbox"
 					                                                              type="checkbox"
 					                                                              value="<%= FeedbackParticipantType.GIVER %>"
-					                                                              <%-- <%=data.isResponseCommentGiverNameVisibleTo(question, FeedbackParticipantType.GIVER) ? "checked=\"checked\"" : ""%> --%>>
+					                                                              <c:if test="${ifrc.showGiverNameToResponseGiver}">checked="checked"</c:if>>
 					                                                    </td>
 					                                                </tr>
 					                                                <c:if test="${ifrc.responseVisibleToRecipient}">
@@ -143,13 +143,13 @@
                                                                                        name="receiverLeaderCheckbox"
                                                                                        type="checkbox"
                                                                                        value="<%= FeedbackParticipantType.RECEIVER %>"
-                                                                                       <%-- <%=data.isResponseCommentVisibleTo(question, FeedbackParticipantType.RECEIVER) ? "checked=\"checked\"" : ""%> --%>>
+                                                                                       <c:if test="${ifrc.showCommentToResponseRecipient}">checked="checked"</c:if>>
 						                                                    </td>
 						                                                    <td>
                                                                                 <input class="visibilityCheckbox giverCheckbox"
                                                                                        type="checkbox"
                                                                                        value="<%= FeedbackParticipantType.RECEIVER %>"
-                                                                                       <%-- <%=data.isResponseCommentGiverNameVisibleTo(question, FeedbackParticipantType.RECEIVER) ? "checked=\"checked\"" : ""%> --%>>
+                                                                                       <c:if test="${ifrc.showGiverNameToResponseRecipient}">checked="checked"</c:if>>
 						                                                    </td>
 						                                                </tr>
 					                                                </c:if>
@@ -169,13 +169,13 @@
                                                                                 <input class="visibilityCheckbox answerCheckbox"
                                                                                        type="checkbox"
                                                                                        value="<%= FeedbackParticipantType.OWN_TEAM_MEMBERS %>"
-                                                                                       <%-- <%=data.isResponseCommentVisibleTo(question, FeedbackParticipantType.OWN_TEAM_MEMBERS) ? "checked=\"checked\"" : ""%> --%>>
+                                                                                       <c:if test="${ifrc.showCommentToResponseGiverTeam}">checked="checked"</c:if>>
 						                                                    </td>
 						                                                    <td>
                                                                                 <input class="visibilityCheckbox giverCheckbox"
                                                                                        type="checkbox"
                                                                                        value="<%= FeedbackParticipantType.OWN_TEAM_MEMBERS %>"
-                                                                                       <%-- <%=data.isResponseCommentGiverNameVisibleTo(question, FeedbackParticipantType.OWN_TEAM_MEMBERS) ? "checked=\"checked\"" : ""%> --%>>
+                                                                                       <c:if test="${ifrc.showGiverNameToResponseGiverTeam}">checked="checked"</c:if>>
 						                                                    </td>
 						                                                </tr>
 						                                            </c:if>
@@ -195,13 +195,13 @@
                                                                                 <input class="visibilityCheckbox answerCheckbox"
                                                                                        type="checkbox"
                                                                                        value="<%= FeedbackParticipantType.RECEIVER_TEAM_MEMBERS %>"
-                                                                                       <%-- <%=data.isResponseCommentVisibleTo(question, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) ? "checked=\"checked\"" : ""%> --%>>
+                                                                                       <c:if test="${ifrc.showCommentToResponseRecipientTeam}">checked="checked"</c:if>>
 						                                                    </td>
 						                                                    <td>
                                                                                 <input class="visibilityCheckbox giverCheckbox"
                                                                                        type="checkbox"
                                                                                        value="<%= FeedbackParticipantType.RECEIVER_TEAM_MEMBERS %>"
-                                                                                       <%-- <%=data.isResponseCommentGiverNameVisibleTo(question, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS) ? "checked=\"checked\"" : ""%> --%>>
+                                                                                       <c:if test="${ifrc.showGiverNameToResponseRecipientTeam}">checked="checked"</c:if>>
 						                                                    </td>
 						                                                </tr>
                                                                     </c:if>
@@ -221,13 +221,13 @@
                                                                                 <input class="visibilityCheckbox answerCheckbox"
                                                                                        type="checkbox"
                                                                                        value="<%= FeedbackParticipantType.STUDENTS %>"
-                                                                                       <%-- <%=data.isResponseCommentVisibleTo(question, FeedbackParticipantType.STUDENTS) ? "checked=\"checked\"" : ""%> --%>>
+                                                                                       <c:if test="${ifrc.showCommentToStudents}">checked="checked"</c:if>>
 						                                                    </td>
 						                                                    <td>
                                                                                 <input class="visibilityCheckbox giverCheckbox"
                                                                                        type="checkbox"
                                                                                        value="<%= FeedbackParticipantType.STUDENTS %>"
-                                                                                       <%-- <%=data.isResponseCommentGiverNameVisibleTo(question, FeedbackParticipantType.STUDENTS) ? "checked=\"checked\"" : ""%> --%>>
+                                                                                       <c:if test="${ifrc.showGiverNameToStudents}">checked="checked"</c:if>>
 						                                                    </td>
 						                                                </tr>
 					                                                </c:if>
@@ -245,13 +245,13 @@
                                                                                 <input class="visibilityCheckbox answerCheckbox"
                                                                                        type="checkbox"
                                                                                        value="<%= FeedbackParticipantType.INSTRUCTORS %>"
-                                                                                       <%-- <%=data.isResponseCommentVisibleTo(question, FeedbackParticipantType.INSTRUCTORS) ? "checked=\"checked\"" : ""%> --%>>
+                                                                                       <c:if test="${ifrc.showCommentToInstructors}">checked="checked"</c:if>>
 						                                                    </td>
 						                                                    <td>
                                                                                 <input class="visibilityCheckbox giverCheckbox"
                                                                                        type="checkbox"
                                                                                        value="<%= FeedbackParticipantType.INSTRUCTORS %>"
-                                                                                       <%-- <%=data.isResponseCommentGiverNameVisibleTo(question, FeedbackParticipantType.INSTRUCTORS) ? "checked=\"checked\"" : ""%> --%>>
+                                                                                       <c:if test="${ifrc.showGiverNameToInstructors}">checked="checked"</c:if>>
 						                                                    </td>
 						                                                </tr>
 						                                            </c:if>
@@ -292,10 +292,10 @@
 					                                           value="${data.account.googleId}">
 					                                    <input type="hidden"
 					                                           name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO %>"
-					                                           value="<%-- <%=data.getResponseCommentVisibilityString(question)%> --%>">
+					                                           value="${ifrc.showCommentToString}">
 					                                    <input type="hidden"
 					                                           name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO %>"
-					                                           value="<%-- <%=data.getResponseCommentGiverNameVisibilityString(question)%> --%>">
+					                                           value="${ifrc.showGiverNameToString}">
 					                                </div>
 					                            </form>
 					                        </li>
