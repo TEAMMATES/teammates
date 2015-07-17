@@ -71,7 +71,7 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         instructorId = testData.instructors.get("InsCrsEdit.Helper").googleId;
         courseEditPage = getCourseEditPage();
-
+        
         // This is the full HTML verification for Instructor Course Edit Page, the rest can all be verifyMainHtml
         courseEditPage.verifyHtml("/instructorCourseEditHelper.html");
         
@@ -83,13 +83,11 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     }
     
     private void testEditInstructorLink() {
-        
         ______TS("edit instructor link");
         assertEquals(true, courseEditPage.clickEditInstructorLink(1));
     }
 
     private void testNewInstructorLink() {
-        
         ______TS("add new instructor link");
         assertEquals(true, courseEditPage.clickShowNewInstructorFormButton());
         
@@ -129,7 +127,6 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
     }
 
     private void testInviteInstructorAction() {
-
         ______TS("success: invite an uregistered instructor");
         
         courseEditPage.clickInviteInstructorLink();
@@ -178,44 +175,92 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         courseEditPage.editInstructor(instructorId, "New name", "new_email@email.tmt");
         courseEditPage.verifyStatus(Const.StatusMessages.COURSE_INSTRUCTOR_EDITED);
         
-        ______TS("success: edit an instructor--viewing instructor permission details");
+        ______TS("success: edit an instructor (InsCrsEdit.coord)--viewing instructor permission details");
+        int instructorIndex = 1;
         
-        assertEquals(true, courseEditPage.clickEditInstructorLink(1));
+        assertEquals(true, courseEditPage.clickEditInstructorLink(instructorIndex));
+        
+        // Manager
+        courseEditPage.clickViewDetailsLinkForInstructor(instructorIndex, 2);
+        assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifycourse"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifyinstructor"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifysession"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifystudent"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInModalChecked("canviewstudentinsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInModalChecked("cangivecommentinsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInModalChecked("canviewcommentinsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifycommentinsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInModalChecked("cansubmitsessioninsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInModalChecked("canviewsessioninsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifysessioncommentinsection"));
+        courseEditPage.closeModal();
+        
+        // Observer
+        courseEditPage.clickViewDetailsLinkForInstructor(instructorIndex, 3);
+        assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifycourse"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifyinstructor"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifysession"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifystudent"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInModalChecked("canviewstudentinsection"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("cangivecommentinsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInModalChecked("canviewcommentinsection"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifycommentinsection"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("cansubmitsessioninsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInModalChecked("canviewsessioninsection"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifysessioncommentinsection"));
+        courseEditPage.closeModal();
+        
+        // Tutor
+        courseEditPage.clickViewDetailsLinkForInstructor(instructorIndex, 4);
+        assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifycourse"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifyinstructor"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifysession"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifystudent"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInModalChecked("canviewstudentinsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInModalChecked("cangivecommentinsection"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("canviewcommentinsection"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifycommentinsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInModalChecked("cansubmitsessioninsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInModalChecked("canviewsessioninsection"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInModalChecked("canmodifysessioncommentinsection"));
+        courseEditPage.closeModal();
+        
         // this should be click co-owner role
-        courseEditPage.clickViewDetailsLinkForInstructor(1, 1);
-        // what for the animation to finish
+        courseEditPage.clickViewDetailsLinkForInstructor(instructorIndex, 1);
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesModal.html");
         courseEditPage.closeModal();
         
         ______TS("success: edit an instructor with privileges");
         
-        assertEquals(true, courseEditPage.displayedToStudentCheckBox(1).isSelected());
+        assertEquals(true, courseEditPage.displayedToStudentCheckBox(instructorIndex).isSelected());
         // not displayed to students
-        courseEditPage.clickDisplayedToStudentCheckBox(1);
-        // select the role as Observer for instr1
-        courseEditPage.selectRoleForInstructor(1, "Custom");
-        courseEditPage.clickCourseLevelPrivilegesLink(1, 1);
-        courseEditPage.clickCourseLevelPrivilegesLink(1, 2);
-        courseEditPage.clickCourseLevelPrivilegesLink(1, 8);
-        courseEditPage.clickAddSessionLevelPrivilegesLink(1);
-        courseEditPage.clickSectionCheckBoxInSectionLevel(1, 1, 2);
-        courseEditPage.clickViewStudentCheckBoxInSectionLevel(1, 1);
-        courseEditPage.clickViewOthersCommentsCheckBoxInSectionLevel(1, 1);
-        courseEditPage.clickViewSessionResultsCheckBoxInSectionLevel(1, 1);
-        courseEditPage.clickSessionLevelInSectionLevel(1, 1);
-        courseEditPage.clickAddSessionLevelPrivilegesLink(1);
-        courseEditPage.clickAddSessionLevelPrivilegesLink(1);
-        courseEditPage.clickSectionCheckBoxInSectionLevel(1, 3, 2);
-        courseEditPage.clickModifySessionResultCheckBoxInSectionLevel(1, 3);
+        courseEditPage.clickDisplayedToStudentCheckBox(instructorIndex);
+        // select the role as Custom for instr1
+        courseEditPage.selectRoleForInstructor(instructorIndex, "Custom");
+        
+        // deselect some privileges from Co-owner default values
+        courseEditPage.clickCourseLevelPrivilegesLink(instructorIndex, 1);
+        courseEditPage.clickCourseLevelPrivilegesLink(instructorIndex, 2);
+        courseEditPage.clickCourseLevelPrivilegesLink(instructorIndex, 8);
+        courseEditPage.clickAddSessionLevelPrivilegesLink(instructorIndex);
+        courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 1, 2);
+        courseEditPage.clickViewStudentCheckBoxInSectionLevel(instructorIndex, 1);
+        courseEditPage.clickViewOthersCommentsCheckBoxInSectionLevel(instructorIndex, 1);
+        courseEditPage.clickViewSessionResultsCheckBoxInSectionLevel(instructorIndex, 1);
+        courseEditPage.clickSessionLevelInSectionLevel(instructorIndex, 1);
+        courseEditPage.clickAddSessionLevelPrivilegesLink(instructorIndex);
+        courseEditPage.clickAddSessionLevelPrivilegesLink(instructorIndex);
+        courseEditPage.clickSectionCheckBoxInSectionLevel(instructorIndex, 3, 2);
+        courseEditPage.clickModifySessionResultCheckBoxInSectionLevel(instructorIndex, 3);
         // after 3 sections added, no more things to add
-        assertEquals(false, courseEditPage.addSessionLevelPrivilegesLink(1).isDisplayed());
+        assertEquals(false, courseEditPage.addSessionLevelPrivilegesLink(instructorIndex).isDisplayed());
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesBeforeSubmit.html");
-        courseEditPage.clickSaveInstructorButton(1);
+        courseEditPage.clickSaveInstructorButton(instructorIndex);
         courseEditPage.verifyHtmlMainContent("/instructorCourseEditEditInstructorPrivilegesSuccessful.html");
-        assertEquals(true, courseEditPage.clickEditInstructorLink(1));
+        assertEquals(true, courseEditPage.clickEditInstructorLink(instructorIndex));
         courseEditPage.verifyHtmlMainContent(
                             "/instructorCourseEditEditInstructorPrivilegesSuccessfulAndCheckEditAgain.html");
-        courseEditPage.clickSaveInstructorButton(1);
+        courseEditPage.clickSaveInstructorButton(instructorIndex);
         
         ______TS("failure: edit failed due to invalid parameters");
         String invalidEmail = "InsCrsEdit.email.tmt";
@@ -227,6 +272,80 @@ public class InstructorCourseEditPageUiTest extends BaseUiTestCase {
         
         courseEditPage.editInstructor(instructorId, invalidName, "teammates@email.tmt");
         courseEditPage.verifyStatus((new FieldValidator()).getInvalidityInfo(FieldType.PERSON_NAME, invalidName));
+        
+        ______TS("success: test Custom radio button getting other privileges' default values when selected");
+        instructorIndex = 2;
+        courseEditPage.clickEditInstructorLink(instructorIndex);
+        
+        // Tutor
+        courseEditPage.selectRoleForInstructor(instructorIndex, "Tutor");
+        courseEditPage.clickSaveInstructorButton(instructorIndex);
+        courseEditPage.clickEditInstructorLink(instructorIndex);
+        courseEditPage.selectRoleForInstructor(instructorIndex, "Custom");
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifycourse"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifyinstructor"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifysession"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifystudent"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canviewstudentinsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "cangivecommentinsection"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canviewcommentinsection"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifycommentinsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "cansubmitsessioninsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canviewsessioninsection"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifysessioncommentinsection"));
+        
+        // Observer
+        courseEditPage.selectRoleForInstructor(instructorIndex, "Observer");
+        courseEditPage.clickSaveInstructorButton(instructorIndex);
+        courseEditPage.clickEditInstructorLink(instructorIndex);
+        courseEditPage.selectRoleForInstructor(instructorIndex, "Custom");
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifycourse"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifyinstructor"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifysession"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifystudent"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canviewstudentinsection"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "cangivecommentinsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canviewcommentinsection"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifycommentinsection"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "cansubmitsessioninsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canviewsessioninsection"));
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifysessioncommentinsection"));
+        
+        // Manager
+        courseEditPage.selectRoleForInstructor(instructorIndex, "Manager");
+        courseEditPage.clickSaveInstructorButton(instructorIndex);
+        courseEditPage.clickEditInstructorLink(instructorIndex);
+        courseEditPage.selectRoleForInstructor(instructorIndex, "Custom");
+        assertFalse(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifycourse"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifyinstructor"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifysession"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifystudent"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canviewstudentinsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "cangivecommentinsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canviewcommentinsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifycommentinsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "cansubmitsessioninsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canviewsessioninsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifysessioncommentinsection"));
+        
+        // Co-owner
+        courseEditPage.selectRoleForInstructor(instructorIndex, "Co-owner");
+        courseEditPage.clickSaveInstructorButton(instructorIndex);
+        courseEditPage.clickEditInstructorLink(instructorIndex);
+        courseEditPage.selectRoleForInstructor(instructorIndex, "Custom");
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifycourse"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifyinstructor"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifysession"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifystudent"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canviewstudentinsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "cangivecommentinsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canviewcommentinsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifycommentinsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "cansubmitsessioninsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canviewsessioninsection"));
+        assertTrue(courseEditPage.isPrivilegeCheckboxInPermissionDivChecked(instructorIndex, "canmodifysessioncommentinsection"));
+        courseEditPage.selectRoleForInstructor(instructorIndex, "Co-owner");
+        
     }
     
     private void testDeleteInstructorAction() {

@@ -20,6 +20,10 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.jsoup.Jsoup;
+
+import com.google.appengine.labs.repackaged.org.json.JSONException;
+
 import teammates.common.datatransfer.CourseAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
@@ -36,6 +40,7 @@ import teammates.common.util.EmailTemplates;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.common.util.Utils;
+import teammates.googleSendgridJava.Sendgrid;
 
 /**
  * Handles operations related to sending e-mails.
@@ -84,7 +89,15 @@ public class Emails {
         messageInfo.append("|subject=" + message.getSubject());
         return messageInfo.toString();
     }
-
+    
+    public static String getEmailInfo(Sendgrid message) {
+        StringBuilder messageInfo = new StringBuilder();
+        messageInfo.append("[Email sent]");
+        messageInfo.append("to=" + message.getTos().get(0));
+        messageInfo.append("|from=" + message.getFrom());
+        messageInfo.append("|subject=" + message.getSubject());
+        return messageInfo.toString();
+    }
     
     public void addFeedbackSessionReminderToEmailsQueue(FeedbackSessionAttributes feedback,
             EmailType typeOfEmail) {
@@ -660,22 +673,78 @@ public class Emails {
         } 
         
     }
-
-    public void sendEmail(MimeMessage message) throws MessagingException {
-        log.info(getEmailInfo(message));
-        Transport.send(message);        
+    
+    public void sendEmailWithLogging(MimeMessage message) throws MessagingException, JSONException, IOException {
+        sendEmail(message, true);
     }
     
+    public void sendEmailWithoutLogging(MimeMessage message) throws MessagingException, JSONException, IOException {
+        sendEmail(message, false);
+    }
     
     /**
-     * This method sends the email as well as logs its receiver, subject and content 
+     * Sends email through GAE irrespective of config properties
+     * Does not generate log report
      * @param message
      * @throws MessagingException
      */
-    public void sendAndLogEmail(MimeMessage message) throws MessagingException {
+    public void forceSendEmailThroughGaeWithoutLogging(MimeMessage message) throws MessagingException {
+        sendUsingGae(message);
+    }
+    
+    /**
+     * Sends email through GAE irrespective of config properties
+     * Generates log report
+     * @param message
+     * @throws MessagingException
+     */
+    public void forceSendEmailThroughGaeWithLogging(MimeMessage message) throws MessagingException {
+        sendUsingGae(message);
+        generateLogReport(message);
+    }
+
+    /**
+     * This method sends the email and has an option to log its receiver, subject and content 
+     * @param message
+     * @param isWithLogging
+     * @throws MessagingException
+     * @throws IOException 
+     * @throws JSONException 
+     */
+    private void sendEmail(MimeMessage message, boolean isWithLogging) throws MessagingException, JSONException, IOException {
+        if (Config.isUsingSendgrid()) {
+            sendUsingSendgrid(message);
+            
+            if (isWithLogging) {
+                generateLogReport(parseMimeMessageToSendgrid(message));
+            }           
+        } else {
+            sendUsingGae(message);
+            
+            if (isWithLogging) {
+                generateLogReport(message);
+            }
+        }          
+    }
+    
+    private void sendUsingGae(MimeMessage message) throws MessagingException {
         log.info(getEmailInfo(message));
         Transport.send(message);
+    }
+
+    private void sendUsingSendgrid(MimeMessage message) throws MessagingException, JSONException, IOException {
+        Sendgrid email = parseMimeMessageToSendgrid(message);
+        log.info(getEmailInfo(email));
         
+        try {               
+            email.send();
+        } catch (Exception e) {
+            log.severe("Sendgrid failed, sending with GAE mail");
+            Transport.send(message);  
+        }
+    }
+    
+    private void generateLogReport(Sendgrid message) {
         try {
             EmailLogEntry newEntry = new EmailLogEntry(message);
             String emailLogInfo = newEntry.generateLogMessage();
@@ -684,7 +753,17 @@ public class Emails {
             log.severe("Failed to generate log for email: " + getEmailInfo(message));
             e.printStackTrace();
         }
-        
+    }
+    
+    private void generateLogReport(MimeMessage message) throws MessagingException {
+        try {
+            EmailLogEntry newEntry = new EmailLogEntry(message);
+            String emailLogInfo = newEntry.generateLogMessage();
+            log.log(Level.INFO, emailLogInfo);
+        } catch (Exception e) {
+            log.severe("Failed to generate log for email: " + getEmailInfo(message));
+            e.printStackTrace();
+        }
     }
     
     public MimeMessage sendErrorReport(String path, String params, Throwable error) {
@@ -692,7 +771,7 @@ public class Emails {
         try {
             email = generateSystemErrorEmail(error, path, params,
                     Config.inst().getAppVersion());
-            sendEmail(email);
+            forceSendEmailThroughGaeWithoutLogging(email);
             log.severe("Sent crash report: " + Emails.getEmailInfo(email));
         } catch (Exception e) {
             log.severe("Error in sending crash report: "
@@ -705,7 +784,7 @@ public class Emails {
     public MimeMessage sendLogReport(MimeMessage message) {
         MimeMessage email = null;
         try {
-            sendEmail(message);
+            forceSendEmailThroughGaeWithoutLogging(message);
         } catch (Exception e) {
             log.severe("Error in sending log report: "
                     + (email == null ? "" : email.toString()));
@@ -807,5 +886,44 @@ public class Emails {
         }
         
         return data;
+    }
+    
+    public Sendgrid parseMimeMessageToSendgrid(MimeMessage message) throws MessagingException, JSONException, IOException {
+        Sendgrid email = new Sendgrid(Config.SENDGRID_USERNAME, Config.SENDGRID_PASSWORD);
+        
+        for (int i = 0; i < message.getRecipients(Message.RecipientType.TO).length; i++) {
+            email.addTo(message.getRecipients(Message.RecipientType.TO)[i].toString());
+        }
+        
+        String from = extractSenderEmail(message.getFrom()[0].toString());
+        String html = message.getContent().toString();
+        
+        email.setFrom(from)
+             .setSubject(message.getSubject())
+             .setHtml(html)
+             .setText(Jsoup.parse(html).text());
+        
+        if (message.getRecipients(Message.RecipientType.BCC) != null 
+                                        && message.getRecipients(Message.RecipientType.BCC).length > 0) {
+            email.setBcc(message.getRecipients(Message.RecipientType.BCC)[0].toString());
+        }
+        
+        if (message.getReplyTo() != null && message.getReplyTo().length > 0) {
+            email.setReplyTo(message.getReplyTo()[0].toString());
+        }
+        
+        return email;
+    }
+
+    /**
+     * Extracts sender email from the string with name and email in the format: Name <Email>
+     * @param from String with sender information in the format: Name <Email>
+     * @return Sender email
+     */
+    public String extractSenderEmail(String from) {
+        if (from.contains("<") && from.contains(">")) {
+            from = from.substring(from.indexOf("<") + 1, from.indexOf(">"));
+        }
+        return from;
     }
 }
