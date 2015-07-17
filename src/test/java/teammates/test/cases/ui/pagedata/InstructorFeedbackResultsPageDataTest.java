@@ -15,13 +15,17 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
+import teammates.common.datatransfer.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Sanitizer;
+import teammates.common.util.StringHelper;
 import teammates.logic.api.Logic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.ui.controller.InstructorFeedbackResultsPageData;
+import teammates.ui.template.ElementTag;
 import teammates.ui.template.InstructorFeedbackResultsGroupByQuestionPanel;
 import teammates.ui.template.InstructorFeedbackResultsSectionPanel;
 import teammates.ui.template.InstructorResultsModerationButton;
@@ -68,73 +72,44 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         // Verify that the first question table is correct
         InstructorResultsQuestionTable questionPanel = questionPanels.get(0);
-        assertEquals("", questionPanel.getAdditionalInfoText());
-        assertEquals("panel-info", questionPanel.getPanelClass());
-        assertEquals(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1").questionMetaData.getValue(), 
-                                        questionPanel.getQuestionText());
-        assertTrue(questionPanel.getResponsesBodyClass().matches(".*\\bpanel-collapse\\b.*"));
-        assertTrue(questionPanel.getResponsesBodyClass().matches(".*\\bcollapse\\b.*"));
-        assertTrue(questionPanel.getResponsesBodyClass().matches(".*\\bin\\b.*"));
-        assertEquals(6, questionPanel.getColumns().size());
-        assertTrue(isKeysOfMap(questionPanel.getIsColumnSortable(),
-                               Arrays.asList("Giver", "Team", "Recipient", "Feedback", "Actions")));
-        assertTrue(isValuesInMapTrue(questionPanel.getIsColumnSortable(), 
-                                     Arrays.asList("Giver", "Team", "Recipient", "Feedback")));
-        assertTrue(isValuesInMapFalse(questionPanel.getIsColumnSortable(), 
-                                        Arrays.asList("Actions")));
+        verifyQuestionTableForQuestionView(questionPanel, dataBundle.feedbackQuestions.get("qn1InSession1InCourse1").questionMetaData.getValue());
         
         List<InstructorResultsResponseRow> responseRows = questionPanel.getResponses();
         assertEquals(5, responseRows.size());
         // first response
         InstructorResultsResponseRow responseRow = responseRows.get(0);
-        assertEquals("Student 1 self feedback.", responseRow.getDisplayableResponse());
+        verifyResponseRow(responseRow, dataBundle.feedbackResponses.get("response1ForQ1S1C1"), 
+                                       dataBundle.students.get("student1InCourse1"), 
+                                       dataBundle.students.get("student1InCourse1"));
         
-        assertEquals("Team 1.1", responseRow.getGiverTeam());
-        assertEquals("student1 In Course1", responseRow.getGiverDisplayableIdentifier());
-        assertEquals("student1 In Course1", responseRow.getRecipientDisplayableIdentifier());
-        assertEquals("Team 1.1", responseRow.getRecipientTeam());
-        
-        assertEquals(null, responseRow.getRowAttributes());
         assertFalse(responseRow.isGiverProfilePictureAColumn());
         assertFalse(responseRow.isRecipientProfilePictureAColumn());
-        assertTrue(responseRow.isGiverDisplayed());
-        assertTrue(responseRow.isRecipientDisplayed());
         assertTrue(responseRow.isModerationsButtonDisplayed());
         
         InstructorResultsModerationButton modButton = responseRow.getModerationButton();
-        assertEquals("Moderate Response", modButton.getButtonText());
-        assertTrue(modButton.getClassName().matches(".*\\bbtn\\b.*"));
-        assertTrue(modButton.getClassName().matches(".*\\bbtn-default\\b.*"));
-        assertTrue(modButton.getClassName().matches(".*\\bbtn-xs\\b.*"));
-        assertEquals("idOfTypicalCourse1", modButton.getCourseId());
-        assertEquals("First feedback session", modButton.getFeedbackSessionName());
-        assertEquals("student1InCourse1@gmail.tmt", modButton.getGiverIdentifier());
-        assertEquals(1, modButton.getQuestionNumber());
-        assertTrue(modButton.isAllowedToModerate());
-        assertFalse(modButton.isDisabled());
+  
+        verifyModerateButton(modButton, "Moderate Response", 
+                             dataBundle.students.get("student1InCourse1"), 
+                             "First feedback session", 1);
         
         //missing response
         responseRow = responseRows.get(responseRows.size() - 1);
-        assertEquals("<i>No Response</i>", responseRow.getDisplayableResponse());
+        verifyResponseRow(responseRow, null, dataBundle.students.get("student5InCourse1"), 
+                                             dataBundle.students.get("student5InCourse1"));
         
-        assertEquals("Team 1.2", responseRow.getGiverTeam());
-        assertEquals("student5 In Course1", responseRow.getGiverDisplayableIdentifier());
-        assertEquals("student5 In Course1", responseRow.getRecipientDisplayableIdentifier());
-        assertEquals("Team 1.2",responseRow.getRecipientTeam());
-        
-        assertEquals("pending_response_row", responseRow.getRowAttributes().getAttributes().get("class"));
-        
+        assertTrue(responseRow.isModerationsButtonDisplayed());
         modButton = responseRow.getModerationButton();
-        assertEquals("Moderate Response", modButton.getButtonText());
-        assertEquals("idOfTypicalCourse1", modButton.getCourseId());
-        assertEquals("First feedback session", modButton.getFeedbackSessionName());
-        assertEquals("student5InCourse1@gmail.tmt", modButton.getGiverIdentifier());
-        assertEquals(1, modButton.getQuestionNumber());
-        assertTrue(modButton.isAllowedToModerate());
-        assertFalse(modButton.isDisabled());
         
-        // Verify the fourth question, which has giver type=instructor, cannot be moderated
-        //TODO bug see #
+        String moderateButtonText = "Moderate Response";
+        StudentAttributes studentToModerate = dataBundle.students.get("student5InCourse1");
+        String feedbackSessionName = "First feedback session";
+        int questionNumber = 1;
+        
+        verifyModerateButton(modButton, moderateButtonText, studentToModerate, feedbackSessionName,
+                                        questionNumber);
+        
+        // Verify the correctness of fourth question, which has giver type=instructor
+        //TODO see #3367
         questionPanel = questionPanels.get(3);
         responseRows = questionPanel.getResponses();
         modButton = responseRows.get(0).getModerationButton();
@@ -163,7 +138,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         List<InstructorResultsResponseRow> sectionResponseRows = sectionQuestionPanel.getResponses();
         assertEquals(3, sectionResponseRows.size());
         InstructorResultsResponseRow sectionResponseRow = sectionResponseRows.get(2);
-        // TODO sanitization issue
+
         assertEquals("Response from student 3 &quot;to&quot; student 2.\r\nMultiline test.", sectionResponseRow.getDisplayableResponse());
         
         
@@ -188,44 +163,24 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         assertEquals(1, singleQuestionPanelList.size());
         
         InstructorResultsQuestionTable singleQuestionPanel = singleQuestionPanelList.get(0);
-        assertEquals("", singleQuestionPanel.getAdditionalInfoText());
-        assertEquals("panel-info", singleQuestionPanel.getPanelClass());
-        assertEquals(Sanitizer.sanitizeForHtml(dataBundle.feedbackQuestions.get("qn2InSession1InCourse1").questionMetaData.getValue()), 
-                                        singleQuestionPanel.getQuestionText());
-        assertTrue(singleQuestionPanel.getResponsesBodyClass().matches(".*\\bpanel-collapse\\b.*"));
-        assertTrue(singleQuestionPanel.getResponsesBodyClass().matches(".*\\bcollapse\\b.*"));
-        assertTrue(singleQuestionPanel.getResponsesBodyClass().matches(".*\\bin\\b.*"));
-        assertEquals(6, singleQuestionPanel.getColumns().size());
-        assertTrue(isKeysOfMap(singleQuestionPanel.getIsColumnSortable(),
-                               Arrays.asList("Giver", "Team", "Recipient", "Feedback", "Actions")));
-        assertTrue(isValuesInMapTrue(singleQuestionPanel.getIsColumnSortable(), 
-                                     Arrays.asList("Giver", "Team", "Recipient", "Feedback")));
-        assertTrue(isValuesInMapFalse(singleQuestionPanel.getIsColumnSortable(), 
-                                      Arrays.asList("Actions")));
+        verifyQuestionTableForQuestionView(singleQuestionPanel, dataBundle.feedbackQuestions.get("qn2InSession1InCourse1").questionMetaData.getValue());
         
         List<InstructorResultsResponseRow> singleQuestionResponseRows = singleQuestionPanel.getResponses();
         assertEquals(3, singleQuestionResponseRows.size());
         // just verify any response
         InstructorResultsResponseRow singleQuestionResponseRow = singleQuestionResponseRows.get(1);
-        assertEquals("Response from student 2 to student 1.", singleQuestionResponseRow.getDisplayableResponse());
+        verifyResponseRow(singleQuestionResponseRow, dataBundle.feedbackResponses.get("response1ForQ2S1C1"),
+                          dataBundle.students.get("student2InCourse1"), dataBundle.students.get("student1InCourse1"));
         
-        assertEquals("student2 In Course1", singleQuestionResponseRow.getGiverDisplayableIdentifier());
-        assertEquals("Team 1.1", singleQuestionResponseRow.getGiverTeam());
-        assertEquals("student1 In Course1", singleQuestionResponseRow.getRecipientDisplayableIdentifier());
-        assertEquals("Team 1.1", singleQuestionResponseRow.getRecipientTeam());
-        
-        assertEquals(null, singleQuestionResponseRow.getRowAttributes());
         assertFalse(singleQuestionResponseRow.isGiverProfilePictureAColumn());
         assertFalse(singleQuestionResponseRow.isRecipientProfilePictureAColumn());
-        assertTrue(singleQuestionResponseRow.isGiverDisplayed());
-        assertTrue(singleQuestionResponseRow.isRecipientDisplayed());
+
         assertTrue(singleQuestionResponseRow.isModerationsButtonDisplayed());
         
         modButton = singleQuestionResponseRow.getModerationButton();
         assertEquals("Moderate Response", modButton.getButtonText());
-        assertTrue(modButton.getClassName().matches(".*\\bbtn\\b.*"));
-        assertTrue(modButton.getClassName().matches(".*\\bbtn-default\\b.*"));
-        assertTrue(modButton.getClassName().matches(".*\\bbtn-xs\\b.*"));
+        verifyHtmlClass(modButton.getClassName(), "btn", "btn-default", "btn-xs");
+        
         assertEquals("idOfTypicalCourse1", modButton.getCourseId());
         assertEquals("First feedback session", modButton.getFeedbackSessionName());
         assertEquals("student2InCourse1@gmail.tmt", modButton.getGiverIdentifier());
@@ -254,9 +209,40 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         InstructorResultsQuestionTable ajaxQuestionPanel = ajaxQuestionPanels.get(0);
         assertEquals("panel-default", ajaxQuestionPanel.getPanelClass());
         assertTrue(ajaxQuestionPanel.isCollapsible());
-        assertTrue(ajaxQuestionPanel.getResponsesBodyClass().matches(".*\\bpanel-collapse\\b.*"));
-        assertTrue(ajaxQuestionPanel.getResponsesBodyClass().matches(".*\\bcollapse\\b.*"));
         
+        verifyHtmlClass(ajaxQuestionPanel.getResponsesBodyClass(), "panel-collapse", "collapse");
+    }
+
+    private void verifyModerateButton(InstructorResultsModerationButton modButton, String moderateButtonText,
+                                    StudentAttributes studentToModerate, String feedbackSessionName,
+                                    int questionNumber) {
+        assertEquals(moderateButtonText, modButton.getButtonText());
+        assertEquals(studentToModerate.course, modButton.getCourseId());
+        assertEquals(feedbackSessionName, modButton.getFeedbackSessionName());
+        assertEquals(studentToModerate.email, modButton.getGiverIdentifier());
+        assertEquals(questionNumber, modButton.getQuestionNumber());
+        assertTrue(modButton.isAllowedToModerate());
+        assertFalse(modButton.isDisabled());
+        
+        verifyHtmlClass(modButton.getClassName(), "btn", "btn-default", "btn-xs");
+    }
+
+    private void verifyQuestionTableForQuestionView(InstructorResultsQuestionTable questionPanel, String questionText) {
+        assertEquals("panel-info", questionPanel.getPanelClass());
+        assertEquals(Sanitizer.sanitizeForHtml(questionText), 
+                                        questionPanel.getQuestionText());
+        
+        verifyHtmlClass(questionPanel.getResponsesBodyClass(), "panel-collapse", "collapse", "in");
+        assertEquals(6, questionPanel.getColumns().size());
+        
+        verifyColumns(questionPanel.getColumns(), "Giver", "Team", "Recipient", "Team", "Feedback", "Actions");
+        
+        verifyKeysOfMap(questionPanel.getIsColumnSortable(),
+                        Arrays.asList("Giver", "Team", "Recipient", "Feedback", "Actions"));
+        assertTrue(isValuesInMapTrue(questionPanel.getIsColumnSortable(), 
+                                     Arrays.asList("Giver", "Team", "Recipient", "Feedback")));
+        assertTrue(isValuesInMapFalse(questionPanel.getIsColumnSortable(), 
+                                      Arrays.asList("Actions")));
     }
     
     @Test
@@ -280,20 +266,20 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         data.feedbackSessionName, data.courseId, instructor.email, 
                                         1000, "question");
-        data.initForViewByRecipientQuestionGiver(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION, "giver-question-recipient", "on");
+        data.initForViewByGiverQuestionRecipient(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION, "giver-question-recipient", "on");
         
         Map<String, InstructorFeedbackResultsSectionPanel> sectionPanels = data.getSectionPanels();
-        assertTrue(isKeysOfMap(sectionPanels, Arrays.asList("Section 1", "Section 2", "None")));
+        verifyKeysOfMap(sectionPanels, Arrays.asList("Section 1", "Section 2", "None"));
         
         InstructorFeedbackResultsSectionPanel sectionPanel = sectionPanels.get("None");
         assertEquals("Not in a section", sectionPanel.getSectionNameForDisplay());
         assertEquals("Detailed Responses", sectionPanel.getDetailedResponsesHeaderText());
-        assertTrue(isKeysOfMap(sectionPanel.getIsTeamWithResponses(), Arrays.asList("-")));
+        verifyKeysOfMap(sectionPanel.getIsTeamWithResponses(), Arrays.asList("Instructors"));
         assertEquals("panel-success", sectionPanel.getPanelClass());
-        assertEquals("Received Responses Statistics", sectionPanel.getStatisticsHeaderText());
+        assertEquals("Statistics for Given Responses", sectionPanel.getStatisticsHeaderText());
         
         
-        // This is a bug. TODO see #2857 
+        // Incorrect values now due to a bug. TODO see #2857 
         //Map<String, List<InstructorResultsQuestionTable>> statsTables = sectionPanel.getTeamStatisticsTable();
         //assertEquals(1, statsTables.size());
         
@@ -301,7 +287,8 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         //assertEquals(0, statsTablesForInstructors.size());
         
         assertEquals(1, sectionPanel.getParticipantPanels().size());
-        InstructorFeedbackResultsGroupByQuestionPanel participantPanel = (InstructorFeedbackResultsGroupByQuestionPanel)sectionPanel.getParticipantPanels().get("-").get(0);
+        
+        InstructorFeedbackResultsGroupByQuestionPanel participantPanel = (InstructorFeedbackResultsGroupByQuestionPanel)sectionPanel.getParticipantPanels().get("Instructors").get(0);
         assertEquals("instructor1@course1.tmt", participantPanel.getParticipantIdentifier());
         assertEquals("Instructor1 Course1", participantPanel.getName());
         
@@ -313,23 +300,13 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         assertEquals(1, questionTables.size());
         
         InstructorResultsQuestionTable firstQuestionTable = questionTables.get(0);
+        
         assertEquals(1, firstQuestionTable.getResponses().size());
         assertEquals("", firstQuestionTable.getAdditionalInfoText());
-        assertEquals("panel-info", firstQuestionTable.getPanelClass());
-        assertEquals(Sanitizer.sanitizeForHtml(dataBundle.feedbackQuestions.get("qn3InSession1InCourse1").questionMetaData.getValue()), 
-                                        firstQuestionTable.getQuestionText());
-        assertTrue(firstQuestionTable.getResponsesBodyClass().matches(".*\\bpanel-collapse\\b.*"));
-        assertTrue(firstQuestionTable.getResponsesBodyClass().matches(".*\\bcollapse\\b.*"));
-        assertTrue(firstQuestionTable.getResponsesBodyClass().matches(".*\\bin\\b.*"));
-        assertEquals(4, firstQuestionTable.getColumns().size());
-        assertTrue(isKeysOfMap(firstQuestionTable.getIsColumnSortable(),
-                               Arrays.asList("Photo", "Recipient", "Team", "Feedback")));
-        assertTrue(isValuesInMapTrue(firstQuestionTable.getIsColumnSortable(), 
-                                     Arrays.asList("Recipient", "Team", "Feedback")));
-        assertTrue(isValuesInMapFalse(firstQuestionTable.getIsColumnSortable(), 
-                                        Arrays.asList("Photo")));
+        verifyQuestionTableForGQR(firstQuestionTable, "qn3InSession1InCourse1");
         
         InstructorResultsResponseRow responseRow = firstQuestionTable.getResponses().get(0);
+        
         assertEquals("Good work, keep it up!", responseRow.getDisplayableResponse());
         assertEquals(instructor.name, responseRow.getGiverDisplayableIdentifier());
         assertEquals("-", responseRow.getRecipientDisplayableIdentifier());
@@ -348,7 +325,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         assertFalse(sectionPanel.isLoadSectionResponsesByAjax());
         Map<String, List<InstructorResultsParticipantPanel>> sectionOneParticipantPanels = sectionPanel.getParticipantPanels();
         
-        assertTrue(isKeysOfMap(sectionOneParticipantPanels, Arrays.asList("Team 1.1")));
+        verifyKeysOfMap(sectionOneParticipantPanels, Arrays.asList("Team 1.1"));
         List<InstructorResultsParticipantPanel> teamParticipantPanel = sectionOneParticipantPanels.get("Team 1.1");
         assertEquals(null, teamParticipantPanel.get(0).getClassName());
         assertEquals("student1InCourse1@gmail.tmt", teamParticipantPanel.get(0).getParticipantIdentifier());
@@ -359,16 +336,13 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         responseRow = 
              ((InstructorFeedbackResultsGroupByQuestionPanel)teamParticipantPanel.get(0)).getQuestionTables()
                                                                                          .get(1).getResponses().get(0);
-        assertEquals("Response from student 1 to student 2.", responseRow.getDisplayableResponse());
-        assertEquals("Student 1 in course 1", responseRow.getGiverDisplayableIdentifier());
-        assertEquals("Student 2 in course 1", responseRow.getRecipientDisplayableIdentifier());
-        assertEquals("Team 1.1", responseRow.getGiverTeam());
-        assertEquals("Team 1.1", responseRow.getRecipientTeam());
-        assertFalse(responseRow.isGiverDisplayed());
-        assertTrue(responseRow.isRecipientDisplayed());
+
         assertTrue(responseRow.isRecipientProfilePictureAColumn());
         assertFalse(responseRow.isGiverProfilePictureAColumn());
-        assertEquals(null, responseRow.getRowAttributes());
+        assertTrue(responseRow.isModerationsButtonDisplayed());
+        verifyResponseRow(responseRow, dataBundle.feedbackResponses.get("response2ForQ2S1C1"), 
+                                       dataBundle.students.get("student1InCourse1"), 
+                                       dataBundle.students.get("student2InCourse1"));
 
         
         ______TS("view section 1, all questions, no stats");
@@ -385,18 +359,18 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         data.initForViewByGiverQuestionRecipient(instructor, "Section 1", null, "on");
         
         Map<String, InstructorFeedbackResultsSectionPanel> sectionOnePanels = data.getSectionPanels();
-        assertTrue(isKeysOfMap(sectionOnePanels, Arrays.asList("Section 1")));
+        verifyKeysOfMap(sectionOnePanels, Arrays.asList("Section 1"));
         
         sectionPanel = sectionOnePanels.get("Section 1");
         assertEquals("Section 1", sectionPanel.getSectionNameForDisplay());
         assertEquals("Detailed Responses", sectionPanel.getDetailedResponsesHeaderText());
 
-        assertTrue(isKeysOfMap(sectionPanel.getIsTeamWithResponses(), Arrays.asList("Team 1.1")));
+        verifyKeysOfMap(sectionPanel.getIsTeamWithResponses(), Arrays.asList("Team 1.1"));
         assertEquals("panel-success", sectionPanel.getPanelClass());
         assertEquals("Statistics for Given Responses", sectionPanel.getStatisticsHeaderText());
         
         assertTrue(sectionPanel.isDisplayingTeamStatistics()); // note that this is still true because
-                                                               // displaying stats are done in javascript
+                                                               // the logic for displaying stats is done in javascript
       
         
         ______TS("all sections, not grouping by team");
@@ -417,7 +391,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         data.initForViewByGiverQuestionRecipient(instructor, data.selectedSection, "on", null);
         
         Map<String, InstructorFeedbackResultsSectionPanel> notGroupByTeamPanels = data.getSectionPanels();
-        assertTrue(isKeysOfMap(notGroupByTeamPanels, Arrays.asList("Section 1", "Section 2", "None")));
+        verifyKeysOfMap(notGroupByTeamPanels, Arrays.asList("Section 1", "Section 2", "None"));
         
         sectionPanel = notGroupByTeamPanels.get("Section 1");
         
@@ -433,19 +407,23 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
             String sectionPanelStudentName = notGroupByTeamParticipantPanel.getName();
             
             assertEquals(nameOfStudent, sectionPanelStudentName);
+            
+            // Test moderate button on student panel
+            InstructorResultsModerationButton modButton = notGroupByTeamParticipantPanel.getModerationButton();
+            assertEquals("Moderate Responses", modButton.getButtonText());
+            
+            if (notGroupByTeamParticipantPanel.isHasResponses()) {
+                verifyHtmlClass(modButton.getClassName(), "btn", "btn-xs", "btn-primary");
+            } else {
+                verifyHtmlClass(modButton.getClassName(), "btn", "btn-xs", "btn-default");
+            }
+            
+            assertEquals("idOfTypicalCourse1", modButton.getCourseId());
+            assertEquals("First feedback session", modButton.getFeedbackSessionName());
+            assertEquals(-1, modButton.getQuestionNumber());
         }
         
         InstructorFeedbackResultsGroupByQuestionPanel studentPanel = (InstructorFeedbackResultsGroupByQuestionPanel)notGroupByTeamParticipantPanels.get(0);
-        InstructorResultsModerationButton modButton = studentPanel.getModerationButton();
-        assertEquals("Moderate Responses", modButton.getButtonText());
-        
-        assertTrue(modButton.getClassName().matches(".*\\bbtn\\b.*"));
-        assertTrue(modButton.getClassName().matches(".*\\bbtn-primary\\b.*"));
-        assertTrue(modButton.getClassName().matches(".*\\bbtn-xs\\b.*"));
-        
-        assertEquals("idOfTypicalCourse1", modButton.getCourseId());
-        assertEquals("First feedback session", modButton.getFeedbackSessionName());
-        assertEquals(-1, modButton.getQuestionNumber());
         
         questionTables = studentPanel.getQuestionTables();
         assertEquals(2, questionTables.size());
@@ -457,29 +435,26 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         assertEquals("panel-info", questionTable.getPanelClass());
         assertEquals(Sanitizer.sanitizeForHtml(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1").questionMetaData.getValue()), 
                                         questionTable.getQuestionText());
-        assertTrue(questionTable.getResponsesBodyClass().matches(".*\\bpanel-collapse\\b.*"));
-        assertTrue(questionTable.getResponsesBodyClass().matches(".*\\bcollapse\\b.*"));
-        assertTrue(questionTable.getResponsesBodyClass().matches(".*\\bin\\b.*"));
-        assertEquals(4, questionTable.getColumns().size());
-        assertTrue(isKeysOfMap(questionTable.getIsColumnSortable(),
-                               Arrays.asList("Photo", "Recipient", "Team", "Feedback")));
+        verifyHtmlClass(questionTable.getResponsesBodyClass(), "panel-collapse", "collapse", "in");
+        
+        verifyColumns(questionTable.getColumns(), "Photo", "Recipient", "Team", "Feedback");
+        verifyKeysOfMap(questionTable.getIsColumnSortable(),
+                        Arrays.asList("Photo", "Recipient", "Team", "Feedback"));
         assertTrue(isValuesInMapTrue(questionTable.getIsColumnSortable(), 
                                      Arrays.asList("Recipient", "Team", "Feedback")));
         assertTrue(isValuesInMapFalse(questionTable.getIsColumnSortable(), 
-                                        Arrays.asList("Photo")));
+                                      Arrays.asList("Photo")));
         
         responseRow = questionTable.getResponses().get(0);
-        assertEquals("Student 1 self feedback.", responseRow.getDisplayableResponse());
-        assertEquals("student1 In Course1", responseRow.getGiverDisplayableIdentifier());
-        assertEquals(responseRow.getGiverDisplayableIdentifier(), responseRow.getRecipientDisplayableIdentifier());
-        assertEquals(responseRow.getRecipientTeam(), responseRow.getGiverTeam());
-        assertEquals("Team 1.1", responseRow.getRecipientTeam());
-        assertFalse(responseRow.isGiverDisplayed());
-        assertTrue(responseRow.isRecipientDisplayed());
+        verifyResponseRow(responseRow, dataBundle.feedbackResponses.get("response1ForQ1S1C1"), 
+                                       dataBundle.students.get("student1InCourse1"), 
+                                       dataBundle.students.get("student1InCourse1"));
         assertTrue(responseRow.isRecipientProfilePictureAColumn());
         assertFalse(responseRow.isGiverProfilePictureAColumn());
-        assertEquals(null, responseRow.getRowAttributes());
         
+        InstructorResultsModerationButton moderationButton = responseRow.getModerationButton();
+        verifyModerateButton(moderationButton, "Moderate Response", dataBundle.students.get("student1InCourse1"), 
+                             "First feedback session", 1);
         
         ______TS("all sections, require loading by ajax");
         
@@ -500,12 +475,27 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         Map<String, InstructorFeedbackResultsSectionPanel> ajaxQuestionPanels = data.getSectionPanels();
         assertEquals(3, ajaxQuestionPanels.size());
         
-        isKeysOfMap(ajaxQuestionPanels, Arrays.asList("None", "Section 1", "Section 2"));
-        InstructorFeedbackResultsSectionPanel ajaxSectionPanel = ajaxQuestionPanels.get("Section 1");
+        verifyKeysOfMap(ajaxQuestionPanels, Arrays.asList("None", "Section 1", "Section 2"));
+        for (InstructorFeedbackResultsSectionPanel ajaxSectionPanel : ajaxQuestionPanels.values()) {
+            verifyHtmlClass(ajaxSectionPanel.getPanelClass(), "panel-success");
+            assertTrue(ajaxSectionPanel.isLoadSectionResponsesByAjax());
+            assertEquals(0, ajaxSectionPanel.getParticipantPanels().size());
+        }
+    }
+
+    private void verifyQuestionTableForGQR(InstructorResultsQuestionTable firstQuestionTable, String dataQuestionId) {
+        assertEquals("panel-info", firstQuestionTable.getPanelClass());
+        assertEquals(Sanitizer.sanitizeForHtml(dataBundle.feedbackQuestions.get(dataQuestionId).questionMetaData.getValue()), 
+                                        firstQuestionTable.getQuestionText());
+        verifyHtmlClass(firstQuestionTable.getResponsesBodyClass(), "panel-collapse", "collapse", "in");
         
-        assertTrue(ajaxSectionPanel.getPanelClass().matches(".*\\bpanel-success\\b.*"));
-        assertTrue(ajaxSectionPanel.isLoadSectionResponsesByAjax());
-        assertEquals(0, ajaxSectionPanel.getParticipantPanels().size());
+        verifyColumns(firstQuestionTable.getColumns(), "Photo", "Recipient", "Team", "Feedback");
+        verifyKeysOfMap(firstQuestionTable.getIsColumnSortable(),
+                        Arrays.asList("Photo", "Recipient", "Team", "Feedback"));
+        assertTrue(isValuesInMapTrue(firstQuestionTable.getIsColumnSortable(), 
+                                     Arrays.asList("Recipient", "Team", "Feedback")));
+        assertTrue(isValuesInMapFalse(firstQuestionTable.getIsColumnSortable(), 
+                                      Arrays.asList("Photo")));
     }
     
     @Test
@@ -532,7 +522,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         data.initForViewByRecipientQuestionGiver(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION, "giver-question-recipient", "on");
         
         Map<String, InstructorFeedbackResultsSectionPanel> sectionPanels = data.getSectionPanels();
-        assertTrue(isKeysOfMap(sectionPanels, Arrays.asList("Section 1", "Section 2", "None")));
+        verifyKeysOfMap(sectionPanels, Arrays.asList("Section 1", "Section 2", "None"));
         
         InstructorFeedbackResultsSectionPanel sectionPanel = sectionPanels.get("Section 1");
         assertTrue(sectionPanel.isDisplayingMissingParticipants());
@@ -540,14 +530,35 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         assertFalse(sectionPanel.isLoadSectionResponsesByAjax());
         Map<String, List<InstructorResultsParticipantPanel>> sectionOneParticipantPanels = sectionPanel.getParticipantPanels();
         
-        assertTrue(isKeysOfMap(sectionOneParticipantPanels, Arrays.asList("Team 1.1")));
+        verifyKeysOfMap(sectionOneParticipantPanels, Arrays.asList("Team 1.1"));
         List<InstructorResultsParticipantPanel> teamParticipantPanel = sectionOneParticipantPanels.get("Team 1.1");
         assertEquals(null, teamParticipantPanel.get(0).getClassName());
         assertEquals("student1InCourse1@gmail.tmt", teamParticipantPanel.get(0).getParticipantIdentifier());
-        assertTrue(teamParticipantPanel.get(0).isGiver());
-        assertTrue(teamParticipantPanel.get(0).isModerationButtonDisplayed());
+        assertFalse(teamParticipantPanel.get(0).isGiver());
+        assertFalse(teamParticipantPanel.get(0).isModerationButtonDisplayed());
         
-       //!!! add checks for response row here
+        
+        
+        List<InstructorResultsQuestionTable> qTables = ((InstructorFeedbackResultsGroupByQuestionPanel)teamParticipantPanel.get(0)).getQuestionTables();
+        InstructorResultsQuestionTable qTable = qTables.get(0);
+        
+        assertEquals("What is the best selling point of your product?", qTable.getQuestionText());
+        assertEquals("panel-info", qTable.getPanelClass());
+
+        verifyColumns(qTable.getColumns(), "Photo", "Giver", "Team", "Feedback", "Actions");
+        verifyKeysOfMap(qTable.getIsColumnSortable(), Arrays.asList("Photo", "Giver", "Team", "Feedback", "Actions"));
+        assertTrue(isValuesInMapTrue(qTable.getIsColumnSortable(), 
+                                     Arrays.asList("Giver", "Team", "Feedback")));
+        assertTrue(isValuesInMapFalse(qTable.getIsColumnSortable(), 
+                                      Arrays.asList("Photo", "Actions")));
+
+        verifyHtmlClass(qTable.getResponsesBodyClass(), "panel-collapse", "collapse", "in");
+        
+        List<InstructorResultsResponseRow> responseRows =  qTable.getResponses();
+        InstructorResultsResponseRow firstResponseRow = responseRows.get(0);
+        
+        verifyResponseRow(firstResponseRow, dataBundle.feedbackResponses.get("response1ForQ1S1C1"), 
+                          dataBundle.students.get("student1InCourse1"), dataBundle.students.get("student1InCourse1"));
 
         
         ______TS("view section 1, all questions, no stats");
@@ -564,15 +575,15 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         data.initForViewByRecipientQuestionGiver(instructor, "Section 1", null, "on");
         
         Map<String, InstructorFeedbackResultsSectionPanel> sectionOnePanels = data.getSectionPanels();
-        assertTrue(isKeysOfMap(sectionOnePanels, Arrays.asList("Section 1")));
+        verifyKeysOfMap(sectionOnePanels, Arrays.asList("Section 1"));
         
         sectionPanel = sectionOnePanels.get("Section 1");
         assertEquals("Section 1", sectionPanel.getSectionNameForDisplay());
         assertEquals("Detailed Responses", sectionPanel.getDetailedResponsesHeaderText());
 
-        assertTrue(isKeysOfMap(sectionPanel.getIsTeamWithResponses(), Arrays.asList("Team 1.1")));
+        verifyKeysOfMap(sectionPanel.getIsTeamWithResponses(), Arrays.asList("Team 1.1"));
         assertEquals("panel-success", sectionPanel.getPanelClass());
-        assertEquals("Statistics for Given Responses", sectionPanel.getStatisticsHeaderText());
+        assertEquals("Received Responses Statistics", sectionPanel.getStatisticsHeaderText());
         
         assertTrue(sectionPanel.isDisplayingTeamStatistics()); // note that this is still true because
                                                                // displaying stats are done in javascript
@@ -596,7 +607,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         data.initForViewByRecipientQuestionGiver(instructor, data.selectedSection, "on", null);
         
         Map<String, InstructorFeedbackResultsSectionPanel> notGroupByTeamPanels = data.getSectionPanels();
-        assertTrue(isKeysOfMap(notGroupByTeamPanels, Arrays.asList("Section 1", "Section 2", "None")));
+        verifyKeysOfMap(notGroupByTeamPanels, Arrays.asList("Section 1", "Section 2", "None"));
         
         sectionPanel = notGroupByTeamPanels.get("Section 1");
         
@@ -615,17 +626,8 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         }
         
         InstructorFeedbackResultsGroupByQuestionPanel studentPanel = (InstructorFeedbackResultsGroupByQuestionPanel)notGroupByTeamParticipantPanels.get(0);
-        InstructorResultsModerationButton modButton = studentPanel.getModerationButton();
-        assertEquals("Moderate Responses", modButton.getButtonText());
-        
-        assertTrue(modButton.getClassName().matches(".*\\bbtn\\b.*"));
-        assertTrue(modButton.getClassName().matches(".*\\bbtn-primary\\b.*"));
-        assertTrue(modButton.getClassName().matches(".*\\bbtn-xs\\b.*"));
-        
-        assertEquals("idOfTypicalCourse1", modButton.getCourseId());
-        assertEquals("First feedback session", modButton.getFeedbackSessionName());
-        assertEquals(-1, modButton.getQuestionNumber());
-        
+        assertFalse(studentPanel.isModerationButtonDisplayed());
+                
         List<InstructorResultsQuestionTable> questionTables = studentPanel.getQuestionTables();
         assertEquals(2, questionTables.size());
         
@@ -633,32 +635,16 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         assertEquals(1, questionTable.getResponses().size());
         assertEquals("", questionTable.getAdditionalInfoText());
-        assertEquals("panel-info", questionTable.getPanelClass());
-        assertEquals(Sanitizer.sanitizeForHtml(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1").questionMetaData.getValue()), 
-                                        questionTable.getQuestionText());
-        assertTrue(questionTable.getResponsesBodyClass().matches(".*\\bpanel-collapse\\b.*"));
-        assertTrue(questionTable.getResponsesBodyClass().matches(".*\\bcollapse\\b.*"));
-        assertTrue(questionTable.getResponsesBodyClass().matches(".*\\bin\\b.*"));
-        assertEquals(4, questionTable.getColumns().size());
-        assertTrue(isKeysOfMap(questionTable.getIsColumnSortable(),
-                               Arrays.asList("Photo", "Recipient", "Team", "Feedback")));
-        assertTrue(isValuesInMapTrue(questionTable.getIsColumnSortable(), 
-                                     Arrays.asList("Recipient", "Team", "Feedback")));
-        assertTrue(isValuesInMapFalse(questionTable.getIsColumnSortable(), 
-                                        Arrays.asList("Photo")));
+        
+        verifyQuestionTableForRQG(questionTable, "qn1InSession1InCourse1");
+      
         
         InstructorResultsResponseRow responseRow = questionTable.getResponses().get(0);
-        assertEquals("Student 1 self feedback.", responseRow.getDisplayableResponse());
-        assertEquals("student1 In Course1", responseRow.getGiverDisplayableIdentifier());
-        assertEquals(responseRow.getGiverDisplayableIdentifier(), responseRow.getRecipientDisplayableIdentifier());
-        assertEquals(responseRow.getRecipientTeam(), responseRow.getGiverTeam());
-        assertEquals("Team 1.1", responseRow.getRecipientTeam());
-        assertFalse(responseRow.isGiverDisplayed());
-        assertTrue(responseRow.isRecipientDisplayed());
-        assertTrue(responseRow.isRecipientProfilePictureAColumn());
-        assertFalse(responseRow.isGiverProfilePictureAColumn());
-        assertEquals(null, responseRow.getRowAttributes());
-        
+        verifyResponseRow(responseRow, dataBundle.feedbackResponses.get("response1ForQ1S1C1"), 
+                          dataBundle.students.get("student1InCourse1"), dataBundle.students.get("student1InCourse1"));
+        assertFalse(responseRow.isRecipientProfilePictureAColumn());
+        assertTrue(responseRow.isGiverProfilePictureAColumn());
+
         
         ______TS("all sections, require loading by ajax");
         
@@ -679,24 +665,66 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         Map<String, InstructorFeedbackResultsSectionPanel> ajaxQuestionPanels = data.getSectionPanels();
         assertEquals(3, ajaxQuestionPanels.size());
         
-        isKeysOfMap(ajaxQuestionPanels, Arrays.asList("None", "Section 1", "Section 2"));
-        InstructorFeedbackResultsSectionPanel ajaxSectionPanel = ajaxQuestionPanels.get("Section 1");
+        verifyKeysOfMap(ajaxQuestionPanels, Arrays.asList("None", "Section 1", "Section 2"));
         
-        assertTrue(ajaxSectionPanel.getPanelClass().matches(".*\\bpanel-success\\b.*"));
-        assertTrue(ajaxSectionPanel.isLoadSectionResponsesByAjax());
-        assertEquals(0, ajaxSectionPanel.getParticipantPanels().size());
+        for (InstructorFeedbackResultsSectionPanel ajaxSectionPanel : ajaxQuestionPanels.values()) {
+            verifyHtmlClass(ajaxSectionPanel.getPanelClass(), "panel-success");
+            assertTrue(ajaxSectionPanel.isLoadSectionResponsesByAjax());
+            assertEquals(0, ajaxSectionPanel.getParticipantPanels().size());
+        }
+        
     }
     
+    private void verifyQuestionTableForRQG(InstructorResultsQuestionTable questionTable, String dataQuestionKey) {
+        assertEquals("panel-info", questionTable.getPanelClass());
+        assertEquals(Sanitizer.sanitizeForHtml(dataBundle.feedbackQuestions.get(dataQuestionKey).questionMetaData.getValue()), 
+                                        questionTable.getQuestionText());
+        verifyHtmlClass(questionTable.getResponsesBodyClass(), "panel-collapse", "collapse", "in");
+        
+        verifyColumns(questionTable.getColumns(), "Photo", "Giver", "Team", "Feedback", "Actions");
+        verifyKeysOfMap(questionTable.getIsColumnSortable(),
+                        Arrays.asList("Photo", "Giver", "Team", "Feedback", "Actions"));
+        assertTrue(isValuesInMapTrue(questionTable.getIsColumnSortable(), 
+                                     Arrays.asList("Giver", "Team", "Feedback")));
+        assertTrue(isValuesInMapFalse(questionTable.getIsColumnSortable(), 
+                                      Arrays.asList("Photo", "Actions")));
+    }
     
-    public <K, V> boolean isKeysOfMap(Map<K, V> map, List<K> keys) {
+    private void verifyResponseRow(InstructorResultsResponseRow responseRow, FeedbackResponseAttributes response, 
+                                  StudentAttributes studentGiver, StudentAttributes studentRecipient) {
+        
+        assertEquals(studentGiver.name, responseRow.getGiverDisplayableIdentifier());
+        assertEquals(studentRecipient.name, responseRow.getRecipientDisplayableIdentifier());
+        assertEquals(studentGiver.team, responseRow.getGiverTeam());
+        assertEquals(studentRecipient.team, responseRow.getRecipientTeam());
+        
+        if (response != null) {
+            assertEquals(Sanitizer.sanitizeForHtml(response.getResponseDetails().getAnswerString()), responseRow.getDisplayableResponse());
+            assertEquals(null, responseRow.getRowAttributes());
+        } else {
+            assertEquals("<i>No Response</i>", responseRow.getDisplayableResponse());
+            assertEquals(" class=\"pending_response_row\"", responseRow.getRowAttributes().getAttributesToString());
+        }
+        
+        if (responseRow.isGiverDisplayed() && responseRow.isGiverProfilePictureDisplayed()) {
+            assertTrue(responseRow.getGiverProfilePictureLink().toString().contains(StringHelper.encrypt(studentGiver.email)));
+            assertTrue(responseRow.getGiverProfilePictureLink().toString().contains(StringHelper.encrypt(studentGiver.course)));
+        }
+        
+        if (responseRow.isRecipientDisplayed() && responseRow.isRecipientProfilePictureDisplayed()) {
+            assertTrue(responseRow.getRecipientProfilePictureLink().toString().contains(StringHelper.encrypt(studentRecipient.email)));
+            assertTrue(responseRow.getRecipientProfilePictureLink().toString().contains(StringHelper.encrypt(studentRecipient.course)));
+        }
+        
+    }
+    
+    private <K, V> void verifyKeysOfMap(Map<K, V> map, List<K> keys) {
         Set<K> keysOfMap = map.keySet();
-        
         Set<K> keysSet = new HashSet<K>(keys);
-        
-        return keysOfMap.equals(keysSet);
+        assertEquals(keysSet, keysOfMap);
     }
     
-    public <K> boolean isValuesInMapTrue(Map<K, Boolean> map, List<K> keys) {
+    private <K> boolean isValuesInMapTrue(Map<K, Boolean> map, List<K> keys) {
         boolean result = true;
         for (K key : keys) {
             if (!map.get(key)) {
@@ -705,7 +733,8 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         }
         return result;
     }
-    public <K> boolean isValuesInMapFalse(Map<K, Boolean> map, List<K> keys) {
+    
+    private <K> boolean isValuesInMapFalse(Map<K, Boolean> map, List<K> keys) {
         boolean result = true;
         for (K key : keys) {
             if (map.get(key)) {
@@ -715,4 +744,16 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         return result;
     }
     
+    private void verifyColumns(List<ElementTag> columns, String... expectedColumnNames) {
+        assertEquals(expectedColumnNames.length, columns.size());
+        for (int i = 0; i < columns.size(); i++) {
+            assertEquals(expectedColumnNames[i], columns.get(i).getContent());
+        }
+    }
+    
+    private void verifyHtmlClass(String htmlClasses, String... expectedHtmlClasses) {
+        for (String expectedHtmlClass : expectedHtmlClasses) {
+            assertTrue(htmlClasses.matches(".*\\b" + expectedHtmlClass + "\\b.*"));
+        }
+    }
 }
