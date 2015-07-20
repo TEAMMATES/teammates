@@ -718,6 +718,7 @@ public class Const {
         public static final String INSTRUCTOR_HOME_PAGE = "instructorHomePage";
         public static final String INSTRUCTOR_FEEDBACKS_PAGE = "instructorFeedbacksPage";
         public static final String INSTRUCTOR_FEEDBACK_EDIT_PAGE = "instructorFeedbackEditPage";
+        public static final String INSTRUCTOR_FEEDBACK_COPY = "instructorFeedbackCopy";
     }
     
     public class ViewURIs{
