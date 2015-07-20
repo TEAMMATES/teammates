@@ -157,7 +157,8 @@ public class InstructorFeedbackEditCopyAction extends Action {
     private String getRedirectUrl(String currentPage) {
         if (currentPage.contains(Const.PageNames.INSTRUCTOR_HOME_PAGE)) {
             return Const.ActionURIs.INSTRUCTOR_HOME_PAGE;
-        } else if (currentPage.contains(Const.PageNames.INSTRUCTOR_FEEDBACKS_PAGE)) {
+        } else if (currentPage.contains(Const.PageNames.INSTRUCTOR_FEEDBACKS_PAGE)
+                      || currentPage.contains(Const.PageNames.INSTRUCTOR_FEEDBACK_COPY)) {
             return Const.ActionURIs.INSTRUCTOR_FEEDBACKS_PAGE;
         } else {
             return Const.ActionURIs.INSTRUCTOR_FEEDBACK_EDIT_PAGE;
