@@ -490,9 +490,30 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             answerFrequency.put(option, 0);
         }
         
+        if (otherEnabled) {
+            answerFrequency.put("Other", 0);
+        }
+        
         int numChoicesSelected = 0;
+        
         for(FeedbackResponseAttributes response : responses){
             List<String> answerStrings = ((FeedbackMsqResponseDetails)response.getResponseDetails()).getAnswerStrings();
+            Boolean isOtherOptionAnswer = ((FeedbackMsqResponseDetails) (response.getResponseDetails())).isOtherOptionAnswer();
+            String otherAnswer = "";
+            
+            if (isOtherOptionAnswer) {
+                if (!answerFrequency.containsKey("Other")) {
+                    answerFrequency.put("Other", 1);
+                } else {
+                    answerFrequency.put("Other", answerFrequency.get("Other")+1);
+                }
+                
+                numChoicesSelected++;
+                // remove other answer temporarily to calculate stats for other options
+                otherAnswer = answerStrings.get(answerStrings.size() - 1);
+                answerStrings.remove(otherAnswer);
+            }
+            
             for(String answerString : answerStrings){
                 if (answerString.equals("")) {
                     continue;
@@ -504,6 +525,11 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 } else {
                     answerFrequency.put(answerString, answerFrequency.get(answerString)+1);
                 }
+            }
+            
+            // restore other answer if any
+            if (isOtherOptionAnswer) {
+                answerStrings.add(otherAnswer);
             }
         }
         
