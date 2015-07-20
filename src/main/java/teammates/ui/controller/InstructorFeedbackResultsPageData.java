@@ -62,13 +62,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
     public String sessionResultsHtmlTableAsString = null;
     
 
-    // TODO multiple page data classes for each view type
-    
     // for question view
     List<InstructorResultsQuestionTable> questionPanels;
     // for giver > question > recipient, recipient > question > giver...
     LinkedHashMap<String, InstructorFeedbackResultsSectionPanel> sectionPanels;
     
+    // TODO multiple page data classes inheriting this for each view type, 
+    // rather than an enum determining behaviour in many methods
     ViewType viewType;
     enum ViewType {
         QUESTION, GIVER_QUESTION_RECIPIENT, RECIPIENT_QUESTION_GIVER;
@@ -172,6 +172,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
             return;
         }
         
+        // Note that if the page needs to load by ajax, then responses will be empty too,
+        // therefore the check whether the bundle needs to come before this
         if (bundle.responses.isEmpty()) {
             // no responses, nothing to initialize
             return;

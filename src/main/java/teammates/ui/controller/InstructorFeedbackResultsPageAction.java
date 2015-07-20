@@ -18,7 +18,6 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        // this variable is used as a flag for tests
         String needAjax = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX);
 
         int queryRange;
