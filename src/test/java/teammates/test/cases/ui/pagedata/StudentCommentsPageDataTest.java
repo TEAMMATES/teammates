@@ -193,6 +193,8 @@ public class StudentCommentsPageDataTest extends BaseTestCase{
         checkFeedbackResponseCommentRowsEqual(expectedFeedbackResponseCommentRow, actualFeedbackResponseCommentRow);
     }
     
+    /** The two methods below check if the data structures are equal 
+     *  Only asserts the attributes that are used in the comment tag in StudentComments page*/
     private static void checkCommentRowsEqual(Comment expected, Comment actual) {
         assertEquals(expected.getCreatedAt(), actual.getCreatedAt());
         assertEquals(expected.getEditedAt(), actual.getEditedAt());
@@ -200,37 +202,9 @@ public class StudentCommentsPageDataTest extends BaseTestCase{
         assertEquals(expected.getRecipientDisplay(), actual.getRecipientDisplay());
         assertEquals(expected.getExtraClass(), actual.getExtraClass());
         assertEquals(expected.isWithVisibilityIcon(), actual.isWithVisibilityIcon());
-        assertEquals(expected.getWhoCanSeeComment(), actual.getWhoCanSeeComment());
         assertEquals(expected.isWithNotificationIcon(), actual.isWithNotificationIcon());
         assertEquals(expected.isWithLinkToCommentsPage(), actual.isWithLinkToCommentsPage());
-        assertEquals(expected.getLinkToCommentsPage(), actual.getLinkToCommentsPage());
         assertEquals(expected.isEditDeleteEnabled(), actual.isEditDeleteEnabled());
-        assertEquals(expected.isEditDeleteEnabledOnlyOnHover(), actual.isEditDeleteEnabledOnlyOnHover());
-        assertEquals(expected.isFromCommentsPage(), actual.isFromCommentsPage());
-        assertEquals(expected.getNumComments(), actual.getNumComments());
-        assertEquals(expected.getCommentId(), actual.getCommentId());
-        assertEquals(expected.getCourseId(), actual.getCourseId());
-        assertEquals(expected.isCommentForPerson(), actual.isCommentForPerson());
-        assertEquals(expected.isCommentForTeam(), actual.isCommentForTeam());
-        assertEquals(expected.isCommentForSection(), actual.isCommentForSection());
-        assertEquals(expected.isCommentForCourse(), actual.isCommentForCourse());
-        assertEquals(expected.getShowCommentToString(), actual.getShowCommentToString());
-        assertEquals(expected.getShowGiverNameToString(), actual.getShowGiverNameToString());
-        assertEquals(expected.getShowRecipientNameToString(), actual.getShowRecipientNameToString());
-        assertEquals(expected.isShowCommentToRecipient(), actual.isShowCommentToRecipient());
-        assertEquals(expected.isShowGiverNameToRecipient(), actual.isShowGiverNameToRecipient());
-        assertEquals(expected.isShowCommentToRecipientTeam(), actual.isShowCommentToRecipientTeam());
-        assertEquals(expected.isShowGiverNameToRecipientTeam(), actual.isShowGiverNameToRecipientTeam());
-        assertEquals(expected.isShowRecipientNameToRecipientTeam(), actual.isShowRecipientNameToRecipientTeam());
-        assertEquals(expected.isShowCommentToRecipientSection(), actual.isShowCommentToRecipientSection());
-        assertEquals(expected.isShowGiverNameToRecipientSection(), actual.isShowGiverNameToRecipientSection());
-        assertEquals(expected.isShowRecipientNameToRecipientSection(), actual.isShowRecipientNameToRecipientSection());
-        assertEquals(expected.isShowCommentToCourse(), actual.isShowCommentToCourse());
-        assertEquals(expected.isShowGiverNameToCourse(), actual.isShowGiverNameToCourse());
-        assertEquals(expected.isShowRecipientNameToCourse(), actual.isShowRecipientNameToCourse());
-        assertEquals(expected.isShowCommentToInstructors(), actual.isShowCommentToInstructors());
-        assertEquals(expected.isShowGiverNameToInstructors(), actual.isShowGiverNameToInstructors());
-        assertEquals(expected.isShowRecipientNameToInstructors(), actual.isShowRecipientNameToInstructors());
     }
     
     private static void checkFeedbackResponseCommentRowsEqual(
@@ -241,37 +215,10 @@ public class StudentCommentsPageDataTest extends BaseTestCase{
         assertEquals(expected.getCreatedAt(), actual.getCreatedAt());
         assertEquals(expected.getEditedAt(), actual.getEditedAt());
         assertEquals(expected.getCommentText(), actual.getCommentText());
-        assertEquals(expected.getLinkToCommentsPage(), actual.getLinkToCommentsPage());
-        assertEquals(expected.getFeedbackResponseId(), actual.getFeedbackResponseId());
-        assertEquals(expected.getCourseId(), actual.getCourseId());
-        assertEquals(expected.getFeedbackSessionName(), actual.getFeedbackSessionName());
-        assertEquals(expected.getResponseGiverName(), actual.getResponseGiverName());
-        assertEquals(expected.getResponseRecipientName(), actual.getResponseRecipientName());
-        assertEquals(expected.getShowCommentToString(), actual.getShowCommentToString());
-        assertEquals(expected.getShowGiverNameToString(), actual.getShowGiverNameToString());
         assertEquals(expected.isWithVisibilityIcon(), actual.isWithVisibilityIcon());
         assertEquals(expected.isWithNotificationIcon(), actual.isWithNotificationIcon());
         assertEquals(expected.isWithLinkToCommentsPage(), actual.isWithLinkToCommentsPage());
         assertEquals(expected.isEditDeleteEnabled(), actual.isEditDeleteEnabled());
-        assertEquals(expected.isEditDeleteEnabledOnlyOnHover(), actual.isEditDeleteEnabledOnlyOnHover());
-        assertEquals(expected.isInstructorAllowedToDelete(), actual.isInstructorAllowedToDelete());
-        assertEquals(expected.isInstructorAllowedToEdit(), actual.isInstructorAllowedToEdit());
-        assertEquals(expected.isResponseVisibleToRecipient(), actual.isResponseVisibleToRecipient());
-        assertEquals(expected.isResponseVisibleToGiverTeam(), actual.isResponseVisibleToGiverTeam());
-        assertEquals(expected.isResponseVisibleToRecipientTeam(), actual.isResponseVisibleToRecipientTeam());
-        assertEquals(expected.isResponseVisibleToStudents(), actual.isResponseVisibleToStudents());
-        assertEquals(expected.isResponseVisibleToInstructors(), actual.isResponseVisibleToInstructors());
-        assertEquals(expected.isShowCommentToResponseGiver(), actual.isShowCommentToResponseGiver());
-        assertEquals(expected.isShowCommentToResponseRecipient(), actual.isShowCommentToResponseRecipient());
-        assertEquals(expected.isShowCommentToResponseGiverTeam(), actual.isShowCommentToResponseGiverTeam());
-        assertEquals(expected.isShowCommentToResponseRecipientTeam(), actual.isShowCommentToResponseRecipientTeam());
-        assertEquals(expected.isShowCommentToStudents(), actual.isShowCommentToStudents());
-        assertEquals(expected.isShowCommentToInstructors(), actual.isShowCommentToInstructors());
-        assertEquals(expected.isShowGiverNameToResponseGiver(), actual.isShowGiverNameToResponseGiver());
-        assertEquals(expected.isShowGiverNameToResponseRecipient(), actual.isShowGiverNameToResponseRecipient());
-        assertEquals(expected.isShowGiverNameToResponseGiverTeam(), actual.isShowGiverNameToResponseGiverTeam());
-        assertEquals(expected.isShowGiverNameToResponseRecipientTeam(), actual.isShowGiverNameToResponseRecipientTeam());
-        assertEquals(expected.isShowGiverNameToStudents(), actual.isShowGiverNameToStudents());
-        assertEquals(expected.isShowGiverNameToInstructors(), actual.isShowGiverNameToInstructors());
+        
     }
 }
