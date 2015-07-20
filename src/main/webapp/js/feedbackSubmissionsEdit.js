@@ -14,6 +14,7 @@ $(document).ready(function() {
         validationStatus &= validateAllAnswersHaveRecipient();
         
         updateMcqOtherOptionField();
+        updateMsqOtherOptionField();
         
         if (!validationStatus) {
             return false;
