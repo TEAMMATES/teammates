@@ -17,6 +17,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.logic.api.GateKeeper;
+import teammates.ui.template.InstructorFeedbackResponseComment;
 
 public class InstructorFeedbackResponseCommentsLoadAction extends Action {
 
@@ -54,6 +55,8 @@ public class InstructorFeedbackResponseCommentsLoadAction extends Action {
         data.feedbackSessionIndex = fsindex;
         data.numberOfPendingComments = logic.getCommentsForSendingState(courseId, CommentSendingState.PENDING).size() 
                 + logic.getFeedbackResponseCommentsForSendingState(courseId, CommentSendingState.PENDING).size();
+        data.setInstructorFeedbackResponseComment(new InstructorFeedbackResponseComment(
+                data.feedbackResultBundles, data.currentInstructor, data.instructorEmail, data));
         return createShowPageResult(Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESPONSE_COMMENTS_LOAD, data);
     }
 

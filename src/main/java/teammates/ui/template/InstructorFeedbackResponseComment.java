@@ -19,10 +19,10 @@ import teammates.ui.template.FeedbackResponseComment;
 public class InstructorFeedbackResponseComment {
     private InstructorFeedbackResponseCommentsLoadPageData ifrclpd;
     private Map<String, FeedbackSessionResultsBundle> feedbackResultBundles;
-    private Map<FeedbackResponseAttributes, String> giverNames;
-    private Map<FeedbackResponseAttributes, String> recipientNames;
     private Map<String, List<FeedbackResponseComment>> feedbackResponseCommentsLists;
     private Map<FeedbackQuestionDetails, String> responseEntryAnswerHtmls;
+    private Map<FeedbackResponseAttributes, String> giverNames;
+    private Map<FeedbackResponseAttributes, String> recipientNames;
     private Map<FeedbackQuestionAttributes, String> showResponseCommentToStrings;
     private Map<FeedbackQuestionAttributes, String> showResponseGiverNameToStrings;
     private Map<FeedbackQuestionAttributes, Boolean> responseVisibleToGiver;
@@ -48,6 +48,7 @@ public class InstructorFeedbackResponseComment {
         this.responseEntryAnswerHtmls = new HashMap<FeedbackQuestionDetails, String>();
         this.showResponseCommentToStrings = new HashMap<FeedbackQuestionAttributes, String>();
         this.showResponseGiverNameToStrings = new HashMap<FeedbackQuestionAttributes, String>();
+        this.responseVisibleToGiver = new HashMap<FeedbackQuestionAttributes, Boolean>();
         this.responseVisibleToRecipient = new HashMap<FeedbackQuestionAttributes, Boolean>();
         this.responseVisibleToGiverTeam = new HashMap<FeedbackQuestionAttributes, Boolean>();
         this.responseVisibleToRecipientTeam = new HashMap<FeedbackQuestionAttributes, Boolean>();
@@ -63,8 +64,8 @@ public class InstructorFeedbackResponseComment {
     // Initializes instructorAllowedToSubmit
     // Initializes feedbackResponseCommentsLists
     private void initializeValues() {
-        for (String bundleKey : feedbackResultBundles.keySet()) {
-            FeedbackSessionResultsBundle bundle = feedbackResultBundles.get(bundleKey);
+        for (Map.Entry<String, FeedbackSessionResultsBundle> bundles : feedbackResultBundles.entrySet()) {
+            FeedbackSessionResultsBundle bundle = bundles.getValue();
 
             for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries 
                  : bundle.getQuestionResponseMap().entrySet()) {
