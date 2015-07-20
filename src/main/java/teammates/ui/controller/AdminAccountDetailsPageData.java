@@ -10,17 +10,12 @@ import teammates.common.util.Url;
 
 public class AdminAccountDetailsPageData extends PageData {
     
-    private AccountAttributes accountInformation;
-    private List<CourseDetailsBundle> instructorCourseList;
-    private List<CourseAttributes> studentCourseList;
+    public AccountAttributes accountInformation;
+    public List<CourseDetailsBundle> instructorCourseList;
+    public List<CourseAttributes> studentCourseList;
 
-    public AdminAccountDetailsPageData(AccountAttributes account, AccountAttributes accountInformation, 
-                                       List<CourseDetailsBundle> instructorCourseList, 
-                                       List<CourseAttributes> studentCourseList) {
+    public AdminAccountDetailsPageData(AccountAttributes account) {
         super(account);
-        this.accountInformation = accountInformation;
-        this.instructorCourseList = instructorCourseList;
-        this.studentCourseList = studentCourseList;
     }
     
     public String getAdminDeleteInstructorFromCourseLink(String instructorId, String courseId){
@@ -36,16 +31,5 @@ public class AdminAccountDetailsPageData extends PageData {
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
         return link;
     }
-    
-    public AccountAttributes getAccountInformation() {
-        return accountInformation;
-    }
-    
-    public List<CourseDetailsBundle> getInstructorCourseList() {
-        return instructorCourseList;
-    }
-    
-    public List<CourseAttributes> getStudentCourseList() {
-        return studentCourseList;
-    }
+
 }

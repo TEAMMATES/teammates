@@ -1,103 +1,31 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ tag description="Generic Admin Page" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
+<%@ taglib tagdir="/WEB-INF/tags/admin" prefix="ta" %>
+<%@ taglib tagdir="/WEB-INF/tags/admin/accounts" prefix="accounts" %>
 
-<%@ page import="teammates.common.util.Const"%>
-<%@ page import="teammates.common.datatransfer.CourseAttributes"%>
-<%@ page import="teammates.common.datatransfer.CourseDetailsBundle"%>
-<%@ page import="teammates.ui.controller.AdminAccountDetailsPageData"%>
-
-<%
-    AdminAccountDetailsPageData data = (AdminAccountDetailsPageData) request
-            .getAttribute("data");
-%>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>TEAMMATES - Administrator Account Details</title>
-
-    <link rel="shortcut icon" href="/favicon.png">
-
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
-    <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"/>
-    <link type="text/css" href="/stylesheets/teammatesCommon.css" rel="stylesheet"/>
-	
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <script type="text/javascript" src="/js/googleAnalytics.js"></script>
-    <script type="text/javascript" src="<%= data.getjQueryFilePath() %>"></script>
-    <script type="text/javascript" src="<%= data.getjQueryUiFilePath() %>"></script>
-    <script type="text/javascript" src="/js/common.js"></script>
-    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
-
-    <jsp:include page="../enableJS.jsp"></jsp:include>
-	
-	<link rel="stylesheet" href="/stylesheets/adminAccountDetails.css" type="text/css">
-
+<c:set var="jsIncludes">
+    <link rel="stylesheet" href="/stylesheets/adminAccountDetails.css" type="text/css">
     <script type="text/javascript" src="/js/administrator.js"></script>
-</head>
+</c:set>
 
-<body>
+<ta:adminPage pageTitle="TEAMMATES - Administrator Account Details" bodyTitle="Instructor Account Details"
+              bodyOnload="" jsIncludes="${jsIncludes}">
+    <accounts:instructorAccountDetailsPanel accountInformation="${data.accountInformation}"/>
+    <t:statusMessage />
 
-    <jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
-    <div class="container" id="mainContent">
-                <div id="topOfPage"></div>
-                <h1>Instructor Account Details</h1>
-                <br>
+    <div class="page-header">
+        <h2>
+            Instructor For <small class="courseCount rightalign bold">${fn:length(data.instructorCourseList)} Courses</small>
+        </h2>
+    </div>
 
-                <div class="well well-plain">
-                    <form class="form-horizontal" role="form">
-                        <div class="panel-heading">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Google
-                                    ID:</label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static"><%=data.accountInformation.googleId%></p>
-                                </div>
+    <
+</ta:adminPage>
 
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Name:</label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static"><%=data.accountInformation.name%></p>
-                                </div>
-
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Email:</label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static"><%=data.accountInformation.email%></p>
-                                </div>
-
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Institute:</label>
-                                <div class="col-sm-10">
-                                    <p class="form-control-static"><%=data.accountInformation.institute%></p>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </form>
-                </div>
-
-                <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-
-                <div class="page-header">
-                    <h2>
-                        Instructor For <small
-                            class="courseCount rightalign bold">
-                            <%=data.instructorCourseList != null ? data.instructorCourseList
-                    .size() : 0%> Courses
-                        </small>
-                    </h2>
-                </div>
+                
 
                 <%
                     if (data.instructorCourseList != null
