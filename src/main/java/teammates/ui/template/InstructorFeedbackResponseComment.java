@@ -23,6 +23,8 @@ public class InstructorFeedbackResponseComment {
     private Map<FeedbackResponseAttributes, String> recipientNames;
     private Map<String, List<FeedbackResponseComment>> feedbackResponseCommentsLists;
     private Map<FeedbackQuestionDetails, String> responseEntryAnswerHtmls;
+    private Map<FeedbackQuestionAttributes, String> showCommentToStrings;
+    private Map<FeedbackQuestionAttributes, String> showGiverNameToStrings;
     private Map<FeedbackQuestionAttributes, Boolean> responseVisibleToGiver;
     private Map<FeedbackQuestionAttributes, Boolean> responseVisibleToRecipient;
     private Map<FeedbackQuestionAttributes, Boolean> responseVisibleToGiverTeam;
@@ -32,8 +34,6 @@ public class InstructorFeedbackResponseComment {
     private boolean instructorAllowedToSubmit;
     private InstructorAttributes currentInstructor;
     private String instructorEmail;
-    private String showCommentToString;
-    private String showGiverNameToString;
 
     public InstructorFeedbackResponseComment(Map<String, FeedbackSessionResultsBundle> feedbackResultBundles,
                                              InstructorAttributes currentInstructor, String instructorEmail,
@@ -44,6 +44,8 @@ public class InstructorFeedbackResponseComment {
         this.recipientNames = new HashMap<FeedbackResponseAttributes, String>();
         this.feedbackResponseCommentsLists = new HashMap<String, List<FeedbackResponseComment>>();
         this.responseEntryAnswerHtmls = new HashMap<FeedbackQuestionDetails, String>();
+        this.showCommentToStrings = new HashMap<FeedbackQuestionAttributes, String>();
+        this.showGiverNameToStrings = new HashMap<FeedbackQuestionAttributes, String>();
         this.responseVisibleToRecipient = new HashMap<FeedbackQuestionAttributes, Boolean>();
         this.responseVisibleToGiverTeam = new HashMap<FeedbackQuestionAttributes, Boolean>();
         this.responseVisibleToRecipientTeam = new HashMap<FeedbackQuestionAttributes, Boolean>();
@@ -126,8 +128,11 @@ public class InstructorFeedbackResponseComment {
                         List<FeedbackParticipantType> showCommentTo = frca.showCommentTo;
                         List<FeedbackParticipantType> showGiverNameTo = frca.showGiverNameTo;
 
-                        showCommentToString = joinParticipantTypes(showCommentTo, ",");
-                        showGiverNameToString = joinParticipantTypes(showGiverNameTo, ",");
+                        String showCommentToString = joinParticipantTypes(showCommentTo, ",");
+                        String showGiverNameToString = joinParticipantTypes(showGiverNameTo, ",");
+
+                        showCommentToStrings.put(question, showCommentToString);
+                        showCommentToStrings.put(question, showGiverNameToString);
 
                         boolean isResponseVisibleToGiver =
                             question.isResponseVisibleTo(FeedbackParticipantType.GIVER);
@@ -200,12 +205,12 @@ public class InstructorFeedbackResponseComment {
         return feedbackResponseCommentsLists;
     }
 
-    public String getShowCommentToString() {
-        return showCommentToString;
+    public Map<FeedbackQuestionAttributes, String> getShowCommentToStrings() {
+        return showCommentToStrings;
     }
 
-    public String getShowGiverNameToString() {
-        return showGiverNameToString;
+    public Map<FeedbackQuestionAttributes, String> getShowGiverNameToStrings() {
+        return showGiverNameToStrings;
     }
 
     public Map<FeedbackQuestionAttributes, Boolean> getResponseVisibleToGiver() {
