@@ -34,8 +34,8 @@
 				    <table class="table">
                         <tbody>
                             <c:forEach var="responseEntry" items="${responseEntries.value}" varStatus="responseEntryStatus">
-                                <c:set var="giverName" value="${ifrc.giverNames[responseEntry.giverEmail]}"/>
-                                <c:set var="recipientName" value="${ifrc.recipientNames[responseEntry.recipientEmail]}"/>
+                                <c:set var="giverName" value="${ifrc.giverNames[responseEntry]}"/>
+                                <c:set var="recipientName" value="${ifrc.recipientNames[responseEntry]}"/>
 	                            <tr>
 	                                <td><b>From:</b> ${giverName} <b>To:</b> ${recipientName}</td>
 	                            </tr>
@@ -68,6 +68,7 @@
 	                                                                            thirdIndex="${responseEntryStatus.count}"
 	                                                                            frcIndex="${frcStatus.count}" />
                                             </c:forEach>
+                                            <!-- Find a way to reuse the shared tag for this similar portion -->
 					                        <li class="list-group-item list-group-item-warning"
 					                            id="showResponseCommentAddForm-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}"
 					                            style="display: none;">
@@ -127,7 +128,7 @@
 					                                                              <c:if test="${ifrc.showGiverNameToResponseGiver}">checked="checked"</c:if>>
 					                                                    </td>
 					                                                </tr>
-					                                                <c:if test="${ifrc.responseVisibleToRecipient}">
+					                                                <c:if test="${ifrc.responseVisibleToRecipient[question]}">
 						                                                <tr id="response-recipient-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}">
 						                                                    <td class="text-left">
 						                                                        <div data-toggle="tooltip"
@@ -143,17 +144,17 @@
                                                                                        name="receiverLeaderCheckbox"
                                                                                        type="checkbox"
                                                                                        value="<%= FeedbackParticipantType.RECEIVER %>"
-                                                                                       <c:if test="${ifrc.showCommentToResponseRecipient}">checked="checked"</c:if>>
+                                                                                       <c:if test="${ifrc.responseVisibleToRecipient[question]}">checked="checked"</c:if>>
 						                                                    </td>
 						                                                    <td>
                                                                                 <input class="visibilityCheckbox giverCheckbox"
                                                                                        type="checkbox"
                                                                                        value="<%= FeedbackParticipantType.RECEIVER %>"
-                                                                                       <c:if test="${ifrc.showGiverNameToResponseRecipient}">checked="checked"</c:if>>
+                                                                                       <c:if test="${ifrc.responseVisibleToRecipient[question]}">checked="checked"</c:if>>
 						                                                    </td>
 						                                                </tr>
 					                                                </c:if>
-                                                                    <c:if test="${ifrc.responseVisibleToGiverTeam}">
+                                                                    <c:if test="${ifrc.responseVisibleToGiverTeam[question]}">
 						                                                <tr id="response-giver-team-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}">
 						                                                    <td class="text-left">
 						                                                        <div data-toggle="tooltip"
@@ -169,17 +170,17 @@
                                                                                 <input class="visibilityCheckbox answerCheckbox"
                                                                                        type="checkbox"
                                                                                        value="<%= FeedbackParticipantType.OWN_TEAM_MEMBERS %>"
-                                                                                       <c:if test="${ifrc.showCommentToResponseGiverTeam}">checked="checked"</c:if>>
+                                                                                       <c:if test="${ifrc.responseVisibleToGiverTeam[question]}">checked="checked"</c:if>>
 						                                                    </td>
 						                                                    <td>
                                                                                 <input class="visibilityCheckbox giverCheckbox"
                                                                                        type="checkbox"
                                                                                        value="<%= FeedbackParticipantType.OWN_TEAM_MEMBERS %>"
-                                                                                       <c:if test="${ifrc.showGiverNameToResponseGiverTeam}">checked="checked"</c:if>>
+                                                                                       <c:if test="${ifrc.responseVisibleToGiverTeam[question]}">checked="checked"</c:if>>
 						                                                    </td>
 						                                                </tr>
 						                                            </c:if>
-                                                                    <c:if test="${ifrc.responseVisibleToRecipientTeam}">
+                                                                    <c:if test="${ifrc.responseVisibleToRecipientTeam[question]}">
 						                                                <tr id="response-recipient-team-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}">
 						                                                    <td class="text-left">
 						                                                        <div data-toggle="tooltip"
@@ -195,17 +196,17 @@
                                                                                 <input class="visibilityCheckbox answerCheckbox"
                                                                                        type="checkbox"
                                                                                        value="<%= FeedbackParticipantType.RECEIVER_TEAM_MEMBERS %>"
-                                                                                       <c:if test="${ifrc.showCommentToResponseRecipientTeam}">checked="checked"</c:if>>
+                                                                                       <c:if test="${ifrc.responseVisibleToRecipientTeam[question]}">checked="checked"</c:if>>
 						                                                    </td>
 						                                                    <td>
                                                                                 <input class="visibilityCheckbox giverCheckbox"
                                                                                        type="checkbox"
                                                                                        value="<%= FeedbackParticipantType.RECEIVER_TEAM_MEMBERS %>"
-                                                                                       <c:if test="${ifrc.showGiverNameToResponseRecipientTeam}">checked="checked"</c:if>>
+                                                                                       <c:if test="${ifrc.responseVisibleToRecipientTeam[question]}">checked="checked"</c:if>>
 						                                                    </td>
 						                                                </tr>
                                                                     </c:if>
-                                                                    <c:if test="${ifrc.responseVisibleToStudents}">
+                                                                    <c:if test="${ifrc.responseVisibleToStudents[question]}">
 						                                                <tr id="response-students-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}">
 						                                                    <td class="text-left">
 						                                                        <div data-toggle="tooltip"
@@ -221,17 +222,17 @@
                                                                                 <input class="visibilityCheckbox answerCheckbox"
                                                                                        type="checkbox"
                                                                                        value="<%= FeedbackParticipantType.STUDENTS %>"
-                                                                                       <c:if test="${ifrc.showCommentToStudents}">checked="checked"</c:if>>
+                                                                                       <c:if test="${ifrc.responseVisibleToStudents[question]}">checked="checked"</c:if>>
 						                                                    </td>
 						                                                    <td>
                                                                                 <input class="visibilityCheckbox giverCheckbox"
                                                                                        type="checkbox"
                                                                                        value="<%= FeedbackParticipantType.STUDENTS %>"
-                                                                                       <c:if test="${ifrc.showGiverNameToStudents}">checked="checked"</c:if>>
+                                                                                       <c:if test="${ifrc.responseVisibleToStudents[question]}">checked="checked"</c:if>>
 						                                                    </td>
 						                                                </tr>
 					                                                </c:if>
-                                                                    <c:if test="${ifrc.responseVisibleToInstructors}">
+                                                                    <c:if test="${ifrc.responseVisibleToInstructors[question]}">
 						                                                <tr id="response-instructors-${fsrbStatus.index}-${responseEntriesStatus.count}-${responseEntryStatus.count}">
 						                                                    <td class="text-left">
 						                                                        <div data-toggle="tooltip"
@@ -245,13 +246,13 @@
                                                                                 <input class="visibilityCheckbox answerCheckbox"
                                                                                        type="checkbox"
                                                                                        value="<%= FeedbackParticipantType.INSTRUCTORS %>"
-                                                                                       <c:if test="${ifrc.showCommentToInstructors}">checked="checked"</c:if>>
+                                                                                       <c:if test="${ifrc.responseVisibleToInstructors[question]}">checked="checked"</c:if>>
 						                                                    </td>
 						                                                    <td>
                                                                                 <input class="visibilityCheckbox giverCheckbox"
                                                                                        type="checkbox"
                                                                                        value="<%= FeedbackParticipantType.INSTRUCTORS %>"
-                                                                                       <c:if test="${ifrc.showGiverNameToInstructors}">checked="checked"</c:if>>
+                                                                                       <c:if test="${ifrc.responseVisibleToInstructors[question]}">checked="checked"</c:if>>
 						                                                    </td>
 						                                                </tr>
 						                                            </c:if>

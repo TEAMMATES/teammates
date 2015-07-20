@@ -19,17 +19,18 @@ import teammates.ui.template.FeedbackResponseComment;
 public class InstructorFeedbackResponseComment {
     private InstructorFeedbackResponseCommentsLoadPageData ifrclpd;
     private Map<String, FeedbackSessionResultsBundle> feedbackResultBundles;
-    private Map<String, String> giverNames;
-    private Map<String, String> recipientNames;
+    private Map<FeedbackResponseAttributes, String> giverNames;
+    private Map<FeedbackResponseAttributes, String> recipientNames;
     private Map<String, List<FeedbackResponseComment>> feedbackResponseCommentsLists;
     private Map<FeedbackQuestionDetails, String> responseEntryAnswerHtmls;
-    private InstructorAttributes currentInstructor;
+    private Map<FeedbackQuestionAttributes, Boolean> responseVisibleToGiver;
+    private Map<FeedbackQuestionAttributes, Boolean> responseVisibleToRecipient;
+    private Map<FeedbackQuestionAttributes, Boolean> responseVisibleToGiverTeam;
+    private Map<FeedbackQuestionAttributes, Boolean> responseVisibleToRecipientTeam;
+    private Map<FeedbackQuestionAttributes, Boolean> responseVisibleToStudents;
+    private Map<FeedbackQuestionAttributes, Boolean> responseVisibleToInstructors;
     private boolean instructorAllowedToSubmit;
-    private boolean responseVisibleToRecipient;
-    private boolean responseVisibleToGiverTeam;
-    private boolean responseVisibleToRecipientTeam;
-    private boolean responseVisibleToStudents;
-    private boolean responseVisibleToInstructors;
+    private InstructorAttributes currentInstructor;
     private String instructorEmail;
     private String showCommentToString;
     private String showGiverNameToString;
@@ -41,10 +42,15 @@ public class InstructorFeedbackResponseComment {
                                              InstructorFeedbackResponseCommentsLoadPageData ifrclpd) {
         this.feedbackResultBundles = feedbackResultBundles;
         this.currentInstructor = currentInstructor;
-        this.giverNames = new HashMap<String, String>();
-        this.recipientNames = new HashMap<String, String>();
+        this.giverNames = new HashMap<FeedbackResponseAttributes, String>();
+        this.recipientNames = new HashMap<FeedbackResponseAttributes, String>();
         this.feedbackResponseCommentsLists = new HashMap<String, List<FeedbackResponseComment>>();
         this.responseEntryAnswerHtmls = new HashMap<FeedbackQuestionDetails, String>();
+        this.responseVisibleToRecipient = new HashMap<FeedbackQuestionAttributes, Boolean>();
+        this.responseVisibleToGiverTeam = new HashMap<FeedbackQuestionAttributes, Boolean>();
+        this.responseVisibleToRecipientTeam = new HashMap<FeedbackQuestionAttributes, Boolean>();
+        this.responseVisibleToStudents = new HashMap<FeedbackQuestionAttributes, Boolean>();
+        this.responseVisibleToInstructors = new HashMap<FeedbackQuestionAttributes, Boolean>();
         this.instructorEmail = instructorEmail;
         this.ifrclpd = ifrclpd;
 
@@ -59,30 +65,26 @@ public class InstructorFeedbackResponseComment {
     private void initializeValues() {
         for (String bundleKey : feedbackResultBundles.keySet()) {
             FeedbackSessionResultsBundle bundle = feedbackResultBundles.get(bundleKey);
-            Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntriesMap = 
-                bundle.getQuestionResponseMap();
 
-            for (FeedbackQuestionAttributes attributeKey : responseEntriesMap.keySet()) {
-                List<FeedbackResponseAttributes> responseEntries = responseEntriesMap.get(attributeKey);
-                FeedbackQuestionAttributes question = bundle.questions.get(attributeKey.getId());
+            for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responseEntries 
+                 : bundle.getQuestionResponseMap().entrySet()) {
+                FeedbackQuestionAttributes question = bundle.questions.get(responseEntries.getKey().getId());
                 FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
 
-                for (FeedbackResponseAttributes responseEntry : responseEntries) {
+                for (FeedbackResponseAttributes responseEntry : responseEntries.getValue()) {
                     // giverNames and recipientNames are initialized here
-                    String giverEmail = responseEntry.giverEmail;
-                    String giverName = bundle.emailNameTable.get(giverEmail);
-                    String giverTeamName = bundle.emailTeamNameTable.get(giverEmail);
+                    String giverName = bundle.getGiverNameForResponse(responseEntry);
+                    String giverTeamName = bundle.getTeamNameForEmail(responseEntry.giverEmail);
 
-                    String recipientEmail = responseEntry.recipientEmail;
-                    String recipientName = bundle.emailNameTable.get(recipientEmail);
-                    String recipientTeamName = bundle.emailTeamNameTable.get(recipientEmail);
+                    String recipientName = bundle.getRecipientNameForResponse(responseEntry);
+                    String recipientTeamName = bundle.getTeamNameForEmail(responseEntry.recipientEmail);
 
                     String appendedGiverName = bundle.appendTeamNameToName(giverName, giverTeamName);
                     String appendedRecipientName = bundle.appendTeamNameToName(
                             recipientName, recipientTeamName);
 
-                    giverNames.put(giverEmail, appendedGiverName);
-                    recipientNames.put(recipientEmail, appendedRecipientName);
+                    giverNames.put(responseEntry, appendedGiverName);
+                    recipientNames.put(responseEntry, appendedRecipientName);
 
                     // responseEntryAnswerHtml is initialized here
                     String responseEntryAnswerHtml = 
@@ -104,11 +106,9 @@ public class InstructorFeedbackResponseComment {
                     }
 
                     // feedbackResponseCommentsLists is initialized here
-                    Map<String, List<FeedbackResponseCommentAttributes>> responseComments =
-                        bundle.getResponseComments();
 
                     List<FeedbackResponseCommentAttributes> feedbackResponseCommentsList =
-                        responseComments.get(responseEntry.getId());
+                            bundle.responseComments.get(responseEntry.getId());
 
                     List<FeedbackResponseComment> frcList = new ArrayList<FeedbackResponseComment>();
 
@@ -126,41 +126,44 @@ public class InstructorFeedbackResponseComment {
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
 
                         showCommentTo = frca.showCommentTo;
-                        if (showCommentTo == null) {
-                            showCommentTo = new ArrayList<FeedbackParticipantType>();
-                        }
                         showGiverNameTo = frca.showGiverNameTo;
-                        if (showGiverNameTo == null) {
-                            showGiverNameTo = new ArrayList<FeedbackParticipantType>();
-                        }
 
                         showCommentToString = joinParticipantTypes(showCommentTo, ",");
                         showGiverNameToString = joinParticipantTypes(showGiverNameTo, ",");
 
-                        responseVisibleToRecipient =
+                        boolean isResponseVisibleToGiver =
+                            question.isResponseVisibleTo(FeedbackParticipantType.GIVER);
+                        boolean isResponseVisibleToRecipient =
                             question.recipientType != FeedbackParticipantType.SELF
                             && question.recipientType != FeedbackParticipantType.NONE
                             && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER);
-                        responseVisibleToGiverTeam =
+                        boolean isResponseVisibleToGiverTeam =
                             question.giverType != FeedbackParticipantType.INSTRUCTORS
                             && question.giverType != FeedbackParticipantType.SELF
                             && question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS);
-                        responseVisibleToRecipientTeam =
+                        boolean isResponseVisibleToRecipientTeam =
                             question.recipientType != FeedbackParticipantType.INSTRUCTORS
                             && question.recipientType != FeedbackParticipantType.SELF
                             && question.recipientType != FeedbackParticipantType.NONE
                             && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-                        responseVisibleToStudents =
+                        boolean isResponseVisibleToStudents =
                             question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS);
-                        responseVisibleToInstructors =
+                        boolean isResponseVisibleToInstructors =
                             question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS);
+
+                        responseVisibleToGiver.put(question, isResponseVisibleToGiver);
+                        responseVisibleToRecipient.put(question, isResponseVisibleToRecipient);
+                        responseVisibleToGiverTeam.put(question, isResponseVisibleToGiverTeam);
+                        responseVisibleToRecipientTeam.put(question, isResponseVisibleToRecipientTeam);
+                        responseVisibleToStudents.put(question, isResponseVisibleToStudents);
+                        responseVisibleToInstructors.put(question, isResponseVisibleToInstructors);
 
                         FeedbackResponseComment frc = new FeedbackResponseComment(
                             frca, frca.giverEmail, instructorEmail, bundle.feedbackSession, question,
                             whoCanSeeComment, showCommentToString, showGiverNameToString,
-                            allowedToEditAndDeleteComment, responseVisibleToRecipient,
-                            responseVisibleToGiverTeam, responseVisibleToRecipientTeam,
-                            responseVisibleToStudents, responseVisibleToInstructors);
+                            allowedToEditAndDeleteComment, isResponseVisibleToRecipient,
+                            isResponseVisibleToGiverTeam, isResponseVisibleToRecipientTeam,
+                            isResponseVisibleToStudents, isResponseVisibleToInstructors);
 
                         frcList.add(frc);
                     }
@@ -183,11 +186,11 @@ public class InstructorFeedbackResponseComment {
         }
     }
 
-    public Map<String, String> getGiverNames() {
+    public Map<FeedbackResponseAttributes, String> getGiverNames() {
         return giverNames;
     }
 
-    public Map<String, String> getRecipientNames() {
+    public Map<FeedbackResponseAttributes, String> getRecipientNames() {
         return recipientNames;
     }
 
@@ -203,85 +206,35 @@ public class InstructorFeedbackResponseComment {
         return showCommentToString;
     }
 
+    public Map<FeedbackQuestionAttributes, Boolean> getResponseVisibleToGiver() {
+        return responseVisibleToGiver;
+    }
+
+    public Map<FeedbackQuestionAttributes, Boolean> getResponseVisibleToRecipient() {
+        return responseVisibleToRecipient;
+    }
+
+    public Map<FeedbackQuestionAttributes, Boolean> getResponseVisibleToGiverTeam() {
+        return responseVisibleToGiverTeam;
+    }
+
+    public Map<FeedbackQuestionAttributes, Boolean> getResponseVisibleToRecipientTeam() {
+        return responseVisibleToRecipientTeam;
+    }
+
+    public Map<FeedbackQuestionAttributes, Boolean> getResponseVisibleToStudents() {
+        return responseVisibleToStudents;
+    }
+
+    public Map<FeedbackQuestionAttributes, Boolean> getResponseVisibleToInstructors() {
+        return responseVisibleToInstructors;
+    }
+
     public String getShowGiverNameToString() {
         return showGiverNameToString;
     }
 
     public boolean isInstructorAllowedToSubmit() {
         return instructorAllowedToSubmit;
-    }
-
-    public boolean isResponseVisibleToRecipient() {
-        return responseVisibleToRecipient;
-    }
-
-    public boolean isResponseVisibleToGiverTeam() {
-        return responseVisibleToGiverTeam;
-    }
-
-    public boolean isResponseVisibleToRecipientTeam() {
-        return responseVisibleToRecipientTeam;
-    }
-
-    public boolean isResponseVisibleToStudents() {
-        return responseVisibleToStudents;
-    }
-
-    public boolean isResponseVisibleToInstructors() {
-        return responseVisibleToInstructors;
-    }
-
-    public boolean isShowCommentToResponseGiver() {
-        if (showCommentTo == null) {
-            showCommentTo = new ArrayList<FeedbackParticipantType>();
-        }
-        return showCommentTo.contains(FeedbackParticipantType.GIVER);
-    }
-
-    public boolean isShowGiverNameToResponseGiver() {
-        if (showGiverNameTo == null) {
-            showGiverNameTo = new ArrayList<FeedbackParticipantType>();
-        }
-        return showGiverNameTo.contains(FeedbackParticipantType.GIVER);
-    }
-
-    public boolean isShowCommentToResponseRecipient() {
-        return showCommentTo.contains(FeedbackParticipantType.RECEIVER);
-    }
-
-    public boolean isShowGiverNameToResponseRecipient() {
-        return showGiverNameTo.contains(FeedbackParticipantType.RECEIVER);
-    }
-
-    public boolean isShowCommentToResponseGiverTeam() {
-        return showCommentTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS);
-    }
-
-    public boolean isShowGiverNameToResponseGiverTeam() {
-        return showGiverNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS);
-    }
-
-    public boolean isShowCommentToResponseRecipientTeam() {
-        return showCommentTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-    }
-
-    public boolean isShowGiverNameToResponseRecipientTeam() {
-        return showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-    }
-
-    public boolean isShowCommentToStudents() {
-        return showCommentTo.contains(FeedbackParticipantType.STUDENTS);
-    }
-
-    public boolean isShowGiverNameToStudents() {
-        return showGiverNameTo.contains(FeedbackParticipantType.STUDENTS);
-    }
-
-    public boolean isShowCommentToInstructors() {
-        return showCommentTo.contains(FeedbackParticipantType.INSTRUCTORS);
-    }
-
-    public boolean isShowGiverNameToInstructors() {
-        return showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
     }
 }
