@@ -2,6 +2,7 @@ package teammates.common.datatransfer;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -42,7 +43,12 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             FeedbackQuestionType questionType) {
         int numOfMsqChoices = 0;
         List<String> msqChoices = new LinkedList<String>();
-        boolean msqOtherEnabled = false; // TODO change this when implementing "other, please specify" field
+        boolean msqOtherEnabled = false; 
+        
+        if (HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG) != null
+                && HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG).equals("on")) {
+            msqOtherEnabled = true;
+        }
             
         String generatedMsqOptions = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_GENERATEDOPTIONS);
         if (generatedMsqOptions.equals(FeedbackParticipantType.NONE.toString())) {
