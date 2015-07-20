@@ -293,10 +293,10 @@
 					                                           value="${data.account.googleId}">
 					                                    <input type="hidden"
 					                                           name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWCOMMENTSTO %>"
-					                                           value="${ifrc.showCommentToStrings[question]}">
+					                                           value="${ifrc.showResponseCommentToStrings[question]}">
 					                                    <input type="hidden"
 					                                           name="<%= Const.ParamsNames.RESPONSE_COMMENTS_SHOWGIVERTO %>"
-					                                           value="${ifrc.showGiverNameToStrings[question]}">
+					                                           value="${ifrc.showResponseGiverNameToStrings[question]}">
 					                                </div>
 					                            </form>
 					                        </li>
