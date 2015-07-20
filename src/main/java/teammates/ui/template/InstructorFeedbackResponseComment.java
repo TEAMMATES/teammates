@@ -32,10 +32,6 @@ public class InstructorFeedbackResponseComment {
     private boolean instructorAllowedToSubmit;
     private InstructorAttributes currentInstructor;
     private String instructorEmail;
-    private String showCommentToString;
-    private String showGiverNameToString;
-    private List<FeedbackParticipantType> showCommentTo;
-    private List<FeedbackParticipantType> showGiverNameTo;
 
     public InstructorFeedbackResponseComment(Map<String, FeedbackSessionResultsBundle> feedbackResultBundles,
                                              InstructorAttributes currentInstructor, String instructorEmail,
@@ -125,11 +121,11 @@ public class InstructorFeedbackResponseComment {
                                             responseEntry.recipientSection, responseEntry.feedbackSessionName,
                                             Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
 
-                        showCommentTo = frca.showCommentTo;
-                        showGiverNameTo = frca.showGiverNameTo;
+                        List<FeedbackParticipantType> showCommentTo = frca.showCommentTo;
+                        List<FeedbackParticipantType> showGiverNameTo = frca.showGiverNameTo;
 
-                        showCommentToString = joinParticipantTypes(showCommentTo, ",");
-                        showGiverNameToString = joinParticipantTypes(showGiverNameTo, ",");
+                        String showCommentToString = joinParticipantTypes(showCommentTo, ",");
+                        String showGiverNameToString = joinParticipantTypes(showGiverNameTo, ",");
 
                         boolean isResponseVisibleToGiver =
                             question.isResponseVisibleTo(FeedbackParticipantType.GIVER);

@@ -119,13 +119,13 @@
 					                                                              name="receiverLeaderCheckbox"
 					                                                              type="checkbox"
 					                                                              value="<%= FeedbackParticipantType.GIVER %>"
-					                                                              <c:if test="${ifrc.showCommentToResponseGiver}">checked="checked"</c:if>>
+					                                                              <c:if test="${ifrc.responseVisibleToGiver[question]}">checked="checked"</c:if>>
 					                                                    </td>
 					                                                    <td>
 					                                                       <input class="visibilityCheckbox giverCheckbox"
 					                                                              type="checkbox"
 					                                                              value="<%= FeedbackParticipantType.GIVER %>"
-					                                                              <c:if test="${ifrc.showGiverNameToResponseGiver}">checked="checked"</c:if>>
+					                                                              <c:if test="${ifrc.responseVisibleToGiver[question]}">checked="checked"</c:if>>
 					                                                    </td>
 					                                                </tr>
 					                                                <c:if test="${ifrc.responseVisibleToRecipient[question]}">
