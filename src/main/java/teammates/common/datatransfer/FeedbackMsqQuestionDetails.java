@@ -358,6 +358,13 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                 
                 optionListHtml.append(optionFragment);
             }
+            
+            if (otherEnabled) {
+                String optionFragment = 
+                        FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,"${msqChoiceValue}", "Other");
+                optionListHtml.append(optionFragment);
+            }
+            
             optionListHtml.append("</ul>");
         }
         
