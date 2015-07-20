@@ -17,6 +17,18 @@
             <th class="no-print">Action(s)</th>
         </tr>
     </thead>
+    <c:if test="${empty sessionRows}">
+        <tr>
+            <td>
+                <span class="text-muted">
+                    This course does not have any sessions yet.
+                </span>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </c:if>
     <c:forEach items="${sessionRows}" var="sessionRow" varStatus="i">
         <tr id="session${i.index}">
             <td>
