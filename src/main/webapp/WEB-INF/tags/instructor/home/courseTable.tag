@@ -20,7 +20,7 @@
     <c:if test="${empty sessionRows}">
         <tr>
             <td>
-                <span class="col-md-12 text-muted">
+                <span class="text-muted">
                     This course does not have any sessions yet.
                 </span>
             </td>
