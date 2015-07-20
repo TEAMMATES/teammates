@@ -199,25 +199,68 @@ function prepareMSQQuestions() {
     for (var i = 0; i < msqQuestionNums.length; i++) {
         var qnNum = msqQuestionNums[i];
 
-        var noneOfTheAboveOption = $('input[name^="responsetext-' + qnNum + '"][value=""]');
+        var noneOfTheAboveOption = $('input[name^="responsetext-' + qnNum + '"][value=""]:not([data-text])');
+        var otherOption = $('input[name^="responsetext-' + qnNum + '"][data-text="msqOtherOptionText"]');
+
+        // If 'other' is enabled for the question
+        if (otherOption.length > 0) {
+            // checkbox corresponding to 'other' is clicked
+            otherOption.click(function() {
+                var name = $(this).attr('name');
+                var indexSuffix = name.substring(name.indexOf("-"));
+                updateOtherOptionAttributes($(this), indexSuffix);
+            });
+        }
+        
 
         // reset other options when "none of the above" is clicked
         noneOfTheAboveOption.click(function() {
-            var $options = $(this).closest('table').find('input[name^="responsetext-"][value!=""]');
-
+            var $options = $(this).closest('table').find(
+                           'input[name^="responsetext-"][value!=""], input[name^="responsetext-"][data-text]'); // includes 'other'
+            var name = $(this).attr('name');
+            var indexSuffix = name.substring(name.indexOf("-"));
+            
             $options.each(function() {
                 $(this).prop('checked', false);
+                
+                // 'other' option is clicked
+                if ($(this).attr('data-text') !== undefined) {
+                    updateOtherOptionAttributes($(this), indexSuffix);
+                }
             });
+            
         });
 
         // reset "none of the above" if any option is clicked
-        var $options = $('input[name^="responsetext-' + qnNum + '"][value!=""]');
+        var $options = $('input[name^="responsetext-' + qnNum + '"][value!=""], '
+                        +'input[name^="responsetext-' + qnNum + '"][data-text]'); // includes 'other'
 
         $options.click(function() {
-            var noneOfTheAboveOption = $(this).closest('table').find('input[name^="responsetext-"][value=""]');
+            var noneOfTheAboveOption = $(this).closest('table').find(
+                                           'input[name^="responsetext-"][value=""]:not([data-text])');
+            var name = $(this).attr('name');
+            var indexSuffix = name.substring(name.indexOf("-"));
+            
             noneOfTheAboveOption.prop('checked', false);
+            
+            // 'other' option is clicked
+            if ($(this).attr('data-text') !== undefined) {
+                updateOtherOptionAttributes($(this), indexSuffix);
+            }
         });
 
+    }
+}
+
+function updateOtherOptionAttributes(otherOption, indexSuffix) {   
+    if (otherOption.is(':checked')) {
+        console.log('checked');
+        $('#msqOtherOptionText' + indexSuffix).removeAttr("disabled"); // enable textbox
+        $('#msqIsOtherOptionAnswer' + indexSuffix).val("1");                    
+    } else {
+        console.log('not checked');
+        $('#msqOtherOptionText' + indexSuffix).attr("disabled", "disabled"); // disable textbox
+        $('#msqIsOtherOptionAnswer' + indexSuffix).val("0");
     }
 }
 
