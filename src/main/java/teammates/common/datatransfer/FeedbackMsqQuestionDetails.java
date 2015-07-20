@@ -133,6 +133,8 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         
         StringBuilder optionListHtml = new StringBuilder();
         String optionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM_OPTIONFRAGMENT;
+        Boolean isOtherSelected = existingMsqResponse.isOtherOptionAnswer();
+        
         for(int i = 0; i < choices.size(); i++) {
             String optionFragment = 
                     FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
@@ -144,6 +146,22 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
                             "${msqChoiceValue}",  Sanitizer.sanitizeForHtml(choices.get(i)),
                             "${msqChoiceText}",  Sanitizer.sanitizeForHtml(choices.get(i)));
             optionListHtml.append(optionFragment + Const.EOL);
+        }
+        
+        if (otherEnabled) {
+            String otherOptionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
+            String otherOptionFragment = 
+                    FeedbackQuestionFormTemplates.populateTemplate(otherOptionFragmentTemplate,
+                            "${qnIdx}", Integer.toString(qnIdx),
+                            "${responseIdx}", Integer.toString(responseIdx),
+                            "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
+                            "${text-disabled}", (sessionIsOpen && isOtherSelected) ? "" : "disabled=\"disabled\"",
+                            "${checked}", isOtherSelected ? "checked=\"checked\"" : "",
+                            "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                            "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER}", Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER,
+                            "${msqChoiceValue}", Sanitizer.sanitizeForHtml(existingMsqResponse.getOtherFieldContent()),
+                            "${msqOtherOptionAnswer}", isOtherSelected ? "1" : "0");
+            optionListHtml.append(otherOptionFragment + Const.EOL);
         }
         
         // additional checkbox for user to submit a blank response ("None of the above")
