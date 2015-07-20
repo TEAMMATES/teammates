@@ -17,24 +17,23 @@
             document.getElementById( 'statusMessage' ).scrollIntoView();
         </script>
 
-        
         <div class="container-fluid">
             
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-primary">
-                        <div id="studentComments" class="panel-heading">
+                        <div class="panel-heading">
                             <strong>Comments for Alice Betsy</strong>
                         </div>
                         <div class="panel-body">
-                            <div class="panel panel-info">
+                            <div class="panel panel-info student-record-comments">
                                 <div class="panel-heading">
                                     From <b>You (ISR.NoEval)</b>
                                     <button data-original-title="Add comment" type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showAddCommentBox();" data-toggle="tooltip" data-placement="top" title="">
                                         <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                     </button>
                                 </div>
-                                <ul class="list-group">
+                                <ul class="list-group comments">
                                     
                                         <li class="list-group-item list-group-item-warning">
                                             You don't have any comments on this student.
@@ -49,12 +48,12 @@
                                                     </p>
                                                     The default visibility for your comment is private. You may change it using the visibility options. 
                                                 </div>
-                                                <a id="visibility-options-trigger-1" class="btn btn-sm btn-info pull-right">
+                                                <a id="visibility-options-trigger0" class="btn btn-sm btn-info pull-right">
                                                     <span class="glyphicon glyphicon-eye-close"></span>
                                                     Show Visibility Options
                                                 </a>
                                             </div>
-                                            <div id="visibility-options-1" class="panel panel-default" style="display: none;">
+                                            <div id="visibility-options0" class="panel panel-default" style="display: none;">
                                                 <div class="panel-heading">
                                                     Visibility Options
                                                 </div>
@@ -74,7 +73,7 @@
                                                                 Can see recipient's name
                                                             </th>
                                                         </tr>
-                                                        <tr id="recipient-person-1">
+                                                        <tr id="recipient-person0">
                                                             <td class="text-left">
                                                                 <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what comment recipient(s) can view">
                                                                     Recipient(s)
@@ -90,7 +89,7 @@
                                                                 <input class="visibilityCheckbox recipientCheckbox" name="receiverFollowerCheckbox" value="PERSON" disabled="disabled" type="checkbox">
                                                             </td>
                                                         </tr>
-                                                        <tr id="recipient-team-1">
+                                                        <tr id="recipient-team0">
                                                             <td class="text-left">
                                                                 <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what team members of comment recipients can view">
                                                                     Recipient's Team
@@ -106,7 +105,7 @@
                                                                 <input class="visibilityCheckbox recipientCheckbox" value="TEAM" type="checkbox">
                                                             </td>
                                                         </tr>
-                                                        <tr id="recipient-section-1">
+                                                        <tr id="recipient-section0">
                                                             <td class="text-left">
                                                                 <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students in the same section can view">
                                                                     Recipient's Section
@@ -122,7 +121,7 @@
                                                                 <input class="visibilityCheckbox recipientCheckbox" value="SECTION" type="checkbox">
                                                             </td>
                                                         </tr>
-                                                        <tr id="recipient-course-1">
+                                                        <tr id="recipient-course0">
                                                             <td class="text-left">
                                                                 <div data-toggle="tooltip" data-placement="top" title="" data-original-title="Control what other students in this course can view">
                                                                     Other students in this course

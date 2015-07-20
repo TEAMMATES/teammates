@@ -15,7 +15,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Url;
 import teammates.ui.template.CourseTable;
 import teammates.ui.template.ElementTag;
 
@@ -94,12 +93,6 @@ public class InstructorHomePageData extends PageData {
         }
     }
     
-    private String getInstructorFeedbacksPageLinkForCourse(String courseID) {
-        String link = super.getInstructorFeedbacksPageLink();
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
-        return link;
-    }
-    
     private List<ElementTag> createCourseTableLinks(InstructorAttributes instructor, String courseId,
             int pendingCommentsForThisCourseCount) {
         String disabled = "disabled";
@@ -124,7 +117,7 @@ public class InstructorHomePageData extends PageData {
         
         ElementTag add = createButton("Add Session",
                                       className + "add-eval-for-test",
-                                      getInstructorFeedbacksPageLinkForCourse(courseId),
+                                      getInstructorFeedbacksLink(courseId),
                                       Const.Tooltips.COURSE_ADD_FEEDBACKSESSION);
         addAttributeIf(!instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION),
                        add, disabled, disabled);
@@ -153,7 +146,7 @@ public class InstructorHomePageData extends PageData {
             ElementTag pending = createButton(
                     pendingGraphic,
                     className + "notify-pending-comments-for-test",
-                    getInstructorClearPendingCommentsLink(courseId),
+                    getInstructorStudentCommentClearPendingLink(courseId),
                     "Send email notification to recipients of " + pendingCommentsForThisCourseCount
                         + " pending " + (pendingCommentsForThisCourseCount > 1 ? "comments" : "comment"));
     
@@ -184,7 +177,7 @@ public class InstructorHomePageData extends PageData {
             columns.put("name", sanitizeForHtml(session.feedbackSessionName));
             columns.put("tooltip", getInstructorHoverMessageForFeedbackSession(session));
             columns.put("status", getInstructorStatusForFeedbackSession(session));
-            columns.put("href", getFeedbackSessionStatsLink(session.courseId, session.feedbackSessionName));
+            columns.put("href", getInstructorFeedbackStatsLink(session.courseId, session.feedbackSessionName));
             
             if (session.isOpened() || session.isWaitingToOpen()) {
                 columns.put("recent", " recent");
