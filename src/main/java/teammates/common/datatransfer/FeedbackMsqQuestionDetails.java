@@ -98,6 +98,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         return Const.FeedbackQuestionTypeNames.MSQ;
     }
     
+    public boolean getOtherEnabled() {
+        return otherEnabled;
+    }
+    
     @Override
     public boolean isChangesRequiresResponseDeletion(FeedbackQuestionDetails newDetails) {
         FeedbackMsqQuestionDetails newMsqDetails = (FeedbackMsqQuestionDetails) newDetails;
