@@ -32,6 +32,8 @@ public class InstructorFeedbackResponseComment {
     private boolean instructorAllowedToSubmit;
     private InstructorAttributes currentInstructor;
     private String instructorEmail;
+    private String showCommentToString;
+    private String showGiverNameToString;
 
     public InstructorFeedbackResponseComment(Map<String, FeedbackSessionResultsBundle> feedbackResultBundles,
                                              InstructorAttributes currentInstructor, String instructorEmail,
@@ -124,8 +126,8 @@ public class InstructorFeedbackResponseComment {
                         List<FeedbackParticipantType> showCommentTo = frca.showCommentTo;
                         List<FeedbackParticipantType> showGiverNameTo = frca.showGiverNameTo;
 
-                        String showCommentToString = joinParticipantTypes(showCommentTo, ",");
-                        String showGiverNameToString = joinParticipantTypes(showGiverNameTo, ",");
+                        showCommentToString = joinParticipantTypes(showCommentTo, ",");
+                        showGiverNameToString = joinParticipantTypes(showGiverNameTo, ",");
 
                         boolean isResponseVisibleToGiver =
                             question.isResponseVisibleTo(FeedbackParticipantType.GIVER);
@@ -202,6 +204,10 @@ public class InstructorFeedbackResponseComment {
         return showCommentToString;
     }
 
+    public String getShowGiverNameToString() {
+        return showGiverNameToString;
+    }
+
     public Map<FeedbackQuestionAttributes, Boolean> getResponseVisibleToGiver() {
         return responseVisibleToGiver;
     }
@@ -224,10 +230,6 @@ public class InstructorFeedbackResponseComment {
 
     public Map<FeedbackQuestionAttributes, Boolean> getResponseVisibleToInstructors() {
         return responseVisibleToInstructors;
-    }
-
-    public String getShowGiverNameToString() {
-        return showGiverNameToString;
     }
 
     public boolean isInstructorAllowedToSubmit() {
