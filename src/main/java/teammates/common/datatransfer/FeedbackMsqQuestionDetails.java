@@ -203,6 +203,22 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             optionListHtml.append(optionFragment + Const.EOL);
         }
         
+        if (otherEnabled) {
+            String otherOptionFragmentTemplate = FeedbackQuestionFormTemplates.MSQ_SUBMISSION_FORM_OTHEROPTIONFRAGMENT;
+            String otherOptionFragment = 
+                       FeedbackQuestionFormTemplates.populateTemplate(otherOptionFragmentTemplate,
+                            "${qnIdx}", Integer.toString(qnIdx),
+                            "${responseIdx}", Integer.toString(responseIdx),
+                            "${disabled}", sessionIsOpen ? "" : "disabled=\"disabled\"",
+                            "${text-disabled}", "disabled=\"disabled\"",
+                            "${checked}", "",
+                            "${Const.ParamsNames.FEEDBACK_RESPONSE_TEXT}", Const.ParamsNames.FEEDBACK_RESPONSE_TEXT,
+                            "${Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER}", Const.ParamsNames.FEEDBACK_QUESTION_MSQ_ISOTHEROPTIONANSWER,
+                            "${msqChoiceValue}", "",
+                            "${msqOtherOptionAnswer}", "0");
+            optionListHtml.append(otherOptionFragment + Const.EOL);
+        } 
+        
         // additional checkbox for user to submit a blank response ("None of the above")
         String optionFragment = 
                 FeedbackQuestionFormTemplates.populateTemplate(optionFragmentTemplate,
