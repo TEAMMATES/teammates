@@ -77,5 +77,13 @@ public class FeedbackMsqResponseDetails extends FeedbackResponseDetails {
         return answers.size() == 1 && 
                answers.get(0).equals("");
     }
+    
+    public Boolean isOtherOptionAnswer() {
+        return isOther;
+    }
+    
+    public String getOtherFieldContent() {
+        return otherFieldContent;
+    }
 
 }
