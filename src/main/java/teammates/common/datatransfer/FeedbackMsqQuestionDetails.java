@@ -116,6 +116,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             return true;
         }
         
+        if (this.otherEnabled != newMsqDetails.otherEnabled) {
+            return true;
+        }
+        
         return false;
     }
 
