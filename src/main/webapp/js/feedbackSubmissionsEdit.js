@@ -86,6 +86,24 @@ function updateMcqOtherOptionField() {
     }
 }
 
+//Saves the value in the other option textbox for MSQ questions
+function updateMsqOtherOptionField() {
+    var msqQuestionNums = getQuestionTypeNumbers('MSQ');
+    console.log("UPDATE MSQ");
+    for (var i = 0; i < msqQuestionNums.length; i++) {
+        var qnNum = msqQuestionNums[i];
+        console.log("qn num: "+qnNum);
+        var numResponses = $('[name="questionresponsetotal-' + qnNum + '"]').val();
+        console.log(numResponses);
+
+        for (var j = 0; j < numResponses; j++) {
+            $('[data-text="msqOtherOptionText"][name="responsetext-' + qnNum + '-' + j + '"]')
+                 .val($('#msqOtherOptionText-' + qnNum + '-' + j).val());
+            console.log($('#msqOtherOptionText-' + qnNum + '-' + j).val());
+        }
+    }
+}
+
 // Looks for the question to be moderated (if it exists)
 function focusModeratedQuestion() {
     if ($('.moderated-question').length > 0) {
