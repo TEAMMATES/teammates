@@ -15,6 +15,7 @@
 <%@ attribute name="isTeamHasResponses" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="isDisplayingTeamStatistics" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="isDisplayingMissingParticipants" type="java.lang.Boolean" required="true" %>
+<%@ attribute name="isSecondaryParticipantType" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="participantPanels" type="java.util.List" required="true" %>
 
 <c:set var="groupByTeamEnabled" value = "${data.groupByTeam != null || data.groupByTeam == 'on'}"/>
@@ -65,7 +66,8 @@
              </div>
              <c:if test="${isTeamHasResponses || isDisplayingMissingParticipants}">
                 <c:forEach items="${participantPanels}" var="participantPanel">
-                    <results:participantGroupByQuestionPanel showAll="${showAll}" groupByQuestionPanel="${participantPanel}" shouldCollapsed="${shouldCollapsed}"/>
+                    <results:participantPanel showAll="${showAll}" participantPanel="${participantPanel}" 
+                            shouldCollapsed="${shouldCollapsed}" isSecondaryParticipantType="${isSecondaryParticipantType}"/>
                 </c:forEach>
              </c:if>
             
