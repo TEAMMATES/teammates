@@ -1,4 +1,4 @@
-<%@ tag description="adminHome.jsp - Admin home page form" %>
+<%@ tag description="adminHome.jsp - Admin home create instructor account form" %>
 <%@ tag import="teammates.common.util.Const" %>
 
 <div class="well well-plain">
