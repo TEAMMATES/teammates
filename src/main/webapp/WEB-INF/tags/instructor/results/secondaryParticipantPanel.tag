@@ -18,6 +18,7 @@
     <div class="col-md-2">
         <div class="col-md-12">
             From: 
+            
             <c:choose>
                 <c:when test="${secondaryParticipantPanelBody.emailValid}">
                     <div class="middlealign profile-pic-icon-hover inline-block" data-link="${secondaryParticipantPanelBody.profilePictureLink}">
@@ -34,6 +35,7 @@
         
         <div class="col-md-12 text-muted small"><br>
             To:
+            
             
             <c:choose>
                 <c:when test="${primaryParticipantPanel.emailValid}">
