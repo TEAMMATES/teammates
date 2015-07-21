@@ -1,4 +1,5 @@
-<%@ tag description="Instructor Navigation Bar" %>
+<%@ tag description="Admin Navigation Bar" %>
+<%@ tag import="teammates.common.util.Const" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
