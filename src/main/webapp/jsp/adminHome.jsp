@@ -5,6 +5,8 @@
 <%@ taglib tagdir="/WEB-INF/tags/admin/home" prefix="adminHome" %>
 
 <c:set var="jsIncludes">
+    <script type="text/javascript" src="${data.jQueryFilePath}"></script>
+    <script type="text/javascript" src="${data.jQueryUiFilePath}"></script>
     <script type="text/javascript" src="/js/administrator.js"></script>
 </c:set>
 
