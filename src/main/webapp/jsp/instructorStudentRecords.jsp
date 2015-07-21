@@ -56,26 +56,6 @@
         </h1>
         <br>
         <jsp:include page="<%=Const.ViewURIs.STATUS_MESSAGE%>" />
-        <% if (data.studentProfile != null) { %>
-            <div class="modal fade" id="studentProfileMoreInfo" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title"><%= InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name) %>'s Profile - More Info</h4>
-                        </div>
-                        <div class="modal-body">
-                            <br>
-                            <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                            <p class="text-preserve-space height-fixed-md"><%= data.studentProfile.moreInfo.isEmpty() ? "<i class=\"text-muted\">" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.moreInfo %></p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-        <% } %>
         <div class="container-fluid">
             <% if (data.studentProfile != null) {
                 String pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE + "?blob-key=" + data.studentProfile.pictureKey + "&user="+data.account.googleId;
@@ -105,7 +85,7 @@
                                         </tr>
                                         <tr>
                                             <td class="text-bold">
-                                                Email
+                                                Personal Email
                                             </td>
                                             <td>
                                                 <%= data.studentProfile.email.isEmpty() ? "<i class=\"text-muted\">" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.email %>
@@ -131,16 +111,34 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <span data-toggle="modal" data-target="#studentProfileMoreInfo" class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
-                                        <h5>More Info </h5>
-                                        <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
-                                        <p class="text-preserve-space height-fixed-md"><%=data.studentProfile.moreInfo.isEmpty() ? "<i class=\"text-muted\">" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.moreInfo%></p>
-                                    </div>
-                                </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="studentProfileMoreInfo" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title"><%= InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name) %>'s Profile - More Info</h4>
+                            </div>
+                            <div class="modal-body">
+                                <br>
+                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                <p class="text-preserve-space height-fixed-md"><%= data.studentProfile.moreInfo.isEmpty() ? "<i class=\"text-muted\">" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.moreInfo %></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <span data-toggle="modal" data-target="#studentProfileMoreInfo" class="text-muted pull-right glyphicon glyphicon-resize-full cursor-pointer"></span>
+                                <h5>More Info </h5>
+                                <!--Note: When an element has class text-preserve-space, do not insert and HTML spaces-->
+                                <p class="text-preserve-space height-fixed-md"><%=data.studentProfile.moreInfo.isEmpty() ? "<i class=\"text-muted\">" + Const.STUDENT_PROFILE_FIELD_NOT_FILLED + "</i>" : data.studentProfile.moreInfo%></p>
                             </div>
                         </div>
                     </div>
@@ -149,19 +147,19 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-primary">
-                        <div id="studentComments" class="panel-heading">
+                        <div class="panel-heading">
                             <strong>Comments for <%=InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name)%></strong>
                         </div>
                         <div class="panel-body">
-                            <div class="panel panel-info">
+                            <div class="panel panel-info student-record-comments">
                                 <div class="panel-heading">
                                     From <b>You (<%= data.courseId %>)</b>
                                     <button type="button" class="btn btn-default btn-xs icon-button pull-right" id="button_add_comment" onclick="showAddCommentBox();" data-toggle="tooltip" data-placement="top" title="<%= Const.Tooltips.COMMENT_ADD %>" <% if (!data.currentInstructor.isAllowedForPrivilege(data.student.section, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS)) { %> disabled="disabled" <% } %>>
                                         <span class="glyphicon glyphicon-comment glyphicon-primary"></span>
                                     </button>
                                 </div>
-                                <ul class="list-group">
-                                    <% int commentIdx = -1;
+                                <ul class="list-group comments">
+                                    <% int commentIdx = 0;
                                        for (CommentAttributes comment : data.comments) {
                                        commentIdx++; %>
                                         <li class="list-group-item list-group-item-warning">
@@ -186,7 +184,7 @@
                                                     <div class="form-group form-inline">
                                                         <div class="form-group text-muted">
                                                             <p>
-                                                                Comment about <%= InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name) %>:
+                                                                Comment about <%= InstructorStudentRecordsPageData.sanitizeForHtml(data.student.name + " (" + data.student.team + ", " + data.student.email + ")") %>:
                                                             </p>
                                                             You may change comment's visibility using the visibility options on the right hand side.
                                                         </div>
@@ -319,7 +317,7 @@
                                             </form>
                                         </li>
                                     <% }
-                                    if (commentIdx == -1) { %>
+                                    if (commentIdx == 0) { %>
                                         <li class="list-group-item list-group-item-warning">
                                             You don't have any comments on this student.
                                         </li>

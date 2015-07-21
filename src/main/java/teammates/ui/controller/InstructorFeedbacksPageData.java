@@ -209,7 +209,7 @@ public class InstructorFeedbacksPageData extends PageData {
             String name = sanitizeForHtml(session.feedbackSessionName);
             String tooltip = getInstructorHoverMessageForFeedbackSession(session);
             String status = getInstructorStatusForFeedbackSession(session);
-            String href = getFeedbackSessionStatsLink(session.courseId, session.feedbackSessionName);
+            String href = getInstructorFeedbackStatsLink(session.courseId, session.feedbackSessionName);
             
             String recent = "";
             if (session.isOpened() || session.isWaitingToOpen()) {

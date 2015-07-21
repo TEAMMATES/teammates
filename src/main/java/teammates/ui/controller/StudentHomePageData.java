@@ -11,7 +11,6 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.FeedbackSessionDetailsBundle;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
-import teammates.common.util.Url;
 import teammates.ui.template.CourseTable;
 import teammates.ui.template.ElementTag;
 import teammates.ui.template.StudentFeedbackSessionActions;
@@ -126,31 +125,6 @@ public class StudentHomePageData extends PageData {
         return msg;
     }
     
-    
-    private String getStudentCourseDetailsLink(String courseId){
-        String link = Const.ActionURIs.STUDENT_COURSE_DETAILS_PAGE;
-        link = addUserIdToUrl(link);
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
-        return link;
-    }
-    
-    private String getStudentFeedbackResponseEditLink(String courseId, String feedbackSessionName){
-        String link = Const.ActionURIs.STUDENT_FEEDBACK_SUBMISSION_EDIT_PAGE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
-        link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
-        link = addUserIdToUrl(link);
-        return link;
-    }
-    
-    private String getStudentFeedbackResultsLink(String courseId, String feedbackSessionName){
-        String link = Const.ActionURIs.STUDENT_FEEDBACK_RESULTS_PAGE;
-        link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
-        link = Url.addParamToUrl(link,Const.ParamsNames.FEEDBACK_SESSION_NAME,feedbackSessionName);
-        link = addUserIdToUrl(link);
-        return link;
-    }
-    
-
     /**
      * @param fs The feedback session in question.
      * @param idx The index of the session in the table.
@@ -160,7 +134,7 @@ public class StudentHomePageData extends PageData {
     private StudentFeedbackSessionActions getStudentFeedbackSessionActions(
             FeedbackSessionAttributes fs, boolean hasSubmitted) {
         String resultsLink = getStudentFeedbackResultsLink(fs.courseId, fs.feedbackSessionName);
-        String responseEditLink = getStudentFeedbackResponseEditLink(fs.courseId, fs.feedbackSessionName);
+        String responseEditLink = getStudentFeedbackSubmissionEditLink(fs.courseId, fs.feedbackSessionName);
         return new StudentFeedbackSessionActions(fs, resultsLink, responseEditLink, hasSubmitted);
     }
 }

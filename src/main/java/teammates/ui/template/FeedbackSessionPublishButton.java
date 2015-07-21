@@ -35,8 +35,8 @@ public class FeedbackSessionPublishButton {
         this.tooltipText = hasPublish ? Const.Tooltips.FEEDBACK_SESSION_PUBLISH
                                       : Const.Tooltips.FEEDBACK_SESSION_AWAITING;
 
-        this.unpublishLink = data.getInstructorFeedbackSessionUnpublishLink(courseId, feedbackSessionName, isHome);
-        this.publishLink = data.getInstructorFeedbackSessionPublishLink(courseId, feedbackSessionName, isHome);
+        this.unpublishLink = data.getInstructorFeedbackUnpublishLink(courseId, feedbackSessionName, isHome);
+        this.publishLink = data.getInstructorFeedbackPublishLink(courseId, feedbackSessionName, isHome);
 
         this.allowedToUnpublish = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
         this.allowedToPublish = instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
