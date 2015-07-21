@@ -15,7 +15,6 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorRes
     
     List<InstructorResultsQuestionTable> questionTables;
     
-    boolean isEmailValid;
     
     public InstructorFeedbackResultsGroupByQuestionPanel() {
     }
@@ -53,12 +52,5 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorRes
         this.questionTables = questionTables;
     }
 
-    public boolean isEmailValid() {
-        return isEmailValid;
-    }
-
-    public void setEmailValid(boolean isEmailValid) {
-        this.isEmailValid = isEmailValid;
-    }
     
 }

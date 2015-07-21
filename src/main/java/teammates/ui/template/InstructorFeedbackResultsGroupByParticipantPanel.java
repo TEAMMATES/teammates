@@ -11,7 +11,16 @@ import teammates.common.datatransfer.FeedbackResponseAttributes;
  * 
  */
 public class InstructorFeedbackResultsGroupByParticipantPanel extends InstructorResultsParticipantPanel {
-   private Map<String, InstructorResultsModerationButton> moderationButtons;
-   private List<FeedbackResponseAttributes> responses;
+    // One InstructorFeedbackResultsSecondaryParticipantPanelBody for each secondary participant
+    private List<InstructorFeedbackResultsSecondaryParticipantPanelBody> secondaryParticipantPanels;
+
+    public InstructorFeedbackResultsGroupByParticipantPanel(
+                                    List<InstructorFeedbackResultsSecondaryParticipantPanelBody> secondaryParticipantPanels) {
+        this.secondaryParticipantPanels = secondaryParticipantPanels;
+    }
+
+    public List<InstructorFeedbackResultsSecondaryParticipantPanelBody> getSecondaryParticipantPanels() {
+        return secondaryParticipantPanels;
+    }    
     
 }
