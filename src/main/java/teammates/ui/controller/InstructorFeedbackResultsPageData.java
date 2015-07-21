@@ -447,6 +447,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
         InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
+        sectionPanel.setDisplayingTeamStatistics(false);
         
         
         // Maintain previous section and previous team while iterating through the loop
@@ -491,12 +492,9 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     // Finalize building of section panel,
                     // add to sectionPanels,
                     // and initialize next section panel
-                    
-                    
                     sectionPanel.setSectionName(prevSection);
                     sectionPanel.setSectionNameForDisplay(prevSection.equals(Const.DEFAULT_SECTION) ? "Not in a section" 
                                                                                                     : prevSection);
-                    sectionPanel.setDisplayingTeamStatistics(true);
                     sectionPanels.put(prevSection, sectionPanel);
                     
                     buildMissingTeamAndParticipantPanelsWithoutModerationButtonForSection(
@@ -508,8 +506,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     teamsWithResponses.add(currentTeam);
                     
                     sectionPanel = new InstructorFeedbackResultsSectionPanel();
+                    sectionPanel.setDisplayingTeamStatistics(false);
                 }
-                
             }
             
             // build recipient panel
@@ -553,7 +551,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                             validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, 
                                                                         giverIdentifier)
                                                                         .isEmpty());
+                sectionPanel.getIsTeamWithResponses().put(currentTeam, true);
                 secondaryParticipantPanel.setProfilePictureLink(getProfilePictureLink(giverIdentifier));
+                secondaryParticipantPanel.setModerationButton(buildModerationButtonForGiver(
+                                                                  null, giverIdentifier, 
+                                                                  "btn btn-default btn-xs", "Moderate Responses"));
+                secondaryParticipantPanel.setModerationButtonDisplayed(true);
                 secondaryParticipantPanels.add(secondaryParticipantPanel);
                 
                 giverIndex += 1;
@@ -584,7 +587,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         sectionPanel.setSectionName(prevSection);
         sectionPanel.setSectionNameForDisplay(prevSection.equals(Const.DEFAULT_SECTION) ? "Not in a section" 
                                                                                         : prevSection);
-        sectionPanel.setDisplayingTeamStatistics(true);
+        sectionPanel.setDisplayingTeamStatistics(false);
         sectionPanels.put(prevSection, sectionPanel);
         teamsWithResponses.add(prevTeam);
         sectionsWithResponses.add(prevSection);
@@ -857,7 +860,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 sectionPanel = new InstructorFeedbackResultsSectionPanel();
                 sectionPanel.setSectionName(sectionWithNoResponseReceived);
                 sectionPanel.setSectionNameForDisplay(sectionWithNoResponseReceived.equals(Const.DEFAULT_SECTION) ? "Not in a Section" : sectionWithNoResponseReceived);
-                sectionPanel.setDisplayingTeamStatistics(true);
+                sectionPanel.setDisplayingTeamStatistics(!viewType.isGroupedBySecondaryParticipant());
                 sectionPanels.put(sectionWithNoResponseReceived, sectionPanel);
                 
                 Set<String> teamsFromSection = bundle.getTeamsInSectionFromRoster(sectionWithNoResponseReceived);

@@ -25,7 +25,15 @@
         <div class="inline panel-heading-text">
             <strong>${teamName}</strong>                        
         </div>
-        <span class="glyphicon ${!shouldCollapsed ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'} pull-right"></span>
+        <div class="pull-right">
+            <c:if test="${!isDisplayingTeamStatistics}">
+                <a class="btn btn-warning btn-xs" id="collapse-panels-button-team-${teamIndex}" data-toggle="tooltip" title="Collapse or expand all student panels. You can also click on the panel heading to toggle each one individually.">
+                    ${ shouldCollapsed ? 'Expand' : 'Collapse'} Students
+                </a>
+                &nbsp;
+            </c:if>
+            <span class="glyphicon ${!shouldCollapsed ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'} pull-right"></span>
+        </div>
     </div>
     
     <div class="panel-collapse collapse<c:if test="${!shouldCollapsed}"> in</c:if>">
@@ -47,8 +55,7 @@
                         </c:otherwise>
                     </c:choose>
                 </c:if>
-            
-                 <c:if test="${isTeamHasResponses || isDisplayingMissingParticipants}">
+                <c:if test="${isDisplayingTeamStatistics && (isTeamHasResponses || isDisplayingMissingParticipants)}">
                     <c:if test="${isTeamHasResponses}">
                         <div class="row">
                             <div class="col-sm-9">
@@ -62,9 +69,9 @@
                         </div>
                         <hr class="margin-top-0">
                     </c:if>
-                 </c:if>
-             </div>
-             <c:if test="${isTeamHasResponses || isDisplayingMissingParticipants}">
+                </c:if>
+            </div>
+            <c:if test="${isTeamHasResponses || isDisplayingMissingParticipants}">
                 <c:forEach items="${participantPanels}" var="participantPanel">
                     <results:participantPanel showAll="${showAll}" participantPanel="${participantPanel}" 
                             shouldCollapsed="${shouldCollapsed}" isSecondaryParticipantType="${isSecondaryParticipantType}"/>
