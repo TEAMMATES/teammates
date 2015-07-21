@@ -30,11 +30,12 @@
     </div>
     <div class="panel-collapse collapse ${shouldCollapsed ? '' : 'in'}">
         <div class="panel-body">
-            <c:forEach items="${groupByParticipantPanel.secondaryParticipantPanels}" var="secondaryParticipantPanel">
+            <c:forEach items="${groupByParticipantPanel.secondaryParticipantPanels}" var="secondaryParticipantPanel" varStatus="i">
                 <results:secondaryParticipantPanel secondaryParticipantPanelBody="${secondaryParticipantPanel}" 
                                                    showAll="${showAll}" 
                                                    shouldCollapsed="${shouldCollapsed}"
-                                                   primaryParticipantPanel="${groupByParticipantPanel}"/>                              
+                                                   primaryParticipantPanel="${groupByParticipantPanel}"
+                                                   secondaryParticipantIndex="${i.index}"/>
              </c:forEach>
         </div>
     </div>

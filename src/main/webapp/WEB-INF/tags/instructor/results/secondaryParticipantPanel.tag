@@ -9,11 +9,11 @@
 <%@ attribute name="shouldCollapsed" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="showAll" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="primaryParticipantPanel" type="teammates.ui.template.InstructorFeedbackResultsGroupByParticipantPanel" required="true" %>
+<%@ attribute name="secondaryParticipantIndex" type="java.lang.Integer" required="true" %>
 
 
 
-<c:set var="secondaryParticipantIndex" value="${0}" />
-<div class="row ${giverIndex == 1? '': 'border-top-gray'}">
+<div class="row ${secondaryParticipantIndex == 0? '': 'border-top-gray'}">
     <%-- Side of the panel --%>
     <div class="col-md-2">
         <div class="col-md-12">

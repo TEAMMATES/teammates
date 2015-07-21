@@ -84,6 +84,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         public boolean isFirstGroupedByGiver() {
             return this == GIVER_QUESTION_RECIPIENT;
         }
+        
     }
     
     
@@ -438,10 +439,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
     private void buildResponsesPanelsForRecipientGiverQuestion(
                                     Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponses) {
         viewType = ViewType.RECIPIENT_GIVER_QUESTION;
-        final String additionalInfoId = "recipient-%s-question-%s";
-        
-        LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> responsesGroupedByTeam 
-                = bundle.getQuestionResponseMapByRecipientTeam();
+        final String additionalInfoId = "giver-%s-recipient-%s";
         
         sectionPanels = new LinkedHashMap<String, InstructorFeedbackResultsSectionPanel>();
         InstructorFeedbackResultsSectionPanel sectionPanel = new InstructorFeedbackResultsSectionPanel();
@@ -515,6 +513,8 @@ public class InstructorFeedbackResultsPageData extends PageData {
             
             List<InstructorFeedbackResultsSecondaryParticipantPanelBody> secondaryParticipantPanels = new ArrayList<InstructorFeedbackResultsSecondaryParticipantPanelBody>();
             Map<String, List<FeedbackResponseAttributes>> giverToResponsesMap = recipientToGiverToResponsesMap.getValue();
+            
+            int giverIndex = 0;
             for (Map.Entry<String, List<FeedbackResponseAttributes>> giverResponses : giverToResponsesMap.entrySet()) {
                 String giverIdentifier = giverResponses.getKey();
                 String giverDisplayableName = bundle.getNameForEmail(giverIdentifier);
@@ -526,7 +526,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     String questionText = bundle.getQuestionText(questionId);
                     String additionalInfoText = question.getQuestionDetails().getQuestionAdditionalInfoHtml(
                                                                                   question.getQuestionNumber(), 
-                                                                                  additionalInfoId);
+                                                                                  String.format(additionalInfoId, giverIndex, recipientIndex));
                     ElementTag rowAttributes = null;
                     String displayableResponse = bundle.getResponseAnswerHtml(response, question);
                     InstructorFeedbackResultsResponsePanel responsePanel = new InstructorFeedbackResultsResponsePanel(
@@ -538,13 +538,18 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 }
                 
                 InstructorFeedbackResultsSecondaryParticipantPanelBody secondaryParticipantPanel = new InstructorFeedbackResultsSecondaryParticipantPanelBody(
-                                                                                                            giverIdentifier, 
-                                                                                                            giverDisplayableName, responsePanels);
+                                                                                                            giverIdentifier, giverDisplayableName, 
+                                                                                                            responsePanels, 
+                                                                                                            validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, giverIdentifier).isEmpty());
+                secondaryParticipantPanel.setProfilePictureLink(getProfilePictureLink(giverIdentifier));
                 secondaryParticipantPanels.add(secondaryParticipantPanel);
+                
+                giverIndex += 1;
             }
             
-            InstructorFeedbackResultsGroupByParticipantPanel recipientPanel = new InstructorFeedbackResultsGroupByParticipantPanel(
-                                                                                       secondaryParticipantPanels);
+            InstructorFeedbackResultsGroupByParticipantPanel recipientPanel = buildInstructorFeedbackResultsGroupBySecondaryParticipantPanel(
+                                            recipientIdentifier, bundle.getNameForEmail(recipientIdentifier), 
+                                            secondaryParticipantPanels, null, false);
             
             // add constructed InstructorFeedbackResultsGroupByParticipantPanel into section's participantPanels            
             addParticipantPanelToSectionPanel(sectionPanel, currentTeam, recipientPanel);
@@ -1490,6 +1495,32 @@ public class InstructorFeedbackResultsPageData extends PageData {
        return giverPanel;
    }
 
+   
+   private InstructorFeedbackResultsGroupByParticipantPanel buildInstructorFeedbackResultsGroupBySecondaryParticipantPanel(
+                                   String participantIdentifier, String participantName, 
+                                   List<InstructorFeedbackResultsSecondaryParticipantPanelBody> secondaryParticipantPanels, 
+                                   InstructorResultsModerationButton moderationButton, 
+                                   boolean isModerationButtonDisplayed) {
+        boolean isEmailValid = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, participantIdentifier).isEmpty();
+        Url profilePictureLink = new Url(getProfilePictureLink(participantIdentifier));
+        
+      
+        InstructorFeedbackResultsGroupByParticipantPanel bySecondaryParticipantPanel = 
+                                        new InstructorFeedbackResultsGroupByParticipantPanel(secondaryParticipantPanels);
+        bySecondaryParticipantPanel.setParticipantIdentifier(participantIdentifier);
+        bySecondaryParticipantPanel.setName(participantName);
+        bySecondaryParticipantPanel.setGiver(viewType.isFirstGroupedByGiver());
+        
+        bySecondaryParticipantPanel.setEmailValid(isEmailValid);
+        bySecondaryParticipantPanel.setProfilePictureLink(profilePictureLink.toString());
+        
+        bySecondaryParticipantPanel.setModerationButton(moderationButton);
+        bySecondaryParticipantPanel.setModerationButtonDisplayed(isModerationButtonDisplayed);
+        
+        bySecondaryParticipantPanel.setHasResponses(true);
+        
+        return bySecondaryParticipantPanel;
+    }
     /* 
      * getInstructorFeedbackSessionPublishAndUnpublishAction()
      * is not covered in action test, but covered in UI tests.
