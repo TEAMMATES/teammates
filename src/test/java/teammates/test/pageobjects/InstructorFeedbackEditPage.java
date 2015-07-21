@@ -353,8 +353,12 @@ public class InstructorFeedbackEditPage extends AppPage {
         copySubmitButton.click();
     }
     
-    public void clickAddOtherOptionCheckboxForNewQuestion() {
-        addOtherOptionCheckboxForNewQuestion.click();
+    public void clickAddMcqOtherOptionCheckboxForNewQuestion() {
+        addMcqOtherOptionCheckboxForNewQuestion.click();
+    }
+    
+    public void clickAddMsqOtherOptionCheckboxForNewQuestion() {
+        addMsqOtherOptionCheckboxForNewQuestion.click();
     }
     
     public void waitForModalToLoad() {
