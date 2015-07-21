@@ -133,7 +133,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         
         assertEquals(expectedCommentsForStudentsTables.size(), actualCommentsForStudentsTables.size());
         for(int i = 0; i < expectedCommentsForStudentsTables.size(); i++) {
-            isCommentsForStudentsTablesEqual(
+            checkCommentsForStudentsTablesEqual(
                      expectedCommentsForStudentsTables.get(i), actualCommentsForStudentsTables.get(i));
         }
         
@@ -219,7 +219,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         return studentsInCourse;
     }
     
-    private void isCommentsForStudentsTablesEqual(CommentsForStudentsTable expected, CommentsForStudentsTable actual) {
+    private void checkCommentsForStudentsTablesEqual(CommentsForStudentsTable expected, CommentsForStudentsTable actual) {
         assertEquals(expected.getGiverDetails(), actual.getGiverDetails());
         assertEquals(expected.getExtraClass(), actual.getExtraClass());
         List<Comment> expectedCommentRows = expected.getRows();
@@ -228,11 +228,11 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         for(int i = 0; i < expectedCommentRows.size(); i++) {
             Comment expectedCommentRow = expectedCommentRows.get(i);
             Comment actualCommentRow = actualCommentRows.get(i);
-            isCommentRowsEqual(expectedCommentRow, actualCommentRow);
+            checkCommentRowsEqual(expectedCommentRow, actualCommentRow);
         }
     }
 
-    private void isCommentRowsEqual(Comment expected, Comment actual) {
+    private void checkCommentRowsEqual(Comment expected, Comment actual) {
         assertEquals(expected.getCreatedAt(), actual.getCreatedAt());
         assertEquals(expected.getEditedAt(), actual.getEditedAt());
         assertEquals(expected.getCommentText(), actual.getCommentText());
