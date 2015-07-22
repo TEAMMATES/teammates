@@ -475,12 +475,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 boolean isFirstTeam = prevTeam.isEmpty();
                 if (!isFirstTeam) {
                     // construct missing participant panels
-                    buildMissingParticipantPanelsForTeam(
-                        sectionPanel, prevTeam, teamMembersWithResponses, false);
+                    buildMissingParticipantPanelsWithoutModerationButtonForTeam(
+                        sectionPanel, prevTeam, teamMembersWithResponses);
                     
                     teamMembersWithResponses.clear(); 
                 }
-                prevTeam = currentTeam;
+                
                 teamsWithResponses.add(currentTeam);
             }
             
@@ -494,11 +494,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     sectionPanel.setSectionName(prevSection);
                     sectionPanel.setSectionNameForDisplay(prevSection.equals(Const.DEFAULT_SECTION) ? "Not in a section" 
                                                                                                     : prevSection);
+                    buildMissingTeamAndParticipantPanelsWithoutModerationButtonForSection(
+                                                    sectionPanel, prevSection, teamsWithResponses, currentTeam);
                     sectionPanels.put(prevSection, sectionPanel);
                     
-                    buildMissingTeamAndParticipantPanelsWithoutModerationButtonForSection(
-                                                    sectionPanel, prevSection,  
-                                                    teamsWithResponses, currentTeam);
                     sectionsWithResponses.add(prevSection);
                     
                     teamsWithResponses.clear();
@@ -578,6 +577,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             
             teamMembersWithResponses.add(recipientIdentifier);
             
+            prevTeam = currentTeam;
             prevSection = currentSection;
         }
         
@@ -669,6 +669,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION) ? DISPLAY_NAME_FOR_DEFAULT_SECTION 
                                                                                                 : sectionName);
                 sectionPanel.setDisplayingTeamStatistics(true);
+                break;
+            case RECIPIENT_GIVER_QUESTION:
+                sectionPanel.setSectionName(sectionName);
+                sectionPanel.setSectionNameForDisplay(sectionName.equals(Const.DEFAULT_SECTION) ? "Not in a section" 
+                                                                                                : sectionName);
+                sectionPanel.setDisplayingTeamStatistics(false);
                 break;
             default:
                 Assumption.fail();
