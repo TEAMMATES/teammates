@@ -11,6 +11,7 @@
 </c:set>
 
 <ta:adminPage bodyTitle="Add New Instructor" pageTitle="TEAMMATES - Administrator" jsIncludes="${jsIncludes}">
-    <adminHome:adminCreateInstructorAccountForm/>
+    <adminHome:adminCreateInstructorAccountForm instructorShortName="${data.instructorShortName}" 
+        instructorName="${data.instructorName}" instructorEmail="${data.instructorEmail}" instructorInstitution="${data.instructorInstitution}"/>
     <t:statusMessage/>
 </ta:adminPage>
