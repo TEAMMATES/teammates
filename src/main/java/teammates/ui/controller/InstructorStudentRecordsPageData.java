@@ -19,7 +19,6 @@ public class InstructorStudentRecordsPageData extends PageData {
     private String courseId;
     private String studentName;
     private String studentEmail;
-    private String googleId;
     private String showCommentBox;
     private StudentProfile studentProfile;
     public StudentProfileAttributes spa; // used for testing admin message
@@ -34,7 +33,6 @@ public class InstructorStudentRecordsPageData extends PageData {
         this.courseId = courseId;
         this.studentName = Sanitizer.sanitizeForHtml(student.name);
         this.studentEmail = student.email;
-        this.googleId = account.googleId;
         this.showCommentBox = showCommentBox;
         if (spa != null) {
             this.spa = spa;
@@ -64,7 +62,7 @@ public class InstructorStudentRecordsPageData extends PageData {
     }
 
     public String getGoogleId() {
-        return googleId;
+        return account.googleId;
     }
 
     public String getCourseId() {
