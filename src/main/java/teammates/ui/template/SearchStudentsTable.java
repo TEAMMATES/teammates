@@ -16,11 +16,7 @@ public class SearchStudentsTable {
         this.sections = sections;
         if (sections.size() == 1) {
             StudentListSectionData section = sections.get(0);
-            if (section.getSectionName().equals("None")) {
-                this.hasSection = false;
-            } else {
-                this.hasSection = true;
-            }
+            this.hasSection = !section.getSectionName().equals("None");
         } else {
             this.hasSection = true;
         }
