@@ -5,8 +5,6 @@
 <%@ taglib tagdir="/WEB-INF/tags/admin/search" prefix="adminSearch" %>
 
 <c:set var="jsIncludes">
-    <script type="text/javascript" src="${data.jQueryFilePath}"></script>
-    <script type="text/javascript" src="${data.jQueryUiFilePath}"></script>
     <script type="text/javascript" src="/js/adminSearch.js"></script>
     <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 </c:set>
