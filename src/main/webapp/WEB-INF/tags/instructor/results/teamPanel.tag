@@ -32,7 +32,7 @@
                 </a>
                 &nbsp;
             </c:if>
-            <span class="glyphicon ${!shouldCollapsed ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'} pull-right"></span>
+            <span class="glyphicon ${!shouldCollapsed ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'}"></span>
         </div>
     </div>
     
