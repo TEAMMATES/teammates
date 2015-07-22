@@ -45,8 +45,9 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         List<String> msqChoices = new LinkedList<String>();
         boolean msqOtherEnabled = false; 
         
-        if (HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG) != null
-                && HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG).equals("on")) {
+        String otherOptionFlag = HttpRequestHelper.getValueFromParamMap(requestParameters, Const.ParamsNames.FEEDBACK_QUESTION_MSQOTHEROPTIONFLAG);
+        
+        if (otherOptionFlag != null && otherOptionFlag.equals("on")) {
             msqOtherEnabled = true;
         }
             
