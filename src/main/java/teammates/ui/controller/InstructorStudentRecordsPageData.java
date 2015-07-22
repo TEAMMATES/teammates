@@ -38,12 +38,7 @@ public class InstructorStudentRecordsPageData extends PageData {
         this.showCommentBox = showCommentBox;
         if (spa != null) {
             this.spa = spa;
-            String pictureUrl = Const.ActionURIs.STUDENT_PROFILE_PICTURE
-                              + "?" + Const.ParamsNames.BLOB_KEY + "=" + spa.pictureKey
-                              + "&" + Const.ParamsNames.USER_ID + "=" + account.googleId;
-            if (spa.pictureKey.isEmpty()) {
-                pictureUrl = Const.SystemParams.DEFAULT_PROFILE_PICTURE_PATH;
-            }
+            String pictureUrl = getPictureUrl(spa.pictureKey);
             this.studentProfile = new StudentProfile(this.studentName, spa, pictureUrl);
         }
         List<Comment> commentDivs = new ArrayList<Comment>();
