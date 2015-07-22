@@ -37,7 +37,7 @@ public class InstructorStudentRecordsPageData extends PageData {
         if (spa != null) {
             this.spa = spa;
             String pictureUrl = getPictureUrl(spa.pictureKey);
-            this.studentProfile = new StudentProfile(this.studentName, spa, pictureUrl);
+            this.studentProfile = new StudentProfile(student.name, spa, pictureUrl);
         }
         List<Comment> commentDivs = new ArrayList<Comment>();
         for (CommentAttributes comment : comments) {
