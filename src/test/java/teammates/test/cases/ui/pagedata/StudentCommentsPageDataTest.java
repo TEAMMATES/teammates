@@ -110,7 +110,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         
         data.init(courseId, courseName, coursePaginationList, comments, roster, studentEmail, feedbackResultBundles);
         
-        /**************************** Assertions ****************************/
+        /**************************** JUnit Comparisons ****************************/
         // Regular pageData data assertions
         String expectedCourseId = courseId;
         String actualCourseId = data.getCourseId();
@@ -178,29 +178,51 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         assertEquals(1, actualFeedbackSessionRows.size());
 
         FeedbackSessionRow actualFeedbackSessionRow = actualFeedbackSessionRows.get(0);
+        checkFeedbackSessionRowsEqual(expectedFeedbackSessionRow, actualFeedbackSessionRow);
+    }
+
+    private static void checkFeedbackSessionRowsEqual(
+            FeedbackSessionRow expectedFeedbackSessionRow, FeedbackSessionRow actualFeedbackSessionRow) {
         assertEquals(expectedFeedbackSessionRow.getFeedbackSessionName(), 
                      actualFeedbackSessionRow.getFeedbackSessionName());
         assertEquals(expectedFeedbackSessionRow.getCourseId(), actualFeedbackSessionRow.getCourseId());
-        assertEquals(1, actualFeedbackSessionRow.getQuestionTables().size());
+        assertEquals(expectedFeedbackSessionRow.getQuestionTables().size(), actualFeedbackSessionRow.getQuestionTables().size());
         
-        QuestionTable actualQuestionTable = actualFeedbackSessionRow.getQuestionTables().get(0);
+        List<QuestionTable> actualQuestionTables = actualFeedbackSessionRow.getQuestionTables();
+        List<QuestionTable> expectedQuestionTables = expectedFeedbackSessionRow.getQuestionTables();
+        for (int i = 0; i < expectedQuestionTables.size(); i++) {
+            checkQuestionTablesEqual(expectedQuestionTables.get(i), actualQuestionTables.get(i));
+        }
+    }
+
+    private static void checkQuestionTablesEqual(
+            QuestionTable expectedQuestionTable, QuestionTable actualQuestionTable) {
         assertEquals(expectedQuestionTable.getQuestionNumber(), actualQuestionTable.getQuestionNumber());
         assertEquals(expectedQuestionTable.getQuestionText(), actualQuestionTable.getQuestionText());
         assertEquals(expectedQuestionTable.getAdditionalInfo(), actualQuestionTable.getAdditionalInfo());
-        assertEquals(1, actualQuestionTable.getResponseRows().size());
+        assertEquals(expectedQuestionTable.getResponseRows().size(), actualQuestionTable.getResponseRows().size());
         
-        ResponseRow actualResponseRow = actualQuestionTable.getResponseRows().get(0);
+        List<ResponseRow> actualResponseRows = actualQuestionTable.getResponseRows();
+        List<ResponseRow> expectedResponseRows = expectedQuestionTable.getResponseRows();
+        for (int i = 0; i < expectedResponseRows.size(); i++) {
+            checkResponseRowsEqual(expectedResponseRows.get(i), actualResponseRows.get(i));
+        }
+    }
+
+    private static void checkResponseRowsEqual(ResponseRow expectedResponseRow, ResponseRow actualResponseRow) {
         assertEquals(expectedResponseRow.getGiverName(), actualResponseRow.getGiverName());
         assertEquals(expectedResponseRow.getRecipientName(), actualResponseRow.getRecipientName());
         assertEquals(expectedResponseRow.getResponse(), actualResponseRow.getResponse());
-        assertEquals(1, actualResponseRow.getFeedbackResponseComments().size());
+        assertEquals(expectedResponseRow.getFeedbackResponseComments().size(), actualResponseRow.getFeedbackResponseComments().size());
         
-        FeedbackResponseComment actualFeedbackResponseCommentRow = 
-                actualResponseRow.getFeedbackResponseComments().get(0);
-        checkFeedbackResponseCommentRowsEqual(expectedFeedbackResponseCommentRow, actualFeedbackResponseCommentRow);
+        List<FeedbackResponseComment> actualFeedbackResponseCommentRows = actualResponseRow.getFeedbackResponseComments();
+        List<FeedbackResponseComment> expectedFeedbackResponseCommentRows = expectedResponseRow.getFeedbackResponseComments();
+        for (int i = 0; i < expectedFeedbackResponseCommentRows.size(); i++) {
+            checkFeedbackResponseCommentRowsEqual(expectedFeedbackResponseCommentRows.get(i), actualFeedbackResponseCommentRows.get(i));
+        }
     }
     
-    /** The two methods below check if the data structures are equal 
+    /** The methods below check if the data structures are equal 
      *  Only asserts the attributes that are used in the comment tag 
      *  when accessing from StudentComments page*/
     private static void checkCommentRowsEqual(Comment expected, Comment actual) {
