@@ -135,22 +135,14 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         // JSTL data structure assertion: Comments for students tables
         assertEquals(1, data.getCommentsForStudentsTables().size());
         CommentsForStudentsTable actualCommentsForStudentsTable = data.getCommentsForStudentsTables().get(0);
-        String expectedGiverDetails = "Instructor " + instructor1.name;
-        String expectedExtraClass = "";
-        assertEquals(expectedGiverDetails, actualCommentsForStudentsTable.getGiverDetails());
-        assertEquals(expectedExtraClass, actualCommentsForStudentsTable.getExtraClass());
-        
-        List<Comment> actualCommentRows = actualCommentsForStudentsTable.getRows();
+        String expectedGiverDetails = instructor1.displayedName + " " + instructor1.name;
         List<Comment> expectedCommentRows = new ArrayList<Comment>();
         CommentAttributes expectedComment = comments.get(0);
         expectedCommentRows.add(new Comment(expectedComment, expectedGiverDetails, "you"));
         expectedComment = comments.get(1);
         expectedCommentRows.add(new Comment(expectedComment, expectedGiverDetails, "you"));
-        assertEquals(expectedCommentRows.size(), actualCommentRows.size());
-        
-        for(int i = 0; i < expectedCommentRows.size(); i++) {
-            checkCommentRowsEqual(expectedCommentRows.get(i), actualCommentRows.get(i));
-        }
+        CommentsForStudentsTable expectedCommentsForStudentsTable = new CommentsForStudentsTable(expectedGiverDetails, expectedCommentRows);
+        checkCommentsForStudentsTablesEqual(expectedCommentsForStudentsTable, actualCommentsForStudentsTable);
         
         // JSTL data structure assertions: Feedback session rows
         List<FeedbackSessionRow> actualFeedbackSessionRows = data.getFeedbackSessionRows();
@@ -179,6 +171,20 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
 
         FeedbackSessionRow actualFeedbackSessionRow = actualFeedbackSessionRows.get(0);
         checkFeedbackSessionRowsEqual(expectedFeedbackSessionRow, actualFeedbackSessionRow);
+    }
+
+    private static void checkCommentsForStudentsTablesEqual(CommentsForStudentsTable expectedCommentsForStudentsTable,
+                                                            CommentsForStudentsTable actualCommentsForStudentsTable) {
+        assertEquals(expectedCommentsForStudentsTable.getGiverDetails(),
+                     actualCommentsForStudentsTable.getGiverDetails());
+        assertEquals(expectedCommentsForStudentsTable.getExtraClass(), actualCommentsForStudentsTable.getExtraClass());
+        List<Comment> actualCommentRows = actualCommentsForStudentsTable.getRows();
+        List<Comment> expectedCommentRows = expectedCommentsForStudentsTable.getRows();
+        assertEquals(expectedCommentRows.size(), actualCommentRows.size());
+        
+        for(int i = 0; i < expectedCommentRows.size(); i++) {
+            checkCommentRowsEqual(expectedCommentRows.get(i), actualCommentRows.get(i));
+        }
     }
 
     private static void checkFeedbackSessionRowsEqual(
