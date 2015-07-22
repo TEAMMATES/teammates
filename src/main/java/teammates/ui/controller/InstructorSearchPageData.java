@@ -257,12 +257,12 @@ public class InstructorSearchPageData extends PageData {
                                                        courseId, studentSearchResultBundle);
         Map<String, List<String>> sectionNameToTeamNameMap = new HashMap<String, List<String>>();
         Map<String, List<StudentAttributes>> teamNameToStudentsMap = new HashMap<String, List<StudentAttributes>>();
-        Map<String, String> emailPhotoUrlMapping = new HashMap<String, String>();
+        Map<String, String> emailToPhotoUrlMap = new HashMap<String, String>();
         for (StudentAttributes student : studentsInCourse) {
             String teamName = student.team;
             String sectionName = student.section;
             String viewPhotoLink = addUserIdToUrl(student.getPublicProfilePictureUrl());
-            emailPhotoUrlMapping.put(student.email, viewPhotoLink);
+            emailToPhotoUrlMap.put(student.email, viewPhotoLink);
             if (!teamNameToStudentsMap.containsKey(teamName)) {
                 teamNameToStudentsMap.put(teamName, new ArrayList<StudentAttributes>());
             }
@@ -298,7 +298,7 @@ public class InstructorSearchPageData extends PageData {
                                             instructor.isAllowedForPrivilege(section.name, Const.ParamsNames.INSTRUCTOR_PERMISSION_GIVE_COMMENT_IN_SECTIONS);
             rows.add(new StudentListSectionData(section, isAllowedToViewStudentInSection,
                                                 isAllowedToModifyStudent, isAllowedToGiveCommentInSection,
-                                                emailPhotoUrlMapping, account.googleId));
+                                                emailToPhotoUrlMap, account.googleId));
         }
         return rows;
     }
