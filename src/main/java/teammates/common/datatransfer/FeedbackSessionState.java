@@ -1,5 +1,5 @@
 package teammates.common.datatransfer;
 
 public enum FeedbackSessionState {
-    OPEN, CLOSED, PUBLISHED;
+    OPEN, CLOSED, PUBLISHED, AWAITING;
 }
