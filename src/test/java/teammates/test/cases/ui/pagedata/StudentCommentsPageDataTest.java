@@ -36,7 +36,7 @@ import teammates.ui.template.QuestionTable;
 import teammates.ui.template.FeedbackResponseComment;
 import teammates.ui.template.ResponseRow;
 
-public class StudentCommentsPageDataTest extends BaseTestCase{
+public class StudentCommentsPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     private static StudentCommentsPageData data;
     private static CourseAttributes course1;
