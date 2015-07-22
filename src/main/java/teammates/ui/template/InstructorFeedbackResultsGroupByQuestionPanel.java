@@ -2,7 +2,7 @@ package teammates.ui.template;
 
 import java.util.List;
 
-import teammates.common.util.Url;
+import teammates.common.util.FieldValidator;
 
 
 /**
@@ -17,33 +17,49 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorRes
     
     boolean isEmailValid;
     
-    public InstructorFeedbackResultsGroupByQuestionPanel() {
+    public InstructorFeedbackResultsGroupByQuestionPanel(List<InstructorResultsQuestionTable> questionTables,
+                                    String profilePictureLink, 
+                                    boolean isGiver, String participantIdentifier, String participantName,
+                                    InstructorResultsModerationButton moderationButton, 
+                                    boolean isModerationButtonDisplayed) {
+        setParticipantIdentifier(participantIdentifier);
+        setName(participantName);
+        setGiver(isGiver);
+        
+        boolean isEmailValid = new FieldValidator()
+                                       .getInvalidityInfo(FieldValidator.FieldType.EMAIL, participantIdentifier).isEmpty();
+        setEmailValid(isEmailValid);
+        this.profilePictureLink = profilePictureLink;
+        
+        this.questionTables = questionTables;
+        
+        setModerationButton(moderationButton);
+        setModerationButtonDisplayed(isModerationButtonDisplayed);
+        
+        setHasResponses(true);
+        
     }
     
-    public static InstructorFeedbackResultsGroupByQuestionPanel buildInstructorFeedbackResultsGroupByQuestionPanel(
-                                                                    List<InstructorResultsQuestionTable> questionTables,
-                                                                    boolean isEmailValid, Url profilePictureLink, 
-                                                                    boolean isGiver, String participantIdentifier, String participantName,
-                                                                    InstructorResultsModerationButton moderationButton, 
-                                                                    boolean isModerationButtonDisplayed) {
-
-        InstructorFeedbackResultsGroupByQuestionPanel byQuestionPanel = new InstructorFeedbackResultsGroupByQuestionPanel();
-        byQuestionPanel.setParticipantIdentifier(participantIdentifier);
-        byQuestionPanel.setName(participantName);
-        byQuestionPanel.setGiver(isGiver);
-        
-        byQuestionPanel.setEmailValid(isEmailValid);
-        byQuestionPanel.profilePictureLink = profilePictureLink.toString();
-        
-        byQuestionPanel.questionTables = questionTables;
-        
-        byQuestionPanel.setModerationButton(moderationButton);
-        byQuestionPanel.setModerationButtonDisplayed(isModerationButtonDisplayed);
-        
-        byQuestionPanel.setHasResponses(true);
-        
-        return byQuestionPanel;
+    public static InstructorFeedbackResultsGroupByQuestionPanel buildInstructorFeedbackResultsGroupByQuestionPanelWithoutModerationButton(
+                                    List<InstructorResultsQuestionTable> questionTables,
+                                    String profilePictureLink, 
+                                    boolean isGroupedByGiver, String participantIdentifier, String participantName) {
+        return new InstructorFeedbackResultsGroupByQuestionPanel(questionTables, profilePictureLink, isGroupedByGiver, 
+                                                                participantIdentifier, participantName, 
+                                                                null, false);
     }
+    
+    public static InstructorFeedbackResultsGroupByQuestionPanel buildInstructorFeedbackResultsGroupByQuestionPanelWithModerationButton(
+                                    String participantIdentifier, String participantName, 
+                                    List<InstructorResultsQuestionTable> questionTables,
+                                    String profilePictureLink, 
+                                    boolean isGroupedByGiver,
+                                    InstructorResultsModerationButton moderationButton) {
+        return new InstructorFeedbackResultsGroupByQuestionPanel(questionTables, profilePictureLink, isGroupedByGiver, 
+                                                                 participantIdentifier, participantName, 
+                                                                 moderationButton, true);
+    }
+    
 
     public List<InstructorResultsQuestionTable> getQuestionTables() {
         return questionTables;
