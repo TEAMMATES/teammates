@@ -158,7 +158,7 @@ function prepareContribQuestions() {
         var qnNum = contribQuestionNums[i];
 
         // Get number of options for the specified question number of contribution question type
-        var optionNums = $('[name^="responsetext-' + qnNum + '"]').length;
+        var optionNums = $('[name^="responsetext-' + qnNum + '-"]').length;
 
         for (var k = 0; k < optionNums; k++) {
             var $dropdown = $('[name="responsetext-' + qnNum + '-' + k + '"]');
@@ -183,10 +183,10 @@ function prepareMSQQuestions() {
     for (var i = 0; i < msqQuestionNums.length; i++) {
         var qnNum = msqQuestionNums[i];
 
-        var noneOfTheAboveOption = $('input[name^="responsetext-' + qnNum + '"][value=""]');
+        var $noneOfTheAboveOption = $('input[name^="responsetext-' + qnNum + '-"][value=""]');
 
         // reset other options when "none of the above" is clicked
-        noneOfTheAboveOption.click(function() {
+        $noneOfTheAboveOption.click(function() {
             var $options = $(this).closest('table').find('input[name^="responsetext-"][value!=""]');
 
             $options.each(function() {
@@ -195,7 +195,7 @@ function prepareMSQQuestions() {
         });
 
         // reset "none of the above" if any option is clicked
-        var $options = $('input[name^="responsetext-' + qnNum + '"][value!=""]');
+        var $options = $('input[name^="responsetext-' + qnNum + '-"][value!=""]');
 
         $options.click(function() {
             var noneOfTheAboveOption = $(this).closest('table').find('input[name^="responsetext-"][value=""]');
