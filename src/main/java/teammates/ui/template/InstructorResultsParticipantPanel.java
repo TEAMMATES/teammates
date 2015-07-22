@@ -1,10 +1,12 @@
 package teammates.ui.template;
 
 
-public class InstructorResultsParticipantPanel implements Comparable<InstructorResultsParticipantPanel>{
+public class InstructorResultsParticipantPanel implements Comparable<InstructorResultsParticipantPanel> {
     private boolean isGiver; // if false, then participant is a recipient
     private String participantIdentifier; // email, team name, or %GENERAL%
-    private String name; 
+    private String name;
+    
+    private boolean isEmailValid;
     
     private boolean isHasResponses;
     private String className;
@@ -44,6 +46,14 @@ public class InstructorResultsParticipantPanel implements Comparable<InstructorR
 
     public void setHasResponses(boolean isHasResponses) {
         this.isHasResponses = isHasResponses;
+    }
+    
+    public boolean isEmailValid() {
+        return isEmailValid;
+    }
+
+    public void setEmailValid(boolean isEmailValid) {
+        this.isEmailValid = isEmailValid;
     }
 
     public String getClassName() {

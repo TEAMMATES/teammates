@@ -17,7 +17,6 @@ public class InstructorFeedbackResultsPageAction extends Action {
 
     @Override
     protected ActionResult execute() throws EntityDoesNotExistException {
-        // this variable is used as a flag for tests
         String needAjax = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_NEED_AJAX);
 
         int queryRange;
@@ -133,6 +132,7 @@ public class InstructorFeedbackResultsPageAction extends Action {
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_QUESTION, data);
             case "recipient-giver-question":
+                data.initForViewByRecipientGiverQuestion(instructor, data.selectedSection, data.showStats, data.groupByTeam);
                 return createShowPageResult(
                         Const.ViewURIs.INSTRUCTOR_FEEDBACK_RESULTS_BY_RECIPIENT_GIVER_QUESTION, data);
             case "giver-recipient-question":

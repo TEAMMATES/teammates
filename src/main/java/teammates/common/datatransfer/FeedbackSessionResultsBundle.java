@@ -1262,9 +1262,9 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
         return getResponsesSortedByRecipient(false);
     }
 
-    public Map<String, Map<String, List<FeedbackResponseAttributes>>>
+    public LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>
             getResponsesSortedByRecipient(boolean sortByTeam) {
-        Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
+        LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
                 new LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>();
 
         if (sortByTeam) {
@@ -1275,29 +1275,27 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
         String prevGiver = null;
         String prevRecipient = null;
-        String recipientName = null;
-        String giverName = null;
-        String recipientTeamName = null;
-        String giverTeamName = null;
+        String recipient = null;
+        String giver = null;
 
         List<FeedbackResponseAttributes> responsesFromOneGiverToOneRecipient =
                 new ArrayList<FeedbackResponseAttributes>();
-        Map<String, List<FeedbackResponseAttributes>> responsesToOneRecipient =
+        LinkedHashMap<String, List<FeedbackResponseAttributes>> responsesToOneRecipient =
                 new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
 
         for (FeedbackResponseAttributes response : responses) {
             // New recipient, add response package to map.
             if (!(response.recipientEmail.equals(prevRecipient)) && prevRecipient != null) {
                 // Put previous giver responses into inner map.
-                responsesToOneRecipient.put(giverName, responsesFromOneGiverToOneRecipient);
+                responsesToOneRecipient.put(giver, responsesFromOneGiverToOneRecipient);
                 // Put all responses for previous recipient into outer map.
-                sortedMap.put(recipientName, responsesToOneRecipient);
+                sortedMap.put(recipient, responsesToOneRecipient);
                 // Clear responses
                 responsesToOneRecipient = new LinkedHashMap<String, List<FeedbackResponseAttributes>>();
                 responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
             } else if (!(response.giverEmail.equals(prevGiver)) && prevGiver != null) {
                 // New giver, add giver responses to response package for one recipient
-                responsesToOneRecipient.put(giverName, responsesFromOneGiverToOneRecipient);
+                responsesToOneRecipient.put(giver, responsesFromOneGiverToOneRecipient);
                 // Clear response list
                 responsesFromOneGiverToOneRecipient = new ArrayList<FeedbackResponseAttributes>();
             }
@@ -1306,20 +1304,15 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
 
             prevGiver = response.giverEmail;
             prevRecipient = response.recipientEmail;
-            recipientName = this.getRecipientNameForResponse(questions.get(response.feedbackQuestionId),
-                                                             response);
-            recipientTeamName = this.getTeamNameForEmail(response.recipientEmail);
-            recipientName = this.appendTeamNameToName(recipientName,
-                                                      recipientTeamName);
-            giverName = this.getGiverNameForResponse(questions.get(response.feedbackQuestionId), response);
-            giverTeamName = this.getTeamNameForEmail(response.giverEmail);
-            giverName = this.appendTeamNameToName(giverName, giverTeamName);
+            
+            recipient = response.recipientEmail;
+            giver = response.giverEmail;
         }
 
         if (!(responses.isEmpty())) {
             // Put responses for final giver
-            responsesToOneRecipient.put(giverName, responsesFromOneGiverToOneRecipient);
-            sortedMap.put(recipientName, responsesToOneRecipient);
+            responsesToOneRecipient.put(giver, responsesFromOneGiverToOneRecipient);
+            sortedMap.put(recipient, responsesToOneRecipient);
         }
 
         return sortedMap;
