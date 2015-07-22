@@ -29,9 +29,11 @@ public class AdminAccountDetailsPageData extends PageData {
     private List<AdminAccountDetailsStudentCourseListTableRow> createStudentCourseListTable(
                                     List<CourseAttributes> studentCourseList) {
         List<AdminAccountDetailsStudentCourseListTableRow> courseListTable = new ArrayList<AdminAccountDetailsStudentCourseListTableRow>();
-        for(CourseAttributes courseDetails : studentCourseList) {
-            AdminAccountDetailsStudentCourseListTableRow row = new AdminAccountDetailsStudentCourseListTableRow(accountInformation.googleId, courseDetails);
-            courseListTable.add(row);
+        if (studentCourseList != null) {
+            for(CourseAttributes courseDetails : studentCourseList) {
+                AdminAccountDetailsStudentCourseListTableRow row = new AdminAccountDetailsStudentCourseListTableRow(accountInformation.googleId, courseDetails);
+                courseListTable.add(row);
+            }
         }
         return courseListTable;
     }
@@ -39,9 +41,11 @@ public class AdminAccountDetailsPageData extends PageData {
     private List<AdminAccountDetailsInstructorCourseListTableRow> createInstructorCourseListTable(
                                                             List<CourseDetailsBundle> instructorCourseList) {
         List<AdminAccountDetailsInstructorCourseListTableRow> courseListTable = new ArrayList<AdminAccountDetailsInstructorCourseListTableRow>();
-        for(CourseDetailsBundle courseDetails : instructorCourseList) {
-            AdminAccountDetailsInstructorCourseListTableRow row = new AdminAccountDetailsInstructorCourseListTableRow(accountInformation.googleId, courseDetails);
-            courseListTable.add(row);
+        if (instructorCourseList != null) {
+            for(CourseDetailsBundle courseDetails : instructorCourseList) {
+                AdminAccountDetailsInstructorCourseListTableRow row = new AdminAccountDetailsInstructorCourseListTableRow(accountInformation.googleId, courseDetails);
+                courseListTable.add(row);
+            }
         }
         return courseListTable;
     }
