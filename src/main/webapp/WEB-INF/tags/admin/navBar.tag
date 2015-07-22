@@ -1,4 +1,5 @@
 <%@ tag description="Admin Navigation Bar" %>
+<%@ tag import="teammates.common.util.Const" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -56,7 +57,7 @@
             <ul class="nav navbar-nav pull-right">
                 <li>
                     <a class="nav logout" href="<%=Const.ViewURIs.LOGOUT%>">
-                        <span class="glyphicon glyphicon-user"></span>Logout
+                        <span class="glyphicon glyphicon-user"></span> Logout
                         
                         (<span class="text-info" data-toggle="tooltip" data-placement="bottom"
                                 title="${data.account.googleId}">
