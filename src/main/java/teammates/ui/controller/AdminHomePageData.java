@@ -13,4 +13,19 @@ public class AdminHomePageData extends PageData {
         super(account);
     }
 
+    public String getInstructorShortName() {
+        return sanitizeForHtml(instructorShortName);
+    }
+    
+    public String getInstructorName() {
+        return sanitizeForHtml(instructorName);
+    }
+    
+    public String getInstructorEmail() {
+        return sanitizeForHtml(instructorEmail);
+    }
+    
+    public String getInstructorInstitution() {
+        return sanitizeForHtml(instructorInstitution);
+    }
 }
