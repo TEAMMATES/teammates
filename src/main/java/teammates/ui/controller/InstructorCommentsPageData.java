@@ -14,6 +14,7 @@ import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.ui.template.Comment;
 import teammates.ui.template.CommentsForStudentsTable;
+import teammates.ui.template.CoursePagination;
 
 /**
  * PageData: the data to be used in the InstructorCommentsPage
@@ -25,7 +26,7 @@ public class InstructorCommentsPageData extends PageData {
     private boolean isDisplayArchive;
     private String courseId;
     private String courseName;
-    private List<String> coursePaginationList;
+    private CoursePagination coursePagination;
     private Map<String, List<CommentAttributes>> comments;
     private Map<String, List<Boolean>> commentModifyPermissions;
     private CourseRoster roster;
@@ -48,15 +49,15 @@ public class InstructorCommentsPageData extends PageData {
         this.isDisplayArchive = isDisplayArchive;
         this.courseId = courseId;
         this.courseName = courseName;
-        this.coursePaginationList = coursePaginationList;
         this.comments = comments;
         this.commentModifyPermissions = commentModifyPermissions;
         this.roster = roster;
         this.feedbackSessions = feedbackSessions;
-        this.previousPageLink = retrievePreviousPageLink();
-        this.nextPageLink = retrieveNextPageLink();
+        this.previousPageLink = retrievePreviousPageLink(coursePaginationList);
+        this.nextPageLink = retrieveNextPageLink(coursePaginationList);
         this.numberOfPendingComments = numberOfPendingComments;
-    
+        
+        setCoursePagination(coursePaginationList);
         setCommentsForStudentsTables();
                                         
     }
@@ -73,8 +74,8 @@ public class InstructorCommentsPageData extends PageData {
         return courseName;
     }
     
-    public List<String> getCoursePaginationList() {
-        return coursePaginationList;
+    public CoursePagination getCoursePagination() {
+        return coursePagination;
     }
     
     public List<FeedbackSessionAttributes> getFeedbackSessions() {
@@ -129,6 +130,15 @@ public class InstructorCommentsPageData extends PageData {
         String namesString = namesStringBuilder.toString();
         return removeEndComma(namesString);
     }
+    private void setCoursePagination(List<String> coursePaginationList) {
+        String previousPageLink = retrievePreviousPageLink(coursePaginationList);
+        String nextPageLink = retrieveNextPageLink(coursePaginationList);
+        String activeCourse = coursePaginationList.contains(courseId) ? courseId : "";
+        String activeCourseClass = isViewingDraft ? "" : "active";
+        String userCommentsLink = getInstructorCommentsLink();
+        coursePagination = new CoursePagination(previousPageLink, nextPageLink, coursePaginationList,
+                                                activeCourse, activeCourseClass, userCommentsLink);
+    }
 
     private void setCommentsForStudentsTables() {
         Map<String, String> giverEmailToGiverNameMap = getGiverEmailToGiverNameMap();
@@ -179,7 +189,7 @@ public class InstructorCommentsPageData extends PageData {
         return rows;
     }
     
-    private String retrievePreviousPageLink() {
+    private String retrievePreviousPageLink(List<String> coursePaginationList) {
         int courseIdx = coursePaginationList.indexOf(courseId);
         String previousPageLink = "javascript:;";
         if (courseIdx >= 1) {
@@ -188,7 +198,7 @@ public class InstructorCommentsPageData extends PageData {
         return previousPageLink;
     }
 
-    private String retrieveNextPageLink() {
+    private String retrieveNextPageLink(List<String> coursePaginationList) {
         int courseIdx = coursePaginationList.indexOf(courseId);
         String nextPageLink = "javascript:;";
         if (courseIdx < coursePaginationList.size() - 1) {

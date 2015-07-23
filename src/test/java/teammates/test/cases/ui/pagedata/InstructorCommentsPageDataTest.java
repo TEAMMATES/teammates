@@ -85,7 +85,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
 
         assertEquals(courseId, data.getCourseId());
         assertEquals(courseName, data.getCourseName());
-        assertEquals(coursePaginationList, data.getCoursePaginationList());
+        assertEquals(coursePaginationList, data.getCoursePagination().getCoursePaginationList());
         assertEquals(feedbackSessions, data.getFeedbackSessions());
         String expectedNextPageLink = data.getInstructorCommentsLink() + "&courseid=" + course2.id;
         String expectedPreviousPageLink = "javascript:;";
@@ -162,7 +162,7 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
         assertEquals(0, actualComments.get(COMMENT_GIVER_NAME_THAT_COMES_FIRST).size());
         assertEquals(courseId, data.getCourseId());
         assertEquals(courseName, data.getCourseName());
-        assertEquals(coursePaginationList, data.getCoursePaginationList());
+        assertEquals(coursePaginationList, data.getCoursePagination().getCoursePaginationList());
         assertEquals(feedbackSessions, data.getFeedbackSessions());
         expectedNextPageLink = "javascript:;";
         expectedPreviousPageLink = data.getInstructorCommentsLink() + "&courseid=" + course1.id;

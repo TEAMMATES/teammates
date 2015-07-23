@@ -16,10 +16,8 @@
     <br>
     <t:statusMessage />
     <c:choose>
-    <c:when test="${not empty data.coursePaginationList}">
-        <comments:pagination previousPageLink="${data.previousPageLink}" coursePaginationList="${data.coursePaginationList}"
-         viewingDraft="${data.viewingDraft}" currentCourseId="${data.courseId}" 
-         instructorCommentsLink="${data.instructorCommentsLink}" nextPageLink="${data.nextPageLink}"/>
+    <c:when test="${not empty data.coursePagination.coursePaginationList}">
+        <shared:pagination coursePagination="${data.coursePagination}"/>
         <div class="well well-plain">
             <div class="row">
                 <h4 class="col-sm-9 text-color-primary">
@@ -55,9 +53,7 @@
                 </div>
             </c:forEach> <%-- FeedbackSession loop ends --%>
         </div>
-        <comments:pagination previousPageLink="${data.previousPageLink}" coursePaginationList="${data.coursePaginationList}"
-         viewingDraft="${data.viewingDraft}" currentCourseId="${data.courseId}" 
-         instructorCommentsLink="${data.instructorCommentsLink}" nextPageLink="${data.nextPageLink}"/>
+        <shared:pagination coursePagination="${data.coursePagination}"/>
     </c:when>
     <c:otherwise>
         <div id="statusMessage" class="alert alert-warning">

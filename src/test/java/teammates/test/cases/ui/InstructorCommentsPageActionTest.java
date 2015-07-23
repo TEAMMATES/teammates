@@ -44,7 +44,7 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
 
         InstructorCommentsPageData data = (InstructorCommentsPageData) result.data;
         assertEquals("", data.getCourseName());
-        assertEquals(0, data.getCoursePaginationList().size());
+        assertEquals(0, data.getCoursePagination().getCoursePaginationList().size());
         assertEquals("javascript:;", data.getPreviousPageLink());
         assertEquals("javascript:;", data.getNextPageLink());
         
@@ -63,7 +63,7 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         
         data = (InstructorCommentsPageData) result.data;
         assertEquals("idOfTypicalCourse1 : Typical Course 1 with 2 Evals", data.getCourseName());
-        assertEquals(1, data.getCoursePaginationList().size());
+        assertEquals(1, data.getCoursePagination().getCoursePaginationList().size());
         assertEquals("javascript:;", data.getPreviousPageLink());
         assertEquals("javascript:;", data.getNextPageLink());
         assertEquals(5, data.getComments().get(InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST).size());
@@ -82,7 +82,7 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         
         data = (InstructorCommentsPageData) result.data;
         assertEquals("idOfTypicalCourse1 : Typical Course 1 with 2 Evals", data.getCourseName());
-        assertEquals(1, data.getCoursePaginationList().size());
+        assertEquals(1, data.getCoursePagination().getCoursePaginationList().size());
         assertEquals("javascript:;", data.getPreviousPageLink());
         assertEquals("javascript:;", data.getNextPageLink());
         assertEquals(0, data.getComments().size());
