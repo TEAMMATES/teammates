@@ -13,31 +13,13 @@
 
 <ta:adminPage bodyTitle="Instructor Account Management" pageTitle="TEAMMATES - Administrator Account Management" jsIncludes="${jsIncludes}">    <t:statusMessage/>
     <div id="pagination_top">
-        <ul class="pagination">
-            <li class="previous"><a href="#"> <span>&laquo;</span>
-            </a></li>
-            <li><a class="pageNumber" href="#">1</a></li>
-            <li><a class="pageNumber" href="#">2</a></li>
-            <li><a class="pageNumber" href="#">3</a></li>
-            <li><a class="pageNumber" href="#">4</a></li>
-            <li><a class="pageNumber" href="#">5</a></li>
-            <li class="next"><a href="#"><span>&raquo;</span>
-            </a></li>
-        </ul>
+        <accounts:adminAccountManagementPagination />
     </div>
 
     <accounts:accountTable accounts="${data.accountTable}" />
 
     <div id="pagination_bottom">
-        <ul class="pagination">
-            <li class="previous"><a href="#"> <span>&laquo;</span></a></li>
-            <li><a class="pageNumber" href="#">1</a></li>
-            <li><a class="pageNumber" href="#">2</a></li>
-            <li><a class="pageNumber" href="#">3</a></li>
-            <li><a class="pageNumber" href="#">4</a></li>
-            <li><a class="pageNumber" href="#">5</a></li>
-            <li class="next"><a href="#"><span>&raquo;</span></a></li>
-        </ul>
+        <accounts:adminAccountManagementPagination />
     </div>
 
     <a href="#" class="back-to-top-left"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;Top</a> 
