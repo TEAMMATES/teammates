@@ -40,16 +40,16 @@ import teammates.ui.template.ResponseRow;
 public class StudentCommentsPageDataTest extends BaseTestCase {
     private static DataBundle dataBundle = getTypicalDataBundle();
     private static StudentCommentsPageData data;
-    private static CourseAttributes course1;
-    private static StudentAttributes student1;
-    private static InstructorAttributes instructor1;
+    private static CourseAttributes sampleCourse;
+    private static StudentAttributes sampleStudent;
+    private static InstructorAttributes sampleInstructor;
     
     @BeforeClass
     public static void classSetUp() throws Exception {
         printTestClassHeader();
-        course1 = dataBundle.courses.get("typicalCourse1");
-        student1 = dataBundle.students.get("student1InCourse1");
-        instructor1 = dataBundle.instructors.get("instructor1OfCourse1");
+        sampleCourse = dataBundle.courses.get("typicalCourse1");
+        sampleStudent = dataBundle.students.get("student1InCourse1");
+        sampleInstructor = dataBundle.instructors.get("instructor1OfCourse1");
         
     }
     
@@ -61,16 +61,16 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         AccountAttributes account = dataBundle.accounts.get("student1InCourse1");
         data = new StudentCommentsPageData(account);
         
-        String courseId = course1.id;
-        String courseName = course1.name;
-        List<String> coursePaginationList = Arrays.asList(course1.id);
+        String courseId = sampleCourse.id;
+        String courseName = sampleCourse.name;
+        List<String> coursePaginationList = Arrays.asList(sampleCourse.id);
         List<CommentAttributes> comments = new ArrayList<CommentAttributes>();
         comments.add(dataBundle.comments.get("comment1FromI1C1toS1C1"));
         comments.add(dataBundle.comments.get("comment2FromI1C1toS1C1"));
-        List<StudentAttributes> students = Arrays.asList(student1);
-        List<InstructorAttributes> instructors = Arrays.asList(instructor1);
+        List<StudentAttributes> students = Arrays.asList(sampleStudent);
+        List<InstructorAttributes> instructors = Arrays.asList(sampleInstructor);
         CourseRoster roster = new CourseRoster(students, instructors);
-        String studentEmail = student1.email;
+        String studentEmail = sampleStudent.email;
         Map<String, FeedbackSessionResultsBundle> feedbackResultBundles = 
                 new HashMap<String, FeedbackSessionResultsBundle>();
         FeedbackSessionResultsBundle bundle = getSingleFeedbackSessionResultsBundle(roster);
@@ -85,7 +85,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         // JSTL data structure comparison: Comments for students tables
         List<CommentsForStudentsTable> actualCommentsForStudentsTables = data.getCommentsForStudentsTables();
         assertEquals(1, data.getCommentsForStudentsTables().size());
-        String expectedGiverDetails = instructor1.displayedName + " " + instructor1.name;
+        String expectedGiverDetails = sampleInstructor.displayedName + " " + sampleInstructor.name;
         CommentsForStudentsTable expectedCommentsForStudentsTable = createCommentsForStudentsTable(expectedGiverDetails, studentEmail, comments, roster);
         CommentsForStudentsTable actualCommentsForStudentsTable = actualCommentsForStudentsTables.get(0);
         checkCommentsForStudentsTablesEqual(expectedCommentsForStudentsTable, actualCommentsForStudentsTable);
@@ -199,14 +199,14 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         Map<String, boolean[]> visibilityTable = new HashMap<String, boolean[]>();
         Map<String, List<FeedbackResponseCommentAttributes>> responseComments =
                 new HashMap<String, List<FeedbackResponseCommentAttributes>>();
-        emailNameTable.put(student1.email, student1.name);
-        emailLastNameTable.put(student1.email, student1.lastName);
-        emailTeamNameTable.put(student1.email, student1.team);
+        emailNameTable.put(sampleStudent.email, sampleStudent.name);
+        emailLastNameTable.put(sampleStudent.email, sampleStudent.lastName);
+        emailTeamNameTable.put(sampleStudent.email, sampleStudent.team);
         boolean[] visibility = {true, true};
         visibilityTable.put(response.getId(), visibility);
         FeedbackSessionResponseStatus responseStatus = new FeedbackSessionResponseStatus();
-        responseStatus.emailNameTable.put(student1.email, student1.name);
-        responseStatus.emailTeamNameTable.put(student1.email, student1.team);
+        responseStatus.emailNameTable.put(sampleStudent.email, sampleStudent.name);
+        responseStatus.emailTeamNameTable.put(sampleStudent.email, sampleStudent.team);
         FeedbackResponseCommentAttributes responseComment = 
                 dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");
         List<FeedbackResponseCommentAttributes> responseCommentsList = Arrays.asList(responseComment);
