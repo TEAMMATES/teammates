@@ -470,8 +470,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
             String currentTeam = getCurrentTeam(bundle, recipientIdentifier);
             String currentSection = getCurrentSection(recipientToGiverToResponsesMap);
             
+            boolean isChangeOfTeam = !prevTeam.equals(currentTeam);
+            boolean isChangeOfSection = !prevSection.equals(currentSection);
             // Change in team
-            if (!prevTeam.equals(currentTeam)) {
+            if (isChangeOfTeam) {
                 boolean isFirstTeam = prevTeam.isEmpty();
                 if (!isFirstTeam) {
                     // construct missing participant panels
@@ -481,10 +483,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
                 }
                 
                 teamsWithResponses.add(currentTeam);
+                if (!isChangeOfSection) {
+                    sectionPanel.getIsTeamWithResponses().put(currentTeam, true);
+                }
             }
             
             // Change in section
-            if (!prevSection.equals(currentSection)) {
+            if (isChangeOfSection) {
                 boolean isFirstSection = sectionPanel.getParticipantPanels().isEmpty();
                 if (!isFirstSection) {
                     // Finalize building of section panel,
@@ -501,14 +506,14 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     teamsWithResponses.add(currentTeam);
                     
                     sectionPanel = new InstructorFeedbackResultsSectionPanel();
-                    sectionPanel.setDisplayingTeamStatistics(false);
                 }
+                sectionPanel.getIsTeamWithResponses().put(currentTeam, true);
             }
             
             //Build recipient panel for the current response's recipient
             InstructorFeedbackResultsGroupByParticipantPanel recipientPanel = buildGroupByParticipantPanel(
-                                            additionalInfoId, sectionPanel, recipientIndex,
-                                            recipientToGiverToResponsesMap, recipientIdentifier, currentTeam);
+                                            recipientIdentifier, currentTeam, additionalInfoId, recipientIndex,
+                                            recipientToGiverToResponsesMap);
             
             // add constructed InstructorFeedbackResultsGroupByParticipantPanel into section's participantPanels            
             addParticipantPanelToSectionPanel(sectionPanel, currentTeam, recipientPanel);
@@ -534,37 +539,27 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
 
     private InstructorFeedbackResultsGroupByParticipantPanel buildGroupByParticipantPanel(
-                                    final String additionalInfoId,
-                                    InstructorFeedbackResultsSectionPanel sectionPanel,
-                                    int recipientIndex,
-                                    Map.Entry<String, Map<String, List<FeedbackResponseAttributes>>> recipientToGiverToResponsesMap,
-                                    String recipientIdentifier, String currentTeam) {
+                                    String recipientIdentifier, String currentTeam,
+                                    String additionalInfoId, int recipientIndex,
+                                    Map.Entry<String, Map<String, List<FeedbackResponseAttributes>>> recipientToGiverToResponsesMap) {
         // first build giver panels for the recipient panel
         Map<String, List<FeedbackResponseAttributes>> giverToResponsesMap = recipientToGiverToResponsesMap.getValue();
         List<InstructorFeedbackResultsSecondaryParticipantPanelBody> secondaryParticipantPanels 
                              = buildSecondaryParticipantPanels(
-                                        additionalInfoId, sectionPanel, recipientIndex, currentTeam,
-                                        giverToResponsesMap);
+                                        additionalInfoId, recipientIndex, giverToResponsesMap);
         
         // construct the recipient panel
-        String recipientNameWithTeamNameAppended = bundle.getNameForEmail(recipientIdentifier);
-        boolean isEmail = validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, recipientIdentifier).isEmpty();
-        
-        if (isEmail && !bundle.getTeamNameForEmail(recipientIdentifier).isEmpty()) {
-            recipientNameWithTeamNameAppended += " (" + bundle.getTeamNameForEmail(recipientIdentifier)
-                                               + ")";
-        }
-        
-        InstructorFeedbackResultsGroupByParticipantPanel recipientPanel = buildInstructorFeedbackResultsGroupBySecondaryParticipantPanel(
+        String recipientNameWithTeamNameAppended = bundle.appendTeamNameToName(bundle.getNameForEmail(recipientIdentifier), bundle.getTeamNameForEmail(recipientIdentifier));
+        InstructorFeedbackResultsGroupByParticipantPanel recipientPanel 
+                = buildInstructorFeedbackResultsGroupBySecondaryParticipantPanel(
                                         recipientIdentifier, recipientNameWithTeamNameAppended, 
                                         secondaryParticipantPanels, null, false);
+        
         return recipientPanel;
     }
 
     private List<InstructorFeedbackResultsSecondaryParticipantPanelBody> buildSecondaryParticipantPanels(
-                                    final String additionalInfoId,
-                                    InstructorFeedbackResultsSectionPanel sectionPanel, int recipientIndex,
-                                    String currentTeam,
+                                    String additionalInfoId, int recipientIndex,
                                     Map<String, List<FeedbackResponseAttributes>> giverToResponsesMap) {
         List<InstructorFeedbackResultsSecondaryParticipantPanelBody> secondaryParticipantPanels = new ArrayList<InstructorFeedbackResultsSecondaryParticipantPanelBody>();
         
@@ -589,7 +584,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                         validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, 
                                                                     giverIdentifier)
                                                                     .isEmpty());
-            sectionPanel.getIsTeamWithResponses().put(currentTeam, true);
+            
             secondaryParticipantPanel.setProfilePictureLink(getProfilePictureLink(giverIdentifier));
             secondaryParticipantPanel.setModerationButton(buildModerationButtonForGiver(
                                                               null, giverIdentifier, 
