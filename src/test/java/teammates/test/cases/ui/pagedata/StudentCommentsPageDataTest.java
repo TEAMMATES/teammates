@@ -111,28 +111,10 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         data.init(courseId, courseName, coursePaginationList, comments, roster, studentEmail, feedbackResultBundles);
         
         /**************************** JUnit Comparisons ****************************/
-        // Regular pageData data assertions
-        String expectedCourseId = courseId;
-        String actualCourseId = data.getCourseId();
-        assertEquals(expectedCourseId, actualCourseId);
-        String expectedCourseName = courseName;
-        String actualCourseName = data.getCourseName();
-        assertEquals(expectedCourseName, actualCourseName);
-        String expectedPreviousPageLink;
-        String expectedNextPageLink;
-        expectedPreviousPageLink = expectedNextPageLink = "javascript:;";
-        List<String> expectedCoursePaginationList = coursePaginationList;
-        String expectedActiveCourse = course1.id;
-        String expectedLink = Const.ActionURIs.STUDENT_COMMENTS_PAGE;
-        expectedLink = Url.addParamToUrl(expectedLink, Const.ParamsNames.USER_ID, account.googleId);
-        CoursePagination actualCoursePagination = data.getCoursePagination();
-        assertEquals(expectedPreviousPageLink, actualCoursePagination.getPreviousPageLink());
-        assertEquals(expectedNextPageLink, actualCoursePagination.getNextPageLink());
-        assertEquals(expectedCoursePaginationList, actualCoursePagination.getCoursePaginationList());
-        assertEquals(expectedActiveCourse, actualCoursePagination.getActiveCourse());
-        assertEquals(expectedLink, actualCoursePagination.getUserCommentsLink());
+        // Regular pageData data comparison
+        checkRegularDataCorrect(account, courseId, courseName, coursePaginationList);
         
-        // JSTL data structure assertion: Comments for students tables
+        // JSTL data structure comparison: Comments for students tables
         assertEquals(1, data.getCommentsForStudentsTables().size());
         CommentsForStudentsTable actualCommentsForStudentsTable = data.getCommentsForStudentsTables().get(0);
         String expectedGiverDetails = instructor1.displayedName + " " + instructor1.name;
@@ -144,7 +126,7 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         CommentsForStudentsTable expectedCommentsForStudentsTable = new CommentsForStudentsTable(expectedGiverDetails, expectedCommentRows);
         checkCommentsForStudentsTablesEqual(expectedCommentsForStudentsTable, actualCommentsForStudentsTable);
         
-        // JSTL data structure assertions: Feedback session rows
+        // JSTL data structure comparison: Feedback session rows
         List<FeedbackSessionRow> actualFeedbackSessionRows = data.getFeedbackSessionRows();
         expectedGiverDetails = instructor1.email;
         FeedbackResponseComment expectedFeedbackResponseCommentRow = 
@@ -171,6 +153,31 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
 
         FeedbackSessionRow actualFeedbackSessionRow = actualFeedbackSessionRows.get(0);
         checkFeedbackSessionRowsEqual(expectedFeedbackSessionRow, actualFeedbackSessionRow);
+    }
+
+    private static void checkRegularDataCorrect(
+            AccountAttributes account, String courseId, String courseName, List<String> coursePaginationList) {
+        String expectedCourseId = courseId;
+        String actualCourseId = data.getCourseId();
+        assertEquals(expectedCourseId, actualCourseId);
+        
+        String expectedCourseName = courseName;
+        String actualCourseName = data.getCourseName();
+        assertEquals(expectedCourseName, actualCourseName);
+        
+        int index = coursePaginationList.indexOf(courseId);
+        String expectedPreviousPageLink = index > 0 ? coursePaginationList.get(index - 1) : "javascript:;";
+        String expectedNextPageLink = index < coursePaginationList.size() - 1 ? coursePaginationList.get(index + 1) : "javascript:;";
+        List<String> expectedCoursePaginationList = coursePaginationList;
+        String expectedActiveCourse = courseId;
+        String expectedLink = Const.ActionURIs.STUDENT_COMMENTS_PAGE;
+        expectedLink = Url.addParamToUrl(expectedLink, Const.ParamsNames.USER_ID, account.googleId);
+        CoursePagination actualCoursePagination = data.getCoursePagination();
+        assertEquals(expectedPreviousPageLink, actualCoursePagination.getPreviousPageLink());
+        assertEquals(expectedNextPageLink, actualCoursePagination.getNextPageLink());
+        assertEquals(expectedCoursePaginationList, actualCoursePagination.getCoursePaginationList());
+        assertEquals(expectedActiveCourse, actualCoursePagination.getActiveCourse());
+        assertEquals(expectedLink, actualCoursePagination.getUserCommentsLink());
     }
 
     private static void checkCommentsForStudentsTablesEqual(CommentsForStudentsTable expectedCommentsForStudentsTable,
