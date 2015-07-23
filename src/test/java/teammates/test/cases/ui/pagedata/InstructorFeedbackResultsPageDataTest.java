@@ -1,5 +1,6 @@
 package teammates.test.cases.ui.pagedata;
 
+import static org.testng.AssertJUnit.assertNull;
 import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
@@ -15,6 +16,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.FeedbackResponseAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
@@ -26,7 +28,10 @@ import teammates.logic.api.Logic;
 import teammates.test.cases.BaseComponentTestCase;
 import teammates.ui.controller.InstructorFeedbackResultsPageData;
 import teammates.ui.template.ElementTag;
+import teammates.ui.template.InstructorFeedbackResultsGroupByParticipantPanel;
 import teammates.ui.template.InstructorFeedbackResultsGroupByQuestionPanel;
+import teammates.ui.template.InstructorFeedbackResultsResponsePanel;
+import teammates.ui.template.InstructorFeedbackResultsSecondaryParticipantPanelBody;
 import teammates.ui.template.InstructorFeedbackResultsSectionPanel;
 import teammates.ui.template.InstructorResultsModerationButton;
 import teammates.ui.template.InstructorResultsParticipantPanel;
@@ -265,7 +270,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         data.feedbackSessionName, data.courseId, instructor.email, 
-                                        1000, "question");
+                                        1000, "giver-question-recipient");
         data.initForViewByGiverQuestionRecipient(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION, "giver-question-recipient", "on");
         
         Map<String, InstructorFeedbackResultsSectionPanel> sectionPanels = data.getSectionPanels();
@@ -550,7 +555,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
                                         data.feedbackSessionName, data.courseId, instructor.email, 
-                                        1000, "question");
+                                        1000, "recipient-question-giver");
         data.initForViewByRecipientQuestionGiver(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION, "giver-question-recipient", "on");
         
         Map<String, InstructorFeedbackResultsSectionPanel> sectionPanels = data.getSectionPanels();
@@ -775,6 +780,121 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
             assertTrue(responseRow.getRecipientProfilePictureLink().toString().contains(StringHelper.encrypt(studentRecipient.email)));
             assertTrue(responseRow.getRecipientProfilePictureLink().toString().contains(StringHelper.encrypt(studentRecipient.course)));
         }
+        
+    }
+    
+    
+    @Test
+    public void testInitForViewByRGQ() throws UnauthorizedAccessException, EntityDoesNotExistException {
+        AccountAttributes account = dataBundle.accounts.get("instructor1OfCourse1");
+        InstructorFeedbackResultsPageData data = new InstructorFeedbackResultsPageData(account);
+        
+        data.sections = Arrays.asList("Section 1", "Section 2", "None");
+        
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+        
+        ______TS("typical case: view all sections");
+        data.instructor = instructor;
+        data.courseId = instructor.courseId;
+        data.feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
+        data.showStats = "on";
+        data.groupByTeam = "on";
+        data.sortType = "recipient-giver-question";
+        data.selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
+        
+        data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
+                                        data.feedbackSessionName, data.courseId, instructor.email, 
+                                        1000, "recipient-giver-question");
+        data.initForViewByRecipientGiverQuestion(instructor, InstructorFeedbackResultsPageData.ALL_SECTION_OPTION, "giver-question-recipient", "on");
+        
+        Map<String, InstructorFeedbackResultsSectionPanel> sectionPanels = data.getSectionPanels();
+        
+        verifyKeysOfMap(sectionPanels, Arrays.asList("None", "Section 1", "Section 2"));
+        
+        InstructorFeedbackResultsSectionPanel noneSectionPanel = sectionPanels.get("None");
+        
+        assertEquals("panel-success", noneSectionPanel.getPanelClass());
+        assertEquals("Not in a section", noneSectionPanel.getSectionNameForDisplay());
+        assertEquals("None", noneSectionPanel.getSectionName());
+        
+        
+        InstructorFeedbackResultsSectionPanel firstSectionPanel = sectionPanels.get("Section 1");
+        
+        assertEquals("panel-success", firstSectionPanel.getPanelClass());
+        assertEquals("Section 1", firstSectionPanel.getSectionNameForDisplay());
+        assertEquals("Section 1", firstSectionPanel.getSectionName());
+        
+        Map<String, List<InstructorResultsParticipantPanel>> primaryParticipantPanelsMap = firstSectionPanel.getParticipantPanels();
+        assertEquals(1, primaryParticipantPanelsMap.size());
+        verifyKeysOfMap(primaryParticipantPanelsMap, Arrays.asList("Team 1.1"));
+        
+        List<InstructorResultsParticipantPanel> primaryParticipantPanels = primaryParticipantPanelsMap.get("Team 1.1");
+        
+        InstructorFeedbackResultsGroupByParticipantPanel primaryParticipantPanel 
+            = (InstructorFeedbackResultsGroupByParticipantPanel)primaryParticipantPanels.get(0);
+        
+        //assertEquals("", primaryParticipantPanel.getClassName());
+        assertEquals("student1 In Course1 (Team 1.1)", primaryParticipantPanel.getName());
+        assertEquals("student1InCourse1@gmail.tmt", primaryParticipantPanel.getParticipantIdentifier());
+        assertEquals(data.getProfilePictureLink("student1InCourse1@gmail.tmt"), primaryParticipantPanel.getProfilePictureLink());
+        
+        List<InstructorFeedbackResultsSecondaryParticipantPanelBody> secondaryParticipantPanels = primaryParticipantPanel.getSecondaryParticipantPanels();
+        InstructorFeedbackResultsSecondaryParticipantPanelBody secondaryParticipantPanel = secondaryParticipantPanels.get(0);
+        
+        assertEquals("student1InCourse1@gmail.tmt", secondaryParticipantPanel.getSecondaryParticipantIdentifier());
+        assertEquals("student1 In Course1 (Team 1.1)", secondaryParticipantPanel.getSecondaryParticipantDisplayableName());
+        
+        // test response panels
+        List<InstructorFeedbackResultsResponsePanel> responsePanels = secondaryParticipantPanel.getResponsePanels();
+        
+        List<String> expectedResponsesId = Arrays.asList("response1ForQ1S1C1", "response1ForQ2S1C1");
+        List<String> expectedQuestionsId = Arrays.asList("qn1InSession1InCourse1", "qn2InSession1InCourse1");
+        for (int i = 0; i < responsePanels.size(); i++) {
+            FeedbackResponseAttributes expectedResponse = dataBundle.feedbackResponses.get(expectedResponsesId.get(i));
+            FeedbackQuestionAttributes expectedQuestion = dataBundle.feedbackQuestions.get(expectedQuestionsId.get(i));
+            
+            InstructorFeedbackResultsResponsePanel responsePanel = responsePanels.get(i);
+            assertEquals(expectedResponse.responseMetaData.getValue() , responsePanel.getDisplayableResponse());
+            assertEquals(expectedQuestion.getQuestionDetails().getQuestionText(), responsePanel.getQuestionText());
+            
+            assertNull(responsePanel.getRowAttributes());
+        }
+       
+        ______TS("view section 1, all questions");
+        data.instructor = instructor;
+        data.courseId = instructor.courseId;
+        data.feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
+        data.showStats = null;
+        data.groupByTeam = "on";
+        data.sortType = "recipient-question-giver";
+        data.selectedSection = "Section 1";
+        
+        data.bundle = logic.getFeedbackSessionResultsForInstructorFromSectionWithinRange(data.feedbackSessionName, data.courseId,
+                                                                                  data.instructor.email, data.selectedSection, 1000);
+        data.initForViewByRecipientQuestionGiver(instructor, "Section 1", null, "on");
+        
+       
+        ______TS("all sections, not grouping by team");
+        data.instructor = instructor;
+        data.courseId = instructor.courseId;
+        data.feedbackSessionName = dataBundle.feedbackSessions
+                                             .get("session1InCourse1")
+                                             .feedbackSessionName;
+        
+        data.showStats = "on";
+        data.groupByTeam = null;
+        data.sortType = "recipient-question-giver";
+        data.selectedSection = InstructorFeedbackResultsPageData.ALL_SECTION_OPTION;
+        data.bundle = logic.getFeedbackSessionResultsForInstructorWithinRangeFromView(
+                                        data.feedbackSessionName, data.courseId, instructor.email, 
+                                        1000, "giver-question-recipient");
+        
+        data.initForViewByRecipientQuestionGiver(instructor, data.selectedSection, "on", null);
+        
+        
+        ______TS("all sections, require loading by ajax");
+        
+   
         
     }
     
