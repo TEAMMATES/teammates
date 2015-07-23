@@ -43,9 +43,9 @@ public class AdminActivityLogPageAction extends Action {
         
         AdminActivityLogPageData data = new AdminActivityLogPageData(account);
         
-        data.offset = getRequestParamValue("offset");
-        data.pageChange = getRequestParamValue("pageChange");
-        data.filterQuery = getRequestParamValue("filterQuery");
+        String offset = getRequestParamValue("offset");
+        String pageChange = getRequestParamValue("pageChange");
+        String filterQuery = getRequestParamValue("filterQuery");
         
         logRoleFromAjax = getRequestParamValue("logRole");
         logGoogleIdFromAjax = getRequestParamValue("logGoogleId");
@@ -56,7 +56,7 @@ public class AdminActivityLogPageAction extends Action {
                                          && (logTimeInAdminTimeZoneFromAjax != null);
         
         if(isLoadingLocalTimeAjax){
-            data.logLocalTime = getLocalTimeInfo();
+            data.setLogLocalTime(getLocalTimeInfo());
             return createAjaxResult(data);
         }
         
@@ -64,30 +64,33 @@ public class AdminActivityLogPageAction extends Action {
 //      should be shown. Use "?all=true" in URL to show all logs. This will keep showing all
 //      logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
 //      or simply reloaded with this parameter omitted.
-        data.ifShowAll = getRequestParamAsBoolean("all");
+        boolean ifShowAll = getRequestParamAsBoolean("all");
         
         
 //      This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
 //      to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
 //      unless the the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted.       
-        data.ifShowTestData = getRequestParamAsBoolean("testdata");
+        boolean ifShowTestData = getRequestParamAsBoolean("testdata");
         
         
-        if(data.pageChange != null && data.pageChange.equals("true")){
+        if(pageChange != null && pageChange.equals("true")){
             //Reset the offset because we are performing a new search, so we start from the beginning of the logs
-            data.offset = null;
+            offset = null;
         }
-        if(data.filterQuery == null){
-            data.filterQuery = "";
+        if(filterQuery == null){
+            filterQuery = "";
         }
         //This is used to parse the filterQuery. If the query is not parsed, the filter function would ignore the query
-        data.generateQueryParameters(data.filterQuery);
+        data.generateQueryParameters(filterQuery);
         
         
-        LogQuery query = buildQuery(data.offset, includeAppLogs, data.versions);
-        data.logs = getAppLogs(query, data);
+        LogQuery query = buildQuery(offset, includeAppLogs, data.getVersions());
         
-        if(data.offset == null){
+        List<ActivityLogEntry> logs = getAppLogs(query, data);
+        
+        data.init(offset, filterQuery, ifShowAll, ifShowTestData, logs);
+        
+        if(offset == null){
             return createShowPageResult(Const.ViewURIs.ADMIN_ACTIVITY_LOG, data);
         }
         
@@ -200,7 +203,7 @@ public class AdminActivityLogPageAction extends Action {
                 if (logMsg.contains("TEAMMATESLOG") && !logMsg.contains("adminActivityLogPage")) {
                     ActivityLogEntry activityLogEntry = new ActivityLogEntry(appLog);                   
                     activityLogEntry = data.filterLogs(activityLogEntry);
-                    if(activityLogEntry.toShow()){
+                    if (activityLogEntry.toShow() && ((!activityLogEntry.isTestingData()) || data.getIfShowTestData())){
                         appLogs.add(activityLogEntry);
                         currentLogsInPage ++;
                     }
@@ -219,10 +222,10 @@ public class AdminActivityLogPageAction extends Action {
             status += "<button class=\"btn-link\" id=\"button_older\" onclick=\"submitFormAjax('" + lastOffset + "');\">Older Logs </button>";              
         }
         
-        status += "<input id=\"ifShowAll\" type=\"hidden\" value=\""+ data.ifShowAll +"\"/>";
-        status += "<input id=\"ifShowTestData\" type=\"hidden\" value=\""+ data.ifShowTestData +"\"/>";
+        status += "<input id=\"ifShowAll\" type=\"hidden\" value=\""+ data.getIfShowAll() +"\"/>";
+        status += "<input id=\"ifShowTestData\" type=\"hidden\" value=\""+ data.getIfShowTestData() +"\"/>";
         
-        data.statusForAjax = status;
+        data.setStatusForAjax(status);
         statusToUser.add(status);
         
         return appLogs;

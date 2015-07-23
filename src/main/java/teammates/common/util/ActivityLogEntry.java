@@ -540,4 +540,12 @@ public class ActivityLogEntry {
         
     }
     
+    public boolean isTestingData() {
+        boolean isTestingAccount = false;
+        
+        if(email.endsWith(".tmt")){
+            isTestingAccount = true;
+        }
+        return isTestingAccount;
+    }
 }

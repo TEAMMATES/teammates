@@ -15,13 +15,12 @@ import teammates.common.util.TimeHelper;
 
 public class AdminActivityLogPageData extends PageData {
     
-    public String offset;
-    public String pageChange;
-    public String filterQuery;
-    public String queryMessage;
-    public List<ActivityLogEntry> logs;
-    public List<String> versions;
-    public String logLocalTime;
+    private String offset;
+    private String filterQuery;
+    private String queryMessage;
+    private List<ActivityLogEntry> logs;
+    private List<String> versions;
+    private String logLocalTime;
     
     /**
      * This determines whether the logs with requests contained in "excludedLogRequestURIs" below 
@@ -29,45 +28,82 @@ public class AdminActivityLogPageData extends PageData {
      * logs despite any action or change in the page unless the the page is reloaded with "?all=false" 
      * or simply reloaded with this parameter omitted.
      */
-    public boolean ifShowAll = false;
+    private boolean ifShowAll = false;
     
     /**
      * This determines whether the logs related to testing data should be shown. Use "testdata=true" in URL
      * to show all testing logs. This will keep showing all logs from testing data despite any action or change in the page
      * unless the the page is reloaded with "?testdata=false"  or simply reloaded with this parameter omitted.
      */
-    public boolean ifShowTestData = false;
+    private boolean ifShowTestData = false;
     
-    public String statusForAjax;
+    private String statusForAjax;
     private QueryParameters q;
     
     /**
      * this array stores the requests to be excluded from being shown in admin activity logs page
      */
-    public static String[] excludedLogRequestURIs = { Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE,                                                      
+    private static String[] excludedLogRequestURIs = { Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE,                                                      
                                                       //this servlet name is set in CompileLogsServlet
                                                       Const.AutomatedActionNames.AUTOMATED_LOG_COMILATION};
     
-    public boolean isTestingData(String email){
-        boolean isTestingAccount = false;
-        
-        if(email.endsWith(".tmt")){
-            isTestingAccount = true;
+    public List<String> getExcludedLogRequestURIs() {
+        List<String> excludedList = new ArrayList<String>();
+        for(String excludedLogRequestURI : excludedLogRequestURIs) {
+            excludedList.add(excludedLogRequestURI.substring(excludedLogRequestURI.lastIndexOf("/") + 1));
         }
-        return isTestingAccount;
+        return excludedList;
     }
     
     public AdminActivityLogPageData(AccountAttributes account) {
         super(account);
     }
-
+    
+    public void init(String offset, String filterQuery, boolean ifShowAll,
+                     boolean ifShowTestData, List<ActivityLogEntry> logs) {
+        this.offset = offset;
+        this.filterQuery = filterQuery;
+        this.ifShowAll = ifShowAll;
+        this.ifShowTestData = ifShowTestData;
+        this.logs = logs;
+        
+    }
+    
+    public boolean getIfShowAll() {
+        return ifShowAll;
+    }
+    
+    public boolean getIfShowTestData() {
+        return ifShowTestData;
+    }
+    
+    public String getOffset() {
+        return offset;
+    }
+    
+    public String getFilterQuery() {
+        return filterQuery;
+    }
+    
+    public String getQueryMessage() {
+        return queryMessage;
+    }
+    
+    public List<ActivityLogEntry> getLogs() {
+        return logs;
+    }
+    
+    public List<String> getVersions() {
+        return versions;
+    }
+    
     /**
      * Checks in an array contains a specific value
      * value is converted to lower case before comparing
      */
-    private boolean arrayContains(String[] arr, String value){
+    private boolean arrayContains(String[] arr, String value) {
         for (int i = 0; i < arr.length; i++){
-            if(arr[i].equals(value.toLowerCase().trim())){
+            if (arr[i].equals(value.toLowerCase().trim())) {
                 return true;
             }
         }
@@ -81,9 +117,9 @@ public class AdminActivityLogPageData extends PageData {
     public void generateQueryParameters(String query){
         query = query.toLowerCase();
         
-        try{
+        try {
             q = parseQuery(query);
-        } catch (Exception e){
+        } catch (Exception e) {
             this.queryMessage = "Error with the query: " + e.getMessage();
         }
     }
@@ -102,7 +138,7 @@ public class AdminActivityLogPageData extends PageData {
         
         for (String uri: excludedLogRequestURIs){
             
-            if(uri.contains(logEntry.getServletName())){
+            if (uri.contains(logEntry.getServletName())){
                 return true;
             }
         }
@@ -437,4 +473,19 @@ public class AdminActivityLogPageData extends PageData {
         }
     }
 
+    public void setLogLocalTime(String localTimeInfo) {
+        logLocalTime = localTimeInfo;
+    }
+    
+    public String getLogLocalTime() {
+        return logLocalTime;
+    }
+
+    public void setStatusForAjax(String status) {
+        statusForAjax = status;
+    }
+    
+    public String getStatusForAjax() {
+        return statusForAjax;
+    }
 }
