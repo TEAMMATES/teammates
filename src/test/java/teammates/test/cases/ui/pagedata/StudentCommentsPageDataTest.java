@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -82,15 +83,11 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         checkRegularDataCorrect(account, courseId, courseName, coursePaginationList);
         
         // JSTL data structure comparison: Comments for students tables
+        List<CommentsForStudentsTable> actualCommentsForStudentsTables = data.getCommentsForStudentsTables();
         assertEquals(1, data.getCommentsForStudentsTables().size());
-        CommentsForStudentsTable actualCommentsForStudentsTable = data.getCommentsForStudentsTables().get(0);
         String expectedGiverDetails = instructor1.displayedName + " " + instructor1.name;
-        List<Comment> expectedCommentRows = new ArrayList<Comment>();
-        CommentAttributes expectedComment = comments.get(0);
-        expectedCommentRows.add(new Comment(expectedComment, expectedGiverDetails, "you"));
-        expectedComment = comments.get(1);
-        expectedCommentRows.add(new Comment(expectedComment, expectedGiverDetails, "you"));
-        CommentsForStudentsTable expectedCommentsForStudentsTable = new CommentsForStudentsTable(expectedGiverDetails, expectedCommentRows);
+        CommentsForStudentsTable expectedCommentsForStudentsTable = createCommentsForStudentsTable(expectedGiverDetails, studentEmail, comments, roster);
+        CommentsForStudentsTable actualCommentsForStudentsTable = actualCommentsForStudentsTables.get(0);
         checkCommentsForStudentsTablesEqual(expectedCommentsForStudentsTable, actualCommentsForStudentsTable);
         
         // JSTL data structure comparison: Feedback session rows
@@ -100,7 +97,46 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
         FeedbackSessionRow actualFeedbackSessionRow = actualFeedbackSessionRows.get(0);
         checkFeedbackSessionRowsEqual(expectedFeedbackSessionRow, actualFeedbackSessionRow);
     }
+
+    private static CommentsForStudentsTable createCommentsForStudentsTable(
+            String giverDetails, String studentEmail, List<CommentAttributes> comments, CourseRoster roster) {
+        List<Comment> commentRows = new ArrayList<Comment>();
+        for (CommentAttributes comment : comments) {
+            String recipientDetails = getRecipientNames(comment.recipients, studentEmail, roster);// TODO
+            commentRows.add(new Comment(comment, giverDetails, recipientDetails));
+        }
+        CommentsForStudentsTable expectedCommentsForStudentsTable = new CommentsForStudentsTable(giverDetails, commentRows);
+        return expectedCommentsForStudentsTable;
+    }
     
+    private static String getRecipientNames(Set<String> recipients, String studentEmail, CourseRoster roster) {
+        StringBuilder namesStringBuilder = new StringBuilder();
+        int i = 0;
+        
+        for (String recipient : recipients) {
+            if (i == recipients.size() - 1 && recipients.size() > 1) {
+                namesStringBuilder.append("and ");
+            }
+            StudentAttributes student = roster.getStudentForEmail(recipient);
+            if (recipient.equals(studentEmail)) {
+                namesStringBuilder.append("you, ");
+            } else if (data.getCourseId().equals(recipient)) { 
+                namesStringBuilder.append("All Students In This Course, ");
+            } else if(student != null){
+                if (recipients.size() == 1) {
+                    namesStringBuilder.append(student.name + " (" + student.team + ", " + student.email + "), ");
+                } else {
+                    namesStringBuilder.append(student.name + ", ");
+                }
+            } else {
+                namesStringBuilder.append(recipient + ", ");
+            }
+            i++;
+        }
+        String namesString = namesStringBuilder.toString();
+        return namesString.substring(0, namesString.length() - 2);
+    }
+
     private static FeedbackSessionRow getFeedbackSessionRow(FeedbackSessionResultsBundle bundle) {
         List<QuestionTable> questionTables = new ArrayList<QuestionTable>();
         FeedbackSessionAttributes session = bundle.feedbackSession;
