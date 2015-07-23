@@ -7,7 +7,6 @@ public class InstructorResultsParticipantPanel implements Comparable<InstructorR
     private String name; 
     
     private boolean isHasResponses;
-    private String className;
     
     String profilePictureLink;
     
@@ -44,14 +43,6 @@ public class InstructorResultsParticipantPanel implements Comparable<InstructorR
 
     public void setHasResponses(boolean isHasResponses) {
         this.isHasResponses = isHasResponses;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
     }
 
     public String getProfilePictureLink() {
