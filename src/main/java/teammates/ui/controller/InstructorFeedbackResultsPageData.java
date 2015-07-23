@@ -534,8 +534,10 @@ public class InstructorFeedbackResultsPageData extends PageData {
         buildMissingTeamAndParticipantPanelsForLastSectionWithResponses(sectionPanel, prevSection, prevTeam,
                                                      teamsWithResponses, teamMembersWithResponses);
 
-        // display missing sections
-        buildSectionPanelsForMissingSections(sectionsWithResponses);
+        if (selectedSection.equals("All")) {
+            // display missing sections
+            buildSectionPanelsForMissingSections(sectionsWithResponses);
+        }
     }
 
     private InstructorFeedbackResultsGroupByParticipantPanel buildGroupByParticipantPanel(
