@@ -106,9 +106,9 @@ public class StudentCommentsPageDataTest extends BaseTestCase {
             String recipientDetails = getRecipientNames(comment.recipients, studentEmail, roster);
             commentRows.add(new Comment(comment, giverDetails, recipientDetails));
         }
-        CommentsForStudentsTable expectedCommentsForStudentsTable = 
+        CommentsForStudentsTable commentsForStudentsTable = 
                 new CommentsForStudentsTable(giverDetails, commentRows);
-        return expectedCommentsForStudentsTable;
+        return commentsForStudentsTable;
     }
     
     private static FeedbackSessionRow getFeedbackSessionRow(FeedbackSessionResultsBundle bundle) {
