@@ -45,6 +45,7 @@ public class AdminAccountManagementPageData extends PageData {
             AdminAccountManagementAccountTableRow row = new AdminAccountManagementAccountTableRow(acc, coursesList);
             table.add(row);
         }
+        
         return table;
     }
     
@@ -82,6 +83,7 @@ public class AdminAccountManagementPageData extends PageData {
         if(account.email.endsWith(".tmt") || account.institute.contains("TEAMMATES Test Institute")){
             isTestingAccount = true;
         }
+        
         return isTestingAccount;
     }
 }
