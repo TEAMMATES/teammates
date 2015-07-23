@@ -28,13 +28,18 @@ public class AdminAccountDetailsPageData extends PageData {
     
     private List<AdminAccountDetailsStudentCourseListTableRow> createStudentCourseListTable(
                                     List<CourseAttributes> studentCourseList) {
-        List<AdminAccountDetailsStudentCourseListTableRow> courseListTable = new ArrayList<AdminAccountDetailsStudentCourseListTableRow>();
+        List<AdminAccountDetailsStudentCourseListTableRow> courseListTable = 
+                        new ArrayList<AdminAccountDetailsStudentCourseListTableRow>();
+        
         if (studentCourseList != null) {
-            for(CourseAttributes courseDetails : studentCourseList) {
-                AdminAccountDetailsStudentCourseListTableRow row = new AdminAccountDetailsStudentCourseListTableRow(accountInformation.googleId, courseDetails);
+            for (CourseAttributes courseDetails : studentCourseList) {
+                AdminAccountDetailsStudentCourseListTableRow row = 
+                        new AdminAccountDetailsStudentCourseListTableRow(
+                                                        accountInformation.googleId, courseDetails);
                 courseListTable.add(row);
             }
         }
+        
         return courseListTable;
     }
 
@@ -47,6 +52,7 @@ public class AdminAccountDetailsPageData extends PageData {
                 courseListTable.add(row);
             }
         }
+        
         return courseListTable;
     }
 
@@ -66,6 +72,7 @@ public class AdminAccountDetailsPageData extends PageData {
         String link = Const.ActionURIs.ADMIN_ACCOUNT_DELETE;
         link = Url.addParamToUrl(link,Const.ParamsNames.INSTRUCTOR_ID,instructorId);
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
+        
         return link;
     }
     
@@ -73,6 +80,7 @@ public class AdminAccountDetailsPageData extends PageData {
         String link = Const.ActionURIs.ADMIN_ACCOUNT_DELETE;
         link = Url.addParamToUrl(link,Const.ParamsNames.STUDENT_ID,studentId);
         link = Url.addParamToUrl(link,Const.ParamsNames.COURSE_ID,courseId);
+        
         return link;
     }
 
