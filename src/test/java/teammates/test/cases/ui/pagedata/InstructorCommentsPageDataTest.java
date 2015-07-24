@@ -11,7 +11,6 @@ import org.testng.annotations.Test;
 
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
-import static org.testng.AssertJUnit.assertTrue;
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.CommentAttributes;
 import teammates.common.datatransfer.CourseAttributes;
@@ -21,7 +20,6 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.datatransfer.StudentAttributes;
 import teammates.test.cases.BaseTestCase;
-import teammates.test.util.TestHelper;
 import teammates.ui.controller.InstructorCommentsPageData;
 import teammates.ui.template.Comment;
 import teammates.ui.template.CommentsForStudentsTable;
