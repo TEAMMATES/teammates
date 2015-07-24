@@ -29,6 +29,20 @@ public class AdminSessionsPageData extends PageData {
         super(account);
 
     }
+    
+    public void init(HashMap<String, List<FeedbackSessionAttributes>> map, HashMap<String, String> sessionToInstructorIdMap,
+         int totalOngoingSessions, boolean hasUnknown, Date rangeStart, Date rangeEnd, double zone, int tableCount,
+         boolean isShowAll) {
+        this.map = map;
+        this.sessionToInstructorIdMap = sessionToInstructorIdMap;
+        this.totalOngoingSessions = totalOngoingSessions;
+        this.hasUnknown = hasUnknown;
+        this.rangeStart = rangeStart;
+        this.rangeEnd = rangeStart;
+        this.zone = zone;
+        this.tableCount = tableCount;
+        this.isShowAll = isShowAll;
+    }
 
     public String getInstructorHomePageViewLink(String email) {
 
