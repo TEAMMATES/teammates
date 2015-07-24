@@ -70,20 +70,6 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
                   comments, commentModifyPermissions, roster, feedbackSessions, numberOfPendingComments);
         
         /******************** Assertions for pageData data ********************/
-        
-        Map<String, List<CommentAttributes>> actualComments = data.getComments();
-        Map<String, List<CommentAttributes>> expectedComments = comments;
-        
-        List<String> actualGivers = new ArrayList<String>();
-        actualGivers.addAll(actualComments.keySet());
-        List<String> expectedGivers = new ArrayList<String>();
-        expectedGivers.addAll(expectedComments.keySet());
-        assertTrue(TestHelper.isSameContentIgnoreOrder(expectedGivers, actualGivers));
-        
-        for (String email : expectedGivers) {
-            assertEquals(expectedComments.get(email), actualComments.get(email));
-        }
-
         assertEquals(courseId, data.getCourseId());
         assertEquals(courseName, data.getCourseName());
         CoursePagination actualCoursePagination = data.getCoursePagination();
@@ -160,10 +146,6 @@ public class InstructorCommentsPageDataTest extends BaseTestCase {
                   comments, commentModifyPermissions, roster, feedbackSessions, numberOfPendingComments);
         
         /******************** Assertions for pageData data ********************/
-        
-        actualComments = data.getComments();
-        assertEquals(1, actualComments.size());
-        assertEquals(0, actualComments.get(COMMENT_GIVER_NAME_THAT_COMES_FIRST).size());
         assertEquals(courseId, data.getCourseId());
         assertEquals(courseName, data.getCourseName());
         actualCoursePagination = data.getCoursePagination();

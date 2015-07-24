@@ -27,9 +27,6 @@ public class InstructorCommentsPageData extends PageData {
     private String courseId;
     private String courseName;
     private CoursePagination coursePagination;
-    private Map<String, List<CommentAttributes>> comments;
-    private Map<String, List<Boolean>> commentModifyPermissions;
-    private CourseRoster roster;
     private List<FeedbackSessionAttributes> feedbackSessions;
     private int numberOfPendingComments = 0;
     
@@ -47,19 +44,12 @@ public class InstructorCommentsPageData extends PageData {
         this.isDisplayArchive = isDisplayArchive;
         this.courseId = courseId;
         this.courseName = courseName;
-        this.comments = comments;
-        this.commentModifyPermissions = commentModifyPermissions;
-        this.roster = roster;
         this.feedbackSessions = feedbackSessions;
         this.numberOfPendingComments = numberOfPendingComments;
         
         setCoursePagination(coursePaginationList);
-        setCommentsForStudentsTables();
+        setCommentsForStudentsTables(comments, commentModifyPermissions, roster);
                                         
-    }
-
-    public Map<String, List<CommentAttributes>> getComments() {
-        return comments;
     }
     
     public String getCourseId() {
@@ -94,7 +84,7 @@ public class InstructorCommentsPageData extends PageData {
         return isViewingDraft;
     }        
 
-    private String getRecipientNames(Set<String> recipients) {
+    private String getRecipientNames(Set<String> recipients, CourseRoster roster) {
         StringBuilder namesStringBuilder = new StringBuilder();
         int i = 0;
         for (String recipient : recipients) {
@@ -128,14 +118,18 @@ public class InstructorCommentsPageData extends PageData {
                                                 activeCourse, activeCourseClass, userCommentsLink);
     }
 
-    private void setCommentsForStudentsTables() {
-        Map<String, String> giverEmailToGiverNameMap = getGiverEmailToGiverNameMap();
+    private void setCommentsForStudentsTables(
+            Map<String, List<CommentAttributes>> comments, Map<String, List<Boolean>> commentModifyPermissions,
+            CourseRoster roster) {
+        Map<String, String> giverEmailToGiverNameMap = getGiverEmailToGiverNameMap(comments, roster);
         commentsForStudentsTables = new ArrayList<CommentsForStudentsTable>();      
           
         for (String giverEmail : comments.keySet()) {
             String giverName = giverEmailToGiverNameMap.get(giverEmail);
-            CommentsForStudentsTable table = new CommentsForStudentsTable(giverName,
-                                                                          createCommentRows(giverEmail, giverName));
+            CommentsForStudentsTable table = 
+                    new CommentsForStudentsTable(
+                            giverName, createCommentRows(giverEmail, giverName, comments.get(giverEmail), 
+                                                         commentModifyPermissions, roster));
             String extraClass;
             if (giverEmail.equals(COMMENT_GIVER_NAME_THAT_COMES_FIRST)) {
                 extraClass = "giver_display-by-you";
@@ -147,13 +141,14 @@ public class InstructorCommentsPageData extends PageData {
         }
     }
     
-    private List<Comment> createCommentRows(String giverEmail, String giverName) {
+    private List<Comment> createCommentRows(
+            String giverEmail, String giverName, List<CommentAttributes> commentsForGiver,
+            Map<String, List<Boolean>> commentModifyPermissions, CourseRoster roster) {
         
         List<Comment> rows = new ArrayList<Comment>();
-        List<CommentAttributes> commentsForGiver = comments.get(giverEmail);
         for (int i = 0; i < commentsForGiver.size(); i++) {            
             CommentAttributes comment = commentsForGiver.get(i);
-            String recipientDetails = getRecipientNames(comment.recipients);
+            String recipientDetails = getRecipientNames(comment.recipients, roster);
             Boolean isInstructorAllowedToModifyCommentInSection = commentModifyPermissions.get(giverEmail).get(i);
             String typeOfPeopleCanViewComment = getTypeOfPeopleCanViewComment(comment);
             Comment commentDiv = new Comment(comment, giverName, recipientDetails);
@@ -195,7 +190,8 @@ public class InstructorCommentsPageData extends PageData {
         return nextPageLink;
     }
 
-    private Map<String, String> getGiverEmailToGiverNameMap() {
+    private Map<String, String> getGiverEmailToGiverNameMap(
+            Map<String, List<CommentAttributes>> comments, CourseRoster roster) {
         
         Map<String, String> giverEmailToGiverNameMap = new HashMap<String, String>();
         for (String giverEmail : comments.keySet()) {

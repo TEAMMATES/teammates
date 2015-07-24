@@ -78,7 +78,9 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         assertEquals("idOfTypicalCourse1", actualCoursePagination.getActiveCourse());
         assertEquals("active", actualCoursePagination.getActiveCourseClass());
         assertEquals(data.getInstructorCommentsLink(), actualCoursePagination.getUserCommentsLink());
-        assertEquals(5, data.getComments().get(InstructorCommentsPageData.COMMENT_GIVER_NAME_THAT_COMES_FIRST).size());
+        assertEquals(1, data.getCommentsForStudentsTables().size());
+        assertEquals(5, data.getCommentsForStudentsTables().get(0).getRows().size());
+        
         
         ______TS("instructor with courses but without comments");
         gaeSimulation.loginAsInstructor(dataBundle.accounts.get("instructor2OfCourse1").googleId);
@@ -101,7 +103,7 @@ public class InstructorCommentsPageActionTest extends BaseActionTest {
         assertEquals("idOfTypicalCourse1", actualCoursePagination.getActiveCourse());
         assertEquals("active", actualCoursePagination.getActiveCourseClass());
         assertEquals(data.getInstructorCommentsLink(), actualCoursePagination.getUserCommentsLink());
-        assertEquals(0, data.getComments().size());
+        assertEquals(0, data.getCommentsForStudentsTables().size());
     }
     
     private InstructorCommentsPageAction getAction(String... params) throws Exception{

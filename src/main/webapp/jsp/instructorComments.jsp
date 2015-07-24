@@ -27,7 +27,7 @@
                 </h4>
                 <comments:commentsNotifyPanel courseId="${data.courseId}" numberOfPendingComments="${data.numberOfPendingComments}" />
             </div>
-            <div id="no-comment-panel" style="${empty data.comments && empty data.feedbackSessions ? '' : 'display:none;'}">
+            <div id="no-comment-panel" style="${empty data.commentsForStudentsTables && empty data.feedbackSessions ? '' : 'display:none;'}">
                 <br>
                 <div class="panel">
                     <div class="panel-body">
@@ -36,7 +36,7 @@
                 </div>
             </div>
             <c:set var="panelIdx" value="0" />
-            <c:if test="${not empty data.comments}"> <%--check student comments starts--%> 
+            <c:if test="${not empty data.commentsForStudentsTables}"> <%--check student comments starts--%> 
                 <c:set var="panelIdx" value="${panelIdx + 1}" />
                 <div id="panel_display-${panelIdx}">
                     <br>
