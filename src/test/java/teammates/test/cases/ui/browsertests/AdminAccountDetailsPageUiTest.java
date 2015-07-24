@@ -48,7 +48,7 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase{
             .withInstructorId("AAMgtUiT.instr2");
         detailsPage = loginAdminToPage(browser, detailsPageUrl, AdminAccountDetailsPage.class);
         
-        //a full content checking is omitted because this is for internal users only.
+        detailsPage.verifyHtml("/adminAccountDetails.html");
     }
 
 
@@ -62,6 +62,9 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase{
         
         detailsPage.clickRemoveInstructorFromCourse(courseId)
             .verifyStatus(Const.StatusMessages.INSTRUCTOR_REMOVED_FROM_COURSE);
+        
+        detailsPage.verifyHtml("/adminAccountDetailsRemoveInstructor.html");
+        
         assertNull(BackDoor.getInstructorByGoogleId(googleId, courseId));
     
         ______TS("action: remove student from course");
@@ -70,7 +73,7 @@ public class AdminAccountDetailsPageUiTest extends BaseUiTestCase{
         detailsPage.clickRemoveStudentFromCourse(courseId)
             .verifyStatus(Const.StatusMessages.INSTRUCTOR_REMOVED_FROM_COURSE);
         assertNull(BackDoor.getStudent(courseId, "AAMgtUiT.instr2@gmail.com"));
-    
+        detailsPage.verifyHtml("/adminAccountDetailsRemoveStudent.html");
     }
     
     @AfterClass
