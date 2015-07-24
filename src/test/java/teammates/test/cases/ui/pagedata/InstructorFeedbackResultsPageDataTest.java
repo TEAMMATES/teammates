@@ -247,10 +247,10 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         verifyKeysOfMap(questionPanel.getIsColumnSortable(),
                         Arrays.asList("Giver", "Team", "Recipient", "Feedback", "Actions"));
-        assertTrue(isValuesInMapTrue(questionPanel.getIsColumnSortable(), 
-                                     Arrays.asList("Giver", "Team", "Recipient", "Feedback")));
-        assertTrue(isValuesInMapFalse(questionPanel.getIsColumnSortable(), 
-                                      Arrays.asList("Actions")));
+        verifyTrueValuesInMap(questionPanel.getIsColumnSortable(), 
+                              Arrays.asList("Giver", "Team", "Recipient", "Feedback"));
+        verifyFalseValuesInMap(questionPanel.getIsColumnSortable(), 
+                               Arrays.asList("Actions"));
     }
     
     @Test
@@ -279,6 +279,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         Map<String, InstructorFeedbackResultsSectionPanel> sectionPanels = data.getSectionPanels();
         verifyKeysOfMap(sectionPanels, Arrays.asList("Section 1", "Section 2", "None"));
         
+        ______TS("GQR typical case - verify 'None' Section");
         InstructorFeedbackResultsSectionPanel sectionPanel = sectionPanels.get("None");
         assertEquals(NOT_IN_A_SECTION, sectionPanel.getSectionNameForDisplay());
         assertEquals("Detailed Responses", sectionPanel.getDetailedResponsesHeaderText());
@@ -304,6 +305,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         assertFalse(participantPanel.isModerationButtonDisplayed());
         assertTrue(participantPanel.isHasResponses());
         
+        ______TS("GQR typical case - verify question panel");
         List<InstructorResultsQuestionTable> questionPanels = participantPanel.getQuestionTables();
         assertEquals(1, questionPanels.size());
         
@@ -326,7 +328,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         assertFalse(responseRow.isGiverProfilePictureAColumn());
         assertEquals(null, responseRow.getRowAttributes());
         
-        
+        ______TS("GQR typical case - verify Section 1");
         sectionPanel = sectionPanels.get("Section 1");
         assertTrue(sectionPanel.isDisplayingMissingParticipants());
         assertTrue(sectionPanel.isDisplayingTeamStatistics());
@@ -340,10 +342,19 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         assertTrue(teamParticipantPanel.get(0).isGiver());
         assertTrue(teamParticipantPanel.get(0).isModerationButtonDisplayed());
         
-
+        
+        List<InstructorResultsQuestionTable> singleSectionQuestionTables = ((InstructorFeedbackResultsGroupByQuestionPanel)teamParticipantPanel.get(0)).getQuestionTables();
+        assertEquals(2, singleSectionQuestionTables.size());
+        
+        InstructorResultsQuestionTable singleSectionQuestionTable = singleSectionQuestionTables.get(1);
+        assertEquals(Sanitizer.sanitizeForHtml("Rate 1 other student's product"), 
+                     singleSectionQuestionTable.getQuestionText());
+        verifyHtmlClass(singleSectionQuestionTable.getResponsesBodyClass(), "panel-collapse", "collapse", "in");
+        
+        assertEquals(1, singleSectionQuestionTable.getResponses().size());
+        
         InstructorResultsResponseRow secondQuestionResponseRow = 
-             ((InstructorFeedbackResultsGroupByQuestionPanel)teamParticipantPanel.get(0)).getQuestionTables()
-                                                                                         .get(1).getResponses().get(0);
+                                        singleSectionQuestionTable.getResponses().get(0);
 
         assertTrue(secondQuestionResponseRow.isRecipientProfilePictureAColumn());
         assertFalse(secondQuestionResponseRow.isGiverProfilePictureAColumn());
@@ -353,7 +364,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
                                        dataBundle.students.get("student2InCourse1"));
 
         
-        ______TS("GQR view section 1, all questions, no stats");
+        ______TS("GQR section 1 case: view section 1, all questions, no stats");
         data.instructor = instructor;
         data.courseId = instructor.courseId;
         data.feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
@@ -369,6 +380,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         Map<String, InstructorFeedbackResultsSectionPanel> sectionOnePanels = data.getSectionPanels();
         verifyKeysOfMap(sectionOnePanels, Arrays.asList("Section 1"));
         
+        ______TS("GQR section 1 case - verify section panel");
         InstructorFeedbackResultsSectionPanel singleSectionPanel = sectionOnePanels.get("Section 1");
         assertEquals("Section 1", singleSectionPanel.getSectionNameForDisplay());
         assertEquals("Detailed Responses", singleSectionPanel.getDetailedResponsesHeaderText());
@@ -384,6 +396,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         questionPanels = studentPanel.getQuestionTables();
         assertEquals(2, questionPanels.size());
         
+        ______TS("GQR section 1 case - verify question panel");
         InstructorResultsQuestionTable questionPanel = questionPanels.get(0);
         
         assertEquals(1, questionPanel.getResponses().size());
@@ -396,10 +409,10 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         verifyColumns(questionPanel.getColumns(), "Photo", "Recipient", "Team", "Feedback");
         verifyKeysOfMap(questionPanel.getIsColumnSortable(),
                         Arrays.asList("Photo", "Recipient", "Team", "Feedback"));
-        assertTrue(isValuesInMapTrue(questionPanel.getIsColumnSortable(), 
-                                     Arrays.asList("Recipient", "Team", "Feedback")));
-        assertTrue(isValuesInMapFalse(questionPanel.getIsColumnSortable(), 
-                                      Arrays.asList("Photo")));
+        verifyTrueValuesInMap(questionPanel.getIsColumnSortable(), 
+                              Arrays.asList("Recipient", "Team", "Feedback"));
+        verifyFalseValuesInMap(questionPanel.getIsColumnSortable(), 
+                               Arrays.asList("Photo"));
         
         responseRow = questionPanel.getResponses().get(0);
         verifyResponseRow(responseRow, dataBundle.feedbackResponses.get("response1ForQ1S1C1"), 
@@ -412,7 +425,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         verifyModerateButton(moderationButton, "Moderate Response", dataBundle.students.get("student1InCourse1"), 
                              "First feedback session", 1);
         
-        ______TS("GQR all sections, not grouping by team");
+        ______TS("GQR not grouped by team case: all sections, not grouping by team");
         data.instructor = instructor;
         data.courseId = instructor.courseId;
         data.feedbackSessionName = dataBundle.feedbackSessions
@@ -468,6 +481,8 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         List<InstructorResultsQuestionTable> notGroupByTeamquestionTables = notGroupByTeamStudentPanel.getQuestionTables();
         assertEquals(2, notGroupByTeamquestionTables.size());
         
+        ______TS("GQR not grouped by team case - verify question table");
+        
         InstructorResultsQuestionTable notGroupByTeamQuestionTable = notGroupByTeamquestionTables.get(0);
         
         assertEquals(1, notGroupByTeamQuestionTable.getResponses().size());
@@ -480,11 +495,12 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         verifyColumns(notGroupByTeamQuestionTable.getColumns(), "Photo", "Recipient", "Team", "Feedback");
         verifyKeysOfMap(notGroupByTeamQuestionTable.getIsColumnSortable(),
                         Arrays.asList("Photo", "Recipient", "Team", "Feedback"));
-        assertTrue(isValuesInMapTrue(notGroupByTeamQuestionTable.getIsColumnSortable(), 
-                                     Arrays.asList("Recipient", "Team", "Feedback")));
-        assertTrue(isValuesInMapFalse(notGroupByTeamQuestionTable.getIsColumnSortable(), 
-                                      Arrays.asList("Photo")));
+        verifyTrueValuesInMap(notGroupByTeamQuestionTable.getIsColumnSortable(), 
+                              Arrays.asList("Recipient", "Team", "Feedback"));
+        verifyFalseValuesInMap(notGroupByTeamQuestionTable.getIsColumnSortable(), 
+                               Arrays.asList("Photo"));
         
+        assertEquals(1, notGroupByTeamQuestionTable.getResponses().size());
         InstructorResultsResponseRow notGroupedByTeamResponseRow = notGroupByTeamQuestionTable.getResponses().get(0);
         verifyResponseRow(notGroupedByTeamResponseRow, dataBundle.feedbackResponses.get("response2ForQ1S1C1"), 
                                        dataBundle.students.get("student2InCourse1"), 
@@ -496,7 +512,19 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         verifyModerateButton(notGroupedByTeamModerationButton, "Moderate Response", dataBundle.students.get("student2InCourse1"), 
                              "First feedback session", 1);
         
-        ______TS("GQR all sections, require loading by ajax");
+        InstructorResultsQuestionTable notGroupByTeamQuestionTable2 = notGroupByTeamquestionTables.get(1);
+        assertEquals(1, notGroupByTeamQuestionTable2.getResponses().size());
+        assertEquals("", notGroupByTeamQuestionTable2.getAdditionalInfoText());
+        assertEquals("panel-info", notGroupByTeamQuestionTable2.getPanelClass());
+        assertEquals(Sanitizer.sanitizeForHtml(dataBundle.feedbackQuestions.get("qn2InSession1InCourse1").questionMetaData.getValue()), 
+                                        notGroupByTeamQuestionTable2.getQuestionText());
+        assertEquals(1, notGroupByTeamQuestionTable2.getResponses().size());
+        InstructorResultsResponseRow notGroupedByTeamResponseRow2 = notGroupByTeamQuestionTable2.getResponses().get(0);
+        verifyResponseRow(notGroupedByTeamResponseRow2, dataBundle.feedbackResponses.get("response1ForQ2S1C1"), 
+                                                        dataBundle.students.get("student2InCourse1"), 
+                                                        dataBundle.students.get("student1InCourse1"));
+        
+        ______TS("GQR ajax case: all sections, require loading by ajax");
         
         data.instructor = instructor;
         data.courseId = instructor.courseId;
@@ -532,10 +560,10 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         verifyColumns(firstQuestionTable.getColumns(), "Photo", "Recipient", "Team", "Feedback");
         verifyKeysOfMap(firstQuestionTable.getIsColumnSortable(),
                         Arrays.asList("Photo", "Recipient", "Team", "Feedback"));
-        assertTrue(isValuesInMapTrue(firstQuestionTable.getIsColumnSortable(), 
-                                     Arrays.asList("Recipient", "Team", "Feedback")));
-        assertTrue(isValuesInMapFalse(firstQuestionTable.getIsColumnSortable(), 
-                                      Arrays.asList("Photo")));
+        verifyTrueValuesInMap(firstQuestionTable.getIsColumnSortable(), 
+                              Arrays.asList("Recipient", "Team", "Feedback"));
+        verifyFalseValuesInMap(firstQuestionTable.getIsColumnSortable(), 
+                               Arrays.asList("Photo"));
     }
     
     @Test
@@ -580,7 +608,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         
         
         List<InstructorResultsQuestionTable> questionPanels = ((InstructorFeedbackResultsGroupByQuestionPanel)teamParticipantPanel.get(0)).getQuestionTables();
-        // Verify first question table
+        ______TS("RQG typical case - verify question panel 1");
         InstructorResultsQuestionTable questionPanel = questionPanels.get(0);
         
         assertEquals("What is the best selling point of your product?", questionPanel.getQuestionText());
@@ -588,10 +616,10 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
 
         verifyColumns(questionPanel.getColumns(), "Photo", "Giver", "Team", "Feedback", "Actions");
         verifyKeysOfMap(questionPanel.getIsColumnSortable(), Arrays.asList("Photo", "Giver", "Team", "Feedback", "Actions"));
-        assertTrue(isValuesInMapTrue(questionPanel.getIsColumnSortable(), 
-                                     Arrays.asList("Giver", "Team", "Feedback")));
-        assertTrue(isValuesInMapFalse(questionPanel.getIsColumnSortable(), 
-                                      Arrays.asList("Photo", "Actions")));
+        verifyTrueValuesInMap(questionPanel.getIsColumnSortable(), 
+                              Arrays.asList("Giver", "Team", "Feedback"));
+        verifyFalseValuesInMap(questionPanel.getIsColumnSortable(), 
+                               Arrays.asList("Photo", "Actions"));
 
         verifyHtmlClass(questionPanel.getResponsesBodyClass(), "panel-collapse", "collapse", "in");
         
@@ -601,7 +629,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         verifyResponseRow(firstResponseRow, dataBundle.feedbackResponses.get("response1ForQ1S1C1"), 
                           dataBundle.students.get("student1InCourse1"), dataBundle.students.get("student1InCourse1"));
         
-        // Verify second question table
+        ______TS("RQG typical case - verify question panel 2");
         questionPanel = questionPanels.get(1);
         assertEquals(Sanitizer.sanitizeForHtml("Rate 1 other student's product"),
                      questionPanel.getQuestionText());
@@ -614,7 +642,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
                           dataBundle.students.get("student2InCourse1"), dataBundle.students.get("student1InCourse1"));
         
         
-        ______TS("RQG case : view section 1, all questions, no stats");
+        ______TS("RQG single section case : view section 1, all questions, no stats");
         data.instructor = instructor;
         data.courseId = instructor.courseId;
         data.feedbackSessionName = dataBundle.feedbackSessions.get("session1InCourse1").feedbackSessionName;
@@ -630,6 +658,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         Map<String, InstructorFeedbackResultsSectionPanel> singleSectionSectionPanels = data.getSectionPanels();
         verifyKeysOfMap(singleSectionSectionPanels, Arrays.asList("Section 1"));
         
+        ______TS("RQG single section case - verify section panel");
         InstructorFeedbackResultsSectionPanel singleSectionSectionPanel = singleSectionSectionPanels.get("Section 1");
         assertEquals("Section 1", singleSectionSectionPanel.getSectionNameForDisplay());
         assertEquals("Detailed Responses", singleSectionSectionPanel.getDetailedResponsesHeaderText());
@@ -646,6 +675,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         List<InstructorResultsQuestionTable> singleSectionQuestionTables = studentPanel.getQuestionTables();
         assertEquals(2, singleSectionQuestionTables.size());
         
+        ______TS("RQG single section case - verify question table");
         InstructorResultsQuestionTable singleSectionQuestionTable = singleSectionQuestionTables.get(0);
         
         assertEquals(1, singleSectionQuestionTable.getResponses().size());
@@ -658,11 +688,12 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         verifyColumns(singleSectionQuestionTable.getColumns(), "Photo", "Giver", "Team", "Feedback", "Actions");
         verifyKeysOfMap(singleSectionQuestionTable.getIsColumnSortable(),
                         Arrays.asList("Photo", "Giver", "Team", "Feedback", "Actions"));
-        assertTrue(isValuesInMapTrue(singleSectionQuestionTable.getIsColumnSortable(), 
-                                     Arrays.asList("Giver", "Team", "Feedback")));
-        assertTrue(isValuesInMapFalse(singleSectionQuestionTable.getIsColumnSortable(), 
-                                      Arrays.asList("Photo", "Actions")));
+        verifyTrueValuesInMap(singleSectionQuestionTable.getIsColumnSortable(), 
+                               Arrays.asList("Giver", "Team", "Feedback"));
+        verifyFalseValuesInMap(singleSectionQuestionTable.getIsColumnSortable(), 
+                               Arrays.asList("Photo", "Actions"));
         
+        assertEquals(1, singleSectionQuestionTable.getResponses().size());
         InstructorResultsResponseRow singleSectionResponseRow = singleSectionQuestionTable.getResponses().get(0);
         verifyResponseRow(singleSectionResponseRow, dataBundle.feedbackResponses.get("response1ForQ1S1C1"), 
                                                     dataBundle.students.get("student1InCourse1"), 
@@ -670,7 +701,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         assertFalse(singleSectionResponseRow.isRecipientProfilePictureAColumn());
         assertTrue(singleSectionResponseRow.isGiverProfilePictureAColumn());
         
-        ______TS("RQG case: all sections, not grouping by team");
+        ______TS("RQG not grouped by team case: all sections, not grouping by team");
         data.instructor = instructor;
         data.courseId = instructor.courseId;
         data.feedbackSessionName = dataBundle.feedbackSessions
@@ -690,6 +721,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         Map<String, InstructorFeedbackResultsSectionPanel> notGroupByTeamPanels = data.getSectionPanels();
         verifyKeysOfMap(notGroupByTeamPanels, Arrays.asList("Section 1", "Section 2", "None"));
         
+        ______TS("RQG not grouped by team case - verify section panel");
         InstructorFeedbackResultsSectionPanel notGroupedByTeamSectionPanel = notGroupByTeamPanels.get("Section 1");
         
         List<InstructorResultsParticipantPanel> notGroupByTeamParticipantPanels = notGroupedByTeamSectionPanel.getParticipantPanelsInSortedOrder();
@@ -727,7 +759,7 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         assertTrue(notGroupedByTeamResponseRow.isGiverProfilePictureAColumn());
 
         
-        ______TS("RQG case: all sections, require loading by ajax");
+        ______TS("RQG ajax case: all sections, require loading by ajax");
         
         data.instructor = instructor;
         data.courseId = instructor.courseId;
@@ -765,10 +797,10 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         verifyColumns(questionPanel.getColumns(), "Photo", "Giver", "Team", "Feedback", "Actions");
         verifyKeysOfMap(questionPanel.getIsColumnSortable(),
                         Arrays.asList("Photo", "Giver", "Team", "Feedback", "Actions"));
-        assertTrue(isValuesInMapTrue(questionPanel.getIsColumnSortable(), 
-                                     Arrays.asList("Giver", "Team", "Feedback")));
-        assertTrue(isValuesInMapFalse(questionPanel.getIsColumnSortable(), 
-                                      Arrays.asList("Photo", "Actions")));
+        verifyTrueValuesInMap(questionPanel.getIsColumnSortable(), 
+                              Arrays.asList("Giver", "Team", "Feedback"));
+        verifyFalseValuesInMap(questionPanel.getIsColumnSortable(), 
+                               Arrays.asList("Photo", "Actions"));
     }
     
     private void verifyResponseRow(InstructorResultsResponseRow responseRow, FeedbackResponseAttributes response, 
@@ -1108,24 +1140,28 @@ public class InstructorFeedbackResultsPageDataTest extends BaseComponentTestCase
         assertEquals(keysSet, keysOfMap);
     }
     
-    private <K> boolean isValuesInMapTrue(Map<K, Boolean> map, List<K> keys) {
-        boolean result = true;
-        for (K key : keys) {
-            if (!map.get(key)) {
-                result = false;
+    private <K> void verifyTrueValuesInMap(Map<K, Boolean> map, List<K> keys) {
+        Set<K> trueValuesInMap = new HashSet<>();
+        for (Map.Entry<K, Boolean> entry : map.entrySet()) {
+            if (entry.getValue()) {
+                trueValuesInMap.add(entry.getKey());
             }
         }
-        return result;
+        
+        Set<K> expectedValues = new HashSet<>(keys);
+        assertEquals(expectedValues, trueValuesInMap);
     }
     
-    private <K> boolean isValuesInMapFalse(Map<K, Boolean> map, List<K> keys) {
-        boolean result = true;
-        for (K key : keys) {
-            if (map.get(key)) {
-                result = false;
+    private <K> void verifyFalseValuesInMap(Map<K, Boolean> map, List<K> keys) {
+        Set<K> falseValuesInMap = new HashSet<>();
+        for (Map.Entry<K, Boolean> entry : map.entrySet()) {
+            if (!entry.getValue()) {
+                falseValuesInMap.add(entry.getKey());
             }
         }
-        return result;
+        
+        Set<K> expectedValues = new HashSet<>(keys);
+        assertEquals(expectedValues, falseValuesInMap);
     }
     
     private void verifyColumns(List<ElementTag> columns, String... expectedColumnNames) {
