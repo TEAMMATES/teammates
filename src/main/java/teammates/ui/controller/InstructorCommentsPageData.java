@@ -93,7 +93,19 @@ public class InstructorCommentsPageData extends PageData {
         return previousPageLink;
     }
     
-    public String getRecipientNames(Set<String> recipients) {
+    public List<CommentsForStudentsTable> getCommentsForStudentsTables() {
+        return commentsForStudentsTables;
+    }
+    
+    public boolean isDisplayArchive() {
+        return isDisplayArchive;
+    }
+    
+    public boolean isViewingDraft() {
+        return isViewingDraft;
+    }        
+
+    private String getRecipientNames(Set<String> recipients) {
         StringBuilder namesStringBuilder = new StringBuilder();
         int i = 0;
         for (String recipient : recipients) {
@@ -117,18 +129,6 @@ public class InstructorCommentsPageData extends PageData {
         String namesString = namesStringBuilder.toString();
         return removeEndComma(namesString);
     }
-    
-    public List<CommentsForStudentsTable> getCommentsForStudentsTables() {
-        return commentsForStudentsTables;
-    }
-    
-    public boolean isDisplayArchive() {
-        return isDisplayArchive;
-    }
-    
-    public boolean isViewingDraft() {
-        return isViewingDraft;
-    }        
 
     private void setCommentsForStudentsTables() {
         Map<String, String> giverEmailToGiverNameMap = getGiverEmailToGiverNameMap();
