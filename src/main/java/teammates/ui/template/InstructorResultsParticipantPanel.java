@@ -9,7 +9,6 @@ public class InstructorResultsParticipantPanel implements Comparable<InstructorR
     private boolean isEmailValid;
     
     private boolean isHasResponses;
-    private String className;
     
     String profilePictureLink;
     
@@ -54,14 +53,6 @@ public class InstructorResultsParticipantPanel implements Comparable<InstructorR
 
     public void setEmailValid(boolean isEmailValid) {
         this.isEmailValid = isEmailValid;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
     }
 
     public String getProfilePictureLink() {
