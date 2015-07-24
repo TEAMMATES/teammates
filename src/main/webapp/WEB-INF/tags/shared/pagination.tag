@@ -5,7 +5,7 @@
 <ul class="pagination">
     <li><a href="${coursePagination.previousPageLink}">«</a></li>
     <c:forEach items="${coursePagination.coursePaginationList}" var="courseId">
-        <li class="${courseId == coursePagination.activeCourse ?  coursePagination.activeCourseClass : ''}">
+        <li class="${courseId == coursePagination.activeCourse ? coursePagination.activeCourseClass : ''}">
             <a href="${coursePagination.userCommentsLink}&courseid=${courseId}">${courseId}</a>
         </li>
     </c:forEach>

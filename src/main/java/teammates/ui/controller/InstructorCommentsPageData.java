@@ -31,8 +31,6 @@ public class InstructorCommentsPageData extends PageData {
     private Map<String, List<Boolean>> commentModifyPermissions;
     private CourseRoster roster;
     private List<FeedbackSessionAttributes> feedbackSessions;
-    private String previousPageLink;
-    private String nextPageLink;
     private int numberOfPendingComments = 0;
     
     private List<CommentsForStudentsTable> commentsForStudentsTables;
@@ -53,8 +51,6 @@ public class InstructorCommentsPageData extends PageData {
         this.commentModifyPermissions = commentModifyPermissions;
         this.roster = roster;
         this.feedbackSessions = feedbackSessions;
-        this.previousPageLink = retrievePreviousPageLink(coursePaginationList);
-        this.nextPageLink = retrieveNextPageLink(coursePaginationList);
         this.numberOfPendingComments = numberOfPendingComments;
         
         setCoursePagination(coursePaginationList);
@@ -82,16 +78,8 @@ public class InstructorCommentsPageData extends PageData {
         return feedbackSessions;
     }
     
-    public String getNextPageLink() {
-        return nextPageLink;
-    }
-    
     public int getNumberOfPendingComments() {
         return numberOfPendingComments;
-    }
-    
-    public String getPreviousPageLink() {
-        return previousPageLink;
     }
     
     public List<CommentsForStudentsTable> getCommentsForStudentsTables() {
