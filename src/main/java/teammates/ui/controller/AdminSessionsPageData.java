@@ -15,15 +15,15 @@ import teammates.logic.api.Logic;
 
 public class AdminSessionsPageData extends PageData {
 
-    public HashMap<String, List<FeedbackSessionAttributes>> map;
-    public HashMap<String, String> sessionToInstructorIdMap = new HashMap<String, String>();
-    public int totalOngoingSessions;
-    public boolean hasUnknown;
-    public Date rangeStart;
-    public Date rangeEnd;
-    public double zone;
-    public int tableCount;
-    public boolean isShowAll = false;
+    private HashMap<String, List<FeedbackSessionAttributes>> map;
+    private HashMap<String, String> sessionToInstructorIdMap = new HashMap<String, String>();
+    private int totalOngoingSessions;
+    private boolean hasUnknown;
+    private Date rangeStart;
+    private Date rangeEnd;
+    private double zone;
+    private int tableCount;
+    private boolean isShowAll = false;
 
     public AdminSessionsPageData(AccountAttributes account) {
         super(account);
