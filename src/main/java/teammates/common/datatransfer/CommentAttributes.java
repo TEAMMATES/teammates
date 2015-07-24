@@ -322,8 +322,8 @@ public class CommentAttributes extends EntityAttributes
     }
 
     public String getEditedAtText(Boolean isGiverAnonymous) {
-        String displayTimeAs = Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(this.lastEditedAt);
         if (this.lastEditedAt != null && (!this.lastEditedAt.equals(this.createdAt))) {
+            String displayTimeAs = Const.SystemParams.COMMENTS_SIMPLE_DATE_FORMATTER.format(this.lastEditedAt);
             return "(last edited " +
                     (isGiverAnonymous ? "" : "by " + this.lastEditorEmail + " ") +
                     "at " + displayTimeAs + ")";

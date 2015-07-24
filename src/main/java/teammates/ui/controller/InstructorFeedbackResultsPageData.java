@@ -155,7 +155,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponses 
                      = bundle.getResponsesSortedByGiverQuestionRecipient(true);
         
-        buildResponsesPanelsForGiverQuestionRecipient(sortedResponses);
+        buildSectionPanelsForGiverQuestionRecipient(sortedResponses);
     }
     
     /**
@@ -194,7 +194,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponses 
                      = bundle.getResponsesSortedByRecipientQuestionGiver(true);
        
-        buildResponsesPanelsForRecipientQuestionGiver(sortedResponses);
+        buildSectionPanelsForRecipientQuestionGiver(sortedResponses);
     }
     
     public void initForViewByRecipientGiverQuestion(InstructorAttributes instructor, 
@@ -224,13 +224,12 @@ public class InstructorFeedbackResultsPageData extends PageData {
         Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponses 
                      = bundle.getResponsesSortedByRecipient(true);
         
-        buildResponsesPanelsForRecipientGiverQuestion(sortedResponses);
+        buildSectionPanelsForRecipientGiverQuestion(sortedResponses);
         
     }
 
         
-
-    private void buildResponsesPanelsForGiverQuestionRecipient(
+    private void buildSectionPanelsForGiverQuestionRecipient(
                                     Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponses) {
         viewType = ViewType.GIVER_QUESTION_RECIPIENT;
         final String additionalInfoId = "giver-%s-question-%s";
@@ -326,7 +325,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         sectionsWithResponses.add(prevSection);
         
         buildMissingTeamAndParticipantPanelsForLastSectionWithResponses(sectionPanel, prevSection, prevTeam,
-                                                     teamsWithResponses, teamMembersWithResponses);
+                                                                        teamsWithResponses, teamMembersWithResponses);
 
         // TODO introduce enums for this, because this causes problems if there is a section named "All"
         if (selectedSection.equals("All")) {
@@ -334,7 +333,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
     }
 
-    private void buildResponsesPanelsForRecipientQuestionGiver(
+    private void buildSectionPanelsForRecipientQuestionGiver(
                                     Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedResponses) {
         viewType = ViewType.RECIPIENT_QUESTION_GIVER;
         final String additionalInfoId = "recipient-%s-question-%s";
@@ -439,7 +438,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         }
     }
     
-    private void buildResponsesPanelsForRecipientGiverQuestion(
+    private void buildSectionPanelsForRecipientGiverQuestion(
                                     Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedResponses) {
         viewType = ViewType.RECIPIENT_GIVER_QUESTION;
         final String additionalInfoId = "giver-%s-recipient-%s";
