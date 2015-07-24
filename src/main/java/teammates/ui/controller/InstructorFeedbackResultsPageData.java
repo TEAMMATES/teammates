@@ -258,7 +258,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     
                     // add sectionPanel to sectionPanels
                     buildMissingTeamAndParticipantPanelsWithModerationButtonForSection(sectionPanel, prevSection, 
-                                                    teamsWithResponses, currentTeam);
+                                                    teamsWithResponses);
                     sectionPanels.put(prevSection, sectionPanel);
                     sectionsWithResponses.add(prevSection);
                     
@@ -285,16 +285,17 @@ public class InstructorFeedbackResultsPageData extends PageData {
             prevSection = currentSection;
         }
         
+        buildMissingParticipantPanelsForTeam(sectionPanel, prevTeam, teamMembersWithResponses, viewType.isFirstGroupedByGiver());
+        
+        teamsWithResponses.add(prevTeam);
+        buildMissingTeamAndParticipantPanelsForSection(sectionPanel, prevSection, teamsWithResponses, viewType.isFirstGroupedByGiver());
+        
         finaliseBuildingSectionPanel(sectionPanel, prevSection, responsesGroupedByTeam, teamsWithResponses);
         sectionPanels.put(prevSection, sectionPanel);
-        teamsWithResponses.add(prevTeam);
-        sectionsWithResponses.add(prevSection);
-        
-        buildMissingTeamAndParticipantPanelsForLastSectionWithResponses(sectionPanel, prevSection, prevTeam,
-                                                                        teamsWithResponses, teamMembersWithResponses);
 
         // TODO introduce enums for this, because this causes problems if there is a section named "All"
         if (selectedSection.equals("All")) {
+            sectionsWithResponses.add(prevSection); // for the last section having responses
             buildSectionPanelsForMissingSections(sectionsWithResponses);
         }
     }
@@ -362,7 +363,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                     
                     // add to sectionPanels
                     buildMissingTeamAndParticipantPanelsWithoutModerationButtonForSection(
-                                                    sectionPanel, prevSection, teamsWithResponses, currentTeam);
+                                                    sectionPanel, prevSection, teamsWithResponses);
                     sectionPanels.put(prevSection, sectionPanel);
                     
                     sectionsWithResponses.add(prevSection);
@@ -390,16 +391,17 @@ public class InstructorFeedbackResultsPageData extends PageData {
             prevSection = currentSection;
         }
         
-        finaliseBuildingSectionPanel(sectionPanel, prevSection, responsesGroupedByTeam, teamsWithResponses);
-        sectionPanels.put(prevSection, sectionPanel);
+        buildMissingParticipantPanelsForTeam(sectionPanel, prevTeam, teamMembersWithResponses, viewType.isFirstGroupedByGiver());
+        
         teamsWithResponses.add(prevTeam);
-        sectionsWithResponses.add(prevSection);
-        buildMissingTeamAndParticipantPanelsForLastSectionWithResponses(
-                                        sectionPanel, prevSection, prevTeam,
-                                        teamsWithResponses, teamMembersWithResponses);
+        buildMissingTeamAndParticipantPanelsForSection(sectionPanel, prevSection, teamsWithResponses, viewType.isFirstGroupedByGiver());
+        
+        finaliseBuildingSectionPanel(sectionPanel, prevSection, responsesGroupedByTeam, teamsWithResponses);
+        sectionPanels.put(prevSection, sectionPanel);        
 
         // TODO introduce enums for this, because this causes problems if there is a section named "All"
         if (selectedSection.equals("All")) {
+            sectionsWithResponses.add(prevSection); // for the last section having responses 
             buildSectionPanelsForMissingSections(sectionsWithResponses);
         }
     }
@@ -482,21 +484,21 @@ public class InstructorFeedbackResultsPageData extends PageData {
 
     private void buildMissingTeamAndParticipantPanelsWithoutModerationButtonForSection(
                                     InstructorFeedbackResultsSectionPanel sectionPanel, String section,
-                                    Set<String> receivingTeams, String currentTeam) {
-        buildMissingTeamAndParticipantPanelsForSection(sectionPanel, section, receivingTeams, currentTeam, 
+                                    Set<String> receivingTeams) {
+        buildMissingTeamAndParticipantPanelsForSection(sectionPanel, section, receivingTeams, 
                                                        false);
     }
     
     private void buildMissingTeamAndParticipantPanelsWithModerationButtonForSection(
                                     InstructorFeedbackResultsSectionPanel sectionPanel, String section,
-                                    Set<String> receivingTeams, String currentTeam) {
-        buildMissingTeamAndParticipantPanelsForSection(sectionPanel, section, receivingTeams, currentTeam, 
+                                    Set<String> receivingTeams) {
+        buildMissingTeamAndParticipantPanelsForSection(sectionPanel, section, receivingTeams, 
                                                        true);
     }
     
     private void buildMissingTeamAndParticipantPanelsForSection(
                                     InstructorFeedbackResultsSectionPanel sectionPanel, String sectionName,
-                                    Set<String> receivingTeams, String currentTeam, 
+                                    Set<String> receivingTeams,  
                                     boolean isWithModerationButton) {
 
         // update the teams for the previous section
@@ -515,47 +517,6 @@ public class InstructorFeedbackResultsPageData extends PageData {
             }
         }
         
-    }
-
-    private void buildMissingTeamAndParticipantPanelsForLastSectionWithResponses(
-                                    InstructorFeedbackResultsSectionPanel sectionPanel, String sectionName,
-                                    String teamName, Set<String> teamsWithResponses, 
-                                    Set<String> teamMembersWithResponses) {
-        
-        // printing the participants without responses in the last response participant's team 
-        Set<String> teamMembersWithoutResponses = new HashSet<String>(bundle.getTeamMembersFromRoster(teamName));
-        teamMembersWithoutResponses.removeAll(teamMembersWithResponses);
-        
-        List<String> sortedTeamMembersWithoutResponses = new ArrayList<String>(teamMembersWithoutResponses);
-        Collections.sort(sortedTeamMembersWithoutResponses);
-        
-        if (viewType.isFirstGroupedByGiver()) {
-            addMissingParticipantsForTeamToSectionPanelWithModerationButton(sectionPanel, teamName,
-                                                        sortedTeamMembersWithoutResponses);
-        } else {
-            addMissingParticipantsForTeamToSectionPanelWithoutModerationButton(sectionPanel, teamName,
-                                            sortedTeamMembersWithoutResponses);
-        }
-        
-        teamsWithResponses.add(teamName);
-        
-        // for printing the teams without responses in last section having responses
-        Set<String> teamsInSection = bundle.getTeamsInSectionFromRoster(sectionName);
-        Set<String> teamsWithoutResponses = new HashSet<String>(teamsInSection);
-        teamsWithoutResponses.removeAll(teamsWithResponses);
-        
-        for (String teamWithoutResponses : teamsWithoutResponses) {
-            List<String> teamMembersOfTeam = new ArrayList<String>(bundle.getTeamMembersFromRoster(teamWithoutResponses));
-            Collections.sort(teamMembersOfTeam);
-            
-            if (viewType.isFirstGroupedByGiver()) {
-                addMissingParticipantsForTeamToSectionPanelWithModerationButton(sectionPanel, teamWithoutResponses, 
-                                                                                teamMembersOfTeam);
-            } else {
-                addMissingParticipantsForTeamToSectionPanelWithoutModerationButton(sectionPanel, teamWithoutResponses, 
-                                                                                   teamMembersOfTeam);
-            }
-        }
     }
 
     private String getCurrentTeam(FeedbackSessionResultsBundle bundle, String giverIdentifier) {
