@@ -38,7 +38,7 @@ public class AdminSessionsPageData extends PageData {
         this.totalOngoingSessions = totalOngoingSessions;
         this.hasUnknown = hasUnknown;
         this.rangeStart = rangeStart;
-        this.rangeEnd = rangeStart;
+        this.rangeEnd = rangeEnd;
         this.zone = zone;
         this.tableCount = tableCount;
         this.isShowAll = isShowAll;
