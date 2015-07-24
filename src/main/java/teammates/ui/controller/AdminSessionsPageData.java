@@ -43,6 +43,42 @@ public class AdminSessionsPageData extends PageData {
         this.tableCount = tableCount;
         this.isShowAll = isShowAll;
     }
+    
+    public HashMap<String, List<FeedbackSessionAttributes>> getMap() {
+        return map;
+    }
+
+    public HashMap<String, String> getSessionToInstructorIdMap() {
+        return sessionToInstructorIdMap;
+    }
+
+    public int getTotalOngoingSessions() {
+        return totalOngoingSessions;
+    }
+
+    public boolean isHasUnknown() {
+        return hasUnknown;
+    }
+
+    public Date getRangeStart() {
+        return rangeStart;
+    }
+
+    public Date getRangeEnd() {
+        return rangeEnd;
+    }
+
+    public double getZone() {
+        return zone;
+    }
+
+    public int getTableCount() {
+        return tableCount;
+    }
+
+    public boolean isShowAll() {
+        return isShowAll;
+    }
 
     public String getInstructorHomePageViewLink(String email) {
 
