@@ -18,4 +18,8 @@ public class AdminEmailComposePageData extends AdminEmailPageData {
     public String groupReceiverListFileKey = null;
     
     public AdminEmailAttributes emailToEdit = null;
+    
+    public AdminEmailAttributes getEmailToEdit() {
+        return emailToEdit;
+    }
 }
