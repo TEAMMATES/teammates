@@ -23,9 +23,7 @@
         <br />
         <c:forEach items="${data.courseTables}" var="courseTable" varStatus="i">
             <home:coursePanel courseTable="${courseTable}" index="${i.index}">
-                <c:if test="${not empty courseTable.rows}">
-                    <home:courseTable sessionRows="${courseTable.rows}" />
-                </c:if>
+                <home:courseTable sessionRows="${courseTable.rows}" />
             </home:coursePanel>
         </c:forEach>
         <ti:copyModal />
