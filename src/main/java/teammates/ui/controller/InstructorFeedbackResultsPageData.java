@@ -1217,23 +1217,27 @@ public class InstructorFeedbackResultsPageData extends PageData {
     }
     
     private InstructorResultsModerationButton buildModerationButtonForGiver(FeedbackQuestionAttributes question,
-                                                                            String giverEmail, String className,
+                                                                            String giverIdentifier, String className,
                                                                             String buttonText) {
-        boolean isAllowedToModerate = instructor.isAllowedForPrivilege(bundle.getSectionFromRoster(giverEmail), 
+        boolean isAllowedToModerate = instructor.isAllowedForPrivilege(bundle.getSectionFromRoster(giverIdentifier), 
                                                      getFeedbackSessionName(), 
                                                      Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         boolean isDisabled = !isAllowedToModerate;
         
-        String giverIdentifier = giverEmail;
+        
         if (question != null) {
-            giverIdentifier = question.giverType.isTeam() ? giverEmail.replace(Const.TEAM_OF_EMAIL_OWNER,"") 
+            giverIdentifier = question.giverType.isTeam() ? giverIdentifier.replace(Const.TEAM_OF_EMAIL_OWNER,"") 
                                                           : giverIdentifier;
+        } else {
+            giverIdentifier = giverIdentifier.matches(Const.REGEXP_TEAM) 
+                            ? giverIdentifier.replace(Const.TEAM_OF_EMAIL_OWNER,"")
+                            : giverIdentifier;
         }
         
-        InstructorResultsModerationButton moderationButton = new InstructorResultsModerationButton(isAllowedToModerate, isDisabled,
-                                                                 className, giverIdentifier, 
-                                                                 getCourseId(), getFeedbackSessionName(), 
-                                                                 question, buttonText);
+        InstructorResultsModerationButton moderationButton = new InstructorResultsModerationButton(
+                                                                    isAllowedToModerate, isDisabled, className,
+                                                                    giverIdentifier, getCourseId(), 
+                                                                    getFeedbackSessionName(), question, buttonText);
         return moderationButton;
    }
     
