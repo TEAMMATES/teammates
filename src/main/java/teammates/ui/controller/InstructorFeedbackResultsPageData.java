@@ -527,7 +527,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                     String primaryParticipantIdentifier, String currentTeam,
                                     String additionalInfoId, int primaryParticipantIndex,
                                     Map.Entry<String, Map<String, List<FeedbackResponseAttributes>>> primaryToSecondaryToResponsesMap) {
-        // first build giver panels for the primary participant panel
+        // first build secondary participant panels for the primary participant panel
         Map<String, List<FeedbackResponseAttributes>> giverToResponsesMap = primaryToSecondaryToResponsesMap.getValue();
         List<InstructorFeedbackResultsSecondaryParticipantPanelBody> secondaryParticipantPanels 
                              = buildSecondaryParticipantPanels(
@@ -562,20 +562,18 @@ public class InstructorFeedbackResultsPageData extends PageData {
             List<InstructorFeedbackResultsResponsePanel> responsePanels 
                                      = buildResponsePanels(
                                             additionalInfoId, primaryParticipantIndex, secondaryParticipantIndex, secondaryParticipantResponses);
-            
+          
             InstructorFeedbackResultsSecondaryParticipantPanelBody secondaryParticipantPanel 
                      = new InstructorFeedbackResultsSecondaryParticipantPanelBody(
                                         secondaryParticipantIdentifier, secondaryParticipantDisplayableName, 
-                                        responsePanels, 
-                                        validator.getInvalidityInfo(FieldValidator.FieldType.EMAIL, 
-                                                                    secondaryParticipantIdentifier)
-                                                                    .isEmpty());
+                                        responsePanels, isEmail);
             
             secondaryParticipantPanel.setProfilePictureLink(getProfilePictureLink(secondaryParticipantIdentifier));
             secondaryParticipantPanel.setModerationButton(buildModerationButtonForGiver(
                                                               null, secondaryParticipantIdentifier, 
                                                               "btn btn-default btn-xs", "Moderate Responses"));
-            secondaryParticipantPanel.setModerationButtonDisplayed(true);
+            boolean isVisibleTeam = bundle.rosterTeamNameMembersTable.containsKey(secondaryParticipantDisplayableName);
+            secondaryParticipantPanel.setModerationButtonDisplayed(isEmail || isVisibleTeam);
             secondaryParticipantPanels.add(secondaryParticipantPanel);
             
         }

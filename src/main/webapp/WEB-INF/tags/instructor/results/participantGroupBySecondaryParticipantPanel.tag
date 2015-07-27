@@ -17,7 +17,7 @@
                 <div class="middlealign profile-pic-icon-hover inline panel-heading-text" data-link="${groupByParticipantPanel.profilePictureLink}">
                     <strong>${groupByParticipantPanel.name}</strong>
                     <img src="" alt="No Image Given" class="hidden profile-pic-icon-hidden">
-                    <a <c:if test="${not empty groupByParticipantPanel.secondaryParticipantPanels}">class="link-in-dark-bg"</c:if> href="mailTo:${groupByParticipantPanel.participantIdentifier}">[${groupByParticipantPanel.participantIdentifier}]</a>
+                    <a <c:if test="${not empty groupByParticipantPanel.secondaryParticipantPanels}">class="link-in-dark-bg"</c:if> href="mailto:${groupByParticipantPanel.participantIdentifier}">[${groupByParticipantPanel.participantIdentifier}]</a>
                 </div>
             </c:when>
             <c:otherwise>
