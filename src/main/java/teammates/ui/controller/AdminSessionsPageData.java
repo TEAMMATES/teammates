@@ -14,6 +14,7 @@ import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.logic.api.Logic;
 import teammates.ui.template.AdminFeedbackSessionRow;
+import teammates.ui.template.AdminFilter;
 import teammates.ui.template.InstitutionPanel;
 
 public class AdminSessionsPageData extends PageData {
@@ -28,6 +29,7 @@ public class AdminSessionsPageData extends PageData {
     private int tableCount;
     private boolean isShowAll = false;
     private List<InstitutionPanel> institutionPanels;
+    private AdminFilter filter;
     
     public AdminSessionsPageData(AccountAttributes account) {
         super(account);
@@ -46,9 +48,11 @@ public class AdminSessionsPageData extends PageData {
         this.zone = zone;
         this.tableCount = tableCount;
         this.isShowAll = isShowAll;
+        setFilter();
         setInstitutionPanels();
     }
-    
+
+
     public HashMap<String, List<FeedbackSessionAttributes>> getMap() {
         return map;
     }
@@ -79,6 +83,10 @@ public class AdminSessionsPageData extends PageData {
 
     public int getTableCount() {
         return tableCount;
+    }
+    
+    public AdminFilter getFilter() {
+        return filter;
     }
 
     public boolean isShowAll() {
@@ -189,6 +197,13 @@ public class AdminSessionsPageData extends PageData {
                                                                 feedbackSession.feedbackSessionName));
         }
         return feedbackSessionRows;
+    }
+    
+    
+    private void setFilter() {
+        filter = new AdminFilter(TimeHelper.formatDate(rangeStart), getHourOptionsAsHtml(rangeStart), getMinuteOptionsAsHtml(rangeStart), 
+                                 TimeHelper.formatDate(rangeEnd), getHourOptionsAsHtml(rangeEnd), getMinuteOptionsAsHtml(rangeEnd),
+                                 getTimeZoneOptionsAsHtml());
     }
     
     public void setInstitutionPanels() {
