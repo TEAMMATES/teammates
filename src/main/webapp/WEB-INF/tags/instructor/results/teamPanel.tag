@@ -34,15 +34,13 @@
                         <h3>${teamName} ${statisticsHeaderText}</h3>
                         <hr class="margin-top-0">
                         <c:choose>
+                            <%-- Not all questions have statistics, so we still need to test for the non-emptiness of statsTable --%>
                             <c:when test="${empty statsTables}">
                                 <p class="text-color-gray"><i>No statistics available.</i></p>
                             </c:when>
                             <c:otherwise>
-                                <%-- Not all questions have statistics, so we still need to test for the non-emptiness of statsTable --%>
                                 <c:forEach items="${statsTables}" var="statsTable">
-                                    <c:if test="${not empty statsTable.questionStatisticsTable}">
-                                        <results:questionPanel showAll="${showAll}" questionPanel="${statsTable}" shouldCollapsed="${shouldCollapse}"/>
-                                    </c:if>
+                                    <results:questionPanel showAll="${showAll}" questionPanel="${statsTable}" shouldCollapsed="${shouldCollapse}"/>
                                 </c:forEach>
                             </c:otherwise>
                         </c:choose>
