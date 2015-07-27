@@ -2,14 +2,14 @@ package teammates.ui.template;
 
 public class AdminFeedbackSessionRow {
 
-    String sessionStatusForShow;
-    String feedbackSessionStatsLink;
-    String sessionStartTime;
-    String sessionEndTime;
-    String instructorHomePageViewLink;
-    String creatorEmail;
-    String courseId;
-    String feedbackSessionName;
+    private String sessionStatusForShow;
+    private String feedbackSessionStatsLink;
+    private String sessionStartTime;
+    private String sessionEndTime;
+    private String instructorHomePageViewLink;
+    private String creatorEmail;
+    private String courseId;
+    private String feedbackSessionName;
     
     public AdminFeedbackSessionRow(String sessionStatusForShow, String feedbackSessionStatsLink,
                                     String sessionStartTime, String sessionEndTime,

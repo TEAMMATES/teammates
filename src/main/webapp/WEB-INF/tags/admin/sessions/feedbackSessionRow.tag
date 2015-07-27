@@ -2,10 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="feedbackSessionRow" type="teammates.ui.template.AdminFeedbackSessionRow" required="true"%>
 <tr>
-    <td>${feedbackSessionRow.sessionStatusForShow}  
-    </td>
+    <td>${feedbackSessionRow.sessionStatusForShow}</td>
     <td><strong>[${feedbackSessionRow.courseId}]</strong>&nbsp;${feedbackSessionRow.feedbackSessionName}</td>
-    
     <c:choose>
         <c:when test="${not empty feedbackSessionRow.feedbackSessionStatsLink}">               
             <td class="session-response-for-test">

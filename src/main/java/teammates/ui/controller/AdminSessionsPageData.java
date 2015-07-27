@@ -2,8 +2,8 @@ package teammates.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import teammates.common.datatransfer.AccountAttributes;
 import teammates.common.datatransfer.FeedbackSessionAttributes;
@@ -18,15 +18,10 @@ import teammates.ui.template.AdminFilter;
 import teammates.ui.template.InstitutionPanel;
 
 public class AdminSessionsPageData extends PageData {
-
-    private HashMap<String, List<FeedbackSessionAttributes>> map;
-    private HashMap<String, String> sessionToInstructorIdMap = new HashMap<String, String>();
     private int totalOngoingSessions;
-    private boolean hasUnknown;
     private Date rangeStart;
     private Date rangeEnd;
     private double zone;
-    private int tableCount;
     private boolean isShowAll = false;
     private List<InstitutionPanel> institutionPanels;
     private AdminFilter filter;
@@ -36,53 +31,29 @@ public class AdminSessionsPageData extends PageData {
 
     }
     
-    public void init(HashMap<String, List<FeedbackSessionAttributes>> map, HashMap<String, String> sessionToInstructorIdMap,
-         int totalOngoingSessions, boolean hasUnknown, Date rangeStart, Date rangeEnd, double zone, int tableCount,
-         boolean isShowAll) {
-        this.map = map;
-        this.sessionToInstructorIdMap = sessionToInstructorIdMap;
+    public void init(
+            Map<String, List<FeedbackSessionAttributes>> map, Map<String, String> sessionToInstructorIdMap, 
+            int totalOngoingSessions, Date rangeStart, Date rangeEnd, double zone, boolean isShowAll) {
+
         this.totalOngoingSessions = totalOngoingSessions;
-        this.hasUnknown = hasUnknown;
         this.rangeStart = rangeStart;
         this.rangeEnd = rangeEnd;
         this.zone = zone;
-        this.tableCount = tableCount;
         this.isShowAll = isShowAll;
         setFilter();
-        setInstitutionPanels();
-    }
-
-
-    public HashMap<String, List<FeedbackSessionAttributes>> getMap() {
-        return map;
-    }
-
-    public HashMap<String, String> getSessionToInstructorIdMap() {
-        return sessionToInstructorIdMap;
+        setInstitutionPanels(map, sessionToInstructorIdMap);
     }
 
     public int getTotalOngoingSessions() {
         return totalOngoingSessions;
     }
 
-    public boolean isHasUnknown() {
-        return hasUnknown;
-    }
-
-    public Date getRangeStart() {
-        return rangeStart;
-    }
-
-    public Date getRangeEnd() {
-        return rangeEnd;
-    }
-
-    public double getZone() {
-        return zone;
-    }
-
     public int getTableCount() {
-        return tableCount;
+        return institutionPanels.size();
+    }
+    
+    public boolean isShowAll() {
+        return isShowAll;
     }
     
     public AdminFilter getFilter() {
@@ -95,10 +66,6 @@ public class AdminSessionsPageData extends PageData {
     
     public String getRangeEndString() {
         return TimeHelper.formatTime(rangeEnd);
-    }
-
-    public boolean isShowAll() {
-        return isShowAll;
     }
     
     public List<InstitutionPanel> getInstitutionPanels() {
@@ -149,11 +116,11 @@ public class AdminSessionsPageData extends PageData {
         return getTimeZoneOptionsAsHtml(zone);
     }
 
-    public String getTimeZoneAsString(){
+    public String getTimeZoneAsString() {
         return StringHelper.toUtcFormat(zone);
     }
     
-    public String getFeedbackSessionStatsLink(String courseID, String feedbackSessionName, String user){
+    public String getFeedbackSessionStatsLink(String courseID, String feedbackSessionName, String user) {
         String link;
         if (user.isEmpty()) {
             link = "";
@@ -166,22 +133,22 @@ public class AdminSessionsPageData extends PageData {
         return link;
     }
     
-    public String getSessionStatusForShow(FeedbackSessionAttributes fs){
+    public String getSessionStatusForShow(FeedbackSessionAttributes fs) {
         
         String status = "";
-        if(fs.isClosed()){
+        if (fs.isClosed()) {
             status += "[Closed]";   
         }
-          if(fs.isOpened()){
+          if (fs.isOpened()) {
             status += "[Opened]";    
         } 
-          if(fs.isWaitingToOpen()){
+          if (fs.isWaitingToOpen()) {
             status +=  "[Waiting To Open]";   
         } 
-          if(fs.isPublished()){
+          if (fs.isPublished()) {
             status +=  "[Published]";   
         }
-          if(fs.isInGracePeriod()){
+          if (fs.isInGracePeriod()) {
             status +=  "[Grace Period]";   
         }
           
@@ -191,39 +158,53 @@ public class AdminSessionsPageData extends PageData {
         
     }
     
-    public List<AdminFeedbackSessionRow> getFeedbackSessionRows(List<FeedbackSessionAttributes> feedbackSessions) {
+    public List<AdminFeedbackSessionRow> getFeedbackSessionRows(
+            List<FeedbackSessionAttributes> feedbackSessions, Map<String, String> sessionToInstructorIdMap) {
         List<AdminFeedbackSessionRow> feedbackSessionRows = new ArrayList<AdminFeedbackSessionRow>();
         for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
-            String googleId = getSessionToInstructorIdMap().get(feedbackSession.getIdentificationString());
-            feedbackSessionRows.add(new AdminFeedbackSessionRow(getSessionStatusForShow(feedbackSession), 
-                                                                getFeedbackSessionStatsLink(feedbackSession.courseId, feedbackSession.feedbackSessionName, googleId),
-                                                                TimeHelper.formatTime(feedbackSession.getSessionStartTime()),
-                                                                TimeHelper.formatTime(feedbackSession.getSessionEndTime()),
-                                                                getInstructorHomePageViewLink(feedbackSession.creatorEmail),
-                                                                feedbackSession.creatorEmail,
-                                                                feedbackSession.courseId,
-                                                                feedbackSession.feedbackSessionName));
+            String googleId = sessionToInstructorIdMap.get(feedbackSession.getIdentificationString());
+            feedbackSessionRows.add(new AdminFeedbackSessionRow(
+                                            getSessionStatusForShow(feedbackSession), 
+                                            getFeedbackSessionStatsLink(
+                                                    feedbackSession.courseId, 
+                                                    feedbackSession.feedbackSessionName, 
+                                                    googleId),
+                                            TimeHelper.formatTime(feedbackSession.getSessionStartTime()),
+                                            TimeHelper.formatTime(feedbackSession.getSessionEndTime()),
+                                            getInstructorHomePageViewLink(feedbackSession.creatorEmail),
+                                            feedbackSession.creatorEmail,
+                                            feedbackSession.courseId,
+                                            feedbackSession.feedbackSessionName));
         }
         return feedbackSessionRows;
     }
     
     
     private void setFilter() {
-        filter = new AdminFilter(TimeHelper.formatDate(rangeStart), getHourOptionsAsHtml(rangeStart), getMinuteOptionsAsHtml(rangeStart), 
-                                 TimeHelper.formatDate(rangeEnd), getHourOptionsAsHtml(rangeEnd), getMinuteOptionsAsHtml(rangeEnd),
+        filter = new AdminFilter(TimeHelper.formatDate(rangeStart), getHourOptionsAsHtml(rangeStart), 
+                                 getMinuteOptionsAsHtml(rangeStart), TimeHelper.formatDate(rangeEnd), 
+                                 getHourOptionsAsHtml(rangeEnd), getMinuteOptionsAsHtml(rangeEnd),
                                  getTimeZoneOptionsAsHtml());
     }
     
-    public void setInstitutionPanels() {
+    public void setInstitutionPanels(
+            Map<String, List<FeedbackSessionAttributes>> map, Map<String, String> sessionToInstructorIdMap) {
         institutionPanels = new ArrayList<InstitutionPanel>();
         for (String key : map.keySet()) {
             if (!key.equals("Unknown")) {
-                institutionPanels.add(new InstitutionPanel(key, getFeedbackSessionRows(map.get(key))));
+                institutionPanels.add(new InstitutionPanel(
+                                              key, getFeedbackSessionRows(
+                                                           map.get(key), 
+                                                           sessionToInstructorIdMap)));
             }
         }
-        if (hasUnknown) {
-            String key = "Unknown";
-            institutionPanels.add(new InstitutionPanel(key, getFeedbackSessionRows(map.get(key))));
+        String key = "Unknown";
+        List<FeedbackSessionAttributes> feedbackSessions = map.get(key);
+        if (feedbackSessions != null) {
+            institutionPanels.add(new InstitutionPanel(
+                                          key, getFeedbackSessionRows(
+                                                       feedbackSessions, 
+                                                       sessionToInstructorIdMap)));
         }
     }
 }

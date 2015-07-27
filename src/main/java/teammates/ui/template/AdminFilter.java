@@ -3,13 +3,13 @@ package teammates.ui.template;
 import java.util.List;
 
 public class AdminFilter {
-    String rangeStart;
-    List<String> rangeStartHourOptions;
-    List<String> rangeStartMinuteOptions;
-    String rangeEnd;
-    List<String> rangeEndHourOptions;
-    List<String> rangeEndMinuteOptions;
-    List<String> timeZoneOptions;
+    private String rangeStart;
+    private List<String> rangeStartHourOptions;
+    private List<String> rangeStartMinuteOptions;
+    private String rangeEnd;
+    private List<String> rangeEndHourOptions;
+    private List<String> rangeEndMinuteOptions;
+    private List<String> timeZoneOptions;
     
     public AdminFilter(String rangeStart, List<String> rangeStartHourOptions,
                        List<String> rangeStartMinuteOptions, String rangeEnd,
