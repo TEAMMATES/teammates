@@ -14,6 +14,7 @@
     AdminSessionsPageData data = (AdminSessionsPageData) request.getAttribute("data");
 %>
 
+<%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%@ taglib tagdir="/WEB-INF/tags/admin/sessions" prefix="adminSessions" %>
@@ -215,10 +216,8 @@
 
         </form>
         <t:statusMessage/>
-        <c:set var="tableIndex" value="1" />
         <c:forEach items="${data.institutionPanels}" var="institutionPanel" varStatus="i">
-            <c:set var="index"value="1" />
-            <adminSessions:institutionPanel tableIndex="${i}"/>
+            <adminSessions:institutionPanel institutionPanel="${institutionPanel}" tableIndex="${i.index + 1}" />
         </c:forEach>
         <%
 

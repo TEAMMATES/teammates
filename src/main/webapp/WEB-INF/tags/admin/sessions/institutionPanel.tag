@@ -1,6 +1,8 @@
 <%@ tag description="Admin sessions - institution panel" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib tagdir="/WEB-INF/tags/admin/sessions" prefix="adminSessions" %>
+<%@ attribute name="institutionPanel" type="teammates.ui.template.InstitutionPanel" required="true"%>
 <%@ attribute name="tableIndex" required="true"%>
 <div class="panel panel-primary">
     <ul class="nav nav-pills nav-stacked">
@@ -40,16 +42,10 @@
             <tbody>
                 <c:forEach items="${institutionPanel.feedbackSessionRows}" var="feedbackSessionRow">
                     <c:if test="${data.showAll or not feedbackSessionRow.endsWithTmt}">
-
-                        <adminSessions:feedbackSessionRow feedbackSessionRow="${feedbackSessionRow}"/>
-                        <c:set var="index" value="${index + 1}"/>
+                        <adminSessions:feedbackSessionRow feedbackSessionRow="${feedbackSessionRow}" />
                     </c:if>
                 </c:forEach>
-                <c:set var="tableIndex" value="${tableIndex + 1}"/>
             </tbody>
-
         </table>
     </div>
-
-
 </div>
