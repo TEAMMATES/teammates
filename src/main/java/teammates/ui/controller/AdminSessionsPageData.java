@@ -10,8 +10,11 @@ import teammates.common.datatransfer.FeedbackSessionAttributes;
 import teammates.common.datatransfer.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.common.util.TimeHelper;
 import teammates.common.util.Url;
 import teammates.logic.api.Logic;
+import teammates.ui.template.AdminFeedbackSessionRow;
+import teammates.ui.template.InstitutionPanel;
 
 public class AdminSessionsPageData extends PageData {
 
@@ -24,7 +27,8 @@ public class AdminSessionsPageData extends PageData {
     private double zone;
     private int tableCount;
     private boolean isShowAll = false;
-
+    private List<InstitutionPanel> institutionPanels;
+    
     public AdminSessionsPageData(AccountAttributes account) {
         super(account);
 
@@ -42,6 +46,7 @@ public class AdminSessionsPageData extends PageData {
         this.zone = zone;
         this.tableCount = tableCount;
         this.isShowAll = isShowAll;
+        setInstitutionPanels();
     }
     
     public HashMap<String, List<FeedbackSessionAttributes>> getMap() {
@@ -79,7 +84,10 @@ public class AdminSessionsPageData extends PageData {
     public boolean isShowAll() {
         return isShowAll;
     }
-
+    
+    public List<InstitutionPanel> getInstitutionPanels() {
+        return institutionPanels;
+    }
     public String getInstructorHomePageViewLink(String email) {
 
         Logic logic = new Logic();
@@ -130,10 +138,15 @@ public class AdminSessionsPageData extends PageData {
     }
     
     public String getFeedbackSessionStatsLink(String courseID, String feedbackSessionName, String user){
-        String link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE;
-        link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
-        link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName); 
-        link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, user);
+        String link;
+        if (user.isEmpty()) {
+            link = "";
+        } else {
+            link = Const.ActionURIs.INSTRUCTOR_FEEDBACK_STATS_PAGE;
+            link = Url.addParamToUrl(link, Const.ParamsNames.COURSE_ID, courseID);
+            link = Url.addParamToUrl(link, Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionName); 
+            link = Url.addParamToUrl(link, Const.ParamsNames.USER_ID, user);
+        }
         return link;
     }
     
@@ -161,5 +174,27 @@ public class AdminSessionsPageData extends PageData {
         return status;
         
     }
-
+    
+    public List<AdminFeedbackSessionRow> getFeedbackSessionRows(List<FeedbackSessionAttributes> feedbackSessions) {
+        List<AdminFeedbackSessionRow> feedbackSessionRows = new ArrayList<AdminFeedbackSessionRow>();
+        for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
+            String googleId = getSessionToInstructorIdMap().get(feedbackSession.getIdentificationString());
+            feedbackSessionRows.add(new AdminFeedbackSessionRow(getSessionStatusForShow(feedbackSession), 
+                                                                getFeedbackSessionStatsLink(feedbackSession.courseId, feedbackSession.feedbackSessionName, googleId),
+                                                                TimeHelper.formatTime(feedbackSession.getSessionStartTime()),
+                                                                TimeHelper.formatTime(feedbackSession.getSessionEndTime()),
+                                                                getInstructorHomePageViewLink(feedbackSession.creatorEmail),
+                                                                feedbackSession.creatorEmail,
+                                                                feedbackSession.courseId,
+                                                                feedbackSession.feedbackSessionName));
+        }
+        return feedbackSessionRows;
+    }
+    
+    public void setInstitutionPanels() {
+        institutionPanels = new ArrayList<InstitutionPanel>();
+        for (String key : map.keySet()) {
+            institutionPanels.add(new InstitutionPanel(key, getFeedbackSessionRows(map.get(key))));
+        }
+    }
 }
