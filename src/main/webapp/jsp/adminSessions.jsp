@@ -55,174 +55,37 @@
     <script type="text/javascript" src="/js/datepicker.js"></script>
     <script type="text/javascript" src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 </head>
-
-
 <body>
-
-
     <jsp:include page="<%=Const.ViewURIs.ADMIN_HEADER%>" />
     <div class="container" id="mainContent">
 
         <div id="topOfPage"></div>
 
 
-            <h1>
-                Ongoing Sessions<small> Total: ${data.totalOngoingSessions}
-                    <br> <%=TimeHelper.formatTime(data.getRangeStart())%>&nbsp;&nbsp;<span
-                    class="glyphicon glyphicon-resize-horizontal"></span>&nbsp;&nbsp;<%=TimeHelper.formatTime(data.getRangeEnd())%>
-                    &nbsp;${data.timeZoneAsString}
-                </small><br> <a href="#" class="btn btn-info"
-                    onclick="openAllSections(${data.tableCount})">
-                    Open All</a> <a href="#" class="btn btn-warning"
-                    onclick="closeAllSections(${data.tableCount})">
-                    Collapse All</a>
-            </h1>
-            <br>
-
-        <div class="form-group">
-            <a href="#" class="btn btn-link center-block"
-                onclick="toggleFilter()"><span id="referenceText">
-                    Show filter</span><br> <span
-                class="glyphicon glyphicon-chevron-down"
-                id="detailButton"></span> </a>
-
-        </div>
-
+        <h1>Ongoing Sessions</h1>
+        <h1>
+        <small> Total: ${data.totalOngoingSessions}
+                <br> ${data.rangeStartString}&nbsp;&nbsp;<span
+                class="glyphicon glyphicon-resize-horizontal"></span>&nbsp;&nbsp;${data.rangeEndString}
+                &nbsp;${data.timeZoneAsString}
+        </small>
+        <br> 
+        <a href="#" class="btn btn-info" onclick="openAllSections(${data.tableCount})">Open All</a> 
+        <a href="#" class="btn btn-warning" onclick="closeAllSections(${data.tableCount})">Collapse All</a>
+        </h1>
+        <br>
         <adminSessions:filter filter="${data.filter}"/>
         <t:statusMessage/>
         <c:forEach items="${data.institutionPanels}" var="institutionPanel" varStatus="i">
             <adminSessions:institutionPanel institutionPanel="${institutionPanel}" tableIndex="${i.index + 1}" />
         </c:forEach>
-        <%
-
-
-            if (data.isHasUnknown()) {
-
-                String key = "Unknown";
-                int index = 1;
-        %>
-
-
-        <div class="panel panel-primary">
-
-
-            <ul class="nav nav-pills nav-stacked">
-                <li id="pill_${tableIndex}" class="active"><a
-                    href="#"
-                    onclick="toggleContent(${tableIndex}); return false;"><span
-                        class="badge pull-right"
-                        id="badge_${tableIndex} style="display:none"><%=data.getMap().get(key).size()%></span>
-                        <Strong><%=key%> </Strong></a></li>
-            </ul>
-
-            <div class="table-responsive" id="table_${tableIndex}">
-                <table class="table table-striped dataTable">
-                    <thead>
-                        <tr>
-                           <th>Status
-                           </th>
-                           <th onclick="toggleSort(this,2)"
-                                class="button-sort-non">Session Name &nbsp; <span
-                                class="icon-sort unsorted"></span>
-                            </th>
-                             <th> Response Rate 
-                            </th>
-                            <th onclick="toggleSort(this,4,sortDate)"
-                                class="button-sort-non">Start Time&nbsp;
-                                <span class="icon-sort unsorted"></span>
-                            </th>
-                            <th onclick="toggleSort(this,5,sortDate)"
-                                class="button-sort-non">End Time&nbsp; <span
-                                class="icon-sort unsorted"></span></th>
-                            <th onclick="toggleSort(this,6)"
-                                class="button-sort-non">Creator</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-
-                        <%
-                            List<FeedbackSessionAttributes> curList = data.getMap().get(key);
-
-                                for (FeedbackSessionAttributes fs : curList) {
-                                    
-                                	if(!data.isShowAll() && fs.creatorEmail.endsWith(".tmt")){
-                                        continue;   
-                                    }
-                        %>
-
-                        <tr>
-                            <td><%=data.getSessionStatusForShow(fs)%> 
-                            </td>
-                            <td><%=fs.feedbackSessionName%></td>
-                             <%
-                            String googleId = data.getSessionToInstructorIdMap().get(fs.getIdentificationString());
-                            if(!googleId.isEmpty()){               
-                            %>
-                            <td class="session-response-for-test">
-                               <a oncontextmenu="return false;" href="<%=data.getFeedbackSessionStatsLink(fs.courseId, fs.feedbackSessionName, googleId)%>">Show</a>
-                            </td>
-                            
-                            <%    
-                            } else {
-                            %>
-                             <td class="session-response-for-test">
-                                <p>Not Available</p>
-                            </td>
-                            
-                            <%
-                            }
-                            %>
-                            <td><%=TimeHelper.formatTime(fs.getSessionStartTime())%></td>
-                            <td><%=TimeHelper.formatTime(fs.getSessionEndTime())%></td>
-                            <td><a
-                                <%=data
-                            .getInstructorHomePageViewLink(fs.creatorEmail)%>><%=fs.creatorEmail%></a></td>
-                        </tr>
-
-                        <%
-                            index++;
-                                }
-                        %>
-                    </tbody>
-
-                </table>
-            </div>
-
-
-        </div>
-
-
-
-        <%
-            }
-        %>
-
-
         <a href="#" class="back-to-top-left"><span
-            class="glyphicon glyphicon-arrow-up"></span>&nbsp;Top</a> <a
-            href="#" class="back-to-top-right">Top&nbsp;<span
+            class="glyphicon glyphicon-arrow-up"></span>&nbsp;Top</a> 
+        <a href="#" class="back-to-top-right">Top&nbsp;<span
             class="glyphicon glyphicon-arrow-up"></span></a>
-
-
-
-
     </div>
-
-
-
-
     <jsp:include page="<%=Const.ViewURIs.FOOTER%>" />
-
-
-
 </body>
-
-
-
-
-
-
 </html>
 <%--
 <%@ page language="java" contentType="text/html; charset=UTF-8"

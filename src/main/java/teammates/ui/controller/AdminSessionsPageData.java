@@ -88,6 +88,14 @@ public class AdminSessionsPageData extends PageData {
     public AdminFilter getFilter() {
         return filter;
     }
+    
+    public String getRangeStartString() {
+        return TimeHelper.formatTime(rangeStart);
+    }
+    
+    public String getRangeEndString() {
+        return TimeHelper.formatTime(rangeEnd);
+    }
 
     public boolean isShowAll() {
         return isShowAll;
@@ -209,6 +217,12 @@ public class AdminSessionsPageData extends PageData {
     public void setInstitutionPanels() {
         institutionPanels = new ArrayList<InstitutionPanel>();
         for (String key : map.keySet()) {
+            if (!key.equals("Unknown")) {
+                institutionPanels.add(new InstitutionPanel(key, getFeedbackSessionRows(map.get(key))));
+            }
+        }
+        if (hasUnknown) {
+            String key = "Unknown";
             institutionPanels.add(new InstitutionPanel(key, getFeedbackSessionRows(map.get(key))));
         }
     }

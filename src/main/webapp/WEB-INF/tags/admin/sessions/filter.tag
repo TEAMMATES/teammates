@@ -2,6 +2,14 @@
 <%@ tag import="teammates.common.util.Const"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="filter" type="teammates.ui.template.AdminFilter" required="true"%>
+<div class="form-group">
+    <a href="#" class="btn btn-link center-block"
+        onclick="toggleFilter()"><span id="referenceText">
+            Show filter</span><br> <span
+        class="glyphicon glyphicon-chevron-down"
+        id="detailButton"></span> </a>
+
+</div>
 <form method="get"
     action="<%=Const.ActionURIs.ADMIN_SESSIONS_PAGE%>">
     <div class="panel panel-primary" id="timeFramePanel">
