@@ -18,8 +18,6 @@
 <%@ attribute name="isSecondaryParticipantType" type="java.lang.Boolean" required="true" %>
 <%@ attribute name="participantPanels" type="java.util.List" required="true" %>
 
-<c:set var="groupByTeamEnabled" value = "${data.groupByTeam != null || data.groupByTeam == 'on'}"/>
-
 <div class="panel panel-warning">
     <div class="panel-heading">
         <div class="inline panel-heading-text">
@@ -38,25 +36,23 @@
     
     <div class="panel-collapse collapse<c:if test="${!shouldCollapsed}"> in</c:if>">
         <div class="panel-body background-color-warning">
-            <div class="resultStatistics">
-                <c:if test="${isDisplayingTeamStatistics && isTeamHasResponses}">
-                    <h3>${teamName} ${statisticsHeaderText}</h3>
-                    <hr class="margin-top-0">
-                    <c:choose>
-                        <c:when test="${empty statsTables}">
-                            <p class="text-color-gray"><i>No statistics available.</i></p>
-                        </c:when>
-                        <c:otherwise>
-                            <c:forEach items="${statsTables}" var="statsTable">
-                                <c:if test="${not empty statsTable.questionStatisticsTable}">
-                                    <results:questionPanel showAll="${showAll}" questionPanel="${statsTable}" shouldCollapsed="${shouldCollapse}"/>
-                                </c:if>
-                            </c:forEach>
-                        </c:otherwise>
-                    </c:choose>
-                </c:if>
-                <c:if test="${isDisplayingTeamStatistics && (isTeamHasResponses || isDisplayingMissingParticipants)}">
+            <c:if test="${isDisplayingTeamStatistics}">
+                <%-- Statistics Tables for entire team --%>
+                <div class="resultStatistics">
                     <c:if test="${isTeamHasResponses}">
+                        <h3>${teamName} ${statisticsHeaderText}</h3>
+                        <hr class="margin-top-0">
+                        <c:choose>
+                            <%-- Not all questions have statistics, so we still need to test for the non-emptiness of statsTable --%>
+                            <c:when test="${empty statsTables}">
+                                <p class="text-color-gray"><i>No statistics available.</i></p>
+                            </c:when>
+                            <c:otherwise>
+                                <c:forEach items="${statsTables}" var="statsTable">
+                                    <results:questionPanel showAll="${showAll}" questionPanel="${statsTable}" shouldCollapsed="${shouldCollapse}"/>
+                                </c:forEach>
+                            </c:otherwise>
+                        </c:choose>
                         <div class="row">
                             <div class="col-sm-9">
                                 <h3>${teamName} ${detailedResponsesHeaderText}</h3>
@@ -69,15 +65,16 @@
                         </div>
                         <hr class="margin-top-0">
                     </c:if>
-                </c:if>
-            </div>
+             </div>
+             </c:if>
+             
             <c:if test="${isTeamHasResponses || isDisplayingMissingParticipants}">
                 <c:forEach items="${participantPanels}" var="participantPanel">
                     <results:participantPanel showAll="${showAll}" participantPanel="${participantPanel}" 
                             shouldCollapsed="${shouldCollapsed}" isSecondaryParticipantType="${isSecondaryParticipantType}"/>
                 </c:forEach>
              </c:if>
-            
+
         </div>
     </div>
 </div>
