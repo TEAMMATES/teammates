@@ -28,7 +28,7 @@
     <adminSessions:filter filter="${data.filter}"/>
     <t:statusMessage/>
     <c:forEach items="${data.institutionPanels}" var="institutionPanel" varStatus="i">
-        <adminSessions:institutionPanel institutionPanel="${institutionPanel}" tableIndex="${i.index + 1}" showAll="${data.showAll}" />
+        <adminSessions:institutionPanel institutionPanel="${institutionPanel}" tableIndex="${i.count}" showAll="${data.showAll}" />
     </c:forEach>
     <a href="#" class="back-to-top-left"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;Top</a> 
     <a href="#" class="back-to-top-right">Top&nbsp;<span class="glyphicon glyphicon-arrow-up"></span></a>
