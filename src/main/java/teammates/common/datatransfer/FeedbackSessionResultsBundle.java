@@ -1399,7 +1399,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     }
 
     public Map<String, Map<String, List<FeedbackResponseAttributes>>>
-        getResponsesSortedByGiver(boolean sortByTeam) {
+            getResponsesSortedByGiver(boolean sortByTeam) {
         Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
                 new LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>();
         
