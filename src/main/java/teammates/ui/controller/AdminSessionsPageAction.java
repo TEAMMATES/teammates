@@ -71,7 +71,7 @@ public class AdminSessionsPageAction extends Action {
 
 
     
-    private void prepareDefaultPageData(AdminSessionsPageData data, Calendar calStart, Calendar calEnd) {        
+    private void prepareDefaultPageData(Calendar calStart, Calendar calEnd) {        
         this.map = new HashMap<String, List<FeedbackSessionAttributes>>();
         this.totalOngoingSessions = 0;
         this.rangeStart = calStart.getTime();
@@ -122,7 +122,7 @@ public class AdminSessionsPageAction extends Action {
                 statusToAdmin = "Admin Sessions Page Load<br>" +
                                 "<span class=\"bold\"> Error: invalid filter range</span>";
     
-                prepareDefaultPageData(data, calStart, calEnd);
+                prepareDefaultPageData(calStart, calEnd);
                 data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions,  
                      this.rangeStart, this.rangeEnd, this.zone, this.isShowAll);
                 return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
@@ -135,7 +135,7 @@ public class AdminSessionsPageAction extends Action {
             statusToAdmin = "Admin Sessions Page Load<br>" +
                             "<span class=\"bold\"> Error: Missing Parameters</span>";
 
-            prepareDefaultPageData(data, calStart, calEnd);
+            prepareDefaultPageData(calStart, calEnd);
             data.init(this.map, this.sessionToInstructorIdMap, this.totalOngoingSessions,  
                       this.rangeStart, this.rangeEnd, this.zone, this.isShowAll);
             return createShowPageResult(Const.ViewURIs.ADMIN_SESSIONS, data);
