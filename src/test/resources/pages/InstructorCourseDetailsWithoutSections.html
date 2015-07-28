@@ -265,262 +265,317 @@
 
 
 
-<table class="table table-bordered table-striped">
+
+
+
+
     
+        
+    
+    
+
+
+<table class="table table-bordered table-striped">
     
         
     <thead class="fill-primary">
         <tr id="resultsHeader-0">
-            <th id="button_sortsection-0" class="button-sort-none hidden" onclick="toggleSort(this,1)">
+            <th>Photo</th>
+            <th id="button_sortsection-0" class="button-sort-none hidden" onclick="toggleSort(this,2)">
                 Section <span class="icon-sort unsorted"></span>
             </th>
-            <th id="button_sortteam-0" class="button-sort-none" onclick="toggleSort(this,2)">
+            <th id="button_sortteam-0" class="button-sort-none" onclick="toggleSort(this,3)">
                 Team <span class="icon-sort unsorted"></span>
             </th>
-            <th id="button_sortstudentname-0" class="button-sort-none" onclick="toggleSort(this,3)">
+            <th id="button_sortstudentname-0" class="button-sort-none" onclick="toggleSort(this,4)">
                 Student Name <span class="icon-sort unsorted"></span>
             </th>
-            <th id="button_sortstudentstatus" class="button-sort-none" onclick="toggleSort(this,4)">
+            
+            
+            <th id="button_sortstudentstatus" class="button-sort-none" onclick="toggleSort(this,5)">
                 Status <span class="icon-sort unsorted"></span>
             </th>
+            
             <th>Action(s)</th>
         </tr>
     </thead>
-    
-        <tbody><tr class="student_row" id="student-c0.0">
-            <td id="sectionname" class="hidden">
+        <tbody>
+            
+            
+            
+                
+                
+                
+                    
+                    
+                    
+                        
+                        
+        <tr class="student_row" id="student-c0.0">
+            <td id="studentphoto-c0.0">
+                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CCDetailsUiT.instr">
+                    <a class="student-profile-pic-view-link btn-link">View Photo</a>
+                    <img src="" alt="No Image Given" class="hidden">
+                </div>
+            </td>
+            <td id="studentsection-c0.0" class="hidden">
                 None
             </td>
-            <td id="teamname">Team 1</td>
-            <td id="studentname-c0.0">Alice Betsy</td>
-            <td class="align-center">Joined</td>
-            <td class="no-print align-center">
+            <td id="studentteam-c0.0.0">
+                Team 1
+            </td>
+            <td id="studentname-c0.0">
+                Alice Betsy
+            </td>
                 
-                    <a data-original-title="View the details of the student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-view-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student1}%40gmail.com&amp;user=CCDetailsUiT.instr">
+                
+            <td class="align-center">
+                Joined
+            </td>
+                
+            <td class="no-print align-center">
+                    <a data-original-title="View the details of the student" class="btn btn-default btn-xs student-view-for-test" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student1}%40gmail.com&amp;user=CCDetailsUiT.instr" title="" target="_blank" data-toggle="tooltip" data-placement="top">
                         View
                     </a>
-                
-                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-edit-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student1}%40gmail.com&amp;user=CCDetailsUiT.instr">
+                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" class="btn btn-default btn-xs student-edit-for-test" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student1}%40gmail.com&amp;user=CCDetailsUiT.instr" title="" target="_blank" data-toggle="tooltip" data-placement="top">
                         Edit
                     </a>
-                
-                    <a data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" title="" onclick="return toggleDeleteStudentConfirmation('CCDetailsUiT.CS2104','Alice Betsy')" class="btn btn-default btn-xs student-delete-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student1}%40gmail.com&amp;user=CCDetailsUiT.instr">
+                    
+                    <a data-original-title="Delete the student and the corresponding submissions from the course" class="btn btn-default btn-xs student-delete-for-test" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student1}%40gmail.com&amp;user=CCDetailsUiT.instr" onclick="return toggleDeleteStudentConfirmation('CCDetailsUiT.CS2104','Alice Betsy')" title="" data-toggle="tooltip" data-placement="top">
                         Delete
                     </a>
-                
-                    <a data-original-title="View all data about this student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-records-for-test" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student1}%40gmail.com&amp;user=CCDetailsUiT.instr">
+                    <a data-original-title="View all data about this student" class="btn btn-default btn-xs student-records-for-test" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student1}%40gmail.com&amp;user=CCDetailsUiT.instr" title="" target="_blank" data-toggle="tooltip" data-placement="top">
                         All Records
                     </a>
-                
                 <div class="btn-group">
-                    
-                        <a data-original-title="Give a comment for this student, his/her team/section" data-placement="top" title="" class="btn btn-default btn-xs cursor-default" data-toggle="tooltip" href="javascript:;">
+                        <a data-original-title="Give a comment for this student, his/her team/section" class="btn btn-default btn-xs cursor-default" href="javascript:;" title="" data-toggle="tooltip" data-placement="top">
                             Add Comment
                         </a>
-                    
-                        <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="javascript:;">
+                        <a class="btn btn-default btn-xs dropdown-toggle" href="javascript:;" data-toggle="dropdown">
                             <span class="caret"></span><span class="sr-only">Add comments</span>
                         </a>
-                    
                     <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
-                        
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student1}%40gmail.com&amp;user=CCDetailsUiT.instr&amp;addComment=student">
+                                <a target="_blank" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student1}%40gmail.com&amp;user=CCDetailsUiT.instr&amp;addComment=student">
                                     Comment on student: Alice Betsy
                                 </a>
                             </li>
-                        
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student1}%40gmail.com&amp;user=CCDetailsUiT.instr&amp;addComment=team">
+                                <a target="_blank" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student1}%40gmail.com&amp;user=CCDetailsUiT.instr&amp;addComment=team">
                                     Comment on team: Team 1
                                 </a>
                             </li>
-                        
+                            
                     </ul>
                 </div>
             </td>
         </tr>
-        
-            
-        
-    
+                    
+                        
+                        
         <tr class="student_row" id="student-c0.1">
-            <td id="sectionname" class="hidden">
-                None
-            </td>
-            <td id="teamname">Team 2</td>
-            <td id="studentname-c0.1">Benny Charles</td>
-            <td class="align-center">Yet to join</td>
-            <td class="no-print align-center">
-                
-                    <a data-original-title="View the details of the student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-view-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr">
-                        View
-                    </a>
-                
-                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-edit-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr">
-                        Edit
-                    </a>
-                
-                    <a data-original-title="Email an invitation to the student requesting him/her to join the course using his/her Google Account. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" data-placement="top" title="" onclick="return toggleSendRegistrationKey()" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr">
-                        Send Invite
-                    </a>
-                
-                    <a data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" title="" onclick="return toggleDeleteStudentConfirmation('CCDetailsUiT.CS2104','Benny Charles')" class="btn btn-default btn-xs student-delete-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr">
-                        Delete
-                    </a>
-                
-                    <a data-original-title="View all data about this student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-records-for-test" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr">
-                        All Records
-                    </a>
-                
-                <div class="btn-group">
-                    
-                        <a data-original-title="Give a comment for this student, his/her team/section" data-placement="top" title="" class="btn btn-default btn-xs cursor-default" data-toggle="tooltip" href="javascript:;">
-                            Add Comment
-                        </a>
-                    
-                        <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="javascript:;">
-                            <span class="caret"></span><span class="sr-only">Add comments</span>
-                        </a>
-                    
-                    <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
-                        
-                            <li role="presentation">
-                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr&amp;addComment=student">
-                                    Comment on student: Benny Charles
-                                </a>
-                            </li>
-                        
-                            <li role="presentation">
-                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr&amp;addComment=team">
-                                    Comment on team: Team 2
-                                </a>
-                            </li>
-                        
-                    </ul>
+            <td id="studentphoto-c0.1">
+                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CCDetailsUiT.instr">
+                    <a class="student-profile-pic-view-link btn-link">View Photo</a>
+                    <img src="" alt="No Image Given" class="hidden">
                 </div>
             </td>
-        </tr>
-        
-    
-        <tr class="student_row" id="student-c0.2">
-            <td id="sectionname" class="hidden">
+            <td id="studentsection-c0.0" class="hidden">
                 None
             </td>
-            <td id="teamname">Team 1</td>
-            <td id="studentname-c0.2">Charlie Davis</td>
-            <td class="align-center">Yet to join</td>
-            <td class="no-print align-center">
+            <td id="studentteam-c0.0.0">
+                Team 1
+            </td>
+            <td id="studentname-c0.1">
+                Charlie Davis
+            </td>
                 
-                    <a data-original-title="View the details of the student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-view-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr">
+                
+            <td class="align-center">
+                Yet to join
+            </td>
+                
+            <td class="no-print align-center">
+                    <a data-original-title="View the details of the student" class="btn btn-default btn-xs student-view-for-test" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr" title="" target="_blank" data-toggle="tooltip" data-placement="top">
                         View
                     </a>
-                
-                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-edit-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr">
+                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" class="btn btn-default btn-xs student-edit-for-test" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr" title="" target="_blank" data-toggle="tooltip" data-placement="top">
                         Edit
                     </a>
-                
-                    <a data-original-title="Email an invitation to the student requesting him/her to join the course using his/her Google Account. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" data-placement="top" title="" onclick="return toggleSendRegistrationKey()" class="btn btn-default btn-xs" data-toggle="tooltip" href="/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr">
+                    
+                    <a data-original-title="Email an invitation to the student requesting him/her to join the course using his/her Google Account. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" class="btn btn-default btn-xs student-edit-for-test" href="/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleSendRegistrationKey()">
                         Send Invite
                     </a>
-                
-                    <a data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" title="" onclick="return toggleDeleteStudentConfirmation('CCDetailsUiT.CS2104','Charlie Davis')" class="btn btn-default btn-xs student-delete-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr">
+                    
+                    <a data-original-title="Delete the student and the corresponding submissions from the course" class="btn btn-default btn-xs student-delete-for-test" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr" onclick="return toggleDeleteStudentConfirmation('CCDetailsUiT.CS2104','Charlie Davis')" title="" data-toggle="tooltip" data-placement="top">
                         Delete
                     </a>
-                
-                    <a data-original-title="View all data about this student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-records-for-test" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr">
+                    <a data-original-title="View all data about this student" class="btn btn-default btn-xs student-records-for-test" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr" title="" target="_blank" data-toggle="tooltip" data-placement="top">
                         All Records
                     </a>
-                
                 <div class="btn-group">
-                    
-                        <a data-original-title="Give a comment for this student, his/her team/section" data-placement="top" title="" class="btn btn-default btn-xs cursor-default" data-toggle="tooltip" href="javascript:;">
+                        <a data-original-title="Give a comment for this student, his/her team/section" class="btn btn-default btn-xs cursor-default" href="javascript:;" title="" data-toggle="tooltip" data-placement="top">
                             Add Comment
                         </a>
-                    
-                        <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="javascript:;">
+                        <a class="btn btn-default btn-xs dropdown-toggle" href="javascript:;" data-toggle="dropdown">
                             <span class="caret"></span><span class="sr-only">Add comments</span>
                         </a>
-                    
                     <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
-                        
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr&amp;addComment=student">
+                                <a target="_blank" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr&amp;addComment=student">
                                     Comment on student: Charlie Davis
                                 </a>
                             </li>
-                        
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr&amp;addComment=team">
+                                <a target="_blank" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail={$test.student2}%40gmail.com&amp;user=CCDetailsUiT.instr&amp;addComment=team">
                                     Comment on team: Team 1
                                 </a>
                             </li>
-                        
+                            
                     </ul>
                 </div>
             </td>
         </tr>
-        
-    
-        <tr class="student_row" id="student-c0.3">
-            <td id="sectionname" class="hidden">
+                    
+                
+                    
+                    
+                    
+                        
+                        
+        <tr class="student_row" id="student-c0.2">
+            <td id="studentphoto-c0.2">
+                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CCDetailsUiT.instr">
+                    <a class="student-profile-pic-view-link btn-link">View Photo</a>
+                    <img src="" alt="No Image Given" class="hidden">
+                </div>
+            </td>
+            <td id="studentsection-c0.0" class="hidden">
                 None
             </td>
-            <td id="teamname">Team 2</td>
-            <td id="studentname-c0.3">Danny Engrid</td>
-            <td class="align-center">Joined</td>
-            <td class="no-print align-center">
+            <td id="studentteam-c0.0.1">
+                Team 2
+            </td>
+            <td id="studentname-c0.2">
+                Benny Charles
+            </td>
                 
-                    <a data-original-title="View the details of the student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-view-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr">
+                
+            <td class="align-center">
+                Yet to join
+            </td>
+                
+            <td class="no-print align-center">
+                    <a data-original-title="View the details of the student" class="btn btn-default btn-xs student-view-for-test" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr" title="" target="_blank" data-toggle="tooltip" data-placement="top">
                         View
                     </a>
-                
-                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-edit-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr">
+                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" class="btn btn-default btn-xs student-edit-for-test" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr" title="" target="_blank" data-toggle="tooltip" data-placement="top">
                         Edit
                     </a>
-                
-                    <a data-original-title="Delete the student and the corresponding submissions from the course" data-placement="top" title="" onclick="return toggleDeleteStudentConfirmation('CCDetailsUiT.CS2104','Danny Engrid')" class="btn btn-default btn-xs student-delete-for-test" data-toggle="tooltip" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr">
+                    
+                    <a data-original-title="Email an invitation to the student requesting him/her to join the course using his/her Google Account. Note: Students can use TEAMMATES without ‘joining’, but a joined student can access extra features e.g. set up a user profile" class="btn btn-default btn-xs student-edit-for-test" href="/page/instructorCourseRemind?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr" title="" data-toggle="tooltip" data-placement="top" onclick="return toggleSendRegistrationKey()">
+                        Send Invite
+                    </a>
+                    
+                    <a data-original-title="Delete the student and the corresponding submissions from the course" class="btn btn-default btn-xs student-delete-for-test" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr" onclick="return toggleDeleteStudentConfirmation('CCDetailsUiT.CS2104','Benny Charles')" title="" data-toggle="tooltip" data-placement="top">
                         Delete
                     </a>
-                
-                    <a data-original-title="View all data about this student" data-placement="top" title="" target="_blank" class="btn btn-default btn-xs student-records-for-test" data-toggle="tooltip" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr">
+                    <a data-original-title="View all data about this student" class="btn btn-default btn-xs student-records-for-test" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr" title="" target="_blank" data-toggle="tooltip" data-placement="top">
                         All Records
                     </a>
-                
                 <div class="btn-group">
-                    
-                        <a data-original-title="Give a comment for this student, his/her team/section" data-placement="top" title="" class="btn btn-default btn-xs cursor-default" data-toggle="tooltip" href="javascript:;">
+                        <a data-original-title="Give a comment for this student, his/her team/section" class="btn btn-default btn-xs cursor-default" href="javascript:;" title="" data-toggle="tooltip" data-placement="top">
                             Add Comment
                         </a>
-                    
-                        <a class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" href="javascript:;">
+                        <a class="btn btn-default btn-xs dropdown-toggle" href="javascript:;" data-toggle="dropdown">
                             <span class="caret"></span><span class="sr-only">Add comments</span>
                         </a>
-                    
                     <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
-                        
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr&amp;addComment=student">
-                                    Comment on student: Danny Engrid
+                                <a target="_blank" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr&amp;addComment=student">
+                                    Comment on student: Benny Charles
                                 </a>
                             </li>
-                        
                             <li role="presentation">
-                                <a role="menuitem" tabindex="-1" target="_blank" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr&amp;addComment=team">
+                                <a target="_blank" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=benny.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr&amp;addComment=team">
                                     Comment on team: Team 2
                                 </a>
                             </li>
-                        
+                            
                     </ul>
                 </div>
             </td>
         </tr>
+                    
+                        
+                        
+        <tr class="student_row" id="student-c0.3">
+            <td id="studentphoto-c0.3">
+                <div class="profile-pic-icon-click align-center" data-link="/page/studentProfilePic?studentemail={*}&amp;courseid={*}&amp;user=CCDetailsUiT.instr">
+                    <a class="student-profile-pic-view-link btn-link">View Photo</a>
+                    <img src="" alt="No Image Given" class="hidden">
+                </div>
+            </td>
+            <td id="studentsection-c0.0" class="hidden">
+                None
+            </td>
+            <td id="studentteam-c0.0.1">
+                Team 2
+            </td>
+            <td id="studentname-c0.3">
+                Danny Engrid
+            </td>
+                
+                
+            <td class="align-center">
+                Joined
+            </td>
+                
+            <td class="no-print align-center">
+                    <a data-original-title="View the details of the student" class="btn btn-default btn-xs student-view-for-test" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr" title="" target="_blank" data-toggle="tooltip" data-placement="top">
+                        View
+                    </a>
+                    <a data-original-title="Use this to edit the details of this student. <br>To edit multiple students in one go, you can use the enroll page: <br>Simply enroll students using the updated data and existing data will be updated accordingly" class="btn btn-default btn-xs student-edit-for-test" href="/page/instructorCourseStudentDetailsEdit?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr" title="" target="_blank" data-toggle="tooltip" data-placement="top">
+                        Edit
+                    </a>
+                    
+                    <a data-original-title="Delete the student and the corresponding submissions from the course" class="btn btn-default btn-xs student-delete-for-test" href="/page/instructorCourseStudentDelete?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr" onclick="return toggleDeleteStudentConfirmation('CCDetailsUiT.CS2104','Danny Engrid')" title="" data-toggle="tooltip" data-placement="top">
+                        Delete
+                    </a>
+                    <a data-original-title="View all data about this student" class="btn btn-default btn-xs student-records-for-test" href="/page/instructorStudentRecordsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr" title="" target="_blank" data-toggle="tooltip" data-placement="top">
+                        All Records
+                    </a>
+                <div class="btn-group">
+                        <a data-original-title="Give a comment for this student, his/her team/section" class="btn btn-default btn-xs cursor-default" href="javascript:;" title="" data-toggle="tooltip" data-placement="top">
+                            Add Comment
+                        </a>
+                        <a class="btn btn-default btn-xs dropdown-toggle" href="javascript:;" data-toggle="dropdown">
+                            <span class="caret"></span><span class="sr-only">Add comments</span>
+                        </a>
+                    <ul class="dropdown-menu align-left" role="menu" aria-labelledby="dLabel">
+                            <li role="presentation">
+                                <a target="_blank" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr&amp;addComment=student">
+                                    Comment on student: Danny Engrid
+                                </a>
+                            </li>
+                            <li role="presentation">
+                                <a target="_blank" role="menuitem" tabindex="-1" href="/page/instructorCourseStudentDetailsPage?courseid=CCDetailsUiT.CS2104&amp;studentemail=danny.e.tmms%40gmail.tmt&amp;user=CCDetailsUiT.instr&amp;addComment=team">
+                                    Comment on team: Team 2
+                                </a>
+                            </li>
+                            
+                    </ul>
+                </div>
+            </td>
+        </tr>
+                    
+                
+            
+    </tbody>
+        
         
     
-        
-        
-    
-</tbody></table>
+</table>
     <br>
     <br>
     <br>
