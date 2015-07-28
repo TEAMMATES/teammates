@@ -155,9 +155,7 @@ public class InstructorResultsQuestionTable {
     public static void sortByQuestionNumber(List<InstructorResultsQuestionTable> questionTables) {
         Collections.sort(questionTables, new Comparator<InstructorResultsQuestionTable>() {
             public int compare(InstructorResultsQuestionTable questionTable1, InstructorResultsQuestionTable questionTable2) {
-                boolean result = questionTable1.question.questionNumber < questionTable2.question.questionNumber;
-
-                return result ? -1 : 1;
+                return questionTable1.question.questionNumber - questionTable2.question.questionNumber;
             }
         });
     }

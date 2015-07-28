@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class InstructorFeedbackResultsSectionPanel {
     private String panelClass;
-    private boolean isGroupedByTeam;
+    
     private boolean isDisplayingMissingParticipants;
     private boolean isLoadSectionResponsesByAjax;
     private boolean isAbleToLoadResponses;
@@ -44,14 +44,6 @@ public class InstructorFeedbackResultsSectionPanel {
 
     public void setPanelClass(String panelClass) {
         this.panelClass = panelClass;
-    }
-
-    public boolean isGroupedByTeam() {
-        return isGroupedByTeam;
-    }
-
-    public void setGroupedByTeam(boolean isGroupedByTeam) {
-        this.isGroupedByTeam = isGroupedByTeam;
     }
 
     public String getSectionName() {

@@ -13,8 +13,7 @@
 <%@ attribute name="sectionPanel" type="teammates.ui.template.InstructorFeedbackResultsSectionPanel" required="true" %>
 <%@ attribute name="courseId" required="true" %>
 <%@ attribute name="feedbackSessionName" required="true" %>
-
-<c:set var="groupByTeamEnabled" value="${data.groupByTeam != null && data.groupByTeam == 'on'}"/>
+<%@ attribute name="isGroupedByTeam" type="java.lang.Boolean" required="true" %>
 
 <div class="panel ${sectionPanel.panelClass}">
     <c:choose>
@@ -26,8 +25,8 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="pull-right">
-                            <a class="btn btn-success btn-xs" id="collapse-panels-button-section-${sectionIndex}" data-toggle="tooltip" title='Collapse or expand all ${groupByTeamEnabled? "team" : "student"} panels. You can also click on the panel heading to toggle each one individually.'>
-                                ${shouldCollapsed ? "Expand " : "Collapse "}${groupByTeamEnabled ? "Teams" : "Students"}
+                            <a class="btn btn-success btn-xs" id="collapse-panels-button-section-${sectionIndex}" data-toggle="tooltip" title='Collapse or expand all ${isGroupedByTeam? "team" : "student"} panels. You can also click on the panel heading to toggle each one individually.'>
+                                ${shouldCollapsed ? "Expand " : "Collapse "}${isGroupedByTeam ? "Teams" : "Students"}
                             </a>
                             &nbsp;
                             <span class="glyphicon glyphicon-chevron-up"></span>
@@ -44,8 +43,8 @@
                     </div>
                     <div class="col-sm-3">
                         <div class="pull-right">
-                            <a class="btn btn-success btn-xs" style="display:none" id="collapse-panels-button-section-${sectionIndex}" data-toggle="tooltip" title='Collapse or expand all ${groupByTeamEnabled? "team" : "student"} panels. You can also click on the panel heading to toggle each one individually.'>
-                                ${shouldCollapsed ? "Expand " : "Collapse "}${groupByTeamEnabled ? "Teams" : "Students"}
+                            <a class="btn btn-success btn-xs" style="display:none" id="collapse-panels-button-section-${sectionIndex}" data-toggle="tooltip" title="Collapse or expand all ${isGroupedByTeam? 'team' : 'student'} panels. You can also click on the panel heading to toggle each one individually.">
+                                ${shouldCollapsed ? 'Expand ' : 'Collapse '}${isGroupedByTeam ? 'Teams' : 'Students'}
                             </a>
                             &nbsp;
                             <div class="display-icon" style="display:inline;">
@@ -79,7 +78,7 @@
                     <ul><li>If that is the case, you can still use the 'By question' report to view responses. You can also download the results as a spreadsheet. If you would like to see the responses in other formats (e.g. 'Group by - Giver'), you can try to divide the course into smaller sections so that we can display responses one section at a time.</li>
                     <li>If you believe the report you are trying to view is unlikely to have more than 2,500 entries, please contact us at <a href='mailto:teammates@comp.nus.edu.sg'>teammates@comp.nus.edu.sg</a> so that we can investigate.</li></ul>
                 </c:when>
-                <c:when test="${groupByTeamEnabled}">
+                <c:when test="${isGroupedByTeam}">
                     <c:forEach var="teamPanel" items="${sectionPanel.participantPanels}">
                            <results:teamPanel teamName="${teamPanel.key}" teamIndex="${teamIndex}" 
                                               showAll="${showAll}" shouldCollapsed="${shouldCollapsed}" 
