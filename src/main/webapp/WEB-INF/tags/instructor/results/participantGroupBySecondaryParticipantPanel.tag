@@ -26,7 +26,15 @@
                 </div>
             </c:otherwise>
         </c:choose>
-        <span class="glyphicon ${!shouldCollapsed ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'} pull-right"></span>
+        <div class="pull-right">
+            <c:if test="${not empty groupByParticipantPanel.moderationButton}">
+                <results:moderationButton moderationButton="${groupByParticipantPanel.moderationButton}" />
+            </c:if>
+            &nbsp;
+            <div class="display-icon" style="display:inline;">
+                <span class='glyphicon ${!shouldCollapsed ? "glyphicon-chevron-up" : "glyphicon-chevron-down"} pull-right'></span>
+            </div>                
+        </div>
     </div>
     <div class="panel-collapse collapse ${shouldCollapsed ? '' : 'in'}">
         <div class="panel-body">

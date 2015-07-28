@@ -675,10 +675,13 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         // construct the primary participant panel
         String primaryParticipantNameWithTeamNameAppended = bundle.appendTeamNameToName(bundle.getNameForEmail(primaryParticipantIdentifier), bundle.getTeamNameForEmail(primaryParticipantIdentifier));
+        InstructorResultsModerationButton moderationButton = viewType.isPrimaryGrouperOfGiverType() 
+                                                           ? buildModerationButtonForGiver(null, primaryParticipantIdentifier, "btn btn-primary btn-xs", "Moderate Responses")
+                                                           : null;
         InstructorFeedbackResultsGroupByParticipantPanel recipientPanel 
                 = buildInstructorFeedbackResultsGroupBySecondaryParticipantPanel(
                                         primaryParticipantIdentifier, primaryParticipantNameWithTeamNameAppended, 
-                                        secondaryParticipantPanels, null);
+                                        secondaryParticipantPanels, moderationButton);
         
         return recipientPanel;
     }
@@ -709,11 +712,15 @@ public class InstructorFeedbackResultsPageData extends PageData {
                                         responsePanels, isEmail);
             
             secondaryParticipantPanel.setProfilePictureLink(getProfilePictureLink(secondaryParticipantIdentifier));
-            secondaryParticipantPanel.setModerationButton(buildModerationButtonForGiver(
-                                                              null, secondaryParticipantIdentifier, 
-                                                              "btn btn-default btn-xs", "Moderate Responses"));
+            
             boolean isVisibleTeam = bundle.rosterTeamNameMembersTable.containsKey(secondaryParticipantDisplayableName);
-            secondaryParticipantPanel.setModerationButtonDisplayed(isEmail || isVisibleTeam);
+            boolean isShowingModerationButton = viewType.isPrimaryGrouperOfGiverType() && (isEmail || isVisibleTeam);
+            secondaryParticipantPanel.setModerationButton(isShowingModerationButton
+                                                          ? null
+                                                          : buildModerationButtonForGiver(null, secondaryParticipantIdentifier, 
+                                                                                          "btn btn-default btn-xs", 
+                                                                                          "Moderate Responses"));
+            
             secondaryParticipantPanels.add(secondaryParticipantPanel);
         }
         
@@ -1609,9 +1616,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
         
         bySecondaryParticipantPanel.setProfilePictureLink(profilePictureLink.toString());
         
-        bySecondaryParticipantPanel.setModerationButton(viewType.isPrimaryGrouperOfGiverType() 
-                                                       ? moderationButton
-                                                       : null);
+        bySecondaryParticipantPanel.setModerationButton(moderationButton);
         
         bySecondaryParticipantPanel.setHasResponses(true);
         

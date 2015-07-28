@@ -50,11 +50,11 @@
             </c:choose>
         </div>
         &nbsp;
-        <div class="col-md-12">
-            <c:if test="${secondaryParticipantPanelBody.moderationButtonDisplayed}">
-                <results:moderationButton moderationButton="${secondaryParticipantPanelBody.moderationButton}"/>
+            <c:if test="${not empty secondaryParticipantPanelBody.moderationButton}">
+                <div class="col-md-12">
+                    <results:moderationButton moderationButton="${secondaryParticipantPanelBody.moderationButton}"/>
+                </div>
             </c:if>
-        </div>
         &nbsp;
     </div>
     <%-- End of Side of the panel --%>
