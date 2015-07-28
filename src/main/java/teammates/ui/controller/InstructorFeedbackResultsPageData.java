@@ -1014,7 +1014,7 @@ public class InstructorFeedbackResultsPageData extends PageData {
             } else {
                 giverPanel = 
                     buildInstructorFeedbackResultsGroupBySecondaryParticipantPanel(
-                                                    teamMember, bundle.getFullNameFromRoster(teamMember) + "(" + bundle.getTeamNameForEmail(teamMember) + ")", 
+                                                    teamMember, bundle.getFullNameFromRoster(teamMember) + " (" + bundle.getTeamNameFromRoster(teamMember) + ")", 
                                                     new ArrayList<InstructorFeedbackResultsSecondaryParticipantPanelBody>(), 
                                                     moderationButton);
                                                                        
