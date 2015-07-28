@@ -12,7 +12,7 @@
 
 
 <div class="panel ${questionPanel.panelClass}">
-    <div class="panel-heading<%=showAll ? "" : " ajax_submit"%>">
+    <div class="panel-heading${showAll ? '' : ' ajax_submit'}">
         <c:if test="${questionPanel.collapsible}">
             <form style="display:none;" id="seeMore-${questionPanel.question.questionNumber}" class="seeMoreForm-${questionPanel.question.questionNumber}" action="<%=Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE%>">
                 <input type="hidden" name="<%=Const.ParamsNames.COURSE_ID%>" value="${questionPanel.courseId}">
@@ -62,7 +62,7 @@
                             <thead class="background-color-medium-gray text-color-gray font-weight-normal">
                                 <tr>
                                     <c:forEach items="${questionPanel.columns}" var="thElement">
-                                        <th <c:forEach items="${thElement.attributes}" var="attr"> ${attr.key}="${attr.value}"</c:forEach>> 
+                                        <th ${thElement.attributesToString}> 
                                             ${thElement.content}
                                             <c:if test="${questionPanel.isColumnSortable[thElement.content]}"><span class="icon-sort unsorted"></span></c:if>
                                         </th>

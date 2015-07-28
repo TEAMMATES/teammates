@@ -19,24 +19,21 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorRes
     public InstructorFeedbackResultsGroupByQuestionPanel(List<InstructorResultsQuestionTable> questionTables,
                                     String profilePictureLink, 
                                     boolean isGiver, String participantIdentifier, String participantName,
-                                    InstructorResultsModerationButton moderationButton, 
-                                    boolean isModerationButtonDisplayed) {
-        setParticipantIdentifier(participantIdentifier);
-        setName(participantName);
-        setGiver(isGiver);
+                                    InstructorResultsModerationButton moderationButton) {
+        this.participantIdentifier = participantIdentifier;
+        this.name = participantName;
+        this.isGiver = isGiver;
         
         boolean isEmailValid = new FieldValidator()
                                        .getInvalidityInfo(FieldValidator.FieldType.EMAIL, participantIdentifier).isEmpty();
-        setEmailValid(isEmailValid);
+        this.isEmailValid = isEmailValid;
         this.profilePictureLink = profilePictureLink;
         
         this.questionTables = questionTables;
         
-        setModerationButton(moderationButton);
-        setModerationButtonDisplayed(isModerationButtonDisplayed);
+        this.moderationButton = moderationButton;
         
-        setHasResponses(true);
-        
+        this.isHasResponses = true;
     }
     
     public static InstructorFeedbackResultsGroupByQuestionPanel buildInstructorFeedbackResultsGroupByQuestionPanelWithoutModerationButton(
@@ -45,7 +42,7 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorRes
                                     boolean isGroupedByGiver, String participantIdentifier, String participantName) {
         return new InstructorFeedbackResultsGroupByQuestionPanel(questionTables, profilePictureLink, isGroupedByGiver, 
                                                                 participantIdentifier, participantName, 
-                                                                null, false);
+                                                                null);
     }
     
     public static InstructorFeedbackResultsGroupByQuestionPanel buildInstructorFeedbackResultsGroupByQuestionPanelWithModerationButton(
@@ -56,7 +53,7 @@ public class InstructorFeedbackResultsGroupByQuestionPanel extends InstructorRes
                                     InstructorResultsModerationButton moderationButton) {
         return new InstructorFeedbackResultsGroupByQuestionPanel(questionTables, profilePictureLink, isGroupedByGiver, 
                                                                  participantIdentifier, participantName, 
-                                                                 moderationButton, true);
+                                                                 moderationButton);
     }
     
 

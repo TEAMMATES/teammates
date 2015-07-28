@@ -1325,7 +1325,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
      * @return responses sorted by Giver > Question > Recipient
      */
     public Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>
-            getResponsesSortedByGiverQuestionRecipient(boolean sortByTeam) {
+                getResponsesSortedByGiverQuestionRecipient(boolean sortByTeam) {
         Map<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> sortedMap =
                 new LinkedHashMap<String, Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>>();
         Map<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> responsesFromOneGiver = null;
@@ -1392,7 +1392,7 @@ public class FeedbackSessionResultsBundle implements SessionResultsBundle {
     }
 
     public Map<String, Map<String, List<FeedbackResponseAttributes>>>
-        getResponsesSortedByGiver(boolean sortByTeam) {
+            getResponsesSortedByGiver(boolean sortByTeam) {
         Map<String, Map<String, List<FeedbackResponseAttributes>>> sortedMap =
                 new LinkedHashMap<String, Map<String, List<FeedbackResponseAttributes>>>();
         

@@ -2,18 +2,16 @@ package teammates.ui.template;
 
 
 public class InstructorResultsParticipantPanel implements Comparable<InstructorResultsParticipantPanel> {
-    private boolean isGiver; // if false, then participant is a recipient
-    private String participantIdentifier; // email, team name, or %GENERAL%
-    private String name;
+    protected boolean isGiver; // if false, then participant is a recipient
+    protected String participantIdentifier; // email, team name, or %GENERAL%
+    protected String name; 
     
-    private boolean isEmailValid;
+    protected boolean isHasResponses;
     
-    private boolean isHasResponses;
     
-    String profilePictureLink;
+    protected String profilePictureLink;
     
-    boolean isModerationButtonDisplayed;
-    InstructorResultsModerationButton moderationButton;
+    protected InstructorResultsModerationButton moderationButton;
     
     public String getParticipantIdentifier() {
         return participantIdentifier;
@@ -71,18 +69,11 @@ public class InstructorResultsParticipantPanel implements Comparable<InstructorR
         this.moderationButton = moderationButton;
     }
 
-    public boolean isModerationButtonDisplayed() {
-        return isModerationButtonDisplayed;
-    }
-
-    public void setModerationButtonDisplayed(boolean isModerationButtonDisplayed) {
-        this.isModerationButtonDisplayed = isModerationButtonDisplayed;
-    }
 
     @Override
     public int compareTo(InstructorResultsParticipantPanel o) {
         if (isHasResponses != o.isHasResponses) {
-            return isHasResponses ? 1 : 0;
+            return isHasResponses ? -1 : 1;
         } else {
             return name.compareTo(o.name);
         }
