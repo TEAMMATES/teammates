@@ -34,7 +34,8 @@
                         class="button-sort-non">End Time&nbsp; <span
                         class="icon-sort unsorted"></span></th>
                     <th onclick="toggleSort(this,6)"
-                        class="button-sort-non">Creator</th>
+                        class="button-sort-non">Creator
+                        <span class="icon-sort unsorted"></span></th>
                 </tr>
             </thead>
 
